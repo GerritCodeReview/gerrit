@@ -25,7 +25,6 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
-import com.google.common.primitives.Shorts;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
@@ -76,15 +75,15 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public class ApprovalsUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public static PatchSetApproval newApproval(
+  public static PatchSetApproval.Builder newApproval(
       PatchSet.Id psId, CurrentUser user, LabelId labelId, int value, Date when) {
-    PatchSetApproval psa =
-        new PatchSetApproval(
-            PatchSetApproval.key(psId, user.getAccountId(), labelId),
-            Shorts.checkedCast(value),
-            when);
-    user.updateRealAccountId(psa::setRealAccountId);
-    return psa;
+    PatchSetApproval.Builder b =
+        PatchSetApproval.builder()
+            .key(PatchSetApproval.key(psId, user.getAccountId(), labelId))
+            .value(value)
+            .granted(when);
+    user.updateRealAccountId(b::realAccountId);
+    return b;
   }
 
   private static Iterable<PatchSetApproval> filterApprovals(
@@ -207,8 +206,11 @@ public class ApprovalsUtil {
     LabelId labelId = Iterables.getLast(allTypes).getLabelId();
     for (Account.Id account : need) {
       cells.add(
-          new PatchSetApproval(
-              PatchSetApproval.key(psId, account, labelId), (short) 0, update.getWhen()));
+          PatchSetApproval.builder()
+              .key(PatchSetApproval.key(psId, account, labelId))
+              .value(0)
+              .granted(update.getWhen())
+              .build());
       update.putReviewer(account, REVIEWER);
     }
     return Collections.unmodifiableList(cells);
@@ -286,7 +288,7 @@ public class ApprovalsUtil {
     Date ts = update.getWhen();
     for (Map.Entry<String, Short> vote : approvals.entrySet()) {
       LabelType lt = labelTypes.byLabel(vote.getKey());
-      cells.add(newApproval(ps.id(), user, lt.getLabelId(), vote.getValue(), ts));
+      cells.add(newApproval(ps.id(), user, lt.getLabelId(), vote.getValue(), ts).build());
     }
     for (PatchSetApproval psa : cells) {
       update.putApproval(psa.getLabel(), psa.getValue());

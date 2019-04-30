@@ -26,10 +26,12 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.inject.TypeLiteral;
 import com.google.protobuf.Parser;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Optional;
 import org.junit.Test;
 
 public class PatchSetApprovalProtoConverterTest {
@@ -39,14 +41,16 @@ public class PatchSetApprovalProtoConverterTest {
   @Test
   public void allValuesConvertedToProto() {
     PatchSetApproval patchSetApproval =
-        new PatchSetApproval(
-            PatchSetApproval.key(
-                PatchSet.id(Change.id(42), 14), Account.id(100013), LabelId.create("label-8")),
-            (short) 456,
-            new Date(987654L));
-    patchSetApproval.setTag("tag-21");
-    patchSetApproval.setRealAccountId(Account.id(612));
-    patchSetApproval.setPostSubmit(true);
+        PatchSetApproval.builder()
+            .key(
+                PatchSetApproval.key(
+                    PatchSet.id(Change.id(42), 14), Account.id(100013), LabelId.create("label-8")))
+            .value(456)
+            .granted(new Date(987654L))
+            .tag("tag-21")
+            .realAccountId(Account.id(612))
+            .postSubmit(true)
+            .build();
 
     Entities.PatchSetApproval proto = protoConverter.toProto(patchSetApproval);
 
@@ -72,11 +76,13 @@ public class PatchSetApprovalProtoConverterTest {
   @Test
   public void mandatoryValuesConvertedToProto() {
     PatchSetApproval patchSetApproval =
-        new PatchSetApproval(
-            PatchSetApproval.key(
-                PatchSet.id(Change.id(42), 14), Account.id(100013), LabelId.create("label-8")),
-            (short) 456,
-            new Date(987654L));
+        PatchSetApproval.builder()
+            .key(
+                PatchSetApproval.key(
+                    PatchSet.id(Change.id(42), 14), Account.id(100013), LabelId.create("label-8")))
+            .value(456)
+            .granted(new Date(987654L))
+            .build();
 
     Entities.PatchSetApproval proto = protoConverter.toProto(patchSetApproval);
 
@@ -101,14 +107,16 @@ public class PatchSetApprovalProtoConverterTest {
   @Test
   public void allValuesConvertedToProtoAndBackAgain() {
     PatchSetApproval patchSetApproval =
-        new PatchSetApproval(
-            PatchSetApproval.key(
-                PatchSet.id(Change.id(42), 14), Account.id(100013), LabelId.create("label-8")),
-            (short) 456,
-            new Date(987654L));
-    patchSetApproval.setTag("tag-21");
-    patchSetApproval.setRealAccountId(Account.id(612));
-    patchSetApproval.setPostSubmit(true);
+        PatchSetApproval.builder()
+            .key(
+                PatchSetApproval.key(
+                    PatchSet.id(Change.id(42), 14), Account.id(100013), LabelId.create("label-8")))
+            .value(456)
+            .granted(new Date(987654L))
+            .tag("tag-21")
+            .realAccountId(Account.id(612))
+            .postSubmit(true)
+            .build();
 
     PatchSetApproval convertedPatchSetApproval =
         protoConverter.fromProto(protoConverter.toProto(patchSetApproval));
@@ -118,11 +126,13 @@ public class PatchSetApprovalProtoConverterTest {
   @Test
   public void mandatoryValuesConvertedToProtoAndBackAgain() {
     PatchSetApproval patchSetApproval =
-        new PatchSetApproval(
-            PatchSetApproval.key(
-                PatchSet.id(Change.id(42), 14), Account.id(100013), LabelId.create("label-8")),
-            (short) 456,
-            new Date(987654L));
+        PatchSetApproval.builder()
+            .key(
+                PatchSetApproval.key(
+                    PatchSet.id(Change.id(42), 14), Account.id(100013), LabelId.create("label-8")))
+            .value(456)
+            .granted(new Date(987654L))
+            .build();
 
     PatchSetApproval convertedPatchSetApproval =
         protoConverter.fromProto(protoConverter.toProto(patchSetApproval));
@@ -182,14 +192,15 @@ public class PatchSetApprovalProtoConverterTest {
   @Test
   public void fieldsExistAsExpected() {
     assertThatSerializedClass(PatchSetApproval.class)
-        .hasFields(
+        .hasAutoValueMethods(
             ImmutableMap.<String, Type>builder()
-                .put("key", PatchSetApproval.Key.class)
-                .put("value", short.class)
-                .put("granted", Timestamp.class)
-                .put("tag", String.class)
-                .put("realAccountId", Account.Id.class)
-                .put("postSubmit", boolean.class)
+                .put("getKey", PatchSetApproval.Key.class)
+                .put("getValue", short.class)
+                .put("getGranted", Timestamp.class)
+                .put("getTag", new TypeLiteral<Optional<String>>() {}.getType())
+                .put("getRealAccountId", Account.Id.class)
+                .put("isPostSubmit", boolean.class)
+                .put("toBuilder", PatchSetApproval.Builder.class)
                 .build());
   }
 }

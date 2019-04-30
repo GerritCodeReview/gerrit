@@ -358,7 +358,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
         .containsExactlyEntriesIn(
             ImmutableListMultimap.of(
                 psa.getPatchSetId(),
-                new PatchSetApproval(psa.getKey(), (short) 0, update.getWhen())));
+                PatchSetApproval.builder()
+                    .key(psa.getKey())
+                    .value(0)
+                    .granted(update.getWhen())
+                    .build()));
   }
 
   @Test
@@ -384,7 +388,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
         .containsExactlyEntriesIn(
             ImmutableListMultimap.of(
                 psa.getPatchSetId(),
-                new PatchSetApproval(psa.getKey(), (short) 0, update.getWhen())));
+                PatchSetApproval.builder()
+                    .key(psa.getKey())
+                    .value(0)
+                    .granted(update.getWhen())
+                    .build()));
 
     // Add back approval on same label.
     update = newUpdate(c, otherUser);

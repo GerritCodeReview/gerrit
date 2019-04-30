@@ -348,7 +348,8 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     }
 
     submitter =
-        ApprovalsUtil.newApproval(psId, ctx.getUser(), LabelId.legacySubmit(), 1, ctx.getWhen());
+        ApprovalsUtil.newApproval(psId, ctx.getUser(), LabelId.legacySubmit(), 1, ctx.getWhen())
+            .build();
     byKey.put(submitter.getKey(), submitter);
 
     // Flatten out existing approvals for this patch set based upon the current

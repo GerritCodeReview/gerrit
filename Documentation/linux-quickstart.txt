@@ -98,6 +98,11 @@ To view your new basic installation of Gerrit, go to:
 http://localhost:8080
 ....
 
+== Working on custom plugins
+
+To load a plugin for your local gerrit testsite add a
+{html,js,jar} file at ~/gerrit_testsite/$PLUGIN_NAME.{html,js,jar}
+
 == Next steps
 
 Now that you have a simple version of Gerrit running, use the installation to

@@ -47,6 +47,30 @@
       "revId": "c4104954f51cab8677ab515f9388a2b200929734",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85f86247_d067b568",
+        "filename": "java/com/google/gerrit/server/events/AutoValueAdapterFactory.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-04-30T20:04:48Z",
+      "side": 1,
+      "message": "Sigh. You\u0027re absolutely right that this approach has downsides.\n\n\u003e Most of the \"try and error\" class loading attempts are JDK primitive or collection  classes.\n\nThis is why this solution is a hacky solution and a good solution is auto-value-gson :(\n\n\u003e I\u0027m also curious for performance implication of that change (with all CNFEs)\n\nI agree this seems bad.\n\n\u003e  Can\u0027t we consider to revert Change.Key migration to AutoValue until we find a cleaner approach for JSON serialization/deserialization of AutoValue types?\n\nI strongly oppose reintroducing gwtorm.Key just to make this work. I would rather write an explicit TypeAdapter for Change.Key until we are able to use auto-value-gson.\n\nIf we find (via EventJsonTest) that JSON serialization regresses for many more newly-AutoValue classes, then we can rethink our approach. But as you say, it\u0027s really just this one class for now.",
+      "parentUuid": "4e271b4c_3e12f1e3",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 45,
+        "endChar": 5
+      },
+      "revId": "c4104954f51cab8677ab515f9388a2b200929734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

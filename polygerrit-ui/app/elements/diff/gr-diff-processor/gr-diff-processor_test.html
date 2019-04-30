@@ -483,84 +483,107 @@ limitations under the License.
           rows = loremIpsum.split(' ');
         });
 
-        test('_sharedGroupsFromRows WHOLE_FILE', () => {
-          const context = WHOLE_FILE;
-          const lineNumbers = {left: 10, right: 100};
-          const result = element._sharedGroupsFromRows(
-              rows, context, lineNumbers.left, lineNumbers.right, null);
+        test('_processNext WHOLE_FILE', () => {
+          element.context = WHOLE_FILE;
+          const state = {
+            lineNums: {left: 10, right: 100},
+            sectionIndex: 1,
+          };
+          const result = element._processNext(
+              state, {ab: rows}, 3);
 
           // Results in one, uncollapsed group with all rows.
-          assert.equal(result.length, 1);
-          assert.equal(result[0].type, GrDiffGroup.Type.BOTH);
-          assert.equal(result[0].lines.length, rows.length);
+          assert.equal(result.groups.length, 1);
+          assert.equal(result.groups[0].type, GrDiffGroup.Type.BOTH);
+          assert.equal(result.groups[0].lines.length, rows.length);
 
           // Line numbers are set correctly.
-          assert.equal(result[0].lines[0].beforeNumber, lineNumbers.left + 1);
-          assert.equal(result[0].lines[0].afterNumber, lineNumbers.right + 1);
+          assert.equal(
+              result.groups[0].lines[0].beforeNumber,
+              state.lineNums.left + 1);
+          assert.equal(
+              result.groups[0].lines[0].afterNumber,
+              state.lineNums.right + 1);
 
-          assert.equal(result[0].lines[rows.length - 1].beforeNumber,
-              lineNumbers.left + rows.length);
-          assert.equal(result[0].lines[rows.length - 1].afterNumber,
-              lineNumbers.right + rows.length);
+          assert.equal(result.groups[0].lines[rows.length - 1].beforeNumber,
+              state.lineNums.left + rows.length);
+          assert.equal(result.groups[0].lines[rows.length - 1].afterNumber,
+              state.lineNums.right + rows.length);
         });
 
-        test('_sharedGroupsFromRows context', () => {
-          const context = 10;
-          const result = element._sharedGroupsFromRows(
-              rows, context, 10, 100, null);
-          const expectedCollapseSize = rows.length - 2 * context;
+        test('_processNext context', () => {
+          element.context = 10;
+          const state = {
+            lineNums: {left: 10, right: 100},
+            sectionIndex: 1,
+          };
+          const result = element._processNext(
+              state, {ab: rows}, 3);
+          const expectedCollapseSize = rows.length - 2 * element.context;
 
-          assert.equal(result.length, 3, 'Results in three groups');
+          assert.equal(result.groups.length, 3, 'Results in three groups');
 
           // The first and last are uncollapsed context, whereas the middle has
           // a single context-control line.
-          assert.equal(result[0].lines.length, context);
-          assert.equal(result[1].lines.length, 1);
-          assert.equal(result[2].lines.length, context);
+          assert.equal(result.groups[0].lines.length, element.context);
+          assert.equal(result.groups[1].lines.length, 1);
+          assert.equal(result.groups[2].lines.length, element.context);
 
           // The collapsed group has the hidden lines as its context group.
-          assert.equal(result[1].lines[0].contextGroup.lines.length,
+          assert.equal(result.groups[1].lines[0].contextGroup.lines.length,
               expectedCollapseSize);
         });
 
-        test('_sharedGroupsFromRows first', () => {
-          const context = 10;
-          const result = element._sharedGroupsFromRows(
-              rows, context, 10, 100, 'first');
-          const expectedCollapseSize = rows.length - context;
+        test('_processNext first', () => {
+          element.context = 10;
+          const state = {
+            lineNums: {left: 10, right: 100},
+            sectionIndex: 0,
+          };
+          const result = element._processNext(
+              state, {ab: rows}, 3);
+          const expectedCollapseSize = rows.length - element.context;
 
-          assert.equal(result.length, 2, 'Results in two groups');
+          assert.equal(result.groups.length, 2, 'Results in two groups');
 
           // Only the first group is collapsed.
-          assert.equal(result[0].lines.length, 1);
-          assert.equal(result[1].lines.length, context);
+          assert.equal(result.groups[0].lines.length, 1);
+          assert.equal(result.groups[1].lines.length, element.context);
 
           // The collapsed group has the hidden lines as its context group.
-          assert.equal(result[0].lines[0].contextGroup.lines.length,
+          assert.equal(result.groups[0].lines[0].contextGroup.lines.length,
               expectedCollapseSize);
         });
 
-        test('_sharedGroupsFromRows few-rows', () => {
+        test('_processNext few-rows', () => {
           // Only ten rows.
           rows = rows.slice(0, 10);
-          const context = 10;
-          const result = element._sharedGroupsFromRows(
-              rows, context, 10, 100, 'first');
+          element.context = 10;
+          const state = {
+            lineNums: {left: 10, right: 100},
+            sectionIndex: 0,
+          };
+          const result = element._processNext(
+              state, {ab: rows}, 3);
 
           // Results in one uncollapsed group with all rows.
-          assert.equal(result.length, 1, 'Results in one group');
-          assert.equal(result[0].lines.length, rows.length);
+          assert.equal(result.groups.length, 1, 'Results in one group');
+          assert.equal(result.groups[0].lines.length, rows.length);
         });
 
-        test('_sharedGroupsFromRows no single line collapse', () => {
+        test('_processNext no single line collapse', () => {
           rows = rows.slice(0, 7);
-          const context = 3;
-          const result = element._sharedGroupsFromRows(
-              rows, context, 10, 100);
+          element.context = 3;
+          const state = {
+            lineNums: {left: 10, right: 100},
+            sectionIndex: 1,
+          };
+          const result = element._processNext(
+              state, {ab: rows}, 3);
 
           // Results in one uncollapsed group with all rows.
-          assert.equal(result.length, 1, 'Results in one group');
-          assert.equal(result[0].lines.length, rows.length);
+          assert.equal(result.groups.length, 1, 'Results in one group');
+          assert.equal(result.groups[0].lines.length, rows.length);
         });
 
         test('_deltaLinesFromRows', () => {

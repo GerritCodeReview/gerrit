@@ -269,6 +269,39 @@ link:dev-processes.html#steering-committee[steering committee] or
 comment on a change that adds a link:dev-design-docs.html#propose[
 design doc].
 
+[[community-manager]]
+== Community Manager
+
+Community managers should act as stakeholders for the Gerrit community
+and focus on the health of the community.
+
+Tasks:
+
+* act as stakeholder for the Gerrit community towards the
+  link:dev-processes.html#steering-committee[steering committee]
+* ensure that the link:dev-contributing.html#mentorship[mentorship
+  process] works
+* deescalate conflicts in the Gerrit community
+* constantly improve community processes (e.g. contribution process)
+* watch out for community issues and address them proactively
+* serve as contact person for community issues
+
+The community managers should be a pair of two that share the work:
+
+* one Googler that is appointed by Google
+* one non-Googler, elected by the community if there are multiple
+  candidates (if there is no candidate, we only have the one community
+  manager from Google)
+
+Community managers must not be link:#steering-committee-member[
+steering committee members] at the same time so that they can represent
+the community without conflict of interest.
+
+Nomination process, election process and election period for the
+non-Google community manager are the same as for
+link:dev-processes.html#steering-committee-election[steering committee
+members].
+
 [[release-manager]]
 == Release Manager
 

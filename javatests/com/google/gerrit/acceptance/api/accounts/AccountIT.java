@@ -2735,6 +2735,67 @@ public class AccountIT extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  public void userCanGenerateNewHttpPassword() throws Exception {
+    String newPassword = gApi.accounts().self().generateHttpPassword();
+    assertThat(newPassword).isNotNull();
+  }
+
+  @Test
+  public void adminCanGenerateNewHttpPasswordForUser() throws Exception {
+    setApiUser(admin);
+    String newPassword = gApi.accounts().id(user.username).generateHttpPassword();
+    assertThat(newPassword).isNotNull();
+  }
+
+  @Test
+  public void userCannotGenerateNewHttpPasswordForOtherUser() throws Exception {
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    gApi.accounts().id(admin.username).generateHttpPassword();
+  }
+
+  @Test
+  public void userCannotExplicitlySetHttpPassword() throws Exception {
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    gApi.accounts().self().setHttpPassword("my-new-password");
+  }
+
+  @Test
+  public void userCannotExplicitlySetHttpPasswordForOtherUser() throws Exception {
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    gApi.accounts().id(admin.username).setHttpPassword("my-new-password");
+  }
+
+  @Test
+  public void userCanRemoveHttpPassword() throws Exception {
+    setApiUser(user);
+    assertThat(gApi.accounts().self().setHttpPassword(null)).isNull();
+  }
+
+  @Test
+  public void userCannotRemoveHttpPasswordForOtherUser() throws Exception {
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    gApi.accounts().id(admin.username).setHttpPassword(null);
+  }
+
+  @Test
+  public void adminCanExplicitlySetHttpPasswordForUser() throws Exception {
+    setApiUser(admin);
+    String httpPassword = "new-password-for-user";
+    assertThat(gApi.accounts().id(user.username).setHttpPassword(httpPassword))
+        .isEqualTo(httpPassword);
+  }
+
+  @Test
+  public void adminCanRemoveHttpPasswordForUser() throws Exception {
+    setApiUser(admin);
+    assertThat(gApi.accounts().id(user.username).setHttpPassword(null)).isNull();
+  }
+
   private void createDraft(PushOneCommit.Result r, String path, String message) throws Exception {
     DraftInput in = new DraftInput();
     in.path = path;

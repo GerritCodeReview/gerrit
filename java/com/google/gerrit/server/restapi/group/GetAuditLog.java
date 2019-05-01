@@ -24,7 +24,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
+import com.google.gerrit.reviewdb.client.AccountGroupByIdAudit;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.GroupBackend;
@@ -105,7 +105,7 @@ public class GetAuditLog implements RestReadView<GroupResource> {
         }
       }
 
-      for (AccountGroupByIdAud auditEvent :
+      for (AccountGroupByIdAudit auditEvent :
           groups.getSubgroupsAudit(allUsersRepo, group.getGroupUUID())) {
         AccountGroup.UUID includedGroupUUID = auditEvent.includeUuid();
         Optional<InternalGroup> includedGroup = groupCache.get(includedGroupUUID);

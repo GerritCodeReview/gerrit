@@ -99,7 +99,9 @@ public class GetAuditLog implements RestReadView<GroupResource> {
         if (!auditEvent.isActive()) {
           auditEvents.add(
               GroupAuditEventInfo.createRemoveUserEvent(
-                  accountLoader.get(auditEvent.getRemovedBy()), auditEvent.getRemovedOn(), member));
+                  accountLoader.get(auditEvent.getRemovedBy().orElse(null)),
+                  auditEvent.getRemovedOn(),
+                  member));
         }
       }
 
@@ -126,7 +128,9 @@ public class GetAuditLog implements RestReadView<GroupResource> {
         if (!auditEvent.isActive()) {
           auditEvents.add(
               GroupAuditEventInfo.createRemoveGroupEvent(
-                  accountLoader.get(auditEvent.getRemovedBy()), auditEvent.getRemovedOn(), member));
+                  accountLoader.get(auditEvent.getRemovedBy().orElse(null)),
+                  auditEvent.getRemovedOn(),
+                  member));
         }
       }
     }

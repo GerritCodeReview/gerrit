@@ -51,6 +51,7 @@ import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.LibModuleLoader;
+import com.google.gerrit.server.LibModuleType;
 import com.google.gerrit.server.ModuleOverloader;
 import com.google.gerrit.server.StartupChecks;
 import com.google.gerrit.server.account.AccountDeactivator;
@@ -476,7 +477,8 @@ public class Daemon extends SiteProgram {
     modules.add(new LocalMergeSuperSetComputation.Module());
     modules.add(new DefaultProjectNameLockManager.Module());
     return cfgInjector.createChildInjector(
-        ModuleOverloader.override(modules, LibModuleLoader.loadModules(cfgInjector)));
+        ModuleOverloader.override(
+            modules, LibModuleLoader.loadModules(cfgInjector, LibModuleType.SYS_MODULE)));
   }
 
   private Module createIndexModule() {

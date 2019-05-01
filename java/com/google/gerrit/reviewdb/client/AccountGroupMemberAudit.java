@@ -18,6 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
 import java.sql.Timestamp;
 import java.util.Objects;
+import java.util.Optional;
 
 /** Membership of an {@link Account} in an {@link AccountGroup}. */
 public final class AccountGroupMemberAudit {
@@ -90,12 +91,12 @@ public final class AccountGroupMemberAudit {
     return key.addedOn();
   }
 
-  public Account.Id getRemovedBy() {
-    return removedBy;
+  public Optional<Account.Id> getRemovedBy() {
+    return Optional.ofNullable(removedBy);
   }
 
-  public Timestamp getRemovedOn() {
-    return removedOn;
+  public Optional<Timestamp> getRemovedOn() {
+    return Optional.ofNullable(removedOn);
   }
 
   @Override

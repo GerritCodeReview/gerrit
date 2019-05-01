@@ -79,7 +79,9 @@ public class AuditLogReader {
         MemberKey key = MemberKey.create(groupId, id);
         AccountGroupMemberAudit.Builder audit =
             AccountGroupMemberAudit.builder()
-                .key(AccountGroupMemberAudit.key(id, groupId, pc.when()))
+                .memberId(id)
+                .groupId(groupId)
+                .addedOn(pc.when())
                 .addedBy(pc.authorId());
         audits.put(key, audit);
         result.add(audit);
@@ -93,7 +95,9 @@ public class AuditLogReader {
           // Match old behavior of DbGroupAuditListener and add a "legacy" add/remove pair.
           AccountGroupMemberAudit.Builder audit =
               AccountGroupMemberAudit.builder()
-                  .key(AccountGroupMemberAudit.key(id, groupId, pc.when()))
+                  .groupId(groupId)
+                  .memberId(id)
+                  .addedOn(pc.when())
                   .addedBy(pc.authorId())
                   .removedLegacy();
           result.add(audit);
@@ -118,7 +122,9 @@ public class AuditLogReader {
         SubgroupKey key = SubgroupKey.create(groupId, uuid);
         AccountGroupByIdAudit.Builder audit =
             AccountGroupByIdAudit.builder()
-                .key(AccountGroupByIdAudit.key(groupId, uuid, pc.when()))
+                .groupId(groupId)
+                .includeUuid(uuid)
+                .addedOn(pc.when())
                 .addedBy(pc.authorId());
         audits.put(key, audit);
         result.add(audit);

@@ -42,11 +42,11 @@ public abstract class AccountGroupMemberAudit {
   public abstract static class Builder {
     public abstract Builder key(Key key);
 
-    abstract Key getKey();
+    abstract Key key();
 
     public abstract Builder addedBy(Account.Id addedBy);
 
-    abstract Account.Id getAddedBy();
+    abstract Account.Id addedBy();
 
     abstract Builder removedBy(Account.Id removedBy);
 
@@ -57,35 +57,35 @@ public abstract class AccountGroupMemberAudit {
     }
 
     public Builder removedLegacy() {
-      return removed(getAddedBy(), getKey().addedOn());
+      return removed(addedBy(), key().addedOn());
     }
 
     public abstract AccountGroupMemberAudit build();
   }
 
-  public abstract AccountGroupMemberAudit.Key getKey();
+  public abstract AccountGroupMemberAudit.Key key();
 
-  public abstract Account.Id getAddedBy();
+  public abstract Account.Id addedBy();
 
-  public abstract Optional<Account.Id> getRemovedBy();
+  public abstract Optional<Account.Id> removedBy();
 
-  public abstract Optional<Timestamp> getRemovedOn();
+  public abstract Optional<Timestamp> removedOn();
 
   public abstract Builder toBuilder();
 
-  public AccountGroup.Id getGroupId() {
-    return getKey().groupId();
+  public AccountGroup.Id groupId() {
+    return key().groupId();
   }
 
-  public Account.Id getMemberId() {
-    return getKey().accountId();
+  public Account.Id memberId() {
+    return key().accountId();
   }
 
-  public Timestamp getAddedOn() {
-    return getKey().addedOn();
+  public Timestamp addedOn() {
+    return key().addedOn();
   }
 
   public boolean isActive() {
-    return !getRemovedOn().isPresent();
+    return !removedOn().isPresent();
   }
 }

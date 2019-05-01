@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "59143aae_56982d67",
+        "filename": "java/com/google/gerrit/pgm/util/SiteProgram.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-01T21:48:12Z",
+      "side": 1,
+      "message": "This comment should emphasize that the SYS_MODULE in WebAppInitializer#createDbInjector() method was incorrect (in previous patch set).",
+      "parentUuid": "ded28cca_7b798cad",
+      "range": {
+        "startLine": 127,
+        "startChar": 64,
+        "endLine": 127,
+        "endChar": 88
+      },
+      "revId": "236d1779da9a7eb376e756b749739a6b812a071d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf76b316_b3c6fe0e",
         "filename": "java/com/google/gerrit/server/LibModuleType.java",
         "patchSetId": 8

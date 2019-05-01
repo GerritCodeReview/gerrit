@@ -20,7 +20,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
+import com.google.gerrit.reviewdb.client.AccountGroupByIdAudit;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.group.InternalGroup;
@@ -118,7 +118,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
     addSubgroups(uuid, ImmutableSet.of(subgroupUuid));
 
-    AccountGroupByIdAud expAudit =
+    AccountGroupByIdAudit expAudit =
         createExpGroupAudit(group.getId(), subgroupUuid, userId, getTipTimestamp(uuid));
     assertThat(auditLogReader.getSubgroupsAudit(allUsersRepo, uuid)).containsExactly(expAudit);
 
@@ -140,9 +140,9 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
     addSubgroups(uuid, ImmutableSet.of(subgroupUuid1, subgroupUuid2));
 
-    AccountGroupByIdAud expAudit1 =
+    AccountGroupByIdAudit expAudit1 =
         createExpGroupAudit(group.getId(), subgroupUuid1, userId, getTipTimestamp(uuid));
-    AccountGroupByIdAud expAudit2 =
+    AccountGroupByIdAudit expAudit2 =
         createExpGroupAudit(group.getId(), subgroupUuid2, userId, getTipTimestamp(uuid));
     assertThat(auditLogReader.getSubgroupsAudit(allUsersRepo, uuid))
         .containsExactly(expAudit1, expAudit2)
@@ -180,7 +180,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
     // Add one subgroup.
     addSubgroups(uuid, ImmutableSet.of(subgroupUuid1));
-    AccountGroupByIdAud expGroupAudit1 =
+    AccountGroupByIdAudit expGroupAudit1 =
         createExpGroupAudit(group.getId(), subgroupUuid1, userId, getTipTimestamp(uuid));
     assertThat(auditLogReader.getSubgroupsAudit(allUsersRepo, uuid))
         .containsExactly(expGroupAudit1);
@@ -194,9 +194,9 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
     // Add two subgroups.
     addSubgroups(uuid, ImmutableSet.of(subgroupUuid2, subgroupUuid3));
-    AccountGroupByIdAud expGroupAudit2 =
+    AccountGroupByIdAudit expGroupAudit2 =
         createExpGroupAudit(group.getId(), subgroupUuid2, userId, getTipTimestamp(uuid));
-    AccountGroupByIdAud expGroupAudit3 =
+    AccountGroupByIdAudit expGroupAudit3 =
         createExpGroupAudit(group.getId(), subgroupUuid3, userId, getTipTimestamp(uuid));
     assertThat(auditLogReader.getSubgroupsAudit(allUsersRepo, uuid))
         .containsExactly(expGroupAudit1, expGroupAudit2, expGroupAudit3)
@@ -223,7 +223,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
     // Add back one removed subgroup.
     addSubgroups(uuid, ImmutableSet.of(subgroupUuid1));
-    AccountGroupByIdAud expGroupAudit4 =
+    AccountGroupByIdAudit expGroupAudit4 =
         createExpGroupAudit(group.getId(), subgroupUuid1, userId, getTipTimestamp(uuid));
     assertThat(auditLogReader.getSubgroupsAudit(allUsersRepo, uuid))
         .containsExactly(expGroupAudit1, expGroupAudit2, expGroupAudit3, expGroupAudit4)
@@ -309,10 +309,10 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
         .build();
   }
 
-  private static AccountGroupByIdAud createExpGroupAudit(
+  private static AccountGroupByIdAudit createExpGroupAudit(
       AccountGroup.Id groupId, AccountGroup.UUID uuid, Account.Id addedBy, Timestamp addedOn) {
-    return AccountGroupByIdAud.builder()
-        .key(AccountGroupByIdAud.key(groupId, uuid, addedOn))
+    return AccountGroupByIdAudit.builder()
+        .key(AccountGroupByIdAudit.key(groupId, uuid, addedOn))
         .addedBy(addedBy)
         .build();
   }

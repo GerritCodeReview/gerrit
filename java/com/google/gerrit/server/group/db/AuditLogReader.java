@@ -23,7 +23,7 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
+import com.google.gerrit.reviewdb.client.AccountGroupByIdAudit;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
@@ -103,37 +103,37 @@ public class AuditLogReader {
     return result.stream().map(AccountGroupMemberAudit.Builder::build).collect(toImmutableList());
   }
 
-  public ImmutableList<AccountGroupByIdAud> getSubgroupsAudit(
+  public ImmutableList<AccountGroupByIdAudit> getSubgroupsAudit(
       Repository repo, AccountGroup.UUID uuid) throws IOException, ConfigInvalidException {
     return getSubgroupsAudit(getGroupId(repo, uuid), parseCommits(repo, uuid));
   }
 
-  private ImmutableList<AccountGroupByIdAud> getSubgroupsAudit(
+  private ImmutableList<AccountGroupByIdAudit> getSubgroupsAudit(
       AccountGroup.Id groupId, List<ParsedCommit> commits) {
-    ListMultimap<SubgroupKey, AccountGroupByIdAud.Builder> audits =
+    ListMultimap<SubgroupKey, AccountGroupByIdAudit.Builder> audits =
         MultimapBuilder.hashKeys().linkedListValues().build();
-    List<AccountGroupByIdAud.Builder> result = new ArrayList<>();
+    List<AccountGroupByIdAudit.Builder> result = new ArrayList<>();
     for (ParsedCommit pc : commits) {
       for (AccountGroup.UUID uuid : pc.addedSubgroups()) {
         SubgroupKey key = SubgroupKey.create(groupId, uuid);
-        AccountGroupByIdAud.Builder audit =
-            AccountGroupByIdAud.builder()
-                .key(AccountGroupByIdAud.key(groupId, uuid, pc.when()))
+        AccountGroupByIdAudit.Builder audit =
+            AccountGroupByIdAudit.builder()
+                .key(AccountGroupByIdAudit.key(groupId, uuid, pc.when()))
                 .addedBy(pc.authorId());
         audits.put(key, audit);
         result.add(audit);
       }
       for (AccountGroup.UUID uuid : pc.removedSubgroups()) {
-        List<AccountGroupByIdAud.Builder> adds = audits.get(SubgroupKey.create(groupId, uuid));
+        List<AccountGroupByIdAudit.Builder> adds = audits.get(SubgroupKey.create(groupId, uuid));
         if (!adds.isEmpty()) {
-          AccountGroupByIdAud.Builder audit = adds.remove(0);
+          AccountGroupByIdAudit.Builder audit = adds.remove(0);
           audit.removed(pc.authorId(), pc.when());
         } else {
           // Unlike members, DbGroupAuditListener didn't insert an add/remove pair here.
         }
       }
     }
-    return result.stream().map(AccountGroupByIdAud.Builder::build).collect(toImmutableList());
+    return result.stream().map(AccountGroupByIdAudit.Builder::build).collect(toImmutableList());
   }
 
   private Optional<ParsedCommit> parse(AccountGroup.UUID uuid, RevCommit c) {

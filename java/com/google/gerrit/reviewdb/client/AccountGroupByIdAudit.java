@@ -20,9 +20,9 @@ import java.util.Optional;
 
 /** Inclusion of an {@link AccountGroup} in another {@link AccountGroup}. */
 @AutoValue
-public abstract class AccountGroupByIdAud {
+public abstract class AccountGroupByIdAudit {
   public static Key key(AccountGroup.Id groupId, AccountGroup.UUID includeUuid, Timestamp addedOn) {
-    return new AutoValue_AccountGroupByIdAud_Key(groupId, includeUuid, addedOn);
+    return new AutoValue_AccountGroupByIdAudit_Key(groupId, includeUuid, addedOn);
   }
 
   @AutoValue
@@ -35,7 +35,7 @@ public abstract class AccountGroupByIdAud {
   }
 
   public static Builder builder() {
-    return new AutoValue_AccountGroupByIdAud.Builder();
+    return new AutoValue_AccountGroupByIdAudit.Builder();
   }
 
   @AutoValue.Builder
@@ -52,10 +52,10 @@ public abstract class AccountGroupByIdAud {
       return removedBy(removedBy).removedOn(removedOn);
     }
 
-    public abstract AccountGroupByIdAud build();
+    public abstract AccountGroupByIdAudit build();
   }
 
-  public abstract AccountGroupByIdAud.Key key();
+  public abstract AccountGroupByIdAudit.Key key();
 
   public abstract Account.Id addedBy();
 

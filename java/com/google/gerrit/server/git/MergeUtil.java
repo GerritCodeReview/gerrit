@@ -522,7 +522,7 @@ public class MergeUtil {
     PatchSetApproval submitAudit = null;
 
     for (PatchSetApproval a : safeGetApprovals(notes, psId)) {
-      if (a.getValue() <= 0) {
+      if (a.value() <= 0) {
         // Negative votes aren't counted.
         continue;
       }
@@ -530,13 +530,13 @@ public class MergeUtil {
       if (a.isLegacySubmit()) {
         // Submit is treated specially, below (becomes committer)
         //
-        if (submitAudit == null || a.getGranted().compareTo(submitAudit.getGranted()) > 0) {
+        if (submitAudit == null || a.granted().compareTo(submitAudit.granted()) > 0) {
           submitAudit = a;
         }
         continue;
       }
 
-      final Account acc = identifiedUserFactory.create(a.getAccountId()).getAccount();
+      final Account acc = identifiedUserFactory.create(a.accountId()).getAccount();
       final StringBuilder identbuf = new StringBuilder();
       if (acc.getFullName() != null && acc.getFullName().length() > 0) {
         if (identbuf.length() > 0) {
@@ -561,12 +561,12 @@ public class MergeUtil {
       }
 
       final String tag;
-      if (isCodeReview(a.getLabelId())) {
+      if (isCodeReview(a.labelId())) {
         tag = "Reviewed-by";
-      } else if (isVerified(a.getLabelId())) {
+      } else if (isVerified(a.labelId())) {
         tag = "Tested-by";
       } else {
-        final LabelType lt = project.getLabelTypes().byLabel(a.getLabelId());
+        final LabelType lt = project.getLabelTypes().byLabel(a.labelId());
         if (lt == null) {
           continue;
         }

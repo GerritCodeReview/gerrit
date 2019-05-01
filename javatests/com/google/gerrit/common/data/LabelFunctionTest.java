@@ -81,7 +81,7 @@ public class LabelFunctionTest {
     SubmitRecord.Label myLabel = LabelFunction.MAX_NO_BLOCK.check(VERIFIED_LABEL, approvals);
 
     assertThat(myLabel.status).isEqualTo(SubmitRecord.Label.Status.OK);
-    assertThat(myLabel.appliedBy).isEqualTo(APPROVAL_2.getAccountId());
+    assertThat(myLabel.appliedBy).isEqualTo(APPROVAL_2.accountId());
   }
 
   private static LabelType makeLabel() {
@@ -109,7 +109,7 @@ public class LabelFunctionTest {
     SubmitRecord.Label myLabel = function.check(VERIFIED_LABEL, approvals);
 
     assertThat(myLabel.status).isEqualTo(SubmitRecord.Label.Status.REJECT);
-    assertThat(myLabel.appliedBy).isEqualTo(APPROVAL_M2.getAccountId());
+    assertThat(myLabel.appliedBy).isEqualTo(APPROVAL_M2.accountId());
   }
 
   private static void checkNothingHappens(LabelFunction function) {
@@ -140,6 +140,6 @@ public class LabelFunctionTest {
     SubmitRecord.Label myLabel = function.check(VERIFIED_LABEL, approvals);
 
     assertThat(myLabel.status).isEqualTo(SubmitRecord.Label.Status.OK);
-    assertThat(myLabel.appliedBy).isEqualTo(APPROVAL_2.getAccountId());
+    assertThat(myLabel.appliedBy).isEqualTo(APPROVAL_2.accountId());
   }
 }

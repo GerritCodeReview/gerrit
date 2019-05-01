@@ -330,7 +330,7 @@ public class MailProcessor {
       approvalsUtil
           .byPatchSetUser(
               notes, psId, ctx.getAccountId(), ctx.getRevWalk(), ctx.getRepoView().getConfig())
-          .forEach(a -> approvals.put(a.getLabel(), a.getValue()));
+          .forEach(a -> approvals.put(a.label(), a.value()));
       // Fire Gerrit event. Note that approvals can't be granted via email, so old and new approvals
       // are always the same here.
       commentAdded.fire(

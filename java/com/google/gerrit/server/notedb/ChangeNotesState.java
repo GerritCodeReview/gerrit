@@ -560,7 +560,7 @@ public abstract class ChangeNotesState {
               .approvals(
                   proto.getApprovalList().stream()
                       .map(bytes -> parseProtoFrom(PatchSetApprovalProtoConverter.INSTANCE, bytes))
-                      .map(a -> Maps.immutableEntry(a.getPatchSetId(), a))
+                      .map(a -> Maps.immutableEntry(a.patchSetId(), a))
                       .collect(toImmutableList()))
               .reviewers(toReviewerSet(proto.getReviewerList()))
               .reviewersByEmail(toReviewerByEmailSet(proto.getReviewerByEmailList()))

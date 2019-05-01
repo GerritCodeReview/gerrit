@@ -281,13 +281,13 @@ class ChangeNotesParser {
     ListMultimap<PatchSet.Id, PatchSetApproval> result =
         MultimapBuilder.hashKeys().arrayListValues().build();
     for (PatchSetApproval.Builder a : approvals.values()) {
-      if (!patchSetCommitParsed(a.getKey().patchSetId())) {
+      if (!patchSetCommitParsed(a.key().patchSetId())) {
         continue; // Patch set deleted or missing.
-      } else if (allPastReviewers.contains(a.getKey().accountId())
-          && !reviewers.containsRow(a.getKey().accountId())) {
+      } else if (allPastReviewers.contains(a.key().accountId())
+          && !reviewers.containsRow(a.key().accountId())) {
         continue; // Reviewer was explicitly removed.
       }
-      result.put(a.getKey().patchSetId(), a.build());
+      result.put(a.key().patchSetId(), a.build());
     }
     result.keySet().forEach(k -> result.get(k).sort(ChangeNotes.PSA_BY_TIME));
     return result;
@@ -613,7 +613,7 @@ class ChangeNotesParser {
     // up sorted after the submit during rebuilding.
     if (status == Change.Status.MERGED) {
       for (PatchSetApproval.Builder psa : bufferedApprovals) {
-        if (!psa.getKey().isLegacySubmit()) {
+        if (!psa.key().isLegacySubmit()) {
           psa.postSubmit(true);
         }
       }
@@ -798,7 +798,7 @@ class ChangeNotesParser {
     if (!Objects.equals(realAccountId, committerId)) {
       psa.realAccountId(realAccountId);
     }
-    approvals.putIfAbsent(psa.getKey(), psa);
+    approvals.putIfAbsent(psa.key(), psa);
     return psa;
   }
 
@@ -837,7 +837,7 @@ class ChangeNotesParser {
     if (!Objects.equals(realAccountId, committerId)) {
       remove.realAccountId(realAccountId);
     }
-    approvals.putIfAbsent(remove.getKey(), remove);
+    approvals.putIfAbsent(remove.key(), remove);
     return remove;
   }
 
@@ -1023,7 +1023,7 @@ class ChangeNotesParser {
             comments.values(), c -> PatchSet.id(id, c.key.patchSetId), missing);
     pruned +=
         pruneEntitiesForMissingPatchSets(
-            approvals.values(), psa -> psa.getKey().patchSetId(), missing);
+            approvals.values(), psa -> psa.key().patchSetId(), missing);
 
     if (!missing.isEmpty()) {
       logger.atWarning().log(

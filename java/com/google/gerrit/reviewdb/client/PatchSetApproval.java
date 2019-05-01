@@ -48,7 +48,7 @@ public abstract class PatchSetApproval {
   public abstract static class Builder {
     public abstract Builder key(Key key);
 
-    public abstract Key getKey();
+    public abstract Key key();
 
     public abstract Builder value(short value);
 
@@ -68,21 +68,21 @@ public abstract class PatchSetApproval {
 
     public abstract Builder realAccountId(Account.Id realAccountId);
 
-    abstract Optional<Account.Id> getRealAccountId();
+    abstract Optional<Account.Id> realAccountId();
 
     public abstract Builder postSubmit(boolean isPostSubmit);
 
     abstract PatchSetApproval autoBuild();
 
     public PatchSetApproval build() {
-      if (!getRealAccountId().isPresent()) {
-        realAccountId(getKey().accountId());
+      if (!realAccountId().isPresent()) {
+        realAccountId(key().accountId());
       }
       return autoBuild();
     }
   }
 
-  public abstract Key getKey();
+  public abstract Key key();
 
   /**
    * Value assigned by the user.
@@ -100,40 +100,40 @@ public abstract class PatchSetApproval {
    * and in the negative and positive direction a magnitude can be assumed.The further from 0 the
    * more assertive the approval.
    */
-  public abstract short getValue();
+  public abstract short value();
 
-  public abstract Timestamp getGranted();
+  public abstract Timestamp granted();
 
-  public abstract Optional<String> getTag();
+  public abstract Optional<String> tag();
 
   /** Real user that made this approval on behalf of the user recorded in {@link Key#accountId}. */
-  public abstract Account.Id getRealAccountId();
+  public abstract Account.Id realAccountId();
 
-  public abstract boolean isPostSubmit();
+  public abstract boolean postSubmit();
 
   public abstract Builder toBuilder();
 
   public PatchSetApproval copyWithPatchSet(PatchSet.Id psId) {
-    return toBuilder().key(key(psId, getKey().accountId(), getKey().labelId())).build();
+    return toBuilder().key(key(psId, key().accountId(), key().labelId())).build();
   }
 
-  public PatchSet.Id getPatchSetId() {
-    return getKey().patchSetId();
+  public PatchSet.Id patchSetId() {
+    return key().patchSetId();
   }
 
-  public Account.Id getAccountId() {
-    return getKey().accountId();
+  public Account.Id accountId() {
+    return key().accountId();
   }
 
-  public LabelId getLabelId() {
-    return getKey().labelId();
+  public LabelId labelId() {
+    return key().labelId();
   }
 
-  public String getLabel() {
-    return getLabelId().get();
+  public String label() {
+    return labelId().get();
   }
 
   public boolean isLegacySubmit() {
-    return getKey().isLegacySubmit();
+    return key().isLegacySubmit();
   }
 }

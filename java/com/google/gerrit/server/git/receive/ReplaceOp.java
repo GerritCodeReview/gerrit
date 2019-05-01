@@ -454,7 +454,7 @@ public class ReplaceOp implements BatchUpdateOp {
           continue;
         }
 
-        LabelType lt = projectState.getLabelTypes().byLabel(a.getLabelId());
+        LabelType lt = projectState.getLabelTypes().byLabel(a.labelId());
         if (lt != null) {
           current.put(lt.getName(), a);
         }
@@ -551,7 +551,7 @@ public class ReplaceOp implements BatchUpdateOp {
             Streams.concat(
                     oldRecipients.getReviewers().stream(),
                     reviewerAdditions.flattenResults(AddReviewersOp.Result::addedReviewers).stream()
-                        .map(PatchSetApproval::getAccountId))
+                        .map(PatchSetApproval::accountId))
                 .collect(toImmutableSet()));
         cm.addExtraCC(
             Streams.concat(

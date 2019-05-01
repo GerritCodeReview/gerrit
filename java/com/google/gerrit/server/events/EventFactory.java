@@ -540,7 +540,7 @@ public class EventFactory {
     if (!list.isEmpty()) {
       p.approvals = new ArrayList<>(list.size());
       for (PatchSetApproval a : list) {
-        if (a.getValue() != 0) {
+        if (a.value() != 0) {
           p.approvals.add(asApprovalAttribute(a, labelTypes));
         }
       }
@@ -599,13 +599,13 @@ public class EventFactory {
    */
   public ApprovalAttribute asApprovalAttribute(PatchSetApproval approval, LabelTypes labelTypes) {
     ApprovalAttribute a = new ApprovalAttribute();
-    a.type = approval.getLabelId().get();
-    a.value = Short.toString(approval.getValue());
-    a.by = asAccountAttribute(approval.getAccountId());
-    a.grantedOn = approval.getGranted().getTime() / 1000L;
+    a.type = approval.labelId().get();
+    a.value = Short.toString(approval.value());
+    a.by = asAccountAttribute(approval.accountId());
+    a.grantedOn = approval.granted().getTime() / 1000L;
     a.oldValue = null;
 
-    LabelType lt = labelTypes.byLabel(approval.getLabelId());
+    LabelType lt = labelTypes.byLabel(approval.labelId());
     if (lt != null) {
       a.description = lt.getName();
     }

@@ -44,14 +44,14 @@ public class ReviewerSet {
         first = psa;
       } else {
         checkArgument(
-            first.getKey().patchSetId().changeId().equals(psa.getKey().patchSetId().changeId()),
+            first.key().patchSetId().changeId().equals(psa.key().patchSetId().changeId()),
             "multiple change IDs: %s, %s",
-            first.getKey(),
-            psa.getKey());
+            first.key(),
+            psa.key());
       }
-      Account.Id id = psa.getAccountId();
-      reviewers.put(REVIEWER, id, psa.getGranted());
-      if (psa.getValue() != 0) {
+      Account.Id id = psa.accountId();
+      reviewers.put(REVIEWER, id, psa.granted());
+      if (psa.value() != 0) {
         reviewers.remove(CC, id);
       }
     }

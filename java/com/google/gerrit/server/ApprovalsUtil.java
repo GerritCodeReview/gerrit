@@ -88,7 +88,7 @@ public class ApprovalsUtil {
 
   private static Iterable<PatchSetApproval> filterApprovals(
       Iterable<PatchSetApproval> psas, Account.Id accountId) {
-    return Iterables.filter(psas, a -> Objects.equals(a.getAccountId(), accountId));
+    return Iterables.filter(psas, a -> Objects.equals(a.accountId(), accountId));
   }
 
   private final ApprovalCopier copier;
@@ -291,7 +291,7 @@ public class ApprovalsUtil {
       cells.add(newApproval(ps.id(), user, lt.getLabelId(), vote.getValue(), ts).build());
     }
     for (PatchSetApproval psa : cells) {
-      update.putApproval(psa.getLabel(), psa.getValue());
+      update.putApproval(psa.label(), psa.value());
     }
     return cells;
   }
@@ -359,8 +359,8 @@ public class ApprovalsUtil {
     }
     PatchSetApproval submitter = null;
     for (PatchSetApproval a : approvals) {
-      if (a.getPatchSetId().equals(c) && a.getValue() > 0 && a.isLegacySubmit()) {
-        if (submitter == null || a.getGranted().compareTo(submitter.getGranted()) > 0) {
+      if (a.patchSetId().equals(c) && a.value() > 0 && a.isLegacySubmit()) {
+        if (submitter == null || a.granted().compareTo(submitter.granted()) > 0) {
           submitter = a;
         }
       }
@@ -374,7 +374,7 @@ public class ApprovalsUtil {
     if (!n.isEmpty()) {
       boolean first = true;
       for (Map.Entry<String, Short> e : n.entrySet()) {
-        if (c.containsKey(e.getKey()) && c.get(e.getKey()).getValue() == e.getValue()) {
+        if (c.containsKey(e.getKey()) && c.get(e.getKey()).value() == e.getValue()) {
           continue;
         }
         if (first) {

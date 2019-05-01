@@ -88,23 +88,23 @@ public class LabelNormalizer {
     List<PatchSetApproval> deleted = Lists.newArrayListWithCapacity(approvals.size());
     LabelTypes labelTypes = projectCache.checkedGet(notes.getProjectName()).getLabelTypes(notes);
     for (PatchSetApproval psa : approvals) {
-      Change.Id changeId = psa.getKey().patchSetId().changeId();
+      Change.Id changeId = psa.key().patchSetId().changeId();
       checkArgument(
           changeId.equals(notes.getChangeId()),
           "Approval %s does not match change %s",
-          psa.getKey(),
+          psa.key(),
           notes.getChange().getKey());
       if (psa.isLegacySubmit()) {
         unchanged.add(psa);
         continue;
       }
-      LabelType label = labelTypes.byLabel(psa.getLabelId());
+      LabelType label = labelTypes.byLabel(psa.labelId());
       if (label == null) {
         deleted.add(psa);
         continue;
       }
       PatchSetApproval copy = applyTypeFloor(label, psa);
-      if (copy.getValue() != psa.getValue()) {
+      if (copy.value() != psa.value()) {
         updated.add(copy);
       } else {
         unchanged.add(psa);
@@ -116,11 +116,11 @@ public class LabelNormalizer {
   private PatchSetApproval applyTypeFloor(LabelType lt, PatchSetApproval a) {
     PatchSetApproval.Builder b = a.toBuilder();
     LabelValue atMin = lt.getMin();
-    if (atMin != null && a.getValue() < atMin.getValue()) {
+    if (atMin != null && a.value() < atMin.getValue()) {
       b.value(atMin.getValue());
     }
     LabelValue atMax = lt.getMax();
-    if (atMax != null && a.getValue() > atMax.getValue()) {
+    if (atMax != null && a.value() > atMax.getValue()) {
       b.value(atMax.getValue());
     }
     return b.build();

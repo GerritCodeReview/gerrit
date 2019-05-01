@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "05349e25_69c2023d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1971,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-01T09:56:20Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2bd69069_e64a28a4",
+      "range": {
+        "startLine": 1971,
+        "startChar": 46,
+        "endLine": 1971,
+        "endChar": 52
+      },
+      "revId": "236d1779da9a7eb376e756b749739a6b812a071d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ffb0d5ac_ec0d70bb",
         "filename": "java/com/google/gerrit/httpd/init/WebAppInitializer.java",
         "patchSetId": 8
@@ -36,6 +60,30 @@
       "writtenOn": "2019-04-30T20:58:23Z",
       "side": 1,
       "message": "Should this be LibModuleType.DB_MODULE? Like it was done in SiteProgram#createDbInjector() where LibModuleType.DB_MODULE was used:\n\n  return Guice.createInjector(\n          PRODUCTION,\n          ModuleOverloader.override(\n              modules, LibModuleLoader.loadModules(cfgInjector, LibModuleType.DB_MODULE)));",
+      "range": {
+        "startLine": 268,
+        "startChar": 61,
+        "endLine": 268,
+        "endChar": 85
+      },
+      "revId": "236d1779da9a7eb376e756b749739a6b812a071d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31533c91_01d209c1",
+        "filename": "java/com/google/gerrit/httpd/init/WebAppInitializer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-01T09:56:20Z",
+      "side": 1,
+      "message": "Good catch, in fact, the method creates a dbInjector.",
+      "parentUuid": "ffb0d5ac_ec0d70bb",
       "range": {
         "startLine": 268,
         "startChar": 61,

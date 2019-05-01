@@ -55,29 +55,29 @@ public abstract class AccountGroupByIdAud {
     public abstract AccountGroupByIdAud build();
   }
 
-  public abstract AccountGroupByIdAud.Key getKey();
+  public abstract AccountGroupByIdAud.Key key();
 
-  public abstract Account.Id getAddedBy();
+  public abstract Account.Id addedBy();
 
-  public abstract Optional<Account.Id> getRemovedBy();
+  public abstract Optional<Account.Id> removedBy();
 
-  public abstract Optional<Timestamp> getRemovedOn();
+  public abstract Optional<Timestamp> removedOn();
 
   public abstract Builder toBuilder();
 
-  public AccountGroup.Id getGroupId() {
-    return getKey().groupId();
+  public AccountGroup.Id groupId() {
+    return key().groupId();
   }
 
   public Timestamp getAddedOn() {
-    return getKey().addedOn();
+    return key().addedOn();
   }
 
-  public AccountGroup.UUID getIncludeUUID() {
-    return getKey().includeUuid();
+  public AccountGroup.UUID includeUuid() {
+    return key().includeUuid();
   }
 
   public boolean isActive() {
-    return !getRemovedOn().isPresent();
+    return !removedOn().isPresent();
   }
 }

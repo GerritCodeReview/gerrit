@@ -599,7 +599,7 @@ class RevisionApiImpl implements RevisionApi {
                 approval.getAccountId().get(),
                 Integer.valueOf(approval.getValue()),
                 null,
-                approval.getTag(),
+                approval.getTag().orElse(null),
                 approval.getGranted());
         accountLoader.put(info);
         result.get(label).add(info);

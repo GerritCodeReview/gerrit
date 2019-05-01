@@ -20,6 +20,7 @@ import com.google.gerrit.common.Nullable;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Objects;
+import java.util.Optional;
 
 /** An approval (or negative approval) on a patch set. */
 public final class PatchSetApproval {
@@ -154,8 +155,8 @@ public final class PatchSetApproval {
     return LabelId.LEGACY_SUBMIT_NAME.equals(getLabel());
   }
 
-  public String getTag() {
-    return tag;
+  public Optional<String> getTag() {
+    return Optional.ofNullable(tag);
   }
 
   public void setPostSubmit(boolean postSubmit) {

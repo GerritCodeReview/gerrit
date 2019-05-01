@@ -346,7 +346,7 @@ public class LabelsJson {
           info.value = Integer.valueOf(val);
           info.permittedVotingRange = pvr.getOrDefault(type.getName(), null);
           info.date = psa.getGranted();
-          info.tag = psa.getTag();
+          info.tag = psa.getTag().orElse(null);
           if (psa.isPostSubmit()) {
             info.postSubmit = true;
           }
@@ -474,7 +474,7 @@ public class LabelsJson {
             // label.
             value = perm.test(new LabelPermission(lt)) ? 0 : null;
           }
-          tag = psa.getTag();
+          tag = psa.getTag().orElse(null);
           date = psa.getGranted();
           if (psa.isPostSubmit()) {
             logger.atWarning().log("unexpected post-submit approval on open change: %s", psa);

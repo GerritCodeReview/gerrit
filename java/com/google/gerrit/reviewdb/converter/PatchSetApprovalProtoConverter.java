@@ -39,10 +39,7 @@ public enum PatchSetApprovalProtoConverter
             .setGranted(patchSetApproval.getGranted().getTime())
             .setPostSubmit(patchSetApproval.isPostSubmit());
 
-    String tag = patchSetApproval.getTag();
-    if (tag != null) {
-      builder.setTag(tag);
-    }
+    patchSetApproval.getTag().ifPresent(builder::setTag);
     Account.Id realAccountId = patchSetApproval.getRealAccountId();
     // PatchSetApproval#getRealAccountId automatically delegates to PatchSetApproval#getAccountId if
     // the real author is not set. However, the previous protobuf representation kept

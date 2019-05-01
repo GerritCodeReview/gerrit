@@ -467,13 +467,12 @@ public class ChangeField {
     Set<String> allApprovals = new HashSet<>();
     Set<String> distinctApprovals = new HashSet<>();
     for (PatchSetApproval a : cd.currentApprovals()) {
-      if (a.getValue() != 0 && !a.isLegacySubmit()) {
-        allApprovals.add(formatLabel(a.getLabel(), a.getValue(), a.getAccountId()));
-        if (owners && cd.change().getOwner().equals(a.getAccountId())) {
-          allApprovals.add(
-              formatLabel(a.getLabel(), a.getValue(), ChangeQueryBuilder.OWNER_ACCOUNT_ID));
+      if (a.value() != 0 && !a.isLegacySubmit()) {
+        allApprovals.add(formatLabel(a.label(), a.value(), a.accountId()));
+        if (owners && cd.change().getOwner().equals(a.accountId())) {
+          allApprovals.add(formatLabel(a.label(), a.value(), ChangeQueryBuilder.OWNER_ACCOUNT_ID));
         }
-        distinctApprovals.add(formatLabel(a.getLabel(), a.getValue()));
+        distinctApprovals.add(formatLabel(a.label(), a.value()));
       }
     }
     allApprovals.addAll(distinctApprovals);

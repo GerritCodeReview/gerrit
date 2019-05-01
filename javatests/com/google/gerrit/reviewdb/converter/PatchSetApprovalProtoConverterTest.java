@@ -156,13 +156,13 @@ public class PatchSetApprovalProtoConverterTest {
             .build();
     PatchSetApproval patchSetApproval = protoConverter.fromProto(proto);
 
-    assertThat(patchSetApproval.getPatchSetId()).isEqualTo(PatchSet.id(Change.id(42), 14));
-    assertThat(patchSetApproval.getAccountId()).isEqualTo(Account.id(100013));
-    assertThat(patchSetApproval.getLabelId()).isEqualTo(LabelId.create("label-8"));
+    assertThat(patchSetApproval.patchSetId()).isEqualTo(PatchSet.id(Change.id(42), 14));
+    assertThat(patchSetApproval.accountId()).isEqualTo(Account.id(100013));
+    assertThat(patchSetApproval.labelId()).isEqualTo(LabelId.create("label-8"));
     // Default values for unset protobuf fields which can't be unset in the entity object.
-    assertThat(patchSetApproval.getValue()).isEqualTo(0);
-    assertThat(patchSetApproval.getGranted()).isEqualTo(new Timestamp(0));
-    assertThat(patchSetApproval.isPostSubmit()).isEqualTo(false);
+    assertThat(patchSetApproval.value()).isEqualTo(0);
+    assertThat(patchSetApproval.granted()).isEqualTo(new Timestamp(0));
+    assertThat(patchSetApproval.postSubmit()).isEqualTo(false);
   }
 
   @Test
@@ -194,12 +194,12 @@ public class PatchSetApprovalProtoConverterTest {
     assertThatSerializedClass(PatchSetApproval.class)
         .hasAutoValueMethods(
             ImmutableMap.<String, Type>builder()
-                .put("getKey", PatchSetApproval.Key.class)
-                .put("getValue", short.class)
-                .put("getGranted", Timestamp.class)
-                .put("getTag", new TypeLiteral<Optional<String>>() {}.getType())
-                .put("getRealAccountId", Account.Id.class)
-                .put("isPostSubmit", boolean.class)
+                .put("key", PatchSetApproval.Key.class)
+                .put("value", short.class)
+                .put("granted", Timestamp.class)
+                .put("tag", new TypeLiteral<Optional<String>>() {}.getType())
+                .put("realAccountId", Account.Id.class)
+                .put("postSubmit", boolean.class)
                 .put("toBuilder", PatchSetApproval.Builder.class)
                 .build());
   }

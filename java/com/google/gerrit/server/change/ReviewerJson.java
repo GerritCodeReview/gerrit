@@ -111,9 +111,9 @@ public class ReviewerJson {
 
     out.approvals = new TreeMap<>(labelTypes.nameComparator());
     for (PatchSetApproval ca : approvals) {
-      LabelType at = labelTypes.byLabel(ca.getLabelId());
+      LabelType at = labelTypes.byLabel(ca.labelId());
       if (at != null) {
-        out.approvals.put(at.getName(), formatValue(ca.getValue()));
+        out.approvals.put(at.getName(), formatValue(ca.value()));
       }
     }
 

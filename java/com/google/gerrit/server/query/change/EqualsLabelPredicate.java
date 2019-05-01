@@ -76,7 +76,7 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
     for (PatchSetApproval p : object.currentApprovals()) {
       if (labelType.matches(p)) {
         hasVote = true;
-        if (match(object, p.getValue(), p.getAccountId())) {
+        if (match(object, p.value(), p.accountId())) {
           return true;
         }
       }

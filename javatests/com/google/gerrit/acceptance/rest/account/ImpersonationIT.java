@@ -107,11 +107,11 @@ public class ImpersonationIT extends AbstractDaemonTest {
     revision.review(in);
 
     PatchSetApproval psa = Iterables.getOnlyElement(r.getChange().approvals().values());
-    assertThat(psa.getPatchSetId().get()).isEqualTo(1);
-    assertThat(psa.getLabel()).isEqualTo("Code-Review");
-    assertThat(psa.getAccountId()).isEqualTo(user.id());
-    assertThat(psa.getValue()).isEqualTo(1);
-    assertThat(psa.getRealAccountId()).isEqualTo(admin.id());
+    assertThat(psa.patchSetId().get()).isEqualTo(1);
+    assertThat(psa.label()).isEqualTo("Code-Review");
+    assertThat(psa.accountId()).isEqualTo(user.id());
+    assertThat(psa.value()).isEqualTo(1);
+    assertThat(psa.realAccountId()).isEqualTo(admin.id());
 
     ChangeData cd = r.getChange();
     ChangeMessage m = Iterables.getLast(cmUtil.byChange(cd.notes()));
@@ -211,11 +211,11 @@ public class ImpersonationIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).current().review(in);
 
     PatchSetApproval psa = Iterables.getOnlyElement(r.getChange().approvals().values());
-    assertThat(psa.getPatchSetId().get()).isEqualTo(1);
-    assertThat(psa.getLabel()).isEqualTo("Code-Review");
-    assertThat(psa.getAccountId()).isEqualTo(user.id());
-    assertThat(psa.getValue()).isEqualTo(1);
-    assertThat(psa.getRealAccountId()).isEqualTo(admin.id());
+    assertThat(psa.patchSetId().get()).isEqualTo(1);
+    assertThat(psa.label()).isEqualTo("Code-Review");
+    assertThat(psa.accountId()).isEqualTo(user.id());
+    assertThat(psa.value()).isEqualTo(1);
+    assertThat(psa.realAccountId()).isEqualTo(admin.id());
 
     ChangeData cd = r.getChange();
     Comment c = Iterables.getOnlyElement(commentsUtil.publishedByChange(cd.notes()));
@@ -345,8 +345,8 @@ public class ImpersonationIT extends AbstractDaemonTest {
     assertThat(cd.change().isMerged()).isTrue();
     PatchSetApproval submitter =
         approvalsUtil.getSubmitter(cd.notes(), cd.change().currentPatchSetId());
-    assertThat(submitter.getAccountId()).isEqualTo(admin2.id());
-    assertThat(submitter.getRealAccountId()).isEqualTo(admin.id());
+    assertThat(submitter.accountId()).isEqualTo(admin2.id());
+    assertThat(submitter.realAccountId()).isEqualTo(admin.id());
   }
 
   @Test
@@ -531,11 +531,11 @@ public class ImpersonationIT extends AbstractDaemonTest {
     adminRestSession.postWithHeader(endpoint, runAsHeader(user2.id()), in).assertOK();
 
     PatchSetApproval psa = Iterables.getOnlyElement(r.getChange().approvals().values());
-    assertThat(psa.getPatchSetId().get()).isEqualTo(1);
-    assertThat(psa.getLabel()).isEqualTo("Code-Review");
-    assertThat(psa.getAccountId()).isEqualTo(user.id());
-    assertThat(psa.getValue()).isEqualTo(1);
-    assertThat(psa.getRealAccountId()).isEqualTo(admin.id()); // not user2
+    assertThat(psa.patchSetId().get()).isEqualTo(1);
+    assertThat(psa.label()).isEqualTo("Code-Review");
+    assertThat(psa.accountId()).isEqualTo(user.id());
+    assertThat(psa.value()).isEqualTo(1);
+    assertThat(psa.realAccountId()).isEqualTo(admin.id()); // not user2
 
     ChangeData cd = r.getChange();
     ChangeMessage m = Iterables.getLast(cmUtil.byChange(cd.notes()));

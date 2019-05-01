@@ -155,7 +155,7 @@ public class LabelType {
   }
 
   public boolean matches(PatchSetApproval psa) {
-    return psa.getLabelId().get().equalsIgnoreCase(name);
+    return psa.labelId().get().equalsIgnoreCase(name);
   }
 
   public LabelFunction getFunction() {
@@ -279,11 +279,11 @@ public class LabelType {
   }
 
   public boolean isMaxNegative(PatchSetApproval ca) {
-    return maxNegative == ca.getValue();
+    return maxNegative == ca.value();
   }
 
   public boolean isMaxPositive(PatchSetApproval ca) {
-    return maxPositive == ca.getValue();
+    return maxPositive == ca.value();
   }
 
   public LabelValue getValue(short value) {
@@ -291,7 +291,7 @@ public class LabelType {
   }
 
   public LabelValue getValue(PatchSetApproval ca) {
-    return byValue.get(ca.getValue());
+    return byValue.get(ca.value());
   }
 
   public LabelId getLabelId() {

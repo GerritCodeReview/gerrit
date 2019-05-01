@@ -392,8 +392,7 @@ public class ChangeNotesStateTest {
 
     assertRoundTrip(
         newBuilder()
-            .approvals(
-                ImmutableListMultimap.of(a2.getPatchSetId(), a2, a1.getPatchSetId(), a1).entries())
+            .approvals(ImmutableListMultimap.of(a2.patchSetId(), a2, a1.patchSetId(), a1).entries())
             .build(),
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
@@ -797,12 +796,12 @@ public class ChangeNotesStateTest {
     assertThatSerializedClass(PatchSetApproval.class)
         .hasAutoValueMethods(
             ImmutableMap.<String, Type>builder()
-                .put("getKey", PatchSetApproval.Key.class)
-                .put("getValue", short.class)
-                .put("getGranted", Timestamp.class)
-                .put("getTag", new TypeLiteral<Optional<String>>() {}.getType())
-                .put("getRealAccountId", Account.Id.class)
-                .put("isPostSubmit", boolean.class)
+                .put("key", PatchSetApproval.Key.class)
+                .put("value", short.class)
+                .put("granted", Timestamp.class)
+                .put("tag", new TypeLiteral<Optional<String>>() {}.getType())
+                .put("realAccountId", Account.Id.class)
+                .put("postSubmit", boolean.class)
                 .put("toBuilder", PatchSetApproval.Builder.class)
                 .build());
   }

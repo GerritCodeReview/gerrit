@@ -593,14 +593,14 @@ class RevisionApiImpl implements RevisionApi {
               EnumSet.of(
                   FillOptions.ID, FillOptions.NAME, FillOptions.EMAIL, FillOptions.USERNAME));
       for (PatchSetApproval approval : approvals) {
-        String label = approval.getLabel();
+        String label = approval.label();
         ApprovalInfo info =
             new ApprovalInfo(
-                approval.getAccountId().get(),
-                Integer.valueOf(approval.getValue()),
+                approval.accountId().get(),
+                Integer.valueOf(approval.value()),
                 null,
-                approval.getTag().orElse(null),
-                approval.getGranted());
+                approval.tag().orElse(null),
+                approval.granted());
         accountLoader.put(info);
         result.get(label).add(info);
       }

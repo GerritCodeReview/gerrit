@@ -34,18 +34,18 @@ public enum PatchSetApprovalProtoConverter
   public Entities.PatchSetApproval toProto(PatchSetApproval patchSetApproval) {
     Entities.PatchSetApproval.Builder builder =
         Entities.PatchSetApproval.newBuilder()
-            .setKey(patchSetApprovalKeyProtoConverter.toProto(patchSetApproval.getKey()))
-            .setValue(patchSetApproval.getValue())
-            .setGranted(patchSetApproval.getGranted().getTime())
-            .setPostSubmit(patchSetApproval.isPostSubmit());
+            .setKey(patchSetApprovalKeyProtoConverter.toProto(patchSetApproval.key()))
+            .setValue(patchSetApproval.value())
+            .setGranted(patchSetApproval.granted().getTime())
+            .setPostSubmit(patchSetApproval.postSubmit());
 
-    patchSetApproval.getTag().ifPresent(builder::setTag);
-    Account.Id realAccountId = patchSetApproval.getRealAccountId();
+    patchSetApproval.tag().ifPresent(builder::setTag);
+    Account.Id realAccountId = patchSetApproval.realAccountId();
     // PatchSetApproval#getRealAccountId automatically delegates to PatchSetApproval#getAccountId if
     // the real author is not set. However, the previous protobuf representation kept
     // 'realAccountId' empty if it wasn't set. To ensure binary compatibility, simulate the previous
     // behavior.
-    if (realAccountId != null && !Objects.equals(realAccountId, patchSetApproval.getAccountId())) {
+    if (realAccountId != null && !Objects.equals(realAccountId, patchSetApproval.accountId())) {
       builder.setRealAccountId(accountIdConverter.toProto(realAccountId));
     }
 

@@ -323,8 +323,8 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   private void assertSubmitApproval(PatchSet.Id patchSetId) throws Exception {
     PatchSetApproval a = getSubmitter(patchSetId);
     assertThat(a.isLegacySubmit()).isTrue();
-    assertThat(a.getValue()).isEqualTo((short) 1);
-    assertThat(a.getAccountId()).isEqualTo(admin.id());
+    assertThat(a.value()).isEqualTo((short) 1);
+    assertThat(a.accountId()).isEqualTo(admin.id());
   }
 
   private void assertCommit(Project.NameKey project, String branch) throws Exception {

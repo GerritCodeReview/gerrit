@@ -76,7 +76,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   static final Ordering<PatchSetApproval> PSA_BY_TIME =
-      Ordering.from(comparing(PatchSetApproval::getGranted));
+      Ordering.from(comparing(PatchSetApproval::granted));
 
   public static final Ordering<ChangeMessage> MESSAGE_BY_TIME =
       Ordering.from(comparing(ChangeMessage::getWrittenOn));

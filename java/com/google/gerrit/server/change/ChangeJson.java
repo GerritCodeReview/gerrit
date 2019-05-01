@@ -656,8 +656,8 @@ public class ChangeJson {
     if (!s.isPresent()) {
       return;
     }
-    out.submitted = s.get().getGranted();
-    out.submitter = accountLoader.get(s.get().getAccountId());
+    out.submitted = s.get().granted();
+    out.submitter = accountLoader.get(s.get().accountId());
   }
 
   private Collection<ChangeMessageInfo> messages(ChangeData cd) {

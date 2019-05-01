@@ -104,13 +104,13 @@ public class ApprovalCopier {
 
       Table<String, Account.Id, PatchSetApproval> wontCopy = HashBasedTable.create();
       for (PatchSetApproval psa : dontCopy) {
-        wontCopy.put(psa.getLabel(), psa.getAccountId(), psa);
+        wontCopy.put(psa.label(), psa.accountId(), psa);
       }
 
       Table<String, Account.Id, PatchSetApproval> byUser = HashBasedTable.create();
       for (PatchSetApproval psa : all.get(ps.id())) {
-        if (!wontCopy.contains(psa.getLabel(), psa.getAccountId())) {
-          byUser.put(psa.getLabel(), psa.getAccountId(), psa);
+        if (!wontCopy.contains(psa.label(), psa.accountId())) {
+          byUser.put(psa.label(), psa.accountId(), psa);
         }
       }
 
@@ -130,17 +130,17 @@ public class ApprovalCopier {
                 project.getNameKey(), rw, repoConfig, priorPs.commitId(), ps.commitId());
 
         for (PatchSetApproval psa : priorApprovals) {
-          if (wontCopy.contains(psa.getLabel(), psa.getAccountId())) {
+          if (wontCopy.contains(psa.label(), psa.accountId())) {
             continue;
           }
-          if (byUser.contains(psa.getLabel(), psa.getAccountId())) {
+          if (byUser.contains(psa.label(), psa.accountId())) {
             continue;
           }
           if (!canCopy(project, psa, ps.id(), kind)) {
-            wontCopy.put(psa.getLabel(), psa.getAccountId(), psa);
+            wontCopy.put(psa.label(), psa.accountId(), psa);
             continue;
           }
-          byUser.put(psa.getLabel(), psa.getAccountId(), psa.copyWithPatchSet(ps.id()));
+          byUser.put(psa.label(), psa.accountId(), psa.copyWithPatchSet(ps.id()));
         }
       }
       return labelNormalizer.normalize(notes, byUser.values()).getNormalized();
@@ -160,9 +160,9 @@ public class ApprovalCopier {
 
   private static boolean canCopy(
       ProjectState project, PatchSetApproval psa, PatchSet.Id psId, ChangeKind kind) {
-    int n = psa.getKey().patchSetId().get();
+    int n = psa.key().patchSetId().get();
     checkArgument(n != psId.get());
-    LabelType type = project.getLabelTypes().byLabel(psa.getLabelId());
+    LabelType type = project.getLabelTypes().byLabel(psa.labelId());
     if (type == null) {
       return false;
     } else if ((type.isCopyMinScore() && type.isMaxNegative(psa))

@@ -15,13 +15,12 @@
 package com.google.gerrit.reviewdb.client;
 
 import com.google.auto.value.AutoValue;
-import com.google.gerrit.common.Nullable;
 import java.sql.Timestamp;
-import java.util.Objects;
 import java.util.Optional;
 
 /** Membership of an {@link Account} in an {@link AccountGroup}. */
-public final class AccountGroupMemberAudit {
+@AutoValue
+public abstract class AccountGroupMemberAudit {
   public static Key key(Account.Id accountId, AccountGroup.Id groupId, Timestamp addedOn) {
     return new AutoValue_AccountGroupMemberAudit_Key(accountId, groupId, addedOn);
   }
@@ -35,99 +34,58 @@ public final class AccountGroupMemberAudit {
     public abstract Timestamp addedOn();
   }
 
-  protected Key key;
-
-  protected Account.Id addedBy;
-
-  @Nullable protected Account.Id removedBy;
-
-  @Nullable protected Timestamp removedOn;
-
-  protected AccountGroupMemberAudit() {}
-
-  public AccountGroupMemberAudit(final AccountGroupMember m, Account.Id adder, Timestamp addedOn) {
-    final Account.Id who = m.getAccountId();
-    final AccountGroup.Id group = m.getAccountGroupId();
-    key = key(who, group, addedOn);
-    addedBy = adder;
+  public static Builder builder() {
+    return new AutoValue_AccountGroupMemberAudit.Builder();
   }
 
-  public AccountGroupMemberAudit(AccountGroupMemberAudit.Key key, Account.Id adder) {
-    this.key = key;
-    addedBy = adder;
+  @AutoValue.Builder
+  public abstract static class Builder {
+    public abstract Builder key(Key key);
+
+    abstract Key getKey();
+
+    public abstract Builder addedBy(Account.Id addedBy);
+
+    abstract Account.Id getAddedBy();
+
+    abstract Builder removedBy(Account.Id removedBy);
+
+    abstract Builder removedOn(Timestamp removedOn);
+
+    public Builder removed(Account.Id removedBy, Timestamp removedOn) {
+      return removedBy(removedBy).removedOn(removedOn);
+    }
+
+    public Builder removedLegacy() {
+      return removed(getAddedBy(), getKey().addedOn());
+    }
+
+    public abstract AccountGroupMemberAudit build();
   }
 
-  public AccountGroupMemberAudit.Key getKey() {
-    return key;
-  }
+  public abstract AccountGroupMemberAudit.Key getKey();
+
+  public abstract Account.Id getAddedBy();
+
+  public abstract Optional<Account.Id> getRemovedBy();
+
+  public abstract Optional<Timestamp> getRemovedOn();
+
+  public abstract Builder toBuilder();
 
   public AccountGroup.Id getGroupId() {
-    return key.groupId();
+    return getKey().groupId();
   }
 
   public Account.Id getMemberId() {
-    return key.accountId();
-  }
-
-  public boolean isActive() {
-    return removedOn == null;
-  }
-
-  public void removed(Account.Id deleter, Timestamp when) {
-    removedBy = deleter;
-    removedOn = when;
-  }
-
-  public void removedLegacy() {
-    removedBy = addedBy;
-    removedOn = key.addedOn();
-  }
-
-  public Account.Id getAddedBy() {
-    return addedBy;
+    return getKey().accountId();
   }
 
   public Timestamp getAddedOn() {
-    return key.addedOn();
+    return getKey().addedOn();
   }
 
-  public Optional<Account.Id> getRemovedBy() {
-    return Optional.ofNullable(removedBy);
-  }
-
-  public Optional<Timestamp> getRemovedOn() {
-    return Optional.ofNullable(removedOn);
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (!(o instanceof AccountGroupMemberAudit)) {
-      return false;
-    }
-    AccountGroupMemberAudit a = (AccountGroupMemberAudit) o;
-    return Objects.equals(key, a.key)
-        && Objects.equals(addedBy, a.addedBy)
-        && Objects.equals(removedBy, a.removedBy)
-        && Objects.equals(removedOn, a.removedOn);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(key, addedBy, removedBy, removedOn);
-  }
-
-  @Override
-  public String toString() {
-    return getClass().getSimpleName()
-        + "{"
-        + "key="
-        + key
-        + ", addedBy="
-        + addedBy
-        + ", removedBy="
-        + removedBy
-        + ", removedOn="
-        + removedOn
-        + "}";
+  public boolean isActive() {
+    return !getRemovedOn().isPresent();
   }
 }

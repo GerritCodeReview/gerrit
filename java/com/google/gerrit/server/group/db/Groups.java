@@ -125,7 +125,7 @@ public class Groups {
       group.map(InternalGroup::getSubgroups).ifPresent(allSubgroups::addAll);
     }
     return allSubgroups.build().stream()
-        .filter(groupUuid -> !AccountGroup.isInternalGroup(groupUuid));
+        .filter(groupUuid -> !groupUuid.isInternalGroup());
   }
 
   /**

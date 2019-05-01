@@ -40,6 +40,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
+import com.google.gerrit.extensions.common.HttpPasswordInput;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.NameInput;
 import com.google.gerrit.extensions.common.SshKeyInfo;
@@ -75,6 +76,7 @@ import com.google.gerrit.server.restapi.account.Index;
 import com.google.gerrit.server.restapi.account.PostWatchedProjects;
 import com.google.gerrit.server.restapi.account.PutActive;
 import com.google.gerrit.server.restapi.account.PutAgreement;
+import com.google.gerrit.server.restapi.account.PutHttpPassword;
 import com.google.gerrit.server.restapi.account.PutName;
 import com.google.gerrit.server.restapi.account.PutStatus;
 import com.google.gerrit.server.restapi.account.SetDiffPreferences;
@@ -135,6 +137,7 @@ public class AccountApiImpl implements AccountApi {
   private final GetGroups getGroups;
   private final EmailApiImpl.Factory emailApi;
   private final PutName putName;
+  private final PutHttpPassword putHttpPassword;
 
   @Inject
   AccountApiImpl(
@@ -177,6 +180,7 @@ public class AccountApiImpl implements AccountApi {
       GetGroups getGroups,
       EmailApiImpl.Factory emailApi,
       PutName putName,
+      PutHttpPassword putPassword,
       @Assisted AccountResource account) {
     this.account = account;
     this.accountLoaderFactory = ailf;
@@ -218,6 +222,7 @@ public class AccountApiImpl implements AccountApi {
     this.getGroups = getGroups;
     this.emailApi = emailApi;
     this.putName = putName;
+    this.putHttpPassword = putPassword;
   }
 
   @Override
@@ -591,6 +596,33 @@ public class AccountApiImpl implements AccountApi {
       putName.apply(account, input);
     } catch (Exception e) {
       throw asRestApiException("Cannot set account name", e);
+    }
+  }
+
+  @Override
+  public String generateHttpPassword() throws RestApiException {
+    HttpPasswordInput input = new HttpPasswordInput();
+    input.generate = true;
+    try {
+      // Response should never be 'none' for a generated password, but
+      // let's make sure.
+      Response<String> result = putHttpPassword.apply(account, input);
+      return result.isNone() ? null : result.value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot generate HTTP password", e);
+    }
+  }
+
+  @Override
+  public String setHttpPassword(String password) throws RestApiException {
+    HttpPasswordInput input = new HttpPasswordInput();
+    input.generate = false;
+    input.httpPassword = password;
+    try {
+      Response<String> result = putHttpPassword.apply(account, input);
+      return result.isNone() ? null : result.value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot generate HTTP password", e);
     }
   }
 }

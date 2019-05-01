@@ -115,6 +115,23 @@ public interface AccountApi {
   void setName(String name) throws RestApiException;
 
   /**
+   * Generate a new HTTP password.
+   *
+   * @return the generated password.
+   */
+  String generateHttpPassword() throws RestApiException;
+
+  /**
+   * Set a new HTTP password.
+   *
+   * <p>May only be invoked by administrators.
+   *
+   * @param httpPassword the new password, {@code null} to remove the password.
+   * @return the new password, {@code null} if the password was removed.
+   */
+  String setHttpPassword(String httpPassword) throws RestApiException;
+
+  /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
    */
@@ -315,6 +332,16 @@ public interface AccountApi {
 
     @Override
     public void setName(String name) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public String generateHttpPassword() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public String setHttpPassword(String httpPassword) throws RestApiException {
       throw new NotImplementedException();
     }
   }

@@ -25,6 +25,52 @@
     },
     {
       "key": {
+        "uuid": "072a7805_0efeded7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-01T16:02:21Z",
+      "side": 1,
+      "message": "and they override",
+      "range": {
+        "startLine": 14,
+        "startChar": 49,
+        "endLine": 14,
+        "endChar": 68
+      },
+      "revId": "c22136c9662a0fa079bb50a3da66802c7f212a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f91648d4_8374baf6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-01T16:02:21Z",
+      "side": 1,
+      "message": "forward",
+      "range": {
+        "startLine": 15,
+        "startChar": 35,
+        "endLine": 15,
+        "endChar": 45
+      },
+      "revId": "c22136c9662a0fa079bb50a3da66802c7f212a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cd8bc847_0c175b6a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -76,6 +122,24 @@
       "writtenOn": "2019-04-30T15:58:09Z",
       "side": 1,
       "message": "I think JGit should provide this wrapper. This pushes the responsibility of implementing and overriding new methods into the JGit project where it can be handled much better. The alternative is to either use a Proxy (reflection) which from what I see doesn\u0027t work because DfsRepo is a class, not an interface OR to write a test that makes sure we catch methods added in the future.\n\nThe test to ensure proper coverage is the best shot for us at the moment. The test could use reflection to make sure the delegate is called on every method (but getRefDatabase).",
+      "revId": "c22136c9662a0fa079bb50a3da66802c7f212a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "789ecb24_ae35cf47",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareDfsRepository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-01T16:02:21Z",
+      "side": 1,
+      "message": "\u003e I think JGit should provide this wrapper. This pushes the responsibility of implementing and overriding new methods into the JGit project where it can be handled much better. The alternative is to either use a Proxy (reflection) which from what I see doesn\u0027t work because DfsRepo is a class, not an interface OR to write a test that makes sure we catch methods added in the future.\n\u003e \n\u003e The test to ensure proper coverage is the best shot for us at the moment. The test could use reflection to make sure the delegate is called on every method (but getRefDatabase).\n\nI believe it would be best to introduce a RepositoryInterface and DfsRepositoryInterface in JGit (see https://git.eclipse.org/r/c/141468/): should the interface change, we would then detect an error at compile time, rather than having to trigger the delegation by discovering the methods via reflection.\n\nAdditionally, as you said, JGit can then offer a [Dfs]RepositoryWrapper that still implements the same interface but delegate to the real object.\n\nWDYT?",
+      "parentUuid": "4320746f_fcdb88e5",
       "revId": "c22136c9662a0fa079bb50a3da66802c7f212a86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

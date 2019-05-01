@@ -31,12 +31,6 @@ public class AccountGroupTest {
   private static final String TEST_SHARDED_UUID = TEST_UUID.substring(0, 2) + "/" + TEST_UUID;
 
   @Test
-  public void auditCreationInstant() {
-    Instant instant = LocalDateTime.of(2009, Month.JUNE, 8, 19, 31).toInstant(ZoneOffset.UTC);
-    assertThat(AccountGroup.auditCreationInstantTs()).isEqualTo(Timestamp.from(instant));
-  }
-
-  @Test
   public void parseRefName() {
     assertThat(fromRef("refs/groups/" + TEST_SHARDED_UUID)).isEqualTo(uuid(TEST_UUID));
     assertThat(fromRef("refs/groups/" + TEST_SHARDED_UUID + "-2"))

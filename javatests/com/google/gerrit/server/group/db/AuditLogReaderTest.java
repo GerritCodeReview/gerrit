@@ -304,7 +304,9 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
   private static AccountGroupMemberAudit createExpMemberAudit(
       AccountGroup.Id groupId, Account.Id id, Account.Id addedBy, Timestamp addedOn) {
     return AccountGroupMemberAudit.builder()
-        .key(AccountGroupMemberAudit.key(id, groupId, addedOn))
+        .groupId(groupId)
+        .memberId(id)
+        .addedOn(addedOn)
         .addedBy(addedBy)
         .build();
   }
@@ -312,7 +314,9 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
   private static AccountGroupByIdAudit createExpGroupAudit(
       AccountGroup.Id groupId, AccountGroup.UUID uuid, Account.Id addedBy, Timestamp addedOn) {
     return AccountGroupByIdAudit.builder()
-        .key(AccountGroupByIdAudit.key(groupId, uuid, addedOn))
+        .groupId(groupId)
+        .includeUuid(uuid)
+        .addedOn(addedOn)
         .addedBy(addedBy)
         .build();
   }

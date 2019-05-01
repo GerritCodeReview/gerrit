@@ -21,28 +21,19 @@ import java.util.Optional;
 /** Inclusion of an {@link AccountGroup} in another {@link AccountGroup}. */
 @AutoValue
 public abstract class AccountGroupByIdAudit {
-  public static Key key(AccountGroup.Id groupId, AccountGroup.UUID includeUuid, Timestamp addedOn) {
-    return new AutoValue_AccountGroupByIdAudit_Key(groupId, includeUuid, addedOn);
-  }
-
-  @AutoValue
-  public abstract static class Key {
-    public abstract AccountGroup.Id groupId();
-
-    public abstract AccountGroup.UUID includeUuid();
-
-    public abstract Timestamp addedOn();
-  }
-
   public static Builder builder() {
     return new AutoValue_AccountGroupByIdAudit.Builder();
   }
 
   @AutoValue.Builder
   public abstract static class Builder {
-    public abstract Builder key(Key key);
+    public abstract Builder groupId(AccountGroup.Id groupId);
+
+    public abstract Builder includeUuid(AccountGroup.UUID includeUuid);
 
     public abstract Builder addedBy(Account.Id addedBy);
+
+    public abstract Builder addedOn(Timestamp addedOn);
 
     abstract Builder removedBy(Account.Id removedBy);
 
@@ -55,27 +46,19 @@ public abstract class AccountGroupByIdAudit {
     public abstract AccountGroupByIdAudit build();
   }
 
-  public abstract AccountGroupByIdAudit.Key key();
+  public abstract AccountGroup.Id groupId();
+
+  public abstract AccountGroup.UUID includeUuid();
 
   public abstract Account.Id addedBy();
+
+  public abstract Timestamp addedOn();
 
   public abstract Optional<Account.Id> removedBy();
 
   public abstract Optional<Timestamp> removedOn();
 
   public abstract Builder toBuilder();
-
-  public AccountGroup.Id groupId() {
-    return key().groupId();
-  }
-
-  public Timestamp getAddedOn() {
-    return key().addedOn();
-  }
-
-  public AccountGroup.UUID includeUuid() {
-    return key().includeUuid();
-  }
 
   public boolean isActive() {
     return !removedOn().isPresent();

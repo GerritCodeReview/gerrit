@@ -206,8 +206,8 @@ public class LabelsJson {
       if (standard) {
         for (PatchSetApproval psa : cd.currentApprovals()) {
           if (type.matches(psa)) {
-            short val = psa.getValue();
-            Account.Id accountId = psa.getAccountId();
+            short val = psa.value();
+            Account.Id accountId = psa.accountId();
             setLabelScores(accountLoader, type, e.getValue(), val, accountId);
           }
         }
@@ -260,7 +260,7 @@ public class LabelsJson {
             accountId,
             null,
             null)) {
-      result.put(psa.getLabel(), psa.getValue());
+      result.put(psa.label(), psa.value());
     }
     return result;
   }
@@ -279,7 +279,7 @@ public class LabelsJson {
       // we aren't including 0 votes for all users below, so we can just look at
       // the latest patch set (in the next loop).
       for (PatchSetApproval psa : cd.approvals().values()) {
-        allUsers.add(psa.getAccountId());
+        allUsers.add(psa.accountId());
       }
     }
 
@@ -287,13 +287,13 @@ public class LabelsJson {
     SetMultimap<Account.Id, PatchSetApproval> current =
         MultimapBuilder.hashKeys().hashSetValues().build();
     for (PatchSetApproval a : cd.currentApprovals()) {
-      allUsers.add(a.getAccountId());
-      LabelType type = labelTypes.byLabel(a.getLabelId());
+      allUsers.add(a.accountId());
+      LabelType type = labelTypes.byLabel(a.labelId());
       if (type != null) {
         labelNames.add(type.getName());
         // Not worth the effort to distinguish between votable/non-votable for 0
         // values on closed changes, since they can't vote anyway.
-        current.put(a.getAccountId(), a);
+        current.put(a.accountId(), a);
       }
     }
 
@@ -335,19 +335,19 @@ public class LabelsJson {
         }
       }
       for (PatchSetApproval psa : current.get(accountId)) {
-        LabelType type = labelTypes.byLabel(psa.getLabelId());
+        LabelType type = labelTypes.byLabel(psa.labelId());
         if (type == null) {
           continue;
         }
 
-        short val = psa.getValue();
+        short val = psa.value();
         ApprovalInfo info = byLabel.get(type.getName());
         if (info != null) {
           info.value = Integer.valueOf(val);
           info.permittedVotingRange = pvr.getOrDefault(type.getName(), null);
-          info.date = psa.getGranted();
-          info.tag = psa.getTag().orElse(null);
-          if (psa.isPostSubmit()) {
+          info.date = psa.granted();
+          info.tag = psa.tag().orElse(null);
+          if (psa.postSubmit()) {
             info.postSubmit = true;
           }
         }
@@ -441,13 +441,13 @@ public class LabelsJson {
     Set<Account.Id> allUsers = new HashSet<>();
     allUsers.addAll(cd.reviewers().byState(ReviewerStateInternal.REVIEWER));
     for (PatchSetApproval psa : cd.approvals().values()) {
-      allUsers.add(psa.getAccountId());
+      allUsers.add(psa.accountId());
     }
 
     Table<Account.Id, String, PatchSetApproval> current =
         HashBasedTable.create(allUsers.size(), cd.getLabelTypes().getLabelTypes().size());
     for (PatchSetApproval psa : cd.currentApprovals()) {
-      current.put(psa.getAccountId(), psa.getLabel(), psa);
+      current.put(psa.accountId(), psa.label(), psa);
     }
 
     LabelTypes labelTypes = cd.getLabelTypes();
@@ -467,16 +467,16 @@ public class LabelsJson {
         Timestamp date = null;
         PatchSetApproval psa = current.get(accountId, lt.getName());
         if (psa != null) {
-          value = Integer.valueOf(psa.getValue());
+          value = Integer.valueOf(psa.value());
           if (value == 0) {
             // This may be a dummy approval that was inserted when the reviewer
             // was added. Explicitly check whether the user can vote on this
             // label.
             value = perm.test(new LabelPermission(lt)) ? 0 : null;
           }
-          tag = psa.getTag().orElse(null);
-          date = psa.getGranted();
-          if (psa.isPostSubmit()) {
+          tag = psa.tag().orElse(null);
+          date = psa.granted();
+          if (psa.postSubmit()) {
             logger.atWarning().log("unexpected post-submit approval on open change: %s", psa);
           }
         } else {

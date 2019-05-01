@@ -70,14 +70,14 @@ public class MergedSender extends ReplyToChangeSender {
       Table<Account.Id, String, PatchSetApproval> neg = HashBasedTable.create();
       for (PatchSetApproval ca :
           args.approvalsUtil.byPatchSet(changeData.notes(), patchSet.id(), null, null)) {
-        LabelType lt = labelTypes.byLabel(ca.getLabelId());
+        LabelType lt = labelTypes.byLabel(ca.labelId());
         if (lt == null) {
           continue;
         }
-        if (ca.getValue() > 0) {
-          pos.put(ca.getAccountId(), lt.getName(), ca);
-        } else if (ca.getValue() < 0) {
-          neg.put(ca.getAccountId(), lt.getName(), ca);
+        if (ca.value() > 0) {
+          pos.put(ca.accountId(), lt.getName(), ca);
+        } else if (ca.value() < 0) {
+          neg.put(ca.accountId(), lt.getName(), ca);
         }
       }
 
@@ -117,7 +117,7 @@ public class MergedSender extends ReplyToChangeSender {
         } else {
           txt.append(lt.getName());
           txt.append('=');
-          txt.append(LabelValue.formatValue(ca.getValue()));
+          txt.append(LabelValue.formatValue(ca.value()));
         }
       }
       txt.append('\n');

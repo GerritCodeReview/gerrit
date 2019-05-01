@@ -469,8 +469,8 @@ public class ReviewerAdder {
           // New reviewers have value 0, don't bother normalizing.
           result.reviewers.add(
               json.format(
-                  new ReviewerInfo(psa.getAccountId().get()),
-                  psa.getAccountId(),
+                  new ReviewerInfo(psa.accountId().get()),
+                  psa.accountId(),
                   cd,
                   ImmutableList.of(psa)));
         }

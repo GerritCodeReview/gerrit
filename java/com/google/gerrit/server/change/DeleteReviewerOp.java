@@ -134,14 +134,14 @@ public class DeleteReviewerOp implements BatchUpdateOp {
       // Check if removing this vote is OK
       removeReviewerControl.checkRemoveReviewer(ctx.getNotes(), ctx.getUser(), a);
       del.add(a);
-      if (a.getPatchSetId().equals(currPs.id()) && a.getValue() != 0) {
-        oldApprovals.put(a.getLabel(), a.getValue());
+      if (a.patchSetId().equals(currPs.id()) && a.value() != 0) {
+        oldApprovals.put(a.label(), a.value());
         removedVotesMsg
             .append("* ")
-            .append(a.getLabel())
-            .append(formatLabelValue(a.getValue()))
+            .append(a.label())
+            .append(formatLabelValue(a.value()))
             .append(" by ")
-            .append(userFactory.create(a.getAccountId()).getNameEmail())
+            .append(userFactory.create(a.accountId()).getNameEmail())
             .append("\n");
         votesRemoved = true;
       }
@@ -195,7 +195,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
   private Iterable<PatchSetApproval> approvals(ChangeContext ctx, Account.Id accountId) {
     Iterable<PatchSetApproval> approvals;
     approvals = approvalsUtil.byChange(ctx.getNotes()).values();
-    return Iterables.filter(approvals, psa -> accountId.equals(psa.getAccountId()));
+    return Iterables.filter(approvals, psa -> accountId.equals(psa.accountId()));
   }
 
   private String formatLabelValue(short value) {

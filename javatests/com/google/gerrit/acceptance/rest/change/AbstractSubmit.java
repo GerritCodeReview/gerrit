@@ -1256,7 +1256,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
         approvalsUtil.getSubmitter(cn, PatchSet.id(cn.getChangeId(), psId));
     assertThat(submitter).isNotNull();
     assertThat(submitter.isLegacySubmit()).isTrue();
-    assertThat(submitter.getAccountId()).isEqualTo(user.id());
+    assertThat(submitter.accountId()).isEqualTo(user.id());
   }
 
   protected void assertNoSubmitter(String changeId, int psId) throws Throwable {

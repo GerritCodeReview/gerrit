@@ -1062,7 +1062,7 @@ public class PostReview
     private Map<String, Short> approvalsByKey(Collection<PatchSetApproval> patchsetApprovals) {
       Map<String, Short> labels = new HashMap<>();
       for (PatchSetApproval psa : patchsetApprovals) {
-        labels.put(psa.getLabel(), psa.getValue());
+        labels.put(psa.label(), psa.value());
       }
       return labels;
     }
@@ -1142,14 +1142,14 @@ public class PostReview
           // User requested delete of this label.
           oldApprovals.put(normName, null);
           if (c != null) {
-            if (c.getValue() != 0) {
+            if (c.value() != 0) {
               addLabelDelta(normName, (short) 0);
               oldApprovals.put(normName, previous.get(normName));
             }
             del.add(c);
             update.putApproval(normName, (short) 0);
           }
-        } else if (c != null && c.getValue() != ent.getValue()) {
+        } else if (c != null && c.value() != ent.getValue()) {
           PatchSetApproval.Builder b =
               c.toBuilder()
                   .value(ent.getValue())
@@ -1158,14 +1158,14 @@ public class PostReview
           ctx.getUser().updateRealAccountId(b::realAccountId);
           c = b.build();
           ups.add(c);
-          addLabelDelta(normName, c.getValue());
+          addLabelDelta(normName, c.value());
           oldApprovals.put(normName, previous.get(normName));
-          approvals.put(normName, c.getValue());
+          approvals.put(normName, c.value());
           update.putApproval(normName, ent.getValue());
-        } else if (c != null && c.getValue() == ent.getValue()) {
+        } else if (c != null && c.value() == ent.getValue()) {
           current.put(normName, c);
           oldApprovals.put(normName, null);
-          approvals.put(normName, c.getValue());
+          approvals.put(normName, c.value());
         } else if (c == null) {
           c =
               ApprovalsUtil.newApproval(psId, user, lt.getLabelId(), ent.getValue(), ctx.getWhen())
@@ -1173,9 +1173,9 @@ public class PostReview
                   .granted(ctx.getWhen())
                   .build();
           ups.add(c);
-          addLabelDelta(normName, c.getValue());
+          addLabelDelta(normName, c.value());
           oldApprovals.put(normName, previous.get(normName));
-          approvals.put(normName, c.getValue());
+          approvals.put(normName, c.value());
           update.putReviewer(user.getAccountId(), REVIEWER);
           update.putApproval(normName, ent.getValue());
         }
@@ -1217,7 +1217,7 @@ public class PostReview
       List<String> disallowed = new ArrayList<>(labelTypes.getLabelTypes().size());
 
       for (PatchSetApproval psa : del) {
-        LabelType lt = requireNonNull(labelTypes.byLabel(psa.getLabel()));
+        LabelType lt = requireNonNull(labelTypes.byLabel(psa.label()));
         String normName = lt.getName();
         if (!lt.allowPostSubmit()) {
           disallowed.add(normName);
@@ -1229,7 +1229,7 @@ public class PostReview
       }
 
       for (PatchSetApproval psa : ups) {
-        LabelType lt = requireNonNull(labelTypes.byLabel(psa.getLabel()));
+        LabelType lt = requireNonNull(labelTypes.byLabel(psa.label()));
         String normName = lt.getName();
         if (!lt.allowPostSubmit()) {
           disallowed.add(normName);
@@ -1238,8 +1238,8 @@ public class PostReview
         if (prev == null) {
           continue;
         }
-        checkState(prev != psa.getValue()); // Should be filtered out above.
-        if (prev > psa.getValue()) {
+        checkState(prev != psa.value()); // Should be filtered out above.
+        if (prev > psa.value()) {
           reduced.add(psa);
         }
         // No need to set postSubmit bit, which is set automatically when parsing from NoteDb.
@@ -1254,7 +1254,7 @@ public class PostReview
         throw new ResourceConflictException(
             "Cannot reduce vote on labels for closed change: "
                 + reduced.stream()
-                    .map(PatchSetApproval::getLabel)
+                    .map(PatchSetApproval::label)
                     .distinct()
                     .sorted()
                     .collect(joining(", ")));
@@ -1313,7 +1313,7 @@ public class PostReview
           continue;
         }
 
-        LabelType lt = labelTypes.byLabel(a.getLabelId());
+        LabelType lt = labelTypes.byLabel(a.labelId());
         if (lt != null) {
           current.put(lt.getName(), a);
         } else {

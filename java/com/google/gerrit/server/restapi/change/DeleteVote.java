@@ -175,11 +175,11 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
       for (PatchSetApproval a :
           approvalsUtil.byPatchSetUser(
               ctx.getNotes(), psId, accountId, ctx.getRevWalk(), ctx.getRepoView().getConfig())) {
-        if (labelTypes.byLabel(a.getLabelId()) == null) {
+        if (labelTypes.byLabel(a.labelId()) == null) {
           continue; // Ignore undefined labels.
-        } else if (!a.getLabel().equals(label)) {
+        } else if (!a.label().equals(label)) {
           // Populate map for non-matching labels, needed by VoteDeleted.
-          newApprovals.put(a.getLabel(), a.getValue());
+          newApprovals.put(a.label(), a.value());
           continue;
         } else {
           try {
@@ -189,11 +189,11 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
           }
         }
         // Set the approval to 0 if vote is being removed.
-        newApprovals.put(a.getLabel(), (short) 0);
+        newApprovals.put(a.label(), (short) 0);
         found = true;
 
         // Set old value, as required by VoteDeleted.
-        oldApprovals.put(a.getLabel(), a.getValue());
+        oldApprovals.put(a.label(), a.value());
         break;
       }
       if (!found) {

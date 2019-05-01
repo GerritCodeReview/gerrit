@@ -281,10 +281,10 @@ public class RevisionIT extends AbstractDaemonTest {
     PatchSetApproval psa =
         Iterators.getOnlyElement(
             cd.currentApprovals().stream().filter(a -> !a.isLegacySubmit()).iterator());
-    assertThat(psa.getPatchSetId().get()).isEqualTo(2);
-    assertThat(psa.getLabel()).isEqualTo("Code-Review");
-    assertThat(psa.getValue()).isEqualTo(2);
-    assertThat(psa.isPostSubmit()).isFalse();
+    assertThat(psa.patchSetId().get()).isEqualTo(2);
+    assertThat(psa.label()).isEqualTo("Code-Review");
+    assertThat(psa.value()).isEqualTo(2);
+    assertThat(psa.postSubmit()).isFalse();
   }
 
   @Test

@@ -15,13 +15,12 @@
 package com.google.gerrit.reviewdb.client;
 
 import com.google.auto.value.AutoValue;
-import com.google.gerrit.common.Nullable;
 import java.sql.Timestamp;
-import java.util.Objects;
 import java.util.Optional;
 
 /** Inclusion of an {@link AccountGroup} in another {@link AccountGroup}. */
-public final class AccountGroupByIdAud {
+@AutoValue
+public abstract class AccountGroupByIdAud {
   public static Key key(AccountGroup.Id groupId, AccountGroup.UUID includeUuid, Timestamp addedOn) {
     return new AutoValue_AccountGroupByIdAud_Key(groupId, includeUuid, addedOn);
   }
@@ -35,94 +34,50 @@ public final class AccountGroupByIdAud {
     public abstract Timestamp addedOn();
   }
 
-  protected Key key;
-
-  protected Account.Id addedBy;
-
-  @Nullable protected Account.Id removedBy;
-
-  @Nullable protected Timestamp removedOn;
-
-  protected AccountGroupByIdAud() {}
-
-  public AccountGroupByIdAud(final AccountGroupById m, Account.Id adder, Timestamp when) {
-    final AccountGroup.Id group = m.getGroupId();
-    final AccountGroup.UUID include = m.getIncludeUuid();
-    key = key(group, include, when);
-    addedBy = adder;
+  public static Builder builder() {
+    return new AutoValue_AccountGroupByIdAud.Builder();
   }
 
-  public AccountGroupByIdAud(AccountGroupByIdAud.Key key, Account.Id adder) {
-    this.key = key;
-    addedBy = adder;
+  @AutoValue.Builder
+  public abstract static class Builder {
+    public abstract Builder key(Key key);
+
+    public abstract Builder addedBy(Account.Id addedBy);
+
+    abstract Builder removedBy(Account.Id removedBy);
+
+    abstract Builder removedOn(Timestamp removedOn);
+
+    public Builder removed(Account.Id removedBy, Timestamp removedOn) {
+      return removedBy(removedBy).removedOn(removedOn);
+    }
+
+    public abstract AccountGroupByIdAud build();
   }
 
-  public AccountGroupByIdAud.Key getKey() {
-    return key;
-  }
+  public abstract AccountGroupByIdAud.Key getKey();
+
+  public abstract Account.Id getAddedBy();
+
+  public abstract Optional<Account.Id> getRemovedBy();
+
+  public abstract Optional<Timestamp> getRemovedOn();
+
+  public abstract Builder toBuilder();
 
   public AccountGroup.Id getGroupId() {
-    return key.groupId();
-  }
-
-  public AccountGroup.UUID getIncludeUUID() {
-    return key.includeUuid();
-  }
-
-  public boolean isActive() {
-    return removedOn == null;
-  }
-
-  public void removed(Account.Id deleter, Timestamp when) {
-    removedBy = deleter;
-    removedOn = when;
-  }
-
-  public Account.Id getAddedBy() {
-    return addedBy;
+    return getKey().groupId();
   }
 
   public Timestamp getAddedOn() {
-    return key.addedOn();
+    return getKey().addedOn();
   }
 
-  public Optional<Account.Id> getRemovedBy() {
-    return Optional.ofNullable(removedBy);
+  public AccountGroup.UUID getIncludeUUID() {
+    return getKey().includeUuid();
   }
 
-  public Optional<Timestamp> getRemovedOn() {
-    return Optional.ofNullable(removedOn);
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (!(o instanceof AccountGroupByIdAud)) {
-      return false;
-    }
-    AccountGroupByIdAud a = (AccountGroupByIdAud) o;
-    return Objects.equals(key, a.key)
-        && Objects.equals(addedBy, a.addedBy)
-        && Objects.equals(removedBy, a.removedBy)
-        && Objects.equals(removedOn, a.removedOn);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(key, addedBy, removedBy, removedOn);
-  }
-
-  @Override
-  public String toString() {
-    return getClass().getSimpleName()
-        + "{"
-        + "key="
-        + key
-        + ", addedBy="
-        + addedBy
-        + ", removedBy="
-        + removedBy
-        + ", removedOn="
-        + removedOn
-        + "}";
+  public boolean isActive() {
+    return !getRemovedOn().isPresent();
   }
 }

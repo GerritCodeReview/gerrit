@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.group.db;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
@@ -69,34 +71,36 @@ public class AuditLogReader {
 
   private ImmutableList<AccountGroupMemberAudit> getMembersAudit(
       AccountGroup.Id groupId, List<ParsedCommit> commits) {
-    ListMultimap<MemberKey, AccountGroupMemberAudit> audits =
+    ListMultimap<MemberKey, AccountGroupMemberAudit.Builder> audits =
         MultimapBuilder.hashKeys().linkedListValues().build();
-    ImmutableList.Builder<AccountGroupMemberAudit> result = ImmutableList.builder();
+    List<AccountGroupMemberAudit.Builder> result = new ArrayList<>();
     for (ParsedCommit pc : commits) {
       for (Account.Id id : pc.addedMembers()) {
         MemberKey key = MemberKey.create(groupId, id);
-        AccountGroupMemberAudit audit =
-            new AccountGroupMemberAudit(
-                AccountGroupMemberAudit.key(id, groupId, pc.when()), pc.authorId());
+        AccountGroupMemberAudit.Builder audit =
+            AccountGroupMemberAudit.builder()
+                .key(AccountGroupMemberAudit.key(id, groupId, pc.when()))
+                .addedBy(pc.authorId());
         audits.put(key, audit);
         result.add(audit);
       }
       for (Account.Id id : pc.removedMembers()) {
-        List<AccountGroupMemberAudit> adds = audits.get(MemberKey.create(groupId, id));
+        List<AccountGroupMemberAudit.Builder> adds = audits.get(MemberKey.create(groupId, id));
         if (!adds.isEmpty()) {
-          AccountGroupMemberAudit audit = adds.remove(0);
+          AccountGroupMemberAudit.Builder audit = adds.remove(0);
           audit.removed(pc.authorId(), pc.when());
         } else {
           // Match old behavior of DbGroupAuditListener and add a "legacy" add/remove pair.
-          AccountGroupMemberAudit audit =
-              new AccountGroupMemberAudit(
-                  AccountGroupMemberAudit.key(id, groupId, pc.when()), pc.authorId());
-          audit.removedLegacy();
+          AccountGroupMemberAudit.Builder audit =
+              AccountGroupMemberAudit.builder()
+                  .key(AccountGroupMemberAudit.key(id, groupId, pc.when()))
+                  .addedBy(pc.authorId())
+                  .removedLegacy();
           result.add(audit);
         }
       }
     }
-    return result.build();
+    return result.stream().map(AccountGroupMemberAudit.Builder::build).collect(toImmutableList());
   }
 
   public ImmutableList<AccountGroupByIdAud> getSubgroupsAudit(
@@ -106,29 +110,30 @@ public class AuditLogReader {
 
   private ImmutableList<AccountGroupByIdAud> getSubgroupsAudit(
       AccountGroup.Id groupId, List<ParsedCommit> commits) {
-    ListMultimap<SubgroupKey, AccountGroupByIdAud> audits =
+    ListMultimap<SubgroupKey, AccountGroupByIdAud.Builder> audits =
         MultimapBuilder.hashKeys().linkedListValues().build();
-    ImmutableList.Builder<AccountGroupByIdAud> result = ImmutableList.builder();
+    List<AccountGroupByIdAud.Builder> result = new ArrayList<>();
     for (ParsedCommit pc : commits) {
       for (AccountGroup.UUID uuid : pc.addedSubgroups()) {
         SubgroupKey key = SubgroupKey.create(groupId, uuid);
-        AccountGroupByIdAud audit =
-            new AccountGroupByIdAud(
-                AccountGroupByIdAud.key(groupId, uuid, pc.when()), pc.authorId());
+        AccountGroupByIdAud.Builder audit =
+            AccountGroupByIdAud.builder()
+                .key(AccountGroupByIdAud.key(groupId, uuid, pc.when()))
+                .addedBy(pc.authorId());
         audits.put(key, audit);
         result.add(audit);
       }
       for (AccountGroup.UUID uuid : pc.removedSubgroups()) {
-        List<AccountGroupByIdAud> adds = audits.get(SubgroupKey.create(groupId, uuid));
+        List<AccountGroupByIdAud.Builder> adds = audits.get(SubgroupKey.create(groupId, uuid));
         if (!adds.isEmpty()) {
-          AccountGroupByIdAud audit = adds.remove(0);
+          AccountGroupByIdAud.Builder audit = adds.remove(0);
           audit.removed(pc.authorId(), pc.when());
         } else {
           // Unlike members, DbGroupAuditListener didn't insert an add/remove pair here.
         }
       }
     }
-    return result.build();
+    return result.stream().map(AccountGroupByIdAud.Builder::build).collect(toImmutableList());
   }
 
   private Optional<ParsedCommit> parse(AccountGroup.UUID uuid, RevCommit c) {

@@ -78,7 +78,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
     // User removes account 100002 from the group.
     removeMembers(uuid, ImmutableSet.of(id));
 
-    expAudit2.removed(userId, getTipTimestamp(uuid));
+    expAudit2 = expAudit2.toBuilder().removed(userId, getTipTimestamp(uuid)).build();
     assertThat(auditLogReader.getMembersAudit(allUsersRepo, uuid))
         .containsExactly(expAudit1, expAudit2)
         .inOrder();
@@ -124,7 +124,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
     removeSubgroups(uuid, ImmutableSet.of(subgroupUuid));
 
-    expAudit.removed(userId, getTipTimestamp(uuid));
+    expAudit = expAudit.toBuilder().removed(userId, getTipTimestamp(uuid)).build();
     assertThat(auditLogReader.getSubgroupsAudit(allUsersRepo, uuid)).containsExactly(expAudit);
   }
 
@@ -187,7 +187,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
     // Remove one account.
     removeMembers(uuid, ImmutableSet.of(id2));
-    expMemberAudit2.removed(userId, getTipTimestamp(uuid));
+    expMemberAudit2 = expMemberAudit2.toBuilder().removed(userId, getTipTimestamp(uuid)).build();
     assertThat(auditLogReader.getMembersAudit(allUsersRepo, uuid))
         .containsExactly(expMemberAudit, expMemberAudit1, expMemberAudit2)
         .inOrder();
@@ -215,8 +215,8 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
     // Remove two subgroups.
     removeSubgroups(uuid, ImmutableSet.of(subgroupUuid1, subgroupUuid3));
-    expGroupAudit1.removed(userId, getTipTimestamp(uuid));
-    expGroupAudit3.removed(userId, getTipTimestamp(uuid));
+    expGroupAudit1 = expGroupAudit1.toBuilder().removed(userId, getTipTimestamp(uuid)).build();
+    expGroupAudit3 = expGroupAudit3.toBuilder().removed(userId, getTipTimestamp(uuid)).build();
     assertThat(auditLogReader.getSubgroupsAudit(allUsersRepo, uuid))
         .containsExactly(expGroupAudit1, expGroupAudit2, expGroupAudit3)
         .inOrder();
@@ -303,11 +303,17 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
   private static AccountGroupMemberAudit createExpMemberAudit(
       AccountGroup.Id groupId, Account.Id id, Account.Id addedBy, Timestamp addedOn) {
-    return new AccountGroupMemberAudit(AccountGroupMemberAudit.key(id, groupId, addedOn), addedBy);
+    return AccountGroupMemberAudit.builder()
+        .key(AccountGroupMemberAudit.key(id, groupId, addedOn))
+        .addedBy(addedBy)
+        .build();
   }
 
   private static AccountGroupByIdAud createExpGroupAudit(
       AccountGroup.Id groupId, AccountGroup.UUID uuid, Account.Id addedBy, Timestamp addedOn) {
-    return new AccountGroupByIdAud(AccountGroupByIdAud.key(groupId, uuid, addedOn), addedBy);
+    return AccountGroupByIdAud.builder()
+        .key(AccountGroupByIdAud.key(groupId, uuid, addedOn))
+        .addedBy(addedBy)
+        .build();
   }
 }

@@ -40,7 +40,6 @@ import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.joining;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.base.Enums;
 import com.google.common.base.Splitter;
 import com.google.common.collect.HashBasedTable;
@@ -101,19 +100,6 @@ import org.eclipse.jgit.util.RawParseUtils;
 class ChangeNotesParser {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  @AutoValue
-  abstract static class ApprovalKey {
-    abstract PatchSet.Id psId();
-
-    abstract Account.Id accountId();
-
-    abstract String label();
-
-    private static ApprovalKey create(PatchSet.Id psId, Account.Id accountId, String label) {
-      return new AutoValue_ChangeNotesParser_ApprovalKey(psId, accountId, label);
-    }
-  }
-
   // Private final members initialized in the constructor.
   private final ChangeNoteJson changeNoteJson;
   private final LegacyChangeNoteRead legacyChangeNoteRead;
@@ -135,7 +121,7 @@ class ChangeNotesParser {
   private final Set<PatchSet.Id> deletedPatchSets;
   private final Map<PatchSet.Id, PatchSetState> patchSetStates;
   private final List<PatchSet.Id> currentPatchSets;
-  private final Map<ApprovalKey, PatchSetApproval> approvals;
+  private final Map<PatchSetApproval.Key, PatchSetApproval> approvals;
   private final List<PatchSetApproval> bufferedApprovals;
   private final List<ChangeMessage> allChangeMessages;
 
@@ -812,7 +798,8 @@ class ChangeNotesParser {
     if (!Objects.equals(realAccountId, committerId)) {
       psa.setRealAccountId(realAccountId);
     }
-    ApprovalKey k = ApprovalKey.create(psId, effectiveAccountId, l.label());
+    PatchSetApproval.Key k =
+        PatchSetApproval.key(psId, effectiveAccountId, LabelId.create(l.label()));
     if (!approvals.containsKey(k)) {
       approvals.put(k, psa);
     }
@@ -852,7 +839,7 @@ class ChangeNotesParser {
     if (!Objects.equals(realAccountId, committerId)) {
       remove.setRealAccountId(realAccountId);
     }
-    ApprovalKey k = ApprovalKey.create(psId, effectiveAccountId, label);
+    PatchSetApproval.Key k = PatchSetApproval.key(psId, effectiveAccountId, LabelId.create(label));
     if (!approvals.containsKey(k)) {
       approvals.put(k, remove);
     }

@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "f452af08_6f53864c",
+        "filename": "java/com/google/gerrit/httpd/init/WebAppInitializer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-01T21:11:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31533c91_01d209c1",
+      "range": {
+        "startLine": 268,
+        "startChar": 61,
+        "endLine": 268,
+        "endChar": 85
+      },
+      "revId": "236d1779da9a7eb376e756b749739a6b812a071d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72078ae5_ea719a1c",
         "filename": "java/com/google/gerrit/pgm/util/SiteProgram.java",
         "patchSetId": 8
@@ -107,6 +131,30 @@
       "writtenOn": "2019-04-30T20:58:23Z",
       "side": 1,
       "message": "Here in the createDbInjector() method LibModuleType.DB_MODULE is used for overloading.",
+      "range": {
+        "startLine": 127,
+        "startChar": 64,
+        "endLine": 127,
+        "endChar": 88
+      },
+      "revId": "236d1779da9a7eb376e756b749739a6b812a071d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ded28cca_7b798cad",
+        "filename": "java/com/google/gerrit/pgm/util/SiteProgram.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-01T21:11:29Z",
+      "side": 1,
+      "message": "Yes, and looks OK to me. Where is the problem?",
+      "parentUuid": "72078ae5_ea719a1c",
       "range": {
         "startLine": 127,
         "startChar": 64,
@@ -142,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "bc7c40ad_d758b570",
+        "filename": "java/com/google/gerrit/server/LibModuleType.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-01T21:11:29Z",
+      "side": 1,
+      "message": "True, let me get rid of the `daemon` word.",
+      "parentUuid": "bf76b316_b3c6fe0e",
+      "range": {
+        "startLine": 17,
+        "startChar": 50,
+        "endLine": 17,
+        "endChar": 56
+      },
+      "revId": "236d1779da9a7eb376e756b749739a6b812a071d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6f90ef8_0e18b035",
         "filename": "java/com/google/gerrit/server/LibModuleType.java",
         "patchSetId": 8
@@ -162,6 +234,30 @@
       "revId": "236d1779da9a7eb376e756b749739a6b812a071d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a339f7a_7d37daff",
+        "filename": "java/com/google/gerrit/server/LibModuleType.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-01T21:11:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6f90ef8_0e18b035",
+      "range": {
+        "startLine": 33,
+        "startChar": 24,
+        "endLine": 33,
+        "endChar": 59
+      },
+      "revId": "236d1779da9a7eb376e756b749739a6b812a071d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

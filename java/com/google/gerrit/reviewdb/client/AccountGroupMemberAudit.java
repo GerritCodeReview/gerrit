@@ -21,32 +21,23 @@ import java.util.Optional;
 /** Membership of an {@link Account} in an {@link AccountGroup}. */
 @AutoValue
 public abstract class AccountGroupMemberAudit {
-  public static Key key(Account.Id accountId, AccountGroup.Id groupId, Timestamp addedOn) {
-    return new AutoValue_AccountGroupMemberAudit_Key(accountId, groupId, addedOn);
-  }
-
-  @AutoValue
-  public abstract static class Key {
-    public abstract Account.Id accountId();
-
-    public abstract AccountGroup.Id groupId();
-
-    public abstract Timestamp addedOn();
-  }
-
   public static Builder builder() {
     return new AutoValue_AccountGroupMemberAudit.Builder();
   }
 
   @AutoValue.Builder
   public abstract static class Builder {
-    public abstract Builder key(Key key);
+    public abstract Builder groupId(AccountGroup.Id groupId);
 
-    abstract Key key();
+    public abstract Builder memberId(Account.Id accountId);
 
     public abstract Builder addedBy(Account.Id addedBy);
 
     abstract Account.Id addedBy();
+
+    public abstract Builder addedOn(Timestamp addedOn);
+
+    abstract Timestamp addedOn();
 
     abstract Builder removedBy(Account.Id removedBy);
 
@@ -57,33 +48,25 @@ public abstract class AccountGroupMemberAudit {
     }
 
     public Builder removedLegacy() {
-      return removed(addedBy(), key().addedOn());
+      return removed(addedBy(), addedOn());
     }
 
     public abstract AccountGroupMemberAudit build();
   }
 
-  public abstract AccountGroupMemberAudit.Key key();
+  public abstract AccountGroup.Id groupId();
+
+  public abstract Account.Id memberId();
 
   public abstract Account.Id addedBy();
+
+  public abstract Timestamp addedOn();
 
   public abstract Optional<Account.Id> removedBy();
 
   public abstract Optional<Timestamp> removedOn();
 
   public abstract Builder toBuilder();
-
-  public AccountGroup.Id groupId() {
-    return key().groupId();
-  }
-
-  public Account.Id memberId() {
-    return key().accountId();
-  }
-
-  public Timestamp addedOn() {
-    return key().addedOn();
-  }
 
   public boolean isActive() {
     return !removedOn().isPresent();

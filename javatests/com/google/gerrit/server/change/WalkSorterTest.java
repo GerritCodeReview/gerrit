@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.WalkSorter.PatchSetData;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.InMemoryRepositoryManager.Repo;
 import com.google.gerrit.testing.TestChanges;
@@ -38,7 +37,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Before;
 import org.junit.Test;
 
-public class WalkSorterTest extends GerritBaseTests {
+public class WalkSorterTest {
   private Account.Id userId;
   private InMemoryRepositoryManager repoManager;
 

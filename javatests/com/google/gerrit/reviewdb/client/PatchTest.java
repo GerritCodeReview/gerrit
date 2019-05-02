@@ -17,10 +17,9 @@ package com.google.gerrit.reviewdb.client;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 
-import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class PatchTest extends GerritBaseTests {
+public class PatchTest {
   @Test
   public void isMagic() {
     assertThat(Patch.isMagic("/COMMIT_MSG")).isTrue();

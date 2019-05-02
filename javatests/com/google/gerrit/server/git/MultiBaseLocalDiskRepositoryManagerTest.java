@@ -25,7 +25,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -42,7 +41,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-public class MultiBaseLocalDiskRepositoryManagerTest extends GerritBaseTests {
+public class MultiBaseLocalDiskRepositoryManagerTest {
   @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
   private Config cfg;

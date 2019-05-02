@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a1cbdf0_a643b39d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-05-02T13:27:32Z",
+      "side": 1,
+      "message": "Ugh... I guess that is for another day, but an API where you are unsure if you get it as string or number seems prone to cause annoying bugs.",
+      "range": {
+        "startLine": 240,
+        "startChar": 15,
+        "endLine": 240,
+        "endChar": 28
+      },
+      "revId": "2a07f944f567ad09889064adb73eb7fa2ad9e9b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

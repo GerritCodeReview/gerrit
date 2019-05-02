@@ -337,8 +337,8 @@
         }
 
         const ctxLine = new GrDiffLine(GrDiffLine.Type.CONTEXT_CONTROL);
-        ctxLine.contextGroup =
-            new GrDiffGroup(GrDiffGroup.Type.BOTH, hiddenLines);
+        ctxLine.contextGroups =
+            [new GrDiffGroup(GrDiffGroup.Type.BOTH, hiddenLines)];
         result.push(new GrDiffGroup(GrDiffGroup.Type.CONTEXT_CONTROL,
             [ctxLine]));
 

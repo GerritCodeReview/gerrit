@@ -173,9 +173,9 @@ limitations under the License.
           assert.equal(groups[0].lines[0].afterNumber, GrDiffLine.FILE);
 
           assert.equal(groups[1].type, GrDiffGroup.Type.CONTEXT_CONTROL);
-          assert.instanceOf(groups[1].lines[0].contextGroup, GrDiffGroup);
-          assert.equal(groups[1].lines[0].contextGroup.lines.length, 90);
-          for (const l of groups[1].lines[0].contextGroup.lines) {
+          assert.instanceOf(groups[1].lines[0].contextGroups[0], GrDiffGroup);
+          assert.equal(groups[1].lines[0].contextGroups[0].lines.length, 90);
+          for (const l of groups[1].lines[0].contextGroups[0].lines) {
             assert.equal(l.text, content[0].ab[0]);
           }
 
@@ -209,9 +209,9 @@ limitations under the License.
           }
 
           assert.equal(groups[7].type, GrDiffGroup.Type.CONTEXT_CONTROL);
-          assert.instanceOf(groups[7].lines[0].contextGroup, GrDiffGroup);
-          assert.equal(groups[7].lines[0].contextGroup.lines.length, 90);
-          for (const l of groups[7].lines[0].contextGroup.lines) {
+          assert.instanceOf(groups[7].lines[0].contextGroups[0], GrDiffGroup);
+          assert.equal(groups[7].lines[0].contextGroups[0].lines.length, 90);
+          for (const l of groups[7].lines[0].contextGroups[0].lines) {
             assert.equal(l.text, content[4].ab[0]);
           }
 
@@ -254,9 +254,9 @@ limitations under the License.
           }
 
           assert.equal(groups[3].type, GrDiffGroup.Type.CONTEXT_CONTROL);
-          assert.instanceOf(groups[3].lines[0].contextGroup, GrDiffGroup);
-          assert.equal(groups[3].lines[0].contextGroup.lines.length, 30);
-          for (const l of groups[3].lines[0].contextGroup.lines) {
+          assert.instanceOf(groups[3].lines[0].contextGroups[0], GrDiffGroup);
+          assert.equal(groups[3].lines[0].contextGroups[0].lines.length, 30);
+          for (const l of groups[3].lines[0].contextGroups[0].lines) {
             assert.equal(l.text, content[1].ab[0]);
           }
 
@@ -530,7 +530,7 @@ limitations under the License.
           assert.equal(result.groups[2].lines.length, element.context);
 
           // The collapsed group has the hidden lines as its context group.
-          assert.equal(result.groups[1].lines[0].contextGroup.lines.length,
+          assert.equal(result.groups[1].lines[0].contextGroups[0].lines.length,
               expectedCollapseSize);
         });
 
@@ -551,7 +551,7 @@ limitations under the License.
           assert.equal(result.groups[1].lines.length, element.context);
 
           // The collapsed group has the hidden lines as its context group.
-          assert.equal(result.groups[0].lines[0].contextGroup.lines.length,
+          assert.equal(result.groups[0].lines[0].contextGroups[0].lines.length,
               expectedCollapseSize);
         });
 

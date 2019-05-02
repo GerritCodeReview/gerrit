@@ -16,6 +16,24 @@
       "revId": "de41043a1dd1440552906a1d5ab724ebdd036dd1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa3a0c8b_7188699f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-project-dialog/gr-create-project-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-02T01:40:41Z",
+      "side": -1,
+      "message": "It only shows if you select auto merge.  It doesn\u0027t show when parent 1 is selected, except now because it has inline comments it\u0027s shown.",
+      "parentUuid": "66f16395_b9567ce0",
+      "revId": "de41043a1dd1440552906a1d5ab724ebdd036dd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

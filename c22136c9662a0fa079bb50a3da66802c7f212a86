@@ -164,6 +164,24 @@
     },
     {
       "key": {
+        "uuid": "1383ae64_b620b574",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareDfsRepository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-05-02T07:14:33Z",
+      "side": 1,
+      "message": "\u003e WDYT?\n\nI think this is the right approach, but I have a pragmatic view of the world :-)\n\n\u003e The change has been rejected on the stable-5.2 branch. Unfortunately, we need to manage the nasty wrapping at Gerrit level, with the associated risks.\n\nThanks for trying. I think we shouldn\u0027t give up here. Maybe we can get that change into JGit master and then delete the Gerrit boiler plate in the near future.\n\nFor now, having the boiler plate around is acceptable in my opinion as long as there is tests preventing failures from creeping in.",
+      "parentUuid": "4040a6c2_4c787ce0",
+      "revId": "c22136c9662a0fa079bb50a3da66802c7f212a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4f3c8388_57e9934a",
         "filename": "java/com/google/gerrit/server/git/PermissionAwareDfsRepository.java",
         "patchSetId": 7

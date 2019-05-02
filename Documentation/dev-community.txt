@@ -19,6 +19,7 @@ link:dev-cla.html[contributor's agreement] on file with the project.
 ** link:dev-contributing.html#contribution-processes[Contribution Processes]
 *** link:dev-contributing.html#lightweight-contribution-process[Lightweight Contribution Process]
 *** link:dev-contributing.html#design-driven-contribution-process[Design-Driven Contribution Process]
+*** link:dev-contributing.html#mentorship[Mentorship]
 ** link:dev-design-docs.html#review[Design doc reviews]
 ** link:dev-processes.html#dev-in-stable-branches[Development in stable branches]
 ** link:dev-processes.html#backporting[Backporting to stable branches]
@@ -28,6 +29,7 @@ link:dev-cla.html[contributor's agreement] on file with the project.
 ** link:dev-roles.html#supporter[Supporter]
 ** link:dev-roles.html#contributor[Contributor]
 ** link:dev-roles.html#maintainer[Maintainer]
+** link:dev-roles.html#mentor[Mentor]
 ** link:dev-roles.html#steering-committee-member[Steering Committee Member]
 ** link:dev-roles.html#release-manager[Release Manager]
 
@@ -37,6 +39,7 @@ link:dev-cla.html[contributor's agreement] on file with the project.
 * link:dev-contributing.html#contribution-processes[Contribution Processes]
 ** link:dev-contributing.html#lightweight-contribution-process[Lightweight Contribution Process]
 ** link:dev-contributing.html#design-driven-contribution-process[Design-Driven Contribution Process]
+** link:dev-contributing.html#mentorship[Mentorship]
 * link:dev-design-docs.html[Design Docs]
 * link:dev-readme.html[Developer Setup]
 * link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui[Polymer Frontend Developer Setup]

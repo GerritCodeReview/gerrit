@@ -41,6 +41,14 @@ the Gerrit project, including link:dev-roles.html#maintainer[
 maintainers]. When reading this document, keep in mind that maintainers
 are also contributors when they contribute code.
 
+If a new feature is large or complex, it is often difficult to find a
+maintainer who can take the time that is needed for a thorough review,
+and who can help with getting the changes submitted. To avoid that this
+results in unpredictable long waiting times during code review,
+contributors can ask for link:#mentorship[mentor support]. A mentor
+helps with timely code reviews and technical guidance. Doing the
+implementation is still the responsibility of the contributor.
+
 [[comparison]]
 === Quick Comparison
 
@@ -50,11 +58,14 @@ are also contributors when they contribute code.
 |Overhead|low (write good commit message, address review comments)|
 high (write link:dev-design-docs.html[design doc] and get it approved)
 |Technical Guidance|by reviewer|during the design review and by
-reviewer
+reviewer/mentor
+|Review  |adhoc (when reviewer is available)|by a dedicated mentor (if
+a link:#mentorship[mentor] was assigned)
 |Caveats |features may get vetoed after the implementation was already
 done, maintainers may make the design-driven contribution process
 required if a change gets too complex/large|design doc must stay open
-for a minimum of 10 calendar days
+for a minimum of 10 calendar days, a mentor may not be available
+immediately
 |Applicable to|documentation updates, bug fixes, small features|
 large/complex features
 |======================
@@ -157,6 +168,8 @@ while the design wasn't approved yet.
 By approving a design, the steering committee commits to:
 
 * Accepting the feature when it is implemented.
+* Supporting the feature by assigning a link:dev-roles.html#mentor[
+  mentor] (if requested, see link:#mentorship[mentorship]).
 
 If the implementation of a feature gets stuck and it's unclear whether
 the feature gets fully done, it should be discussed with the steering
@@ -177,6 +190,59 @@ following advantages:
   Hence, there is only a low risk to invest into implementing a feature
   and see it being rejected later during the code review, as it can
   happen with the lightweight contribution process.
+* The contributor can link:#mentorship[get a dedicated mentor assigned]
+  who provides timely reviews and serves as a contact person for
+  technical questions and discussing details of the design.
+
+[[mentorship]]
+== Mentorship
+
+For features for which a link:dev-design-docs.html[design] has been
+approved (see link:#design-driven-contribution-process[design-driven
+contribution process]), contributors can gain the support of a mentor
+if they are committed to implement the feature.
+
+A link:dev-roles.html#mentor[mentor] helps with:
+
+* doing timely reviews
+* providing technical guidance during code reviews
+* discussing details of the design
+* ensuring that the quality standards are met (well documented,
+  sufficient test coverage, backwards compatible etc.)
+
+A feature can have more than one mentor. To be able to deliver the
+promised support, at least one of the mentors must be a
+link:dev-roles.html#maintainer[maintainer].
+
+Mentors are assigned by the link:dev-processes.html#steering-committee[
+steering committee]. To gain a mentor, ask for a mentor in the
+link:dev-design-doc-template.html#implementation-plan[Implementation
+Plan] section of the design doc or ask the steering committee after the
+design has been approved.
+
+Mentors may not be available immediately. In this case, the steering
+committee should include the approved feature into the roadmap or
+prioritize it in the backlog. This way, it is transparent for the
+contributor when they can expect to be able to work on the feature with
+mentor support.
+
+Once the implementation phase starts, the contributor is expected to do
+the implementation in a timely manner.
+
+For every mentorship, the end must be clearly defined. The design doc
+must specify:
+
+* a maximum time frame for the mentorship, after which the mentorship
+  automatically ends, even if the feature is not done yet
+* done criteria that define when the feature is done and the mentorship
+  ends
+
+If a feature is not finished in time, it should be discussed with the
+steering committee how to proceed. If the contributor cannot commit to
+finish the implementation in time and no other contributor can take
+over, changes that have already been submitted for the feature might
+get reverted so that there is no unused or half-finished code in the
+code base.
 
 GERRIT
 ------

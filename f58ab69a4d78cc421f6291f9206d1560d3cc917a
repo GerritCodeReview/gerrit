@@ -22,6 +22,30 @@
       "revId": "f58ab69a4d78cc421f6291f9206d1560d3cc917a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f38b2c4_195178b6",
+        "filename": "Documentation/linux-quickstart.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-02T09:10:13Z",
+      "side": 1,
+      "message": "I really don\u0027t think that ~/gerrit_testsite is a good option.\n\nSome of my reasons:\n- Our developer instructions contained \"../\" in the past which means that people might not have the testsite at \"~\" now, because of which none of the new instructions would work.\n- \"../\" is more flexible as people can have the testsite in an arbitrary subfolder of the file system. Of course, the limitation is that the Gerrit source folder must be next to it but you need it anyway for most operations (e.g a bazel build).\n\nI understand that some people like to have instructions which work regardless of the current directory. However, this only applies to some of the instructions of our docs as some of them need the Gerrit source folder. If we can\u0027t go back to \"../\", I think we should use the global variable as you suggested.",
+      "parentUuid": "58388222_005d37b4",
+      "range": {
+        "startLine": 46,
+        "startChar": 44,
+        "endLine": 46,
+        "endChar": 46
+      },
+      "revId": "f58ab69a4d78cc421f6291f9206d1560d3cc917a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

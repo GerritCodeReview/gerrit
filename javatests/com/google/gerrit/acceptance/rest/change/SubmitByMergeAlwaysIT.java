@@ -29,7 +29,7 @@ public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
   }
 
   @Test
-  public void submitWithMergeIfFastForwardPossible() throws Exception {
+  public void submitWithMergeIfFastForwardPossible() throws Throwable {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange();
     submit(change.getChangeId());
@@ -46,7 +46,7 @@ public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
   }
 
   @Test
-  public void submitMultipleChanges() throws Exception {
+  public void submitMultipleChanges() throws Throwable {
     RevCommit initialHead = getRemoteHead();
 
     // Submit a change so that the remote head advances

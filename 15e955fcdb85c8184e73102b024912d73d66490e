@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "600b1f32_81f884d7",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-05-02T14:22:41Z",
+      "side": 1,
+      "message": "I think what you have is as good as you can do. IIUC, the way Soy handles the sanitized content internally is it actually looks up the type of the value in the map at runtime; converting to string would prevent it from doing that detection.",
+      "parentUuid": "b623a946_5936e5bf",
+      "range": {
+        "startLine": 95,
+        "startChar": 16,
+        "endLine": 95,
+        "endChar": 22
+      },
+      "revId": "15e955fcdb85c8184e73102b024912d73d66490e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75017412_b39c19d3",
         "filename": "java/com/google/gerrit/httpd/raw/IndexServlet.java",
         "patchSetId": 1
@@ -57,6 +81,24 @@
       "revId": "15e955fcdb85c8184e73102b024912d73d66490e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1c655d1_360fcad4",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-05-02T14:22:41Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "03b5c4bb_778fe6f3",
+      "revId": "15e955fcdb85c8184e73102b024912d73d66490e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

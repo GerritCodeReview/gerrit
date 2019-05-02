@@ -52,7 +52,7 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
 
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
-  public void submitWithPossibleFastForward() throws Exception {
+  public void submitWithPossibleFastForward() throws Throwable {
     RevCommit oldHead = getRemoteHead();
     PushOneCommit.Result change = createChange();
     submit(change.getChangeId());
@@ -72,7 +72,7 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
 
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
-  public void alwaysAddFooters() throws Exception {
+  public void alwaysAddFooters() throws Throwable {
     PushOneCommit.Result change1 = createChange();
     PushOneCommit.Result change2 = createChange();
 
@@ -89,7 +89,7 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
   }
 
   @Test
-  public void rebaseInvokesChangeMessageModifiers() throws Exception {
+  public void rebaseInvokesChangeMessageModifiers() throws Throwable {
     ChangeMessageModifier modifier1 =
         (msg, orig, tip, dest) -> msg + "This-change-before-rebase: " + orig.name() + "\n";
     ChangeMessageModifier modifier2 =
@@ -120,7 +120,7 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
   }
 
   @Test
-  public void failingChangeMessageModifierShortCircuits() throws Exception {
+  public void failingChangeMessageModifierShortCircuits() throws Throwable {
     ChangeMessageModifier modifier1 =
         (msg, orig, tip, dest) -> {
           throw new IllegalStateException("boom");
@@ -139,7 +139,7 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
   }
 
   @Test
-  public void changeMessageModifierReturningNullShortCircuits() throws Exception {
+  public void changeMessageModifierReturningNullShortCircuits() throws Throwable {
     ChangeMessageModifier modifier1 = (msg, orig, tip, dest) -> null;
     ChangeMessageModifier modifier2 = (msg, orig, tip, dest) -> msg + "A-footer: value\n";
     try (AutoCloseable ignored = installChangeMessageModifiers(modifier1, modifier2)) {
@@ -171,14 +171,14 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
     };
   }
 
-  private void assertLatestRevisionHasFooters(PushOneCommit.Result change) throws Exception {
+  private void assertLatestRevisionHasFooters(PushOneCommit.Result change) throws Throwable {
     RevCommit c = getCurrentCommit(change);
     assertThat(c.getFooterLines(FooterConstants.CHANGE_ID)).isNotEmpty();
     assertThat(c.getFooterLines(FooterConstants.REVIEWED_BY)).isNotEmpty();
     assertThat(c.getFooterLines(FooterConstants.REVIEWED_ON)).isNotEmpty();
   }
 
-  private RevCommit getCurrentCommit(PushOneCommit.Result change) throws Exception {
+  private RevCommit getCurrentCommit(PushOneCommit.Result change) throws Throwable {
     testRepo.git().fetch().setRemote("origin").call();
     ChangeInfo info = get(change.getChangeId(), CURRENT_REVISION);
     RevCommit c = testRepo.getRevWalk().parseCommit(ObjectId.fromString(info.currentRevision));

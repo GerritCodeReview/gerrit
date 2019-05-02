@@ -18,14 +18,13 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import org.junit.Before;
 import org.junit.Test;
 
-public class AccessSectionTest extends GerritBaseTests {
+public class AccessSectionTest {
   private static final String REF_PATTERN = "refs/heads/master";
 
   private AccessSection accessSection;

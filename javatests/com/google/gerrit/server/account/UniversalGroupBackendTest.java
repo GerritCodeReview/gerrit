@@ -37,13 +37,12 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.plugincontext.PluginContext.PluginMetrics;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
 
-public class UniversalGroupBackendTest extends GerritBaseTests {
+public class UniversalGroupBackendTest {
   private static final AccountGroup.UUID OTHER_UUID = AccountGroup.uuid("other");
 
   private UniversalGroupBackend backend;

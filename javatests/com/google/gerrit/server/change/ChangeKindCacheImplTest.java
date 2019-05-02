@@ -24,11 +24,10 @@ import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.gerrit.server.cache.proto.Cache.ChangeKindKeyProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.change.ChangeKindCacheImpl.Key;
-import com.google.gerrit.testing.GerritBaseTests;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
-public class ChangeKindCacheImplTest extends GerritBaseTests {
+public class ChangeKindCacheImplTest {
   @Test
   public void keySerializer() throws Exception {
     ChangeKindCacheImpl.Key key =

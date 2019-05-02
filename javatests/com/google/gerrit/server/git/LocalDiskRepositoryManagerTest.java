@@ -21,7 +21,6 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.ioutil.HostPlatform;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -37,7 +36,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-public class LocalDiskRepositoryManagerTest extends GerritBaseTests {
+public class LocalDiskRepositoryManagerTest {
   @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
   private Config cfg;

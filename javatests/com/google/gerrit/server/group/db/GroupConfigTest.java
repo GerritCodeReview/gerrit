@@ -35,7 +35,6 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.testing.InternalGroupSubject;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.truth.OptionalSubject;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -57,7 +56,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Before;
 import org.junit.Test;
 
-public class GroupConfigTest extends GerritBaseTests {
+public class GroupConfigTest {
   private Project.NameKey projectName;
   private Repository repository;
   private TestRepository<?> testRepository;

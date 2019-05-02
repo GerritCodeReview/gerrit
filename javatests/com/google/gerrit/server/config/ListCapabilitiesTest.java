@@ -27,7 +27,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.restapi.config.ListCapabilities;
 import com.google.gerrit.server.restapi.config.ListCapabilities.CapabilityInfo;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -36,7 +35,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ListCapabilitiesTest extends GerritBaseTests {
+public class ListCapabilitiesTest {
   private Injector injector;
 
   @Before

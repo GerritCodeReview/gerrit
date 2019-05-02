@@ -31,7 +31,6 @@ import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.TestTimeUtil;
 import java.io.IOException;
@@ -50,7 +49,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ProjectResetterTest extends GerritBaseTests {
+public class ProjectResetterTest {
   private InMemoryRepositoryManager repoManager;
   private Project.NameKey project;
   private Repository repo;

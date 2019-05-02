@@ -49,7 +49,6 @@ import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.Reviewer
 import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.gerrit.server.notedb.ChangeNotesState.ChangeColumns;
 import com.google.gerrit.server.notedb.ChangeNotesState.Serializer;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.inject.TypeLiteral;
 import com.google.protobuf.ByteString;
 import java.lang.reflect.Type;
@@ -60,7 +59,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ChangeNotesStateTest extends GerritBaseTests {
+public class ChangeNotesStateTest {
   private static final Change.Id ID = Change.id(123);
   private static final ObjectId SHA =
       ObjectId.fromString("1234567812345678123456781234567812345678");

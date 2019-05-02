@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
@@ -42,8 +43,7 @@ public class SetParentIT extends AbstractDaemonTest {
   public void setParentNotAllowed() throws Exception {
     String parent = projectOperations.newProject().create().get();
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    gApi.projects().name(project.get()).parent(parent);
+    assertThrows(AuthException.class, () -> gApi.projects().name(project.get()).parent(parent));
   }
 
   @Test
@@ -51,8 +51,7 @@ public class SetParentIT extends AbstractDaemonTest {
   public void setParentNotAllowedForNonOwners() throws Exception {
     String parent = projectOperations.newProject().create().get();
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    gApi.projects().name(project.get()).parent(parent);
+    assertThrows(AuthException.class, () -> gApi.projects().name(project.get()).parent(parent));
   }
 
   @Test
@@ -96,47 +95,63 @@ public class SetParentIT extends AbstractDaemonTest {
 
   @Test
   public void setParentForAllProjectsNotAllowed() throws Exception {
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("cannot set parent of " + AllProjectsNameProvider.DEFAULT);
-    gApi.projects().name(allProjects.get()).parent(project.get());
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.projects().name(allProjects.get()).parent(project.get()));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("cannot set parent of " + AllProjectsNameProvider.DEFAULT);
   }
 
   @Test
   public void setParentToSelfNotAllowed() throws Exception {
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("cannot set parent to self");
-    gApi.projects().name(project.get()).parent(project.get());
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.projects().name(project.get()).parent(project.get()));
+    assertThat(thrown).hasMessageThat().contains("cannot set parent to self");
   }
 
   @Test
   public void setParentToOwnChildNotAllowed() throws Exception {
     String child = projectOperations.newProject().parent(project).create().get();
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("cycle exists between");
-    gApi.projects().name(project.get()).parent(child);
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.projects().name(project.get()).parent(child));
+    assertThat(thrown).hasMessageThat().contains("cycle exists between");
   }
 
   @Test
   public void setParentToGrandchildNotAllowed() throws Exception {
     Project.NameKey child = projectOperations.newProject().parent(project).create();
     String grandchild = projectOperations.newProject().parent(child).create().get();
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("cycle exists between");
-    gApi.projects().name(project.get()).parent(grandchild);
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.projects().name(project.get()).parent(grandchild));
+    assertThat(thrown).hasMessageThat().contains("cycle exists between");
   }
 
   @Test
   public void setParentToNonexistentProject() throws Exception {
-    exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("not found");
-    gApi.projects().name(project.get()).parent("non-existing");
+    UnprocessableEntityException thrown =
+        assertThrows(
+            UnprocessableEntityException.class,
+            () -> gApi.projects().name(project.get()).parent("non-existing"));
+    assertThat(thrown).hasMessageThat().contains("not found");
   }
 
   @Test
   public void setParentToAllUsersNotAllowed() throws Exception {
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage(String.format("Cannot inherit from '%s' project", allUsers.get()));
-    gApi.projects().name(project.get()).parent(allUsers.get());
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.projects().name(project.get()).parent(allUsers.get()));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(String.format("Cannot inherit from '%s' project", allUsers.get()));
   }
 
   @Test
@@ -145,8 +160,9 @@ public class SetParentIT extends AbstractDaemonTest {
 
     String parent = projectOperations.newProject().create().get();
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("All-Users must inherit from All-Projects");
-    gApi.projects().name(allUsers.get()).parent(parent);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class, () -> gApi.projects().name(allUsers.get()).parent(parent));
+    assertThat(thrown).hasMessageThat().contains("All-Users must inherit from All-Projects");
   }
 }

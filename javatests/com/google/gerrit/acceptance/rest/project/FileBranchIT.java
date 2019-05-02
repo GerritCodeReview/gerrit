@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -45,9 +46,9 @@ public class FileBranchIT extends AbstractDaemonTest {
     assertThat(content.asString()).isEqualTo(PushOneCommit.FILE_CONTENT);
   }
 
-  @Test(expected = ResourceNotFoundException.class)
+  @Test
   public void getNonExistingFile() throws Exception {
-    branch().file("does-not-exist");
+    assertThrows(ResourceNotFoundException.class, () -> branch().file("does-not-exist"));
   }
 
   private BranchApi branch() throws Exception {

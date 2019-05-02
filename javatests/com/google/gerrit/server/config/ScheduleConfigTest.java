@@ -22,7 +22,6 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
 import com.google.gerrit.server.config.ScheduleConfig.Schedule;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneOffset;
@@ -32,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
-public class ScheduleConfigTest extends GerritBaseTests {
+public class ScheduleConfigTest {
 
   // Friday June 13, 2014 10:00 UTC
   private static final ZonedDateTime NOW =

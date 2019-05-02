@@ -19,12 +19,11 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.util.Arrays;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
-public class RegexPathPredicateTest extends GerritBaseTests {
+public class RegexPathPredicateTest {
   @Test
   public void prefixOnlyOptimization() {
     RegexPathPredicate p = predicate("^a/b/.*");

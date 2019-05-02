@@ -35,14 +35,13 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gerrit.server.query.change.OrSource;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ChangeIndexRewriterTest extends GerritBaseTests {
+public class ChangeIndexRewriterTest {
   private static final IndexConfig CONFIG = IndexConfig.createDefault();
 
   private FakeChangeIndex index;

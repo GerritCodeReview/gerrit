@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Comment;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ import java.util.List;
 import org.junit.Ignore;
 
 @Ignore
-public class AbstractParserTest extends GerritBaseTests {
+public class AbstractParserTest {
   protected static final String CHANGE_URL =
       "https://gerrit-review.googlesource.com/c/project/+/123";
 

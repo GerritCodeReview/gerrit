@@ -20,14 +20,13 @@ import static com.google.common.truth.Truth.assert_;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import org.junit.Before;
 import org.junit.Test;
 
-public class MutableTagsTest extends GerritBaseTests {
+public class MutableTagsTest {
   private MutableTags tags;
 
   @Before

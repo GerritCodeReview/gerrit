@@ -17,10 +17,9 @@ package com.google.gerrit.server.fixes;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
-import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class LineIdentifierTest extends GerritBaseTests {
+public class LineIdentifierTest {
   @Test
   public void lineNumberMustBePositive() {
     LineIdentifier lineIdentifier = new LineIdentifier("First line\nSecond line");

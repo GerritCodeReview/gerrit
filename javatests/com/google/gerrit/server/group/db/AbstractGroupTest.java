@@ -28,7 +28,6 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -44,7 +43,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 
 @Ignore
-public class AbstractGroupTest extends GerritBaseTests {
+public class AbstractGroupTest {
   protected static final TimeZone TZ = TimeZone.getTimeZone("America/Los_Angeles");
   protected static final String SERVER_ID = "server-id";
   protected static final String SERVER_NAME = "Gerrit Server";

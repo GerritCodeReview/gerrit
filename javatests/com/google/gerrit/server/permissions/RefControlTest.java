@@ -65,7 +65,6 @@ import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.inject.Guice;
@@ -86,7 +85,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class RefControlTest extends GerritBaseTests {
+public class RefControlTest {
   private void assertAdminsAreOwnersAndDevsAreNot() {
     ProjectControl uBlah = user(local, DEVS);
     ProjectControl uAdmin = user(local, DEVS, ADMIN);

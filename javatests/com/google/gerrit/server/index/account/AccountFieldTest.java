@@ -28,12 +28,11 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
-public class AccountFieldTest extends GerritBaseTests {
+public class AccountFieldTest {
   @Test
   public void refStateFieldValues() throws Exception {
     AllUsersName allUsersName = new AllUsersName(AllUsersNameProvider.DEFAULT);

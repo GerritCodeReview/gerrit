@@ -31,7 +31,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.IntBlob;
 import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gerrit.server.notedb.Sequences;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.TestUpdateUI;
 import java.io.IOException;
@@ -44,7 +43,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
 
-public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
+public class NoteDbSchemaUpdaterTest {
   @Test
   public void requiredUpgradesFromNoVersion() throws Exception {
     assertThat(requiredUpgrades(0, versions(10))).containsExactly(10).inOrder();

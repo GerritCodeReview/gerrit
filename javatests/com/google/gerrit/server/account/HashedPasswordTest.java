@@ -18,11 +18,10 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.testing.GerritBaseTests;
 import org.apache.commons.codec.DecoderException;
 import org.junit.Test;
 
-public class HashedPasswordTest extends GerritBaseTests {
+public class HashedPasswordTest {
 
   @Test
   public void encodeOneLine() throws Exception {

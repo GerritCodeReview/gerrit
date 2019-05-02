@@ -17,7 +17,6 @@ package com.google.gerrit.server.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_TAGS;
 
-import com.google.gerrit.testing.GerritBaseTests;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -27,7 +26,7 @@ import org.eclipse.jgit.revwalk.RevTag;
 import org.junit.Before;
 import org.junit.Test;
 
-public class IncludedInResolverTest extends GerritBaseTests {
+public class IncludedInResolverTest {
   // Branch names
   private static final String BRANCH_MASTER = "master";
   private static final String BRANCH_1_0 = "rel-1.0";

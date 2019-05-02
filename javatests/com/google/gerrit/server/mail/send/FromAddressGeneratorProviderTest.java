@@ -28,7 +28,6 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +36,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Before;
 import org.junit.Test;
 
-public class FromAddressGeneratorProviderTest extends GerritBaseTests {
+public class FromAddressGeneratorProviderTest {
   private Config config;
   private PersonIdent ident;
   private AccountCache accountCache;

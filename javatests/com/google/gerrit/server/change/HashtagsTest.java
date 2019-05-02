@@ -17,10 +17,9 @@ package com.google.gerrit.server.change;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Sets;
-import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class HashtagsTest extends GerritBaseTests {
+public class HashtagsTest {
   @Test
   public void emptyCommitMessage() throws Exception {
     assertThat(HashtagsUtil.extractTags("")).isEmpty();

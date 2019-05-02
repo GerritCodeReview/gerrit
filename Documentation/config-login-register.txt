@@ -57,7 +57,7 @@ Open a browser and enter the canonical url of your Gerrit server.  You can
 find the url in the settings file.
 
 ----
-  gerrit@host:~$ git config -f ~/gerrit_testsite/etc/gerrit.config gerrit.canonicalWebUrl
+  gerrit@host:~$ git config -f $GERRIT_SITE/etc/gerrit.config gerrit.canonicalWebUrl
   http://localhost:8080/
   gerrit@host:~$
 ----
@@ -70,9 +70,9 @@ proxy, and you are using an external OpenID provider, you will need to add the
 proxy settings in the configuration file.
 
 ----
-  gerrit@host:~$ git config -f ~/gerrit_testsite/etc/gerrit.config --add http.proxy http://proxy:8080
-  gerrit@host:~$ git config -f ~/gerrit_testsite/etc/gerrit.config --add http.proxyUsername username
-  gerrit@host:~$ git config -f ~/gerrit_testsite/etc/gerrit.config --add http.proxyPassword password
+  gerrit@host:~$ git config -f $GERRIT_SITE/etc/gerrit.config --add http.proxy http://proxy:8080
+  gerrit@host:~$ git config -f $GERRIT_SITE/etc/gerrit.config --add http.proxyUsername username
+  gerrit@host:~$ git config -f $GERRIT_SITE/etc/gerrit.config --add http.proxyPassword password
 ----
 
 Refer to the Gerrit configuration guide for more detailed information about

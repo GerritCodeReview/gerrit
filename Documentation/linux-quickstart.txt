@@ -43,7 +43,8 @@ link:dev-readme.html[Gerrit Code Review: Developer Setup].
 From the command line, enter:
 
 ....
-java -jar gerrit*.war init --batch --dev -d ~/gerrit_testsite
+export GERRIT_SITE=~/gerrit_testsite
+java -jar gerrit*.war init --batch --dev -d $GERRIT_SITE
 ....
 
 This command takes two parameters:
@@ -78,7 +79,7 @@ To prevent outside connections from contacting your new Gerrit instance
 `localhost`. For example:
 
 ....
-git config --file ~/gerrit_testsite/etc/gerrit.config httpd.listenUrl 'http://localhost:8080'
+git config --file $GERRIT_SITE/etc/gerrit.config httpd.listenUrl 'http://localhost:8080'
 ....
 
 == Restart the Gerrit service
@@ -87,7 +88,7 @@ You must restart the Gerrit service for your authentication type and listen URL
 changes to take effect:
 
 ....
-~/gerrit_testsite/bin/gerrit.sh restart
+$GERRIT_SITE/bin/gerrit.sh restart
 ....
 
 == Viewing Gerrit

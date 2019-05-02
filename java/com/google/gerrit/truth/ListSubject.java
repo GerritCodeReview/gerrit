@@ -78,13 +78,6 @@ public class ListSubject<S extends Subject<S, E>, E> extends IterableSubject {
     return (List<E>) actual();
   }
 
-  @SuppressWarnings("unchecked")
-  @Override
-  public ListSubject<S, E> named(String s, Object... objects) {
-    // This object is returned which is of type ListSubject. -> Casting is appropriate.
-    return (ListSubject<S, E>) super.named(s, objects);
-  }
-
   public static class ListSubjectBuilder extends CustomSubjectBuilder {
 
     ListSubjectBuilder(FailureMetadata failureMetadata) {

@@ -33,9 +33,7 @@ public class TreeModificationSubject extends Subject<TreeModificationSubject, Tr
 
   public static ListSubject<TreeModificationSubject, TreeModification> assertThatList(
       List<TreeModification> treeModifications) {
-    return assertAbout(ListSubject.elements())
-        .thatCustom(treeModifications, treeModifications())
-        .named("treeModifications");
+    return ListSubject.assertThat(treeModifications, treeModifications());
   }
 
   private TreeModificationSubject(

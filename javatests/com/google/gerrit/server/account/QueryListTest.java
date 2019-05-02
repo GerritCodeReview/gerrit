@@ -17,12 +17,11 @@ package com.google.gerrit.server.account;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.server.git.ValidationError;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 
-public class QueryListTest extends GerritBaseTests {
+public class QueryListTest {
   public static final String Q_P = "project:foo";
   public static final String Q_B = "branch:bar";
   public static final String Q_COMPLEX = "branch:bar AND peers:'is:open\t'";

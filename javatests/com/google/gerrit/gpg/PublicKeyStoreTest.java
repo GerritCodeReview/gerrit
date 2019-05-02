@@ -29,7 +29,6 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.Iterators;
 import com.google.gerrit.gpg.testing.TestKey;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -51,7 +50,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Before;
 import org.junit.Test;
 
-public class PublicKeyStoreTest extends GerritBaseTests {
+public class PublicKeyStoreTest {
   private TestRepository<?> tr;
   private PublicKeyStore store;
 

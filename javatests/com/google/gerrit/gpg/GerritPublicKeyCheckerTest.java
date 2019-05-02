@@ -41,7 +41,6 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
@@ -64,7 +63,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /** Unit tests for {@link GerritPublicKeyChecker}. */
-public class GerritPublicKeyCheckerTest extends GerritBaseTests {
+public class GerritPublicKeyCheckerTest {
   @Inject @ServerInitiated private Provider<AccountsUpdate> accountsUpdateProvider;
 
   @Inject private AccountManager accountManager;

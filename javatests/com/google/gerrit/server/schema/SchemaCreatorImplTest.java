@@ -25,7 +25,6 @@ import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectConfig;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Inject;
 import java.util.ArrayList;
@@ -36,7 +35,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
 
-public class SchemaCreatorImplTest extends GerritBaseTests {
+public class SchemaCreatorImplTest {
   @Inject private AllProjectsName allProjects;
 
   @Inject private GitRepositoryManager repoManager;

@@ -38,7 +38,6 @@ import static org.bouncycastle.openpgp.PGPSignature.DIRECT_KEY;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.gpg.testing.TestKey;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,7 +59,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class PublicKeyCheckerTest extends GerritBaseTests {
+public class PublicKeyCheckerTest {
   private InMemoryRepository repo;
   private PublicKeyStore store;
 

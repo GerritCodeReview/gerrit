@@ -18,11 +18,10 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.util.http.RequestUtil.getEncodedPathInfo;
 import static com.google.gerrit.util.http.RequestUtil.getRestPathWithoutIds;
 
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import org.junit.Test;
 
-public class RequestUtilTest extends GerritBaseTests {
+public class RequestUtilTest {
   @Test
   public void getEncodedPathInfo_emptyContextPath() {
     assertThat(getEncodedPathInfo(fakeRequest("", "/s", "/foo/bar"))).isEqualTo("/foo/bar");

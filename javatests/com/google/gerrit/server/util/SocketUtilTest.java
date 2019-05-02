@@ -26,7 +26,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.google.gerrit.testing.GerritBaseTests;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
 import java.net.InetAddress;
@@ -34,7 +33,7 @@ import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import org.junit.Test;
 
-public class SocketUtilTest extends GerritBaseTests {
+public class SocketUtilTest {
   @Test
   public void testIsIPv6() throws UnknownHostException {
     final InetAddress ipv6 = getByName("1:2:3:4:5:6:7:8");

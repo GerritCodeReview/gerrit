@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.TestTimeUtil;
 import java.io.IOException;
 import java.util.Arrays;
@@ -51,7 +50,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class VersionedMetaDataTest extends GerritBaseTests {
+public class VersionedMetaDataTest {
   // If you're considering fleshing out this test and making it more comprehensive, please consider
   // instead coming up with a replacement interface for
   // VersionedMetaData/BatchMetaDataUpdate/MetaDataUpdate that is easier to use correctly.

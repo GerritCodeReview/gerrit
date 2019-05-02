@@ -46,6 +46,30 @@
       "revId": "f58ab69a4d78cc421f6291f9206d1560d3cc917a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "def6dd8d_6d483c49",
+        "filename": "Documentation/linux-quickstart.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-02T09:18:46Z",
+      "side": 1,
+      "message": "The heading of the file says \"This content explains how to install a basic instance of Gerrit on a Linux machine.\"\n\nIf you are a Gerrit developer, I agree with you. If you are familiar with Gerrit development you are definitely an experienced user and you will understand that \u0027../\u0027 is relative to your Gerrit development folder.\n\nBut if you are not a developer (my assumption is that the instructions are for *that* audience) then I saw many times people just copy\u0026pasting the instructions :-( Better to have them bullet-proof then.",
+      "parentUuid": "0f38b2c4_195178b6",
+      "range": {
+        "startLine": 46,
+        "startChar": 44,
+        "endLine": 46,
+        "endChar": 46
+      },
+      "revId": "f58ab69a4d78cc421f6291f9206d1560d3cc917a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

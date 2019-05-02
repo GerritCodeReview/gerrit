@@ -15,6 +15,7 @@
 package com.google.gerrit.metrics.proc;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.codahale.metrics.Counter;
 import com.codahale.metrics.Gauge;
@@ -147,14 +148,16 @@ public class ProcMetricModuleTest extends GerritBaseTests {
 
   @Test
   public void invalidName1() {
-    exception.expect(IllegalArgumentException.class);
-    metrics.newCounter("invalid name", new Description("fail"));
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> metrics.newCounter("invalid name", new Description("fail")));
   }
 
   @Test
   public void invalidName2() {
-    exception.expect(IllegalArgumentException.class);
-    metrics.newCounter("invalid/ name", new Description("fail"));
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> metrics.newCounter("invalid/ name", new Description("fail")));
   }
 
   @SuppressWarnings({"unchecked", "cast"})

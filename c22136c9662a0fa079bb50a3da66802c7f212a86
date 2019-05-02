@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "deb9d73b_dcc71792",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-02T08:46:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b85c31dd_cb50b8ed",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 31
+      },
+      "revId": "c22136c9662a0fa079bb50a3da66802c7f212a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "072a7805_0efeded7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -45,6 +69,30 @@
       "revId": "c22136c9662a0fa079bb50a3da66802c7f212a86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f855c05_abad288f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-02T08:46:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "072a7805_0efeded7",
+      "range": {
+        "startLine": 14,
+        "startChar": 49,
+        "endLine": 14,
+        "endChar": 68
+      },
+      "revId": "c22136c9662a0fa079bb50a3da66802c7f212a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ff6a21d3_f48ce2f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-02T08:46:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f91648d4_8374baf6",
+      "range": {
+        "startLine": 15,
+        "startChar": 35,
+        "endLine": 15,
+        "endChar": 45
+      },
+      "revId": "c22136c9662a0fa079bb50a3da66802c7f212a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd8bc847_0c175b6a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -82,6 +154,30 @@
       "writtenOn": "2019-04-30T15:58:09Z",
       "side": 1,
       "message": "nit: was",
+      "range": {
+        "startLine": 17,
+        "startChar": 15,
+        "endLine": 17,
+        "endChar": 18
+      },
+      "revId": "c22136c9662a0fa079bb50a3da66802c7f212a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dec83463_648a6fdd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-02T08:46:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cd8bc847_0c175b6a",
       "range": {
         "startLine": 17,
         "startChar": 15,
@@ -108,6 +204,24 @@
       "revId": "c22136c9662a0fa079bb50a3da66802c7f212a86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb701aaa_dc242bd0",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareDfsRepository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-02T08:46:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "11d41a6a_ebf8327b",
+      "revId": "c22136c9662a0fa079bb50a3da66802c7f212a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -182,6 +296,24 @@
     },
     {
       "key": {
+        "uuid": "6e9cdb86_89005bfb",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareDfsRepository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-02T08:46:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1383ae64_b620b574",
+      "revId": "c22136c9662a0fa079bb50a3da66802c7f212a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f3c8388_57e9934a",
         "filename": "java/com/google/gerrit/server/git/PermissionAwareDfsRepository.java",
         "patchSetId": 7
@@ -196,6 +328,24 @@
       "revId": "c22136c9662a0fa079bb50a3da66802c7f212a86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b25b9477_c81ce48b",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareDfsRepository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-02T08:46:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4f3c8388_57e9934a",
+      "revId": "c22136c9662a0fa079bb50a3da66802c7f212a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -216,6 +366,24 @@
     },
     {
       "key": {
+        "uuid": "967ebe9a_4e4818c4",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareRepositoryWrapper.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-02T08:46:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d27ed3ed_927df4a6",
+      "revId": "c22136c9662a0fa079bb50a3da66802c7f212a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f93b3be_88ab2e66",
         "filename": "java/com/google/gerrit/server/git/PermissionAwareRepositoryWrapper.java",
         "patchSetId": 7
@@ -233,6 +401,24 @@
     },
     {
       "key": {
+        "uuid": "c2e159e2_ddeb339c",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareRepositoryWrapper.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-02T08:46:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4f93b3be_88ab2e66",
+      "revId": "c22136c9662a0fa079bb50a3da66802c7f212a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e61b2f88_24c64e7d",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/GetCommitIT.java",
         "patchSetId": 7
@@ -244,6 +430,30 @@
       "writtenOn": "2019-04-30T15:58:09Z",
       "side": 1,
       "message": "nit: please fill up all available space (120 chars I believe) and remove unnecessary white space",
+      "range": {
+        "startLine": 111,
+        "startChar": 4,
+        "endLine": 111,
+        "endChar": 8
+      },
+      "revId": "c22136c9662a0fa079bb50a3da66802c7f212a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b6d67ad_97233095",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/GetCommitIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-02T08:46:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e61b2f88_24c64e7d",
       "range": {
         "startLine": 111,
         "startChar": 4,

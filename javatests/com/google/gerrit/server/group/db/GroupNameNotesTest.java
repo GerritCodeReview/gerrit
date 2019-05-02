@@ -20,6 +20,7 @@ import static com.google.gerrit.common.data.testing.GroupReferenceSubject.groupR
 import static com.google.gerrit.extensions.common.testing.CommitInfoSubject.assertThat;
 import static com.google.gerrit.extensions.common.testing.CommitInfoSubject.commits;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_GROUPNAMES;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.OptionalSubject.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
@@ -105,14 +106,16 @@ public class GroupNameNotesTest extends GerritBaseTests {
 
   @Test
   public void uuidOfNewGroupMustNotBeNull() throws Exception {
-    exception.expect(NullPointerException.class);
-    GroupNameNotes.forNewGroup(allUsersName, repo, null, groupName);
+    assertThrows(
+        NullPointerException.class,
+        () -> GroupNameNotes.forNewGroup(allUsersName, repo, null, groupName));
   }
 
   @Test
   public void nameOfNewGroupMustNotBeNull() throws Exception {
-    exception.expect(NullPointerException.class);
-    GroupNameNotes.forNewGroup(allUsersName, repo, groupUuid, null);
+    assertThrows(
+        NullPointerException.class,
+        () -> GroupNameNotes.forNewGroup(allUsersName, repo, groupUuid, null));
   }
 
   @Test
@@ -129,9 +132,11 @@ public class GroupNameNotesTest extends GerritBaseTests {
     createGroup(groupUuid, groupName);
 
     AccountGroup.UUID anotherGroupUuid = AccountGroup.uuid("AnotherGroup");
-    exception.expect(DuplicateKeyException.class);
-    exception.expectMessage(groupName.get());
-    GroupNameNotes.forNewGroup(allUsersName, repo, anotherGroupUuid, groupName);
+    DuplicateKeyException thrown =
+        assertThrows(
+            DuplicateKeyException.class,
+            () -> GroupNameNotes.forNewGroup(allUsersName, repo, anotherGroupUuid, groupName));
+    assertThat(thrown).hasMessageThat().contains(groupName.get());
   }
 
   @Test
@@ -173,9 +178,9 @@ public class GroupNameNotesTest extends GerritBaseTests {
   @Test
   public void groupCannotBeRenamedToNull() throws Exception {
     createGroup(groupUuid, groupName);
-
-    exception.expect(NullPointerException.class);
-    GroupNameNotes.forRename(allUsersName, repo, groupUuid, groupName, null);
+    assertThrows(
+        NullPointerException.class,
+        () -> GroupNameNotes.forRename(allUsersName, repo, groupUuid, groupName, null));
   }
 
   @Test
@@ -183,8 +188,9 @@ public class GroupNameNotesTest extends GerritBaseTests {
     createGroup(groupUuid, groupName);
 
     AccountGroup.NameKey anotherName = AccountGroup.nameKey("admins");
-    exception.expect(NullPointerException.class);
-    GroupNameNotes.forRename(allUsersName, repo, groupUuid, null, anotherName);
+    assertThrows(
+        NullPointerException.class,
+        () -> GroupNameNotes.forRename(allUsersName, repo, groupUuid, null, anotherName));
   }
 
   @Test
@@ -193,9 +199,13 @@ public class GroupNameNotesTest extends GerritBaseTests {
 
     AccountGroup.NameKey anotherOldName = AccountGroup.nameKey("contributors");
     AccountGroup.NameKey anotherName = AccountGroup.nameKey("admins");
-    exception.expect(ConfigInvalidException.class);
-    exception.expectMessage(anotherOldName.get());
-    GroupNameNotes.forRename(allUsersName, repo, groupUuid, anotherOldName, anotherName);
+    ConfigInvalidException thrown =
+        assertThrows(
+            ConfigInvalidException.class,
+            () ->
+                GroupNameNotes.forRename(
+                    allUsersName, repo, groupUuid, anotherOldName, anotherName));
+    assertThat(thrown).hasMessageThat().contains(anotherOldName.get());
   }
 
   @Test
@@ -205,9 +215,13 @@ public class GroupNameNotesTest extends GerritBaseTests {
     AccountGroup.NameKey anotherGroupName = AccountGroup.nameKey("admins");
     createGroup(anotherGroupUuid, anotherGroupName);
 
-    exception.expect(DuplicateKeyException.class);
-    exception.expectMessage(anotherGroupName.get());
-    GroupNameNotes.forRename(allUsersName, repo, groupUuid, groupName, anotherGroupName);
+    DuplicateKeyException thrown =
+        assertThrows(
+            DuplicateKeyException.class,
+            () ->
+                GroupNameNotes.forRename(
+                    allUsersName, repo, groupUuid, groupName, anotherGroupName));
+    assertThat(thrown).hasMessageThat().contains(anotherGroupName.get());
   }
 
   @Test
@@ -215,8 +229,9 @@ public class GroupNameNotesTest extends GerritBaseTests {
     createGroup(groupUuid, groupName);
 
     AccountGroup.NameKey anotherName = AccountGroup.nameKey("admins");
-    exception.expect(NullPointerException.class);
-    GroupNameNotes.forRename(allUsersName, repo, null, groupName, anotherName);
+    assertThrows(
+        NullPointerException.class,
+        () -> GroupNameNotes.forRename(allUsersName, repo, null, groupName, anotherName));
   }
 
   @Test
@@ -225,9 +240,13 @@ public class GroupNameNotesTest extends GerritBaseTests {
 
     AccountGroup.UUID anotherGroupUuid = AccountGroup.uuid("admins-ABC");
     AccountGroup.NameKey anotherName = AccountGroup.nameKey("admins");
-    exception.expect(ConfigInvalidException.class);
-    exception.expectMessage(groupUuid.get());
-    GroupNameNotes.forRename(allUsersName, repo, anotherGroupUuid, groupName, anotherName);
+    ConfigInvalidException thrown =
+        assertThrows(
+            ConfigInvalidException.class,
+            () ->
+                GroupNameNotes.forRename(
+                    allUsersName, repo, anotherGroupUuid, groupName, anotherName));
+    assertThat(thrown).hasMessageThat().contains(groupUuid.get());
   }
 
   @Test

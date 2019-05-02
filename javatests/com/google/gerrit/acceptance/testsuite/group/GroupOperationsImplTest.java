@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.testsuite.group;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.truth.Correspondence;
@@ -227,9 +228,8 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void retrievingNotExistingGroupFails() throws Exception {
     AccountGroup.UUID notExistingGroupUuid = AccountGroup.uuid("not-existing-group");
-
-    exception.expect(IllegalStateException.class);
-    groupOperations.group(notExistingGroupUuid).get();
+    assertThrows(
+        IllegalStateException.class, () -> groupOperations.group(notExistingGroupUuid).get());
   }
 
   @Test

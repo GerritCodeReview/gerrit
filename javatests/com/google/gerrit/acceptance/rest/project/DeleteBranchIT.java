@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.rest.project;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -136,9 +137,11 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     allow(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE, REGISTERED_USERS);
     allow(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH, REGISTERED_USERS);
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("Not allowed to delete user branch.");
-    branch(BranchNameKey.create(allUsers, RefNames.refsUsers(admin.id()))).delete();
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> branch(BranchNameKey.create(allUsers, RefNames.refsUsers(admin.id()))).delete());
+    assertThat(thrown).hasMessageThat().contains("Not allowed to delete user branch.");
   }
 
   @Test
@@ -146,9 +149,13 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     allow(allUsers, RefNames.REFS_GROUPS + "*", Permission.CREATE, REGISTERED_USERS);
     allow(allUsers, RefNames.REFS_GROUPS + "*", Permission.PUSH, REGISTERED_USERS);
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("Not allowed to delete group branch.");
-    branch(BranchNameKey.create(allUsers, RefNames.refsGroups(adminGroupUuid()))).delete();
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () ->
+                branch(BranchNameKey.create(allUsers, RefNames.refsGroups(adminGroupUuid())))
+                    .delete());
+    assertThat(thrown).hasMessageThat().contains("Not allowed to delete group branch.");
   }
 
   private void blockForcePush() throws Exception {
@@ -179,8 +186,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
                 + "/branches/"
                 + IdString.fromDecoded(ref).encoded());
     r.assertNoContent();
-    exception.expect(ResourceNotFoundException.class);
-    branch(branch).get();
+    assertThrows(ResourceNotFoundException.class, () -> branch(branch).get());
   }
 
   private void assertDeleteSucceeds(BranchNameKey branch) throws Exception {
@@ -189,14 +195,12 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     branch(branch).delete();
     eventRecorder.assertRefUpdatedEvents(
         project.get(), branch.branch(), null, branchRev, branchRev, null);
-    exception.expect(ResourceNotFoundException.class);
-    branch(branch).get();
+    assertThrows(ResourceNotFoundException.class, () -> branch(branch).get());
   }
 
   private void assertDeleteForbidden(BranchNameKey branch) throws Exception {
     assertThat(branch(branch).get().canDelete).isNull();
-    exception.expect(AuthException.class);
-    exception.expectMessage("not permitted: delete");
-    branch(branch).delete();
+    AuthException thrown = assertThrows(AuthException.class, () -> branch(branch).delete());
+    assertThat(thrown).hasMessageThat().contains("not permitted: delete");
   }
 }

@@ -15,6 +15,7 @@
 package com.google.gerrit.common.data;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -42,8 +43,7 @@ public class PermissionRuleTest extends GerritBaseTests {
 
   @Test
   public void cannotSetActionToNull() {
-    exception.expect(NullPointerException.class);
-    permissionRule.setAction(null);
+    assertThrows(NullPointerException.class, () -> permissionRule.setAction(null));
   }
 
   @Test

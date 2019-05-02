@@ -47,6 +47,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.Util.category;
 import static com.google.gerrit.server.project.testing.Util.value;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.joining;
@@ -276,9 +277,9 @@ public class ChangeIT extends AbstractDaemonTest {
     String changeId = rwip.getChangeId();
 
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("toggle work in progress state not permitted");
-    gApi.changes().id(changeId).setWorkInProgress();
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> gApi.changes().id(changeId).setWorkInProgress());
+    assertThat(thrown).hasMessageThat().contains("toggle work in progress state not permitted");
   }
 
   @Test
@@ -322,9 +323,9 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).setWorkInProgress();
 
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("toggle work in progress state not permitted");
-    gApi.changes().id(changeId).setReadyForReview();
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> gApi.changes().id(changeId).setReadyForReview());
+    assertThat(thrown).hasMessageThat().contains("toggle work in progress state not permitted");
   }
 
   @Test
@@ -621,9 +622,10 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     ReviewInput in = ReviewInput.noScore().setWorkInProgress(true);
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("toggle work in progress state not permitted");
-    gApi.changes().id(r.getChangeId()).current().review(in);
+    AuthException thrown =
+        assertThrows(
+            AuthException.class, () -> gApi.changes().id(r.getChangeId()).current().review(in));
+    assertThat(thrown).hasMessageThat().contains("toggle work in progress state not permitted");
   }
 
   @Test
@@ -647,9 +649,10 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     ReviewInput in = ReviewInput.noScore().setReady(true);
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("toggle work in progress state not permitted");
-    gApi.changes().id(r.getChangeId()).current().review(in);
+    AuthException thrown =
+        assertThrows(
+            AuthException.class, () -> gApi.changes().id(r.getChangeId()).current().review(in));
+    assertThat(thrown).hasMessageThat().contains("toggle work in progress state not permitted");
   }
 
   @Test
@@ -673,9 +676,9 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r2 = push2.to("refs/for/other");
     assertThat(r2.getChangeId()).isEqualTo(changeId);
 
-    exception.expect(ResourceNotFoundException.class);
-    exception.expectMessage("Multiple changes found for " + changeId);
-    gApi.changes().id(changeId).get();
+    ResourceNotFoundException thrown =
+        assertThrows(ResourceNotFoundException.class, () -> gApi.changes().id(changeId).get());
+    assertThat(thrown).hasMessageThat().contains("Multiple changes found for " + changeId);
   }
 
   @Test
@@ -769,9 +772,10 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("Cannot revert initial commit");
-    gApi.changes().id(r.getChangeId()).revert();
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class, () -> gApi.changes().id(r.getChangeId()).revert());
+    assertThat(thrown).hasMessageThat().contains("Cannot revert initial commit");
   }
 
   @FunctionalInterface
@@ -826,9 +830,10 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(cr.all.get(0).value).isEqualTo(1);
 
     // Rebasing the second change again should fail
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("Change is already up to date");
-    gApi.changes().id(changeId).current().rebase();
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class, () -> gApi.changes().id(changeId).current().rebase());
+    assertThat(thrown).hasMessageThat().contains("Change is already up to date");
   }
 
   @Test
@@ -931,9 +936,9 @@ public class ChangeIT extends AbstractDaemonTest {
     // Rebase the second
     String changeId = r2.getChangeId();
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("rebase not permitted");
-    gApi.changes().id(changeId).rebase();
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> gApi.changes().id(changeId).rebase());
+    assertThat(thrown).hasMessageThat().contains("rebase not permitted");
   }
 
   @Test
@@ -974,9 +979,9 @@ public class ChangeIT extends AbstractDaemonTest {
     // Rebase the second
     String changeId = r2.getChangeId();
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("rebase not permitted");
-    gApi.changes().id(changeId).rebase();
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> gApi.changes().id(changeId).rebase());
+    assertThat(thrown).hasMessageThat().contains("rebase not permitted");
   }
 
   @Test
@@ -995,9 +1000,9 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // Rebase the second
     String changeId = r2.getChangeId();
-    exception.expect(AuthException.class);
-    exception.expectMessage("rebase not permitted");
-    gApi.changes().id(changeId).rebase();
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> gApi.changes().id(changeId).rebase());
+    assertThat(thrown).hasMessageThat().contains("rebase not permitted");
   }
 
   @Test
@@ -1013,9 +1018,9 @@ public class ChangeIT extends AbstractDaemonTest {
     String changeId = changeResult.getChangeId();
 
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("delete not permitted");
-    gApi.changes().id(changeId).delete();
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> gApi.changes().id(changeId).delete());
+    assertThat(thrown).hasMessageThat().contains("delete not permitted");
   }
 
   @Test
@@ -1111,9 +1116,9 @@ public class ChangeIT extends AbstractDaemonTest {
       String changeId = changeResult.getChangeId();
 
       requestScopeOperations.setApiUser(user.id());
-      exception.expect(AuthException.class);
-      exception.expectMessage("delete not permitted");
-      gApi.changes().id(changeId).delete();
+      AuthException thrown =
+          assertThrows(AuthException.class, () -> gApi.changes().id(changeId).delete());
+      assertThat(thrown).hasMessageThat().contains("delete not permitted");
     } finally {
       removePermission(project, "refs/*", Permission.DELETE_OWN_CHANGES);
     }
@@ -1140,9 +1145,9 @@ public class ChangeIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
     gApi.changes().id(changeId).abandon();
 
-    exception.expect(AuthException.class);
-    exception.expectMessage("delete not permitted");
-    gApi.changes().id(changeId).delete();
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> gApi.changes().id(changeId).delete());
+    assertThat(thrown).hasMessageThat().contains("delete not permitted");
   }
 
   @Test
@@ -1166,9 +1171,9 @@ public class ChangeIT extends AbstractDaemonTest {
 
     merge(changeResult);
 
-    exception.expect(MethodNotAllowedException.class);
-    exception.expectMessage("delete not permitted");
-    gApi.changes().id(changeId).delete();
+    MethodNotAllowedException thrown =
+        assertThrows(MethodNotAllowedException.class, () -> gApi.changes().id(changeId).delete());
+    assertThat(thrown).hasMessageThat().contains("delete not permitted");
   }
 
   @Test
@@ -1184,9 +1189,9 @@ public class ChangeIT extends AbstractDaemonTest {
       merge(changeResult);
 
       requestScopeOperations.setApiUser(user.id());
-      exception.expect(MethodNotAllowedException.class);
-      exception.expectMessage("delete not permitted");
-      gApi.changes().id(changeId).delete();
+      MethodNotAllowedException thrown =
+          assertThrows(MethodNotAllowedException.class, () -> gApi.changes().id(changeId).delete());
+      assertThat(thrown).hasMessageThat().contains("delete not permitted");
     } finally {
       removePermission(project, "refs/*", Permission.DELETE_OWN_CHANGES);
     }
@@ -1201,10 +1206,11 @@ public class ChangeIT extends AbstractDaemonTest {
     merge(changeResult);
     setChangeStatus(id, Change.Status.NEW);
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage(
-        String.format("Cannot delete change %s: patch set 1 is already merged", id));
-    gApi.changes().id(changeId).delete();
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> gApi.changes().id(changeId).delete());
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(String.format("Cannot delete change %s: patch set 1 is already merged", id));
   }
 
   @Test
@@ -1255,16 +1261,21 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void rebaseUpToDateChange() throws Exception {
     PushOneCommit.Result r = createChange();
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("Change is already up to date");
-    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).rebase();
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).rebase());
+    assertThat(thrown).hasMessageThat().contains("Change is already up to date");
   }
 
   @Test
   public void rebaseConflict() throws Exception {
-    PushOneCommit.Result r = createChange();
-    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
-    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+    PushOneCommit.Result r1 = createChange();
+    gApi.changes()
+        .id(r1.getChangeId())
+        .revision(r1.getCommit().name())
+        .review(ReviewInput.approve());
+    gApi.changes().id(r1.getChangeId()).revision(r1.getCommit().name()).submit();
 
     PushOneCommit push =
         pushFactory.create(
@@ -1274,11 +1285,11 @@ public class ChangeIT extends AbstractDaemonTest {
             PushOneCommit.FILE_NAME,
             "other content",
             "If09d8782c1e59dd0b33de2b1ec3595d69cc10ad5");
-    r = push.to("refs/for/master");
-    r.assertOkStatus();
-
-    exception.expect(ResourceConflictException.class);
-    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).rebase();
+    PushOneCommit.Result r2 = push.to("refs/for/master");
+    r2.assertOkStatus();
+    assertThrows(
+        ResourceConflictException.class,
+        () -> gApi.changes().id(r2.getChangeId()).revision(r2.getCommit().name()).rebase());
   }
 
   @Test
@@ -1323,9 +1334,11 @@ public class ChangeIT extends AbstractDaemonTest {
         "base change "
             + r2.getChangeId()
             + " is a descendant of the current change - recursion not allowed";
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage(expectedMessage);
-    gApi.changes().id(r1.getChangeId()).revision(r1.getCommit().name()).rebase(ri);
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(r1.getChangeId()).revision(r1.getCommit().name()).rebase(ri));
+    assertThat(thrown).hasMessageThat().contains(expectedMessage);
   }
 
   @Test
@@ -1337,9 +1350,11 @@ public class ChangeIT extends AbstractDaemonTest {
     ChangeInfo info = info(changeId);
     assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("change is abandoned");
-    gApi.changes().id(changeId).revision(r.getCommit().name()).rebase();
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(changeId).revision(r.getCommit().name()).rebase());
+    assertThat(thrown).hasMessageThat().contains("change is abandoned");
   }
 
   @Test
@@ -1359,9 +1374,11 @@ public class ChangeIT extends AbstractDaemonTest {
     RebaseInput ri = new RebaseInput();
     ri.base = r.getCommit().name();
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("base change is abandoned: " + changeId);
-    gApi.changes().id(r2.getChangeId()).revision(r2.getCommit().name()).rebase(ri);
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(r2.getChangeId()).revision(r2.getCommit().name()).rebase(ri));
+    assertThat(thrown).hasMessageThat().contains("base change is abandoned: " + changeId);
   }
 
   @Test
@@ -1371,9 +1388,11 @@ public class ChangeIT extends AbstractDaemonTest {
     String commit = r.getCommit().name();
     RebaseInput ri = new RebaseInput();
     ri.base = commit;
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("cannot rebase change onto itself");
-    gApi.changes().id(changeId).revision(commit).rebase(ri);
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(changeId).revision(commit).rebase(ri));
+    assertThat(thrown).hasMessageThat().contains("cannot rebase change onto itself");
   }
 
   @Test
@@ -2056,8 +2075,8 @@ public class ChangeIT extends AbstractDaemonTest {
     comment.message = "comment 1";
     review.comments = ImmutableMap.of(comment.path, Lists.newArrayList(comment));
 
-    exception.expect(BadRequestException.class);
-    gApi.changes().id(changeId).current().review(review);
+    assertThrows(
+        BadRequestException.class, () -> gApi.changes().id(changeId).current().review(review));
   }
 
   @Test
@@ -2124,8 +2143,9 @@ public class ChangeIT extends AbstractDaemonTest {
     // Remove again, and then try to remove once more to verify 404 is
     // returned.
     gApi.changes().id(changeId).reviewer(user.id().toString()).remove();
-    exception.expect(ResourceNotFoundException.class);
-    gApi.changes().id(changeId).reviewer(user.id().toString()).remove();
+    assertThrows(
+        ResourceNotFoundException.class,
+        () -> gApi.changes().id(changeId).reviewer(user.id().toString()).remove());
   }
 
   @Test
@@ -2186,9 +2206,11 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).revision(r.getCommit().name()).review(ReviewInput.approve());
 
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("remove reviewer not permitted");
-    gApi.changes().id(r.getChangeId()).reviewer(admin.id().toString()).remove();
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () -> gApi.changes().id(r.getChangeId()).reviewer(admin.id().toString()).remove());
+    assertThat(thrown).hasMessageThat().contains("remove reviewer not permitted");
   }
 
   @Test
@@ -2204,9 +2226,11 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).revision(r.getCommit().name()).submit();
 
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("remove reviewer not permitted");
-    gApi.changes().id(r.getChangeId()).reviewer("self").remove();
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () -> gApi.changes().id(r.getChangeId()).reviewer("self").remove());
+    assertThat(thrown).hasMessageThat().contains("remove reviewer not permitted");
   }
 
   @Test
@@ -2238,9 +2262,11 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).abandon();
 
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("remove reviewer not permitted");
-    gApi.changes().id(r.getChangeId()).reviewer(admin.id().toString()).remove();
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () -> gApi.changes().id(r.getChangeId()).reviewer(admin.id().toString()).remove());
+    assertThat(thrown).hasMessageThat().contains("remove reviewer not permitted");
   }
 
   @Test
@@ -2348,9 +2374,15 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
 
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("delete vote not permitted");
-    gApi.changes().id(r.getChangeId()).reviewer(admin.id().toString()).deleteVote("Code-Review");
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () ->
+                gApi.changes()
+                    .id(r.getChangeId())
+                    .reviewer(admin.id().toString())
+                    .deleteVote("Code-Review"));
+    assertThat(thrown).hasMessageThat().contains("delete vote not permitted");
   }
 
   @Test
@@ -2600,9 +2632,10 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     assertThat(gApi.changes().id(r.getChangeId()).topic()).isEqualTo("");
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("edit topic name not permitted");
-    gApi.changes().id(r.getChangeId()).topic("mytopic");
+    AuthException thrown =
+        assertThrows(
+            AuthException.class, () -> gApi.changes().id(r.getChangeId()).topic("mytopic"));
+    assertThat(thrown).hasMessageThat().contains("edit topic name not permitted");
   }
 
   @Test
@@ -2655,9 +2688,11 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("submit not permitted");
-    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () -> gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit());
+    assertThat(thrown).hasMessageThat().contains("submit not permitted");
   }
 
   @Test
@@ -2867,9 +2902,9 @@ public class ChangeIT extends AbstractDaemonTest {
 
     info = gApi.changes().id(info._number).get();
     assertThat(info.changeId).isEqualTo(r.getChangeId());
-
-    exception.expect(AuthException.class);
-    gApi.changes().id(triplet).current().review(ReviewInput.approve());
+    assertThrows(
+        AuthException.class,
+        () -> gApi.changes().id(triplet).current().review(ReviewInput.approve()));
   }
 
   @Test
@@ -2926,8 +2961,7 @@ public class ChangeIT extends AbstractDaemonTest {
     in.project = project.get();
     in.newBranch = true;
 
-    exception.expect(ResourceConflictException.class);
-    gApi.changes().create(in).get();
+    assertThrows(ResourceConflictException.class, () -> gApi.changes().create(in).get());
   }
 
   @Test
@@ -3095,9 +3129,14 @@ public class ChangeIT extends AbstractDaemonTest {
     testRepo.reset(initialHead);
     String changeId = createChange().getChangeId();
 
-    exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("Read not permitted for " + baseChange);
-    gApi.changes().id(changeId).createMergePatchSet(createMergePatchSetInput(baseChange));
+    UnprocessableEntityException thrown =
+        assertThrows(
+            UnprocessableEntityException.class,
+            () ->
+                gApi.changes()
+                    .id(changeId)
+                    .createMergePatchSet(createMergePatchSetInput(baseChange)));
+    assertThat(thrown).hasMessageThat().contains("Read not permitted for " + baseChange);
   }
 
   @Test
@@ -3434,9 +3473,10 @@ public class ChangeIT extends AbstractDaemonTest {
     String changeId = createChange().getChangeId();
     ReviewInput in = new ReviewInput().label("Code-Style", 1);
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("label \"Code-Style\" is not a configured label");
-    gApi.changes().id(changeId).current().review(in);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class, () -> gApi.changes().id(changeId).current().review(in));
+    assertThat(thrown).hasMessageThat().contains("label \"Code-Style\" is not a configured label");
   }
 
   @Test
@@ -3445,9 +3485,10 @@ public class ChangeIT extends AbstractDaemonTest {
     String changeId = createChange().getChangeId();
     ReviewInput in = new ReviewInput().label("Code-Review", 3);
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("label \"Code-Review\": 3 is not a valid value");
-    gApi.changes().id(changeId).current().review(in);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class, () -> gApi.changes().id(changeId).current().review(in));
+    assertThat(thrown).hasMessageThat().contains("label \"Code-Review\": 3 is not a valid value");
   }
 
   @Test
@@ -3475,10 +3516,14 @@ public class ChangeIT extends AbstractDaemonTest {
 
     gApi.changes().id(result1.getChangeId()).current().submit();
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("Failed to submit 1 change due to the following problems");
-    exception.expectMessage("needs All-Comments-Resolved");
-    gApi.changes().id(result2.getChangeId()).current().submit();
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(result2.getChangeId()).current().submit());
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Failed to submit 1 change due to the following problems");
+    assertThat(thrown).hasMessageThat().contains("needs All-Comments-Resolved");
   }
 
   @Test
@@ -3489,10 +3534,14 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r1 = pushFactory.create(user.newIdent(), testRepo).to("refs/for/master");
     approve(r1.getChangeId());
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("Failed to submit 1 change due to the following problems");
-    exception.expectMessage("needs Is-Pure-Revert");
-    gApi.changes().id(r1.getChangeId()).current().submit();
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(r1.getChangeId()).current().submit());
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Failed to submit 1 change due to the following problems");
+    assertThat(thrown).hasMessageThat().contains("needs Is-Pure-Revert");
   }
 
   @Test
@@ -3507,10 +3556,13 @@ public class ChangeIT extends AbstractDaemonTest {
     amendChange(revertId);
     approve(revertId);
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("Failed to submit 1 change due to the following problems");
-    exception.expectMessage("needs Is-Pure-Revert");
-    gApi.changes().id(revertId).current().submit();
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class, () -> gApi.changes().id(revertId).current().submit());
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Failed to submit 1 change due to the following problems");
+    assertThat(thrown).hasMessageThat().contains("needs Is-Pure-Revert");
   }
 
   @Test
@@ -3588,9 +3640,11 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     assertThat(getCommitMessage(r.getChangeId()))
         .isEqualTo("test commit\n\nChange-Id: " + r.getChangeId() + "\n");
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("missing Change-Id footer");
-    gApi.changes().id(r.getChangeId()).setMessage("modified commit\n");
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(r.getChangeId()).setMessage("modified commit\n"));
+    assertThat(thrown).hasMessageThat().contains("missing Change-Id footer");
   }
 
   @Test
@@ -3598,11 +3652,14 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     assertThat(getCommitMessage(r.getChangeId()))
         .isEqualTo("test commit\n\nChange-Id: " + r.getChangeId() + "\n");
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("NUL character");
-    gApi.changes()
-        .id(r.getChangeId())
-        .setMessage("test\0commit\n\nChange-Id: " + r.getChangeId() + "\n");
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                gApi.changes()
+                    .id(r.getChangeId())
+                    .setMessage("test\0commit\n\nChange-Id: " + r.getChangeId() + "\n"));
+    assertThat(thrown).hasMessageThat().contains("NUL character");
   }
 
   @Test
@@ -3611,11 +3668,15 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     assertThat(getCommitMessage(r.getChangeId()))
         .isEqualTo("test commit\n\nChange-Id: " + r.getChangeId() + "\n");
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("wrong Change-Id footer");
-    gApi.changes()
-        .id(r.getChangeId())
-        .setMessage("modified commit\n\nChange-Id: " + otherChange.getChangeId() + "\n");
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () ->
+                gApi.changes()
+                    .id(r.getChangeId())
+                    .setMessage(
+                        "modified commit\n\nChange-Id: " + otherChange.getChangeId() + "\n"));
+    assertThat(thrown).hasMessageThat().contains("wrong Change-Id footer");
   }
 
   @Test
@@ -3630,9 +3691,10 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertOkStatus();
     // Try to change the commit message
-    exception.expect(AuthException.class);
-    exception.expectMessage("modifying commit message not permitted");
-    gApi.changes().id(r.getChangeId()).setMessage("foo");
+    AuthException thrown =
+        assertThrows(
+            AuthException.class, () -> gApi.changes().id(r.getChangeId()).setMessage("foo"));
+    assertThat(thrown).hasMessageThat().contains("modifying commit message not permitted");
   }
 
   @Test
@@ -3640,9 +3702,11 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     assertThat(getCommitMessage(r.getChangeId()))
         .isEqualTo("test commit\n\nChange-Id: " + r.getChangeId() + "\n");
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("new and existing commit message are the same");
-    gApi.changes().id(r.getChangeId()).setMessage(getCommitMessage(r.getChangeId()));
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(r.getChangeId()).setMessage(getCommitMessage(r.getChangeId())));
+    assertThat(thrown).hasMessageThat().contains("new and existing commit message are the same");
   }
 
   @Test
@@ -3730,9 +3794,11 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r1 = createChange();
     merge(r1);
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("invalid object ID");
-    gApi.changes().id(createChange().getChangeId()).pureRevert("invalid id");
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(createChange().getChangeId()).pureRevert("invalid id"));
+    assertThat(thrown).hasMessageThat().contains("invalid object ID");
   }
 
   @Test
@@ -3777,9 +3843,11 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void pureRevertThrowsExceptionWhenChangeIsNotARevertAndNoIdProvided() throws Exception {
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("revertOf not set");
-    gApi.changes().id(createChange().getChangeId()).pureRevert();
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(createChange().getChangeId()).pureRevert());
+    assertThat(thrown).hasMessageThat().contains("revertOf not set");
   }
 
   @Test
@@ -3787,9 +3855,9 @@ public class ChangeIT extends AbstractDaemonTest {
     String changeId = createChange().getChangeId();
     String topic = Stream.generate(() -> "t").limit(2049).collect(joining());
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("topic length exceeds the limit");
-    gApi.changes().id(changeId).topic(topic);
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> gApi.changes().id(changeId).topic(topic));
+    assertThat(thrown).hasMessageThat().contains("topic length exceeds the limit");
   }
 
   @Test
@@ -4065,9 +4133,9 @@ public class ChangeIT extends AbstractDaemonTest {
   public void cannotIgnoreOwnChange() throws Exception {
     String changeId = createChange().getChangeId();
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("cannot ignore own change");
-    gApi.changes().id(changeId).ignore(true);
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> gApi.changes().id(changeId).ignore(true));
+    assertThat(thrown).hasMessageThat().contains("cannot ignore own change");
   }
 
   @Test
@@ -4078,14 +4146,17 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.accounts().self().starChange(changeId);
     assertThat(gApi.changes().id(changeId).get().starred).isTrue();
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage(
-        "The labels "
-            + StarredChangesUtil.DEFAULT_LABEL
-            + " and "
-            + StarredChangesUtil.IGNORE_LABEL
-            + " are mutually exclusive. Only one of them can be set.");
-    gApi.changes().id(changeId).ignore(true);
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class, () -> gApi.changes().id(changeId).ignore(true));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "The labels "
+                + StarredChangesUtil.DEFAULT_LABEL
+                + " and "
+                + StarredChangesUtil.IGNORE_LABEL
+                + " are mutually exclusive. Only one of them can be set.");
   }
 
   @Test
@@ -4096,14 +4167,17 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).ignore(true);
     assertThat(gApi.changes().id(changeId).ignored()).isTrue();
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage(
-        "The labels "
-            + StarredChangesUtil.DEFAULT_LABEL
-            + " and "
-            + StarredChangesUtil.IGNORE_LABEL
-            + " are mutually exclusive. Only one of them can be set.");
-    gApi.accounts().self().starChange(changeId);
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class, () -> gApi.accounts().self().starChange(changeId));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "The labels "
+                + StarredChangesUtil.DEFAULT_LABEL
+                + " and "
+                + StarredChangesUtil.IGNORE_LABEL
+                + " are mutually exclusive. Only one of them can be set.");
   }
 
   @Test
@@ -4141,21 +4215,28 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).markAsReviewed(true);
     assertThat(gApi.changes().id(changeId).get().reviewed).isTrue();
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage(
-        "The labels "
-            + StarredChangesUtil.REVIEWED_LABEL
-            + "/"
-            + 1
-            + " and "
-            + StarredChangesUtil.UNREVIEWED_LABEL
-            + "/"
-            + 1
-            + " are mutually exclusive. Only one of them can be set.");
-    gApi.accounts()
-        .self()
-        .setStars(
-            changeId, new StarsInput(ImmutableSet.of(StarredChangesUtil.UNREVIEWED_LABEL + "/1")));
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                gApi.accounts()
+                    .self()
+                    .setStars(
+                        changeId,
+                        new StarsInput(
+                            ImmutableSet.of(StarredChangesUtil.UNREVIEWED_LABEL + "/1"))));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "The labels "
+                + StarredChangesUtil.REVIEWED_LABEL
+                + "/"
+                + 1
+                + " and "
+                + StarredChangesUtil.UNREVIEWED_LABEL
+                + "/"
+                + 1
+                + " are mutually exclusive. Only one of them can be set.");
   }
 
   @Test
@@ -4166,21 +4247,27 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).markAsReviewed(false);
     assertThat(gApi.changes().id(changeId).get().reviewed).isNull();
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage(
-        "The labels "
-            + StarredChangesUtil.REVIEWED_LABEL
-            + "/"
-            + 1
-            + " and "
-            + StarredChangesUtil.UNREVIEWED_LABEL
-            + "/"
-            + 1
-            + " are mutually exclusive. Only one of them can be set.");
-    gApi.accounts()
-        .self()
-        .setStars(
-            changeId, new StarsInput(ImmutableSet.of(StarredChangesUtil.REVIEWED_LABEL + "/1")));
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                gApi.accounts()
+                    .self()
+                    .setStars(
+                        changeId,
+                        new StarsInput(ImmutableSet.of(StarredChangesUtil.REVIEWED_LABEL + "/1"))));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "The labels "
+                + StarredChangesUtil.REVIEWED_LABEL
+                + "/"
+                + 1
+                + " and "
+                + StarredChangesUtil.UNREVIEWED_LABEL
+                + "/"
+                + 1
+                + " are mutually exclusive. Only one of them can be set.");
   }
 
   @Test
@@ -4209,9 +4296,14 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // label cannot contain whitespace
     String invalidLabel = "invalid label";
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("invalid labels: " + invalidLabel);
-    gApi.accounts().self().setStars(changeId, new StarsInput(ImmutableSet.of(invalidLabel)));
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                gApi.accounts()
+                    .self()
+                    .setStars(changeId, new StarsInput(ImmutableSet.of(invalidLabel))));
+    assertThat(thrown).hasMessageThat().contains("invalid labels: " + invalidLabel);
   }
 
   @Test

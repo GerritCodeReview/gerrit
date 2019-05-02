@@ -24,6 +24,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LAB
 import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
 import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
 
@@ -1019,13 +1020,15 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     ChangeApi revert2 = gApi.changes().id(change.getChangeId()).revert();
     approve(revert2.id());
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage(
-        "Change "
-            + revert2.get()._number
-            + ": Change could not be merged because the commit is empty. "
-            + "Project policy requires all commits to contain modifications to at least one file.");
-    revert2.current().submit();
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> revert2.current().submit());
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "Change "
+                + revert2.get()._number
+                + ": Change could not be merged because the commit is empty. Project policy"
+                + " requires all commits to contain modifications to at least one file.");
   }
 
   @Test
@@ -1050,13 +1053,15 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     ChangeApi change = gApi.changes().create(ci);
     approve(change.id());
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage(
-        "Change "
-            + change.get()._number
-            + ": Change could not be merged because the commit is empty. "
-            + "Project policy requires all commits to contain modifications to at least one file.");
-    change.current().submit();
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> change.current().submit());
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "Change "
+                + change.get()._number
+                + ": Change could not be merged because the commit is empty. Project policy"
+                + " requires all commits to contain modifications to at least one file.");
   }
 
   @Test

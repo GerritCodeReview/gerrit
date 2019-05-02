@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.api.accounts;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.AssertUtil.assertPrefs;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -160,9 +161,11 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     i.my = new ArrayList<>();
     i.my.add(new MenuItem(null, "url"));
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("name for menu item is required");
-    gApi.accounts().id(user42.id().toString()).setPreferences(i);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.accounts().id(user42.id().toString()).setPreferences(i));
+    assertThat(thrown).hasMessageThat().contains("name for menu item is required");
   }
 
   @Test
@@ -171,9 +174,11 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     i.my = new ArrayList<>();
     i.my.add(new MenuItem("name", null));
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("URL for menu item is required");
-    gApi.accounts().id(user42.id().toString()).setPreferences(i);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.accounts().id(user42.id().toString()).setPreferences(i));
+    assertThat(thrown).hasMessageThat().contains("URL for menu item is required");
   }
 
   @Test
@@ -191,9 +196,13 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     GeneralPreferencesInfo i = GeneralPreferencesInfo.defaults();
     i.downloadScheme = "foo";
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("Unsupported download scheme: " + i.downloadScheme);
-    gApi.accounts().id(user42.id().toString()).setPreferences(i);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.accounts().id(user42.id().toString()).setPreferences(i));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Unsupported download scheme: " + i.downloadScheme);
   }
 
   @Test

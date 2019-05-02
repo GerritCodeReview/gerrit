@@ -26,6 +26,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.project.testing.Util.category;
 import static com.google.gerrit.server.project.testing.Util.value;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -265,15 +266,17 @@ public class CustomLabelIT extends AbstractDaemonTest {
     assertPermitted(info, P.getName(), 0, 1);
     assertPermitted(info, label.getName());
 
-    ReviewInput in = new ReviewInput();
-    in.label(P.getName(), P.getMax().getValue());
-    revision(r).review(in);
+    ReviewInput preSubmitReview = new ReviewInput();
+    preSubmitReview.label(P.getName(), P.getMax().getValue());
+    revision(r).review(preSubmitReview);
 
-    in = new ReviewInput();
-    in.label(label.getName(), label.getMax().getValue());
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("Voting on labels disallowed after submit: " + label.getName());
-    revision(r).review(in);
+    ReviewInput postSubmitReview = new ReviewInput();
+    postSubmitReview.label(label.getName(), label.getMax().getValue());
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> revision(r).review(postSubmitReview));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Voting on labels disallowed after submit: " + label.getName());
   }
 
   @Test

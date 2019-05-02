@@ -98,7 +98,7 @@ limitations under the License.
       loadCommentSpy = sandbox.spy(commentApiWrapper.$.commentAPI, 'loadAll');
 
       // Stub methods on the changeComments object after changeComments has
-      // been initalized.
+      // been initialized.
       commentApiWrapper.loadComments().then(() => {
         sandbox.stub(element.changeComments, 'getPaths').returns({});
         sandbox.stub(element.changeComments, 'getCommentsBySideForPath')
@@ -1450,7 +1450,7 @@ limitations under the License.
       sandbox.stub(element, '_reviewFile');
 
       // Stub methods on the changeComments object after changeComments has
-      // been initalized.
+      // been initialized.
       commentApiWrapper.loadComments().then(() => {
         sandbox.stub(element.changeComments, 'getPaths').returns({});
         sandbox.stub(element.changeComments, 'getCommentsBySideForPath')

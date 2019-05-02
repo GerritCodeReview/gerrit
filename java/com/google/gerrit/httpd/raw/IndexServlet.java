@@ -22,13 +22,14 @@ import com.google.common.io.Resources;
 import com.google.gerrit.common.Nullable;
 import com.google.template.soy.SoyFileSet;
 import com.google.template.soy.data.SanitizedContent;
-import com.google.template.soy.data.SoyMapData;
 import com.google.template.soy.data.UnsafeSanitizedContentOrdainer;
 import com.google.template.soy.tofu.SoyTofu;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -74,8 +75,8 @@ public class IndexServlet extends HttpServlet {
     return uri.getPath().replaceAll("/$", "");
   }
 
-  static SoyMapData getTemplateData(String canonicalURL, String cdnPath, String faviconPath)
-      throws URISyntaxException {
+  static Map<String, String> getTemplateData(
+      String canonicalURL, String cdnPath, String faviconPath) throws URISyntaxException {
     String canonicalPath = computeCanonicalPath(canonicalURL);
 
     String staticPath = "";
@@ -91,9 +92,10 @@ public class IndexServlet extends HttpServlet {
         UnsafeSanitizedContentOrdainer.ordainAsSafe(
             staticPath, SanitizedContent.ContentKind.TRUSTED_RESOURCE_URI);
 
-    return new SoyMapData(
-        "canonicalPath", canonicalPath,
-        "staticResourcePath", sanitizedStaticPath,
-        "faviconPath", faviconPath);
+    Map<String, String> data = new HashMap<>();
+    data.put("canonicalPath", canonicalPath);
+    data.put("staticResourcePath", sanitizedStaticPath.coerceToString());
+    data.put("faviconPath", faviconPath);
+    return data;
   }
 }

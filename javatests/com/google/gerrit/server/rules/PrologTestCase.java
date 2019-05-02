@@ -19,7 +19,6 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.inject.Guice;
 import com.google.inject.Module;
 import com.googlecode.prolog_cafe.exceptions.CompileException;
@@ -45,7 +44,7 @@ import org.junit.Ignore;
 
 /** Base class for any tests written in Prolog. */
 @Ignore
-public abstract class PrologTestCase extends GerritBaseTests {
+public abstract class PrologTestCase {
   private static final SymbolTerm test_1 = SymbolTerm.intern("test", 1);
 
   private String pkg;

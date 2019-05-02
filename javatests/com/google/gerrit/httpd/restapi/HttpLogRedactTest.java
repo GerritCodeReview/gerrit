@@ -16,10 +16,9 @@ package com.google.gerrit.httpd.restapi;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class HttpLogRedactTest extends GerritBaseTests {
+public class HttpLogRedactTest {
   @Test
   public void redactAuth() {
     assertThat(LogRedactUtil.redactQueryString("query=status:open")).isEqualTo("query=status:open");

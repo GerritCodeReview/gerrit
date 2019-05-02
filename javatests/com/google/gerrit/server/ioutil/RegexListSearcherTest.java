@@ -18,11 +18,10 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.util.List;
 import org.junit.Test;
 
-public class RegexListSearcherTest extends GerritBaseTests {
+public class RegexListSearcherTest {
   private static final ImmutableList<String> EMPTY = ImmutableList.of();
 
   @Test

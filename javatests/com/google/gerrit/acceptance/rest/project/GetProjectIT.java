@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -54,8 +55,9 @@ public class GetProjectIT extends AbstractDaemonTest {
     assertThat(p.name).isEqualTo(name);
   }
 
-  @Test(expected = ResourceNotFoundException.class)
+  @Test
   public void getProjectNotExisting() throws Exception {
-    gApi.projects().name("does-not-exist").get();
+    assertThrows(
+        ResourceNotFoundException.class, () -> gApi.projects().name("does-not-exist").get());
   }
 }

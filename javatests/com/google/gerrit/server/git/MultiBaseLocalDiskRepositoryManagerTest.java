@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
@@ -150,11 +151,17 @@ public class MultiBaseLocalDiskRepositoryManagerTest extends GerritBaseTests {
     }
   }
 
-  @Test(expected = IllegalStateException.class)
+  @Test
   public void testRelativeAlternateLocation() {
-    configMock = createNiceMock(RepositoryConfig.class);
-    expect(configMock.getAllBasePaths()).andReturn(ImmutableList.of(Paths.get("repos"))).anyTimes();
-    replay(configMock);
-    repoManager = new MultiBaseLocalDiskRepositoryManager(site, cfg, configMock);
+    assertThrows(
+        IllegalStateException.class,
+        () -> {
+          configMock = createNiceMock(RepositoryConfig.class);
+          expect(configMock.getAllBasePaths())
+              .andReturn(ImmutableList.of(Paths.get("repos")))
+              .anyTimes();
+          replay(configMock);
+          repoManager = new MultiBaseLocalDiskRepositoryManager(site, cfg, configMock);
+        });
   }
 }

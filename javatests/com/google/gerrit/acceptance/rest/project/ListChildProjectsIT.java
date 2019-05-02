@@ -14,7 +14,9 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertThatNameList;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -31,9 +33,11 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void listChildrenOfNonExistingProject_NotFound() throws Exception {
-    exception.expect(ResourceNotFoundException.class);
-    exception.expectMessage("non-existing");
-    gApi.projects().name(name("non-existing")).child("children");
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class,
+            () -> gApi.projects().name(name("non-existing")).child("children"));
+    assertThat(thrown).hasMessageThat().contains("non-existing");
   }
 
   @Test

@@ -201,7 +201,9 @@ public abstract class AbstractDaemonTest {
   @ConfigSuite.Parameter public Config baseConfig;
   @ConfigSuite.Name private String configName;
 
-  @Rule public ExpectedException exception = ExpectedException.none();
+  @Deprecated // Use GerritJUnit#assertThrows
+  @Rule
+  public ExpectedException exception = ExpectedException.none();
 
   @Rule
   public TestRule testRunner =

@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.account;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
 
@@ -584,9 +585,9 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
     List<AccountInfo> result = newQuery(otherUser.username).withSuggest(true).get();
     assertThat(result.get(0).secondaryEmails).isNull();
-
-    exception.expect(AuthException.class);
-    newQuery(otherUser.username).withOption(ListAccountsOption.ALL_EMAILS).get();
+    assertThrows(
+        AuthException.class,
+        () -> newQuery(otherUser.username).withOption(ListAccountsOption.ALL_EMAILS).get());
   }
 
   @Test

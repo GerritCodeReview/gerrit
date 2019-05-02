@@ -16,12 +16,12 @@ package com.google.gerrit.index.query;
 
 import static com.google.common.collect.ImmutableList.of;
 import static com.google.gerrit.index.query.Predicate.or;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.List;
 import org.junit.Test;
@@ -43,28 +43,13 @@ public class OrPredicateTest extends PredicateTest {
     final TestPredicate b = f("author", "bob");
     final Predicate<String> n = or(a, b);
 
-    try {
-      n.getChildren().clear();
-      fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException e) {
-      // Expected
-    }
+    assertThrows(UnsupportedOperationException.class, () -> n.getChildren().clear());
     assertChildren("clear", n, of(a, b));
 
-    try {
-      n.getChildren().remove(0);
-      fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException e) {
-      // Expected
-    }
+    assertThrows(UnsupportedOperationException.class, () -> n.getChildren().remove(0));
     assertChildren("remove(0)", n, of(a, b));
 
-    try {
-      n.getChildren().iterator().remove();
-      fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException e) {
-      // Expected
-    }
+    assertThrows(UnsupportedOperationException.class, () -> n.getChildren().iterator().remove());
     assertChildren("iterator().remove()", n, of(a, b));
   }
 

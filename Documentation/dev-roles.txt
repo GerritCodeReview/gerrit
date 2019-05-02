@@ -7,7 +7,7 @@ the project and get involved.
 [[supporter]]
 == Supporter
 
-Supporters are individuals which help the Gerrit project and the Gerrit
+Supporters are individuals who help the Gerrit project and the Gerrit
 community in any way. This includes users that provide feedback to the
 Gerrit community or get in touch by other means.
 
@@ -37,7 +37,7 @@ Supporters can:
   mailing list (Please note that the `repo-discuss` mailing list is
   managed to prevent spam posts. This means posts from new participants
   must be approved manually before they appear on the mailing list.
-  Approvals normally happen within 1 work day. Posts of people that
+  Approvals normally happen within 1 work day. Posts of people who
   participate in mailing list discussions frequently are approved
   automatically)
 * comment on
@@ -53,7 +53,7 @@ Supporters can:
 * file issues in the link:https://bugs.chromium.org/p/gerrit/issues/list[
   issue tracker] and comment on existing issues
 
-Supporters which want to engage further can get additional privileges
+Supporters who want to engage further can get additional privileges
 on request (ask for it on the
 link:https://groups.google.com/d/forum/repo-discuss[repo-discuss]
 mailing list):
@@ -103,7 +103,7 @@ group, which allows to:
   `refs/meta/config` branch
 
 Being member of the `gerrit-verifiers` group includes further
-permissions (see link:#contributor[contributor] section above).
+permissions (see link:#supporter[supporter] section above).
 
 It's highly appreciated if contributors engage in code reviews and
 mailing list discussions.
@@ -149,8 +149,8 @@ following tasks (but are not required to do so):
 
 Maintainers can:
 
-* approve changes (vote `+2` on the `Code-Review` label), when
-  approving changes `-1` votes on the `Code-Review` label can be
+* approve changes (vote `+2` on the `Code-Review` label); when
+  approving changes, `-1` votes on the `Code-Review` label can be
   ignored if there is a good reason, in this case the reason should be
   clearly communicated on the change
 * submit changes
@@ -166,7 +166,7 @@ Maintainers can:
   link:https://gerrit-review.googlesource.com/[
   gerrit-review.googlesource.com]
 
-In addition maintainers from Google can:
+In addition, maintainers from Google can:
 
 * approve/reject changes that update project dependencies (vote `-1` to
   `+1` on the `Library-Compliance` label), see
@@ -178,9 +178,9 @@ non-public maintainers mailing list. Nominations are approved by
 consensus among the maintainers. This means maintainers can veto a
 nomination.
 
-To become a maintainer a link:#contributor[contributor] should have a
+To become a maintainer, a link:#contributor[contributor] should have a
 history of deep technical contributions across different parts of the
-core Gerrit codebase. Though it is not required to be an expert on
+core Gerrit codebase. However, it is not required to be an expert on
 everything. Things that we want to see from potential maintainers
 include:
 
@@ -211,7 +211,7 @@ The release manager is responsible for:
   branches, see link:dev-processes.html#dev-in-stable-branches[
   Development in stable branches]
 
-Before each release the release manager is appointed by consensus among
+Before each release, the release manager is appointed by consensus among
 the maintainers. Volunteers are welcome, but it's also a goal to fairly
 share this work between maintainers and contributing companies.
 

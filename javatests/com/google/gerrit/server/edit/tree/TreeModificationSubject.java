@@ -45,7 +45,8 @@ public class TreeModificationSubject extends Subject<TreeModificationSubject, Tr
 
   public ChangeFileContentModificationSubject asChangeFileContentModification() {
     isInstanceOf(ChangeFileContentModification.class);
-    return ChangeFileContentModificationSubject.assertThat(
-        (ChangeFileContentModification) actual());
+    return check("asChangeFileContentModification()")
+        .about(ChangeFileContentModificationSubject.modifications())
+        .that((ChangeFileContentModification) actual());
   }
 }

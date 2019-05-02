@@ -30,7 +30,12 @@ public class ChangeFileContentModificationSubject
 
   public static ChangeFileContentModificationSubject assertThat(
       ChangeFileContentModification modification) {
-    return assertAbout(ChangeFileContentModificationSubject::new).that(modification);
+    return assertAbout(modifications()).that(modification);
+  }
+
+  public static Factory<ChangeFileContentModificationSubject, ChangeFileContentModification>
+      modifications() {
+    return ChangeFileContentModificationSubject::new;
   }
 
   private ChangeFileContentModificationSubject(

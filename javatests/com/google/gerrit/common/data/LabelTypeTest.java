@@ -17,10 +17,9 @@ package com.google.gerrit.common.data;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class LabelTypeTest extends GerritBaseTests {
+public class LabelTypeTest {
   @Test
   public void sortLabelValues() {
     LabelValue v0 = new LabelValue((short) 0, "Zero");

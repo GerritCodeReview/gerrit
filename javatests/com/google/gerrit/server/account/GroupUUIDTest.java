@@ -17,11 +17,10 @@ package com.google.gerrit.server.account;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.testing.GerritBaseTests;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Test;
 
-public class GroupUUIDTest extends GerritBaseTests {
+public class GroupUUIDTest {
   @Test
   public void createdUuidsForSameInputShouldBeDifferent() {
     String groupName = "Users";

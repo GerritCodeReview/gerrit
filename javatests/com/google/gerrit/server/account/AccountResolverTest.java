@@ -29,14 +29,13 @@ import com.google.gerrit.server.account.AccountResolver.StringSearcher;
 import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.util.Arrays;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 import org.junit.Test;
 
-public class AccountResolverTest extends GerritBaseTests {
+public class AccountResolverTest {
   private class TestSearcher extends StringSearcher {
     private final String pattern;
     private final boolean shortCircuit;

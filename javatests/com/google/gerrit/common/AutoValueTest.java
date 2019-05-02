@@ -17,10 +17,9 @@ package com.google.gerrit.common;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.auto.value.AutoValue;
-import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class AutoValueTest extends GerritBaseTests {
+public class AutoValueTest {
   @AutoValue
   abstract static class Auto {
     static Auto create(String val) {

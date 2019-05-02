@@ -20,10 +20,9 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class PatchListEntryTest extends GerritBaseTests {
+public class PatchListEntryTest {
   @Test
   public void empty1() {
     final String name = "empty-file";

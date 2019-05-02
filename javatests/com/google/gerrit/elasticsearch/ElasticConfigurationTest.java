@@ -25,14 +25,13 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.inject.ProvisionException;
 import java.util.Arrays;
 import org.apache.http.HttpHost;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
-public class ElasticConfigurationTest extends GerritBaseTests {
+public class ElasticConfigurationTest {
   @Test
   public void singleServerNoOtherConfig() throws Exception {
     Config cfg = newConfig();

@@ -16,12 +16,11 @@ package com.google.gerrit.reviewdb.client;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.testing.GerritBaseTests;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Test;
 
-public class PatchSetApprovalTest extends GerritBaseTests {
+public class PatchSetApprovalTest {
   @Test
   public void keyEquality() {
     PatchSetApproval.Key k1 =

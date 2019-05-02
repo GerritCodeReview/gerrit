@@ -23,14 +23,13 @@ import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import com.google.gerrit.testing.GerritBaseTests;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import org.junit.Test;
 
-public class BasicSerializationTest extends GerritBaseTests {
+public class BasicSerializationTest {
   @Test
   public void testReadVarInt32() throws IOException {
     assertEquals(0x00000000, readVarInt32(r(b(0))));

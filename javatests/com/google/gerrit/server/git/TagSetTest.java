@@ -30,7 +30,6 @@ import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto.TagSetProto.
 import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto.TagSetProto.TagProto;
 import com.google.gerrit.server.git.TagSet.CachedRef;
 import com.google.gerrit.server.git.TagSet.Tag;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.inject.TypeLiteral;
 import java.lang.reflect.Type;
 import java.util.Arrays;
@@ -43,7 +42,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.junit.Test;
 
-public class TagSetTest extends GerritBaseTests {
+public class TagSetTest {
   @Test
   public void roundTripToProto() {
     HashMap<String, CachedRef> refs = new HashMap<>();

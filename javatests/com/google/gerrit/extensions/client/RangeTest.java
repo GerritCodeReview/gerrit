@@ -16,10 +16,9 @@ package com.google.gerrit.extensions.client;
 
 import static com.google.gerrit.extensions.common.testing.RangeSubject.assertThat;
 
-import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class RangeTest extends GerritBaseTests {
+public class RangeTest {
 
   @Test
   public void rangeOverMultipleLinesWithSmallerEndCharacterIsValid() {

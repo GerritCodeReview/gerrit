@@ -17,10 +17,9 @@ package com.google.gerrit.server.cache.serialize;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.proto.testing.Test.SerializableProto;
-import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class ProtobufSerializerTest extends GerritBaseTests {
+public class ProtobufSerializerTest {
   @Test
   public void requiredAndOptionalTypes() {
     assertRoundTrip(SerializableProto.newBuilder().setId(123));

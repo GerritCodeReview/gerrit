@@ -21,11 +21,10 @@ import static com.google.gerrit.extensions.client.ListOptionTest.MyOption.BAZ;
 import static com.google.gerrit.extensions.client.ListOptionTest.MyOption.FOO;
 
 import com.google.common.math.IntMath;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.util.EnumSet;
 import org.junit.Test;
 
-public class ListOptionTest extends GerritBaseTests {
+public class ListOptionTest {
   enum MyOption implements ListOption {
     FOO(0),
     BAR(1),

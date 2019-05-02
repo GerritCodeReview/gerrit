@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66f16395_b9567ce0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-project-dialog/gr-create-project-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-05-02T00:40:29Z",
+      "side": -1,
+      "message": "Hmm, i doin\u0027t think this should be showing as deleted, rather should not be showing at all.\n\nSame for below too.",
+      "revId": "de41043a1dd1440552906a1d5ab724ebdd036dd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

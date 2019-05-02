@@ -437,12 +437,12 @@
      */
     _splitUnchangedChunksWithComments(chunks) {
       const result = [];
-      let leftLineNum = 0;
-      let rightLineNum = 0;
+      let leftLineNum = 1;
+      let rightLineNum = 1;
 
       for (const chunk of chunks) {
         // If it isn't a common chunk, append it as-is and update line numbers.
-        if (!chunk.ab) {
+        if (!chunk.ab && !chunk.common) {
           if (chunk.a) {
             leftLineNum += chunk.a.length;
           }
@@ -453,37 +453,64 @@
           continue;
         }
 
-        let currentChunk = {ab: []};
-
-        // For each line in the common group.
-        for (const line of chunk.ab) {
-          leftLineNum++;
-          rightLineNum++;
-
-          // If this line should not be collapsed.
-          if (this.keyLocations[DiffSide.LEFT][leftLineNum] ||
-              this.keyLocations[DiffSide.RIGHT][rightLineNum]) {
-            // If any lines have been accumulated into the chunk leading up to
-            // this non-collapse line, then add them as a chunk and start a new
-            // one.
-            if (currentChunk.ab && currentChunk.ab.length > 0) {
-              result.push(currentChunk);
-              currentChunk = {ab: []};
-            }
-
-            // Add the non-collapse line as its own chunk.
-            result.push({ab: [line]});
-          } else {
-            // Append the current line to the current chunk.
-            currentChunk.ab.push(line);
-          }
+        if (chunk.common && chunk.a.length != chunk.b.length) {
+          throw new Error(
+            'DiffContent with common=true must always have equal length');
         }
+        const numLines = chunk.ab ? chunk.ab.length : chunk.a.length;
+        const chunkEnds = this._findChunkEndsAtKeyLocations(
+            numLines, leftLineNum, rightLineNum);
+        leftLineNum += numLines;
+        rightLineNum += numLines;
 
-        if (currentChunk.ab && currentChunk.ab.length > 0) {
-          result.push(currentChunk);
+        if (chunk.ab) {
+          result.push(...this._splitAtChunkEnds(chunk.ab, chunkEnds)
+              .map(lines => Object.assign({}, chunk, {ab: lines})));
+        } else if (chunk.common) {
+          const aChunks = this._splitAtChunkEnds(chunk.a, chunkEnds);
+          const bChunks = this._splitAtChunkEnds(chunk.b, chunkEnds);
+          result.push(...aChunks.map((lines, i) =>
+              Object.assign({}, chunk, {a: lines, b: bChunks[i]})));
         }
       }
 
+      return result;
+    },
+
+    _findChunkEndsAtKeyLocations(numLines, leftOffset, rightOffset) {
+      const result = [];
+      let lastChunkEnd = 0;
+      for (let i=0; i<numLines; i++) {
+        // If this line should not be collapsed.
+        if (this.keyLocations[DiffSide.LEFT][leftOffset + i] ||
+            this.keyLocations[DiffSide.RIGHT][rightOffset + i]) {
+          // If any lines have been accumulated into the chunk leading up to
+          // this non-collapse line, then add them as a chunk and start a new
+          // one.
+          if (i > lastChunkEnd) {
+            result.push(i);
+            lastChunkEnd = i;
+          }
+
+          // Add the non-collapse line as its own chunk.
+          result.push(i + 1);
+        }
+      }
+
+      if (numLines > lastChunkEnd) {
+        result.push(numLines);
+      }
+
+      return result;
+    },
+
+    _splitAtChunkEnds(lines, chunkEnds) {
+      const result = [];
+      let lastChunkEnd = 0;
+      for (const chunkEnd of chunkEnds) {
+        result.push(lines.slice(lastChunkEnd, chunkEnd));
+        lastChunkEnd = chunkEnd;
+      }
       return result;
     },
 

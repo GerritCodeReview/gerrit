@@ -31,7 +31,6 @@ import com.google.gerrit.metrics.Description.FieldOrdering;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -40,7 +39,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ProcMetricModuleTest extends GerritBaseTests {
+public class ProcMetricModuleTest {
   @Inject MetricMaker metrics;
 
   @Inject MetricRegistry registry;

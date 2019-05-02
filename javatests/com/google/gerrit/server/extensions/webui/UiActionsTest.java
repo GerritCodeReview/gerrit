@@ -32,7 +32,6 @@ import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendCondition;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -41,7 +40,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
 
-public class UiActionsTest extends GerritBaseTests {
+public class UiActionsTest {
 
   private static class FakeForProject extends ForProject {
     private boolean allowValueQueries = true;

@@ -21,14 +21,13 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_VERSION;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 
-public class NoteDbSchemaVersionManagerTest extends GerritBaseTests {
+public class NoteDbSchemaVersionManagerTest {
   private NoteDbSchemaVersionManager manager;
   private TestRepository<?> tr;
 

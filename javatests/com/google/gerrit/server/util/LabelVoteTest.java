@@ -19,10 +19,9 @@ import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.server.util.LabelVote.parse;
 import static com.google.gerrit.server.util.LabelVote.parseWithEquals;
 
-import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class LabelVoteTest extends GerritBaseTests {
+public class LabelVoteTest {
   @Test
   public void labelVoteParse() {
     assertLabelVoteEquals(parse("Code-Review-2"), "Code-Review", -2);

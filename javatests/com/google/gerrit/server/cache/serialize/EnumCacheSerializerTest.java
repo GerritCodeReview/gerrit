@@ -18,10 +18,9 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class EnumCacheSerializerTest extends GerritBaseTests {
+public class EnumCacheSerializerTest {
   @Test
   public void serialize() throws Exception {
     assertRoundTrip(MyEnum.FOO);

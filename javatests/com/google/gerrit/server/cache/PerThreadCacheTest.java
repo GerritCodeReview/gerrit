@@ -17,11 +17,10 @@ package com.google.gerrit.server.cache;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
-import com.google.gerrit.testing.GerritBaseTests;
 import java.util.function.Supplier;
 import org.junit.Test;
 
-public class PerThreadCacheTest extends GerritBaseTests {
+public class PerThreadCacheTest {
   @Test
   public void key_respectsClass() {
     assertThat(PerThreadCache.Key.create(String.class))

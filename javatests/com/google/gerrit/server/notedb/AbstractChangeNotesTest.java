@@ -55,7 +55,6 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.AssertableExecutorService;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.FakeAccountCache;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.TestChanges;
 import com.google.gerrit.testing.TestTimeUtil;
@@ -79,7 +78,7 @@ import org.junit.runner.RunWith;
 
 @Ignore
 @RunWith(ConfigSuite.class)
-public abstract class AbstractChangeNotesTest extends GerritBaseTests {
+public abstract class AbstractChangeNotesTest {
   private static final TimeZone TZ = TimeZone.getTimeZone("America/Los_Angeles");
 
   @ConfigSuite.Parameter public Config testConfig;

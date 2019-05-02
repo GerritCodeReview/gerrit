@@ -16,10 +16,9 @@ package com.google.gerrit.reviewdb.client;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class ProjectTest extends GerritBaseTests {
+public class ProjectTest {
   @Test
   public void parseId() {
     assertThat(Project.NameKey.parse("foo")).isEqualTo(new Project.NameKey("foo"));

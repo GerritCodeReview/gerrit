@@ -23,10 +23,9 @@ import com.google.gerrit.mail.data.NonUTF8Message;
 import com.google.gerrit.mail.data.QuotedPrintableHeaderMessage;
 import com.google.gerrit.mail.data.RawMailMessage;
 import com.google.gerrit.mail.data.SimpleTextMessage;
-import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class RawMailParserTest extends GerritBaseTests {
+public class RawMailParserTest {
   @Test
   public void parseEmail() throws Exception {
     RawMailMessage[] messages =

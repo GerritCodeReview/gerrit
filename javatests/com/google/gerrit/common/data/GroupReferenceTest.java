@@ -19,10 +19,9 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
-import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class GroupReferenceTest extends GerritBaseTests {
+public class GroupReferenceTest {
   @Test
   public void forGroupDescription() {
     String name = "foo";

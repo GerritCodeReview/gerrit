@@ -37,7 +37,6 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.notedb.TooManyUpdatesException;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryTestEnvironment;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -50,7 +49,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class BatchUpdateTest extends GerritBaseTests {
+public class BatchUpdateTest {
   private static final int MAX_UPDATES = 4;
 
   @Rule

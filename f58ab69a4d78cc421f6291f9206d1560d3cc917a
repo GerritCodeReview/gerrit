@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58388222_005d37b4",
+        "filename": "Documentation/linux-quickstart.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-02T08:57:54Z",
+      "side": 1,
+      "message": "I believe it is best to keep ~/gerrit_testsite and make everything consistent with it.\nPeople do copy\u0026paste CLI and having one that works regardless of where the current directory is would help a lot avoiding mistakes.\n\nWhy not define a global variable $GERRIT_SITE pointing to where gerrit site is and use it across the board?\n\nP.S. $GERRIT_SITE is the safest option and is transparently managed by the gerrit.sh also.",
+      "range": {
+        "startLine": 46,
+        "startChar": 44,
+        "endLine": 46,
+        "endChar": 46
+      },
+      "revId": "f58ab69a4d78cc421f6291f9206d1560d3cc917a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

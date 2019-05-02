@@ -17,12 +17,11 @@ package com.google.gerrit.index.query;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.truth.ThrowableSubject;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.util.Collection;
 import java.util.Objects;
 import org.junit.Test;
 
-public class QueryBuilderTest extends GerritBaseTests {
+public class QueryBuilderTest {
   private static class TestPredicate extends Predicate<Object> {
     private final String field;
     private final String value;

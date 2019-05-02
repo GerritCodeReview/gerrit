@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.client.FixReplacement;
 import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.edit.tree.TreeModification;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -37,7 +36,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
 
-public class FixReplacementInterpreterTest extends GerritBaseTests {
+public class FixReplacementInterpreterTest {
   private final FileContentUtil fileContentUtil = createMock(FileContentUtil.class);
   private final Repository repository = createMock(Repository.class);
   private final ProjectState projectState = createMock(ProjectState.class);

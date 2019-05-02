@@ -23,7 +23,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.gpg.testing.TestKey;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
@@ -54,7 +53,7 @@ import org.eclipse.jgit.transport.SignedPushConfig;
 import org.junit.Before;
 import org.junit.Test;
 
-public class PushCertificateCheckerTest extends GerritBaseTests {
+public class PushCertificateCheckerTest {
   private InMemoryRepository repo;
   private PublicKeyStore store;
   private SignedPushConfig signedPushConfig;

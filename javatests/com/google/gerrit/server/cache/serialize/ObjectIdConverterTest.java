@@ -18,12 +18,11 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.byteString;
 
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.protobuf.ByteString;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
-public class ObjectIdConverterTest extends GerritBaseTests {
+public class ObjectIdConverterTest {
   @Test
   public void objectIdFromByteString() {
     ObjectIdConverter idConverter = ObjectIdConverter.create();

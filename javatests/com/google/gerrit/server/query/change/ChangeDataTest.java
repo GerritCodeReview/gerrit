@@ -21,12 +21,11 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.TestChanges;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
-public class ChangeDataTest extends GerritBaseTests {
+public class ChangeDataTest {
   @Test
   public void setPatchSetsClearsCurrentPatchSet() throws Exception {
     Project.NameKey project = Project.nameKey("project");

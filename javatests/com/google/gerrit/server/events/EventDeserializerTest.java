@@ -25,12 +25,11 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.RefUpdateAttribute;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gson.Gson;
 import java.sql.Timestamp;
 import org.junit.Test;
 
-public class EventDeserializerTest extends GerritBaseTests {
+public class EventDeserializerTest {
   private final Gson gson = new EventGsonProvider().get();
 
   @Test

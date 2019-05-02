@@ -20,7 +20,6 @@ import static com.google.common.truth.Truth8.assertThat;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -28,7 +27,7 @@ import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
 
-public class RepositoryConfigTest extends GerritBaseTests {
+public class RepositoryConfigTest {
 
   private Config cfg;
   private RepositoryConfig repoCfg;

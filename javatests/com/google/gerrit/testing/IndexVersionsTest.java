@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 
-public class IndexVersionsTest extends GerritBaseTests {
+public class IndexVersionsTest {
   private static final ChangeSchemaDefinitions SCHEMA_DEF = ChangeSchemaDefinitions.INSTANCE;
 
   @Test

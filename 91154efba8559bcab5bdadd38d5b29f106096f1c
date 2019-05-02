@@ -63,6 +63,24 @@
       "revId": "91154efba8559bcab5bdadd38d5b29f106096f1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5801321_2a94715e",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-05-02T09:52:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b96ac548_b33db602",
+      "revId": "91154efba8559bcab5bdadd38d5b29f106096f1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

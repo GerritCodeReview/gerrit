@@ -15,6 +15,7 @@ The Gerrit project has a steering committee that is in charge of:
   link:dev-design-docs.html[design docs] within 14 calendar days)
 * approving/rejecting link:dev-design-docs.html[designs], vetoing new
   features
+* assigning link:dev-roles.html#mentor[mentors] for approved features
 * accepting new plugins as core plugins
 * making changes to the project governance process and the
   link:dev-contributing.html#contribution-processes[contribution

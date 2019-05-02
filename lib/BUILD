@@ -466,3 +466,9 @@ java_library(
     visibility = ["//visibility:public"],
     exports = ["@icu4j//jar"],
 )
+
+sh_test(
+    name = "nongoogle_test",
+    srcs = ["nongoogle_test.sh"],
+    data = ["//tools:nongoogle.bzl"],
+)

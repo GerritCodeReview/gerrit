@@ -15,12 +15,6 @@
 package com.google.gerrit.testing;
 
 import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
 
 @Ignore
-public abstract class GerritBaseTests {
-  @Deprecated // Use GerritJUnit#assertThrows
-  @Rule
-  public ExpectedException exception = ExpectedException.none();
-}
+public abstract class GerritBaseTests {}

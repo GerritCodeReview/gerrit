@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c039bbdb_07dae9cd",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-02T02:34:01Z",
+      "side": 1,
+      "message": "\"provides an\"",
+      "range": {
+        "startLine": 116,
+        "startChar": 13,
+        "endLine": 116,
+        "endChar": 22
+      },
+      "revId": "e947e7a296ee15aaca24e0c867410e679606d9d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0720ab0_9da36b13",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-02T02:34:01Z",
+      "side": 1,
+      "message": "Also link to the config documentation?",
+      "revId": "e947e7a296ee15aaca24e0c867410e679606d9d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -756,6 +756,11 @@
       return this.send(this._includeComments, this.canBeStarted)
           .then(keepReviewers => {
             this._purgeReviewersPendingRemove(false, keepReviewers);
+          }).catch(err => {
+            this.dispatchEvent(new CustomEvent('show-error', {
+              bubbles: true,
+              detail: {message: `Error submitting review ${err}`},
+            }));
           });
     },
 

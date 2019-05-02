@@ -14,6 +14,9 @@
 
 package com.google.gerrit.acceptance.git;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.junit.TestRepository;
@@ -50,8 +53,15 @@ public class GitmodulesIT extends AbstractDaemonTest {
         .add(".gitmodules", config.toText())
         .create();
 
-    exception.expectMessage(expectedErrorMessage);
-    exception.expect(TransportException.class);
-    repo.git().push().setRemote("origin").setRefSpecs(new RefSpec("HEAD:refs/for/master")).call();
+    TransportException thrown =
+        assertThrows(
+            TransportException.class,
+            () ->
+                repo.git()
+                    .push()
+                    .setRemote("origin")
+                    .setRefSpecs(new RefSpec("HEAD:refs/for/master"))
+                    .call());
+    assertThat(thrown).hasMessageThat().contains(expectedErrorMessage);
   }
 }

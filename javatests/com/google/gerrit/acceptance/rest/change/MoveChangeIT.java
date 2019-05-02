@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.rest.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
@@ -90,9 +91,13 @@ public class MoveChangeIT extends AbstractDaemonTest {
   public void moveChangeToSameRefAsCurrent() throws Exception {
     // Move change to the branch same as change's destination
     PushOneCommit.Result r = createChange();
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("Change is already destined for the specified branch");
-    move(r.getChangeId(), r.getChange().change().getDest().branch());
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> move(r.getChangeId(), r.getChange().change().getDest().branch()));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Change is already destined for the specified branch");
   }
 
   @Test
@@ -103,13 +108,15 @@ public class MoveChangeIT extends AbstractDaemonTest {
     createBranch(newBranch);
     int changeNum = r.getChange().change().getChangeId();
     createChange(newBranch.branch(), r.getChangeId());
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage(
-        "Destination "
-            + newBranch.shortName()
-            + " has a different change with same change key "
-            + r.getChangeId());
-    move(changeNum, newBranch.branch());
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> move(changeNum, newBranch.branch()));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "Destination "
+                + newBranch.shortName()
+                + " has a different change with same change key "
+                + r.getChangeId());
   }
 
   @Test
@@ -118,9 +125,12 @@ public class MoveChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     BranchNameKey newBranch =
         BranchNameKey.create(r.getChange().change().getProject(), "does_not_exist");
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("Destination " + newBranch.branch() + " not found in the project");
-    move(r.getChangeId(), newBranch.branch());
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class, () -> move(r.getChangeId(), newBranch.branch()));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Destination " + newBranch.branch() + " not found in the project");
   }
 
   @Test
@@ -130,9 +140,10 @@ public class MoveChangeIT extends AbstractDaemonTest {
     BranchNameKey newBranch = BranchNameKey.create(r.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);
     merge(r);
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("Change is merged");
-    move(r.getChangeId(), newBranch.branch());
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class, () -> move(r.getChangeId(), newBranch.branch()));
+    assertThat(thrown).hasMessageThat().contains("Change is merged");
   }
 
   @Test
@@ -156,9 +167,11 @@ public class MoveChangeIT extends AbstractDaemonTest {
     BranchNameKey newBranch =
         BranchNameKey.create(r1.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("Merge commit cannot be moved");
-    move(GitUtil.getChangeId(testRepo, c).get(), newBranch.branch());
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> move(GitUtil.getChangeId(testRepo, c).get(), newBranch.branch()));
+    assertThat(thrown).hasMessageThat().contains("Merge commit cannot be moved");
   }
 
   @Test
@@ -172,9 +185,9 @@ public class MoveChangeIT extends AbstractDaemonTest {
         "refs/for/" + newBranch.branch(),
         Permission.PUSH,
         systemGroupBackend.getGroup(REGISTERED_USERS).getUUID());
-    exception.expect(AuthException.class);
-    exception.expectMessage("move not permitted");
-    move(r.getChangeId(), newBranch.branch());
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> move(r.getChangeId(), newBranch.branch()));
+    assertThat(thrown).hasMessageThat().contains("move not permitted");
   }
 
   @Test
@@ -188,9 +201,9 @@ public class MoveChangeIT extends AbstractDaemonTest {
         Permission.ABANDON,
         systemGroupBackend.getGroup(REGISTERED_USERS).getUUID());
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("move not permitted");
-    move(r.getChangeId(), newBranch.branch());
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> move(r.getChangeId(), newBranch.branch()));
+    assertThat(thrown).hasMessageThat().contains("move not permitted");
   }
 
   @Test
@@ -209,10 +222,11 @@ public class MoveChangeIT extends AbstractDaemonTest {
     gApi.projects().name(newBranch.project().get()).branch(newBranch.branch()).create(bi);
 
     // Try to move the change to the branch with the same commit
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage(
-        "Current patchset revision is reachable from tip of " + newBranch.branch());
-    move(changeNum, newBranch.branch());
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> move(changeNum, newBranch.branch()));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Current patchset revision is reachable from tip of " + newBranch.branch());
   }
 
   @Test
@@ -238,10 +252,13 @@ public class MoveChangeIT extends AbstractDaemonTest {
     grant(project, "refs/heads/*", Permission.LABEL + "Patch-Set-Lock");
     revision(r).review(new ReviewInput().label("Patch-Set-Lock", 1));
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage(
-        String.format("The current patch set of change %s is locked", r.getChange().getId()));
-    move(r.getChangeId(), newBranch.branch());
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class, () -> move(r.getChangeId(), newBranch.branch()));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            String.format("The current patch set of change %s is locked", r.getChange().getId()));
   }
 
   @Test
@@ -334,9 +351,9 @@ public class MoveChangeIT extends AbstractDaemonTest {
   public void moveNoDestinationBranchSpecified() throws Exception {
     PushOneCommit.Result r = createChange();
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("destination branch is required");
-    move(r.getChangeId(), null);
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> move(r.getChangeId(), null));
+    assertThat(thrown).hasMessageThat().contains("destination branch is required");
   }
 
   @Test
@@ -344,9 +361,9 @@ public class MoveChangeIT extends AbstractDaemonTest {
   public void moveCanBeDisabledByConfig() throws Exception {
     PushOneCommit.Result r = createChange();
 
-    exception.expect(MethodNotAllowedException.class);
-    exception.expectMessage("move changes endpoint is disabled");
-    move(r.getChangeId(), null);
+    MethodNotAllowedException thrown =
+        assertThrows(MethodNotAllowedException.class, () -> move(r.getChangeId(), null));
+    assertThat(thrown).hasMessageThat().contains("move changes endpoint is disabled");
   }
 
   private void move(int changeNum, String destination) throws RestApiException {

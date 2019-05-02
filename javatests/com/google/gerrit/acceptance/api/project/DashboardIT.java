@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
@@ -47,14 +48,12 @@ public class DashboardIT extends AbstractDaemonTest {
 
   @Test
   public void defaultDashboardDoesNotExist() throws Exception {
-    exception.expect(ResourceNotFoundException.class);
-    project().defaultDashboard().get();
+    assertThrows(ResourceNotFoundException.class, () -> project().defaultDashboard().get());
   }
 
   @Test
   public void dashboardDoesNotExist() throws Exception {
-    exception.expect(ResourceNotFoundException.class);
-    project().dashboard("my:dashboard").get();
+    assertThrows(ResourceNotFoundException.class, () -> project().dashboard("my:dashboard").get());
   }
 
   @Test
@@ -110,8 +109,7 @@ public class DashboardIT extends AbstractDaemonTest {
     project().removeDefaultDashboard();
     assertThat(project().dashboard(info.id).get().isDefault).isNull();
 
-    exception.expect(ResourceNotFoundException.class);
-    project().defaultDashboard().get();
+    assertThrows(ResourceNotFoundException.class, () -> project().defaultDashboard().get());
   }
 
   @Test
@@ -133,9 +131,9 @@ public class DashboardIT extends AbstractDaemonTest {
   @Test
   public void cannotGetDashboardWithInheritedForNonDefault() throws Exception {
     DashboardInfo info = createTestDashboard();
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("inherited flag can only be used with default");
-    project().dashboard(info.id).get(true);
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> project().dashboard(info.id).get(true));
+    assertThat(thrown).hasMessageThat().contains("inherited flag can only be used with default");
   }
 
   private void assertDashboardInfo(DashboardInfo actual, DashboardInfo expected) throws Exception {

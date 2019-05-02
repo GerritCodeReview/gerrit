@@ -25,6 +25,7 @@ import static com.google.gerrit.server.project.testing.Util.allow;
 import static com.google.gerrit.server.project.testing.Util.category;
 import static com.google.gerrit.server.project.testing.Util.value;
 import static com.google.gerrit.server.project.testing.Util.verified;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -703,10 +704,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery(searchOperator + "\"John Smith\"");
 
     // By invalid query.
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("invalid value");
     // SchemaUtil.getNameParts will return an empty set for query only containing these characters.
-    assertQuery(searchOperator + "@.- /_");
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> assertQuery(searchOperator + "@.- /_"));
+    assertThat(thrown).hasMessageThat().contains("invalid value");
   }
 
   private Change createChange(TestRepository<Repo> repo, PersonIdent person) throws Exception {

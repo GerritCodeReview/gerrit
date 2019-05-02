@@ -22,6 +22,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAI
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_UUID;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
@@ -112,9 +113,10 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Test
   public void getExternalIdsOfOtherUserNotAllowed() throws Exception {
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("access database not permitted");
-    gApi.accounts().id(admin.id().get()).getExternalIds();
+    AuthException thrown =
+        assertThrows(
+            AuthException.class, () -> gApi.accounts().id(admin.id().get()).getExternalIds());
+    assertThat(thrown).hasMessageThat().contains("access database not permitted");
   }
 
   @Test
@@ -165,22 +167,30 @@ public class ExternalIdIT extends AbstractDaemonTest {
   public void deleteExternalIdsOfOtherUserNotAllowed() throws Exception {
     List<AccountExternalIdInfo> extIds = gApi.accounts().self().getExternalIds();
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("access database not permitted");
-    gApi.accounts()
-        .id(admin.id().get())
-        .deleteExternalIds(extIds.stream().map(e -> e.identity).collect(toList()));
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () ->
+                gApi.accounts()
+                    .id(admin.id().get())
+                    .deleteExternalIds(extIds.stream().map(e -> e.identity).collect(toList())));
+    assertThat(thrown).hasMessageThat().contains("access database not permitted");
   }
 
   @Test
   public void deleteExternalIdOfOtherUserUnderOwnAccount_UnprocessableEntity() throws Exception {
     List<AccountExternalIdInfo> extIds = gApi.accounts().self().getExternalIds();
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage(String.format("External id %s does not exist", extIds.get(0).identity));
-    gApi.accounts()
-        .self()
-        .deleteExternalIds(extIds.stream().map(e -> e.identity).collect(toList()));
+    UnprocessableEntityException thrown =
+        assertThrows(
+            UnprocessableEntityException.class,
+            () ->
+                gApi.accounts()
+                    .self()
+                    .deleteExternalIds(extIds.stream().map(e -> e.identity).collect(toList())));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(String.format("External id %s does not exist", extIds.get(0).identity));
   }
 
   @Test
@@ -446,9 +456,11 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void checkConsistencyNotAllowed() throws Exception {
-    exception.expect(AuthException.class);
-    exception.expectMessage("access database not permitted");
-    gApi.config().server().checkConsistency(new ConsistencyCheckInput());
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () -> gApi.config().server().checkConsistency(new ConsistencyCheckInput()));
+    assertThat(thrown).hasMessageThat().contains("access database not permitted");
   }
 
   private ConsistencyProblemInfo consistencyError(String message) {
@@ -760,8 +772,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
       // update external ID branch so that external IDs need to be reloaded
       insertExtIdBehindGerritsBack(ExternalId.create("foo", "bar", admin.id()));
 
-      exception.expect(IOException.class);
-      externalIds.byAccount(admin.id());
+      assertThrows(IOException.class, () -> externalIds.byAccount(admin.id()));
     }
   }
 
@@ -771,8 +782,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
       // update external ID branch so that external IDs need to be reloaded
       insertExtIdBehindGerritsBack(ExternalId.create("foo", "bar", admin.id()));
 
-      exception.expect(IOException.class);
-      externalIds.byEmail(admin.email());
+      assertThrows(IOException.class, () -> externalIds.byEmail(admin.email()));
     }
   }
 

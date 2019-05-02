@@ -15,8 +15,8 @@
 package com.google.gerrit.httpd.restapi;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -110,35 +110,26 @@ public class ParameterParserTest extends GerritBaseTests {
   public void rejectDuplicateMethod() {
     FakeHttpServletRequest req = new FakeHttpServletRequest();
     req.setQueryString("$m=PUT&$m=DELETE");
-    try {
-      ParameterParser.getQueryParams(req);
-      fail("expected BadRequestException");
-    } catch (BadRequestException bad) {
-      assertThat(bad).hasMessageThat().isEqualTo("duplicate $m");
-    }
+    BadRequestException bad =
+        assertThrows(BadRequestException.class, () -> ParameterParser.getQueryParams(req));
+    assertThat(bad).hasMessageThat().isEqualTo("duplicate $m");
   }
 
   @Test
   public void rejectDuplicateContentType() {
     FakeHttpServletRequest req = new FakeHttpServletRequest();
     req.setQueryString("$ct=json&$ct=string");
-    try {
-      ParameterParser.getQueryParams(req);
-      fail("expected BadRequestException");
-    } catch (BadRequestException bad) {
-      assertThat(bad).hasMessageThat().isEqualTo("duplicate $ct");
-    }
+    BadRequestException bad =
+        assertThrows(BadRequestException.class, () -> ParameterParser.getQueryParams(req));
+    assertThat(bad).hasMessageThat().isEqualTo("duplicate $ct");
   }
 
   @Test
   public void rejectInvalidMethod() {
     FakeHttpServletRequest req = new FakeHttpServletRequest();
     req.setQueryString("$m=CONNECT");
-    try {
-      ParameterParser.getQueryParams(req);
-      fail("expected BadRequestException");
-    } catch (BadRequestException bad) {
-      assertThat(bad).hasMessageThat().isEqualTo("invalid $m");
-    }
+    BadRequestException bad =
+        assertThrows(BadRequestException.class, () -> ParameterParser.getQueryParams(req));
+    assertThat(bad).hasMessageThat().isEqualTo("invalid $m");
   }
 }

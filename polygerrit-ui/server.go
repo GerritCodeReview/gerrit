@@ -12,6 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+0	123456789
+01	23456789
+012	3456789
+0123	456789
+
 package main
 
 import (

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ab10ef21_fbb27300",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-02T14:34:19Z",
+      "side": 1,
+      "message": "I changed it to convert to String in the second patch set...",
+      "parentUuid": "600b1f32_81f884d7",
+      "range": {
+        "startLine": 95,
+        "startChar": 16,
+        "endLine": 95,
+        "endChar": 22
+      },
+      "revId": "15e955fcdb85c8184e73102b024912d73d66490e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75017412_b39c19d3",
         "filename": "java/com/google/gerrit/httpd/raw/IndexServlet.java",
         "patchSetId": 1

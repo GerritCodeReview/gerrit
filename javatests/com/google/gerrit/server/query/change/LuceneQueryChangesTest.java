@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
@@ -76,8 +79,10 @@ public class LuceneQueryChangesTest extends AbstractQueryChangesTest {
     Change change1 = insert(repo, newChange(repo), userId);
     String nameEmail = user.asIdentifiedUser().getNameEmail();
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("Cannot create full-text query with value: \\");
-    assertQuery("owner: \"" + nameEmail + "\"\\", change1);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> assertQuery("owner: \"" + nameEmail + "\"\\", change1));
+    assertThat(thrown).hasMessageThat().contains("Cannot create full-text query with value: \\");
   }
 }

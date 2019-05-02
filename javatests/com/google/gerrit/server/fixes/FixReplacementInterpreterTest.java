@@ -15,6 +15,7 @@
 package com.google.gerrit.server.fixes;
 
 import static com.google.gerrit.server.edit.tree.TreeModificationSubject.assertThatList;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.replay;
 
@@ -256,9 +257,7 @@ public class FixReplacementInterpreterTest extends GerritBaseTests {
     mockFileContent(filePath1, "First line\nSecond line\nThird line\n");
 
     replay(fileContentUtil);
-
-    exception.expect(ResourceConflictException.class);
-    toTreeModifications(fixReplacement);
+    assertThrows(ResourceConflictException.class, () -> toTreeModifications(fixReplacement));
   }
 
   @Test
@@ -269,8 +268,7 @@ public class FixReplacementInterpreterTest extends GerritBaseTests {
 
     replay(fileContentUtil);
 
-    exception.expect(ResourceConflictException.class);
-    toTreeModifications(fixReplacement);
+    assertThrows(ResourceConflictException.class, () -> toTreeModifications(fixReplacement));
   }
 
   @Test
@@ -280,9 +278,7 @@ public class FixReplacementInterpreterTest extends GerritBaseTests {
     mockFileContent(filePath1, "First line\nSecond line\nThird line\n");
 
     replay(fileContentUtil);
-
-    exception.expect(ResourceConflictException.class);
-    toTreeModifications(fixReplacement);
+    assertThrows(ResourceConflictException.class, () -> toTreeModifications(fixReplacement));
   }
 
   @Test
@@ -293,8 +289,7 @@ public class FixReplacementInterpreterTest extends GerritBaseTests {
 
     replay(fileContentUtil);
 
-    exception.expect(ResourceConflictException.class);
-    toTreeModifications(fixReplacement);
+    assertThrows(ResourceConflictException.class, () -> toTreeModifications(fixReplacement));
   }
 
   @Test
@@ -304,9 +299,7 @@ public class FixReplacementInterpreterTest extends GerritBaseTests {
     mockFileContent(filePath1, "First line\nSecond line\nThird line\n");
 
     replay(fileContentUtil);
-
-    exception.expect(ResourceConflictException.class);
-    toTreeModifications(fixReplacement);
+    assertThrows(ResourceConflictException.class, () -> toTreeModifications(fixReplacement));
   }
 
   private void mockFileContent(String filePath, String fileContent) throws Exception {

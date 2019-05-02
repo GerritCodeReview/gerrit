@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.api.accounts;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -145,17 +146,21 @@ public class AgreementsIT extends AbstractDaemonTest {
   @Test
   public void signNonExistingAgreement() throws Exception {
     assume().that(isContributorAgreementsEnabled()).isTrue();
-    exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("contributor agreement not found");
-    gApi.accounts().self().signAgreement("does-not-exist");
+    UnprocessableEntityException thrown =
+        assertThrows(
+            UnprocessableEntityException.class,
+            () -> gApi.accounts().self().signAgreement("does-not-exist"));
+    assertThat(thrown).hasMessageThat().contains("contributor agreement not found");
   }
 
   @Test
   public void signAgreementNoAutoVerify() throws Exception {
     assume().that(isContributorAgreementsEnabled()).isTrue();
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("cannot enter a non-autoVerify agreement");
-    gApi.accounts().self().signAgreement(caNoAutoVerify.getName());
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.accounts().self().signAgreement(caNoAutoVerify.getName()));
+    assertThat(thrown).hasMessageThat().contains("cannot enter a non-autoVerify agreement");
   }
 
   @Test
@@ -188,33 +193,40 @@ public class AgreementsIT extends AbstractDaemonTest {
   public void signAgreementAsOtherUser() throws Exception {
     assume().that(isContributorAgreementsEnabled()).isTrue();
     assertThat(gApi.accounts().self().get().name).isNotEqualTo("admin");
-    exception.expect(AuthException.class);
-    exception.expectMessage("not allowed to enter contributor agreement");
-    gApi.accounts().id("admin").signAgreement(caAutoVerify.getName());
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () -> gApi.accounts().id("admin").signAgreement(caAutoVerify.getName()));
+    assertThat(thrown).hasMessageThat().contains("not allowed to enter contributor agreement");
   }
 
   @Test
   public void signAgreementAnonymous() throws Exception {
     requestScopeOperations.setApiUserAnonymous();
-    exception.expect(AuthException.class);
-    exception.expectMessage("Authentication required");
-    gApi.accounts().self().signAgreement(caAutoVerify.getName());
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () -> gApi.accounts().self().signAgreement(caAutoVerify.getName()));
+    assertThat(thrown).hasMessageThat().contains("Authentication required");
   }
 
   @Test
   public void agreementsDisabledSign() throws Exception {
     assume().that(isContributorAgreementsEnabled()).isFalse();
-    exception.expect(MethodNotAllowedException.class);
-    exception.expectMessage("contributor agreements disabled");
-    gApi.accounts().self().signAgreement(caAutoVerify.getName());
+    MethodNotAllowedException thrown =
+        assertThrows(
+            MethodNotAllowedException.class,
+            () -> gApi.accounts().self().signAgreement(caAutoVerify.getName()));
+    assertThat(thrown).hasMessageThat().contains("contributor agreements disabled");
   }
 
   @Test
   public void agreementsDisabledList() throws Exception {
     assume().that(isContributorAgreementsEnabled()).isFalse();
-    exception.expect(MethodNotAllowedException.class);
-    exception.expectMessage("contributor agreements disabled");
-    gApi.accounts().self().listAgreements();
+    MethodNotAllowedException thrown =
+        assertThrows(
+            MethodNotAllowedException.class, () -> gApi.accounts().self().listAgreements());
+    assertThat(thrown).hasMessageThat().contains("contributor agreements disabled");
   }
 
   @Test
@@ -233,9 +245,9 @@ public class AgreementsIT extends AbstractDaemonTest {
     // Revert is not allowed when CLA is required but not signed
     requestScopeOperations.setApiUser(user.id());
     setUseContributorAgreements(InheritableBoolean.TRUE);
-    exception.expect(AuthException.class);
-    exception.expectMessage("Contributor Agreement");
-    gApi.changes().id(change.changeId).revert();
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> gApi.changes().id(change.changeId).revert());
+    assertThat(thrown).hasMessageThat().contains("Contributor Agreement");
   }
 
   @Test
@@ -287,9 +299,10 @@ public class AgreementsIT extends AbstractDaemonTest {
     CherryPickInput in = new CherryPickInput();
     in.destination = dest.ref;
     in.message = change.subject;
-    exception.expect(AuthException.class);
-    exception.expectMessage("Contributor Agreement");
-    gApi.changes().id(change.changeId).current().cherryPick(in);
+    AuthException thrown =
+        assertThrows(
+            AuthException.class, () -> gApi.changes().id(change.changeId).current().cherryPick(in));
+    assertThat(thrown).hasMessageThat().contains("Contributor Agreement");
   }
 
   @Test

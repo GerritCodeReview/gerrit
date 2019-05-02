@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CharMatcher;
@@ -209,9 +210,9 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
 
     assertQuery("description:non-existing");
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("description operator requires a value");
-    assertQuery("description:\"\"");
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> assertQuery("description:\"\""));
+    assertThat(thrown).hasMessageThat().contains("description operator requires a value");
   }
 
   @Test

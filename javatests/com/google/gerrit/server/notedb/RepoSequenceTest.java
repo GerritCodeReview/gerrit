@@ -16,9 +16,9 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
-import static org.junit.Assert.fail;
 
 import com.github.rholder.retry.Retryer;
 import com.github.rholder.retry.RetryerBuilder;
@@ -169,9 +169,11 @@ public class RepoSequenceTest extends GerritBaseTests {
   @Test
   public void failOnInvalidValue() throws Exception {
     ObjectId id = writeBlob("id", "not a number");
-    exception.expect(StorageException.class);
-    exception.expectMessage("invalid value in refs/sequences/id blob at " + id.name());
-    newSequence("id", 1, 3).next();
+    StorageException thrown =
+        assertThrows(StorageException.class, () -> newSequence("id", 1, 3).next());
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("invalid value in refs/sequences/id blob at " + id.name());
   }
 
   @Test
@@ -179,13 +181,10 @@ public class RepoSequenceTest extends GerritBaseTests {
     try (Repository repo = repoManager.openRepository(project)) {
       TestRepository<Repository> tr = new TestRepository<>(repo);
       tr.branch(RefNames.REFS_SEQUENCES + "id").commit().create();
-      try {
-        newSequence("id", 1, 3).next();
-        fail();
-      } catch (StorageException e) {
-        assertThat(e.getCause()).isInstanceOf(ExecutionException.class);
-        assertThat(e.getCause().getCause()).isInstanceOf(IncorrectObjectTypeException.class);
-      }
+      StorageException e =
+          assertThrows(StorageException.class, () -> newSequence("id", 1, 3).next());
+      assertThat(e.getCause()).isInstanceOf(ExecutionException.class);
+      assertThat(e.getCause().getCause()).isInstanceOf(IncorrectObjectTypeException.class);
     }
   }
 
@@ -201,9 +200,10 @@ public class RepoSequenceTest extends GerritBaseTests {
             RetryerBuilder.<RefUpdate>newBuilder()
                 .withStopStrategy(StopStrategies.stopAfterAttempt(3))
                 .build());
-    exception.expect(StorageException.class);
-    exception.expectMessage("Failed to update refs/sequences/id: LOCK_FAILURE");
-    s.next();
+    StorageException thrown = assertThrows(StorageException.class, () -> s.next());
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Failed to update refs/sequences/id: LOCK_FAILURE");
   }
 
   @Test
@@ -336,9 +336,10 @@ public class RepoSequenceTest extends GerritBaseTests {
             RetryerBuilder.<RefUpdate>newBuilder()
                 .withStopStrategy(StopStrategies.stopAfterAttempt(3))
                 .build());
-    exception.expect(StorageException.class);
-    exception.expectMessage("Failed to update refs/sequences/id: LOCK_FAILURE");
-    s.increaseTo(2);
+    StorageException thrown = assertThrows(StorageException.class, () -> s.increaseTo(2));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Failed to update refs/sequences/id: LOCK_FAILURE");
   }
 
   private RepoSequence newSequence(String name, int start, int batchSize) {

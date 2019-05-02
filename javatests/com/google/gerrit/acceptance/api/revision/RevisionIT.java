@@ -27,6 +27,7 @@ import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.HEAD;
@@ -260,9 +261,11 @@ public class RevisionIT extends AbstractDaemonTest {
     ReviewInput in = new ReviewInput();
     in.label("Code-Review", 0);
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("Cannot reduce vote on labels for closed change: Code-Review");
-    revision(r).review(in);
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> revision(r).review(in));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Cannot reduce vote on labels for closed change: Code-Review");
   }
 
   @TestProjectInput(submitType = SubmitType.CHERRY_PICK)
@@ -288,18 +291,26 @@ public class RevisionIT extends AbstractDaemonTest {
   public void voteOnAbandonedChange() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).abandon();
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("change is closed");
-    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.reject());
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(r.getChangeId()).current().review(ReviewInput.reject()));
+    assertThat(thrown).hasMessageThat().contains("change is closed");
   }
 
   @Test
   public void voteNotAllowedWithoutPermission() throws Exception {
     PushOneCommit.Result r = createChange();
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("is restricted");
-    gApi.changes().id(r.getChange().getId().get()).current().review(ReviewInput.approve());
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () ->
+                gApi.changes()
+                    .id(r.getChange().getId().get())
+                    .current()
+                    .review(ReviewInput.approve()));
+    assertThat(thrown).hasMessageThat().contains("is restricted");
   }
 
   @Test
@@ -455,9 +466,11 @@ public class RevisionIT extends AbstractDaemonTest {
     cherry.current().review(ReviewInput.approve());
     cherry.current().submit();
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("Cherry pick failed: identical tree");
-    orig.revision(r.getCommit().name()).cherryPick(in);
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> orig.revision(r.getCommit().name()).cherryPick(in));
+    assertThat(thrown).hasMessageThat().contains("Cherry pick failed: identical tree");
   }
 
   @Test
@@ -481,9 +494,11 @@ public class RevisionIT extends AbstractDaemonTest {
     ChangeApi orig = gApi.changes().id(triplet);
     assertThat(orig.get().messages).hasSize(1);
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("Cherry pick failed: merge conflict");
-    orig.revision(r.getCommit().name()).cherryPick(in);
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> orig.revision(r.getCommit().name()).cherryPick(in));
+    assertThat(thrown).hasMessageThat().contains("Cherry pick failed: merge conflict");
   }
 
   @Test
@@ -690,10 +705,17 @@ public class RevisionIT extends AbstractDaemonTest {
     cherryPickInput.message = "Cherry-pick a merge commit to another branch";
     cherryPickInput.parent = 0;
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage(
-        "Cherry Pick: Parent 0 does not exist. Please specify a parent in range [1, 2].");
-    gApi.changes().id(mergeChangeResult.getChangeId()).current().cherryPick(cherryPickInput);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                gApi.changes()
+                    .id(mergeChangeResult.getChangeId())
+                    .current()
+                    .cherryPick(cherryPickInput));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Cherry Pick: Parent 0 does not exist. Please specify a parent in range [1, 2].");
   }
 
   @Test
@@ -711,10 +733,17 @@ public class RevisionIT extends AbstractDaemonTest {
     cherryPickInput.message = "Cherry-pick a merge commit to another branch";
     cherryPickInput.parent = 3;
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage(
-        "Cherry Pick: Parent 3 does not exist. Please specify a parent in range [1, 2].");
-    gApi.changes().id(mergeChangeResult.getChangeId()).current().cherryPick(cherryPickInput);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                gApi.changes()
+                    .id(mergeChangeResult.getChangeId())
+                    .current()
+                    .cherryPick(cherryPickInput));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Cherry Pick: Parent 3 does not exist. Please specify a parent in range [1, 2].");
   }
 
   @Test
@@ -851,10 +880,13 @@ public class RevisionIT extends AbstractDaemonTest {
     input.message = srcChange.getCommit().getFullMessage();
 
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage(
-        String.format("Commit %s does not exist on branch refs/heads/foo", input.base));
-    gApi.changes().id(srcChange.getChangeId()).current().cherryPick(input).get();
+    UnprocessableEntityException thrown =
+        assertThrows(
+            UnprocessableEntityException.class,
+            () -> gApi.changes().id(srcChange.getChangeId()).current().cherryPick(input).get());
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(String.format("Commit %s does not exist on branch refs/heads/foo", input.base));
   }
 
   @Test
@@ -868,12 +900,16 @@ public class RevisionIT extends AbstractDaemonTest {
     input.base = change2.getCommit().name();
     input.message = change1.getCommit().getFullMessage();
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage(
-        String.format(
-            "Change %s with commit %s is abandoned",
-            change2.getChange().getId().get(), input.base));
-    gApi.changes().id(change1.getChangeId()).current().cherryPick(input);
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(change1.getChangeId()).current().cherryPick(input));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            String.format(
+                "Change %s with commit %s is abandoned",
+                change2.getChange().getId().get(), input.base));
   }
 
   @Test
@@ -885,9 +921,13 @@ public class RevisionIT extends AbstractDaemonTest {
     input.base = "invalid-sha1";
     input.message = change1.getCommit().getFullMessage();
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage(String.format("Base %s doesn't represent a valid SHA-1", input.base));
-    gApi.changes().id(change1.getChangeId()).current().cherryPick(input);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(change1.getChangeId()).current().cherryPick(input));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(String.format("Base %s doesn't represent a valid SHA-1", input.base));
   }
 
   @Test
@@ -1132,9 +1172,15 @@ public class RevisionIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     assertDescription(r, "");
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("edit description not permitted");
-    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description("test");
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () ->
+                gApi.changes()
+                    .id(r.getChangeId())
+                    .revision(r.getCommit().name())
+                    .description("test"));
+    assertThat(thrown).hasMessageThat().contains("edit description not permitted");
   }
 
   @Test
@@ -1329,10 +1375,14 @@ public class RevisionIT extends AbstractDaemonTest {
     reviewInput.comments = comments;
     reviewInput.message = "comment test";
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage(
-        String.format("not found in revision %d,1", r.getChange().change().getId().get()));
-    gApi.changes().id(r.getChangeId()).revision(1).review(reviewInput);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(r.getChangeId()).revision(1).review(reviewInput));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            String.format("not found in revision %d,1", r.getChange().change().getId().get()));
   }
 
   @Test
@@ -1360,9 +1410,11 @@ public class RevisionIT extends AbstractDaemonTest {
     String res = new String(os.toByteArray(), UTF_8);
     assertThat(res).isEqualTo(PATCH_FILE_ONLY);
 
-    exception.expect(ResourceNotFoundException.class);
-    exception.expectMessage("File not found: nonexistent-file.");
-    changeApi.revision(r.getCommit().name()).patch("nonexistent-file");
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class,
+            () -> changeApi.revision(r.getCommit().name()).patch("nonexistent-file"));
+    assertThat(thrown).hasMessageThat().contains("File not found: nonexistent-file.");
   }
 
   @Test
@@ -1410,13 +1462,16 @@ public class RevisionIT extends AbstractDaemonTest {
 
     // check if it's blocked to delete a vote on a non-current patch set.
     requestScopeOperations.setApiUser(admin.id());
-    exception.expect(MethodNotAllowedException.class);
-    exception.expectMessage("Cannot access on non-current patch set");
-    gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().getName())
-        .reviewer(user.id().toString())
-        .deleteVote("Code-Review");
+    MethodNotAllowedException thrown =
+        assertThrows(
+            MethodNotAllowedException.class,
+            () ->
+                gApi.changes()
+                    .id(r.getChangeId())
+                    .revision(r.getCommit().getName())
+                    .reviewer(user.id().toString())
+                    .deleteVote("Code-Review"));
+    assertThat(thrown).hasMessageThat().contains("Cannot access on non-current patch set");
   }
 
   @Test

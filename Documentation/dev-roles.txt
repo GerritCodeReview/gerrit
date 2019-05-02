@@ -1,0 +1,223 @@
+= Gerrit Code Review - Supporting Roles
+
+As an open source project Gerrit has a large community of people that
+are driving the project forward and there are many ways to engage with
+the project and get involved.
+
+[[supporter]]
+== Supporter
+
+Supporters are individuals which help the Gerrit project and the Gerrit
+community in any way. This includes users that provide feedback to the
+Gerrit community or get in touch by other means.
+
+There are many possibilities to support the project, e.g.:
+
+* get involved in discussions on the
+  link:https://groups.google.com/d/forum/repo-discuss[repo-discuss]
+  mailing list (post your questions, provide feedback, share your
+  experiences, help other users)
+* attend community events like user summits
+* report link:https://bugs.chromium.org/p/gerrit/issues/list[issues]
+  and help to clarify existing issues
+* provide feedback on
+  link:https://www.gerritcodereview.com/releases-readme.html[new
+  releases and release candidates]
+* review
+  link:https://gerrit-review.googlesource.com/q/status:open[changes]
+  and help to verify that they work as advertised, comment if you like
+  or dislike a feature
+* serve as contact person for a proprietary Gerrit installation and
+  channel feedback from users back to the Gerrit community
+
+Supporters can:
+
+* post on the
+  link:https://groups.google.com/d/forum/repo-discuss[repo-discuss]
+  mailing list (Please note that the `repo-discuss` mailing list is
+  managed to prevent spam posts. This means posts from new participants
+  must be approved manually before they appear on the mailing list.
+  Approvals normally happen within 1 work day. Posts of people that
+  participate in mailing list discussions frequently are approved
+  automatically)
+* comment on
+  link:https://gerrit-review.googlesource.com/q/status:open[changes]
+  and vote from `-1` to `+1` on the `Code-Review` label (these votes
+  are important to understand the interest in a change and to address
+  concerns early, however link:#maintainer[maintainers] can
+  overrule/ignore these votes)
+* download changes to try them out, feedback can be provided as
+  comments and by voting (preferably on the `Verified` label,
+  permissions to vote on the `Verified` label are granted by request,
+  see below)
+* file issues in the link:https://bugs.chromium.org/p/gerrit/issues/list[
+  issue tracker] and comment on existing issues
+
+Supporters which want to engage further can get additional privileges
+on request (ask for it on the
+link:https://groups.google.com/d/forum/repo-discuss[repo-discuss]
+mailing list):
+
+* become member of the `gerrit-verifiers` group, which allows to:
+** vote on the `Verified` and `Code-Style` labels
+** edit hashtags on all changes
+** edit topics on all open changes
+** abandon changes
+* approve posts to the
+  link:https://groups.google.com/d/forum/repo-discuss[repo-discuss]
+  mailing list
+* administrate issues in the
+  link:https://bugs.chromium.org/p/gerrit/issues/list[issue tracker]
+
+Supporters can become link:#contributor[contributors] by signing a
+contributor license agreement and contributing code to the Gerrit
+project.
+
+[[contributor]]
+== Contributor
+
+Everyone who has a valid link:dev-cla.html[contributor license
+agreement] and who has link:dev-contributing.html[contributed] at least
+one change to any project on
+link:https://gerrit-review.googlesource.com/[
+gerrit-review.googlesource.com] is a contributor.
+
+Contributions can be:
+
+* new features
+* bug fixes
+* code cleanups
+* documentation updates
+* release notes updates
+* scripts which are of interest to the community
+
+Contributors have all the permissions that link:#supporter[supporters]
+have. In addition they have signed a link:dev-cla.html[contributor
+license agreement] which enables them to push changes.
+
+Regular contributors can ask to be added to the `gerrit-verifiers`
+group, which allows to:
+
+* add patch sets to changes of other users
+* propose project config changes (push changes for the
+  `refs/meta/config` branch
+
+Being member of the `gerrit-verifiers` group includes further
+permissions (see link:#contributor[contributor] section above).
+
+It's highly appreciated if contributors engage in code reviews and
+mailing list discussions.
+
+Contributors may also be invited to join the Gerrit hackathons which
+happen regularly (e.g. twice a year). Hackathons are announced on the
+link:https://groups.google.com/d/forum/repo-discuss[repo-discuss]
+mailing list.
+
+Outstanding contributors that are actively engaged in the community, in
+activities outlined above, may be nominated as link:#maintainer[
+maintainers].
+
+[[maintainer]]
+== Maintainer
+
+Maintainers are the gatekeepers of the project and are in charge of
+approving and submitting changes.
+
+Maintainers should only approve changes that:
+
+* they fully understand
+* seem to be in scope for what Gerrit should do
+* meet the quality expectations of the project (well-tested, properly
+  documented, scalable, backwards-compatible)
+* implement usable features or bug fixes (no incomplete/unusable
+  things)
+* are not authored by themselves (exceptions are changes which are
+  trivial according to the judgment of the maintainer and changes that
+  are required by the release process and branch management)
+
+Maintainers are trusted to assess changes, but are also expected to
+align with the other maintainers, especially if large new features are
+being added.
+
+Maintainers are highly encouraged to dedicate some of their time to the
+following tasks (but are not required to do so):
+
+* reviewing changes
+* mailing list discussions and support
+* bug fixing and bug triaging
+* doing releases (see link#release-manager[release manager])
+
+Maintainers can:
+
+* approve changes (vote `+2` on the `Code-Review` label), when
+  approving changes `-1` votes on the `Code-Review` label can be
+  ignored if there is a good reason, in this case the reason should be
+  clearly communicated on the change
+* submit changes
+* veto changes if they disagree with a feature or with how it is being
+  implemented (vote `-2` on the `Code-Review` label)
+* nominate new maintainers and vote on nominations (see below)
+* administrate the link:https://groups.google.com/d/forum/repo-discuss[
+  mailing list], the
+  link:https://bugs.chromium.org/p/gerrit/issues/list[issue tracker]
+  and the link:https://www.gerritcodereview.com/[homepage]
+* gain permissions to do Gerrit releases and publish release artifacts
+* create new projects and groups on
+  link:https://gerrit-review.googlesource.com/[
+  gerrit-review.googlesource.com]
+
+In addition maintainers from Google can:
+
+* approve/reject changes that update project dependencies (vote `-1` to
+  `+1` on the `Library-Compliance` label), see
+  link:dev-processes.html#upgrading-libraries[Upgrading Libraries]
+* edit permissions on the Gerrit core projects
+
+Maintainers can nominate new maintainers by posting a nomination on the
+non-public maintainers mailing list. Nominations are approved by
+consensus among the maintainers. This means maintainers can veto a
+nomination.
+
+To become a maintainer a link:#contributor[contributor] should have a
+history of deep technical contributions across different parts of the
+core Gerrit codebase. Though it is not required to be an expert on
+everything. Things that we want to see from potential maintainers
+include:
+
+* high quality code contributions
+* high quality code reviews
+* activity on the mailing list
+
+[[release-manager]]
+== Release Manager
+
+Each major Gerrit release is driven by a Gerrit link:#maintainer[
+maintainer], the so called release manager.
+
+The release manager is responsible for:
+
+* identifying release blockers and informing about them
+* creating stable branches and updating version numbers
+* creating release candidates, the final major release and minor
+  releases
+* announcing releases on the mailing list and collecting feedback
+* ensuring that releases meet minimal quality expectations (Gerrit
+  starts, upgrade from previous version works)
+* publishing release artifacts
+* ensuring quality and completeness of the release notes
+* cherry-picking bug fixes, see link:dev-processes.html#backporting[
+  Backporting to stable branches]
+* estimating the risk of new features that are added on stable
+  branches, see link:dev-processes.html#dev-in-stable-branches[
+  Development in stable branches]
+
+Before each release the release manager is appointed by consensus among
+the maintainers. Volunteers are welcome, but it's also a goal to fairly
+share this work between maintainers and contributing companies.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

@@ -28,7 +28,6 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
@@ -44,7 +43,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Before;
 import org.junit.Test;
 
-public class RepoSequenceTest extends GerritBaseTests {
+public class RepoSequenceTest {
   // Don't sleep in tests.
   private static final Retryer<RefUpdate> RETRYER =
       RepoSequence.retryerBuilder().withBlockStrategy(t -> {}).build();

@@ -34,7 +34,6 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.restapi.project.CommitsCollection;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.InMemoryTestEnvironment;
 import com.google.inject.Inject;
@@ -49,7 +48,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 /** Unit tests for {@link CommitsCollection}. */
-public class CommitsCollectionTest extends GerritBaseTests {
+public class CommitsCollectionTest {
   @Rule public InMemoryTestEnvironment testEnvironment = new InMemoryTestEnvironment();
 
   @Inject private AccountManager accountManager;

@@ -17,10 +17,9 @@ package com.google.gerrit.httpd;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.httpd.RemoteUserUtil.extractUsername;
 
-import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class RemoteUserUtilTest extends GerritBaseTests {
+public class RemoteUserUtilTest {
   @Test
   public void testExtractUsername() {
     assertThat(extractUsername(null)).isNull();

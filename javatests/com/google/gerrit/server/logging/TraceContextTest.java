@@ -19,14 +19,13 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.server.logging.TraceContext.TraceIdConsumer;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import org.junit.After;
 import org.junit.Test;
 
-public class TraceContextTest extends GerritBaseTests {
+public class TraceContextTest {
   @After
   public void cleanup() {
     LoggingContext.getInstance().clearTags();

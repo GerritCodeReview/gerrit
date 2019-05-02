@@ -17,11 +17,10 @@ package com.google.gerrit.server.cache.serialize;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.auto.value.AutoValue;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.io.Serializable;
 import org.junit.Test;
 
-public class JavaCacheSerializerTest extends GerritBaseTests {
+public class JavaCacheSerializerTest {
   @Test
   public void builtInTypes() throws Exception {
     assertRoundTrip("foo");

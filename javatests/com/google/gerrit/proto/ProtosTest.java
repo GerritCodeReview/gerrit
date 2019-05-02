@@ -19,12 +19,11 @@ import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesKeyProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.protobuf.ByteString;
 import java.util.Arrays;
 import org.junit.Test;
 
-public class ProtosTest extends GerritBaseTests {
+public class ProtosTest {
   @Test
   public void parseUncheckedByteArrayWrongProtoType() {
     ChangeNotesKeyProto proto =

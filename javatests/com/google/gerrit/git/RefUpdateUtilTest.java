@@ -19,7 +19,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.io.IOException;
 import java.util.function.Consumer;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -33,7 +32,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public class RefUpdateUtilTest extends GerritBaseTests {
+public class RefUpdateUtilTest {
   private static final Consumer<ReceiveCommand> OK = c -> c.setResult(ReceiveCommand.Result.OK);
   private static final Consumer<ReceiveCommand> LOCK_FAILURE =
       c -> c.setResult(ReceiveCommand.Result.LOCK_FAILURE);

@@ -21,7 +21,6 @@ import static org.easymock.EasyMock.eq;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
 import com.google.gerrit.server.plugins.Plugin;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import com.google.gerrit.util.http.testutil.FakeHttpServletResponse;
 import com.google.inject.Key;
@@ -36,7 +35,7 @@ import org.easymock.IMocksControl;
 import org.junit.Before;
 import org.junit.Test;
 
-public class AllRequestFilterFilterProxyTest extends GerritBaseTests {
+public class AllRequestFilterFilterProxyTest {
   /**
    * Set of filters for FilterProxy
    *

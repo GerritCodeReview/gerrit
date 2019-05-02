@@ -17,7 +17,6 @@ package com.google.gerrit.server.logging;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.truth.Expect;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.concurrent.ExecutorService;
@@ -25,7 +24,7 @@ import java.util.concurrent.Executors;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class LoggingContextAwareExecutorServiceTest extends GerritBaseTests {
+public class LoggingContextAwareExecutorServiceTest {
   @Rule public final Expect expect = Expect.create();
 
   @Test

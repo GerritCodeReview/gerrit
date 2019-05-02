@@ -37,7 +37,6 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.project.testing.Util;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -62,7 +61,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-public class ProjectConfigTest extends GerritBaseTests {
+public class ProjectConfigTest {
   private static final String LABEL_SCORES_CONFIG =
       "  copyMinScore = "
           + !LabelType.DEF_COPY_MIN_SCORE

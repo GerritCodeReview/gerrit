@@ -17,12 +17,11 @@ package com.google.gerrit.server.cache.serialize;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 
-import com.google.gerrit.testing.GerritBaseTests;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.StandardCharsets;
 import org.junit.Test;
 
-public class StringCacheSerializerTest extends GerritBaseTests {
+public class StringCacheSerializerTest {
   @Test
   public void serialize() {
     assertThat(StringCacheSerializer.INSTANCE.serialize("")).isEmpty();

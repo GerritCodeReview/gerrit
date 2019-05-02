@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4ccc33b_2814b577",
+        "filename": "java/com/google/gerrit/git/testing/PushResultSubject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-02T19:06:29Z",
+      "side": 0,
+      "message": "I\u0027m not sure why this exception is caught and converted to a failure in Truth. Ideally, parseProcessed() should be written such that it doesn\u0027t throw an exception even without any \"Processing changes\" line. If an exception occurs, it rather indicates an issue with the test code and should hence be reported as an exception. If the original intention was to just surface a better exception, we could have done so by wrapping the thrown exception in another including more details. Since I\u0027m not aware of the original intention, I simply converted the failure in Truth to the new recommended way. Please tell me if you think I should rather take one of the other mentioned approaches.",
+      "range": {
+        "startLine": 86,
+        "startChar": 6,
+        "endLine": 92,
+        "endChar": 5
+      },
+      "revId": "0347a820102adefd3b22b226d443368c0ade8e8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

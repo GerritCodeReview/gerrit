@@ -30,7 +30,6 @@ import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -39,7 +38,7 @@ import java.util.concurrent.TimeUnit;
 import org.junit.Before;
 import org.junit.Test;
 
-public class EventJsonTest extends GerritBaseTests {
+public class EventJsonTest {
   private static final String BRANCH = "mybranch";
   private static final String CHANGE_ID = "Ideadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
   private static final int CHANGE_NUM = 1000;

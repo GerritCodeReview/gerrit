@@ -28,7 +28,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.StalenessChecker.RefStatePattern;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import java.util.stream.Stream;
 import org.eclipse.jgit.junit.TestRepository;
@@ -37,7 +36,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
 
-public class StalenessCheckerTest extends GerritBaseTests {
+public class StalenessCheckerTest {
   private static final String SHA1 = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
   private static final String SHA2 = "badc0feebadc0feebadc0feebadc0feebadc0fee";
 

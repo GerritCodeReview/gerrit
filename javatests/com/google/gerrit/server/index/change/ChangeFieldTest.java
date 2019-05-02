@@ -29,7 +29,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.TestTimeUtil;
 import java.sql.Timestamp;
 import java.util.Collections;
@@ -39,7 +38,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ChangeFieldTest extends GerritBaseTests {
+public class ChangeFieldTest {
   @Before
   public void setUp() {
     TestTimeUtil.resetWithClockStep(1, TimeUnit.SECONDS);

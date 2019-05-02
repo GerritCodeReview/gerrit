@@ -45,7 +45,6 @@ import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
@@ -57,7 +56,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /** Unit tests for {@link LabelNormalizer}. */
-public class LabelNormalizerTest extends GerritBaseTests {
+public class LabelNormalizerTest {
   @Inject private AccountManager accountManager;
   @Inject private AllProjectsName allProjects;
   @Inject private GitRepositoryManager repoManager;

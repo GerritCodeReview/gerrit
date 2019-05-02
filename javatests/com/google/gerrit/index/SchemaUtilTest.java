@@ -20,12 +20,11 @@ import static com.google.gerrit.index.SchemaUtil.getPersonParts;
 import static com.google.gerrit.index.SchemaUtil.schema;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
-import com.google.gerrit.testing.GerritBaseTests;
 import java.util.Map;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Test;
 
-public class SchemaUtilTest extends GerritBaseTests {
+public class SchemaUtilTest {
   static class TestSchemas {
     static final Schema<String> V1 = schema();
     static final Schema<String> V2 = schema();

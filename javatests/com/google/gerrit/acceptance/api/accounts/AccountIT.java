@@ -2035,8 +2035,8 @@ public class AccountIT extends AbstractDaemonTest {
     assertSequenceNumbers(info);
     SshKeyInfo key = info.get(0);
     KeyPair keyPair = sshKeys.getKeyPair(admin);
-    String inital = TestSshKeys.publicKey(keyPair, admin.email);
-    assertThat(key.sshPublicKey).isEqualTo(inital);
+    String initial = TestSshKeys.publicKey(keyPair, admin.email);
+    assertThat(key.sshPublicKey).isEqualTo(initial);
     accountIndexedCounter.assertNoReindex();
 
     // Add a new key
@@ -2052,7 +2052,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     // Add an existing key (the request succeeds, but the key isn't added again)
     sender.clear();
-    gApi.accounts().self().addSshKey(inital);
+    gApi.accounts().self().addSshKey(initial);
     info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(2);
     assertSequenceNumbers(info);

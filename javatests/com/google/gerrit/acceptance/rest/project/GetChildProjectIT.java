@@ -14,7 +14,9 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectInfo;
+import static org.junit.Assert.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -69,8 +71,10 @@ public class GetChildProjectIT extends AbstractDaemonTest {
   }
 
   private void assertChildNotFound(Project.NameKey parent, String child) throws Exception {
-    exception.expect(ResourceNotFoundException.class);
-    exception.expectMessage(child);
-    gApi.projects().name(parent.get()).child(child).get();
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class,
+            () -> gApi.projects().name(parent.get()).child(child).get());
+    assertThat(thrown).hasMessageThat().contains(child);
   }
 }

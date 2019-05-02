@@ -26,6 +26,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.project.testing.Util.category;
 import static com.google.gerrit.server.project.testing.Util.value;
+import static org.junit.Assert.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -271,9 +272,11 @@ public class CustomLabelIT extends AbstractDaemonTest {
 
     in = new ReviewInput();
     in.label(label.getName(), label.getMax().getValue());
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("Voting on labels disallowed after submit: " + label.getName());
-    revision(r).review(in);
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> revision(r).review(in));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Voting on labels disallowed after submit: " + label.getName());
   }
 
   @Test

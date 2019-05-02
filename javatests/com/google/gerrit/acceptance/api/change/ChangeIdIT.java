@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
@@ -56,16 +57,22 @@ public class ChangeIdIT extends AbstractDaemonTest {
 
   @Test
   public void wrongProjectInProjectChangeNumberReturnsNotFound() throws Exception {
-    exception.expect(ResourceNotFoundException.class);
-    exception.expectMessage("Not found: unknown~" + changeInfo._number);
-    gApi.changes().id("unknown", changeInfo._number);
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class,
+            () -> gApi.changes().id("unknown", changeInfo._number));
+    assertThat(thrown).hasMessageThat().contains("Not found: unknown~" + changeInfo._number);
   }
 
   @Test
   public void wrongIdInProjectChangeNumberReturnsNotFound() throws Exception {
-    exception.expect(ResourceNotFoundException.class);
-    exception.expectMessage("Not found: " + project.get() + "~" + Integer.MAX_VALUE);
-    gApi.changes().id(project.get(), Integer.MAX_VALUE);
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class,
+            () -> gApi.changes().id(project.get(), Integer.MAX_VALUE));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Not found: " + project.get() + "~" + Integer.MAX_VALUE);
   }
 
   @Test
@@ -76,8 +83,7 @@ public class ChangeIdIT extends AbstractDaemonTest {
 
   @Test
   public void wrongChangeNumberReturnsNotFound() throws Exception {
-    exception.expect(ResourceNotFoundException.class);
-    gApi.changes().id(Integer.MAX_VALUE);
+    assertThrows(ResourceNotFoundException.class, () -> gApi.changes().id(Integer.MAX_VALUE));
   }
 
   @Test
@@ -88,25 +94,36 @@ public class ChangeIdIT extends AbstractDaemonTest {
 
   @Test
   public void wrongProjectInTripletChangeIdReturnsNotFound() throws Exception {
-    exception.expect(ResourceNotFoundException.class);
-    exception.expectMessage("Not found: unknown~" + changeInfo.branch + "~" + changeInfo.changeId);
-    gApi.changes().id("unknown", changeInfo.branch, changeInfo.changeId);
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class,
+            () -> gApi.changes().id("unknown", changeInfo.branch, changeInfo.changeId));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Not found: unknown~" + changeInfo.branch + "~" + changeInfo.changeId);
   }
 
   @Test
   public void wrongBranchInTripletChangeIdReturnsNotFound() throws Exception {
-    exception.expect(ResourceNotFoundException.class);
-    exception.expectMessage("Not found: " + project.get() + "~unknown~" + changeInfo.changeId);
-    gApi.changes().id(project.get(), "unknown", changeInfo.changeId);
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class,
+            () -> gApi.changes().id(project.get(), "unknown", changeInfo.changeId));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Not found: " + project.get() + "~unknown~" + changeInfo.changeId);
   }
 
   @Test
   public void wrongIdInTripletChangeIdReturnsNotFound() throws Exception {
     String unknownId = "I1234567890";
-    exception.expect(ResourceNotFoundException.class);
-    exception.expectMessage(
-        "Not found: " + project.get() + "~" + changeInfo.branch + "~" + unknownId);
-    gApi.changes().id(project.get(), changeInfo.branch, unknownId);
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class,
+            () -> gApi.changes().id(project.get(), changeInfo.branch, unknownId));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Not found: " + project.get() + "~" + changeInfo.branch + "~" + unknownId);
   }
 
   @Test
@@ -121,8 +138,7 @@ public class ChangeIdIT extends AbstractDaemonTest {
 
   @Test
   public void wrongChangeIdReturnsNotFound() throws Exception {
-    exception.expect(ResourceNotFoundException.class);
-    gApi.changes().id("I1234567890");
+    assertThrows(ResourceNotFoundException.class, () -> gApi.changes().id("I1234567890"));
   }
 
   @Test
@@ -139,11 +155,13 @@ public class ChangeIdIT extends AbstractDaemonTest {
     // IHash throws
     ChangeInfo ci =
         gApi.changes().create(new ChangeInput(project.get(), "master", "different message")).get();
-    exception.expect(DeprecatedIdentifierException.class);
-    exception.expectMessage(
-        "The provided change identifier "
-            + ci.changeId
-            + " is deprecated. Use 'project~changeNumber' instead.");
-    gApi.changes().id(ci.changeId);
+    DeprecatedIdentifierException thrown =
+        assertThrows(DeprecatedIdentifierException.class, () -> gApi.changes().id(ci.changeId));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "The provided change identifier "
+                + ci.changeId
+                + " is deprecated. Use 'project~changeNumber' instead.");
   }
 }

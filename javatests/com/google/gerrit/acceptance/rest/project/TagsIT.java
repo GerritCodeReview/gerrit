@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.rest.project;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
@@ -62,29 +63,31 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void listTagsOfNonExistingProject() throws Exception {
-    exception.expect(ResourceNotFoundException.class);
-    gApi.projects().name("does-not-exist").tags().get();
+    assertThrows(
+        ResourceNotFoundException.class, () -> gApi.projects().name("does-not-exist").tags().get());
   }
 
   @Test
   public void getTagOfNonExistingProject() throws Exception {
-    exception.expect(ResourceNotFoundException.class);
-    gApi.projects().name("does-not-exist").tag("tag").get();
+    assertThrows(
+        ResourceNotFoundException.class,
+        () -> gApi.projects().name("does-not-exist").tag("tag").get());
   }
 
   @Test
   public void listTagsOfNonVisibleProject() throws Exception {
     blockRead("refs/*");
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(ResourceNotFoundException.class);
-    gApi.projects().name(project.get()).tags().get();
+    assertThrows(
+        ResourceNotFoundException.class, () -> gApi.projects().name(project.get()).tags().get());
   }
 
   @Test
   public void getTagOfNonVisibleProject() throws Exception {
     blockRead("refs/*");
-    exception.expect(ResourceNotFoundException.class);
-    gApi.projects().name(project.get()).tag("tag").get();
+    assertThrows(
+        ResourceNotFoundException.class,
+        () -> gApi.projects().name(project.get()).tag("tag").get());
   }
 
   @Test
@@ -247,9 +250,9 @@ public class TagsIT extends AbstractDaemonTest {
     assertThat(result.ref).isEqualTo(R_TAGS + "test");
 
     input.ref = "refs/tags/test";
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("tag \"" + R_TAGS + "test\" already exists");
-    tag(input.ref).create(input);
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> tag(input.ref).create(input));
+    assertThat(thrown).hasMessageThat().contains("tag \"" + R_TAGS + "test\" already exists");
   }
 
   @Test
@@ -257,9 +260,8 @@ public class TagsIT extends AbstractDaemonTest {
     block(R_TAGS + "*", Permission.CREATE, REGISTERED_USERS);
     TagInput input = new TagInput();
     input.ref = "test";
-    exception.expect(AuthException.class);
-    exception.expectMessage("not permitted: create");
-    tag(input.ref).create(input);
+    AuthException thrown = assertThrows(AuthException.class, () -> tag(input.ref).create(input));
+    assertThat(thrown).hasMessageThat().contains("not permitted: create");
   }
 
   @Test
@@ -268,9 +270,10 @@ public class TagsIT extends AbstractDaemonTest {
     TagInput input = new TagInput();
     input.ref = "test";
     input.message = "annotation";
-    exception.expect(AuthException.class);
-    exception.expectMessage("Cannot create annotated tag \"" + R_TAGS + "test\"");
-    tag(input.ref).create(input);
+    AuthException thrown = assertThrows(AuthException.class, () -> tag(input.ref).create(input));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Cannot create annotated tag \"" + R_TAGS + "test\"");
   }
 
   @Test
@@ -278,9 +281,9 @@ public class TagsIT extends AbstractDaemonTest {
     TagInput input = new TagInput();
     input.ref = "test";
     input.message = SIGNED_ANNOTATION;
-    exception.expect(MethodNotAllowedException.class);
-    exception.expectMessage("Cannot create signed tag \"" + R_TAGS + "test\"");
-    tag(input.ref).create(input);
+    MethodNotAllowedException thrown =
+        assertThrows(MethodNotAllowedException.class, () -> tag(input.ref).create(input));
+    assertThat(thrown).hasMessageThat().contains("Cannot create signed tag \"" + R_TAGS + "test\"");
   }
 
   @Test
@@ -288,9 +291,9 @@ public class TagsIT extends AbstractDaemonTest {
     TagInput input = new TagInput();
     input.ref = "test";
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("ref must match URL");
-    tag("TEST").create(input);
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> tag("TEST").create(input));
+    assertThat(thrown).hasMessageThat().contains("ref must match URL");
   }
 
   @Test
@@ -300,9 +303,9 @@ public class TagsIT extends AbstractDaemonTest {
     TagInput input = new TagInput();
     input.ref = "refs/heads/test";
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("invalid tag name \"" + input.ref + "\"");
-    tag(input.ref).create(input);
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> tag(input.ref).create(input));
+    assertThat(thrown).hasMessageThat().contains("invalid tag name \"" + input.ref + "\"");
   }
 
   @Test
@@ -312,9 +315,9 @@ public class TagsIT extends AbstractDaemonTest {
     TagInput input = new TagInput();
     input.ref = "//";
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("invalid tag name \"refs/tags/\"");
-    tag(input.ref).create(input);
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> tag(input.ref).create(input));
+    assertThat(thrown).hasMessageThat().contains("invalid tag name \"refs/tags/\"");
   }
 
   @Test
@@ -325,9 +328,9 @@ public class TagsIT extends AbstractDaemonTest {
     input.ref = "test";
     input.revision = "abcdefg";
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("Invalid base revision");
-    tag(input.ref).create(input);
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> tag(input.ref).create(input));
+    assertThat(thrown).hasMessageThat().contains("Invalid base revision");
   }
 
   private void assertTagList(FluentIterable<String> expected, List<TagInfo> actual)

@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
+import static org.junit.Assert.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
@@ -122,14 +123,12 @@ public class DeleteTagIT extends AbstractDaemonTest {
     String tagRev = tagInfo.revision;
     tag().delete();
     eventRecorder.assertRefUpdatedEvents(project.get(), TAG, null, tagRev, tagRev, null);
-    exception.expect(ResourceNotFoundException.class);
-    tag().get();
+    assertThrows(ResourceNotFoundException.class, () -> tag().get());
   }
 
   private void assertDeleteForbidden() throws Exception {
     assertThat(tag().get().canDelete).isNull();
-    exception.expect(AuthException.class);
-    exception.expectMessage("not permitted: delete");
-    tag().delete();
+    AuthException thrown = assertThrows(AuthException.class, () -> tag().delete());
+    assertThat(thrown).hasMessageThat().contains("not permitted: delete");
   }
 }

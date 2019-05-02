@@ -15,6 +15,7 @@
 package com.google.gerrit.server.fixes;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
@@ -23,17 +24,19 @@ public class LineIdentifierTest extends GerritBaseTests {
   @Test
   public void lineNumberMustBePositive() {
     LineIdentifier lineIdentifier = new LineIdentifier("First line\nSecond line");
-    exception.expect(StringIndexOutOfBoundsException.class);
-    exception.expectMessage("positive");
-    lineIdentifier.getStartIndexOfLine(0);
+    StringIndexOutOfBoundsException thrown =
+        assertThrows(
+            StringIndexOutOfBoundsException.class, () -> lineIdentifier.getStartIndexOfLine(0));
+    assertThat(thrown).hasMessageThat().contains("positive");
   }
 
   @Test
   public void lineNumberMustIndicateAnAvailableLine() {
     LineIdentifier lineIdentifier = new LineIdentifier("First line\nSecond line");
-    exception.expect(StringIndexOutOfBoundsException.class);
-    exception.expectMessage("Line 3 isn't available");
-    lineIdentifier.getStartIndexOfLine(3);
+    StringIndexOutOfBoundsException thrown =
+        assertThrows(
+            StringIndexOutOfBoundsException.class, () -> lineIdentifier.getStartIndexOfLine(3));
+    assertThat(thrown).hasMessageThat().contains("Line 3 isn't available");
   }
 
   @Test

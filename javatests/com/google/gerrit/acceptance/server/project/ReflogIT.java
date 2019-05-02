@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.server.project;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
+import static org.junit.Assert.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -86,8 +87,8 @@ public class ReflogIT extends AbstractDaemonTest {
   @Test
   public void regularUserIsNotAllowedToGetReflog() throws Exception {
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    gApi.projects().name(project.get()).branch("master").reflog();
+    assertThrows(
+        AuthException.class, () -> gApi.projects().name(project.get()).branch("master").reflog());
   }
 
   @Test

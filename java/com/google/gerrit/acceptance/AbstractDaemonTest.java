@@ -184,7 +184,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
-import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
@@ -200,8 +199,6 @@ public abstract class AbstractDaemonTest {
 
   @ConfigSuite.Parameter public Config baseConfig;
   @ConfigSuite.Name private String configName;
-
-  @Rule public ExpectedException exception = ExpectedException.none();
 
   @Rule
   public TestRule testRunner =

@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -89,9 +90,11 @@ public class CheckAccessIT extends AbstractDaemonTest {
 
   @Test
   public void emptyInput() throws Exception {
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("input requires 'account'");
-    gApi.projects().name(normalProject.get()).checkAccess(new AccessCheckInput());
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.projects().name(normalProject.get()).checkAccess(new AccessCheckInput()));
+    assertThat(thrown).hasMessageThat().contains("input requires 'account'");
   }
 
   @Test
@@ -101,9 +104,11 @@ public class CheckAccessIT extends AbstractDaemonTest {
     in.permission = "notapermission";
     in.ref = "refs/heads/master";
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("not recognized");
-    gApi.projects().name(normalProject.get()).checkAccess(in);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.projects().name(normalProject.get()).checkAccess(in));
+    assertThat(thrown).hasMessageThat().contains("not recognized");
   }
 
   @Test
@@ -112,9 +117,11 @@ public class CheckAccessIT extends AbstractDaemonTest {
     in.account = user.email();
     in.permission = "forge_author";
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("must set 'ref'");
-    gApi.projects().name(normalProject.get()).checkAccess(in);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.projects().name(normalProject.get()).checkAccess(in));
+    assertThat(thrown).hasMessageThat().contains("must set 'ref'");
   }
 
   @Test
@@ -124,9 +131,11 @@ public class CheckAccessIT extends AbstractDaemonTest {
     in.permission = "rebase";
     in.ref = "refs/heads/master";
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("recognized as ref permission");
-    gApi.projects().name(normalProject.get()).checkAccess(in);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.projects().name(normalProject.get()).checkAccess(in));
+    assertThat(thrown).hasMessageThat().contains("recognized as ref permission");
   }
 
   @Test
@@ -136,9 +145,11 @@ public class CheckAccessIT extends AbstractDaemonTest {
     in.permission = "rebase";
     in.ref = "refs/heads/master";
 
-    exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("Account 'doesnotexist@invalid.com' not found");
-    gApi.projects().name(normalProject.get()).checkAccess(in);
+    UnprocessableEntityException thrown =
+        assertThrows(
+            UnprocessableEntityException.class,
+            () -> gApi.projects().name(normalProject.get()).checkAccess(in));
+    assertThat(thrown).hasMessageThat().contains("Account 'doesnotexist@invalid.com' not found");
   }
 
   private static class TestCase {

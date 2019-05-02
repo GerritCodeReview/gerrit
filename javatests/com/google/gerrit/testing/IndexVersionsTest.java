@@ -19,6 +19,7 @@ import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.testing.IndexVersions.ALL;
 import static com.google.gerrit.testing.IndexVersions.CURRENT;
 import static com.google.gerrit.testing.IndexVersions.PREVIOUS;
+import static org.junit.Assert.assertThrows;
 
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import java.util.ArrayList;
@@ -133,8 +134,8 @@ public class IndexVersionsTest extends GerritBaseTests {
   }
 
   private void assertIllegalArgument(String value, String expectedMessage) {
-    exception.expect(IllegalArgumentException.class);
-    exception.expectMessage(expectedMessage);
-    get(value);
+    IllegalArgumentException thrown =
+        assertThrows(IllegalArgumentException.class, () -> get(value));
+    assertThat(thrown).hasMessageThat().contains(expectedMessage);
   }
 }

@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.rest.account;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 import static java.util.stream.Collectors.toSet;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
@@ -149,16 +150,20 @@ public class EmailIT extends AbstractDaemonTest {
   @Test
   public void setPreferredEmailToNonExistingEmail() throws Exception {
     String email = "non-existing@example.com";
-    exception.expect(ResourceNotFoundException.class);
-    exception.expectMessage("Not found: " + email);
-    gApi.accounts().self().email(email).setPreferred();
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class,
+            () -> gApi.accounts().self().email(email).setPreferred());
+    assertThat(thrown).hasMessageThat().contains("Not found: " + email);
   }
 
   @Test
   public void setPreferredEmailToEmailOfOtherAccount() throws Exception {
-    exception.expect(ResourceNotFoundException.class);
-    exception.expectMessage("Not found: " + user.email());
-    gApi.accounts().self().email(user.email()).setPreferred();
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class,
+            () -> gApi.accounts().self().email(user.email()).setPreferred());
+    assertThat(thrown).hasMessageThat().contains("Not found: " + user.email());
   }
 
   @Test
@@ -201,9 +206,11 @@ public class EmailIT extends AbstractDaemonTest {
     Context oldCtx =
         createContextWithCustomRealm(new RealmWithAdditionalEmails(admin.id(), user.email()));
     try {
-      exception.expect(ResourceConflictException.class);
-      exception.expectMessage("email in use by another account");
-      gApi.accounts().self().email(user.email()).setPreferred();
+      ResourceConflictException thrown =
+          assertThrows(
+              ResourceConflictException.class,
+              () -> gApi.accounts().self().email(user.email()).setPreferred());
+      assertThat(thrown).hasMessageThat().contains("email in use by another account");
     } finally {
       atrScope.set(oldCtx);
     }
@@ -249,8 +256,7 @@ public class EmailIT extends AbstractDaemonTest {
     // Now the email is no longer found
     requestScopeOperations.resetCurrentApiUser();
     emailApi = gApi.accounts().self().email(email);
-    exception.expect(ResourceNotFoundException.class);
-    emailApi.get();
+    assertThrows(ResourceNotFoundException.class, () -> emailApi.get());
   }
 
   private Set<String> getEmails() throws Exception {

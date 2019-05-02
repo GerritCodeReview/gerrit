@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_HEADS;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static org.junit.Assert.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
@@ -160,11 +161,8 @@ public class CreateBranchIT extends AbstractDaemonTest {
       throws Exception {
     BranchInput in = new BranchInput();
     in.revision = revision;
-    if (errMsg != null) {
-      exception.expectMessage(errMsg);
-    }
-    exception.expect(errType);
-    branch(branch).create(in);
+    if (errMsg != null) {}
+    assertThrows(errType, () -> branch(branch).create(in));
   }
 
   private void assertCreateFails(BranchNameKey branch, Class<? extends RestApiException> errType)

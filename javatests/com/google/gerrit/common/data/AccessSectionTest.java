@@ -15,6 +15,7 @@
 package com.google.gerrit.common.data;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.testing.GerritBaseTests;
@@ -57,16 +58,17 @@ public class AccessSectionTest extends GerritBaseTests {
     Permission submitPermission = new Permission(Permission.SUBMIT);
     accessSection.setPermissions(ImmutableList.of(submitPermission));
     assertThat(accessSection.getPermissions()).containsExactly(submitPermission);
-
-    exception.expect(NullPointerException.class);
-    accessSection.setPermissions(null);
+    assertThrows(NullPointerException.class, () -> accessSection.setPermissions(null));
   }
 
   @Test
   public void cannotSetDuplicatePermissions() {
-    exception.expect(IllegalArgumentException.class);
-    accessSection.setPermissions(
-        ImmutableList.of(new Permission(Permission.ABANDON), new Permission(Permission.ABANDON)));
+    assertThrows(
+        IllegalArgumentException.class,
+        () ->
+            accessSection.setPermissions(
+                ImmutableList.of(
+                    new Permission(Permission.ABANDON), new Permission(Permission.ABANDON))));
   }
 
   @Test
@@ -76,9 +78,11 @@ public class AccessSectionTest extends GerritBaseTests {
     Permission abandonPermissionUpperCase =
         new Permission(Permission.ABANDON.toUpperCase(Locale.US));
 
-    exception.expect(IllegalArgumentException.class);
-    accessSection.setPermissions(
-        ImmutableList.of(abandonPermissionLowerCase, abandonPermissionUpperCase));
+    assertThrows(
+        IllegalArgumentException.class,
+        () ->
+            accessSection.setPermissions(
+                ImmutableList.of(abandonPermissionLowerCase, abandonPermissionUpperCase)));
   }
 
   @Test
@@ -92,9 +96,7 @@ public class AccessSectionTest extends GerritBaseTests {
     Permission submitPermission = new Permission(Permission.SUBMIT);
     accessSection.setPermissions(ImmutableList.of(submitPermission));
     assertThat(accessSection.getPermission(Permission.SUBMIT)).isEqualTo(submitPermission);
-
-    exception.expect(NullPointerException.class);
-    accessSection.getPermission(null);
+    assertThrows(NullPointerException.class, () -> accessSection.getPermission(null));
   }
 
   @Test
@@ -112,8 +114,7 @@ public class AccessSectionTest extends GerritBaseTests {
     assertThat(accessSection.getPermission(Permission.SUBMIT, true))
         .isEqualTo(new Permission(Permission.SUBMIT));
 
-    exception.expect(NullPointerException.class);
-    accessSection.getPermission(null, true);
+    assertThrows(NullPointerException.class, () -> accessSection.getPermission(null, true));
   }
 
   @Test
@@ -130,9 +131,7 @@ public class AccessSectionTest extends GerritBaseTests {
     assertThat(accessSection.getPermissions())
         .containsExactly(abandonPermission, rebasePermission, submitPermission)
         .inOrder();
-
-    exception.expect(NullPointerException.class);
-    accessSection.addPermission(null);
+    assertThrows(NullPointerException.class, () -> accessSection.addPermission(null));
   }
 
   @Test
@@ -166,9 +165,7 @@ public class AccessSectionTest extends GerritBaseTests {
     assertThat(accessSection.getPermissions())
         .containsExactly(abandonPermission, rebasePermission)
         .inOrder();
-
-    exception.expect(NullPointerException.class);
-    accessSection.remove(null);
+    assertThrows(NullPointerException.class, () -> accessSection.remove(null));
   }
 
   @Test
@@ -187,8 +184,7 @@ public class AccessSectionTest extends GerritBaseTests {
         .containsExactly(abandonPermission, rebasePermission)
         .inOrder();
 
-    exception.expect(NullPointerException.class);
-    accessSection.removePermission(null);
+    assertThrows(NullPointerException.class, () -> accessSection.removePermission(null));
   }
 
   @Test
@@ -229,9 +225,7 @@ public class AccessSectionTest extends GerritBaseTests {
     assertThat(accessSection1.getPermissions())
         .containsExactly(abandonPermission, rebasePermission, submitPermission)
         .inOrder();
-
-    exception.expect(NullPointerException.class);
-    accessSection.mergeFrom(null);
+    assertThrows(NullPointerException.class, () -> accessSection.mergeFrom(null));
   }
 
   @Test

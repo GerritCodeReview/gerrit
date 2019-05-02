@@ -30,6 +30,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 
 import com.google.common.base.MoreObjects;
@@ -703,10 +704,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery(searchOperator + "\"John Smith\"");
 
     // By invalid query.
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("invalid value");
     // SchemaUtil.getNameParts will return an empty set for query only containing these characters.
-    assertQuery(searchOperator + "@.- /_");
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> assertQuery(searchOperator + "@.- /_"));
+    assertThat(thrown).hasMessageThat().contains("invalid value");
   }
 
   private Change createChange(TestRepository<Repo> repo, PersonIdent person) throws Exception {

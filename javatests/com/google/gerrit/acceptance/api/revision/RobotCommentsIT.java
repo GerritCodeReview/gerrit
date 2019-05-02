@@ -19,6 +19,7 @@ import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static com.google.gerrit.extensions.common.testing.EditInfoSubject.assertThat;
 import static com.google.gerrit.extensions.common.testing.RobotCommentInfoSubject.assertThatList;
 import static java.util.stream.Collectors.toList;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -164,9 +165,10 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     int sizeOfRest = 451;
     fixReplacementInfo.replacement = getStringFor(defaultSizeLimit - sizeOfRest + 1);
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("limit");
-    addRobotComment(changeId, withFixRobotCommentInput);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class, () -> addRobotComment(changeId, withFixRobotCommentInput));
+    assertThat(thrown).hasMessageThat().contains("limit");
   }
 
   @Test
@@ -187,9 +189,10 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     int sizeLimit = 10 * 1024;
     fixReplacementInfo.replacement = getStringFor(sizeLimit);
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("limit");
-    addRobotComment(changeId, withFixRobotCommentInput);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class, () -> addRobotComment(changeId, withFixRobotCommentInput));
+    assertThat(thrown).hasMessageThat().contains("limit");
   }
 
   @Test
@@ -254,12 +257,15 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   public void descriptionOfFixSuggestionIsMandatory() throws Exception {
     fixSuggestionInfo.description = null;
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage(
-        String.format(
-            "A description is required for the suggested fix of the robot comment on %s",
-            withFixRobotCommentInput.path));
-    addRobotComment(changeId, withFixRobotCommentInput);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class, () -> addRobotComment(changeId, withFixRobotCommentInput));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            String.format(
+                "A description is required for the suggested fix of the robot comment on %s",
+                withFixRobotCommentInput.path));
   }
 
   @Test
@@ -278,13 +284,16 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   public void fixReplacementsAreMandatory() throws Exception {
     fixSuggestionInfo.replacements = Collections.emptyList();
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage(
-        String.format(
-            "At least one replacement is required"
-                + " for the suggested fix of the robot comment on %s",
-            withFixRobotCommentInput.path));
-    addRobotComment(changeId, withFixRobotCommentInput);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class, () -> addRobotComment(changeId, withFixRobotCommentInput));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            String.format(
+                "At least one replacement is required"
+                    + " for the suggested fix of the robot comment on %s",
+                withFixRobotCommentInput.path));
   }
 
   @Test
@@ -305,12 +314,15 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   public void pathOfFixReplacementIsMandatory() throws Exception {
     fixReplacementInfo.path = null;
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage(
-        String.format(
-            "A file path must be given for the replacement of the robot comment on %s",
-            withFixRobotCommentInput.path));
-    addRobotComment(changeId, withFixRobotCommentInput);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class, () -> addRobotComment(changeId, withFixRobotCommentInput));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            String.format(
+                "A file path must be given for the replacement of the robot comment on %s",
+                withFixRobotCommentInput.path));
   }
 
   @Test
@@ -331,20 +343,24 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   public void rangeOfFixReplacementIsMandatory() throws Exception {
     fixReplacementInfo.range = null;
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage(
-        String.format(
-            "A range must be given for the replacement of the robot comment on %s",
-            withFixRobotCommentInput.path));
-    addRobotComment(changeId, withFixRobotCommentInput);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class, () -> addRobotComment(changeId, withFixRobotCommentInput));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            String.format(
+                "A range must be given for the replacement of the robot comment on %s",
+                withFixRobotCommentInput.path));
   }
 
   @Test
   public void rangeOfFixReplacementNeedsToBeValid() throws Exception {
     fixReplacementInfo.range = createRange(13, 9, 5, 10);
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("Range (13:9 - 5:10)");
-    addRobotComment(changeId, withFixRobotCommentInput);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class, () -> addRobotComment(changeId, withFixRobotCommentInput));
+    assertThat(thrown).hasMessageThat().contains("Range (13:9 - 5:10)");
   }
 
   @Test
@@ -364,9 +380,10 @@ public class RobotCommentsIT extends AbstractDaemonTest {
         createFixSuggestionInfo(fixReplacementInfo1, fixReplacementInfo2);
     withFixRobotCommentInput.fixSuggestions = ImmutableList.of(fixSuggestionInfo);
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("overlap");
-    addRobotComment(changeId, withFixRobotCommentInput);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class, () -> addRobotComment(changeId, withFixRobotCommentInput));
+    assertThat(thrown).hasMessageThat().contains("overlap");
   }
 
   @Test
@@ -461,13 +478,16 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   public void replacementStringOfFixReplacementIsMandatory() throws Exception {
     fixReplacementInfo.replacement = null;
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage(
-        String.format(
-            "A content for replacement must be "
-                + "indicated for the replacement of the robot comment on %s",
-            withFixRobotCommentInput.path));
-    addRobotComment(changeId, withFixRobotCommentInput);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class, () -> addRobotComment(changeId, withFixRobotCommentInput));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            String.format(
+                "A content for replacement must be "
+                    + "indicated for the replacement of the robot comment on %s",
+                withFixRobotCommentInput.path));
   }
 
   @Test
@@ -602,9 +622,11 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
     List<String> fixIds = getFixIds(robotCommentInfos);
     gApi.changes().id(changeId).current().applyFix(fixIds.get(0));
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("merge");
-    gApi.changes().id(changeId).current().applyFix(fixIds.get(1));
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(changeId).current().applyFix(fixIds.get(1)));
+    assertThat(thrown).hasMessageThat().contains("merge");
   }
 
   @Test
@@ -708,8 +730,9 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
 
-    exception.expect(ResourceNotFoundException.class);
-    gApi.changes().id(changeId).current().applyFix(fixId);
+    assertThrows(
+        ResourceNotFoundException.class,
+        () -> gApi.changes().id(changeId).current().applyFix(fixId));
   }
 
   @Test
@@ -728,9 +751,11 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("current");
-    gApi.changes().id(changeId).revision(previousRevision).applyFix(fixId);
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(changeId).revision(previousRevision).applyFix(fixId));
+    assertThat(thrown).hasMessageThat().contains("current");
   }
 
   @Test
@@ -783,9 +808,11 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("based");
-    gApi.changes().id(changeId).current().applyFix(fixId);
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(changeId).current().applyFix(fixId));
+    assertThat(thrown).hasMessageThat().contains("based");
   }
 
   @Test
@@ -845,8 +872,9 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     String fixId = Iterables.getOnlyElement(fixIds);
     String nonExistentFixId = fixId + "_non-existent";
 
-    exception.expect(ResourceNotFoundException.class);
-    gApi.changes().id(changeId).current().applyFix(nonExistentFixId);
+    assertThrows(
+        ResourceNotFoundException.class,
+        () -> gApi.changes().id(changeId).current().applyFix(nonExistentFixId));
   }
 
   @Test

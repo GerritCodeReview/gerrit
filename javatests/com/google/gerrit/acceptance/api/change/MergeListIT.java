@@ -19,6 +19,7 @@ import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.HEAD;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -153,18 +154,26 @@ public class MergeListIT extends AbstractDaemonTest {
   public void editMergeList() throws Exception {
     gApi.changes().id(changeId).edit().create();
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("Invalid path: " + MERGE_LIST);
-    gApi.changes().id(changeId).edit().modifyFile(MERGE_LIST, RawInputUtil.create("new content"));
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () ->
+                gApi.changes()
+                    .id(changeId)
+                    .edit()
+                    .modifyFile(MERGE_LIST, RawInputUtil.create("new content")));
+    assertThat(thrown).hasMessageThat().contains("Invalid path: " + MERGE_LIST);
   }
 
   @Test
   public void deleteMergeList() throws Exception {
     gApi.changes().id(changeId).edit().create();
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("no changes were made");
-    gApi.changes().id(changeId).edit().deleteFile(MERGE_LIST);
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(changeId).edit().deleteFile(MERGE_LIST));
+    assertThat(thrown).hasMessageThat().contains("no changes were made");
   }
 
   private String getMergeListContent(RevCommit... commits) {

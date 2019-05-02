@@ -14,9 +14,11 @@
 
 package com.google.gerrit.index.query;
 
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collections;
@@ -61,8 +63,9 @@ public class FieldPredicateTest extends PredicateTest {
     assertSame(f, f.copy(Collections.emptyList()));
     assertSame(f, f.copy(f.getChildren()));
 
-    exception.expect(IllegalArgumentException.class);
-    exception.expectMessage("Expected 0 children");
-    f.copy(Collections.singleton(f("owner", "bob")));
+    IllegalArgumentException thrown =
+        assertThrows(
+            IllegalArgumentException.class, () -> f.copy(Collections.singleton(f("owner", "bob"))));
+    assertThat(thrown).hasMessageThat().contains("Expected 0 children");
   }
 }

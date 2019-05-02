@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.account;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -114,9 +115,11 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     pwi.notifyNewPatchSets = true;
     projectsToWatch.add(pwi);
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("duplicate entry for project " + projectName);
-    gApi.accounts().self().setWatchedProjects(projectsToWatch);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.accounts().self().setWatchedProjects(projectsToWatch));
+    assertThat(thrown).hasMessageThat().contains("duplicate entry for project " + projectName);
   }
 
   @Test
@@ -146,9 +149,9 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     pwi.notifyNewChanges = true;
     pwi.notifyAllComments = true;
     projectsToWatch.add(pwi);
-
-    exception.expect(UnprocessableEntityException.class);
-    gApi.accounts().self().setWatchedProjects(projectsToWatch);
+    assertThrows(
+        UnprocessableEntityException.class,
+        () -> gApi.accounts().self().setWatchedProjects(projectsToWatch));
   }
 
   @Test

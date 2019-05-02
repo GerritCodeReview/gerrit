@@ -15,6 +15,7 @@
 package com.google.gerrit.server.fixes;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Before;
@@ -63,20 +64,20 @@ public class StringModifierTest extends GerritBaseTests {
   @Test
   public void replacedPartsMustNotOverlap() {
     stringModifier.replace(0, 9, "");
-    exception.expect(StringIndexOutOfBoundsException.class);
-    stringModifier.replace(8, 32, "The modified");
+    assertThrows(
+        StringIndexOutOfBoundsException.class, () -> stringModifier.replace(8, 32, "The modified"));
   }
 
   @Test
   public void startIndexMustNotBeGreaterThanEndIndex() {
-    exception.expect(StringIndexOutOfBoundsException.class);
-    stringModifier.replace(10, 9, "something");
+    assertThrows(
+        StringIndexOutOfBoundsException.class, () -> stringModifier.replace(10, 9, "something"));
   }
 
   @Test
   public void startIndexMustNotBeNegative() {
-    exception.expect(StringIndexOutOfBoundsException.class);
-    stringModifier.replace(-1, 9, "something");
+    assertThrows(
+        StringIndexOutOfBoundsException.class, () -> stringModifier.replace(-1, 9, "something"));
   }
 
   @Test
@@ -90,13 +91,17 @@ public class StringModifierTest extends GerritBaseTests {
 
   @Test
   public void startIndexMustNotBeGreaterThanLengthOfString() {
-    exception.expect(StringIndexOutOfBoundsException.class);
-    stringModifier.replace(originalString.length() + 1, originalString.length() + 1, "something");
+    assertThrows(
+        StringIndexOutOfBoundsException.class,
+        () ->
+            stringModifier.replace(
+                originalString.length() + 1, originalString.length() + 1, "something"));
   }
 
   @Test
   public void endIndexMustNotBeGreaterThanLengthOfString() {
-    exception.expect(StringIndexOutOfBoundsException.class);
-    stringModifier.replace(8, originalString.length() + 1, "something");
+    assertThrows(
+        StringIndexOutOfBoundsException.class,
+        () -> stringModifier.replace(8, originalString.length() + 1, "something"));
   }
 }

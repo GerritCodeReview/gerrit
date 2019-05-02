@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -129,9 +130,10 @@ public class ImpersonationIT extends AbstractDaemonTest {
     in.onBehalfOf = user.id().toString();
     in.message = "Message on behalf of";
 
-    exception.expect(AuthException.class);
-    exception.expectMessage("label required to post review on behalf of \"" + in.onBehalfOf + '"');
-    revision.review(in);
+    AuthException thrown = assertThrows(AuthException.class, () -> revision.review(in));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("label required to post review on behalf of \"" + in.onBehalfOf + '"');
   }
 
   @Test
@@ -143,9 +145,10 @@ public class ImpersonationIT extends AbstractDaemonTest {
     ReviewInput in = new ReviewInput().label("Not-A-Label", 5);
     in.onBehalfOf = user.id().toString();
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("label \"Not-A-Label\" is not a configured label");
-    gApi.changes().id(changeId).current().review(in);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class, () -> gApi.changes().id(changeId).current().review(in));
+    assertThat(thrown).hasMessageThat().contains("label \"Not-A-Label\" is not a configured label");
   }
 
   @Test
@@ -175,10 +178,11 @@ public class ImpersonationIT extends AbstractDaemonTest {
     in.onBehalfOf = user.id().toString();
     in.label("Verified", 1);
 
-    exception.expect(AuthException.class);
-    exception.expectMessage(
-        "not permitted to modify label \"Verified\" on behalf of \"" + in.onBehalfOf + '"');
-    revision.review(in);
+    AuthException thrown = assertThrows(AuthException.class, () -> revision.review(in));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "not permitted to modify label \"Verified\" on behalf of \"" + in.onBehalfOf + '"');
   }
 
   @Test
@@ -266,9 +270,10 @@ public class ImpersonationIT extends AbstractDaemonTest {
     in.label("Code-Review", 1);
     in.drafts = DraftHandling.PUBLISH;
 
-    exception.expect(AuthException.class);
-    exception.expectMessage("not allowed to modify other user's drafts");
-    gApi.changes().id(r.getChangeId()).current().review(in);
+    AuthException thrown =
+        assertThrows(
+            AuthException.class, () -> gApi.changes().id(r.getChangeId()).current().review(in));
+    assertThat(thrown).hasMessageThat().contains("not allowed to modify other user's drafts");
   }
 
   @Test
@@ -281,10 +286,10 @@ public class ImpersonationIT extends AbstractDaemonTest {
     in.onBehalfOf = "doesnotexist";
     in.label("Code-Review", 1);
 
-    exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("not found");
-    exception.expectMessage("doesnotexist");
-    revision.review(in);
+    UnprocessableEntityException thrown =
+        assertThrows(UnprocessableEntityException.class, () -> revision.review(in));
+    assertThat(thrown).hasMessageThat().contains("not found");
+    assertThat(thrown).hasMessageThat().contains("doesnotexist");
   }
 
   @Test
@@ -299,9 +304,11 @@ public class ImpersonationIT extends AbstractDaemonTest {
     in.onBehalfOf = user.id().toString();
     in.label("Code-Review", 1);
 
-    exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("on_behalf_of account " + user.id() + " cannot see change");
-    revision.review(in);
+    UnprocessableEntityException thrown =
+        assertThrows(UnprocessableEntityException.class, () -> revision.review(in));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("on_behalf_of account " + user.id() + " cannot see change");
   }
 
   @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
@@ -318,10 +325,10 @@ public class ImpersonationIT extends AbstractDaemonTest {
     in.onBehalfOf = user.id().toString();
     in.label("Code-Review", 1);
 
-    exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("not found");
-    exception.expectMessage(in.onBehalfOf);
-    revision.review(in);
+    UnprocessableEntityException thrown =
+        assertThrows(UnprocessableEntityException.class, () -> revision.review(in));
+    assertThat(thrown).hasMessageThat().contains("not found");
+    assertThat(thrown).hasMessageThat().contains(in.onBehalfOf);
   }
 
   @Test
@@ -350,10 +357,12 @@ public class ImpersonationIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).current().review(ReviewInput.approve());
     SubmitInput in = new SubmitInput();
     in.onBehalfOf = "doesnotexist";
-    exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("not found");
-    exception.expectMessage("doesnotexist");
-    gApi.changes().id(changeId).current().submit(in);
+    UnprocessableEntityException thrown =
+        assertThrows(
+            UnprocessableEntityException.class,
+            () -> gApi.changes().id(changeId).current().submit(in));
+    assertThat(thrown).hasMessageThat().contains("not found");
+    assertThat(thrown).hasMessageThat().contains("doesnotexist");
   }
 
   @Test
@@ -365,9 +374,15 @@ public class ImpersonationIT extends AbstractDaemonTest {
         .review(ReviewInput.approve());
     SubmitInput in = new SubmitInput();
     in.onBehalfOf = admin2.email();
-    exception.expect(AuthException.class);
-    exception.expectMessage("submit on behalf of other users not permitted");
-    gApi.changes().id(project.get() + "~master~" + r.getChangeId()).current().submit(in);
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () ->
+                gApi.changes()
+                    .id(project.get() + "~master~" + r.getChangeId())
+                    .current()
+                    .submit(in));
+    assertThat(thrown).hasMessageThat().contains("submit on behalf of other users not permitted");
   }
 
   @Test
@@ -380,9 +395,13 @@ public class ImpersonationIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).current().review(ReviewInput.approve());
     SubmitInput in = new SubmitInput();
     in.onBehalfOf = user.email();
-    exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("on_behalf_of account " + user.id() + " cannot see change");
-    gApi.changes().id(changeId).current().submit(in);
+    UnprocessableEntityException thrown =
+        assertThrows(
+            UnprocessableEntityException.class,
+            () -> gApi.changes().id(changeId).current().submit(in));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("on_behalf_of account " + user.id() + " cannot see change");
   }
 
   @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
@@ -397,10 +416,12 @@ public class ImpersonationIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).current().review(ReviewInput.approve());
     SubmitInput in = new SubmitInput();
     in.onBehalfOf = user.email();
-    exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("not found");
-    exception.expectMessage(in.onBehalfOf);
-    gApi.changes().id(changeId).current().submit(in);
+    UnprocessableEntityException thrown =
+        assertThrows(
+            UnprocessableEntityException.class,
+            () -> gApi.changes().id(changeId).current().submit(in));
+    assertThat(thrown).hasMessageThat().contains("not found");
+    assertThat(thrown).hasMessageThat().contains(in.onBehalfOf);
   }
 
   @Test

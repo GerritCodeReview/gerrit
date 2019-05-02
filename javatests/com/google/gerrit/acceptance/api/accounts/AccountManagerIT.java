@@ -18,6 +18,7 @@ import static com.google.common.truth.OptionalSubject.optionals;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
@@ -236,9 +237,9 @@ public class AccountManagerIT extends AbstractDaemonTest {
     }
 
     AuthRequest who = AuthRequest.forUser(username);
-    exception.expect(AccountException.class);
-    exception.expectMessage("Authentication error, account not found");
-    accountManager.authenticate(who);
+    AccountException thrown =
+        assertThrows(AccountException.class, () -> accountManager.authenticate(who));
+    assertThat(thrown).hasMessageThat().contains("Authentication error, account not found");
   }
 
   @Test
@@ -252,9 +253,9 @@ public class AccountManagerIT extends AbstractDaemonTest {
         u -> u.setActive(false).addExternalId(ExternalId.create(gerritExtIdKey, accountId)));
 
     AuthRequest who = AuthRequest.forUser(username);
-    exception.expect(AccountException.class);
-    exception.expectMessage("Authentication error, account inactive");
-    accountManager.authenticate(who);
+    AccountException thrown =
+        assertThrows(AccountException.class, () -> accountManager.authenticate(who));
+    assertThat(thrown).hasMessageThat().contains("Authentication error, account inactive");
   }
 
   @Test
@@ -271,9 +272,9 @@ public class AccountManagerIT extends AbstractDaemonTest {
     AuthRequest who = AuthRequest.forUser(username);
     who.setActive(true);
     who.setAuthProvidesAccountActiveStatus(true);
-    exception.expect(AccountException.class);
-    exception.expectMessage("Authentication error, account inactive");
-    accountManager.authenticate(who);
+    AccountException thrown =
+        assertThrows(AccountException.class, () -> accountManager.authenticate(who));
+    assertThat(thrown).hasMessageThat().contains("Authentication error, account inactive");
   }
 
   @Test
@@ -362,9 +363,11 @@ public class AccountManagerIT extends AbstractDaemonTest {
     // Try to authenticate with this email to create a new account with a SCHEME_MAILTO external ID.
     // Expect that this fails because the email is already assigned to the other account.
     AuthRequest who = AuthRequest.forEmail(email);
-    exception.expect(AccountException.class);
-    exception.expectMessage("Email 'foo@example.com' in use by another account");
-    accountManager.authenticate(who);
+    AccountException thrown =
+        assertThrows(AccountException.class, () -> accountManager.authenticate(who));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Email 'foo@example.com' in use by another account");
   }
 
   @Test
@@ -384,9 +387,11 @@ public class AccountManagerIT extends AbstractDaemonTest {
     // Expect that this fails because the email is already assigned to the other account.
     AuthRequest who = AuthRequest.forUser("bar");
     who.setEmailAddress(email);
-    exception.expect(AccountException.class);
-    exception.expectMessage("Email 'foo@example.com' in use by another account");
-    accountManager.authenticate(who);
+    AccountException thrown =
+        assertThrows(AccountException.class, () -> accountManager.authenticate(who));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Email 'foo@example.com' in use by another account");
   }
 
   @Test
@@ -505,9 +510,11 @@ public class AccountManagerIT extends AbstractDaemonTest {
     // Try to link external ID of the first account to the second account.
     // Expect that this fails because the external ID is already assigned to the first account.
     AuthRequest who = AuthRequest.forExternalUser(username1);
-    exception.expect(AccountException.class);
-    exception.expectMessage("Identity 'external:foo' in use by another account");
-    accountManager.link(accountId2, who);
+    AccountException thrown =
+        assertThrows(AccountException.class, () -> accountManager.link(accountId2, who));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Identity 'external:foo' in use by another account");
   }
 
   @Test
@@ -535,9 +542,11 @@ public class AccountManagerIT extends AbstractDaemonTest {
     // Try to link the email to the second account (via a new MAILTO external ID) and expect that
     // this fails because the email is already assigned to the first account.
     AuthRequest who = AuthRequest.forEmail(email);
-    exception.expect(AccountException.class);
-    exception.expectMessage("Email 'foo@example.com' in use by another account");
-    accountManager.link(accountId, who);
+    AccountException thrown =
+        assertThrows(AccountException.class, () -> accountManager.link(accountId, who));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Email 'foo@example.com' in use by another account");
   }
 
   private void assertNoSuchExternalIds(ExternalId.Key... extIdKeys) throws Exception {

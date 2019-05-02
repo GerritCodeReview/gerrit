@@ -33,6 +33,7 @@ import static com.google.gerrit.server.project.testing.Util.block;
 import static com.google.gerrit.server.project.testing.Util.deny;
 import static com.google.gerrit.server.project.testing.Util.doNotInherit;
 import static com.google.gerrit.testing.InMemoryRepositoryManager.newRepository;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -915,14 +916,16 @@ public class RefControlTest extends GerritBaseTests {
     RefPattern.validate("refs/heads/review/${username}/*");
   }
 
-  @Test(expected = InvalidNameException.class)
+  @Test
   public void testValidateBadRefPatternDoubleCaret() throws Exception {
-    RefPattern.validate("^^refs/*");
+    assertThrows(InvalidNameException.class, () -> RefPattern.validate("^^refs/*"));
   }
 
-  @Test(expected = InvalidNameException.class)
+  @Test
   public void testValidateBadRefPatternDanglingCharacter() throws Exception {
-    RefPattern.validate("^refs/heads/tmp/sdk/[0-9]{3,3}_R[1-9][A-Z][0-9]{3,3}*");
+    assertThrows(
+        InvalidNameException.class,
+        () -> RefPattern.validate("^refs/heads/tmp/sdk/[0-9]{3,3}_R[1-9][A-Z][0-9]{3,3}*"));
   }
 
   @Test

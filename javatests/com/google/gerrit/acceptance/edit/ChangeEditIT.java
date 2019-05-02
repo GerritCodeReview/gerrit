@@ -27,6 +27,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -325,9 +326,13 @@ public class ChangeEditIT extends AbstractDaemonTest {
     createEmptyEditFor(changeId);
     String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("New commit message cannot be same as existing commit message");
-    gApi.changes().id(changeId).edit().modifyCommitMessage(commitMessage);
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(changeId).edit().modifyCommitMessage(commitMessage));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("New commit message cannot be same as existing commit message");
   }
 
   @Test
@@ -335,9 +340,13 @@ public class ChangeEditIT extends AbstractDaemonTest {
     createEmptyEditFor(changeId);
     String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("New commit message cannot be same as existing commit message");
-    gApi.changes().id(changeId).edit().modifyCommitMessage(commitMessage + "\n\n");
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(changeId).edit().modifyCommitMessage(commitMessage + "\n\n"));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("New commit message cannot be same as existing commit message");
   }
 
   @Test
@@ -582,9 +591,15 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   public void writeNoChanges() throws Exception {
     createEmptyEditFor(changeId);
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("no changes were made");
-    gApi.changes().id(changeId).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_OLD));
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () ->
+                gApi.changes()
+                    .id(changeId)
+                    .edit()
+                    .modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_OLD)));
+    assertThat(thrown).hasMessageThat().contains("no changes were made");
   }
 
   @Test
@@ -692,8 +707,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     r1.assertOkStatus();
 
     // Try to create edit as admin
-    exception.expect(AuthException.class);
-    createEmptyEditFor(r1.getChangeId());
+    assertThrows(AuthException.class, () -> createEmptyEditFor(r1.getChangeId()));
   }
 
   @Test
@@ -702,9 +716,11 @@ public class ChangeEditIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).current().review(ReviewInput.approve());
     gApi.changes().id(changeId).current().submit();
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage(String.format("change %s is merged", change._number));
-    createArbitraryEditFor(changeId);
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> createArbitraryEditFor(changeId));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(String.format("change %s is merged", change._number));
   }
 
   @Test
@@ -712,9 +728,11 @@ public class ChangeEditIT extends AbstractDaemonTest {
     ChangeInfo change = gApi.changes().id(changeId).get();
     gApi.changes().id(changeId).abandon();
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage(String.format("change %s is abandoned", change._number));
-    createArbitraryEditFor(changeId);
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> createArbitraryEditFor(changeId));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(String.format("change %s is abandoned", change._number));
   }
 
   private void createArbitraryEditFor(String changeId) throws Exception {

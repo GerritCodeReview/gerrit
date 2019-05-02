@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.api.plugin;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -136,15 +137,16 @@ public class PluginIT extends AbstractDaemonTest {
 
   @Test
   public void installNotAllowed() throws Exception {
-    exception.expect(MethodNotAllowedException.class);
-    exception.expectMessage("remote plugin administration is disabled");
-    gApi.plugins().install("test.js", new InstallPluginInput());
+    MethodNotAllowedException thrown =
+        assertThrows(
+            MethodNotAllowedException.class,
+            () -> gApi.plugins().install("test.js", new InstallPluginInput()));
+    assertThat(thrown).hasMessageThat().contains("remote plugin administration is disabled");
   }
 
   @Test
   public void getNonExistingThrowsNotFound() throws Exception {
-    exception.expect(ResourceNotFoundException.class);
-    gApi.plugins().name("does-not-exist");
+    assertThrows(ResourceNotFoundException.class, () -> gApi.plugins().name("does-not-exist"));
   }
 
   private ListRequest list() throws RestApiException {

@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.query.project;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.TruthJUnit.assume;
 import static java.util.stream.Collectors.toList;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableMap;
@@ -207,9 +209,9 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
 
     assertQuery("description:non-existing");
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("description operator requires a value");
-    assertQuery("description:\"\"");
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> assertQuery("description:\"\""));
+    assertThat(thrown).hasMessageThat().contains("description operator requires a value");
   }
 
   @Test
@@ -224,16 +226,18 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
 
   @Test
   public void byState_emptyQuery() throws Exception {
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("state operator requires a value");
-    assertQuery("state:\"\"");
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> assertQuery("state:\"\""));
+    assertThat(thrown).hasMessageThat().contains("state operator requires a value");
   }
 
   @Test
   public void byState_badQuery() throws Exception {
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("state operator must be either 'active' or 'read-only'");
-    assertQuery("state:bla");
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> assertQuery("state:bla"));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("state operator must be either 'active' or 'read-only'");
   }
 
   @Test

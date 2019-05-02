@@ -15,6 +15,7 @@
 package com.google.gerrit.server.cache;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.gerrit.testing.GerritBaseTests;
 import java.util.function.Supplier;
@@ -75,9 +76,9 @@ public class PerThreadCacheTest extends GerritBaseTests {
   @Test
   public void doubleInstantiationFails() {
     try (PerThreadCache ignored = PerThreadCache.create()) {
-      exception.expect(IllegalStateException.class);
-      exception.expectMessage("called create() twice on the same request");
-      PerThreadCache.create();
+      IllegalStateException thrown =
+          assertThrows(IllegalStateException.class, () -> PerThreadCache.create());
+      assertThat(thrown).hasMessageThat().contains("called create() twice on the same request");
     }
   }
 

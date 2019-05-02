@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.testing.GerritBaseTests;
@@ -41,9 +42,9 @@ public class HashedPasswordTest extends GerritBaseTests {
     assertThat(roundtrip.checkPassword("not the password")).isFalse();
   }
 
-  @Test(expected = DecoderException.class)
+  @Test
   public void invalidDecode() throws Exception {
-    HashedPassword.decode("invalid");
+    assertThrows(DecoderException.class, () -> HashedPassword.decode("invalid"));
   }
 
   @Test

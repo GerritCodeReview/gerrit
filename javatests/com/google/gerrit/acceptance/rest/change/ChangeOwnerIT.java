@@ -14,6 +14,8 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
+import static org.junit.Assert.assertThrows;
+
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -121,8 +123,7 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
   }
 
   private void assertApproveFails(TestAccount a, String changeId) throws Exception {
-    exception.expect(AuthException.class);
-    approve(a, changeId);
+    assertThrows(AuthException.class, () -> approve(a, changeId));
   }
 
   private void grantApproveToChangeOwner(Project.NameKey project) throws Exception {

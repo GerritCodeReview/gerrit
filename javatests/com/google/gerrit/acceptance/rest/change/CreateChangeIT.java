@@ -20,6 +20,7 @@ import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
@@ -507,9 +508,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
   private void assertCreateFails(
       ChangeInput in, Class<? extends RestApiException> errType, String errSubstring)
       throws Exception {
-    exception.expect(errType);
-    exception.expectMessage(errSubstring);
-    gApi.changes().create(in);
+    Throwable thrown = assertThrows(errType, () -> gApi.changes().create(in));
+    assertThat(thrown).hasMessageThat().contains(errSubstring);
   }
 
   // TODO(davido): Expose setting of account preferences in the API

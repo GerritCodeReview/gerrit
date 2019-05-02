@@ -19,6 +19,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.Constants.R_REFS;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -139,26 +140,26 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
   @Test
   public void missingInput() throws Exception {
     DeleteBranchesInput input = null;
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("branches must be specified");
-    project().deleteBranches(input);
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> project().deleteBranches(input));
+    assertThat(thrown).hasMessageThat().contains("branches must be specified");
   }
 
   @Test
   public void missingBranchList() throws Exception {
     DeleteBranchesInput input = new DeleteBranchesInput();
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("branches must be specified");
-    project().deleteBranches(input);
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> project().deleteBranches(input));
+    assertThat(thrown).hasMessageThat().contains("branches must be specified");
   }
 
   @Test
   public void emptyBranchList() throws Exception {
     DeleteBranchesInput input = new DeleteBranchesInput();
     input.branches = Lists.newArrayList();
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("branches must be specified");
-    project().deleteBranches(input);
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> project().deleteBranches(input));
+    assertThat(thrown).hasMessageThat().contains("branches must be specified");
   }
 
   private String errorMessageForBranches(List<String> branches) {

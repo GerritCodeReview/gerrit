@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
@@ -81,9 +82,9 @@ public class PrivateByDefaultIT extends AbstractDaemonTest {
     setPrivateByDefault(project2, InheritableBoolean.TRUE);
 
     ChangeInput input = new ChangeInput(project2.get(), "master", "empty change");
-    exception.expect(MethodNotAllowedException.class);
-    exception.expectMessage("private changes are disabled");
-    gApi.changes().create(input);
+    MethodNotAllowedException thrown =
+        assertThrows(MethodNotAllowedException.class, () -> gApi.changes().create(input));
+    assertThat(thrown).hasMessageThat().contains("private changes are disabled");
   }
 
   @Test

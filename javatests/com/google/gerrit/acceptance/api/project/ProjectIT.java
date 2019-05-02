@@ -21,6 +21,7 @@ import static com.google.gerrit.server.project.ProjectState.INHERITED_FROM_PAREN
 import static com.google.gerrit.server.project.ProjectState.OVERRIDDEN_BY_GLOBAL;
 import static com.google.gerrit.server.project.ProjectState.OVERRIDDEN_BY_PARENT;
 import static java.util.stream.Collectors.toSet;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -165,17 +166,17 @@ public class ProjectIT extends AbstractDaemonTest {
   public void createProjectWithMismatchedInput() throws Exception {
     ProjectInput in = new ProjectInput();
     in.name = name("foo");
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("name must match input.name");
-    gApi.projects().name("bar").create(in);
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> gApi.projects().name("bar").create(in));
+    assertThat(thrown).hasMessageThat().contains("name must match input.name");
   }
 
   @Test
   public void createProjectNoNameInInput() throws Exception {
     ProjectInput in = new ProjectInput();
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("input.name is required");
-    gApi.projects().create(in);
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> gApi.projects().create(in));
+    assertThat(thrown).hasMessageThat().contains("input.name is required");
   }
 
   @Test
@@ -183,9 +184,9 @@ public class ProjectIT extends AbstractDaemonTest {
     ProjectInput in = new ProjectInput();
     in.name = name("baz");
     gApi.projects().create(in);
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("Project already exists");
-    gApi.projects().create(in);
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> gApi.projects().create(in));
+    assertThat(thrown).hasMessageThat().contains("Project already exists");
   }
 
   @Test
@@ -194,9 +195,9 @@ public class ProjectIT extends AbstractDaemonTest {
     in.name = name("baz");
     in.parent = "non-existing";
 
-    exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("Project Not Found: " + in.parent);
-    gApi.projects().create(in);
+    UnprocessableEntityException thrown =
+        assertThrows(UnprocessableEntityException.class, () -> gApi.projects().create(in));
+    assertThat(thrown).hasMessageThat().contains("Project Not Found: " + in.parent);
   }
 
   @Test
@@ -205,9 +206,9 @@ public class ProjectIT extends AbstractDaemonTest {
     in.name = name("baz");
     in.parent = in.name;
 
-    exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("Project Not Found: " + in.parent);
-    gApi.projects().create(in);
+    UnprocessableEntityException thrown =
+        assertThrows(UnprocessableEntityException.class, () -> gApi.projects().create(in));
+    assertThat(thrown).hasMessageThat().contains("Project Not Found: " + in.parent);
   }
 
   @Test
@@ -215,9 +216,11 @@ public class ProjectIT extends AbstractDaemonTest {
     ProjectInput in = new ProjectInput();
     in.name = name("foo");
     in.parent = allUsers.get();
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage(String.format("Cannot inherit from '%s' project", allUsers.get()));
-    gApi.projects().create(in);
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> gApi.projects().create(in));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(String.format("Cannot inherit from '%s' project", allUsers.get()));
   }
 
   @Test
@@ -354,9 +357,9 @@ public class ProjectIT extends AbstractDaemonTest {
   public void nonOwnerCannotSetConfig() throws Exception {
     ConfigInput input = createTestConfigInput();
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("write refs/meta/config not permitted");
-    gApi.projects().name(project.get()).config(input);
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> gApi.projects().name(project.get()).config(input));
+    assertThat(thrown).hasMessageThat().contains("write refs/meta/config not permitted");
   }
 
   @Test
@@ -372,8 +375,9 @@ public class ProjectIT extends AbstractDaemonTest {
 
   @Test
   public void setHeadToNonexistentBranch() throws Exception {
-    exception.expect(UnprocessableEntityException.class);
-    gApi.projects().name(project.get()).head("does-not-exist");
+    assertThrows(
+        UnprocessableEntityException.class,
+        () -> gApi.projects().name(project.get()).head("does-not-exist"));
   }
 
   @Test
@@ -389,9 +393,9 @@ public class ProjectIT extends AbstractDaemonTest {
   public void setHeadNotAllowed() throws Exception {
     gApi.projects().name(project.get()).branch("test").create(new BranchInput());
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("not permitted: set HEAD on refs/heads/test");
-    gApi.projects().name(project.get()).head("test");
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> gApi.projects().name(project.get()).head("test"));
+    assertThat(thrown).hasMessageThat().contains("not permitted: set HEAD on refs/heads/test");
   }
 
   @Test
@@ -614,9 +618,9 @@ public class ProjectIT extends AbstractDaemonTest {
 
   @Test
   public void invalidMaxObjectSizeIsRejected() throws Exception {
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("100 foo");
-    setMaxObjectSize("100 foo");
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> setMaxObjectSize("100 foo"));
+    assertThat(thrown).hasMessageThat().contains("100 foo");
   }
 
   @Test

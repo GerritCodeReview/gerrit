@@ -20,6 +20,7 @@ import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
@@ -94,8 +95,9 @@ public class CommentsIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
-    exception.expect(ResourceNotFoundException.class);
-    getPublishedComment(changeId, revId, "non-existing");
+    assertThrows(
+        ResourceNotFoundException.class,
+        () -> getPublishedComment(changeId, revId, "non-existing"));
   }
 
   @Test
@@ -263,9 +265,11 @@ public class CommentsIT extends AbstractDaemonTest {
     CommentInput c = newComment(Patch.COMMIT_MSG, Side.PARENT, 0, "comment on auto-merge", false);
     input.comments = new HashMap<>();
     input.comments.put(Patch.COMMIT_MSG, ImmutableList.of(c));
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("cannot comment on " + Patch.COMMIT_MSG + " on auto-merge");
-    revision(r).review(input);
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> revision(r).review(input));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("cannot comment on " + Patch.COMMIT_MSG + " on auto-merge");
   }
 
   @Test
@@ -769,8 +773,9 @@ public class CommentsIT extends AbstractDaemonTest {
     DeleteCommentInput input = new DeleteCommentInput("contains confidential information");
 
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    gApi.changes().id(result.getChangeId()).current().comment(uuid).delete(input);
+    assertThrows(
+        AuthException.class,
+        () -> gApi.changes().id(result.getChangeId()).current().comment(uuid).delete(input));
   }
 
   @Test

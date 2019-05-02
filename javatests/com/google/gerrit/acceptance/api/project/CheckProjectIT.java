@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -232,18 +233,21 @@ public class CheckProjectIT extends AbstractDaemonTest {
     CheckProjectInput input = new CheckProjectInput();
     input.autoCloseableChangesCheck = new AutoCloseableChangesCheckInput();
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("branch is required");
-    gApi.projects().name(project.get()).check(input);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class, () -> gApi.projects().name(project.get()).check(input));
+    assertThat(thrown).hasMessageThat().contains("branch is required");
   }
 
   @Test
   public void nonExistingBranch() throws Exception {
     CheckProjectInput input = checkProjectInputForAutoCloseableCheck("non-existing");
 
-    exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("branch 'non-existing' not found");
-    gApi.projects().name(project.get()).check(input);
+    UnprocessableEntityException thrown =
+        assertThrows(
+            UnprocessableEntityException.class,
+            () -> gApi.projects().name(project.get()).check(input));
+    assertThat(thrown).hasMessageThat().contains("branch 'non-existing' not found");
   }
 
   @Test
@@ -266,11 +270,14 @@ public class CheckProjectIT extends AbstractDaemonTest {
     input.autoCloseableChangesCheck.maxCommits =
         ProjectsConsistencyChecker.AUTO_CLOSE_MAX_COMMITS_LIMIT + 1;
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage(
-        "max commits can at most be set to "
-            + ProjectsConsistencyChecker.AUTO_CLOSE_MAX_COMMITS_LIMIT);
-    gApi.projects().name(project.get()).check(input);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class, () -> gApi.projects().name(project.get()).check(input));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "max commits can at most be set to "
+                + ProjectsConsistencyChecker.AUTO_CLOSE_MAX_COMMITS_LIMIT);
   }
 
   private RevCommit pushCommitWithoutChangeIdForReview() throws Exception {

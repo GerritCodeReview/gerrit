@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
@@ -79,9 +80,9 @@ public class HashtagsIT extends AbstractDaemonTest {
   public void addInvalidHashtag() throws Exception {
     PushOneCommit.Result r = createChange();
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("hashtags may not contain commas");
-    addHashtags(r, "invalid,hashtag");
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> addHashtags(r, "invalid,hashtag"));
+    assertThat(thrown).hasMessageThat().contains("hashtags may not contain commas");
   }
 
   @Test
@@ -259,9 +260,8 @@ public class HashtagsIT extends AbstractDaemonTest {
   public void addHashtagWithoutPermissionNotAllowed() throws Exception {
     PushOneCommit.Result r = createChange();
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("edit hashtags not permitted");
-    addHashtags(r, "MyHashtag");
+    AuthException thrown = assertThrows(AuthException.class, () -> addHashtags(r, "MyHashtag"));
+    assertThat(thrown).hasMessageThat().contains("edit hashtags not permitted");
   }
 
   @Test

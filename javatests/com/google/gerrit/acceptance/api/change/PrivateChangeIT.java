@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -89,9 +90,9 @@ public class PrivateChangeIT extends AbstractDaemonTest {
     String changeId = result.getChangeId();
     assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("cannot set merged change to private");
-    gApi.changes().id(changeId).setPrivate(true);
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> gApi.changes().id(changeId).setPrivate(true));
+    assertThat(thrown).hasMessageThat().contains("cannot set merged change to private");
   }
 
   @Test
@@ -102,9 +103,9 @@ public class PrivateChangeIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).abandon();
     assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("cannot set abandoned change to private");
-    gApi.changes().id(changeId).setPrivate(true);
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> gApi.changes().id(changeId).setPrivate(true));
+    assertThat(thrown).hasMessageThat().contains("cannot set abandoned change to private");
   }
 
   @Test
@@ -126,9 +127,11 @@ public class PrivateChangeIT extends AbstractDaemonTest {
   public void cannotSetOtherUsersChangePrivate() throws Exception {
     PushOneCommit.Result result = createChange();
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("not allowed to mark private");
-    gApi.changes().id(result.getChangeId()).setPrivate(true, null);
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () -> gApi.changes().id(result.getChangeId()).setPrivate(true, null));
+    assertThat(thrown).hasMessageThat().contains("not allowed to mark private");
   }
 
   @Test
@@ -153,9 +156,10 @@ public class PrivateChangeIT extends AbstractDaemonTest {
     gApi.changes().id(result.getChangeId()).reviewer(admin.id().toString()).remove();
 
     // This change should not be visible for admin anymore.
-    exception.expect(ResourceNotFoundException.class);
-    exception.expectMessage("Not found: " + result.getChangeId());
-    gApi.changes().id(result.getChangeId());
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class, () -> gApi.changes().id(result.getChangeId()));
+    assertThat(thrown).hasMessageThat().contains("Not found: " + result.getChangeId());
   }
 
   @Test
@@ -191,9 +195,9 @@ public class PrivateChangeIT extends AbstractDaemonTest {
     merge(result);
 
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("not allowed to mark private");
-    gApi.changes().id(changeId).setPrivate(true, null);
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> gApi.changes().id(changeId).setPrivate(true, null));
+    assertThat(thrown).hasMessageThat().contains("not allowed to mark private");
   }
 
   @Test

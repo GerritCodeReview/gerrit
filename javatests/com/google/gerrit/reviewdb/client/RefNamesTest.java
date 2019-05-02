@@ -20,18 +20,14 @@ import static com.google.gerrit.reviewdb.client.RefNames.parseRefSuffix;
 import static com.google.gerrit.reviewdb.client.RefNames.parseShardedRefPart;
 import static com.google.gerrit.reviewdb.client.RefNames.parseShardedUuidFromRefPart;
 import static com.google.gerrit.reviewdb.client.RefNames.skipShardedRefPart;
+import static org.junit.Assert.assertThrows;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class RefNamesTest {
   private static final String TEST_GROUP_UUID = "ccab3195282a8ce4f5014efa391e82d10f884c64";
   private static final String TEST_SHARDED_GROUP_UUID =
       TEST_GROUP_UUID.substring(0, 2) + "/" + TEST_GROUP_UUID;
-
-  @Rule public ExpectedException expectedException = ExpectedException.none();
-
   private final Account.Id accountId = Account.id(1011123);
   private final Change.Id changeId = Change.id(67473);
   private final PatchSet.Id psId = PatchSet.id(changeId, 42);
@@ -66,8 +62,7 @@ public class RefNamesTest {
   @Test
   public void refForGroupWithUuidLessThanTwoCharsIsRejected() throws Exception {
     AccountGroup.UUID groupUuid = AccountGroup.uuid("A");
-    expectedException.expect(IllegalArgumentException.class);
-    RefNames.refsGroups(groupUuid);
+    assertThrows(IllegalArgumentException.class, () -> RefNames.refsGroups(groupUuid));
   }
 
   @Test
@@ -80,8 +75,7 @@ public class RefNamesTest {
   @Test
   public void refForDeletedGroupWithUuidLessThanTwoCharsIsRejected() throws Exception {
     AccountGroup.UUID groupUuid = AccountGroup.uuid("A");
-    expectedException.expect(IllegalArgumentException.class);
-    RefNames.refsDeletedGroups(groupUuid);
+    assertThrows(IllegalArgumentException.class, () -> RefNames.refsDeletedGroups(groupUuid));
   }
 
   @Test

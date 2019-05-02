@@ -117,7 +117,9 @@ permissions (see link:#supporter[supporter] section above).
 
 It's highly appreciated if contributors engage in code reviews,
 link:dev-design-docs.html#review[design reviews] and mailing list
-discussions.
+discussions. If wanted, contributors can also serve as link#mentor[
+mentors] to support other contributors with getting their features
+done.
 
 Contributors may also be invited to join the Gerrit hackathons which
 happen regularly (e.g. twice a year). Hackathons are announced on the
@@ -165,6 +167,7 @@ following tasks (but are not required to do so):
   design-driven contribution process] by reviewing incoming
   link:dev-design-docs.html[design docs] and raising concerns during
   the design review
+* serving as link:#mentor[mentor]
 * doing releases (see link#release-manager[release manager])
 
 Maintainers can:
@@ -237,6 +240,34 @@ requests in a timely manner.
 link:#maintainer[Maintainers] can become steering committee member by
 election, or by being appointed by Google (only for the seats that
 belong to Google).
+
+[[mentor]]
+== Mentor
+
+A mentor is a link:#maintainer[maintainer] or link:#contributor[
+contributor] who is assigned to support the development of a feature
+that was specified in a link:dev-design-docs.html[design doc] and was
+approved by the link:dev-processes.html#steering-committee[steering
+committee].
+
+The goal of the mentor is to make the feature successful by:
+
+* doing timely reviews
+* providing technical guidance during code reviews
+* discussing details of the design
+* ensuring that the quality standards are met (well documented,
+  sufficient test coverage, backwards compatible etc.)
+
+The implementation is fully done by the contributor, but optionally
+mentors can help out with contributing some changes.
+
+link:#maintainer[Maintainers] and link:#contributor[contributors] can
+volunteer to generally serve as mentors, or to mentor specific features
+(e.g. if they see an upcoming feature on the roadmap that they are
+interested in). To volunteer as mentor, contact the
+link:dev-processes.html#steering-committee[steering committee] or
+comment on a change that adds a link:dev-design-docs.html#propose[
+design doc].
 
 [[release-manager]]
 == Release Manager

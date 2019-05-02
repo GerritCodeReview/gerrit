@@ -96,7 +96,7 @@ directly from the sources in `polygerrit_ui/app/` instead of from the war:
 ```sh
 $(bazel info output_base)/external/local_jdk/bin/java \
     -jar bazel-bin/gerrit.war daemon \
-    -d ../gerrit_testsite \
+    -d $GERRIT_SITE \
     --console-log \
     --polygerrit-dev
 ```

@@ -53,8 +53,9 @@ After you compile the project <<compile_project,(above)>>, run the Gerrit
 command to create a test site:
 
 ----
+  export GERRIT_SITE=~/gerrit_testsite
   $(bazel info output_base)/external/local_jdk/bin/java \
-      -jar bazel-bin/gerrit.war init --batch --dev -d ../gerrit_testsite
+      -jar bazel-bin/gerrit.war init --batch --dev -d $GERRIT_SITE
 ----
 
 [[special_bazel_java_version]]
@@ -84,7 +85,7 @@ On the Start page, you can:
 To shut down the daemon, run:
 
 ----
-  ~/gerrit_testsite/bin/gerrit.sh stop
+  $GERRIT_SITE/bin/gerrit.sh stop
 ----
 
 
@@ -135,7 +136,7 @@ copying to the test site:
 
 ----
   $(bazel info output_base)/external/local_jdk/bin/java \
-     -jar bazel-bin/gerrit.war daemon -d ~/gerrit_testsite \
+     -jar bazel-bin/gerrit.war daemon -d $GERRIT_SITE \
      --console-log
 ----
 
@@ -167,7 +168,7 @@ To start the Inspector, add the '-s' option to the daemon start command:
 
 ----
   $(bazel info output_base)/external/local_jdk/bin/java \
-     -jar bazel-bin/gerrit.war daemon -d ~/gerrit_testsite -s
+     -jar bazel-bin/gerrit.war daemon -d $GERRIT_SITE -s
 ----
 
 NOTE: To learn why using `java -jar` isn't sufficient, see

@@ -1891,8 +1891,11 @@ public class AccountIT extends AbstractDaemonTest {
     String id = key.getKeyIdString();
     addExternalIdEmail(admin, "test1@example.com");
 
+    sender.clear();
     assertKeyMapContains(key, addGpgKey(key.getPublicKeyArmored()));
     assertKeys(key);
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).body()).contains("new GPG keys have been added");
 
     requestScopeOperations.setApiUser(user.id());
     exception.expect(ResourceNotFoundException.class);
@@ -1907,14 +1910,21 @@ public class AccountIT extends AbstractDaemonTest {
     String id = key.getKeyIdString();
     PGPPublicKey pk = key.getPublicKey();
 
+    sender.clear();
     GpgKeyInfo info = addGpgKey(armor(pk)).get(id);
     assertThat(info.userIds).hasSize(2);
     assertIteratorSize(2, getOnlyKeyFromStore(key).getUserIDs());
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).body()).contains("new GPG keys have been added");
 
     pk = PGPPublicKey.removeCertification(pk, "foo:myId");
+    sender.clear();
     info = addGpgKeyNoReindex(armor(pk)).get(id);
     assertThat(info.userIds).hasSize(1);
     assertIteratorSize(1, getOnlyKeyFromStore(key).getUserIDs());
+    // TODO: Issue 10769: Adding an already existing key should not result in a notification email
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).body()).contains("new GPG keys have been added");
   }
 
   @Test
@@ -2024,32 +2034,42 @@ public class AccountIT extends AbstractDaemonTest {
     assertSequenceNumbers(info);
     SshKeyInfo key = info.get(0);
     KeyPair keyPair = sshKeys.getKeyPair(admin);
-    String inital = TestSshKeys.publicKey(keyPair, admin.email());
-    assertThat(key.sshPublicKey).isEqualTo(inital);
+    String initial = TestSshKeys.publicKey(keyPair, admin.email());
+    assertThat(key.sshPublicKey).isEqualTo(initial);
     accountIndexedCounter.assertNoReindex();
 
     // Add a new key
+    sender.clear();
     String newKey = TestSshKeys.publicKey(TestSshKeys.genSshKey(), admin.email());
     gApi.accounts().self().addSshKey(newKey);
     info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(2);
     assertSequenceNumbers(info);
     accountIndexedCounter.assertReindexOf(admin);
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).body()).contains("new SSH keys have been added");
 
     // Add an existing key (the request succeeds, but the key isn't added again)
-    gApi.accounts().self().addSshKey(inital);
+    sender.clear();
+    gApi.accounts().self().addSshKey(initial);
     info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(2);
     assertSequenceNumbers(info);
     accountIndexedCounter.assertNoReindex();
+    // TODO: Issue 10769: Adding an already existing key should not result in a notification email
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).body()).contains("new SSH keys have been added");
 
     // Add another new key
+    sender.clear();
     String newKey2 = TestSshKeys.publicKey(TestSshKeys.genSshKey(), admin.email());
     gApi.accounts().self().addSshKey(newKey2);
     info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(3);
     assertSequenceNumbers(info);
     accountIndexedCounter.assertReindexOf(admin);
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).body()).contains("new SSH keys have been added");
 
     // Delete second key
     gApi.accounts().self().deleteSshKey(2);
@@ -2717,6 +2737,67 @@ public class AccountIT extends AbstractDaemonTest {
     } finally {
       cleanUpDrafts();
     }
+  }
+
+  @Test
+  public void userCanGenerateNewHttpPassword() throws Exception {
+    String newPassword = gApi.accounts().self().generateHttpPassword();
+    assertThat(newPassword).isNotNull();
+  }
+
+  @Test
+  public void adminCanGenerateNewHttpPasswordForUser() throws Exception {
+    requestScopeOperations.setApiUser(admin.id());
+    String newPassword = gApi.accounts().id(user.username()).generateHttpPassword();
+    assertThat(newPassword).isNotNull();
+  }
+
+  @Test
+  public void userCannotGenerateNewHttpPasswordForOtherUser() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    exception.expect(AuthException.class);
+    gApi.accounts().id(admin.username()).generateHttpPassword();
+  }
+
+  @Test
+  public void userCannotExplicitlySetHttpPassword() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    exception.expect(AuthException.class);
+    gApi.accounts().self().setHttpPassword("my-new-password");
+  }
+
+  @Test
+  public void userCannotExplicitlySetHttpPasswordForOtherUser() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    exception.expect(AuthException.class);
+    gApi.accounts().id(admin.username()).setHttpPassword("my-new-password");
+  }
+
+  @Test
+  public void userCanRemoveHttpPassword() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    assertThat(gApi.accounts().self().setHttpPassword(null)).isNull();
+  }
+
+  @Test
+  public void userCannotRemoveHttpPasswordForOtherUser() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    exception.expect(AuthException.class);
+    gApi.accounts().id(admin.username()).setHttpPassword(null);
+  }
+
+  @Test
+  public void adminCanExplicitlySetHttpPasswordForUser() throws Exception {
+    requestScopeOperations.setApiUser(admin.id());
+    String httpPassword = "new-password-for-user";
+    assertThat(gApi.accounts().id(user.username()).setHttpPassword(httpPassword))
+        .isEqualTo(httpPassword);
+  }
+
+  @Test
+  public void adminCanRemoveHttpPasswordForUser() throws Exception {
+    requestScopeOperations.setApiUser(admin.id());
+    assertThat(gApi.accounts().id(user.username()).setHttpPassword(null)).isNull();
   }
 
   private void createDraft(PushOneCommit.Result r, String path, String message) throws Exception {

@@ -50,7 +50,7 @@ limitations under the License.
     });
 
     test('default values are populated', () => {
-      assert.isTrue(element.$.initalCommit.bindValue);
+      assert.isTrue(element.$.initialCommit.bindValue);
       assert.isFalse(element.$.parentRepo.bindValue);
     });
 
@@ -83,7 +83,7 @@ limitations under the License.
       element.$.repoNameInput.bindValue = configInputObj.name;
       element.$.rightsInheritFromInput.bindValue = configInputObj.parent;
       element.$.ownerInput.text = configInputObj.owners[0];
-      element.$.initalCommit.bindValue =
+      element.$.initialCommit.bindValue =
           configInputObj.create_empty_commit;
       element.$.parentRepo.bindValue =
           configInputObj.permissions_only;

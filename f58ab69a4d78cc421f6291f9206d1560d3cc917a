@@ -70,6 +70,30 @@
       "revId": "f58ab69a4d78cc421f6291f9206d1560d3cc917a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd8a9841_ec41a0fe",
+        "filename": "Documentation/linux-quickstart.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-02T09:57:49Z",
+      "side": 1,
+      "message": "\u003e But if you are not a developer (my assumption is that the instructions are for *that* audience) then I saw many times people just copy\u0026pasting the instructions :-( Better to have them bullet-proof then.\n\nI agree. This would actually be an argument for keeping \"~/\" in this doc file and \"../\" in the dev doc files (or go with the global variable approach).",
+      "parentUuid": "def6dd8d_6d483c49",
+      "range": {
+        "startLine": 46,
+        "startChar": 44,
+        "endLine": 46,
+        "endChar": 46
+      },
+      "revId": "f58ab69a4d78cc421f6291f9206d1560d3cc917a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

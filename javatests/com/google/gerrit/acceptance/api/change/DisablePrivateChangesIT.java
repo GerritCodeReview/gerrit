@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
@@ -31,9 +32,9 @@ public class DisablePrivateChangesIT extends AbstractDaemonTest {
   public void createPrivateChangeWithDisablePrivateChangesTrue() throws Exception {
     ChangeInput input = new ChangeInput(project.get(), "master", "empty change");
     input.isPrivate = true;
-    exception.expect(MethodNotAllowedException.class);
-    exception.expectMessage("private changes are disabled");
-    gApi.changes().create(input);
+    MethodNotAllowedException thrown =
+        assertThrows(MethodNotAllowedException.class, () -> gApi.changes().create(input));
+    assertThat(thrown).hasMessageThat().contains("private changes are disabled");
   }
 
   @Test
@@ -107,9 +108,11 @@ public class DisablePrivateChangesIT extends AbstractDaemonTest {
   public void setPrivateWithDisablePrivateChangesTrue() throws Exception {
     PushOneCommit.Result result = createChange();
 
-    exception.expect(MethodNotAllowedException.class);
-    exception.expectMessage("private changes are disabled");
-    gApi.changes().id(result.getChangeId()).setPrivate(true, "set private");
+    MethodNotAllowedException thrown =
+        assertThrows(
+            MethodNotAllowedException.class,
+            () -> gApi.changes().id(result.getChangeId()).setPrivate(true, "set private"));
+    assertThat(thrown).hasMessageThat().contains("private changes are disabled");
   }
 
   @Test

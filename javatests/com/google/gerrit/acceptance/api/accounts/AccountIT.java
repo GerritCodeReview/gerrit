@@ -32,6 +32,7 @@ import static com.google.gerrit.server.StarredChangesUtil.IGNORE_LABEL;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GPGKEY;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -354,9 +355,11 @@ public class AccountIT extends AbstractDaemonTest {
     AccountInput input = new AccountInput();
     input.username = admin.username();
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("username '" + admin.username() + "' already exists");
-    gApi.accounts().create(input);
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> gApi.accounts().create(input));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("username '" + admin.username() + "' already exists");
   }
 
   @Test
@@ -365,9 +368,9 @@ public class AccountIT extends AbstractDaemonTest {
     input.username = "foo";
     input.email = admin.email();
 
-    exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("email '" + admin.email() + "' already exists");
-    gApi.accounts().create(input);
+    UnprocessableEntityException thrown =
+        assertThrows(UnprocessableEntityException.class, () -> gApi.accounts().create(input));
+    assertThat(thrown).hasMessageThat().contains("email '" + admin.email() + "' already exists");
   }
 
   @Test
@@ -628,9 +631,10 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void deactivateSelf() throws Exception {
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("cannot deactivate own account");
-    gApi.accounts().self().setActive(false);
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class, () -> gApi.accounts().self().setActive(false));
+    assertThat(thrown).hasMessageThat().contains("cannot deactivate own account");
   }
 
   @Test
@@ -723,23 +727,31 @@ public class AccountIT extends AbstractDaemonTest {
     accountIndexedCounter.assertNoReindex();
 
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("not allowed to get stars of another account");
-    gApi.accounts().id(Integer.toString((admin.id().get()))).getStars(triplet);
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () -> gApi.accounts().id(Integer.toString((admin.id().get()))).getStars(triplet));
+    assertThat(thrown).hasMessageThat().contains("not allowed to get stars of another account");
   }
 
   @Test
   public void starWithInvalidLabels() throws Exception {
     PushOneCommit.Result r = createChange();
     String triplet = project.get() + "~master~" + r.getChangeId();
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("invalid labels: another invalid label, invalid label");
-    gApi.accounts()
-        .self()
-        .setStars(
-            triplet,
-            new StarsInput(
-                ImmutableSet.of(DEFAULT_LABEL, "invalid label", "blue", "another invalid label")));
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                gApi.accounts()
+                    .self()
+                    .setStars(
+                        triplet,
+                        new StarsInput(
+                            ImmutableSet.of(
+                                DEFAULT_LABEL, "invalid label", "blue", "another invalid label"))));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("invalid labels: another invalid label, invalid label");
   }
 
   @Test
@@ -757,17 +769,24 @@ public class AccountIT extends AbstractDaemonTest {
   public void starWithDefaultAndIgnoreLabel() throws Exception {
     PushOneCommit.Result r = createChange();
     String triplet = project.get() + "~master~" + r.getChangeId();
-    exception.expect(BadRequestException.class);
-    exception.expectMessage(
-        "The labels "
-            + DEFAULT_LABEL
-            + " and "
-            + IGNORE_LABEL
-            + " are mutually exclusive."
-            + " Only one of them can be set.");
-    gApi.accounts()
-        .self()
-        .setStars(triplet, new StarsInput(ImmutableSet.of(DEFAULT_LABEL, "blue", IGNORE_LABEL)));
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                gApi.accounts()
+                    .self()
+                    .setStars(
+                        triplet,
+                        new StarsInput(ImmutableSet.of(DEFAULT_LABEL, "blue", IGNORE_LABEL))));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "The labels "
+                + DEFAULT_LABEL
+                + " and "
+                + IGNORE_LABEL
+                + " are mutually exclusive."
+                + " Only one of them can be set.");
   }
 
   @Test
@@ -908,9 +927,9 @@ public class AccountIT extends AbstractDaemonTest {
     TestAccount foo = accountCreator.create(name("foo"), email, "Foo");
 
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("modify account not permitted");
-    gApi.accounts().id(foo.id().get()).getEmails();
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> gApi.accounts().id(foo.id().get()).getEmails());
+    assertThat(thrown).hasMessageThat().contains("modify account not permitted");
   }
 
   @Test
@@ -975,8 +994,7 @@ public class AccountIT extends AbstractDaemonTest {
     TestAccount account = accountCreator.create(name("user"));
     EmailInput input = newEmailInput("test@test.com");
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    gApi.accounts().id(account.username()).addEmail(input);
+    assertThrows(AuthException.class, () -> gApi.accounts().id(account.username()).addEmail(input));
   }
 
   @Test
@@ -984,9 +1002,13 @@ public class AccountIT extends AbstractDaemonTest {
     String email = "new.email@example.com";
     EmailInput input = newEmailInput(email);
     gApi.accounts().self().addEmail(input);
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("Identity 'mailto:" + email + "' in use by another account");
-    gApi.accounts().id(user.username()).addEmail(input);
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.accounts().id(user.username()).addEmail(input));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Identity 'mailto:" + email + "' in use by another account");
   }
 
   @Test
@@ -1022,9 +1044,14 @@ public class AccountIT extends AbstractDaemonTest {
     TestAccount user = accountCreator.create();
     requestScopeOperations.setApiUser(user.id());
 
-    exception.expect(AuthException.class);
-    exception.expectMessage("modify account not permitted");
-    gApi.accounts().id(admin.id().get()).addEmail(newEmailInput("foo@example.com", false));
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () ->
+                gApi.accounts()
+                    .id(admin.id().get())
+                    .addEmail(newEmailInput("foo@example.com", false)));
+    assertThat(thrown).hasMessageThat().contains("modify account not permitted");
   }
 
   @Test
@@ -1109,9 +1136,11 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(getEmails()).doesNotContain(email);
 
     // user cannot delete email of admin
-    exception.expect(AuthException.class);
-    exception.expectMessage("modify account not permitted");
-    gApi.accounts().id(admin.id().get()).deleteEmail(admin.email());
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () -> gApi.accounts().id(admin.id().get()).deleteEmail(admin.email()));
+    assertThat(thrown).hasMessageThat().contains("modify account not permitted");
   }
 
   @Test
@@ -1205,8 +1234,9 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void userCannotSetNameOfOtherUser() throws Exception {
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    gApi.accounts().id(admin.username()).setName("Admin McAdminface");
+    assertThrows(
+        AuthException.class,
+        () -> gApi.accounts().id(admin.username()).setName("Admin McAdminface"));
   }
 
   @Test
@@ -1266,9 +1296,13 @@ public class AccountIT extends AbstractDaemonTest {
 
     // fetching user branch of another user fails
     String otherUserRefName = RefNames.refsUsers(admin.id());
-    exception.expect(TransportException.class);
-    exception.expectMessage("Remote does not have " + otherUserRefName + " available for fetch.");
-    fetch(allUsersRepo, otherUserRefName + ":otherUserRef");
+    TransportException thrown =
+        assertThrows(
+            TransportException.class,
+            () -> fetch(allUsersRepo, otherUserRefName + ":otherUserRef"));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Remote does not have " + otherUserRefName + " available for fetch.");
   }
 
   @Test
@@ -1404,17 +1438,21 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(r.getChange().change().getDest().branch()).isEqualTo(userRef);
 
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage(
-        String.format(
-            "invalid account configuration: commit '%s' has an invalid '%s' file for account '%s':"
-                + " Invalid config file %s in commit %s",
-            r.getCommit().name(),
-            AccountProperties.ACCOUNT_CONFIG,
-            admin.id(),
-            AccountProperties.ACCOUNT_CONFIG,
-            r.getCommit().name()));
-    gApi.changes().id(r.getChangeId()).current().submit();
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(r.getChangeId()).current().submit());
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            String.format(
+                "invalid account configuration: commit '%s' has an invalid '%s' file for account"
+                    + " '%s': Invalid config file %s in commit %s",
+                r.getCommit().name(),
+                AccountProperties.ACCOUNT_CONFIG,
+                admin.id(),
+                AccountProperties.ACCOUNT_CONFIG,
+                r.getCommit().name()));
   }
 
   @Test
@@ -1443,12 +1481,16 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(r.getChange().change().getDest().branch()).isEqualTo(userRef);
 
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage(
-        String.format(
-            "invalid account configuration: invalid preferred email '%s' for account '%s'",
-            noEmail, admin.id()));
-    gApi.changes().id(r.getChangeId()).current().submit();
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(r.getChangeId()).current().submit());
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            String.format(
+                "invalid account configuration: invalid preferred email '%s' for account '%s'",
+                noEmail, admin.id()));
   }
 
   @Test
@@ -1476,9 +1518,13 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(r.getChange().change().getDest().branch()).isEqualTo(userRef);
 
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("invalid account configuration: cannot deactivate own account");
-    gApi.changes().id(r.getChangeId()).current().submit();
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(r.getChangeId()).current().submit());
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("invalid account configuration: cannot deactivate own account");
   }
 
   @Test
@@ -1897,9 +1943,10 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(sender.getMessages().get(0).body()).contains("new GPG keys have been added");
 
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(ResourceNotFoundException.class);
-    exception.expectMessage(id);
-    gApi.accounts().self().gpgKey(id).get();
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class, () -> gApi.accounts().self().gpgKey(id).get());
+    assertThat(thrown).hasMessageThat().contains(id);
   }
 
   @Test
@@ -1942,9 +1989,9 @@ public class AccountIT extends AbstractDaemonTest {
     addGpgKey(key.getPublicKeyArmored());
     requestScopeOperations.setApiUser(user.id());
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("GPG key already associated with another account");
-    addGpgKey(key.getPublicKeyArmored());
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> addGpgKey(key.getPublicKeyArmored()));
+    assertThat(thrown).hasMessageThat().contains("GPG key already associated with another account");
   }
 
   @Test
@@ -1972,9 +2019,10 @@ public class AccountIT extends AbstractDaemonTest {
     accountIndexedCounter.assertReindexOf(admin);
     assertKeys();
 
-    exception.expect(ResourceNotFoundException.class);
-    exception.expectMessage(id);
-    gApi.accounts().self().gpgKey(id).get();
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class, () -> gApi.accounts().self().gpgKey(id).get());
+    assertThat(thrown).hasMessageThat().contains(id);
   }
 
   @Test
@@ -2008,20 +2056,25 @@ public class AccountIT extends AbstractDaemonTest {
     assertKeys(key2, key5);
     accountIndexedCounter.assertReindexOf(admin);
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("Cannot both add and delete key: " + keyToString(key2.getPublicKey()));
-    gApi.accounts()
-        .self()
-        .putGpgKeys(
-            ImmutableList.of(key2.getPublicKeyArmored()), ImmutableList.of(key2.getKeyIdString()));
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                gApi.accounts()
+                    .self()
+                    .putGpgKeys(
+                        ImmutableList.of(key2.getPublicKeyArmored()),
+                        ImmutableList.of(key2.getKeyIdString())));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Cannot both add and delete key: " + keyToString(key2.getPublicKey()));
   }
 
   @Test
   public void addMalformedGpgKey() throws Exception {
     String key = "-----BEGIN PGP PUBLIC KEY BLOCK-----\n\ntest\n-----END PGP PUBLIC KEY BLOCK-----";
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("Failed to parse GPG keys");
-    addGpgKey(key);
+    BadRequestException thrown = assertThrows(BadRequestException.class, () -> addGpgKey(key));
+    assertThat(thrown).hasMessageThat().contains("Failed to parse GPG keys");
   }
 
   @Test
@@ -2103,9 +2156,9 @@ public class AccountIT extends AbstractDaemonTest {
     accountIndexedCounter.assertReindexOf(user);
 
     // user cannot reindex any account
-    exception.expect(AuthException.class);
-    exception.expectMessage("modify account not permitted");
-    gApi.accounts().id(admin.username()).index();
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> gApi.accounts().id(admin.username()).index());
+    assertThat(thrown).hasMessageThat().contains("modify account not permitted");
   }
 
   @Test
@@ -2754,22 +2807,23 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void userCannotGenerateNewHttpPasswordForOtherUser() throws Exception {
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    gApi.accounts().id(admin.username()).generateHttpPassword();
+    assertThrows(
+        AuthException.class, () -> gApi.accounts().id(admin.username()).generateHttpPassword());
   }
 
   @Test
   public void userCannotExplicitlySetHttpPassword() throws Exception {
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    gApi.accounts().self().setHttpPassword("my-new-password");
+    assertThrows(
+        AuthException.class, () -> gApi.accounts().self().setHttpPassword("my-new-password"));
   }
 
   @Test
   public void userCannotExplicitlySetHttpPasswordForOtherUser() throws Exception {
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    gApi.accounts().id(admin.username()).setHttpPassword("my-new-password");
+    assertThrows(
+        AuthException.class,
+        () -> gApi.accounts().id(admin.username()).setHttpPassword("my-new-password"));
   }
 
   @Test
@@ -2781,8 +2835,8 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void userCannotRemoveHttpPasswordForOtherUser() throws Exception {
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    gApi.accounts().id(admin.username()).setHttpPassword(null);
+    assertThrows(
+        AuthException.class, () -> gApi.accounts().id(admin.username()).setHttpPassword(null));
   }
 
   @Test

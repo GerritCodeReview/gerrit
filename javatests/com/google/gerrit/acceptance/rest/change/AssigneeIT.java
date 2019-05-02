@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.Iterables;
@@ -159,18 +160,16 @@ public class AssigneeIT extends AbstractDaemonTest {
     git().fetch().setRefSpecs(new RefSpec("refs/meta/config:refs/meta/config")).call();
     testRepo.reset(RefNames.REFS_CONFIG);
     PushOneCommit.Result r = createChange("refs/for/refs/meta/config");
-    exception.expect(AuthException.class);
-    exception.expectMessage("read not permitted");
-    setAssignee(r, user.email());
+    AuthException thrown = assertThrows(AuthException.class, () -> setAssignee(r, user.email()));
+    assertThat(thrown).hasMessageThat().contains("read not permitted");
   }
 
   @Test
   public void setAssigneeNotAllowedWithoutPermission() throws Exception {
     PushOneCommit.Result r = createChange();
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("not permitted");
-    setAssignee(r, user.email());
+    AuthException thrown = assertThrows(AuthException.class, () -> setAssignee(r, user.email()));
+    assertThat(thrown).hasMessageThat().contains("not permitted");
   }
 
   @Test

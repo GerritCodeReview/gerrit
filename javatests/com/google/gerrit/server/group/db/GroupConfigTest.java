@@ -17,8 +17,10 @@ package com.google.gerrit.server.group.db;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.server.group.testing.InternalGroupSubject.internalGroups;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.OptionalSubject.assertThat;
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -113,9 +115,9 @@ public class GroupConfigTest extends GerritBaseTests {
     GroupConfig groupConfig = GroupConfig.createForNewGroup(projectName, repository, groupCreation);
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
-      exception.expectCause(instanceOf(ConfigInvalidException.class));
-      exception.expectMessage("Name of the group " + groupUuid);
-      groupConfig.commit(metaDataUpdate);
+      Throwable thrown = assertThrows(Throwable.class, () -> groupConfig.commit(metaDataUpdate));
+      assertThat(thrown.getCause(), instanceOf(ConfigInvalidException.class));
+      assertThat(thrown).hasMessageThat().contains("Name of the group " + groupUuid);
     }
   }
 
@@ -135,9 +137,9 @@ public class GroupConfigTest extends GerritBaseTests {
     GroupConfig groupConfig = GroupConfig.createForNewGroup(projectName, repository, groupCreation);
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
-      exception.expectCause(instanceOf(ConfigInvalidException.class));
-      exception.expectMessage("ID of the group " + groupUuid);
-      groupConfig.commit(metaDataUpdate);
+      Throwable thrown = assertThrows(Throwable.class, () -> groupConfig.commit(metaDataUpdate));
+      assertThat(thrown.getCause(), instanceOf(ConfigInvalidException.class));
+      assertThat(thrown).hasMessageThat().contains("ID of the group " + groupUuid);
     }
   }
 
@@ -214,9 +216,9 @@ public class GroupConfigTest extends GerritBaseTests {
     groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
-      exception.expectCause(instanceOf(ConfigInvalidException.class));
-      exception.expectMessage("Owner UUID of the group " + groupUuid);
-      groupConfig.commit(metaDataUpdate);
+      Throwable thrown = assertThrows(Throwable.class, () -> groupConfig.commit(metaDataUpdate));
+      assertThat(thrown.getCause(), instanceOf(ConfigInvalidException.class));
+      assertThat(thrown).hasMessageThat().contains("Owner UUID of the group " + groupUuid);
     }
   }
 
@@ -325,9 +327,11 @@ public class GroupConfigTest extends GerritBaseTests {
   public void idInConfigMustBeDefined() throws Exception {
     populateGroupConfig(groupUuid, "[group]\n\tname = users\n\townerGroupUuid = owners\n");
 
-    exception.expect(ConfigInvalidException.class);
-    exception.expectMessage("ID of the group " + groupUuid);
-    GroupConfig.loadForGroup(projectName, repository, groupUuid);
+    ConfigInvalidException thrown =
+        assertThrows(
+            ConfigInvalidException.class,
+            () -> GroupConfig.loadForGroup(projectName, repository, groupUuid));
+    assertThat(thrown).hasMessageThat().contains("ID of the group " + groupUuid);
   }
 
   @Test
@@ -335,9 +339,11 @@ public class GroupConfigTest extends GerritBaseTests {
     populateGroupConfig(
         groupUuid, "[group]\n\tname = users\n\tid = -5\n\townerGroupUuid = owners\n");
 
-    exception.expect(ConfigInvalidException.class);
-    exception.expectMessage("ID of the group " + groupUuid);
-    GroupConfig.loadForGroup(projectName, repository, groupUuid);
+    ConfigInvalidException thrown =
+        assertThrows(
+            ConfigInvalidException.class,
+            () -> GroupConfig.loadForGroup(projectName, repository, groupUuid));
+    assertThat(thrown).hasMessageThat().contains("ID of the group " + groupUuid);
   }
 
   @Test
@@ -361,9 +367,11 @@ public class GroupConfigTest extends GerritBaseTests {
   public void ownerGroupUuidInConfigMustBeDefined() throws Exception {
     populateGroupConfig(groupUuid, "[group]\n\tname = users\n\tid = 42\n");
 
-    exception.expect(ConfigInvalidException.class);
-    exception.expectMessage("Owner UUID of the group " + groupUuid);
-    GroupConfig.loadForGroup(projectName, repository, groupUuid);
+    ConfigInvalidException thrown =
+        assertThrows(
+            ConfigInvalidException.class,
+            () -> GroupConfig.loadForGroup(projectName, repository, groupUuid));
+    assertThat(thrown).hasMessageThat().contains("Owner UUID of the group " + groupUuid);
   }
 
   @Test
@@ -415,9 +423,9 @@ public class GroupConfigTest extends GerritBaseTests {
     populateGroupConfig(groupUuid, "[group]\n\tname=users\n\tid = 42\n\townerGroupUuid = owners\n");
     populateMembersFile(groupUuid, "One");
 
-    exception.expect(ConfigInvalidException.class);
-    exception.expectMessage("Invalid file members");
-    loadGroup(groupUuid);
+    ConfigInvalidException thrown =
+        assertThrows(ConfigInvalidException.class, () -> loadGroup(groupUuid));
+    assertThat(thrown).hasMessageThat().contains("Invalid file members");
   }
 
   @Test
@@ -425,9 +433,9 @@ public class GroupConfigTest extends GerritBaseTests {
     populateGroupConfig(groupUuid, "[group]\n\tname=users\n\tid = 42\n\townerGroupUuid = owners\n");
     populateMembersFile(groupUuid, "1\t2");
 
-    exception.expect(ConfigInvalidException.class);
-    exception.expectMessage("Invalid file members");
-    loadGroup(groupUuid);
+    ConfigInvalidException thrown =
+        assertThrows(ConfigInvalidException.class, () -> loadGroup(groupUuid));
+    assertThat(thrown).hasMessageThat().contains("Invalid file members");
   }
 
   @Test
@@ -517,9 +525,9 @@ public class GroupConfigTest extends GerritBaseTests {
     groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
-      exception.expectCause(instanceOf(ConfigInvalidException.class));
-      exception.expectMessage("Name of the group " + groupUuid);
-      groupConfig.commit(metaDataUpdate);
+      Throwable thrown = assertThrows(Throwable.class, () -> groupConfig.commit(metaDataUpdate));
+      assertThat(thrown.getCause(), instanceOf(ConfigInvalidException.class));
+      assertThat(thrown).hasMessageThat().contains("Name of the group " + groupUuid);
     }
   }
 
@@ -584,9 +592,9 @@ public class GroupConfigTest extends GerritBaseTests {
     groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
-      exception.expectCause(instanceOf(ConfigInvalidException.class));
-      exception.expectMessage("Owner UUID of the group " + groupUuid);
-      groupConfig.commit(metaDataUpdate);
+      Throwable thrown = assertThrows(Throwable.class, () -> groupConfig.commit(metaDataUpdate));
+      assertThat(thrown.getCause(), instanceOf(ConfigInvalidException.class));
+      assertThat(thrown).hasMessageThat().contains("Owner UUID of the group " + groupUuid);
     }
   }
 

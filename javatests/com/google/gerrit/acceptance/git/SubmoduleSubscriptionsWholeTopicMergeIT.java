@@ -17,13 +17,16 @@ package com.google.gerrit.acceptance.git;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.GitUtil.getChangeId;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.testsuite.ThrowingConsumer;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.TestSubmitInput;
@@ -614,7 +617,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
     expectToHaveSubmoduleState(topRepo, "master", botKey, bottomRepo, "master");
   }
 
-  private String prepareBranchCircularSubscription() throws Exception {
+  private void testBranchCircularSubscription(ThrowingConsumer<String> apiCall) throws Exception {
     Project.NameKey topKey = createProjectForPush(getSubmitType());
     Project.NameKey midKey = createProjectForPush(getSubmitType());
     Project.NameKey botKey = createProjectForPush(getSubmitType());
@@ -634,23 +637,24 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
     String changeId = getChangeId(bottomRepo, bottomMasterHead).get();
 
     approve(changeId);
-    exception.expectMessage("Branch level circular subscriptions detected");
-    exception.expectMessage(topKey.get() + ",refs/heads/master");
-    exception.expectMessage(midKey.get() + ",refs/heads/master");
-    exception.expectMessage(botKey.get() + ",refs/heads/master");
-    return changeId;
+
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> apiCall.accept(changeId));
+    assertThat(thrown).hasMessageThat().contains("Branch level circular subscriptions detected");
+    assertThat(thrown).hasMessageThat().contains(topKey.get() + ",refs/heads/master");
+    assertThat(thrown).hasMessageThat().contains(midKey.get() + ",refs/heads/master");
+    assertThat(thrown).hasMessageThat().contains(botKey.get() + ",refs/heads/master");
   }
 
   @Test
   public void branchCircularSubscription() throws Exception {
-    String changeId = prepareBranchCircularSubscription();
-    gApi.changes().id(changeId).current().submit();
+    testBranchCircularSubscription(changeId -> gApi.changes().id(changeId).current().submit());
   }
 
   @Test
   public void branchCircularSubscriptionPreview() throws Exception {
-    String changeId = prepareBranchCircularSubscription();
-    gApi.changes().id(changeId).current().submitPreview();
+    testBranchCircularSubscription(
+        changeId -> gApi.changes().id(changeId).current().submitPreview());
   }
 
   @Test
@@ -672,10 +676,13 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
     approve(getChangeId(subRepo, subMasterHead).get());
     approve(getChangeId(superRepo, superDevHead).get());
 
-    exception.expectMessage("Project level circular subscriptions detected");
-    exception.expectMessage(subKey.get());
-    exception.expectMessage(superKey.get());
-    gApi.changes().id(getChangeId(subRepo, subMasterHead).get()).current().submit();
+    Throwable thrown =
+        assertThrows(
+            Throwable.class,
+            () -> gApi.changes().id(getChangeId(subRepo, subMasterHead).get()).current().submit());
+    assertThat(thrown).hasMessageThat().contains("Project level circular subscriptions detected");
+    assertThat(thrown).hasMessageThat().contains(subKey.get());
+    assertThat(thrown).hasMessageThat().contains(superKey.get());
   }
 
   @Test

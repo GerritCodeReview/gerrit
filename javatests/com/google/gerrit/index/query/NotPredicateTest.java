@@ -16,12 +16,12 @@ package com.google.gerrit.index.query;
 
 import static com.google.gerrit.index.query.Predicate.and;
 import static com.google.gerrit.index.query.Predicate.not;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.Collections;
 import java.util.List;
@@ -50,26 +50,17 @@ public class NotPredicateTest extends PredicateTest {
     final TestPredicate p = f("author", "bob");
     final Predicate<String> n = not(p);
 
-    try {
-      n.getChildren().clear();
-      fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException e) {
-      assertOnlyChild("clear", p, n);
-    }
+    UnsupportedOperationException e =
+        assertThrows(UnsupportedOperationException.class, () -> n.getChildren().clear());
+    assertOnlyChild("clear", p, n);
 
-    try {
-      n.getChildren().remove(0);
-      fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException e) {
-      assertOnlyChild("remove(0)", p, n);
-    }
+    e = assertThrows(UnsupportedOperationException.class, () -> n.getChildren().remove(0));
+    assertOnlyChild("remove(0)", p, n);
 
-    try {
-      n.getChildren().iterator().remove();
-      fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException e) {
-      assertOnlyChild("remove()", p, n);
-    }
+    e =
+        assertThrows(
+            UnsupportedOperationException.class, () -> n.getChildren().iterator().remove());
+    assertOnlyChild("remove()", p, n);
   }
 
   private static void assertOnlyChild(String o, Predicate<String> c, Predicate<String> p) {
@@ -112,18 +103,11 @@ public class NotPredicateTest extends PredicateTest {
     assertNotSame(n, n.copy(sb));
     assertEquals(sb, n.copy(sb).getChildren());
 
-    try {
-      n.copy(Collections.emptyList());
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException e) {
-      assertEquals("Expected exactly one child", e.getMessage());
-    }
+    IllegalArgumentException e =
+        assertThrows(IllegalArgumentException.class, () -> n.copy(Collections.emptyList()));
+    assertEquals("Expected exactly one child", e.getMessage());
 
-    try {
-      n.copy(and(a, b).getChildren());
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException e) {
-      assertEquals("Expected exactly one child", e.getMessage());
-    }
+    e = assertThrows(IllegalArgumentException.class, () -> n.copy(and(a, b).getChildren()));
+    assertEquals("Expected exactly one child", e.getMessage());
   }
 }

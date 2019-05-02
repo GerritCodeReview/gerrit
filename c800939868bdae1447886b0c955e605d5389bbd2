@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16532689_76c93c29",
+        "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-02T08:52:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e35e457_2dd239a6",
+      "revId": "c800939868bdae1447886b0c955e605d5389bbd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70c3d8e2_9bb56731",
+        "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-02T08:52:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e35e457_2dd239a6",
+      "revId": "c800939868bdae1447886b0c955e605d5389bbd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

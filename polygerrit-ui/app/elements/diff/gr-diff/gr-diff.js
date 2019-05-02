@@ -167,6 +167,11 @@
         type: Array,
         value: () => [],
       },
+      /** @type {!Array<!Gerrit.CoverageRange>} */
+      coverageRanges: {
+        type: Array,
+        value: () => [],
+      },
       lineWrapping: {
         type: Boolean,
         value: false,

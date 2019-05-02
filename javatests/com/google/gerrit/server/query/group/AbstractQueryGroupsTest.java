@@ -58,6 +58,7 @@ import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.testing.GerritServerTests;
+import com.google.gerrit.testing.GerritTestName;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
@@ -69,10 +70,13 @@ import java.util.Optional;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
 
 @Ignore
 public abstract class AbstractQueryGroupsTest extends GerritServerTests {
+  @Rule public final GerritTestName testName = new GerritTestName();
+
   @Inject protected Accounts accounts;
 
   @Inject @ServerInitiated protected Provider<AccountsUpdate> accountsUpdate;
@@ -185,7 +189,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
 
   @Test
   public void byInname() throws Exception {
-    String namePart = getSanitizedMethodName();
+    String namePart = testName.getSanitizedMethodName();
     namePart = CharMatcher.is('_').removeFrom(namePart);
 
     GroupInfo group1 = createGroup("group-" + namePart);
@@ -536,7 +540,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
       return null;
     }
 
-    return name + "_" + getSanitizedMethodName();
+    return name + "_" + testName.getSanitizedMethodName();
   }
 
   protected int getSchemaVersion() {

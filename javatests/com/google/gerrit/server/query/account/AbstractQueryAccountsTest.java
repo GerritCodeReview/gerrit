@@ -80,6 +80,7 @@ import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.testing.GerritServerTests;
+import com.google.gerrit.testing.GerritTestName;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
@@ -94,10 +95,13 @@ import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
 
 @Ignore
 public abstract class AbstractQueryAccountsTest extends GerritServerTests {
+  @Rule public final GerritTestName testName = new GerritTestName();
+
   @Inject protected Accounts accounts;
 
   @Inject @ServerInitiated protected Provider<AccountsUpdate> accountsUpdate;
@@ -751,7 +755,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
       return null;
     }
 
-    String suffix = getSanitizedMethodName();
+    String suffix = testName.getSanitizedMethodName();
     if (name.contains("@")) {
       return name + "." + suffix;
     }

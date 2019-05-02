@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -63,7 +64,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
-  public void submitWithFastForward() throws Exception {
+  public void submitWithFastForward() throws Throwable {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange();
     submit(change.getChangeId());
@@ -79,7 +80,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
-  public void submitMultipleChanges() throws Exception {
+  public void submitMultipleChanges() throws Throwable {
     RevCommit initialHead = getRemoteHead();
 
     testRepo.reset(initialHead);
@@ -136,7 +137,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
-  public void submitChangesAcrossRepos() throws Exception {
+  public void submitChangesAcrossRepos() throws Throwable {
     Project.NameKey p1 = projectOperations.newProject().create();
     Project.NameKey p2 = projectOperations.newProject().create();
     Project.NameKey p3 = projectOperations.newProject().create();
@@ -213,7 +214,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
-  public void submitChangesAcrossReposBlocked() throws Exception {
+  public void submitChangesAcrossReposBlocked() throws Throwable {
     Project.NameKey p1 = projectOperations.newProject().create();
     Project.NameKey p2 = projectOperations.newProject().create();
     Project.NameKey p3 = projectOperations.newProject().create();
@@ -277,15 +278,12 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
               + "and upload the rebased commit for review.";
 
       // Get a preview before submitting:
-      try (BinaryResult r = gApi.changes().id(change1b.getChangeId()).current().submitPreview()) {
-        // We cannot just use the ExpectedException infrastructure as provided
-        // by AbstractDaemonTest, as then we'd stop early and not test the
-        // actual submit.
+      RestApiException thrown =
+          assertThrows(
+              RestApiException.class,
+              () -> gApi.changes().id(change1b.getChangeId()).current().submitPreview().close());
+      assertThat(thrown.getMessage()).isEqualTo(msg);
 
-        fail("expected failure");
-      } catch (RestApiException e) {
-        assertThat(e.getMessage()).isEqualTo(msg);
-      }
       submitWithConflict(change1b.getChangeId(), msg);
     } else {
       submit(change1b.getChangeId());
@@ -313,7 +311,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
-  public void submitWithMergedAncestorsOnOtherBranch() throws Exception {
+  public void submitWithMergedAncestorsOnOtherBranch() throws Throwable {
     RevCommit initialHead = getRemoteHead();
 
     PushOneCommit.Result change1 =
@@ -362,7 +360,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
-  public void submitWithOpenAncestorsOnOtherBranch() throws Exception {
+  public void submitWithOpenAncestorsOnOtherBranch() throws Throwable {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change1 =
         createChange(testRepo, "master", "base commit", "a.txt", "1", "");
@@ -435,7 +433,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
-  public void gerritWorkflow() throws Exception {
+  public void gerritWorkflow() throws Throwable {
     RevCommit initialHead = getRemoteHead();
 
     // We'll setup a master and a stable branch.
@@ -493,7 +491,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
-  public void openChangeForTargetBranchPreventsMerge() throws Exception {
+  public void openChangeForTargetBranchPreventsMerge() throws Throwable {
     gApi.projects().name(project.get()).branch("stable").create(new BranchInput());
 
     // Propose a change for master, but leave it open for master!
@@ -532,7 +530,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
-  public void dependencyOnOutdatedPatchSetPreventsMerge() throws Exception {
+  public void dependencyOnOutdatedPatchSetPreventsMerge() throws Throwable {
     // Create a change
     PushOneCommit change = pushFactory.create(user.newIdent(), testRepo, "fix", "a.txt", "foo");
     PushOneCommit.Result changeResult = change.to("refs/for/master");
@@ -574,7 +572,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
-  public void dependencyOnDeletedChangePreventsMerge() throws Exception {
+  public void dependencyOnDeletedChangePreventsMerge() throws Throwable {
     // Create a change
     PushOneCommit change = pushFactory.create(user.newIdent(), testRepo, "fix", "a.txt", "foo");
     PushOneCommit.Result changeResult = change.to("refs/for/master");
@@ -608,7 +606,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
-  public void dependencyOnChangeForNonVisibleBranchPreventsMerge() throws Exception {
+  public void dependencyOnChangeForNonVisibleBranchPreventsMerge() throws Throwable {
     grantLabel("Code-Review", -2, 2, project, "refs/heads/*", false, REGISTERED_USERS, false);
     grant(project, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
 
@@ -663,7 +661,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
-  public void dependencyOnHiddenChangePreventsMerge() throws Exception {
+  public void dependencyOnHiddenChangePreventsMerge() throws Throwable {
     grantLabel("Code-Review", -2, 2, project, "refs/heads/*", false, REGISTERED_USERS, false);
     grant(project, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
 
@@ -707,7 +705,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
-  public void dependencyOnHiddenChangeUsingTopicPreventsMerge() throws Exception {
+  public void dependencyOnHiddenChangeUsingTopicPreventsMerge() throws Throwable {
     // Construct a topic where a change included by topic depends on a private change that is not
     // visible to the submitting user
     // (c1) --- topic --- (c2b)
@@ -767,7 +765,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
-  public void testPreviewSubmitTgz() throws Exception {
+  public void testPreviewSubmitTgz() throws Throwable {
     Project.NameKey p1 = projectOperations.newProject().create();
 
     TestRepository<?> repo1 = cloneProject(p1);

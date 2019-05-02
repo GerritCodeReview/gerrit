@@ -36,7 +36,7 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
   }
 
   @Test
-  public void submitWithFastForward() throws Exception {
+  public void submitWithFastForward() throws Throwable {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange();
     submit(change.getChangeId());
@@ -50,7 +50,7 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
   }
 
   @Test
-  public void submitMultipleChangesWithFastForward() throws Exception {
+  public void submitMultipleChangesWithFastForward() throws Throwable {
     RevCommit initialHead = getRemoteHead();
 
     PushOneCommit.Result change = createChange();
@@ -82,7 +82,7 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
   }
 
   @Test
-  public void submitTwoChangesWithFastForward_missingDependency() throws Exception {
+  public void submitTwoChangesWithFastForward_missingDependency() throws Throwable {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change1 = createChange();
     PushOneCommit.Result change2 = createChange();
@@ -102,7 +102,7 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
   }
 
   @Test
-  public void submitFastForwardNotPossible_Conflict() throws Exception {
+  public void submitFastForwardNotPossible_Conflict() throws Throwable {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
@@ -136,7 +136,7 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
   }
 
   @Test
-  public void submitSameCommitsAsInExperimentalBranch() throws Exception {
+  public void submitSameCommitsAsInExperimentalBranch() throws Throwable {
     RevCommit initialHead = getRemoteHead();
 
     grant(project, "refs/heads/*", Permission.CREATE);

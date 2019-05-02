@@ -32,7 +32,7 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmitByRebase {
 
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
-  public void submitWithFastForward() throws Exception {
+  public void submitWithFastForward() throws Throwable {
     RevCommit oldHead = getRemoteHead();
     PushOneCommit.Result change = createChange();
     submit(change.getChangeId());
@@ -50,7 +50,7 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmitByRebase {
 
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
-  public void submitWithContentMerge() throws Exception {
+  public void submitWithContentMerge() throws Throwable {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "aaa\nbbb\nccc\n");
     submit(change.getChangeId());

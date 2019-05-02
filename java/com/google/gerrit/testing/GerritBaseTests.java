@@ -20,5 +20,7 @@ import org.junit.rules.ExpectedException;
 
 @Ignore
 public abstract class GerritBaseTests {
-  @Rule public ExpectedException exception = ExpectedException.none();
+  @Deprecated // Use GerritJUnit#assertThrows
+  @Rule
+  public ExpectedException exception = ExpectedException.none();
 }

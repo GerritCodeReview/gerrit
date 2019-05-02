@@ -20,6 +20,7 @@ import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REMOVED;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
@@ -662,9 +663,11 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
     gApi.changes().id(r.getChangeId()).current().review(new ReviewInput().label("Code-Review", 1));
     requestScopeOperations.setApiUser(newUser.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("remove reviewer not permitted");
-    gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove();
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () -> gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove());
+    assertThat(thrown).hasMessageThat().contains("remove reviewer not permitted");
   }
 
   @Test
@@ -690,9 +693,11 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
     gApi.changes().id(r.getChangeId()).addReviewer(user.email());
     requestScopeOperations.setApiUser(newUser.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("remove reviewer not permitted");
-    gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove();
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () -> gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove());
+    assertThat(thrown).hasMessageThat().contains("remove reviewer not permitted");
   }
 
   @Test
@@ -705,9 +710,11 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     input.state = ReviewerState.CC;
     gApi.changes().id(r.getChangeId()).addReviewer(input);
     requestScopeOperations.setApiUser(newUser.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("remove reviewer not permitted");
-    gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove();
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () -> gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove());
+    assertThat(thrown).hasMessageThat().contains("remove reviewer not permitted");
   }
 
   @Test

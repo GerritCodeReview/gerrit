@@ -16,6 +16,7 @@ package com.google.gerrit.server.config;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.server.ioutil.HostPlatform;
 import com.google.gerrit.testing.GerritBaseTests;
@@ -72,8 +73,8 @@ public class SitePathsTest extends GerritBaseTests {
     final Path root = random();
     try {
       Files.createFile(root);
-      exception.expect(NotDirectoryException.class);
-      new SitePaths(root);
+      assertThrows(NotDirectoryException.class, () -> new SitePaths(root));
+
     } finally {
       Files.delete(root);
     }

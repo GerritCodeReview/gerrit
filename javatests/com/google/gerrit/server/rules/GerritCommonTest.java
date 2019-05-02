@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.rules;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.easymock.EasyMock.expect;
 
 import com.google.gerrit.common.data.LabelTypes;
@@ -82,11 +84,14 @@ public class GerritCommonTest extends PrologTestCase {
       throw new CompileException("Cannot consult " + nameTerm);
     }
 
-    exception.expect(ReductionLimitException.class);
-    exception.expectMessage("exceeded reduction limit of 1300");
-    env.once(
-        Prolog.BUILTIN,
-        "call",
-        new StructureTerm(":", SymbolTerm.create("user"), SymbolTerm.create("loopy")));
+    ReductionLimitException thrown =
+        assertThrows(
+            ReductionLimitException.class,
+            () ->
+                env.once(
+                    Prolog.BUILTIN,
+                    "call",
+                    new StructureTerm(":", SymbolTerm.create("user"), SymbolTerm.create("loopy"))));
+    assertThat(thrown).hasMessageThat().contains("exceeded reduction limit of 1300");
   }
 }

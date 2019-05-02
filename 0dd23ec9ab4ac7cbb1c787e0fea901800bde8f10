@@ -1,0 +1,76 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b8bc94f_a9c7f65a",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/GetCommitIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-02T08:46:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19318d0f_c8140d34",
+      "range": {
+        "startLine": 125,
+        "startChar": 27,
+        "endLine": 125,
+        "endChar": 27
+      },
+      "revId": "0dd23ec9ab4ac7cbb1c787e0fea901800bde8f10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0f70063_a838041a",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/GetCommitIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-02T08:46:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f2b9efd_55c444ac",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 2
+      },
+      "revId": "0dd23ec9ab4ac7cbb1c787e0fea901800bde8f10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "148cf05e_f06b863f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/GetCommitIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-02T08:46:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba8db5e6_b2c2c04a",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 1
+      },
+      "revId": "0dd23ec9ab4ac7cbb1c787e0fea901800bde8f10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

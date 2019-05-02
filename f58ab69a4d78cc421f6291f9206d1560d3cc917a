@@ -94,6 +94,30 @@
       "revId": "f58ab69a4d78cc421f6291f9206d1560d3cc917a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e08415a0_cdb64fed",
+        "filename": "Documentation/linux-quickstart.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-05-02T10:48:28Z",
+      "side": 1,
+      "message": "Done. Using $GERRIT_SITE everywhere.",
+      "parentUuid": "fd8a9841_ec41a0fe",
+      "range": {
+        "startLine": 46,
+        "startChar": 44,
+        "endLine": 46,
+        "endChar": 46
+      },
+      "revId": "f58ab69a4d78cc421f6291f9206d1560d3cc917a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

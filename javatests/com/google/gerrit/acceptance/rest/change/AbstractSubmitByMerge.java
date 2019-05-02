@@ -26,7 +26,7 @@ import org.junit.Test;
 public abstract class AbstractSubmitByMerge extends AbstractSubmit {
 
   @Test
-  public void submitWithMerge() throws Exception {
+  public void submitWithMerge() throws Throwable {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
@@ -43,7 +43,7 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
 
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
-  public void submitWithContentMerge() throws Exception {
+  public void submitWithContentMerge() throws Throwable {
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "aaa\nbbb\nccc\n");
     submit(change.getChangeId());
     PushOneCommit.Result change2 = createChange("Change 2", "a.txt", "aaa\nbbb\nccc\nddd\n");
@@ -61,7 +61,7 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
 
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
-  public void submitWithContentMerge_Conflict() throws Exception {
+  public void submitWithContentMerge_Conflict() throws Throwable {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
@@ -83,7 +83,7 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
 
   @Test
   @TestProjectInput(createEmptyCommit = false)
-  public void submitMultipleCommitsToEmptyRepoAsFastForward() throws Exception {
+  public void submitMultipleCommitsToEmptyRepoAsFastForward() throws Throwable {
     PushOneCommit.Result change1 = createChange();
     PushOneCommit.Result change2 = createChange();
     approve(change1.getChangeId());
@@ -93,7 +93,7 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
 
   @Test
   @TestProjectInput(createEmptyCommit = false)
-  public void submitMultipleCommitsToEmptyRepoWithOneMerge() throws Exception {
+  public void submitMultipleCommitsToEmptyRepoWithOneMerge() throws Throwable {
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
     PushOneCommit.Result change1 =
         pushFactory

@@ -47,13 +47,13 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
 
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
-  public void submitWithRebase() throws Exception {
+  public void submitWithRebase() throws Throwable {
     submitWithRebase(admin);
   }
 
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
-  public void submitWithRebaseWithoutAddPatchSetPermission() throws Exception {
+  public void submitWithRebaseWithoutAddPatchSetPermission() throws Throwable {
     try (ProjectConfigUpdate u = updateProject(project)) {
       Util.block(u.getConfig(), Permission.ADD_PATCH_SET, REGISTERED_USERS, "refs/*");
       Util.allow(u.getConfig(), Permission.SUBMIT, REGISTERED_USERS, "refs/heads/*");
@@ -71,7 +71,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
   }
 
   protected ImmutableList<PushOneCommit.Result> submitWithRebase(TestAccount submitter)
-      throws Exception {
+      throws Throwable {
     requestScopeOperations.setApiUser(submitter.id());
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
@@ -102,7 +102,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
   }
 
   @Test
-  public void submitWithRebaseMultipleChanges() throws Exception {
+  public void submitWithRebaseMultipleChanges() throws Throwable {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change1 = createChange("Change 1", "a.txt", "content");
     submit(change1.getChangeId());
@@ -163,7 +163,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
   }
 
   @Test
-  public void submitWithRebaseMergeCommit() throws Exception {
+  public void submitWithRebaseMergeCommit() throws Throwable {
     /*
        *  (HEAD, origin/master, origin/HEAD) Merge changes X,Y
        |\
@@ -219,7 +219,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
 
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
-  public void submitWithContentMerge_Conflict() throws Exception {
+  public void submitWithContentMerge_Conflict() throws Throwable {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
@@ -241,7 +241,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
     assertChangeMergedEvents(change.getChangeId(), headAfterFirstSubmit.name());
   }
 
-  protected RevCommit parse(ObjectId id) throws Exception {
+  protected RevCommit parse(ObjectId id) throws Throwable {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       RevCommit c = rw.parseCommit(id);
@@ -251,7 +251,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
   }
 
   @Test
-  public void submitAfterReorderOfCommits() throws Exception {
+  public void submitAfterReorderOfCommits() throws Throwable {
     RevCommit initialHead = getRemoteHead();
 
     // Create two commits and push.
@@ -278,7 +278,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
   }
 
   @Test
-  public void submitChangesAfterBranchOnSecond() throws Exception {
+  public void submitChangesAfterBranchOnSecond() throws Throwable {
     RevCommit initialHead = getRemoteHead();
 
     PushOneCommit.Result change = createChange();
@@ -301,7 +301,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
 
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
-  public void submitFastForwardIdenticalTree() throws Exception {
+  public void submitFastForwardIdenticalTree() throws Throwable {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change1 = createChange("Change 1", "a.txt", "a");
     PushOneCommit.Result change2 = createChange("Change 2", "a.txt", "a");
@@ -334,7 +334,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
 
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
-  public void submitChainOneByOne() throws Exception {
+  public void submitChainOneByOne() throws Throwable {
     PushOneCommit.Result change1 = createChange("subject 1", "fileName 1", "content 1");
     PushOneCommit.Result change2 = createChange("subject 2", "fileName 2", "content 2");
     submit(change1.getChangeId());
@@ -343,7 +343,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
 
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
-  public void submitChainFailsOnRework() throws Exception {
+  public void submitChainFailsOnRework() throws Throwable {
     PushOneCommit.Result change1 = createChange("subject 1", "fileName 1", "content 1");
     RevCommit headAfterChange1 = change1.getCommit();
     PushOneCommit.Result change2 = createChange("subject 2", "fileName 2", "content 2");
@@ -364,7 +364,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
 
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
-  public void submitChainOneByOneManualRebase() throws Exception {
+  public void submitChainOneByOneManualRebase() throws Throwable {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change1 = createChange("subject 1", "fileName 1", "content 1");
     PushOneCommit.Result change2 = createChange("subject 2", "fileName 2", "content 2");

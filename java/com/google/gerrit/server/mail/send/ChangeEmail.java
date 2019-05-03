@@ -44,15 +44,15 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.template.soy.data.SoyListData;
+import com.google.template.soy.data.SoyMapData;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -563,11 +563,11 @@ public abstract class ChangeEmail extends NotificationEmail {
    * a 'type' key which maps to one of 'common', 'add' or 'remove' and a 'text' key which maps to
    * the line's content.
    */
-  private List<Map<String, String>> getDiffTemplateData() {
-    List<Map<String, String>> result = new ArrayList<>();
+  private SoyListData getDiffTemplateData() {
+    SoyListData result = new SoyListData();
     Splitter lineSplitter = Splitter.on(System.getProperty("line.separator"));
     for (String diffLine : lineSplitter.split(getUnifiedDiff())) {
-      Map<String, String> lineData = new HashMap<>();
+      SoyMapData lineData = new SoyMapData();
       lineData.put("text", diffLine);
 
       // Skip empty lines and lines that look like diff headers.

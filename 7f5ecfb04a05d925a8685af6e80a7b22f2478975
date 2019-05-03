@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d06da86_21015a38",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-03T15:53:46Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this also be $GERRIT_SITE?",
+      "range": {
+        "startLine": 85,
+        "startChar": 2,
+        "endLine": 85,
+        "endChar": 20
+      },
+      "revId": "7f5ecfb04a05d925a8685af6e80a7b22f2478975",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

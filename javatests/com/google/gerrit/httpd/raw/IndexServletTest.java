@@ -38,32 +38,28 @@ public class IndexServletTest extends GerritBaseTests {
 
   @Test
   public void noPathAndNoCDN() throws URISyntaxException {
-    Map<String, String> data = IndexServlet.getTemplateData("http://example.com/", null, null);
+    Map data = IndexServlet.getTemplateData("http://example.com/", null, null);
     assertThat(data.get("canonicalPath")).isEqualTo("");
     assertThat(data.get("staticResourcePath")).isEqualTo("");
   }
 
   @Test
   public void pathAndNoCDN() throws URISyntaxException {
-    Map<String, String> data =
-        IndexServlet.getTemplateData("http://example.com/gerrit/", null, null);
+    Map data = IndexServlet.getTemplateData("http://example.com/gerrit/", null, null);
     assertThat(data.get("canonicalPath")).isEqualTo("/gerrit");
     assertThat(data.get("staticResourcePath")).isEqualTo("/gerrit");
   }
 
   @Test
   public void noPathAndCDN() throws URISyntaxException {
-    Map<String, String> data =
-        IndexServlet.getTemplateData("http://example.com/", "http://my-cdn.com/foo/bar/", null);
+    Map data = IndexServlet.getTemplateData("http://example.com/", "http://my-cdn.com/foo/bar/", null);
     assertThat(data.get("canonicalPath")).isEqualTo("");
     assertThat(data.get("staticResourcePath")).isEqualTo("http://my-cdn.com/foo/bar/");
   }
 
   @Test
   public void pathAndCDN() throws URISyntaxException {
-    Map<String, String> data =
-        IndexServlet.getTemplateData(
-            "http://example.com/gerrit", "http://my-cdn.com/foo/bar/", null);
+    Map data = IndexServlet.getTemplateData("http://example.com/gerrit", "http://my-cdn.com/foo/bar/", null);
     assertThat(data.get("canonicalPath")).isEqualTo("/gerrit");
     assertThat(data.get("staticResourcePath")).isEqualTo("http://my-cdn.com/foo/bar/");
   }

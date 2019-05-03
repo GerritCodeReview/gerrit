@@ -43,23 +43,23 @@ public class PushResultSubject extends Subject<PushResultSubject, PushResult> {
 
   public void hasNoMessages() {
     isNotNull();
-    check("hasNoMessages()").that(Strings.nullToEmpty(trimMessages())).isEqualTo("");
+    check("hasNoMessages()").that(Strings.nullToEmpty(trimmedMessages())).isEqualTo("");
   }
 
   public void hasMessages(String... expectedLines) {
     checkArgument(expectedLines.length > 0, "use hasNoMessages()");
     isNotNull();
-    check("trimmedMessages()").that(trimMessages()).isEqualTo(String.join("\n", expectedLines));
+    check("trimmedMessages()").that(trimmedMessages()).isEqualTo(String.join("\n", expectedLines));
   }
 
   public void containsMessages(String... expectedLines) {
     checkArgument(expectedLines.length > 0, "use hasNoMessages()");
     isNotNull();
-    Iterable<String> got = Splitter.on("\n").split(trimMessages());
+    Iterable<String> got = Splitter.on("\n").split(trimmedMessages());
     check("trimmedMessages()").that(got).containsAtLeastElementsIn(expectedLines).inOrder();
   }
 
-  private String trimMessages() {
+  private String trimmedMessages() {
     return trimMessages(actual().getMessages());
   }
 

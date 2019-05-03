@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a199d344_47abc128",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-05-03T13:39:33Z",
+      "side": 1,
+      "message": "Please add a new line here so it\u0027s like:\n\nWhen an error is encountered during submit trigger app error state\n\nThe current behavior when an error is hit is to silently fail with no\nUI feedback resulting in user confusion around why nothing happened.",
+      "revId": "0d16661c39851dac2fa3ce4348d73e6d6bdb99ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

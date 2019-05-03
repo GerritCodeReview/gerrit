@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2676607f_aeb0667e",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2019-05-03T12:30:20Z",
+      "side": 1,
+      "message": "missing parenthesis",
+      "range": {
+        "startLine": 97,
+        "startChar": 54,
+        "endLine": 97,
+        "endChar": 55
+      },
+      "revId": "2cda7ecc28f026d49c0602974c1d0eab882d586b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1556822424 -0700\nnonce AC6AUtOjHw7PpafXywMOba5VeLDBFjC6Er4A9gtYO8VqXPddGkPILdmrR3h2V5BNdrk6SqBaH2Mi\n\n0000000000000000000000000000000000000000 8d32239593ba761d0141b75f1201f7caa2b37753 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlzLOZgVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiM1YQQAIvpYIBvw2RsvEWkqy7UfazW+8uh\nKAc3dg1RL3VO+kyVrxAp5wg7fbkfd9JIffbnrXLk8pxVjA/238zwtLJMQSY57qr8\nvTNnjNDPhhp1qwY9o+b0Vu5pTfZXc9KfZ70JzKWHrHZeZqT+iKsZ5yB8Y/S7P7mM\nx/EqLOeIToHi2f5is2E8y2zAg1MhnqC8RRPYfIffmarDdBvsGdYAe9cQ996/XqK0\n/hF2C24IEolkLDnlvLWGq1jE3Umt8V4jBrOpXsfKH4JoAk8NXPktTdEYZGOm9bAN\nCC2o/mQE8eujA8jQRS/2CjLOFf1lWqLwoKU3KM7WzXtl3CxnrzvavX3pixZO5vge\nVAf0jtTOsiLkXJM6D7+QkeUawJkO4WeXPlq0lt2QnYs1HpM2lczmKLsIAuQ2X2Ao\nWOxK4ZCpLCf2UJxe97Pf2jDFujdaZSQEhcIE4kk0TJmaLCUFwf9EpXV7WqKgEiSY\nKQbR9QpL9aoHLMQpu50kmM8pJ/Si6XvciW1qMF1gbCtaPdDMqsHMEiSaTT/nLvrp\n4wH6LokllNfvKlkRSL5IrCLuZebnr5AeJicQs7rmlO9f8I62bUv2O/Wa08woiLtp\njQdo1JoHTk80PwMaUydo8qAcgh0lAGTu7SQYzPTtvp4RO4d3xSHn5/QGcyfTvSjO\nIqVe1UeTBly/aG8G\n\u003dHKdj\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "feb6c31f_5f185976",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateBranchIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-03T07:33:34Z",
+      "side": 1,
+      "message": "This looks wrong, errMsg is no longer checked.",
+      "range": {
+        "startLine": 164,
+        "startChar": 3,
+        "endLine": 164,
+        "endChar": 26
+      },
+      "revId": "12e6b28dd0fa9eeda45374684af5ffca53103b64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8888ac13_2b1deaed",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-03T07:33:34Z",
+      "side": 1,
+      "message": "This is also a post submit review (submit is done above in l. 262)",
+      "range": {
+        "startLine": 269,
+        "startChar": 16,
+        "endLine": 269,
+        "endChar": 31
+      },
+      "revId": "12e6b28dd0fa9eeda45374684af5ffca53103b64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

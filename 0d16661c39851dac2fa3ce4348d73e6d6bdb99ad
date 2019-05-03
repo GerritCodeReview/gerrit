@@ -16,6 +16,24 @@
       "revId": "0d16661c39851dac2fa3ce4348d73e6d6bdb99ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1abddc5_c0c0ee93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-05-03T13:39:59Z",
+      "side": 1,
+      "message": "Nvm, this was just fixed :)",
+      "parentUuid": "a199d344_47abc128",
+      "revId": "0d16661c39851dac2fa3ce4348d73e6d6bdb99ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

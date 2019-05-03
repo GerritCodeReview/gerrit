@@ -204,38 +204,126 @@
      * Process the next section of the diff.
      *
      * @param {!Object} state
-     * @param {!Object} section
-     * @param {number} numSections
+     * @param {!Array<!Object>} sections
      */
-    _processNext(state, section, numSections) {
-      const lines = this._linesFromSection(
-          section, state.lineNums.left + 1, state.lineNums.right + 1);
-      const lineDelta = {
-        left: section.ab ? section.ab.length : section.a ? section.a.length : 0,
-        right: section.ab ? section.ab.length :
-            section.b ? section.b.length : 0,
-      };
-      let groups;
-      if (section.ab) { // If it's a shared section.
-        let sectionEnd = null;
-        if (state.sectionIndex === 0) {
-          sectionEnd = 'first';
-        } else if (state.sectionIndex === numSections - 1) {
-          sectionEnd = 'last';
-        }
-        groups = this._sharedGroupsFromLines(
-            lines,
-            lineDelta.left,
-            numSections > 1 ? this.context : WHOLE_FILE,
-            state.lineNums.left,
-            state.lineNums.right,
-            sectionEnd);
-      } else { // Otherwise it's a delta section.
-        const deltaGroup = new GrDiffGroup(GrDiffGroup.Type.DELTA, lines);
-        deltaGroup.dueToRebase = section.due_to_rebase;
-        groups = [deltaGroup];
+    _processNext(state, sections) {
+      const sectionIndexEnd = this._findFirstUncollapsibleSectionIndex(
+          sections, state.sectionIndex);
+      let offsetLeft = state.lineNums.left + 1;
+      let offsetRight = state.lineNums.right + 1;
+      if (sectionIndexEnd === state.sectionIndex) {
+        return {
+          lineDelta: {
+            left: section.a ? section.a.length : 0,
+            right: section.b ? section.b.length : 0,
+          },
+          groups: [
+            this._groupFromSection(section, offsetLeft, offsetRight),
+          ],
+        };
       }
-      return {lineDelta, groups};
+
+      const collapsibleSections = sections.slice(
+          state.sectionIndex, sectionIndexEnd);
+      const lineCount = collapsibleSections.reduce(
+          (sum, section) => sum + this._sharedSectionLineCount(section), 0);
+
+      const groups = [];
+      const splits = [];
+      let lineIndex = 0;
+      const hiddenStart = this._findHiddenStartLine(state.sectionIndex);
+      const hiddenEnd = this._findHiddenEndLine(
+          state.sectionIndex, sections.length, lineCount);
+      for (const section of collapsibleSections) {
+        const sectionLineCount = this._sharedSectionLineCount(section);
+        const sectionEnd = lineIndex + sectionLineCount;
+        if ((lineIndex < hiddenStart && hiddenStart < sectionEnd) ||
+        (lineIndex < hiddenEnd && hiddenEnd < sectionEnd)) {
+          // needs to be partially visible, partially collapsed -> split section
+          const sectionLineIndex = hiddenStart - lineIndex;
+          groups.push(...this._groupsFromSplitSection(
+              section, offsetLeft, offsetRight, sectionLineIndex));
+          // TODO: Update this when the split is aligned with section boundary
+          splits.push(groups.length-1);
+        } else {
+          // fully visible or fully collapsed => just output as is
+          groups.push(this._groupFromSection(section, offsetLeft, offsetRight));
+          offsetLeft += sectionLineCount;
+          offsetRight += sectionLineCount;
+          lineIndex += sectionLineCount;
+        }
+      }
+
+      const ctxLine = new GrDiffLine(GrDiffLine.Type.CONTEXT_CONTROL);
+      ctxLine.contextGroups = groups.slice(...splits);
+      const ctxGroup = new GrDiffGroup(
+          GrDiffGroup.Type.CONTEXT_CONTROL, [ctxLine]);
+
+      groups.splice(splits[0], splits[1] - splits[0], ctxGroup);
+      return {
+        lineDelta: {
+          left: lineIndex,
+          right: lineIndex,
+        },
+        groups,
+      };
+    },
+
+    _sharedSectionLineCount(section) {
+      if (!section.ab && !section.common) {
+        throw new Error('not a shared section');
+      }
+      if (section.a && (!section.b || section.a.length != section.b.length)) {
+        throw new Error('shared sections must have the same number of lines');
+      }
+      return (section.ab || section.a).length;
+    },
+
+    _findFirstUncollapsibleSectionIndex(sections, offset) {
+      let sectionIndex = offset;
+      while (this._shouldCollapse(sections[sectionIndex])) {
+        sectionIndex++;
+      }
+      return sectionIndex;
+    },
+
+    _shouldCollapseSection(section) {
+      return section.ab || section.common;
+    },
+
+    _findHiddenStartLine(sectionIndex) {
+      // Find the hidden range based on the user's context preference. If this
+      // is the first or the last section of the diff, make sure the collapsed
+      // part of the section extends to the edge of the file.
+      return sectionIndex === 0 ? 0 : this.context;
+    },
+
+    _findHiddenEndLine(sectionIndex, numSections, numLines) {
+      // Find the hidden range based on the user's context preference. If this
+      // is the first or the last section of the diff, make sure the collapsed
+      // part of the section extends to the edge of the file.
+      return sectionIndex === numSections - 1 ?
+          numLines : numLines - this.context;
+    },
+
+    _groupsFromSplitSection(section, offsetLeft, offsetRight, splitIndex) {
+      const lines = this._linesFromSection(section, offsetLeft, offsetRight);
+      const beforeLines = lines.slice(0, splitIndex);
+      const afterLines = lines.slice(splitIndex);
+      const type = section.ab ? GrDiffGroup.Type.BOTH : GrDiffGroup.Type.DELTA;
+      const beforeGroup = new GrDiffGroup(type, beforeLines, lines);
+      beforeGroup.dueToRebase = section.due_to_rebase;
+      const afterGroup = new GrDiffGroup(type, afterLines, lines);
+      afterGroup.dueToRebase = section.due_to_rebase;
+      return [beforeGroup, afterGroup];
+    },
+
+    _groupFromSection(section, offsetLeft, offsetRight) {
+      const lines = this._linesFromSection(section, offsetLeft, offsetRight);
+      const group = new GrDiffGroup(
+          section.ab ? GrDiffGroup.Type.BOTH : GrDiffGroup.Type.DELTA, lines);
+      group.dueToRebase = section.due_to_rebase;
+      return group;
     },
 
     _linesFromSection(section, offsetLeft, offsetRight) {
@@ -246,12 +334,12 @@
               GrDiffLine.Type.BOTH, offsetLeft, offsetRight, row, i)));
       }
       if (section.a) {
-        lines.push(...this._deltaLinesFromRows(
+        lines.push(...this._linesFromRows(
             GrDiffLine.Type.REMOVE, section.a, offsetLeft,
             section[DiffHighlights.REMOVED]));
       }
       if (section.b) {
-        lines.push(...this._deltaLinesFromRows(
+        lines.push(...this._linesFromRows(
             GrDiffLine.Type.ADD, section.b, offsetRight,
             section[DiffHighlights.ADDED]));
       }
@@ -261,7 +349,7 @@
     /**
      * @return {!Array<!Object>} Array of GrDiffLines
      */
-    _deltaLinesFromRows(lineType, rows, offset, opt_highlights) {
+    _linesFromRows(lineType, rows, offset, opt_highlights) {
       // Normalize highlights if they have been passed.
       if (opt_highlights) {
         opt_highlights = this._normalizeIntralineHighlights(rows,
@@ -295,7 +383,7 @@
     /**
      * Take rows of a shared diff section and produce an array of corresponding
      * (potentially collapsed) groups.
-     * @param {!Array<string>} lines
+     * @param {!Array<Object>} sections
      * @param {number} numLines
      * @param {number} context
      * @param {number} startLineNumLeft
@@ -305,7 +393,7 @@
      *     'last' and null respectively.
      * @return {!Array<!Object>} Array of GrDiffGroup
      */
-    _sharedGroupsFromLines(lines, numLines, context, startLineNumLeft,
+    _sharedGroupsFromLines(sections, numLines, context, startLineNumLeft,
         startLineNumRight, opt_sectionEnd) {
       // Find the hidden range based on the user's context preference. If this
       // is the first or the last section of the diff, make sure the collapsed

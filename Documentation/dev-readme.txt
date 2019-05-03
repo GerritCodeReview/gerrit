@@ -12,9 +12,8 @@ Create a new client workspace:
   cd gerrit
 ----
 
-The `--recursive` option is needed on `git clone` to ensure that
-the core plugins, which are included as git submodules, are also
-cloned.
+The `--recurse-submodules` option is needed on `git clone` to ensure that the
+core plugins, which are included as git submodules, are also cloned.
 
 [[compile_project]]
 == Compiling

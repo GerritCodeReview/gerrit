@@ -110,6 +110,20 @@ Documentation] |
 link:https://gerrit.googlesource.com/plugins/hooks/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[plugin-manager]]
+=== plugin-manager
+
+This plugins provides an initial wizard to discover and install Gerrit plugins.
+Per default GerritForge CI is used to download the plugin artifacts from, but
+this can be changed per plugin configuration.
+
+link:https://gerrit-review.googlesource.com/admin/repos/plugins/plugin-manager[
+Project]
+link:https://gerrit.googlesource.com/plugins/plugin-manager/+doc/master/src/main/resources/Documentation/about.md[
+Documentation]
+link:https://gerrit.googlesource.com/plugins/plugin-manager/+doc/master/src/main/resources/Documentation/config.md[
+Configuration]
+
 [[replication]]
 === replication
 

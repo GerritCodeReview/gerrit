@@ -231,33 +231,12 @@
         group => { return group.element; });
   };
 
-  // TODO(wyatta): Move this completely into the processor.
-  GrDiffBuilder.prototype._insertContextGroups = function(groups, lines,
-      hiddenRange) {
-    const linesBeforeCtx = lines.slice(0, hiddenRange[0]);
-    const hiddenLines = lines.slice(hiddenRange[0], hiddenRange[1]);
-    const linesAfterCtx = lines.slice(hiddenRange[1]);
-
-    if (linesBeforeCtx.length > 0) {
-      groups.push(new GrDiffGroup(GrDiffGroup.Type.BOTH, linesBeforeCtx));
-    }
-
-    const ctxLine = new GrDiffLine(GrDiffLine.Type.CONTEXT_CONTROL);
-    ctxLine.contextGroups =
-        [new GrDiffGroup(GrDiffGroup.Type.BOTH, hiddenLines)];
-    groups.push(new GrDiffGroup(GrDiffGroup.Type.CONTEXT_CONTROL,
-        [ctxLine]));
-
-    if (linesAfterCtx.length > 0) {
-      groups.push(new GrDiffGroup(GrDiffGroup.Type.BOTH, linesAfterCtx));
-    }
-  };
-
   GrDiffBuilder.prototype._createContextControl = function(section, line) {
     if (!line.contextGroups) return null;
 
-    const numLines = line.contextGroups.reduce(
-        (sum, contextGroup) => sum + contextGroup.lines.length, 0);
+    const numLines =
+        line.contextGroups[line.contextGroups.length - 1].lineRange.left.end -
+        line.contextGroups[0].lineRange.left.start + 1;
 
     if (numLines === 0) return null;
 
@@ -266,24 +245,24 @@
 
     if (showPartialLinks) {
       td.appendChild(this._createContextButton(
-          GrDiffBuilder.ContextButtonType.ABOVE, section, line));
+          GrDiffBuilder.ContextButtonType.ABOVE, section, line, numLines));
       td.appendChild(document.createTextNode(' - '));
     }
 
     td.appendChild(this._createContextButton(
-        GrDiffBuilder.ContextButtonType.ALL, section, line));
+        GrDiffBuilder.ContextButtonType.ALL, section, line, numLines));
 
     if (showPartialLinks) {
       td.appendChild(document.createTextNode(' - '));
       td.appendChild(this._createContextButton(
-          GrDiffBuilder.ContextButtonType.BELOW, section, line));
+          GrDiffBuilder.ContextButtonType.BELOW, section, line, numLines));
     }
 
     return td;
   };
 
-  GrDiffBuilder.prototype._createContextButton = function(type, section, line) {
-    const contextLines = line.contextGroups[0].lines;
+  GrDiffBuilder.prototype._createContextButton = function(type, section, line,
+      numLines) {
     const context = PARTIAL_CONTEXT_AMOUNT;
 
     const button = this._createElement('gr-button', 'showContext');
@@ -291,20 +270,20 @@
     button.setAttribute('no-uppercase', true);
 
     let text;
-    const groups = []; // The groups that replace this one if tapped.
+    let groups = []; // The groups that replace this one if tapped.
 
     if (type === GrDiffBuilder.ContextButtonType.ALL) {
-      text = 'Show ' + contextLines.length + ' common line';
-      if (contextLines.length > 1) { text += 's'; }
+      text = 'Show ' + numLines + ' common line';
+      if (numLines > 1) { text += 's'; }
       groups.push(...line.contextGroups);
     } else if (type === GrDiffBuilder.ContextButtonType.ABOVE) {
       text = '+' + context + '↑';
-      this._insertContextGroups(groups, contextLines,
-          [context, contextLines.length]);
+      groups = GrDiffGroup.hideInContextControl(line.contextGroups,
+          context, undefined);
     } else if (type === GrDiffBuilder.ContextButtonType.BELOW) {
       text = '+' + context + '↓';
-      this._insertContextGroups(groups, contextLines,
-          [0, contextLines.length - context]);
+      groups = GrDiffGroup.hideInContextControl(line.contextGroups,
+          0, numLines - context);
     }
 
     Polymer.dom(button).textContent = text;

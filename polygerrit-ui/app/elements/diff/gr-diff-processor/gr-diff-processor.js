@@ -162,8 +162,7 @@
               }
 
               // Process the next section and incorporate the result.
-              const result = this._processNext(
-                  state, content[state.sectionIndex], content.length);
+              const result = this._processNext(state, content);
               for (const group of result.groups) {
                 this.push('groups', group);
                 currentBatch += group.lines.length;
@@ -172,7 +171,7 @@
               state.lineNums.right += result.lineDelta.right;
 
               // Increment the index and recurse.
-              state.sectionIndex++;
+              state.sectionIndex = result.newSectionIndex;
               if (currentBatch >= this._asyncThreshold) {
                 currentBatch = 0;
                 this._nextStepHandle = this.async(nextStep, 1);
@@ -201,41 +200,111 @@
     },
 
     /**
-     * Process the next section of the diff.
+     * Process the next uncommon section, or the next common sections.
      *
      * @param {!Object} state
-     * @param {!Object} section
-     * @param {number} numSections
+     * @param {!Array<!Object>} sections
      */
-    _processNext(state, section, numSections) {
-      const lines = this._linesFromSection(
-          section, state.lineNums.left + 1, state.lineNums.right + 1);
-      const lineDelta = {
-        left: section.ab ? section.ab.length : section.a ? section.a.length : 0,
-        right: section.ab ? section.ab.length :
-            section.b ? section.b.length : 0,
-      };
-      let groups;
-      if (section.ab) { // If it's a shared section.
-        let sectionEnd = null;
-        if (state.sectionIndex === 0) {
-          sectionEnd = 'first';
-        } else if (state.sectionIndex === numSections - 1) {
-          sectionEnd = 'last';
-        }
-        groups = this._sharedGroupsFromLines(
-            lines,
-            lineDelta.left,
-            numSections > 1 ? this.context : WHOLE_FILE,
-            state.lineNums.left,
-            state.lineNums.right,
-            sectionEnd);
-      } else { // Otherwise it's a delta section.
-        const deltaGroup = new GrDiffGroup(GrDiffGroup.Type.DELTA, lines);
-        deltaGroup.dueToRebase = section.due_to_rebase;
-        groups = [deltaGroup];
+    _processNext(state, sections) {
+      const firstUncommonSectionIndex = this._firstUncommonSectionIndex(
+          sections, state.sectionIndex);
+      if (firstUncommonSectionIndex === state.sectionIndex) {
+        const section = sections[state.sectionIndex];
+        return {
+          lineDelta: {
+            left: section.a ? section.a.length : 0,
+            right: section.b ? section.b.length : 0,
+          },
+          groups: [this._sectionToGroup(
+              section, state.lineNums.left + 1, state.lineNums.right + 1)],
+          newSectionIndex: state.sectionIndex + 1,
+        };
       }
-      return {lineDelta, groups};
+
+      return this._processCommonSections(
+          state, sections, firstUncommonSectionIndex);
+    },
+
+    _firstUncommonSectionIndex(sections, offset) {
+      let sectionIndex = offset;
+      while (sectionIndex < sections.length &&
+          this._isCommonSection(sections[sectionIndex])) {
+        sectionIndex++;
+      }
+      return sectionIndex;
+    },
+
+    _isCommonSection(section) {
+      return section.ab || section.common;
+    },
+
+    /**
+     * Process a stretch of common sections.
+     *
+     * Outputs up to three groups:
+     *  1) Visible context before the hidden common code, unless it's the
+     *     very beginning of the file.
+     *  2) Context hidden behind a context bar, unless empty.
+     *  3) Visible context after the hidden common code, unless it's the very
+     *     end of the file.
+     *
+     * @param {!Object} state
+     * @param {!Array<Object>} sections
+     * @param {number} firstUncommonSectionIndex
+     * @return {!Object}
+     */
+    _processCommonSections(state, sections, firstUncommonSectionIndex) {
+      const commonSections = sections.slice(
+          state.sectionIndex, firstUncommonSectionIndex);
+      const lineCount = commonSections.reduce(
+          (sum, section) => sum + this._commonSectionLength(section), 0);
+
+      let groups = this._sectionsToGroups(
+          commonSections, state.lineNums.left + 1, state.lineNums.right + 1);
+
+      if (this.context !== WHOLE_FILE) {
+        const hiddenStart = state.sectionIndex === 0 ? 0 : this.context;
+        const hiddenEnd = lineCount - (
+            firstUncommonSectionIndex === sections.length ?
+            0 : this.context);
+        groups = GrDiffGroup.hideInContextControl(
+            groups, hiddenStart, hiddenEnd);
+      }
+
+      return {
+        lineDelta: {
+          left: lineCount,
+          right: lineCount,
+        },
+        groups,
+        newSectionIndex: firstUncommonSectionIndex,
+      };
+    },
+
+    _commonSectionLength(section) {
+      console.assert(section.ab || section.common);
+      console.assert(
+          !section.a || (section.b && section.a.length === section.b.length));
+      return (section.ab || section.a).length;
+    },
+
+    _sectionsToGroups(sections, offsetLeft, offsetRight) {
+      return sections.map(section => {
+        const group = this._sectionToGroup(section, offsetLeft, offsetRight);
+        const sectionLength = this._commonSectionLength(section);
+        offsetLeft += sectionLength;
+        offsetRight += sectionLength;
+        return group;
+      });
+    },
+
+    _sectionToGroup(section, offsetLeft, offsetRight) {
+      const type = section.ab ? GrDiffGroup.Type.BOTH : GrDiffGroup.Type.DELTA;
+      const lines = this._linesFromSection(section, offsetLeft, offsetRight);
+      const group = new GrDiffGroup(type, lines);
+      group.dueToRebase = section.due_to_rebase;
+      group.ignoredWhitespaceOnly = section.common;
+      return group;
     },
 
     _linesFromSection(section, offsetLeft, offsetRight) {
@@ -247,14 +316,14 @@
       if (section.a) {
         // Avoiding a.push(...b) because that causes callstack overflows for
         // large b, which can occur when large files are added removed.
-        lines = lines.concat(this._deltaLinesFromRows(
+        lines = lines.concat(this._linesFromRows(
             GrDiffLine.Type.REMOVE, section.a, offsetLeft,
             section[DiffHighlights.REMOVED]));
       }
       if (section.b) {
         // Avoiding a.push(...b) because that causes callstack overflows for
         // large b, which can occur when large files are added removed.
-        lines = lines.concat(this._deltaLinesFromRows(
+        lines = lines.concat(this._linesFromRows(
             GrDiffLine.Type.ADD, section.b, offsetRight,
             section[DiffHighlights.ADDED]));
       }
@@ -264,7 +333,7 @@
     /**
      * @return {!Array<!Object>} Array of GrDiffLines
      */
-    _deltaLinesFromRows(lineType, rows, offset, opt_highlights) {
+    _linesFromRows(lineType, rows, offset, opt_highlights) {
       // Normalize highlights if they have been passed.
       if (opt_highlights) {
         opt_highlights = this._normalizeIntralineHighlights(rows,
@@ -292,67 +361,6 @@
         line.highlights = opt_highlights.filter(hl => hl.contentIndex === i);
       }
       return line;
-    },
-
-
-    /**
-     * Take rows of a shared diff section and produce an array of corresponding
-     * (potentially collapsed) groups.
-     * @param {!Array<string>} lines
-     * @param {number} numLines
-     * @param {number} context
-     * @param {number} startLineNumLeft
-     * @param {number} startLineNumRight
-     * @param {?string=} opt_sectionEnd String representing whether this is the
-     *     first section or the last section or neither. Use the values 'first',
-     *     'last' and null respectively.
-     * @return {!Array<!Object>} Array of GrDiffGroup
-     */
-    _sharedGroupsFromLines(lines, numLines, context, startLineNumLeft,
-        startLineNumRight, opt_sectionEnd) {
-      // Find the hidden range based on the user's context preference. If this
-      // is the first or the last section of the diff, make sure the collapsed
-      // part of the section extends to the edge of the file.
-      const hiddenRangeStart = opt_sectionEnd === 'first' ? 0 : context;
-      const hiddenRangeEnd = opt_sectionEnd === 'last' ?
-          numLines : numLines - context;
-
-      const result = [];
-      // If there is a range to hide.
-      if (context !== WHOLE_FILE && hiddenRangeEnd - hiddenRangeStart > 1) {
-        const linesBeforeCtx = [];
-        const hiddenLines = [];
-        const linesAfterCtx = [];
-        for (const line of lines) {
-          // In the case there are no changes, these are the same.
-          // In the case of ignored whitespace changes, either only one is set,
-          // or the are the same.
-          const lineOffset = line.beforeNumber ?
-              line.beforeNumber - startLineNumLeft - 1 :
-              line.afterNumber - startLineNumRight - 1;
-          if (lineOffset < hiddenRangeStart) linesBeforeCtx.push(line);
-          else if (hiddenRangeEnd <= lineOffset) linesAfterCtx.push(line);
-          else hiddenLines.push(line);
-        }
-
-        if (linesBeforeCtx.length > 0) {
-          result.push(new GrDiffGroup(GrDiffGroup.Type.BOTH, linesBeforeCtx));
-        }
-
-        const ctxLine = new GrDiffLine(GrDiffLine.Type.CONTEXT_CONTROL);
-        ctxLine.contextGroups =
-            [new GrDiffGroup(GrDiffGroup.Type.BOTH, hiddenLines)];
-        result.push(new GrDiffGroup(GrDiffGroup.Type.CONTEXT_CONTROL,
-            [ctxLine]));
-
-        if (linesAfterCtx.length > 0) {
-          result.push(new GrDiffGroup(GrDiffGroup.Type.BOTH, linesAfterCtx));
-        }
-      } else {
-        result.push(new GrDiffGroup(GrDiffGroup.Type.BOTH, lines));
-      }
-
-      return result;
     },
 
     _makeFileComments() {

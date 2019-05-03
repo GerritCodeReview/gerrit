@@ -283,7 +283,8 @@
   };
 
   GrDiffBuilder.prototype._createContextButton = function(type, section, line) {
-    const contextLines = line.contextGroups[0].lines;
+    const contextLines = line.contextGroups.reduce(
+        (lines, group) => lines.concat(group.lines), []);
     const context = PARTIAL_CONTEXT_AMOUNT;
 
     const button = this._createElement('gr-button', 'showContext');

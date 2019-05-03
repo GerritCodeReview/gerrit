@@ -17,7 +17,9 @@ There are many possibilities to support the project, e.g.:
   link:https://groups.google.com/d/forum/repo-discuss[repo-discuss]
   mailing list (post your questions, provide feedback, share your
   experiences, help other users)
-* attend community events like user summits
+* attend community events like user summits (see
+  link:https://calendar.google.com/calendar?cid=Z29vZ2xlLmNvbV91YmIxcGxhNmlqNzg1b3FianI2MWg0dmRpc0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t[
+  community calendar])
 * report link:https://bugs.chromium.org/p/gerrit/issues/list[issues]
   and help to clarify existing issues
 * provide feedback on
@@ -111,7 +113,9 @@ mailing list discussions.
 Contributors may also be invited to join the Gerrit hackathons which
 happen regularly (e.g. twice a year). Hackathons are announced on the
 link:https://groups.google.com/d/forum/repo-discuss[repo-discuss]
-mailing list.
+mailing list (also see
+link:https://calendar.google.com/calendar?cid=Z29vZ2xlLmNvbV91YmIxcGxhNmlqNzg1b3FianI2MWg0dmRpc0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t[
+community calendar]).
 
 Outstanding contributors that are actively engaged in the community, in
 activities outlined above, may be nominated as link:#maintainer[
@@ -165,6 +169,9 @@ Maintainers can:
 * create new projects and groups on
   link:https://gerrit-review.googlesource.com/[
   gerrit-review.googlesource.com]
+* create events in the
+  link:https://calendar.google.com/calendar?cid=Z29vZ2xlLmNvbV91YmIxcGxhNmlqNzg1b3FianI2MWg0dmRpc0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t[
+  community calendar]
 
 In addition, maintainers from Google can:
 

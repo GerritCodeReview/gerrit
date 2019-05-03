@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b138b4a7_044866d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-03T04:30:52Z",
+      "side": 1,
+      "message": "Add a blank line after the subject, otherwise the entire message is considered the subject.",
+      "revId": "d8fc478cbba06d1f252ac8a01153c4ce76b1a629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

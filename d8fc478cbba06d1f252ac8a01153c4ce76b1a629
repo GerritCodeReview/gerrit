@@ -16,6 +16,24 @@
       "revId": "d8fc478cbba06d1f252ac8a01153c4ce76b1a629",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10f52eb8_f8a6e6ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-05-03T06:16:28Z",
+      "side": 1,
+      "message": "And while you are at it, it seems the convention is to not end the subject line with a period.\n\nAnd what\u0027s the little triangle in front - does that have any meaning?\n\nI totally agree this should be automated. Maybe we should turn that plugin on - will check what others think.",
+      "parentUuid": "b138b4a7_044866d2",
+      "revId": "d8fc478cbba06d1f252ac8a01153c4ce76b1a629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

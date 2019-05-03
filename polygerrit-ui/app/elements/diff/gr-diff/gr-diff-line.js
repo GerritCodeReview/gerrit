@@ -31,7 +31,8 @@
   /** @type {number|string} */
   GrDiffLine.prototype.beforeNumber = 0;
 
-  GrDiffLine.prototype.contextGroup = null;
+  /** @type {?Array<Object>} ?Array<!GrDiffLine> */
+  GrDiffLine.prototype.contextGroups = null;
 
   GrDiffLine.prototype.text = '';
 

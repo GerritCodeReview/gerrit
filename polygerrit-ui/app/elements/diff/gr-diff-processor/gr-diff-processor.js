@@ -24,12 +24,6 @@
     RIGHT: 'right',
   };
 
-  const DiffGroupType = {
-    ADDED: 'b',
-    BOTH: 'ab',
-    REMOVED: 'a',
-  };
-
   const DiffHighlights = {
     ADDED: 'edit_b',
     REMOVED: 'edit_a',
@@ -168,7 +162,8 @@
               }
 
               // Process the next section and incorporate the result.
-              const result = this._processNext(state, content);
+              const result = this._processNext(
+                  state, content[state.sectionIndex], content.length);
               for (const group of result.groups) {
                 this.push('groups', group);
                 currentBatch += group.lines.length;
@@ -207,66 +202,101 @@
 
     /**
      * Process the next section of the diff.
+     *
+     * @param {!Object} state
+     * @param {!Object} section
+     * @param {number} numSections
      */
-    _processNext(state, content) {
-      const section = content[state.sectionIndex];
-
-      const rows = {
-        both: section[DiffGroupType.BOTH] || null,
-        added: section[DiffGroupType.ADDED] || null,
-        removed: section[DiffGroupType.REMOVED] || null,
+    _processNext(state, section, numSections) {
+      const lines = this._linesFromSection(
+          section, state.lineNums.left + 1, state.lineNums.right + 1);
+      const lineDelta = {
+        left: section.ab ? section.ab.length : section.a ? section.a.length : 0,
+        right: section.ab ? section.ab.length :
+            section.b ? section.b.length : 0,
       };
-
-      const highlights = {
-        added: section[DiffHighlights.ADDED] || null,
-        removed: section[DiffHighlights.REMOVED] || null,
-      };
-
-      if (rows.both) { // If it's a shared section.
+      let groups;
+      if (section.ab) { // If it's a shared section.
         let sectionEnd = null;
         if (state.sectionIndex === 0) {
           sectionEnd = 'first';
-        } else if (state.sectionIndex === content.length - 1) {
+        } else if (state.sectionIndex === numSections - 1) {
           sectionEnd = 'last';
         }
-
-        const sharedGroups = this._sharedGroupsFromRows(
-            rows.both,
-            content.length > 1 ? this.context : WHOLE_FILE,
+        groups = this._sharedGroupsFromLines(
+            lines,
+            lineDelta.left,
+            numSections > 1 ? this.context : WHOLE_FILE,
             state.lineNums.left,
             state.lineNums.right,
             sectionEnd);
-
-        return {
-          lineDelta: {
-            left: rows.both.length,
-            right: rows.both.length,
-          },
-          groups: sharedGroups,
-        };
       } else { // Otherwise it's a delta section.
-        const deltaGroup = this._deltaGroupFromRows(
-            rows.added,
-            rows.removed,
-            state.lineNums.left,
-            state.lineNums.right,
-            highlights);
+        const deltaGroup = new GrDiffGroup(GrDiffGroup.Type.DELTA, lines);
         deltaGroup.dueToRebase = section.due_to_rebase;
-
-        return {
-          lineDelta: {
-            left: rows.removed ? rows.removed.length : 0,
-            right: rows.added ? rows.added.length : 0,
-          },
-          groups: [deltaGroup],
-        };
+        groups = [deltaGroup];
       }
+      return {lineDelta, groups};
     },
+
+    _linesFromSection(section, offsetLeft, offsetRight) {
+      const lines = [];
+      if (section.ab) {
+        lines.push(...section.ab.map((row, i) =>
+          this._lineFromRow(
+              GrDiffLine.Type.BOTH, offsetLeft, offsetRight, row, i)));
+      }
+      if (section.a) {
+        lines.push(...this._deltaLinesFromRows(
+            GrDiffLine.Type.REMOVE, section.a, offsetLeft,
+            section[DiffHighlights.REMOVED]));
+      }
+      if (section.b) {
+        lines.push(...this._deltaLinesFromRows(
+            GrDiffLine.Type.ADD, section.b, offsetRight,
+            section[DiffHighlights.ADDED]));
+      }
+      return lines;
+    },
+
+    /**
+     * @return {!Array<!Object>} Array of GrDiffLines
+     */
+    _deltaLinesFromRows(lineType, rows, offset, opt_highlights) {
+      // Normalize highlights if they have been passed.
+      if (opt_highlights) {
+        opt_highlights = this._normalizeIntralineHighlights(rows,
+            opt_highlights);
+      }
+      return rows.map((row, i) =>
+          this._lineFromRow(lineType, offset, offset, row, i, opt_highlights));
+    },
+
+    /**
+     * @param {string} type (GrDiffLine.Type)
+     * @param {number} offsetLeft
+     * @param {number} offsetRight
+     * @param {string} row
+     * @param {number} i
+     * @param {!Array<!Object>=} opt_highlights
+     * @return {!Object} (GrDiffLine)
+     */
+    _lineFromRow(type, offsetLeft, offsetRight, row, i, opt_highlights) {
+      const line = new GrDiffLine(type);
+      line.text = row;
+      if (type !== GrDiffLine.Type.ADD) line.beforeNumber = offsetLeft + i;
+      if (type !== GrDiffLine.Type.REMOVE) line.afterNumber = offsetRight + i;
+      if (opt_highlights) {
+        line.highlights = opt_highlights.filter(hl => hl.contentIndex === i);
+      }
+      return line;
+    },
+
 
     /**
      * Take rows of a shared diff section and produce an array of corresponding
      * (potentially collapsed) groups.
-     * @param {!Array<string>} rows
+     * @param {!Array<string>} lines
+     * @param {number} numLines
      * @param {number} context
      * @param {number} startLineNumLeft
      * @param {number} startLineNumRight
@@ -275,44 +305,40 @@
      *     'last' and null respectively.
      * @return {!Array<!Object>} Array of GrDiffGroup
      */
-    _sharedGroupsFromRows(rows, context, startLineNumLeft,
+    _sharedGroupsFromLines(lines, numLines, context, startLineNumLeft,
         startLineNumRight, opt_sectionEnd) {
-      const result = [];
-      const lines = [];
-      let line;
-
-      // Map each row to a GrDiffLine.
-      for (let i = 0; i < rows.length; i++) {
-        line = new GrDiffLine(GrDiffLine.Type.BOTH);
-        line.text = rows[i];
-        line.beforeNumber = ++startLineNumLeft;
-        line.afterNumber = ++startLineNumRight;
-        lines.push(line);
-      }
-
       // Find the hidden range based on the user's context preference. If this
       // is the first or the last section of the diff, make sure the collapsed
       // part of the section extends to the edge of the file.
-      const hiddenRange = [context, rows.length - context];
-      if (opt_sectionEnd === 'first') {
-        hiddenRange[0] = 0;
-      } else if (opt_sectionEnd === 'last') {
-        hiddenRange[1] = rows.length;
-      }
+      const hiddenRangeStart = opt_sectionEnd === 'first' ? 0 : context;
+      const hiddenRangeEnd = opt_sectionEnd === 'last' ?
+          numLines : numLines - context;
 
+      const result = [];
       // If there is a range to hide.
-      if (context !== WHOLE_FILE && hiddenRange[1] - hiddenRange[0] > 1) {
-        const linesBeforeCtx = lines.slice(0, hiddenRange[0]);
-        const hiddenLines = lines.slice(hiddenRange[0], hiddenRange[1]);
-        const linesAfterCtx = lines.slice(hiddenRange[1]);
+      if (context !== WHOLE_FILE && hiddenRangeEnd - hiddenRangeStart > 1) {
+        const linesBeforeCtx = [];
+        const hiddenLines = [];
+        const linesAfterCtx = [];
+        for (const line of lines) {
+          // In the case there are no changes, these are the same.
+          // In the case of ignored whitespace changes, either only one is set,
+          // or the are the same.
+          const lineOffset = line.beforeNumber ?
+              line.beforeNumber - startLineNumLeft - 1 :
+              line.afterNumber - startLineNumRight - 1;
+          if (lineOffset < hiddenRangeStart) linesBeforeCtx.push(line);
+          else if (hiddenRangeEnd <= lineOffset) linesAfterCtx.push(line);
+          else hiddenLines.push(line);
+        }
 
         if (linesBeforeCtx.length > 0) {
           result.push(new GrDiffGroup(GrDiffGroup.Type.BOTH, linesBeforeCtx));
         }
 
         const ctxLine = new GrDiffLine(GrDiffLine.Type.CONTEXT_CONTROL);
-        ctxLine.contextGroup =
-            new GrDiffGroup(GrDiffGroup.Type.BOTH, hiddenLines);
+        ctxLine.contextGroups =
+            [new GrDiffGroup(GrDiffGroup.Type.BOTH, hiddenLines)];
         result.push(new GrDiffGroup(GrDiffGroup.Type.CONTEXT_CONTROL,
             [ctxLine]));
 
@@ -324,58 +350,6 @@
       }
 
       return result;
-    },
-
-    /**
-     * Take the rows of a delta diff section and produce the corresponding
-     * group.
-     * @param {!Array<string>} rowsAdded
-     * @param {!Array<string>} rowsRemoved
-     * @param {number} startLineNumLeft
-     * @param {number} startLineNumRight
-     * @return {!Object} (Gr-Diff-Group)
-     */
-    _deltaGroupFromRows(rowsAdded, rowsRemoved, startLineNumLeft,
-        startLineNumRight, highlights) {
-      let lines = [];
-      if (rowsRemoved) {
-        lines = lines.concat(this._deltaLinesFromRows(GrDiffLine.Type.REMOVE,
-            rowsRemoved, startLineNumLeft, highlights.removed));
-      }
-      if (rowsAdded) {
-        lines = lines.concat(this._deltaLinesFromRows(GrDiffLine.Type.ADD,
-            rowsAdded, startLineNumRight, highlights.added));
-      }
-      return new GrDiffGroup(GrDiffGroup.Type.DELTA, lines);
-    },
-
-    /**
-     * @return {!Array<!Object>} Array of GrDiffLines
-     */
-    _deltaLinesFromRows(lineType, rows, startLineNum,
-        opt_highlights) {
-      // Normalize highlights if they have been passed.
-      if (opt_highlights) {
-        opt_highlights = this._normalizeIntralineHighlights(rows,
-            opt_highlights);
-      }
-
-      const lines = [];
-      let line;
-      for (let i = 0; i < rows.length; i++) {
-        line = new GrDiffLine(lineType);
-        line.text = rows[i];
-        if (lineType === GrDiffLine.Type.ADD) {
-          line.afterNumber = ++startLineNum;
-        } else {
-          line.beforeNumber = ++startLineNum;
-        }
-        if (opt_highlights) {
-          line.highlights = opt_highlights.filter(hl => hl.contentIndex === i);
-        }
-        lines.push(line);
-      }
-      return lines;
     },
 
     _makeFileComments() {

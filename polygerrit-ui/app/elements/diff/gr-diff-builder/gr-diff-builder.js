@@ -243,8 +243,8 @@
     }
 
     const ctxLine = new GrDiffLine(GrDiffLine.Type.CONTEXT_CONTROL);
-    ctxLine.contextGroup =
-        new GrDiffGroup(GrDiffGroup.Type.BOTH, hiddenLines);
+    ctxLine.contextGroups =
+        [new GrDiffGroup(GrDiffGroup.Type.BOTH, hiddenLines)];
     groups.push(new GrDiffGroup(GrDiffGroup.Type.CONTEXT_CONTROL,
         [ctxLine]));
 
@@ -254,13 +254,15 @@
   };
 
   GrDiffBuilder.prototype._createContextControl = function(section, line) {
-    if (!line.contextGroup || !line.contextGroup.lines.length) {
-      return null;
-    }
+    if (!line.contextGroups) return null;
+
+    const numLines = line.contextGroups.reduce(
+        (sum, contextGroup) => sum + contextGroup.lines.length, 0);
+
+    if (numLines === 0) return null;
 
     const td = this._createElement('td');
-    const showPartialLinks =
-        line.contextGroup.lines.length > PARTIAL_CONTEXT_AMOUNT;
+    const showPartialLinks = numLines > PARTIAL_CONTEXT_AMOUNT;
 
     if (showPartialLinks) {
       td.appendChild(this._createContextButton(
@@ -281,7 +283,7 @@
   };
 
   GrDiffBuilder.prototype._createContextButton = function(type, section, line) {
-    const contextLines = line.contextGroup.lines;
+    const contextLines = line.contextGroups[0].lines;
     const context = PARTIAL_CONTEXT_AMOUNT;
 
     const button = this._createElement('gr-button', 'showContext');
@@ -294,7 +296,7 @@
     if (type === GrDiffBuilder.ContextButtonType.ALL) {
       text = 'Show ' + contextLines.length + ' common line';
       if (contextLines.length > 1) { text += 's'; }
-      groups.push(line.contextGroup);
+      groups.push(...line.contextGroups);
     } else if (type === GrDiffBuilder.ContextButtonType.ABOVE) {
       text = '+' + context + '↑';
       this._insertContextGroups(groups, contextLines,

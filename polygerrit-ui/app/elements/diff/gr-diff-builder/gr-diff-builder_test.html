@@ -89,11 +89,11 @@ limitations under the License.
 
     test('context control buttons', () => {
       const section = {};
-      const line = {contextGroup: {lines: []}};
+      const line = {contextGroups: [{lines: []}]};
 
       // Create 10 lines.
       for (let i = 0; i < 10; i++) {
-        line.contextGroup.lines.push('lorem upsum');
+        line.contextGroups[0].lines.push('lorem upsum');
       }
 
       // Does not include +10 buttons when there are fewer than 11 lines.
@@ -104,7 +104,7 @@ limitations under the License.
       assert.equal(Polymer.dom(buttons[0]).textContent, 'Show 10 common lines');
 
       // Add another line.
-      line.contextGroup.lines.push('lorem upsum');
+      line.contextGroups[0].lines.push('lorem upsum');
 
       // Includes +10 buttons when there are at least 11 lines.
       td = builder._createContextControl(section, line);

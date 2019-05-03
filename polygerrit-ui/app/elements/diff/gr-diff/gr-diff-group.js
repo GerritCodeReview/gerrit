@@ -22,20 +22,31 @@
 
   /**
    * A chunk of the diff that should be rendered together.
+   *
+   * @param {!GrDiffGroup.Type} type
+   * @param {!Array<!GrDiffLine>=} opt_lines
    */
   function GrDiffGroup(type, opt_lines) {
+    /** @type {!GrDiffGroup.Type} */
     this.type = type;
 
-    /** @type{!Array<!GrDiffLine>} */
+    /** @type {boolean} */
+    this.dueToRebase = false;
+
+    /** @type {boolean} */
+    this.ignoredWhitespaceOnly = false;
+
+    /** @type {?HTMLElement} */
+    this.element = null;
+
+    /** @type {!Array<!GrDiffLine>} */
     this.lines = [];
-    /** @type{!Array<!GrDiffLine>} */
+    /** @type {!Array<!GrDiffLine>} */
     this.adds = [];
-    /** @type{!Array<!GrDiffLine>} */
+    /** @type {!Array<!GrDiffLine>} */
     this.removes = [];
 
-    /** @type{boolean|undefined} */
-    this.dueToRebase = undefined;
-
+    /** Both start and end line are inclusive. */
     this.lineRange = {
       left: {start: null, end: null},
       right: {start: null, end: null},
@@ -46,8 +57,7 @@
     }
   }
 
-  GrDiffGroup.prototype.element = null;
-
+  /** @enum {string} */
   GrDiffGroup.Type = {
     /** Unchanged context. */
     BOTH: 'both',
@@ -59,6 +69,141 @@
     DELTA: 'delta',
   };
 
+
+  /**
+   * Hides lines in the given range behind a context control group.
+   *
+   * Groups that would be partially visible are split into their visible and
+   * hidden parts, respectively.
+   * The groups need to be "common groups", meaning they have to have either
+   * originated from an `ab` chunk, or from an `a`+`b` chunk with
+   * `common: true`.
+   *
+   * If the hidden range is 1 line or less, nothing is hidden and no context
+   * control group is created.
+   *
+   * @param {!Array<!GrDiffGroup>} groups Common groups, ordered by their line
+   *     ranges.
+   * @param {number} hiddenStart The first element to be hidden, as a
+   *     non-negative line number offset relative to the first group's start
+   *     line, left and right respectively.
+   * @param {number} hiddenEnd The first visible element after the hidden range,
+   *     as a non-negative line number offset relative to the first group's
+   *     start line, left and right respectively.
+   * @param {!Array<!GrDiffGroup>}
+   */
+  GrDiffGroup.hideInContextControl = function(groups, hiddenStart, hiddenEnd) {
+    if (hiddenStart < 0 || hiddenEnd < 0) {
+      throw new Error('hiddenStart and hiddenEnd must not be negative');
+    }
+    if (hiddenEnd < hiddenStart) {
+      throw new Error('hiddenStart must be smaller or equal hiddenEnd');
+    }
+
+    let before = [];
+    let hidden = groups;
+    let after = [];
+
+    const numHidden = hiddenEnd - hiddenStart;
+
+    // Only collapse if there is more than 1 line to be hidden.
+    if (numHidden > 1) {
+      if (hiddenStart) {
+        [before, hidden] = GrDiffGroup._splitCommonGroups(hidden, hiddenStart);
+      }
+      if (hiddenEnd) {
+        [hidden, after] = GrDiffGroup._splitCommonGroups(
+            hidden, hiddenEnd - hiddenStart);
+      }
+    } else {
+      [hidden, after] = [[], hidden];
+    }
+
+    const result = [...before];
+    if (hidden.length) {
+      const ctxLine = new GrDiffLine(GrDiffLine.Type.CONTEXT_CONTROL);
+      ctxLine.contextGroups = hidden;
+      const ctxGroup = new GrDiffGroup(
+          GrDiffGroup.Type.CONTEXT_CONTROL, [ctxLine]);
+      result.push(ctxGroup);
+    }
+    result.push(...after);
+    return result;
+  };
+
+  /**
+   * Splits a list of common groups into two lists of groups.
+   *
+   * Groups where all lines are before or all lines are after the split will be
+   * retained as is and put into the first or second list respectively. Groups
+   * with some lines before and some lines after the split will be split into
+   * two groups, which will be put into the first and second list.
+   *
+   * @param {!Array<!GrDiffGroup>} groups
+   * @param {number} split A line number offset relative to the first group's
+   *     start line at which the groups should be split.
+   * @return {!Array<!Array<!GrDiffGroup>>} The outer array has 2 elements, the
+   *   list of groups before and the list of groups after the split.
+   */
+  GrDiffGroup._splitCommonGroups = function(groups, split) {
+    if (groups.length === 0) return [[], []];
+    const leftSplit = groups[0].lineRange.left.start + split;
+    const rightSplit = groups[0].lineRange.right.start + split;
+
+    const beforeGroups = [];
+    const afterGroups = [];
+    for (const group of groups) {
+      if (group.lineRange.left.end < leftSplit ||
+          group.lineRange.right.end < rightSplit) {
+        beforeGroups.push(group);
+        continue;
+      }
+      if (leftSplit <= group.lineRange.left.start ||
+          rightSplit <= group.lineRange.right.start) {
+        afterGroups.push(group);
+        continue;
+      }
+
+      const before = [];
+      const after = [];
+      for (const line of group.lines) {
+        if ((line.beforeNumber && line.beforeNumber < leftSplit) ||
+            (line.afterNumber && line.afterNumber < rightSplit)) {
+          before.push(line);
+        } else {
+          after.push(line);
+        }
+      }
+
+      if (before.length) {
+        beforeGroups.push(before.length === group.lines.length ?
+            group : group.cloneWithLines(before));
+      }
+      if (after.length) {
+        afterGroups.push(after.length === group.lines.length ?
+            group : group.cloneWithLines(after));
+      }
+    }
+    return [beforeGroups, afterGroups];
+  },
+
+  /**
+   * Creates a new group with the same properties but different lines.
+   *
+   * The element property is not copied, because the original element is still a
+   * rendering of the old lines, so that would not make sense.
+   *
+   * @param {!Array<!GrDiffLine>} lines
+   * @return {!GrDiffGroup}
+   */
+  GrDiffGroup.prototype.cloneWithLines = function(lines) {
+    const group = new GrDiffGroup(this.type, lines);
+    group.dueToRebase = this.dueToRebase;
+    group.ignoredWhitespaceOnly = this.ignoredWhitespaceOnly;
+    return group;
+  };
+
+  /** @param {!GrDiffLine} line */
   GrDiffGroup.prototype.addLine = function(line) {
     this.lines.push(line);
 
@@ -77,6 +222,7 @@
     this._updateRange(line);
   };
 
+  /** @return {!Array<{left: GrDiffLine, right: GrDiffLine}>} */
   GrDiffGroup.prototype.getSideBySidePairs = function() {
     if (this.type === GrDiffGroup.Type.BOTH ||
         this.type === GrDiffGroup.Type.CONTEXT_CONTROL) {

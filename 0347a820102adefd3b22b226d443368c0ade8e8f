@@ -22,6 +22,30 @@
       "revId": "0347a820102adefd3b22b226d443368c0ade8e8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76667302_4422b210",
+        "filename": "java/com/google/gerrit/git/testing/PushResultSubject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-03T07:55:37Z",
+      "side": 0,
+      "message": "Looks ok to me.",
+      "parentUuid": "e4ccc33b_2814b577",
+      "range": {
+        "startLine": 86,
+        "startChar": 6,
+        "endLine": 92,
+        "endChar": 5
+      },
+      "revId": "0347a820102adefd3b22b226d443368c0ade8e8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

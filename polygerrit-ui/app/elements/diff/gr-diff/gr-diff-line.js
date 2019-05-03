@@ -20,6 +20,7 @@
   // Prevent redefinition.
   if (window.GrDiffLine) { return; }
 
+  /** @param {GrDiffLine.Type} type */
   function GrDiffLine(type) {
     this.type = type;
     this.highlights = [];
@@ -31,7 +32,7 @@
   /** @type {number|string} */
   GrDiffLine.prototype.beforeNumber = 0;
 
-  /** @type {?Array<Object>} ?Array<!GrDiffLine> */
+  /** @type {?Array<Object>} ?Array<!GrDiffGroup> */
   GrDiffLine.prototype.contextGroups = null;
 
   GrDiffLine.prototype.text = '';

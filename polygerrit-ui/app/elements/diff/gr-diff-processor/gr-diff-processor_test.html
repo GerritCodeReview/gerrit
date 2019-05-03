@@ -506,10 +506,13 @@ limitations under the License.
         sandbox.stub(element, 'async');
         element._isScrolling = true;
         element.process(content);
+        // Just the files group - no more processing during scrolling.
         assert.equal(element.groups.length, 1);
+
         element._isScrolling = false;
         element.process(content);
-        assert.equal(element.groups.length, 33);
+        // More groups have been processed. How many does not matter here.
+        assert.isAtLeast(element.groups.length, 2);
       });
 
       test('image diffs', () => {
@@ -528,22 +531,25 @@ limitations under the License.
         assert.equal(element.groups[0].lines.length, 1);
       });
 
-
-      suite('gr-diff-processor helpers', () => {
+      suite('_processNext', () => {
         let rows;
 
         setup(() => {
           rows = loremIpsum.split(' ');
         });
 
-        test('_processNext WHOLE_FILE', () => {
+        test('WHOLE_FILE', () => {
           element.context = WHOLE_FILE;
           const state = {
             lineNums: {left: 10, right: 100},
             sectionIndex: 1,
           };
-          const result = element._processNext(
-              state, {ab: rows}, 3);
+          const sections = [
+            {a: ['foo']},
+            {ab: rows},
+            {a: ['bar']},
+          ];
+          const result = element._processNext(state, sections);
 
           // Results in one, uncollapsed group with all rows.
           assert.equal(result.groups.length, 1);
@@ -564,14 +570,18 @@ limitations under the License.
               state.lineNums.right + rows.length);
         });
 
-        test('_processNext context', () => {
+        test('with context', () => {
           element.context = 10;
           const state = {
             lineNums: {left: 10, right: 100},
             sectionIndex: 1,
           };
-          const result = element._processNext(
-              state, {ab: rows}, 3);
+          const sections = [
+            {a: ['foo']},
+            {ab: rows},
+            {a: ['bar']},
+          ];
+          const result = element._processNext(state, sections);
           const expectedCollapseSize = rows.length - 2 * element.context;
 
           assert.equal(result.groups.length, 3, 'Results in three groups');
@@ -587,14 +597,18 @@ limitations under the License.
               expectedCollapseSize);
         });
 
-        test('_processNext first', () => {
+        test('first', () => {
           element.context = 10;
           const state = {
             lineNums: {left: 10, right: 100},
             sectionIndex: 0,
           };
-          const result = element._processNext(
-              state, {ab: rows}, 3);
+          const sections = [
+            {ab: rows},
+            {a: ['foo']},
+            {a: ['bar']},
+          ];
+          const result = element._processNext(state, sections);
           const expectedCollapseSize = rows.length - element.context;
 
           assert.equal(result.groups.length, 2, 'Results in two groups');
@@ -608,7 +622,7 @@ limitations under the License.
               expectedCollapseSize);
         });
 
-        test('_processNext few-rows', () => {
+        test('few-rows', () => {
           // Only ten rows.
           rows = rows.slice(0, 10);
           element.context = 10;
@@ -616,32 +630,48 @@ limitations under the License.
             lineNums: {left: 10, right: 100},
             sectionIndex: 0,
           };
-          const result = element._processNext(
-              state, {ab: rows}, 3);
+          const sections = [
+            {ab: rows},
+            {a: ['foo']},
+            {a: ['bar']},
+          ];
+          const result = element._processNext(state, sections);
 
           // Results in one uncollapsed group with all rows.
           assert.equal(result.groups.length, 1, 'Results in one group');
           assert.equal(result.groups[0].lines.length, rows.length);
         });
 
-        test('_processNext no single line collapse', () => {
+        test('no single line collapse', () => {
           rows = rows.slice(0, 7);
           element.context = 3;
           const state = {
             lineNums: {left: 10, right: 100},
             sectionIndex: 1,
           };
-          const result = element._processNext(
-              state, {ab: rows}, 3);
+          const sections = [
+            {a: ['foo']},
+            {ab: rows},
+            {a: ['bar']},
+          ];
+          const result = element._processNext(state, sections);
 
           // Results in one uncollapsed group with all rows.
           assert.equal(result.groups.length, 1, 'Results in one group');
           assert.equal(result.groups[0].lines.length, rows.length);
         });
+      });
 
-        test('_deltaLinesFromRows', () => {
+      suite('gr-diff-processor helpers', () => {
+        let rows;
+
+        setup(() => {
+          rows = loremIpsum.split(' ');
+        });
+
+        test('_linesFromRows', () => {
           const startLineNum = 10;
-          let result = element._deltaLinesFromRows(GrDiffLine.Type.ADD, rows,
+          let result = element._linesFromRows(GrDiffLine.Type.ADD, rows,
               startLineNum + 1);
 
           assert.equal(result.length, rows.length);
@@ -652,7 +682,7 @@ limitations under the License.
               startLineNum + rows.length);
           assert.notOk(result[result.length - 1].beforeNumber);
 
-          result = element._deltaLinesFromRows(GrDiffLine.Type.REMOVE, rows,
+          result = element._linesFromRows(GrDiffLine.Type.REMOVE, rows,
               startLineNum + 1);
 
           assert.equal(result.length, rows.length);

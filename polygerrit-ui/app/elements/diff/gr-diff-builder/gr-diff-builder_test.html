@@ -90,26 +90,37 @@ limitations under the License.
     });
 
     test('context control buttons', () => {
-      const section = {};
-      const line = {contextGroups: [{lines: []}]};
-
       // Create 10 lines.
+      const lines = [];
       for (let i = 0; i < 10; i++) {
-        line.contextGroups[0].lines.push('lorem upsum');
+        const line = new GrDiffLine(GrDiffLine.Type.BOTH);
+        line.beforeNumber = i + 1;
+        line.afterNumber = i + 1;
+        line.text = 'lorem upsum';
+        lines.push(line);
       }
 
+      const contextLine = {
+        contextGroups: [new GrDiffGroup(GrDiffGroup.Type.BOTH, lines)],
+      };
+
+      const section = {};
       // Does not include +10 buttons when there are fewer than 11 lines.
-      let td = builder._createContextControl(section, line);
+      let td = builder._createContextControl(section, contextLine);
       let buttons = td.querySelectorAll('gr-button.showContext');
 
       assert.equal(buttons.length, 1);
       assert.equal(Polymer.dom(buttons[0]).textContent, 'Show 10 common lines');
 
       // Add another line.
-      line.contextGroups[0].lines.push('lorem upsum');
+      const line = new GrDiffLine(GrDiffLine.Type.BOTH);
+      line.text = 'lorem upsum';
+      line.beforeNumber = 11;
+      line.afterNumber = 11;
+      contextLine.contextGroups[0].addLine(line);
 
       // Includes +10 buttons when there are at least 11 lines.
-      td = builder._createContextControl(section, line);
+      td = builder._createContextControl(section, contextLine);
       buttons = td.querySelectorAll('gr-button.showContext');
 
       assert.equal(buttons.length, 3);

@@ -36,6 +36,7 @@
     /** @type{boolean|undefined} */
     this.dueToRebase = undefined;
 
+    /** Both start and end line are inclusive. */
     this.lineRange = {
       left: {start: null, end: null},
       right: {start: null, end: null},
@@ -45,6 +46,84 @@
       opt_lines.forEach(this.addLine, this);
     }
   }
+
+  GrDiffGroup.hideInContextControl = function(groups, hiddenStart, hiddenEnd) {
+    let before = [];
+    let hidden = groups;
+    let after = [];
+
+    if (hiddenStart) {
+      [before, hidden] = GrDiffGroup.splitCommonGroups(hidden, hiddenStart);
+    }
+    if (hiddenEnd) {
+      if (hiddenStart < hiddenEnd) {
+        [hidden, after] = GrDiffGroup.splitCommonGroups(hidden, hiddenEnd);
+      } else {
+        [hidden, after] = [[], hidden];
+      }
+    }
+
+    const result = [...before];
+    if (hidden.length) {
+      const ctxLine = new GrDiffLine(GrDiffLine.Type.CONTEXT_CONTROL);
+      ctxLine.contextGroups = hidden;
+      const ctxGroup = new GrDiffGroup(
+          GrDiffGroup.Type.CONTEXT_CONTROL, [ctxLine]);
+      result.push(ctxGroup);
+    }
+    result.push(...after);
+    return result;
+  };
+
+  GrDiffGroup.splitCommonGroups = function(groups, split) {
+    if (groups.length === 0) return [[], []];
+    const leftSplit = groups[0].lineRange.left.start + split;
+    const rightSplit = groups[0].lineRange.right.start + split;
+
+    const beforeGroups = [];
+    const afterGroups = [];
+    for (const group of groups) {
+      if (group.lineRange.left.end < leftSplit ||
+          group.lineRange.right.end < rightSplit) {
+        beforeGroups.push(group);
+        continue;
+      }
+      if (leftSplit <= group.lineRange.left.start ||
+          rightSplit <= group.lineRange.right.start) {
+        afterGroups.push(group);
+        continue;
+      }
+
+      const before = [];
+      const after = [];
+      for (const line of group.lines) {
+        if ((line.beforeNumber && line.beforeNumber < leftSplit) ||
+            (line.afterNumber && line.afterNumber < rightSplit)) {
+          before.push(line);
+        } else {
+          after.push(line);
+        }
+      }
+
+      if (before.length) {
+        beforeGroups.push(before.length === group.lines.length ?
+            group : group.cloneWithLines(before));
+      }
+      if (after.length) {
+        afterGroups.push(after.length === group.lines.length ?
+            group : group.cloneWithLines(after));
+      }
+    }
+    return [beforeGroups, afterGroups];
+  },
+
+
+  GrDiffGroup.prototype.cloneWithLines = function(lines) {
+    const group = new GrDiffGroup(this.type, lines);
+    group.dueToRebase = this.dueToRebase;
+    group.ignoredWhitespaceOnly = this.ignoredWhitespaceOnly;
+    return group;
+  };
 
   GrDiffGroup.prototype.element = null;
 

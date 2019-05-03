@@ -191,6 +191,37 @@ limitations under the License.
       }]);
     });
 
+    test('ignore top project menus', () => {
+      const adminLinks = [{
+        name: 'Repos',
+        url: '/repos',
+      }];
+      const topMenus = [{
+        name: 'Projects',
+        items: [{
+          name: 'Project Settings',
+          target: '_blank',
+          url: '/plugins/myplugin/${projectName}',
+        }, {
+          name: 'Project List',
+          target: '_blank',
+          url: '/plugins/myplugin/index.html',
+        }],
+      }];
+      assert.deepEqual(element._computeLinks([], [], adminLinks, topMenus), [{
+        title: 'Browse',
+        links: adminLinks,
+      },
+      {
+        title: 'Projects',
+        links: [{
+          name: 'Project List',
+          external: true,
+          url: '/plugins/myplugin/index.html',
+        }],
+      }]);
+    });
+
     test('merge top menus', () => {
       const adminLinks = [{
         name: 'Repos',

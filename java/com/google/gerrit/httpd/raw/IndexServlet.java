@@ -75,7 +75,7 @@ public class IndexServlet extends HttpServlet {
     return uri.getPath().replaceAll("/$", "");
   }
 
-  static Map<String, String> getTemplateData(
+  static Map<String, Object> getTemplateData(
       String canonicalURL, String cdnPath, String faviconPath) throws URISyntaxException {
     String canonicalPath = computeCanonicalPath(canonicalURL);
 
@@ -92,9 +92,9 @@ public class IndexServlet extends HttpServlet {
         UnsafeSanitizedContentOrdainer.ordainAsSafe(
             staticPath, SanitizedContent.ContentKind.TRUSTED_RESOURCE_URI);
 
-    Map<String, String> data = new HashMap<>();
+    Map<String, Object> data = new HashMap<>();
     data.put("canonicalPath", canonicalPath);
-    data.put("staticResourcePath", sanitizedStaticPath.coerceToString());
+    data.put("staticResourcePath", sanitizedStaticPath);
     data.put("faviconPath", faviconPath);
     return data;
   }

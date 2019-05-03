@@ -92,7 +92,7 @@ public class IndexServlet extends HttpServlet {
         UnsafeSanitizedContentOrdainer.ordainAsSafe(
             staticPath, SanitizedContent.ContentKind.TRUSTED_RESOURCE_URI);
 
-    Map<String, String> data = new HashMap<>();
+    Map data = new HashMap<>();
     data.put("canonicalPath", canonicalPath);
     data.put("staticResourcePath", sanitizedStaticPath.coerceToString());
     data.put("faviconPath", faviconPath);

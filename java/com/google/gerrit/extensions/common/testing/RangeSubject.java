@@ -37,19 +37,19 @@ public class RangeSubject extends Subject<RangeSubject, Comment.Range> {
   }
 
   public IntegerSubject startLine() {
-    return check("startLine()").that(actual().startLine);
+    return check("startLine").that(actual().startLine);
   }
 
   public IntegerSubject startCharacter() {
-    return check("startCharacter()").that(actual().startCharacter);
+    return check("startCharacter").that(actual().startCharacter);
   }
 
   public IntegerSubject endLine() {
-    return check("endLine()").that(actual().endLine);
+    return check("endLine").that(actual().endLine);
   }
 
   public IntegerSubject endCharacter() {
-    return check("endCharacter()").that(actual().endCharacter);
+    return check("endCharacter").that(actual().endCharacter);
   }
 
   public void isValid() {

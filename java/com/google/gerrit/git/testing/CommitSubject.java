@@ -68,7 +68,7 @@ public class CommitSubject extends Subject<CommitSubject, RevCommit> {
   public void hasCommitMessage(String expectedCommitMessage) {
     isNotNull();
     RevCommit commit = actual();
-    check("commitMessage()").that(commit.getFullMessage()).isEqualTo(expectedCommitMessage);
+    check("getFullMessage()").that(commit.getFullMessage()).isEqualTo(expectedCommitMessage);
   }
 
   /**

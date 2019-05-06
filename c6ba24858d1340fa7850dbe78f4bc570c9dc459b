@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "9b3ebf1e_718fca15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-05-06T21:05:38Z",
+      "side": 1,
+      "message": "The list below seems to be some of the things you are trying to address with this proposed solution. Since priorities and perceptions about relative painpoints of issues like these are likely to be very different across very different segments of the community, it feels inappropriate to propose such a massive change as this to address them. It would be helpful to break this change into independent changes to address individual problems/issues so that specific solutions can be evaluated against specific problems to see if they would likely address the specific problems, and if they don\u0027t cause significant new problems of their own. Some sample individual problems and suggested solutions (some possibly terrible) might be:\n\n* project vision: \n  -Have individual maintainers express and write down their current visions, on blogs, on mailing list, at conferences.\n  -See if there is consensus on some of those visions and if so, consider formalizing those visions with a consensus, also consider documenting where there might be disagreement regularly (and why) so that people at least understand when certain issues might be more controversial.\n  -...?\n\n* project scope:\n  -Similar to above...\n  -Document what Shawn may have said in the past about this.\n  -...?\n\n* roadmap:\n  -Ask current large contributors to document where they believe they might spend their time in the next year or two.\n  -Seek input from users via bug trackers, mailing list, and conferences\n  -...?\n\n* release plan (I am not quite sure what this represents?):\n  -Ask individual maintainers what they might be willing to commit to doing with respect to releases.\n  -Ask users what it would take for them to upgrade to newer releases?\n  -Ask users how often they upgrade, and why they upgrade, why their specific schedule, what are the problems they encounter?\n  -Ask users how often they could potentially upgrade?\n  -Ask users if they don\u0027t use stable releases why?\n  -...?\n\n* prioritized backlog\n  -Contribute bug reports, testing, code and bug fixes for the things that you feel should be prioritized\n  -Propose reverts for code that breaks stuff\n  -...?",
+      "range": {
+        "startLine": 72,
+        "startChar": 65,
+        "endLine": 73,
+        "endChar": 66
+      },
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6822ab03_f9be6039",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-05-06T21:05:38Z",
+      "side": 1,
+      "message": "This proposal has the feel of a giant re-design of the community process and does not feel like it clearly solves any specific obvious community problems or issues. I believe that good software development is done via iterative small incremental solutions to clear and well defined problems. I also believe this is the best way to attempt to address any real or perceived community and/or process issues in the Gerrit community. Please make proposed changes to community processes in a similar way as most of us would expect for code changes. If you would like help with this, I propose starting by picking a small problem you feel could be solved, and to make a small proposal to address this specific problem.",
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c2984dc2_c3c25ca4",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 1

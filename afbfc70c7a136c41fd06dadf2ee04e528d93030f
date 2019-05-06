@@ -16,6 +16,24 @@
       "revId": "afbfc70c7a136c41fd06dadf2ee04e528d93030f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cc208eb_aa6c7391",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 57
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-06T10:46:46Z",
+      "side": 1,
+      "message": "No, only for the one at the top of the stack that\u0027s marked WIP.  For this and the other one that I contributed to , the use case is fairly clear.  For the others I thought there might be edge cases and possibly disagreements on how it should work, so I asked Paladox to create issues so they can be discussed there before spending effort on development.",
+      "parentUuid": "b68411a4_d7d84443",
+      "revId": "afbfc70c7a136c41fd06dadf2ee04e528d93030f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

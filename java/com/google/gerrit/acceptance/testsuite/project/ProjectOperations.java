@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.testsuite.project;
 
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import org.eclipse.jgit.revwalk.RevCommit;
 
@@ -40,5 +41,7 @@ public interface ProjectOperations {
      * fully qualified refname ("refs/heads/master").
      */
     boolean hasHead(String branchName);
+
+    TestProjectUpdate.Builder forUpdate();
   }
 }

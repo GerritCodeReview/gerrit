@@ -19,12 +19,17 @@ import com.google.gerrit.acceptance.testsuite.project.TestProjectCreation.Builde
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.project.CreateProjectArgs;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCreator;
 import com.google.inject.Inject;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import org.apache.commons.lang.RandomStringUtils;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -32,12 +37,23 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 public class ProjectOperationsImpl implements ProjectOperations {
-  private final ProjectCreator projectCreator;
   private final GitRepositoryManager repoManager;
+  private final MetaDataUpdate.Server metaDataUpdateFactory;
+  private final ProjectCache projectCache;
+  private final ProjectConfig.Factory projectConfigFactory;
+  private final ProjectCreator projectCreator;
 
   @Inject
-  ProjectOperationsImpl(GitRepositoryManager repoManager, ProjectCreator projectCreator) {
+  ProjectOperationsImpl(
+      GitRepositoryManager repoManager,
+      MetaDataUpdate.Server metaDataUpdateFactory,
+      ProjectCache projectCache,
+      ProjectConfig.Factory projectConfigFactory,
+      ProjectCreator projectCreator) {
     this.repoManager = repoManager;
+    this.metaDataUpdateFactory = metaDataUpdateFactory;
+    this.projectCache = projectCache;
+    this.projectConfigFactory = projectConfigFactory;
     this.projectCreator = projectCreator;
   }
 
@@ -82,6 +98,21 @@ public class ProjectOperationsImpl implements ProjectOperations {
     @Override
     public boolean hasHead(String branch) {
       return headOrNull(branch) != null;
+    }
+
+    @Override
+    public TestProjectUpdate.Builder forUpdate() {
+      return TestProjectUpdate.builder(this::updateProject);
+    }
+
+    private void updateProject(TestProjectUpdate projectUpdate)
+        throws IOException, ConfigInvalidException {
+      try (MetaDataUpdate metaDataUpdate = metaDataUpdateFactory.create(nameKey)) {
+        ProjectConfig projectConfig = projectConfigFactory.read(metaDataUpdate);
+        projectUpdate.configModification().accept(projectConfig);
+        projectConfig.commit(metaDataUpdate);
+      }
+      projectCache.evict(nameKey);
     }
 
     private RevCommit headOrNull(String branch) {

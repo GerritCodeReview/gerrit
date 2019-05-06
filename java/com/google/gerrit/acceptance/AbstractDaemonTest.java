@@ -884,12 +884,8 @@ public abstract class AbstractDaemonTest {
     allow(project, ref, permission, id);
   }
 
-  protected void allow(Project.NameKey p, String ref, String permission, AccountGroup.UUID id)
-      throws Exception {
-    try (ProjectConfigUpdate u = updateProject(p)) {
-      Util.allow(u.getConfig(), permission, id, ref);
-      u.save();
-    }
+  protected void allow(Project.NameKey p, String ref, String permission, AccountGroup.UUID id) {
+    projectOperations.project(p).forUpdate().addPermission(permission, ref, id).update();
   }
 
   protected void allowGlobalCapabilities(

@@ -134,6 +134,12 @@ public class DeleteBranchIT extends AbstractDaemonTest {
 
   @Test
   public void deleteUserBranch_Conflict() throws Exception {
+    projectOperations
+        .project(allUsers)
+        .forUpdate()
+        .addPermission(Permission.CREATE, RefNames.REFS_USERS + "*", REGISTERED_USERS)
+        .addPermission(Permission.PUSH, RefNames.REFS_USERS + "*", REGISTERED_USERS)
+        .update();
     allow(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE, REGISTERED_USERS);
     allow(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH, REGISTERED_USERS);
 
@@ -159,7 +165,12 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   }
 
   private void blockForcePush() throws Exception {
-    block("refs/heads/*", Permission.PUSH, ANONYMOUS_USERS).setForce(true);
+    projectOperations
+        .project(allUsers)
+        .forUpdate()
+        .addPermission(
+            Permission.PUSH, "refs/heads/*", ANONYMOUS_USERS, rule -> rule.setForce(true))
+        .update();
   }
 
   private void grantForcePush() throws Exception {

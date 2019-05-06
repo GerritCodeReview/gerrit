@@ -32,7 +32,7 @@ public class AssertUtil {
       }
       Object actualVal = field.get(actual);
       Object expectedVal = field.get(expected);
-      if (field.getType().isAssignableFrom(Boolean.class)) {
+                  if (field.getType().isAssignableFrom(Boolean.class)) {
         if (actualVal == null) {
           actualVal = false;
         }

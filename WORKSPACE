@@ -907,12 +907,6 @@ maven_jar(
     sha1 = "92bf48723d277d6efd1150b2f7e9e1e92cb56caf",
 )
 
-maven_jar(
-    name = "objenesis",
-    artifact = "org.objenesis:objenesis:1.3",
-    sha1 = "dc13ae4faca6df981fc7aeb5a522d9db446d5d50",
-)
-
 POWERM_VERS = "1.6.1"
 
 maven_jar(

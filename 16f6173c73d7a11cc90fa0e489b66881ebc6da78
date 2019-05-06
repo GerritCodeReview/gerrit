@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4824bacd_7567ebdb",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-06T22:28:25Z",
+      "side": 1,
+      "message": "This is a no-op as the version 1.3 is overridden below with 2.6.",
+      "range": {
+        "startLine": 272,
+        "startChar": 4,
+        "endLine": 276,
+        "endChar": 5
+      },
+      "revId": "16f6173c73d7a11cc90fa0e489b66881ebc6da78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ca9b3e2_25282702",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-06T22:28:25Z",
+      "side": 1,
+      "message": "Here is the 1.3 version above is overridden.",
+      "range": {
+        "startLine": 421,
+        "startChar": 4,
+        "endLine": 425,
+        "endChar": 5
+      },
+      "revId": "16f6173c73d7a11cc90fa0e489b66881ebc6da78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

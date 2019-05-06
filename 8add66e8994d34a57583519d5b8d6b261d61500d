@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "337945fe_1f817ece",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 910,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-06T22:28:25Z",
+      "side": 0,
+      "message": "This seems to be twice in this file. Once with version 1.3 and re-definition with 2.6 on line 1130 below. Fixed in: [1].\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/223594",
+      "range": {
+        "startLine": 906,
+        "startChar": 0,
+        "endLine": 910,
+        "endChar": 1
+      },
+      "revId": "8add66e8994d34a57583519d5b8d6b261d61500d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b406795f_1e47acdf",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 961,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-06T22:28:25Z",
+      "side": 0,
+      "message": "This seems to be unused and is removed in: [1].\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/223592",
+      "range": {
+        "startLine": 956,
+        "startChar": 0,
+        "endLine": 961,
+        "endChar": 1
+      },
+      "revId": "8add66e8994d34a57583519d5b8d6b261d61500d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

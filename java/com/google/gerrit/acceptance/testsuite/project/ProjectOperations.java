@@ -52,5 +52,23 @@ public interface ProjectOperations {
      * $site_path/etc/project.config}.
      */
     Config getConfig();
+
+    /**
+     * Starts the fluent chain to update a project. The returned builder can be used to specify how
+     * the attributes of the project should be modified. To update the project for real, the {@link
+     * TestProjectUpdate.Builder#update()} must be called.
+     *
+     * <p>Example:
+     *
+     * <pre>
+     * projectOperations
+     *     .forUpdate()
+     *     .add(allow(ABANDON).ref("refs/*").group(REGISTERED_USERS))
+     *     .update();
+     * </pre>
+     *
+     * @return a builder to update the check.
+     */
+    TestProjectUpdate.Builder forUpdate();
   }
 }

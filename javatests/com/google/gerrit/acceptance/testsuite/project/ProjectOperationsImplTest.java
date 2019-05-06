@@ -16,11 +16,15 @@ package com.google.gerrit.acceptance.testsuite.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
+import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.truth.ConfigSubject.assertThat;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestPermission;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.reviewdb.client.Project;
@@ -130,6 +134,126 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     Config config = projectOperations.project(key).getConfig();
     assertThat(config).isNotInstanceOf(StoredConfig.class);
     assertThat(config).isEmpty();
+  }
+
+  @Test
+  public void addAllowPermission() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(TestProjectUpdate.allow(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
+        .update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly("abandon", "group global:Registered-Users");
+  }
+
+  @Test
+  public void addDenyPermission() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(TestProjectUpdate.deny(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
+        .update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly("abandon", "deny group global:Registered-Users");
+  }
+
+  @Test
+  public void addBlockPermission() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(TestProjectUpdate.block(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
+        .update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly("abandon", "block group global:Registered-Users");
+  }
+
+  @Test
+  public void addAllowForcePermission() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(
+            TestProjectUpdate.allow(Permission.ABANDON)
+                .ref("refs/foo")
+                .group(REGISTERED_USERS)
+                .force(true))
+        .update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly("abandon", "+force group global:Registered-Users");
+  }
+
+  @Test
+  public void addMultiplePermissions() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(TestProjectUpdate.allow(Permission.ABANDON).ref("refs/foo").group(PROJECT_OWNERS))
+        .add(TestProjectUpdate.allow(Permission.CREATE).ref("refs/foo").group(REGISTERED_USERS))
+        .update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly(
+            "abandon", "group global:Project-Owners",
+            "create", "group global:Registered-Users");
+  }
+
+  @Test
+  public void addDuplicatePermissions() throws Exception {
+    TestPermission permission =
+        TestProjectUpdate.allow(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS).build();
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations.project(key).forUpdate().add(permission).add(permission).update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly(
+            "abandon", "group global:Registered-Users",
+            "abandon", "group global:Registered-Users");
+
+    projectOperations.project(key).forUpdate().add(permission).update();
+    config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly(
+            "abandon", "group global:Registered-Users",
+            "abandon", "group global:Registered-Users",
+            "abandon", "group global:Registered-Users");
   }
 
   private void deleteRefsMetaConfig(Project.NameKey key) throws Exception {

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1d3fc4fe_79c2304b",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-06T13:48:21Z",
+      "side": 1,
+      "message": "\u003e \u003e This suggests that Google isn\u0027t part of the community.\n\u003e \n\u003e This is not how it\u0027s meant. Do you have a suggestion how to rephrase it?\n\u003e \n\u003e \u003e Why not have two community managers elected by the community?\n\u003e \n\u003e Are you suggesting to have 2 non-Google community managers?\n\u003e That would mean less work for us, so I guess it would be fine for us.\n\u003e We thought that it\u0027s important for the community that Google commits to fund the work of at least one community manager. Also a Google community manager may have more options to address Google-specific issues that the community might have.\n\nMy understanding of this role is to be like you said, a sort of \"scrum-master\" and thus an arbitrator rather than a manager. Having 2 people from the community (including Googlers if elected) would make the role even more independent and less linked to any organization.\n\nI\u0027d suggest to just merge the two bullet points to \"two members, elected by the community\".\n\nI do not see the point to say \"Google\" and \"non-Google\" as Googlers are integral part of the community of contributors, maintainers, users, everything :-)",
+      "parentUuid": "faa578bf_39f5a86d",
+      "range": {
+        "startLine": 289,
+        "startChar": 7,
+        "endLine": 289,
+        "endChar": 44
+      },
+      "revId": "3196e8297d7ee1738b93e17080dc681099ea7a2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc813557_881e3b1a",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 1

@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "f8636b75_0f1f4d42",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-06T21:22:08Z",
+      "side": 1,
+      "message": "\u003e Please make proposed changes to community processes in a similar way as most of us would expect for code changes.\n\nI believe \"Project Governance / Steering Committee\" and this change is the right way to manage the growing gerrit community.\n\nThis is what LibreOffice project is doing since day 1. All *relevant* questions in LibreOffice eco-system are decided by the ESC. All discussions are public. The last meeting minutes from last week: [1].\n\n[1] https://listarchives.libreoffice.org/global/projects/msg02556.html",
+      "parentUuid": "6822ab03_f9be6039",
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c2984dc2_c3c25ca4",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 1

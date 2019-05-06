@@ -22,6 +22,30 @@
       "revId": "0cc52ceff396dcd319efb7c22cb00b736cdd10e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b3b9d23_3dff716e",
+        "filename": "lib/js/bower_components.bzl",
+        "patchSetId": 14
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-05-06T20:41:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "766b8b95_6ace2fd3",
+      "range": {
+        "startLine": 339,
+        "startChar": 33,
+        "endLine": 339,
+        "endChar": 50
+      },
+      "revId": "0cc52ceff396dcd319efb7c22cb00b736cdd10e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

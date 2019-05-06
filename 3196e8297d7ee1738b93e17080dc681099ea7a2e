@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "54011378_f8cd3923",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-06T14:02:16Z",
+      "side": 1,
+      "message": "Not a requirement, but rather a voluntary candidate :-) and I strongly suspect that it would be positively voted.\n\nFrom a formal perspective though, doesn\u0027t show the \"divided world\" of Googlers and the other non-Googlers in this role and would formally include Googlers as (big) part of the community anyway.",
+      "parentUuid": "f6d7e14d_82eedb17",
+      "range": {
+        "startLine": 289,
+        "startChar": 7,
+        "endLine": 289,
+        "endChar": 44
+      },
+      "revId": "3196e8297d7ee1738b93e17080dc681099ea7a2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc813557_881e3b1a",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 1

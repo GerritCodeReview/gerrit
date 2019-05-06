@@ -207,10 +207,20 @@ In addition, maintainers from Google can:
   link:dev-processes.html#upgrading-libraries[Upgrading Libraries]
 * edit permissions on the Gerrit core projects
 
+[[maintainer-election]]
 Maintainers can nominate new maintainers by posting a nomination on the
-non-public maintainers mailing list. Nominations are approved by
-consensus among the maintainers. This means maintainers can veto a
-nomination.
+non-public maintainers mailing list. Nominations should stay open for
+at least 14 calendar days so that all maintainers have a chance to
+vote. To be approved as maintainer a minimum of 5 positive votes and no
+negative votes is required. This means if 5 positive votes without
+negative votes have been reached and 14 calendar days have passed, any
+maintainer can close the vote and welcome the new maintainer. Extending
+the voting period during holiday season or if there are not enough
+votes is possible, but the voting period should not exceed 1 month. If
+there are negative votes that are considered unjustified, the
+link:dev-processes.html#steering-committee[engineering steering
+committee] may get involved to decide whether the new maintainer can be
+accepted anyway.
 
 To become a maintainer, a link:#contributor[contributor] should have a
 history of deep technical contributions across different parts of the

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3514b75_553d3266",
+        "filename": "Documentation/dev-design-docs.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-06T21:05:04Z",
+      "side": 1,
+      "message": "Is it clear already that the design docs should be hosted in gerrit repository? The existing design documents were actually abandoned, because they shouldn\u0027t be a part of gerrit.war. And the idea was to store them either in homepage repository to be self-hosted or in dedicated design repository, e.g. \"design\", see for example [1].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/97245",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 29
+      },
+      "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f52e4ae5_4739b18d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-06T16:07:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b1c47a18_ab81bb3e",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 6
+      },
+      "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f81493bd_df00a49c",
         "filename": "java/com/google/gerrit/server/git/PermissionAwareDfsRepository.java",
         "patchSetId": 12
@@ -65,6 +89,48 @@
     },
     {
       "key": {
+        "uuid": "42f62616_b696a621",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareDfsRepository.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-06T16:07:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be527950_6c688dd6",
+      "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5f38a4d_3ca98814",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareDfsRepository.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-06T16:07:33Z",
+      "side": 1,
+      "message": "I tried initially but unfortunately also DfsRepository is an abstract class so I had to duplicate the code.",
+      "parentUuid": "f81493bd_df00a49c",
+      "range": {
+        "startLine": 64,
+        "startChar": 50,
+        "endLine": 64,
+        "endChar": 63
+      },
+      "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6940e533_f96b75ff",
         "filename": "java/com/google/gerrit/server/git/PermissionAwareDfsRepository.java",
         "patchSetId": 12
@@ -79,6 +145,24 @@
       "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "509f26f8_ecc9a374",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareDfsRepository.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-06T16:07:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6940e533_f96b75ff",
+      "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "47c42c9a_02295fb7",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareRepository.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-06T16:07:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebfbac4e_1b7e9d40",
+      "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a45961d0_b7437f57",
         "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
         "patchSetId": 12
@@ -113,6 +215,24 @@
       "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54af63f4_2e8cbd9c",
+        "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-06T16:07:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a45961d0_b7437f57",
+      "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -139,6 +259,30 @@
     },
     {
       "key": {
+        "uuid": "3e8c3e4f_4a6b8032",
+        "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-06T16:07:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a03d15cc_50f1baa5",
+      "range": {
+        "startLine": 51,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 12
+      },
+      "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77493c84_3dbbed5e",
         "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
         "patchSetId": 12
@@ -159,6 +303,30 @@
       "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23460ca1_f636b38d",
+        "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-06T16:07:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77493c84_3dbbed5e",
+      "range": {
+        "startLine": 52,
+        "startChar": 2,
+        "endLine": 52,
+        "endChar": 19
+      },
+      "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -208,6 +376,54 @@
     },
     {
       "key": {
+        "uuid": "9a4eee6c_0be33581",
+        "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-06T16:07:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4420d585_63fe2684",
+      "range": {
+        "startLine": 54,
+        "startChar": 39,
+        "endLine": 54,
+        "endChar": 47
+      },
+      "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "613dcd2b_9ef14757",
+        "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-06T16:07:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddf89524_c47d94a8",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 9
+      },
+      "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3322ec9b_eeb75736",
         "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
         "patchSetId": 12
@@ -228,6 +444,30 @@
       "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b44188ce_fa836153",
+        "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-06T16:07:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3322ec9b_eeb75736",
+      "range": {
+        "startLine": 68,
+        "startChar": 39,
+        "endLine": 68,
+        "endChar": 45
+      },
+      "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -271,6 +511,48 @@
     },
     {
       "key": {
+        "uuid": "221e9bff_c9cd8f02",
+        "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-06T16:07:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bce6d10_e5161490",
+      "range": {
+        "startLine": 85,
+        "startChar": 12,
+        "endLine": 85,
+        "endChar": 13
+      },
+      "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48594382_ee88c190",
+        "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-06T16:07:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12a41f7b_8ac31d03",
+      "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "52cd58bf_138c5f78",
         "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
         "patchSetId": 12
@@ -285,6 +567,24 @@
       "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c81da5e_6c78e64b",
+        "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-06T16:07:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52cd58bf_138c5f78",
+      "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -308,6 +608,30 @@
       "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa2d5f54_1b414d1b",
+        "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-06T16:07:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecf68662_20487d42",
+      "range": {
+        "startLine": 104,
+        "startChar": 2,
+        "endLine": 104,
+        "endChar": 11
+      },
+      "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -357,6 +681,54 @@
     },
     {
       "key": {
+        "uuid": "732c794a_164a0d76",
+        "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-06T16:07:33Z",
+      "side": 1,
+      "message": "Will us the Parametrized to specify the method name in the generated test",
+      "parentUuid": "4d0e4766_b678b5db",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 11
+      },
+      "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b3ddd01_20622cb7",
+        "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-06T16:07:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07c7329c_2963a135",
+      "range": {
+        "startLine": 126,
+        "startChar": 41,
+        "endLine": 126,
+        "endChar": 65
+      },
+      "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bff69e29_9e2db1e3",
         "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
         "patchSetId": 12
@@ -377,6 +749,30 @@
       "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e98f673f_49752659",
+        "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-06T16:07:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bff69e29_9e2db1e3",
+      "range": {
+        "startLine": 131,
+        "startChar": 41,
+        "endLine": 131,
+        "endChar": 68
+      },
+      "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -403,6 +799,30 @@
     },
     {
       "key": {
+        "uuid": "297615e3_f6e6f72b",
+        "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-06T16:07:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4e7d56a_970a9649",
+      "range": {
+        "startLine": 134,
+        "startChar": 2,
+        "endLine": 134,
+        "endChar": 11
+      },
+      "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f307a83_cfe67c98",
         "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
         "patchSetId": 12
@@ -423,6 +843,30 @@
       "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6b161e1_979a67f1",
+        "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-06T16:07:33Z",
+      "side": 1,
+      "message": "At the moment you get an error message like this: \"Expected to be empty but was [getRefDatabase]\" listing all the non-delegating method names, but I agree, is much better with the explicit name given by the Parametrized support.",
+      "parentUuid": "4f307a83_cfe67c98",
+      "range": {
+        "startLine": 142,
+        "startChar": 12,
+        "endLine": 142,
+        "endChar": 70
+      },
+      "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -449,6 +893,30 @@
     },
     {
       "key": {
+        "uuid": "488e0212_df627f57",
+        "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-06T16:07:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33a98bab_d9a01e10",
+      "range": {
+        "startLine": 146,
+        "startChar": 36,
+        "endLine": 146,
+        "endChar": 45
+      },
+      "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "662624b5_98406fd0",
         "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
         "patchSetId": 12
@@ -463,6 +931,24 @@
       "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6be200f7_162c1186",
+        "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-06T16:07:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "662624b5_98406fd0",
+      "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -483,6 +969,24 @@
     },
     {
       "key": {
+        "uuid": "ee16a818_0912b738",
+        "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-06T16:07:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a074d4b3_f0651609",
+      "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a6d1dbd_5280d246",
         "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
         "patchSetId": 12
@@ -494,6 +998,24 @@
       "writtenOn": "2019-05-03T13:26:25Z",
       "side": 1,
       "message": "Why do you care about the specific object to return? We could just return a \"new Object()\".",
+      "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b3b345e_ae3d30b8",
+        "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-06T16:07:33Z",
+      "side": 1,
+      "message": "I have an IllegalArgumentException \"argument type mismatch\" when calling the method via reflection.",
+      "parentUuid": "1a6d1dbd_5280d246",
       "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -514,6 +1036,24 @@
       "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bce60259_10300cbd",
+        "filename": "javatests/com/google/gerrit/git/PermissionAwareRepositoryTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1059414
+      },
+      "writtenOn": "2019-05-06T16:07:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45228ee1_ab432ba7",
+      "revId": "7f0832036f3ebe90fc568af3c81ddd56bde0952d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

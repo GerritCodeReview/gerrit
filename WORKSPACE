@@ -957,13 +957,6 @@ maven_jar(
     sha1 = "3e83394258ae2089be7219b971ec21a8288528ad",
 )
 
-maven_jar(
-    name = "derby",
-    artifact = "org.apache.derby:derby:10.12.1.1",
-    attach_source = False,
-    sha1 = "75070c744a8e52a7d17b8b476468580309d5cd09",
-)
-
 JETTY_VERS = "9.4.14.v20181114"
 
 maven_jar(

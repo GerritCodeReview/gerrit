@@ -23,6 +23,7 @@ import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchApi;
@@ -134,6 +135,18 @@ public class DeleteBranchIT extends AbstractDaemonTest {
 
   @Test
   public void deleteUserBranch_Conflict() throws Exception {
+    projectOperations
+        .project(allUsers)
+        .forUpdate()
+        .add(
+            TestProjectUpdate.allow(Permission.CREATE)
+                .ref(RefNames.REFS_USERS + "*")
+                .group(REGISTERED_USERS))
+        .add(
+            TestProjectUpdate.allow(Permission.PUSH)
+                .ref(RefNames.REFS_USERS + "*")
+                .group(REGISTERED_USERS))
+        .update();
     allow(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE, REGISTERED_USERS);
     allow(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH, REGISTERED_USERS);
 
@@ -159,7 +172,15 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   }
 
   private void blockForcePush() throws Exception {
-    block("refs/heads/*", Permission.PUSH, ANONYMOUS_USERS).setForce(true);
+    projectOperations
+        .project(allUsers)
+        .forUpdate()
+        .add(
+            TestProjectUpdate.block(Permission.PUSH)
+                .ref("refs/heads/*")
+                .group(ANONYMOUS_USERS)
+                .force(true))
+        .update();
   }
 
   private void grantForcePush() throws Exception {

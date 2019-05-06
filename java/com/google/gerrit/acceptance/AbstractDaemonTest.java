@@ -43,6 +43,7 @@ import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
@@ -886,12 +887,12 @@ public abstract class AbstractDaemonTest {
     allow(project, ref, permission, id);
   }
 
-  protected void allow(Project.NameKey p, String ref, String permission, AccountGroup.UUID id)
-      throws Exception {
-    try (ProjectConfigUpdate u = updateProject(p)) {
-      Util.allow(u.getConfig(), permission, id, ref);
-      u.save();
-    }
+  protected void allow(Project.NameKey p, String ref, String permission, AccountGroup.UUID id) {
+    projectOperations
+        .project(p)
+        .forUpdate()
+        .add(TestProjectUpdate.allow(permission).ref(ref).group(id))
+        .update();
   }
 
   protected void allowGlobalCapabilities(

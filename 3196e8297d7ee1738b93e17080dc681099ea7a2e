@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "b8416cc3_76867db8",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-05-06T15:01:29Z",
+      "side": 1,
+      "message": "Saying that these can arbitrary people is disengenious, because it wouldn\u0027t work for us.\n\nWe need someone that can both represent the community, but can also be a partner in internal discussions that involve confidential matters, eg. internal customers that we can\u0027t talk about.\n\nsaying \"two community members\" might make it seem less tied to an organization, but it wouldn\u0027t be realistic, and I want us to be transparent and realistic about what is really going on.",
+      "parentUuid": "54011378_f8cd3923",
+      "range": {
+        "startLine": 289,
+        "startChar": 7,
+        "endLine": 289,
+        "endChar": 44
+      },
+      "revId": "3196e8297d7ee1738b93e17080dc681099ea7a2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc813557_881e3b1a",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 1

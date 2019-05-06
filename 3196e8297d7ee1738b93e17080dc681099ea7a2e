@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "501fe67f_28b42a61",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-06T21:26:50Z",
+      "side": 1,
+      "message": "\u003e We thought that it\u0027s important for the community that Google commits to fund the work of at least one community manager.\n\n+1.",
+      "parentUuid": "b8416cc3_76867db8",
+      "range": {
+        "startLine": 289,
+        "startChar": 7,
+        "endLine": 289,
+        "endChar": 44
+      },
+      "revId": "3196e8297d7ee1738b93e17080dc681099ea7a2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc813557_881e3b1a",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 1

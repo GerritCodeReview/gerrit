@@ -19,17 +19,25 @@ import static com.google.gerrit.server.project.ProjectConfig.PROJECT_CONFIG;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectCreation.Builder;
+import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestPermission;
+import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.project.CreateProjectArgs;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCreator;
+import com.google.gerrit.server.project.testing.Util;
 import com.google.inject.Inject;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import org.apache.commons.lang.RandomStringUtils;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -42,17 +50,23 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 
 public class ProjectOperationsImpl implements ProjectOperations {
   private final GitRepositoryManager repoManager;
+  private final MetaDataUpdate.Server metaDataUpdateFactory;
+  private final ProjectCache projectCache;
   private final ProjectConfig.Factory projectConfigFactory;
   private final ProjectCreator projectCreator;
 
   @Inject
   ProjectOperationsImpl(
       GitRepositoryManager repoManager,
+      MetaDataUpdate.Server metaDataUpdateFactory,
+      ProjectCache projectCache,
       ProjectConfig.Factory projectConfigFactory,
       ProjectCreator projectCreator) {
     this.repoManager = repoManager;
-    this.projectCreator = projectCreator;
+    this.metaDataUpdateFactory = metaDataUpdateFactory;
+    this.projectCache = projectCache;
     this.projectConfigFactory = projectConfigFactory;
+    this.projectCreator = projectCreator;
   }
 
   @Override
@@ -81,7 +95,6 @@ public class ProjectOperationsImpl implements ProjectOperations {
   }
 
   private class PerProjectOperations implements ProjectOperations.PerProjectOperations {
-
     Project.NameKey nameKey;
 
     PerProjectOperations(Project.NameKey nameKey) {
@@ -96,6 +109,31 @@ public class ProjectOperationsImpl implements ProjectOperations {
     @Override
     public boolean hasHead(String branch) {
       return headOrNull(branch) != null;
+    }
+
+    @Override
+    public TestProjectUpdate.Builder forUpdate() {
+      return TestProjectUpdate.builder(this::updateProject);
+    }
+
+    private void updateProject(TestProjectUpdate projectUpdate)
+        throws IOException, ConfigInvalidException {
+      try (MetaDataUpdate metaDataUpdate = metaDataUpdateFactory.create(nameKey)) {
+        ProjectConfig projectConfig = projectConfigFactory.read(metaDataUpdate);
+        addPermissions(projectConfig, projectUpdate.addedPermissions());
+        projectConfig.commit(metaDataUpdate);
+      }
+      projectCache.evict(nameKey);
+    }
+
+    private void addPermissions(
+        ProjectConfig projectConfig, ImmutableList<TestPermission> addedPermissions) {
+      for (TestPermission p : addedPermissions) {
+        PermissionRule rule = Util.newRule(projectConfig, p.group());
+        rule.setAction(p.action());
+        rule.setForce(p.force());
+        projectConfig.getAccessSection(p.ref(), true).getPermission(p.name(), true).add(rule);
+      }
     }
 
     private RevCommit headOrNull(String branch) {

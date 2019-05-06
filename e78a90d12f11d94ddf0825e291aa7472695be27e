@@ -45,6 +45,30 @@
       "revId": "e78a90d12f11d94ddf0825e291aa7472695be27e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6800b0d8_baed9d58",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-06T21:26:01Z",
+      "side": 1,
+      "message": "+1.",
+      "parentUuid": "7a49f046_df0048bc",
+      "range": {
+        "startLine": 231,
+        "startChar": 35,
+        "endLine": 235,
+        "endChar": 10
+      },
+      "revId": "e78a90d12f11d94ddf0825e291aa7472695be27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "f6d7e14d_82eedb17",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-06T13:57:29Z",
+      "side": 1,
+      "message": "Sounds ok to me, does it mean, Google is not required to have a candidate at all?",
+      "parentUuid": "1d3fc4fe_79c2304b",
+      "range": {
+        "startLine": 289,
+        "startChar": 7,
+        "endLine": 289,
+        "endChar": 44
+      },
+      "revId": "3196e8297d7ee1738b93e17080dc681099ea7a2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc813557_881e3b1a",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 1

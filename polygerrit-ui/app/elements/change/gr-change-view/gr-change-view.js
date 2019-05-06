@@ -1364,7 +1364,8 @@
       // Resolves when the loading flag is set to false, meaning that some
       // change content may start appearing.
       const loadingFlagSet = detailCompletes
-          .then(() => { this._loading = false; });
+          .then(() => { this._loading = false; })
+          .then(() => { this.$.reporting.changeDisplayed(); });
 
       // Resolves when the project config has loaded.
       const projectConfigLoaded = detailCompletes
@@ -1436,8 +1437,7 @@
         this.$.reporting.changeFullyLoaded();
       });
 
-      return coreDataPromise
-          .then(() => { this.$.reporting.changeDisplayed(); });
+      return coreDataPromise;
     },
 
     /**

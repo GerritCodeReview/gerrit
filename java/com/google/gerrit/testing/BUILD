@@ -1,7 +1,10 @@
 java_library(
     name = "gerrit-test-util",
     testonly = True,
-    srcs = glob(["**/*.java"]),
+    srcs = glob(
+        ["**/*.java"],
+        exclude = ["AssertableExecutorService.java"],
+    ),
     visibility = ["//visibility:public"],
     exports = [
         "//lib/easymock",
@@ -44,6 +47,18 @@ java_library(
         "//lib/guice:guice-servlet",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
+        "//lib/truth",
+    ],
+)
+
+java_library(
+    # This can't be part of gerrit-test-util because of https://github.com/google/guava/issues/2837
+    name = "assertable-executor",
+    testonly = True,
+    srcs = ["AssertableExecutorService.java"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//lib:guava",
         "//lib/truth",
     ],
 )

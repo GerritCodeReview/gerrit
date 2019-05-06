@@ -48,7 +48,7 @@ link:dev-cla.html[contributor's agreement] on file with the project.
 == Maintainer
 * link:dev-release.html[Making a Gerrit Release]
 * link:dev-release-subproject.html[Making a Release of a Gerrit Subproject]
-* link:dev-release-jgit.html[Making a Release of JGit]
+* link:https://www.gerritcodereview.com/publishing.html[Publish Gerrit Homepage]
 
 GERRIT
 ------

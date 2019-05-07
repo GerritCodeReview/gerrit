@@ -102,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "8d30069a_d9dad155",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-07T09:30:01Z",
+      "side": 1,
+      "message": "\u003e I believe that good software development is done via iterative small incremental solutions to clear and well defined problems. I also believe this is the best way to attempt to address any real or perceived community and/or process issues in the Gerrit community.\n\nIn order to understand the effect of any changes, to anything, you need to first define the starting position. Small incremental changes has no added benefit if you haven\u0027t defined what you are changing. The correct software analogy to small changes in this case would not be small source-code deltas but rather flipping random bits in a binary.\n\nThis proposal is a big change, but it\u0027s not a big change from one process to a completely different process, it is a big change precisely because it\u0027s a change from no process to a defined process.\nThe main concern here is not whether this is a valid replacement of an already existing process, but *is this a good starting point for the effort to get to a working process*.\nOnce there\u0027s an agreement on a good starting point, and that process has been tried for some time, then we can start making small incremental changes in order to fine-tune it.",
+      "parentUuid": "c6830bcb_aaf7f529",
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c2984dc2_c3c25ca4",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 1
@@ -190,6 +208,46 @@
         "endLine": 54,
         "endChar": 15
       },
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40e1bedd_12a5705b",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-07T09:30:01Z",
+      "side": 1,
+      "message": "\"can vote for 2 candidates,\"?\nThis sentence confused me.",
+      "range": {
+        "startLine": 54,
+        "startChar": 27,
+        "endLine": 54,
+        "endChar": 58
+      },
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2af84ec_35af43e0",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-07T09:30:01Z",
+      "side": 1,
+      "message": "Perhaps worth specifying:\n\", and should consult them when in doubt\"?",
       "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -14,7 +14,12 @@ To build Gerrit from source, you need:
 * zip, unzip
 * gcc
 
-[[Java 10 support]]
+[[java]]
+=== Java
+
+[[java-10]]
+==== Java 10 support
+
 Java 10 is supported through vanilla java toolchain
 link:https://docs.bazel.build/versions/master/toolchains.html[Bazel option].
 To build Gerrit with Java 10, specify vanilla java toolchain and provide
@@ -38,7 +43,9 @@ in `$gerrit_site/etc/gerrit.config` to run Gerrit with Java 10:
   javaOptions = --add-opens=jdk.management/com.sun.management.internal=ALL-UNNAMED
 ```
 
-[[Java 9 support]]
+[[java-9]]
+==== Java 9 support
+
 Java 9 is supported through alternative java toolchain
 link:https://docs.bazel.build/versions/master/toolchains.html[Bazel option].
 The Java 9 support is backwards compatible. Java 8 is still the default.

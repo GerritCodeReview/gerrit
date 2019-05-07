@@ -156,6 +156,46 @@
     },
     {
       "key": {
+        "uuid": "4bcfdcf1_95d88168",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-07T12:09:49Z",
+      "side": 1,
+      "message": "Would Google provide any visibility on the criteria of appointing them? Do they have a term or they stay indefinitely?\n\nBecause the steering committee makes *important* decisions about the project, Google itself would need to put clear criteria for putting the right people in the right place.\n\nAt the end of the day, Gerrit Code Review is an OpenSource project and used by thousands of companies around the world, besides Google of course.",
+      "range": {
+        "startLine": 21,
+        "startChar": 22,
+        "endLine": 21,
+        "endChar": 41
+      },
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c6ac930_5b795567",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-07T12:09:49Z",
+      "side": 1,
+      "message": "+1",
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c2984dc2_c3c25ca4",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 1
@@ -314,6 +354,29 @@
         "startChar": 5,
         "endLine": 54,
         "endChar": 15
+      },
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2909a89_3d7085de",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-07T12:09:49Z",
+      "side": 1,
+      "message": "Voting for themselves? Why don\u0027t we then scrap the \"two votes per person\" and just say that people cannot vote for themselves?",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 23
       },
       "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

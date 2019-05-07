@@ -120,6 +120,24 @@
     },
     {
       "key": {
+        "uuid": "37dc772d_196eb63a",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-07T09:51:03Z",
+      "side": 1,
+      "message": "\u003e Once there\u0027s an agreement on a good starting point, and that process has been tried\n\u003e for some time, then we can start making small incremental changes in order to fine-tune it.\n\nYes, this is also how I see. These changes are setting the big frame: Agree that we want to have a steering committee, a design driven process, mentorships and a community manager. Once agreed, many of the process details and the contents still need to be defined/refined in an iterative process. This iterative process should be driven by the steering committee, but of course the whole community should be involved. These are the topics that we want to discuss and get started at the hackathon.",
+      "parentUuid": "8d30069a_d9dad155",
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c2984dc2_c3c25ca4",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 1

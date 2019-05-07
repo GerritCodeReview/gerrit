@@ -903,12 +903,6 @@ maven_jar(
     sha1 = "92bf48723d277d6efd1150b2f7e9e1e92cb56caf",
 )
 
-maven_jar(
-    name = "objenesis",
-    artifact = "org.objenesis:objenesis:1.3",
-    sha1 = "dc13ae4faca6df981fc7aeb5a522d9db446d5d50",
-)
-
 POWERM_VERS = "1.6.1"
 
 maven_jar(
@@ -951,13 +945,6 @@ maven_jar(
     name = "javassist",
     artifact = "org.javassist:javassist:3.22.0-GA",
     sha1 = "3e83394258ae2089be7219b971ec21a8288528ad",
-)
-
-maven_jar(
-    name = "derby",
-    artifact = "org.apache.derby:derby:10.12.1.1",
-    attach_source = False,
-    sha1 = "75070c744a8e52a7d17b8b476468580309d5cd09",
 )
 
 JETTY_VERS = "9.4.14.v20181114"

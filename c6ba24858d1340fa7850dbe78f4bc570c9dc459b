@@ -156,6 +156,24 @@
     },
     {
       "key": {
+        "uuid": "eeae31d0_0f9565ec",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-05-07T17:36:25Z",
+      "side": 1,
+      "message": "\u003e does not feel like it clearly solves any specific obvious community problems or issues\n\nI disagree. We have had several instances where lack of process and decision making has led to significant work being abandoned. I believe Edwin has shared specific examples privately.\n\nYou also posit that project governance should be solved as if it is a software development problem, and that software development should be done in incremental steps. Neither statement is clearly true to me.",
+      "parentUuid": "7a9e79b6_6328dfd1",
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4bcfdcf1_95d88168",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 1
@@ -191,6 +209,30 @@
       "side": 1,
       "message": "\u003e Would Google provide any visibility on the criteria of appointing them?\n\nGood question. We have people in mind that I think are a great fit (we will inform about them at the hackathon), but we didn\u0027t think about formal criteria yet. Maybe it can be something like, being a member of Google\u0027s Gerrit team (backend or frontend), being Gerrit maintainer, being known to the community, having deep technical knowledge about Gerrit?\n\n\u003e Do they have a term or they stay indefinitely?\n\nWe don\u0027t plan to rotate these positions, so our members would rather stay long-term, but changes are of course possible (so not indefinitely).",
       "parentUuid": "4bcfdcf1_95d88168",
+      "range": {
+        "startLine": 21,
+        "startChar": 22,
+        "endLine": 21,
+        "endChar": 41
+      },
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "330f7096_bcc44e53",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-05-07T17:36:25Z",
+      "side": 1,
+      "message": "It\u0027s the management chain for the product (i.e. me, Ole and our boss) that finds people for the SC for Google.\n\nI want to appoint people that care about Gerrit, are interested in the job, and have the skill to be successful or become successful at steering Gerrit. They also have to be working on the product, so they can dedicate time to it. Given our team sizes, this severely limits the number of potential candidates, and it is a practical reason to not rotate these positions.\n\nI don\u0027t want to hardcode these criteria: given the small number of potential SC members, we have to make tradeoffs and ad-hoc decisions.\n\nIn the end, this is really about trust: in the past, everyone trusted Shawn (who was a Googler) to do the right thing. We don\u0027t have Shawn anymore, so you\u0027ll have to make do with his successors. For better or worse, that means you\u0027ll have to make do with me.",
+      "parentUuid": "3ff00c31_74b6edcf",
       "range": {
         "startLine": 21,
         "startChar": 22,

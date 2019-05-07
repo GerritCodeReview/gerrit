@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
@@ -24,7 +25,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -41,7 +41,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-public class MultiBaseLocalDiskRepositoryManagerTest extends GerritBaseTests {
+public class MultiBaseLocalDiskRepositoryManagerTest {
   @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
   private Config cfg;
@@ -150,11 +150,17 @@ public class MultiBaseLocalDiskRepositoryManagerTest extends GerritBaseTests {
     }
   }
 
-  @Test(expected = IllegalStateException.class)
+  @Test
   public void testRelativeAlternateLocation() {
-    configMock = createNiceMock(RepositoryConfig.class);
-    expect(configMock.getAllBasePaths()).andReturn(ImmutableList.of(Paths.get("repos"))).anyTimes();
-    replay(configMock);
-    repoManager = new MultiBaseLocalDiskRepositoryManager(site, cfg, configMock);
+    assertThrows(
+        IllegalStateException.class,
+        () -> {
+          configMock = createNiceMock(RepositoryConfig.class);
+          expect(configMock.getAllBasePaths())
+              .andReturn(ImmutableList.of(Paths.get("repos")))
+              .anyTimes();
+          replay(configMock);
+          repoManager = new MultiBaseLocalDiskRepositoryManager(site, cfg, configMock);
+        });
   }
 }

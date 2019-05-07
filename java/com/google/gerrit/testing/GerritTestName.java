@@ -1,4 +1,4 @@
-// Copyright (C) 2015 The Android Open Source Project
+// Copyright (C) 2019 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,18 +15,16 @@
 package com.google.gerrit.testing;
 
 import com.google.common.base.CharMatcher;
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
 import org.junit.rules.TestName;
+import org.junit.rules.TestRule;
+import org.junit.runner.Description;
+import org.junit.runners.model.Statement;
 
-@Ignore
-public abstract class GerritBaseTests {
-  @Rule public ExpectedException exception = ExpectedException.none();
-  @Rule public final TestName testName = new TestName();
+public class GerritTestName implements TestRule {
+  private final TestName delegate = new TestName();
 
-  protected String getSanitizedMethodName() {
-    String name = testName.getMethodName().toLowerCase();
+  public String getSanitizedMethodName() {
+    String name = delegate.getMethodName().toLowerCase();
     name =
         CharMatcher.inRange('a', 'z')
             .or(CharMatcher.inRange('A', 'Z'))
@@ -35,5 +33,10 @@ public abstract class GerritBaseTests {
             .replaceFrom(name, '_');
     name = CharMatcher.is('_').trimTrailingFrom(name);
     return name;
+  }
+
+  @Override
+  public Statement apply(Statement base, Description description) {
+    return delegate.apply(base, description);
   }
 }

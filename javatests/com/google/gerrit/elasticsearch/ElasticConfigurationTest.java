@@ -21,17 +21,17 @@ import static com.google.gerrit.elasticsearch.ElasticConfiguration.KEY_PREFIX;
 import static com.google.gerrit.elasticsearch.ElasticConfiguration.KEY_SERVER;
 import static com.google.gerrit.elasticsearch.ElasticConfiguration.KEY_USERNAME;
 import static com.google.gerrit.elasticsearch.ElasticConfiguration.SECTION_ELASTICSEARCH;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.inject.ProvisionException;
 import java.util.Arrays;
 import org.apache.http.HttpHost;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
-public class ElasticConfigurationTest extends GerritBaseTests {
+public class ElasticConfigurationTest {
   @Test
   public void singleServerNoOtherConfig() throws Exception {
     Config cfg = newConfig();
@@ -121,9 +121,9 @@ public class ElasticConfigurationTest extends GerritBaseTests {
         .containsExactly(hostURIs);
   }
 
-  private void assertProvisionException(Config cfg) throws Exception {
-    exception.expect(ProvisionException.class);
-    exception.expectMessage("No valid Elasticsearch servers configured");
-    new ElasticConfiguration(cfg);
+  private void assertProvisionException(Config cfg) {
+    ProvisionException thrown =
+        assertThrows(ProvisionException.class, () -> new ElasticConfiguration(cfg));
+    assertThat(thrown).hasMessageThat().contains("No valid Elasticsearch servers configured");
   }
 }

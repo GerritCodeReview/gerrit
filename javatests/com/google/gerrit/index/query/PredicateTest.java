@@ -14,11 +14,10 @@
 
 package com.google.gerrit.index.query;
 
-import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Ignore;
 
 @Ignore
-public abstract class PredicateTest extends GerritBaseTests {
+public abstract class PredicateTest {
   protected static final class TestPredicate extends OperatorPredicate<String> {
     protected TestPredicate(String name, String value) {
       super(name, value);

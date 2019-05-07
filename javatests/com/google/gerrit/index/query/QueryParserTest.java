@@ -23,11 +23,10 @@ import static com.google.gerrit.index.query.QueryParser.SINGLE_WORD;
 import static com.google.gerrit.index.query.QueryParser.parse;
 import static com.google.gerrit.index.query.testing.TreeSubject.assertThat;
 
-import com.google.gerrit.testing.GerritBaseTests;
 import org.antlr.runtime.tree.Tree;
 import org.junit.Test;
 
-public class QueryParserTest extends GerritBaseTests {
+public class QueryParserTest {
   @Test
   public void fieldNameAndValue() throws Exception {
     Tree r = parse("project:tools/gerrit");

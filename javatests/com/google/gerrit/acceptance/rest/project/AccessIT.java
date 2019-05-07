@@ -17,6 +17,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
@@ -143,8 +144,7 @@ public class AccessIT extends AbstractDaemonTest {
   @Test
   public void createAccessChangeNop() throws Exception {
     ProjectAccessInput accessInput = newProjectAccessInput();
-    exception.expect(BadRequestException.class);
-    pApi().accessChange(accessInput);
+    assertThrows(BadRequestException.class, () -> pApi().accessChange(accessInput));
   }
 
   @Test
@@ -326,8 +326,7 @@ public class AccessIT extends AbstractDaemonTest {
     pApi().access(accessInput);
 
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(ResourceNotFoundException.class);
-    pApi().access();
+    assertThrows(ResourceNotFoundException.class, () -> pApi().access());
   }
 
   @Test
@@ -346,8 +345,7 @@ public class AccessIT extends AbstractDaemonTest {
     accessInfoToApply.add.put(REFS_HEADS, accessSectionInfoToApply);
 
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(ResourceNotFoundException.class);
-    pApi().access();
+    assertThrows(ResourceNotFoundException.class, () -> pApi().access());
   }
 
   @Test
@@ -409,9 +407,8 @@ public class AccessIT extends AbstractDaemonTest {
     accessInput.parent = newParentProjectName;
 
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("administrate server not permitted");
-    pApi().access(accessInput);
+    AuthException thrown = assertThrows(AuthException.class, () -> pApi().access(accessInput));
+    assertThat(thrown).hasMessageThat().contains("administrate server not permitted");
   }
 
   @Test
@@ -436,8 +433,8 @@ public class AccessIT extends AbstractDaemonTest {
     accessInput.add.put(AccessSection.GLOBAL_CAPABILITIES, accessSectionInfo);
 
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    gApi.projects().name(allProjects.get()).access(accessInput);
+    assertThrows(
+        AuthException.class, () -> gApi.projects().name(allProjects.get()).access(accessInput));
   }
 
   @Test
@@ -465,8 +462,7 @@ public class AccessIT extends AbstractDaemonTest {
 
     accessInput.add.put(AccessSection.GLOBAL_CAPABILITIES, accessSectionInfo);
 
-    exception.expect(BadRequestException.class);
-    pApi().access(accessInput);
+    assertThrows(BadRequestException.class, () -> pApi().access(accessInput));
   }
 
   @Test
@@ -479,9 +475,9 @@ public class AccessIT extends AbstractDaemonTest {
     accessSectionInfo.permissions.put(Permission.PUSH, permissionInfo);
 
     accessInput.add.put(AccessSection.GLOBAL_CAPABILITIES, accessSectionInfo);
-
-    exception.expect(BadRequestException.class);
-    gApi.projects().name(allProjects.get()).access(accessInput);
+    assertThrows(
+        BadRequestException.class,
+        () -> gApi.projects().name(allProjects.get()).access(accessInput));
   }
 
   @Test
@@ -492,8 +488,8 @@ public class AccessIT extends AbstractDaemonTest {
     accessInput.remove.put(AccessSection.GLOBAL_CAPABILITIES, accessSectionInfo);
 
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    gApi.projects().name(allProjects.get()).access(accessInput);
+    assertThrows(
+        AuthException.class, () -> gApi.projects().name(allProjects.get()).access(accessInput));
   }
 
   @Test
@@ -598,9 +594,13 @@ public class AccessIT extends AbstractDaemonTest {
   public void allUsersCanOnlyInheritFromAllProjects() throws Exception {
     ProjectAccessInput accessInput = newProjectAccessInput();
     accessInput.parent = project.get();
-    exception.expect(BadRequestException.class);
-    exception.expectMessage(allUsers.get() + " must inherit from " + allProjects.get());
-    gApi.projects().name(allUsers.get()).access(accessInput);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.projects().name(allUsers.get()).access(accessInput));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(allUsers.get() + " must inherit from " + allProjects.get());
   }
 
   @Test
@@ -650,9 +650,9 @@ public class AccessIT extends AbstractDaemonTest {
     String invalidRef = Constants.R_HEADS + "stable_*";
     accessInput.add.put(invalidRef, accessSectionInfo);
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("Invalid Name: " + invalidRef);
-    pApi().access(accessInput);
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> pApi().access(accessInput));
+    assertThat(thrown).hasMessageThat().contains("Invalid Name: " + invalidRef);
   }
 
   @Test
@@ -664,9 +664,9 @@ public class AccessIT extends AbstractDaemonTest {
     String invalidRef = Constants.R_HEADS + "stable_*";
     accessInput.add.put(invalidRef, accessSectionInfo);
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("Invalid Name: " + invalidRef);
-    pApi().accessChange(accessInput);
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> pApi().accessChange(accessInput));
+    assertThat(thrown).hasMessageThat().contains("Invalid Name: " + invalidRef);
   }
 
   private ProjectApi pApi() throws Exception {

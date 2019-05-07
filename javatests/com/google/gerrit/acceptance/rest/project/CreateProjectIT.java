@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectInfo;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectOwners;
 import static com.google.gerrit.server.project.ProjectConfig.PROJECT_CONFIG;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
@@ -469,8 +470,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
   private void assertCreateFails(ProjectInput in, Class<? extends RestApiException> errType)
       throws Exception {
-    exception.expect(errType);
-    gApi.projects().create(in);
+    assertThrows(errType, () -> gApi.projects().create(in));
   }
 
   private Optional<String> readProjectConfig(String projectName) throws Exception {

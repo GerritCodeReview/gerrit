@@ -15,13 +15,13 @@
 package com.google.gerrit.common.data;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
-import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class GroupReferenceTest extends GerritBaseTests {
+public class GroupReferenceTest {
   @Test
   public void forGroupDescription() {
     String name = "foo";
@@ -75,8 +75,8 @@ public class GroupReferenceTest extends GerritBaseTests {
 
   @Test
   public void cannotCreateWithoutName() {
-    exception.expect(NullPointerException.class);
-    new GroupReference(AccountGroup.uuid("uuid"), null);
+    assertThrows(
+        NullPointerException.class, () -> new GroupReference(AccountGroup.uuid("uuid"), null));
   }
 
   @Test
@@ -125,8 +125,7 @@ public class GroupReferenceTest extends GerritBaseTests {
     groupReference.setName(name2);
     assertThat(groupReference.getName()).isEqualTo(name2);
 
-    exception.expect(NullPointerException.class);
-    groupReference.setName(null);
+    assertThrows(NullPointerException.class, () -> groupReference.setName(null));
   }
 
   @Test

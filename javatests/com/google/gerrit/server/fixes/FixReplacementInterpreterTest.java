@@ -15,6 +15,7 @@
 package com.google.gerrit.server.fixes;
 
 import static com.google.gerrit.server.edit.tree.TreeModificationSubject.assertThatList;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.replay;
 
@@ -26,7 +27,6 @@ import com.google.gerrit.reviewdb.client.FixReplacement;
 import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.edit.tree.TreeModification;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -36,7 +36,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
 
-public class FixReplacementInterpreterTest extends GerritBaseTests {
+public class FixReplacementInterpreterTest {
   private final FileContentUtil fileContentUtil = createMock(FileContentUtil.class);
   private final Repository repository = createMock(Repository.class);
   private final ProjectState projectState = createMock(ProjectState.class);
@@ -256,9 +256,7 @@ public class FixReplacementInterpreterTest extends GerritBaseTests {
     mockFileContent(filePath1, "First line\nSecond line\nThird line\n");
 
     replay(fileContentUtil);
-
-    exception.expect(ResourceConflictException.class);
-    toTreeModifications(fixReplacement);
+    assertThrows(ResourceConflictException.class, () -> toTreeModifications(fixReplacement));
   }
 
   @Test
@@ -269,8 +267,7 @@ public class FixReplacementInterpreterTest extends GerritBaseTests {
 
     replay(fileContentUtil);
 
-    exception.expect(ResourceConflictException.class);
-    toTreeModifications(fixReplacement);
+    assertThrows(ResourceConflictException.class, () -> toTreeModifications(fixReplacement));
   }
 
   @Test
@@ -280,9 +277,7 @@ public class FixReplacementInterpreterTest extends GerritBaseTests {
     mockFileContent(filePath1, "First line\nSecond line\nThird line\n");
 
     replay(fileContentUtil);
-
-    exception.expect(ResourceConflictException.class);
-    toTreeModifications(fixReplacement);
+    assertThrows(ResourceConflictException.class, () -> toTreeModifications(fixReplacement));
   }
 
   @Test
@@ -293,8 +288,7 @@ public class FixReplacementInterpreterTest extends GerritBaseTests {
 
     replay(fileContentUtil);
 
-    exception.expect(ResourceConflictException.class);
-    toTreeModifications(fixReplacement);
+    assertThrows(ResourceConflictException.class, () -> toTreeModifications(fixReplacement));
   }
 
   @Test
@@ -304,9 +298,7 @@ public class FixReplacementInterpreterTest extends GerritBaseTests {
     mockFileContent(filePath1, "First line\nSecond line\nThird line\n");
 
     replay(fileContentUtil);
-
-    exception.expect(ResourceConflictException.class);
-    toTreeModifications(fixReplacement);
+    assertThrows(ResourceConflictException.class, () -> toTreeModifications(fixReplacement));
   }
 
   private void mockFileContent(String filePath, String fileContent) throws Exception {

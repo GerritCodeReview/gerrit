@@ -16,10 +16,9 @@ package com.google.gerrit.server.events;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class EventTypesTest extends GerritBaseTests {
+public class EventTypesTest {
   public static class TestEvent extends Event {
     private static final String TYPE = "test-event";
 

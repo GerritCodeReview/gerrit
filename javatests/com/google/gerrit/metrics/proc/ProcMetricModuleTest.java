@@ -15,6 +15,7 @@
 package com.google.gerrit.metrics.proc;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.codahale.metrics.Counter;
 import com.codahale.metrics.Gauge;
@@ -30,7 +31,6 @@ import com.google.gerrit.metrics.Description.FieldOrdering;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -39,7 +39,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ProcMetricModuleTest extends GerritBaseTests {
+public class ProcMetricModuleTest {
   @Inject MetricMaker metrics;
 
   @Inject MetricRegistry registry;
@@ -147,14 +147,16 @@ public class ProcMetricModuleTest extends GerritBaseTests {
 
   @Test
   public void invalidName1() {
-    exception.expect(IllegalArgumentException.class);
-    metrics.newCounter("invalid name", new Description("fail"));
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> metrics.newCounter("invalid name", new Description("fail")));
   }
 
   @Test
   public void invalidName2() {
-    exception.expect(IllegalArgumentException.class);
-    metrics.newCounter("invalid/ name", new Description("fail"));
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> metrics.newCounter("invalid/ name", new Description("fail")));
   }
 
   @SuppressWarnings({"unchecked", "cast"})

@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.quota;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.resetToStrict;
@@ -133,9 +134,8 @@ public class DefaultQuotaBackendIT extends AbstractDaemonTest {
 
     QuotaResponse.Aggregated result = quotaBackend.user(identifiedAdmin).requestToken("testGroup");
     assertThat(result).isEqualTo(singletonAggregation(QuotaResponse.error("failed")));
-    exception.expect(QuotaException.class);
-    exception.expectMessage("failed");
-    result.throwOnError();
+    QuotaException thrown = assertThrows(QuotaException.class, () -> result.throwOnError());
+    assertThat(thrown).hasMessageThat().contains("failed");
   }
 
   @Test
@@ -143,9 +143,9 @@ public class DefaultQuotaBackendIT extends AbstractDaemonTest {
     QuotaRequestContext ctx = QuotaRequestContext.builder().user(identifiedAdmin).build();
     expect(quotaEnforcer.requestTokens("testGroup", ctx, 1)).andThrow(new NullPointerException());
     replay(quotaEnforcer);
-
-    exception.expect(NullPointerException.class);
-    quotaBackend.user(identifiedAdmin).requestToken("testGroup");
+    assertThrows(
+        NullPointerException.class,
+        () -> quotaBackend.user(identifiedAdmin).requestToken("testGroup"));
   }
 
   private static QuotaResponse.Aggregated singletonAggregation(QuotaResponse response) {

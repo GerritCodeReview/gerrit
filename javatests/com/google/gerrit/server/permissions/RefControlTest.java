@@ -32,6 +32,7 @@ import static com.google.gerrit.server.project.testing.Util.allowExclusive;
 import static com.google.gerrit.server.project.testing.Util.block;
 import static com.google.gerrit.server.project.testing.Util.deny;
 import static com.google.gerrit.server.project.testing.Util.doNotInherit;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.testing.InMemoryRepositoryManager.newRepository;
 
 import com.google.common.cache.Cache;
@@ -64,7 +65,6 @@ import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.inject.Guice;
@@ -85,7 +85,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class RefControlTest extends GerritBaseTests {
+public class RefControlTest {
   private void assertAdminsAreOwnersAndDevsAreNot() {
     ProjectControl uBlah = user(local, DEVS);
     ProjectControl uAdmin = user(local, DEVS, ADMIN);
@@ -915,14 +915,16 @@ public class RefControlTest extends GerritBaseTests {
     RefPattern.validate("refs/heads/review/${username}/*");
   }
 
-  @Test(expected = InvalidNameException.class)
+  @Test
   public void testValidateBadRefPatternDoubleCaret() throws Exception {
-    RefPattern.validate("^^refs/*");
+    assertThrows(InvalidNameException.class, () -> RefPattern.validate("^^refs/*"));
   }
 
-  @Test(expected = InvalidNameException.class)
+  @Test
   public void testValidateBadRefPatternDanglingCharacter() throws Exception {
-    RefPattern.validate("^refs/heads/tmp/sdk/[0-9]{3,3}_R[1-9][A-Z][0-9]{3,3}*");
+    assertThrows(
+        InvalidNameException.class,
+        () -> RefPattern.validate("^refs/heads/tmp/sdk/[0-9]{3,3}_R[1-9][A-Z][0-9]{3,3}*"));
   }
 
   @Test

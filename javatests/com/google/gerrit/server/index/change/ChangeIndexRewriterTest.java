@@ -21,6 +21,7 @@ import static com.google.gerrit.index.query.Predicate.or;
 import static com.google.gerrit.reviewdb.client.Change.Status.MERGED;
 import static com.google.gerrit.reviewdb.client.Change.Status.NEW;
 import static com.google.gerrit.server.index.change.IndexedChangeQuery.convertOptions;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.collect.ImmutableSet;
@@ -34,14 +35,13 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gerrit.server.query.change.OrSource;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ChangeIndexRewriterTest extends GerritBaseTests {
+public class ChangeIndexRewriterTest {
   private static final IndexConfig CONFIG = IndexConfig.createDefault();
 
   private FakeChangeIndex index;
@@ -196,9 +196,8 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
 
     indexes.setSearchIndex(new FakeChangeIndex(FakeChangeIndex.V1));
 
-    exception.expect(QueryParseException.class);
-    exception.expectMessage("Unsupported index predicate: file:a");
-    rewrite(in);
+    QueryParseException thrown = assertThrows(QueryParseException.class, () -> rewrite(in));
+    assertThat(thrown).hasMessageThat().contains("Unsupported index predicate: file:a");
   }
 
   @Test
@@ -207,9 +206,9 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
     Predicate<ChangeData> in = parse(q);
     assertEquals(query(in), rewrite(in));
 
-    exception.expect(QueryParseException.class);
-    exception.expectMessage("too many terms in query");
-    rewrite(parse(q + " OR file:d"));
+    QueryParseException thrown =
+        assertThrows(QueryParseException.class, () -> rewrite(parse(q + " OR file:d")));
+    assertThat(thrown).hasMessageThat().contains("too many terms in query");
   }
 
   @Test

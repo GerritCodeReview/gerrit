@@ -47,7 +47,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   }
 
   @Test
-  public void submitWithCherryPickIfFastForwardPossible() throws Exception {
+  public void submitWithCherryPickIfFastForwardPossible() throws Throwable {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange();
     submit(change.getChangeId());
@@ -60,7 +60,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   }
 
   @Test
-  public void submitWithCherryPick() throws Exception {
+  public void submitWithCherryPick() throws Throwable {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
@@ -85,7 +85,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   }
 
   @Test
-  public void changeMessageOnSubmit() throws Exception {
+  public void changeMessageOnSubmit() throws Throwable {
     PushOneCommit.Result change = createChange();
     RegistrationHandle handle =
         changeMessageModifiers.add(
@@ -107,7 +107,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
-  public void submitWithContentMerge() throws Exception {
+  public void submitWithContentMerge() throws Throwable {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "aaa\nbbb\nccc\n");
     submit(change.getChangeId());
@@ -145,7 +145,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
-  public void submitWithContentMerge_Conflict() throws Exception {
+  public void submitWithContentMerge_Conflict() throws Throwable {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
@@ -171,7 +171,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   }
 
   @Test
-  public void submitOutOfOrder() throws Exception {
+  public void submitOutOfOrder() throws Throwable {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
@@ -199,7 +199,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   }
 
   @Test
-  public void submitOutOfOrder_Conflict() throws Exception {
+  public void submitOutOfOrder_Conflict() throws Throwable {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
@@ -226,7 +226,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   }
 
   @Test
-  public void submitMultipleChanges() throws Exception {
+  public void submitMultipleChanges() throws Throwable {
     RevCommit initialHead = getRemoteHead();
 
     testRepo.reset(initialHead);
@@ -254,7 +254,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   }
 
   @Test
-  public void submitDependentNonConflictingChangesOutOfOrder() throws Exception {
+  public void submitDependentNonConflictingChangesOutOfOrder() throws Throwable {
     RevCommit initialHead = getRemoteHead();
 
     testRepo.reset(initialHead);
@@ -290,7 +290,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   }
 
   @Test
-  public void submitDependentConflictingChangesOutOfOrder() throws Exception {
+  public void submitDependentConflictingChangesOutOfOrder() throws Throwable {
     RevCommit initialHead = getRemoteHead();
 
     testRepo.reset(initialHead);
@@ -322,7 +322,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   }
 
   @Test
-  public void submitSubsetOfDependentChanges() throws Exception {
+  public void submitSubsetOfDependentChanges() throws Throwable {
     RevCommit initialHead = getRemoteHead();
 
     testRepo.reset(initialHead);
@@ -345,7 +345,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
-  public void submitIdenticalTree() throws Exception {
+  public void submitIdenticalTree() throws Throwable {
     RevCommit initialHead = getRemoteHead();
 
     PushOneCommit.Result change1 = createChange("Change 1", "a.txt", "a");

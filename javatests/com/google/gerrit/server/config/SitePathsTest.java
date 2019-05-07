@@ -16,9 +16,9 @@ package com.google.gerrit.server.config;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.server.ioutil.HostPlatform;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NotDirectoryException;
@@ -26,7 +26,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.junit.Test;
 
-public class SitePathsTest extends GerritBaseTests {
+public class SitePathsTest {
   @Test
   public void create_NotExisting() throws IOException {
     final Path root = random();
@@ -72,8 +72,8 @@ public class SitePathsTest extends GerritBaseTests {
     final Path root = random();
     try {
       Files.createFile(root);
-      exception.expect(NotDirectoryException.class);
-      new SitePaths(root);
+      assertThrows(NotDirectoryException.class, () -> new SitePaths(root));
+
     } finally {
       Files.delete(root);
     }

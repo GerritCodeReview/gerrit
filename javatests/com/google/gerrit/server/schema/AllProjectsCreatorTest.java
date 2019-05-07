@@ -34,7 +34,6 @@ import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.Sequences;
-import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Inject;
 import org.eclipse.jgit.lib.Config;
@@ -43,7 +42,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
 
-public class AllProjectsCreatorTest extends GerritBaseTests {
+public class AllProjectsCreatorTest {
   private static final LabelType TEST_LABEL =
       new LabelType(
           "Test-Label",

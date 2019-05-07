@@ -17,6 +17,7 @@ package com.google.gerrit.elasticsearch;
 import com.google.gerrit.elasticsearch.ElasticTestUtils.ElasticNodeInfo;
 import com.google.gerrit.server.query.change.AbstractQueryChangesTest;
 import com.google.gerrit.testing.ConfigSuite;
+import com.google.gerrit.testing.GerritTestName;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.gerrit.testing.IndexConfig;
 import com.google.inject.Guice;
@@ -29,6 +30,7 @@ import org.eclipse.jgit.lib.Config;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 
 public class ElasticV7QueryChangesTest extends AbstractQueryChangesTest {
   @ConfigSuite.Default
@@ -60,12 +62,15 @@ public class ElasticV7QueryChangesTest extends AbstractQueryChangesTest {
     }
   }
 
+  @Rule public final GerritTestName testName = new GerritTestName();
+
   @After
   public void closeIndex() {
     client.execute(
         new HttpPost(
             String.format(
-                "http://localhost:%d/%s*/_close", nodeInfo.port, getSanitizedMethodName())),
+                "http://localhost:%d/%s*/_close",
+                nodeInfo.port, testName.getSanitizedMethodName())),
         HttpClientContext.create(),
         null);
   }
@@ -80,7 +85,7 @@ public class ElasticV7QueryChangesTest extends AbstractQueryChangesTest {
   protected Injector createInjector() {
     Config elasticsearchConfig = new Config(config);
     InMemoryModule.setDefaults(elasticsearchConfig);
-    String indicesPrefix = getSanitizedMethodName();
+    String indicesPrefix = testName.getSanitizedMethodName();
     ElasticTestUtils.configure(elasticsearchConfig, nodeInfo.port, indicesPrefix);
     return Guice.createInjector(new InMemoryModule(elasticsearchConfig));
   }

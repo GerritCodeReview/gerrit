@@ -17,11 +17,10 @@ package com.google.gerrit.server.util;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import com.google.gerrit.testing.GerritBaseTests;
 import java.util.HashSet;
 import org.junit.Test;
 
-public class IdGeneratorTest extends GerritBaseTests {
+public class IdGeneratorTest {
   @Test
   public void test1234() {
     final HashSet<Integer> seen = new HashSet<>();

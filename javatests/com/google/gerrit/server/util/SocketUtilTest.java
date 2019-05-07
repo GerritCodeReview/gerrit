@@ -14,17 +14,18 @@
 
 package com.google.gerrit.server.util;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.util.SocketUtil.hostname;
 import static com.google.gerrit.server.util.SocketUtil.isIPv6;
 import static com.google.gerrit.server.util.SocketUtil.parse;
 import static com.google.gerrit.server.util.SocketUtil.resolve;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.net.InetAddress.getByName;
 import static java.net.InetSocketAddress.createUnresolved;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.google.gerrit.testing.GerritBaseTests;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
 import java.net.InetAddress;
@@ -32,7 +33,7 @@ import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import org.junit.Test;
 
-public class SocketUtilTest extends GerritBaseTests {
+public class SocketUtilTest {
   @Test
   public void testIsIPv6() throws UnknownHostException {
     final InetAddress ipv6 = getByName("1:2:3:4:5:6:7:8");
@@ -105,16 +106,16 @@ public class SocketUtilTest extends GerritBaseTests {
 
   @Test
   public void testParseInvalidIPv6() {
-    exception.expect(IllegalArgumentException.class);
-    exception.expectMessage("invalid IPv6: [:3");
-    parse("[:3", 80);
+    IllegalArgumentException thrown =
+        assertThrows(IllegalArgumentException.class, () -> parse("[:3", 80));
+    assertThat(thrown).hasMessageThat().contains("invalid IPv6: [:3");
   }
 
   @Test
   public void testParseInvalidPort() {
-    exception.expect(IllegalArgumentException.class);
-    exception.expectMessage("invalid port: localhost:A");
-    parse("localhost:A", 80);
+    IllegalArgumentException thrown =
+        assertThrows(IllegalArgumentException.class, () -> parse("localhost:A", 80));
+    assertThat(thrown).hasMessageThat().contains("invalid port: localhost:A");
   }
 
   @Test

@@ -20,12 +20,11 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
-public class SubmoduleSectionParserTest extends GerritBaseTests {
+public class SubmoduleSectionParserTest {
   private static final String THIS_SERVER = "http://localhost/";
 
   @Test

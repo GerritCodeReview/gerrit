@@ -18,13 +18,13 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.index.SchemaUtil.getNameParts;
 import static com.google.gerrit.index.SchemaUtil.getPersonParts;
 import static com.google.gerrit.index.SchemaUtil.schema;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
-import com.google.gerrit.testing.GerritBaseTests;
 import java.util.Map;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Test;
 
-public class SchemaUtilTest extends GerritBaseTests {
+public class SchemaUtilTest {
   static class TestSchemas {
     static final Schema<String> V1 = schema();
     static final Schema<String> V2 = schema();
@@ -43,9 +43,9 @@ public class SchemaUtilTest extends GerritBaseTests {
     assertThat(all.get(1)).isEqualTo(TestSchemas.V1);
     assertThat(all.get(2)).isEqualTo(TestSchemas.V2);
     assertThat(all.get(4)).isEqualTo(TestSchemas.V4);
-
-    exception.expect(IllegalArgumentException.class);
-    SchemaUtil.schemasFromClass(TestSchemas.class, Object.class);
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> SchemaUtil.schemasFromClass(TestSchemas.class, Object.class));
   }
 
   @Test

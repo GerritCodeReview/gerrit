@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.query.project;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CharMatcher;
@@ -57,6 +59,7 @@ import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.testing.GerritServerTests;
+import com.google.gerrit.testing.GerritTestName;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
@@ -68,10 +71,13 @@ import java.util.Set;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
 
 @Ignore
 public abstract class AbstractQueryProjectsTest extends GerritServerTests {
+  @Rule public final GerritTestName testName = new GerritTestName();
+
   @Inject protected Accounts accounts;
 
   @Inject @ServerInitiated protected Provider<AccountsUpdate> accountsUpdate;
@@ -185,7 +191,7 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
 
   @Test
   public void byInname() throws Exception {
-    String namePart = getSanitizedMethodName();
+    String namePart = testName.getSanitizedMethodName();
     namePart = CharMatcher.is('_').removeFrom(namePart);
 
     ProjectInfo project1 = createProject(name("project1-" + namePart));
@@ -207,9 +213,9 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
 
     assertQuery("description:non-existing");
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("description operator requires a value");
-    assertQuery("description:\"\"");
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> assertQuery("description:\"\""));
+    assertThat(thrown).hasMessageThat().contains("description operator requires a value");
   }
 
   @Test
@@ -224,16 +230,18 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
 
   @Test
   public void byState_emptyQuery() throws Exception {
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("state operator requires a value");
-    assertQuery("state:\"\"");
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> assertQuery("state:\"\""));
+    assertThat(thrown).hasMessageThat().contains("state operator requires a value");
   }
 
   @Test
   public void byState_badQuery() throws Exception {
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("state operator must be either 'active' or 'read-only'");
-    assertQuery("state:bla");
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> assertQuery("state:bla"));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("state operator must be either 'active' or 'read-only'");
   }
 
   @Test
@@ -443,6 +451,6 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
       return null;
     }
 
-    return name + "_" + getSanitizedMethodName();
+    return name + "_" + testName.getSanitizedMethodName();
   }
 }

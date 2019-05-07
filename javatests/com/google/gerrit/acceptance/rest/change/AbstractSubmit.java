@@ -24,6 +24,8 @@ import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LAB
 import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
 import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
 
@@ -40,6 +42,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
@@ -82,6 +85,7 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gerrit.testing.ConfigSuite;
+import com.google.gerrit.testing.GerritJUnit.ThrowingRunnable;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
 import java.io.ByteArrayOutputStream;
@@ -149,7 +153,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Test
   @TestProjectInput(createEmptyCommit = false)
-  public void submitToEmptyRepo() throws Exception {
+  public void submitToEmptyRepo() throws Throwable {
     assertThat(projectOperations.project(project).hasHead("master")).isFalse();
     PushOneCommit.Result change = createChange();
     assertThat(change.getCommit().getParents()).isEmpty();
@@ -163,7 +167,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitSingleChange() throws Exception {
+  public void submitSingleChange() throws Throwable {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange();
     Map<BranchNameKey, ObjectId> actual = fetchFromSubmitPreview(change.getChangeId());
@@ -185,7 +189,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitMultipleChangesOtherMergeConflictPreview() throws Exception {
+  public void submitMultipleChangesOtherMergeConflictPreview() throws Throwable {
     RevCommit initialHead = getRemoteHead();
 
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
@@ -269,7 +273,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitMultipleChangesPreview() throws Exception {
+  public void submitMultipleChangesPreview() throws Throwable {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change2 = createChange("Change 2", "a.txt", "other content");
     PushOneCommit.Result change3 = createChange("Change 3", "d", "d");
@@ -307,7 +311,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitNoPermission() throws Exception {
+  public void submitNoPermission() throws Throwable {
     // create project where submit is blocked
     Project.NameKey p = projectOperations.newProject().create();
     block(p, "refs/*", Permission.SUBMIT, REGISTERED_USERS);
@@ -321,7 +325,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
-  public void noSelfSubmit() throws Exception {
+  public void noSelfSubmit() throws Throwable {
     // create project where submit is blocked for the change owner
     Project.NameKey p = projectOperations.newProject().create();
     try (ProjectConfigUpdate u = updateProject(p)) {
@@ -347,7 +351,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
-  public void onlySelfSubmit() throws Exception {
+  public void onlySelfSubmit() throws Throwable {
     // create project where only the change owner can submit
     Project.NameKey p = projectOperations.newProject().create();
     try (ProjectConfigUpdate u = updateProject(p)) {
@@ -374,7 +378,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitWholeTopicMultipleProjects() throws Exception {
+  public void submitWholeTopicMultipleProjects() throws Throwable {
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
     String topic = "test-topic";
 
@@ -410,7 +414,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitWholeTopicMultipleBranchesOnSameProject() throws Exception {
+  public void submitWholeTopicMultipleBranchesOnSameProject() throws Throwable {
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
     String topic = "test-topic";
 
@@ -452,7 +456,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitWholeTopic() throws Exception {
+  public void submitWholeTopic() throws Throwable {
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
     String topic = "test-topic";
     PushOneCommit.Result change1 = createChange("Change 1", "a.txt", "content", topic);
@@ -490,7 +494,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitReusingOldTopic() throws Exception {
+  public void submitReusingOldTopic() throws Throwable {
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
 
     String topic = "test-topic";
@@ -521,13 +525,13 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   private void assertSubmittedTogether(String changeId, Iterable<String> expected)
-      throws Exception {
+      throws Throwable {
     assertThat(gApi.changes().id(changeId).submittedTogether().stream().map(i -> i.changeId))
         .containsExactlyElementsIn(expected);
   }
 
   @Test
-  public void submitWorkInProgressChange() throws Exception {
+  public void submitWorkInProgressChange() throws Throwable {
     PushOneCommit.Result change = pushTo("refs/for/master%wip");
     Change.Id num = change.getChange().getId();
     submitWithConflict(
@@ -541,7 +545,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitWithHiddenBranchInSameTopic() throws Exception {
+  public void submitWithHiddenBranchInSameTopic() throws Throwable {
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
     PushOneCommit.Result visible = createChange("refs/for/master/" + name("topic"));
     Change.Id num = visible.getChange().getId();
@@ -559,7 +563,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitChangeWhenParentOfOtherBranchTip() throws Exception {
+  public void submitChangeWhenParentOfOtherBranchTip() throws Throwable {
     // Chain of two commits
     // Push both to topic-branch
     // Push the first commit for review and submit
@@ -597,7 +601,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitMergeOfNonChangeBranchTip() throws Exception {
+  public void submitMergeOfNonChangeBranchTip() throws Throwable {
     // Merge a branch with commits that have not been submitted as
     // changes.
     //
@@ -624,7 +628,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitMergeOfNonChangeBranchNonTip() throws Exception {
+  public void submitMergeOfNonChangeBranchNonTip() throws Throwable {
     // Merge a branch with commits that have not been submitted as
     // changes.
     //
@@ -668,7 +672,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitChangeWithCommitThatWasAlreadyMerged() throws Exception {
+  public void submitChangeWithCommitThatWasAlreadyMerged() throws Throwable {
     // create and submit a change
     PushOneCommit.Result change = createChange();
     submit(change.getChangeId());
@@ -685,7 +689,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitChangesWithCommitsThatWereAlreadyMerged() throws Exception {
+  public void submitChangesWithCommitsThatWereAlreadyMerged() throws Throwable {
     // create and submit 2 changes
     PushOneCommit.Result change1 = createChange();
     PushOneCommit.Result change2 = createChange();
@@ -709,7 +713,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitTopicWithCommitsThatWereAlreadyMerged() throws Exception {
+  public void submitTopicWithCommitsThatWereAlreadyMerged() throws Throwable {
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
 
     // create and submit 2 changes with the same topic
@@ -733,7 +737,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitWithValidation() throws Exception {
+  public void submitWithValidation() throws Throwable {
     AtomicBoolean called = new AtomicBoolean(false);
     this.addOnSubmitValidationListener(
         args -> {
@@ -755,7 +759,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitWithValidationMultiRepo() throws Exception {
+  public void submitWithValidationMultiRepo() throws Throwable {
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
     String topic = "test-topic";
 
@@ -818,7 +822,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitWithCommitAndItsMergeCommitTogether() throws Exception {
+  public void submitWithCommitAndItsMergeCommitTogether() throws Throwable {
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
 
     RevCommit initialHead = getRemoteHead();
@@ -889,7 +893,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
-  public void retrySubmitSingleChangeOnLockFailure() throws Exception {
+  public void retrySubmitSingleChangeOnLockFailure() throws Throwable {
     PushOneCommit.Result change = createChange();
     String id = change.getChangeId();
     approve(id);
@@ -914,7 +918,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
-  public void retrySubmitAfterTornTopicOnLockFailure() throws Exception {
+  public void retrySubmitAfterTornTopicOnLockFailure() throws Throwable {
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
 
     String topic = "test-topic";
@@ -963,7 +967,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
-  public void authorAndCommitDateAreEqual() throws Exception {
+  public void authorAndCommitDateAreEqual() throws Throwable {
     assume().that(getSubmitType()).isNotEqualTo(SubmitType.FAST_FORWARD_ONLY);
 
     ConfigInput ci = new ConfigInput();
@@ -989,7 +993,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Test
   @TestProjectInput(rejectEmptyCommit = InheritableBoolean.FALSE)
-  public void submitEmptyCommitPatchSetCanNotFastForward_emptyCommitAllowed() throws Exception {
+  public void submitEmptyCommitPatchSetCanNotFastForward_emptyCommitAllowed() throws Throwable {
     assume().that(getSubmitType()).isNotEqualTo(SubmitType.FAST_FORWARD_ONLY);
 
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
@@ -1006,7 +1010,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Test
   @TestProjectInput(rejectEmptyCommit = InheritableBoolean.TRUE)
-  public void submitEmptyCommitPatchSetCanNotFastForward_emptyCommitNotAllowed() throws Exception {
+  public void submitEmptyCommitPatchSetCanNotFastForward_emptyCommitNotAllowed() throws Throwable {
     assume().that(getSubmitType()).isNotEqualTo(SubmitType.FAST_FORWARD_ONLY);
 
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
@@ -1019,18 +1023,20 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     ChangeApi revert2 = gApi.changes().id(change.getChangeId()).revert();
     approve(revert2.id());
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage(
-        "Change "
-            + revert2.get()._number
-            + ": Change could not be merged because the commit is empty. "
-            + "Project policy requires all commits to contain modifications to at least one file.");
-    revert2.current().submit();
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> revert2.current().submit());
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "Change "
+                + revert2.get()._number
+                + ": Change could not be merged because the commit is empty. Project policy"
+                + " requires all commits to contain modifications to at least one file.");
   }
 
   @Test
   @TestProjectInput(rejectEmptyCommit = InheritableBoolean.FALSE)
-  public void submitEmptyCommitPatchSetCanFastForward_emptyCommitAllowed() throws Exception {
+  public void submitEmptyCommitPatchSetCanFastForward_emptyCommitAllowed() throws Throwable {
     ChangeInput ci = new ChangeInput();
     ci.subject = "Empty change";
     ci.project = project.get();
@@ -1042,7 +1048,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Test
   @TestProjectInput(rejectEmptyCommit = InheritableBoolean.TRUE)
-  public void submitEmptyCommitPatchSetCanFastForward_emptyCommitNotAllowed() throws Exception {
+  public void submitEmptyCommitPatchSetCanFastForward_emptyCommitNotAllowed() throws Throwable {
     ChangeInput ci = new ChangeInput();
     ci.subject = "Empty change";
     ci.project = project.get();
@@ -1050,18 +1056,20 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     ChangeApi change = gApi.changes().create(ci);
     approve(change.id());
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage(
-        "Change "
-            + change.get()._number
-            + ": Change could not be merged because the commit is empty. "
-            + "Project policy requires all commits to contain modifications to at least one file.");
-    change.current().submit();
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> change.current().submit());
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "Change "
+                + change.get()._number
+                + ": Change could not be merged because the commit is empty. Project policy"
+                + " requires all commits to contain modifications to at least one file.");
   }
 
   @Test
   @TestProjectInput(createEmptyCommit = false, rejectEmptyCommit = InheritableBoolean.TRUE)
-  public void submitNonemptyCommitToEmptyRepoWithRejectEmptyCommit_allowed() throws Exception {
+  public void submitNonemptyCommitToEmptyRepoWithRejectEmptyCommit_allowed() throws Throwable {
     assertThat(projectOperations.project(project).hasHead("master")).isFalse();
     PushOneCommit.Result change = createChange();
     assertThat(change.getCommit().getParents()).isEmpty();
@@ -1076,7 +1084,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Test
   @TestProjectInput(createEmptyCommit = false, rejectEmptyCommit = InheritableBoolean.TRUE)
-  public void submitEmptyCommitToEmptyRepoWithRejectEmptyCommit_allowed() throws Exception {
+  public void submitEmptyCommitToEmptyRepoWithRejectEmptyCommit_allowed() throws Throwable {
     assertThat(projectOperations.project(project).hasHead("master")).isFalse();
     PushOneCommit.Result change =
         pushFactory
@@ -1096,7 +1104,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertTrees(project, actual);
   }
 
-  private void setChangeStatusToNew(PushOneCommit.Result... changes) throws Exception {
+  private void setChangeStatusToNew(PushOneCommit.Result... changes) throws Throwable {
     for (PushOneCommit.Result change : changes) {
       try (BatchUpdate bu =
           batchUpdateFactory.create(project, userFactory.create(admin.id()), TimeUtil.nowTs())) {
@@ -1115,7 +1123,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
   }
 
-  private void assertSubmitter(PushOneCommit.Result change) throws Exception {
+  private void assertSubmitter(PushOneCommit.Result change) throws Throwable {
     ChangeInfo info = get(change.getChangeId(), ListChangesOption.MESSAGES);
     assertThat(info.messages).isNotNull();
     Iterable<String> messages = Iterables.transform(info.messages, i -> i.message);
@@ -1138,60 +1146,42 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
   }
 
-  protected void submit(String changeId) throws Exception {
+  protected void submit(String changeId) throws Throwable {
     submit(changeId, new SubmitInput(), null, null);
   }
 
-  protected void submit(String changeId, SubmitInput input) throws Exception {
+  protected void submit(String changeId, SubmitInput input) throws Throwable {
     submit(changeId, input, null, null);
   }
 
-  protected void submitWithConflict(String changeId, String expectedError) throws Exception {
+  protected void submitWithConflict(String changeId, String expectedError) throws Throwable {
     submit(changeId, new SubmitInput(), ResourceConflictException.class, expectedError);
   }
 
   protected void submit(
       String changeId,
       SubmitInput input,
-      Class<? extends RestApiException> expectedExceptionType,
+      @Nullable Class<? extends RestApiException> expectedExceptionType,
       String expectedExceptionMsg)
-      throws Exception {
+      throws Throwable {
     approve(changeId);
     if (expectedExceptionType == null) {
       assertSubmittable(changeId);
+    } else {
+      requireNonNull(expectedExceptionMsg);
     }
-    try {
-      gApi.changes().id(changeId).current().submit(input);
-      if (expectedExceptionType != null) {
-        fail("Expected exception of type " + expectedExceptionType.getSimpleName());
-      }
-    } catch (RestApiException e) {
-      if (expectedExceptionType == null) {
-        throw e;
-      }
-      // More verbose than using assertThat and/or ExpectedException, but gives
-      // us the stack trace.
-      if (!expectedExceptionType.isAssignableFrom(e.getClass())
-          || !e.getMessage().equals(expectedExceptionMsg)) {
-        throw new AssertionError(
-            "Expected exception of type "
-                + expectedExceptionType.getSimpleName()
-                + " with message: \""
-                + expectedExceptionMsg
-                + "\" but got exception of type "
-                + e.getClass().getSimpleName()
-                + " with message \""
-                + e.getMessage()
-                + "\"",
-            e);
-      }
+    ThrowingRunnable submit = () -> gApi.changes().id(changeId).current().submit(input);
+    if (expectedExceptionType != null) {
+      RestApiException thrown = assertThrows(expectedExceptionType, submit);
+      assertThat(thrown).hasMessageThat().isEqualTo(expectedExceptionMsg);
       return;
     }
+    submit.run();
     ChangeInfo change = gApi.changes().id(changeId).info();
     assertMerged(change.changeId);
   }
 
-  protected void assertSubmittable(String changeId) throws Exception {
+  protected void assertSubmittable(String changeId) throws Throwable {
     assertWithMessage("submit bit on ChangeInfo")
         .that(get(changeId, SUBMITTABLE).submittable)
         .isTrue();
@@ -1201,16 +1191,16 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertWithMessage("enabled bit on submit action").that(desc.isEnabled()).isTrue();
   }
 
-  protected void assertChangeMergedEvents(String... expected) throws Exception {
+  protected void assertChangeMergedEvents(String... expected) throws Throwable {
     eventRecorder.assertChangeMergedEvents(project.get(), "refs/heads/master", expected);
   }
 
-  protected void assertRefUpdatedEvents(RevCommit... expected) throws Exception {
+  protected void assertRefUpdatedEvents(RevCommit... expected) throws Throwable {
     eventRecorder.assertRefUpdatedEvents(project.get(), "refs/heads/master", expected);
   }
 
   protected void assertCurrentRevision(String changeId, int expectedNum, ObjectId expectedId)
-      throws Exception {
+      throws Throwable {
     ChangeInfo c = get(changeId, CURRENT_REVISION);
     assertThat(c.currentRevision).isEqualTo(expectedId.name());
     assertThat(c.revisions.get(expectedId.name())._number).isEqualTo(expectedNum);
@@ -1222,15 +1212,15 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
   }
 
-  protected void assertNew(String changeId) throws Exception {
+  protected void assertNew(String changeId) throws Throwable {
     assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
   }
 
-  protected void assertApproved(String changeId) throws Exception {
+  protected void assertApproved(String changeId) throws Throwable {
     assertApproved(changeId, admin);
   }
 
-  protected void assertApproved(String changeId, TestAccount user) throws Exception {
+  protected void assertApproved(String changeId, TestAccount user) throws Throwable {
     ChangeInfo c = get(changeId, DETAILED_LABELS);
     LabelInfo cr = c.labels.get("Code-Review");
     assertThat(cr.all).hasSize(1);
@@ -1255,11 +1245,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
         .isEqualTo(commit.getCommitterIdent().getTimeZone());
   }
 
-  protected void assertSubmitter(String changeId, int psId) throws Exception {
+  protected void assertSubmitter(String changeId, int psId) throws Throwable {
     assertSubmitter(changeId, psId, admin);
   }
 
-  protected void assertSubmitter(String changeId, int psId, TestAccount user) throws Exception {
+  protected void assertSubmitter(String changeId, int psId, TestAccount user) throws Throwable {
     Change c = getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).change();
     ChangeNotes cn = notesFactory.createChecked(c);
     PatchSetApproval submitter =
@@ -1269,7 +1259,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(submitter.getAccountId()).isEqualTo(user.id());
   }
 
-  protected void assertNoSubmitter(String changeId, int psId) throws Exception {
+  protected void assertNoSubmitter(String changeId, int psId) throws Throwable {
     Change c = getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).change();
     ChangeNotes cn = notesFactory.createChecked(c);
     PatchSetApproval submitter =
@@ -1278,14 +1268,14 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   protected void assertCherryPick(TestRepository<?> testRepo, boolean contentMerge)
-      throws Exception {
+      throws Throwable {
     assertRebase(testRepo, contentMerge);
     RevCommit remoteHead = getRemoteHead();
     assertThat(remoteHead.getFooterLines("Reviewed-On")).isNotEmpty();
     assertThat(remoteHead.getFooterLines("Reviewed-By")).isNotEmpty();
   }
 
-  protected void assertRebase(TestRepository<?> testRepo, boolean contentMerge) throws Exception {
+  protected void assertRebase(TestRepository<?> testRepo, boolean contentMerge) throws Throwable {
     Repository repo = testRepo.getRepository();
     RevCommit localHead = getHead(repo, "HEAD");
     RevCommit remoteHead = getRemoteHead();
@@ -1297,7 +1287,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(remoteHead.getShortMessage()).isEqualTo(localHead.getShortMessage());
   }
 
-  protected List<RevCommit> getRemoteLog(Project.NameKey project, String branch) throws Exception {
+  protected List<RevCommit> getRemoteLog(Project.NameKey project, String branch) throws Throwable {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       rw.markStart(rw.parseCommit(repo.exactRef("refs/heads/" + branch).getObjectId()));
@@ -1305,7 +1295,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
   }
 
-  protected List<RevCommit> getRemoteLog() throws Exception {
+  protected List<RevCommit> getRemoteLog() throws Throwable {
     return getRemoteLog(project, "master");
   }
 
@@ -1314,13 +1304,13 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     onSubmitValidatorHandle = onSubmitValidationListeners.add("gerrit", listener);
   }
 
-  private String getLatestDiff(Repository repo) throws Exception {
+  private String getLatestDiff(Repository repo) throws Throwable {
     ObjectId oldTreeId = repo.resolve("HEAD~1^{tree}");
     ObjectId newTreeId = repo.resolve("HEAD^{tree}");
     return getLatestDiff(repo, oldTreeId, newTreeId);
   }
 
-  private String getLatestRemoteDiff() throws Exception {
+  private String getLatestRemoteDiff() throws Throwable {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       ObjectId oldTreeId = repo.resolve("refs/heads/master~1^{tree}");
@@ -1330,7 +1320,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   private String getLatestDiff(Repository repo, ObjectId oldTreeId, ObjectId newTreeId)
-      throws Exception {
+      throws Throwable {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     try (DiffFormatter fmt = new DiffFormatter(out)) {
       fmt.setRepository(repo);
@@ -1341,7 +1331,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   // TODO(hanwen): the submodule tests have a similar method; maybe we could share code?
-  protected Project.NameKey createProjectForPush(SubmitType submitType) throws Exception {
+  protected Project.NameKey createProjectForPush(SubmitType submitType) throws Throwable {
     Project.NameKey project = projectOperations.newProject().submitType(submitType).create();
     grant(project, "refs/heads/*", Permission.PUSH);
     grant(project, "refs/for/refs/heads/*", Permission.SUBMIT);
@@ -1349,7 +1339,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   protected PushOneCommit.Result createChange(
-      String subject, String fileName, String content, String topic) throws Exception {
+      String subject, String fileName, String content, String topic) throws Throwable {
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo, subject, fileName, content);
     return push.to("refs/for/master/" + name(topic));
   }

@@ -22,10 +22,10 @@ import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REMOVED;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Comparator.comparing;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
-import static org.junit.Assert.fail;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
@@ -819,14 +819,17 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     // Trying to set another Change-Id fails
     String otherChangeId = "I577fb248e474018276351785930358ec0450e9f7";
-    update = newUpdate(c, changeOwner);
-    exception.expect(IllegalArgumentException.class);
-    exception.expectMessage(
-        "The Change-Id was already set to "
-            + c.getKey()
-            + ", so we cannot set this Change-Id: "
-            + otherChangeId);
-    update.setChangeId(otherChangeId);
+    ChangeUpdate failingUpdate = newUpdate(c, changeOwner);
+    IllegalArgumentException thrown =
+        assertThrows(
+            IllegalArgumentException.class, () -> failingUpdate.setChangeId(otherChangeId));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "The Change-Id was already set to "
+                + c.getKey()
+                + ", so we cannot set this Change-Id: "
+                + otherChangeId);
   }
 
   @Test
@@ -990,19 +993,15 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.setCommit(rw, commit);
     update.commit();
 
-    try {
-      newNotes(c);
-      fail("Expected IOException");
-    } catch (StorageException e) {
-      assertCause(
-          e,
-          ConfigInvalidException.class,
-          "Multiple revisions parsed for patch set 1:"
-              + " "
-              + commit.name()
-              + " and "
-              + ps.getCommitId().name());
-    }
+    StorageException e = assertThrows(StorageException.class, () -> newNotes(c));
+    assertCause(
+        e,
+        ConfigInvalidException.class,
+        "Multiple revisions parsed for patch set 1:"
+            + " "
+            + commit.name()
+            + " and "
+            + ps.getCommitId().name());
   }
 
   @Test
@@ -2533,9 +2532,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(msg.getMessage()).isEqualTo("A message.");
     assertThat(msg.getAuthor()).isNull();
 
-    update = newUpdate(c, internalUser);
-    exception.expect(IllegalStateException.class);
-    update.putApproval("Code-Review", (short) 1);
+    ChangeUpdate failingUpdate = newUpdate(c, internalUser);
+    assertThrows(
+        IllegalStateException.class, () -> failingUpdate.putApproval("Code-Review", (short) 1));
   }
 
   @Test
@@ -3004,9 +3003,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void setRevertOfToCurrentChangeFails() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    exception.expect(IllegalArgumentException.class);
-    exception.expectMessage("A change cannot revert itself");
-    update.setRevertOf(c.getId().get());
+    IllegalArgumentException thrown =
+        assertThrows(IllegalArgumentException.class, () -> update.setRevertOf(c.getId().get()));
+    assertThat(thrown).hasMessageThat().contains("A change cannot revert itself");
   }
 
   @Test
@@ -3014,9 +3013,10 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setRevertOf(newChange().getId().get());
-    exception.expect(StorageException.class);
-    exception.expectMessage("Given ChangeUpdate is only allowed on initial commit");
-    update.commit();
+    StorageException thrown = assertThrows(StorageException.class, () -> update.commit());
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Given ChangeUpdate is only allowed on initial commit");
   }
 
   @Test

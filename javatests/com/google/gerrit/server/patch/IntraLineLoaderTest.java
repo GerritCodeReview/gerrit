@@ -15,18 +15,18 @@
 package com.google.gerrit.server.patch;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.util.List;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.EditList;
 import org.eclipse.jgit.diff.ReplaceEdit;
 import org.junit.Test;
 
-public class IntraLineLoaderTest extends GerritBaseTests {
+public class IntraLineLoaderTest {
 
   @Test
   public void rewriteAtStartOfLineIsRecognized() throws Exception {
@@ -88,22 +88,30 @@ public class IntraLineLoaderTest extends GerritBaseTests {
   // TODO: expected failure
   // the current code does not work on the first line
   // and the insert marker is in the wrong location
-  @Test(expected = AssertionError.class)
+  @Test
   public void preferInsertAtLineBreak2() throws Exception {
-    String a = "  abc\n    def\n";
-    String b = "    abc\n      def\n";
-    assertThat(intraline(a, b))
-        .isEqualTo(ref().insert("  ").common("  abc\n").insert("  ").common("  def\n").edits);
+    assertThrows(
+        AssertionError.class,
+        () -> {
+          String a = "  abc\n    def\n";
+          String b = "    abc\n      def\n";
+          assertThat(intraline(a, b))
+              .isEqualTo(ref().insert("  ").common("  abc\n").insert("  ").common("  def\n").edits);
+        });
   }
 
   // TODO: expected failure
   // the current code does not work on the first line
-  @Test(expected = AssertionError.class)
+  @Test
   public void preferDeleteAtLineBreak() throws Exception {
-    String a = "    abc\n      def\n";
-    String b = "  abc\n    def\n";
-    assertThat(intraline(a, b))
-        .isEqualTo(ref().remove("  ").common("  abc\n").remove("  ").common("  def\n").edits);
+    assertThrows(
+        AssertionError.class,
+        () -> {
+          String a = "    abc\n      def\n";
+          String b = "  abc\n    def\n";
+          assertThat(intraline(a, b))
+              .isEqualTo(ref().remove("  ").common("  abc\n").remove("  ").common("  def\n").edits);
+        });
   }
 
   @Test

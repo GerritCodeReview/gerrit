@@ -16,6 +16,7 @@ package com.google.gerrit.testing;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.testing.IndexVersions.ALL;
 import static com.google.gerrit.testing.IndexVersions.CURRENT;
 import static com.google.gerrit.testing.IndexVersions.PREVIOUS;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 
-public class IndexVersionsTest extends GerritBaseTests {
+public class IndexVersionsTest {
   private static final ChangeSchemaDefinitions SCHEMA_DEF = ChangeSchemaDefinitions.INSTANCE;
 
   @Test
@@ -133,8 +134,8 @@ public class IndexVersionsTest extends GerritBaseTests {
   }
 
   private void assertIllegalArgument(String value, String expectedMessage) {
-    exception.expect(IllegalArgumentException.class);
-    exception.expectMessage(expectedMessage);
-    get(value);
+    IllegalArgumentException thrown =
+        assertThrows(IllegalArgumentException.class, () -> get(value));
+    assertThat(thrown).hasMessageThat().contains(expectedMessage);
   }
 }

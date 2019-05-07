@@ -24,6 +24,7 @@ import static com.google.gerrit.acceptance.api.group.GroupAssert.assertGroupInfo
 import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAccountInfos;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static java.util.stream.Collectors.toList;
@@ -89,6 +90,7 @@ import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.time.TimeUtil;
+import com.google.gerrit.testing.GerritJUnit.ThrowingRunnable;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -168,14 +170,16 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void addToNonExistingGroup_NotFound() throws Exception {
-    exception.expect(ResourceNotFoundException.class);
-    gApi.groups().id("non-existing").addMembers("admin");
+    assertThrows(
+        ResourceNotFoundException.class,
+        () -> gApi.groups().id("non-existing").addMembers("admin"));
   }
 
   @Test
   public void removeFromNonExistingGroup_NotFound() throws Exception {
-    exception.expect(ResourceNotFoundException.class);
-    gApi.groups().id("non-existing").removeMembers("admin");
+    assertThrows(
+        ResourceNotFoundException.class,
+        () -> gApi.groups().id("non-existing").removeMembers("admin"));
   }
 
   @Test
@@ -231,8 +235,9 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void addNonExistingMember_UnprocessableEntity() throws Exception {
-    exception.expect(UnprocessableEntityException.class);
-    gApi.groups().id("Administrators").addMembers("non-existing");
+    assertThrows(
+        UnprocessableEntityException.class,
+        () -> gApi.groups().id("Administrators").addMembers("non-existing"));
   }
 
   @Test
@@ -351,9 +356,9 @@ public class GroupsIT extends AbstractDaemonTest {
   public void createDuplicateInternalGroupCaseSensitiveName_Conflict() throws Exception {
     String dupGroupName = name("dupGroup");
     gApi.groups().create(dupGroupName);
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("group '" + dupGroupName + "' already exists");
-    gApi.groups().create(dupGroupName);
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> gApi.groups().create(dupGroupName));
+    assertThat(thrown).hasMessageThat().contains("group '" + dupGroupName + "' already exists");
   }
 
   @Test
@@ -369,33 +374,34 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void createDuplicateSystemGroupCaseSensitiveName_Conflict() throws Exception {
     String newGroupName = "Registered Users";
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("group 'Registered Users' already exists");
-    gApi.groups().create(newGroupName);
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> gApi.groups().create(newGroupName));
+    assertThat(thrown).hasMessageThat().contains("group 'Registered Users' already exists");
   }
 
   @Test
   public void createDuplicateSystemGroupCaseInsensitiveName_Conflict() throws Exception {
     String newGroupName = "registered users";
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("group 'Registered Users' already exists");
-    gApi.groups().create(newGroupName);
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> gApi.groups().create(newGroupName));
+    assertThat(thrown).hasMessageThat().contains("group 'Registered Users' already exists");
   }
 
   @Test
   @GerritConfig(name = "groups.global:Anonymous-Users.name", value = "All Users")
   public void createGroupWithConfiguredNameOfSystemGroup_Conflict() throws Exception {
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("group 'All Users' already exists");
-    gApi.groups().create("all users");
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> gApi.groups().create("all users"));
+    assertThat(thrown).hasMessageThat().contains("group 'All Users' already exists");
   }
 
   @Test
   @GerritConfig(name = "groups.global:Anonymous-Users.name", value = "All Users")
   public void createGroupWithDefaultNameOfSystemGroup_Conflict() throws Exception {
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("group name 'Anonymous Users' is reserved");
-    gApi.groups().create("anonymous users");
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class, () -> gApi.groups().create("anonymous users"));
+    assertThat(thrown).hasMessageThat().contains("group name 'Anonymous Users' is reserved");
   }
 
   @Test
@@ -414,8 +420,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void createGroupWithoutCapability_Forbidden() throws Exception {
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    gApi.groups().create(name("newGroup"));
+    assertThrows(AuthException.class, () -> gApi.groups().create(name("newGroup")));
   }
 
   @Test
@@ -481,8 +486,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "groups.global:Anonymous-Users.name", value = "All Users")
   public void getSystemGroupByDefaultName_NotFound() throws Exception {
-    exception.expect(ResourceNotFoundException.class);
-    gApi.groups().id("Anonymous-Users").get();
+    assertThrows(ResourceNotFoundException.class, () -> gApi.groups().id("Anonymous-Users").get());
   }
 
   @Test
@@ -498,8 +502,7 @@ public class GroupsIT extends AbstractDaemonTest {
     String name = name("Users");
     gApi.groups().create(name).get();
 
-    exception.expect(ResourceConflictException.class);
-    gApi.groups().create(name);
+    assertThrows(ResourceConflictException.class, () -> gApi.groups().create(name));
   }
 
   @Test
@@ -528,9 +531,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
     String name2 = name("Name2");
     gApi.groups().create(name2);
-
-    exception.expect(ResourceConflictException.class);
-    gApi.groups().id(group1.id).name(name2);
+    assertThrows(ResourceConflictException.class, () -> gApi.groups().id(group1.id).name(name2));
   }
 
   @Test
@@ -554,8 +555,7 @@ public class GroupsIT extends AbstractDaemonTest {
     gApi.groups().id(group.id).name(newName);
 
     assertGroupDoesNotExist(name);
-    exception.expect(ResourceNotFoundException.class);
-    gApi.groups().id(name).get();
+    assertThrows(ResourceNotFoundException.class, () -> gApi.groups().id(name).get());
   }
 
   @Test
@@ -626,14 +626,15 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThat(Url.decode(gApi.groups().id(name).owner().id)).isEqualTo(adminUUID);
 
     // set non existing owner
-    exception.expect(UnprocessableEntityException.class);
-    gApi.groups().id(name).owner("Non-Existing Group");
+    assertThrows(
+        UnprocessableEntityException.class,
+        () -> gApi.groups().id(name).owner("Non-Existing Group"));
   }
 
   @Test
   public void listNonExistingGroupIncludes_NotFound() throws Exception {
-    exception.expect(ResourceNotFoundException.class);
-    gApi.groups().id("non-existing").includedGroups();
+    assertThrows(
+        ResourceNotFoundException.class, () -> gApi.groups().id("non-existing").includedGroups());
   }
 
   @Test
@@ -645,8 +646,9 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void includeNonExistingGroup() throws Exception {
     AccountGroup.UUID gx = groupOperations.newGroup().create();
-    exception.expect(UnprocessableEntityException.class);
-    gApi.groups().id(gx.get()).addGroups("non-existing");
+    assertThrows(
+        UnprocessableEntityException.class,
+        () -> gApi.groups().id(gx.get()).addGroups("non-existing"));
   }
 
   @Test
@@ -675,8 +677,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void listNonExistingGroupMembers_NotFound() throws Exception {
-    exception.expect(ResourceNotFoundException.class);
-    gApi.groups().id("non-existing").members();
+    assertThrows(ResourceNotFoundException.class, () -> gApi.groups().id("non-existing").members());
   }
 
   @Test
@@ -820,9 +821,11 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThat(owned).isEmpty();
 
     // By non-existing group
-    exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("Group Not Found: does-not-exist");
-    gApi.groups().list().withOwnedBy("does-not-exist").get();
+    UnprocessableEntityException thrown =
+        assertThrows(
+            UnprocessableEntityException.class,
+            () -> gApi.groups().list().withOwnedBy("does-not-exist").get());
+    assertThat(thrown).hasMessageThat().contains("Group Not Found: does-not-exist");
   }
 
   @Test
@@ -1023,9 +1026,9 @@ public class GroupsIT extends AbstractDaemonTest {
 
     // user cannot reindex any group
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("not allowed to index group");
-    gApi.groups().id(group.id).index();
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> gApi.groups().id(group.id).index());
+    assertThat(thrown).hasMessageThat().contains("not allowed to index group");
   }
 
   @Test
@@ -1118,13 +1121,13 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void pushToGroupBranchForReviewForAllUsersRepoIsRejectedOnSubmit() throws Exception {
+  public void pushToGroupBranchForReviewForAllUsersRepoIsRejectedOnSubmit() throws Throwable {
     pushToGroupBranchForReviewAndSubmit(
         allUsers, RefNames.refsGroups(adminGroupUuid()), "group update not allowed");
   }
 
   @Test
-  public void pushToGroupBranchForReviewForNonAllUsersRepoAndSubmit() throws Exception {
+  public void pushToGroupBranchForReviewForNonAllUsersRepoAndSubmit() throws Throwable {
     String groupRef = RefNames.refsGroups(adminGroupUuid());
     createBranch(project, groupRef);
     pushToGroupBranchForReviewAndSubmit(project, groupRef, null);
@@ -1411,7 +1414,7 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   private void pushToGroupBranchForReviewAndSubmit(
-      Project.NameKey project, String groupRef, String expectedError) throws Exception {
+      Project.NameKey project, String groupRef, String expectedError) throws Throwable {
     grantLabel(
         "Code-Review", -2, 2, project, RefNames.REFS_GROUPS + "*", false, REGISTERED_USERS, false);
     grant(project, RefNames.REFS_GROUPS + "*", Permission.SUBMIT, false, REGISTERED_USERS);
@@ -1428,11 +1431,13 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThat(r.getChange().change().getDest().branch()).isEqualTo(groupRef);
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
 
+    ThrowingRunnable submit = () -> gApi.changes().id(r.getChangeId()).current().submit();
     if (expectedError != null) {
-      exception.expect(ResourceConflictException.class);
-      exception.expectMessage("group update not allowed");
+      Throwable thrown = assertThrows(ResourceConflictException.class, submit);
+      assertThat(thrown).hasMessageThat().contains("group update not allowed");
+    } else {
+      submit.run();
     }
-    gApi.changes().id(r.getChangeId()).current().submit();
   }
 
   private void createBranch(Project.NameKey project, String ref) throws IOException {

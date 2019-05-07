@@ -19,7 +19,6 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.MoreFiles;
 import com.google.common.io.RecursiveDeleteOption;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -36,7 +35,7 @@ import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
 @RunWith(Parameterized.class)
-public class RefUpdateUtilRepoTest extends GerritBaseTests {
+public class RefUpdateUtilRepoTest {
   public enum RepoSetup {
     LOCAL_DISK {
       @Override

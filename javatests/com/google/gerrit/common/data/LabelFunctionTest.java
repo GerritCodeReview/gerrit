@@ -22,14 +22,13 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.testing.GerritBaseTests;
 import java.sql.Date;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 
-public class LabelFunctionTest extends GerritBaseTests {
+public class LabelFunctionTest {
   private static final String LABEL_NAME = "Verified";
   private static final LabelId LABEL_ID = LabelId.create(LABEL_NAME);
   private static final Change.Id CHANGE_ID = Change.id(100);

@@ -19,10 +19,9 @@ import static com.google.common.truth.Truth.assert_;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Converter;
-import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 
-public class CacheSerializerTest extends GerritBaseTests {
+public class CacheSerializerTest {
   @AutoValue
   abstract static class MyAutoValue {
     static MyAutoValue create(int val) {

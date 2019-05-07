@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.api.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
@@ -59,9 +60,9 @@ public class AbandonIT extends AbstractDaemonTest {
     assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
     assertThat(Iterables.getLast(info.messages).message.toLowerCase()).contains("abandoned");
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("change is abandoned");
-    gApi.changes().id(changeId).abandon();
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> gApi.changes().id(changeId).abandon());
+    assertThat(thrown).hasMessageThat().contains("change is abandoned");
   }
 
   @Test
@@ -96,10 +97,16 @@ public class AbandonIT extends AbstractDaemonTest {
     PushOneCommit.Result a = createChange(project1, "master", "x", "x", "x", "");
     PushOneCommit.Result b = createChange(project2, "master", "x", "x", "x", "");
     List<ChangeData> list = ImmutableList.of(a.getChange(), b.getChange());
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage(
-        String.format("Project name \"%s\" doesn't match \"%s\"", project2Name, project1Name));
-    batchAbandon.batchAbandon(batchUpdateFactory, Project.nameKey(project1Name), user, list);
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () ->
+                batchAbandon.batchAbandon(
+                    batchUpdateFactory, Project.nameKey(project1Name), user, list));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            String.format("Project name \"%s\" doesn't match \"%s\"", project2Name, project1Name));
   }
 
   @Test
@@ -157,9 +164,9 @@ public class AbandonIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
     assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
     requestScopeOperations.setApiUser(user.id());
-    exception.expect(AuthException.class);
-    exception.expectMessage("abandon not permitted");
-    gApi.changes().id(changeId).abandon();
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> gApi.changes().id(changeId).abandon());
+    assertThat(thrown).hasMessageThat().contains("abandon not permitted");
   }
 
   @Test
@@ -188,9 +195,9 @@ public class AbandonIT extends AbstractDaemonTest {
     assertThat(info.status).isEqualTo(ChangeStatus.NEW);
     assertThat(Iterables.getLast(info.messages).message.toLowerCase()).contains("restored");
 
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("change is new");
-    gApi.changes().id(changeId).restore();
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> gApi.changes().id(changeId).restore());
+    assertThat(thrown).hasMessageThat().contains("change is new");
   }
 
   @Test
@@ -201,9 +208,9 @@ public class AbandonIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).abandon();
     requestScopeOperations.setApiUser(user.id());
     assertThat(info(changeId).status).isEqualTo(ChangeStatus.ABANDONED);
-    exception.expect(AuthException.class);
-    exception.expectMessage("restore not permitted");
-    gApi.changes().id(changeId).restore();
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> gApi.changes().id(changeId).restore());
+    assertThat(thrown).hasMessageThat().contains("restore not permitted");
   }
 
   private List<Integer> toChangeNumbers(List<ChangeInfo> changes) {

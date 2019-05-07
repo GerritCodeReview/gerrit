@@ -46,6 +46,30 @@
       "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72b874f9_e6f7f078",
+        "filename": "Documentation/dev-design-docs.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-07T09:41:31Z",
+      "side": 1,
+      "message": "IMO design proposals, high-level backlog, project scope and vision are, in many ways, related to the release notes which makes me think that the homepage is a good candidate. They are the deltas and the direction of the project whereas the gerrit repository is the current state, why I think the gerrit repository is a poor candidate.",
+      "parentUuid": "e202ae7d_b2673834",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 29
+      },
+      "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

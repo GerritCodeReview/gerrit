@@ -22,6 +22,30 @@
       "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e202ae7d_b2673834",
+        "filename": "Documentation/dev-design-docs.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-07T00:18:03Z",
+      "side": 1,
+      "message": "I think we should first clarify where the design documents should be hosted.",
+      "parentUuid": "d3514b75_553d3266",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 29
+      },
+      "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

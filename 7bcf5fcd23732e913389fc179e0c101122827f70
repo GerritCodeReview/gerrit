@@ -70,6 +70,30 @@
       "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67656f7c_677f5c21",
+        "filename": "Documentation/dev-design-docs.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-07T11:34:50Z",
+      "side": 1,
+      "message": "\u003e Is it clear already that the design docs should be hosted in gerrit repository?\n\nNo, not at all! This change is mainly about requiring design docs for large/complex features. Details about where design docs are stored and how the review process should exactly look like are still to be defined. This change only defines the simplest possible process that I could think of as a starting point for this discussion. I don\u0027t think it\u0027s the best one, nor that it is the one we will stay with. Discussing this is actually one of the first things we want to do at the hackathon.\n\nI\u0027m not sure that this needs to block this change. I think this order is good:\n1. agree that we want a design doc driven process (this change)\n2. agree on details of this process (where should design docs be stored, which format should they have etc.) (at the hackathon)\n\nI hope the commit message already makes clear that these details should be discussed as follow-ups?\n\n\u003e IMO design proposals, high-level backlog, project scope and vision are, in many ways,\n\u003e related to the release notes which makes me think that the homepage is a good candidate.\n\nYes, the homepage is also my preference (except for the backlog, which I think is better to have in the issue tracker). But then we also need to think about where on the homepage all this should be placed, this likely results in some refactoring of the homepage. At this point I didn\u0027t want to spend much time thinking about those details.",
+      "parentUuid": "72b874f9_e6f7f078",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 29
+      },
+      "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

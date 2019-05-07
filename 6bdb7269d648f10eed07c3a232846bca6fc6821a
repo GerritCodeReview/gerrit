@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04307cbd_5cc57d3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-07T20:57:35Z",
+      "side": 1,
+      "message": "Might also add this clarification to the steering committee role, which is in turn close enough to Agile\u0027s Product Owner one.",
+      "revId": "6bdb7269d648f10eed07c3a232846bca6fc6821a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b978904_ea4379d5",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-07T20:57:35Z",
+      "side": 1,
+      "message": "Is the 1-space indent on purpose? Fine if it is, would remove otherwise.",
+      "range": {
+        "startLine": 286,
+        "startChar": 0,
+        "endLine": 291,
+        "endChar": 23
+      },
+      "revId": "6bdb7269d648f10eed07c3a232846bca6fc6821a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

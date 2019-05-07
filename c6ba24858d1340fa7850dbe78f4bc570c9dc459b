@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b08d25d5_afd1eb7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-07T07:03:46Z",
+      "side": 1,
+      "message": "I agree that all these questions should be raised and that the answers should be taken into account to define project scope, release plan, roadmap etc. All it\u0027s saying here is that it\u0027s the responsibility of the steering committee to do so, write down the findings and if there are conflicting opinions to discuss them and get to a conclusion.\n\nOf course we could have addressed all these things long ago, but why didn\u0027t it happen?\nIt\u0027s because nobody was *responsible* to do these things. We just re-confirmed that maintainers have *no responsibilities* [1], so if maintainers are not responsible for this, who then?\nOur answer is, that there should be a steering committee, whose members are committed to take care of these kind of topics.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/222153/11/Documentation/dev-roles.txt#140",
+      "parentUuid": "9b3ebf1e_718fca15",
+      "range": {
+        "startLine": 72,
+        "startChar": 65,
+        "endLine": 73,
+        "endChar": 66
+      },
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6822ab03_f9be6039",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 1
@@ -54,6 +78,24 @@
       "side": 1,
       "message": "\u003e Please make proposed changes to community processes in a similar way as most of us would expect for code changes.\n\nI believe \"Project Governance / Steering Committee\" and this change is the right way to manage the growing gerrit community.\n\nThis is what LibreOffice project is doing since day 1. All *relevant* questions in LibreOffice eco-system are decided by the ESC. All discussions are public. The last meeting minutes from last week: [1].\n\n[1] https://listarchives.libreoffice.org/global/projects/msg02556.html",
       "parentUuid": "6822ab03_f9be6039",
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6830bcb_aaf7f529",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-07T07:03:46Z",
+      "side": 1,
+      "message": "I also think that having something like a steering committee is a rather common practice for open source projects and has proven to work well. I agree with David that transparency is very important. At the moment it\u0027s completely non-obvious for outstanders how decisions are made and what they can expect from the project. I think it\u0027s important to improve this.",
+      "parentUuid": "f8636b75_0f1f4d42",
       "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

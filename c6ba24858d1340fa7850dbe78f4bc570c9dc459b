@@ -125,6 +125,30 @@
     },
     {
       "key": {
+        "uuid": "6a0e30e0_118d9fcc",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-07T07:58:23Z",
+      "side": 1,
+      "message": "Right, but since the steering committee has quite some responsibilities, we need people that can commit time to these tasks (otherwise the steering committee would be a bit pointless). \n\nWe don\u0027t expect this to be a full-time job, maybe rather like a 20% engagement?\nAlthough I think in the beginning it will likely be more time-consuming, since a lot of things need to be worked out and defined to get things started.",
+      "parentUuid": "c2984dc2_c3c25ca4",
+      "range": {
+        "startLine": 48,
+        "startChar": 21,
+        "endLine": 50,
+        "endChar": 17
+      },
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "93c55490_f1c08114",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 1
@@ -136,6 +160,30 @@
       "writtenOn": "2019-05-06T20:48:16Z",
       "side": 1,
       "message": "What about Google maintainers? Shouldn\u0027t they be able to vote as well for the steering committee member election (for non-Google maintainers)?",
+      "range": {
+        "startLine": 54,
+        "startChar": 5,
+        "endLine": 54,
+        "endChar": 15
+      },
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86c0dd80_c77dc78a",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-07T07:58:23Z",
+      "side": 1,
+      "message": "We think that Google shouldn\u0027t take part in this vote since Google already has its own members in he steering committee. If Google would take part in this vote, we could basically decide on all members, since we have the majority of maintainers.",
+      "parentUuid": "93c55490_f1c08114",
       "range": {
         "startLine": 54,
         "startChar": 5,

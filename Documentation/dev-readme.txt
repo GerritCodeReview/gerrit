@@ -210,6 +210,9 @@ link:dev-bazel.html#eclipse[Eclipse integration with Bazel].
 
 See <<dev-intellij#,IntelliJ Setup>> for details.
 
+== Setup for frontend developers
+See link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/README.md[Frontend Developer Setup].
+
 
 GERRIT
 ------

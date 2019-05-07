@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "beab0b2d_dc171fd0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-07T14:39:10Z",
+      "side": 1,
+      "message": "contributor with the help of the rest of the Gerrit community",
+      "range": {
+        "startLine": 34,
+        "startChar": 6,
+        "endLine": 34,
+        "endChar": 41
+      },
+      "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83a66913_445e5875",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-07T14:39:10Z",
+      "side": 1,
+      "message": "Should these contributions have a prefix anyway?\nE.g. we used [RFC] in the past for the proposal of new features.",
+      "range": {
+        "startLine": 40,
+        "startChar": 7,
+        "endLine": 40,
+        "endChar": 40
+      },
+      "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75426d8b_49840444",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-07T14:39:10Z",
+      "side": 1,
+      "message": "Do we really do that? I do not believe that is true and, if there are examples of that, they were not really aligned with the initial spirit of sharing and collaboration we always had.\n\nI personally did not provide feedback to features that I had no knowledge or enough background to have an opinion on it. That wasn\u0027t really because of the lack of a design document.\n\nHowever, I agree that having a design document helps to understand the overall goal of a feature and have a much better and smoother review process.",
+      "range": {
+        "startLine": 47,
+        "startChar": 8,
+        "endLine": 47,
+        "endChar": 37
+      },
+      "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d3514b75_553d3266",
         "filename": "Documentation/dev-design-docs.txt",
         "patchSetId": 1
@@ -90,6 +159,29 @@
         "startChar": 2,
         "endLine": 55,
         "endChar": 29
+      },
+      "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82991b3a_ae589292",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-07T14:39:10Z",
+      "side": 1,
+      "message": "Using \"calendar days\" could lead to too short feedback loop over the festive holidays (e.g. Christmas, Easter, ...).\n\nWe should change it to 7 working days.",
+      "range": {
+        "startLine": 15,
+        "startChar": 48,
+        "endLine": 15,
+        "endChar": 64
       },
       "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

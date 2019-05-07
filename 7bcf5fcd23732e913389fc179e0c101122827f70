@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a852db6_f3b89e24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-07T20:27:43Z",
+      "side": 1,
+      "message": "providing, rather?",
+      "range": {
+        "startLine": 20,
+        "startChar": 45,
+        "endLine": 20,
+        "endChar": 52
+      },
+      "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "beab0b2d_dc171fd0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -64,6 +87,69 @@
         "startChar": 8,
         "endLine": 47,
         "endChar": 37
+      },
+      "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56c336ee_25f9952a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-07T20:27:43Z",
+      "side": 1,
+      "message": "Optionally relying on ADRs [1] could be considered too I think.\n\n[1] https://www.thoughtworks.com/radar/techniques/lightweight-architecture-decision-records\n\n-Especially in the context of larger or multi-component (cross-architecture) feature designs.",
+      "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "102b8241_6c9cddbb",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-07T20:27:43Z",
+      "side": 1,
+      "message": "Format of this item differs from the below (and above) ones.",
+      "range": {
+        "startLine": 151,
+        "startChar": 2,
+        "endLine": 151,
+        "endChar": 46
+      },
+      "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4304733_8037cc87",
+        "filename": "Documentation/dev-design-docs.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-07T20:27:43Z",
+      "side": 1,
+      "message": "Add this to the template as a section about implementation plans?",
+      "range": {
+        "startLine": 19,
+        "startChar": 51,
+        "endLine": 20,
+        "endChar": 43
       },
       "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -201,6 +287,30 @@
       "writtenOn": "2019-05-07T14:39:10Z",
       "side": 1,
       "message": "Using \"calendar days\" could lead to too short feedback loop over the festive holidays (e.g. Christmas, Easter, ...).\n\nWe should change it to 7 working days.",
+      "range": {
+        "startLine": 15,
+        "startChar": 48,
+        "endLine": 15,
+        "endChar": 64
+      },
+      "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "469e41ea_4032268d",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-07T20:27:43Z",
+      "side": 1,
+      "message": "Assuming that reviewers share enough of such holidays, culture-wise ;) -Thus maybe we\u0027d need to stick to calendar days, because of that. Or increase to 14 calendar days, to buffer against holidays or so? Note: some early and prototyping implementation could still start anyway, some days before that period ends, sometimes also to demonstrate parts of the proposed design.",
+      "parentUuid": "82991b3a_ae589292",
       "range": {
         "startLine": 15,
         "startChar": 48,

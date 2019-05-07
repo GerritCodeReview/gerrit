@@ -424,13 +424,6 @@ java_library(
 )
 
 java_library(
-    name = "derby",
-    data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
-    exports = ["@derby//jar"],
-)
-
-java_library(
     name = "soy",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],

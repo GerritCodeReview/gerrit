@@ -179,6 +179,30 @@
     },
     {
       "key": {
+        "uuid": "3ff00c31_74b6edcf",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-07T13:59:56Z",
+      "side": 1,
+      "message": "\u003e Would Google provide any visibility on the criteria of appointing them?\n\nGood question. We have people in mind that I think are a great fit (we will inform about them at the hackathon), but we didn\u0027t think about formal criteria yet. Maybe it can be something like, being a member of Google\u0027s Gerrit team (backend or frontend), being Gerrit maintainer, being known to the community, having deep technical knowledge about Gerrit?\n\n\u003e Do they have a term or they stay indefinitely?\n\nWe don\u0027t plan to rotate these positions, so our members would rather stay long-term, but changes are of course possible (so not indefinitely).",
+      "parentUuid": "4bcfdcf1_95d88168",
+      "range": {
+        "startLine": 21,
+        "startChar": 22,
+        "endLine": 21,
+        "endChar": 41
+      },
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7c6ac930_5b795567",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 1

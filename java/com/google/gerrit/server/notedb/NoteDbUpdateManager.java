@@ -21,7 +21,6 @@ import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.git.RefUpdateUtil;
@@ -65,8 +64,6 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  * {@link #stage()}.
  */
 public class NoteDbUpdateManager implements AutoCloseable {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   public interface Factory {
     NoteDbUpdateManager create(Project.NameKey projectName);
   }

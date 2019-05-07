@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "c96538fd_22783f16",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-07T08:56:54Z",
+      "side": 1,
+      "message": "suggestions:\n\n    * act as an ambassador for the community\n    * welcome and guide new community members that wants to get involved",
+      "revId": "3196e8297d7ee1738b93e17080dc681099ea7a2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3515cc31_865daf5a",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 1
@@ -157,6 +174,30 @@
       "side": 1,
       "message": "\u003e We thought that it\u0027s important for the community that Google commits to fund the work of at least one community manager.\n\n+1.",
       "parentUuid": "b8416cc3_76867db8",
+      "range": {
+        "startLine": 289,
+        "startChar": 7,
+        "endLine": 289,
+        "endChar": 44
+      },
+      "revId": "3196e8297d7ee1738b93e17080dc681099ea7a2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "241a5230_cb70a525",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-07T08:56:54Z",
+      "side": 1,
+      "message": "\u003e We need someone that can both represent the community, but can also be a partner in internal discussions that involve confidential matters, eg. internal customers that we can\u0027t talk about.\n\nHonestly was a bit concerned with what I first read out of this statement. Would it be more in line with what you want to convey to rephrase it:\n\n    We need someone that can not only represent the community externally but also represent it towards internal, confidential, Google customers.\n\nMy personal thoughts more generally:\n1. I think it\u0027s enormously generous of Google to offer to sponsor a community manager, it\u0027s a very important role that is practically a full time job.\n2. It\u0027s a nice gesture to have 1, extra, community manager that can be a non-Googler but I personally think there should be only 1.\n3. The way I see it: Google started the project, even though there are vast and important contributions from the rest of the community they are the main contributors. And even if there were non-Googlers that would have the interest, time and opportunity to take on the community manager role (which I imagine there aren\u0027t to be frank) I would still think it would be only fair that Google gets to appoint a Googler if they choose to do so.",
+      "parentUuid": "501fe67f_28b42a61",
       "range": {
         "startLine": 289,
         "startChar": 7,

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1557238850 -0700\nnonce AC6AUtNrg8DMq1mbYueX9m5xdfTex1+esY1c/hWUiencUwjM2bJBgKnyObhlakMvNMCu7IDZI9f3\n\n0000000000000000000000000000000000000000 2f74b6336c7e54d0a3c71c9b8aa669e694fc7dee refs/for/master%r\u003dekempin@google.com\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlzRlEIVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMw0sQAN+KV4gI5eB0a6bMU3ZKef/58Mn2\nFmzddNdJ8PrOnCe9FYLv2gHIB9kci61NEcG2AFwLI6HIcaFXpnhuzpa04Lh6z7d8\neJY7BQc08GPaWksT6yCmo4WvxZfZLqwU3qufqEJMKsUzGyAVSS0h4+bkjMJusiVL\ng9OZRRCk0AgqxxPFXOWuoY5ESIYQS+ipsrdShVKMDB00oXCsIUNVX3W7M90VT2bj\nZ397BPp5ruMeJPzDOmST0IYOb2Fuevc4z0ACay+2hnkIvSbvwm3W+EbBCBbyyegN\nTuY/rqABZgaafP8PoE1zxOZh15aKeEOsF3OP5H93V+zE4GXSk7tcwYeinkTMcQbm\n7rsI7oxIY+Y9iUJTQsH4XUH188w26AsLRCt9BUcrVe5lEjs4ZOx0MhDCfsuKByC3\n/D4X+zghM+AUS6Xava/NLA+W2tlfyhbeYqMJhL2H867mi50RCoYNJPImW3HV7GnL\ndTUm0f1qU0hnRc6FdExHTgUS6fGAMP7JdOaOsH7euuPHW2Fkoye0RwlnTLSBZNwa\nceOkKtF7fxhZnZbFm7GssLkfWnt5yRoATqU+DCF9Ttq4v/ebrleJ7Vf4WN+aIcvU\nFDQ4kObJmqjq0TdgKmXi3kPFjVhNoYxs8ahtYhN4Y+MGv7cIfvsD0HcAme/4xndo\n6ajOespQl1GtFQW6\n\u003di+G0\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7d09f56_4647c204",
+        "filename": "java/com/google/gerrit/testing/GerritTestName.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-07T16:02:31Z",
+      "side": 1,
+      "message": "I think it might make sense to add a comment explaining why this method is useful (instead of simple using GerritTestName and TestName at the same time, which can have issues).",
+      "range": {
+        "startLine": 28,
+        "startChar": 16,
+        "endLine": 28,
+        "endChar": 31
+      },
+      "revId": "2f74b6336c7e54d0a3c71c9b8aa669e694fc7dee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

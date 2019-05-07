@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ff8ebfe_d3199d36",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-07T19:52:15Z",
+      "side": 1,
+      "message": "In my personal nomination case, from proposal to nomination, it all happened withing a few days time. That fit within the last Palo Alto event week (hackathon then summit, 5 days; nomination lasted less than that). Should we provision such a case, for nominations to conclude within Gerrit event\u0027s time, if fitting it enough? -Similarly to the text from the other change about steering nominations [1].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/223472/1/Documentation/dev-processes.txt\n\nI\u0027m proposing this given the higher maintainer focus while being at such events. Meaning, more maintainers focusing on the same week\u0027s activities at once, including mailing list threads such as nomination proposals. So more focus from more maintainers, hence a more productive nomination process, as opposed to non-event (corporate routine) weeks. -Basically happening faster than usual, without neglecting nomination quality of course.",
+      "range": {
+        "startLine": 189,
+        "startChar": 56,
+        "endLine": 190,
+        "endChar": 25
+      },
+      "revId": "763337133ce916ab48577cee9eeb43756a1e63f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

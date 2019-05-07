@@ -138,6 +138,24 @@
     },
     {
       "key": {
+        "uuid": "7a9e79b6_6328dfd1",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-05-07T11:59:08Z",
+      "side": 1,
+      "message": "I agree to David O, Sven and Edwin in that the steering comittee is\n- a starting point for further improvements, rather than the end state to be in\n- a common practice in open-source projects that, if done right, has many upsides to Gerrit",
+      "parentUuid": "37dc772d_196eb63a",
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c2984dc2_c3c25ca4",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 1
@@ -173,6 +191,30 @@
       "side": 1,
       "message": "Right, but since the steering committee has quite some responsibilities, we need people that can commit time to these tasks (otherwise the steering committee would be a bit pointless). \n\nWe don\u0027t expect this to be a full-time job, maybe rather like a 20% engagement?\nAlthough I think in the beginning it will likely be more time-consuming, since a lot of things need to be worked out and defined to get things started.",
       "parentUuid": "c2984dc2_c3c25ca4",
+      "range": {
+        "startLine": 48,
+        "startChar": 21,
+        "endLine": 50,
+        "endChar": 17
+      },
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e9303e5_62ebb94a",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-05-07T11:59:08Z",
+      "side": 1,
+      "message": "The point here is: Don\u0027t run for office if you are already short in time. Only do that if you know you can make (some) commitments.\n\nI think the steering committee can be a bit flexible in what \"some\" means by looking out for each other and being mindful about everyone\u0027s other occupations.",
+      "parentUuid": "6a0e30e0_118d9fcc",
       "range": {
         "startLine": 48,
         "startChar": 21,
@@ -248,6 +290,30 @@
         "startChar": 27,
         "endLine": 54,
         "endChar": 58
+      },
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13f0490e_35d7f01d",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-05-07T11:59:08Z",
+      "side": 1,
+      "message": "+1\n\nI think the community seats should be 100% non-Google meaning that Googlers can\u0027t influence the decision.",
+      "parentUuid": "86c0dd80_c77dc78a",
+      "range": {
+        "startLine": 54,
+        "startChar": 5,
+        "endLine": 54,
+        "endChar": 15
       },
       "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

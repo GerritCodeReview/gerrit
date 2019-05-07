@@ -44,7 +44,6 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  */
 class OpenRepo implements AutoCloseable {
   /** Returns a {@link OpenRepo} wrapping around an open {@link Repository}. */
-  @SuppressWarnings("resource")
   static OpenRepo open(GitRepositoryManager repoManager, Project.NameKey project)
       throws IOException {
     Repository repo = repoManager.openRepository(project); // Closed by OpenRepo#close.

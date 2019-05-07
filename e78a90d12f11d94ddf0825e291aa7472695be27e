@@ -152,6 +152,30 @@
       "revId": "e78a90d12f11d94ddf0825e291aa7472695be27e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cc88a06f_3164adfe",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-07T15:55:17Z",
+      "side": 1,
+      "message": "Sorry missed that.\n\nFor future reference or a suggestion for the future SC:\nPerhaps there should be some sort of time-estimate set for all accepted feature propositions to make it easier for the SC to recognize non-mentored features that stall so that they can be cleaned up in a similar fashion if needed?",
+      "parentUuid": "baeaa609_46db83be",
+      "range": {
+        "startLine": 231,
+        "startChar": 35,
+        "endLine": 235,
+        "endChar": 10
+      },
+      "revId": "e78a90d12f11d94ddf0825e291aa7472695be27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

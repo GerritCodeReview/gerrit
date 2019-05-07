@@ -17,7 +17,6 @@ package com.google.gerrit.elasticsearch;
 import com.google.gerrit.elasticsearch.ElasticTestUtils.ElasticNodeInfo;
 import com.google.gerrit.server.query.account.AbstractQueryAccountsTest;
 import com.google.gerrit.testing.ConfigSuite;
-import com.google.gerrit.testing.GerritTestName;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.gerrit.testing.IndexConfig;
 import com.google.inject.Guice;
@@ -25,7 +24,6 @@ import com.google.inject.Injector;
 import org.eclipse.jgit.lib.Config;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 
 public class ElasticV6QueryAccountsTest extends AbstractQueryAccountsTest {
   @ConfigSuite.Default
@@ -53,8 +51,6 @@ public class ElasticV6QueryAccountsTest extends AbstractQueryAccountsTest {
       container.stop();
     }
   }
-
-  @Rule public final GerritTestName testName = new GerritTestName();
 
   @Override
   protected void initAfterLifecycleStart() throws Exception {

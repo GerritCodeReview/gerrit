@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "6b19b08f_9f39ef41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-07T00:20:36Z",
+      "side": 1,
+      "message": "Also mention another common issue: a large feature is contributed but ends up being abandoned because it doesn\u0027t fit in with the overall roadmap/vision for the project",
+      "revId": "e78a90d12f11d94ddf0825e291aa7472695be27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "86f8e593_c3eb8241",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 1

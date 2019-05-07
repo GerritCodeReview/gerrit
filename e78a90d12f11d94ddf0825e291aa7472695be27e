@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "72577999_23aa971c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-07T11:42:57Z",
+      "side": 1,
+      "message": "Thanks for pointing this out, I will add it.",
+      "parentUuid": "6b19b08f_9f39ef41",
+      "revId": "e78a90d12f11d94ddf0825e291aa7472695be27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "86f8e593_c3eb8241",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2019-05-06T15:43:39Z",
       "side": 1,
       "message": "and approved or if mentors are available?",
+      "range": {
+        "startLine": 63,
+        "startChar": 35,
+        "endLine": 63,
+        "endChar": 44
+      },
+      "revId": "e78a90d12f11d94ddf0825e291aa7472695be27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4171a7f6_5a9617c2",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-07T11:42:57Z",
+      "side": 1,
+      "message": "Thanks, will clarify this.",
+      "parentUuid": "86f8e593_c3eb8241",
       "range": {
         "startLine": 63,
         "startChar": 35,
@@ -86,6 +128,30 @@
       "revId": "e78a90d12f11d94ddf0825e291aa7472695be27e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "baeaa609_46db83be",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-07T11:42:57Z",
+      "side": 1,
+      "message": "I agree. This is why this part is already part of the \"design-driven-contribution-process\" section (see line 166 - line 171). There is only a minor difference. Time estimates are only required for mentorships, if you don\u0027t have a time estimate we cannot say that the \"feature is not finished in time\". Hence above it says \"If the implementation of a feature gets stuck and it\u0027s unclear whether\nthe feature gets fully done...\".",
+      "parentUuid": "6800b0d8_baed9d58",
+      "range": {
+        "startLine": 231,
+        "startChar": 35,
+        "endLine": 235,
+        "endChar": 10
+      },
+      "revId": "e78a90d12f11d94ddf0825e291aa7472695be27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

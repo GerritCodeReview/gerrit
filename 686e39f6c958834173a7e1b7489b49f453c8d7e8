@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "63d39212_f44f1867",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-08T20:55:12Z",
+      "side": 1,
+      "message": "Addendum: how much time or weekly percentage can be expected for the role(s), alongside one\u0027s other duties? Or, what could be the expected role(s) footprint(s)? This question applies to this manager as well as other new roles under review. -I think we should discuss this consistently across all such roles.\n\nOnce mature enough, the text could be amended accordingly or precisely enough (using ranges maybe). E.g., 20% of one\u0027s weekly work time, or 1 day per week. This would allow management for some of us to actually support candidatures, if they agree with that expected footprint.",
+      "revId": "686e39f6c958834173a7e1b7489b49f453c8d7e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "37dcd31b_74a10a48",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 4

@@ -22,6 +22,30 @@
       "revId": "686e39f6c958834173a7e1b7489b49f453c8d7e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29129149_6c402f00",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-08T17:11:24Z",
+      "side": 1,
+      "message": "Realizing this myself now, we might need to not make the second manager optional (or so) in the text, then (cf. L293-294 right above).",
+      "parentUuid": "37dcd31b_74a10a48",
+      "range": {
+        "startLine": 297,
+        "startChar": 45,
+        "endLine": 298,
+        "endChar": 43
+      },
+      "revId": "686e39f6c958834173a7e1b7489b49f453c8d7e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

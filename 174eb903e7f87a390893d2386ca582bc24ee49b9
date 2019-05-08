@@ -46,6 +46,30 @@
       "revId": "174eb903e7f87a390893d2386ca582bc24ee49b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17ea43dd_fdab40f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-08T12:11:25Z",
+      "side": 1,
+      "message": "Thanks for porting this fix to stable-2.16. I\u0027ll wait until the change reaches master and will rebase on top of it.",
+      "parentUuid": "b3bddb01_f1e724f1",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 22
+      },
+      "revId": "174eb903e7f87a390893d2386ca582bc24ee49b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -28,6 +28,9 @@ limitations under the License.
         text-align: center;
         width: 100%;
       }
+      gr-label-score-row.no-access {
+        display: var(--label-no-access-display, initial);
+      }
       @media only screen and (max-width: 25em) {
         :host {
           text-align: center;
@@ -36,6 +39,7 @@ limitations under the License.
     </style>
     <template is="dom-repeat" items="[[_labels]]" as="label">
       <gr-label-score-row
+          class$="[[_computeLabelAccessClass(label.name, permittedLabels)]]"
           label="[[label]]"
           name="[[label.name]]"
           labels="[[change.labels]]"

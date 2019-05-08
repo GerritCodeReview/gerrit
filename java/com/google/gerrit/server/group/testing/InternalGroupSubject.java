@@ -38,73 +38,76 @@ public class InternalGroupSubject extends Subject<InternalGroupSubject, Internal
     return InternalGroupSubject::new;
   }
 
+  private final InternalGroup actual;
+
   private InternalGroupSubject(FailureMetadata metadata, InternalGroup actual) {
     super(metadata, actual);
+    this.actual = actual;
   }
 
   public ComparableSubject<?, AccountGroup.UUID> groupUuid() {
     isNotNull();
-    InternalGroup group = actual();
+    InternalGroup group = actual;
     return check("getGroupUUID()").that(group.getGroupUUID());
   }
 
   public ComparableSubject<?, AccountGroup.NameKey> nameKey() {
     isNotNull();
-    InternalGroup group = actual();
+    InternalGroup group = actual;
     return check("getNameKey()").that(group.getNameKey());
   }
 
   public StringSubject name() {
     isNotNull();
-    InternalGroup group = actual();
+    InternalGroup group = actual;
     return check("getName()").that(group.getName());
   }
 
   public Subject<DefaultSubject, Object> id() {
     isNotNull();
-    InternalGroup group = actual();
+    InternalGroup group = actual;
     return check("getId()").that(group.getId());
   }
 
   public StringSubject description() {
     isNotNull();
-    InternalGroup group = actual();
+    InternalGroup group = actual;
     return check("getDescription()").that(group.getDescription());
   }
 
   public ComparableSubject<?, AccountGroup.UUID> ownerGroupUuid() {
     isNotNull();
-    InternalGroup group = actual();
+    InternalGroup group = actual;
     return check("getOwnerGroupUUID()").that(group.getOwnerGroupUUID());
   }
 
   public BooleanSubject visibleToAll() {
     isNotNull();
-    InternalGroup group = actual();
+    InternalGroup group = actual;
     return check("isVisibleToAll()").that(group.isVisibleToAll());
   }
 
   public ComparableSubject<?, Timestamp> createdOn() {
     isNotNull();
-    InternalGroup group = actual();
+    InternalGroup group = actual;
     return check("getCreatedOn()").that(group.getCreatedOn());
   }
 
   public IterableSubject members() {
     isNotNull();
-    InternalGroup group = actual();
+    InternalGroup group = actual;
     return check("getMembers()").that(group.getMembers());
   }
 
   public IterableSubject subgroups() {
     isNotNull();
-    InternalGroup group = actual();
+    InternalGroup group = actual;
     return check("getSubgroups()").that(group.getSubgroups());
   }
 
   public ComparableSubject<?, ObjectId> refState() {
     isNotNull();
-    InternalGroup group = actual();
+    InternalGroup group = actual;
     return check("getRefState()").that(group.getRefState());
   }
 }

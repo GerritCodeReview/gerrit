@@ -60,20 +60,23 @@ public class SerializedClassSubject extends Subject<SerializedClassSubject, Clas
     return assertAbout(factory).that(actual);
   }
 
+  private final Class<?> actual;
+
   private SerializedClassSubject(FailureMetadata metadata, Class<?> actual) {
     super(metadata, actual);
+    this.actual = actual;
   }
 
   public void isAbstract() {
     isNotNull();
-    if (!Modifier.isAbstract(actual().getModifiers())) {
+    if (!Modifier.isAbstract(actual.getModifiers())) {
       failWithActual(simpleFact("expected class to be abstract"));
     }
   }
 
   public void isConcrete() {
     isNotNull();
-    if (Modifier.isAbstract(actual().getModifiers())) {
+    if (Modifier.isAbstract(actual.getModifiers())) {
       failWithActual(simpleFact("expected class to be concrete"));
     }
   }
@@ -82,7 +85,7 @@ public class SerializedClassSubject extends Subject<SerializedClassSubject, Clas
     isConcrete();
     check("fields()")
         .that(
-            FieldUtils.getAllFieldsList(actual()).stream()
+            FieldUtils.getAllFieldsList(actual).stream()
                 .filter(f -> !Modifier.isStatic(f.getModifiers()))
                 .collect(toImmutableMap(Field::getName, Field::getGenericType)))
         .containsExactlyEntriesIn(expectedFields);
@@ -93,7 +96,7 @@ public class SerializedClassSubject extends Subject<SerializedClassSubject, Clas
     isAbstract();
     check("noArgumentAbstractMethods()")
         .that(
-            Arrays.stream(actual().getDeclaredMethods())
+            Arrays.stream(actual.getDeclaredMethods())
                 .filter(m -> !Modifier.isStatic(m.getModifiers()))
                 .filter(m -> Modifier.isAbstract(m.getModifiers()))
                 .filter(m -> m.getParameters().length == 0)
@@ -103,6 +106,6 @@ public class SerializedClassSubject extends Subject<SerializedClassSubject, Clas
 
   public void extendsClass(Type superclassType) {
     isNotNull();
-    check("getGenericSuperclass()").that(actual().getGenericSuperclass()).isEqualTo(superclassType);
+    check("getGenericSuperclass()").that(actual.getGenericSuperclass()).isEqualTo(superclassType);
   }
 }

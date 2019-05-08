@@ -29,13 +29,16 @@ public class ObjectIdSubject extends Subject<ObjectIdSubject, ObjectId> {
     return ObjectIdSubject::new;
   }
 
+  private final ObjectId actual;
+
   private ObjectIdSubject(FailureMetadata metadata, ObjectId actual) {
     super(metadata, actual);
+    this.actual = actual;
   }
 
   public void hasName(String expectedName) {
     isNotNull();
-    ObjectId objectId = actual();
+    ObjectId objectId = actual;
     check("getName()").that(objectId.getName()).isEqualTo(expectedName);
   }
 }

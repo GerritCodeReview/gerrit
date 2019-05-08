@@ -38,19 +38,22 @@ public class ChangeFileContentModificationSubject
     return ChangeFileContentModificationSubject::new;
   }
 
+  private final ChangeFileContentModification actual;
+
   private ChangeFileContentModificationSubject(
       FailureMetadata failureMetadata, ChangeFileContentModification modification) {
     super(failureMetadata, modification);
+    this.actual = modification;
   }
 
   public StringSubject filePath() {
     isNotNull();
-    return check("getFilePath()").that(actual().getFilePath());
+    return check("getFilePath()").that(actual.getFilePath());
   }
 
   public StringSubject newContent() throws IOException {
     isNotNull();
-    RawInput newContent = actual().getNewContent();
+    RawInput newContent = actual.getNewContent();
     check("getNewContent()").that(newContent).isNotNull();
     String contentString =
         CharStreams.toString(

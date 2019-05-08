@@ -28,38 +28,41 @@ public class TreeSubject extends Subject<TreeSubject, Tree> {
     return assertAbout(TreeSubject::new).that(actual);
   }
 
+  private final Tree actual;
+
   private TreeSubject(FailureMetadata failureMetadata, Tree tree) {
     super(failureMetadata, tree);
+    this.actual = tree;
   }
 
   public void hasType(int expectedType) {
     isNotNull();
-    check("getType()").that(typeName(actual().getType())).isEqualTo(typeName(expectedType));
+    check("getType()").that(typeName(actual.getType())).isEqualTo(typeName(expectedType));
   }
 
   public void hasText(String expectedText) {
     requireNonNull(expectedText);
     isNotNull();
-    check("getText()").that(actual().getText()).isEqualTo(expectedText);
+    check("getText()").that(actual.getText()).isEqualTo(expectedText);
   }
 
   public void hasNoChildren() {
     isNotNull();
-    check("getChildCount()").that(actual().getChildCount()).isEqualTo(0);
+    check("getChildCount()").that(actual.getChildCount()).isEqualTo(0);
   }
 
   public void hasChildCount(int expectedChildCount) {
     checkArgument(
         expectedChildCount > 0, "expected child count must be positive: %s", expectedChildCount);
     isNotNull();
-    check("getChildCount()").that(actual().getChildCount()).isEqualTo(expectedChildCount);
+    check("getChildCount()").that(actual.getChildCount()).isEqualTo(expectedChildCount);
   }
 
   public TreeSubject child(int childIndex) {
     isNotNull();
     return check("getChild(%s)", childIndex)
         .about(TreeSubject::new)
-        .that(actual().getChild(childIndex));
+        .that(actual.getChild(childIndex));
   }
 
   private static String typeName(int type) {

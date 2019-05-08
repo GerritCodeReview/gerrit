@@ -29,6 +29,7 @@ import java.util.function.BiFunction;
 
 public class ListSubject<S extends Subject<S, E>, E> extends IterableSubject {
 
+  private final List<E> actual;
   private final BiFunction<StandardSubjectBuilder, E, S> elementSubjectCreator;
 
   public static <S extends Subject<S, E>, E> ListSubject<S, E> assertThat(
@@ -45,6 +46,7 @@ public class ListSubject<S extends Subject<S, E>, E> extends IterableSubject {
       List<E> list,
       BiFunction<StandardSubjectBuilder, E, S> elementSubjectCreator) {
     super(failureMetadata, list);
+    this.actual = list;
     this.elementSubjectCreator = elementSubjectCreator;
   }
 
@@ -75,7 +77,7 @@ public class ListSubject<S extends Subject<S, E>, E> extends IterableSubject {
   @SuppressWarnings("unchecked")
   private List<E> getActualList() {
     // The constructor only accepts lists. -> Casting is appropriate.
-    return (List<E>) actual();
+    return (List<E>) actual;
   }
 
   public static class ListSubjectBuilder extends CustomSubjectBuilder {

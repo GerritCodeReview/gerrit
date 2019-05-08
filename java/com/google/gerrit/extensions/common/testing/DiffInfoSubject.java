@@ -32,13 +32,16 @@ public class DiffInfoSubject extends Subject<DiffInfoSubject, DiffInfo> {
     return assertAbout(DiffInfoSubject::new).that(diffInfo);
   }
 
+  private final DiffInfo actual;
+
   private DiffInfoSubject(FailureMetadata failureMetadata, DiffInfo diffInfo) {
     super(failureMetadata, diffInfo);
+    this.actual = diffInfo;
   }
 
   public ListSubject<ContentEntrySubject, ContentEntry> content() {
     isNotNull();
-    DiffInfo diffInfo = actual();
+    DiffInfo diffInfo = actual;
     return check("content")
         .about(elements())
         .thatCustom(diffInfo.content, ContentEntrySubject.contentEntries());
@@ -46,19 +49,19 @@ public class DiffInfoSubject extends Subject<DiffInfoSubject, DiffInfo> {
 
   public ComparableSubject<?, ChangeType> changeType() {
     isNotNull();
-    DiffInfo diffInfo = actual();
+    DiffInfo diffInfo = actual;
     return check("changeType").that(diffInfo.changeType);
   }
 
   public FileMetaSubject metaA() {
     isNotNull();
-    DiffInfo diffInfo = actual();
+    DiffInfo diffInfo = actual;
     return check("metaA").about(fileMetas()).that(diffInfo.metaA);
   }
 
   public FileMetaSubject metaB() {
     isNotNull();
-    DiffInfo diffInfo = actual();
+    DiffInfo diffInfo = actual;
     return check("metaB").about(fileMetas()).that(diffInfo.metaB);
   }
 }

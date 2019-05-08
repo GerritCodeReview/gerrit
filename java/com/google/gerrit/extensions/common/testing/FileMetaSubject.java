@@ -31,13 +31,16 @@ public class FileMetaSubject extends Subject<FileMetaSubject, FileMeta> {
     return FileMetaSubject::new;
   }
 
+  private final FileMeta actual;
+
   private FileMetaSubject(FailureMetadata failureMetadata, FileMeta fileMeta) {
     super(failureMetadata, fileMeta);
+    this.actual = fileMeta;
   }
 
   public IntegerSubject totalLineCount() {
     isNotNull();
-    FileMeta fileMeta = actual();
+    FileMeta fileMeta = actual;
     return check("totalLineCount()").that(fileMeta.lines);
   }
 }

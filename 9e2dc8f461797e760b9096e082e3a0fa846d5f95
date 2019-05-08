@@ -1,0 +1,280 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff82f3ef_d9054d0c",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-08T21:14:25Z",
+      "side": 1,
+      "message": "Are you saying that the mentor is a subordinate of the ESC? Or is it on a voluntary basis?",
+      "range": {
+        "startLine": 171,
+        "startChar": 28,
+        "endLine": 172,
+        "endChar": 9
+      },
+      "revId": "9e2dc8f461797e760b9096e082e3a0fa846d5f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c966b099_1184cca5",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-08T21:14:25Z",
+      "side": 1,
+      "message": "They contributor could be the one that starts with the idea. However, if the ESC decides that is a *good idea* and it belongs to the roadmap of the project, I do not see the point of overloading the contributor with the responsibility of implementing the whole feature.\n\nGerrit is a healthy project because is collaborative, that means ideas can come from everyone and can be implemented by everyone, not necessarily the person who had it in the first place.",
+      "range": {
+        "startLine": 229,
+        "startChar": 38,
+        "endLine": 229,
+        "endChar": 53
+      },
+      "revId": "9e2dc8f461797e760b9096e082e3a0fa846d5f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2cba458_3d2d85f7",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-08T21:14:25Z",
+      "side": 1,
+      "message": "What does \"timely manner\" translate to? Are we putting ETAs on contributions? Contributors could be salaried employees working on Gerrit OR could be just hobbyist working in their spare-time.\n\nIf we restrict contributions only to people that can allocate the implementation as part of their full-time job, then we are seriously limiting the ability to innovate and thrive in the future as an healthy OpenSource project.\n\nThe diversity of contributions is one of the key aspects of OpenSource and is one of the reasons I love to contribute to OpenSource projects.",
+      "range": {
+        "startLine": 230,
+        "startChar": 19,
+        "endLine": 230,
+        "endChar": 37
+      },
+      "revId": "9e2dc8f461797e760b9096e082e3a0fa846d5f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7fc57f9_f20e71e4",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-08T21:14:25Z",
+      "side": 1,
+      "message": "This is linked to the previous discussion of the ETAs.\n\nIf you look at Gerrit\u0027s evolution and history, there are plenty of super-cool features that have not been finished in time (PolyGerrit, NoteDb, just to mention the most important features of v3.0) but nevertheless, they have been successfully and beautifully implemented by amazing contributors and maintainers.\n\nSoftware development is like art, it is never finished and is unpredictable by nature. Putting strict timelines for the implementation is against the basic principles of software developments and agile.",
+      "range": {
+        "startLine": 240,
+        "startChar": 13,
+        "endLine": 240,
+        "endChar": 36
+      },
+      "revId": "9e2dc8f461797e760b9096e082e3a0fa846d5f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "feed04b2_e0bb0656",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-08T21:14:25Z",
+      "side": 1,
+      "message": "If that was the case with NoteDb, which was an \"unfinished feature\" for years, we would have Gerrit v3.0.",
+      "range": {
+        "startLine": 243,
+        "startChar": 6,
+        "endLine": 244,
+        "endChar": 12
+      },
+      "revId": "9e2dc8f461797e760b9096e082e3a0fa846d5f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bd8c572_f4312741",
+        "filename": "Documentation/dev-design-doc-template.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-08T21:14:25Z",
+      "side": 1,
+      "message": "Again, only T-Shirt.",
+      "range": {
+        "startLine": 56,
+        "startChar": 52,
+        "endLine": 56,
+        "endChar": 70
+      },
+      "revId": "9e2dc8f461797e760b9096e082e3a0fa846d5f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "630d1752_5efa401d",
+        "filename": "Documentation/dev-design-doc-template.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-08T21:14:25Z",
+      "side": 1,
+      "message": "Better T-Shirt estimates (S, M, L, XL) and only for the purpose of breaking down big features into smaller features.",
+      "range": {
+        "startLine": 55,
+        "startChar": 31,
+        "endLine": 56,
+        "endChar": 8
+      },
+      "revId": "9e2dc8f461797e760b9096e082e3a0fa846d5f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80fbf482_70b2e998",
+        "filename": "Documentation/dev-design-doc-template.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-08T21:14:25Z",
+      "side": 1,
+      "message": "Isn\u0027t this a decision that is up to the mentor? Or is there a direct manager-employee relationship between the ESC and the mentor, so that the mentor must obey the orders of the ESC?",
+      "range": {
+        "startLine": 60,
+        "startChar": 27,
+        "endLine": 60,
+        "endChar": 46
+      },
+      "revId": "9e2dc8f461797e760b9096e082e3a0fa846d5f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "070a572a_6e9197a9",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-08T21:14:25Z",
+      "side": 1,
+      "message": "I don\u0027t see how a contributor could provide a +2 on changes. It must be a maintainer IMHO.",
+      "range": {
+        "startLine": 247,
+        "startChar": 52,
+        "endLine": 247,
+        "endChar": 63
+      },
+      "revId": "9e2dc8f461797e760b9096e082e3a0fa846d5f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e076fea_b46f39d2",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-08T21:14:25Z",
+      "side": 1,
+      "message": "willing",
+      "range": {
+        "startLine": 248,
+        "startChar": 20,
+        "endLine": 248,
+        "endChar": 28
+      },
+      "revId": "9e2dc8f461797e760b9096e082e3a0fa846d5f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5abd767_955c99be",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-08T21:14:25Z",
+      "side": 1,
+      "message": "To be honest with you, we *all should be mentors* and provide timely reviews. If we do not do that, it\u0027s a personal failure.\n\nAt times I fail to provide a timely review, and it is a personal point of improvement. I do not see how being tagged as \"mentor\" would change that.",
+      "range": {
+        "startLine": 255,
+        "startChar": 2,
+        "endLine": 255,
+        "endChar": 22
+      },
+      "revId": "9e2dc8f461797e760b9096e082e3a0fa846d5f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49d5be88_8b27750b",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-08T21:14:25Z",
+      "side": 1,
+      "message": "I disagree, see my previous comment on \"ideas\" vs. \"implementation\".",
+      "range": {
+        "startLine": 261,
+        "startChar": 22,
+        "endLine": 261,
+        "endChar": 51
+      },
+      "revId": "9e2dc8f461797e760b9096e082e3a0fa846d5f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2cbc4326_6a4fa66e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-08T10:50:13Z",
+      "side": 1,
+      "message": "Done in \nhttps://gerrit-review.googlesource.com/c/gerrit/+/223472/2..3/Documentation/dev-roles.txt",
+      "parentUuid": "04307cbd_5cc57d3e",
+      "revId": "6bdb7269d648f10eed07c3a232846bca6fc6821a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b978904_ea4379d5",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 2

@@ -39,6 +39,30 @@
       "revId": "6bdb7269d648f10eed07c3a232846bca6fc6821a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8b917ae_2ebf6fb6",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-08T10:46:23Z",
+      "side": 1,
+      "message": "No, this was not intended. I don\u0027t know how that happened.\n\nDone.",
+      "parentUuid": "1b978904_ea4379d5",
+      "range": {
+        "startLine": 286,
+        "startChar": 0,
+        "endLine": 291,
+        "endChar": 23
+      },
+      "revId": "6bdb7269d648f10eed07c3a232846bca6fc6821a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

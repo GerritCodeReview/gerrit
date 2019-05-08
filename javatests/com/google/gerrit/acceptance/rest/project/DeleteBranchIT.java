@@ -23,6 +23,7 @@ import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchApi;
@@ -132,13 +133,22 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     assertDeleteByRestSucceeds(metaBranch, metaRef);
   }
 
+  // TODO(dborowitz): Only necessary as until AbstractDaemonTest methods go away.
+  private static TestProjectUpdate.TestPermission.Builder allow(String permissionName) {
+    return TestProjectUpdate.allow(permissionName);
+  }
+
+  private static TestProjectUpdate.TestPermission.Builder block(String permissionName) {
+    return TestProjectUpdate.block(permissionName);
+  }
+
   @Test
   public void deleteUserBranch_Conflict() throws Exception {
     projectOperations
         .project(allUsers)
         .forUpdate()
-        .addPermission(Permission.CREATE, RefNames.REFS_USERS + "*", REGISTERED_USERS)
-        .addPermission(Permission.PUSH, RefNames.REFS_USERS + "*", REGISTERED_USERS)
+        .add(allow(Permission.CREATE).ref(RefNames.REFS_USERS + "*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref(RefNames.REFS_USERS + "*").group(REGISTERED_USERS))
         .update();
     allow(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE, REGISTERED_USERS);
     allow(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH, REGISTERED_USERS);
@@ -168,8 +178,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     projectOperations
         .project(allUsers)
         .forUpdate()
-        .addPermission(
-            Permission.PUSH, "refs/heads/*", ANONYMOUS_USERS, rule -> rule.setForce(true))
+        .add(block(Permission.PUSH).ref("refs/heads/*").group(ANONYMOUS_USERS).force(true))
         .update();
   }
 

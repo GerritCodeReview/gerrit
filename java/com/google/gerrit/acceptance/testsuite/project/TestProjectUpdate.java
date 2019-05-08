@@ -21,10 +21,59 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 @AutoValue
 public abstract class TestProjectUpdate {
+  public static TestPermission.Builder allow(String name) {
+    return TestPermission.builder().name(name).action(PermissionRule.Action.ALLOW);
+  }
+
+  public static TestPermission.Builder block(String name) {
+    return TestPermission.builder().name(name).action(PermissionRule.Action.BLOCK);
+  }
+
+  @AutoValue
+  public abstract static class TestPermission {
+    private static Builder builder() {
+      return new AutoValue_TestProjectUpdate_TestPermission.Builder().force(false).min(0).max(0);
+    }
+
+    public abstract String name();
+
+    public abstract String ref();
+
+    public abstract AccountGroup.UUID group();
+
+    public abstract PermissionRule.Action action();
+
+    public abstract boolean force();
+
+    public abstract int min();
+
+    public abstract int max();
+
+    @AutoValue.Builder
+    public abstract static class Builder {
+      public abstract Builder name(String name);
+
+      public abstract Builder ref(String ref);
+
+      public abstract Builder group(AccountGroup.UUID groupUuid);
+
+      public abstract Builder action(PermissionRule.Action action);
+
+      public abstract Builder force(boolean force);
+
+      public abstract Builder min(int min);
+
+      public abstract Builder max(int max);
+
+      public abstract TestPermission build();
+    }
+  }
+
   abstract Consumer<ProjectConfig> configModification();
 
   abstract ThrowingConsumer<TestProjectUpdate> projectUpdater();
@@ -47,17 +96,33 @@ public abstract class TestProjectUpdate {
       return configModification(configModification().andThen(configModification));
     }
 
+    public Builder add(TestPermission.Builder permissionBuilder) {
+      TestPermission p = permissionBuilder.build();
+      return addPermission(
+          p.name(),
+          p.ref(),
+          p.group(),
+          (projectConfig, rule) -> {
+            rule.setAction(p.action());
+            rule.setForce(p.force());
+            rule.setMin(p.min());
+            rule.setMax(p.max());
+            rule.setGroup(projectConfig.resolve(new GroupReference(p.group(), p.group().get())));
+          });
+    }
+
+    // TODO(dborowitz): If we prefer the add(...) construction, these variants will go away.
     public Builder addPermission(
         String permissionName,
         String ref,
         AccountGroup.UUID groupUuid,
-        Consumer<PermissionRule> initRule) {
+        BiConsumer<ProjectConfig, PermissionRule> initRule) {
       return addConfigModification(
           projectConfig -> addRule(projectConfig, permissionName, ref, groupUuid, initRule));
     }
 
     public Builder addPermission(String permissionName, String ref, AccountGroup.UUID groupUuid) {
-      return addPermission(permissionName, ref, groupUuid, rule -> {});
+      return addPermission(permissionName, ref, groupUuid, (pc, r) -> {});
     }
 
     public Builder removePermission(
@@ -79,9 +144,9 @@ public abstract class TestProjectUpdate {
       String permissionName,
       String ref,
       AccountGroup.UUID groupUuid,
-      Consumer<PermissionRule> initRule) {
+      BiConsumer<ProjectConfig, PermissionRule> initRule) {
     PermissionRule rule = Util.newRule(projectConfig, groupUuid);
-    initRule.accept(rule);
+    initRule.accept(projectConfig, rule);
     projectConfig.getAccessSection(ref, true).getPermission(permissionName, true).add(rule);
   }
 

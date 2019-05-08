@@ -245,6 +245,30 @@
     },
     {
       "key": {
+        "uuid": "4eb76a69_a47840af",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-08T08:17:41Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t want to hardcode these criteria\n\nOK, leaving the sentence as it is for now.",
+      "parentUuid": "330f7096_bcc44e53",
+      "range": {
+        "startLine": 21,
+        "startChar": 22,
+        "endLine": 21,
+        "endChar": 41
+      },
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c6ac930_5b795567",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 1
@@ -259,6 +283,24 @@
       "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98cc880b_3aa41d5e",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-08T08:17:41Z",
+      "side": 1,
+      "message": "Mark as resolved :)",
+      "parentUuid": "7c6ac930_5b795567",
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -330,6 +372,30 @@
       "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34b05f97_1e9cdfbb",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-08T08:17:41Z",
+      "side": 1,
+      "message": "I think, once we have the steering committee in place and had it working for a while, we should have a better understanding of how time-consuming this role really is. Then we should came back, and give an estimate here.\n\nFor now marking this as resolved.",
+      "parentUuid": "8e9303e5_62ebb94a",
+      "range": {
+        "startLine": 48,
+        "startChar": 21,
+        "endLine": 50,
+        "endChar": 17
+      },
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -427,6 +493,54 @@
     },
     {
       "key": {
+        "uuid": "1850e6a7_e3cdf4c4",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-08T08:17:41Z",
+      "side": 1,
+      "message": "Added a sentence that explains why Google maintainers do not take part in this vote.",
+      "parentUuid": "13f0490e_35d7f01d",
+      "range": {
+        "startLine": 54,
+        "startChar": 5,
+        "endLine": 54,
+        "endChar": 15
+      },
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aba32c5d_e2d2de62",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-08T08:17:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40e1bedd_12a5705b",
+      "range": {
+        "startLine": 54,
+        "startChar": 27,
+        "endLine": 54,
+        "endChar": 58
+      },
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e2909a89_3d7085de",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 1
@@ -447,6 +561,30 @@
       "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07a6148b_3999e44e",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-08T08:17:41Z",
+      "side": 1,
+      "message": "I applied Sven\u0027s suggestion from above and dropped this part.",
+      "parentUuid": "e2909a89_3d7085de",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 23
+      },
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -482,6 +620,24 @@
       "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e9b3d88_63276483",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-08T08:17:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f505ba15_cc7664e2",
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

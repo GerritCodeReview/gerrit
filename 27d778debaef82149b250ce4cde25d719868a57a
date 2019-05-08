@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7f8d1c3_054fef5f",
+        "filename": "Documentation/pg-plugin-rest-api.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-05-08T16:49:32Z",
+      "side": 1,
+      "message": "Would returning null be possible?",
+      "range": {
+        "startLine": 20,
+        "startChar": 57,
+        "endLine": 20,
+        "endChar": 75
+      },
+      "revId": "27d778debaef82149b250ce4cde25d719868a57a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef25abb6_c154a3de",
+        "filename": "Documentation/pg-plugin-rest-api.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-05-08T16:49:32Z",
+      "side": 1,
+      "message": "Please provide link to AccountInfo",
+      "revId": "27d778debaef82149b250ce4cde25d719868a57a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3843fc06_87e2b5b7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-rest-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-05-08T16:49:32Z",
+      "side": 1,
+      "message": "What\u0027s the primary use-case for this?\n\nWhat about logging out case? E.g. plugin called getAccount(), user logged out in another window, or login credentials have expired?\n\nWhat about re-loggin in? How would the plugin know when to invalidate the account?",
+      "revId": "27d778debaef82149b250ce4cde25d719868a57a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

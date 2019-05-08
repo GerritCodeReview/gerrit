@@ -225,6 +225,24 @@
     },
     {
       "key": {
+        "uuid": "48a79b6d_2028f3a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-08T16:18:48Z",
+      "side": 1,
+      "message": "Sure, let\u0027s squeeze this into the planned topic about this hereby changed process. -I suppose we will bring this commit message up during the latter(?)",
+      "parentUuid": "9c918053_06f4d9e4",
+      "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "102b8241_6c9cddbb",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 1

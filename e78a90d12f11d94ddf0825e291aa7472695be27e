@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "2b66fe9e_44233f4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-08T16:53:02Z",
+      "side": 1,
+      "message": "(Done; thanks btw.)",
+      "parentUuid": "9a32ac31_d083c903",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 47
+      },
+      "revId": "e78a90d12f11d94ddf0825e291aa7472695be27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86f8e593_c3eb8241",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 1
@@ -225,6 +249,30 @@
     },
     {
       "key": {
+        "uuid": "964fac1b_5897d133",
+        "filename": "Documentation/dev-design-doc-template.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-08T16:53:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5607ca9e_7c82f77d",
+      "range": {
+        "startLine": 43,
+        "startChar": 8,
+        "endLine": 43,
+        "endChar": 18
+      },
+      "revId": "e78a90d12f11d94ddf0825e291aa7472695be27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02dcb5ec_1713a480",
         "filename": "Documentation/dev-design-doc-template.txt",
         "patchSetId": 1
@@ -239,6 +287,24 @@
       "revId": "e78a90d12f11d94ddf0825e291aa7472695be27e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84c7ff9b_a98e8d02",
+        "filename": "Documentation/dev-design-doc-template.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-08T16:53:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02dcb5ec_1713a480",
+      "revId": "e78a90d12f11d94ddf0825e291aa7472695be27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

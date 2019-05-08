@@ -37,13 +37,15 @@ public class ContentEntrySubject extends Subject<ContentEntrySubject, ContentEnt
     return ContentEntrySubject::new;
   }
 
+  private final ContentEntry contentEntry;
+
   private ContentEntrySubject(FailureMetadata failureMetadata, ContentEntry contentEntry) {
     super(failureMetadata, contentEntry);
+    this.contentEntry = contentEntry;
   }
 
   public void isDueToRebase() {
     isNotNull();
-    ContentEntry contentEntry = actual();
     if (contentEntry.dueToRebase == null || !contentEntry.dueToRebase) {
       failWithActual(simpleFact("expected entry to be marked 'dueToRebase'"));
     }
@@ -51,7 +53,6 @@ public class ContentEntrySubject extends Subject<ContentEntrySubject, ContentEnt
 
   public void isNotDueToRebase() {
     isNotNull();
-    ContentEntry contentEntry = actual();
     if (contentEntry.dueToRebase != null && contentEntry.dueToRebase) {
       failWithActual(simpleFact("expected entry not to be marked 'dueToRebase'"));
     }
@@ -59,7 +60,6 @@ public class ContentEntrySubject extends Subject<ContentEntrySubject, ContentEnt
 
   public ListSubject<StringSubject, String> commonLines() {
     isNotNull();
-    ContentEntry contentEntry = actual();
     return check("commonLines()")
         .about(elements())
         .that(contentEntry.ab, StandardSubjectBuilder::that);
@@ -67,31 +67,26 @@ public class ContentEntrySubject extends Subject<ContentEntrySubject, ContentEnt
 
   public ListSubject<StringSubject, String> linesOfA() {
     isNotNull();
-    ContentEntry contentEntry = actual();
     return check("linesOfA()").about(elements()).that(contentEntry.a, StandardSubjectBuilder::that);
   }
 
   public ListSubject<StringSubject, String> linesOfB() {
     isNotNull();
-    ContentEntry contentEntry = actual();
     return check("linesOfB()").about(elements()).that(contentEntry.b, StandardSubjectBuilder::that);
   }
 
   public IterableSubject intralineEditsOfA() {
     isNotNull();
-    ContentEntry contentEntry = actual();
     return check("intralineEditsOfA()").that(contentEntry.editA);
   }
 
   public IterableSubject intralineEditsOfB() {
     isNotNull();
-    ContentEntry contentEntry = actual();
     return check("intralineEditsOfB()").that(contentEntry.editB);
   }
 
   public IntegerSubject numberOfSkippedLines() {
     isNotNull();
-    ContentEntry contentEntry = actual();
     return check("numberOfSkippedLines()").that(contentEntry.skip);
   }
 }

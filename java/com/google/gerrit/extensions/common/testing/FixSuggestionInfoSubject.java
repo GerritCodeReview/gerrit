@@ -35,20 +35,23 @@ public class FixSuggestionInfoSubject extends Subject<FixSuggestionInfoSubject, 
     return FixSuggestionInfoSubject::new;
   }
 
+  private final FixSuggestionInfo fixSuggestionInfo;
+
   private FixSuggestionInfoSubject(
       FailureMetadata failureMetadata, FixSuggestionInfo fixSuggestionInfo) {
     super(failureMetadata, fixSuggestionInfo);
+    this.fixSuggestionInfo = fixSuggestionInfo;
   }
 
   public StringSubject fixId() {
-    return check("fixId").that(actual().fixId);
+    return check("fixId").that(fixSuggestionInfo.fixId);
   }
 
   public ListSubject<FixReplacementInfoSubject, FixReplacementInfo> replacements() {
     isNotNull();
     return check("replacements")
         .about(elements())
-        .thatCustom(actual().replacements, fixReplacements());
+        .thatCustom(fixSuggestionInfo.replacements, fixReplacements());
   }
 
   public FixReplacementInfoSubject onlyReplacement() {
@@ -57,6 +60,6 @@ public class FixSuggestionInfoSubject extends Subject<FixSuggestionInfoSubject, 
 
   public StringSubject description() {
     isNotNull();
-    return check("description").that(actual().description);
+    return check("description").that(fixSuggestionInfo.description);
   }
 }

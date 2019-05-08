@@ -56,8 +56,11 @@ public class CommitSubject extends Subject<CommitSubject, RevCommit> {
     commitSubject.hasSha1(expectedSha1);
   }
 
-  private CommitSubject(FailureMetadata metadata, RevCommit actual) {
-    super(metadata, actual);
+  private final RevCommit commit;
+
+  private CommitSubject(FailureMetadata metadata, RevCommit commit) {
+    super(metadata, commit);
+    this.commit = commit;
   }
 
   /**
@@ -67,7 +70,6 @@ public class CommitSubject extends Subject<CommitSubject, RevCommit> {
    */
   public void hasCommitMessage(String expectedCommitMessage) {
     isNotNull();
-    RevCommit commit = actual();
     check("getFullMessage()").that(commit.getFullMessage()).isEqualTo(expectedCommitMessage);
   }
 
@@ -78,7 +80,6 @@ public class CommitSubject extends Subject<CommitSubject, RevCommit> {
    */
   public void hasCommitTimestamp(Timestamp expectedCommitTimestamp) {
     isNotNull();
-    RevCommit commit = actual();
     long timestampDiffMs =
         Math.abs(commit.getCommitTime() * 1000L - expectedCommitTimestamp.getTime());
     check("commitTimestampDiff()").that(timestampDiffMs).isAtMost(SECONDS.toMillis(1));
@@ -91,7 +92,6 @@ public class CommitSubject extends Subject<CommitSubject, RevCommit> {
    */
   public void hasSha1(ObjectId expectedSha1) {
     isNotNull();
-    RevCommit commit = actual();
     check("sha1()").that(commit).isEqualTo(expectedSha1);
   }
 }

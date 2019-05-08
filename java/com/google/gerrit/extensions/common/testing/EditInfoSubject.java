@@ -39,19 +39,20 @@ public class EditInfoSubject extends Subject<EditInfoSubject, EditInfo> {
     return OptionalSubject.assertThat(editInfoOptional, edits());
   }
 
+  private final EditInfo editInfo;
+
   private EditInfoSubject(FailureMetadata failureMetadata, EditInfo editInfo) {
     super(failureMetadata, editInfo);
+    this.editInfo = editInfo;
   }
 
   public CommitInfoSubject commit() {
     isNotNull();
-    EditInfo editInfo = actual();
     return check("commit").about(commits()).that(editInfo.commit);
   }
 
   public StringSubject baseRevision() {
     isNotNull();
-    EditInfo editInfo = actual();
     return check("baseRevision").that(editInfo.baseRevision);
   }
 }

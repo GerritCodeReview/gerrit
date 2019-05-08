@@ -37,31 +37,30 @@ public class GitPersonSubject extends Subject<GitPersonSubject, GitPerson> {
     return GitPersonSubject::new;
   }
 
+  private final GitPerson gitPerson;
+
   private GitPersonSubject(FailureMetadata failureMetadata, GitPerson gitPerson) {
     super(failureMetadata, gitPerson);
+    this.gitPerson = gitPerson;
   }
 
   public StringSubject name() {
     isNotNull();
-    GitPerson gitPerson = actual();
     return check("name").that(gitPerson.name);
   }
 
   public StringSubject email() {
     isNotNull();
-    GitPerson gitPerson = actual();
     return check("email").that(gitPerson.email);
   }
 
   public ComparableSubject<?, Timestamp> date() {
     isNotNull();
-    GitPerson gitPerson = actual();
     return check("date").that(gitPerson.date);
   }
 
   public IntegerSubject tz() {
     isNotNull();
-    GitPerson gitPerson = actual();
     return check("tz").that(gitPerson.tz);
   }
 
@@ -76,7 +75,7 @@ public class GitPersonSubject extends Subject<GitPersonSubject, GitPerson> {
     isNotNull();
     name().isEqualTo(ident.getName());
     email().isEqualTo(ident.getEmailAddress());
-    check("roundedDate()").that(new Date(actual().date.getTime())).isEqualTo(ident.getWhen());
+    check("roundedDate()").that(new Date(gitPerson.date.getTime())).isEqualTo(ident.getWhen());
     tz().isEqualTo(ident.getTimeZoneOffset());
   }
 }

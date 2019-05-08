@@ -36,15 +36,18 @@ public class TreeModificationSubject extends Subject<TreeModificationSubject, Tr
     return ListSubject.assertThat(treeModifications, treeModifications());
   }
 
+  private final TreeModification treeModification;
+
   private TreeModificationSubject(
       FailureMetadata failureMetadata, TreeModification treeModification) {
     super(failureMetadata, treeModification);
+    this.treeModification = treeModification;
   }
 
   public ChangeFileContentModificationSubject asChangeFileContentModification() {
     isInstanceOf(ChangeFileContentModification.class);
     return check("asChangeFileContentModification()")
         .about(ChangeFileContentModificationSubject.modifications())
-        .that((ChangeFileContentModification) actual());
+        .that((ChangeFileContentModification) treeModification);
   }
 }

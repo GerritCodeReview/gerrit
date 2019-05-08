@@ -33,23 +33,26 @@ public class FixReplacementInfoSubject
     return FixReplacementInfoSubject::new;
   }
 
+  private final FixReplacementInfo fixReplacementInfo;
+
   private FixReplacementInfoSubject(
       FailureMetadata failureMetadata, FixReplacementInfo fixReplacementInfo) {
     super(failureMetadata, fixReplacementInfo);
+    this.fixReplacementInfo = fixReplacementInfo;
   }
 
   public StringSubject path() {
     isNotNull();
-    return check("path").that(actual().path);
+    return check("path").that(fixReplacementInfo.path);
   }
 
   public RangeSubject range() {
     isNotNull();
-    return check("range").about(ranges()).that(actual().range);
+    return check("range").about(ranges()).that(fixReplacementInfo.range);
   }
 
   public StringSubject replacement() {
     isNotNull();
-    return check("replacement").that(actual().replacement);
+    return check("replacement").that(fixReplacementInfo.replacement);
   }
 }

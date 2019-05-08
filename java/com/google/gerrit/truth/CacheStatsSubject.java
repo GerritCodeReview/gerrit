@@ -39,10 +39,12 @@ public class CacheStatsSubject extends Subject<CacheStatsSubject, CacheStats> {
         other.evictionCount());
   }
 
+  private final CacheStats stats;
   private CacheStats start = new CacheStats(0, 0, 0, 0, 0, 0);
 
   private CacheStatsSubject(FailureMetadata failureMetadata, CacheStats stats) {
     super(failureMetadata, stats);
+    this.stats = stats;
   }
 
   public CacheStatsSubject since(CacheStats start) {
@@ -52,11 +54,11 @@ public class CacheStatsSubject extends Subject<CacheStatsSubject, CacheStats> {
 
   public void hasHitCount(int expectedHitCount) {
     isNotNull();
-    check("hitCount()").that(actual().minus(start).hitCount()).isEqualTo(expectedHitCount);
+    check("hitCount()").that(stats.minus(start).hitCount()).isEqualTo(expectedHitCount);
   }
 
   public void hasMissCount(int expectedMissCount) {
     isNotNull();
-    check("missCount()").that(actual().minus(start).missCount()).isEqualTo(expectedMissCount);
+    check("missCount()").that(stats.minus(start).missCount()).isEqualTo(expectedMissCount);
   }
 }

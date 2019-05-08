@@ -33,19 +33,20 @@ public class GroupReferenceSubject extends Subject<GroupReferenceSubject, GroupR
     return GroupReferenceSubject::new;
   }
 
+  private final GroupReference group;
+
   private GroupReferenceSubject(FailureMetadata metadata, GroupReference group) {
     super(metadata, group);
+    this.group = group;
   }
 
   public ComparableSubject<?, AccountGroup.UUID> groupUuid() {
     isNotNull();
-    GroupReference group = actual();
     return check("getUUID()").that(group.getUUID());
   }
 
   public StringSubject name() {
     isNotNull();
-    GroupReference group = actual();
     return check("getName()").that(group.getName());
   }
 }

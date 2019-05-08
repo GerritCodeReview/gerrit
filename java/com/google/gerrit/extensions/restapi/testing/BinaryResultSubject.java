@@ -41,8 +41,11 @@ public class BinaryResultSubject extends Subject<BinaryResultSubject, BinaryResu
     return OptionalSubject.assertThat(binaryResultOptional, binaryResults());
   }
 
+  private final BinaryResult binaryResult;
+
   private BinaryResultSubject(FailureMetadata failureMetadata, BinaryResult binaryResult) {
     super(failureMetadata, binaryResult);
+    this.binaryResult = binaryResult;
   }
 
   public StringSubject asString() throws IOException {
@@ -50,7 +53,6 @@ public class BinaryResultSubject extends Subject<BinaryResultSubject, BinaryResu
     // We shouldn't close the BinaryResult within this method as it might still
     // be used afterwards. Besides, closing it doesn't have an effect for most
     // implementations of a BinaryResult.
-    BinaryResult binaryResult = actual();
     return check("asString()").that(binaryResult.asString());
   }
 
@@ -59,7 +61,6 @@ public class BinaryResultSubject extends Subject<BinaryResultSubject, BinaryResu
     // We shouldn't close the BinaryResult within this method as it might still
     // be used afterwards. Besides, closing it doesn't have an effect for most
     // implementations of a BinaryResult.
-    BinaryResult binaryResult = actual();
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
     binaryResult.writeTo(byteArrayOutputStream);
     byte[] bytes = byteArrayOutputStream.toByteArray();

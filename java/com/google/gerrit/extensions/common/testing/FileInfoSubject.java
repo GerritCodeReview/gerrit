@@ -28,25 +28,25 @@ public class FileInfoSubject extends Subject<FileInfoSubject, FileInfo> {
     return assertAbout(FileInfoSubject::new).that(fileInfo);
   }
 
+  private final FileInfo fileInfo;
+
   private FileInfoSubject(FailureMetadata failureMetadata, FileInfo fileInfo) {
     super(failureMetadata, fileInfo);
+    this.fileInfo = fileInfo;
   }
 
   public IntegerSubject linesInserted() {
     isNotNull();
-    FileInfo fileInfo = actual();
     return check("linesInserted").that(fileInfo.linesInserted);
   }
 
   public IntegerSubject linesDeleted() {
     isNotNull();
-    FileInfo fileInfo = actual();
     return check("linesDeleted").that(fileInfo.linesDeleted);
   }
 
   public ComparableSubject<?, Character> status() {
     isNotNull();
-    FileInfo fileInfo = actual();
     return check("status").that(fileInfo.status);
   }
 }

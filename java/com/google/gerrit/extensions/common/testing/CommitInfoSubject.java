@@ -34,37 +34,36 @@ public class CommitInfoSubject extends Subject<CommitInfoSubject, CommitInfo> {
     return CommitInfoSubject::new;
   }
 
+  private final CommitInfo commitInfo;
+
   private CommitInfoSubject(FailureMetadata failureMetadata, CommitInfo commitInfo) {
     super(failureMetadata, commitInfo);
+    this.commitInfo = commitInfo;
   }
 
   public StringSubject commit() {
     isNotNull();
-    CommitInfo commitInfo = actual();
     return check("commit").that(commitInfo.commit);
   }
 
   public ListSubject<CommitInfoSubject, CommitInfo> parents() {
     isNotNull();
-    CommitInfo commitInfo = actual();
     return check("parents").about(elements()).thatCustom(commitInfo.parents, commits());
   }
 
   public GitPersonSubject committer() {
     isNotNull();
-    CommitInfo commitInfo = actual();
     return check("committer").about(gitPersons()).that(commitInfo.committer);
   }
 
   public GitPersonSubject author() {
     isNotNull();
-    CommitInfo commitInfo = actual();
     return check("author").about(gitPersons()).that(commitInfo.author);
   }
 
   public StringSubject message() {
     isNotNull();
-    CommitInfo commitInfo = actual();
+    CommitInfo commitInfo = this.commitInfo;
     return check("message").that(commitInfo.message);
   }
 }

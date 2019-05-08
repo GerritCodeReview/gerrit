@@ -115,5 +115,19 @@
     _changeIsMerged(changeStatus) {
       return changeStatus === 'MERGED';
     },
+
+    /**
+     * @param label {string|undefined}
+     * @param permittedLabels {Object|undefined}
+     * @return {string}
+     */
+    _computeLabelAccessClass(label, permittedLabels) {
+      if (label == null || permittedLabels == null) {
+        return '';
+      }
+
+      return permittedLabels.hasOwnProperty(label) &&
+        permittedLabels[label].length ? 'access' : 'no-access';
+    },
   });
 })();

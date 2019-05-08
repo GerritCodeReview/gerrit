@@ -135,6 +135,25 @@ limitations under the License.
       });
     });
 
+    test('_computeLabelAccessClass undefined case', () => {
+      assert.strictEqual(
+          element._computeLabelAccessClass(undefined, undefined), '');
+      assert.strictEqual(
+          element._computeLabelAccessClass('', undefined), '');
+      assert.strictEqual(
+          element._computeLabelAccessClass(undefined, {}), '');
+    });
+
+    test('_computeLabelAccessClass has access', () => {
+      assert.strictEqual(
+          element._computeLabelAccessClass('foo', {foo: ['']}), 'access');
+    });
+
+    test('_computeLabelAccessClass no access', () => {
+      assert.strictEqual(
+          element._computeLabelAccessClass('zap', {foo: ['']}), 'no-access');
+    });
+
     test('changes in label score are reflected in _labels', () => {
       element.change = {
         _number: '123',

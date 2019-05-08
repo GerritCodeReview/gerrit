@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9acd5103_c81faa8b",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-08T07:29:10Z",
+      "side": 1,
+      "message": "Add a comment about what the intention is here?",
+      "range": {
+        "startLine": 47,
+        "startChar": 10,
+        "endLine": 47,
+        "endChar": 19
+      },
+      "revId": "1ecef7252757f42ca82c4e5e376799c3b3a58143",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

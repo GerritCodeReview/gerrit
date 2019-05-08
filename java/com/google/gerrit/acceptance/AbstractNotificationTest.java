@@ -93,6 +93,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
 
   protected static class FakeEmailSenderSubject
       extends Subject<FakeEmailSenderSubject, FakeEmailSender> {
+    private final FakeEmailSender fakeEmailSender;
     private Message message;
     private StagedUsers users;
     private Map<RecipientType, List<String>> recipients = new HashMap<>();
@@ -100,10 +101,11 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
 
     FakeEmailSenderSubject(FailureMetadata failureMetadata, FakeEmailSender target) {
       super(failureMetadata, target);
+      fakeEmailSender = target;
     }
 
     public FakeEmailSenderSubject didNotSend() {
-      Message message = actual().peekMessage();
+      Message message = fakeEmailSender.peekMessage();
       if (message != null) {
         failWithoutActual(fact("expected no message", message));
       }
@@ -111,7 +113,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     }
 
     public FakeEmailSenderSubject sent(String messageType, StagedUsers users) {
-      message = actual().nextMessage();
+      message = fakeEmailSender.nextMessage();
       if (message == null) {
         failWithoutActual(fact("expected message", "not sent"));
       }

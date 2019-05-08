@@ -29,6 +29,7 @@ import java.util.function.BiFunction;
 
 public class ListSubject<S extends Subject<S, E>, E> extends IterableSubject {
 
+  private final List<E> list;
   private final BiFunction<StandardSubjectBuilder, E, S> elementSubjectCreator;
 
   public static <S extends Subject<S, E>, E> ListSubject<S, E> assertThat(
@@ -45,13 +46,13 @@ public class ListSubject<S extends Subject<S, E>, E> extends IterableSubject {
       List<E> list,
       BiFunction<StandardSubjectBuilder, E, S> elementSubjectCreator) {
     super(failureMetadata, list);
+    this.list = list;
     this.elementSubjectCreator = elementSubjectCreator;
   }
 
   public S element(int index) {
     checkArgument(index >= 0, "index(%s) must be >= 0", index);
     isNotNull();
-    List<E> list = getActualList();
     if (index >= list.size()) {
       failWithoutActual(fact("expected to have element at index", index));
     }
@@ -61,21 +62,13 @@ public class ListSubject<S extends Subject<S, E>, E> extends IterableSubject {
   public S onlyElement() {
     isNotNull();
     hasSize(1);
-    List<E> list = getActualList();
     return elementSubjectCreator.apply(check("onlyElement()"), Iterables.getOnlyElement(list));
   }
 
   public S lastElement() {
     isNotNull();
     isNotEmpty();
-    List<E> list = getActualList();
     return elementSubjectCreator.apply(check("lastElement()"), Iterables.getLast(list));
-  }
-
-  @SuppressWarnings("unchecked")
-  private List<E> getActualList() {
-    // The constructor only accepts lists. -> Casting is appropriate.
-    return (List<E>) actual();
   }
 
   public static class ListSubjectBuilder extends CustomSubjectBuilder {

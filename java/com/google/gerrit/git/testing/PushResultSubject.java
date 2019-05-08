@@ -37,8 +37,11 @@ public class PushResultSubject extends Subject<PushResultSubject, PushResult> {
     return assertAbout(PushResultSubject::new).that(actual);
   }
 
-  private PushResultSubject(FailureMetadata metadata, PushResult actual) {
-    super(metadata, actual);
+  private final PushResult pushResult;
+
+  private PushResultSubject(FailureMetadata metadata, PushResult pushResult) {
+    super(metadata, pushResult);
+    this.pushResult = pushResult;
   }
 
   public void hasNoMessages() {
@@ -62,7 +65,7 @@ public class PushResultSubject extends Subject<PushResultSubject, PushResult> {
   }
 
   private String getTrimmedMessages() {
-    return trimMessages(actual().getMessages());
+    return trimMessages(pushResult.getMessages());
   }
 
   @VisibleForTesting
@@ -81,7 +84,7 @@ public class PushResultSubject extends Subject<PushResultSubject, PushResult> {
   public void hasProcessed(ImmutableMap<String, Integer> expected) {
     isNotNull();
     ImmutableMap<String, Integer> actual;
-    String messages = actual().getMessages();
+    String messages = pushResult.getMessages();
     try {
       actual = parseProcessed(messages);
     } catch (RuntimeException e) {
@@ -124,22 +127,25 @@ public class PushResultSubject extends Subject<PushResultSubject, PushResult> {
     isNotNull();
     return check("getRemoteUpdate(%s)", refName)
         .about(refs())
-        .that(actual().getRemoteUpdate(refName));
+        .that(pushResult.getRemoteUpdate(refName));
   }
 
   public RemoteRefUpdateSubject onlyRef(String refName) {
     isNotNull();
     check("setOfRefs()")
         .about(StreamSubject.streams())
-        .that(actual().getRemoteUpdates().stream().map(RemoteRefUpdate::getRemoteName))
+        .that(pushResult.getRemoteUpdates().stream().map(RemoteRefUpdate::getRemoteName))
         .containsExactly(refName);
     return ref(refName);
   }
 
   public static class RemoteRefUpdateSubject
       extends Subject<RemoteRefUpdateSubject, RemoteRefUpdate> {
-    private RemoteRefUpdateSubject(FailureMetadata metadata, RemoteRefUpdate actual) {
-      super(metadata, actual);
+    private final RemoteRefUpdate remoteRefUpdate;
+
+    private RemoteRefUpdateSubject(FailureMetadata metadata, RemoteRefUpdate remoteRefUpdate) {
+      super(metadata, remoteRefUpdate);
+      this.remoteRefUpdate = remoteRefUpdate;
     }
 
     static Factory<RemoteRefUpdateSubject, RemoteRefUpdate> refs() {
@@ -148,7 +154,7 @@ public class PushResultSubject extends Subject<PushResultSubject, PushResult> {
 
     public void hasStatus(RemoteRefUpdate.Status status) {
       isNotNull();
-      RemoteRefUpdate u = actual();
+      RemoteRefUpdate u = remoteRefUpdate;
       check("getStatus()")
           .withMessage(
               "status message: %s", u.getMessage() != null ? ": " + u.getMessage() : "<emtpy>")
@@ -158,12 +164,12 @@ public class PushResultSubject extends Subject<PushResultSubject, PushResult> {
 
     public void hasNoMessage() {
       isNotNull();
-      check("getMessage()").that(actual().getMessage()).isNull();
+      check("getMessage()").that(remoteRefUpdate.getMessage()).isNull();
     }
 
     public void hasMessage(String expected) {
       isNotNull();
-      check("getMessage()").that(actual().getMessage()).isEqualTo(expected);
+      check("getMessage()").that(remoteRefUpdate.getMessage()).isEqualTo(expected);
     }
 
     public void isOk() {

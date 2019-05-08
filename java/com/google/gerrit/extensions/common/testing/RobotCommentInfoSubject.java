@@ -39,15 +39,18 @@ public class RobotCommentInfoSubject extends Subject<RobotCommentInfoSubject, Ro
     return RobotCommentInfoSubject::new;
   }
 
+  private final RobotCommentInfo robotCommentInfo;
+
   private RobotCommentInfoSubject(
       FailureMetadata failureMetadata, RobotCommentInfo robotCommentInfo) {
     super(failureMetadata, robotCommentInfo);
+    this.robotCommentInfo = robotCommentInfo;
   }
 
   public ListSubject<FixSuggestionInfoSubject, FixSuggestionInfo> fixSuggestions() {
     return check("fixSuggestions")
         .about(elements())
-        .thatCustom(actual().fixSuggestions, FixSuggestionInfoSubject.fixSuggestions());
+        .thatCustom(robotCommentInfo.fixSuggestions, FixSuggestionInfoSubject.fixSuggestions());
   }
 
   public FixSuggestionInfoSubject onlyFixSuggestion() {

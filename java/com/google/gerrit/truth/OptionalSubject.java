@@ -29,6 +29,7 @@ import java.util.function.Function;
 public class OptionalSubject<S extends Subject<S, ? super T>, T>
     extends Subject<OptionalSubject<S, T>, Optional<T>> {
 
+  private final Optional<T> optional;
   private final BiFunction<StandardSubjectBuilder, ? super T, ? extends S> valueSubjectCreator;
 
   // TODO(aliceks): Remove when all relevant usages are adapted to new check()/factory approach.
@@ -62,12 +63,12 @@ public class OptionalSubject<S extends Subject<S, ? super T>, T>
       Optional<T> optional,
       BiFunction<StandardSubjectBuilder, ? super T, ? extends S> valueSubjectCreator) {
     super(failureMetadata, optional);
+    this.optional = optional;
     this.valueSubjectCreator = valueSubjectCreator;
   }
 
   public void isPresent() {
     isNotNull();
-    Optional<T> optional = actual();
     if (!optional.isPresent()) {
       failWithoutActual(fact("expected to have", "value"));
     }
@@ -75,7 +76,6 @@ public class OptionalSubject<S extends Subject<S, ? super T>, T>
 
   public void isAbsent() {
     isNotNull();
-    Optional<T> optional = actual();
     if (optional.isPresent()) {
       failWithoutActual(fact("expected not to have", "value"));
     }
@@ -88,7 +88,6 @@ public class OptionalSubject<S extends Subject<S, ? super T>, T>
   public S value() {
     isNotNull();
     isPresent();
-    Optional<T> optional = actual();
     return valueSubjectCreator.apply(check("value()"), optional.get());
   }
 

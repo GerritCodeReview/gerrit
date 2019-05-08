@@ -32,36 +32,39 @@ public class RangeSubject extends Subject<RangeSubject, Comment.Range> {
     return RangeSubject::new;
   }
 
+  private final Comment.Range range;
+
   private RangeSubject(FailureMetadata failureMetadata, Comment.Range range) {
     super(failureMetadata, range);
+    this.range = range;
   }
 
   public IntegerSubject startLine() {
-    return check("startLine").that(actual().startLine);
+    return check("startLine").that(range.startLine);
   }
 
   public IntegerSubject startCharacter() {
-    return check("startCharacter").that(actual().startCharacter);
+    return check("startCharacter").that(range.startCharacter);
   }
 
   public IntegerSubject endLine() {
-    return check("endLine").that(actual().endLine);
+    return check("endLine").that(range.endLine);
   }
 
   public IntegerSubject endCharacter() {
-    return check("endCharacter").that(actual().endCharacter);
+    return check("endCharacter").that(range.endCharacter);
   }
 
   public void isValid() {
     isNotNull();
-    if (!actual().isValid()) {
+    if (!range.isValid()) {
       failWithActual(simpleFact("expected to be valid"));
     }
   }
 
   public void isInvalid() {
     isNotNull();
-    if (actual().isValid()) {
+    if (range.isValid()) {
       failWithActual(simpleFact("expected to be invalid"));
     }
   }

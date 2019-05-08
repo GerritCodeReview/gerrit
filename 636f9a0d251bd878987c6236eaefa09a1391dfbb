@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "255b2de4_a50cd12e",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-05-08T16:29:23Z",
+      "side": 1,
+      "message": "I think it\u0027s still reasonable to do some prototyping work to determine whether the feature is feasible at all, before writing a design doc or even before announcing the intention to write a design doc. Contributors just have to be aware that prototype code they write might have to be completely thrown out. I think that\u0027s ok--that\u0027s pretty much the definition of a prototype.",
+      "range": {
+        "startLine": 109,
+        "startChar": 39,
+        "endLine": 110,
+        "endChar": 16
+      },
+      "revId": "636f9a0d251bd878987c6236eaefa09a1391dfbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

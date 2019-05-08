@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a5908605_f01ccdc0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-08T09:20:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a852db6_f3b89e24",
+      "range": {
+        "startLine": 20,
+        "startChar": 45,
+        "endLine": 20,
+        "endChar": 52
+      },
+      "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "beab0b2d_dc171fd0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5aa2b30a_009c21ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-08T09:20:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "beab0b2d_dc171fd0",
+      "range": {
+        "startLine": 34,
+        "startChar": 6,
+        "endLine": 34,
+        "endChar": 41
+      },
+      "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ae4ff315_4c20888d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-08T09:20:05Z",
+      "side": 1,
+      "message": "Maybe, let\u0027s discuss this idea at the hackathon and then follow-up.\n\nNot addressing this for now, but could be done as follow-up.",
+      "parentUuid": "83a66913_445e5875",
+      "range": {
+        "startLine": 40,
+        "startChar": 7,
+        "endLine": 40,
+        "endChar": 40
+      },
+      "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75426d8b_49840444",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "6de7af31_74c6a0e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-08T09:20:05Z",
+      "side": 1,
+      "message": "I must admit that it happened to me, that I saw changes for features that didn\u0027t convince me, and I didn\u0027t take time to comment on them, and I just left them to be reviewed by other maintainers. But maybe none of the other maintainers picked them up either.\n\nTweaked the sentence a bit.",
+      "parentUuid": "75426d8b_49840444",
+      "range": {
+        "startLine": 47,
+        "startChar": 8,
+        "endLine": 47,
+        "endChar": 37
+      },
+      "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56c336ee_25f9952a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -108,6 +204,24 @@
       "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c918053_06f4d9e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-08T09:20:05Z",
+      "side": 1,
+      "message": "This looks interesting! \nI\u0027ve added it here and also to the hackathon agenda. If you are familiar with ADRs, could you maybe present/demo them shortly at the hackathon?",
+      "parentUuid": "56c336ee_25f9952a",
+      "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "255e264d_106bf8d8",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-08T09:20:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "102b8241_6c9cddbb",
+      "range": {
+        "startLine": 151,
+        "startChar": 2,
+        "endLine": 151,
+        "endChar": 46
+      },
+      "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4304733_8037cc87",
         "filename": "Documentation/dev-design-docs.txt",
         "patchSetId": 1
@@ -154,6 +292,30 @@
       "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a7f17bf_bbcfc76b",
+        "filename": "Documentation/dev-design-docs.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-08T09:20:05Z",
+      "side": 1,
+      "message": "Thanks for suggestion. Added it to the template.",
+      "parentUuid": "c4304733_8037cc87",
+      "range": {
+        "startLine": 19,
+        "startChar": 51,
+        "endLine": 20,
+        "endChar": 43
+      },
+      "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -276,6 +438,30 @@
     },
     {
       "key": {
+        "uuid": "d636b13c_48f099e8",
+        "filename": "Documentation/dev-design-docs.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-08T09:20:05Z",
+      "side": 1,
+      "message": "Leaving this for now as it is. We have this topic on the hackathon agenda now and can get to a conclusion there.",
+      "parentUuid": "6c02ca8f_e28d7a3d",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 29
+      },
+      "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82991b3a_ae589292",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 1
@@ -320,6 +506,30 @@
       "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a8ec4b1_f8abe3a6",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-08T09:20:05Z",
+      "side": 1,
+      "message": "Yes, working days are different everywhere, which is way calendar days is maybe better. As proposed by Marco I increased this to 14 calendar days now.\n\n\u003e Note: some early and prototyping implementation could still start anyway,\n\u003e some days before that period ends, sometimes also to demonstrate parts of the\n\u003e proposed design.\n\nGood point. I added a sentence about this in the section where the design-driven contribution process is described.",
+      "parentUuid": "469e41ea_4032268d",
+      "range": {
+        "startLine": 15,
+        "startChar": 48,
+        "endLine": 15,
+        "endChar": 64
+      },
+      "revId": "7bcf5fcd23732e913389fc179e0c101122827f70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

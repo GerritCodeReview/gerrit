@@ -269,6 +269,30 @@
     },
     {
       "key": {
+        "uuid": "f10adff5_e51b7222",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-09T13:45:17Z",
+      "side": 1,
+      "message": "\u003e \u003e I don\u0027t want to hardcode these criteria\n\u003e \n\u003e OK, leaving the sentence as it is for now.\n\nI am personally concerned about the lack of clarity and transparency on the selection criteria. I am fine to have Google to guide the ESC (I still like a lot the \"E\" for Engineering) as project founder and major contributor.\n\nHowever, the right person in the right place can do great things and achieve a lot in terms of decisions, but the wrong person in the wrong place could mean a big problem for the whole project.\n\nThis is the reason why we define roles in the project and criteria with responsibilities and skill sets for them. However, we don\u0027t do the same for the Google members of the ESC and leave the ability to make arbitrary choices.\n\nI trust you, your bosses and the whole Google to make the right choices, we just need a bit of transparency on them.\n\nMarking this as no resolved, again from my side.",
+      "parentUuid": "4eb76a69_a47840af",
+      "range": {
+        "startLine": 21,
+        "startChar": 22,
+        "endLine": 21,
+        "endChar": 41
+      },
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7c6ac930_5b795567",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 1

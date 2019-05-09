@@ -77,7 +77,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Cached information on a project. Must not contain any data derived from parents other than it's
- * immediate parent's {@link Project.NameKey}.
+ * immediate parent's {@link com.google.gerrit.reviewdb.client.Project.NameKey}.
  */
 public class ProjectState {
   private static final Logger log = LoggerFactory.getLogger(ProjectState.class);

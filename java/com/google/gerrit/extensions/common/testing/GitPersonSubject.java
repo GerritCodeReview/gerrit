@@ -14,8 +14,8 @@
 
 package com.google.gerrit.extensions.common.testing;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.truth.Truth.assertAbout;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.truth.ComparableSubject;
 import com.google.common.truth.FailureMetadata;
@@ -65,7 +65,7 @@ public class GitPersonSubject extends Subject<GitPersonSubject, GitPerson> {
   }
 
   public void hasSameDateAs(GitPerson other) {
-    checkNotNull(other, "'other' GitPerson must not be null");
+    requireNonNull(other, "'other' GitPerson must not be null");
     isNotNull();
     date().isEqualTo(other.date);
     tz().isEqualTo(other.tz);

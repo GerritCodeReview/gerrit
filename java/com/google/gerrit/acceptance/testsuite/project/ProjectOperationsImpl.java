@@ -14,7 +14,8 @@
 
 package com.google.gerrit.acceptance.testsuite.project;
 
-import com.google.common.base.Preconditions;
+import static java.util.Objects.requireNonNull;
+
 import com.google.gerrit.acceptance.testsuite.project.TestProjectCreation.Builder;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -76,7 +77,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
 
     @Override
     public RevCommit getHead(String branch) {
-      return Preconditions.checkNotNull(headOrNull(branch));
+      return requireNonNull(headOrNull(branch));
     }
 
     @Override

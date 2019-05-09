@@ -57,7 +57,7 @@ public interface ProjectCache {
    *     errors.
    * @return the cached data or null when strict = false
    */
-  public ProjectState checkedGet(Project.NameKey projectName, boolean strict) throws Exception;
+  ProjectState checkedGet(Project.NameKey projectName, boolean strict) throws Exception;
 
   /**
    * Invalidate the cached information about the given project, and triggers reindexing for it

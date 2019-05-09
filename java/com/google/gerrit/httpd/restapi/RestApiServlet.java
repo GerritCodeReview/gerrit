@@ -601,11 +601,13 @@ public class RestApiServlet extends HttpServlet {
                 e.caching(),
                 e);
       } catch (NotImplementedException e) {
+        logger.atSevere().withCause(e).log("Error in %s %s", req.getMethod(), uriForLogging(req));
         responseBytes =
             replyError(req, res, status = SC_NOT_IMPLEMENTED, messageOr(e, "Not Implemented"), e);
       } catch (UpdateException e) {
         Throwable t = e.getCause();
         if (t instanceof LockFailureException) {
+          logger.atSevere().withCause(t).log("Error in %s %s", req.getMethod(), uriForLogging(req));
           responseBytes =
               replyError(
                   req, res, status = SC_SERVICE_UNAVAILABLE, messageOr(t, "Lock failure"), e);
@@ -1431,16 +1433,20 @@ public class RestApiServlet extends HttpServlet {
 
   private static long handleException(
       Throwable err, HttpServletRequest req, HttpServletResponse res) throws IOException {
-    String uri = req.getRequestURI();
-    if (!Strings.isNullOrEmpty(req.getQueryString())) {
-      uri += "?" + LogRedactUtil.redactQueryString(req.getQueryString());
-    }
-    logger.atSevere().withCause(err).log("Error in %s %s", req.getMethod(), uri);
+    logger.atSevere().withCause(err).log("Error in %s %s", req.getMethod(), uriForLogging(req));
     if (!res.isCommitted()) {
       res.reset();
       return replyError(req, res, SC_INTERNAL_SERVER_ERROR, "Internal server error", err);
     }
     return 0;
+  }
+
+  private static String uriForLogging(HttpServletRequest req) {
+    String uri = req.getRequestURI();
+    if (!Strings.isNullOrEmpty(req.getQueryString())) {
+      uri += "?" + LogRedactUtil.redactQueryString(req.getQueryString());
+    }
+    return uri;
   }
 
   public static long replyError(

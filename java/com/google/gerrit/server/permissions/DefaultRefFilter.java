@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.permissions;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CACHE_AUTOMERGE;
@@ -498,7 +497,7 @@ class DefaultRefFilter {
     // even if the change is not part of the set of most recent changes that
     // SearchingChangeCacheImpl returns.
     Change.Id cId = Change.Id.fromRef(refName);
-    checkNotNull(cId, "invalid change id for ref %s", refName);
+    requireNonNull(cId, () -> String.format("invalid change id for ref %s", refName));
     ChangeNotes notes;
     try {
       notes = changeNotesFactory.create(projectState.getNameKey(), cId);

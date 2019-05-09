@@ -15,9 +15,9 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.parseCommitMessageRange;
+import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.util.RawParseUtils.decode;
 
 import com.google.gerrit.reviewdb.client.Change;
@@ -46,7 +46,7 @@ public class DeleteChangeMessageRewriter implements NoteDbRewriter {
 
   DeleteChangeMessageRewriter(Change.Id changeId, String targetMessageId, String newChangeMessage) {
     this.changeId = changeId;
-    this.targetMessageId = checkNotNull(targetMessageId);
+    this.targetMessageId = requireNonNull(targetMessageId);
     this.newChangeMessage = newChangeMessage;
   }
 

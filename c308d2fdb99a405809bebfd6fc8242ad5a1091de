@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9843609a_c0c36bd1",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-09T05:30:53Z",
+      "side": 1,
+      "message": "add \"that are not compatible/aligned with the criteria defined above\"?",
+      "range": {
+        "startLine": 14,
+        "startChar": 2,
+        "endLine": 14,
+        "endChar": 22
+      },
+      "revId": "c308d2fdb99a405809bebfd6fc8242ad5a1091de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

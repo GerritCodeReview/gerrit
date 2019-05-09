@@ -293,6 +293,30 @@
     },
     {
       "key": {
+        "uuid": "1883b0c5_15b81a31",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-05-09T14:27:31Z",
+      "side": 1,
+      "message": "Imagine that you think we make a \u0027wrong\u0027 choice: who would you escalate to? Unless we create an entity that sits over the SC, it would be up to the SC to decide on your complaint.\n\nAs a practical example: the FE team was reorganized end of last year, and we had to bring new people into the project. They were unknown to the community. We didn\u0027t have the SC, but we did have maintainership, and we made them maintainers, because it was the only way to get the UI/FE work moving again. You didn\u0027t know these people. What kind of criteria could have assuaged you that these unknown people were be the right choice? This is also an instructive example, because at the time we had one (1) person that we could put on this role. So there was not much to select from.  \n\nI can tell you that there is no incentive for me to \"put the wrong person in the wrong place\".\n\nI don\u0027t know what answer I can give you here, because I can\u0027t give you guarantees (choices are dictated by circumstances), and because the SC is the entity that enforces our policy.\n\nPerhaps I misunderstand you, and maybe you have some kind of phrasing in mind. Could you propose something?",
+      "parentUuid": "f10adff5_e51b7222",
+      "range": {
+        "startLine": 21,
+        "startChar": 22,
+        "endLine": 21,
+        "endChar": 41
+      },
+      "revId": "c6ba24858d1340fa7850dbe78f4bc570c9dc459b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7c6ac930_5b795567",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 1

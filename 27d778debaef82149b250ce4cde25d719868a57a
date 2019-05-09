@@ -56,6 +56,24 @@
       "revId": "27d778debaef82149b250ce4cde25d719868a57a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40b36031_3ecba55f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-rest-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-09T08:10:32Z",
+      "side": 1,
+      "message": "I believe we must trust the plugins calling this to make sure they are taking necessary precautions to not act on outdated data. You could ask the same for \"getLoggedIn\" above.\nIf you have concerns whether the plugin is aware of the volatileness of, the name of \"this\" method in the gwt-plugin-api was (i believe) getCurrentUser which makes it more clear that it is a snapshot and not a solid state.\n\nSomething that might be worth considering:\nIs it not actually possible for the plugin to get this from GrPluginRestApi#get? If so, how many of these \"helper\" methods would be enough or too many?",
+      "parentUuid": "3843fc06_87e2b5b7",
+      "revId": "27d778debaef82149b250ce4cde25d719868a57a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

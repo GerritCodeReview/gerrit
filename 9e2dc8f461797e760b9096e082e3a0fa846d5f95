@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3681bf51_556d1dcc",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-09T14:01:35Z",
+      "side": 1,
+      "message": "IIUC:\nIt\u0027s up to each individual if they are interested and have the time to act as a mentor.\nThe ESCs commits to, among those who volunteered to be mentors, try to find a suitable candidate that accepts the mentorship of the feature.\nFrom the commit message:\n\n    The pool of mentors is formed by Gerrit maintainers and contributors\nthat volunteer to serve as mentor.",
+      "parentUuid": "ff82f3ef_d9054d0c",
+      "range": {
+        "startLine": 171,
+        "startChar": 28,
+        "endLine": 172,
+        "endChar": 9
+      },
+      "revId": "9e2dc8f461797e760b9096e082e3a0fa846d5f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c966b099_1184cca5",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2019-05-08T21:14:25Z",
       "side": 1,
       "message": "They contributor could be the one that starts with the idea. However, if the ESC decides that is a *good idea* and it belongs to the roadmap of the project, I do not see the point of overloading the contributor with the responsibility of implementing the whole feature.\n\nGerrit is a healthy project because is collaborative, that means ideas can come from everyone and can be implemented by everyone, not necessarily the person who had it in the first place.",
+      "range": {
+        "startLine": 229,
+        "startChar": 38,
+        "endLine": 229,
+        "endChar": 53
+      },
+      "revId": "9e2dc8f461797e760b9096e082e3a0fa846d5f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4acf082_fbb0b50b",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-09T14:01:35Z",
+      "side": 1,
+      "message": "I concur that this feels a bit to stringent.\nSomeone might be deterred by this phrasing to suggest a larger feature because they cannot commit to finish it in a timely manner all by themselves.\nI think this is more properly addressed in the section about design-document-driven-design since it\u0027s not directly related to mentor-ship. And perhaps rephrased to something like:\n\n    the contributor is expected to make sure that the implementation (is|can be) completed in a timely manner\n\nSomewhat related: IIUC it is the intention that the mentor, if assigned, is more or less expected to keep track of whether the implementation is done, or stands the chance to be done, in a timely manner. If so, this could be added to \"A mentor helps with\" above.",
+      "parentUuid": "c966b099_1184cca5",
       "range": {
         "startLine": 229,
         "startChar": 38,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "b37b14e9_71477371",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-09T14:01:35Z",
+      "side": 1,
+      "message": "IIUC the ETA is set by the contributor in the design proposal in the covert phrase \"For when the implementation is planned\".\nSince ETA is probably a factor in the design-proposal approval it is most likely set by the contributor and ESC together.\nMore or less a time estimate \"given that I can dedicate 5h/week to this it is likely that it would take me 3 weeks\". After that time the mentor (or SCE) would contact the implementor \"How are things progressing? What are your chances of completing this implementation? Should we close it?\".",
+      "parentUuid": "e2cba458_3d2d85f7",
+      "range": {
+        "startLine": 230,
+        "startChar": 19,
+        "endLine": 230,
+        "endChar": 37
+      },
+      "revId": "9e2dc8f461797e760b9096e082e3a0fa846d5f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e7fc57f9_f20e71e4",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 4
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "76c6a227_df21eab1",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-09T14:01:35Z",
+      "side": 1,
+      "message": "As I interpreted it above: it\u0027s an estimate to determine when to escalate (very much at the center of most software development processes including those considered agile).\n\nIn the case of NoteDb i picture it would be something like:\nSCE: - Hey Dave! NoteDb was planned to be finished a month ago, have you abandoned the project? Should we revert the changes you\u0027ve done so far?\nDave: - No, it\u0027s still progressing perfectly fine! It\u0027s just taking a lot longer than expected, I think I might need another 24 months!\nSCE: - Awesome! We\u0027ll check back with you later.",
+      "parentUuid": "e7fc57f9_f20e71e4",
+      "range": {
+        "startLine": 240,
+        "startChar": 13,
+        "endLine": 240,
+        "endChar": 36
+      },
+      "revId": "9e2dc8f461797e760b9096e082e3a0fa846d5f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "feed04b2_e0bb0656",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 4
@@ -105,6 +201,30 @@
       "writtenOn": "2019-05-08T21:14:25Z",
       "side": 1,
       "message": "If that was the case with NoteDb, which was an \"unfinished feature\" for years, we would have Gerrit v3.0.",
+      "range": {
+        "startLine": 243,
+        "startChar": 6,
+        "endLine": 244,
+        "endChar": 12
+      },
+      "revId": "9e2dc8f461797e760b9096e082e3a0fa846d5f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c12e0cd_307a583c",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-09T14:01:35Z",
+      "side": 1,
+      "message": "There would still be NoteDb but we might not have a half-implemented custom-dashboard support.",
+      "parentUuid": "feed04b2_e0bb0656",
       "range": {
         "startLine": 243,
         "startChar": 6,
@@ -186,6 +306,30 @@
     },
     {
       "key": {
+        "uuid": "3a056677_a6505b6c",
+        "filename": "Documentation/dev-design-doc-template.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-09T14:01:35Z",
+      "side": 1,
+      "message": "I believe this is more for the benefit of the mentor, so that the mentor isn\u0027t obligated to mentor features that drag on forever. Mentorship is not a contract that says \"after the estimated time has expired you must not discuss anything about the feature with anyone!\". There\u0027s nothing that prevents the mentor to keep mentoring even when the time has expired, it just cannot be expected by the contributor.",
+      "parentUuid": "80fbf482_70b2e998",
+      "range": {
+        "startLine": 60,
+        "startChar": 27,
+        "endLine": 60,
+        "endChar": 46
+      },
+      "revId": "9e2dc8f461797e760b9096e082e3a0fa846d5f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "070a572a_6e9197a9",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 4
@@ -232,6 +376,30 @@
     },
     {
       "key": {
+        "uuid": "fd141627_25fd10f9",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-09T14:01:35Z",
+      "side": 1,
+      "message": "More \"willing to be assigned\", since being a mentor is voluntary (if you do not count the mentors that Google has offered to sponsor. I cannot speak for the voluntary nature there, but I can imagine that it is more or less).",
+      "parentUuid": "8e076fea_b46f39d2",
+      "range": {
+        "startLine": 248,
+        "startChar": 20,
+        "endLine": 248,
+        "endChar": 28
+      },
+      "revId": "9e2dc8f461797e760b9096e082e3a0fa846d5f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f5abd767_955c99be",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 4
@@ -255,6 +423,30 @@
     },
     {
       "key": {
+        "uuid": "8cd1c16f_6d21d84e",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-09T14:01:35Z",
+      "side": 1,
+      "message": "\u003e we *all should be mentors* and provide timely reviews\n\nIf all that was necessary was that something *should* be a certain way then there would be no need for processes anywhere. I don\u0027t think that is a sufficient criteria not to specify the expectation.\n\n\u003e I do not see how being tagged as \"mentor\" would change that.\n\nIn your case I imagine that it would probably mean that you would prioritize reviewing changes that are part of the feature you are mentoring to limit the risk that those reviews would end up among the ones where you feel that you fail to provide a timely review.",
+      "parentUuid": "f5abd767_955c99be",
+      "range": {
+        "startLine": 255,
+        "startChar": 2,
+        "endLine": 255,
+        "endChar": 22
+      },
+      "revId": "9e2dc8f461797e760b9096e082e3a0fa846d5f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "49d5be88_8b27750b",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 4
@@ -266,6 +458,30 @@
       "writtenOn": "2019-05-08T21:14:25Z",
       "side": 1,
       "message": "I disagree, see my previous comment on \"ideas\" vs. \"implementation\".",
+      "range": {
+        "startLine": 261,
+        "startChar": 22,
+        "endLine": 261,
+        "endChar": 51
+      },
+      "revId": "9e2dc8f461797e760b9096e082e3a0fa846d5f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab7b2eca_8c72f2c9",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-09T14:01:35Z",
+      "side": 1,
+      "message": "+1\n\nIs this an attempt to say that implementation is not part of the mentor role but a mentor is not forbidden to help out?\n\n    Although a mentor may contribute to the implementation of the feature,\n    it is not to be considered as a part of the mentor role to do so.",
+      "parentUuid": "49d5be88_8b27750b",
       "range": {
         "startLine": 261,
         "startChar": 22,

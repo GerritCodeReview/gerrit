@@ -70,6 +70,24 @@
       "revId": "c58c9a6f6fafa3aa41fe95fbd7dee1ab7bd7dd3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95aedb04_0db802cd",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-09T23:21:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "15204ff7_aebb7ead",
+      "revId": "c58c9a6f6fafa3aa41fe95fbd7dee1ab7bd7dd3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

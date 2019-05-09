@@ -65,7 +65,7 @@
 
     _handleAutomaticReviewTap() {
       this.set('diffPrefs.manual_review',
-          this.$.automaticReviewInput.checked);
+          !this.$.automaticReviewInput.checked);
       this._handleDiffPrefsChanged();
     },
 

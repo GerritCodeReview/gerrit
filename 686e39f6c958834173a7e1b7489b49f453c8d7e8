@@ -63,6 +63,30 @@
       "revId": "686e39f6c958834173a7e1b7489b49f453c8d7e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1f4968b_a3edcc5e",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-09T14:20:10Z",
+      "side": 1,
+      "message": "\u003e we might need to not make the second manager optional\n\nIt could be proven to be difficult to enforce if we make it mandatory.\nThe role of community manager is (as you eluded to above) quite time-consuming (I would guess that 20% is a rather low estimate) and I believe there are a limited number of candidates who can get a buy-in from their bosses and/or their family to allot that time solely to community-related work outside of the time spent on implementation, community support and feature discussions. I\u0027m not saying it\u0027s impossible, but what would we do if we make it mandatory and have no candidates? The community, as such, has no budget to employ one.\n\n\u003e actually eliminating conflicts of interest seems impossible\nI concur, it would be more honest to say:\n\n    to limit the conflict of interest if the community-manager needs to\n    act as a community-representative against the SCE.",
+      "parentUuid": "29129149_6c402f00",
+      "range": {
+        "startLine": 297,
+        "startChar": 45,
+        "endLine": 298,
+        "endChar": 43
+      },
+      "revId": "686e39f6c958834173a7e1b7489b49f453c8d7e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

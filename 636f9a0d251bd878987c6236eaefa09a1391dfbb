@@ -22,6 +22,30 @@
       "revId": "636f9a0d251bd878987c6236eaefa09a1391dfbb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8636794_2278c86d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-09T08:24:33Z",
+      "side": 1,
+      "message": "\"before spending too much time on the implementation\"?",
+      "parentUuid": "255b2de4_a50cd12e",
+      "range": {
+        "startLine": 109,
+        "startChar": 39,
+        "endLine": 110,
+        "endChar": 16
+      },
+      "revId": "636f9a0d251bd878987c6236eaefa09a1391dfbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -17,6 +17,19 @@ To build Gerrit from source, you need:
 [[java]]
 === Java
 
+==== MacOS
+
+On MacOS, ensure that "Java for MacOS X 10.5 Update 4" (or higher) is installed
+and that `JAVA_HOME` is set to the
+link:install.html#Requirements[required Java version].
+
+Java installations can typically be found in
+"/System/Library/Frameworks/JavaVM.framework/Versions".
+
+To check the installed version of Java, open a terminal window and run:
+
+`java -version`
+
 [[java-10]]
 ==== Java 10 support
 
@@ -94,6 +107,9 @@ in `$gerrit_site/etc/gerrit.config` to run Gerrit with Java 9:
   javaOptions = --add-opens=jdk.management/com.sun.management.internal=ALL-UNNAMED
 ```
 
+=== Node.js and npm packages
+See link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/README.md#installing-node_js-and-npm-packages[Installing Node.js and npm packages].
+
 [[build]]
 == Building on the Command Line
 
@@ -104,10 +120,6 @@ To build the Gerrit web application:
 ----
   bazel build gerrit
 ----
-
-[NOTE]
-PolyGerrit UI may require additional tools (such as npm). Please read
-the polygerrit-ui/README.md for more info.
 
 The output executable WAR will be placed in:
 

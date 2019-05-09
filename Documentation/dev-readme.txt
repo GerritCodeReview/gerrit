@@ -3,7 +3,9 @@
 To build a developer instance, you'll need link:https://bazel.build/[Bazel] to
 compile the code.
 
-== Getting the Source
+== Git Setup
+
+=== Getting the Source
 
 Create a new client workspace:
 
@@ -15,38 +17,54 @@ Create a new client workspace:
 The `--recurse-submodules` option is needed on `git clone` to ensure that the
 core plugins, which are included as git submodules, are also cloned.
 
+=== Switching between branches
+
+When using `git checkout` without `--recurse-submodules` to switch between
+branches, submodule revisions are not altered, which can result in:
+
+*  Incorrect or unneeded plugin revisions.
+*  Missing plugins.
+
+After you switch branches, ensure that you have the correct versions of
+the submodules.
+
+CAUTION: If you store Eclipse or IntelliJ project files in the Gerrit source
+directories, do *_not_* run `git clean -fdx`. Doing so may remove untracked files and damage your project. For more information, see
+link:https://git-scm.com/docs/git-clean[git-clean].
+
+Run the following:
+
+----
+  git submodule update
+  git clean -ffd
+----
+
 [[compile_project]]
 == Compiling
 
 For details, see <<dev-bazel#,Building with Bazel>>.
 
-== Configuring Eclipse
 
-To use the Eclipse IDE for development, see
-link:dev-eclipse.html[Eclipse Setup].
+== Testing
 
-To configure the Eclipse workspace with Bazel, see
-link:dev-bazel.html#eclipse[Eclipse integration with Bazel].
+[[tests]]
+=== Running the acceptance tests
 
-== Configuring IntelliJ IDEA
+Gerrit contains acceptance tests that validate the Gerrit daemon via REST, SSH,
+and the Git protocol.
 
-See <<dev-intellij#,IntelliJ Setup>> for details.
+A new review site is created for each test and the Gerrit daemon is
+then started on that site. When the test is completed, the Gerrit daemon is
+shut down.
 
-== MacOS
+For instructions on running the acceptance tests with Bazel,
+see <<dev-bazel#tests,Running Unit Tests with Bazel>>.
 
-On MacOS, ensure that "Java for MacOS X 10.5 Update 4" (or higher) is installed
-and that `JAVA_HOME` is set to the
-link:install.html#Requirements[required Java version].
 
-Java installations can typically be found in
-"/System/Library/Frameworks/JavaVM.framework/Versions".
-
-To check the installed version of Java, open a terminal window and run:
-
-`java -version`
+== Local server
 
 [[init]]
-== Site Initialization
+=== Site Initialization
 
 After you compile the project <<compile_project,(above)>>, run the Gerrit
 `init`
@@ -90,7 +108,7 @@ To shut down the daemon, run:
 
 
 [[localdev]]
-== Working with the Local Server
+=== Working with the Local Server
 
 To create more accounts on your development instance:
 
@@ -112,21 +130,6 @@ To create changes as users of Gerrit would, run:
 ----
 git push origin HEAD:refs/for/master
 ----
-
-== Testing
-
-[[tests]]
-=== Running the acceptance tests
-
-Gerrit contains acceptance tests that validate the Gerrit daemon via REST, SSH,
-and the Git protocol.
-
-A new review site is created for each test and the Gerrit daemon is
-then started on that site. When the test is completed, the Gerrit daemon is
-shut down.
-
-For instructions on running the acceptance tests with Bazel,
-see <<dev-bazel#tests,Running Unit Tests with Bazel>>.
 
 [[run_daemon]]
 === Running the Daemon
@@ -192,27 +195,24 @@ interfaces (including HTTP and SSH) are available.
 CAUTION: When using the Inspector, be careful not to modify the internal state
 of the system.
 
-== Switching between branches
 
-When using `git checkout` without `--recurse-submodules` to switch between
-branches, submodule revisions are not altered, which can result in:
+== Setup for backend developers
 
-*  Incorrect or unneeded plugin revisions.
-*  Missing plugins.
+=== Configuring Eclipse
 
-After you switch branches, ensure that you have the correct versions of
-the submodules.
+To use the Eclipse IDE for development, see
+link:dev-eclipse.html[Eclipse Setup].
 
-CAUTION: If you store Eclipse or IntelliJ project files in the Gerrit source
-directories, do *_not_* run `git clean -fdx`. Doing so may remove untracked files and damage your project. For more information, see
-link:https://git-scm.com/docs/git-clean[git-clean].
+To configure the Eclipse workspace with Bazel, see
+link:dev-bazel.html#eclipse[Eclipse integration with Bazel].
 
-Run the following:
+=== Configuring IntelliJ IDEA
 
-----
-  git submodule update
-  git clean -ffd
-----
+See <<dev-intellij#,IntelliJ Setup>> for details.
+
+== Setup for frontend developers
+See link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/README.md[Frontend Developer Setup].
+
 
 GERRIT
 ------

@@ -65,18 +65,23 @@ public class PatchSetTest {
 
   @Test
   public void testSplitGroups() {
+    assertRuntimeException(() -> splitGroups(null));
     assertThat(splitGroups("")).containsExactly("");
     assertThat(splitGroups("abcd")).containsExactly("abcd");
     assertThat(splitGroups("ab,cd")).containsExactly("ab", "cd").inOrder();
+    assertThat(splitGroups("ab , cd")).containsExactly("ab ", " cd").inOrder();
     assertThat(splitGroups("ab,")).containsExactly("ab", "").inOrder();
     assertThat(splitGroups(",cd")).containsExactly("", "cd").inOrder();
   }
 
   @Test
   public void testJoinGroups() {
+    assertRuntimeException(() -> joinGroups(null));
+    assertRuntimeException(() -> joinGroups(ImmutableList.of("a,", "b")));
     assertThat(joinGroups(ImmutableList.of(""))).isEqualTo("");
     assertThat(joinGroups(ImmutableList.of("abcd"))).isEqualTo("abcd");
     assertThat(joinGroups(ImmutableList.of("ab", "cd"))).isEqualTo("ab,cd");
+    assertThat(joinGroups(ImmutableList.of("ab ", " cd"))).isEqualTo("ab , cd");
     assertThat(joinGroups(ImmutableList.of("ab", ""))).isEqualTo("ab,");
     assertThat(joinGroups(ImmutableList.of("", "cd"))).isEqualTo(",cd");
   }
@@ -117,8 +122,12 @@ public class PatchSetTest {
   }
 
   private static void assertInvalidId(String str) {
+    assertRuntimeException(() -> PatchSet.Id.parse(str));
+  }
+
+  private static void assertRuntimeException(Runnable runnable) {
     try {
-      PatchSet.Id.parse(str);
+      runnable.run();
       assert_().fail("expected RuntimeException");
     } catch (RuntimeException e) {
       // Expected.

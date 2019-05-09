@@ -119,7 +119,7 @@ public class PutMessage
     try (Repository repository = repositoryManager.openRepository(resource.getProject());
         RevWalk revWalk = new RevWalk(repository);
         ObjectInserter objectInserter = repository.newObjectInserter()) {
-      RevCommit patchSetCommit = revWalk.parseCommit(ps.getCommitId());
+      RevCommit patchSetCommit = revWalk.parseCommit(ps.commitId());
 
       String currentCommitMessage = patchSetCommit.getFullMessage();
       if (input.message.equals(currentCommitMessage)) {
@@ -132,7 +132,7 @@ public class PutMessage
         // Ensure that BatchUpdate will update the same repo
         bu.setRepository(repository, new RevWalk(objectInserter.newReader()), objectInserter);
 
-        PatchSet.Id psId = ChangeUtil.nextPatchSetId(repository, ps.getId());
+        PatchSet.Id psId = ChangeUtil.nextPatchSetId(repository, ps.id());
         ObjectId newCommit =
             createCommit(objectInserter, patchSetCommit, sanitizedCommitMessage, ts);
         PatchSetInserter inserter = psInserterFactory.create(resource.getNotes(), psId, newCommit);

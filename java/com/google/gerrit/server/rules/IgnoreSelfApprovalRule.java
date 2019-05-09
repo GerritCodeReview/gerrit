@@ -79,7 +79,7 @@ public class IgnoreSelfApprovalRule implements SubmitRule {
 
     Account.Id uploader;
     try {
-      uploader = cd.currentPatchSet().getUploader();
+      uploader = cd.currentPatchSet().uploader();
     } catch (StorageException e) {
       logger.atWarning().withCause(e).log(E_UNABLE_TO_FETCH_UPLOADER);
       return singletonRuleError(E_UNABLE_TO_FETCH_UPLOADER);
@@ -155,7 +155,7 @@ public class IgnoreSelfApprovalRule implements SubmitRule {
   static Collection<PatchSetApproval> filterOutPositiveApprovalsOfUser(
       Collection<PatchSetApproval> approvals, Account.Id user) {
     return approvals.stream()
-        .filter(input -> input.getValue() < 0 || !input.getAccountId().equals(user))
+        .filter(input -> input.value() < 0 || !input.accountId().equals(user))
         .collect(toImmutableList());
   }
 
@@ -163,7 +163,7 @@ public class IgnoreSelfApprovalRule implements SubmitRule {
   static Collection<PatchSetApproval> filterApprovalsByLabel(
       Collection<PatchSetApproval> approvals, LabelType t) {
     return approvals.stream()
-        .filter(input -> input.getLabelId().get().equals(t.getLabelId().get()))
+        .filter(input -> input.labelId().get().equals(t.getLabelId().get()))
         .collect(toImmutableList());
   }
 }

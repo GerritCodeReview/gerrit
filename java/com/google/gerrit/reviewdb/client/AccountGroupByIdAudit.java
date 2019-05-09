@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2011 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,26 +18,22 @@ import com.google.auto.value.AutoValue;
 import java.sql.Timestamp;
 import java.util.Optional;
 
-/** Membership of an {@link Account} in an {@link AccountGroup}. */
+/** Inclusion of an {@link AccountGroup} in another {@link AccountGroup}. */
 @AutoValue
-public abstract class AccountGroupMemberAudit {
+public abstract class AccountGroupByIdAudit {
   public static Builder builder() {
-    return new AutoValue_AccountGroupMemberAudit.Builder();
+    return new AutoValue_AccountGroupByIdAudit.Builder();
   }
 
   @AutoValue.Builder
   public abstract static class Builder {
     public abstract Builder groupId(AccountGroup.Id groupId);
 
-    public abstract Builder memberId(Account.Id accountId);
+    public abstract Builder includeUuid(AccountGroup.UUID includeUuid);
 
     public abstract Builder addedBy(Account.Id addedBy);
 
-    abstract Account.Id addedBy();
-
     public abstract Builder addedOn(Timestamp addedOn);
-
-    abstract Timestamp addedOn();
 
     abstract Builder removedBy(Account.Id removedBy);
 
@@ -47,16 +43,12 @@ public abstract class AccountGroupMemberAudit {
       return removedBy(removedBy).removedOn(removedOn);
     }
 
-    public Builder removedLegacy() {
-      return removed(addedBy(), addedOn());
-    }
-
-    public abstract AccountGroupMemberAudit build();
+    public abstract AccountGroupByIdAudit build();
   }
 
   public abstract AccountGroup.Id groupId();
 
-  public abstract Account.Id memberId();
+  public abstract AccountGroup.UUID includeUuid();
 
   public abstract Account.Id addedBy();
 

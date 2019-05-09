@@ -58,6 +58,6 @@ public class ListRobotComments implements RestReadView<RevisionResource> {
   }
 
   private Iterable<RobotComment> listComments(RevisionResource rsrc) {
-    return commentsUtil.robotCommentsByPatchSet(rsrc.getNotes(), rsrc.getPatchSet().getId());
+    return commentsUtil.robotCommentsByPatchSet(rsrc.getNotes(), rsrc.getPatchSet().id());
   }
 }

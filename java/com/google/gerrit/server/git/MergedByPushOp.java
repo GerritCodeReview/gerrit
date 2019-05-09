@@ -21,9 +21,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
-import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.config.SendEmailExecutor;
@@ -148,12 +146,7 @@ public class MergedByPushOp implements BatchUpdateOp {
         ChangeMessagesUtil.newMessage(
             psId, ctx.getUser(), ctx.getWhen(), msgBuf.toString(), ChangeMessagesUtil.TAG_MERGED);
     cmUtil.addChangeMessage(update, msg);
-
-    PatchSetApproval submitter =
-        ApprovalsUtil.newApproval(
-            change.currentPatchSetId(), ctx.getUser(), LabelId.legacySubmit(), 1, ctx.getWhen());
-    update.putApproval(submitter.getLabel(), submitter.getValue());
-
+    update.putApproval(LabelId.legacySubmit().get(), (short) 1);
     return true;
   }
 
@@ -188,12 +181,12 @@ public class MergedByPushOp implements BatchUpdateOp {
                 }));
 
     changeMerged.fire(
-        change, patchSet, ctx.getAccount(), patchSet.getCommitId().name(), ctx.getWhen());
+        change, patchSet, ctx.getAccount(), patchSet.commitId().name(), ctx.getWhen());
   }
 
   private PatchSetInfo getPatchSetInfo(ChangeContext ctx) throws IOException {
     RevWalk rw = ctx.getRevWalk();
-    RevCommit commit = rw.parseCommit(requireNonNull(patchSet).getCommitId());
+    RevCommit commit = rw.parseCommit(requireNonNull(patchSet).commitId());
     return patchSetInfoFactory.get(rw, commit, psId);
   }
 }

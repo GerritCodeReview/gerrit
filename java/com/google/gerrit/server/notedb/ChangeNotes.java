@@ -62,7 +62,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -77,7 +76,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   static final Ordering<PatchSetApproval> PSA_BY_TIME =
-      Ordering.from(comparing(PatchSetApproval::getGranted));
+      Ordering.from(comparing(PatchSetApproval::granted));
 
   public static final Ordering<ChangeMessage> MESSAGE_BY_TIME =
       Ordering.from(comparing(ChangeMessage::getWrittenOn));
@@ -330,9 +329,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     if (patchSets == null) {
       ImmutableSortedMap.Builder<PatchSet.Id, PatchSet> b =
           ImmutableSortedMap.orderedBy(comparing(PatchSet.Id::get));
-      for (Map.Entry<PatchSet.Id, PatchSet> e : state.patchSets()) {
-        b.put(e.getKey(), new PatchSet(e.getValue()));
-      }
+      b.putAll(state.patchSets());
       patchSets = b.build();
     }
     return patchSets;
@@ -340,12 +337,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   public ImmutableListMultimap<PatchSet.Id, PatchSetApproval> getApprovals() {
     if (approvals == null) {
-      ImmutableListMultimap.Builder<PatchSet.Id, PatchSetApproval> b =
-          ImmutableListMultimap.builder();
-      for (Map.Entry<PatchSet.Id, PatchSetApproval> e : state.approvals()) {
-        b.put(e.getKey(), new PatchSetApproval(e.getValue()));
-      }
-      approvals = b.build();
+      approvals = ImmutableListMultimap.copyOf(state.approvals());
     }
     return approvals;
   }

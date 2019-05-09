@@ -54,7 +54,7 @@ public class Fixes implements ChildCollection<RevisionResource, FixResource> {
     ChangeNotes changeNotes = revisionResource.getNotes();
 
     List<RobotComment> robotComments =
-        commentsUtil.robotCommentsByPatchSet(changeNotes, revisionResource.getPatchSet().getId());
+        commentsUtil.robotCommentsByPatchSet(changeNotes, revisionResource.getPatchSet().id());
     for (RobotComment robotComment : robotComments) {
       for (FixSuggestion fixSuggestion : robotComment.fixSuggestions) {
         if (Objects.equals(fixId, fixSuggestion.fixId)) {

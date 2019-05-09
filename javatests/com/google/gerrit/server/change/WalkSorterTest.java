@@ -295,8 +295,7 @@ public class WalkSorterTest {
 
     List<ChangeData> changes = ImmutableList.of(cd1, cd2);
     WalkSorter sorter =
-        new WalkSorter(repoManager)
-            .includePatchSets(ImmutableSet.of(cd1.currentPatchSet().getId()));
+        new WalkSorter(repoManager).includePatchSets(ImmutableSet.of(cd1.currentPatchSet().id()));
 
     assertSorted(sorter, changes, ImmutableList.of(patchSetData(cd1, c1)));
   }
@@ -341,7 +340,7 @@ public class WalkSorterTest {
 
   private PatchSet addPatchSet(ChangeData cd, ObjectId id) throws Exception {
     TestChanges.incrementPatchSet(cd.change());
-    PatchSet ps = new PatchSet(cd.change().currentPatchSetId(), id);
+    PatchSet ps = TestChanges.newPatchSet(cd.change().currentPatchSetId(), id.name(), userId);
     List<PatchSet> patchSets = new ArrayList<>(cd.patchSets());
     patchSets.add(ps);
     cd.setPatchSets(patchSets);

@@ -66,7 +66,7 @@ public class GetArchive implements RestReadView<RevisionResource> {
       final RevCommit commit;
       String name;
       try (RevWalk rw = new RevWalk(repo)) {
-        commit = rw.parseCommit(rsrc.getPatchSet().getCommitId());
+        commit = rw.parseCommit(rsrc.getPatchSet().commitId());
         name = name(f, rw, commit);
       }
 

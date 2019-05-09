@@ -147,7 +147,7 @@ public class GetDiff implements RestReadView<FileResource> {
       RevisionResource baseResource =
           revisions.parse(resource.getRevision().getChangeResource(), IdString.fromDecoded(base));
       basePatchSet = baseResource.getPatchSet();
-      psf = patchScriptFactoryFactory.create(notes, fileName, basePatchSet.getId(), pId, prefs);
+      psf = patchScriptFactoryFactory.create(notes, fileName, basePatchSet.id(), pId, prefs);
     } else if (parentNum > 0) {
       psf = patchScriptFactoryFactory.create(notes, fileName, parentNum - 1, pId, prefs);
     } else {
@@ -195,17 +195,17 @@ public class GetDiff implements RestReadView<FileResource> {
       ProjectState state = projectCache.get(resource.getRevision().getChange().getProject());
 
       DiffInfo result = new DiffInfo();
-      String revA = basePatchSet != null ? basePatchSet.getRefName() : content.commitIdA;
+      String revA = basePatchSet != null ? basePatchSet.refName() : content.commitIdA;
       String revB =
           resource.getRevision().getEdit().isPresent()
               ? resource.getRevision().getEdit().get().getRefName()
-              : resource.getRevision().getPatchSet().getRefName();
+              : resource.getRevision().getPatchSet().refName();
 
       List<DiffWebLinkInfo> links =
           webLinks.getDiffLinks(
               state.getName(),
               resource.getPatchKey().patchSetId().changeId().get(),
-              basePatchSet != null ? basePatchSet.getId().get() : null,
+              basePatchSet != null ? basePatchSet.id().get() : null,
               revA,
               MoreObjects.firstNonNull(ps.getOldName(), ps.getNewName()),
               resource.getPatchKey().patchSetId().get(),

@@ -74,6 +74,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -227,7 +228,13 @@ public class ChangeData {
         new ChangeData(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
             null, project, id, null, null);
-    cd.currentPatchSet = new PatchSet(PatchSet.id(id, currentPatchSetId), commitId);
+    cd.currentPatchSet =
+        PatchSet.builder()
+            .id(PatchSet.id(id, currentPatchSetId))
+            .commitId(commitId)
+            .uploader(Account.id(1000))
+            .createdOn(TimeUtil.nowTs())
+            .build();
     return cd;
   }
 
@@ -387,7 +394,7 @@ public class ChangeData {
         return Optional.empty();
       }
 
-      ObjectId id = ps.getCommitId();
+      ObjectId id = ps.commitId();
       Whitespace ws = Whitespace.IGNORE_NONE;
       PatchListKey pk =
           parentCount > 1
@@ -497,7 +504,7 @@ public class ChangeData {
         return null;
       }
       for (PatchSet p : patchSets()) {
-        if (p.getId().equals(c.currentPatchSetId())) {
+        if (p.id().equals(c.currentPatchSetId())) {
           currentPatchSet = p;
           return p;
         }
@@ -582,7 +589,7 @@ public class ChangeData {
     }
     try (Repository repo = repoManager.openRepository(project());
         RevWalk walk = new RevWalk(repo)) {
-      RevCommit c = walk.parseCommit(ps.getCommitId());
+      RevCommit c = walk.parseCommit(ps.commitId());
       commitMessage = c.getFullMessage();
       commitFooters = c.getFooterLines();
       author = c.getAuthorIdent();
@@ -609,11 +616,11 @@ public class ChangeData {
 
   /** @return patch with the given ID, or null if it does not exist. */
   public PatchSet patchSet(PatchSet.Id psId) {
-    if (currentPatchSet != null && currentPatchSet.getId().equals(psId)) {
+    if (currentPatchSet != null && currentPatchSet.id().equals(psId)) {
       return currentPatchSet;
     }
     for (PatchSet ps : patchSets()) {
-      if (ps.getId().equals(psId)) {
+      if (ps.id().equals(psId)) {
         return ps;
       }
     }
@@ -896,8 +903,7 @@ public class ChangeData {
           String mergeStrategy =
               mergeUtilFactory.create(projectCache.get(project())).mergeStrategyName();
           mergeable =
-              mergeabilityCache.get(
-                  ps.getCommitId(), ref, str.type, mergeStrategy, c.getDest(), repo);
+              mergeabilityCache.get(ps.commitId(), ref, str.type, mergeStrategy, c.getDest(), repo);
         } catch (IOException e) {
           throw new StorageException(e);
         }
@@ -975,11 +981,11 @@ public class ChangeData {
 
     PatchSet ps = currentPatchSet();
     if (ps != null) {
-      if (stars.contains(StarredChangesUtil.REVIEWED_LABEL + "/" + ps.getPatchSetId())) {
+      if (stars.contains(StarredChangesUtil.REVIEWED_LABEL + "/" + ps.number())) {
         return true;
       }
 
-      if (stars.contains(StarredChangesUtil.UNREVIEWED_LABEL + "/" + ps.getPatchSetId())) {
+      if (stars.contains(StarredChangesUtil.UNREVIEWED_LABEL + "/" + ps.number())) {
         return false;
       }
     }

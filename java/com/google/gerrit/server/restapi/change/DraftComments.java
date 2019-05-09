@@ -66,7 +66,7 @@ public class DraftComments implements ChildCollection<RevisionResource, DraftCom
     String uuid = id.get();
     for (Comment c :
         commentsUtil.draftByPatchSetAuthor(
-            rev.getPatchSet().getId(), rev.getAccountId(), rev.getNotes())) {
+            rev.getPatchSet().id(), rev.getAccountId(), rev.getNotes())) {
       if (uuid.equals(c.key.uuid)) {
         return new DraftCommentResource(rev, c);
       }

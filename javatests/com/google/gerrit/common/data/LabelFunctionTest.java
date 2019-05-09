@@ -22,9 +22,9 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import java.sql.Date;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.junit.Test;
 
@@ -81,7 +81,7 @@ public class LabelFunctionTest {
     SubmitRecord.Label myLabel = LabelFunction.MAX_NO_BLOCK.check(VERIFIED_LABEL, approvals);
 
     assertThat(myLabel.status).isEqualTo(SubmitRecord.Label.Status.OK);
-    assertThat(myLabel.appliedBy).isEqualTo(APPROVAL_2.getAccountId());
+    assertThat(myLabel.appliedBy).isEqualTo(APPROVAL_2.accountId());
   }
 
   private static LabelType makeLabel() {
@@ -96,14 +96,11 @@ public class LabelFunctionTest {
   }
 
   private static PatchSetApproval makeApproval(int value) {
-    Account.Id accountId = Account.id(10000 + value);
-    PatchSetApproval.Key key = makeKey(PS_ID, accountId, LABEL_ID);
-    return new PatchSetApproval(key, (short) value, Date.from(Instant.now()));
-  }
-
-  private static PatchSetApproval.Key makeKey(
-      PatchSet.Id psId, Account.Id accountId, LabelId labelId) {
-    return PatchSetApproval.key(psId, accountId, labelId);
+    return PatchSetApproval.builder()
+        .key(PatchSetApproval.key(PS_ID, Account.id(10000 + value), LABEL_ID))
+        .value(value)
+        .granted(Date.from(Instant.now()))
+        .build();
   }
 
   private static void checkBlockWorks(LabelFunction function) {
@@ -112,7 +109,7 @@ public class LabelFunctionTest {
     SubmitRecord.Label myLabel = function.check(VERIFIED_LABEL, approvals);
 
     assertThat(myLabel.status).isEqualTo(SubmitRecord.Label.Status.REJECT);
-    assertThat(myLabel.appliedBy).isEqualTo(APPROVAL_M2.getAccountId());
+    assertThat(myLabel.appliedBy).isEqualTo(APPROVAL_M2.accountId());
   }
 
   private static void checkNothingHappens(LabelFunction function) {
@@ -143,6 +140,6 @@ public class LabelFunctionTest {
     SubmitRecord.Label myLabel = function.check(VERIFIED_LABEL, approvals);
 
     assertThat(myLabel.status).isEqualTo(SubmitRecord.Label.Status.OK);
-    assertThat(myLabel.appliedBy).isEqualTo(APPROVAL_2.getAccountId());
+    assertThat(myLabel.appliedBy).isEqualTo(APPROVAL_2.accountId());
   }
 }

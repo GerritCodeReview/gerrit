@@ -426,9 +426,9 @@ public class ChangeInserter implements InsertChangeOp {
     if (message != null) {
       changeMessage =
           ChangeMessagesUtil.newMessage(
-              patchSet.getId(),
+              patchSet.id(),
               ctx.getUser(),
-              patchSet.getCreatedOn(),
+              patchSet.createdOn(),
               message,
               ChangeMessagesUtil.uploadedPatchSetTag(workInProgress));
       cmUtil.addChangeMessage(update, changeMessage);
@@ -453,7 +453,7 @@ public class ChangeInserter implements InsertChangeOp {
                 cm.setNotify(notify);
                 cm.addReviewers(
                     reviewerAdditions.flattenResults(AddReviewersOp.Result::addedReviewers).stream()
-                        .map(PatchSetApproval::getAccountId)
+                        .map(PatchSetApproval::accountId)
                         .collect(toImmutableSet()));
                 cm.addReviewersByEmail(
                     reviewerAdditions.flattenResults(AddReviewersOp.Result::addedReviewersByEmail));

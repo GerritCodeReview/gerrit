@@ -222,7 +222,7 @@ public class WalkSorter {
     for (ChangeData cd : in) {
       PatchSet maxPs = null;
       for (PatchSet ps : cd.patchSets()) {
-        if (shouldInclude(ps) && (maxPs == null || ps.getId().get() > maxPs.getId().get())) {
+        if (shouldInclude(ps) && (maxPs == null || ps.id().get() > maxPs.id().get())) {
           maxPs = ps;
         }
       }
@@ -230,18 +230,18 @@ public class WalkSorter {
         continue; // No patch sets matched.
       }
       try {
-        RevCommit c = rw.parseCommit(maxPs.getCommitId());
+        RevCommit c = rw.parseCommit(maxPs.commitId());
         byCommit.put(c, PatchSetData.create(cd, maxPs, c));
       } catch (MissingObjectException | IncorrectObjectTypeException e) {
         logger.atWarning().withCause(e).log(
-            "missing commit %s for patch set %s", maxPs.getCommitId().name(), maxPs.getId());
+            "missing commit %s for patch set %s", maxPs.commitId().name(), maxPs.id());
       }
     }
     return byCommit;
   }
 
   private boolean shouldInclude(PatchSet ps) {
-    return includePatchSets.isEmpty() || includePatchSets.contains(ps.getId());
+    return includePatchSets.isEmpty() || includePatchSets.contains(ps.id());
   }
 
   private static void markStart(RevWalk rw, Iterable<RevCommit> commits) throws IOException {

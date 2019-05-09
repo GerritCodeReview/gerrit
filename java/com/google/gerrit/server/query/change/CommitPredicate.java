@@ -47,9 +47,9 @@ public class CommitPredicate extends ChangeIndexPredicate {
 
   protected boolean equals(PatchSet p, String id) {
     if (getField() == EXACT_COMMIT) {
-      return p.getCommitId().name().equals(id);
+      return p.commitId().name().equals(id);
     }
-    return matchesAbbreviation(p.getCommitId(), id);
+    return matchesAbbreviation(p.commitId(), id);
   }
 
   @Override

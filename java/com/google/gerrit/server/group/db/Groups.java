@@ -18,7 +18,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
+import com.google.gerrit.reviewdb.client.AccountGroupByIdAudit;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -152,7 +152,7 @@ public class Groups {
    * @throws IOException if an error occurs while reading from NoteDb
    * @throws ConfigInvalidException if the group couldn't be retrieved from NoteDb
    */
-  public List<AccountGroupByIdAud> getSubgroupsAudit(Repository repo, AccountGroup.UUID groupUuid)
+  public List<AccountGroupByIdAudit> getSubgroupsAudit(Repository repo, AccountGroup.UUID groupUuid)
       throws IOException, ConfigInvalidException {
     return auditLogReader.getSubgroupsAudit(repo, groupUuid);
   }

@@ -250,7 +250,7 @@ public class ReplaceOp implements BatchUpdateOp {
     }
     if (groups.isEmpty()) {
       PatchSet prevPs = psUtil.current(notes);
-      groups = prevPs != null ? prevPs.getGroups() : ImmutableList.of();
+      groups = prevPs != null ? prevPs.groups() : ImmutableList.of();
     }
 
     ChangeData cd = changeDataFactory.create(ctx.getNotes());
@@ -454,7 +454,7 @@ public class ReplaceOp implements BatchUpdateOp {
           continue;
         }
 
-        LabelType lt = projectState.getLabelTypes().byLabel(a.getLabelId());
+        LabelType lt = projectState.getLabelTypes().byLabel(a.labelId());
         if (lt != null) {
           current.put(lt.getName(), a);
         }
@@ -551,7 +551,7 @@ public class ReplaceOp implements BatchUpdateOp {
             Streams.concat(
                     oldRecipients.getReviewers().stream(),
                     reviewerAdditions.flattenResults(AddReviewersOp.Result::addedReviewers).stream()
-                        .map(PatchSetApproval::getAccountId))
+                        .map(PatchSetApproval::accountId))
                 .collect(toImmutableSet()));
         cm.addExtraCC(
             Streams.concat(
@@ -562,7 +562,7 @@ public class ReplaceOp implements BatchUpdateOp {
         cm.send();
       } catch (Exception e) {
         logger.atSevere().withCause(e).log(
-            "Cannot send email for new patch set %s", newPatchSet.getId());
+            "Cannot send email for new patch set %s", newPatchSet.id());
       }
     }
 

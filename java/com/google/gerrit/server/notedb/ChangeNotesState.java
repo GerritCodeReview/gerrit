@@ -555,12 +555,12 @@ public abstract class ChangeNotesState {
               .patchSets(
                   proto.getPatchSetList().stream()
                       .map(bytes -> parseProtoFrom(PatchSetProtoConverter.INSTANCE, bytes))
-                      .map(ps -> Maps.immutableEntry(ps.getId(), ps))
+                      .map(ps -> Maps.immutableEntry(ps.id(), ps))
                       .collect(toImmutableList()))
               .approvals(
                   proto.getApprovalList().stream()
                       .map(bytes -> parseProtoFrom(PatchSetApprovalProtoConverter.INSTANCE, bytes))
-                      .map(a -> Maps.immutableEntry(a.getPatchSetId(), a))
+                      .map(a -> Maps.immutableEntry(a.patchSetId(), a))
                       .collect(toImmutableList()))
               .reviewers(toReviewerSet(proto.getReviewerList()))
               .reviewersByEmail(toReviewerByEmailSet(proto.getReviewerByEmailList()))

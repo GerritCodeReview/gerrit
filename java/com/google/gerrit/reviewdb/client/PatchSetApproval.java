@@ -15,13 +15,14 @@
 package com.google.gerrit.reviewdb.client;
 
 import com.google.auto.value.AutoValue;
-import com.google.gerrit.common.Nullable;
+import com.google.common.primitives.Shorts;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.Objects;
+import java.util.Optional;
 
 /** An approval (or negative approval) on a patch set. */
-public final class PatchSetApproval {
+@AutoValue
+public abstract class PatchSetApproval {
   public static Key key(PatchSet.Id patchSetId, Account.Id accountId, LabelId labelId) {
     return new AutoValue_PatchSetApproval_Key(patchSetId, accountId, labelId);
   }
@@ -33,9 +34,55 @@ public final class PatchSetApproval {
     public abstract Account.Id accountId();
 
     public abstract LabelId labelId();
+
+    public boolean isLegacySubmit() {
+      return LabelId.LEGACY_SUBMIT_NAME.equals(labelId().get());
+    }
   }
 
-  protected Key key;
+  public static Builder builder() {
+    return new AutoValue_PatchSetApproval.Builder().postSubmit(false);
+  }
+
+  @AutoValue.Builder
+  public abstract static class Builder {
+    public abstract Builder key(Key key);
+
+    public abstract Key key();
+
+    public abstract Builder value(short value);
+
+    public Builder value(int value) {
+      return value(Shorts.checkedCast(value));
+    }
+
+    public abstract Builder granted(Timestamp granted);
+
+    public Builder granted(Date granted) {
+      return granted(new Timestamp(granted.getTime()));
+    }
+
+    public abstract Builder tag(String tag);
+
+    public abstract Builder tag(Optional<String> tag);
+
+    public abstract Builder realAccountId(Account.Id realAccountId);
+
+    abstract Optional<Account.Id> realAccountId();
+
+    public abstract Builder postSubmit(boolean isPostSubmit);
+
+    abstract PatchSetApproval autoBuild();
+
+    public PatchSetApproval build() {
+      if (!realAccountId().isPresent()) {
+        realAccountId(key().accountId());
+      }
+      return autoBuild();
+    }
+  }
+
+  public abstract Key key();
 
   /**
    * Value assigned by the user.
@@ -53,143 +100,40 @@ public final class PatchSetApproval {
    * and in the negative and positive direction a magnitude can be assumed.The further from 0 the
    * more assertive the approval.
    */
-  protected short value;
+  public abstract short value();
 
-  protected Timestamp granted;
+  public abstract Timestamp granted();
 
-  @Nullable protected String tag;
+  public abstract Optional<String> tag();
 
   /** Real user that made this approval on behalf of the user recorded in {@link Key#accountId}. */
-  @Nullable protected Account.Id realAccountId;
+  public abstract Account.Id realAccountId();
 
-  protected boolean postSubmit;
+  public abstract boolean postSubmit();
 
-  // DELETED: id = 4 (changeOpen)
-  // DELETED: id = 5 (changeSortKey)
+  public abstract Builder toBuilder();
 
-  protected PatchSetApproval() {}
-
-  public PatchSetApproval(PatchSetApproval.Key k, short v, Date ts) {
-    key = k;
-    setValue(v);
-    setGranted(ts);
+  public PatchSetApproval copyWithPatchSet(PatchSet.Id psId) {
+    return toBuilder().key(key(psId, key().accountId(), key().labelId())).build();
   }
 
-  public PatchSetApproval(PatchSet.Id psId, PatchSetApproval src) {
-    key = key(psId, src.getAccountId(), src.getLabelId());
-    value = src.getValue();
-    granted = src.granted;
-    realAccountId = src.realAccountId;
-    tag = src.tag;
-    postSubmit = src.postSubmit;
+  public PatchSet.Id patchSetId() {
+    return key().patchSetId();
   }
 
-  public PatchSetApproval(PatchSetApproval src) {
-    this(src.getPatchSetId(), src);
+  public Account.Id accountId() {
+    return key().accountId();
   }
 
-  public PatchSetApproval.Key getKey() {
-    return key;
+  public LabelId labelId() {
+    return key().labelId();
   }
 
-  public PatchSet.Id getPatchSetId() {
-    return key.patchSetId();
-  }
-
-  public Account.Id getAccountId() {
-    return key.accountId();
-  }
-
-  public Account.Id getRealAccountId() {
-    return realAccountId != null ? realAccountId : getAccountId();
-  }
-
-  public void setRealAccountId(Account.Id id) {
-    // Use null for same real author, as before the column was added.
-    realAccountId = Objects.equals(getAccountId(), id) ? null : id;
-  }
-
-  public LabelId getLabelId() {
-    return key.labelId();
-  }
-
-  public short getValue() {
-    return value;
-  }
-
-  public void setValue(short v) {
-    value = v;
-  }
-
-  public Timestamp getGranted() {
-    return granted;
-  }
-
-  public void setGranted(Date when) {
-    if (when instanceof Timestamp) {
-      granted = (Timestamp) when;
-    } else {
-      granted = new Timestamp(when.getTime());
-    }
-  }
-
-  public void setTag(String t) {
-    tag = t;
-  }
-
-  public String getLabel() {
-    return getLabelId().get();
+  public String label() {
+    return labelId().get();
   }
 
   public boolean isLegacySubmit() {
-    return LabelId.LEGACY_SUBMIT_NAME.equals(getLabel());
-  }
-
-  public String getTag() {
-    return tag;
-  }
-
-  public void setPostSubmit(boolean postSubmit) {
-    this.postSubmit = postSubmit;
-  }
-
-  public boolean isPostSubmit() {
-    return postSubmit;
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb =
-        new StringBuilder("[")
-            .append(key)
-            .append(": ")
-            .append(value)
-            .append(",tag:")
-            .append(tag)
-            .append(",realAccountId:")
-            .append(realAccountId);
-    if (postSubmit) {
-      sb.append(",postSubmit");
-    }
-    return sb.append(']').toString();
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (o instanceof PatchSetApproval) {
-      PatchSetApproval p = (PatchSetApproval) o;
-      return Objects.equals(key, p.key)
-          && Objects.equals(value, p.value)
-          && Objects.equals(granted, p.granted)
-          && Objects.equals(tag, p.tag)
-          && Objects.equals(realAccountId, p.realAccountId)
-          && postSubmit == p.postSubmit;
-    }
-    return false;
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(key, value, granted, tag, realAccountId, postSubmit);
+    return key().isLegacySubmit();
   }
 }

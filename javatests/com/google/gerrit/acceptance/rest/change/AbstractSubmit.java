@@ -229,7 +229,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
           break;
         case REBASE_IF_NECESSARY:
         case REBASE_ALWAYS:
-          String change2hash = change2.getChange().currentPatchSet().getCommitId().name();
+          String change2hash = change2.getChange().currentPatchSet().commitId().name();
           assertThat(e.getMessage())
               .isEqualTo(
                   "Cannot rebase "
@@ -1256,7 +1256,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
         approvalsUtil.getSubmitter(cn, PatchSet.id(cn.getChangeId(), psId));
     assertThat(submitter).isNotNull();
     assertThat(submitter.isLegacySubmit()).isTrue();
-    assertThat(submitter.getAccountId()).isEqualTo(user.id());
+    assertThat(submitter.accountId()).isEqualTo(user.id());
   }
 
   protected void assertNoSubmitter(String changeId, int psId) throws Throwable {

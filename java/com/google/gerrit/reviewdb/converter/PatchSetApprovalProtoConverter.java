@@ -34,21 +34,18 @@ public enum PatchSetApprovalProtoConverter
   public Entities.PatchSetApproval toProto(PatchSetApproval patchSetApproval) {
     Entities.PatchSetApproval.Builder builder =
         Entities.PatchSetApproval.newBuilder()
-            .setKey(patchSetApprovalKeyProtoConverter.toProto(patchSetApproval.getKey()))
-            .setValue(patchSetApproval.getValue())
-            .setGranted(patchSetApproval.getGranted().getTime())
-            .setPostSubmit(patchSetApproval.isPostSubmit());
+            .setKey(patchSetApprovalKeyProtoConverter.toProto(patchSetApproval.key()))
+            .setValue(patchSetApproval.value())
+            .setGranted(patchSetApproval.granted().getTime())
+            .setPostSubmit(patchSetApproval.postSubmit());
 
-    String tag = patchSetApproval.getTag();
-    if (tag != null) {
-      builder.setTag(tag);
-    }
-    Account.Id realAccountId = patchSetApproval.getRealAccountId();
+    patchSetApproval.tag().ifPresent(builder::setTag);
+    Account.Id realAccountId = patchSetApproval.realAccountId();
     // PatchSetApproval#getRealAccountId automatically delegates to PatchSetApproval#getAccountId if
     // the real author is not set. However, the previous protobuf representation kept
     // 'realAccountId' empty if it wasn't set. To ensure binary compatibility, simulate the previous
     // behavior.
-    if (realAccountId != null && !Objects.equals(realAccountId, patchSetApproval.getAccountId())) {
+    if (realAccountId != null && !Objects.equals(realAccountId, patchSetApproval.accountId())) {
       builder.setRealAccountId(accountIdConverter.toProto(realAccountId));
     }
 
@@ -57,21 +54,19 @@ public enum PatchSetApprovalProtoConverter
 
   @Override
   public PatchSetApproval fromProto(Entities.PatchSetApproval proto) {
-    PatchSetApproval patchSetApproval =
-        new PatchSetApproval(
-            patchSetApprovalKeyProtoConverter.fromProto(proto.getKey()),
-            (short) proto.getValue(),
-            new Timestamp(proto.getGranted()));
+    PatchSetApproval.Builder builder =
+        PatchSetApproval.builder()
+            .key(patchSetApprovalKeyProtoConverter.fromProto(proto.getKey()))
+            .value(proto.getValue())
+            .granted(new Timestamp(proto.getGranted()))
+            .postSubmit(proto.getPostSubmit());
     if (proto.hasTag()) {
-      patchSetApproval.setTag(proto.getTag());
+      builder.tag(proto.getTag());
     }
     if (proto.hasRealAccountId()) {
-      patchSetApproval.setRealAccountId(accountIdConverter.fromProto(proto.getRealAccountId()));
+      builder.realAccountId(accountIdConverter.fromProto(proto.getRealAccountId()));
     }
-    if (proto.hasPostSubmit()) {
-      patchSetApproval.setPostSubmit(proto.getPostSubmit());
-    }
-    return patchSetApproval;
+    return builder.build();
   }
 
   @Override

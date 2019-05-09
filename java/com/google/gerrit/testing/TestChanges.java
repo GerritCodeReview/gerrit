@@ -68,10 +68,12 @@ public class TestChanges {
   }
 
   public static PatchSet newPatchSet(PatchSet.Id id, String revision, Account.Id userId) {
-    PatchSet ps = new PatchSet(id, ObjectId.fromString(revision));
-    ps.setUploader(userId);
-    ps.setCreatedOn(TimeUtil.nowTs());
-    return ps;
+    return PatchSet.builder()
+        .id(id)
+        .commitId(ObjectId.fromString(revision))
+        .uploader(userId)
+        .createdOn(TimeUtil.nowTs())
+        .build();
   }
 
   public static ChangeUpdate newUpdate(

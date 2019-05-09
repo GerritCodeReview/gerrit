@@ -193,7 +193,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       try (Repository repo = repoManager.openRepository(projectKey);
           RevWalk revWalk = new RevWalk(repo)) {
         RevCommit currPatchsetRevCommit =
-            revWalk.parseCommit(psUtil.current(ctx.getNotes()).getCommitId());
+            revWalk.parseCommit(psUtil.current(ctx.getNotes()).commitId());
         if (currPatchsetRevCommit.getParentCount() > 1) {
           throw new ResourceConflictException("Merge commit cannot be moved");
         }
@@ -261,7 +261,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
           approvalsUtil.byPatchSet(
               ctx.getNotes(), psId, ctx.getRevWalk(), ctx.getRepoView().getConfig())) {
         ProjectState projectState = projectCache.checkedGet(project);
-        LabelType type = projectState.getLabelTypes(ctx.getNotes()).byLabel(psa.getLabelId());
+        LabelType type = projectState.getLabelTypes(ctx.getNotes()).byLabel(psa.labelId());
         // Only keep veto votes, defined as votes where:
         // 1- the label function allows minimum values to block submission.
         // 2- the vote holds the minimum value.
@@ -270,12 +270,13 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
         }
 
         // Remove votes from NoteDb.
-        update.removeApprovalFor(psa.getAccountId(), psa.getLabel());
+        update.removeApprovalFor(psa.accountId(), psa.label());
         approvals.add(
-            new PatchSetApproval(
-                PatchSetApproval.key(psId, psa.getAccountId(), LabelId.create(psa.getLabel())),
-                (short) 0,
-                ctx.getWhen()));
+            PatchSetApproval.builder()
+                .key(PatchSetApproval.key(psId, psa.accountId(), LabelId.create(psa.label())))
+                .value(0)
+                .granted(ctx.getWhen())
+                .build());
       }
     }
   }

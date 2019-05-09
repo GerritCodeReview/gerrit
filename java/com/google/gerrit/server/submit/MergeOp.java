@@ -296,7 +296,7 @@ public class MergeOp implements AutoCloseable {
       throw new IllegalStateException(
           String.format(
               "SubmitRuleEvaluator.evaluate for change %s returned empty list for %s in %s",
-              cd.getId(), patchSet.getId(), cd.change().getProject().get()));
+              cd.getId(), patchSet.id(), cd.change().getProject().get()));
     }
 
     for (SubmitRecord record : results) {
@@ -318,7 +318,7 @@ public class MergeOp implements AutoCloseable {
           throw new IllegalStateException(
               String.format(
                   "Unexpected SubmitRecord status %s for %s in %s",
-                  record.status, patchSet.getId().getId(), cd.change().getProject().get()));
+                  record.status, patchSet.id().getId(), cd.change().getProject().get()));
       }
     }
     throw new IllegalStateException();
@@ -781,9 +781,9 @@ public class MergeOp implements AutoCloseable {
         continue;
       }
 
-      ObjectId id = ps.getCommitId();
-      if (!revisions.containsEntry(id, ps.getId())) {
-        if (revisions.containsValue(ps.getId())) {
+      ObjectId id = ps.commitId();
+      if (!revisions.containsEntry(id, ps.id())) {
+        if (revisions.containsValue(ps.id())) {
           // TODO This is actually an error, the patch set ref exists but points to a revision that
           // is different from the revision that we have stored for the patch set in the change
           // meta data.
@@ -792,9 +792,9 @@ public class MergeOp implements AutoCloseable {
               "Revision "
                   + id.name()
                   + " of patch set "
-                  + ps.getPatchSetId()
+                  + ps.number()
                   + " does not match the revision of the patch set ref "
-                  + ps.getId().toRefName());
+                  + ps.id().toRefName());
           continue;
         }
 
@@ -805,9 +805,9 @@ public class MergeOp implements AutoCloseable {
         commitStatus.logProblem(
             changeId,
             "Patch set ref "
-                + ps.getId().toRefName()
+                + ps.id().toRefName()
                 + " not found. Expected patch set ref of "
-                + ps.getPatchSetId()
+                + ps.number()
                 + " to point to revision "
                 + id.name());
         continue;
@@ -822,13 +822,12 @@ public class MergeOp implements AutoCloseable {
       }
 
       commit.setNotes(notes);
-      commit.setPatchsetId(ps.getId());
+      commit.setPatchsetId(ps.id());
       commitStatus.put(commit);
 
       MergeValidators mergeValidators = mergeValidatorsFactory.create();
       try {
-        mergeValidators.validatePreMerge(
-            or.repo, commit, or.project, destBranch, ps.getId(), caller);
+        mergeValidators.validatePreMerge(or.repo, commit, or.project, destBranch, ps.id(), caller);
       } catch (MergeValidationException mve) {
         commitStatus.problem(changeId, mve.getMessage());
         continue;

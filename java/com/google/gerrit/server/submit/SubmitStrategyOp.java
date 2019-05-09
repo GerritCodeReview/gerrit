@@ -20,7 +20,6 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.base.Function;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.exceptions.StorageException;
@@ -252,7 +251,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
                 args.psUtil.get(ctx.getNotes(), oldPsId),
                 () -> String.format("missing old patch set %s", oldPsId));
       } else {
-        PatchSet.Id n = newPatchSet.getId();
+        PatchSet.Id n = newPatchSet.id();
         checkState(
             !n.equals(oldPsId) && n.equals(newPsId),
             "current patch was %s and is now %s, but updateChangeImpl returned"
@@ -312,7 +311,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     // a patch set ref. Fix up the database. Note that this uses the current
     // user as the uploader, which is as good a guess as any.
     List<String> groups =
-        prevPs != null ? prevPs.getGroups() : GroupCollector.getDefaultGroups(alreadyMergedCommit);
+        prevPs != null ? prevPs.groups() : GroupCollector.getDefaultGroups(alreadyMergedCommit);
     return args.psUtil.insert(
         ctx.getRevWalk(), ctx.getUpdate(psId), psId, alreadyMergedCommit, groups, null, null);
   }
@@ -334,7 +333,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     // approvals as well.
     if (!newPsId.equals(oldPsId)) {
       saveApprovals(normalized, newPsUpdate, true);
-      submitter = convertPatchSet(newPsId).apply(submitter);
+      submitter = submitter.copyWithPatchSet(newPsId);
     }
   }
 
@@ -345,12 +344,13 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     for (PatchSetApproval psa :
         args.approvalsUtil.byPatchSet(
             ctx.getNotes(), psId, ctx.getRevWalk(), ctx.getRepoView().getConfig())) {
-      byKey.put(psa.getKey(), psa);
+      byKey.put(psa.key(), psa);
     }
 
     submitter =
-        ApprovalsUtil.newApproval(psId, ctx.getUser(), LabelId.legacySubmit(), 1, ctx.getWhen());
-    byKey.put(submitter.getKey(), submitter);
+        ApprovalsUtil.newApproval(psId, ctx.getUser(), LabelId.legacySubmit(), 1, ctx.getWhen())
+            .build();
+    byKey.put(submitter.key(), submitter);
 
     // Flatten out existing approvals for this patch set based upon the current
     // permissions. Once the change is closed the approvals are not updated at
@@ -359,7 +359,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     // permissions get modified in the future, historical records stay accurate.
     LabelNormalizer.Result normalized =
         args.labelNormalizer.normalize(ctx.getNotes(), byKey.values());
-    update.putApproval(submitter.getLabel(), submitter.getValue());
+    update.putApproval(submitter.label(), submitter.value());
     saveApprovals(normalized, update, false);
     return normalized;
   }
@@ -367,10 +367,10 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   private void saveApprovals(
       LabelNormalizer.Result normalized, ChangeUpdate update, boolean includeUnchanged) {
     for (PatchSetApproval psa : normalized.updated()) {
-      update.putApprovalFor(psa.getAccountId(), psa.getLabel(), psa.getValue());
+      update.putApprovalFor(psa.accountId(), psa.label(), psa.value());
     }
     for (PatchSetApproval psa : normalized.deleted()) {
-      update.removeApprovalFor(psa.getAccountId(), psa.getLabel());
+      update.removeApprovalFor(psa.accountId(), psa.label());
     }
 
     // TODO(dborowitz): Don't use a label in NoteDb; just check when status
@@ -378,25 +378,15 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     for (PatchSetApproval psa : normalized.unchanged()) {
       if (includeUnchanged || psa.isLegacySubmit()) {
         logger.atFine().log("Adding submit label %s", psa);
-        update.putApprovalFor(psa.getAccountId(), psa.getLabel(), psa.getValue());
+        update.putApprovalFor(psa.accountId(), psa.label(), psa.value());
       }
     }
-  }
-
-  private static Function<PatchSetApproval, PatchSetApproval> convertPatchSet(
-      final PatchSet.Id psId) {
-    return psa -> {
-      if (psa.getPatchSetId().equals(psId)) {
-        return psa;
-      }
-      return new PatchSetApproval(psId, psa);
-    };
   }
 
   private String getByAccountName() {
     requireNonNull(submitter, "getByAccountName called before submitter populated");
     Optional<Account> account =
-        args.accountCache.get(submitter.getAccountId()).map(AccountState::getAccount);
+        args.accountCache.get(submitter.accountId()).map(AccountState::getAccount);
     if (account.isPresent() && account.get().getFullName() != null) {
       return " by " + account.get().getFullName();
     }
@@ -499,7 +489,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     // have failed fast in one of the other steps.
     try {
       args.mergedSenderFactory
-          .create(ctx.getProject(), getId(), submitter.getAccountId(), ctx.getNotify(getId()))
+          .create(ctx.getProject(), getId(), submitter.accountId(), ctx.getNotify(getId()))
           .sendAsync();
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email merged notification for %s", getId());
@@ -508,7 +498,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       args.changeMerged.fire(
           updatedChange,
           mergedPatchSet,
-          args.accountCache.get(submitter.getAccountId()).orElse(null),
+          args.accountCache.get(submitter.accountId()).orElse(null),
           args.mergeTip.getCurrentTip().name(),
           ctx.getWhen());
     }

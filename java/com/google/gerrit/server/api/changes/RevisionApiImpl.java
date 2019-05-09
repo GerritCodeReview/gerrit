@@ -476,7 +476,7 @@ class RevisionApiImpl implements RevisionApi {
       // Reread change to pick up new notes refs.
       return changes
           .id(revision.getChange().getId().get())
-          .revision(revision.getPatchSet().getId().get())
+          .revision(revision.getPatchSet().id().get())
           .draft(id);
     } catch (Exception e) {
       throw asRestApiException("Cannot create draft", e);
@@ -587,20 +587,20 @@ class RevisionApiImpl implements RevisionApi {
         ListMultimapBuilder.treeKeys().arrayListValues().build();
     try {
       Iterable<PatchSetApproval> approvals =
-          approvalsUtil.byPatchSet(revision.getNotes(), revision.getPatchSet().getId(), null, null);
+          approvalsUtil.byPatchSet(revision.getNotes(), revision.getPatchSet().id(), null, null);
       AccountLoader accountLoader =
           accountLoaderFactory.create(
               EnumSet.of(
                   FillOptions.ID, FillOptions.NAME, FillOptions.EMAIL, FillOptions.USERNAME));
       for (PatchSetApproval approval : approvals) {
-        String label = approval.getLabel();
+        String label = approval.label();
         ApprovalInfo info =
             new ApprovalInfo(
-                approval.getAccountId().get(),
-                Integer.valueOf(approval.getValue()),
+                approval.accountId().get(),
+                Integer.valueOf(approval.value()),
                 null,
-                approval.getTag(),
-                approval.getGranted());
+                approval.tag().orElse(null),
+                approval.granted());
         accountLoader.put(info);
         result.get(label).add(info);
       }

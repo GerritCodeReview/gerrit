@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
@@ -101,7 +102,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getCurrentPatchSet().getDescription()).isEqualTo(description);
+    assertThat(notes.getCurrentPatchSet().description()).hasValue(description);
 
     description = "new, now more descriptive!";
     update = newUpdate(c, changeOwner);
@@ -109,7 +110,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getCurrentPatchSet().getDescription()).isEqualTo(description);
+    assertThat(notes.getCurrentPatchSet().description()).hasValue(description);
   }
 
   @Test
@@ -162,7 +163,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals = notes.getApprovals();
     assertThat(approvals).hasSize(1);
-    assertThat(approvals.entries().asList().get(0).getValue().getTag()).isEqualTo(tag2);
+    assertThat(approvals.entries().asList().get(0).getValue().tag()).hasValue(tag2);
   }
 
   @Test
@@ -209,8 +210,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals = notes.getApprovals();
     assertThat(approvals).hasSize(1);
     PatchSetApproval approval = approvals.entries().asList().get(0).getValue();
-    assertThat(approval.getTag()).isEqualTo(integrationTag);
-    assertThat(approval.getValue()).isEqualTo(-1);
+    assertThat(approval.tag()).hasValue(integrationTag);
+    assertThat(approval.value()).isEqualTo(-1);
 
     ImmutableListMultimap<ObjectId, Comment> comments = notes.getComments();
     assertThat(comments).hasSize(1);
@@ -236,17 +237,17 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     List<PatchSetApproval> psas = notes.getApprovals().get(c.currentPatchSetId());
     assertThat(psas).hasSize(2);
 
-    assertThat(psas.get(0).getPatchSetId()).isEqualTo(c.currentPatchSetId());
-    assertThat(psas.get(0).getAccountId().get()).isEqualTo(1);
-    assertThat(psas.get(0).getLabel()).isEqualTo("Code-Review");
-    assertThat(psas.get(0).getValue()).isEqualTo((short) -1);
-    assertThat(psas.get(0).getGranted()).isEqualTo(truncate(after(c, 2000)));
+    assertThat(psas.get(0).patchSetId()).isEqualTo(c.currentPatchSetId());
+    assertThat(psas.get(0).accountId().get()).isEqualTo(1);
+    assertThat(psas.get(0).label()).isEqualTo("Code-Review");
+    assertThat(psas.get(0).value()).isEqualTo((short) -1);
+    assertThat(psas.get(0).granted()).isEqualTo(truncate(after(c, 2000)));
 
-    assertThat(psas.get(1).getPatchSetId()).isEqualTo(c.currentPatchSetId());
-    assertThat(psas.get(1).getAccountId().get()).isEqualTo(1);
-    assertThat(psas.get(1).getLabel()).isEqualTo("Verified");
-    assertThat(psas.get(1).getValue()).isEqualTo((short) 1);
-    assertThat(psas.get(1).getGranted()).isEqualTo(psas.get(0).getGranted());
+    assertThat(psas.get(1).patchSetId()).isEqualTo(c.currentPatchSetId());
+    assertThat(psas.get(1).accountId().get()).isEqualTo(1);
+    assertThat(psas.get(1).label()).isEqualTo("Verified");
+    assertThat(psas.get(1).value()).isEqualTo((short) 1);
+    assertThat(psas.get(1).granted()).isEqualTo(psas.get(0).granted());
   }
 
   @Test
@@ -268,18 +269,18 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(psas).hasSize(2);
 
     PatchSetApproval psa1 = Iterables.getOnlyElement(psas.get(ps1));
-    assertThat(psa1.getPatchSetId()).isEqualTo(ps1);
-    assertThat(psa1.getAccountId().get()).isEqualTo(1);
-    assertThat(psa1.getLabel()).isEqualTo("Code-Review");
-    assertThat(psa1.getValue()).isEqualTo((short) -1);
-    assertThat(psa1.getGranted()).isEqualTo(truncate(after(c, 2000)));
+    assertThat(psa1.patchSetId()).isEqualTo(ps1);
+    assertThat(psa1.accountId().get()).isEqualTo(1);
+    assertThat(psa1.label()).isEqualTo("Code-Review");
+    assertThat(psa1.value()).isEqualTo((short) -1);
+    assertThat(psa1.granted()).isEqualTo(truncate(after(c, 2000)));
 
     PatchSetApproval psa2 = Iterables.getOnlyElement(psas.get(ps2));
-    assertThat(psa2.getPatchSetId()).isEqualTo(ps2);
-    assertThat(psa2.getAccountId().get()).isEqualTo(1);
-    assertThat(psa2.getLabel()).isEqualTo("Code-Review");
-    assertThat(psa2.getValue()).isEqualTo((short) +1);
-    assertThat(psa2.getGranted()).isEqualTo(truncate(after(c, 4000)));
+    assertThat(psa2.patchSetId()).isEqualTo(ps2);
+    assertThat(psa2.accountId().get()).isEqualTo(1);
+    assertThat(psa2.label()).isEqualTo("Code-Review");
+    assertThat(psa2.value()).isEqualTo((short) +1);
+    assertThat(psa2.granted()).isEqualTo(truncate(after(c, 4000)));
   }
 
   @Test
@@ -292,8 +293,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeNotes notes = newNotes(c);
     PatchSetApproval psa =
         Iterables.getOnlyElement(notes.getApprovals().get(c.currentPatchSetId()));
-    assertThat(psa.getLabel()).isEqualTo("Code-Review");
-    assertThat(psa.getValue()).isEqualTo((short) -1);
+    assertThat(psa.label()).isEqualTo("Code-Review");
+    assertThat(psa.value()).isEqualTo((short) -1);
 
     update = newUpdate(c, changeOwner);
     update.putApproval("Code-Review", (short) 1);
@@ -301,8 +302,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     notes = newNotes(c);
     psa = Iterables.getOnlyElement(notes.getApprovals().get(c.currentPatchSetId()));
-    assertThat(psa.getLabel()).isEqualTo("Code-Review");
-    assertThat(psa.getValue()).isEqualTo((short) 1);
+    assertThat(psa.label()).isEqualTo("Code-Review");
+    assertThat(psa.value()).isEqualTo((short) 1);
   }
 
   @Test
@@ -321,17 +322,17 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     List<PatchSetApproval> psas = notes.getApprovals().get(c.currentPatchSetId());
     assertThat(psas).hasSize(2);
 
-    assertThat(psas.get(0).getPatchSetId()).isEqualTo(c.currentPatchSetId());
-    assertThat(psas.get(0).getAccountId().get()).isEqualTo(1);
-    assertThat(psas.get(0).getLabel()).isEqualTo("Code-Review");
-    assertThat(psas.get(0).getValue()).isEqualTo((short) -1);
-    assertThat(psas.get(0).getGranted()).isEqualTo(truncate(after(c, 2000)));
+    assertThat(psas.get(0).patchSetId()).isEqualTo(c.currentPatchSetId());
+    assertThat(psas.get(0).accountId().get()).isEqualTo(1);
+    assertThat(psas.get(0).label()).isEqualTo("Code-Review");
+    assertThat(psas.get(0).value()).isEqualTo((short) -1);
+    assertThat(psas.get(0).granted()).isEqualTo(truncate(after(c, 2000)));
 
-    assertThat(psas.get(1).getPatchSetId()).isEqualTo(c.currentPatchSetId());
-    assertThat(psas.get(1).getAccountId().get()).isEqualTo(2);
-    assertThat(psas.get(1).getLabel()).isEqualTo("Code-Review");
-    assertThat(psas.get(1).getValue()).isEqualTo((short) 1);
-    assertThat(psas.get(1).getGranted()).isEqualTo(truncate(after(c, 3000)));
+    assertThat(psas.get(1).patchSetId()).isEqualTo(c.currentPatchSetId());
+    assertThat(psas.get(1).accountId().get()).isEqualTo(2);
+    assertThat(psas.get(1).label()).isEqualTo("Code-Review");
+    assertThat(psas.get(1).value()).isEqualTo((short) 1);
+    assertThat(psas.get(1).granted()).isEqualTo(truncate(after(c, 3000)));
   }
 
   @Test
@@ -344,9 +345,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeNotes notes = newNotes(c);
     PatchSetApproval psa =
         Iterables.getOnlyElement(notes.getApprovals().get(c.currentPatchSetId()));
-    assertThat(psa.getAccountId().get()).isEqualTo(1);
-    assertThat(psa.getLabel()).isEqualTo("Not-For-Long");
-    assertThat(psa.getValue()).isEqualTo((short) 1);
+    assertThat(psa.accountId().get()).isEqualTo(1);
+    assertThat(psa.label()).isEqualTo("Not-For-Long");
+    assertThat(psa.value()).isEqualTo((short) 1);
 
     update = newUpdate(c, changeOwner);
     update.removeApproval("Not-For-Long");
@@ -356,8 +357,12 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(notes.getApprovals())
         .containsExactlyEntriesIn(
             ImmutableListMultimap.of(
-                psa.getPatchSetId(),
-                new PatchSetApproval(psa.getKey(), (short) 0, update.getWhen())));
+                psa.patchSetId(),
+                PatchSetApproval.builder()
+                    .key(psa.key())
+                    .value(0)
+                    .granted(update.getWhen())
+                    .build()));
   }
 
   @Test
@@ -370,9 +375,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeNotes notes = newNotes(c);
     PatchSetApproval psa =
         Iterables.getOnlyElement(notes.getApprovals().get(c.currentPatchSetId()));
-    assertThat(psa.getAccountId()).isEqualTo(otherUserId);
-    assertThat(psa.getLabel()).isEqualTo("Not-For-Long");
-    assertThat(psa.getValue()).isEqualTo((short) 1);
+    assertThat(psa.accountId()).isEqualTo(otherUserId);
+    assertThat(psa.label()).isEqualTo("Not-For-Long");
+    assertThat(psa.value()).isEqualTo((short) 1);
 
     update = newUpdate(c, changeOwner);
     update.removeApprovalFor(otherUserId, "Not-For-Long");
@@ -382,8 +387,12 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(notes.getApprovals())
         .containsExactlyEntriesIn(
             ImmutableListMultimap.of(
-                psa.getPatchSetId(),
-                new PatchSetApproval(psa.getKey(), (short) 0, update.getWhen())));
+                psa.patchSetId(),
+                PatchSetApproval.builder()
+                    .key(psa.key())
+                    .value(0)
+                    .granted(update.getWhen())
+                    .build()));
 
     // Add back approval on same label.
     update = newUpdate(c, otherUser);
@@ -392,9 +401,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     notes = newNotes(c);
     psa = Iterables.getOnlyElement(notes.getApprovals().get(c.currentPatchSetId()));
-    assertThat(psa.getAccountId()).isEqualTo(otherUserId);
-    assertThat(psa.getLabel()).isEqualTo("Not-For-Long");
-    assertThat(psa.getValue()).isEqualTo((short) 2);
+    assertThat(psa.accountId()).isEqualTo(otherUserId);
+    assertThat(psa.label()).isEqualTo("Not-For-Long");
+    assertThat(psa.value()).isEqualTo((short) 2);
   }
 
   @Test
@@ -408,17 +417,17 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeNotes notes = newNotes(c);
     ImmutableList<PatchSetApproval> approvals =
         notes.getApprovals().get(c.currentPatchSetId()).stream()
-            .sorted(comparing(a -> a.getAccountId().get()))
+            .sorted(comparing(a -> a.accountId().get()))
             .collect(toImmutableList());
     assertThat(approvals).hasSize(2);
 
-    assertThat(approvals.get(0).getAccountId()).isEqualTo(changeOwner.getAccountId());
-    assertThat(approvals.get(0).getLabel()).isEqualTo("Code-Review");
-    assertThat(approvals.get(0).getValue()).isEqualTo((short) 1);
+    assertThat(approvals.get(0).accountId()).isEqualTo(changeOwner.getAccountId());
+    assertThat(approvals.get(0).label()).isEqualTo("Code-Review");
+    assertThat(approvals.get(0).value()).isEqualTo((short) 1);
 
-    assertThat(approvals.get(1).getAccountId()).isEqualTo(otherUser.getAccountId());
-    assertThat(approvals.get(1).getLabel()).isEqualTo("Code-Review");
-    assertThat(approvals.get(1).getValue()).isEqualTo((short) -1);
+    assertThat(approvals.get(1).accountId()).isEqualTo(otherUser.getAccountId());
+    assertThat(approvals.get(1).label()).isEqualTo("Code-Review");
+    assertThat(approvals.get(1).value()).isEqualTo((short) -1);
   }
 
   @Test
@@ -448,12 +457,12 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeNotes notes = newNotes(c);
     List<PatchSetApproval> approvals = Lists.newArrayList(notes.getApprovals().values());
     assertThat(approvals).hasSize(2);
-    assertThat(approvals.get(0).getLabel()).isEqualTo("Verified");
-    assertThat(approvals.get(0).getValue()).isEqualTo((short) 1);
-    assertThat(approvals.get(0).isPostSubmit()).isFalse();
-    assertThat(approvals.get(1).getLabel()).isEqualTo("Code-Review");
-    assertThat(approvals.get(1).getValue()).isEqualTo((short) 2);
-    assertThat(approvals.get(1).isPostSubmit()).isTrue();
+    assertThat(approvals.get(0).label()).isEqualTo("Verified");
+    assertThat(approvals.get(0).value()).isEqualTo((short) 1);
+    assertThat(approvals.get(0).postSubmit()).isFalse();
+    assertThat(approvals.get(1).label()).isEqualTo("Code-Review");
+    assertThat(approvals.get(1).value()).isEqualTo((short) 2);
+    assertThat(approvals.get(1).postSubmit()).isTrue();
   }
 
   @Test
@@ -488,18 +497,18 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     List<PatchSetApproval> approvals = Lists.newArrayList(notes.getApprovals().values());
     assertThat(approvals).hasSize(3);
-    assertThat(approvals.get(0).getAccountId()).isEqualTo(ownerId);
-    assertThat(approvals.get(0).getLabel()).isEqualTo("Verified");
-    assertThat(approvals.get(0).getValue()).isEqualTo(1);
-    assertThat(approvals.get(0).isPostSubmit()).isFalse();
-    assertThat(approvals.get(1).getAccountId()).isEqualTo(ownerId);
-    assertThat(approvals.get(1).getLabel()).isEqualTo("Code-Review");
-    assertThat(approvals.get(1).getValue()).isEqualTo(2);
-    assertThat(approvals.get(1).isPostSubmit()).isFalse(); // During submit.
-    assertThat(approvals.get(2).getAccountId()).isEqualTo(otherId);
-    assertThat(approvals.get(2).getLabel()).isEqualTo("Other-Label");
-    assertThat(approvals.get(2).getValue()).isEqualTo(2);
-    assertThat(approvals.get(2).isPostSubmit()).isTrue();
+    assertThat(approvals.get(0).accountId()).isEqualTo(ownerId);
+    assertThat(approvals.get(0).label()).isEqualTo("Verified");
+    assertThat(approvals.get(0).value()).isEqualTo(1);
+    assertThat(approvals.get(0).postSubmit()).isFalse();
+    assertThat(approvals.get(1).accountId()).isEqualTo(ownerId);
+    assertThat(approvals.get(1).label()).isEqualTo("Code-Review");
+    assertThat(approvals.get(1).value()).isEqualTo(2);
+    assertThat(approvals.get(1).postSubmit()).isFalse(); // During submit.
+    assertThat(approvals.get(2).accountId()).isEqualTo(otherId);
+    assertThat(approvals.get(2).label()).isEqualTo("Other-Label");
+    assertThat(approvals.get(2).value()).isEqualTo(2);
+    assertThat(approvals.get(2).postSubmit()).isTrue();
   }
 
   @Test
@@ -580,8 +589,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeNotes notes = newNotes(c);
     List<PatchSetApproval> psas = notes.getApprovals().get(c.currentPatchSetId());
     assertThat(psas).hasSize(2);
-    assertThat(psas.get(0).getAccountId()).isEqualTo(changeOwner.getAccount().getId());
-    assertThat(psas.get(1).getAccountId()).isEqualTo(otherUser.getAccount().getId());
+    assertThat(psas.get(0).accountId()).isEqualTo(changeOwner.getAccount().getId());
+    assertThat(psas.get(1).accountId()).isEqualTo(otherUser.getAccount().getId());
 
     update = newUpdate(c, changeOwner);
     update.removeReviewer(otherUser.getAccount().getId());
@@ -590,7 +599,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     notes = newNotes(c);
     psas = notes.getApprovals().get(c.currentPatchSetId());
     assertThat(psas).hasSize(1);
-    assertThat(psas.get(0).getAccountId()).isEqualTo(changeOwner.getAccount().getId());
+    assertThat(psas.get(0).accountId()).isEqualTo(changeOwner.getAccount().getId());
   }
 
   @Test
@@ -1001,7 +1010,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             + " "
             + commit.name()
             + " and "
-            + ps.getCommitId().name());
+            + ps.commitId().name());
   }
 
   @Test
@@ -1011,32 +1020,32 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     // ps1 created by newChange()
     ChangeNotes notes = newNotes(c);
     PatchSet ps1 = notes.getCurrentPatchSet();
-    assertThat(notes.getChange().currentPatchSetId()).isEqualTo(ps1.getId());
+    assertThat(notes.getChange().currentPatchSetId()).isEqualTo(ps1.id());
     assertThat(notes.getChange().getSubject()).isEqualTo("Change subject");
     assertThat(notes.getChange().getOriginalSubject()).isEqualTo("Change subject");
-    assertThat(ps1.getId()).isEqualTo(PatchSet.id(c.getId(), 1));
-    assertThat(ps1.getUploader()).isEqualTo(changeOwner.getAccountId());
+    assertThat(ps1.id()).isEqualTo(PatchSet.id(c.getId(), 1));
+    assertThat(ps1.uploader()).isEqualTo(changeOwner.getAccountId());
 
     // ps2 by other user
     RevCommit commit = incrementPatchSet(c, otherUser);
     notes = newNotes(c);
     PatchSet ps2 = notes.getCurrentPatchSet();
-    assertThat(ps2.getId()).isEqualTo(PatchSet.id(c.getId(), 2));
+    assertThat(ps2.id()).isEqualTo(PatchSet.id(c.getId(), 2));
     assertThat(notes.getChange().getSubject()).isEqualTo("PS2");
     assertThat(notes.getChange().getOriginalSubject()).isEqualTo("Change subject");
-    assertThat(notes.getChange().currentPatchSetId()).isEqualTo(ps2.getId());
-    assertThat(ps2.getCommitId()).isNotEqualTo(ps1.getCommitId());
-    assertThat(ps2.getCommitId()).isEqualTo(commit);
-    assertThat(ps2.getUploader()).isEqualTo(otherUser.getAccountId());
-    assertThat(ps2.getCreatedOn()).isEqualTo(notes.getChange().getLastUpdatedOn());
+    assertThat(notes.getChange().currentPatchSetId()).isEqualTo(ps2.id());
+    assertThat(ps2.commitId()).isNotEqualTo(ps1.commitId());
+    assertThat(ps2.commitId()).isEqualTo(commit);
+    assertThat(ps2.uploader()).isEqualTo(otherUser.getAccountId());
+    assertThat(ps2.createdOn()).isEqualTo(notes.getChange().getLastUpdatedOn());
 
     // comment on ps1, current patch set is still ps2
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setPatchSetId(ps1.getId());
+    update.setPatchSetId(ps1.id());
     update.setChangeMessage("Comment on old patch set.");
     update.commit();
     notes = newNotes(c);
-    assertThat(notes.getChange().currentPatchSetId()).isEqualTo(ps2.getId());
+    assertThat(notes.getChange().currentPatchSetId()).isEqualTo(ps2.id());
   }
 
   @Test
@@ -1097,14 +1106,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     PatchSet.Id psId1 = c.currentPatchSetId();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getPatchSets().get(psId1).getGroups()).isEmpty();
+    assertThat(notes.getPatchSets().get(psId1).groups()).isEmpty();
 
     // ps1
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setGroups(ImmutableList.of("a", "b"));
     update.commit();
     notes = newNotes(c);
-    assertThat(notes.getPatchSets().get(psId1).getGroups()).containsExactly("a", "b").inOrder();
+    assertThat(notes.getPatchSets().get(psId1).groups()).containsExactly("a", "b").inOrder();
 
     incrementCurrentPatchSetFieldOnly(c);
     PatchSet.Id psId2 = c.currentPatchSetId();
@@ -1113,8 +1122,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.setGroups(ImmutableList.of("d"));
     update.commit();
     notes = newNotes(c);
-    assertThat(notes.getPatchSets().get(psId2).getGroups()).containsExactly("d");
-    assertThat(notes.getPatchSets().get(psId1).getGroups()).containsExactly("a", "b").inOrder();
+    assertThat(notes.getPatchSets().get(psId2).groups()).containsExactly("d");
+    assertThat(notes.getPatchSets().get(psId1).groups()).containsExactly("a", "b").inOrder();
   }
 
   @Test
@@ -1143,8 +1152,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     readNote(notes, commit);
 
     Map<PatchSet.Id, PatchSet> patchSets = notes.getPatchSets();
-    assertThat(patchSets.get(psId1).getPushCertificate()).isNull();
-    assertThat(patchSets.get(psId2).getPushCertificate()).isEqualTo(pushCert);
+    assertThat(patchSets.get(psId1).pushCertificate()).isEmpty();
+    assertThat(patchSets.get(psId2).pushCertificate()).hasValue(pushCert);
     assertThat(notes.getComments()).isEmpty();
 
     // comment on ps2
@@ -1171,8 +1180,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     notes = newNotes(c);
 
     patchSets = notes.getPatchSets();
-    assertThat(patchSets.get(psId1).getPushCertificate()).isNull();
-    assertThat(patchSets.get(psId2).getPushCertificate()).isEqualTo(pushCert);
+    assertThat(patchSets.get(psId1).pushCertificate()).isEmpty();
+    assertThat(patchSets.get(psId2).pushCertificate()).hasValue(pushCert);
     assertThat(notes.getComments()).isNotEmpty();
   }
 
@@ -1202,13 +1211,13 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     List<PatchSetApproval> psas = notes.getApprovals().get(c.currentPatchSetId());
     assertThat(psas).hasSize(2);
 
-    assertThat(psas.get(0).getAccountId()).isEqualTo(changeOwner.getAccount().getId());
-    assertThat(psas.get(0).getLabel()).isEqualTo("Verified");
-    assertThat(psas.get(0).getValue()).isEqualTo((short) 1);
+    assertThat(psas.get(0).accountId()).isEqualTo(changeOwner.getAccount().getId());
+    assertThat(psas.get(0).label()).isEqualTo("Verified");
+    assertThat(psas.get(0).value()).isEqualTo((short) 1);
 
-    assertThat(psas.get(1).getAccountId()).isEqualTo(otherUser.getAccount().getId());
-    assertThat(psas.get(1).getLabel()).isEqualTo("Code-Review");
-    assertThat(psas.get(1).getValue()).isEqualTo((short) 2);
+    assertThat(psas.get(1).accountId()).isEqualTo(otherUser.getAccount().getId());
+    assertThat(psas.get(1).label()).isEqualTo("Code-Review");
+    assertThat(psas.get(1).value()).isEqualTo((short) 2);
   }
 
   @Test
@@ -1316,11 +1325,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     PatchSetApproval approval1 =
         newNotes(c1).getApprovals().get(c1.currentPatchSetId()).iterator().next();
-    assertThat(approval1.getLabel()).isEqualTo("Verified");
+    assertThat(approval1.label()).isEqualTo("Verified");
 
     PatchSetApproval approval2 =
         newNotes(c2).getApprovals().get(c2.currentPatchSetId()).iterator().next();
-    assertThat(approval2.getLabel()).isEqualTo("Code-Review");
+    assertThat(approval2.label()).isEqualTo("Code-Review");
   }
 
   @Test

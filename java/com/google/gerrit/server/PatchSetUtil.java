@@ -20,6 +20,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -38,6 +39,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -88,8 +90,8 @@ public class PatchSetUtil {
       PatchSet.Id psId,
       ObjectId commit,
       List<String> groups,
-      String pushCertificate,
-      String description)
+      @Nullable String pushCertificate,
+      @Nullable String description)
       throws IOException {
     requireNonNull(groups, "groups may not be null");
     ensurePatchSetMatches(psId, update);
@@ -98,13 +100,15 @@ public class PatchSetUtil {
     update.setPsDescription(description);
     update.setGroups(groups);
 
-    PatchSet ps = new PatchSet(psId, commit);
-    ps.setUploader(update.getAccountId());
-    ps.setCreatedOn(new Timestamp(update.getWhen().getTime()));
-    ps.setGroups(groups);
-    ps.setPushCertificate(pushCertificate);
-    ps.setDescription(description);
-    return ps;
+    return PatchSet.builder()
+        .id(psId)
+        .commitId(commit)
+        .uploader(update.getAccountId())
+        .createdOn(new Timestamp(update.getWhen().getTime()))
+        .groups(groups)
+        .pushCertificate(Optional.ofNullable(pushCertificate))
+        .description(Optional.ofNullable(description))
+        .build();
   }
 
   private static void ensurePatchSetMatches(PatchSet.Id psId, ChangeUpdate update) {
@@ -123,11 +127,6 @@ public class PatchSetUtil {
     } else {
       update.setPatchSetId(psId);
     }
-  }
-
-  public void setGroups(ChangeUpdate update, PatchSet ps, List<String> groups) {
-    ps.setGroups(groups);
-    update.setGroups(groups);
   }
 
   /** Check if the current patch set of the change is locked. */
@@ -153,10 +152,8 @@ public class PatchSetUtil {
     ApprovalsUtil approvalsUtil = approvalsUtilProvider.get();
     for (PatchSetApproval ap :
         approvalsUtil.byPatchSet(notes, change.currentPatchSetId(), null, null)) {
-      LabelType type = projectState.getLabelTypes(notes).byLabel(ap.getLabel());
-      if (type != null
-          && ap.getValue() == 1
-          && type.getFunction() == LabelFunction.PATCH_SET_LOCK) {
+      LabelType type = projectState.getLabelTypes(notes).byLabel(ap.label());
+      if (type != null && ap.value() == 1 && type.getFunction() == LabelFunction.PATCH_SET_LOCK) {
         return true;
       }
     }
@@ -167,7 +164,7 @@ public class PatchSetUtil {
   public RevCommit getRevCommit(Project.NameKey project, PatchSet patchSet) throws IOException {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
-      RevCommit src = rw.parseCommit(patchSet.getCommitId());
+      RevCommit src = rw.parseCommit(patchSet.commitId());
       rw.parseBody(src);
       return src;
     }

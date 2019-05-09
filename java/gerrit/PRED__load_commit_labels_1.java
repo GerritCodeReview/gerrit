@@ -38,16 +38,15 @@ class PRED__load_commit_labels_1 extends Predicate.P1 {
     LabelTypes types = cd.getLabelTypes();
 
     for (PatchSetApproval a : cd.currentApprovals()) {
-      LabelType t = types.byLabel(a.getLabelId());
+      LabelType t = types.byLabel(a.labelId());
       if (t == null) {
         continue;
       }
 
       StructureTerm labelTerm =
-          new StructureTerm(
-              sym_label, SymbolTerm.intern(t.getName()), new IntegerTerm(a.getValue()));
+          new StructureTerm(sym_label, SymbolTerm.intern(t.getName()), new IntegerTerm(a.value()));
 
-      StructureTerm userTerm = new StructureTerm(sym_user, new IntegerTerm(a.getAccountId().get()));
+      StructureTerm userTerm = new StructureTerm(sym_user, new IntegerTerm(a.accountId().get()));
 
       listHead = new ListTerm(new StructureTerm(sym_commit_label, labelTerm, userTerm), listHead);
     }

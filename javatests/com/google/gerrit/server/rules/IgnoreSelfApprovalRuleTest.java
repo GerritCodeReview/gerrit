@@ -81,13 +81,11 @@ public class IgnoreSelfApprovalRuleTest {
   }
 
   private static PatchSetApproval makeApproval(LabelId labelId, Account.Id accountId, int value) {
-    PatchSetApproval.Key key = makeKey(PS_ID, accountId, labelId);
-    return new PatchSetApproval(key, (short) value, Date.from(Instant.now()));
-  }
-
-  private static PatchSetApproval.Key makeKey(
-      PatchSet.Id psId, Account.Id accountId, LabelId labelId) {
-    return PatchSetApproval.key(psId, accountId, labelId);
+    return PatchSetApproval.builder()
+        .key(PatchSetApproval.key(PS_ID, accountId, labelId))
+        .value(value)
+        .granted(Date.from(Instant.now()))
+        .build();
   }
 
   private static Account.Id makeAccount(int account) {

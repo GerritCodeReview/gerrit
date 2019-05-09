@@ -55,6 +55,7 @@ import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
@@ -333,26 +334,28 @@ public class ChangeNotesStateTest {
   @Test
   public void serializePatchSets() throws Exception {
     PatchSet ps1 =
-        new PatchSet(
-            PatchSet.id(ID, 1), ObjectId.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
-    ps1.setUploader(Account.id(2000));
-    ps1.setCreatedOn(cols.createdOn());
+        PatchSet.builder()
+            .id(PatchSet.id(ID, 1))
+            .commitId(ObjectId.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"))
+            .uploader(Account.id(2000))
+            .createdOn(cols.createdOn())
+            .build();
     ByteString ps1Bytes = toByteString(ps1, PatchSetProtoConverter.INSTANCE);
     assertThat(ps1Bytes.size()).isEqualTo(66);
 
     PatchSet ps2 =
-        new PatchSet(
-            PatchSet.id(ID, 2), ObjectId.fromString("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"));
-    ps2.setUploader(Account.id(3000));
-    ps2.setCreatedOn(cols.lastUpdatedOn());
+        PatchSet.builder()
+            .id(PatchSet.id(ID, 2))
+            .commitId(ObjectId.fromString("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"))
+            .uploader(Account.id(3000))
+            .createdOn(cols.lastUpdatedOn())
+            .build();
     ByteString ps2Bytes = toByteString(ps2, PatchSetProtoConverter.INSTANCE);
     assertThat(ps2Bytes.size()).isEqualTo(66);
     assertThat(ps2Bytes).isNotEqualTo(ps1Bytes);
 
     assertRoundTrip(
-        newBuilder()
-            .patchSets(ImmutableMap.of(ps2.getId(), ps2, ps1.getId(), ps1).entrySet())
-            .build(),
+        newBuilder().patchSets(ImmutableMap.of(ps2.id(), ps2, ps1.id(), ps1).entrySet()).build(),
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
@@ -365,27 +368,31 @@ public class ChangeNotesStateTest {
   @Test
   public void serializeApprovals() throws Exception {
     PatchSetApproval a1 =
-        new PatchSetApproval(
-            PatchSetApproval.key(
-                PatchSet.id(ID, 1), Account.id(2001), LabelId.create("Code-Review")),
-            (short) 1,
-            new Timestamp(1212L));
+        PatchSetApproval.builder()
+            .key(
+                PatchSetApproval.key(
+                    PatchSet.id(ID, 1), Account.id(2001), LabelId.create("Code-Review")))
+            .value(1)
+            .granted(new Timestamp(1212L))
+            .build();
     ByteString a1Bytes = toByteString(a1, PatchSetApprovalProtoConverter.INSTANCE);
     assertThat(a1Bytes.size()).isEqualTo(43);
 
     PatchSetApproval a2 =
-        new PatchSetApproval(
-            PatchSetApproval.key(PatchSet.id(ID, 1), Account.id(2002), LabelId.create("Verified")),
-            (short) -1,
-            new Timestamp(3434L));
+        PatchSetApproval.builder()
+            .key(
+                PatchSetApproval.key(
+                    PatchSet.id(ID, 1), Account.id(2002), LabelId.create("Verified")))
+            .value(-1)
+            .granted(new Timestamp(3434L))
+            .build();
     ByteString a2Bytes = toByteString(a2, PatchSetApprovalProtoConverter.INSTANCE);
     assertThat(a2Bytes.size()).isEqualTo(49);
     assertThat(a2Bytes).isNotEqualTo(a1Bytes);
 
     assertRoundTrip(
         newBuilder()
-            .approvals(
-                ImmutableListMultimap.of(a2.getPatchSetId(), a2, a1.getPatchSetId(), a1).entries())
+            .approvals(ImmutableListMultimap.of(a2.patchSetId(), a2, a1.patchSetId(), a1).entries())
             .build(),
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
@@ -765,15 +772,15 @@ public class ChangeNotesStateTest {
   @Test
   public void patchSetFields() throws Exception {
     assertThatSerializedClass(PatchSet.class)
-        .hasFields(
+        .hasAutoValueMethods(
             ImmutableMap.<String, Type>builder()
                 .put("id", PatchSet.Id.class)
                 .put("commitId", ObjectId.class)
                 .put("uploader", Account.Id.class)
                 .put("createdOn", Timestamp.class)
-                .put("groups", String.class)
-                .put("pushCertificate", String.class)
-                .put("description", String.class)
+                .put("groups", new TypeLiteral<ImmutableList<String>>() {}.getType())
+                .put("pushCertificate", new TypeLiteral<Optional<String>>() {}.getType())
+                .put("description", new TypeLiteral<Optional<String>>() {}.getType())
                 .build());
   }
 
@@ -787,14 +794,15 @@ public class ChangeNotesStateTest {
                 .put("labelId", LabelId.class)
                 .build());
     assertThatSerializedClass(PatchSetApproval.class)
-        .hasFields(
+        .hasAutoValueMethods(
             ImmutableMap.<String, Type>builder()
                 .put("key", PatchSetApproval.Key.class)
                 .put("value", short.class)
                 .put("granted", Timestamp.class)
-                .put("tag", String.class)
+                .put("tag", new TypeLiteral<Optional<String>>() {}.getType())
                 .put("realAccountId", Account.Id.class)
                 .put("postSubmit", boolean.class)
+                .put("toBuilder", PatchSetApproval.Builder.class)
                 .build());
   }
 

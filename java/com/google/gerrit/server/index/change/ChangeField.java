@@ -451,7 +451,7 @@ public class ChangeField {
       exact(ChangeQueryBuilder.FIELD_EXACTCOMMIT).buildRepeatable(ChangeField::getRevisions);
 
   private static ImmutableSet<String> getRevisions(ChangeData cd) {
-    return cd.patchSets().stream().map(ps -> ps.getCommitId().name()).collect(toImmutableSet());
+    return cd.patchSets().stream().map(ps -> ps.commitId().name()).collect(toImmutableSet());
   }
 
   /** Tracking id extracted from a footer. */
@@ -467,13 +467,12 @@ public class ChangeField {
     Set<String> allApprovals = new HashSet<>();
     Set<String> distinctApprovals = new HashSet<>();
     for (PatchSetApproval a : cd.currentApprovals()) {
-      if (a.getValue() != 0 && !a.isLegacySubmit()) {
-        allApprovals.add(formatLabel(a.getLabel(), a.getValue(), a.getAccountId()));
-        if (owners && cd.change().getOwner().equals(a.getAccountId())) {
-          allApprovals.add(
-              formatLabel(a.getLabel(), a.getValue(), ChangeQueryBuilder.OWNER_ACCOUNT_ID));
+      if (a.value() != 0 && !a.isLegacySubmit()) {
+        allApprovals.add(formatLabel(a.label(), a.value(), a.accountId()));
+        if (owners && cd.change().getOwner().equals(a.accountId())) {
+          allApprovals.add(formatLabel(a.label(), a.value(), ChangeQueryBuilder.OWNER_ACCOUNT_ID));
         }
-        distinctApprovals.add(formatLabel(a.getLabel(), a.getValue()));
+        distinctApprovals.add(formatLabel(a.label(), a.value()));
       }
     }
     allApprovals.addAll(distinctApprovals);
@@ -663,8 +662,7 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> GROUP =
       exact(ChangeQueryBuilder.FIELD_GROUP)
           .buildRepeatable(
-              cd ->
-                  cd.patchSets().stream().flatMap(ps -> ps.getGroups().stream()).collect(toSet()));
+              cd -> cd.patchSets().stream().flatMap(ps -> ps.groups().stream()).collect(toSet()));
 
   /** Serialized patch set object, used for pre-populating results. */
   public static final FieldDef<ChangeData, Iterable<byte[]>> PATCH_SET =

@@ -151,7 +151,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
     // Ok that originalPatchSet was not read in a transaction, since we just
     // need its revision.
     RevWalk rw = ctx.getRevWalk();
-    RevCommit original = rw.parseCommit(originalPatchSet.getCommitId());
+    RevCommit original = rw.parseCommit(originalPatchSet.commitId());
     rw.parseBody(original);
     RevCommit baseCommit = rw.parseCommit(baseCommitId);
     CurrentUser changeOwner = identifiedUserFactory.create(notes.getChange().getOwner());
@@ -161,7 +161,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
       rw.parseBody(baseCommit);
       newCommitMessage =
           newMergeUtil()
-              .createCommitMessageOnSubmit(original, baseCommit, notes, originalPatchSet.getId());
+              .createCommitMessageOnSubmit(original, baseCommit, notes, originalPatchSet.id());
     } else {
       newCommitMessage = original.getFullMessage();
     }
@@ -175,7 +175,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
 
     rebasedPatchSetId =
         ChangeUtil.nextPatchSetIdFromChangeRefs(
-            ctx.getRepoView().getRefs(originalPatchSet.getId().changeId().toRefPrefix()).keySet(),
+            ctx.getRepoView().getRefs(originalPatchSet.id().changeId().toRefPrefix()).keySet(),
             notes.getChange().currentPatchSetId());
     patchSetInserter =
         patchSetInserterFactory
@@ -190,14 +190,14 @@ public class RebaseChangeOp implements BatchUpdateOp {
           "Patch Set "
               + rebasedPatchSetId.get()
               + ": Patch Set "
-              + originalPatchSet.getId().get()
+              + originalPatchSet.id().get()
               + " was rebased");
     }
 
     if (base != null && !base.notes().getChange().isMerged()) {
       if (!base.notes().getChange().isMerged()) {
         // Add to end of relation chain for open base change.
-        patchSetInserter.setGroups(base.patchSet().getGroups());
+        patchSetInserter.setGroups(base.patchSet().groups());
       } else {
         // If the base is merged, start a new relation chain.
         patchSetInserter.setGroups(GroupCollector.getDefaultGroups(rebasedCommit));

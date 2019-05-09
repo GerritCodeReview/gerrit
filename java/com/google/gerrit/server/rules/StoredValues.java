@@ -96,7 +96,7 @@ public final class StoredValues {
           Change change = getChange(engine);
           Project.NameKey project = change.getProject();
           Whitespace ws = Whitespace.IGNORE_NONE;
-          PatchListKey plKey = PatchListKey.againstDefaultBase(ps.getCommitId(), ws);
+          PatchListKey plKey = PatchListKey.againstDefaultBase(ps.commitId(), ws);
           PatchList patchList;
           try {
             patchList = plCache.get(plKey, project);

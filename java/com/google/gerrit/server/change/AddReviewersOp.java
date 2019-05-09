@@ -240,7 +240,7 @@ public class AddReviewersOp implements BatchUpdateOp {
       addReviewersEmail.emailReviewers(
           ctx.getUser().asIdentifiedUser(),
           change,
-          Lists.transform(addedReviewers, PatchSetApproval::getAccountId),
+          Lists.transform(addedReviewers, PatchSetApproval::accountId),
           addedCCs,
           addedReviewersByEmail,
           addedCCsByEmail,
@@ -249,7 +249,7 @@ public class AddReviewersOp implements BatchUpdateOp {
     if (!addedReviewers.isEmpty()) {
       List<AccountState> reviewers =
           addedReviewers.stream()
-              .map(r -> accountCache.get(r.getAccountId()))
+              .map(r -> accountCache.get(r.accountId()))
               .flatMap(Streams::stream)
               .collect(toList());
       reviewerAdded.fire(change, patchSet, reviewers, ctx.getAccount(), ctx.getWhen());

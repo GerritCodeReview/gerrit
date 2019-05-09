@@ -24,7 +24,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
+import com.google.gerrit.reviewdb.client.AccountGroupByIdAudit;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.GroupBackend;
@@ -90,22 +90,24 @@ public class GetAuditLog implements RestReadView<GroupResource> {
     try (Repository allUsersRepo = repoManager.openRepository(allUsers)) {
       for (AccountGroupMemberAudit auditEvent :
           groups.getMembersAudit(allUsersRepo, group.getGroupUUID())) {
-        AccountInfo member = accountLoader.get(auditEvent.getMemberId());
+        AccountInfo member = accountLoader.get(auditEvent.memberId());
 
         auditEvents.add(
             GroupAuditEventInfo.createAddUserEvent(
-                accountLoader.get(auditEvent.getAddedBy()), auditEvent.getAddedOn(), member));
+                accountLoader.get(auditEvent.addedBy()), auditEvent.addedOn(), member));
 
         if (!auditEvent.isActive()) {
           auditEvents.add(
               GroupAuditEventInfo.createRemoveUserEvent(
-                  accountLoader.get(auditEvent.getRemovedBy()), auditEvent.getRemovedOn(), member));
+                  accountLoader.get(auditEvent.removedBy().orElse(null)),
+                  auditEvent.removedOn(),
+                  member));
         }
       }
 
-      for (AccountGroupByIdAud auditEvent :
+      for (AccountGroupByIdAudit auditEvent :
           groups.getSubgroupsAudit(allUsersRepo, group.getGroupUUID())) {
-        AccountGroup.UUID includedGroupUUID = auditEvent.getIncludeUUID();
+        AccountGroup.UUID includedGroupUUID = auditEvent.includeUuid();
         Optional<InternalGroup> includedGroup = groupCache.get(includedGroupUUID);
         GroupInfo member;
         if (includedGroup.isPresent()) {
@@ -121,12 +123,14 @@ public class GetAuditLog implements RestReadView<GroupResource> {
 
         auditEvents.add(
             GroupAuditEventInfo.createAddGroupEvent(
-                accountLoader.get(auditEvent.getAddedBy()), auditEvent.getKey().addedOn(), member));
+                accountLoader.get(auditEvent.addedBy()), auditEvent.addedOn(), member));
 
         if (!auditEvent.isActive()) {
           auditEvents.add(
               GroupAuditEventInfo.createRemoveGroupEvent(
-                  accountLoader.get(auditEvent.getRemovedBy()), auditEvent.getRemovedOn(), member));
+                  accountLoader.get(auditEvent.removedBy().orElse(null)),
+                  auditEvent.removedOn(),
+                  member));
         }
       }
     }

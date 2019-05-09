@@ -234,7 +234,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
                 ctx.getUpdate(newPatchSetId),
                 newPatchSetId,
                 newCommit,
-                prevPs != null ? prevPs.getGroups() : ImmutableList.of(),
+                prevPs != null ? prevPs.groups() : ImmutableList.of(),
                 null,
                 null);
       }

@@ -209,7 +209,7 @@ public class ReviewerRecommender {
       Map<Account.Id, MutableDouble> suggestions = new HashMap<>();
       for (ChangeData cd : result) {
         for (PatchSetApproval approval : cd.currentApprovals()) {
-          Account.Id id = approval.getAccountId();
+          Account.Id id = approval.accountId();
           if (suggestions.containsKey(id)) {
             suggestions.get(id).add(baseWeight);
           } else {

@@ -47,7 +47,7 @@ public class RemoveReviewerControl {
   public void checkRemoveReviewer(
       ChangeNotes notes, CurrentUser currentUser, PatchSetApproval approval)
       throws PermissionBackendException, AuthException {
-    checkRemoveReviewer(notes, currentUser, approval.getAccountId(), approval.getValue());
+    checkRemoveReviewer(notes, currentUser, approval.accountId(), approval.value());
   }
 
   /**

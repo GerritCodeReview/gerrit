@@ -133,6 +133,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -356,8 +357,7 @@ public class PostReview
 
       // Add the review op.
       bu.addOp(
-          revision.getChange().getId(),
-          new Op(projectState, revision.getPatchSet().getId(), input));
+          revision.getChange().getId(), new Op(projectState, revision.getPatchSet().id(), input));
 
       // Notify based on ReviewInput, ignoring the notify settings from any AddReviewerInputs.
       NotifyResolver.Result notify =
@@ -570,7 +570,7 @@ public class PostReview
     Set<String> revisionFilePaths = getAffectedFilePaths(revision);
     for (Map.Entry<String, List<T>> entry : commentsPerPath.entrySet()) {
       String path = entry.getKey();
-      PatchSet.Id patchSetId = revision.getPatchSet().getId();
+      PatchSet.Id patchSetId = revision.getPatchSet().id();
       ensurePathRefersToAvailableOrMagicFile(path, revisionFilePaths, patchSetId);
 
       List<T> comments = entry.getValue();
@@ -584,7 +584,7 @@ public class PostReview
 
   private Set<String> getAffectedFilePaths(RevisionResource revision)
       throws PatchListNotAvailableException {
-    ObjectId newId = revision.getPatchSet().getCommitId();
+    ObjectId newId = revision.getPatchSet().commitId();
     DiffSummaryKey key =
         DiffSummaryKey.fromPatchListKey(
             PatchListKey.againstDefaultBase(newId, Whitespace.IGNORE_NONE));
@@ -1062,7 +1062,7 @@ public class PostReview
     private Map<String, Short> approvalsByKey(Collection<PatchSetApproval> patchsetApprovals) {
       Map<String, Short> labels = new HashMap<>();
       for (PatchSetApproval psa : patchsetApprovals) {
-        labels.put(psa.getLabel(), psa.getValue());
+        labels.put(psa.label(), psa.value());
       }
       return labels;
     }
@@ -1142,35 +1142,40 @@ public class PostReview
           // User requested delete of this label.
           oldApprovals.put(normName, null);
           if (c != null) {
-            if (c.getValue() != 0) {
+            if (c.value() != 0) {
               addLabelDelta(normName, (short) 0);
               oldApprovals.put(normName, previous.get(normName));
             }
             del.add(c);
             update.putApproval(normName, (short) 0);
           }
-        } else if (c != null && c.getValue() != ent.getValue()) {
-          c.setValue(ent.getValue());
-          c.setGranted(ctx.getWhen());
-          c.setTag(in.tag);
-          ctx.getUser().updateRealAccountId(c::setRealAccountId);
+        } else if (c != null && c.value() != ent.getValue()) {
+          PatchSetApproval.Builder b =
+              c.toBuilder()
+                  .value(ent.getValue())
+                  .granted(ctx.getWhen())
+                  .tag(Optional.ofNullable(in.tag));
+          ctx.getUser().updateRealAccountId(b::realAccountId);
+          c = b.build();
           ups.add(c);
-          addLabelDelta(normName, c.getValue());
+          addLabelDelta(normName, c.value());
           oldApprovals.put(normName, previous.get(normName));
-          approvals.put(normName, c.getValue());
+          approvals.put(normName, c.value());
           update.putApproval(normName, ent.getValue());
-        } else if (c != null && c.getValue() == ent.getValue()) {
+        } else if (c != null && c.value() == ent.getValue()) {
           current.put(normName, c);
           oldApprovals.put(normName, null);
-          approvals.put(normName, c.getValue());
+          approvals.put(normName, c.value());
         } else if (c == null) {
-          c = ApprovalsUtil.newApproval(psId, user, lt.getLabelId(), ent.getValue(), ctx.getWhen());
-          c.setTag(in.tag);
-          c.setGranted(ctx.getWhen());
+          c =
+              ApprovalsUtil.newApproval(psId, user, lt.getLabelId(), ent.getValue(), ctx.getWhen())
+                  .tag(Optional.ofNullable(in.tag))
+                  .granted(ctx.getWhen())
+                  .build();
           ups.add(c);
-          addLabelDelta(normName, c.getValue());
+          addLabelDelta(normName, c.value());
           oldApprovals.put(normName, previous.get(normName));
-          approvals.put(normName, c.getValue());
+          approvals.put(normName, c.value());
           update.putReviewer(user.getAccountId(), REVIEWER);
           update.putApproval(normName, ent.getValue());
         }
@@ -1212,7 +1217,7 @@ public class PostReview
       List<String> disallowed = new ArrayList<>(labelTypes.getLabelTypes().size());
 
       for (PatchSetApproval psa : del) {
-        LabelType lt = requireNonNull(labelTypes.byLabel(psa.getLabel()));
+        LabelType lt = requireNonNull(labelTypes.byLabel(psa.label()));
         String normName = lt.getName();
         if (!lt.allowPostSubmit()) {
           disallowed.add(normName);
@@ -1224,7 +1229,7 @@ public class PostReview
       }
 
       for (PatchSetApproval psa : ups) {
-        LabelType lt = requireNonNull(labelTypes.byLabel(psa.getLabel()));
+        LabelType lt = requireNonNull(labelTypes.byLabel(psa.label()));
         String normName = lt.getName();
         if (!lt.allowPostSubmit()) {
           disallowed.add(normName);
@@ -1233,8 +1238,8 @@ public class PostReview
         if (prev == null) {
           continue;
         }
-        checkState(prev != psa.getValue()); // Should be filtered out above.
-        if (prev > psa.getValue()) {
+        checkState(prev != psa.value()); // Should be filtered out above.
+        if (prev > psa.value()) {
           reduced.add(psa);
         }
         // No need to set postSubmit bit, which is set automatically when parsing from NoteDb.
@@ -1249,7 +1254,7 @@ public class PostReview
         throw new ResourceConflictException(
             "Cannot reduce vote on labels for closed change: "
                 + reduced.stream()
-                    .map(PatchSetApproval::getLabel)
+                    .map(PatchSetApproval::label)
                     .distinct()
                     .sorted()
                     .collect(joining(", ")));
@@ -1276,18 +1281,16 @@ public class PostReview
           }
 
           LabelId labelId = labelTypes.get(0).getLabelId();
-          PatchSetApproval c = ApprovalsUtil.newApproval(psId, user, labelId, 0, ctx.getWhen());
-          c.setTag(in.tag);
-          c.setGranted(ctx.getWhen());
-          ups.add(c);
+          ups.add(
+              ApprovalsUtil.newApproval(psId, user, labelId, 0, ctx.getWhen())
+                  .tag(Optional.ofNullable(in.tag))
+                  .granted(ctx.getWhen())
+                  .build());
         } else {
           // Pick a random label that is about to be deleted and keep it.
           Iterator<PatchSetApproval> i = del.iterator();
-          PatchSetApproval c = i.next();
-          c.setValue((short) 0);
-          c.setGranted(ctx.getWhen());
+          ups.add(i.next().toBuilder().value(0).granted(ctx.getWhen()).build());
           i.remove();
-          ups.add(c);
         }
       }
       ctx.getUpdate(ctx.getChange().currentPatchSetId()).putReviewer(user.getAccountId(), REVIEWER);
@@ -1310,7 +1313,7 @@ public class PostReview
           continue;
         }
 
-        LabelType lt = labelTypes.byLabel(a.getLabelId());
+        LabelType lt = labelTypes.byLabel(a.labelId());
         if (lt != null) {
           current.put(lt.getName(), a);
         } else {

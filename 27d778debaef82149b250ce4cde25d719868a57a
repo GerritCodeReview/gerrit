@@ -74,6 +74,24 @@
       "revId": "27d778debaef82149b250ce4cde25d719868a57a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34fef634_c4cf10a6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-rest-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-05-09T18:01:07Z",
+      "side": 1,
+      "message": "\u003e You could ask the same for \"getLoggedIn\" above.\n\ngetLoggedIn returns boolean, while getAccount returns an object.\nIt\u0027s a bit more intuitive that logged in state may change, while for getAccount may return a different account depending on user\u0027s actions, so it has to be invalidated.\n\nThis is not wrong, it will only cause surprises and extra handling - and the best way around it would be to use different kind of API.\n\nOne of the approaches may be to send an event (or use data binding) when account changes - or any part of it, e.g. email.\n\nAnother approach may be to break down the account into smaller pieces - e.g. email, user id, etc.\n\n\u003e Is it not actually possible for the plugin to get this from GrPluginRestApi#get? If so, how many of these \"helper\" methods would be enough or too many?\n\nGrPluginRestApi doesn\u0027t cache the responses, so plugins using it may/will cause extra traffic to the server.",
+      "parentUuid": "40b36031_3ecba55f",
+      "revId": "27d778debaef82149b250ce4cde25d719868a57a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

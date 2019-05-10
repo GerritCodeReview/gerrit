@@ -1957,6 +1957,16 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(gApi.accounts().id(user.username).setHttpPassword(null)).isNull();
   }
 
+  @Test
+  public void cannotGenerateHttpPasswordWhenUsernameIsNotSet() throws Exception {
+    setApiUser(admin);
+    int userId = accountCreator.create().id.get();
+    assertThat(gApi.accounts().id(userId).get().username).isNull();
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("username");
+    gApi.accounts().id(userId).generateHttpPassword();
+  }
+
   private void assertGroups(String user, List<String> expected) throws Exception {
     List<String> actual =
         gApi.accounts().id(user).getGroups().stream().map(g -> g.name).collect(toList());

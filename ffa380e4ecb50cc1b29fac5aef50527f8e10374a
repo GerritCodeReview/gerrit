@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "3c9caba8_e1188d6b",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-10T23:18:03Z",
+      "side": 1,
+      "message": "If you (for arguments sake) made a release, and that release unfortunately had a serious bug, how would you defend if someone claimed that you \"intended to do harm\"? You can\u0027t. No-one can disprove intent since it is not measurable.\n\nAs I stated in my reply I think this is basically a good idea, there should be a clear process for removing a maintainer.\n\nFrom previous discussions i gather that this change is made as a protection for maintainers. Adding specific, loosely defined, criteria for removal has the opposite effect IMO.\n\nIf you feel that it is important to keep these criteria, and maintain protection for maintainers, you will need to add paragraphs such as:\n\n    It is the responsibility of the accuser to prove malicious intent\n\nand\n\n    In this context \"intentionally bypassing\" refers to...\n\netc.\n\nSo far these are guidelines and process descriptions, do we really need legally binding documents?",
+      "parentUuid": "199a887f_52848360",
+      "range": {
+        "startLine": 214,
+        "startChar": 15,
+        "endLine": 214,
+        "endChar": 32
+      },
+      "revId": "ffa380e4ecb50cc1b29fac5aef50527f8e10374a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6485cf4b_f9baa899",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 1
@@ -218,6 +242,24 @@
       "side": 1,
       "message": "\u003e I recall for sure that in the JGit project one maintainer has been suspended for inactivity\n\nMore than one.  See the mailing list discussion for more info:\n\nhttps://www.eclipse.org/lists/jgit-dev/msg03635.html",
       "parentUuid": "9a3af18a_56e8ba6f",
+      "revId": "ffa380e4ecb50cc1b29fac5aef50527f8e10374a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a5c3868_2a131ed5",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-10T23:18:03Z",
+      "side": 1,
+      "message": "\u003e \u003e I also think it\u0027s far more likely this lottery-winning Italian will find a nice beach to relax on and not worry about replying to mailing lists :-)\n\n\u003e That is very true indeed :-)\n\nThis lottery-winning Italian would be Luca Milanesio, IIUC the odds that he wouldn\u0027t have found a new project to jump head-first into within the first 48 hours of beach life are so small they are practically zero!",
+      "parentUuid": "3d00b1d7_50cce336",
       "revId": "ffa380e4ecb50cc1b29fac5aef50527f8e10374a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

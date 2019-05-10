@@ -257,6 +257,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       Provider<LazyPostReceiveHookChain> lazyPostReceive,
       ContributorAgreementsChecker contributorAgreements,
       Metrics metrics,
+      PermissionAwareRepositoryManager permissionAwareRepositoryManager,
       @Named(TIMEOUT_NAME) long timeoutMillis,
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
@@ -277,7 +278,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     Project.NameKey projectName = projectState.getNameKey();
     this.perm = permissionBackend.user(user).project(projectName);
 
-    receivePack = new ReceivePack(PermissionAwareRepositoryManager.wrap(repo, perm));
+    receivePack = new ReceivePack(permissionAwareRepositoryManager.wrap(repo, perm));
     receivePack.setAllowCreates(true);
     receivePack.setAllowDeletes(true);
     receivePack.setAllowNonFastForwards(true);

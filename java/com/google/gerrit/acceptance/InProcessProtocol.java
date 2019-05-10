@@ -197,6 +197,7 @@ class InProcessProtocol extends TestProtocol<Context> {
     private final ThreadLocalRequestContext threadContext;
     private final ProjectCache projectCache;
     private final PermissionBackend permissionBackend;
+	private final PermissionAwareRepositoryManager permissionAwareRepositoryManager;
 
     @Inject
     Upload(
@@ -206,7 +207,8 @@ class InProcessProtocol extends TestProtocol<Context> {
         UploadValidators.Factory uploadValidatorsFactory,
         ThreadLocalRequestContext threadContext,
         ProjectCache projectCache,
-        PermissionBackend permissionBackend) {
+        PermissionBackend permissionBackend,
+        PermissionAwareRepositoryManager permissionAwareRepositoryManager) {
       this.transferConfig = transferConfig;
       this.uploadPackInitializers = uploadPackInitializers;
       this.preUploadHooks = preUploadHooks;
@@ -214,6 +216,7 @@ class InProcessProtocol extends TestProtocol<Context> {
       this.threadContext = threadContext;
       this.projectCache = projectCache;
       this.permissionBackend = permissionBackend;
+      this.permissionAwareRepositoryManager = permissionAwareRepositoryManager;
     }
 
     @Override
@@ -243,7 +246,7 @@ class InProcessProtocol extends TestProtocol<Context> {
       if (projectState == null) {
         throw new RuntimeException("can't load project state for " + req.project.get());
       }
-      Repository permissionAwareRepository = PermissionAwareRepositoryManager.wrap(repo, perm);
+      Repository permissionAwareRepository = permissionAwareRepositoryManager.wrap(repo, perm);
       UploadPack up = new UploadPack(permissionAwareRepository);
       up.setPackConfig(transferConfig.getPackConfig());
       up.setTimeout(transferConfig.getTimeout());

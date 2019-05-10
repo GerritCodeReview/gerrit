@@ -48,6 +48,7 @@ final class Upload extends AbstractGitCommand {
   @Inject private UploadValidators.Factory uploadValidatorsFactory;
   @Inject private SshSession session;
   @Inject private PermissionBackend permissionBackend;
+  @Inject private PermissionAwareRepositoryManager permissionAwareRepositoryManager;
 
   @Override
   protected void runImpl() throws IOException, Failure {
@@ -62,7 +63,7 @@ final class Upload extends AbstractGitCommand {
       throw new Failure(1, "fatal: unable to check permissions " + e);
     }
 
-    Repository permissionAwareRepository = PermissionAwareRepositoryManager.wrap(repo, perm);
+    Repository permissionAwareRepository = permissionAwareRepositoryManager.wrap(repo, perm);
     final UploadPack up = new UploadPack(permissionAwareRepository);
     up.setAdvertiseRefsHook(new DefaultAdvertiseRefsHook(perm, RefFilterOptions.defaults()));
     up.setPackConfig(config.getPackConfig());

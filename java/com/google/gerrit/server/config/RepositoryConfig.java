@@ -35,6 +35,7 @@ public class RepositoryConfig {
   static final String OWNER_GROUP_NAME = "ownerGroup";
   static final String DEFAULT_SUBMIT_TYPE_NAME = "defaultSubmitType";
   static final String BASE_PATH_NAME = "basePath";
+  static final String ENABLE_PERMISSION_WRAPPING = "enablePermissionWrapping";
 
   static final SubmitType DEFAULT_SUBMIT_TYPE = SubmitType.INHERIT;
 
@@ -68,6 +69,11 @@ public class RepositoryConfig {
         .collect(toImmutableList());
   }
 
+  
+  public boolean isPermissionWrappingEnabled() {
+	  return cfg.getBoolean(SECTION_NAME, ENABLE_PERMISSION_WRAPPING, false);
+  }
+  
   /**
    * Find the subsection to get repository configuration from.
    *

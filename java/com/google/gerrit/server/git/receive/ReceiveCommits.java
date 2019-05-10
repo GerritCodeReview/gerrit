@@ -400,6 +400,7 @@ class ReceiveCommits {
       SubmoduleOp.Factory subOpFactory,
       TagCache tagCache,
       SetPrivateOp.Factory setPrivateOpFactory,
+      PermissionAwareRepositoryManager permissionAwareRepositoryManager,
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
       @Assisted ReceivePack rp,
@@ -450,7 +451,7 @@ class ReceiveCommits {
 
     // Immutable fields derived from constructor arguments.
     allowPushToRefsChanges = cfg.getBoolean("receive", "allowPushToRefsChanges", false);
-    repo = PermissionAwareRepositoryManager.unwrap(rp.getRepository());
+    repo = permissionAwareRepositoryManager.unwrap(rp.getRepository());
     project = projectState.getProject();
     labelTypes = projectState.getLabelTypes();
     permissions = permissionBackend.user(user).project(project.getNameKey());

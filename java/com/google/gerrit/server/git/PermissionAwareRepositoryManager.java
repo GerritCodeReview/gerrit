@@ -14,31 +14,29 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.server.permissions.PermissionBackend;
-import org.eclipse.jgit.internal.storage.dfs.DfsRepository;
 import org.eclipse.jgit.lib.Repository;
 
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.inject.ImplementedBy;
+
 /**
- * Wraps and unwraps existing repositories and makes them permission-aware by returning a {@link
- * PermissionAwareReadOnlyRefDatabase}.
+ * Wraps and unwraps existing repositories and makes them permission-aware
  */
-public class PermissionAwareRepositoryManager {
-  public static Repository wrap(Repository delegate, PermissionBackend.ForProject forProject) {
-    if (delegate instanceof PermissionAwareRepositoryWrapper) {
-      return wrap(((PermissionAwareRepositoryWrapper) delegate).unwrap(), forProject);
-    }
+@ImplementedBy(PermissionAwareRepositoryManagerNoopImpl.class)
+public interface PermissionAwareRepositoryManager {
+	/**
+	 * @param delegate the repository to wrap
+	 * @param forProject the permission filter to apply to the wrapped calls
+	 * @return a wrapper to the given delegate that will filter calls using
+	 * the given forProject filter 
+	 */
+	Repository wrap(Repository delegate, PermissionBackend.ForProject forProject);
 
-    if (delegate instanceof DfsRepository) {
-      return new PermissionAwareDfsRepository((DfsRepository) delegate, forProject);
-    }
-
-    return new PermissionAwareRepository(delegate, forProject);
-  }
-
-  public static Repository unwrap(Repository repository) {
-    if (repository instanceof PermissionAwareRepositoryWrapper) {
-      return ((PermissionAwareRepositoryWrapper) repository).unwrap();
-    }
-    return repository;
-  }
+	/**
+	 * @param repository
+	 * @return Returns the unwrapped repository, if the argument is not a permission 
+	 * aware repository (i.e. an instance of {@link PermissionAwareRepositoryWrapper}
+	 * the call returns the argument 
+	 */
+	Repository unwrap(Repository repository);
 }

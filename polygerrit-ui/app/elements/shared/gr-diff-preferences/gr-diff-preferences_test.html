@@ -96,7 +96,7 @@ limitations under the License.
           .firstElementChild.checked, diffPreferences.syntax_highlighting);
       assert.equal(
           valueOf('Automatically mark viewed files reviewed', 'diffPreferences')
-              .firstElementChild.checked, diffPreferences.manual_review);
+              .firstElementChild.checked, !diffPreferences.manual_review);
       assert.equal(valueOf('Ignore Whitespace', 'diffPreferences')
           .firstElementChild.bindValue, diffPreferences.ignore_whitespace);
 

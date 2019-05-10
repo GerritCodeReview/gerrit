@@ -185,6 +185,24 @@
       "revId": "ffa380e4ecb50cc1b29fac5aef50527f8e10374a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a3af18a_56e8ba6f",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-10T22:45:38Z",
+      "side": 1,
+      "message": "\u003e \u003e We must include some \"negative\" of the criteria for being assigned a maintainer role:\n\u003e \u003e \n\u003e \n\u003e I don\u0027t think this is a \"must\". See below.\n\u003e \n\u003e \u003e Example: imagine that I win the lottery and I do not need anymore to run GerritForge to pay my mortgage. I just keep on posting some obvious replies to the mailing list (e.g. \"Have you tried restarting Gerrit?\") and low-quality reviews and contributions, just to keep my status of a maintainer. In that case, I should be removed from the role just because of the inactivity and laziness of engagement would have automatically made me unsuitable to the role, even if I did not make any malicious act or sabotage and even if I am still a nice Italian friend :-)\n\u003e \n\u003e I am of the opinion that unless my nice Italian friend is harming the community in such a way that he meets criteria of unfitness like the examples above, I would be happy to keep him as a maintainer.\n\nI like the friendly attitude, however by being absent from the development I would not have enough competence in the technical discussion of a feature or my ability to put a vote because of my lack of knowledge would represent a slowdown of the project development.\n\nEven though I would be still a good company for a beer (or a pizza, because I\u0027m Italian) that wouldn\u0027t help for any non-food related discussions.\n\nI recall for sure that in the JGit project one maintainer has been suspended for inactivity, and he wasn\u0027t even Italian :-)\n\n\u003e For at least this change to establish an initial process, I feel that we want to only focus on truly egregious behavior.\n\u003e \n\u003e I also think it\u0027s far more likely this lottery-winning Italian will find a nice beach to relax on and not worry about replying to mailing lists :-)\n\nThat is very true indeed :-)",
+      "parentUuid": "5e2afd28_38561a01",
+      "revId": "ffa380e4ecb50cc1b29fac5aef50527f8e10374a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -34,6 +34,23 @@
       "revId": "11932ad349c0015363db197db17698c9972fec64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44f6ba43_efda2d42",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-05-10T20:52:12Z",
+      "side": 1,
+      "message": "This is the primary piece in this change that is driving my -2. It this and all related assumptions in other places in this change were removed, I would likely change my -2 to a -1.",
+      "revId": "11932ad349c0015363db197db17698c9972fec64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

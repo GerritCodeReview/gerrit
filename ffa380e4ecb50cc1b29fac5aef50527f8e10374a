@@ -34,6 +34,23 @@
       "revId": "ffa380e4ecb50cc1b29fac5aef50527f8e10374a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8a48a7f_9c32d77a",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-10T22:02:24Z",
+      "side": 1,
+      "message": "We must include some \"negative\" of the criteria for being assigned a maintainer role:\n\n\"\n* Low-quality or inactivity in code contributions\n* Low-quality or inactivity in code reviews\n* Low-quality or inactivity of posts to the mailing list\n\"\n\nExample: imagine that I win the lottery and I do not need anymore to run GerritForge to pay my mortgage. I just keep on posting some obvious replies to the mailing list (e.g. \"Have you tried restarting Gerrit?\") and low-quality reviews and contributions, just to keep my status of a maintainer. In that case, I should be removed from the role just because of the inactivity and laziness of engagement would have automatically made me unsuitable to the role, even if I did not make any malicious act or sabotage and even if I am still a nice Italian friend :-)",
+      "revId": "ffa380e4ecb50cc1b29fac5aef50527f8e10374a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

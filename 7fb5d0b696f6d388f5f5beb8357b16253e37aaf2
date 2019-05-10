@@ -33,6 +33,24 @@
       "revId": "7fb5d0b696f6d388f5f5beb8357b16253e37aaf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32f40880_21ebeba2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-diff-preferences/gr-diff-preferences.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-05-10T13:43:04Z",
+      "side": 1,
+      "message": "Is that supposed to be a emojie? :)\n\nAll i see is \u0027ijowiejl\u0027",
+      "parentUuid": "a146ce8e_a15a441c",
+      "revId": "7fb5d0b696f6d388f5f5beb8357b16253e37aaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

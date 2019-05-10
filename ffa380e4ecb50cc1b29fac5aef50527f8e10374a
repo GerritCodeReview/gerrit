@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "2437742e_cfa94db1",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-10T22:24:34Z",
+      "side": 1,
+      "message": "This is such a poorly defined criteria that you could practically argue for the removal of any maintainer that edits the ACL at gerrit-review.",
+      "range": {
+        "startLine": 213,
+        "startChar": 18,
+        "endLine": 213,
+        "endChar": 52
+      },
+      "revId": "ffa380e4ecb50cc1b29fac5aef50527f8e10374a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fef4ec3_ef096d40",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-10T22:24:34Z",
+      "side": 1,
+      "message": "This is such a poorly defined criteria that you could practically argue for the removal of any maintainer that publishes a release.",
+      "range": {
+        "startLine": 214,
+        "startChar": 15,
+        "endLine": 214,
+        "endChar": 32
+      },
+      "revId": "ffa380e4ecb50cc1b29fac5aef50527f8e10374a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6485cf4b_f9baa899",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-10T22:24:34Z",
+      "side": 1,
+      "message": "At a first glance this might seem like a clear-cut criteria for removing a maintainer but what is considered \"abusive language\" and \"behavior\" is extremely individual and context dependent. We are operating in one of the extreme epicentres of criticism, a community were everyone is passionate about code-review and the benefits of heartfelt honesty and open discussion. I think everyone operating under these conditions for a longer period of time have momentarily (and, I believe, most of the time, inaccurately) felt that they were the object of at least \"abusive language\".\nWhos definition of \"abusive language\" are we supposed to adopt?",
+      "range": {
+        "startLine": 215,
+        "startChar": 2,
+        "endLine": 215,
+        "endChar": 70
+      },
+      "revId": "ffa380e4ecb50cc1b29fac5aef50527f8e10374a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a04b410d_34e7fbdc",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 1
@@ -31,6 +100,29 @@
       "side": 1,
       "message": "I think something like this could be added if a steering committee with such powers to promise a roadmap materializes. For example, if this change merges soon, it could be reasonable to add such language in this section to https://gerrit-review.googlesource.com/c/gerrit/+/223472\n\nIn that change, one could also consider changing the language in the first paragraph to only require consensus among the steering committee members. Many things could be different with a steering committee. My goal here is to document a process that would apply today.",
       "parentUuid": "a04b410d_34e7fbdc",
+      "revId": "ffa380e4ecb50cc1b29fac5aef50527f8e10374a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48981202_fcbdcd6e",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-10T22:24:34Z",
+      "side": 1,
+      "message": "We had a very vivid debate about the guidelines being to strict just a few days ago and now we should use these very same guidelines as clear-cut rules that must not be broken?",
+      "range": {
+        "startLine": 216,
+        "startChar": 2,
+        "endLine": 216,
+        "endChar": 80
+      },
       "revId": "ffa380e4ecb50cc1b29fac5aef50527f8e10374a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

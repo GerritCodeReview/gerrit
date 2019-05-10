@@ -203,6 +203,24 @@
       "revId": "ffa380e4ecb50cc1b29fac5aef50527f8e10374a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d00b1d7_50cce336",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-10T23:02:28Z",
+      "side": 1,
+      "message": "\u003e I recall for sure that in the JGit project one maintainer has been suspended for inactivity\n\nMore than one.  See the mailing list discussion for more info:\n\nhttps://www.eclipse.org/lists/jgit-dev/msg03635.html",
+      "parentUuid": "9a3af18a_56e8ba6f",
+      "revId": "ffa380e4ecb50cc1b29fac5aef50527f8e10374a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

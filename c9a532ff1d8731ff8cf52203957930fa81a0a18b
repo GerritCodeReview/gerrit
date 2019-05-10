@@ -3,6 +3,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "5e8ac60d_abd6d7e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-10T19:26:17Z",
+      "side": 1,
+      "message": "Very nice. I always found it very cumbersome to modify permissions for tests.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 56
+      },
+      "revId": "c9a532ff1d8731ff8cf52203957930fa81a0a18b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0216d163_16aa8a3a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-10T19:26:17Z",
+      "side": 1,
+      "message": "I agree with you and very much prefer the alternative you propose in the follow-up change.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 22
+      },
+      "revId": "c9a532ff1d8731ff8cf52203957930fa81a0a18b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "58cc2bfe_9f12bc30",
         "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 1
@@ -17,6 +63,29 @@
       "revId": "c9a532ff1d8731ff8cf52203957930fa81a0a18b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe0e3e45_ade0bca6",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/TestProjectUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-10T19:26:17Z",
+      "side": 1,
+      "message": "As written on the follow-up change, TestProjectUpdate shouldn\u0027t contain any logic. Hence, we should definitely go forward with the follow-up change you proposed.",
+      "range": {
+        "startLine": 77,
+        "startChar": 2,
+        "endLine": 95,
+        "endChar": 3
+      },
+      "revId": "c9a532ff1d8731ff8cf52203957930fa81a0a18b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

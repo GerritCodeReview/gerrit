@@ -16,6 +16,24 @@
       "revId": "ffa380e4ecb50cc1b29fac5aef50527f8e10374a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3011e50_4e6f29a5",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-05-10T21:47:10Z",
+      "side": 1,
+      "message": "I think something like this could be added if a steering committee with such powers to promise a roadmap materializes. For example, if this change merges soon, it could be reasonable to add such language in this section to https://gerrit-review.googlesource.com/c/gerrit/+/223472\n\nIn that change, one could also consider changing the language in the first paragraph to only require consensus among the steering committee members. Many things could be different with a steering committee. My goal here is to document a process that would apply today.",
+      "parentUuid": "a04b410d_34e7fbdc",
+      "revId": "ffa380e4ecb50cc1b29fac5aef50527f8e10374a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

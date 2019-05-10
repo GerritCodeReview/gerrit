@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a04b410d_34e7fbdc",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-10T21:33:09Z",
+      "side": 1,
+      "message": "I would add:\n\n\"\n* Explicit sabotage of the product roadmap by adding -2 (not technically motivata)\n  on new features or decisions already made and agreed by the community and the\n  steering committee\n\"\n\nThat would then support the \"overrule of -2\" by the steering committee when a maintainer does it with the explicit intent of sabotage of the product roadmap.",
+      "revId": "ffa380e4ecb50cc1b29fac5aef50527f8e10374a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

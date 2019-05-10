@@ -16,6 +16,23 @@
       "revId": "7fb5d0b696f6d388f5f5beb8357b16253e37aaf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a146ce8e_a15a441c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-diff-preferences/gr-diff-preferences.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-05-10T13:30:19Z",
+      "side": 1,
+      "message": "ijowiejl",
+      "revId": "7fb5d0b696f6d388f5f5beb8357b16253e37aaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

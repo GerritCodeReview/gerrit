@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "199a887f_52848360",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-05-10T22:41:54Z",
+      "side": 1,
+      "message": "I am all for making it very clear that a maintainer has done something truly bad, and I certainly don\u0027t want them being removed for political reasons. Your response here makes me wonder if there might be a communication gap here?  Malicious is defined as \"characterized by malice; intending or intended to do harm.\". I find it hard to imagine that we could get all the current existing maintainers to agree that any single Gerrit maintainer has ever made a malicious release yet. I actually think this is the least controversial criteria of all? I we at least agree on the intent here, maybe you could help provide clearer wording?",
+      "parentUuid": "4fef4ec3_ef096d40",
+      "range": {
+        "startLine": 214,
+        "startChar": 15,
+        "endLine": 214,
+        "endChar": 32
+      },
+      "revId": "ffa380e4ecb50cc1b29fac5aef50527f8e10374a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6485cf4b_f9baa899",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 1

@@ -199,6 +199,26 @@ include:
 * high quality code reviews
 * activity on the mailing list
 
+To remove a maintainer, a clear pattern of unfitness must be established and
+removal must be approved by a consensus among all other maintainers. Removal of
+a maintainer is a very serious act that should only be attempted when no other
+options remain. Data proving unfitness should be provided to the maintainers
+mailing list at least 14 calendar days before maintainers vote on removal. This
+ensures sufficient time for the to-be-removed maintainer to respond to the data.
+To remedy ongoing maliciousness, a temporary hold on maintainer privileges can
+be enacted as soon as 3 maintainers agree to it.
+
+Examples of unfitness could include:
+
+* Editing ACLs to intentionally bypass project rules
+* Publishing a malicious release
+* Clearly abusive language or behavior towards other community members
+* Routinely approving changes that do not meet the guidelines for approval above
+
+The results of any successful removal of a maintainer must be published to the
+public repo-discuss mailing list with the data that supports the conclusion of
+unfitness for the role.
+
 [[release-manager]]
 == Release Manager
 

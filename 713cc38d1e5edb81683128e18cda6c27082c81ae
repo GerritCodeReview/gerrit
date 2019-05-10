@@ -95,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "55534490_740308c4",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/TestProjectUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-05-10T22:46:48Z",
+      "side": 1,
+      "message": "Yes, I think we can split TestPermission into TestPermission and TestLabelPermission (and I already intended for there to be a separate TestCapability for global capabilities). They will not be related in a class hierarchy, they will just have a slightly overlapping set of methods.",
+      "parentUuid": "7315b104_8e5d8e49",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 30
+      },
+      "revId": "713cc38d1e5edb81683128e18cda6c27082c81ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "80af6b7a_c23b65e2",
         "filename": "java/com/google/gerrit/acceptance/testsuite/project/TestProjectUpdate.java",
         "patchSetId": 1
@@ -106,6 +130,30 @@
       "writtenOn": "2019-05-10T19:13:50Z",
       "side": 1,
       "message": "I saw your TODO below but wasn\u0027t sure what exactly it involved. Is your plan to move all of the logic including this code to ProjectOperationsImpl and make TestPermission a parameter in TestProjectUpdate? If so, I very much like this approach. TestProjectUpdate (same as TestProjectCreation) should hardly contain any logic.\n\nBuilding further on this assumption: How would you represent the removal of a permission? Would you also use TestPermission? We might also go with another AutoValue class which just contains the essential parameters. TestPermission could extend from that class or be separate, depending on what turns out to be better.",
+      "range": {
+        "startLine": 101,
+        "startChar": 6,
+        "endLine": 111,
+        "endChar": 13
+      },
+      "revId": "713cc38d1e5edb81683128e18cda6c27082c81ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92c4396c_2c4741c3",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/TestProjectUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-05-10T22:46:48Z",
+      "side": 1,
+      "message": "The TODO below was just about removing/inlining addPermission. In the context of this WIP change, addPermission is still used by some other tests, but if we decide to go with add(TestPermission), we won\u0027t need addPermission itself.\n\nYour point is well taken that we should try to minimize the logic in TestProjectUpdate. I will figure out a way to move this logic out of TestProjectUpdate into ProjectOperationsImpl.",
+      "parentUuid": "80af6b7a_c23b65e2",
       "range": {
         "startLine": 101,
         "startChar": 6,
@@ -182,6 +230,24 @@
       "side": 1,
       "message": "What about something like\n\n  projectOperations\n      .project(allUsers)\n      .forUpdate()\n      .allow(CREATE)\n      .onRef(REFS_USERS + \"*\")        // Could also be on(REFS_USERS + \"*\") if you think it is descriptive enough.\n      .force(true)\n      .forGroup(REGISTERED_USERS)     // Could also be for(REGISTERED_USERS) if you think it is descriptive enough.\n      .block(PUSH)\n      ...\n\nIIUC, name, ref, and group are mandatory parameters. If so, we should enforce their specification. I would do so by making onRef() mandatory after allow()/block(). The group can be used as closing statement, which redirects to the original builder. Optional parameters go in between.\n\nBesides less nesting, one additional advantage is that users of the API are more guided while writing the code. They don\u0027t need to start a new method chain but can simply continue from start to end with the aid of code completion. On the other hand, if properly documented, users should also easily know how to start the new method chain.\n\nI don\u0027t have a strong opinion for one approach or the other. I think in both cases, we should make it easy to set all mandatory fields automatically (likely with the step builder pattern). For the not-yet-finished change test API, I have chosen the approach with the less nesting for specifying file contents. For example:\n\n  changeOperations\n        .newChange()\n        .branch(\"master\")\n        .file(\"a.txt\")\n        .content(\"Line 1\")\n        .file(\"b.txt\")\n        .content(\"This documentation ...\")\n        .owner(\"johndoe\")\n        .create();\n\nAdmittedly, it\u0027s only about one statement following a specific other one. In this case, I thought that breaking the fluent flow wasn\u0027t worth it. For permissions, I feel that this approach might easily get unreadable if multiple permission changes are chained. Do you have a guess how often this happens? If the answer is in the lines of \u0027fairly often\u0027, I think I would tend to the allow(builder) approach.",
       "parentUuid": "da61baa4_254939b8",
+      "revId": "713cc38d1e5edb81683128e18cda6c27082c81ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2f19757_a2679ee0",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/DeleteBranchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-05-10T22:46:48Z",
+      "side": 1,
+      "message": "I haven\u0027t done any sort of objective analysis but my guess is that assigning 2 permissions happens fairly often, but less than half the time; \u003e2 is rare.\n\nThe bigger issue I see with the step-builder pattern is that AFAIK AutoValue doesn\u0027t support it at all. I agree that it can be easier to use with auto-completion and easier to force callers to provide all required fields, but I don\u0027t think it\u0027s a huge win compared to a plain AutoValue.Builder. Another thing to consider is that these TestProjectUpdates are typically invoked at the start of a test method, not hidden in some corner case. Yes, if you forget to set a required field, it\u0027s a runtime rather than a compile-time error, but your test will definitely fail fast the first time you run it.\n\nOverall, given that it doesn\u0027t work with AutoValue, IMO the downside of increasing the implementation complexity outweighs the upsides of the step-builder pattern.",
+      "parentUuid": "cfc49484_51a72f42",
       "revId": "713cc38d1e5edb81683128e18cda6c27082c81ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

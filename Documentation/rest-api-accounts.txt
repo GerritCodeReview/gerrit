@@ -479,6 +479,8 @@ The options for setting/generating the HTTP password must be provided
 in the request body inside a link:#http-password-input[
 HttpPasswordInput] entity.
 
+The account must have a username.
+
 .Request
 ----
   PUT /accounts/self/password.http HTTP/1.0

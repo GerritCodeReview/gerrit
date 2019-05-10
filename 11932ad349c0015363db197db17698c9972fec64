@@ -16,6 +16,24 @@
       "revId": "11932ad349c0015363db197db17698c9972fec64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a4414ce_591cfcf6",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-10T05:57:41Z",
+      "side": 1,
+      "message": "Thanks, Martin for the exciting story, I have the same dilemma every morning when I see a \"sliding doors\" closing in front of me at the Central Line Underground in Ealing Broadway: should I run and take that train? Or wait for the next one? :-)\n\nI do believe and trust that Google\u0027s motivation for having three members of the ESC appointed and not elected *IS NOT* for overruling what the community believes is technically good or bad for the Gerrit architecture.\n\nWe do have examples of \"formally OpenSource projects\" that are not open at all because the plot of the management is to upsell the \"Enterprise Version\" of the OpenSource that costs millions of dollars: Gerrit *IS NOT* that type of project and *SHOULD NEVER* become one of them.\n\nThis is why I would love Google to give assurance and transparency that this is not the purpose and to clarify that they are planning to use as selection criteria. \n\nIf you recall back in 2011 when I first participated to the GitTogether at Mountain View (I was sitting just next to you and Jeff, GitHub was a simple startup of 25 employees, and you had long hair) Gerrit was series of forks all going into different directions: *WE DO NOT WANT* to go back to that point. The plugins infrastructure allowed Gerrit to thrive in many different scenarios and being extended and empowered like never before.\n\nThe reason why Gerrit is so advanced compared to the other similar non-OpenSource or \"not-so-OpenSource\" projects is that we all have put the user\u0027s needs and the common sense in front of the will of corporations, resisting to pressures (I know Shawn had to bear that part).\n\nIn Shawn\u0027s memory and legacy, we should continue on that path.",
+      "parentUuid": "e64edf86_e72f2fe5",
+      "revId": "11932ad349c0015363db197db17698c9972fec64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

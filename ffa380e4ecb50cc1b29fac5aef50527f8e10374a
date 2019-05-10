@@ -51,6 +51,24 @@
       "revId": "ffa380e4ecb50cc1b29fac5aef50527f8e10374a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e2afd28_38561a01",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-05-10T22:11:32Z",
+      "side": 1,
+      "message": "\u003e We must include some \"negative\" of the criteria for being assigned a maintainer role:\n\u003e \n\nI don\u0027t think this is a \"must\". See below.\n\n\u003e Example: imagine that I win the lottery and I do not need anymore to run GerritForge to pay my mortgage. I just keep on posting some obvious replies to the mailing list (e.g. \"Have you tried restarting Gerrit?\") and low-quality reviews and contributions, just to keep my status of a maintainer. In that case, I should be removed from the role just because of the inactivity and laziness of engagement would have automatically made me unsuitable to the role, even if I did not make any malicious act or sabotage and even if I am still a nice Italian friend :-)\n\nI am of the opinion that unless my nice Italian friend is harming the community in such a way that he meets criteria of unfitness like the examples above, I would be happy to keep him as a maintainer.\n\nFor at least this change to establish an initial process, I feel that we want to only focus on truly egregious behavior.\n\nI also think it\u0027s far more likely this lottery-winning Italian will find a nice beach to relax on and not worry about replying to mailing lists :-)",
+      "parentUuid": "e8a48a7f_9c32d77a",
+      "revId": "ffa380e4ecb50cc1b29fac5aef50527f8e10374a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

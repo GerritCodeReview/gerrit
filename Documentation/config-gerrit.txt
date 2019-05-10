@@ -3758,6 +3758,14 @@ A name of a group which exists in the database. Zero, one or many
 groups are allowed.  Each on its own line.  Groups which don't exist
 in the database are ignored.
 
+[[repository.enablePermissionWrapping]]repository.enablePermissionWrapping::
++
+Permission wrapping is an experimental feature that will cause Repository instances
+being wrapped into PermissionAwareRepository objects filtering requests according
+to user's Project access rights.
+
+Defaults to `false`.
+
 [[retry]]
 === Section retry
 

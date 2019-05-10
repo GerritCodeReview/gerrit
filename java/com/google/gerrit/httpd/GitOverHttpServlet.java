@@ -309,6 +309,7 @@ public class GitOverHttpServlet extends GitServlet {
     private final DynamicSet<PostUploadHook> postUploadHooks;
     private final PluginSetContext<UploadPackInitializer> uploadPackInitializers;
     private final PermissionBackend permissionBackend;
+    private final PermissionAwareRepositoryManager permissionAwareRepositoryManager;
 
     @Inject
     UploadFactory(
@@ -316,12 +317,14 @@ public class GitOverHttpServlet extends GitServlet {
         DynamicSet<PreUploadHook> preUploadHooks,
         DynamicSet<PostUploadHook> postUploadHooks,
         PluginSetContext<UploadPackInitializer> uploadPackInitializers,
-        PermissionBackend permissionBackend) {
+        PermissionBackend permissionBackend,
+        PermissionAwareRepositoryManager permissionAwareRepositoryManager) {
       this.config = tc;
       this.preUploadHooks = preUploadHooks;
       this.postUploadHooks = postUploadHooks;
       this.uploadPackInitializers = uploadPackInitializers;
       this.permissionBackend = permissionBackend;
+      this.permissionAwareRepositoryManager = permissionAwareRepositoryManager;
     }
 
     @Override
@@ -329,7 +332,7 @@ public class GitOverHttpServlet extends GitServlet {
       ProjectState state = (ProjectState) req.getAttribute(ATT_STATE);
       UploadPack up =
           new UploadPack(
-              PermissionAwareRepositoryManager.wrap(
+              permissionAwareRepositoryManager.wrap(
                   repo, permissionBackend.currentUser().project(state.getNameKey())));
       up.setPackConfig(config.getPackConfig());
       up.setTimeout(config.getTimeout());

@@ -34,5 +34,12 @@ public class GitRepositoryManagerModule extends LifecycleModule {
     } else {
       install(new MultiBaseLocalDiskRepositoryManager.Module());
     }
+
+    if (repoConfig.isPermissionWrappingEnabled()) {
+      bind(PermissionAwareRepositoryManager.class).to(PermissionAwareRepositoryManagerImpl.class);
+    } else {
+      bind(PermissionAwareRepositoryManager.class)
+          .to(PermissionAwareRepositoryManagerNoopImpl.class);
+    }
   }
 }

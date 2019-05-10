@@ -92,6 +92,24 @@
       "revId": "27d778debaef82149b250ce4cde25d719868a57a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdaf113a_d49f01d1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-rest-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-10T09:47:33Z",
+      "side": 1,
+      "message": "First of all:\nDon\u0027t let my comments block the review progress.\n\nTrying to second guess the user (which I interpret these concerns as, admitting that I might be totally off) is one of my pet-peeves and that\u0027s mainly why I cannot shut up :-). In short:\n\n1. You can never identify all use-cases.\n2. Facilitating one use-case makes all other use-cases, on average, more complicated.\n3. The more you facilitate one use-case the more complicated the other use-cases get.\n\n\u003e \u003e You could ask the same for \"getLoggedIn\" above.\n\u003e \n\u003e getLoggedIn returns boolean, while getAccount returns an object.\n\u003e It\u0027s a bit more intuitive that logged in state may change, while for getAccount may return a different account depending on user\u0027s actions, so it has to be invalidated.\n\nOne could argue that they are equally intuitive. If you realize that the user may log out you don\u0027t need too many logical steps to come to the conclusion that when they do the AccountInfo no longer represent the logged in user.\n\n\u003e GrPluginRestApi doesn\u0027t cache the responses, so plugins using it may/will cause extra traffic to the server.\n\nI didn\u0027t realize that.\n\nCould the AccountInfo you get from RestApiInterface#getAccount be stale from the get-go or are you concerned that the plugin itself will cache the AccountInfo?\n\nWhat I\u0027m getting at is not that your concerns aren\u0027t valid, but if they really should be PolyGerrits concerns. IMO the documentation should be sufficient for the ones implementing the plugin to be able to take the appropriate measures. It\u0027s almost as if we wouldn\u0027t trust whoever will use this API to make the correct decision.\nI don\u0027t know if these concerns of mine are valid or not but my philosophy is that it\u0027s better to aim for \"easy to understand\" than \"foolproof\".\n\n\u003e What\u0027s the primary use-case for this?\n\nIs a question that IMO is not for us to ask, we shouldn\u0027t care (at this level).\n\n\u003e What about logging out case?\n\nWe should just document the method(?) in such a way that it\u0027s easy for the API user to handle that case the way they see fit.\n\n\u003e What about re-logging in?\n\nWe should just let the users of the API handle that case themselves and only document what you get when you call #getAccount (like \"a snapshot of the currently logged in users account info\").\n\n\u003e One of the approaches may be to send an event (or use data binding) when account changes - or any part of it, e.g. email.\n\n+1\nThis would, IMO, be very easy to understand for the API users if they are concerned about the login state and would not interfere if they aren\u0027t.\nAlthough it should probably be done in a follow up change.",
+      "parentUuid": "34fef634_c4cf10a6",
+      "revId": "27d778debaef82149b250ce4cde25d719868a57a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

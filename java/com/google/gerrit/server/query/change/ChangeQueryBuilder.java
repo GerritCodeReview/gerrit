@@ -775,9 +775,18 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         return new RegexDirectoryPredicate(directory);
       }
 
-      return new DirectoryPredicate(directory);
+      DirectoryPredicate rootPredicate = new DirectoryPredicate(directory);
+      if (isRootAndRecursive(directory)) {
+        RegexDirectoryPredicate recursivePredicate = new RegexDirectoryPredicate("^.*");
+        return Predicate.or(rootPredicate, recursivePredicate);
+      }
+      return rootPredicate;
     }
     throw new QueryParseException("'directory' operator is not supported by change index version");
+  }
+
+  private static boolean isRootAndRecursive(String directory) {
+    return directory.isEmpty() || directory.equals("/");
   }
 
   @Operator

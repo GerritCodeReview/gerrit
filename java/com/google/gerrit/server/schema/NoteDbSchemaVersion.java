@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -32,13 +33,18 @@ interface NoteDbSchemaVersion {
     final GitRepositoryManager repoManager;
     final AllProjectsName allProjects;
     final AllUsersName allUsers;
+    final GerritPersonIdentProvider serverIdentProvider;
 
     @Inject
     Arguments(
-        GitRepositoryManager repoManager, AllProjectsName allProjects, AllUsersName allUsers) {
+        GitRepositoryManager repoManager,
+        AllProjectsName allProjects,
+        AllUsersName allUsers,
+        GerritPersonIdentProvider serverIdentProvider) {
       this.repoManager = repoManager;
       this.allProjects = allProjects;
       this.allUsers = allUsers;
+      this.serverIdentProvider = serverIdentProvider;
     }
   }
 

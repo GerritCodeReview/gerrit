@@ -63,7 +63,7 @@ public class DisablePrivateChangesIT extends AbstractDaemonTest {
   @GerritConfig(name = "change.allowDrafts", value = "true")
   @GerritConfig(name = "change.disablePrivateChanges", value = "true")
   public void pushDraftsWithDisablePrivateChangesTrue() throws Exception {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
     PushOneCommit.Result result =
         pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master%draft");
     result.assertErrorStatus();
@@ -93,7 +93,7 @@ public class DisablePrivateChangesIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "change.allowDrafts", value = "true")
   public void pushDraftsWithDisablePrivateChangesFalse() throws Exception {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
     PushOneCommit.Result result =
         pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master%draft");
     assertThat(result.getChange().change().isPrivate()).isTrue();

@@ -85,7 +85,7 @@ public class RulesIT extends AbstractDaemonTest {
   }
 
   private SubmitRecord.Status statusForRule() throws Exception {
-    String oldHead = getRemoteHead().name();
+    String oldHead = projectOperations.project(project).getHead("master").name();
     PushOneCommit.Result result1 =
         pushFactory.create(user.newIdent(), testRepo).to("refs/for/master");
     testRepo.reset(oldHead);

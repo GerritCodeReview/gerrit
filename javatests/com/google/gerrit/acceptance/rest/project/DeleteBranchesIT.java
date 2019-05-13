@@ -169,7 +169,7 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
   private HashMap<String, RevCommit> initialRevisions(List<String> branches) throws Exception {
     HashMap<String, RevCommit> result = new HashMap<>();
     for (String branch : branches) {
-      result.put(branch, getRemoteHead(project, branch));
+      result.put(branch, projectOperations.project(project).getHead(branch));
     }
     return result;
   }

@@ -60,7 +60,7 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
     // clone with user to avoid inherited tag permissions of admin user
     testRepo = cloneProject(project, user);
 
-    initialHead = getRemoteHead();
+    initialHead = projectOperations.project(project).getHead("master");
     tagType = getTagType();
   }
 

@@ -1251,7 +1251,6 @@ any account.
   {
     "changes_per_page": 25,
     "show_site_header": true,
-    "use_flash_clipboard": true,
     "download_command": "CHECKOUT",
     "date_format": "STD",
     "time_format": "HHMM_12",
@@ -1307,7 +1306,6 @@ link:#preferences-input[PreferencesInput] entity.
   {
     "changes_per_page": 50,
     "show_site_header": true,
-    "use_flash_clipboard": true,
     "expand_inline_diffs": true,
     "download_command": "CHECKOUT",
     "date_format": "STD",
@@ -1358,7 +1356,6 @@ link:#preferences-info[PreferencesInfo] entity.
   {
     "changes_per_page": 50,
     "show_site_header": true,
-    "use_flash_clipboard": true,
     "expand_inline_diffs": true,
     "download_command": "CHECKOUT",
     "date_format": "STD",
@@ -2724,8 +2721,6 @@ The number of changes to show on each page.
 Allowed values are `10`, `25`, `50`, `100`.
 |`show_site_header`             |not set if `false`|
 Whether the site header should be shown.
-|`use_flash_clipboard`          |not set if `false`|
-Whether to use the flash clipboard widget.
 |`expand_inline_diffs`          |not set if `false`|
 Whether to expand diffs inline instead of opening as separate page
 (PolyGerrit only).
@@ -2798,8 +2793,6 @@ The number of changes to show on each page.
 Allowed values are `10`, `25`, `50`, `100`.
 |`show_site_header`             |optional|
 Whether the site header should be shown.
-|`use_flash_clipboard`          |optional|
-Whether to use the flash clipboard widget.
 |`expand_inline_diffs`          |not set if `false`|
 Whether to expand diffs inline instead of opening as separate page
 (PolyGerrit only).

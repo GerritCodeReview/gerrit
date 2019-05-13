@@ -20,6 +20,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
@@ -40,6 +41,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.plugins.ServerPluginProvider.PluginDescription;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,8 +52,10 @@ import java.nio.file.Paths;
 import java.util.AbstractMap;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -87,6 +91,7 @@ public class PluginLoader implements LifecycleListener {
   private final Provider<String> urlProvider;
   private final PersistentCacheFactory persistentCacheFactory;
   private final boolean remoteAdmin;
+  private final Set<String> mandatoryPlugins;
   private final UniversalServerPluginProvider serverPluginFactory;
   private final GerritRuntime gerritRuntime;
 
@@ -114,6 +119,8 @@ public class PluginLoader implements LifecycleListener {
     serverPluginFactory = pluginFactory;
 
     remoteAdmin = cfg.getBoolean("plugins", null, "allowRemoteAdmin", false);
+    mandatoryPlugins =
+        ImmutableSet.copyOf(Arrays.asList(cfg.getStringList("plugins", null, "mandatory")));
     this.gerritRuntime = gerritRuntime;
 
     long checkFrequency =
@@ -223,6 +230,11 @@ public class PluginLoader implements LifecycleListener {
       for (String name : names) {
         Plugin active = running.get(name);
         if (active == null) {
+          continue;
+        }
+
+        if (mandatoryPlugins.contains(name)) {
+          logger.atInfo().log("Mandatory plugin %s cannot be disabled", name);
           continue;
         }
 
@@ -389,6 +401,7 @@ public class PluginLoader implements LifecycleListener {
     syncDisabledPlugins(pluginsFiles);
 
     Map<String, Path> activePlugins = filterDisabled(pluginsFiles);
+    Set<String> loadedPlugins = new HashSet<>();
     for (Map.Entry<String, Path> entry : jarsFirstSortedPluginsSet(activePlugins)) {
       String name = entry.getKey();
       Path path = entry.getValue();
@@ -416,6 +429,7 @@ public class PluginLoader implements LifecycleListener {
       try {
         Plugin loadedPlugin = runPlugin(name, path, active);
         if (!loadedPlugin.isDisabled()) {
+          loadedPlugins.add(name);
           logger.atInfo().log(
               "%s plugin %s, version %s",
               active == null ? "Loaded" : "Reloaded",
@@ -425,6 +439,11 @@ public class PluginLoader implements LifecycleListener {
       } catch (PluginInstallException e) {
         logger.atWarning().withCause(e.getCause()).log("Cannot load plugin %s", name);
       }
+    }
+
+    Set<String> missingMandatory = Sets.difference(mandatoryPlugins, loadedPlugins);
+    if (!missingMandatory.isEmpty()) {
+      throw new ProvisionException("Failed to load mandatory plugins: " + missingMandatory);
     }
 
     cleanInBackground();

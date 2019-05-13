@@ -15,15 +15,19 @@
 package com.google.gerrit.acceptance.testsuite.project;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.testsuite.ThrowingConsumer;
+import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import java.util.Optional;
+import org.eclipse.jgit.lib.Constants;
 
 @AutoValue
 public abstract class TestProjectUpdate {
@@ -196,11 +200,7 @@ public abstract class TestProjectUpdate {
       /** Builds the {@link TestPermission}. */
       public TestLabelPermission build() {
         TestLabelPermission result = autoBuild();
-        checkArgument(
-            !Permission.isLabel(result.name()),
-            "expected label name, got permission name: %s",
-            result.name());
-        LabelType.checkName(result.name());
+        checkLabelName(result.name());
         checkArgument(
             POSSIBLE_ACTIONS.contains(result.action()),
             "action must be one of %s, got: %s",
@@ -208,6 +208,64 @@ public abstract class TestProjectUpdate {
             result.action());
         return result;
       }
+    }
+  }
+
+  /**
+   * Starts a builder for describing a permission key for deletion. Not for label permissions or
+   * global capabilities.
+   */
+  public static TestPermissionKey.Builder permissionKey(String name) {
+    return TestPermissionKey.builder().name(name);
+  }
+
+  /** Starts a builder for describing a label permission key for deletion. */
+  public static TestPermissionKey.Builder labelPermissionKey(String name) {
+    checkLabelName(name);
+    return TestPermissionKey.builder().name(Permission.forLabel(name));
+  }
+
+  /** Starts a builder for describing a capability key for deletion. */
+  public static TestPermissionKey.Builder capabilityKey(String name) {
+    return TestPermissionKey.builder().name(name).section(AccessSection.GLOBAL_CAPABILITIES);
+  }
+
+  /** Records the key of a permission (of any type) for deletion. */
+  @AutoValue
+  public abstract static class TestPermissionKey {
+    private static Builder builder() {
+      return new AutoValue_TestProjectUpdate_TestPermissionKey.Builder();
+    }
+
+    abstract String section();
+
+    abstract String name();
+
+    abstract Optional<AccountGroup.UUID> group();
+
+    @AutoValue.Builder
+    public abstract static class Builder {
+      abstract Builder section(String section);
+
+      abstract Optional<String> section();
+
+      /** Sets the ref pattern used on the permission. Not for global capabilities. */
+      public Builder ref(String ref) {
+        requireNonNull(ref);
+        checkArgument(ref.startsWith(Constants.R_REFS), "must be a ref: %s", ref);
+        checkArgument(
+            !section().isPresent() || !section().get().equals(AccessSection.GLOBAL_CAPABILITIES),
+            "can't set ref on global capability");
+        return section(ref);
+      }
+
+      abstract Builder name(String name);
+
+      /** Sets the group to which the permission applies. */
+      public abstract Builder group(AccountGroup.UUID group);
+
+      /** Builds the {@link TestPermissionKey}. */
+      public abstract TestPermissionKey build();
     }
   }
 
@@ -223,6 +281,8 @@ public abstract class TestProjectUpdate {
     abstract ImmutableList.Builder<TestLabelPermission> addedLabelPermissionsBuilder();
 
     abstract ImmutableList.Builder<TestCapability> addedCapabilitiesBuilder();
+
+    abstract ImmutableList.Builder<TestPermissionKey> removedPermissionsBuilder();
 
     /** Adds a permission to be included in this update. */
     public Builder add(TestPermission testPermission) {
@@ -257,6 +317,17 @@ public abstract class TestProjectUpdate {
       return add(testCapabilityBuilder.build());
     }
 
+    /** Removes a permission, label permission, or capability as part of this update. */
+    public Builder remove(TestPermissionKey testPermissionKey) {
+      removedPermissionsBuilder().add(testPermissionKey);
+      return this;
+    }
+
+    /** Removes a permission, label permission, or capability as part of this update. */
+    public Builder remove(TestPermissionKey.Builder testPermissionKeyBuilder) {
+      return remove(testPermissionKeyBuilder.build());
+    }
+
     abstract Builder projectUpdater(ThrowingConsumer<TestProjectUpdate> projectUpdater);
 
     abstract TestProjectUpdate autoBuild();
@@ -274,5 +345,12 @@ public abstract class TestProjectUpdate {
 
   abstract ImmutableList<TestCapability> addedCapabilities();
 
+  abstract ImmutableList<TestPermissionKey> removedPermissions();
+
   abstract ThrowingConsumer<TestProjectUpdate> projectUpdater();
+
+  private static void checkLabelName(String name) {
+    checkArgument(!Permission.isLabel(name), "expected label name, got permission name: %s", name);
+    LabelType.checkName(name);
+  }
 }

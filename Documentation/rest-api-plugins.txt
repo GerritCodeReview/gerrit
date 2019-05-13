@@ -363,7 +363,7 @@ OR
 'DELETE /plugins/link:#plugin-id[\{plugin-id\}]'
 --
 
-Disables a plugin on the Gerrit server.
+Disables a plugin on the Gerrit server. Mandatory plugins cannot be disabled.
 
 .Request
 ----

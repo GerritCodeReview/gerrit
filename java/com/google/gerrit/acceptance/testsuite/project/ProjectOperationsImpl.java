@@ -124,12 +124,28 @@ public class ProjectOperationsImpl implements ProjectOperations {
         throws IOException, ConfigInvalidException {
       try (MetaDataUpdate metaDataUpdate = metaDataUpdateFactory.create(nameKey)) {
         ProjectConfig projectConfig = projectConfigFactory.read(metaDataUpdate);
+        removePermissions(projectConfig, projectUpdate.removedPermissions());
         addCapabilities(projectConfig, projectUpdate.addedCapabilities());
         addPermissions(projectConfig, projectUpdate.addedPermissions());
         addLabelPermissions(projectConfig, projectUpdate.addedLabelPermissions());
         projectConfig.commit(metaDataUpdate);
       }
       projectCache.evict(nameKey);
+    }
+
+    private void removePermissions(
+        ProjectConfig projectConfig,
+        ImmutableList<TestProjectUpdate.TestPermissionKey> removedPermissions) {
+      removedPermissions.forEach(
+          p -> {
+            Permission permission =
+                projectConfig.getAccessSection(p.section(), true).getPermission(p.name(), true);
+            if (p.group().isPresent()) {
+              permission.remove(Util.newRule(projectConfig, p.group().get()));
+            } else {
+              permission.clearRules();
+            }
+          });
     }
 
     private void addCapabilities(

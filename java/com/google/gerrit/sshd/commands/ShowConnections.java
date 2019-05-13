@@ -148,7 +148,7 @@ final class ShowConnections extends SshCommand {
     }
 
     stdout.print("--\n");
-    stdout.print("SSHD Backend: " + getBackend() + "\n");
+    stdout.print(String.format(" %d connections; SSHD Backend: %s\n", list.size(), getBackend()));
   }
 
   private String getBackend() {

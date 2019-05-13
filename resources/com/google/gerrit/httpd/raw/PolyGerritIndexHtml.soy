@@ -33,7 +33,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">{\n}
 
   <noscript>
-    To use PolyGerrit, please enable JavaScript in your browser settings, and then refresh this page.
+    To use Gerrit, please enable JavaScript in your browser settings, and then refresh this page.
   </noscript>
 
   <script>
@@ -43,7 +43,14 @@
     {if $versionInfo}window.VERSION_INFO = '{$versionInfo}';{/if}
     {if $staticResourcePath != ''}window.STATIC_RESOURCE_PATH = '{$staticResourcePath}';{/if}
     {if $assetsPath}window.ASSETS_PATH = '{$assetsPath}';{/if}
-    {if $polymer2}window.POLYMER2 = true;{/if}
+    {if $polymer2}
+      {literal}
+        window.POLYMER2 = true;
+        if (window.customElements) window.customElements.forcePolyfill = true;
+        ShadyDOM = { force: true };
+        ShadyCSS = { shimcssproperties: true};
+      {/literal}
+    {/if}
   </script>{\n}
 
   {if $faviconPath}
@@ -62,7 +69,13 @@
   <link rel="preload" href="{$staticResourcePath}/fonts/Roboto-Medium.woff" as="font" type="font/woff" crossorigin="anonymous">{\n}
   <link rel="stylesheet" href="{$staticResourcePath}/styles/fonts.css">{\n}
   <link rel="stylesheet" href="{$staticResourcePath}/styles/main.css">{\n}
-  <script src="{$staticResourcePath}/bower_components/webcomponentsjs/webcomponents-lite.js"></script>{\n}
+
+  {if $polymer2}
+    <script src="{$staticResourcePath}/bower_components/webcomponentsjs/webcomponents-lite-v2.js"></script>{\n}
+  {else}
+    <script src="{$staticResourcePath}/bower_components/webcomponentsjs/webcomponents-lite.js"></script>{\n}
+  {/if}
+
   // Content between webcomponents-lite and the load of the main app element
   // run before polymer-resin is installed so may have security consequences.
   // Contact your local security engineer if you have any questions, and
@@ -73,8 +86,13 @@
     <link rel="import" href="{$assetsPath}/{$assetsBundle}">{\n}
   {/if}
 
-  <link rel="preload" href="{$staticResourcePath}/elements/gr-app.js" as="script" crossorigin="anonymous">{\n}
-  <link rel="import" href="{$staticResourcePath}/elements/gr-app.html">{\n}
+  {if $polymer2}
+    <link rel="preload" href="{$staticResourcePath}/elements/gr-app-v2.js" as="script" crossorigin="anonymous">{\n}
+    <link rel="import" href="{$staticResourcePath}/elements/gr-app-v2.html">{\n}
+  {else}
+    <link rel="preload" href="{$staticResourcePath}/elements/gr-app.js" as="script" crossorigin="anonymous">{\n}
+    <link rel="import" href="{$staticResourcePath}/elements/gr-app.html">{\n}
+  {/if}
 
   <body unresolved>{\n}
   <gr-app id="app"></gr-app>{\n}

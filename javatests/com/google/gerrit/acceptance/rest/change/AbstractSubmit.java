@@ -40,7 +40,6 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
-import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
@@ -123,7 +122,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Inject private ApprovalsUtil approvalsUtil;
   @Inject private DynamicSet<OnSubmitValidationListener> onSubmitValidationListeners;
   @Inject private IdentifiedUser.GenericFactory userFactory;
-  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private Submit submitHandler;
 

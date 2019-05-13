@@ -488,6 +488,12 @@ public class PluginLoader implements LifecycleListener {
       throws PluginInstallException {
     FileSnapshot snapshot = FileSnapshot.save(plugin.toFile());
     try {
+      boolean restartRequired = oldPlugin != null && !oldPlugin.canReload();
+      if (restartRequired && mandatoryPlugins.contains(name)) {
+        logger.atWarning().log("Restarting mandatory plugin %s not allowed", name);
+        return oldPlugin;
+      }
+
       Plugin newPlugin = loadPlugin(name, plugin, snapshot);
       if (newPlugin.getCleanupHandle() != null) {
         cleanupHandles.put(newPlugin, newPlugin.getCleanupHandle());

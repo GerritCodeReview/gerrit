@@ -1384,6 +1384,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change2 = insert(repo, newChangeWithFiles(repo, "bar.H", "bar.CC"));
     Change change3 = insert(repo, newChangeWithFiles(repo, "dir/baz.h", "dir/baz.cc"));
     Change change4 = insert(repo, newChangeWithFiles(repo, "Quux.java", "foo"));
+    Change change5 = insert(repo, newChangeWithFiles(repo, "foo"));
 
     assertQuery("extension:java", change4);
     assertQuery("ext:java", change4);
@@ -1394,7 +1395,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     if (getSchemaVersion() >= 56) {
       // matching changes with files that have no extension is possible
-      assertQuery("ext:\"\"", change4);
+      assertQuery("ext:\"\"", change5, change4);
       assertFailingQuery("ext:");
     }
   }

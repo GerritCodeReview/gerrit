@@ -133,8 +133,6 @@ public class GeneralPreferencesInfo {
   public Integer changesPerPage;
   /** Should the site header be displayed when logged in ? */
   public Boolean showSiteHeader;
-  /** Should the Flash helper movie be used to copy text to the clipboard? */
-  public Boolean useFlashClipboard;
   /** Type of download URL the user prefers to use. */
   public String downloadScheme;
   /** Type of download command the user prefers to use. */
@@ -210,7 +208,6 @@ public class GeneralPreferencesInfo {
     GeneralPreferencesInfo p = new GeneralPreferencesInfo();
     p.changesPerPage = DEFAULT_PAGESIZE;
     p.showSiteHeader = true;
-    p.useFlashClipboard = true;
     p.emailStrategy = EmailStrategy.ENABLED;
     p.emailFormat = EmailFormat.HTML_PLAINTEXT;
     p.reviewCategoryStrategy = ReviewCategoryStrategy.NONE;

@@ -17,6 +17,7 @@ package com.google.gerrit.server.plugins;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.PluginInfo;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -30,11 +31,16 @@ public class DisablePlugin implements RestModifyView<PluginResource, Input> {
 
   private final PluginLoader loader;
   private final PermissionBackend permissionBackend;
+  private final MandatoryPluginsCollection mandatoryPluginsCollection;
 
   @Inject
-  DisablePlugin(PluginLoader loader, PermissionBackend permissionBackend) {
+  DisablePlugin(
+      PluginLoader loader,
+      PermissionBackend permissionBackend,
+      MandatoryPluginsCollection mandatoryPluginsCollection) {
     this.loader = loader;
     this.permissionBackend = permissionBackend;
+    this.mandatoryPluginsCollection = mandatoryPluginsCollection;
   }
 
   @Override
@@ -46,6 +52,9 @@ public class DisablePlugin implements RestModifyView<PluginResource, Input> {
     }
     loader.checkRemoteAdminEnabled();
     String name = resource.getName();
+    if (mandatoryPluginsCollection.contains(name)) {
+      throw new MethodNotAllowedException("Plugin " + name + " is mandatory");
+    }
     loader.disablePlugins(ImmutableSet.of(name));
     return ListPlugins.toPluginInfo(loader.get(name));
   }

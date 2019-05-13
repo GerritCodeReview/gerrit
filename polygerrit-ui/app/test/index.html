@@ -35,6 +35,8 @@ limitations under the License.
     'admin/gr-access-section/gr-access-section_test.html',
     'admin/gr-admin-group-list/gr-admin-group-list_test.html',
     'admin/gr-admin-view/gr-admin-view_test.html',
+  ];
+  const turnedOff = [
     'admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog_test.html',
     'admin/gr-create-change-dialog/gr-create-change-dialog_test.html',
     'admin/gr-create-group-dialog/gr-create-group-dialog_test.html',
@@ -197,7 +199,7 @@ limitations under the License.
   for (let file of elements) {
     file = elementsPath + file;
     testFiles.push(file);
-    testFiles.push(file + '?dom=shadow');
+    // testFiles.push(file + '?dom=shadow');
   }
 
   // Behaviors tests.
@@ -223,7 +225,7 @@ limitations under the License.
   for (let file of behaviors) {
     // Behaviors do not utilize the DOM, so no shadow DOM test is necessary.
     file = behaviorsPath + file;
-    testFiles.push(file);
+    // testFiles.push(file);
   }
 
   WCT.loadSuites(testFiles);

@@ -23,6 +23,7 @@ java_library(
         "//lib/commons:dbcp",
         "//lib/flogger:api",
         "//lib/guice",
+        "//lib/guice:guice-assistedinject",
         "//lib/jgit/org.eclipse.jgit.archive:jgit-archive",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:jsonevent-layout",

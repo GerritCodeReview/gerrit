@@ -983,10 +983,11 @@ public abstract class AbstractDaemonTest {
   protected void blockLabel(
       String label, int min, int max, AccountGroup.UUID id, String ref, Project.NameKey project)
       throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      Util.block(u.getConfig(), Permission.LABEL + label, min, max, id, ref);
-      u.save();
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(TestProjectUpdate.blockLabel(label).ref(ref).group(id).range(min, max))
+        .update();
   }
 
   protected void grant(Project.NameKey project, String ref, String permission)
@@ -1031,21 +1032,16 @@ public abstract class AbstractDaemonTest {
       AccountGroup.UUID groupUUID,
       boolean exclusive)
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
-    String permission = Permission.LABEL + label;
-    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
-      md.setMessage(String.format("Grant %s on %s", permission, ref));
-      ProjectConfig config = projectConfigFactory.read(md);
-      AccessSection s = config.getAccessSection(ref, true);
-      Permission p = s.getPermission(permission, true);
-      p.setExclusiveGroup(exclusive);
-      PermissionRule rule = Util.newRule(config, groupUUID);
-      rule.setForce(force);
-      rule.setMin(min);
-      rule.setMax(max);
-      p.add(rule);
-      config.commit(md);
-      projectCache.evict(config.getProject());
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            TestProjectUpdate.allowLabel(label)
+                .ref(ref)
+                .group(groupUUID)
+                .range(min, max)
+                .exclusive(exclusive))
+        .update();
   }
 
   protected void removePermission(Project.NameKey project, String ref, String permission)

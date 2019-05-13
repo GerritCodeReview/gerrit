@@ -19,13 +19,76 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.testsuite.ThrowingConsumer;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import java.util.Optional;
 
 @AutoValue
 public abstract class TestProjectUpdate {
+  /** Starts a builder for allowing a capability. */
+  public static TestCapability.Builder allowCapability(String name) {
+    return TestCapability.builder().name(name);
+  }
+
+  /** Records a global capability to be updated. */
+  @AutoValue
+  public abstract static class TestCapability {
+    private static Builder builder() {
+      return new AutoValue_TestProjectUpdate_TestCapability.Builder();
+    }
+
+    abstract String name();
+
+    abstract AccountGroup.UUID group();
+
+    abstract int min();
+
+    abstract int max();
+
+    /** Builder for {@link TestCapability}. */
+    @AutoValue.Builder
+    public abstract static class Builder {
+      /** Sets the name of the capability. */
+      public abstract Builder name(String name);
+
+      abstract String name();
+
+      /** Sets the group to which the capability applies. */
+      public abstract Builder group(AccountGroup.UUID group);
+
+      abstract Builder min(int min);
+
+      abstract Optional<Integer> min();
+
+      abstract Builder max(int max);
+
+      abstract Optional<Integer> max();
+
+      /** Sets the minimum and maximum values for the capability. */
+      public Builder range(int min, int max) {
+        return min(min).max(max);
+      }
+
+      /** Builds the {@link TestCapability}. */
+      abstract TestCapability autoBuild();
+
+      public TestCapability build() {
+        PermissionRange.WithDefaults withDefaults = GlobalCapability.getRange(name());
+        if (!min().isPresent()) {
+          min(withDefaults != null ? withDefaults.getDefaultMin() : 0);
+        }
+        if (!max().isPresent()) {
+          max(withDefaults != null ? withDefaults.getDefaultMax() : 0);
+        }
+        return autoBuild();
+      }
+    }
+  }
+
   /** Starts a builder for allowing a permission. */
   public static TestPermission.Builder allow(String name) {
     return TestPermission.builder().name(name).action(PermissionRule.Action.ALLOW);
@@ -166,6 +229,8 @@ public abstract class TestProjectUpdate {
 
     abstract ImmutableList.Builder<TestLabelPermission> addedLabelPermissionsBuilder();
 
+    abstract ImmutableList.Builder<TestCapability> addedCapabilitiesBuilder();
+
     /** Adds a permission to be included in this update. */
     public Builder add(TestPermission testPermission) {
       addedPermissionsBuilder().add(testPermission);
@@ -188,6 +253,17 @@ public abstract class TestProjectUpdate {
       return add(testLabelPermissionBuilder.build());
     }
 
+    /** Adds a capability to be included in this update. */
+    public Builder add(TestCapability testCapability) {
+      addedCapabilitiesBuilder().add(testCapability);
+      return this;
+    }
+
+    /** Adds a capability to be included in this update. */
+    public Builder add(TestCapability.Builder testCapabilityBuilder) {
+      return add(testCapabilityBuilder.build());
+    }
+
     abstract Builder projectUpdater(ThrowingConsumer<TestProjectUpdate> projectUpdater);
 
     abstract TestProjectUpdate autoBuild();
@@ -202,6 +278,8 @@ public abstract class TestProjectUpdate {
   abstract ImmutableList<TestPermission> addedPermissions();
 
   abstract ImmutableList<TestLabelPermission> addedLabelPermissions();
+
+  abstract ImmutableList<TestCapability> addedCapabilities();
 
   abstract ThrowingConsumer<TestProjectUpdate> projectUpdater();
 }

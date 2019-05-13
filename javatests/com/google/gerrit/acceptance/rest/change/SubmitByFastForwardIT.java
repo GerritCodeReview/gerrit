@@ -38,10 +38,10 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
 
   @Test
   public void submitWithFastForward() throws Throwable {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
     PushOneCommit.Result change = createChange();
     submit(change.getChangeId());
-    RevCommit updatedHead = getRemoteHead();
+    RevCommit updatedHead = projectOperations.project(project).getHead("master");
     assertThat(updatedHead.getId()).isEqualTo(change.getCommit());
     assertThat(updatedHead.getParent(0)).isEqualTo(initialHead);
     assertSubmitter(change.getChangeId(), 1);
@@ -52,7 +52,7 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
 
   @Test
   public void submitMultipleChangesWithFastForward() throws Throwable {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
 
     PushOneCommit.Result change = createChange();
     PushOneCommit.Result change2 = createChange();
@@ -65,7 +65,7 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     approve(id2);
     submit(id3);
 
-    RevCommit updatedHead = getRemoteHead();
+    RevCommit updatedHead = projectOperations.project(project).getHead("master");
     assertThat(updatedHead.getId()).isEqualTo(change3.getCommit());
     assertThat(updatedHead.getParent(0).getId()).isEqualTo(change2.getCommit());
     assertSubmitter(change.getChangeId(), 1);
@@ -84,7 +84,7 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
 
   @Test
   public void submitTwoChangesWithFastForward_missingDependency() throws Throwable {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
     PushOneCommit.Result change1 = createChange();
     PushOneCommit.Result change2 = createChange();
 
@@ -96,7 +96,7 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
             + id1
             + ": needs Code-Review");
 
-    RevCommit updatedHead = getRemoteHead();
+    RevCommit updatedHead = projectOperations.project(project).getHead("master");
     assertThat(updatedHead.getId()).isEqualTo(initialHead.getId());
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
@@ -104,11 +104,11 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
 
   @Test
   public void submitFastForwardNotPossible_Conflict() throws Throwable {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
 
-    RevCommit headAfterFirstSubmit = getRemoteHead();
+    RevCommit headAfterFirstSubmit = projectOperations.project(project).getHead("master");
     testRepo.reset(initialHead);
     PushOneCommit.Result change2 = createChange("Change 2", "b.txt", "other content");
 
@@ -129,7 +129,8 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
             + ": Project policy requires "
             + "all submissions to be a fast-forward. Please rebase the change "
             + "locally and upload again for review.");
-    assertThat(getRemoteHead()).isEqualTo(headAfterFirstSubmit);
+    assertThat(projectOperations.project(project).getHead("master"))
+        .isEqualTo(headAfterFirstSubmit);
     assertSubmitter(change.getChangeId(), 1);
 
     assertRefUpdatedEvents(initialHead, headAfterFirstSubmit);
@@ -138,7 +139,7 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
 
   @Test
   public void submitSameCommitsAsInExperimentalBranch() throws Throwable {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
 
     projectOperations
         .project(project)
@@ -158,9 +159,9 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
         .isEqualTo(c1.getId());
 
     submit(id1);
-    RevCommit headAfterSubmit = getRemoteHead();
+    RevCommit headAfterSubmit = projectOperations.project(project).getHead("master");
 
-    assertThat(getRemoteHead().getId()).isEqualTo(c1.getId());
+    assertThat(projectOperations.project(project).getHead("master").getId()).isEqualTo(c1.getId());
     assertSubmitter(id1, 1);
 
     assertRefUpdatedEvents(initialHead, headAfterSubmit);

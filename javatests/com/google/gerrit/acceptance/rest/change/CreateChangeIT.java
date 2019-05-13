@@ -387,7 +387,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     cherry.current().review(ReviewInput.approve());
     cherry.current().submit();
 
-    ObjectId remoteId = getRemoteHead();
+    ObjectId remoteId = projectOperations.project(project).getHead("master");
     assertThat(remoteId).isNotEqualTo(commitId);
 
     ChangeInput in = newMergeChangeInput("master", commitId.getName(), "");

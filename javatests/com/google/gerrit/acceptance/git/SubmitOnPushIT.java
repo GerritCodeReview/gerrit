@@ -175,7 +175,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     grant(project, master, Permission.PUSH);
     grant(project, other, Permission.CREATE);
     grant(project, other, Permission.PUSH);
-    RevCommit masterRev = getRemoteHead();
+    RevCommit masterRev = projectOperations.project(project).getHead("master");
     pushCommitTo(masterRev, other);
     PushOneCommit.Result r = createChange();
     r.assertOkStatus();
@@ -273,7 +273,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     grant(project, "refs/heads/master", Permission.PUSH);
 
     // Create 2 changes.
-    ObjectId initialHead = getRemoteHead();
+    ObjectId initialHead = projectOperations.project(project).getHead("master");
     PushOneCommit.Result r1 = createChange("Change 1", "a", "a");
     r1.assertOkStatus();
     PushOneCommit.Result r2 = createChange("Change 2", "b", "b");

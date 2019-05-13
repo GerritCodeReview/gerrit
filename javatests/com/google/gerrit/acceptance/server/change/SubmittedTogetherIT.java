@@ -113,7 +113,7 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
 
   @Test
   public void respectWholeTopic() throws Exception {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
     // Create two independent commits and push.
     RevCommit c1_1 = commitBuilder().add("a.txt", "1").message("subject: 1").create();
     String id1 = getChangeId(c1_1);
@@ -135,7 +135,7 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
 
   @Test
   public void anonymousWholeTopic() throws Exception {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
     RevCommit a = commitBuilder().add("a", "1").message("change 1").create();
     pushHead(testRepo, "refs/for/master/" + name("topic"), false);
     String id1 = getChangeId(a);
@@ -157,7 +157,7 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
 
   @Test
   public void topicChaining() throws Exception {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
 
     RevCommit c1_1 = commitBuilder().add("a.txt", "1").message("subject: 1").create();
     String id1 = getChangeId(c1_1);
@@ -185,7 +185,7 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
 
   @Test
   public void respectTopicsOnAncestors() throws Exception {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
 
     RevCommit c1_1 = commitBuilder().add("a.txt", "1").message("subject: 1").create();
     String id1 = getChangeId(c1_1);

@@ -70,7 +70,8 @@ public class AbandonIT extends AbstractDaemonTest {
     PushOneCommit.Result a = createChange();
     PushOneCommit.Result b = createChange();
     List<ChangeData> list = ImmutableList.of(a.getChange(), b.getChange());
-    batchAbandon.batchAbandon(batchUpdateFactory, a.getChange().project(), user, list, "deadbeef");
+    batchAbandon.batchAbandon(
+        batchUpdateFactory, a.getChange().project(), user, list, "deadbeef", false);
 
     ChangeInfo info = get(a.getChangeId(), MESSAGES);
     assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);

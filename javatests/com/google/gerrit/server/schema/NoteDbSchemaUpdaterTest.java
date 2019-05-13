@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -83,6 +84,7 @@ public class NoteDbSchemaUpdaterTest {
     protected final AllUsersName allUsersName;
     protected final NoteDbSchemaUpdater updater;
     protected final GitRepositoryManager repoManager;
+    protected final GerritPersonIdentProvider serverIdentProvider;
     protected final NoteDbSchemaVersion.Arguments args;
     private final List<String> messages;
 
@@ -91,8 +93,11 @@ public class NoteDbSchemaUpdaterTest {
       allProjectsName = new AllProjectsName("The-Projects");
       allUsersName = new AllUsersName("The-Users");
       repoManager = new InMemoryRepositoryManager();
+      serverIdentProvider = new GerritPersonIdentProvider(cfg);
 
-      args = new NoteDbSchemaVersion.Arguments(repoManager, allProjectsName, allUsersName);
+      args =
+          new NoteDbSchemaVersion.Arguments(
+              repoManager, allProjectsName, allUsersName, serverIdentProvider);
       NoteDbSchemaVersionManager versionManager =
           new NoteDbSchemaVersionManager(allProjectsName, repoManager);
       updater =

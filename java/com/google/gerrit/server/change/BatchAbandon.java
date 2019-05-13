@@ -19,6 +19,8 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.config.ChangeCleanupConfig;
+import com.google.gerrit.server.plugincontext.PluginItemContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
@@ -30,10 +32,17 @@ import java.util.Collection;
 @Singleton
 public class BatchAbandon {
   private final AbandonOp.Factory abandonOpFactory;
+  private final ChangeCleanupConfig cfg;
+  private final PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore;
 
   @Inject
-  BatchAbandon(AbandonOp.Factory abandonOpFactory) {
+  BatchAbandon(
+      AbandonOp.Factory abandonOpFactory,
+      ChangeCleanupConfig cfg,
+      PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore) {
     this.abandonOpFactory = abandonOpFactory;
+    this.cfg = cfg;
+    this.accountPatchReviewStore = accountPatchReviewStore;
   }
 
   /**
@@ -67,6 +76,10 @@ public class BatchAbandon {
         u.addOp(change.getId(), abandonOpFactory.create(accountState, msgTxt));
       }
       u.execute();
+
+      if (cfg.getCleanupAccountPatchReview()) {
+        cleanupAccountPatchReview(changes);
+      }
     }
   }
 
@@ -87,5 +100,11 @@ public class BatchAbandon {
       Collection<ChangeData> changes)
       throws RestApiException, UpdateException {
     batchAbandon(updateFactory, project, user, changes, "", NotifyResolver.Result.all());
+  }
+
+  private void cleanupAccountPatchReview(Collection<ChangeData> changes) {
+    for (ChangeData change : changes) {
+      accountPatchReviewStore.run(s -> s.clearReviewed(change.getId()));
+    }
   }
 }

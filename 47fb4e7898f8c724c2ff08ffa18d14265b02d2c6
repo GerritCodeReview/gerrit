@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d19e047f_714f7d7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-13T12:51:45Z",
+      "side": 1,
+      "message": "closed\n\nWe should also do the same if change gets abandoned.\nThis can also be done in a new change.",
+      "range": {
+        "startLine": 7,
+        "startChar": 48,
+        "endLine": 7,
+        "endChar": 54
+      },
+      "revId": "47fb4e7898f8c724c2ff08ffa18d14265b02d2c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "168c6838_995dd1dd",
+        "filename": "java/com/google/gerrit/server/change/AccountPatchReviewCleaner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-13T12:51:45Z",
+      "side": 1,
+      "message": "Why do we need patch-sets? We want to delete all rows for this change\nso deleting by \"where changeId \u003d ?\" would be better?\n\nIn addition, this would likely simplify the coding in this class as we would\nonly need the changeId passed here and wouldn\u0027t need to access the NoteDb",
+      "revId": "47fb4e7898f8c724c2ff08ffa18d14265b02d2c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

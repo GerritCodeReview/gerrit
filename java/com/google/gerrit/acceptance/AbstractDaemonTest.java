@@ -277,6 +277,9 @@ public abstract class AbstractDaemonTest {
   protected boolean testRequiresSsh;
   protected BlockStrategy noSleepBlockStrategy = t -> {}; // Don't sleep in tests.
 
+  // TODO(dborowitz): Push down into callers that need it.
+  @Inject protected ProjectOperations projectOperations;
+
   @Inject private AbstractChangeNotes.Args changeNotesArgs;
   @Inject private AccountIndexCollection accountIndexes;
   @Inject private AccountIndexer accountIndexer;
@@ -286,7 +289,6 @@ public abstract class AbstractDaemonTest {
   @Inject private PluginGuiceEnvironment pluginGuiceEnvironment;
   @Inject private PluginUser.Factory pluginUserFactory;
   @Inject private ProjectIndexCollection projectIndexes;
-  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private SitePaths sitePaths;
 

@@ -960,25 +960,24 @@ public abstract class AbstractDaemonTest {
 
   protected void deny(Project.NameKey p, String ref, String permission, AccountGroup.UUID id)
       throws Exception {
-    try (ProjectConfigUpdate u = updateProject(p)) {
-      Util.deny(u.getConfig(), permission, id, ref);
-      u.save();
-    }
+    projectOperations
+        .project(p)
+        .forUpdate()
+        .add(TestProjectUpdate.deny(permission).ref(ref).group(id))
+        .update();
   }
 
-  protected PermissionRule block(String ref, String permission, AccountGroup.UUID id)
-      throws Exception {
-    return block(project, ref, permission, id);
+  protected void block(String ref, String permission, AccountGroup.UUID id) throws Exception {
+    block(project, ref, permission, id);
   }
 
-  protected PermissionRule block(
-      Project.NameKey project, String ref, String permission, AccountGroup.UUID id)
+  protected void block(Project.NameKey project, String ref, String permission, AccountGroup.UUID id)
       throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      PermissionRule rule = Util.block(u.getConfig(), permission, id, ref);
-      u.save();
-      return rule;
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(TestProjectUpdate.block(permission).ref(ref).group(id))
+        .update();
   }
 
   protected void blockLabel(
@@ -992,12 +991,20 @@ public abstract class AbstractDaemonTest {
 
   protected void grant(Project.NameKey project, String ref, String permission)
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
-    grant(project, ref, permission, false);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(TestProjectUpdate.allow(permission).ref(ref).group(adminGroupUuid()))
+        .update();
   }
 
   protected void grant(Project.NameKey project, String ref, String permission, boolean force)
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
-    grant(project, ref, permission, force, adminGroupUuid());
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(TestProjectUpdate.allow(permission).ref(ref).group(adminGroupUuid()).force(force))
+        .update();
   }
 
   protected void grant(
@@ -1007,17 +1014,11 @@ public abstract class AbstractDaemonTest {
       boolean force,
       AccountGroup.UUID groupUUID)
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
-    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
-      md.setMessage(String.format("Grant %s on %s", permission, ref));
-      ProjectConfig config = projectConfigFactory.read(md);
-      AccessSection s = config.getAccessSection(ref, true);
-      Permission p = s.getPermission(permission, true);
-      PermissionRule rule = Util.newRule(config, groupUUID);
-      rule.setForce(force);
-      p.add(rule);
-      config.commit(md);
-      projectCache.evict(config.getProject());
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(TestProjectUpdate.allow(permission).ref(ref).group(groupUUID).force(force))
+        .update();
   }
 
   protected void grantLabel(

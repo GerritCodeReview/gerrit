@@ -22,6 +22,30 @@
       "revId": "763337133ce916ab48577cee9eeb43756a1e63f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "837f270a_6af58cbf",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-05-13T07:57:28Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s necessary to special-case Gerrit events. After all, not all maintainers are able to attend all events. If your nomination had taken 14 days, would it have made any practical difference to you?a",
+      "parentUuid": "0ff8ebfe_d3199d36",
+      "range": {
+        "startLine": 189,
+        "startChar": 56,
+        "endLine": 190,
+        "endChar": 25
+      },
+      "revId": "763337133ce916ab48577cee9eeb43756a1e63f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

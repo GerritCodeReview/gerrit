@@ -14,9 +14,14 @@
 
 package com.google.gerrit.acceptance.testsuite.project;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.testsuite.ThrowingConsumer;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
@@ -80,6 +85,89 @@ public abstract class TestProjectUpdate {
     }
   }
 
+  /** Starts a builder for allowing a label permission. */
+  public static TestLabelPermission.Builder allowLabel(String name) {
+    return TestLabelPermission.builder().name(name).action(PermissionRule.Action.ALLOW);
+  }
+
+  /** Starts a builder for denying a label permission. */
+  public static TestLabelPermission.Builder blockLabel(String name) {
+    return TestLabelPermission.builder().name(name).action(PermissionRule.Action.BLOCK);
+  }
+
+  /** Records a label permission to be updated. */
+  @AutoValue
+  public abstract static class TestLabelPermission {
+    private static Builder builder() {
+      return new AutoValue_TestProjectUpdate_TestLabelPermission.Builder().exclusive(false);
+    }
+
+    abstract String name();
+
+    abstract String ref();
+
+    abstract AccountGroup.UUID group();
+
+    abstract PermissionRule.Action action();
+
+    abstract int min();
+
+    abstract int max();
+
+    abstract boolean exclusive();
+
+    /** Builder for {@link TestLabelPermission}. */
+    @AutoValue.Builder
+    public abstract static class Builder {
+      private static final ImmutableSet<PermissionRule.Action> POSSIBLE_ACTIONS =
+          ImmutableSet.of(
+              PermissionRule.Action.ALLOW, PermissionRule.Action.DENY, PermissionRule.Action.BLOCK);
+
+      /**
+       * Sets the label name for which permission should be granted. Not the full permission name.
+       */
+      public abstract Builder name(String name);
+
+      /** Sets the ref pattern used on the permission. */
+      public abstract Builder ref(String ref);
+
+      /** Sets the group to which the permission applies. */
+      public abstract Builder group(AccountGroup.UUID group);
+
+      abstract Builder action(PermissionRule.Action action);
+
+      abstract Builder min(int min);
+
+      abstract Builder max(int max);
+
+      /** Sets the minimum and maximum values for the permission. */
+      public Builder range(int min, int max) {
+        return min(min).max(max);
+      }
+
+      /** Adds the permission to the exclusive group permission set on the access section. */
+      public abstract Builder exclusive(boolean exclusive);
+
+      abstract TestLabelPermission autoBuild();
+
+      /** Builds the {@link TestPermission}. */
+      public TestLabelPermission build() {
+        TestLabelPermission result = autoBuild();
+        checkArgument(
+            !Permission.isLabel(result.name()),
+            "expected label name, got permission name: %s",
+            result.name());
+        LabelType.checkName(result.name());
+        checkArgument(
+            POSSIBLE_ACTIONS.contains(result.action()),
+            "action must be one of %s, got: %s",
+            POSSIBLE_ACTIONS,
+            result.action());
+        return result;
+      }
+    }
+  }
+
   static Builder builder(ThrowingConsumer<TestProjectUpdate> projectUpdater) {
     return new AutoValue_TestProjectUpdate.Builder().projectUpdater(projectUpdater);
   }
@@ -88,6 +176,8 @@ public abstract class TestProjectUpdate {
   @AutoValue.Builder
   public abstract static class Builder {
     abstract ImmutableList.Builder<TestPermission> addedPermissionsBuilder();
+
+    abstract ImmutableList.Builder<TestLabelPermission> addedLabelPermissionsBuilder();
 
     /** Adds a permission to be included in this update. */
     public Builder add(TestPermission testPermission) {
@@ -98,6 +188,17 @@ public abstract class TestProjectUpdate {
     /** Adds a permission to be included in this update. */
     public Builder add(TestPermission.Builder testPermissionBuilder) {
       return add(testPermissionBuilder.build());
+    }
+
+    /** Adds a label permission to be included in this update. */
+    public Builder add(TestLabelPermission testLabelPermission) {
+      addedLabelPermissionsBuilder().add(testLabelPermission);
+      return this;
+    }
+
+    /** Adds a label permission to be included in this update. */
+    public Builder add(TestLabelPermission.Builder testLabelPermissionBuilder) {
+      return add(testLabelPermissionBuilder.build());
     }
 
     abstract Builder projectUpdater(ThrowingConsumer<TestProjectUpdate> projectUpdater);
@@ -112,6 +213,8 @@ public abstract class TestProjectUpdate {
   }
 
   abstract ImmutableList<TestPermission> addedPermissions();
+
+  abstract ImmutableList<TestLabelPermission> addedLabelPermissions();
 
   abstract ThrowingConsumer<TestProjectUpdate> projectUpdater();
 }

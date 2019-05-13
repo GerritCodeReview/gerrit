@@ -1020,6 +1020,53 @@ limitations under the License.
       });
     });
 
+    test('_getBasePatchNum', () => {
+      const _change = {
+        _number: 42,
+        revisions: {
+          '98da160735fb81604b4c40e93c368f380539dd0e': {
+            _number: 1,
+            commit: {
+              parents: [],
+            },
+          },
+        },
+      };
+      const _patchRange = {
+        basePatchNum: 'PARENT',
+      };
+      assert.equal(element._getBasePatchNum(_change, _patchRange), 'PARENT');
+
+      element._prefs = {
+        default_base_for_merges: 'FIRST_PARENT',
+      };
+
+      const _change2 = {
+        _number: 42,
+        revisions: {
+          '98da160735fb81604b4c40e93c368f380539dd0e': {
+            _number: 1,
+            commit: {
+              parents: [
+                {
+                  commit: '6e12bdf1176eb4ab24d8491ba3b6d0704409cde8',
+                  subject: 'test',
+                },
+                {
+                  commit: '22f7db4754b5d9816fc581f3d9a6c0ef8429c841',
+                  subject: 'test3',
+                },
+              ],
+            },
+          },
+        },
+      };
+      assert.equal(element._getBasePatchNum(_change2, _patchRange), -1);
+
+      _patchRange.patchNum = 1;
+      assert.equal(element._getBasePatchNum(_change2, _patchRange), 'PARENT');
+    });
+
     test('_openReplyDialog called with `ANY` when coming from tap event',
         () => {
           const openStub = sandbox.stub(element, '_openReplyDialog');

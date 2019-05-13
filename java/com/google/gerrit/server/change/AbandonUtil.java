@@ -81,10 +81,12 @@ public class AbandonUtil {
       int count = 0;
       ListMultimap<Project.NameKey, ChangeData> abandons = builder.build();
       String message = cfg.getAbandonMessage();
+      boolean cleanupAccountPatchReview = cfg.getCleanupAccountPatchReview();
       for (Project.NameKey project : abandons.keySet()) {
         Collection<ChangeData> changes = getValidChanges(abandons.get(project), query);
         try {
-          batchAbandon.batchAbandon(updateFactory, project, internalUser, changes, message);
+          batchAbandon.batchAbandon(
+              updateFactory, project, internalUser, changes, message, cleanupAccountPatchReview);
           count += changes.size();
         } catch (Throwable e) {
           StringBuilder msg = new StringBuilder("Failed to auto-abandon inactive change(s):");

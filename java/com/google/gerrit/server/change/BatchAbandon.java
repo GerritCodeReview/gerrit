@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.plugincontext.PluginItemContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
@@ -30,10 +31,14 @@ import java.util.Collection;
 @Singleton
 public class BatchAbandon {
   private final AbandonOp.Factory abandonOpFactory;
+  private final PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore;
 
   @Inject
-  BatchAbandon(AbandonOp.Factory abandonOpFactory) {
+  BatchAbandon(
+      AbandonOp.Factory abandonOpFactory,
+      PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore) {
     this.abandonOpFactory = abandonOpFactory;
+    this.accountPatchReviewStore = accountPatchReviewStore;
   }
 
   /**
@@ -49,6 +54,7 @@ public class BatchAbandon {
       CurrentUser user,
       Collection<ChangeData> changes,
       String msgTxt,
+      boolean cleanupAccountPatchReview,
       NotifyResolver.Result notify)
       throws RestApiException, UpdateException {
     if (changes.isEmpty()) {
@@ -67,6 +73,10 @@ public class BatchAbandon {
         u.addOp(change.getId(), abandonOpFactory.create(accountState, msgTxt));
       }
       u.execute();
+
+      if (cleanupAccountPatchReview) {
+        cleanupAccountPatchReview(changes);
+      }
     }
   }
 
@@ -75,9 +85,17 @@ public class BatchAbandon {
       Project.NameKey project,
       CurrentUser user,
       Collection<ChangeData> changes,
-      String msgTxt)
+      String msgTxt,
+      boolean cleanupAccountPatchReview)
       throws RestApiException, UpdateException {
-    batchAbandon(updateFactory, project, user, changes, msgTxt, NotifyResolver.Result.all());
+    batchAbandon(
+        updateFactory,
+        project,
+        user,
+        changes,
+        msgTxt,
+        cleanupAccountPatchReview,
+        NotifyResolver.Result.all());
   }
 
   public void batchAbandon(
@@ -86,6 +104,12 @@ public class BatchAbandon {
       CurrentUser user,
       Collection<ChangeData> changes)
       throws RestApiException, UpdateException {
-    batchAbandon(updateFactory, project, user, changes, "", NotifyResolver.Result.all());
+    batchAbandon(updateFactory, project, user, changes, "", false, NotifyResolver.Result.all());
+  }
+
+  private void cleanupAccountPatchReview(Collection<ChangeData> changes) {
+    for (ChangeData change : changes) {
+      accountPatchReviewStore.run(s -> s.clearReviewed(change.getId()));
+    }
   }
 }

@@ -22,6 +22,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectCreation.Builder;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestPermission;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -121,6 +122,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
       try (MetaDataUpdate metaDataUpdate = metaDataUpdateFactory.create(nameKey)) {
         ProjectConfig projectConfig = projectConfigFactory.read(metaDataUpdate);
         addPermissions(projectConfig, projectUpdate.addedPermissions());
+        addLabelPermissions(projectConfig, projectUpdate.addedLabelPermissions());
         projectConfig.commit(metaDataUpdate);
       }
       projectCache.evict(nameKey);
@@ -134,6 +136,23 @@ public class ProjectOperationsImpl implements ProjectOperations {
         rule.setForce(p.force());
         projectConfig.getAccessSection(p.ref(), true).getPermission(p.name(), true).add(rule);
       }
+    }
+
+    private void addLabelPermissions(
+        ProjectConfig projectConfig,
+        ImmutableList<TestProjectUpdate.TestLabelPermission> addedLabelPermissions) {
+      addedLabelPermissions.forEach(
+          p -> {
+            PermissionRule rule = Util.newRule(projectConfig, p.group());
+            rule.setAction(p.action());
+            rule.setRange(p.min(), p.max());
+            Permission permission =
+                projectConfig
+                    .getAccessSection(p.ref(), true)
+                    .getPermission(Permission.forLabel(p.name()), true);
+            permission.setExclusiveGroup(p.exclusive());
+            permission.add(rule);
+          });
     }
 
     private RevCommit headOrNull(String branch) {

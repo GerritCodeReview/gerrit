@@ -26,6 +26,7 @@ import static com.google.gerrit.truth.ConfigSubject.assertThat;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestPermission;
 import com.google.gerrit.common.data.Permission;
@@ -376,6 +377,112 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
         .sectionValues("capability")
         .containsExactly(
             "queryLimit", "+0..+" + DEFAULT_MAX_QUERY_LIMIT + " group global:Registered-Users");
+  }
+
+  @Test
+  public void removePermission() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(TestProjectUpdate.allow(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
+        .update();
+    assertThat(projectOperations.project(key).getConfig())
+        .subsectionValues("access", "refs/foo")
+        .containsEntry("abandon", "group global:Registered-Users");
+
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .remove(
+            TestProjectUpdate.permissionKey(Permission.ABANDON)
+                .ref("refs/foo")
+                .group(REGISTERED_USERS))
+        .update();
+    assertThat(projectOperations.project(key).getConfig())
+        .subsectionValues("access", "refs/foo")
+        .doesNotContainKey("abandon");
+  }
+
+  @Test
+  public void removeLabelPermission() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(
+            TestProjectUpdate.allowLabel("Code-Review")
+                .ref("refs/foo")
+                .group(REGISTERED_USERS)
+                .range(-1, 2))
+        .update();
+    assertThat(projectOperations.project(key).getConfig())
+        .subsectionValues("access", "refs/foo")
+        .containsEntry("label-Code-Review", "-1..+2 group global:Registered-Users");
+
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .remove(
+            TestProjectUpdate.labelPermissionKey("Code-Review")
+                .ref("refs/foo")
+                .group(REGISTERED_USERS))
+        .update();
+    assertThat(projectOperations.project(key).getConfig())
+        .subsectionValues("access", "refs/foo")
+        .doesNotContainKey("label-Code-Review");
+  }
+
+  @Test
+  public void removeCapability() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(TestProjectUpdate.allowCapability(ADMINISTRATE_SERVER).group(REGISTERED_USERS))
+        .update();
+    assertThat(projectOperations.project(key).getConfig())
+        .sectionValues("capability")
+        .containsEntry("administrateServer", "group global:Registered-Users");
+
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .remove(TestProjectUpdate.capabilityKey(ADMINISTRATE_SERVER).group(REGISTERED_USERS))
+        .update();
+    assertThat(projectOperations.project(key).getConfig())
+        .subsectionValues("access", "refs/foo")
+        .doesNotContainKey("administrateServer");
+  }
+
+  @Test
+  public void removeOnePermissionForAllGroupsFromOneAccessSection() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(TestProjectUpdate.allow(Permission.ABANDON).ref("refs/foo").group(PROJECT_OWNERS))
+        .add(TestProjectUpdate.allow(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
+        .add(TestProjectUpdate.allow(Permission.CREATE).ref("refs/foo").group(REGISTERED_USERS))
+        .update();
+    assertThat(projectOperations.project(key).getConfig())
+        .subsectionValues("access", "refs/foo")
+        .containsAtLeastEntriesIn(
+            ImmutableListMultimap.of(
+                "abandon", "group global:Project-Owners",
+                "abandon", "group global:Registered-Users",
+                "create", "group global:Registered-Users"));
+
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .remove(TestProjectUpdate.permissionKey(Permission.ABANDON).ref("refs/foo"))
+        .update();
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).subsectionValues("access", "refs/foo").doesNotContainKey("abandon");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsEntry("create", "group global:Registered-Users");
   }
 
   private void deleteRefsMetaConfig(Project.NameKey key) throws Exception {

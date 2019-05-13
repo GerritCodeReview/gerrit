@@ -22,6 +22,7 @@ import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.TagApi;
@@ -98,7 +99,15 @@ public class DeleteTagIT extends AbstractDaemonTest {
   }
 
   private void blockForcePush() throws Exception {
-    block("refs/tags/*", Permission.PUSH, ANONYMOUS_USERS).setForce(true);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            TestProjectUpdate.block(Permission.PUSH)
+                .ref("refs/tags/*")
+                .group(ANONYMOUS_USERS)
+                .force(true))
+        .update();
   }
 
   private void grantForcePush() throws Exception {

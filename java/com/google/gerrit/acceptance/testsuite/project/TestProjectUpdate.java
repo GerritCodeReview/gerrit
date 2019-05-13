@@ -22,17 +22,17 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 
 @AutoValue
 public abstract class TestProjectUpdate {
-  /** Start a builder for allowing a permission. */
+  /** Starts a builder for allowing a capability. */
   public static TestPermission.Builder allow(String name) {
     return TestPermission.builder().name(name).action(PermissionRule.Action.ALLOW);
   }
 
-  /** Start a builder for denying a permission. */
+  /** Starts a builder for denying a permission. */
   public static TestPermission.Builder deny(String name) {
     return TestPermission.builder().name(name).action(PermissionRule.Action.DENY);
   }
 
-  /** Start a builder for blocking a permission. */
+  /** Starts a builder for blocking a permission. */
   public static TestPermission.Builder block(String name) {
     return TestPermission.builder().name(name).action(PermissionRule.Action.BLOCK);
   }

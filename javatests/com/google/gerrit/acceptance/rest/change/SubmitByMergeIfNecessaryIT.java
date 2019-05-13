@@ -68,10 +68,10 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void submitWithFastForward() throws Throwable {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
     PushOneCommit.Result change = createChange();
     submit(change.getChangeId());
-    RevCommit updatedHead = getRemoteHead();
+    RevCommit updatedHead = projectOperations.project(project).getHead("master");
     assertThat(updatedHead.getId()).isEqualTo(change.getCommit());
     assertThat(updatedHead.getParent(0)).isEqualTo(initialHead);
     assertSubmitter(change.getChangeId(), 1);
@@ -84,7 +84,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void submitMultipleChanges() throws Throwable {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
 
     testRepo.reset(initialHead);
     PushOneCommit.Result change = createChange("Change 1", "b", "b");
@@ -145,8 +145,8 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     Project.NameKey p2 = projectOperations.newProject().create();
     Project.NameKey p3 = projectOperations.newProject().create();
 
-    RevCommit initialHead2 = getRemoteHead(p2, "master");
-    RevCommit initialHead3 = getRemoteHead(p3, "master");
+    RevCommit initialHead2 = projectOperations.project(p2).getHead("master");
+    RevCommit initialHead3 = projectOperations.project(p3).getHead("master");
 
     TestRepository<?> repo1 = cloneProject(p1);
     TestRepository<?> repo2 = cloneProject(p2);
@@ -226,9 +226,9 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     TestRepository<?> repo2 = cloneProject(p2);
     TestRepository<?> repo3 = cloneProject(p3);
 
-    RevCommit initialHead1 = getRemoteHead(p1, "master");
-    RevCommit initialHead2 = getRemoteHead(p2, "master");
-    RevCommit initialHead3 = getRemoteHead(p3, "master");
+    RevCommit initialHead1 = projectOperations.project(p1).getHead("master");
+    RevCommit initialHead2 = projectOperations.project(p2).getHead("master");
+    RevCommit initialHead3 = projectOperations.project(p3).getHead("master");
 
     PushOneCommit.Result change1a =
         createChange(
@@ -315,12 +315,12 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void submitWithMergedAncestorsOnOtherBranch() throws Throwable {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
 
     PushOneCommit.Result change1 =
         createChange(testRepo, "master", "base commit", "a.txt", "1", "");
     submit(change1.getChangeId());
-    RevCommit headAfterFirstSubmit = getRemoteHead();
+    RevCommit headAfterFirstSubmit = projectOperations.project(project).getHead("master");
 
     gApi.projects().name(project.get()).branch("branch").create(new BranchInput());
 
@@ -364,11 +364,11 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void submitWithOpenAncestorsOnOtherBranch() throws Throwable {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
     PushOneCommit.Result change1 =
         createChange(testRepo, "master", "base commit", "a.txt", "1", "");
     submit(change1.getChangeId());
-    RevCommit headAfterFirstSubmit = getRemoteHead();
+    RevCommit headAfterFirstSubmit = projectOperations.project(project).getHead("master");
 
     gApi.projects().name(project.get()).branch("branch").create(new BranchInput());
 
@@ -396,7 +396,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     Project.NameKey p3 = projectOperations.newProject().create();
     TestRepository<?> repo3 = cloneProject(p3);
-    RevCommit repo3Head = getRemoteHead(p3, "master");
+    RevCommit repo3Head = projectOperations.project(p3).getHead("master");
     PushOneCommit.Result change3b =
         createChange(
             repo3,
@@ -437,7 +437,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void gerritWorkflow() throws Throwable {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
 
     // We'll setup a master and a stable branch.
     // Then we create a change to be applied to master, which is
@@ -463,8 +463,8 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     gApi.changes().id(cherryId).current().submit();
 
     // Create the merge locally
-    RevCommit stable = getRemoteHead(project, "stable");
-    RevCommit master = getRemoteHead(project, "master");
+    RevCommit stable = projectOperations.project(project).getHead("stable");
+    RevCommit master = projectOperations.project(project).getHead("master");
     testRepo.git().fetch().call();
     testRepo.git().branchCreate().setName("stable").setStartPoint(stable).call();
     testRepo.git().branchCreate().setName("master").setStartPoint(master).call();

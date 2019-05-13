@@ -127,7 +127,7 @@ public class AccessIT extends AbstractDaemonTest {
 
   @Test
   public void addAccessSection() throws Exception {
-    RevCommit initialHead = getRemoteHead(newProjectName, RefNames.REFS_CONFIG);
+    RevCommit initialHead = projectOperations.project(newProjectName).getHead(RefNames.REFS_CONFIG);
 
     ProjectAccessInput accessInput = newProjectAccessInput();
     AccessSectionInfo accessSectionInfo = createDefaultAccessSectionInfo();
@@ -137,7 +137,7 @@ public class AccessIT extends AbstractDaemonTest {
 
     assertThat(pApi().access().local).isEqualTo(accessInput.add);
 
-    RevCommit updatedHead = getRemoteHead(newProjectName, RefNames.REFS_CONFIG);
+    RevCommit updatedHead = projectOperations.project(newProjectName).getHead(RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(
         newProjectName.get(), RefNames.REFS_CONFIG, null, initialHead, initialHead, updatedHead);
   }

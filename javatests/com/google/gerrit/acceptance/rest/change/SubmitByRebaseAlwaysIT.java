@@ -53,11 +53,11 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
   public void submitWithPossibleFastForward() throws Throwable {
-    RevCommit oldHead = getRemoteHead();
+    RevCommit oldHead = projectOperations.project(project).getHead("master");
     PushOneCommit.Result change = createChange();
     submit(change.getChangeId());
 
-    RevCommit head = getRemoteHead();
+    RevCommit head = projectOperations.project(project).getHead("master");
     assertThat(head.getId()).isNotEqualTo(change.getCommit());
     assertThat(head.getParent(0)).isEqualTo(oldHead);
     assertApproved(change.getChangeId());

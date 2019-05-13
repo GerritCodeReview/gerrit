@@ -44,7 +44,7 @@ public class CheckMergeabilityIT extends AbstractDaemonTest {
 
   @Test
   public void checkMergeableCommit() throws Exception {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
     testRepo
         .branch("HEAD")
         .commit()
@@ -79,7 +79,7 @@ public class CheckMergeabilityIT extends AbstractDaemonTest {
 
   @Test
   public void checkUnMergeableCommit() throws Exception {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
     testRepo
         .branch("HEAD")
         .commit()
@@ -114,7 +114,7 @@ public class CheckMergeabilityIT extends AbstractDaemonTest {
 
   @Test
   public void checkOursMergeStrategy() throws Exception {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
     testRepo
         .branch("HEAD")
         .commit()
@@ -208,7 +208,7 @@ public class CheckMergeabilityIT extends AbstractDaemonTest {
     cherry.current().review(ReviewInput.approve());
     cherry.current().submit();
 
-    ObjectId remoteId = getRemoteHead();
+    ObjectId remoteId = projectOperations.project(project).getHead("master");
     assertThat(remoteId).isNotEqualTo(commitId);
     assertContentMerged("master", commitId.getName(), "recursive");
   }
@@ -234,7 +234,7 @@ public class CheckMergeabilityIT extends AbstractDaemonTest {
 
   @Test
   public void checkInvalidStrategy() throws Exception {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
     testRepo
         .branch("HEAD")
         .commit()

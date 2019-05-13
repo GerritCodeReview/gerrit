@@ -401,7 +401,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
     gApi.changes().id(subChangeId).current().submit();
 
     expectToHaveSubmoduleState(superRepo, "master", subKey, subRepo, "master");
-    RevCommit superHead = getRemoteHead(superKey, "master");
+    RevCommit superHead = projectOperations.project(superKey).getHead("master");
     assertThat(superHead.getShortMessage()).contains("some message");
     assertThat(superHead.getId()).isNotEqualTo(superId);
   }
@@ -435,7 +435,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
     gApi.changes().id(subChangeId).current().submit();
 
-    RevCommit superHead = getRemoteHead(superKey, "master");
+    RevCommit superHead = projectOperations.project(superKey).getHead("master");
     assertThat(superHead.getShortMessage()).isEqualTo("some message");
     assertThat(superHead.getId()).isEqualTo(superId);
   }
@@ -751,13 +751,13 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
     approve(getChangeId(repoB, bDevHead).get());
 
     gApi.changes().id(getChangeId(repoA, aDevHead).get()).current().submit();
-    assertThat(getRemoteHead(keyA, "refs/heads/master").getShortMessage())
+    assertThat(projectOperations.project(keyA).getHead("refs/heads/master").getShortMessage())
         .contains("some message in a master.txt");
-    assertThat(getRemoteHead(keyA, "refs/heads/dev").getShortMessage())
+    assertThat(projectOperations.project(keyA).getHead("refs/heads/dev").getShortMessage())
         .contains("some message in a dev.txt");
-    assertThat(getRemoteHead(keyB, "refs/heads/master").getShortMessage())
+    assertThat(projectOperations.project(keyB).getHead("refs/heads/master").getShortMessage())
         .contains("some message in b master.txt");
-    assertThat(getRemoteHead(keyB, "refs/heads/dev").getShortMessage())
+    assertThat(projectOperations.project(keyB).getHead("refs/heads/dev").getShortMessage())
         .contains("some message in b dev.txt");
   }
 
@@ -850,13 +850,13 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
     sub1.git().fetch().call();
     RevWalk rw1 = sub1.getRevWalk();
-    RevCommit master1 = rw1.parseCommit(getRemoteHead(subKey1, "master"));
+    RevCommit master1 = rw1.parseCommit(projectOperations.project(subKey1).getHead("master"));
     RevCommit change1Ps = parseCurrentRevision(rw1, changeId1);
     assertThat(rw1.isMergedInto(change1Ps, master1)).isTrue();
 
     sub2.git().fetch().call();
     RevWalk rw2 = sub2.getRevWalk();
-    RevCommit master2 = rw2.parseCommit(getRemoteHead(subKey2, "master"));
+    RevCommit master2 = rw2.parseCommit(projectOperations.project(subKey2).getHead("master"));
     RevCommit change2Ps = parseCurrentRevision(rw2, changeId2);
     assertThat(rw2.isMergedInto(change2Ps, master2)).isTrue();
 

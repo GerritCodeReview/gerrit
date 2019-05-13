@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e028ca8_fe0a01cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-13T14:00:29Z",
+      "side": 1,
+      "message": "Please add a sentence explaining why is this good",
+      "revId": "e833440d512a26688b21c6c91f347956cb1dca14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -217,7 +217,7 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
         testRepo
             .commit()
             .message("A change")
-            .parent(getRemoteHead())
+            .parent(projectOperations.project(project).getHead("master"))
             .add(filename, "content")
             .insertChangeId()
             .create();

@@ -422,8 +422,10 @@ public class AccountIT extends AbstractDaemonTest {
       List<EmailInfo> emails = gApi.accounts().id(accountId.get()).getEmails();
       assertThat(emails.stream().map(e -> e.email).collect(toSet())).containsExactly(extId.email());
 
-      RevCommit commitUserBranch = getRemoteHead(allUsers, RefNames.refsUsers(accountId));
-      RevCommit commitRefsMetaExternalIds = getRemoteHead(allUsers, RefNames.REFS_EXTERNAL_IDS);
+      RevCommit commitUserBranch =
+          projectOperations.project(allUsers).getHead(RefNames.refsUsers(accountId));
+      RevCommit commitRefsMetaExternalIds =
+          projectOperations.project(allUsers).getHead(RefNames.REFS_EXTERNAL_IDS);
       assertThat(commitUserBranch.getCommitTime())
           .isEqualTo(commitRefsMetaExternalIds.getCommitTime());
     } finally {

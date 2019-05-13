@@ -120,7 +120,7 @@ public class DeleteTagsIT extends AbstractDaemonTest {
     HashMap<String, RevCommit> result = new HashMap<>();
     for (String tag : tags) {
       String ref = prefixRef(tag);
-      result.put(ref, getRemoteHead(project, ref));
+      result.put(ref, projectOperations.project(project).getHead(ref));
     }
     return result;
   }

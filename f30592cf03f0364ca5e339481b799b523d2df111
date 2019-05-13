@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "fe58f29d_ea9f665a",
+        "filename": "java/com/google/gerrit/httpd/raw/OpenSearchServlet.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-13T12:23:37Z",
+      "side": 1,
+      "message": "I can\u0027t get it to work like that.  Let\u0027s just leave it like this, and fix it in a follow-up if necessary.",
+      "parentUuid": "37e6adab_bb963824",
+      "revId": "f30592cf03f0364ca5e339481b799b523d2df111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f04e2ec_c1bc2795",
         "filename": "java/com/google/gerrit/httpd/raw/OpenSearchServlet.java",
         "patchSetId": 18
@@ -57,6 +75,30 @@
       "revId": "f30592cf03f0364ca5e339481b799b523d2df111",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b74024d8_3b191a2c",
+        "filename": "java/com/google/gerrit/httpd/raw/OpenSearchServlet.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-13T12:23:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f04e2ec_c1bc2795",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 15
+      },
+      "revId": "f30592cf03f0364ca5e339481b799b523d2df111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

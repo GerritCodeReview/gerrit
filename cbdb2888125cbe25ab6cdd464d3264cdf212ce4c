@@ -333,6 +333,24 @@
     },
     {
       "key": {
+        "uuid": "062966fc_ca4b35a9",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-05-13T12:59:39Z",
+      "side": 1,
+      "message": "looks good to me if it\u0027s possible to limit total size of git objects and, using a different quota setting,\nalso to limit the total size of a repository (git + lfs objects)",
+      "parentUuid": "224ebdcf_311b00f6",
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "593a7edd_616e91f6",
         "filename": "Documentation/lfs-quota-design.txt",
         "patchSetId": 3
@@ -399,6 +417,24 @@
       "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57d297ad_f842cf27",
+        "filename": "Documentation/lfs-quota-design.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-05-13T12:59:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1dca59e1_e718f443",
+      "revId": "cbdb2888125cbe25ab6cdd464d3264cdf212ce4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

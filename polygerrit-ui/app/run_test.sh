@@ -15,6 +15,7 @@ fi
 # WCT tests are not hermetic, and need extra environment variables.
 # TODO(hanwen): does $DISPLAY even work on OSX?
 bazel test \
+      --test_output=streamed \
       --test_env="HOME=$HOME" \
       --test_env="WCT=${wct_bin}" \
       --test_env="WCT_ARGS=${WCT_ARGS}" \
@@ -22,5 +23,4 @@ bazel test \
       --test_env="DISPLAY=${DISPLAY}" \
       --test_env="WCT_HEADLESS_MODE=${WCT_HEADLESS_MODE}" \
       "$@" \
-      //polygerrit-ui/app:embed_test \
       //polygerrit-ui/app:wct_test

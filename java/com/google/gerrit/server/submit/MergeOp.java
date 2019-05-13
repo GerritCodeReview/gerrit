@@ -57,6 +57,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
+import com.google.gerrit.server.change.AccountPatchReviewCleaner;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.MergeTip;
@@ -232,6 +233,7 @@ public class MergeOp implements AutoCloseable {
   private final NotifyResolver notifyResolver;
   private final RetryHelper retryHelper;
   private final ChangeData.Factory changeDataFactory;
+  private final AccountPatchReviewCleaner aprCleaner;
 
   private Timestamp ts;
   private RequestId submissionId;
@@ -259,7 +261,8 @@ public class MergeOp implements AutoCloseable {
       NotifyResolver notifyResolver,
       TopicMetrics topicMetrics,
       RetryHelper retryHelper,
-      ChangeData.Factory changeDataFactory) {
+      ChangeData.Factory changeDataFactory,
+      AccountPatchReviewCleaner aprCleaner) {
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
     this.internalUserFactory = internalUserFactory;
@@ -273,6 +276,7 @@ public class MergeOp implements AutoCloseable {
     this.retryHelper = retryHelper;
     this.topicMetrics = topicMetrics;
     this.changeDataFactory = changeDataFactory;
+    this.aprCleaner = aprCleaner;
   }
 
   @Override
@@ -516,6 +520,8 @@ public class MergeOp implements AutoCloseable {
         if (projects > 1) {
           topicMetrics.topicSubmissionsCompleted.increment();
         }
+
+        aprCleaner.clean(change);
       } catch (IOException e) {
         // Anything before the merge attempt is an error
         throw new StorageException(e);

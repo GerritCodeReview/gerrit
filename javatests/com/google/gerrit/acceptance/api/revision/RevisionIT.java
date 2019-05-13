@@ -566,7 +566,7 @@ public class RevisionIT extends AbstractDaemonTest {
     ByteArrayOutputStream os = new ByteArrayOutputStream();
     bin.writeTo(os);
     String fileContent = new String(os.toByteArray(), UTF_8);
-    String destSha1 = abbreviateName(getRemoteHead(project, destBranch), 6);
+    String destSha1 = abbreviateName(projectOperations.project(project).getHead(destBranch), 6);
     String changeSha1 = abbreviateName(r.getCommit(), 6);
     assertThat(fileContent)
         .isEqualTo(

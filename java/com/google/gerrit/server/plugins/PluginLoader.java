@@ -233,6 +233,11 @@ public class PluginLoader implements LifecycleListener {
           continue;
         }
 
+        if (mandatoryPlugins.contains(name)) {
+          logger.atInfo().log("Mandatory plugin %s cannot be disabled", name);
+          continue;
+        }
+
         logger.atInfo().log("Disabling plugin %s", active.getName());
         Path off =
             active.getSrcFile().resolveSibling(active.getSrcFile().getFileName() + ".disabled");

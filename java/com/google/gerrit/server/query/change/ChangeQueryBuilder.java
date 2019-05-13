@@ -736,6 +736,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> extension(String ext) throws QueryParseException {
     if (args.getSchema().hasField(ChangeField.EXTENSION)) {
+      if (ext.isEmpty()) {
+        return new FileWithNoExtensionPredicate();
+      }
       return new FileExtensionPredicate(ext);
     }
     throw new QueryParseException("'extension' operator is not supported by change index version");

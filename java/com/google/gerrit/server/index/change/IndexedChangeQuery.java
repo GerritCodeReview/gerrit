@@ -114,11 +114,14 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
 
   @Override
   public boolean match(ChangeData cd) {
+    Predicate<ChangeData> pred = getChild(0);
+
     if (source != null && fromSource.get(cd) == source) {
-      return true;
+      if (pred.estimateCost() >= 0) {
+        return true;
+      }
     }
 
-    Predicate<ChangeData> pred = getChild(0);
     checkState(
         pred.isMatchable(),
         "match invoked, but child predicate %s doesn't implement %s",

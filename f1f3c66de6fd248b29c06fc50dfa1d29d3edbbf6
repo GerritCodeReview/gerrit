@@ -22,6 +22,30 @@
       "revId": "f1f3c66de6fd248b29c06fc50dfa1d29d3edbbf6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58ea52e6_9dc46801",
+        "filename": "java/com/google/gerrit/sshd/commands/ShowConnections.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2019-05-13T08:14:23Z",
+      "side": 1,
+      "message": "Well I did it on purpose if that was your question, but no it is not needed.",
+      "parentUuid": "f1096e5b_808d7fcc",
+      "range": {
+        "startLine": 151,
+        "startChar": 32,
+        "endLine": 151,
+        "endChar": 33
+      },
+      "revId": "f1f3c66de6fd248b29c06fc50dfa1d29d3edbbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

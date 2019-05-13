@@ -262,14 +262,14 @@ public class ProjectIT extends AbstractDaemonTest {
 
   @Test
   public void descriptionChangeCausesRefUpdate() throws Exception {
-    RevCommit initialHead = getRemoteHead(project, RefNames.REFS_CONFIG);
+    RevCommit initialHead = projectOperations.project(project).getHead(RefNames.REFS_CONFIG);
     assertThat(gApi.projects().name(project.get()).description()).isEmpty();
     DescriptionInput in = new DescriptionInput();
     in.description = "new project description";
     gApi.projects().name(project.get()).description(in);
     assertThat(gApi.projects().name(project.get()).description()).isEqualTo(in.description);
 
-    RevCommit updatedHead = getRemoteHead(project, RefNames.REFS_CONFIG);
+    RevCommit updatedHead = projectOperations.project(project).getHead(RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(
         project.get(), RefNames.REFS_CONFIG, initialHead, updatedHead);
   }
@@ -288,7 +288,7 @@ public class ProjectIT extends AbstractDaemonTest {
 
   @Test
   public void configChangeCausesRefUpdate() throws Exception {
-    RevCommit initialHead = getRemoteHead(project, RefNames.REFS_CONFIG);
+    RevCommit initialHead = projectOperations.project(project).getHead(RefNames.REFS_CONFIG);
 
     ConfigInfo info = gApi.projects().name(project.get()).config();
     assertThat(info.defaultSubmitType.value).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
@@ -299,7 +299,7 @@ public class ProjectIT extends AbstractDaemonTest {
     info = gApi.projects().name(project.get()).config();
     assertThat(info.defaultSubmitType.value).isEqualTo(SubmitType.CHERRY_PICK);
 
-    RevCommit updatedHead = getRemoteHead(project, RefNames.REFS_CONFIG);
+    RevCommit updatedHead = projectOperations.project(project).getHead(RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(
         project.get(), RefNames.REFS_CONFIG, initialHead, updatedHead);
   }
@@ -741,7 +741,7 @@ public class ProjectIT extends AbstractDaemonTest {
 
   @Nullable
   protected RevCommit getRemoteHead(String project, String branch) throws Exception {
-    return getRemoteHead(Project.nameKey(project), branch);
+    return projectOperations.project(Project.nameKey(project)).getHead(branch);
   }
 
   boolean hasHead(Project.NameKey k, String b) {

@@ -959,15 +959,6 @@ public abstract class AbstractDaemonTest {
     }
   }
 
-  // TODO(hanwen): push this down.
-  protected RevCommit getRemoteHead(Project.NameKey project, String branch) throws Exception {
-    return projectOperations.project(project).getHead(branch);
-  }
-
-  protected RevCommit getRemoteHead() throws Exception {
-    return getRemoteHead(project, "master");
-  }
-
   protected void assertMailReplyTo(Message message, String email) throws Exception {
     assertThat(message.headers()).containsKey("Reply-To");
     EmailHeader.String replyTo = (EmailHeader.String) message.headers().get("Reply-To");

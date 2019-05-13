@@ -3194,7 +3194,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createMergePatchSetCannotBaseOnInvisibleChange() throws Exception {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
     createBranch("foo");
     createBranch("bar");
 
@@ -3223,7 +3223,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createMergePatchSetBaseOnChange() throws Exception {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
     createBranch("foo");
     createBranch("bar");
 
@@ -3391,7 +3391,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void checkLabelsForMergedChangeWithNonAuthorCodeReview() throws Exception {
     // Configure Non-Author-Code-Review
-    RevCommit oldHead = getRemoteHead();
+    RevCommit oldHead = projectOperations.project(project).getHead("master");
     GitUtil.fetch(testRepo, RefNames.REFS_CONFIG + ":config");
     testRepo.reset("config");
     PushOneCommit push2 =
@@ -3586,7 +3586,7 @@ public class ChangeIT extends AbstractDaemonTest {
             + "U > 0,"
             + "R = label('All-Comments-Resolved', need(_)). \n\n");
 
-    String oldHead = getRemoteHead().name();
+    String oldHead = projectOperations.project(project).getHead("master").name();
     PushOneCommit.Result result1 =
         pushFactory.create(user.newIdent(), testRepo).to("refs/for/master");
     testRepo.reset(oldHead);
@@ -3842,7 +3842,8 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(
             gApi.changes()
                 .id(revertId)
-                .pureRevert(getRemoteHead().toObjectId().name())
+                .pureRevert(
+                    projectOperations.project(project).getHead("master").toObjectId().name())
                 .isPureRevert)
         .isTrue();
   }
@@ -3865,7 +3866,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void pureRevertParameterTakesPrecedence() throws Exception {
     PushOneCommit.Result r1 = createChange("commit message", "a.txt", "content1");
     merge(r1);
-    String oldHead = getRemoteHead().toObjectId().name();
+    String oldHead = projectOperations.project(project).getHead("master").toObjectId().name();
 
     PushOneCommit.Result r2 = createChange("commit message", "a.txt", "content2");
     merge(r2);
@@ -3908,7 +3909,8 @@ public class ChangeIT extends AbstractDaemonTest {
     // Create an initial commit to serve as claimed original
     PushOneCommit.Result r1 = createChange("commit message", "a.txt", "content1");
     merge(r1);
-    String claimedOriginal = getRemoteHead().toObjectId().name();
+    String claimedOriginal =
+        projectOperations.project(project).getHead("master").toObjectId().name();
 
     // Change contents of the file to provoke a conflict
     merge(createChange("commit message", "a.txt", "content2"));

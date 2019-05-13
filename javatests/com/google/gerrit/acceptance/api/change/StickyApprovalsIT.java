@@ -119,7 +119,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
     for (ChangeKind changeKind :
         EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
-      testRepo.reset(getRemoteHead());
+      testRepo.reset(projectOperations.project(project).getHead("master"));
 
       String changeId = createChange(changeKind);
       vote(admin, changeId, -1, 1);
@@ -141,7 +141,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
     for (ChangeKind changeKind :
         EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
-      testRepo.reset(getRemoteHead());
+      testRepo.reset(projectOperations.project(project).getHead("master"));
 
       String changeId = createChange(changeKind);
       vote(admin, changeId, 2, 1);
@@ -178,7 +178,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     assertNotSticky(EnumSet.of(REWORK, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE));
 
     // check that votes are sticky when trivial rebase is done by cherry-pick
-    testRepo.reset(getRemoteHead());
+    testRepo.reset(projectOperations.project(project).getHead("master"));
     changeId = createChange().getChangeId();
     vote(admin, changeId, 2, 1);
     vote(user, changeId, -2, -1);
@@ -189,7 +189,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     assertVotes(c, user, -2, 0);
 
     // check that votes are not sticky when rework is done by cherry-pick
-    testRepo.reset(getRemoteHead());
+    testRepo.reset(projectOperations.project(project).getHead("master"));
     changeId = createChange().getChangeId();
     vote(admin, changeId, 2, 1);
     vote(user, changeId, -2, -1);
@@ -261,7 +261,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
     for (ChangeKind changeKind :
         EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
-      testRepo.reset(getRemoteHead());
+      testRepo.reset(projectOperations.project(project).getHead("master"));
 
       String changeId = createChange(changeKind);
       vote(admin, changeId, 2, 1);
@@ -369,7 +369,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
   private void assertNotSticky(Set<ChangeKind> changeKinds) throws Exception {
     for (ChangeKind changeKind : changeKinds) {
-      testRepo.reset(getRemoteHead());
+      testRepo.reset(projectOperations.project(project).getHead("master"));
 
       String changeId = createChange(changeKind);
       vote(admin, changeId, +2, 1);
@@ -460,7 +460,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
   private void trivialRebase(String changeId) throws Exception {
     requestScopeOperations.setApiUser(admin.id());
-    testRepo.reset(getRemoteHead());
+    testRepo.reset(projectOperations.project(project).getHead("master"));
     PushOneCommit push =
         pushFactory.create(
             admin.newIdent(),
@@ -526,7 +526,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
         fail("unexpected change kind: " + changeKind);
     }
 
-    testRepo.reset(getRemoteHead());
+    testRepo.reset(projectOperations.project(project).getHead("master"));
     PushOneCommit.Result r =
         pushFactory
             .create(

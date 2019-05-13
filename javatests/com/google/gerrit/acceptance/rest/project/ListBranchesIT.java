@@ -69,7 +69,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
   public void listBranches() throws Exception {
     String master = pushTo("refs/heads/master").getCommit().name();
     String dev = pushTo("refs/heads/dev").getCommit().name();
-    String refsConfig = getRemoteHead(project, RefNames.REFS_CONFIG).name();
+    String refsConfig = projectOperations.project(project).getHead(RefNames.REFS_CONFIG).name();
     assertRefs(
         ImmutableList.of(
             branch("HEAD", "master", false),
@@ -114,7 +114,10 @@ public class ListBranchesIT extends AbstractDaemonTest {
   public void listBranchesUsingPagination() throws Exception {
     BranchInfo head = branch("HEAD", "master", false);
     BranchInfo refsConfig =
-        branch(RefNames.REFS_CONFIG, getRemoteHead(project, RefNames.REFS_CONFIG).name(), false);
+        branch(
+            RefNames.REFS_CONFIG,
+            projectOperations.project(project).getHead(RefNames.REFS_CONFIG).name(),
+            false);
     BranchInfo master =
         branch("refs/heads/master", pushTo("refs/heads/master").getCommit().getName(), false);
     BranchInfo branch1 =

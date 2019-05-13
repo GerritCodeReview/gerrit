@@ -25,6 +25,7 @@ import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestCapa
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestLabelPermission;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestPermission;
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.Project;
@@ -124,12 +125,29 @@ public class ProjectOperationsImpl implements ProjectOperations {
         throws IOException, ConfigInvalidException {
       try (MetaDataUpdate metaDataUpdate = metaDataUpdateFactory.create(nameKey)) {
         ProjectConfig projectConfig = projectConfigFactory.read(metaDataUpdate);
+        removePermissions(projectConfig, projectUpdate.removedPermissions());
         addCapabilities(projectConfig, projectUpdate.addedCapabilities());
         addPermissions(projectConfig, projectUpdate.addedPermissions());
         addLabelPermissions(projectConfig, projectUpdate.addedLabelPermissions());
         projectConfig.commit(metaDataUpdate);
       }
       projectCache.evict(nameKey);
+    }
+
+    private void removePermissions(
+        ProjectConfig projectConfig,
+        ImmutableList<TestProjectUpdate.TestPermissionKey> removedPermissions) {
+      for (TestProjectUpdate.TestPermissionKey p : removedPermissions) {
+        Permission permission =
+            projectConfig.getAccessSection(p.section(), true).getPermission(p.name(), true);
+        if (p.group().isPresent()) {
+          GroupReference group = new GroupReference(p.group().get(), p.group().get().get());
+          group = projectConfig.resolve(group);
+          permission.removeRule(group);
+        } else {
+          permission.clearRules();
+        }
+      }
     }
 
     private void addCapabilities(

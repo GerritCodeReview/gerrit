@@ -256,6 +256,72 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
             "abandon", "group global:Registered-Users");
   }
 
+  @Test
+  public void addAllowLabelPermission() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(
+            TestProjectUpdate.allowLabel("Code-Review")
+                .ref("refs/foo")
+                .group(REGISTERED_USERS)
+                .range(-1, 2))
+        .update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly("label-Code-Review", "-1..+2 group global:Registered-Users");
+  }
+
+  @Test
+  public void addBlockLabelPermission() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(
+            TestProjectUpdate.blockLabel("Code-Review")
+                .ref("refs/foo")
+                .group(REGISTERED_USERS)
+                .range(-1, 2))
+        .update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly("label-Code-Review", "block -1..+2 group global:Registered-Users");
+  }
+
+  @Test
+  public void addAllowExclusiveLabelPermission() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(
+            TestProjectUpdate.allowLabel("Code-Review")
+                .ref("refs/foo")
+                .group(REGISTERED_USERS)
+                .range(-1, 2)
+                .exclusive(true))
+        .update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly(
+            "label-Code-Review", "-1..+2 group global:Registered-Users",
+            "exclusiveGroupPermissions", "label-Code-Review");
+  }
+
   private void deleteRefsMetaConfig(Project.NameKey key) throws Exception {
     try (Repository repo = repoManager.openRepository(key)) {
       new TestRepository<>(repo).delete(REFS_CONFIG);

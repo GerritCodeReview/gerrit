@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8abab4f8_7b35be0c",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-13T10:31:08Z",
+      "side": 1,
+      "message": "Replacing line 741 with 742 does not pass the #byExtension test(s) either.",
+      "revId": "99ed9bc4397771ae67271f593bdef017d0daef88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f557bb2f_dab29382",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-13T10:31:08Z",
+      "side": 1,
+      "message": "Remove this line once WIP\u0027s over.",
+      "revId": "99ed9bc4397771ae67271f593bdef017d0daef88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7237bf9c_e7ef7d46",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-13T10:31:08Z",
+      "side": 1,
+      "message": "Replacing line 744 with 745 does not pass the aforementioned test, either.",
+      "revId": "99ed9bc4397771ae67271f593bdef017d0daef88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72b35a45_1fe13f4e",
+        "filename": "java/com/google/gerrit/server/query/change/RegexFileExtensionPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-13T10:31:08Z",
+      "side": 1,
+      "message": "I\u0027m also contemplating other ideas such as considering the use of either [1] or [2] below.\n\n[1]: return cd.currentFilePaths().size() \u003e ChangeField.getExtensions(cd).size();\n[2]: return ChangeField.getAllExtensionsAsList(cd).contains(\",,\");\n\nHowever, IndexedChangeQuery#match is not even called/reached as we speak, as opposed to the base commit that fixed the directory case. The latter though still returns true right away, i.e., doesn\u0027t reach the custom or overridden predicate\u0027s match method(s). It does so out of treating such field as \u0027source\u0027 ones, index document-wise.\n\nWe might also have to consider amending ElasticMapping specifically for this file extension field case. We\u0027re maybe dealing with an utterly missing field which could not be present at all, from the elastic document or source, for this empty or no-value case (as opposed to Lucene\u0027s).",
+      "revId": "99ed9bc4397771ae67271f593bdef017d0daef88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

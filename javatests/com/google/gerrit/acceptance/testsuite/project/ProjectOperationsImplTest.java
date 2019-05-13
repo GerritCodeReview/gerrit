@@ -15,6 +15,10 @@
 package com.google.gerrit.acceptance.testsuite.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
+import static com.google.gerrit.common.data.GlobalCapability.ADMINISTRATE_SERVER;
+import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_QUERY_LIMIT;
+import static com.google.gerrit.common.data.GlobalCapability.QUERY_LIMIT;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -320,6 +324,58 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
         .containsExactly(
             "label-Code-Review", "-1..+2 group global:Registered-Users",
             "exclusiveGroupPermissions", "label-Code-Review");
+  }
+
+  @Test
+  public void addAllowCapability() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(allowCapability(ADMINISTRATE_SERVER).group(REGISTERED_USERS))
+        .update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("capability");
+    assertThat(config).subsections("capability").isEmpty();
+    assertThat(config)
+        .sectionValues("capability")
+        .containsExactly("administrateServer", "group global:Registered-Users");
+  }
+
+  @Test
+  public void addAllowCapabilityWithRange() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(allowCapability(QUERY_LIMIT).group(REGISTERED_USERS).range(0, 5000))
+        .update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("capability");
+    assertThat(config).subsections("capability").isEmpty();
+    assertThat(config)
+        .sectionValues("capability")
+        .containsExactly("queryLimit", "+0..+5000 group global:Registered-Users");
+  }
+
+  @Test
+  public void addAllowCapabilityWithDefaultRange() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(allowCapability(QUERY_LIMIT).group(REGISTERED_USERS))
+        .update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("capability");
+    assertThat(config).subsections("capability").isEmpty();
+    assertThat(config)
+        .sectionValues("capability")
+        .containsExactly(
+            "queryLimit", "+0..+" + DEFAULT_MAX_QUERY_LIMIT + " group global:Registered-Users");
   }
 
   private void deleteRefsMetaConfig(Project.NameKey key) throws Exception {

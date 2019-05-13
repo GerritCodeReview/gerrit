@@ -21,6 +21,9 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.capabilityKey;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.NON_VISIBLE_CHANGES;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
@@ -125,7 +128,6 @@ import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.TestServerPlugin;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
-import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.change.Revisions;
@@ -901,7 +903,7 @@ public abstract class AbstractDaemonTest {
     // * explicitly add multiple values in callers instead of looping
     TestProjectUpdate.Builder b = projectOperations.project(allProjects).forUpdate();
     Arrays.stream(capabilityNames)
-        .forEach(c -> b.add(TestProjectUpdate.allowCapability(c).group(id).range(min, max)));
+        .forEach(c -> b.add(allowCapability(c).group(id).range(min, max)));
     b.update();
   }
 
@@ -916,8 +918,7 @@ public abstract class AbstractDaemonTest {
     // * add a variant that takes a single String
     // * explicitly add multiple values in callers instead of looping
     TestProjectUpdate.Builder b = projectOperations.project(allProjects).forUpdate();
-    Streams.stream(capabilityNames)
-        .forEach(c -> b.add(TestProjectUpdate.allowCapability(c).group(id)));
+    Streams.stream(capabilityNames).forEach(c -> b.add(allowCapability(c).group(id)));
     b.update();
   }
 
@@ -928,12 +929,12 @@ public abstract class AbstractDaemonTest {
 
   protected void removeGlobalCapabilities(AccountGroup.UUID id, Iterable<String> capabilityNames)
       throws Exception {
-    try (ProjectConfigUpdate u = updateProject(allProjects)) {
-      for (String capabilityName : capabilityNames) {
-        Util.remove(u.getConfig(), capabilityName, id);
-      }
-      u.save();
-    }
+    // TODO(dborowitz): When inlining:
+    // * add a variant that takes a single String
+    // * explicitly add multiple values in callers instead of looping
+    TestProjectUpdate.Builder b = projectOperations.project(allProjects).forUpdate();
+    Streams.stream(capabilityNames).forEach(c -> b.remove(capabilityKey(c).group(id)));
+    b.update();
   }
 
   protected void setUseSignedOffBy(InheritableBoolean value) throws Exception {
@@ -1041,15 +1042,11 @@ public abstract class AbstractDaemonTest {
 
   protected void removePermission(Project.NameKey project, String ref, String permission)
       throws IOException, ConfigInvalidException {
-    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
-      md.setMessage(String.format("Remove %s on %s", permission, ref));
-      ProjectConfig config = projectConfigFactory.read(md);
-      AccessSection s = config.getAccessSection(ref, true);
-      Permission p = s.getPermission(permission, true);
-      p.clearRules();
-      config.commit(md);
-      projectCache.evict(config.getProject());
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .remove(permissionKey(permission).ref(ref))
+        .update();
   }
 
   protected void blockRead(String ref) throws Exception {

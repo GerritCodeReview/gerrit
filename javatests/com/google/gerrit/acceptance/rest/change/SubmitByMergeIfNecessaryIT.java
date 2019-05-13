@@ -607,7 +607,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void dependencyOnChangeForNonVisibleBranchPreventsMerge() throws Throwable {
-    grantLabel("Code-Review", -2, 2, project, "refs/heads/*", false, REGISTERED_USERS, false);
+    grantLabel("Code-Review", -2, 2, project, "refs/heads/*", REGISTERED_USERS, false);
     grant(project, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
 
     // Create a change
@@ -662,7 +662,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void dependencyOnHiddenChangePreventsMerge() throws Throwable {
-    grantLabel("Code-Review", -2, 2, project, "refs/heads/*", false, REGISTERED_USERS, false);
+    grantLabel("Code-Review", -2, 2, project, "refs/heads/*", REGISTERED_USERS, false);
     grant(project, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
 
     // Create a change
@@ -716,9 +716,9 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     Project.NameKey p1 = projectOperations.newProject().create();
     Project.NameKey p2 = projectOperations.newProject().create();
 
-    grantLabel("Code-Review", -2, 2, p1, "refs/heads/*", false, REGISTERED_USERS, false);
+    grantLabel("Code-Review", -2, 2, p1, "refs/heads/*", REGISTERED_USERS, false);
     grant(p1, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
-    grantLabel("Code-Review", -2, 2, p2, "refs/heads/*", false, REGISTERED_USERS, false);
+    grantLabel("Code-Review", -2, 2, p2, "refs/heads/*", REGISTERED_USERS, false);
     grant(p2, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
 
     TestRepository<?> repo1 = cloneProject(p1);

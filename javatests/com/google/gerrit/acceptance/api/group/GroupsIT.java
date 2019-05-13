@@ -1415,8 +1415,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
   private void pushToGroupBranchForReviewAndSubmit(
       Project.NameKey project, String groupRef, String expectedError) throws Throwable {
-    grantLabel(
-        "Code-Review", -2, 2, project, RefNames.REFS_GROUPS + "*", false, REGISTERED_USERS, false);
+    grantLabel("Code-Review", -2, 2, project, RefNames.REFS_GROUPS + "*", REGISTERED_USERS, false);
     grant(project, RefNames.REFS_GROUPS + "*", Permission.SUBMIT, false, REGISTERED_USERS);
 
     TestRepository<InMemoryRepository> repo = cloneProject(project);

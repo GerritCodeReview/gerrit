@@ -38,6 +38,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Streams;
 import com.google.common.jimfs.Jimfs;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
@@ -53,7 +54,6 @@ import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -897,13 +897,13 @@ public abstract class AbstractDaemonTest {
 
   protected void allowGlobalCapabilities(
       AccountGroup.UUID id, int min, int max, String... capabilityNames) throws Exception {
-    try (ProjectConfigUpdate u = updateProject(allProjects)) {
-      for (String capabilityName : capabilityNames) {
-        Util.allow(
-            u.getConfig(), capabilityName, id, new PermissionRange(capabilityName, min, max));
-      }
-      u.save();
-    }
+    // TODO(dborowitz): When inlining:
+    // * add a variant that takes a single String
+    // * explicitly add multiple values in callers instead of looping
+    TestProjectUpdate.Builder b = projectOperations.project(allProjects).forUpdate();
+    Arrays.stream(capabilityNames)
+        .forEach(c -> b.add(TestProjectUpdate.allowCapability(c).group(id).range(min, max)));
+    b.update();
   }
 
   protected void allowGlobalCapabilities(AccountGroup.UUID id, String... capabilityNames)
@@ -913,12 +913,13 @@ public abstract class AbstractDaemonTest {
 
   protected void allowGlobalCapabilities(AccountGroup.UUID id, Iterable<String> capabilityNames)
       throws Exception {
-    try (ProjectConfigUpdate u = updateProject(allProjects)) {
-      for (String capabilityName : capabilityNames) {
-        Util.allow(u.getConfig(), capabilityName, id);
-      }
-      u.save();
-    }
+    // TODO(dborowitz): When inlining:
+    // * add a variant that takes a single String
+    // * explicitly add multiple values in callers instead of looping
+    TestProjectUpdate.Builder b = projectOperations.project(allProjects).forUpdate();
+    Streams.stream(capabilityNames)
+        .forEach(c -> b.add(TestProjectUpdate.allowCapability(c).group(id)));
+    b.update();
   }
 
   protected void removeGlobalCapabilities(AccountGroup.UUID id, String... capabilityNames)

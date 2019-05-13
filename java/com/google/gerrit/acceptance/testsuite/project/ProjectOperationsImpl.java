@@ -21,8 +21,10 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectCreation.Builder;
+import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestCapability;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestLabelPermission;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestPermission;
+import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.Project;
@@ -122,11 +124,24 @@ public class ProjectOperationsImpl implements ProjectOperations {
         throws IOException, ConfigInvalidException {
       try (MetaDataUpdate metaDataUpdate = metaDataUpdateFactory.create(nameKey)) {
         ProjectConfig projectConfig = projectConfigFactory.read(metaDataUpdate);
+        addCapabilities(projectConfig, projectUpdate.addedCapabilities());
         addPermissions(projectConfig, projectUpdate.addedPermissions());
         addLabelPermissions(projectConfig, projectUpdate.addedLabelPermissions());
         projectConfig.commit(metaDataUpdate);
       }
       projectCache.evict(nameKey);
+    }
+
+    private void addCapabilities(
+        ProjectConfig projectConfig, ImmutableList<TestCapability> addedCapabilities) {
+      for (TestCapability c : addedCapabilities) {
+        PermissionRule rule = Util.newRule(projectConfig, c.group());
+        rule.setRange(c.min(), c.max());
+        projectConfig
+            .getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true)
+            .getPermission(c.name(), true)
+            .add(rule);
+      }
     }
 
     private void addPermissions(

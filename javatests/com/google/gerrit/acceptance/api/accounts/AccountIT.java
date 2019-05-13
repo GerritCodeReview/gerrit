@@ -1539,7 +1539,7 @@ public class AccountIT extends AbstractDaemonTest {
     accountIndexedCounter.clear();
 
     grant(allUsers, userRef, Permission.PUSH, false, adminGroupUuid());
-    grantLabel("Code-Review", -2, 2, allUsers, userRef, false, adminGroupUuid(), false);
+    grantLabel("Code-Review", -2, 2, allUsers, userRef, adminGroupUuid(), false);
     grant(allUsers, userRef, Permission.SUBMIT, false, adminGroupUuid());
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);

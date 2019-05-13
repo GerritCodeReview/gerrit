@@ -67,6 +67,24 @@
       "revId": "99ed9bc4397771ae67271f593bdef017d0daef88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a36d6b1_fd69f3e8",
+        "filename": "java/com/google/gerrit/server/query/change/RegexFileExtensionPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-13T11:01:56Z",
+      "side": 1,
+      "message": "\u003e However, IndexedChangeQuery#match is not even called/reached as we speak, as opposed to the base commit that fixed the directory case.\n\nClarification: the \"/\" root directory case does reach that method, but the \"\" (empty string) one doesn\u0027t. So both empty-root-directory and no-file-extension cases behave consistently; neither one of them reaches IndexedChangeQuery#match.",
+      "parentUuid": "72b35a45_1fe13f4e",
+      "revId": "99ed9bc4397771ae67271f593bdef017d0daef88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

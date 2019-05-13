@@ -22,6 +22,30 @@
       "revId": "67f87808c6b16371b616314d59ce245a822dfe84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acd08ff7_4224cf39",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-13T13:01:05Z",
+      "side": 1,
+      "message": "Yes, I was also thinking about the same... let me split it",
+      "parentUuid": "96d5869a_03e363b0",
+      "range": {
+        "startLine": 235,
+        "startChar": 0,
+        "endLine": 240,
+        "endChar": 0
+      },
+      "revId": "67f87808c6b16371b616314d59ce245a822dfe84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

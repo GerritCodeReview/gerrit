@@ -251,6 +251,24 @@
       "revId": "713cc38d1e5edb81683128e18cda6c27082c81ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba15dbee_04b5d6f5",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/DeleteBranchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-13T07:48:35Z",
+      "side": 1,
+      "message": "I agree. Let\u0027s stay with the approach you already started with. (Maybe we could still consider to improve some of the method names so that the overall statement reads more fluently, e.g. allow(..).onRef(..).forGroup(..), but I\u0027ll leave it up to you to decide whether that\u0027s reasonable or not.)",
+      "parentUuid": "e2f19757_a2679ee0",
+      "revId": "713cc38d1e5edb81683128e18cda6c27082c81ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

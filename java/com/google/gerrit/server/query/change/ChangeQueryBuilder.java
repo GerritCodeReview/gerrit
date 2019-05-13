@@ -736,7 +736,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> extension(String ext) throws QueryParseException {
     if (args.getSchema().hasField(ChangeField.EXTENSION)) {
-      return new FileExtensionPredicate(ext);
+      FileExtensionPredicate extensionPredicate = new FileExtensionPredicate(ext);
+      if (ext.isEmpty()) {
+        RegexFileExtensionPredicate emptyExtPredicate = new RegexFileExtensionPredicate("^.{0}$");
+        // RegexFileExtensionPredicate emptyExtPredicate = new RegexFileExtensionPredicate("^()$");
+        // cf. https://www.brics.dk/automaton/doc/index.html?dk/brics/automaton/RegExp.html
+        return emptyExtPredicate;
+        // return Predicate.or(extensionPredicate, emptyExtPredicate);
+      }
+      return extensionPredicate;
     }
     throw new QueryParseException("'extension' operator is not supported by change index version");
   }

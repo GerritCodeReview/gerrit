@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "debbb1e5_4a68afcd",
+        "filename": "polygerrit-ui/package.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-05-14T17:08:32Z",
+      "side": 1,
+      "message": "Good catch - these were auto generated - running `npm test` still works, but maybe `npm run` would have crashed.",
+      "parentUuid": "63d93521_bd319b1a",
+      "range": {
+        "startLine": 5,
+        "startChar": 2,
+        "endLine": 5,
+        "endChar": 21
+      },
+      "revId": "50ffbd00962e6cb09bf8b5a10de9488e2dc5f228",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d4beb4e_7646da73",
         "filename": "polygerrit-ui/package.json",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "50ffbd00962e6cb09bf8b5a10de9488e2dc5f228",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "374c8c75_e19aa45e",
+        "filename": "polygerrit-ui/package.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-05-14T17:08:32Z",
+      "side": 1,
+      "message": "Good catch - these were auto generated - just removed it for now. There is no clear benefit at the moment to specify these apparently.",
+      "parentUuid": "0d4beb4e_7646da73",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "50ffbd00962e6cb09bf8b5a10de9488e2dc5f228",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

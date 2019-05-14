@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "186a15e2_93cb713b",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-14T05:17:40Z",
+      "side": 1,
+      "message": "This should be more specific Plugin loader exception that encapsulates the list of missing plugins and the cause of the failed load.",
+      "range": {
+        "startLine": 440,
+        "startChar": 16,
+        "endLine": 440,
+        "endChar": 34
+      },
+      "revId": "c8c35ac1269fa5e037edcdee3c2a8cec7b9f276a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

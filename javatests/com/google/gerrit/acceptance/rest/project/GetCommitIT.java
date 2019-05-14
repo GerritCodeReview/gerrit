@@ -15,6 +15,8 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -37,7 +39,11 @@ public class GetCommitIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     repo = GitUtil.newTestRepository(repoManager.openRepository(project));
-    blockRead("refs/*");
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
   }
 
   @After

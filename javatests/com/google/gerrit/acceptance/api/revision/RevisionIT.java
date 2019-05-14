@@ -21,6 +21,7 @@ import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.PATCH;
 import static com.google.gerrit.acceptance.PushOneCommit.PATCH_FILE_ONLY;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
@@ -1183,7 +1184,11 @@ public class RevisionIT extends AbstractDaemonTest {
   public void setDescriptionAllowedWithPermission() throws Exception {
     PushOneCommit.Result r = createChange();
     assertDescription(r, "");
-    grant(project, "refs/heads/master", Permission.OWNER, false, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.OWNER).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
     requestScopeOperations.setApiUser(user.id());
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description("test");
     assertDescription(r, "test");

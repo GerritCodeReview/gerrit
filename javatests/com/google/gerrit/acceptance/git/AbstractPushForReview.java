@@ -24,6 +24,8 @@ import static com.google.gerrit.acceptance.GitUtil.assertPushRejected;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.GitUtil.pushOne;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
@@ -166,7 +168,11 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
           "refs/heads/*");
       u.save();
     }
-    grant(project, "refs/heads/*", Permission.LABEL + "Patch-Set-Lock");
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.LABEL + "Patch-Set-Lock").ref("refs/heads/*").group(adminGroupUuid()))
+        .update();
   }
 
   @After
@@ -871,8 +877,14 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     // Non owner, non admin and non project owner cannot flip wip bit:
     TestAccount user2 = accountCreator.user2();
-    grant(
-        project, "refs/*", Permission.FORGE_COMMITTER, false, SystemGroupBackend.REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allow(Permission.FORGE_COMMITTER)
+                .ref("refs/*")
+                .group(SystemGroupBackend.REGISTERED_USERS))
+        .update();
     TestRepository<?> user2Repo = cloneProject(project, user2);
     GitUtil.fetch(user2Repo, r.getPatchSet().refName() + ":ps");
     user2Repo.reset("ps");
@@ -880,7 +892,11 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertErrorStatus(ReceiveConstants.ONLY_CHANGE_OWNER_OR_PROJECT_OWNER_CAN_MODIFY_WIP);
 
     // Project owner trying to move from WIP to ready should succeed.
-    allow("refs/*", Permission.OWNER, SystemGroupBackend.REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.OWNER).ref("refs/*").group(SystemGroupBackend.REGISTERED_USERS))
+        .update();
     r = amendChange(r.getChangeId(), "refs/for/master%ready", user2, user2Repo);
     r.assertOkStatus();
   }
@@ -1349,7 +1365,11 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertOkStatus();
 
     setUseSignedOffBy(InheritableBoolean.TRUE);
-    block(project, "refs/heads/master", Permission.FORGE_COMMITTER, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.FORGE_COMMITTER).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
 
     push =
         pushFactory.create(
@@ -1419,7 +1439,11 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushSameCommitTwiceUsingMagicBranchBaseOption() throws Exception {
-    grant(project, "refs/heads/master", Permission.PUSH);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/master").group(adminGroupUuid()))
+        .update();
     PushOneCommit.Result rBase = pushTo("refs/heads/master");
     rBase.assertOkStatus();
 
@@ -1833,7 +1857,11 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void forcePushAbandonedChange() throws Exception {
-    grant(project, "refs/*", Permission.PUSH, true);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/*").group(adminGroupUuid()).force(true))
+        .update();
     PushOneCommit push1 =
         pushFactory.create(admin.newIdent(), testRepo, "change1", "a.txt", "content");
     PushOneCommit.Result r = push1.to("refs/for/master");
@@ -1929,7 +1957,11 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void createChangeForMergedCommit() throws Exception {
     String master = "refs/heads/master";
-    grant(project, master, Permission.PUSH, true);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref(master).group(adminGroupUuid()).force(true))
+        .update();
 
     // Update master with a direct push.
     RevCommit c1 = testRepo.commit().message("Non-change 1").create();
@@ -2028,7 +2060,11 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void mergedOptionWithExistingChangeInsertsPatchSet() throws Exception {
     String master = "refs/heads/master";
-    grant(project, master, Permission.PUSH, true);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref(master).group(adminGroupUuid()).force(true))
+        .update();
 
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
@@ -2301,8 +2337,12 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     pr = pushOne(testRepo, c.name(), ref, false, false, opts);
     assertPushRejected(pr, ref, "prohibited by Gerrit: not permitted: create");
 
-    grant(project, "refs/changes/*", Permission.CREATE);
-    grant(project, "refs/changes/*", Permission.PUSH);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref("refs/changes/*").group(adminGroupUuid()))
+        .add(allow(Permission.PUSH).ref("refs/changes/*").group(adminGroupUuid()))
+        .update();
     grantSkipValidation(project, "refs/changes/*", REGISTERED_USERS);
     pr = pushOne(testRepo, c.name(), ref, false, false, opts);
     assertPushOk(pr, ref);

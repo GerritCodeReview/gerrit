@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.server.StarredChangesUtil.IGNORE_LABEL;
 
 import com.google.common.collect.ImmutableSet;
@@ -511,12 +512,14 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // create group that can view all private changes
     GroupInfo groupThatCanViewPrivateChanges =
         gApi.groups().create("groupThatCanViewPrivateChanges").get();
-    grant(
-        Project.nameKey(watchedProject),
-        "refs/*",
-        Permission.VIEW_PRIVATE_CHANGES,
-        false,
-        AccountGroup.uuid(groupThatCanViewPrivateChanges.id));
+    projectOperations
+        .project(Project.nameKey(watchedProject))
+        .forUpdate()
+        .add(
+            allow(Permission.VIEW_PRIVATE_CHANGES)
+                .ref("refs/*")
+                .group(AccountGroup.uuid(groupThatCanViewPrivateChanges.id)))
+        .update();
 
     // watch project as user that can't view private changes
     requestScopeOperations.setApiUser(user.id());

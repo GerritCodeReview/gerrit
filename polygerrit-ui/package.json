@@ -1,0 +1,22 @@
+{
+  "name": "gerrit",
+  "version": "3.1.0-SNAPSHOT",
+  "description": "Gerrit Code Review",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "web-component-tester": "^6.9.2"
+  },
+  "scripts": {
+    "test": "WCT_HEADLESS_MODE=1 WCT_ARGS='--verbose -l chrome' ./app/run_test.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gerrit.googlesource.com/gerrit"
+  },
+  "author": "",
+  "license": "Apache-2.0"
+}

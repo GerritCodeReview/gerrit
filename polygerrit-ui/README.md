@@ -31,14 +31,14 @@ Various steps below require installing additional npm packages. The full list of
 dependencies can be installed with:
 
 ```sh
+npm install
 sudo npm install -g \
   eslint \
   eslint-config-google \
   eslint-plugin-html \
   typescript \
   fried-twinkie \
-  polylint \
-  web-component-tester
+  polylint
 ```
 
 It may complain about a missing `typescript@2.3.4` peer dependency, which is
@@ -52,7 +52,7 @@ To test the local Polymer frontend against gerrit-review.googlesource.com
 simply execute:
 
 ```sh
-./run-server.sh
+./polygerrit-ui/run-server.sh
 ```
 
 Then visit <http://localhost:8081>.
@@ -65,7 +65,7 @@ it patches the `config/server/info` response with plugin information provided on
 the command line:
 
 ```sh
-./run-server.sh --plugins=plugins/my_plugin/static/my_plugin.js,plugins/my_plugin/static/my_plugin.html
+./polygerrit-ui/run-server.sh --plugins=plugins/my_plugin/static/my_plugin.js,plugins/my_plugin/static/my_plugin.html
 ```
 
 The biggest draw back of this method is that you cannot log in, so cannot test
@@ -115,10 +115,10 @@ Check "Disable cache" in the "Network" tab of Chrome's dev tools, so code
 changes are picked up on "reload".
 
 Our CI integration ensures that all tests are run when you upload a change to
-Gerrit, but you can also run all tests locally:
+Gerrit, but you can also run all tests locally in headless mode:
 
 ```sh
-./polygerrit-ui/app/run_test.sh
+npm test
 ```
 
 To allow the tests to run in Safari:
@@ -126,17 +126,10 @@ To allow the tests to run in Safari:
 * In the Advanced preferences tab, check "Show Develop menu in menu bar".
 * In the Develop menu, enable the "Allow Remote Automation" option.
 
-If you need to pass additional arguments to `wct`:
-
-```sh
-WCT_ARGS='-p --some-flag="foo bar"' ./polygerrit-ui/app/run_test.sh
-```
-
-
 To run Chrome tests in headless mode:
 
 ```sh
-WCT_HEADLESS_MODE=1 ./polygerrit-ui/app/run_test.sh
+WCT_HEADLESS_MODE=1 WCT_ARGS='--verbose -l chrome' ./polygerrit-ui/app/run_test.sh
 ```
 
 ## Style guide

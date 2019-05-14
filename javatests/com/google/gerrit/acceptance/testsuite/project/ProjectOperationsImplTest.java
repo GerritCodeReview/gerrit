@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.testsuite.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
+import static com.google.gerrit.truth.ConfigSubject.assertThat;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
@@ -107,7 +108,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     Project.NameKey key = projectOperations.newProject().create();
     Config config = projectOperations.project(key).getConfig();
     assertThat(config).isNotInstanceOf(StoredConfig.class);
-    assertThat(config.toText()).isEmpty();
+    assertThat(config).text().isEmpty();
 
     ConfigInput input = new ConfigInput();
     input.description = "my fancy project";
@@ -115,7 +116,9 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
 
     config = projectOperations.project(key).getConfig();
     assertThat(config).isNotInstanceOf(StoredConfig.class);
-    assertThat(config.toText()).isEqualTo("[project]\n\tdescription = my fancy project\n");
+    assertThat(config).sections().containsExactly("project");
+    assertThat(config).subsections("project").isEmpty();
+    assertThat(config).sectionValues("project").containsExactly("description", "my fancy project");
   }
 
   @Test
@@ -124,9 +127,8 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     deleteRefsMetaConfig(key);
 
     Config config = projectOperations.project(key).getConfig();
-    assertThat(config).isNotNull();
     assertThat(config).isNotInstanceOf(StoredConfig.class);
-    assertThat(config.toText()).isEmpty();
+    assertThat(config).isEmpty();
   }
 
   private void deleteRefsMetaConfig(Project.NameKey key) throws Exception {

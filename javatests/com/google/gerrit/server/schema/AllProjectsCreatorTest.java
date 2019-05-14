@@ -21,6 +21,7 @@ import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.getAllProjectsWithoutDefaultAcls;
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.getDefaultAllProjectsWithAllDefaultSections;
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.readAllProjectsConfig;
+import static com.google.gerrit.truth.ConfigSubject.assertThat;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.GroupReference;
@@ -126,7 +127,7 @@ public class AllProjectsCreatorTest {
     allProjectsCreator.create(allProjectsInput);
 
     Config config = readAllProjectsConfig(repoManager, allProjectsName);
-    assertThat(config.getString("project", null, "description")).isEqualTo(testDescription);
+    assertThat(config).stringValue("project", null, "description").isEqualTo(testDescription);
   }
 
   @Test
@@ -142,7 +143,7 @@ public class AllProjectsCreatorTest {
     allProjectsCreator.create(allProjectsInput);
 
     Config config = readAllProjectsConfig(repoManager, allProjectsName);
-    assertThat(config.getBoolean("submit", null, "rejectEmptyCommit", false)).isTrue();
+    assertThat(config).booleanValue("submit", null, "rejectEmptyCommit", false).isTrue();
   }
 
   @Test

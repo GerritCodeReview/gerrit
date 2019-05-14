@@ -31,14 +31,14 @@ Various steps below require installing additional npm packages. The full list of
 dependencies can be installed with:
 
 ```sh
+npm install
 sudo npm install -g \
   eslint \
   eslint-config-google \
   eslint-plugin-html \
   typescript \
   fried-twinkie \
-  polylint \
-  web-component-tester
+  polylint
 ```
 
 It may complain about a missing `typescript@2.3.4` peer dependency, which is
@@ -115,7 +115,7 @@ Check "Disable cache" in the "Network" tab of Chrome's dev tools, so code
 changes are picked up on "reload".
 
 Our CI integration ensures that all tests are run when you upload a change to
-Gerrit, but you can also run all tests locally:
+Gerrit, but you can also run all tests locally in headless mode:
 
 ```sh
 ./polygerrit-ui/app/run_test.sh
@@ -136,7 +136,7 @@ WCT_ARGS='-p --some-flag="foo bar"' ./polygerrit-ui/app/run_test.sh
 To run Chrome tests in headless mode:
 
 ```sh
-WCT_HEADLESS_MODE=1 ./polygerrit-ui/app/run_test.sh
+npm test
 ```
 
 ## Style guide

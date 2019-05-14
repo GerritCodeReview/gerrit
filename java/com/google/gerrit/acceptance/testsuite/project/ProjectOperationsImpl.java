@@ -14,6 +14,9 @@
 
 package com.google.gerrit.acceptance.testsuite.project;
 
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
+import static com.google.gerrit.server.project.ProjectConfig.PROJECT_CONFIG;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.acceptance.testsuite.project.TestProjectCreation.Builder;
@@ -21,25 +24,35 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.CreateProjectArgs;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCreator;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
 import org.apache.commons.lang.RandomStringUtils;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
 
 public class ProjectOperationsImpl implements ProjectOperations {
-  private final ProjectCreator projectCreator;
   private final GitRepositoryManager repoManager;
+  private final ProjectConfig.Factory projectConfigFactory;
+  private final ProjectCreator projectCreator;
 
   @Inject
-  ProjectOperationsImpl(GitRepositoryManager repoManager, ProjectCreator projectCreator) {
+  ProjectOperationsImpl(
+      GitRepositoryManager repoManager,
+      ProjectConfig.Factory projectConfigFactory,
+      ProjectCreator projectCreator) {
     this.repoManager = repoManager;
     this.projectCreator = projectCreator;
+    this.projectConfigFactory = projectConfigFactory;
   }
 
   @Override
@@ -94,6 +107,40 @@ public class ProjectOperationsImpl implements ProjectOperations {
           RevWalk rw = new RevWalk(repo)) {
         Ref r = repo.exactRef(branch);
         return r == null ? null : rw.parseCommit(r.getObjectId());
+      } catch (Exception e) {
+        throw new IllegalStateException(e);
+      }
+    }
+
+    @Override
+    public ProjectConfig getProjectConfig() {
+      try (Repository repo = repoManager.openRepository(nameKey)) {
+        ProjectConfig projectConfig = projectConfigFactory.create(nameKey);
+        projectConfig.load(nameKey, repo);
+        return projectConfig;
+      } catch (Exception e) {
+        throw new IllegalStateException(e);
+      }
+    }
+
+    @Override
+    public Config getConfig() {
+      try (Repository repo = repoManager.openRepository(nameKey);
+          RevWalk rw = new RevWalk(repo)) {
+        Ref ref = repo.exactRef(REFS_CONFIG);
+        if (ref == null) {
+          return new Config();
+        }
+        RevTree tree = rw.parseTree(ref.getObjectId());
+        TreeWalk tw = TreeWalk.forPath(rw.getObjectReader(), PROJECT_CONFIG, tree);
+        if (tw == null) {
+          return new Config();
+        }
+        ObjectLoader loader = rw.getObjectReader().open(tw.getObjectId(0));
+        String text = new String(loader.getCachedBytes(), UTF_8);
+        Config config = new Config();
+        config.fromText(text);
+        return config;
       } catch (Exception e) {
         throw new IllegalStateException(e);
       }

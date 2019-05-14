@@ -15,6 +15,7 @@
 package com.google.gerrit.server.config;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.truth.ConfigSubject.assertThat;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -90,17 +91,17 @@ public class ConfigUtilTest {
     Config cfg = new Config();
     ConfigUtil.storeSection(cfg, SECT, SUB, in, d);
 
-    assertThat(cfg.getString(SECT, SUB, "CONSTANT")).isNull();
-    assertThat(cfg.getString(SECT, SUB, "missing")).isNull();
-    assertThat(cfg.getBoolean(SECT, SUB, "b", false)).isEqualTo(in.b);
-    assertThat(cfg.getBoolean(SECT, SUB, "bb", false)).isEqualTo(in.bb);
-    assertThat(cfg.getInt(SECT, SUB, "i", 0)).isEqualTo(0);
-    assertThat(cfg.getInt(SECT, SUB, "ii", 0)).isEqualTo(in.ii);
-    assertThat(cfg.getLong(SECT, SUB, "l", 0L)).isEqualTo(0L);
-    assertThat(cfg.getLong(SECT, SUB, "ll", 0L)).isEqualTo(in.ll);
-    assertThat(cfg.getString(SECT, SUB, "s")).isEqualTo(in.s);
-    assertThat(cfg.getString(SECT, SUB, "sd")).isNull();
-    assertThat(cfg.getString(SECT, SUB, "nd")).isNull();
+    assertThat(cfg).stringValue(SECT, SUB, "CONSTANT").isNull();
+    assertThat(cfg).stringValue(SECT, SUB, "missing").isNull();
+    assertThat(cfg).booleanValue(SECT, SUB, "b", false).isEqualTo(in.b);
+    assertThat(cfg).booleanValue(SECT, SUB, "bb", false).isEqualTo(in.bb);
+    assertThat(cfg).intValue(SECT, SUB, "i", 0).isEqualTo(0);
+    assertThat(cfg).intValue(SECT, SUB, "ii", 0).isEqualTo(in.ii);
+    assertThat(cfg).longValue(SECT, SUB, "l", 0L).isEqualTo(0L);
+    assertThat(cfg).longValue(SECT, SUB, "ll", 0L).isEqualTo(in.ll);
+    assertThat(cfg).stringValue(SECT, SUB, "s").isEqualTo(in.s);
+    assertThat(cfg).stringValue(SECT, SUB, "sd").isNull();
+    assertThat(cfg).stringValue(SECT, SUB, "nd").isNull();
 
     SectionInfo out = new SectionInfo();
     ConfigUtil.loadSection(cfg, SECT, SUB, out, d, null);

@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
@@ -174,7 +175,11 @@ public class AbandonIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
-    grant(project, "refs/heads/master", Permission.ABANDON, false, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.ABANDON).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
     requestScopeOperations.setApiUser(user.id());
     gApi.changes().id(changeId).abandon();
     assertThat(info(changeId).status).isEqualTo(ChangeStatus.ABANDONED);

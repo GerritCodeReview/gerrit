@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REMOVED;
@@ -677,7 +678,11 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     // This test creates a new user so that it can explicitly check the REMOVE_REVIEWER permission
     // rather than bypassing the check because of project or ref ownership.
     TestAccount newUser = createAccounts(1, name("foo")).get(0);
-    grant(project, RefNames.REFS + "*", Permission.REMOVE_REVIEWER, false, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.REMOVE_REVIEWER).ref(RefNames.REFS + "*").group(REGISTERED_USERS))
+        .update();
 
     gApi.changes().id(r.getChangeId()).addReviewer(user.email());
     assertThatUserIsOnlyReviewer(r.getChangeId());

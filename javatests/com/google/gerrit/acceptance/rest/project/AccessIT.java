@@ -15,6 +15,7 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
@@ -170,7 +171,11 @@ public class AccessIT extends AbstractDaemonTest {
 
   @Test
   public void createAccessChange() throws Exception {
-    allow(newProjectName, RefNames.REFS_CONFIG, Permission.READ, REGISTERED_USERS);
+    projectOperations
+        .project(newProjectName)
+        .forUpdate()
+        .add(allow(Permission.READ).ref(RefNames.REFS_CONFIG).group(REGISTERED_USERS))
+        .update();
     // User can see the branch
     requestScopeOperations.setApiUser(user.id());
     pApi().branch("refs/heads/master").get();

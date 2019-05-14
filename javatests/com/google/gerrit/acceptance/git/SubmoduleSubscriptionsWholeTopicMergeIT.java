@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.git;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.GitUtil.getChangeId;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
@@ -285,8 +286,12 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
               .name(prefix + "sub" + i)
               .submitType(getSubmitType())
               .create();
-      grant(subKey[i], "refs/heads/*", Permission.PUSH);
-      grant(subKey[i], "refs/for/refs/heads/*", Permission.SUBMIT);
+      projectOperations
+          .project(subKey[i])
+          .forUpdate()
+          .add(allow(Permission.PUSH).ref("refs/heads/*").group(adminGroupUuid()))
+          .add(allow(Permission.SUBMIT).ref("refs/for/refs/heads/*").group(adminGroupUuid()))
+          .update();
       sub[i] = cloneProject(subKey[i]);
     }
 

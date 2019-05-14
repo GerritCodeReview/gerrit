@@ -22,6 +22,8 @@ import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.api.group.GroupAssert.assertGroupInfo;
 import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAccountInfos;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
@@ -1198,8 +1200,12 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   private void testCannotCreateGroupBranch(String refPattern, String groupRef) throws Exception {
-    grant(allUsers, refPattern, Permission.CREATE);
-    grant(allUsers, refPattern, Permission.PUSH);
+    projectOperations
+        .project(allUsers)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref(refPattern).group(adminGroupUuid()))
+        .add(allow(Permission.PUSH).ref(refPattern).group(adminGroupUuid()))
+        .update();
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     PushOneCommit.Result r = pushFactory.create(admin.newIdent(), allUsersRepo).to(groupRef);
@@ -1232,7 +1238,11 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   private void testCannotDeleteGroupBranch(String refPattern, String groupRef) throws Exception {
-    grant(allUsers, refPattern, Permission.DELETE, true, REGISTERED_USERS);
+    projectOperations
+        .project(allUsers)
+        .forUpdate()
+        .add(allow(Permission.DELETE).ref(refPattern).group(REGISTERED_USERS).force(true))
+        .update();
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     PushResult r = deleteRef(allUsersRepo, groupRef);
@@ -1415,8 +1425,16 @@ public class GroupsIT extends AbstractDaemonTest {
 
   private void pushToGroupBranchForReviewAndSubmit(
       Project.NameKey project, String groupRef, String expectedError) throws Throwable {
-    grantLabel("Code-Review", -2, 2, project, RefNames.REFS_GROUPS + "*", REGISTERED_USERS, false);
-    grant(project, RefNames.REFS_GROUPS + "*", Permission.SUBMIT, false, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel("Code-Review")
+                .ref(RefNames.REFS_GROUPS + "*")
+                .group(REGISTERED_USERS)
+                .range(-2, 2))
+        .add(allow(Permission.SUBMIT).ref(RefNames.REFS_GROUPS + "*").group(REGISTERED_USERS))
+        .update();
 
     TestRepository<InMemoryRepository> repo = cloneProject(project);
     fetch(repo, groupRef + ":groupRef");

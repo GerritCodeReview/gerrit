@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
@@ -175,7 +176,11 @@ public class AssigneeIT extends AbstractDaemonTest {
   @Test
   public void setAssigneeAllowedWithPermission() throws Exception {
     PushOneCommit.Result r = createChange();
-    grant(project, "refs/heads/master", Permission.EDIT_ASSIGNEE, false, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.EDIT_ASSIGNEE).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
     requestScopeOperations.setApiUser(user.id());
     assertThat(setAssignee(r, user.email())._accountId).isEqualTo(user.id().get());
   }

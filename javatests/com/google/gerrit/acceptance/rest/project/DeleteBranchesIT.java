@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
@@ -51,8 +52,12 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    allow("refs/*", Permission.CREATE, REGISTERED_USERS);
-    allow("refs/*", Permission.PUSH, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref("refs/*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref("refs/*").group(REGISTERED_USERS))
+        .update();
     for (String name : BRANCHES) {
       project().branch(name).create(new BranchInput());
     }

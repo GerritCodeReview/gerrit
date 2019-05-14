@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d481bae_f09ecb13",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-14T21:31:32Z",
+      "side": 1,
+      "message": "Reviewers: can this call stay here, or should it move outside of this method, for potential performance reasons?",
+      "range": {
+        "startLine": 745,
+        "startChar": 27,
+        "endLine": 745,
+        "endChar": 66
+      },
+      "revId": "7e3391f67e989b47347192cfab92a6741610bc73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

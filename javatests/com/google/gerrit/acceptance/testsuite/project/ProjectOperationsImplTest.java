@@ -15,6 +15,15 @@
 package com.google.gerrit.acceptance.testsuite.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.blockLabel;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.capabilityKey;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.labelPermissionKey;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.common.data.GlobalCapability.ADMINISTRATE_SERVER;
 import static com.google.gerrit.common.data.GlobalCapability.QUERY_LIMIT;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
@@ -143,7 +152,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     projectOperations
         .project(key)
         .forUpdate()
-        .add(TestProjectUpdate.allow(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
+        .add(allow(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
         .update();
 
     Config config = projectOperations.project(key).getConfig();
@@ -160,7 +169,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     projectOperations
         .project(key)
         .forUpdate()
-        .add(TestProjectUpdate.deny(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
+        .add(deny(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
         .update();
 
     Config config = projectOperations.project(key).getConfig();
@@ -177,7 +186,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     projectOperations
         .project(key)
         .forUpdate()
-        .add(TestProjectUpdate.block(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
+        .add(block(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
         .update();
 
     Config config = projectOperations.project(key).getConfig();
@@ -194,11 +203,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     projectOperations
         .project(key)
         .forUpdate()
-        .add(
-            TestProjectUpdate.allow(Permission.ABANDON)
-                .ref("refs/foo")
-                .group(REGISTERED_USERS)
-                .force(true))
+        .add(allow(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS).force(true))
         .update();
 
     Config config = projectOperations.project(key).getConfig();
@@ -215,8 +220,8 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     projectOperations
         .project(key)
         .forUpdate()
-        .add(TestProjectUpdate.allow(Permission.ABANDON).ref("refs/foo").group(PROJECT_OWNERS))
-        .add(TestProjectUpdate.allow(Permission.CREATE).ref("refs/foo").group(REGISTERED_USERS))
+        .add(allow(Permission.ABANDON).ref("refs/foo").group(PROJECT_OWNERS))
+        .add(allow(Permission.CREATE).ref("refs/foo").group(REGISTERED_USERS))
         .update();
 
     Config config = projectOperations.project(key).getConfig();
@@ -235,11 +240,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     projectOperations
         .project(key)
         .forUpdate()
-        .add(
-            TestProjectUpdate.allowLabel("Code-Review")
-                .ref("refs/foo")
-                .group(REGISTERED_USERS)
-                .range(-1, 2))
+        .add(allowLabel("Code-Review").ref("refs/foo").group(REGISTERED_USERS).range(-1, 2))
         .update();
 
     Config config = projectOperations.project(key).getConfig();
@@ -256,11 +257,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     projectOperations
         .project(key)
         .forUpdate()
-        .add(
-            TestProjectUpdate.blockLabel("Code-Review")
-                .ref("refs/foo")
-                .group(REGISTERED_USERS)
-                .range(-1, 2))
+        .add(blockLabel("Code-Review").ref("refs/foo").group(REGISTERED_USERS).range(-1, 2))
         .update();
 
     Config config = projectOperations.project(key).getConfig();
@@ -278,7 +275,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
         .project(key)
         .forUpdate()
         .add(
-            TestProjectUpdate.allowLabel("Code-Review")
+            allowLabel("Code-Review")
                 .ref("refs/foo")
                 .group(REGISTERED_USERS)
                 .range(-1, 2)
@@ -301,7 +298,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     projectOperations
         .project(key)
         .forUpdate()
-        .add(TestProjectUpdate.allowCapability(ADMINISTRATE_SERVER).group(REGISTERED_USERS))
+        .add(allowCapability(ADMINISTRATE_SERVER).group(REGISTERED_USERS))
         .update();
 
     Config config = projectOperations.project(key).getConfig();
@@ -318,7 +315,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     projectOperations
         .project(key)
         .forUpdate()
-        .add(TestProjectUpdate.allowCapability(QUERY_LIMIT).group(REGISTERED_USERS).range(0, 5000))
+        .add(allowCapability(QUERY_LIMIT).group(REGISTERED_USERS).range(0, 5000))
         .update();
 
     Config config = projectOperations.project(key).getConfig();
@@ -335,7 +332,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     projectOperations
         .project(key)
         .forUpdate()
-        .add(TestProjectUpdate.allow(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
+        .add(allow(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
         .update();
     assertThat(projectOperations.project(key).getConfig())
         .subsectionValues("access", "refs/foo")
@@ -344,10 +341,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     projectOperations
         .project(key)
         .forUpdate()
-        .remove(
-            TestProjectUpdate.permissionKey(Permission.ABANDON)
-                .ref("refs/foo")
-                .group(REGISTERED_USERS))
+        .remove(permissionKey(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
         .update();
     assertThat(projectOperations.project(key).getConfig())
         .subsectionValues("access", "refs/foo")
@@ -360,11 +354,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     projectOperations
         .project(key)
         .forUpdate()
-        .add(
-            TestProjectUpdate.allowLabel("Code-Review")
-                .ref("refs/foo")
-                .group(REGISTERED_USERS)
-                .range(-1, 2))
+        .add(allowLabel("Code-Review").ref("refs/foo").group(REGISTERED_USERS).range(-1, 2))
         .update();
     assertThat(projectOperations.project(key).getConfig())
         .subsectionValues("access", "refs/foo")
@@ -373,10 +363,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     projectOperations
         .project(key)
         .forUpdate()
-        .remove(
-            TestProjectUpdate.labelPermissionKey("Code-Review")
-                .ref("refs/foo")
-                .group(REGISTERED_USERS))
+        .remove(labelPermissionKey("Code-Review").ref("refs/foo").group(REGISTERED_USERS))
         .update();
     assertThat(projectOperations.project(key).getConfig())
         .subsectionValues("access", "refs/foo")
@@ -389,7 +376,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     projectOperations
         .project(key)
         .forUpdate()
-        .add(TestProjectUpdate.allowCapability(ADMINISTRATE_SERVER).group(REGISTERED_USERS))
+        .add(allowCapability(ADMINISTRATE_SERVER).group(REGISTERED_USERS))
         .update();
     assertThat(projectOperations.project(key).getConfig())
         .sectionValues("capability")
@@ -398,7 +385,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     projectOperations
         .project(key)
         .forUpdate()
-        .remove(TestProjectUpdate.capabilityKey(ADMINISTRATE_SERVER).group(REGISTERED_USERS))
+        .remove(capabilityKey(ADMINISTRATE_SERVER).group(REGISTERED_USERS))
         .update();
     assertThat(projectOperations.project(key).getConfig())
         .subsectionValues("access", "refs/foo")
@@ -411,9 +398,9 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     projectOperations
         .project(key)
         .forUpdate()
-        .add(TestProjectUpdate.allow(Permission.ABANDON).ref("refs/foo").group(PROJECT_OWNERS))
-        .add(TestProjectUpdate.allow(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
-        .add(TestProjectUpdate.allow(Permission.CREATE).ref("refs/foo").group(REGISTERED_USERS))
+        .add(allow(Permission.ABANDON).ref("refs/foo").group(PROJECT_OWNERS))
+        .add(allow(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
+        .add(allow(Permission.CREATE).ref("refs/foo").group(REGISTERED_USERS))
         .update();
     assertThat(projectOperations.project(key).getConfig())
         .subsectionValues("access", "refs/foo")
@@ -426,7 +413,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     projectOperations
         .project(key)
         .forUpdate()
-        .remove(TestProjectUpdate.permissionKey(Permission.ABANDON).ref("refs/foo"))
+        .remove(permissionKey(Permission.ABANDON).ref("refs/foo"))
         .update();
     Config config = projectOperations.project(key).getConfig();
     assertThat(config).subsectionValues("access", "refs/foo").doesNotContainKey("abandon");

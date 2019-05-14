@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_UUID;
@@ -984,8 +985,12 @@ public class ExternalIdIT extends AbstractDaemonTest {
   }
 
   private void allowPushOfExternalIds() {
-    grant(allUsers, RefNames.REFS_EXTERNAL_IDS, Permission.READ);
-    grant(allUsers, RefNames.REFS_EXTERNAL_IDS, Permission.PUSH);
+    projectOperations
+        .project(allUsers)
+        .forUpdate()
+        .add(allow(Permission.READ).ref(RefNames.REFS_EXTERNAL_IDS).group(adminGroupUuid()))
+        .add(allow(Permission.PUSH).ref(RefNames.REFS_EXTERNAL_IDS).group(adminGroupUuid()))
+        .update();
   }
 
   private void assertRefUpdateFailure(RemoteRefUpdate update, String msg) {

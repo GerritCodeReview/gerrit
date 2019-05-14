@@ -20,6 +20,11 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.gpg.PublicKeyStore.REFS_GPG_KEYS;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
 import static com.google.gerrit.gpg.testing.TestKeys.allValidKeys;
@@ -1252,18 +1257,24 @@ public class AccountIT extends AbstractDaemonTest {
     }
 
     // deny READ permission that is inherited from All-Projects
-    deny(allUsers, RefNames.REFS + "*", Permission.READ, ANONYMOUS_USERS);
+    projectOperations
+        .project(allUsers)
+        .forUpdate()
+        .add(deny(Permission.READ).ref(RefNames.REFS + "*").group(ANONYMOUS_USERS))
+        .update();
 
     // fetching user branch without READ permission fails
     assertThrows(TransportException.class, () -> fetch(allUsersRepo, userRefName + ":userRef"));
 
     // allow each user to read its own user branch
-    grant(
-        allUsers,
-        RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}",
-        Permission.READ,
-        false,
-        REGISTERED_USERS);
+    projectOperations
+        .project(allUsers)
+        .forUpdate()
+        .add(
+            allow(Permission.READ)
+                .ref(RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}")
+                .group(REGISTERED_USERS))
+        .update();
 
     // fetch user branch using refs/users/YY/XXXXXXX
     fetch(allUsersRepo, userRefName + ":userRef");
@@ -1520,9 +1531,13 @@ public class AccountIT extends AbstractDaemonTest {
     String userRef = RefNames.refsUsers(foo.id());
     accountIndexedCounter.clear();
 
-    grant(allUsers, userRef, Permission.PUSH, false, adminGroupUuid());
-    grantLabel("Code-Review", -2, 2, allUsers, userRef, adminGroupUuid(), false);
-    grant(allUsers, userRef, Permission.SUBMIT, false, adminGroupUuid());
+    projectOperations
+        .project(allUsers)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref(userRef).group(adminGroupUuid()))
+        .add(allowLabel("Code-Review").ref(userRef).group(adminGroupUuid()).range(-2, 2))
+        .add(allow(Permission.SUBMIT).ref(userRef).group(adminGroupUuid()))
+        .update();
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, userRef + ":userRef");
@@ -1687,7 +1702,11 @@ public class AccountIT extends AbstractDaemonTest {
         .update("Set Preferred Email", foo.id(), u -> u.setPreferredEmail(noEmail));
     accountIndexedCounter.clear();
 
-    grant(allUsers, userRef, Permission.PUSH, false, REGISTERED_USERS);
+    projectOperations
+        .project(allUsers)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref(userRef).group(REGISTERED_USERS))
+        .update();
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers, foo);
     fetch(allUsersRepo, userRef + ":userRef");
     allUsersRepo.reset("userRef");
@@ -1719,7 +1738,11 @@ public class AccountIT extends AbstractDaemonTest {
     String userRef = RefNames.refsUsers(foo.id());
     accountIndexedCounter.clear();
 
-    grant(allUsers, userRef, Permission.PUSH, false, adminGroupUuid());
+    projectOperations
+        .project(allUsers)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref(userRef).group(adminGroupUuid()))
+        .update();
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers, foo);
     fetch(allUsersRepo, userRef + ":userRef");
@@ -1777,7 +1800,11 @@ public class AccountIT extends AbstractDaemonTest {
     String userRef = RefNames.refsUsers(foo.id());
     accountIndexedCounter.clear();
 
-    grant(allUsers, userRef, Permission.PUSH, false, adminGroupUuid());
+    projectOperations
+        .project(allUsers)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref(userRef).group(adminGroupUuid()))
+        .update();
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, userRef + ":userRef");
@@ -1802,8 +1829,12 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void cannotCreateUserBranch() throws Exception {
-    grant(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE);
-    grant(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH);
+    projectOperations
+        .project(allUsers)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref(RefNames.REFS_USERS + "*").group(adminGroupUuid()))
+        .add(allow(Permission.PUSH).ref(RefNames.REFS_USERS + "*").group(adminGroupUuid()))
+        .update();
 
     String userRef = RefNames.refsUsers(Account.id(seq.nextAccountId()));
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
@@ -1819,8 +1850,12 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void createUserBranchWithAccessDatabaseCapability() throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
-    grant(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE);
-    grant(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH);
+    projectOperations
+        .project(allUsers)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref(RefNames.REFS_USERS + "*").group(adminGroupUuid()))
+        .add(allow(Permission.PUSH).ref(RefNames.REFS_USERS + "*").group(adminGroupUuid()))
+        .update();
 
     String userRef = RefNames.refsUsers(Account.id(seq.nextAccountId()));
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
@@ -1835,8 +1870,12 @@ public class AccountIT extends AbstractDaemonTest {
   public void cannotCreateNonUserBranchUnderRefsUsersWithAccessDatabaseCapability()
       throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
-    grant(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE);
-    grant(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH);
+    projectOperations
+        .project(allUsers)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref(RefNames.REFS_USERS + "*").group(adminGroupUuid()))
+        .add(allow(Permission.PUSH).ref(RefNames.REFS_USERS + "*").group(adminGroupUuid()))
+        .update();
 
     String userRef = RefNames.REFS_USERS + "foo";
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
@@ -1855,8 +1894,12 @@ public class AccountIT extends AbstractDaemonTest {
       assertThat(repo.exactRef(RefNames.REFS_USERS_DEFAULT)).isNull();
     }
 
-    grant(allUsers, RefNames.REFS_USERS_DEFAULT, Permission.CREATE);
-    grant(allUsers, RefNames.REFS_USERS_DEFAULT, Permission.PUSH);
+    projectOperations
+        .project(allUsers)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref(RefNames.REFS_USERS_DEFAULT).group(adminGroupUuid()))
+        .add(allow(Permission.PUSH).ref(RefNames.REFS_USERS_DEFAULT).group(adminGroupUuid()))
+        .update();
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     pushFactory
@@ -1871,12 +1914,15 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void cannotDeleteUserBranch() throws Exception {
-    grant(
-        allUsers,
-        RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}",
-        Permission.DELETE,
-        true,
-        REGISTERED_USERS);
+    projectOperations
+        .project(allUsers)
+        .forUpdate()
+        .add(
+            allow(Permission.DELETE)
+                .ref(RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}")
+                .group(REGISTERED_USERS)
+                .force(true))
+        .update();
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     String userRef = RefNames.refsUsers(admin.id());
@@ -1893,12 +1939,15 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void deleteUserBranchWithAccessDatabaseCapability() throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
-    grant(
-        allUsers,
-        RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}",
-        Permission.DELETE,
-        true,
-        REGISTERED_USERS);
+    projectOperations
+        .project(allUsers)
+        .forUpdate()
+        .add(
+            allow(Permission.DELETE)
+                .ref(RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}")
+                .group(REGISTERED_USERS)
+                .force(true))
+        .update();
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     String userRef = RefNames.refsUsers(admin.id());
@@ -2762,14 +2811,22 @@ public class AccountIT extends AbstractDaemonTest {
       assertThat(gApi.changes().id(r1.getChangeId()).current().draftsAsList()).hasSize(1);
       assertThat(gApi.changes().id(r2.getChangeId()).current().draftsAsList()).hasSize(1);
 
-      block(project, "refs/heads/secret", Permission.READ, REGISTERED_USERS);
+      projectOperations
+          .project(project)
+          .forUpdate()
+          .add(block(Permission.READ).ref("refs/heads/secret").group(REGISTERED_USERS))
+          .update();
       List<DeletedDraftCommentInfo> result =
           gApi.accounts().self().deleteDraftComments(new DeleteDraftCommentsInput());
       assertThat(result).hasSize(1);
       assertThat(result.get(0).change.changeId).isEqualTo(r1.getChangeId());
       assertThat(result.get(0).deleted.stream().map(c -> c.message)).containsExactly("draft a");
 
-      removePermission(project, "refs/heads/secret", Permission.READ);
+      projectOperations
+          .project(project)
+          .forUpdate()
+          .remove(permissionKey(Permission.READ).ref("refs/heads/secret"))
+          .update();
       assertThat(gApi.changes().id(r1.getChangeId()).current().draftsAsList()).isEmpty();
       // Draft still exists since change wasn't visible when drafts where deleted.
       assertThat(gApi.changes().id(r2.getChangeId()).current().draftsAsList()).hasSize(1);

@@ -16,6 +16,8 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
@@ -181,10 +183,14 @@ public class MoveChangeIT extends AbstractDaemonTest {
     BranchNameKey newBranch =
         BranchNameKey.create(r.getChange().change().getProject(), "blocked_branch");
     createBranch(newBranch);
-    block(
-        "refs/for/" + newBranch.branch(),
-        Permission.PUSH,
-        systemGroupBackend.getGroup(REGISTERED_USERS).getUUID());
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            block(Permission.PUSH)
+                .ref("refs/for/" + newBranch.branch())
+                .group(systemGroupBackend.getGroup(REGISTERED_USERS).getUUID()))
+        .update();
     AuthException thrown =
         assertThrows(AuthException.class, () -> move(r.getChangeId(), newBranch.branch()));
     assertThat(thrown).hasMessageThat().contains("move not permitted");
@@ -196,10 +202,14 @@ public class MoveChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     BranchNameKey newBranch = BranchNameKey.create(r.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);
-    block(
-        r.getChange().change().getDest().branch(),
-        Permission.ABANDON,
-        systemGroupBackend.getGroup(REGISTERED_USERS).getUUID());
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            block(Permission.ABANDON)
+                .ref(r.getChange().change().getDest().branch())
+                .group(systemGroupBackend.getGroup(REGISTERED_USERS).getUUID()))
+        .update();
     requestScopeOperations.setApiUser(user.id());
     AuthException thrown =
         assertThrows(AuthException.class, () -> move(r.getChangeId(), newBranch.branch()));
@@ -249,7 +259,11 @@ public class MoveChangeIT extends AbstractDaemonTest {
           "refs/heads/*");
       u.save();
     }
-    grant(project, "refs/heads/*", Permission.LABEL + "Patch-Set-Lock");
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.LABEL + "Patch-Set-Lock").ref("refs/heads/*").group(adminGroupUuid()))
+        .update();
     revision(r).review(new ReviewInput().label("Patch-Set-Lock", 1));
 
     ResourceConflictException thrown =

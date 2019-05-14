@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.deleteRef;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.transport.RemoteRefUpdate.Status.OK;
 import static org.eclipse.jgit.transport.RemoteRefUpdate.Status.REJECTED_OTHER_REASON;
@@ -57,7 +58,11 @@ public class ForcePushIT extends AbstractDaemonTest {
   @Test
   public void forcePushAllowed() throws Exception {
     ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
-    grant(project, "refs/*", Permission.PUSH, true);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/*").group(adminGroupUuid()).force(true))
+        .update();
     PushOneCommit push1 =
         pushFactory.create(admin.newIdent(), testRepo, "change1", "a.txt", "content");
     PushOneCommit.Result r1 = push1.to("refs/heads/master");
@@ -82,19 +87,31 @@ public class ForcePushIT extends AbstractDaemonTest {
 
   @Test
   public void deleteNotAllowedWithOnlyPushPermission() throws Exception {
-    grant(project, "refs/*", Permission.PUSH);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/*").group(adminGroupUuid()))
+        .update();
     assertDeleteRef(REJECTED_OTHER_REASON);
   }
 
   @Test
   public void deleteAllowedWithForcePushPermission() throws Exception {
-    grant(project, "refs/*", Permission.PUSH, true);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/*").group(adminGroupUuid()).force(true))
+        .update();
     assertDeleteRef(OK);
   }
 
   @Test
   public void deleteAllowedWithDeletePermission() throws Exception {
-    grant(project, "refs/*", Permission.DELETE, true);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.DELETE).ref("refs/*").group(adminGroupUuid()).force(true))
+        .update();
     assertDeleteRef(OK);
   }
 

@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.truth.ConfigSubject.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
@@ -71,7 +72,7 @@ public class ConfigChangeIT extends AbstractDaemonTest {
 
   private String testUpdateProjectConfig() throws Exception {
     Config cfg = projectOperations.project(project).getConfig();
-    assertThat(cfg.getString("project", null, "description")).isNull();
+    assertThat(cfg).stringValue("project", null, "description").isNull();
     String desc = "new project description";
     cfg.setString("project", null, "description", desc);
 
@@ -108,7 +109,7 @@ public class ConfigChangeIT extends AbstractDaemonTest {
 
     requestScopeOperations.setApiUser(user.id());
     Config cfg = projectOperations.project(project).getConfig();
-    assertThat(cfg.getString("access", null, "inheritFrom")).isAnyOf(null, allProjects.get());
+    assertThat(cfg).stringValue("access", null, "inheritFrom").isAnyOf(null, allProjects.get());
     cfg.setString("access", null, "inheritFrom", parent.name);
 
     PushOneCommit.Result r = createConfigChange(cfg);

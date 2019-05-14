@@ -71,7 +71,7 @@ public class DeleteChangeOp implements BatchUpdateOp {
     ensureDeletable(ctx, id, patchSets);
     // Cleaning up is only possible as long as the change and its elements are
     // still part of the database.
-    cleanUpReferences(ctx, id, patchSets);
+    cleanUpReferences(ctx, id);
 
     ctx.deleteChange();
     changeDeleted.fire(ctx.getChange(), ctx.getAccount(), ctx.getWhen());
@@ -104,11 +104,8 @@ public class DeleteChangeOp implements BatchUpdateOp {
     return revWalk.isMergedInto(revWalk.parseCommit(objectId), revWalk.parseCommit(destId.get()));
   }
 
-  private void cleanUpReferences(ChangeContext ctx, Change.Id id, Collection<PatchSet> patchSets)
-      throws NoSuchChangeException {
-    for (PatchSet ps : patchSets) {
-      accountPatchReviewStore.run(s -> s.clearReviewed(ps.getId()));
-    }
+  private void cleanUpReferences(ChangeContext ctx, Change.Id id) throws NoSuchChangeException {
+    accountPatchReviewStore.run(s -> s.clearReviewed(id));
 
     // Non-atomic operation on Accounts table; not much we can do to make it
     // atomic.

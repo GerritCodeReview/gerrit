@@ -34,6 +34,24 @@
       "revId": "30e1f9df39e76940c4e8037582f642b4a28deb56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db59c7b2_21a63ea7",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-14T21:35:10Z",
+      "side": 1,
+      "message": "reload should be allowed for mandatory plugins as there is no exposed downtime\nand switch between the old and new plugin version is atomic.\n\nrestarting of a mandatory plugin must be blocked (Gerrit-ReloadMode\u003drestart)",
+      "parentUuid": "2f6a06bd_2ffbed05",
+      "revId": "30e1f9df39e76940c4e8037582f642b4a28deb56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

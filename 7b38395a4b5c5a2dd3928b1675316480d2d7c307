@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "51bc473a_187cc344",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-05-14T12:07:31Z",
+      "side": 1,
+      "message": "This seems like an abuse of the cost mechanism. Originally (before there was a secondary index), the cost metric was used to choose the _lowest_ cost predicate tree for evaluation. Now you\u0027re saying that a lower number is going to force evaluation of the match predicate?\n\nAnyway, how is what you\u0027re proposing different from what is already provided by PostFilterPredicate?",
+      "range": {
+        "startLine": 10,
+        "startChar": 60,
+        "endLine": 11,
+        "endChar": 61
+      },
+      "revId": "7b38395a4b5c5a2dd3928b1675316480d2d7c307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61de0e9b_f87f3812",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-05-14T12:07:31Z",
+      "side": 1,
+      "message": "This seems like a bug in the Elastic implementation. Even if we do these acrobatics to make this work for the extension predicate, won\u0027t other repeated fields where \"\" is a valid also be broken?",
+      "range": {
+        "startLine": 19,
+        "startChar": 64,
+        "endLine": 21,
+        "endChar": 24
+      },
+      "revId": "7b38395a4b5c5a2dd3928b1675316480d2d7c307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5321569c_6280b969",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

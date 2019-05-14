@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1cfb5606_7ca337d2",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-14T08:07:28Z",
+      "side": 1,
+      "message": "\u003e Why wasn\u0027t this necessary before this change? Is this fixing an unrelated issue?\n\nThis is necessary now because this is *the very first test* that can cause the Daemon to fail its startup phase.",
+      "parentUuid": "ff03eb72_847ed2b4",
+      "range": {
+        "startLine": 218,
+        "startChar": 18,
+        "endLine": 218,
+        "endChar": 44
+      },
+      "revId": "6cbb02012d94761798c5a7f38d15751bfac429c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "19f115cf_04046457",
         "filename": "java/com/google/gerrit/server/plugins/MissingMandatoryPluginsException.java",
         "patchSetId": 6
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "ac7c8a87_baf7caab",
+        "filename": "java/com/google/gerrit/server/plugins/MissingMandatoryPluginsException.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-14T08:07:28Z",
+      "side": 1,
+      "message": "True.",
+      "parentUuid": "19f115cf_04046457",
+      "range": {
+        "startLine": 23,
+        "startChar": 42,
+        "endLine": 23,
+        "endChar": 45
+      },
+      "revId": "6cbb02012d94761798c5a7f38d15751bfac429c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9e972171_693c0755",
         "filename": "java/com/google/gerrit/server/plugins/MissingMandatoryPluginsException.java",
         "patchSetId": 6
@@ -59,6 +107,30 @@
       "writtenOn": "2019-05-14T07:48:39Z",
       "side": 1,
       "message": "Unused constructor.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 0
+      },
+      "revId": "6cbb02012d94761798c5a7f38d15751bfac429c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a642fec_af5b9cf0",
+        "filename": "java/com/google/gerrit/server/plugins/MissingMandatoryPluginsException.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-14T08:07:28Z",
+      "side": 1,
+      "message": "Yes, I\u0027d like to use it in the follow-up change and get the exception thrown by the plugin that failed to load.",
+      "parentUuid": "9e972171_693c0755",
       "range": {
         "startLine": 27,
         "startChar": 0,

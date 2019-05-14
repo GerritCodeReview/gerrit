@@ -27,14 +27,14 @@ Various steps below require installing additional npm packages. The full list of
 dependencies can be installed with:
 
 ```sh
+npm install
 sudo npm install -g \
   eslint \
   eslint-config-google \
   eslint-plugin-html \
   typescript \
   fried-twinkie \
-  polylint \
-  web-component-tester
+  polylint
 ```
 
 It may complain about a missing `typescript@2.3.4` peer dependency, which is
@@ -53,14 +53,16 @@ you to use the "test data" technique described below.
 To test the local UI against gerrit-review.googlesource.com:
 
 ```sh
-./run-server.sh
+./polygerrit-ui/run-server.sh
 ```
 
 Then visit http://localhost:8081
 
 ## Local UI, Test Data
 
-One-time setup:
+```sh
+./polygerrit-ui/run-server.sh --plugins=plugins/my_plugin/static/my_plugin.js,plugins/my_plugin/static/my_plugin.html
+```
 
 1. [Build Gerrit](https://gerrit-review.googlesource.com/Documentation/dev-bazel.html#_gerrit_development_war_file)
 2. Set up a local test site. Docs
@@ -100,10 +102,17 @@ This step requires the `web-component-tester` npm module.
 Note: it may be necessary to add the options `--unsafe-perm=true --allow-root`
 to the `npm install` command to avoid file permission errors.
 
-Run all web tests:
+For daily development you typically only want to run and debug individual tests.
+Run the local [Go proxy server](#go-server) and navigate for example to
+<http://localhost:8081/elements/change/gr-account-entry/gr-account-entry_test.html>.
+Check "Disable cache" in the "Network" tab of Chrome's dev tools, so code
+changes are picked up on "reload".
+
+Our CI integration ensures that all tests are run when you upload a change to
+Gerrit, but you can also run all tests locally in headless mode:
 
 ```sh
-./polygerrit-ui/app/run_test.sh
+npm test
 ```
 
 To allow the tests to run in Safari:
@@ -111,24 +120,10 @@ To allow the tests to run in Safari:
 * In the Advanced preferences tab, check "Show Develop menu in menu bar".
 * In the Develop menu, enable the "Allow Remote Automation" option.
 
-If you need to pass additional arguments to `wct`:
-
-```sh
-WCT_ARGS='-p --some-flag="foo bar"' ./polygerrit-ui/app/run_test.sh
-```
-
-For interactively working on a single test file, do the following:
-
-```sh
-./polygerrit-ui/run-server.sh
-```
-
-Then visit http://localhost:8081/elements/foo/bar_test.html
-
 To run Chrome tests in headless mode:
 
 ```sh
-WCT_HEADLESS_MODE=1 ./polygerrit-ui/app/run_test.sh
+WCT_HEADLESS_MODE=1 WCT_ARGS='--verbose -l chrome' ./polygerrit-ui/app/run_test.sh
 ```
 
 Toolchain requirements for headless mode:

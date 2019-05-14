@@ -60,9 +60,9 @@ module.exports = {
     };
 EOF
 
-export PATH="$(dirname $WCT):$(dirname $NPM):$PATH"
+export PATH="$(dirname $NPM):$PATH"
 
 cd $t
 test -n "${WCT}"
 
-$(basename ${WCT}) ${WCT_ARGS}
+${WCT} ${WCT_ARGS}

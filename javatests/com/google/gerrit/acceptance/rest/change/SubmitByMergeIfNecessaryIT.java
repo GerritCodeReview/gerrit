@@ -16,6 +16,9 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
@@ -607,8 +610,12 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void dependencyOnChangeForNonVisibleBranchPreventsMerge() throws Throwable {
-    grantLabel("Code-Review", -2, 2, project, "refs/heads/*", REGISTERED_USERS, false);
-    grant(project, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-2, 2))
+        .add(allow(Permission.SUBMIT).ref("refs/*").group(REGISTERED_USERS))
+        .update();
 
     // Create a change
     PushOneCommit change = pushFactory.create(admin.newIdent(), testRepo, "fix", "a.txt", "foo");
@@ -628,7 +635,11 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         .branch(secretBranch.branch())
         .create(new BranchInput());
     gApi.changes().id(changeResult.getChangeId()).move(secretBranch.branch());
-    block(secretBranch.branch(), "read", ANONYMOUS_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block("read").ref(secretBranch.branch()).group(ANONYMOUS_USERS))
+        .update();
 
     requestScopeOperations.setApiUser(user.id());
 
@@ -662,8 +673,12 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void dependencyOnHiddenChangePreventsMerge() throws Throwable {
-    grantLabel("Code-Review", -2, 2, project, "refs/heads/*", REGISTERED_USERS, false);
-    grant(project, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-2, 2))
+        .add(allow(Permission.SUBMIT).ref("refs/*").group(REGISTERED_USERS))
+        .update();
 
     // Create a change
     PushOneCommit change = pushFactory.create(admin.newIdent(), testRepo, "fix", "a.txt", "foo");
@@ -716,10 +731,18 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     Project.NameKey p1 = projectOperations.newProject().create();
     Project.NameKey p2 = projectOperations.newProject().create();
 
-    grantLabel("Code-Review", -2, 2, p1, "refs/heads/*", REGISTERED_USERS, false);
-    grant(p1, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
-    grantLabel("Code-Review", -2, 2, p2, "refs/heads/*", REGISTERED_USERS, false);
-    grant(p2, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
+    projectOperations
+        .project(p1)
+        .forUpdate()
+        .add(allowLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-2, 2))
+        .add(allow(Permission.SUBMIT).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+    projectOperations
+        .project(p2)
+        .forUpdate()
+        .add(allowLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-2, 2))
+        .add(allow(Permission.SUBMIT).ref("refs/*").group(REGISTERED_USERS))
+        .update();
 
     TestRepository<?> repo1 = cloneProject(p1);
     TestRepository<?> repo2 = cloneProject(p2);

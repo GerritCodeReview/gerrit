@@ -15,6 +15,8 @@
 package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 import static com.google.gerrit.server.project.ProjectState.INHERITED_FROM_GLOBAL;
 import static com.google.gerrit.server.project.ProjectState.INHERITED_FROM_PARENT;
@@ -238,7 +240,11 @@ public class ProjectIT extends AbstractDaemonTest {
 
   @Test
   public void createAndDeleteBranchByPush() throws Exception {
-    grant(project, "refs/*", Permission.PUSH, true);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/*").group(adminGroupUuid()).force(true))
+        .update();
     projectIndexedCounter.clear();
 
     assertThat(hasHead(project, "foo")).isFalse();
@@ -425,8 +431,18 @@ public class ProjectIT extends AbstractDaemonTest {
     assertThat(gApi.projects().name(project.get()).config().state).isEqualTo(ProjectState.HIDDEN);
 
     // Revoke OWNER permission for admin and block them from reading the project's refs
-    block(project, RefNames.REFS + "*", Permission.OWNER, SystemGroupBackend.REGISTERED_USERS);
-    block(project, RefNames.REFS + "*", Permission.READ, SystemGroupBackend.REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            block(Permission.OWNER)
+                .ref(RefNames.REFS + "*")
+                .group(SystemGroupBackend.REGISTERED_USERS))
+        .add(
+            block(Permission.READ)
+                .ref(RefNames.REFS + "*")
+                .group(SystemGroupBackend.REGISTERED_USERS))
+        .update();
 
     // HIDDEN => ACTIVE
     ConfigInput ci2 = new ConfigInput();

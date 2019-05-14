@@ -19,6 +19,8 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
@@ -313,7 +315,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   public void submitNoPermission() throws Throwable {
     // create project where submit is blocked
     Project.NameKey p = projectOperations.newProject().create();
-    block(p, "refs/*", Permission.SUBMIT, REGISTERED_USERS);
+    projectOperations
+        .project(p)
+        .forUpdate()
+        .add(block(Permission.SUBMIT).ref("refs/*").group(REGISTERED_USERS))
+        .update();
 
     TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
     PushOneCommit push = pushFactory.create(admin.newIdent(), repo);
@@ -552,7 +558,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     createBranch(BranchNameKey.create(project, "hidden"));
     PushOneCommit.Result hidden = createChange("refs/for/hidden/" + name("topic"));
     approve(hidden.getChangeId());
-    blockRead("refs/heads/hidden");
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/heads/hidden").group(REGISTERED_USERS))
+        .update();
 
     submit(
         visible.getChangeId(),
@@ -1330,8 +1340,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   // TODO(hanwen): the submodule tests have a similar method; maybe we could share code?
   protected Project.NameKey createProjectForPush(SubmitType submitType) throws Throwable {
     Project.NameKey project = projectOperations.newProject().submitType(submitType).create();
-    grant(project, "refs/heads/*", Permission.PUSH);
-    grant(project, "refs/for/refs/heads/*", Permission.SUBMIT);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/*").group(adminGroupUuid()))
+        .add(allow(Permission.SUBMIT).ref("refs/for/refs/heads/*").group(adminGroupUuid()))
+        .update();
     return project;
   }
 

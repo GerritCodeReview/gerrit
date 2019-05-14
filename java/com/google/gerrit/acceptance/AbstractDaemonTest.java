@@ -23,11 +23,9 @@ import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.capabilityKey;
-import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.NON_VISIBLE_CHANGES;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
-import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.Util.category;
 import static com.google.gerrit.server.project.testing.Util.value;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -163,7 +161,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -884,18 +881,6 @@ public abstract class AbstractDaemonTest {
     return gApi.changes().id(r.getChangeId()).current();
   }
 
-  protected void allow(String ref, String permission, AccountGroup.UUID id) throws Exception {
-    allow(project, ref, permission, id);
-  }
-
-  protected void allow(Project.NameKey p, String ref, String permission, AccountGroup.UUID id) {
-    projectOperations
-        .project(p)
-        .forUpdate()
-        .add(TestProjectUpdate.allow(permission).ref(ref).group(id))
-        .update();
-  }
-
   protected void allowGlobalCapabilities(
       AccountGroup.UUID id, int min, int max, String... capabilityNames) throws Exception {
     // TODO(dborowitz): When inlining:
@@ -953,104 +938,6 @@ public abstract class AbstractDaemonTest {
       config.commit(md);
       projectCache.evict(config.getProject());
     }
-  }
-
-  protected void deny(String ref, String permission, AccountGroup.UUID id) throws Exception {
-    deny(project, ref, permission, id);
-  }
-
-  protected void deny(Project.NameKey p, String ref, String permission, AccountGroup.UUID id)
-      throws Exception {
-    projectOperations
-        .project(p)
-        .forUpdate()
-        .add(TestProjectUpdate.deny(permission).ref(ref).group(id))
-        .update();
-  }
-
-  protected void block(String ref, String permission, AccountGroup.UUID id) throws Exception {
-    block(project, ref, permission, id);
-  }
-
-  protected void block(Project.NameKey project, String ref, String permission, AccountGroup.UUID id)
-      throws Exception {
-    projectOperations
-        .project(project)
-        .forUpdate()
-        .add(TestProjectUpdate.block(permission).ref(ref).group(id))
-        .update();
-  }
-
-  protected void blockLabel(
-      String label, int min, int max, AccountGroup.UUID id, String ref, Project.NameKey project)
-      throws Exception {
-    projectOperations
-        .project(project)
-        .forUpdate()
-        .add(TestProjectUpdate.blockLabel(label).ref(ref).group(id).range(min, max))
-        .update();
-  }
-
-  protected void grant(Project.NameKey project, String ref, String permission) {
-    projectOperations
-        .project(project)
-        .forUpdate()
-        .add(TestProjectUpdate.allow(permission).ref(ref).group(adminGroupUuid()))
-        .update();
-  }
-
-  protected void grant(Project.NameKey project, String ref, String permission, boolean force) {
-    projectOperations
-        .project(project)
-        .forUpdate()
-        .add(TestProjectUpdate.allow(permission).ref(ref).group(adminGroupUuid()).force(force))
-        .update();
-  }
-
-  protected void grant(
-      Project.NameKey project,
-      String ref,
-      String permission,
-      boolean force,
-      AccountGroup.UUID groupUUID) {
-    projectOperations
-        .project(project)
-        .forUpdate()
-        .add(TestProjectUpdate.allow(permission).ref(ref).group(groupUUID).force(force))
-        .update();
-  }
-
-  protected void grantLabel(
-      String label,
-      int min,
-      int max,
-      Project.NameKey project,
-      String ref,
-      AccountGroup.UUID groupUUID,
-      boolean exclusive) {
-    projectOperations
-        .project(project)
-        .forUpdate()
-        .add(
-            TestProjectUpdate.allowLabel(label)
-                .ref(ref)
-                .group(groupUUID)
-                .range(min, max)
-                .exclusive(exclusive))
-        .update();
-  }
-
-  protected void removePermission(Project.NameKey project, String ref, String permission)
-      throws IOException, ConfigInvalidException {
-    projectOperations
-        .project(project)
-        .forUpdate()
-        .remove(permissionKey(permission).ref(ref))
-        .update();
-  }
-
-  protected void blockRead(String ref) throws Exception {
-    block(ref, Permission.READ, REGISTERED_USERS);
   }
 
   protected PushOneCommit.Result pushTo(String ref) throws Exception {

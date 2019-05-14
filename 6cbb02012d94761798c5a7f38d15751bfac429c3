@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "791fcadc_0ef54ce1",
+        "filename": "java/com/google/gerrit/server/plugins/MissingMandatoryPluginsException.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-14T09:51:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac7c8a87_baf7caab",
+      "range": {
+        "startLine": 23,
+        "startChar": 42,
+        "endLine": 23,
+        "endChar": 45
+      },
+      "revId": "6cbb02012d94761798c5a7f38d15751bfac429c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e972171_693c0755",
         "filename": "java/com/google/gerrit/server/plugins/MissingMandatoryPluginsException.java",
         "patchSetId": 6
@@ -204,6 +228,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "d7d4d41e_6e816676",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 0
+      },
+      "revId": "6cbb02012d94761798c5a7f38d15751bfac429c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a74c6f99_21a98628",
+        "filename": "java/com/google/gerrit/server/plugins/MissingMandatoryPluginsException.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-14T09:51:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2825ad9_57efc773",
       "range": {
         "startLine": 27,
         "startChar": 0,

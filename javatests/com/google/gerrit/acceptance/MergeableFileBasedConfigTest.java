@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.truth.ConfigSubject.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
@@ -111,7 +112,7 @@ public class MergeableFileBasedConfigTest {
   }
 
   private void assertConfig(MergeableFileBasedConfig cfg, String expected) throws Exception {
-    assertThat(cfg.toText()).isEqualTo(expected);
+    assertThat(cfg).text().isEqualTo(expected);
     cfg.save();
     assertThat(new String(Files.readAllBytes(cfg.getFile().toPath()), UTF_8)).isEqualTo(expected);
   }

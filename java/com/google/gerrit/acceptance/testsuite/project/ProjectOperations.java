@@ -15,6 +15,8 @@
 package com.google.gerrit.acceptance.testsuite.project;
 
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.project.ProjectConfig;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 /**
@@ -40,5 +42,15 @@ public interface ProjectOperations {
      * fully qualified refname ("refs/heads/master").
      */
     boolean hasHead(String branchName);
+
+    /** Returns a fresh {@link ProjectConfig} read from the tip of {@code refs/meta/config}. */
+    ProjectConfig getProjectConfig();
+
+    /**
+     * Returns a fresh JGit {@link Config} instance read from {@code project.config} at the tip of
+     * {@code refs/meta/config}. Does not have a base config, i.e. does not respect {@code
+     * $site_path/etc/project.config}.
+     */
+    Config getConfig();
   }
 }

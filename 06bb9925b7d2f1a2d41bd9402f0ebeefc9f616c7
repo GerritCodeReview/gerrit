@@ -2,6 +2,63 @@
   "comments": [
     {
       "key": {
+        "uuid": "e20a35c9_c8c5c8f3",
+        "filename": "polygerrit-ui/package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-05-14T17:48:10Z",
+      "side": 1,
+      "message": "What about about also adding Bazel as a dep here? I think it is not great that we don\u0027t define the Bazel version anywhere.",
+      "range": {
+        "startLine": 6,
+        "startChar": 3,
+        "endLine": 6,
+        "endChar": 18
+      },
+      "revId": "06bb9925b7d2f1a2d41bd9402f0ebeefc9f616c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9a214db_06bfed71",
+        "filename": "polygerrit-ui/package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-05-14T17:48:10Z",
+      "side": 1,
+      "message": "from https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui:\n\nsudo npm install -g \\\n  eslint \\\n  eslint-config-google \\\n  eslint-plugin-html \\\n  typescript \\\n  fried-twinkie \\\n  polylint \\\n  web-component-tester\n\nCan we specify all these here?",
+      "revId": "06bb9925b7d2f1a2d41bd9402f0ebeefc9f616c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2691c08_acc5ea34",
+        "filename": "polygerrit-ui/package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-05-14T17:48:10Z",
+      "side": 1,
+      "message": "This installs wct as a command line tool. The browser.js script actually comes in via a bower_archive in WORKSPACE, which is currently labeled with 6.5.0. Those two should probably be consistent, even though I have not seen any issue with running a different wct command line version than the browser.js version.",
+      "revId": "06bb9925b7d2f1a2d41bd9402f0ebeefc9f616c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0cfcd3a6_031523a9",
         "filename": "polygerrit-ui/package.json",
         "patchSetId": 4

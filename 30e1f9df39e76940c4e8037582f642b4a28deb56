@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0ab5567_58e8a8bb",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-05-14T13:23:04Z",
+      "side": 1,
+      "message": "this doesn\u0027t prohibit reloading the plugin, debugging this code shows that restartRequired is always\nfalse since canReload() returns true",
+      "revId": "30e1f9df39e76940c4e8037582f642b4a28deb56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

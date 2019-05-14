@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.common.data.Permission.READ;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -260,7 +261,11 @@ public class CreateChangeIT extends AbstractDaemonTest {
   public void createChangeWithoutAccessToParentCommitFails() throws Exception {
     Map<String, PushOneCommit.Result> results =
         changeInTwoBranches("invisible-branch", "a.txt", "visible-branch", "b.txt");
-    block(project, "refs/heads/invisible-branch", READ, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(READ).ref("refs/heads/invisible-branch").group(REGISTERED_USERS))
+        .update();
 
     ChangeInput in = newChangeInput(ChangeStatus.NEW);
     in.branch = "visible-branch";
@@ -451,7 +456,11 @@ public class CreateChangeIT extends AbstractDaemonTest {
   @Test
   public void createChangeOnExistingBranchNotPermitted() throws Exception {
     createBranch(BranchNameKey.create(project, "foo"));
-    blockRead("refs/heads/*");
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(READ).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
     requestScopeOperations.setApiUser(user.id());
     ChangeInput input = newChangeInput(ChangeStatus.NEW);
     input.branch = "foo";
@@ -461,7 +470,11 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createChangeOnNonExistingBranchNotPermitted() throws Exception {
-    blockRead("refs/heads/*");
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(READ).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
     requestScopeOperations.setApiUser(user.id());
     ChangeInput input = newChangeInput(ChangeStatus.NEW);
     input.branch = "foo";

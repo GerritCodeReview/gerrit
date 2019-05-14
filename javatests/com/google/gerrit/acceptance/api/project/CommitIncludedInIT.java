@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -49,7 +50,11 @@ public class CommitIncludedInIT extends AbstractDaemonTest {
     assertThat(getIncludedIn(result.getCommit().getId()).branches).containsExactly("master");
     assertThat(getIncludedIn(result.getCommit().getId()).tags).isEmpty();
 
-    grant(project, R_TAGS + "*", Permission.CREATE_TAG);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE_TAG).ref(R_TAGS + "*").group(adminGroupUuid()))
+        .update();
     gApi.projects().name(result.getChange().project().get()).tag("test-tag").create(new TagInput());
 
     assertThat(getIncludedIn(result.getCommit().getId()).tags).containsExactly("test-tag");

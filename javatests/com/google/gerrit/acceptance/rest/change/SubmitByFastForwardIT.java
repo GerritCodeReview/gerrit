@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -139,8 +140,12 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
   public void submitSameCommitsAsInExperimentalBranch() throws Throwable {
     RevCommit initialHead = getRemoteHead();
 
-    grant(project, "refs/heads/*", Permission.CREATE);
-    grant(project, "refs/heads/experimental", Permission.PUSH);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref("refs/heads/*").group(adminGroupUuid()))
+        .add(allow(Permission.PUSH).ref("refs/heads/experimental").group(adminGroupUuid()))
+        .update();
 
     RevCommit c1 = commitBuilder().add("b.txt", "1").message("commit at tip").create();
     String id1 = GitUtil.getChangeId(testRepo, c1).get();

@@ -19,8 +19,17 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>Elements Test Runner</title>
 <meta charset="utf-8">
-<script src="../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+
+<script>
+  window.POLYMER2 = true;
+  if (window.customElements) window.customElements.forcePolyfill = true;
+  ShadyDOM = { force: true };
+  ShadyCSS = { shimcssproperties: true};
+</script>
+<script src="../bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="../bower_components/web-component-tester/browser.js"></script>
+
 <script>
   const testFiles = [];
   const elementsPath = '../elements/';
@@ -33,10 +42,10 @@ limitations under the License.
     // beginning.
     'gr-app_test.html',
     'admin/gr-access-section/gr-access-section_test.html',
-    'admin/gr-admin-group-list/gr-admin-group-list_test.html',
-    'admin/gr-admin-view/gr-admin-view_test.html',
   ];
   const turnedOff = [
+    'admin/gr-admin-group-list/gr-admin-group-list_test.html',
+    'admin/gr-admin-view/gr-admin-view_test.html',
     'admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog_test.html',
     'admin/gr-create-change-dialog/gr-create-change-dialog_test.html',
     'admin/gr-create-group-dialog/gr-create-group-dialog_test.html',

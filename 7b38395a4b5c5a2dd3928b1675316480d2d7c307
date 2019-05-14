@@ -22,6 +22,30 @@
       "revId": "7b38395a4b5c5a2dd3928b1675316480d2d7c307",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47397510_42ba4890",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-14T12:04:07Z",
+      "side": 1,
+      "message": "\u003e If this is true then would it help to store a boolean flag \"noExtension\" in the elastic search?\n\nMaybe, or \"force\" Elasticsearch to include the file extension field even though it has no meaningful value in this case. Either by making ES include it as empty or null, or through a \"well-known\" keyword. The former is I think a bit hard, by Elasticsearch design. As for the latter option, it is less clean I think, maintainability-wise.\n\nThe noExtension flag proposed above would require being set consistently in core, alongside setting the actual file extension field value (the payload) itself. However doing so might still be cleaner than the aforementioned empty|keyword inclusion option. More similar flags might be needed though, to support other fields that could be empty from an Elasticsearch perspective. It could then become more expensive to maintain such consistent flag provisioning, for each such field capable of being excluded from the document.",
+      "parentUuid": "5321569c_6280b969",
+      "range": {
+        "startLine": 19,
+        "startChar": 64,
+        "endLine": 22,
+        "endChar": 8
+      },
+      "revId": "7b38395a4b5c5a2dd3928b1675316480d2d7c307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

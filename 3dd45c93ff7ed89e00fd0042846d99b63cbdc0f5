@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8097ecbf_578314cb",
+        "filename": "java/com/google/gerrit/server/change/AccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-14T15:45:06Z",
+      "side": 1,
+      "message": "Is this still used?",
+      "revId": "3dd45c93ff7ed89e00fd0042846d99b63cbdc0f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ed01ddd_32ef7830",
+        "filename": "java/com/google/gerrit/server/change/DeleteChangeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-14T15:45:06Z",
+      "side": 1,
+      "message": "Mention in the commit message that the new cleanup (per change) now also\nreplaces the old cleanup method (per patch set)",
+      "revId": "3dd45c93ff7ed89e00fd0042846d99b63cbdc0f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0ce2105_1d2ed38d",
+        "filename": "java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-14T15:45:06Z",
+      "side": 1,
+      "message": "To make this efficient and avoid full-table-scan, we need to add (SQL) index on the change_id",
+      "range": {
+        "startLine": 302,
+        "startChar": 68,
+        "endLine": 302,
+        "endChar": 87
+      },
+      "revId": "3dd45c93ff7ed89e00fd0042846d99b63cbdc0f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

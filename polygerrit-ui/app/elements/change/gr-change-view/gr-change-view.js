@@ -866,9 +866,8 @@
     },
 
     /**
-     * Gets base patch number, if is a parent try and
-     * decide from preference weather to default to `auto merge`
-     * or `Parent 1`.
+     * Gets base patch number, if it is a parent try and decide from
+     * preference weather to default to `auto merge`, `Parent 1` or `PARENT`.
      * @param {Object} change
      * @param {Object} patchRange
      * @return {number|string}
@@ -891,7 +890,11 @@
       const preferFirst = this._prefs &&
           this._prefs.default_base_for_merges === 'FIRST_PARENT';
 
-      return parentCount > 1 && preferFirst ? -1 : 'PARENT';
+      if (parentCount > 1 && preferFirst && !patchRange.patchNum) {
+        return -1;
+      }
+
+      return 'PARENT';
     },
 
     _computeShowPrimaryTabs(dynamicTabContentEndpoints) {

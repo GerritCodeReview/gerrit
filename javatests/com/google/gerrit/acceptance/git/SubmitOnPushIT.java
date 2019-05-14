@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.git;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Iterables;
@@ -50,7 +51,11 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Test
   public void submitOnPush() throws Exception {
-    grant(project, "refs/for/refs/heads/master", Permission.SUBMIT);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.SUBMIT).ref("refs/for/refs/heads/master").group(adminGroupUuid()))
+        .update();
     PushOneCommit.Result r = pushTo("refs/for/master%submit");
     r.assertOkStatus();
     r.assertChange(Change.Status.MERGED, null, admin);
@@ -60,7 +65,11 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Test
   public void submitOnPushToRefsMetaConfig() throws Exception {
-    grant(project, "refs/for/refs/meta/config", Permission.SUBMIT);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.SUBMIT).ref("refs/for/refs/meta/config").group(adminGroupUuid()))
+        .update();
 
     git().fetch().setRefSpecs(new RefSpec("refs/meta/config:refs/meta/config")).call();
     testRepo.reset(RefNames.REFS_CONFIG);
@@ -78,7 +87,11 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     push("refs/heads/master", "one change", "a.txt", "some content");
     testRepo.reset(objectId);
 
-    grant(project, "refs/for/refs/heads/master", Permission.SUBMIT);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.SUBMIT).ref("refs/for/refs/heads/master").group(adminGroupUuid()))
+        .update();
     PushOneCommit.Result r =
         push("refs/for/master%submit", "other change", "a.txt", "other content");
     r.assertErrorStatus();
@@ -94,7 +107,11 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     push(master, "one change", "a.txt", "some content");
     testRepo.reset(objectId);
 
-    grant(project, "refs/for/refs/heads/master", Permission.SUBMIT);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.SUBMIT).ref("refs/for/refs/heads/master").group(adminGroupUuid()))
+        .update();
     PushOneCommit.Result r =
         push("refs/for/master%submit", "other change", "b.txt", "other content");
     r.assertOkStatus();
@@ -107,7 +124,11 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     PushOneCommit.Result r =
         push("refs/for/master", PushOneCommit.SUBJECT, "a.txt", "some content");
 
-    grant(project, "refs/for/refs/heads/master", Permission.SUBMIT);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.SUBMIT).ref("refs/for/refs/heads/master").group(adminGroupUuid()))
+        .update();
     r =
         push(
             "refs/for/master%submit",
@@ -147,7 +168,11 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Test
   public void mergeOnPushToBranch() throws Exception {
-    grant(project, "refs/heads/master", Permission.PUSH);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/master").group(adminGroupUuid()))
+        .update();
     PushOneCommit.Result r =
         push("refs/for/master", PushOneCommit.SUBJECT, "a.txt", "some content");
     r.assertOkStatus();
@@ -172,9 +197,13 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     enableCreateNewChangeForAllNotInTarget();
     String master = "refs/heads/master";
     String other = "refs/heads/other";
-    grant(project, master, Permission.PUSH);
-    grant(project, other, Permission.CREATE);
-    grant(project, other, Permission.PUSH);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref(master).group(adminGroupUuid()))
+        .add(allow(Permission.CREATE).ref(other).group(adminGroupUuid()))
+        .add(allow(Permission.PUSH).ref(other).group(adminGroupUuid()))
+        .update();
     RevCommit masterRev = getRemoteHead();
     pushCommitTo(masterRev, other);
     PushOneCommit.Result r = createChange();
@@ -209,7 +238,11 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Test
   public void mergeOnPushToBranchWithNewPatchset() throws Exception {
-    grant(project, "refs/heads/master", Permission.PUSH);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/master").group(adminGroupUuid()))
+        .update();
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
     RevCommit c1 = r.getCommit();
@@ -243,7 +276,11 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Test
   public void mergeOnPushToBranchWithOldPatchset() throws Exception {
-    grant(project, "refs/heads/master", Permission.PUSH);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/master").group(adminGroupUuid()))
+        .update();
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
     RevCommit c1 = r.getCommit();
@@ -270,7 +307,11 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Test
   public void mergeMultipleOnPushToBranchWithNewPatchset() throws Exception {
-    grant(project, "refs/heads/master", Permission.PUSH);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/master").group(adminGroupUuid()))
+        .update();
 
     // Create 2 changes.
     ObjectId initialHead = getRemoteHead();

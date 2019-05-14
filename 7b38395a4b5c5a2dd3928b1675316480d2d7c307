@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5321569c_6280b969",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-14T08:03:02Z",
+      "side": 1,
+      "message": "If this is true then would it help to store a boolean flag \"noExtension\" in the elastic search?",
+      "range": {
+        "startLine": 19,
+        "startChar": 64,
+        "endLine": 22,
+        "endChar": 8
+      },
+      "revId": "7b38395a4b5c5a2dd3928b1675316480d2d7c307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

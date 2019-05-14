@@ -26,6 +26,7 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
+import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
@@ -130,16 +131,19 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 
+// XXX Other entry points?
 @Singleton
 public class PostReview
     extends RetryingRestModifyView<RevisionResource, ReviewInput, Response<ReviewResult>> {
@@ -243,6 +247,7 @@ public class PostReview
     if (input.labels != null) {
       checkLabels(revision, labelTypes, input.labels);
     }
+    // XXX Is this the only path by which new comments (or existing drafts) can be published?
     if (input.comments != null) {
       cleanUpComments(input.comments);
       checkComments(revision, input.comments);
@@ -281,10 +286,12 @@ public class PostReview
     output.reviewers = reviewerJsonResults;
     if (hasError || confirm) {
       output.error = ERROR_ADDING_REVIEWER;
+      // XXX What should we use? SC_BAD_REQUEST means a syntax error.
       return Response.withStatusCode(SC_BAD_REQUEST, output);
     }
     output.labels = input.labels;
 
+    // XXX Should reject before creating a BatchUpdate?
     try (BatchUpdate bu =
         updateFactory.create(revision.getChange().getProject(), revision.getUser(), ts)) {
       Account.Id id = revision.getUser().getAccountId();
@@ -792,7 +799,7 @@ public class PostReview
     }
   }
 
-  /** Used to compare Comments with CommentInput comments. */
+  /** Used to compare Comments with CommentInput comments. */  // XXX What?
   @AutoValue
   abstract static class CommentSetEntry {
     private static CommentSetEntry create(
@@ -854,15 +861,15 @@ public class PostReview
     @Override
     public boolean updateChange(ChangeContext ctx)
         throws ResourceConflictException, UnprocessableEntityException, IOException,
-            PatchListNotAvailableException {
+        PatchListNotAvailableException, BadRequestException {
       user = ctx.getIdentifiedUser();
       notes = ctx.getNotes();
       ps = psUtil.get(ctx.getNotes(), psId);
       boolean dirty = false;
-      dirty |= insertComments(ctx);
+      dirty |= insertComments(ctx);  // XXX hook
       dirty |= insertRobotComments(ctx);
       dirty |= updateLabels(projectState, ctx);
-      dirty |= insertMessage(ctx);
+      dirty |= insertMessage(ctx);  // XXX hook
       return dirty;
     }
 
@@ -888,14 +895,19 @@ public class PostReview
     }
 
     private boolean insertComments(ChangeContext ctx)
-        throws UnprocessableEntityException, PatchListNotAvailableException {
-      Map<String, List<CommentInput>> map = in.comments;
-      if (map == null) {
-        map = Collections.emptyMap();
+        throws UnprocessableEntityException, PatchListNotAvailableException, BadRequestException {
+      // XXX Maybe this should be split into extracting comments, then validate them, then insert
+      // them. Is deduplication (readExistingComments() is presumably expensive) necessary? Will
+      // that read be cached after reading changeDrafts() or patchSetDrafts()? Is it even worth
+      // optimizing this case? It would just have the same performance as the sunshine case.
+      Map<String, List<CommentInput>> inputComments = in.comments;
+      if (inputComments == null) {
+        inputComments = Collections.emptyMap();
       }
 
       Map<String, Comment> drafts = Collections.emptyMap();
-      if (!map.isEmpty() || in.drafts != DraftHandling.KEEP) {
+      // XXX Why does the presence of inputComments cause drafts to be published?
+      if (!inputComments.isEmpty() || in.drafts != DraftHandling.KEEP) {
         if (in.drafts == DraftHandling.PUBLISH_ALL_REVISIONS) {
           drafts = changeDrafts(ctx);
         } else {
@@ -905,30 +917,36 @@ public class PostReview
 
       List<Comment> toPublish = new ArrayList<>();
 
-      Set<CommentSetEntry> existingIds =
+      Set<CommentSetEntry> existingComments =
           in.omitDuplicateComments ? readExistingComments(ctx) : Collections.emptySet();
 
-      for (Map.Entry<String, List<CommentInput>> ent : map.entrySet()) {
-        String path = ent.getKey();
-        for (CommentInput c : ent.getValue()) {
-          String parent = Url.decode(c.inReplyTo);
-          Comment e = drafts.remove(Url.decode(c.id));
-          if (e == null) {
-            e = commentsUtil.newComment(ctx, path, psId, c.side(), c.message, c.unresolved, parent);
+      // XXX Why can the input comments overlap with the existing drafts? Which flow sets them?
+      for (Map.Entry<String, List<CommentInput>> entry : inputComments.entrySet()) {
+        String path = entry.getKey();
+        for (CommentInput commentInput : entry.getValue()) {
+          // XXX Is Comment.id unique per comment or per thread?
+          Comment comment = drafts.remove(Url.decode(commentInput.id));
+          if (comment == null) {
+            String parent = Url.decode(commentInput.inReplyTo);
+            comment = commentsUtil
+                .newComment(ctx, path, psId, commentInput.side(), commentInput.message,
+                    commentInput.unresolved, parent);
           } else {
-            e.writtenOn = ctx.getWhen();
-            e.side = c.side();
-            e.message = c.message;
+            // XXX Is this overwriting the draft? If so, why?
+            comment.writtenOn = ctx.getWhen();
+            comment.side = commentInput.side();
+            comment.message = commentInput.message;
           }
 
-          setCommentCommitId(e, patchListCache, ctx.getChange(), ps);
-          e.setLineNbrAndRange(c.line, c.range);
-          e.tag = in.tag;
+          setCommentCommitId(comment, patchListCache, ctx.getChange(), ps);
+          comment.setLineNbrAndRange(commentInput.line, commentInput.range);
+          comment.tag = in.tag;
 
-          if (existingIds.contains(CommentSetEntry.create(e))) {
+          // XXX Why would existing comments already contain the draft/new comment?
+          if (existingComments.contains(CommentSetEntry.create(comment))) {
             continue;
           }
-          toPublish.add(e);
+          toPublish.add(comment);
         }
       }
 
@@ -942,8 +960,16 @@ public class PostReview
         default:
           break;
       }
-      ChangeUpdate u = ctx.getUpdate(psId);
-      commentsUtil.putComments(u, Status.PUBLISHED, toPublish);
+      ChangeUpdate changeUpdate = ctx.getUpdate(psId);
+
+      // XXX Also need to check drafts above (write test first).
+      for (Comment comment : toPublish) {
+        if (comment.message.contains("beep")) {
+          throw new BadRequestException("Please do not censor entertaining words!");
+        }
+      }
+
+      commentsUtil.putComments(changeUpdate, Status.PUBLISHED, toPublish);
       comments.addAll(toPublish);
       return !toPublish.isEmpty();
     }
@@ -1042,21 +1068,20 @@ public class PostReview
     }
 
     private Map<String, Comment> changeDrafts(ChangeContext ctx) {
-      Map<String, Comment> drafts = new HashMap<>();
-      for (Comment c : commentsUtil.draftByChangeAuthor(ctx.getNotes(), user.getAccountId())) {
-        c.tag = in.tag;
-        drafts.put(c.key.uuid, c);
-      }
-      return drafts;
+      return
+          commentsUtil.draftByChangeAuthor(ctx.getNotes(), user.getAccountId())
+              .stream()
+              .collect(Collectors.toMap(c -> c.key.uuid, c -> {
+                c.tag = in.tag;
+                return c;
+              }));
     }
 
     private Map<String, Comment> patchSetDrafts(ChangeContext ctx) {
-      Map<String, Comment> drafts = new HashMap<>();
-      for (Comment c :
-          commentsUtil.draftByPatchSetAuthor(psId, user.getAccountId(), ctx.getNotes())) {
-        drafts.put(c.key.uuid, c);
-      }
-      return drafts;
+      return
+          commentsUtil.draftByPatchSetAuthor(psId, user.getAccountId(), ctx.getNotes())
+              .stream()
+              .collect(Collectors.toMap(c -> c.key.uuid, c -> c));
     }
 
     private Map<String, Short> approvalsByKey(Collection<PatchSetApproval> patchsetApprovals) {

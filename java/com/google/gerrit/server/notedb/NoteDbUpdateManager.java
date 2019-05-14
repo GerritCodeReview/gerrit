@@ -355,7 +355,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     bru.setAllowNonFastForwards(true);
 
     if (!dryrun) {
-      RefUpdateUtil.executeChecked(bru, or.rw);
+      RefUpdateUtil.executeChecked(bru, or.rw);  // XXX
     }
     return bru;
   }

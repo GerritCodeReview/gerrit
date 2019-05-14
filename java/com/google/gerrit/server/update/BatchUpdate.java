@@ -116,7 +116,7 @@ public class BatchUpdate implements AutoCloseable {
     BatchUpdate create(Project.NameKey project, CurrentUser user, Timestamp when);
   }
 
-  public static void execute(
+  public static void execute(  // XXX
       Collection<BatchUpdate> updates, BatchUpdateListener listener, boolean dryrun)
       throws UpdateException, RestApiException {
     requireNonNull(listener);
@@ -131,12 +131,13 @@ public class BatchUpdate implements AutoCloseable {
       List<ChangesHandle> handles = new ArrayList<>(updates.size());
       try {
         for (BatchUpdate u : updates) {
-          u.executeUpdateRepo();
+          u.executeUpdateRepo();  // XXX What about dry run?
         }
         listener.afterUpdateRepos();
         for (BatchUpdate u : updates) {
           handles.add(u.executeChangeOps(dryrun));
         }
+        // XXX I take it at this point updates are only staged but not executed yet?
         for (ChangesHandle h : handles) {
           h.execute();
           indexFutures.addAll(h.startIndexFutures());

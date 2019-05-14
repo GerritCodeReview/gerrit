@@ -42,6 +42,13 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+/**
+ * Builds a set of tags reachable from non-tag, non-special refs and tracks which of those refs can
+ * reach each tag.
+ *
+ * <p>{@link com.google.gerrit.server.permissions.DefaultRefFilter} uses this set to determine which
+ * tags should be advertised when a subset of refs are visible.
+ */
 class TagSet {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -203,10 +210,21 @@ class TagSet {
       // underlying bit set.
       TagCommit c;
       while ((c = (TagCommit) rw.next()) != null) {
+        boolean isTag = tags.contains(c);
         BitSet mine = c.refFlags;
-        int pCnt = c.getParentCount();
-        for (int pIdx = 0; pIdx < pCnt; pIdx++) {
-          ((TagCommit) c.getParent(pIdx)).refFlags.or(mine);
+        if (mine != null) {
+          int pCnt = c.getParentCount();
+          for (int pIdx = 0; pIdx < pCnt; pIdx++) {
+            BitSet parentFlags = ((TagCommit) c.getParent(pIdx)).refFlags;
+            if (parentFlags == null) {
+              ((TagCommit) c.getParent(pIdx)).refFlags = (BitSet) mine.clone();
+            } else {
+              parentFlags.or(mine);
+            }
+          }
+          if (!isTag) {
+            c.refFlags = null;
+          }
         }
       }
     } catch (IOException e) {
@@ -311,8 +329,7 @@ class TagSet {
     refs.putAll(old.refs);
 
     for (Tag srcTag : old.tags) {
-      BitSet mine = new BitSet();
-      mine.or(srcTag.refFlags);
+      BitSet mine = (BitSet) srcTag.refFlags.clone();
       tags.add(new Tag(srcTag, mine));
     }
 
@@ -333,7 +350,12 @@ class TagSet {
     if (!tags.contains(id)) {
       BitSet flags;
       try {
-        flags = ((TagCommit) rw.parseCommit(id)).refFlags;
+        TagCommit commit = ((TagCommit) rw.parseCommit(id));
+        flags = commit.refFlags;
+        if (flags == null) {
+          flags = new BitSet();
+          commit.refFlags = flags;
+        }
       } catch (IncorrectObjectTypeException notCommit) {
         flags = new BitSet();
       } catch (IOException e) {
@@ -350,6 +372,9 @@ class TagSet {
       rw.markStart(commit);
 
       int flag = refs.size();
+      if (commit.refFlags == null) {
+        commit.refFlags = new BitSet();
+      }
       commit.refFlags.set(flag);
       refs.put(ref.getName(), new CachedRef(ref, flag));
     } catch (IncorrectObjectTypeException notCommit) {
@@ -438,11 +463,10 @@ class TagSet {
   }
 
   private static final class TagCommit extends RevCommit {
-    final BitSet refFlags;
+    BitSet refFlags;
 
     TagCommit(AnyObjectId id) {
       super(id);
-      refFlags = new BitSet();
     }
   }
 }

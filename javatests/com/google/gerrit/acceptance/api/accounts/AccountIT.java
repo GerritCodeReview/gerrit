@@ -33,6 +33,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GPG
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static com.google.gerrit.truth.ConfigSubject.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -479,10 +480,11 @@ public class AccountIT extends AbstractDaemonTest {
           assertThat(tw).isNotNull();
           Config cfg = new Config();
           cfg.fromText(new String(or.open(tw.getObjectId(0), OBJ_BLOB).getBytes(), UTF_8));
-          assertThat(
-                  cfg.getString(AccountProperties.ACCOUNT, null, AccountProperties.KEY_FULL_NAME))
+          assertThat(cfg)
+              .stringValue(AccountProperties.ACCOUNT, null, AccountProperties.KEY_FULL_NAME)
               .isEqualTo(name);
-          assertThat(cfg.getString(AccountProperties.ACCOUNT, null, AccountProperties.KEY_STATUS))
+          assertThat(cfg)
+              .stringValue(AccountProperties.ACCOUNT, null, AccountProperties.KEY_STATUS)
               .isEqualTo(status);
         } else {
           // No account properties were set, hence an 'account.config' file was not created.

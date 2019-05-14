@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static com.google.gerrit.truth.ConfigSubject.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
@@ -568,7 +569,7 @@ public class AccessIT extends AbstractDaemonTest {
             .file(ProjectConfig.PROJECT_CONFIG)
             .asString();
     cfg.fromText(config);
-    assertThat(cfg.getString(access, refsFor, unknownPermission)).isEqualTo(registeredUsers);
+    assertThat(cfg).stringValue(access, refsFor, unknownPermission).isEqualTo(registeredUsers);
 
     // Make permission change through API
     ProjectAccessInput accessInput = newProjectAccessInput();
@@ -587,7 +588,7 @@ public class AccessIT extends AbstractDaemonTest {
             .file(ProjectConfig.PROJECT_CONFIG)
             .asString();
     cfg.fromText(config);
-    assertThat(cfg.getString(access, refsFor, unknownPermission)).isEqualTo(registeredUsers);
+    assertThat(cfg).stringValue(access, refsFor, unknownPermission).isEqualTo(registeredUsers);
   }
 
   @Test

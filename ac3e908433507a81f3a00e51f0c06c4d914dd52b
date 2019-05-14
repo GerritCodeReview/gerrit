@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd9a36eb_a7de6185",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1369,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-14T15:50:01Z",
+      "side": 1,
+      "message": "removed",
+      "range": {
+        "startLine": 1369,
+        "startChar": 47,
+        "endLine": 1369,
+        "endChar": 53
+      },
+      "revId": "ac3e908433507a81f3a00e51f0c06c4d914dd52b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "468e95c9_3d099af5",
+        "filename": "java/com/google/gerrit/server/change/BatchAbandon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-14T15:50:01Z",
+      "side": 1,
+      "message": "Do we need to pass this as parameter?\nAnother possibility is to inject the ChangeCleanupConfig into this class and use\nit to get this parameter",
+      "revId": "ac3e908433507a81f3a00e51f0c06c4d914dd52b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

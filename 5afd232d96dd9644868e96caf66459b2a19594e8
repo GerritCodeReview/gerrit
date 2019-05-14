@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "89d2a1ab_b2508883",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-05-14T07:24:16Z",
+      "side": 1,
+      "message": "did you mean ADRs ?",
+      "range": {
+        "startLine": 66,
+        "startChar": 20,
+        "endLine": 66,
+        "endChar": 24
+      },
+      "revId": "5afd232d96dd9644868e96caf66459b2a19594e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "61b194d4_471fb510",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -31,6 +54,24 @@
       "side": 1,
       "message": "\u003e this page doesn\u0027t explain ARDs in detail and the link http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions given there seems unresponsive\n\nIt used to work but is now unresponsive, indeed. However the page linked above still provides some context information, which should be better than none. It also links to [1], the actual project, which has some more information (albeit not much than that formerly responsive blog). One can still refer to that project\u0027s main files and code, which ends up containing all of the ADR information.\n\nAnd I\u0027m not aware of any other equivalent source of information, since I referred to that blog, some time ago. But googling the term does lead to some potentially useful sources.\n\n[1] https://github.com/npryce/adr-tools",
       "parentUuid": "61b194d4_471fb510",
+      "revId": "5afd232d96dd9644868e96caf66459b2a19594e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0815a3b2_e744cba0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-05-14T07:24:16Z",
+      "side": 1,
+      "message": "I found the page in the google cache here\nhttp://webcache.googleusercontent.com/search?q\u003dcache:thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions\u0026strip\u003d1\u0026vwsrc\u003d0\nif we decide to use this format we can add a copy of this page to the project home page\n\nI like the ADR format, so +1 from me for this proposal",
+      "parentUuid": "2eb44758_2fcbb1a9",
       "revId": "5afd232d96dd9644868e96caf66459b2a19594e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

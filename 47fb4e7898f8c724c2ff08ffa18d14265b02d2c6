@@ -39,6 +39,24 @@
       "revId": "47fb4e7898f8c724c2ff08ffa18d14265b02d2c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8f01336_3d76ff9a",
+        "filename": "java/com/google/gerrit/server/change/AccountPatchReviewCleaner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2019-05-14T10:53:00Z",
+      "side": 1,
+      "message": "addressed in prepending change",
+      "parentUuid": "168c6838_995dd1dd",
+      "revId": "47fb4e7898f8c724c2ff08ffa18d14265b02d2c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

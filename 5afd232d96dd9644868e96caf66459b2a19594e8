@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cb193efd_abf8416e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-14T07:51:58Z",
+      "side": 1,
+      "message": "(I think he did.)",
+      "parentUuid": "89d2a1ab_b2508883",
+      "range": {
+        "startLine": 66,
+        "startChar": 20,
+        "endLine": 66,
+        "endChar": 24
+      },
+      "revId": "5afd232d96dd9644868e96caf66459b2a19594e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "61b194d4_471fb510",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -75,6 +99,24 @@
       "revId": "5afd232d96dd9644868e96caf66459b2a19594e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd73ddf5_9c7244ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-14T07:51:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0815a3b2_e744cba0",
+      "revId": "5afd232d96dd9644868e96caf66459b2a19594e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

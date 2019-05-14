@@ -131,12 +131,13 @@ public class BatchUpdate implements AutoCloseable {
       List<ChangesHandle> handles = new ArrayList<>(updates.size());
       try {
         for (BatchUpdate u : updates) {
-          u.executeUpdateRepo();
+          u.executeUpdateRepo();  // XXX What about dry run?
         }
         listener.afterUpdateRepos();
         for (BatchUpdate u : updates) {
           handles.add(u.executeChangeOps(dryrun));
         }
+        // XXX I take it at this point updates are only staged but not executed yet?jjkk
         for (ChangesHandle h : handles) {
           h.execute();
           indexFutures.addAll(h.startIndexFutures());

@@ -16,6 +16,24 @@
       "revId": "30e1f9df39e76940c4e8037582f642b4a28deb56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f6a06bd_2ffbed05",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-05-14T13:32:33Z",
+      "side": 1,
+      "message": "this is due to Gerrit-ReloadMode\u003dreload for the replication plugin, see https://www.gerritcodereview.com/dev-plugins.html#reload-method",
+      "parentUuid": "a0ab5567_58e8a8bb",
+      "revId": "30e1f9df39e76940c4e8037582f642b4a28deb56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

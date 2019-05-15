@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.api.group;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -60,7 +61,11 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
 
   @Before
   public void basicSetup() throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
 
     String name1 = groupOperations.newGroup().name("g1").create().get();
     String name2 = groupOperations.newGroup().name("g2").create().get();

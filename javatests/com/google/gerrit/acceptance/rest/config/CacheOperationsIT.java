@@ -15,6 +15,8 @@
 package com.google.gerrit.acceptance.rest.config;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.capabilityKey;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.restapi.config.PostCaches.Operation.FLUSH;
 import static com.google.gerrit.server.restapi.config.PostCaches.Operation.FLUSH_ALL;
@@ -124,8 +126,12 @@ public class CacheOperationsIT extends AbstractDaemonTest {
 
   @Test
   public void flushWebSessions_Forbidden() throws Exception {
-    allowGlobalCapabilities(
-        REGISTERED_USERS, GlobalCapability.FLUSH_CACHES, GlobalCapability.VIEW_CACHES);
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(GlobalCapability.FLUSH_CACHES).group(REGISTERED_USERS))
+        .add(allowCapability(GlobalCapability.VIEW_CACHES).group(REGISTERED_USERS))
+        .update();
     try {
       RestResponse r =
           userRestSession.post(
@@ -138,8 +144,12 @@ public class CacheOperationsIT extends AbstractDaemonTest {
               "/config/server/caches/", new PostCaches.Input(FLUSH, Arrays.asList("web_sessions")))
           .assertForbidden();
     } finally {
-      removeGlobalCapabilities(
-          REGISTERED_USERS, GlobalCapability.FLUSH_CACHES, GlobalCapability.VIEW_CACHES);
+      projectOperations
+          .project(allProjects)
+          .forUpdate()
+          .remove(capabilityKey(GlobalCapability.FLUSH_CACHES).group(REGISTERED_USERS))
+          .remove(capabilityKey(GlobalCapability.VIEW_CACHES).group(REGISTERED_USERS))
+          .update();
     }
   }
 }

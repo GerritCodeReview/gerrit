@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.stream.Collectors.toList;
@@ -335,7 +336,11 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void uploadPackSubsetOfRefsVisibleWithAccessDatabase() throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
     projectOperations
         .project(project)
         .forUpdate()
@@ -409,7 +414,11 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   public void uploadPackSequencesWithAccessDatabase() throws Exception {
     assertRefs(allProjects, user, true);
 
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
     assertRefs(allProjects, user, true, "refs/sequences/changes");
   }
 
@@ -538,7 +547,11 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void advertisedReferencesIncludeAllUserBranchesWithAccessDatabase() throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
     TestRepository<?> userTestRepository = cloneProject(allUsers, user);
     try (Git git = userTestRepository.git()) {
       assertThat(getUserRefs(git))
@@ -577,7 +590,11 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void advertisedReferencesIncludeAllGroupBranchesWithAccessDatabase() throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
     AccountGroup.UUID users = createGroup("Users", admins);
     TestRepository<?> userTestRepository = cloneProject(allUsers, user);
     try (Git git = userTestRepository.git()) {
@@ -596,7 +613,11 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         .forUpdate()
         .add(allow(Permission.READ).ref(RefNames.REFS_GROUPS + "*").group(REGISTERED_USERS))
         .update();
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ADMINISTRATE_SERVER);
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(GlobalCapability.ADMINISTRATE_SERVER).group(REGISTERED_USERS))
+        .update();
     AccountGroup.UUID users = createGroup("Users", admins);
     TestRepository<?> userTestRepository = cloneProject(allUsers, user);
     try (Git git = userTestRepository.git()) {
@@ -734,7 +755,11 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void hideMetadata() throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
     // create change
     TestRepository<?> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, RefNames.REFS_USERS_SELF + ":userRef");

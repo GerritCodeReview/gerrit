@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.parseCommitMessageRange;
@@ -168,7 +169,11 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
 
   @Test
   public void deleteCanBeAppliedWithAdministrateServerCapability() throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ADMINISTRATE_SERVER);
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(GlobalCapability.ADMINISTRATE_SERVER).group(REGISTERED_USERS))
+        .update();
     int changeNum = createOneChangeWithMultipleChangeMessagesInHistory();
     requestScopeOperations.setApiUser(user.id());
     deleteOneChangeMessage(changeNum, 0, user, "spam");

@@ -87,6 +87,24 @@
       "revId": "fc9817f3f31c9cf9f9f5473bbca6a74a8b13fcae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9288a8e_0cb57a5e",
+        "filename": "java/com/google/gerrit/server/quota/QuotaEnforcer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-05-15T08:57:53Z",
+      "side": 1,
+      "message": "So basically, now we are asking: \"Is it OK if I consume X tokens\", but to fit into JGit, we need to ask \"How much tokens can I consume?\"\n\nI think it\u0027s reasonable to add a method to answer this question. This method has the potential to be racy, so it would be great if we could think about a plan to limit this risk.",
+      "parentUuid": "8a890d5b_6d067592",
+      "revId": "fc9817f3f31c9cf9f9f5473bbca6a74a8b13fcae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

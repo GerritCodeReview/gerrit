@@ -25,6 +25,7 @@ import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.GitUtil.pushOne;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
@@ -2333,7 +2334,11 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     pr = pushOne(testRepo, c.name(), ref, false, false, opts);
     assertPushRejected(pr, ref, "NoteDb update requires access database permission");
 
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
     pr = pushOne(testRepo, c.name(), ref, false, false, opts);
     assertPushRejected(pr, ref, "prohibited by Gerrit: not permitted: create");
 

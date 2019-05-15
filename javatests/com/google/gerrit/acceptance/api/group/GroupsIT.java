@@ -23,6 +23,7 @@ import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.api.group.GroupAssert.assertGroupInfo;
 import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAccountInfos;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -1046,7 +1047,11 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void pushToGroupNamesBranchIsRejectedForAllUsersRepo() throws Exception {
     // refs/meta/group-names isn't usually available for fetch, so grant ACCESS_DATABASE
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
     assertPushToGroupBranch(allUsers, RefNames.REFS_GROUPNAMES, "group update not allowed");
   }
 
@@ -1189,7 +1194,11 @@ public class GroupsIT extends AbstractDaemonTest {
       }
 
       // refs/meta/group-names is only visible with ACCESS_DATABASE
-      allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+      projectOperations
+          .project(allProjects)
+          .forUpdate()
+          .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+          .update();
 
       testCannotCreateGroupBranch(RefNames.REFS_GROUPNAMES, RefNames.REFS_GROUPNAMES);
     }
@@ -1228,7 +1237,11 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void cannotDeleteGroupNamesBranch() throws Exception {
     // refs/meta/group-names is only visible with ACCESS_DATABASE
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
 
     testCannotDeleteGroupBranch(RefNames.REFS_GROUPNAMES, RefNames.REFS_GROUPNAMES);
   }

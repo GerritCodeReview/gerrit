@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.index.IndexDefinition;
@@ -84,8 +85,12 @@ public class IndexModule extends LifecycleModule {
 
   /** Type of secondary index. */
   public static IndexType getIndexType(Injector injector) {
-    Config cfg = injector.getInstance(Key.get(Config.class, GerritServerConfig.class));
-    return cfg.getEnum("index", null, "type", IndexType.LUCENE);
+    return getIndexType(injector.getInstance(Key.get(Config.class, GerritServerConfig.class)));
+  }
+
+  /** Type of secondary index. */
+  public static IndexType getIndexType(@Nullable Config cfg) {
+    return cfg != null ? cfg.getEnum("index", null, "type", IndexType.LUCENE) : IndexType.LUCENE;
   }
 
   private final int threads;

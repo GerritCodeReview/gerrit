@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "991df4db_d3b62206",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-15T10:26:27Z",
+      "side": 1,
+      "message": "Thanks for thinking of this test.",
+      "range": {
+        "startLine": 81,
+        "startChar": 14,
+        "endLine": 81,
+        "endChar": 76
+      },
+      "revId": "53c71d7671e58ee3a324d979aa7a48f06e930d5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21b6f895_47ab4b24",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-15T10:26:27Z",
+      "side": 1,
+      "message": "I\u0027m not sure that we should check this here. It means that we expect the cache to always return the same instance from the cache, which is not what this test is about (as far as I understood). Wouldn\u0027t it be sufficient to test that the description of cachedProjectState1 is still empty and that the description of a new value from the cache (cacheProjectState2) is also empty (as done in the next line)?",
+      "range": {
+        "startLine": 91,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 74
+      },
+      "revId": "53c71d7671e58ee3a324d979aa7a48f06e930d5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

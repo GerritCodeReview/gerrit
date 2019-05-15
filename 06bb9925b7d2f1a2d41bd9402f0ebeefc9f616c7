@@ -42,6 +42,48 @@
     },
     {
       "key": {
+        "uuid": "32f0db79_8c8db137",
+        "filename": "polygerrit-ui/package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-05-15T10:24:38Z",
+      "side": 1,
+      "message": "That is indeed the goal, but it requires more changes than just adding it to package.json. See \nhttps://gerrit-review.googlesource.com/c/gerrit/+/224572\n\nI think it will be easier to review the changes one-by-one.",
+      "parentUuid": "f9a214db_06bfed71",
+      "revId": "06bb9925b7d2f1a2d41bd9402f0ebeefc9f616c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ca3d49c_e429ec48",
+        "filename": "polygerrit-ui/package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-05-15T10:24:38Z",
+      "side": 1,
+      "message": "I would prefer to wait how the bazel integration with npm works (see below). It\u0027s kind of clunky to work with two package managers, and I am not sure yet if it will be npm installing bazel or the other way around.",
+      "parentUuid": "e20a35c9_c8c5c8f3",
+      "range": {
+        "startLine": 6,
+        "startChar": 3,
+        "endLine": 6,
+        "endChar": 18
+      },
+      "revId": "06bb9925b7d2f1a2d41bd9402f0ebeefc9f616c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2691c08_acc5ea34",
         "filename": "polygerrit-ui/package.json",
         "patchSetId": 4
@@ -77,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "1681e685_05be9b72",
+        "filename": "polygerrit-ui/package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-05-15T10:24:38Z",
+      "side": 1,
+      "message": "I tried to use the nodejs rules, but ran into problems: https://github.com/bazelbuild/rules_nodejs/issues/628\n\nI will try to work through that, but in the meanwhile I have at least set this to 6.5.0. Making a shell script testing that seems a bit overkill at the moment though - it would not be sufficient to make that test, I would also need to setup CI to actually run it etc. A lot of work for a temporary issue that should be relatively easy to fix when it happens. I only wish JSON would let me comment...\n\nWhat do you think?",
+      "parentUuid": "3ba3c431_acdc03fb",
+      "revId": "06bb9925b7d2f1a2d41bd9402f0ebeefc9f616c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0cfcd3a6_031523a9",
         "filename": "polygerrit-ui/package.json",
         "patchSetId": 4
@@ -91,6 +151,24 @@
       "revId": "06bb9925b7d2f1a2d41bd9402f0ebeefc9f616c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d5c9f57_5c3748dd",
+        "filename": "polygerrit-ui/package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-05-15T10:24:38Z",
+      "side": 1,
+      "message": "Yes, that is the goal, but I would prefer to do one at a time, because each tool requires some changes to make it use the local version. See for example https://gerrit-review.googlesource.com/c/gerrit/+/224572 for polylint. ESLint is up next.",
+      "parentUuid": "0cfcd3a6_031523a9",
+      "revId": "06bb9925b7d2f1a2d41bd9402f0ebeefc9f616c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

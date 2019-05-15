@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fdb13335_ac124ff8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-15T09:09:26Z",
+      "side": 1,
+      "message": "This is fine but what about other closed changes (like merged changes)? If we introduce deletion of AccountPatchReview for\nclosed changes then that solution will also handle the abandoned\nchanges (as a special case of closed changes). Therefore, before\nsubmitting this one we should have a plan for other closed changes.",
+      "revId": "01f260137b5f52c30df90cb6773e6a78eb71d368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74040112_8370a28a",
+        "filename": "java/com/google/gerrit/server/config/ChangeCleanupConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-15T09:09:26Z",
+      "side": 1,
+      "message": "The documentation (which is also part of this change) says that the default is false.",
+      "range": {
+        "startLine": 53,
+        "startChar": 72,
+        "endLine": 53,
+        "endChar": 76
+      },
+      "revId": "01f260137b5f52c30df90cb6773e6a78eb71d368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

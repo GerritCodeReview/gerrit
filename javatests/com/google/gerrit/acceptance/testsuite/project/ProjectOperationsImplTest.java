@@ -25,6 +25,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.d
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.labelPermissionKey;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.common.data.GlobalCapability.ADMINISTRATE_SERVER;
+import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_QUERY_LIMIT;
 import static com.google.gerrit.common.data.GlobalCapability.QUERY_LIMIT;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
@@ -390,6 +391,24 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     assertThat(config)
         .sectionValues("capability")
         .containsExactly("queryLimit", "+0..+5000 group global:Registered-Users");
+  }
+
+  @Test
+  public void addAllowCapabilityWithDefaultRange() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(allowCapability(QUERY_LIMIT).group(REGISTERED_USERS))
+        .update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("capability");
+    assertThat(config).subsections("capability").isEmpty();
+    assertThat(config)
+        .sectionValues("capability")
+        .containsExactly(
+            "queryLimit", "+0..+" + DEFAULT_MAX_QUERY_LIMIT + " group global:Registered-Users");
   }
 
   @Test

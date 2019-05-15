@@ -23,8 +23,10 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.testsuite.ThrowingConsumer;
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import java.util.Optional;
@@ -41,7 +43,7 @@ public abstract class TestProjectUpdate {
   @AutoValue
   public abstract static class TestCapability {
     private static Builder builder() {
-      return new AutoValue_TestProjectUpdate_TestCapability.Builder().min(0).max(0);
+      return new AutoValue_TestProjectUpdate_TestCapability.Builder();
     }
 
     abstract String name();
@@ -58,12 +60,18 @@ public abstract class TestProjectUpdate {
       /** Sets the name of the capability. */
       public abstract Builder name(String name);
 
+      abstract String name();
+
       /** Sets the group to which the capability applies. */
       public abstract Builder group(AccountGroup.UUID group);
 
       abstract Builder min(int min);
 
+      abstract Optional<Integer> min();
+
       abstract Builder max(int max);
+
+      abstract Optional<Integer> max();
 
       /** Sets the minimum and maximum values for the capability. */
       public Builder range(int min, int max) {
@@ -71,7 +79,18 @@ public abstract class TestProjectUpdate {
       }
 
       /** Builds the {@link TestCapability}. */
-      public abstract TestCapability build();
+      abstract TestCapability autoBuild();
+
+      public TestCapability build() {
+        PermissionRange.WithDefaults withDefaults = GlobalCapability.getRange(name());
+        if (!min().isPresent()) {
+          min(withDefaults != null ? withDefaults.getMin() : 0);
+        }
+        if (!max().isPresent()) {
+          max(withDefaults != null ? withDefaults.getMax() : 0);
+        }
+        return autoBuild();
+      }
     }
   }
 

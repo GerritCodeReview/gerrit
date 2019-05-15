@@ -116,6 +116,30 @@
       "revId": "3dd45c93ff7ed89e00fd0042846d99b63cbdc0f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9174a7f3_39832655",
+        "filename": "java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2019-05-15T08:14:10Z",
+      "side": 1,
+      "message": "per our discussion:\n1. the primary key is created out of 4 fields: change_id, patch_set_id, account_id, file_name (line #197), in addition, by default RDBMS creates index out of it\n2. if the prefix of a key is used (change_id is the perfect example) it will still use the index to find it, therefore performance should be fine",
+      "parentUuid": "c7e995de_748f50d5",
+      "range": {
+        "startLine": 302,
+        "startChar": 68,
+        "endLine": 302,
+        "endChar": 87
+      },
+      "revId": "3dd45c93ff7ed89e00fd0042846d99b63cbdc0f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

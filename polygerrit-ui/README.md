@@ -33,7 +33,6 @@ dependencies can be installed with:
 ```sh
 cd polygerrit-ui/
 npm install
-sudo npm install -g polylint
 ```
 
 It may complain about a missing `typescript@2.3.4` peer dependency, which is
@@ -182,6 +181,13 @@ To run polylint, execute the following command.
 ```sh
 bazel test //polygerrit-ui/app:polylint_test
 ```
+
+or
+
+```sh
+npm run polylint
+```
+
 ## Template Type Safety
 Polymer elements are not type checked against the element definition, making it
 trivial to break the display when refactoring or moving code. We now run

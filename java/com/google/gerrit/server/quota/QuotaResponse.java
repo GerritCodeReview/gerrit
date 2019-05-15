@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Streams;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.OptionalLong;
 import java.util.stream.Collectors;
 
 @AutoValue
@@ -55,6 +56,10 @@ public abstract class QuotaResponse {
     return new AutoValue_QuotaResponse.Builder().status(Status.OK).build();
   }
 
+  public static QuotaResponse ok(long tokens) {
+    return new AutoValue_QuotaResponse.Builder().status(Status.OK).availableTokens(tokens).build();
+  }
+
   public static QuotaResponse noOp() {
     return new AutoValue_QuotaResponse.Builder().status(Status.NO_OP).build();
   }
@@ -65,11 +70,15 @@ public abstract class QuotaResponse {
 
   public abstract Status status();
 
+  public abstract Optional<Long> availableTokens();
+
   public abstract Optional<String> message();
 
   @AutoValue.Builder
   public abstract static class Builder {
     public abstract QuotaResponse.Builder status(Status status);
+
+    public abstract QuotaResponse.Builder availableTokens(Long tokens);
 
     public abstract QuotaResponse.Builder message(String message);
 
@@ -94,6 +103,13 @@ public abstract class QuotaResponse {
 
     public ImmutableList<QuotaResponse> ok() {
       return responses().stream().filter(r -> r.status().isOk()).collect(toImmutableList());
+    }
+
+    public OptionalLong availableTokens() {
+      return responses().stream()
+          .filter(r -> r.status().isOk() && r.availableTokens().isPresent())
+          .mapToLong(r -> r.availableTokens().get())
+          .min();
     }
 
     public ImmutableList<QuotaResponse> error() {

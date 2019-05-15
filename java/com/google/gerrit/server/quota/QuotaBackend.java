@@ -82,5 +82,22 @@ public interface QuotaBackend {
      * not to deduct any quota yet. Can be used to do pre-flight requests where necessary
      */
     QuotaResponse.Aggregated dryRun(String quotaGroup, long tokens);
+
+    /**
+     * Requests a minimum number of tokens available in implementations. This is a pre-flight check
+     * for the exceptional case when the requested number of tokens is not known in advance but
+     * boundary can be specified. For instance, when the commit is received its size is not known
+     * until the transfer happens however one can specify how many bytes can be accepted to meet the
+     * repository size quota.
+     *
+     * <p>By definition, this is not an allocating request, therefore, it should be followed by the
+     * call to {@link #requestTokens(String, long)} when the size gets determined so that quota
+     * could be properly adjusted. It is in developer discretion to ensure that it gets called.
+     * There might be a case when particular quota gets temporarily overbooked when multiple
+     * requests are performed but the following calls to {@link #requestTokens(String, long)} will
+     * fail at the moment when a quota is exhausted. It is not a subject of quota backend to reclaim
+     * tokens that were used due to overbooking.
+     */
+    QuotaResponse.Aggregated availableTokens(String quotaGroup);
   }
 }

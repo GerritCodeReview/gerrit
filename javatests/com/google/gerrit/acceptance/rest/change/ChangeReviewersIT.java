@@ -33,6 +33,7 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
@@ -68,6 +69,7 @@ import org.junit.Test;
 public class ChangeReviewersIT extends AbstractDaemonTest {
 
   @Inject private GroupOperations groupOperations;
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test

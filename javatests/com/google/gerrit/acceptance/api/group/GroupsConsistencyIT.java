@@ -23,6 +23,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
@@ -53,6 +54,7 @@ import org.junit.Test;
 public class GroupsConsistencyIT extends AbstractDaemonTest {
 
   @Inject protected GroupOperations groupOperations;
+  @Inject private ProjectOperations projectOperations;
   private GroupInfo gAdmin;
   private GroupInfo g1;
   private GroupInfo g2;

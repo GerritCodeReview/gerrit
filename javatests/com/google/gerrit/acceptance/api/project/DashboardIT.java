@@ -23,6 +23,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
@@ -33,6 +34,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.restapi.project.DashboardsCollection;
+import com.google.inject.Inject;
 import java.util.List;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
@@ -42,6 +44,8 @@ import org.junit.Test;
 
 @NoHttpd
 public class DashboardIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
+
   @Before
   public void setup() throws Exception {
     projectOperations

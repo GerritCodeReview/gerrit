@@ -23,8 +23,10 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.inject.Inject;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -34,6 +36,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class GetCommitIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
+
   private TestRepository<Repository> repo;
 
   @Before

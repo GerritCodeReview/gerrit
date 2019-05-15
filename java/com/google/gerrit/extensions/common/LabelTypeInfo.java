@@ -14,9 +14,24 @@
 
 package com.google.gerrit.extensions.common;
 
+import java.util.List;
 import java.util.Map;
 
 public class LabelTypeInfo {
+  public String name;
+  public String function;
+  public List<String> branches;
+
   public Map<String, String> values;
   public short defaultValue;
+
+  public Boolean copyMinScore;
+  public Boolean copyMaxScore;
+  public Boolean copyAllScoresOnMergeFirstParentUpdate;
+  public Boolean copyAllScoresOnTrivialRebase;
+  public Boolean copyAllScoresIfNoCodeChange;
+  public Boolean copyAllScoresIfNoChange;
+  public Boolean allowPostSubmit;
+  public Boolean ignoreSelfApproval;
+  public Boolean canOverride;
 }

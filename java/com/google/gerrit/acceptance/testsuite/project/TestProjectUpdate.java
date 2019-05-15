@@ -19,6 +19,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.testsuite.ThrowingConsumer;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -167,7 +168,7 @@ public abstract class TestProjectUpdate {
   @AutoValue
   public abstract static class TestLabelPermission {
     private static Builder builder() {
-      return new AutoValue_TestProjectUpdate_TestLabelPermission.Builder().exclusive(false);
+      return new AutoValue_TestProjectUpdate_TestLabelPermission.Builder();
     }
 
     abstract String name();
@@ -181,8 +182,6 @@ public abstract class TestProjectUpdate {
     abstract int min();
 
     abstract int max();
-
-    abstract boolean exclusive();
 
     /** Builder for {@link TestLabelPermission}. */
     @AutoValue.Builder
@@ -205,9 +204,6 @@ public abstract class TestProjectUpdate {
       public Builder range(int min, int max) {
         return min(min).max(max);
       }
-
-      /** Adds the permission to the exclusive group permission set on the access section. */
-      public abstract Builder exclusive(boolean exclusive);
 
       abstract TestLabelPermission autoBuild();
 
@@ -293,6 +289,8 @@ public abstract class TestProjectUpdate {
 
     abstract ImmutableList.Builder<TestPermissionKey> removedPermissionsBuilder();
 
+    abstract ImmutableMap.Builder<TestPermissionKey, Boolean> exclusiveGroupPermissionsBuilder();
+
     /** Adds a permission to be included in this update. */
     public Builder add(TestPermission testPermission) {
       addedPermissionsBuilder().add(testPermission);
@@ -337,6 +335,26 @@ public abstract class TestProjectUpdate {
       return remove(testPermissionKeyBuilder.build());
     }
 
+    /** Sets the exclusive bit bit for the given permission key. */
+    public Builder setExclusiveGroup(
+        TestPermissionKey.Builder testPermissionKeyBuilder, boolean exclusive) {
+      return setExclusiveGroup(testPermissionKeyBuilder.build(), exclusive);
+    }
+
+    /** Sets the exclusive bit bit for the given permission key. */
+    public Builder setExclusiveGroup(TestPermissionKey testPermissionKey, boolean exclusive) {
+      checkArgument(
+          !testPermissionKey.group().isPresent(),
+          "do not specify group for setExclusiveGroup: %s",
+          testPermissionKey);
+      checkArgument(
+          !testPermissionKey.section().equals(AccessSection.GLOBAL_CAPABILITIES),
+          "setExclusiveGroup not valid for global capabilities: %s",
+          testPermissionKey);
+      exclusiveGroupPermissionsBuilder().put(testPermissionKey, exclusive);
+      return this;
+    }
+
     abstract Builder projectUpdater(ThrowingConsumer<TestProjectUpdate> projectUpdater);
 
     abstract TestProjectUpdate autoBuild();
@@ -355,6 +373,8 @@ public abstract class TestProjectUpdate {
   abstract ImmutableList<TestCapability> addedCapabilities();
 
   abstract ImmutableList<TestPermissionKey> removedPermissions();
+
+  abstract ImmutableMap<TestPermissionKey, Boolean> exclusiveGroupPermissions();
 
   abstract ThrowingConsumer<TestProjectUpdate> projectUpdater();
 

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "23f10094_a252d115",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-15T07:51:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17522eac_843a2f20",
+      "range": {
+        "startLine": 29,
+        "startChar": 11,
+        "endLine": 29,
+        "endChar": 16
+      },
+      "revId": "7e3391f67e989b47347192cfab92a6741610bc73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1060a4ec_5518bb26",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 6

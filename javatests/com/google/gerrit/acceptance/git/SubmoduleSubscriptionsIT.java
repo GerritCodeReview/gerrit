@@ -22,9 +22,11 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.TestTimeUtil;
+import com.google.inject.Inject;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -44,6 +46,8 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   public static Config submitWholeTopicEnabled() {
     return submitWholeTopicEnabledConfig();
   }
+
+  @Inject private ProjectOperations projectOperations;
 
   @Test
   @GerritConfig(name = "submodule.enableSuperProjectSubscriptions", value = "false")

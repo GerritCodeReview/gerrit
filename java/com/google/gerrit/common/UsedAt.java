@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common;
 
+import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -22,13 +23,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * A marker for a method that is public solely because it is called from inside a project or an
- * organisation using Gerrit.
+ * A marker to say a method/type/field is added or is increased to public solely because it is
+ * called from inside a project or an organisation using Gerrit.
  */
-@Target({METHOD, TYPE})
+@Target({METHOD, TYPE, FIELD})
 @Retention(RUNTIME)
 public @interface UsedAt {
-  /** Enumeration of projects that call a method that would otherwise be private. */
+  /** Enumeration of projects that call a method/type/field. */
   enum Project {
     GOOGLE,
     PLUGIN_CHECKS,

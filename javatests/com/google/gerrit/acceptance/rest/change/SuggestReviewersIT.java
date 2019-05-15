@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.rest.change;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static java.util.stream.Collectors.toList;
@@ -184,7 +185,11 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
     // Clear cached group info.
     requestScopeOperations.setApiUser(user1.id());
-    allowGlobalCapabilities(group1, GlobalCapability.VIEW_ALL_ACCOUNTS);
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(GlobalCapability.VIEW_ALL_ACCOUNTS).group(group1))
+        .update();
     reviewers = suggestReviewers(changeId, user2.username(), 2);
     assertThat(reviewers).hasSize(1);
     assertThat(Iterables.getOnlyElement(reviewers).account.name).isEqualTo(user2.fullName());

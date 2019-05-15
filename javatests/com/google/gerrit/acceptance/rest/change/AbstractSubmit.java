@@ -21,6 +21,7 @@ import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
@@ -81,7 +82,6 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.server.git.validators.OnSubmitValidationListener;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.restapi.change.Submit;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -337,13 +337,13 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   public void noSelfSubmit() throws Throwable {
     // create project where submit is blocked for the change owner
     Project.NameKey p = projectOperations.newProject().create();
-    try (ProjectConfigUpdate u = updateProject(p)) {
-      Util.block(u.getConfig(), Permission.SUBMIT, CHANGE_OWNER, "refs/*");
-      Util.allow(u.getConfig(), Permission.SUBMIT, REGISTERED_USERS, "refs/heads/*");
-      Util.allow(
-          u.getConfig(), Permission.forLabel("Code-Review"), -2, +2, REGISTERED_USERS, "refs/*");
-      u.save();
-    }
+    projectOperations
+        .project(p)
+        .forUpdate()
+        .add(block(Permission.SUBMIT).ref("refs/*").group(CHANGE_OWNER))
+        .add(allow(Permission.SUBMIT).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(allowLabel("Code-Review").ref("refs/*").group(REGISTERED_USERS).range(-2, +2))
+        .update();
 
     TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
     PushOneCommit push = pushFactory.create(admin.newIdent(), repo);
@@ -363,13 +363,13 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   public void onlySelfSubmit() throws Throwable {
     // create project where only the change owner can submit
     Project.NameKey p = projectOperations.newProject().create();
-    try (ProjectConfigUpdate u = updateProject(p)) {
-      Util.block(u.getConfig(), Permission.SUBMIT, REGISTERED_USERS, "refs/*");
-      Util.allow(u.getConfig(), Permission.SUBMIT, CHANGE_OWNER, "refs/*");
-      Util.allow(
-          u.getConfig(), Permission.forLabel("Code-Review"), -2, +2, REGISTERED_USERS, "refs/*");
-      u.save();
-    }
+    projectOperations
+        .project(p)
+        .forUpdate()
+        .add(block(Permission.SUBMIT).ref("refs/*").group(REGISTERED_USERS))
+        .add(allow(Permission.SUBMIT).ref("refs/*").group(CHANGE_OWNER))
+        .add(allowLabel("Code-Review").ref("refs/*").group(REGISTERED_USERS).range(-2, +2))
+        .update();
 
     TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
     PushOneCommit push = pushFactory.create(admin.newIdent(), repo);

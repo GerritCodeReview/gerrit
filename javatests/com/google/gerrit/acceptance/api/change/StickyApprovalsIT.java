@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.api.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.extensions.client.ChangeKind.MERGE_FIRST_PARENT_UPDATE;
 import static com.google.gerrit.extensions.client.ChangeKind.NO_CHANGE;
 import static com.google.gerrit.extensions.client.ChangeKind.NO_CODE_CHANGE;
@@ -39,7 +40,6 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
@@ -47,7 +47,6 @@ import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.inject.Inject;
@@ -87,24 +86,22 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       verified.setCopyAllScoresIfNoChange(false);
       u.getConfig().getLabelSections().put(verified.getName(), verified);
 
-      AccountGroup.UUID registeredUsers = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
-      String heads = RefNames.REFS_HEADS + "*";
-      Util.allow(
-          u.getConfig(),
-          Permission.forLabel(Util.codeReview().getName()),
-          -2,
-          2,
-          registeredUsers,
-          heads);
-      Util.allow(
-          u.getConfig(),
-          Permission.forLabel(Util.verified().getName()),
-          -1,
-          1,
-          registeredUsers,
-          heads);
       u.save();
     }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(Util.codeReview().getName())
+                .ref(RefNames.REFS_HEADS + "*")
+                .group(REGISTERED_USERS)
+                .range(-2, 2))
+        .add(
+            allowLabel(Util.verified().getName())
+                .ref(RefNames.REFS_HEADS + "*")
+                .group(REGISTERED_USERS)
+                .range(-1, 1))
+        .update();
   }
 
   @Test

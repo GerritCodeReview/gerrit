@@ -26,6 +26,7 @@ import static com.google.gerrit.acceptance.GitUtil.pushOne;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
@@ -161,20 +162,21 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     try (ProjectConfigUpdate u = updateProject(project)) {
       patchSetLock = Util.patchSetLock();
       u.getConfig().getLabelSections().put(patchSetLock.getName(), patchSetLock);
-      AccountGroup.UUID anonymousUsers = systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
-      Util.allow(
-          u.getConfig(),
-          Permission.forLabel(patchSetLock.getName()),
-          0,
-          1,
-          anonymousUsers,
-          "refs/heads/*");
       u.save();
     }
     projectOperations
         .project(project)
         .forUpdate()
-        .add(allow(Permission.LABEL + "Patch-Set-Lock").ref("refs/heads/*").group(adminGroupUuid()))
+        .add(
+            allowLabel(patchSetLock.getName())
+                .ref("refs/heads/*")
+                .group(ANONYMOUS_USERS)
+                .range(0, 1))
+        .add(
+            allowLabel(patchSetLock.getName())
+                .ref("refs/heads/*")
+                .group(adminGroupUuid())
+                .range(0, 1))
         .update();
   }
 
@@ -1201,13 +1203,16 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   public void pushWithMultipleApprovals() throws Exception {
     LabelType Q =
         category("Custom-Label", value(1, "Positive"), value(0, "No score"), value(-1, "Negative"));
-    AccountGroup.UUID anon = systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
     String heads = "refs/heads/*";
     try (ProjectConfigUpdate u = updateProject(project)) {
-      Util.allow(u.getConfig(), Permission.forLabel("Custom-Label"), -1, 1, anon, heads);
       u.getConfig().getLabelSections().put(Q.getName(), Q);
       u.save();
     }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel("Custom-Label").ref(heads).group(ANONYMOUS_USERS).range(-1, 1))
+        .update();
 
     RevCommit c =
         commitBuilder()
@@ -2715,13 +2720,14 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   private void grantSkipValidation(Project.NameKey project, String ref, AccountGroup.UUID groupUuid)
       throws Exception {
     // See SKIP_VALIDATION implementation in default permission backend.
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      Util.allow(u.getConfig(), Permission.FORGE_AUTHOR, groupUuid, ref);
-      Util.allow(u.getConfig(), Permission.FORGE_COMMITTER, groupUuid, ref);
-      Util.allow(u.getConfig(), Permission.FORGE_SERVER, groupUuid, ref);
-      Util.allow(u.getConfig(), Permission.PUSH_MERGE, groupUuid, "refs/for/" + ref);
-      u.save();
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.FORGE_AUTHOR).ref(ref).group(groupUuid))
+        .add(allow(Permission.FORGE_COMMITTER).ref(ref).group(groupUuid))
+        .add(allow(Permission.FORGE_SERVER).ref(ref).group(groupUuid))
+        .add(allow(Permission.PUSH_MERGE).ref("refs/for/" + ref).group(groupUuid))
+        .update();
   }
 
   private PushOneCommit.Result amendChange(String changeId, String ref) throws Exception {

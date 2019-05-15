@@ -32,6 +32,7 @@ import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
@@ -81,6 +82,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Inject private AllUsersName allUsersName;
   @Inject private ChangeNoteUtil noteUtil;
   @Inject private PermissionBackend permissionBackend;
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   private AccountGroup.UUID admins;

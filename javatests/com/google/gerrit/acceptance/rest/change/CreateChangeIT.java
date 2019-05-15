@@ -29,6 +29,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
@@ -69,6 +70,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class CreateChangeIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   @BeforeClass

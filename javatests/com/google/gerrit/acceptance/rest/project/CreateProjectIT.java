@@ -33,6 +33,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.UseLocalDisk;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
@@ -75,6 +76,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Test;
 
 public class CreateProjectIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test

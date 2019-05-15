@@ -8,7 +8,7 @@ if [[ -z "$npm_bin" ]]; then
     exit 1
 fi
 
-polylint_bin=$(which polylint)
+polylint_bin="polygerrit-ui/node_modules/polylint/lib/polylint-bin.js"
 if [[ -z "$polylint_bin" ]]; then
     echo "You must install polylint and its dependencies from NPM."
     echo "> npm install -g polylint"

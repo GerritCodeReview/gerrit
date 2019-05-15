@@ -4,7 +4,7 @@
   "description": "Gerrit Code Review",
   "dependencies": {},
   "devDependencies": {
-    "web-component-tester": "^6.9.2"
+    "web-component-tester": "^6.5.0"
   },
   "scripts": {
     "test": "WCT_HEADLESS_MODE=1 WCT_ARGS='--verbose' ./app/run_test.sh"

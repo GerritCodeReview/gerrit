@@ -3411,8 +3411,30 @@ project has.
 [options="header",cols="1,^2,4"]
 |================================
 |Field Name         ||Description
-|`values`           ||Map of the available values to their description.
-|`default_value`    ||The default value of this label.
+|`name`
+||See link:config-labels.html#label_name[label name].
+|`function`
+||See link:config-labels.html#label_function[label function].
+|`branches`
+||See link:config-labels.html#label_branch[label branches].
+|`values`           ||See link:config-labels.html#label_value[label values].
+|`default_value`    ||See link:config-labels.html#label_defaultValue[label default value].
+|`copy_min_score`   ||See link:config-labels.html#label_copyMinScore[copy min score].
+|`copy_max_score`   ||See link:config-labels.html#label_copyMaxScore[copy max score].
+|`copyAllScoresOnMergeFirstParentUpdate`
+||See link:config-labels.html#label_copyAllScoresOnMergeFirstParentUpdate[copy all scores on merge first parent update].
+|`copyAllScoresOnTrivialRebase`
+||See link:config-labels.html#label_copyAllScoresOnTrivialRebase[copy all scores on trivial rebase].
+|`copyAllScoresIfNoCodeChange`
+||See link:config-labels.html#label_copyAllScoresIfNoCodeChange[copy all scores if no code changes].
+|`copyAllScoresIfNoChange`
+||See link:config-labels.html#label_copyAllScoresIfNoChange[copy all scores if no change].
+|`allowPostSubmit`
+||See link:config-labels.html#label_allowPostSubmit[allow post submit].
+|`ignoreSelfApproval`
+||See link:config-labels.html#label_ignoreSelfApproval[ignore self approval].
+|`canOverride`
+||See link:config-labels.html#label_canOverride[can override].
 |================================
 
 [[max-object-size-limit-info]]

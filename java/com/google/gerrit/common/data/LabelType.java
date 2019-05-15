@@ -321,8 +321,29 @@ public class LabelType {
 
   public LabelTypeInfo toLabelTypeInfo() {
     LabelTypeInfo labelInfo = new LabelTypeInfo();
+
+    labelInfo.name = name;
+    labelInfo.function = function.toString();
+    labelInfo.branches = refPatterns;
+
     labelInfo.values = values.stream().collect(toMap(LabelValue::formatValue, LabelValue::getText));
     labelInfo.defaultValue = defaultValue;
+
+    labelInfo.copyMinScore = falseToNull(copyMinScore);
+    labelInfo.copyMaxScore = falseToNull(copyMaxScore);
+    labelInfo.copyAllScoresOnMergeFirstParentUpdate =
+        falseToNull(copyAllScoresOnMergeFirstParentUpdate);
+    labelInfo.copyAllScoresOnTrivialRebase = falseToNull(copyAllScoresOnTrivialRebase);
+    labelInfo.copyAllScoresIfNoCodeChange = falseToNull(copyAllScoresIfNoCodeChange);
+    labelInfo.copyAllScoresIfNoChange = falseToNull(copyAllScoresIfNoChange);
+    labelInfo.allowPostSubmit = falseToNull(allowPostSubmit);
+    labelInfo.ignoreSelfApproval = falseToNull(ignoreSelfApproval);
+    labelInfo.canOverride = falseToNull(canOverride);
+
     return labelInfo;
+  }
+
+  private static Boolean falseToNull(boolean value) {
+    return value ? true : null;
   }
 }

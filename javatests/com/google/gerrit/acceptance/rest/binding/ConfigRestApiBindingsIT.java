@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.binding;
 
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.common.collect.ImmutableList;
@@ -83,7 +84,11 @@ public class ConfigRestApiBindingsIT extends AbstractDaemonTest {
   @Test
   public void configEndpoints() throws Exception {
     // 'Access Database' is needed for the '/config/server/check.consistency' REST endpoint
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
 
     RestApiCallHelper.execute(adminRestSession, CONFIG_ENDPOINTS);
   }

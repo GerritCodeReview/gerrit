@@ -22,6 +22,7 @@ import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
@@ -1249,7 +1250,12 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   @Sandboxed
   public void userCanSetNameOfOtherUserWithModifyAccountPermission() throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.MODIFY_ACCOUNT);
+    AccountIT.this
+        .projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(GlobalCapability.MODIFY_ACCOUNT).group(REGISTERED_USERS))
+        .update();
     gApi.accounts().id(admin.username()).setName("Admin McAdminface");
     assertThat(gApi.accounts().id(admin.username()).get().name).isEqualTo("Admin McAdminface");
   }
@@ -1542,7 +1548,11 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void pushAccountConfigToUserBranchForReviewDeactivateOtherAccount() throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
 
     TestAccount foo = accountCreator.create(name("foo"));
     assertThat(gApi.accounts().id(foo.id().get()).getActive()).isTrue();
@@ -1811,7 +1821,11 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void pushAccountConfigToUserBranchDeactivateOtherAccount() throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
 
     TestAccount foo = accountCreator.create(name("foo"));
     assertThat(gApi.accounts().id(foo.id().get()).getActive()).isTrue();
@@ -1871,7 +1885,11 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void createUserBranchWithAccessDatabaseCapability() throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
     projectOperations
         .project(allUsers)
         .forUpdate()
@@ -1895,7 +1913,11 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void cannotCreateNonUserBranchUnderRefsUsersWithAccessDatabaseCapability()
       throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
     projectOperations
         .project(allUsers)
         .forUpdate()
@@ -1972,7 +1994,11 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void deleteUserBranchWithAccessDatabaseCapability() throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
     projectOperations
         .project(allUsers)
         .forUpdate()
@@ -2230,7 +2256,11 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void checkConsistency() throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
     requestScopeOperations.resetCurrentApiUser();
 
     // Create an account with a preferred email.
@@ -2573,7 +2603,11 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void atomicReadMofifyWriteExternalIds() throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
 
     Account.Id accountId = Account.id(seq.nextAccountId());
     ExternalId extIdA1 = ExternalId.create("foo", "A-1", accountId);

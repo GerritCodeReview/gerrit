@@ -70,6 +70,23 @@
       "revId": "fc9817f3f31c9cf9f9f5473bbca6a74a8b13fcae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a890d5b_6d067592",
+        "filename": "java/com/google/gerrit/server/quota/QuotaEnforcer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2019-05-15T08:45:27Z",
+      "side": 1,
+      "message": "both requestToken and dryRun methods assume that the requested tokens number is known upfront which is OK in many cases but not for the way how the size quote gets enforced:\n1. ReceiveCommits calls ReceivePackInitializer implementations to provide the max available size\n2. Quota plugin implements ReceivePackInitializer and calls org.eclipse.jgit.transport.BaseReceivePack.setMaxPackSizeLimit(long) on provided ReceivePack instance (which sets the available tokens)\n3. while an object is being retrieved from the client its size gets checked against available space limit and in case it is bigger error gets\nreturned to the client\n\nThere are 2 options that could be done to solve the problem:\n1. extend interface with another method e.g.\n\n  requestAvailableTokens(String quotaGroup, QuotaRequestContext ctx)\n\n2. extend JGit with extension point that can hook into the PackParser so that requestTokens(...) could be called from the hook",
+      "revId": "fc9817f3f31c9cf9f9f5473bbca6a74a8b13fcae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

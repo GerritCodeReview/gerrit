@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertThatNameList;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
@@ -41,7 +42,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.ProjectCacheImpl;
-import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.restapi.project.ListProjects;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -73,10 +73,11 @@ public class ListProjectsIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
     assertThatNameList(gApi.projects().list().get()).contains(project);
 
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      Util.block(u.getConfig(), Permission.READ, REGISTERED_USERS, "refs/*");
-      u.save();
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
 
     assertThatNameList(gApi.projects().list().get()).doesNotContain(project);
   }

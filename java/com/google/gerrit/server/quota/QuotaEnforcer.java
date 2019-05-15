@@ -60,6 +60,12 @@ public interface QuotaEnforcer {
   QuotaResponse dryRun(String quotaGroup, QuotaRequestContext ctx, long numTokens);
 
   /**
+   * Returns available tokens that can be later requested. Implementation should not deduct tokens
+   * from a bucket.
+   */
+  QuotaResponse availableTokens(String quotaGroup, QuotaRequestContext ctx);
+
+  /**
    * A previously requested and deducted quota has to be refilled (if possible) because the request
    * failed other quota checks. Implementations can choose to leave this a no-op in case they are
    * the first line of defence (e.g. always deduct HTTP quota even if the request failed for other

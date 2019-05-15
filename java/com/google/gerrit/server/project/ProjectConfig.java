@@ -26,6 +26,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.primitives.Shorts;
 import com.google.gerrit.common.Nullable;
@@ -327,6 +328,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       accessSections.put(name, as);
     }
     return as;
+  }
+
+  public ImmutableSet<String> getAccessSectionNames() {
+    return ImmutableSet.copyOf(accessSections.keySet());
   }
 
   public Collection<AccessSection> getAccessSections() {

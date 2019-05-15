@@ -24,7 +24,10 @@ import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.blockLabel;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.labelPermissionKey;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CHANGE_ACTIONS;
@@ -102,7 +105,6 @@ import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
-import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.ChangeStatus;
@@ -1066,19 +1068,19 @@ public class ChangeIT extends AbstractDaemonTest {
     GroupApi groupApi = gApi.groups().create(name("delete-change"));
     groupApi.addMembers("user");
 
+    Project.NameKey nameKey = Project.nameKey(name("delete-change"));
     ProjectInput in = new ProjectInput();
-    in.name = name("delete-change");
+    in.name = nameKey.get();
     in.owners = Lists.newArrayListWithCapacity(1);
     in.owners.add(groupApi.name());
     in.createEmptyCommit = true;
-    ProjectApi api = gApi.projects().create(in);
+    gApi.projects().create(in);
 
-    Project.NameKey nameKey = Project.nameKey(api.get().name);
-
-    try (ProjectConfigUpdate u = updateProject(nameKey)) {
-      Util.allow(u.getConfig(), Permission.DELETE_CHANGES, PROJECT_OWNERS, "refs/*");
-      u.save();
-    }
+    projectOperations
+        .project(nameKey)
+        .forUpdate()
+        .add(allow(Permission.DELETE_CHANGES).ref("refs/*").group(PROJECT_OWNERS))
+        .update();
 
     deleteChangeAsUser(nameKey, admin, user);
   }
@@ -1534,11 +1536,12 @@ public class ChangeIT extends AbstractDaemonTest {
   public void pushCommitOfOtherUserThatCannotSeeChange() throws Exception {
     // create hidden project that is only visible to administrators
     Project.NameKey p = projectOperations.newProject().create();
-    try (ProjectConfigUpdate u = updateProject(p)) {
-      Util.allow(u.getConfig(), Permission.READ, adminGroupUuid(), "refs/*");
-      Util.block(u.getConfig(), Permission.READ, REGISTERED_USERS, "refs/*");
-      u.save();
-    }
+    projectOperations
+        .project(p)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/*").group(adminGroupUuid()))
+        .add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
 
     // admin pushes commit of user
     TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
@@ -1607,11 +1610,12 @@ public class ChangeIT extends AbstractDaemonTest {
   public void pushCommitWithFooterOfOtherUserThatCannotSeeChange() throws Exception {
     // create hidden project that is only visible to administrators
     Project.NameKey p = projectOperations.newProject().create();
-    try (ProjectConfigUpdate u = updateProject(p)) {
-      Util.allow(u.getConfig(), Permission.READ, adminGroupUuid(), "refs/*");
-      Util.block(u.getConfig(), Permission.READ, REGISTERED_USERS, "refs/*");
-      u.save();
-    }
+    projectOperations
+        .project(p)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/*").group(adminGroupUuid()))
+        .add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
 
     // admin pushes commit that references 'user' in a footer
     TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
@@ -1650,11 +1654,12 @@ public class ChangeIT extends AbstractDaemonTest {
   public void addReviewerThatCannotSeeChange() throws Exception {
     // create hidden project that is only visible to administrators
     Project.NameKey p = projectOperations.newProject().create();
-    try (ProjectConfigUpdate u = updateProject(p)) {
-      Util.allow(u.getConfig(), Permission.READ, adminGroupUuid(), "refs/*");
-      Util.block(u.getConfig(), Permission.READ, REGISTERED_USERS, "refs/*");
-      u.save();
-    }
+    projectOperations
+        .project(p)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/*").group(adminGroupUuid()))
+        .add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
 
     // create change
     TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
@@ -2161,21 +2166,21 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void removeReviewerNoVotes() throws Exception {
+    LabelType verified =
+        category("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
     try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType verified =
-          category("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
       u.getConfig().getLabelSections().put(verified.getName(), verified);
-      AccountGroup.UUID registeredUsers = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
-      String heads = RefNames.REFS_HEADS + "*";
-      Util.allow(
-          u.getConfig(),
-          Permission.forLabel(Util.verified().getName()),
-          -1,
-          1,
-          registeredUsers,
-          heads);
       u.save();
     }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(verified.getName())
+                .ref(RefNames.REFS_HEADS + "*")
+                .group(REGISTERED_USERS)
+                .range(-1, 1))
+        .update();
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -2449,15 +2454,17 @@ public class ChangeIT extends AbstractDaemonTest {
   public void nonVotingReviewerStaysAfterSubmit() throws Exception {
     LabelType verified =
         category("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
+    String heads = "refs/heads/*";
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig().getLabelSections().put(verified.getName(), verified);
-      String heads = "refs/heads/*";
-      AccountGroup.UUID owners = systemGroupBackend.getGroup(CHANGE_OWNER).getUUID();
-      AccountGroup.UUID registered = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
-      Util.allow(u.getConfig(), Permission.forLabel(verified.getName()), -1, 1, owners, heads);
-      Util.allow(u.getConfig(), Permission.forLabel("Code-Review"), -2, +2, registered, heads);
       u.save();
     }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel(verified.getName()).ref(heads).group(CHANGE_OWNER).range(-1, 1))
+        .add(allowLabel("Code-Review").ref(heads).group(REGISTERED_USERS).range(-2, +2))
+        .update();
 
     // Set Code-Review+2 and Verified+1 as admin (change owner)
     PushOneCommit.Result r = createChange();
@@ -2798,13 +2805,15 @@ public class ChangeIT extends AbstractDaemonTest {
       u.getConfig().getLabelSections().put(verified.getName(), verified);
       u.getConfig().getLabelSections().put(custom1.getName(), custom1);
       u.getConfig().getLabelSections().put(custom2.getName(), custom2);
-      String heads = "refs/heads/*";
-      AccountGroup.UUID anon = systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
-      Util.allow(u.getConfig(), Permission.forLabel("Verified"), -1, 1, anon, heads);
-      Util.allow(u.getConfig(), Permission.forLabel("Custom1"), -1, 1, anon, heads);
-      Util.allow(u.getConfig(), Permission.forLabel("Custom2"), -1, 1, anon, heads);
       u.save();
     }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel(verified.getName()).ref("refs/heads/*").group(ANONYMOUS_USERS).range(-1, 1))
+        .add(allowLabel(custom1.getName()).ref("refs/heads/*").group(ANONYMOUS_USERS).range(-1, 1))
+        .add(allowLabel(custom2.getName()).ref("refs/heads/*").group(ANONYMOUS_USERS).range(-1, 1))
+        .update();
 
     PushOneCommit.Result r1 = createChange();
     r1.assertOkStatus();
@@ -2927,10 +2936,11 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(approval._accountId).isEqualTo(user.id().get());
     assertThat(approval.value).isEqualTo(0);
 
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      Util.blockLabel(u.getConfig(), "Code-Review", REGISTERED_USERS, "refs/heads/*");
-      u.save();
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(blockLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-1, 1))
+        .update();
 
     c = gApi.changes().id(triplet).get(DETAILED_LABELS);
     codeReview = c.labels.get("Code-Review");
@@ -3276,10 +3286,13 @@ public class ChangeIT extends AbstractDaemonTest {
 
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig().getLabelSections().put(verified.getName(), verified);
-      Util.allow(
-          u.getConfig(), Permission.forLabel(verified.getName()), -1, 1, registeredUsers, heads);
       u.save();
     }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel(verified.getName()).ref(heads).group(registeredUsers).range(-1, 1))
+        .update();
 
     change = gApi.changes().id(r.getChangeId()).get();
     assertThat(change.labels.keySet()).containsExactly("Code-Review", "Verified");
@@ -3297,9 +3310,16 @@ public class ChangeIT extends AbstractDaemonTest {
       // remove label and assert that it's no longer returned for existing
       // changes, even if there is an approval for it
       u.getConfig().getLabelSections().remove(verified.getName());
-      Util.remove(u.getConfig(), Permission.forLabel(verified.getName()), registeredUsers, heads);
       u.save();
     }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .remove(
+            permissionKey(Permission.forLabel(verified.getName()))
+                .ref(heads)
+                .group(registeredUsers))
+        .update();
 
     change = gApi.changes().id(r.getChangeId()).get();
     assertThat(change.labels.keySet()).containsExactly("Code-Review");
@@ -3333,10 +3353,13 @@ public class ChangeIT extends AbstractDaemonTest {
     // add new label and assert that it's returned for existing changes
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig().getLabelSections().put(verified.getName(), verified);
-      Util.allow(
-          u.getConfig(), Permission.forLabel(verified.getName()), -1, 1, registeredUsers, heads);
       u.save();
     }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel(verified.getName()).ref(heads).group(registeredUsers).range(-1, 1))
+        .update();
 
     change = gApi.changes().id(r.getChangeId()).get();
     assertThat(change.labels.keySet()).containsExactly("Code-Review", "Verified");
@@ -3378,9 +3401,13 @@ public class ChangeIT extends AbstractDaemonTest {
     // changes, even if there is an approval for it
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig().getLabelSections().remove(verified.getName());
-      Util.remove(u.getConfig(), Permission.forLabel(verified.getName()), registeredUsers, heads);
       u.save();
     }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .remove(permissionKey(verified.getName()).ref(heads).group(registeredUsers))
+        .update();
 
     change = gApi.changes().id(r.getChangeId()).get();
     assertThat(change.labels.keySet()).containsExactly("Code-Review");
@@ -3416,20 +3443,15 @@ public class ChangeIT extends AbstractDaemonTest {
     push2.to(RefNames.REFS_CONFIG);
     testRepo.reset(oldHead);
 
-    AccountGroup.UUID registeredUsers = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
     String heads = RefNames.REFS_HEADS + "*";
 
     // Allow user to approve
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      Util.allow(
-          u.getConfig(),
-          Permission.forLabel(Util.codeReview().getName()),
-          -2,
-          2,
-          registeredUsers,
-          heads);
-      u.save();
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(Util.codeReview().getName()).ref(heads).group(REGISTERED_USERS).range(-2, 2))
+        .update();
 
     PushOneCommit.Result r = createChange();
 
@@ -3481,16 +3503,15 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(approval.permittedVotingRange.min).isEqualTo(-1);
     assertThat(approval.permittedVotingRange.max).isEqualTo(1);
 
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      Util.allow(
-          u.getConfig(),
-          Permission.forLabel("Code-Review"),
-          minPermittedValue,
-          maxPermittedValue,
-          REGISTERED_USERS,
-          heads);
-      u.save();
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel("Code-Review")
+                .ref(heads)
+                .group(REGISTERED_USERS)
+                .range(minPermittedValue, maxPermittedValue))
+        .update();
 
     c = gApi.changes().id(triplet).get(DETAILED_LABELS);
     codeReview = c.labels.get("Code-Review");
@@ -3504,10 +3525,11 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void maxPermittedValueBlocked() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      Util.blockLabel(u.getConfig(), "Code-Review", REGISTERED_USERS, "refs/heads/*");
-      u.save();
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(blockLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-1, 1))
+        .update();
 
     PushOneCommit.Result r = createChange();
     String triplet = project.get() + "~master~" + r.getChangeId();
@@ -3962,13 +3984,13 @@ public class ChangeIT extends AbstractDaemonTest {
 
   public void submittableAfterLosingPermissions(String label) throws Exception {
     String codeReviewLabel = "Code-Review";
-    AccountGroup.UUID registered = SystemGroupBackend.REGISTERED_USERS;
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      Util.allow(u.getConfig(), Permission.forLabel(label), -1, +1, registered, "refs/heads/*");
-      Util.allow(
-          u.getConfig(), Permission.forLabel(codeReviewLabel), -2, +2, registered, "refs/heads/*");
-      u.save();
-    }
+    AccountGroup.UUID registered = REGISTERED_USERS;
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel(label).ref("refs/heads/*").group(registered).range(-1, +1))
+        .add(allowLabel(codeReviewLabel).ref("refs/heads/*").group(registered).range(-2, +2))
+        .update();
 
     requestScopeOperations.setApiUser(user.id());
     PushOneCommit.Result r = createChange();
@@ -3991,15 +4013,13 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(gApi.changes().id(changeId).get().submittable).isTrue();
 
     requestScopeOperations.setApiUser(admin.id());
-    // Remove user's permission for 'Label'.
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      Util.remove(u.getConfig(), Permission.forLabel(label), registered, "refs/heads/*");
-      // Update user's permitted range for 'Code-Review' to be -1...+1.
-      Util.remove(u.getConfig(), Permission.forLabel(codeReviewLabel), registered, "refs/heads/*");
-      Util.allow(
-          u.getConfig(), Permission.forLabel(codeReviewLabel), -1, +1, registered, "refs/heads/*");
-      u.save();
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .remove(labelPermissionKey(label).ref("refs/heads/*").group(registered))
+        .remove(labelPermissionKey(codeReviewLabel).ref("refs/heads/*").group(registered))
+        .add(allowLabel(codeReviewLabel).ref("refs/heads/*").group(registered).range(-1, +1))
+        .update();
 
     // Verify user's new permitted range.
     requestScopeOperations.setApiUser(user.id());

@@ -9,6 +9,7 @@ java_library(
     visibility = ["//visibility:public"],
     runtime_deps = ["//prolog:gerrit-prolog-common"],
     deps = [
+        "//java/com/google/gerrit/acceptance/testsuite/project",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",

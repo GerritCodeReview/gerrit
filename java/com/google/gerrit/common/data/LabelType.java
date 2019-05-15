@@ -17,8 +17,10 @@ package com.google.gerrit.common.data;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.common.LabelTypeInfo;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import java.util.ArrayList;
@@ -315,5 +317,12 @@ public class LabelType {
     }
     sb.append(']');
     return sb.toString();
+  }
+
+  public LabelTypeInfo toLabelTypeInfo() {
+    LabelTypeInfo labelInfo = new LabelTypeInfo();
+    labelInfo.values = values.stream().collect(toMap(LabelValue::formatValue, LabelValue::getText));
+    labelInfo.defaultValue = defaultValue;
+    return labelInfo;
   }
 }

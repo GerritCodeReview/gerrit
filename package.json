@@ -4,10 +4,13 @@
   "description": "Gerrit Code Review",
   "dependencies": {},
   "devDependencies": {
+    "@bazel/bazel": "^0.25.1",
+    "@bazel/buildifier": "^0.22.0",
+    "@bazel/ibazel": "^0.10.3",
     "web-component-tester": "^6.9.2"
   },
   "scripts": {
-    "test": "WCT_HEADLESS_MODE=1 WCT_ARGS='--verbose' ./app/run_test.sh"
+    "test": "WCT_HEADLESS_MODE=1 WCT_ARGS='--verbose' ./polymer-ui/app/run_test.sh"
   },
   "repository": {
     "type": "git",

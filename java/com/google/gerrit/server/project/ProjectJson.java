@@ -14,13 +14,9 @@
 
 package com.google.gerrit.server.project;
 
-import static java.util.stream.Collectors.toMap;
-
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.LabelValue;
-import com.google.gerrit.extensions.common.LabelTypeInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.Url;
@@ -47,11 +43,7 @@ public class ProjectJson {
     ProjectInfo info = format(projectState.getProject());
     info.labels = new HashMap<>();
     for (LabelType t : projectState.getLabelTypes().getLabelTypes()) {
-      LabelTypeInfo labelInfo = new LabelTypeInfo();
-      labelInfo.values =
-          t.getValues().stream().collect(toMap(LabelValue::formatValue, LabelValue::getText));
-      labelInfo.defaultValue = t.getDefaultValue();
-      info.labels.put(t.getName(), labelInfo);
+      info.labels.put(t.getName(), t.toLabelTypeInfo());
     }
 
     return info;

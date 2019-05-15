@@ -82,5 +82,11 @@ public interface QuotaBackend {
      * not to deduct any quota yet. Can be used to do pre-flight requests where necessary
      */
     QuotaResponse.Aggregated dryRun(String quotaGroup, long tokens);
+
+    /**
+     * Requests minium number of tokens available in for all implementations. See {@link
+     * QuotaResponse.Aggregated#availableTokens()}}.
+     */
+    QuotaResponse.Aggregated availableTokens(String quotaGroup);
   }
 }

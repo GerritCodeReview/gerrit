@@ -29,8 +29,10 @@ import com.google.common.base.MoreObjects;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.inject.Inject;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
@@ -51,6 +53,8 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
       this.createPermission = createPermission;
     }
   }
+
+  @Inject private ProjectOperations projectOperations;
 
   private RevCommit initialHead;
   private TagType tagType;

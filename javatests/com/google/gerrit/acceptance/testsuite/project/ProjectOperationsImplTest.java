@@ -218,6 +218,62 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
   }
 
   @Test
+  public void updateExclusivePermission() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(allow(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
+        .setExclusiveGroup(permissionKey(Permission.ABANDON).ref("refs/foo"), true)
+        .update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly(
+            "abandon", "group global:Registered-Users",
+            "exclusiveGroupPermissions", "abandon");
+
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .setExclusiveGroup(permissionKey(Permission.ABANDON).ref("refs/foo"), false)
+        .update();
+
+    config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly("abandon", "group global:Registered-Users");
+  }
+
+  @Test
+  public void addMultipleExclusivePermission() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .setExclusiveGroup(permissionKey(Permission.ABANDON).ref("refs/foo"), true)
+        .setExclusiveGroup(permissionKey(Permission.CREATE).ref("refs/foo"), true)
+        .update();
+    assertThat(projectOperations.project(key).getConfig())
+        .subsectionValues("access", "refs/foo")
+        .containsEntry("exclusiveGroupPermissions", "abandon create");
+
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .setExclusiveGroup(permissionKey(Permission.ABANDON).ref("refs/foo"), false)
+        .update();
+    assertThat(projectOperations.project(key).getConfig())
+        .subsectionValues("access", "refs/foo")
+        .containsEntry("exclusiveGroupPermissions", "create");
+  }
+
+  @Test
   public void addMultiplePermissions() throws Exception {
     Project.NameKey key = projectOperations.newProject().create();
     projectOperations
@@ -305,12 +361,8 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     projectOperations
         .project(key)
         .forUpdate()
-        .add(
-            allowLabel("Code-Review")
-                .ref("refs/foo")
-                .group(REGISTERED_USERS)
-                .range(-1, 2)
-                .exclusive(true))
+        .add(allowLabel("Code-Review").ref("refs/foo").group(REGISTERED_USERS).range(-1, 2))
+        .setExclusiveGroup(labelPermissionKey("Code-Review").ref("refs/foo"), true)
         .update();
 
     Config config = projectOperations.project(key).getConfig();
@@ -321,6 +373,19 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
         .containsExactly(
             "label-Code-Review", "-1..+2 group global:Registered-Users",
             "exclusiveGroupPermissions", "label-Code-Review");
+
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .setExclusiveGroup(labelPermissionKey("Code-Review").ref("refs/foo"), false)
+        .update();
+
+    config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly("label-Code-Review", "-1..+2 group global:Registered-Users");
   }
 
   @Test

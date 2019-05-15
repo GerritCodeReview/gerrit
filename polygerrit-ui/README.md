@@ -38,8 +38,7 @@ sudo npm install -g \
   eslint-config-google \
   eslint-plugin-html \
   typescript \
-  fried-twinkie \
-  polylint
+  fried-twinkie
 ```
 
 It may complain about a missing `typescript@2.3.4` peer dependency, which is
@@ -177,6 +176,13 @@ To run polylint, execute the following command.
 ```sh
 bazel test //polygerrit-ui/app:polylint_test
 ```
+
+or
+
+```sh
+npm run polylint
+```
+
 ## Template Type Safety
 Polymer elements are not type checked against the element definition, making it
 trivial to break the display when refactoring or moving code. We now run

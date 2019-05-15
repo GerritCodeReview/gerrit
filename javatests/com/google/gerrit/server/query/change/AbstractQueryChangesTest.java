@@ -18,13 +18,12 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.project.testing.Util.allow;
 import static com.google.gerrit.server.project.testing.Util.category;
 import static com.google.gerrit.server.project.testing.Util.value;
-import static com.google.gerrit.server.project.testing.Util.verified;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -42,9 +41,9 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Streams;
 import com.google.common.truth.ThrowableSubject;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
@@ -175,6 +174,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected ProjectCache projectCache;
   @Inject protected MetaDataUpdate.Server metaDataUpdateFactory;
   @Inject protected IdentifiedUser.GenericFactory identifiedUserFactory;
+
+  @Inject private ProjectOperations projectOperations;
 
   protected Injector injector;
   protected LifecycleManager lifecycle;
@@ -1056,7 +1057,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     cfg.getLabelSections().put(verified.getName(), verified);
 
     String heads = RefNames.REFS_HEADS + "*";
-    allow(cfg, Permission.forLabel(verified().getName()), -1, 1, REGISTERED_USERS, heads);
+    projectOperations
+        .project(cfg.getName())
+        .forUpdate()
+        .add(allowLabel(verified.getName()).ref(heads).group(REGISTERED_USERS).range(-1, 1))
+        .update();
 
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
       cfg.commit(md);

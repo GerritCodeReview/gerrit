@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99610608_aaa9e647",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-05-15T08:15:09Z",
+      "side": 1,
+      "message": "IIUC the purpose of using field injection is so that it\u0027s easier to not pass the field in tests, in which case you have to deal with config being null. How about:\n\n IndexType indexType \u003d config !\u003d null ? config.getEnum(\"index\", null, \"type\", IndexType.LUCENE) :  IndexType.LUCENE;\n\nYou could also move this to a static method in IndexModule like:\n\n public static IndexType getIndexType(@Nullable Config cfg)\n\nlike the existing getIndexType method.",
+      "range": {
+        "startLine": 745,
+        "startChar": 8,
+        "endLine": 746,
+        "endChar": 73
+      },
+      "revId": "a544317184eeebb03c33e3f3e9cca8713d4c5594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c20359a_b4efacb2",
+        "filename": "java/com/google/gerrit/server/query/change/FileWithNoExtensionPredicate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-05-15T08:15:09Z",
+      "side": 1,
+      "message": "Can we put \"Elastic\" in the name here to make the purpose clearer?",
+      "revId": "a544317184eeebb03c33e3f3e9cca8713d4c5594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

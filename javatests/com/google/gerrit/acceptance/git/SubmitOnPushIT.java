@@ -24,6 +24,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -48,6 +49,7 @@ import org.junit.Test;
 @NoHttpd
 public class SubmitOnPushIT extends AbstractDaemonTest {
   @Inject private ApprovalsUtil approvalsUtil;
+  @Inject private ProjectOperations projectOperations;
 
   @Test
   public void submitOnPush() throws Exception {

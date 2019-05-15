@@ -23,13 +23,16 @@ import static com.google.gerrit.server.restapi.config.PostCaches.Operation.FLUSH
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.server.restapi.config.ListCaches.CacheInfo;
 import com.google.gerrit.server.restapi.config.PostCaches;
+import com.google.inject.Inject;
 import java.util.Arrays;
 import org.junit.Test;
 
 public class CacheOperationsIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
 
   @Test
   public void flushAll() throws Exception {

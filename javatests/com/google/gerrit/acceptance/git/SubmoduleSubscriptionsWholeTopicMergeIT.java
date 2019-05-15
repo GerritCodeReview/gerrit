@@ -23,6 +23,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.testsuite.ThrowingConsumer;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
@@ -32,6 +33,7 @@ import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.testing.ConfigSuite;
+import com.google.inject.Inject;
 import java.util.ArrayDeque;
 import java.util.Map;
 import org.apache.commons.lang.RandomStringUtils;
@@ -70,6 +72,8 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
   public static Config rebaseIfNecessary() {
     return submitByRebaseIfNecessaryConfig();
   }
+
+  @Inject private ProjectOperations projectOperations;
 
   @Test
   public void subscriptionUpdateOfManyChanges() throws Exception {

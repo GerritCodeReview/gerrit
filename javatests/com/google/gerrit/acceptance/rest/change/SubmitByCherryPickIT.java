@@ -21,6 +21,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
@@ -40,6 +41,7 @@ import org.junit.Test;
 
 public class SubmitByCherryPickIT extends AbstractSubmit {
   @Inject private DynamicSet<ChangeMessageModifier> changeMessageModifiers;
+  @Inject private ProjectOperations projectOperations;
 
   @Override
   protected SubmitType getSubmitType() {

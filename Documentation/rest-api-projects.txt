@@ -466,11 +466,17 @@ describes the project.
     "state": "ACTIVE",
     "labels": {
       "Code-Review": {
+        "function": "MAX_WITH_BLOCK"
         "values": {
           " 0": "No score",
           "+1": "Approved"
         },
         "default_value": 0
+        "copy_min_score": true
+        "copy_all_scores_on_trivial_rebase": true
+        "copy_all_scores_if_no_change": true
+        "allow_post_submit": true
+        "can_override": true
       }
     }
   }
@@ -518,11 +524,17 @@ describes the created project.
     "description": "This is a demo project.",
     "labels": {
       "Code-Review": {
+        "function": "MAX_WITH_BLOCK"
         "values": {
           " 0": "No score",
           "+1": "Approved"
         },
         "default_value": 0
+        "copy_min_score": true
+        "copy_all_scores_on_trivial_rebase": true
+        "copy_all_scores_if_no_change": true
+        "allow_post_submit": true
+        "can_override": true
       }
     }
   }
@@ -3411,8 +3423,56 @@ project has.
 [options="header",cols="1,^2,4"]
 |================================
 |Field Name         ||Description
-|`values`           ||Map of the available values to their description.
-|`default_value`    ||The default value of this label.
+|`name`
+||The name for a label. See link:config-labels.html#label_name[label name].
+|`function`
+||The name of a function for evaluating multiple votes for a label. See
+link:config-labels.html#label_function[label function].
+|`branches`
+|optional|A list of branches the label is applicable. See
+link:config-labels.html#label_branch[label branch].
+|`values`
+||Map of the available values to their description. See
+link:config-labels.html#label_value[label values].
+|`default_value`
+||The default value of this label. See
+link:config-labels.html#label_defaultValue[label default value].
+|`copy_min_score`
+|false if not set|If true, the lowest possible negative value for the label is
+copied forward when a new patch set is uploaded. See
+link:config-labels.html#label_copyMinScore[copy min score].
+|`copy_max_score`
+|false if not set|If true, the highest possible positive value for the label is
+copied forward when a new patch set is uploaded. See
+link:config-labels.html#label_copyMaxScore[copy max score].
+|`copy_all_scores_on_merge_first_parent_update`
+|false if not set|If true, all scores for the label are copied forward when a new patch set is
+uploaded that is a new merge commit which only differs from the previous patch set in its first
+parent, or has identical parents. See
+link:config-labels.html#label_copyAllScoresOnMergeFirstParentUpdate[copy all scores on merge first parent update].
+|`copy_all_scores_on_trivial_rebase`
+|false if not set|If true, all scores for the label are copied forward when a new patch set is
+uploaded that is a trivial rebase. See
+link:config-labels.html#label_copyAllScoresOnTrivialRebase[copy all scores on trivial rebase].
+|`copy_all_scores_if_no_code_change`
+|false if not set|If true, all scores for the label are copied forward when a new patch set is
+uploaded that has the same parent tree as the previous patch set and the same code delta as the
+previous patch set. See
+link:config-labels.html#label_copyAllScoresIfNoCodeChange[copy all scores if no code changes].
+|`copy_all_scores_if_no_change`
+|false if not set|If true, all scores for the label are copied forward when a new patch set is
+uploaded that has the same parent tree, code delta, and commit message as the previous patch set.
+See link:config-labels.html#label_copyAllScoresIfNoChange[copy all scores if no change].
+|`allow_post_submit`
+|false if not set|If true, the label may be voted on for changes that have already been submitted.
+See link:config-labels.html#label_allowPostSubmit[allow post submit].
+|`ignore_self_approval`
+|false if not set|If true, the label may be voted on by the uploader of the latest patch set, but
+their approval does not make a change submittable. See
+link:config-labels.html#label_ignoreSelfApproval[ignore self approval].
+|`can_override`
+|false if not set|If false, the label cannot be overridden by child projects. See
+link:config-labels.html#label_canOverride[can override].
 |================================
 
 [[max-object-size-limit-info]]

@@ -44,8 +44,23 @@ public class GetProjectIT extends AbstractDaemonTest {
             "-2", "This shall not be merged",
             "+1", "Looks good to me, but someone else must approve",
             "+2", "Looks good to me, approved");
+
+    assertThat(l.name).isEqualTo("Code-Review");
+    assertThat(l.function).isEqualTo("MAX_WITH_BLOCK");
+    assertThat(l.branches).isNull();
+
     assertThat(l.values).isEqualTo(want);
     assertThat(l.defaultValue).isEqualTo(0);
+    assertThat(l.copyMinScore).isTrue();
+    assertThat(l.copyMaxScore).isNull();
+
+    assertThat(l.copyAllScoresOnMergeFirstParentUpdate).isNull();
+    assertThat(l.copyAllScoresOnTrivialRebase).isTrue();
+    assertThat(l.copyAllScoresIfNoCodeChange).isNull();
+    assertThat(l.copyAllScoresIfNoChange).isTrue();
+    assertThat(l.allowPostSubmit).isTrue();
+    assertThat(l.ignoreSelfApproval).isNull();
+    assertThat(l.canOverride).isTrue();
   }
 
   @Test

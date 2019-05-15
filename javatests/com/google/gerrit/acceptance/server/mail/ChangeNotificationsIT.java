@@ -14,6 +14,8 @@
 
 package com.google.gerrit.acceptance.server.mail;
 
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.extensions.api.changes.NotifyHandling.ALL;
 import static com.google.gerrit.extensions.api.changes.NotifyHandling.NONE;
 import static com.google.gerrit.extensions.api.changes.NotifyHandling.OWNER;
@@ -52,8 +54,6 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.project.ProjectConfig;
-import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.restapi.change.PostReview;
 import com.google.inject.Inject;
 import org.eclipse.jgit.junit.TestRepository;
@@ -82,14 +82,14 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
   @Before
   public void grantPermissions() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      ProjectConfig cfg = u.getConfig();
-      Util.allow(cfg, Permission.FORGE_COMMITTER, REGISTERED_USERS, "refs/*");
-      Util.allow(cfg, Permission.SUBMIT, REGISTERED_USERS, "refs/*");
-      Util.allow(cfg, Permission.ABANDON, REGISTERED_USERS, "refs/*");
-      Util.allow(cfg, Permission.forLabel("Code-Review"), -2, +2, REGISTERED_USERS, "refs/*");
-      u.save();
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.FORGE_COMMITTER).ref("refs/*").group(REGISTERED_USERS))
+        .add(allow(Permission.SUBMIT).ref("refs/*").group(REGISTERED_USERS))
+        .add(allow(Permission.ABANDON).ref("refs/*").group(REGISTERED_USERS))
+        .add(allowLabel("Code-Review").ref("refs/*").group(REGISTERED_USERS).range(-2, +2))
+        .update();
   }
 
   /*

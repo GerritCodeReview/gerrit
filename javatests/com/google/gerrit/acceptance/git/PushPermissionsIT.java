@@ -38,7 +38,6 @@ import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.project.ProjectConfig;
-import com.google.gerrit.server.project.testing.Util;
 import com.google.inject.Inject;
 import java.util.Arrays;
 import java.util.function.Consumer;
@@ -76,13 +75,16 @@ public class PushPermissionsIT extends AbstractDaemonTest {
           Permission.PUSH_MERGE,
           Permission.SUBMIT);
       removeAllGlobalCapabilities(cfg, GlobalCapability.ADMINISTRATE_SERVER);
-
-      // Include some auxiliary permissions.
-      Util.allow(cfg, Permission.FORGE_AUTHOR, REGISTERED_USERS, "refs/*");
-      Util.allow(cfg, Permission.FORGE_COMMITTER, REGISTERED_USERS, "refs/*");
-
       u.save();
     }
+
+    // Include some auxiliary permissions.
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allow(Permission.FORGE_AUTHOR).ref("refs/*").group(REGISTERED_USERS))
+        .add(allow(Permission.FORGE_COMMITTER).ref("refs/*").group(REGISTERED_USERS))
+        .update();
   }
 
   @Test

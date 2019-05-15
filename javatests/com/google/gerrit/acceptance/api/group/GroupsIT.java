@@ -90,8 +90,6 @@ import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.index.group.StalenessChecker;
 import com.google.gerrit.server.notedb.Sequences;
-import com.google.gerrit.server.project.ProjectConfig;
-import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.GerritJUnit.ThrowingRunnable;
@@ -1087,15 +1085,18 @@ public class GroupsIT extends AbstractDaemonTest {
 
   private void assertPushToGroupBranch(
       Project.NameKey project, String groupRefName, String expectedErrorOnUpdate) throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      ProjectConfig cfg = u.getConfig();
-      Util.allow(cfg, Permission.CREATE, REGISTERED_USERS, RefNames.REFS_GROUPS + "*");
-      Util.allow(cfg, Permission.PUSH, REGISTERED_USERS, RefNames.REFS_GROUPS + "*");
-      Util.allow(cfg, Permission.CREATE, REGISTERED_USERS, RefNames.REFS_DELETED_GROUPS + "*");
-      Util.allow(cfg, Permission.PUSH, REGISTERED_USERS, RefNames.REFS_DELETED_GROUPS + "*");
-      Util.allow(cfg, Permission.PUSH, REGISTERED_USERS, RefNames.REFS_GROUPNAMES);
-      u.save();
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref(RefNames.REFS_GROUPS + "*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref(RefNames.REFS_GROUPS + "*").group(REGISTERED_USERS))
+        .add(
+            allow(Permission.CREATE)
+                .ref(RefNames.REFS_DELETED_GROUPS + "*")
+                .group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref(RefNames.REFS_DELETED_GROUPS + "*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref(RefNames.REFS_GROUPNAMES).group(REGISTERED_USERS))
+        .update();
 
     TestRepository<InMemoryRepository> repo = cloneProject(project);
 
@@ -1114,12 +1115,12 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   private void assertCreateGroupBranch(Project.NameKey project) throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      ProjectConfig cfg = u.getConfig();
-      Util.allow(cfg, Permission.CREATE, REGISTERED_USERS, RefNames.REFS_GROUPS + "*");
-      Util.allow(cfg, Permission.PUSH, REGISTERED_USERS, RefNames.REFS_GROUPS + "*");
-      u.save();
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref(RefNames.REFS_GROUPS + "*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref(RefNames.REFS_GROUPS + "*").group(REGISTERED_USERS))
+        .update();
     TestRepository<InMemoryRepository> repo = cloneProject(project);
     PushOneCommit.Result r =
         pushFactory

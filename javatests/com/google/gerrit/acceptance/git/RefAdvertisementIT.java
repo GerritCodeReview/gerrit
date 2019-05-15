@@ -21,6 +21,7 @@ import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
@@ -54,7 +55,6 @@ import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
-import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
@@ -126,9 +126,13 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       for (AccessSection sec : u.getConfig().getAccessSections()) {
         sec.removePermission(Permission.READ);
       }
-      Util.allow(u.getConfig(), Permission.READ, admins, "refs/*");
       u.save();
     }
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/*").group(admins))
+        .update();
 
     // Remove all read permissions on All-Users.
     try (ProjectConfigUpdate u = updateProject(allUsers)) {
@@ -191,12 +195,13 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void uploadPackAllRefsVisibleNoRefsMetaConfig() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      Util.allow(u.getConfig(), Permission.READ, REGISTERED_USERS, "refs/*");
-      Util.allow(u.getConfig(), Permission.READ, admins, RefNames.REFS_CONFIG);
-      Util.doNotInherit(u.getConfig(), Permission.READ, RefNames.REFS_CONFIG);
-      u.save();
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .add(allow(Permission.READ).ref(RefNames.REFS_CONFIG).group(admins))
+        .setExclusiveGroup(permissionKey(Permission.READ).ref(RefNames.REFS_CONFIG), true)
+        .update();
 
     requestScopeOperations.setApiUser(user.id());
     assertUploadPackRefs(

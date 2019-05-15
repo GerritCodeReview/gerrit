@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3e0d741c_f639bd09",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-15T05:42:03Z",
+      "side": 1,
+      "message": "I\u0027ve had a quick look into doing this, but IndexConfig is an AutoBuilder class and I couldn\u0027t get it to work properly.\n\nNevertheless, I still think this injection should be done in the constructor.",
+      "parentUuid": "1060a4ec_5518bb26",
+      "range": {
+        "startLine": 411,
+        "startChar": 2,
+        "endLine": 411,
+        "endChar": 52
+      },
+      "revId": "7e3391f67e989b47347192cfab92a6741610bc73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8d481bae_f09ecb13",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2019-05-14T21:31:32Z",
       "side": 1,
       "message": "Reviewers: can this call stay here, or should it move outside of this method, for potential performance reasons?",
+      "range": {
+        "startLine": 745,
+        "startChar": 27,
+        "endLine": 745,
+        "endChar": 66
+      },
+      "revId": "7e3391f67e989b47347192cfab92a6741610bc73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63c974df_20eaf9d7",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-15T05:42:03Z",
+      "side": 1,
+      "message": "Let\u0027s consider making the member a boolean instead of keeping the Config instance, and initializing it in the constructor from the injected Config.\n\nWe can also collapse the nested if-conditions into a single condition, something like:\n\n  if (ext.isEmpty() \u0026\u0026 isElastic) {\n\nAlso, note that since IndexType is an enum, we should rather be using config.getEnum here.   The only thing to be cautious of is that it\u0027s necessary to provide the default value, which will introduce one more place that will need to be updated in the (admittedly unlikely) case that we change the default index type.",
+      "parentUuid": "8d481bae_f09ecb13",
       "range": {
         "startLine": 745,
         "startChar": 27,

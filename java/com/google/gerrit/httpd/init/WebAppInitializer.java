@@ -37,6 +37,7 @@ import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
 import com.google.gerrit.httpd.raw.StaticModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
+import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
 import com.google.gerrit.pgm.util.LogFileCompressor;
@@ -70,6 +71,7 @@ import com.google.gerrit.server.events.StreamEventsApiListener;
 import com.google.gerrit.server.git.GarbageCollectionModule;
 import com.google.gerrit.server.git.GitRepositoryManagerModule;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
+import com.google.gerrit.server.git.SystemReaderInstaller;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
@@ -263,6 +265,13 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     } else {
       modules.add(new GerritServerConfigModule());
     }
+    modules.add(
+        new LifecycleModule() {
+          @Override
+          protected void configure() {
+            listener().to(SystemReaderInstaller.class);
+          }
+        });
     modules.add(new DropWizardMetricMaker.ApiModule());
     return Guice.createInjector(
         PRODUCTION, LibModuleLoader.loadModules(cfgInjector, LibModuleType.DB_MODULE));

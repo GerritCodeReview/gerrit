@@ -22,6 +22,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -41,6 +42,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ConfigChangeIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   @Before

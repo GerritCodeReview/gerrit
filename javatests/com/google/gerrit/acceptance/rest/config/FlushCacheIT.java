@@ -21,11 +21,14 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.server.restapi.config.ListCaches.CacheInfo;
+import com.google.inject.Inject;
 import org.junit.Test;
 
 public class FlushCacheIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
 
   @Test
   public void flushCache() throws Exception {

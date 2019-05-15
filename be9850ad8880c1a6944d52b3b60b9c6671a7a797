@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c739f2e_ab2cfca6",
+        "filename": "java/com/google/gerrit/truth/ConfigSubject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-15T10:50:57Z",
+      "side": 1,
+      "message": "This will break Truth\u0027s validation chain. Instead, please use check(\"getSections()\").that(config.getSections()).",
+      "range": {
+        "startLine": 48,
+        "startChar": 11,
+        "endLine": 48,
+        "endChar": 27
+      },
+      "revId": "be9850ad8880c1a6944d52b3b60b9c6671a7a797",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e173c43_7cbfb123",
+        "filename": "java/com/google/gerrit/truth/ConfigSubject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-15T10:50:57Z",
+      "side": 1,
+      "message": "Optional: If you want to produce extra nice failure messages, you could distinguish between subsection being null or not for the produced message (e.g. \"getSection(%s)\" if subsection is null as the printed \u0027null\u0027 when coming from sectionValues(..) might not be obvious).",
+      "range": {
+        "startLine": 77,
+        "startChar": 11,
+        "endLine": 77,
+        "endChar": 59
+      },
+      "revId": "be9850ad8880c1a6944d52b3b60b9c6671a7a797",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

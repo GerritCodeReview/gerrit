@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "735e1fac_2fdd22bd",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-05-15T12:55:22Z",
+      "side": 1,
+      "message": "Code like [1] is painfully seared in my brain at this point, so I want to make sure it\u0027s not possible to do with any new APIs I build :)\n\n[1] https://gerrit.googlesource.com/gerrit/+/66e850a9f8bc3d69da7b1e7bcf0ef89865a6eba1/javatests/com/google/gerrit/acceptance/rest/project/DeleteBranchIT.java#155",
+      "parentUuid": "991df4db_d3b62206",
+      "range": {
+        "startLine": 81,
+        "startChar": 14,
+        "endLine": 81,
+        "endChar": 76
+      },
+      "revId": "53c71d7671e58ee3a324d979aa7a48f06e930d5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21b6f895_47ab4b24",
         "filename": "javatests/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImplTest.java",
         "patchSetId": 1

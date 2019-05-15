@@ -20,6 +20,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectCreation.Builder;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestCapability;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestPermission;
@@ -127,6 +128,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
         addCapabilities(projectConfig, projectUpdate.addedCapabilities());
         addPermissions(projectConfig, projectUpdate.addedPermissions());
         addLabelPermissions(projectConfig, projectUpdate.addedLabelPermissions());
+        setExclusiveGroupPermissions(projectConfig, projectUpdate.exclusiveGroupPermissions());
         projectConfig.commit(metaDataUpdate);
       }
       projectCache.evict(nameKey);
@@ -178,13 +180,22 @@ public class ProjectOperationsImpl implements ProjectOperations {
             PermissionRule rule = Util.newRule(projectConfig, p.group());
             rule.setAction(p.action());
             rule.setRange(p.min(), p.max());
-            Permission permission =
-                projectConfig
-                    .getAccessSection(p.ref(), true)
-                    .getPermission(Permission.forLabel(p.name()), true);
-            permission.setExclusiveGroup(p.exclusive());
-            permission.add(rule);
+            projectConfig
+                .getAccessSection(p.ref(), true)
+                .getPermission(Permission.forLabel(p.name()), true)
+                .add(rule);
           });
+    }
+
+    private void setExclusiveGroupPermissions(
+        ProjectConfig projectConfig,
+        ImmutableMap<TestProjectUpdate.TestPermissionKey, Boolean> exclusiveGroupPermissions) {
+      exclusiveGroupPermissions.forEach(
+          (key, exclusive) ->
+              projectConfig
+                  .getAccessSection(key.section(), true)
+                  .getPermission(key.name(), true)
+                  .setExclusiveGroup(exclusive));
     }
 
     private RevCommit headOrNull(String branch) {

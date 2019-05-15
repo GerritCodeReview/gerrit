@@ -16,12 +16,14 @@ package com.google.gerrit.acceptance.server.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseLocalDisk;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -31,7 +33,6 @@ import com.google.gerrit.extensions.api.projects.ReflogEntryInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.project.testing.Util;
 import com.google.inject.Inject;
 import java.io.File;
 import java.util.List;
@@ -41,6 +42,7 @@ import org.junit.Test;
 
 @UseLocalDisk
 public class ReflogIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test
@@ -96,10 +98,11 @@ public class ReflogIT extends AbstractDaemonTest {
     GroupApi groupApi = gApi.groups().create(name("get-reflog"));
     groupApi.addMembers("user");
 
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      Util.allow(u.getConfig(), Permission.OWNER, AccountGroup.uuid(groupApi.get().id), "refs/*");
-      u.save();
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.OWNER).ref("refs/*").group(AccountGroup.uuid(groupApi.get().id)))
+        .update();
 
     requestScopeOperations.setApiUser(user.id());
     gApi.projects().name(project.get()).branch("master").reflog();

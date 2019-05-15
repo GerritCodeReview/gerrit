@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -48,6 +49,7 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
   private static final ImmutableList<String> BRANCHES =
       ImmutableList.of("refs/heads/test-1", "refs/heads/test-2", "test-3", "refs/meta/foo");
 
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   @Before

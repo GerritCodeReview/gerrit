@@ -47,6 +47,7 @@ import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -136,6 +137,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Inject private Groups groups;
   @Inject private GroupsConsistencyChecker consistencyChecker;
   @Inject private PeriodicGroupIndexer slaveGroupIndexer;
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private Sequences seq;
   @Inject private StalenessChecker stalenessChecker;

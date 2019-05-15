@@ -19,11 +19,14 @@ import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.inject.Inject;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
 public abstract class AbstractSubmitByMerge extends AbstractSubmit {
+  @Inject private ProjectOperations projectOperations;
 
   @Test
   public void submitWithMerge() throws Throwable {

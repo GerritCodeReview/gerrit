@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "280c9e6d_a5790495",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-05-15T10:47:23Z",
+      "side": 1,
+      "message": "The current plan for the Google-appointed CM is that this is a 20% role. I don\u0027t think we have to set this in stone for now but that the CM (and maybe the ESC) can further define this as we go.",
+      "parentUuid": "63d39212_f44f1867",
+      "revId": "686e39f6c958834173a7e1b7489b49f453c8d7e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "37dcd31b_74a10a48",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 4
@@ -102,6 +120,30 @@
       "side": 1,
       "message": "Just one Community Manager from Google could work, versus potential conflicts of interest with the ESC (3/5 Google), if\n\n1. the CM work (possibly involving the ESC) is done transparently enough towards the community, and\n2. the CM has a reliable backup if temporarily unavailable (illness, vacation, personal constraints).\n\nSo the backup (or somewhat second, likely non-Googler CM) problem remains, I think. Also, what if the potentially sole Googler CM needs to bounce problem-solving ideas (about community or ESC issues/challenges) with a trustworthy -and capable enough- colleague?\n\nThe latter\u0027s work might then also need to become as transparent. The needed scheme could then become CM + backup (part-time or so) co-CM. (Assuming the co-CM stays within CM\u0027s loops enough to remain relevant as backup.)",
       "parentUuid": "d1f4968b_a3edcc5e",
+      "range": {
+        "startLine": 297,
+        "startChar": 45,
+        "endLine": 298,
+        "endChar": 43
+      },
+      "revId": "686e39f6c958834173a7e1b7489b49f453c8d7e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "434dacd2_d7a1719e",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-05-15T10:47:23Z",
+      "side": 1,
+      "message": "When we did a quick show of hands at the hackathon in Munich, there was one (potentially two) candidates that expressed interest to be the community appointed CM. Both said that they could only take the role if the commitment that is required time-wise is acceptably low.\n\nBased on that I rather fear that we have [0,1] candidates for the community appointed CM, so making this optional seems like the better choice to me.\n\nWe can always make that mandatory in the future if we see that there is enough candidates willing to make a commitment.\n\nI said this verbally, but I\u0027d like to restate it also in writing here: Edwin will serve as the Google-appointed CM. I think he has a great amount of trust and a good standing, so that even if there would be no community candidate for now (because people can\u0027t make firm commitments at the moment) we can trust him with representing the whole community and further spec out the role and onboard a community appointed CM if possible.\n\nI would therefore leave this text as-is for now with the intent of future adjustments.",
+      "parentUuid": "6e93eedb_2aec7f92",
       "range": {
         "startLine": 297,
         "startChar": 45,

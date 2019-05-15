@@ -38,8 +38,7 @@ sudo npm install -g \
   eslint-config-google \
   eslint-plugin-html \
   typescript \
-  fried-twinkie \
-  polylint
+  fried-twinkie
 ```
 
 It may complain about a missing `typescript@2.3.4` peer dependency, which is

@@ -33,7 +33,7 @@ http_file(
 
 load("@bazel_skylib//lib:versions.bzl", "versions")
 
-versions.check(minimum_bazel_version = "0.22.0")
+versions.check(minimum_bazel_version = "0.25.0")
 
 load("@io_bazel_rules_closure//closure:defs.bzl", "closure_repositories")
 

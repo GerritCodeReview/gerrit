@@ -60,11 +60,12 @@ import org.junit.Before;
 
 public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
 
+  @Inject private ProjectOperations projectOperations;
+
   protected TestRepository<?> superRepo;
   protected Project.NameKey superKey;
   protected TestRepository<?> subRepo;
   protected Project.NameKey subKey;
-  @Inject protected ProjectOperations projectOperations;
 
   protected SubmitType getSubmitType() {
     return cfg.getEnum("project", null, "submitType", SubmitType.MERGE_IF_NECESSARY);

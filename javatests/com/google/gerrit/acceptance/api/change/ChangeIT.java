@@ -23,6 +23,7 @@ import static com.google.gerrit.acceptance.PushOneCommit.FILE_CONTENT;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
@@ -2552,8 +2553,14 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void queryChangesNoLimit() throws Exception {
-    allowGlobalCapabilities(
-        SystemGroupBackend.REGISTERED_USERS, 0, 2, GlobalCapability.QUERY_LIMIT);
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(
+            allowCapability(GlobalCapability.QUERY_LIMIT)
+                .group(SystemGroupBackend.REGISTERED_USERS)
+                .range(0, 2))
+        .update();
     for (int i = 0; i < 3; i++) {
       createChange();
     }

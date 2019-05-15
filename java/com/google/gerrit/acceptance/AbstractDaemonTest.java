@@ -21,8 +21,6 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
-import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
-import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.capabilityKey;
 import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.NON_VISIBLE_CHANGES;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
@@ -39,13 +37,11 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Streams;
 import com.google.common.jimfs.Jimfs;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
-import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
@@ -879,47 +875,6 @@ public abstract class AbstractDaemonTest {
 
   protected RevisionApi revision(PushOneCommit.Result r) throws Exception {
     return gApi.changes().id(r.getChangeId()).current();
-  }
-
-  protected void allowGlobalCapabilities(
-      AccountGroup.UUID id, int min, int max, String... capabilityNames) throws Exception {
-    // TODO(dborowitz): When inlining:
-    // * add a variant that takes a single String
-    // * explicitly add multiple values in callers instead of looping
-    TestProjectUpdate.Builder b = projectOperations.project(allProjects).forUpdate();
-    Arrays.stream(capabilityNames)
-        .forEach(c -> b.add(allowCapability(c).group(id).range(min, max)));
-    b.update();
-  }
-
-  protected void allowGlobalCapabilities(AccountGroup.UUID id, String... capabilityNames)
-      throws Exception {
-    allowGlobalCapabilities(id, Arrays.asList(capabilityNames));
-  }
-
-  protected void allowGlobalCapabilities(AccountGroup.UUID id, Iterable<String> capabilityNames)
-      throws Exception {
-    // TODO(dborowitz): When inlining:
-    // * add a variant that takes a single String
-    // * explicitly add multiple values in callers instead of looping
-    TestProjectUpdate.Builder b = projectOperations.project(allProjects).forUpdate();
-    Streams.stream(capabilityNames).forEach(c -> b.add(allowCapability(c).group(id)));
-    b.update();
-  }
-
-  protected void removeGlobalCapabilities(AccountGroup.UUID id, String... capabilityNames)
-      throws Exception {
-    removeGlobalCapabilities(id, Arrays.asList(capabilityNames));
-  }
-
-  protected void removeGlobalCapabilities(AccountGroup.UUID id, Iterable<String> capabilityNames)
-      throws Exception {
-    // TODO(dborowitz): When inlining:
-    // * add a variant that takes a single String
-    // * explicitly add multiple values in callers instead of looping
-    TestProjectUpdate.Builder b = projectOperations.project(allProjects).forUpdate();
-    Streams.stream(capabilityNames).forEach(c -> b.remove(capabilityKey(c).group(id)));
-    b.update();
   }
 
   protected void setUseSignedOffBy(InheritableBoolean value) throws Exception {

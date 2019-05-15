@@ -44,6 +44,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
@@ -116,10 +117,10 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
 
 public class RevisionIT extends AbstractDaemonTest {
-
   @Inject private DynamicSet<ChangeIndexedListener> changeIndexedListeners;
   @Inject private DynamicSet<PatchSetWebLink> patchSetLinks;
   @Inject private GetRevisionActions getRevisionActions;
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test

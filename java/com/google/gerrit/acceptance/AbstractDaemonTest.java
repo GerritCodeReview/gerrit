@@ -41,7 +41,6 @@ import com.google.common.jimfs.Jimfs;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
-import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
@@ -271,9 +270,6 @@ public abstract class AbstractDaemonTest {
   protected Description description;
   protected boolean testRequiresSsh;
   protected BlockStrategy noSleepBlockStrategy = t -> {}; // Don't sleep in tests.
-
-  // TODO(dborowitz): Push down into callers that need it.
-  @Inject protected ProjectOperations projectOperations;
 
   @Inject private AbstractChangeNotes.Args changeNotesArgs;
   @Inject private AccountIndexCollection accountIndexes;

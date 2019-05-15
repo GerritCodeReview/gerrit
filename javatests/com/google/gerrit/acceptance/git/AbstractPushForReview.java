@@ -57,6 +57,7 @@ import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.LabelType;
@@ -139,6 +140,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     HTTP
   }
 
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   private static String NEW_CHANGE_INDICATOR = " [NEW]";

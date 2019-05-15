@@ -24,6 +24,7 @@ import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.TagApi;
@@ -38,6 +39,7 @@ import org.junit.Test;
 public class DeleteTagIT extends AbstractDaemonTest {
   private static final String TAG = "refs/tags/test";
 
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   @Before

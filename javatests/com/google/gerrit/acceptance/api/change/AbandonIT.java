@@ -28,6 +28,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.client.ChangeStatus;
@@ -48,8 +49,9 @@ import org.junit.Test;
 
 public class AbandonIT extends AbstractDaemonTest {
   @Inject private AbandonUtil abandonUtil;
-  @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ChangeCleanupConfig cleanupConfig;
+  @Inject private ProjectOperations projectOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test
   public void abandon() throws Exception {

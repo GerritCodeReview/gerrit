@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.blockLabel;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.labelPermissionKey;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -145,12 +146,8 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
     projectOperations
         .project(project)
         .forUpdate()
-        .add(
-            allowLabel("Code-Review")
-                .ref("refs/heads/*")
-                .group(groupUUID)
-                .range(-2, 2)
-                .exclusive(exclusive))
+        .add(allowLabel("Code-Review").ref("refs/heads/*").group(groupUUID).range(-2, 2))
+        .setExclusiveGroup(labelPermissionKey("Code-Review").ref("refs/heads/*"), exclusive)
         .update();
   }
 

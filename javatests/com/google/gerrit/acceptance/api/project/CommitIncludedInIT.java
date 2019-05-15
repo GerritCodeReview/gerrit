@@ -21,16 +21,20 @@ import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.reviewdb.client.BranchNameKey;
+import com.google.inject.Inject;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
 @NoHttpd
 public class CommitIncludedInIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
+
   @Test
   public void includedInOpenChange() throws Exception {
     Result result = createChange();

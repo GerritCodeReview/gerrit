@@ -15,6 +15,7 @@ java_library(
         "//lib/powermock:powermock-module-junit4-common",
     ],
     deps = [
+        "//java/com/google/gerrit/acceptance/testsuite/project",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/exceptions",

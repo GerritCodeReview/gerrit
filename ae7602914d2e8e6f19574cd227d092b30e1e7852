@@ -39,6 +39,24 @@
       "revId": "ae7602914d2e8e6f19574cd227d092b30e1e7852",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87429c6a_0dc4fb72",
+        "filename": "java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-15T08:58:21Z",
+      "side": 1,
+      "message": "\u003e Need to handle cfg \u003d\u003d null case\n\nDamn, sure; done.",
+      "parentUuid": "4a191550_16e71ff9",
+      "revId": "ae7602914d2e8e6f19574cd227d092b30e1e7852",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

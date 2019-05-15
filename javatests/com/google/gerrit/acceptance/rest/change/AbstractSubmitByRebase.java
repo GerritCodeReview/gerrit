@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.client.ChangeStatus;
@@ -40,6 +41,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 public abstract class AbstractSubmitByRebase extends AbstractSubmit {
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   @Override

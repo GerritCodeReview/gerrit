@@ -31,6 +31,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.truth.Truth;
 import com.google.gerrit.acceptance.AbstractNotificationTest;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
@@ -61,6 +62,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ChangeNotificationsIT extends AbstractNotificationTest {
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   /*

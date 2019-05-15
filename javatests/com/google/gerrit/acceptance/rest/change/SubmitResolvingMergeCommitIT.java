@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -45,6 +46,7 @@ import org.junit.Test;
 
 @NoHttpd
 public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
   @Inject private Provider<MergeSuperSet> mergeSuperSet;
 
   @Inject private Submit submit;

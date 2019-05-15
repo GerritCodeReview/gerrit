@@ -36,6 +36,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
@@ -94,6 +95,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Inject private ExternalIds externalIds;
   @Inject private ExternalIdReader externalIdReader;
   @Inject private ExternalIdNotes.Factory externalIdNotesFactory;
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test

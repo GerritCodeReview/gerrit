@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1060a4ec_5518bb26",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-15T04:59:25Z",
+      "side": 1,
+      "message": "I don\u0027t think this should be separately injected here.  Separately meaning separate from the injection in the constructor.\n\nMaybe it would be better to include the index type in the IndexConfig which is then included in the Arguments instance that is already injected?",
+      "range": {
+        "startLine": 411,
+        "startChar": 2,
+        "endLine": 411,
+        "endChar": 52
+      },
+      "revId": "7e3391f67e989b47347192cfab92a6741610bc73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8d481bae_f09ecb13",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 6

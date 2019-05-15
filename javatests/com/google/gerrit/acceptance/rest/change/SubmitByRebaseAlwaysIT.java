@@ -22,6 +22,7 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -44,6 +45,7 @@ import org.junit.Test;
 public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
   @Inject private DynamicSet<ChangeMessageModifier> changeMessageModifiers;
   @Inject private DynamicItem<UrlFormatter> urlFormatter;
+  @Inject private ProjectOperations projectOperations;
 
   @Override
   protected SubmitType getSubmitType() {

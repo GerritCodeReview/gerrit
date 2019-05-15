@@ -17,11 +17,14 @@ package com.google.gerrit.acceptance.rest.change;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.inject.Inject;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
 public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
+  @Inject private ProjectOperations projectOperations;
 
   @Override
   protected SubmitType getSubmitType() {

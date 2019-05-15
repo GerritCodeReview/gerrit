@@ -36,7 +36,6 @@ import org.junit.Test;
 
 @NoHttpd
 public class SetParentIT extends AbstractDaemonTest {
-
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 

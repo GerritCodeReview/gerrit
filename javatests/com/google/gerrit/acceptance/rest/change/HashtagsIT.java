@@ -28,6 +28,7 @@ import com.google.common.truth.IterableSubject;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
@@ -42,6 +43,8 @@ import org.junit.Test;
 
 @NoHttpd
 public class HashtagsIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
+
   @BeforeClass
   public static void setTimeForTesting() {
     TestTimeUtil.resetWithClockStep(1, SECONDS);

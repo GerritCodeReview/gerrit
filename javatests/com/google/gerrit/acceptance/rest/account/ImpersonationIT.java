@@ -15,6 +15,11 @@
 package com.google.gerrit.acceptance.rest.account;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.capabilityKey;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -29,6 +34,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.LabelType;
@@ -74,6 +80,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
   @Inject private ApprovalsUtil approvalsUtil;
   @Inject private ChangeMessagesUtil cmUtil;
   @Inject private CommentsUtil commentsUtil;
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   private RestSession anonRestSession;
@@ -567,53 +574,52 @@ public class ImpersonationIT extends AbstractDaemonTest {
   }
 
   private void allowCodeReviewOnBehalfOf() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType codeReviewType = Util.codeReview();
-      String forCodeReviewAs = Permission.forLabelAs(codeReviewType.getName());
-      String heads = "refs/heads/*";
-      AccountGroup.UUID uuid = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
-      Util.allow(u.getConfig(), forCodeReviewAs, -1, 1, uuid, heads);
-      u.save();
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(Util.codeReview().getName())
+                .impersonation(true)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-1, 1))
+        .update();
   }
 
   private void allowSubmitOnBehalfOf() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      String heads = "refs/heads/*";
-      AccountGroup.UUID uuid = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
-      Util.allow(u.getConfig(), Permission.SUBMIT_AS, uuid, heads);
-      Util.allow(u.getConfig(), Permission.SUBMIT, uuid, heads);
-      LabelType codeReviewType = Util.codeReview();
-      Util.allow(u.getConfig(), Permission.forLabel(codeReviewType.getName()), -2, 2, uuid, heads);
-      u.save();
-    }
+    String heads = "refs/heads/*";
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.SUBMIT_AS).ref(heads).group(REGISTERED_USERS))
+        .add(allow(Permission.SUBMIT).ref(heads).group(REGISTERED_USERS))
+        .add(
+            allowLabel(Util.codeReview().getName()).ref(heads).group(REGISTERED_USERS).range(-2, 2))
+        .update();
   }
 
   private void blockRead(GroupInfo group) throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      Util.block(u.getConfig(), Permission.READ, AccountGroup.uuid(group.id), "refs/heads/master");
-      u.save();
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/heads/master").group(AccountGroup.uuid(group.id)))
+        .update();
   }
 
   private void allowRunAs() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(allProjects)) {
-      Util.allow(
-          u.getConfig(),
-          GlobalCapability.RUN_AS,
-          systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID());
-      u.save();
-    }
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(GlobalCapability.RUN_AS).group(ANONYMOUS_USERS))
+        .update();
   }
 
   private void removeRunAs() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(allProjects)) {
-      Util.remove(
-          u.getConfig(),
-          GlobalCapability.RUN_AS,
-          systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID());
-      u.save();
-    }
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .remove(capabilityKey(GlobalCapability.RUN_AS).group(ANONYMOUS_USERS))
+        .update();
   }
 
   private static Header runAsHeader(Object user) {

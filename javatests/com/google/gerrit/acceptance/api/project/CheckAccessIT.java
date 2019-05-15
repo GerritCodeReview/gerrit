@@ -16,6 +16,9 @@ package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
@@ -34,8 +37,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.project.ProjectConfig;
-import com.google.gerrit.server.project.testing.Util;
 import com.google.inject.Inject;
 import java.util.List;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -64,29 +65,32 @@ public class CheckAccessIT extends AbstractDaemonTest {
     privilegedUser = accountCreator.create("privilegedUser", "snowden@nsa.gov", "Ed Snowden");
     groupOperations.group(privilegedGroupUuid).forUpdate().addMember(privilegedUser.id()).update();
 
-    try (ProjectConfigUpdate u = updateProject(secretProject)) {
-      ProjectConfig cfg = u.getConfig();
-      Util.allow(cfg, Permission.READ, privilegedGroupUuid, "refs/*");
-      Util.block(cfg, Permission.READ, SystemGroupBackend.REGISTERED_USERS, "refs/*");
-      u.save();
-    }
+    projectOperations
+        .project(secretProject)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/*").group(privilegedGroupUuid))
+        .add(block(Permission.READ).ref("refs/*").group(SystemGroupBackend.REGISTERED_USERS))
+        .update();
 
-    try (ProjectConfigUpdate u = updateProject(secretRefProject)) {
-      ProjectConfig cfg = u.getConfig();
-      Util.deny(cfg, Permission.READ, SystemGroupBackend.ANONYMOUS_USERS, "refs/*");
-      Util.allow(cfg, Permission.READ, privilegedGroupUuid, "refs/heads/secret/*");
-      Util.block(cfg, Permission.READ, SystemGroupBackend.REGISTERED_USERS, "refs/heads/secret/*");
-      Util.allow(cfg, Permission.READ, SystemGroupBackend.REGISTERED_USERS, "refs/heads/*");
-      u.save();
-    }
+    projectOperations
+        .project(secretRefProject)
+        .forUpdate()
+        .add(deny(Permission.READ).ref("refs/*").group(SystemGroupBackend.ANONYMOUS_USERS))
+        .add(allow(Permission.READ).ref("refs/heads/secret/*").group(privilegedGroupUuid))
+        .add(
+            block(Permission.READ)
+                .ref("refs/heads/secret/*")
+                .group(SystemGroupBackend.REGISTERED_USERS))
+        .add(allow(Permission.READ).ref("refs/heads/*").group(SystemGroupBackend.REGISTERED_USERS))
+        .update();
 
     // Ref permission
-    try (ProjectConfigUpdate u = updateProject(normalProject)) {
-      ProjectConfig cfg = u.getConfig();
-      Util.allow(cfg, Permission.VIEW_PRIVATE_CHANGES, privilegedGroupUuid, "refs/*");
-      Util.allow(cfg, Permission.FORGE_SERVER, privilegedGroupUuid, "refs/*");
-      u.save();
-    }
+    projectOperations
+        .project(normalProject)
+        .forUpdate()
+        .add(allow(Permission.VIEW_PRIVATE_CHANGES).ref("refs/*").group(privilegedGroupUuid))
+        .add(allow(Permission.FORGE_SERVER).ref("refs/*").group(privilegedGroupUuid))
+        .update();
   }
 
   @Test

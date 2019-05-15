@@ -1,6 +1,11 @@
 load("//tools/bzl:java.bzl", "java_library2")
 load("//tools/bzl:javadoc.bzl", "java_doc")
 
+FUNCTION_SRCS = [
+    "testsuite/ThrowingConsumer.java",
+    "testsuite/ThrowingFunction.java",
+]
+
 java_library(
     name = "lib",
     testonly = True,
@@ -68,8 +73,13 @@ java_binary(
 java_library2(
     name = "framework-lib",
     testonly = True,
-    srcs = glob(["**/*.java"]),
+    srcs = glob(
+        ["**/*.java"],
+        exclude = FUNCTION_SRCS,
+    ),
     exported_deps = [
+        ":function",
+        "//java/com/google/gerrit/acceptance/testsuite/project",
         "//java/com/google/gerrit/exceptions",
         "//java/com/google/gerrit/gpg",
         "//java/com/google/gerrit/httpd/auth/openid",
@@ -132,6 +142,12 @@ java_library2(
         "//lib/mail",
         "//lib/mina:sshd",
     ],
+)
+
+java_library(
+    name = "function",
+    srcs = FUNCTION_SRCS,
+    visibility = ["//visibility:public"],
 )
 
 java_doc(

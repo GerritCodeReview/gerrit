@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "6b9386af_4ac6b8fe",
+        "filename": "java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-15T08:57:11Z",
+      "side": 1,
+      "message": "This can be inlined.\n\n  return getIndexType(injector.getInstance(Key.get(Config.class, GerritServerConfig.class)));",
+      "range": {
+        "startLine": 88,
+        "startChar": 4,
+        "endLine": 89,
+        "endChar": 64
+      },
+      "revId": "ae7602914d2e8e6f19574cd227d092b30e1e7852",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4a191550_16e71ff9",
         "filename": "java/com/google/gerrit/server/index/IndexModule.java",
         "patchSetId": 8

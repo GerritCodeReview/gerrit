@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "8cd7e59e_8e000c6c",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-16T12:13:15Z",
+      "side": 1,
+      "message": "I have no idea how this change was made... I am puzzled. Let me check",
+      "parentUuid": "a0096ca8_41cc2db6",
+      "range": {
+        "startLine": 299,
+        "startChar": 8,
+        "endLine": 299,
+        "endChar": 22
+      },
+      "revId": "6dc73eadef9fcbf562f1266e2b431a3aba165be0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "63f42a82_b7719f93",
         "filename": "javatests/com/google/gerrit/acceptance/api/plugin/PluginLoaderIT.java",
         "patchSetId": 9

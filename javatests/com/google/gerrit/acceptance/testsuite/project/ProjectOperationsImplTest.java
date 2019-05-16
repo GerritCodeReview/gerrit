@@ -389,6 +389,28 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
   }
 
   @Test
+  public void addAllowLabelAsPermission() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(
+            allowLabel("Code-Review")
+                .ref("refs/foo")
+                .group(REGISTERED_USERS)
+                .range(-1, 2)
+                .impersonation(true))
+        .update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly("labelAs-Code-Review", "-1..+2 group global:Registered-Users");
+  }
+
+  @Test
   public void addAllowCapability() throws Exception {
     Project.NameKey key = projectOperations.newProject().create();
     projectOperations

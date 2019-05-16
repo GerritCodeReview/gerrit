@@ -168,7 +168,7 @@ public abstract class TestProjectUpdate {
   @AutoValue
   public abstract static class TestLabelPermission {
     private static Builder builder() {
-      return new AutoValue_TestProjectUpdate_TestLabelPermission.Builder();
+      return new AutoValue_TestProjectUpdate_TestLabelPermission.Builder().impersonation(false);
     }
 
     abstract String name();
@@ -182,6 +182,8 @@ public abstract class TestProjectUpdate {
     abstract int min();
 
     abstract int max();
+
+    abstract boolean impersonation();
 
     /** Builder for {@link TestLabelPermission}. */
     @AutoValue.Builder
@@ -204,6 +206,9 @@ public abstract class TestProjectUpdate {
       public Builder range(int min, int max) {
         return min(min).max(max);
       }
+
+      /** Sets whether this permission should be for impersonating another user's votes. */
+      public abstract Builder impersonation(boolean impersonation);
 
       abstract TestLabelPermission autoBuild();
 

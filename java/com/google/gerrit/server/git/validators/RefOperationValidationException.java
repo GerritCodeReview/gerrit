@@ -14,27 +14,28 @@
 
 package com.google.gerrit.server.git.validators;
 
+import static java.util.stream.Collectors.joining;
+
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.server.validators.ValidationException;
 
 public class RefOperationValidationException extends ValidationException {
   private static final long serialVersionUID = 1L;
-  private final Iterable<ValidationMessage> messages;
+  private final ImmutableList<ValidationMessage> messages;
 
-  public RefOperationValidationException(String reason, Iterable<ValidationMessage> messages) {
+  public RefOperationValidationException(String reason, ImmutableList<ValidationMessage> messages) {
     super(reason);
     this.messages = messages;
   }
 
-  public Iterable<ValidationMessage> getMessages() {
+  public ImmutableList<ValidationMessage> getMessages() {
     return messages;
   }
 
   @Override
   public String getMessage() {
-    StringBuilder msg = new StringBuilder(super.getMessage());
-    for (ValidationMessage error : messages) {
-      msg.append("\n").append(error.getMessage());
-    }
-    return msg.toString();
+    return messages.stream()
+        .map(ValidationMessage::getMessage)
+        .collect(joining("\n", super.getMessage() + "\n", ""));
   }
 }

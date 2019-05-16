@@ -13,9 +13,9 @@
 // limitations under the License.
 package com.google.gerrit.server.git.validators;
 
-import com.google.common.base.Predicate;
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -38,8 +38,6 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 
 public class RefOperationValidators {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  private static final GetErrorMessages GET_ERRORS = new GetErrorMessages();
 
   public interface Factory {
     RefOperationValidators create(Project project, IdentifiedUser user, ReceiveCommand cmd);
@@ -93,22 +91,15 @@ public class RefOperationValidators {
     return messages;
   }
 
-  private void throwException(Iterable<ValidationMessage> messages, RefReceivedEvent event)
+  private void throwException(List<ValidationMessage> messages, RefReceivedEvent event)
       throws RefOperationValidationException {
-    Iterable<ValidationMessage> errors = Iterables.filter(messages, GET_ERRORS);
     String header =
         String.format(
             "Ref \"%s\" %S in project %s validation failed",
             event.command.getRefName(), event.command.getType(), event.project.getName());
     logger.atSevere().log(header);
-    throw new RefOperationValidationException(header, errors);
-  }
-
-  private static class GetErrorMessages implements Predicate<ValidationMessage> {
-    @Override
-    public boolean apply(ValidationMessage input) {
-      return input.isError();
-    }
+    throw new RefOperationValidationException(
+        header, messages.stream().filter(ValidationMessage::isError).collect(toImmutableList()));
   }
 
   private static class DisallowCreationAndDeletionOfGerritMaintainedBranches

@@ -3049,7 +3049,7 @@ class ReceiveCommits {
     try {
       messages.addAll(refValidators.validateForRefOperation());
     } catch (RefOperationValidationException e) {
-      messages.addAll(Lists.newArrayList(e.getMessages()));
+      messages.addAll(e.getMessages());
       reject(cmd, e.getMessage());
       return false;
     }

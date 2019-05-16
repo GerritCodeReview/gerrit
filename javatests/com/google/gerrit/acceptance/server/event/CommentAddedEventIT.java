@@ -18,7 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
-import static com.google.gerrit.server.project.testing.TestLabels.category;
+import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -45,10 +45,10 @@ public class CommentAddedEventIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
 
   private final LabelType label =
-      category("CustomLabel", value(1, "Positive"), value(0, "No score"), value(-1, "Negative"));
+      label("CustomLabel", value(1, "Positive"), value(0, "No score"), value(-1, "Negative"));
 
   private final LabelType pLabel =
-      category("CustomLabel2", value(1, "Positive"), value(0, "No score"));
+      label("CustomLabel2", value(1, "Positive"), value(0, "No score"));
 
   private RegistrationHandle eventListenerRegistration;
   private CommentAddedListener.Event lastCommentAddedEvent;

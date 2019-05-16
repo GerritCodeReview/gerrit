@@ -52,7 +52,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.project.testing.TestLabels.category;
+import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -2155,7 +2155,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void removeReviewerNoVotes() throws Exception {
     LabelType verified =
-        category("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
+        label("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig().getLabelSections().put(verified.getName(), verified);
       u.save();
@@ -2441,7 +2441,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void nonVotingReviewerStaysAfterSubmit() throws Exception {
     LabelType verified =
-        category("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
+        label("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
     String heads = "refs/heads/*";
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig().getLabelSections().put(verified.getName(), verified);
@@ -2784,11 +2784,11 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void commitFooters() throws Exception {
     LabelType verified =
-        category("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
+        label("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
     LabelType custom1 =
-        category("Custom1", value(1, "Positive"), value(0, "No score"), value(-1, "Negative"));
+        label("Custom1", value(1, "Positive"), value(0, "No score"), value(-1, "Negative"));
     LabelType custom2 =
-        category("Custom2", value(1, "Positive"), value(0, "No score"), value(-1, "Negative"));
+        label("Custom2", value(1, "Positive"), value(0, "No score"), value(-1, "Negative"));
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig().getLabelSections().put(verified.getName(), verified);
       u.getConfig().getLabelSections().put(custom1.getName(), custom1);

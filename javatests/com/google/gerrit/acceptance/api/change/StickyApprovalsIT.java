@@ -27,7 +27,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMM
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.project.testing.TestLabels.category;
+import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
@@ -71,7 +71,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       // Overwrite "Code-Review" label that is inherited from All-Projects.
       // This way changes to the "Code Review" label don't affect other tests.
       LabelType codeReview =
-          category(
+          label(
               "Code-Review",
               value(2, "Looks good to me, approved"),
               value(1, "Looks good to me, but someone else must approve"),
@@ -82,7 +82,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       u.getConfig().getLabelSections().put(codeReview.getName(), codeReview);
 
       LabelType verified =
-          category("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
+          label("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
       verified.setCopyAllScoresIfNoChange(false);
       u.getConfig().getLabelSections().put(verified.getName(), verified);
 

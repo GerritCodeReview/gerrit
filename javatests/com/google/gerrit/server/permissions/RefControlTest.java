@@ -53,7 +53,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefPattern;
-import com.google.gerrit.server.project.testing.Util;
+import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.testing.InMemoryModule;
@@ -204,7 +204,7 @@ public class RefControlTest {
       try (MetaDataUpdate md = metaDataUpdateFactory.create(allProjectsName)) {
         ProjectConfig allProjectsConfig = projectConfigFactory.create(allProjectsName);
         allProjectsConfig.load(md);
-        LabelType cr = Util.codeReview();
+        LabelType cr = TestLabels.codeReview();
         allProjectsConfig.getLabelSections().put(cr.getName(), cr);
         allProjectsConfig.commit(md);
       }

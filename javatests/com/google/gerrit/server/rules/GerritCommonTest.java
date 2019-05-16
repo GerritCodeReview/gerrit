@@ -19,7 +19,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.easymock.EasyMock.expect;
 
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.server.project.testing.Util;
+import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.AbstractModule;
 import com.googlecode.prolog_cafe.exceptions.CompileException;
@@ -58,7 +58,8 @@ public class GerritCommonTest extends PrologTestCase {
 
   @Override
   protected void setUpEnvironment(PrologEnvironment env) throws Exception {
-    LabelTypes labelTypes = new LabelTypes(Arrays.asList(Util.codeReview(), Util.verified()));
+    LabelTypes labelTypes =
+        new LabelTypes(Arrays.asList(TestLabels.codeReview(), TestLabels.verified()));
     ChangeData cd = EasyMock.createMock(ChangeData.class);
     expect(cd.getLabelTypes()).andStubReturn(labelTypes);
     EasyMock.replay(cd);

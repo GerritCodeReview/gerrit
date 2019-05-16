@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8dbd64d_2ca1dba7",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-16T09:33:50Z",
+      "side": 1,
+      "message": "Why this and all other non null checks are now needed? Here and below?",
+      "range": {
+        "startLine": 299,
+        "startChar": 8,
+        "endLine": 299,
+        "endChar": 22
+      },
+      "revId": "6dc73eadef9fcbf562f1266e2b431a3aba165be0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

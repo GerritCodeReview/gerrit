@@ -83,8 +83,6 @@ class InProcessProtocol extends TestProtocol<Context> {
       @Provides
       @RemotePeer
       SocketAddress getSocketAddress() {
-        // TODO(dborowitz): Could potentially fake this with thread ID or
-        // something.
         throw new OutOfScopeException("No remote peer in acceptance tests");
       }
     };

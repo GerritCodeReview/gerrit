@@ -16,6 +16,7 @@ package com.google.gerrit.gpg;
 
 import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.EMPTY_TREE_ID;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.base.Preconditions;
@@ -75,10 +76,6 @@ import org.eclipse.jgit.util.NB;
  * after checking with a {@link PublicKeyChecker}.
  */
 public class PublicKeyStore implements AutoCloseable {
-
-  private static final ObjectId EMPTY_TREE =
-      ObjectId.fromString("4b825dc642cb6eb9a060e54bf8d69288fbee4904");
-
   /** Ref where GPG public keys are stored. */
   public static final String REFS_GPG_KEYS = "refs/meta/gpg-keys";
 
@@ -361,7 +358,7 @@ public class PublicKeyStore implements AutoCloseable {
         deleteFromNotes(ins, fp);
       }
       cb.setTreeId(notes.writeTree(ins));
-      if (cb.getTreeId().equals(tip != null ? tip.getTree() : EMPTY_TREE)) {
+      if (cb.getTreeId().equals(tip != null ? tip.getTree() : EMPTY_TREE_ID)) {
         return RefUpdate.Result.NO_CHANGE;
       }
 

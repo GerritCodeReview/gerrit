@@ -28,6 +28,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
+import static org.eclipse.jgit.lib.Constants.EMPTY_TREE_ID;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -1089,9 +1090,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
             .create(admin.newIdent(), testRepo, "Change 1", ImmutableMap.of())
             .to("refs/for/master");
     change.assertOkStatus();
-    // TODO(dborowitz): Use EMPTY_TREE_ID after upgrading to https://git.eclipse.org/r/127473
-    assertThat(change.getCommit().getTree())
-        .isEqualTo(ObjectId.fromString("4b825dc642cb6eb9a060e54bf8d69288fbee4904"));
+    assertThat(change.getCommit().getTree()).isEqualTo(EMPTY_TREE_ID);
 
     Map<BranchNameKey, ObjectId> actual = fetchFromSubmitPreview(change.getChangeId());
     assertThat(projectOperations.project(project).hasHead("master")).isFalse();

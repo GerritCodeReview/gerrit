@@ -278,7 +278,8 @@ public class ListBranches implements RestReadView<ProjectResource> {
       info.actions.put(d.getId(), new ActionInfo(d));
     }
 
-    List<WebLinkInfo> links = webLinks.getBranchLinks(projectState.getName(), ref.getName());
+    ImmutableList<WebLinkInfo> links =
+        webLinks.getBranchLinks(projectState.getName(), ref.getName());
     info.webLinks = links.isEmpty() ? null : links;
     return info;
   }

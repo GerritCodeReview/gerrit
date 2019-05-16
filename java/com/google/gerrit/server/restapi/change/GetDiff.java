@@ -201,7 +201,7 @@ public class GetDiff implements RestReadView<FileResource> {
               ? resource.getRevision().getEdit().get().getRefName()
               : resource.getRevision().getPatchSet().refName();
 
-      List<DiffWebLinkInfo> links =
+      ImmutableList<DiffWebLinkInfo> links =
           webLinks.getDiffLinks(
               state.getName(),
               resource.getPatchKey().patchSetId().changeId().get(),
@@ -273,7 +273,7 @@ public class GetDiff implements RestReadView<FileResource> {
   }
 
   private List<WebLinkInfo> getFileWebLinks(Project project, String rev, String file) {
-    List<WebLinkInfo> links = webLinks.getFileLinks(project.getName(), rev, file);
+    ImmutableList<WebLinkInfo> links = webLinks.getFileLinks(project.getName(), rev, file);
     return links.isEmpty() ? null : links;
   }
 

@@ -66,7 +66,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.account.AccountControl;
-import com.google.gerrit.server.project.testing.Util;
+import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import org.apache.http.Header;
@@ -173,7 +173,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
   @Test
   public void voteOnBehalfOfLabelNotPermitted() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType verified = Util.verified();
+      LabelType verified = TestLabels.verified();
       u.getConfig().getLabelSections().put(verified.getName(), verified);
       u.save();
     }
@@ -574,7 +574,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
   }
 
   private void allowCodeReviewOnBehalfOf() throws Exception {
-    String forCodeReviewAs = Permission.forLabelAs(Util.codeReview().getName());
+    String forCodeReviewAs = Permission.forLabelAs(TestLabels.codeReview().getName());
     projectOperations
         .project(project)
         .forUpdate()
@@ -595,7 +595,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
         .add(allow(Permission.SUBMIT_AS).ref(heads).group(REGISTERED_USERS))
         .add(allow(Permission.SUBMIT).ref(heads).group(REGISTERED_USERS))
         .add(
-            allowLabel(Util.codeReview().getName()).ref(heads).group(REGISTERED_USERS).range(-2, 2))
+            allowLabel(TestLabels.codeReview().getName()).ref(heads).group(REGISTERED_USERS).range(-2, 2))
         .update();
   }
 

@@ -18,8 +18,8 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
-import static com.google.gerrit.server.project.testing.Util.category;
-import static com.google.gerrit.server.project.testing.Util.value;
+import static com.google.gerrit.server.project.testing.TestLabels.category;
+import static com.google.gerrit.server.project.testing.TestLabels.value;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;

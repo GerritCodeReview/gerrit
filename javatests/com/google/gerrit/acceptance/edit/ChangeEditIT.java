@@ -59,7 +59,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.project.testing.Util;
+import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.restapi.change.ChangeEdits.EditMessage;
 import com.google.gerrit.server.restapi.change.ChangeEdits.Post;
 import com.google.gerrit.server.restapi.change.ChangeEdits.Put;
@@ -601,7 +601,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   public void editCommitMessageCopiesLabelScores() throws Exception {
     String cr = "Code-Review";
     try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType codeReview = Util.codeReview();
+      LabelType codeReview = TestLabels.codeReview();
       codeReview.setCopyAllScoresIfNoCodeChange(true);
       u.getConfig().getLabelSections().put(cr, codeReview);
       u.save();

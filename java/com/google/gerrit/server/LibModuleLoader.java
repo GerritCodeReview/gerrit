@@ -23,6 +23,7 @@ import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.ProvisionException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
 
@@ -31,6 +32,12 @@ public class LibModuleLoader {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static List<Module> loadModules(Injector parent, LibModuleType moduleType) {
+    if (parent == null) {
+      logger.atWarning().log(
+          "Unable to discover and install libModules because parent Guice injector is null");
+      return Collections.emptyList();
+    }
+
     Config cfg = getConfig(parent);
     return Arrays.stream(cfg.getStringList("gerrit", null, "install" + moduleType.getConfigKey()))
         .map(m -> createModule(parent, m))

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58242dc4_28773524",
+        "filename": "java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-16T14:51:40Z",
+      "side": 1,
+      "message": "If already on it, fix it to WORKSPACE?",
+      "range": {
+        "startLine": 700,
+        "startChar": 62,
+        "endLine": 700,
+        "endChar": 73
+      },
+      "revId": "2de0bbf8d93d1d0d0b3bd3309ef5afcccad253df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

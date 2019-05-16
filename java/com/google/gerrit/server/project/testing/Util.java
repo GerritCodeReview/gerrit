@@ -20,7 +20,7 @@ import com.google.gerrit.common.data.LabelValue;
 import java.util.Arrays;
 
 public class Util {
-  public static final LabelType codeReview() {
+  public static LabelType codeReview() {
     return category(
         "Code-Review",
         value(2, "Looks good to me, approved"),
@@ -30,11 +30,11 @@ public class Util {
         value(-2, "This shall not be merged"));
   }
 
-  public static final LabelType verified() {
+  public static LabelType verified() {
     return category("Verified", value(1, "Verified"), value(0, "No score"), value(-1, "Fails"));
   }
 
-  public static final LabelType patchSetLock() {
+  public static LabelType patchSetLock() {
     LabelType label =
         category("Patch-Set-Lock", value(1, "Patch Set Locked"), value(0, "Patch Set Unlocked"));
     label.setFunction(LabelFunction.PATCH_SET_LOCK);

@@ -17,13 +17,9 @@ package com.google.gerrit.server.project.testing;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import java.util.Arrays;
 
 public class Util {
-  public static final AccountGroup.UUID ADMIN = AccountGroup.uuid("test.admin");
-  public static final AccountGroup.UUID DEVS = AccountGroup.uuid("test.devs");
-
   public static final LabelType codeReview() {
     return category(
         "Code-Review",

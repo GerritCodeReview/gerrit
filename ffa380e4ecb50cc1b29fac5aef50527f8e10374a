@@ -309,6 +309,30 @@
       "revId": "ffa380e4ecb50cc1b29fac5aef50527f8e10374a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "622256f5_dbff3ae6",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-16T12:22:39Z",
+      "side": 1,
+      "message": "We might want a paragraph about that the removed maintainer should be provided with a document that clearly explains the reasons for the removal and the decision itself.\nAnd that the removed maintainer owns the confidentiality of said information so that the removed maintainer is free to post it to repo-discuss, somewhere else or keep it confidential.",
+      "parentUuid": "b3e35666_aba405a0",
+      "range": {
+        "startLine": 219,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 32
+      },
+      "revId": "ffa380e4ecb50cc1b29fac5aef50527f8e10374a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -58,6 +58,10 @@ public enum ElasticVersion {
     return Joiner.on(", ").join(ElasticVersion.values());
   }
 
+  public boolean isV6() {
+    return isVersion(6);
+  }
+
   public boolean isV6OrLater() {
     return isAtLeastVersion(6);
   }
@@ -68,6 +72,10 @@ public enum ElasticVersion {
 
   private boolean isAtLeastVersion(int v) {
     return Integer.valueOf(version.split("\\.")[0]) >= v;
+  }
+
+  private boolean isVersion(int v) {
+    return Integer.valueOf(version.split("\\.")[0]) == v;
   }
 
   @Override

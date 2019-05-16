@@ -188,10 +188,15 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   }
 
   protected String getMappingsFor(String type, MappingProperties properties) {
-    JsonObject mappingType = new JsonObject();
-    mappingType.add(type, gson.toJsonTree(properties));
     JsonObject mappings = new JsonObject();
-    mappings.add(MAPPINGS, gson.toJsonTree(mappingType));
+
+    if (client.adapter().omitTypeFromSearch()) {
+      mappings.add(MAPPINGS, gson.toJsonTree(properties));
+    } else {
+      JsonObject mappingType = new JsonObject();
+      mappingType.add(type, gson.toJsonTree(properties));
+      mappings.add(MAPPINGS, gson.toJsonTree(mappingType));
+    }
     return gson.toJson(mappings);
   }
 
@@ -232,8 +237,11 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     if (SEARCH.equals(request) && client.adapter().omitTypeFromSearch()) {
       return encodedIndexName + "/" + request;
     }
-    String encodedType = URLEncoder.encode(type, UTF_8.toString());
-    return encodedIndexName + "/" + encodedType + "/" + request;
+    String encodedTypeIfAny =
+        client.adapter().omitTypeFromSearch()
+            ? ""
+            : "/" + URLEncoder.encode(type, UTF_8.toString());
+    return encodedIndexName + encodedTypeIfAny + "/" + request;
   }
 
   protected Response postRequest(String uri, Object payload) throws IOException {

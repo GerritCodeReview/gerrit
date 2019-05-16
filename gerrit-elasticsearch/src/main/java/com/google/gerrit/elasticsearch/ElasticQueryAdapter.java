@@ -17,10 +17,11 @@ package com.google.gerrit.elasticsearch;
 import com.google.gson.JsonObject;
 
 public class ElasticQueryAdapter {
-  static final String POST_V5_TYPE = "_doc";
+  static final String V6_TYPE = "_doc";
 
   private final boolean ignoreUnmapped;
-  private final boolean usePostV5Type;
+  private final boolean useType;
+  private final boolean useV6Type;
   private final boolean omitTypeFromSearch;
 
   private final String searchFilteringName;
@@ -33,7 +34,8 @@ public class ElasticQueryAdapter {
 
   ElasticQueryAdapter(ElasticVersion version) {
     this.ignoreUnmapped = false;
-    this.usePostV5Type = version.isV6OrLater();
+    this.useType = !version.isV6OrLater();
+    this.useV6Type = version.isV6();
     this.omitTypeFromSearch = version.isV7OrLater();
     this.versionDiscoveryUrl = version.isV6OrLater() ? "/%s*" : "/%s*/_aliases";
     this.searchFilteringName = "_source";
@@ -41,7 +43,7 @@ public class ElasticQueryAdapter {
     this.exactFieldType = "keyword";
     this.stringFieldType = "text";
     this.indexProperty = "true";
-    this.includeTypeNameParam = version.isV7OrLater() ? "?include_type_name=true" : "";
+    this.includeTypeNameParam = version.isV6() ? "?include_type_name=true" : "";
   }
 
   void setIgnoreUnmapped(JsonObject properties) {
@@ -51,7 +53,7 @@ public class ElasticQueryAdapter {
   }
 
   public void setType(JsonObject properties, String type) {
-    if (!usePostV5Type) {
+    if (useType) {
       properties.addProperty("_type", type);
     }
   }
@@ -76,8 +78,12 @@ public class ElasticQueryAdapter {
     return indexProperty;
   }
 
-  boolean usePostV5Type() {
-    return usePostV5Type;
+  boolean useType() {
+    return useType;
+  }
+
+  boolean useV6Type() {
+    return useV6Type;
   }
 
   boolean omitTypeFromSearch() {
@@ -85,7 +91,10 @@ public class ElasticQueryAdapter {
   }
 
   String getType(String type) {
-    return usePostV5Type() ? POST_V5_TYPE : type;
+    if (useV6Type()) {
+      return V6_TYPE;
+    }
+    return useType() ? type : "";
   }
 
   String getVersionDiscoveryUrl(String name) {

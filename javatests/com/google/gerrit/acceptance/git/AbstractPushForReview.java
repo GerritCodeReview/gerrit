@@ -131,7 +131,6 @@ import org.junit.Test;
 @SkipProjectClone
 public abstract class AbstractPushForReview extends AbstractDaemonTest {
   protected enum Protocol {
-    // TODO(dborowitz): TEST.
     SSH,
     HTTP
   }

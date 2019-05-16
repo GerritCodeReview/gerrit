@@ -40,7 +40,7 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.BranchNameKey;
-import com.google.gerrit.server.project.testing.Util;
+import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.inject.Inject;
 import java.util.Arrays;
 import org.eclipse.jgit.junit.TestRepository;
@@ -243,7 +243,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
     BranchNameKey newBranch = BranchNameKey.create(r.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);
 
-    LabelType patchSetLock = Util.patchSetLock();
+    LabelType patchSetLock = TestLabels.patchSetLock();
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig().getLabelSections().put(patchSetLock.getName(), patchSetLock);
       u.save();

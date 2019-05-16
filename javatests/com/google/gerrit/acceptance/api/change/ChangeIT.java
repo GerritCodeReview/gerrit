@@ -52,8 +52,8 @@ import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.project.testing.Util.category;
-import static com.google.gerrit.server.project.testing.Util.value;
+import static com.google.gerrit.server.project.testing.TestLabels.category;
+import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -156,7 +156,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
-import com.google.gerrit.server.project.testing.Util;
+import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeOperatorFactory;
 import com.google.gerrit.server.restapi.change.PostReview;
@@ -3269,7 +3269,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // add new label and assert that it's returned for existing changes
     AccountGroup.UUID registeredUsers = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
-    LabelType verified = Util.verified();
+    LabelType verified = TestLabels.verified();
     String heads = RefNames.REFS_HEADS + "*";
 
     try (ProjectConfigUpdate u = updateProject(project)) {
@@ -3334,7 +3334,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(change.permittedLabels.keySet()).containsExactly("Code-Review");
     assertPermitted(change, "Code-Review", 2);
 
-    LabelType verified = Util.verified();
+    LabelType verified = TestLabels.verified();
     AccountGroup.UUID registeredUsers = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
     String heads = RefNames.REFS_HEADS + "*";
 
@@ -3438,7 +3438,10 @@ public class ChangeIT extends AbstractDaemonTest {
         .project(project)
         .forUpdate()
         .add(
-            allowLabel(Util.codeReview().getName()).ref(heads).group(REGISTERED_USERS).range(-2, 2))
+            allowLabel(TestLabels.codeReview().getName())
+                .ref(heads)
+                .group(REGISTERED_USERS)
+                .range(-2, 2))
         .update();
 
     PushOneCommit.Result r = createChange();

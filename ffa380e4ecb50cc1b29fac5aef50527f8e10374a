@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "4a84de96_f928c4f1",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-16T10:05:46Z",
+      "side": 1,
+      "message": "I think that including such items is premature at this stage of the process. Hence the potential sensitivity issues, controversy or confusion about such examples. Later on, after making sure that the above description (lines [202-209]) is clear yet as concise as possible, the (E)SC and CM(s) could look into that itemization.\n\nI\u0027d then even propose that the latter (newly elected committee) work on a revised proposal first, for that paragraph above. @Nasser should of course be welcome to contribute, as well as maintainers, once a proposal gets initialized -for a focused group discussion right after.",
+      "range": {
+        "startLine": 211,
+        "startChar": 0,
+        "endLine": 211,
+        "endChar": 36
+      },
+      "revId": "ffa380e4ecb50cc1b29fac5aef50527f8e10374a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2437742e_cfa94db1",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 1
@@ -260,6 +283,29 @@
       "side": 1,
       "message": "\u003e \u003e I also think it\u0027s far more likely this lottery-winning Italian will find a nice beach to relax on and not worry about replying to mailing lists :-)\n\n\u003e That is very true indeed :-)\n\nThis lottery-winning Italian would be Luca Milanesio, IIUC the odds that he wouldn\u0027t have found a new project to jump head-first into within the first 48 hours of beach life are so small they are practically zero!",
       "parentUuid": "3d00b1d7_50cce336",
+      "revId": "ffa380e4ecb50cc1b29fac5aef50527f8e10374a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3e35666_aba405a0",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-16T10:05:46Z",
+      "side": 1,
+      "message": "Not sure we should do this. Now if a community member inquires about a missing maintainer, I propose to privately answer using brevity and respect towards that maintainer. So nothing made publicly personal about the person. Just mentioning that the maintainer is simply no longer occupying that role. As for gossip, I propose to ignore those completely. Let the curious try to contact the said maintainer directly, without any maintainer involvement. Then it is solely between the inquirer and ex-maintainer, at will for them two only.",
+      "range": {
+        "startLine": 219,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 32
+      },
       "revId": "ffa380e4ecb50cc1b29fac5aef50527f8e10374a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

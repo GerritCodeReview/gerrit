@@ -28,10 +28,7 @@ dependencies can be installed with:
 
 ```sh
 npm install
-sudo npm install -g \
-  typescript \
-  fried-twinkie \
-  polylint
+sudo npm install -g polylint
 ```
 
 It may complain about a missing `typescript@2.3.4` peer dependency, which is
@@ -189,6 +186,12 @@ To run on all files, execute the following command:
 
 ```sh
 ./polygerrit-ui/app/run_template_test.sh
+```
+
+or
+
+```sh
+npm run test-template
 ```
 
 To run on a specific top level directory (ex: change-list)

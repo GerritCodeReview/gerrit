@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "e418178d_72d0640f",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-16T14:08:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8144b58c_f9c514e7",
+      "range": {
+        "startLine": 236,
+        "startChar": 17,
+        "endLine": 236,
+        "endChar": 23
+      },
+      "revId": "8a817bb7e545776b6933cc6ee2ae21e69276425e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f12a6c59_ce861b08",
         "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 4
@@ -60,6 +84,24 @@
       "writtenOn": "2019-05-16T12:15:10Z",
       "side": 1,
       "message": "Should a test be added to cover this new flow?",
+      "revId": "8a817bb7e545776b6933cc6ee2ae21e69276425e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2987fc5_30449d20",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-16T14:08:22Z",
+      "side": 1,
+      "message": "Yes, but I didn\u0027t find a way to do that. Do you know how to write such a test?",
+      "parentUuid": "f12a6c59_ce861b08",
       "revId": "8a817bb7e545776b6933cc6ee2ae21e69276425e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

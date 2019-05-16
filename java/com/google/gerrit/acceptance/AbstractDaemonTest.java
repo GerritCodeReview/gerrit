@@ -24,7 +24,7 @@ import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.NON_VISIBLE_CHANGES;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
-import static com.google.gerrit.server.project.testing.TestLabels.category;
+import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
@@ -1326,7 +1326,7 @@ public abstract class AbstractDaemonTest {
       LabelValue... value)
       throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType labelType = category(label, value);
+      LabelType labelType = label(label, value);
       labelType.setFunction(func);
       labelType.setRefPatterns(refPatterns);
       u.getConfig().getLabelSections().put(labelType.getName(), labelType);

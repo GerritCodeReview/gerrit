@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a64ae4a2_40bd804f",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-16T12:15:10Z",
+      "side": 1,
+      "message": "atWarning, as this is valuable feedback for an unaware admin. Also similar in scope with above L224\u0027s own message, which is a warning.",
+      "range": {
+        "startLine": 236,
+        "startChar": 17,
+        "endLine": 236,
+        "endChar": 23
+      },
+      "revId": "8a817bb7e545776b6933cc6ee2ae21e69276425e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f12a6c59_ce861b08",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-16T12:15:10Z",
+      "side": 1,
+      "message": "Should a test be added to cover this new flow?",
+      "revId": "8a817bb7e545776b6933cc6ee2ae21e69276425e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

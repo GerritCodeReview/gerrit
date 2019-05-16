@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a765b216_f6b7e3b7",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 905,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-16T16:52:07Z",
+      "side": 1,
+      "message": "Nit: Here and below, could be a static import.",
+      "range": {
+        "startLine": 905,
+        "startChar": 28,
+        "endLine": 905,
+        "endChar": 45
+      },
+      "revId": "31037ab49295d3ed228ef4181e6ef6eb450a24dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab41f5b4_9f9fd13f",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/TestProjectUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-16T16:52:07Z",
+      "side": 1,
+      "message": "Would it make sense to check here that a capability really allows to define a range if a range is provided (via GlobalCapability#hasRange)? On the other hand, silently ignoring the set range would also be fine in my opinion. Especially for the latter, it would be good to have a test which guarantees the desired the behavior.",
+      "range": {
+        "startLine": 80,
+        "startChar": 28,
+        "endLine": 80,
+        "endChar": 33
+      },
+      "revId": "31037ab49295d3ed228ef4181e6ef6eb450a24dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92fe3295_40bd91f7",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/TestProjectUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-16T16:52:07Z",
+      "side": 1,
+      "message": "Would it be possible to move this logic into ProjectOperationsImpl (e.g. use Optional\u003cInteger\u003e for min() and max() within the AutoValue)?",
+      "range": {
+        "startLine": 81,
+        "startChar": 8,
+        "endLine": 87,
+        "endChar": 9
+      },
+      "revId": "31037ab49295d3ed228ef4181e6ef6eb450a24dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

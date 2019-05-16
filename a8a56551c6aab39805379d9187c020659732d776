@@ -137,6 +137,29 @@
       "revId": "a8a56551c6aab39805379d9187c020659732d776",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cab3fddf_d414506f",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/TestProjectUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-16T16:54:16Z",
+      "side": 1,
+      "message": "Would it be overkill to have tests for this? (They shouldn\u0027t test the exception message but just that it\u0027s not possible to use such names.)",
+      "range": {
+        "startLine": 156,
+        "startChar": 8,
+        "endLine": 160,
+        "endChar": 43
+      },
+      "revId": "a8a56551c6aab39805379d9187c020659732d776",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

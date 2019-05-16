@@ -116,7 +116,7 @@ public class ListTags implements RestReadView<ProjectResource> {
   }
 
   @Override
-  public List<TagInfo> apply(ProjectResource resource)
+  public ImmutableList<TagInfo> apply(ProjectResource resource)
       throws IOException, ResourceNotFoundException, RestApiException, PermissionBackendException {
     resource.getProjectState().checkStatePermitsRead();
 

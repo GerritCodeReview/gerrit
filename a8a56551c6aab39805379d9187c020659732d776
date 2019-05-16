@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0c42bc1_269b6b70",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1031,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-16T16:07:48Z",
+      "side": 1,
+      "message": "Is \u0027force\u0027 deliberately not set on the rule as the passed value is always \u0027false\u0027?",
+      "range": {
+        "startLine": 1031,
+        "startChar": 6,
+        "endLine": 1031,
+        "endChar": 19
+      },
+      "revId": "a8a56551c6aab39805379d9187c020659732d776",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07d7e0cb_6207d41e",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-16T16:07:48Z",
+      "side": 1,
+      "message": "Consistency nit: For TestPermission, we omit the outer class.",
+      "range": {
+        "startLine": 143,
+        "startChar": 22,
+        "endLine": 143,
+        "endChar": 40
+      },
+      "revId": "a8a56551c6aab39805379d9187c020659732d776",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b4150d9_52bee932",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-16T16:07:48Z",
+      "side": 1,
+      "message": "Consistency nit: Within addPermissions(..), we use a traditional for-each loop. I would have expected both implementations to be very similar.",
+      "range": {
+        "startLine": 144,
+        "startChar": 6,
+        "endLine": 144,
+        "endChar": 36
+      },
+      "revId": "a8a56551c6aab39805379d9187c020659732d776",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a925571_82c5d7f3",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/TestProjectUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-16T16:07:48Z",
+      "side": 1,
+      "message": "The offered static factories define the set of possible actions. Is this just an additional layer of protection? If so, don\u0027t we need it for regular permissions (above) too?",
+      "range": {
+        "startLine": 122,
+        "startChar": 63,
+        "endLine": 122,
+        "endChar": 79
+      },
+      "revId": "a8a56551c6aab39805379d9187c020659732d776",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23c1a1ba_05c07e47",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/TestProjectUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-16T16:07:48Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we have a static factory method for this too?",
+      "range": {
+        "startLine": 124,
+        "startChar": 43,
+        "endLine": 124,
+        "endChar": 69
+      },
+      "revId": "a8a56551c6aab39805379d9187c020659732d776",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb4540bf_cc58bb05",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/TestProjectUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-16T16:07:48Z",
+      "side": 1,
+      "message": "Do we need this method to be public? (This field is already set in the static factory method.)",
+      "range": {
+        "startLine": 129,
+        "startChar": 6,
+        "endLine": 129,
+        "endChar": 12
+      },
+      "revId": "a8a56551c6aab39805379d9187c020659732d776",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

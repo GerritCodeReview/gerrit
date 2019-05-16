@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b86aadc_b483bcb2",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-16T15:24:38Z",
+      "side": 1,
+      "message": "If the rule already exists, will the rule still be added again, hence resulting in a duplicate definition?",
+      "range": {
+        "startLine": 135,
+        "startChar": 8,
+        "endLine": 135,
+        "endChar": 94
+      },
+      "revId": "76344939a73f20388045b72612cff50bb97ffe78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "765061b8_3c7bf8d2",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/TestProjectUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-16T15:24:38Z",
+      "side": 1,
+      "message": "Twice \"to be updated\".",
+      "range": {
+        "startLine": 41,
+        "startChar": 26,
+        "endLine": 41,
+        "endChar": 53
+      },
+      "revId": "76344939a73f20388045b72612cff50bb97ffe78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34ca28d9_54d99219",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/TestProjectUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-16T15:24:38Z",
+      "side": 1,
+      "message": "Name is pre-filled by the static factory methods. Hence, can we remove the public modifier?",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 65,
+        "endChar": 12
+      },
+      "revId": "76344939a73f20388045b72612cff50bb97ffe78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d5121e7_19485e76",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/DeleteBranchIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-16T15:24:38Z",
+      "side": 1,
+      "message": "Shouldn\u0027t those two lines be deleted now (as they are replaced with the new code)?",
+      "range": {
+        "startLine": 150,
+        "startChar": 4,
+        "endLine": 152,
+        "endChar": 0
+      },
+      "revId": "76344939a73f20388045b72612cff50bb97ffe78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

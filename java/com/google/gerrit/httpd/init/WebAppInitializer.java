@@ -260,8 +260,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     Module configModule = new GerritServerConfigModule();
     modules.add(configModule);
     modules.add(new DropWizardMetricMaker.ApiModule());
-    return Guice.createInjector(
-        PRODUCTION, LibModuleLoader.loadModules(cfgInjector, LibModuleType.DB_MODULE));
+    return Guice.createInjector(PRODUCTION, modules);
   }
 
   private Injector createDbInjector() {
@@ -269,7 +268,9 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new SchemaModule());
     modules.add(NoteDbSchemaVersionCheck.module());
     modules.add(new AuthConfigModule());
-    return cfgInjector.createChildInjector(modules);
+    return cfgInjector.createChildInjector(
+        ModuleOverloader.override(
+            modules, LibModuleLoader.loadModules(cfgInjector, LibModuleType.DB_MODULE)));
   }
 
   private Injector createSysInjector() {

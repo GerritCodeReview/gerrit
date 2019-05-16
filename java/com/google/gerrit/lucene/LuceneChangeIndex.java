@@ -259,10 +259,6 @@ public class LuceneChangeIndex implements ChangeIndex {
         new SortField(ID_SORT_FIELD, SortField.Type.LONG, true));
   }
 
-  public ChangeSubIndex getClosedChangesIndex() {
-    return closedIndex;
-  }
-
   private class QuerySource implements ChangeDataSource {
     private final List<ChangeSubIndex> indexes;
     private final Predicate<ChangeData> predicate;

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a74a37ae_9e3eee32",
+        "filename": "java/com/google/gerrit/httpd/init/WebAppInitializer.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-16T05:38:40Z",
+      "side": 1,
+      "message": "This would never work, as the original list of modules need to be passed to the ModuleOverloader.override(), as it is done at L339",
+      "range": {
+        "startLine": 268,
+        "startChar": 20,
+        "endLine": 268,
+        "endChar": 85
+      },
+      "revId": "b8ec7e243f8e53018f5088e01f06f3b16128f90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

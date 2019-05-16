@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ea81ca4_05bd36ff",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-05-16T10:34:12Z",
+      "side": 1,
+      "message": "Why not move all 5 lines into the common-test-setup.js?",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 58
+      },
+      "revId": "6654da1b9ac88ecc4975e2a43d55a698c271bc35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "984732fc_70a4dead",
+        "filename": "polygerrit-ui/app/test/common-test-setup.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-05-16T10:34:12Z",
+      "side": 1,
+      "message": "For HTML imports to be available you need webcomponents-lite.js. And before loading that you have to specific what you want to have polyfilled.",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 75
+      },
+      "revId": "6654da1b9ac88ecc4975e2a43d55a698c271bc35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "278f3833_7b5b7c70",
+        "filename": "polygerrit-ui/app/test/common-test-setup.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-05-16T10:34:12Z",
+      "side": 1,
+      "message": "It would be great, if we could actually submit this, i.e. it must work with Polymer1 and Polymer2. But all these four lines are P2 specific.",
+      "revId": "6654da1b9ac88ecc4975e2a43d55a698c271bc35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

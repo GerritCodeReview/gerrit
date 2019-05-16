@@ -30,6 +30,8 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
+
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -55,6 +57,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * yet).
  */
 public class Schema_146 extends SchemaVersion {
+  private static final Logger LOG = Logger.getLogger(Schema_146.class.getName());
   private static final String CREATE_ACCOUNT_MSG = "Create Account";
 
   private final GitRepositoryManager repoManager;
@@ -80,6 +83,7 @@ public class Schema_146 extends SchemaVersion {
         ObjectInserter oi = repo.newObjectInserter()) {
       ObjectId emptyTree = emptyTree(oi);
 
+      int i = 0;
       for (Map.Entry<Account.Id, Timestamp> e : scanAccounts(db).entrySet()) {
         String refName = RefNames.refsUsers(e.getKey());
         Ref ref = repo.exactRef(refName);
@@ -87,6 +91,10 @@ public class Schema_146 extends SchemaVersion {
           rewriteUserBranch(repo, rw, oi, emptyTree, ref, e.getValue());
         } else {
           createUserBranch(repo, oi, emptyTree, e.getKey(), e.getValue());
+        }
+        i++;
+        if (i % 100 == 0) {
+          LOG.info(String.format("Migrated %d users to schema 146", i));
         }
       }
     } catch (IOException e) {

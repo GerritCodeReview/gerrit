@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
-import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
@@ -53,9 +52,6 @@ import org.eclipse.jgit.lib.ObjectId;
  */
 public class AccountState {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  public static final Function<AccountState, Account.Id> ACCOUNT_ID_FUNCTION =
-      a -> a.getAccount().getId();
 
   /**
    * Creates an AccountState from the given account config.

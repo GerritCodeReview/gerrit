@@ -18,6 +18,7 @@ import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GPGKEY;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.joining;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Throwables;
@@ -284,12 +285,12 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
     }
 
     if (accountStates.size() > 1) {
-      StringBuilder msg = new StringBuilder();
-      msg.append("GPG key ")
-          .append(extIdKey.get())
-          .append(" associated with multiple accounts: ")
-          .append(Lists.transform(accountStates, AccountState.ACCOUNT_ID_FUNCTION));
-      throw new IllegalStateException(msg.toString());
+      String msg = "GPG key " + extIdKey.get() + " associated with multiple accounts: [";
+      msg =
+          accountStates.stream()
+              .map(a -> a.getAccount().getId().toString())
+              .collect(joining(", ", msg, "]"));
+      throw new IllegalStateException(msg);
     }
 
     return accountStates.get(0).getAccount();

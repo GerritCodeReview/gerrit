@@ -179,7 +179,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
       }
 
       try {
-        dbInjector = createDbInjector();
+        cfgInjector = createCfgInjector();
       } catch (CreationException ce) {
         final Message first = ce.getErrorMessages().iterator().next();
         final StringBuilder buf = new StringBuilder();
@@ -199,7 +199,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
         throw new CreationException(Collections.singleton(first));
       }
 
-      cfgInjector = createCfgInjector();
+      dbInjector = createDbInjector();
       initIndexType();
       config = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
       sysInjector = createSysInjector();
@@ -244,7 +244,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     return new SshAddressesModule().getListenAddresses(config).isEmpty();
   }
 
-  private Injector createDbInjector() {
+  private Injector createCfgInjector() {
     final List<Module> modules = new ArrayList<>();
     AbstractModule secureStore = createSecureStoreModule();
     modules.add(secureStore);
@@ -264,12 +264,12 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
         PRODUCTION, LibModuleLoader.loadModules(cfgInjector, LibModuleType.DB_MODULE));
   }
 
-  private Injector createCfgInjector() {
+  private Injector createDbInjector() {
     final List<Module> modules = new ArrayList<>();
     modules.add(new SchemaModule());
     modules.add(NoteDbSchemaVersionCheck.module());
     modules.add(new AuthConfigModule());
-    return dbInjector.createChildInjector(modules);
+    return cfgInjector.createChildInjector(modules);
   }
 
   private Injector createSysInjector() {
@@ -291,7 +291,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new DefaultPermissionBackendModule());
     modules.add(new DefaultMemoryCacheModule());
     modules.add(new H2CacheModule());
-    modules.add(cfgInjector.getInstance(MailReceiver.Module.class));
+    modules.add(dbInjector.getInstance(MailReceiver.Module.class));
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new LocalMergeSuperSetComputation.Module());
@@ -333,7 +333,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new ChangeCleanupRunner.Module());
     modules.add(new AccountDeactivator.Module());
     modules.add(new DefaultProjectNameLockManager.Module());
-    return cfgInjector.createChildInjector(
+    return dbInjector.createChildInjector(
         ModuleOverloader.override(
             modules, LibModuleLoader.loadModules(cfgInjector, LibModuleType.SYS_MODULE)));
   }

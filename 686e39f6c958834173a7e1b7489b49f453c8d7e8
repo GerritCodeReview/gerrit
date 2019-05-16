@@ -153,6 +153,30 @@
       "revId": "686e39f6c958834173a7e1b7489b49f453c8d7e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c810ef1_cc563d97",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-05-16T08:41:20Z",
+      "side": 1,
+      "message": "IMO there\u0027s always a conflict of interest (doesn\u0027t matter who is CM or if the CM is googler or not) not having the CM as ESC member will limit this conflict of interest not eradicate it. So it would be more honest with the softer formulation.\nHowever I don\u0027t feel to strongly about it.",
+      "parentUuid": "434dacd2_d7a1719e",
+      "range": {
+        "startLine": 297,
+        "startChar": 45,
+        "endLine": 298,
+        "endChar": 43
+      },
+      "revId": "686e39f6c958834173a7e1b7489b49f453c8d7e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

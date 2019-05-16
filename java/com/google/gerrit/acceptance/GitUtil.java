@@ -115,14 +115,13 @@ public class GitUtil {
     // Avoid leaking user state into our tests.
     fs.setUserHome(null);
 
-    InMemoryRepository dest =
-        new InMemoryRepository.Builder()
-            .setRepositoryDescription(desc)
-            // SshTransport depends on a real FS to read ~/.ssh/config, but
-            // InMemoryRepository by default uses a null FS.
-            // TODO(dborowitz): Remove when we no longer depend on SSH.
-            .setFS(fs)
-            .build();
+    InMemoryRepository.Builder b = new InMemoryRepository.Builder().setRepositoryDescription(desc);
+    if (uri.startsWith("ssh://")) {
+      // SshTransport depends on a real FS to read ~/.ssh/config, but InMemoryRepository by default
+      // uses a null FS.
+      b.setFS(fs);
+    }
+    InMemoryRepository dest = b.build();
     Config cfg = dest.getConfig();
     cfg.setString("remote", "origin", "url", uri);
     cfg.setString("remote", "origin", "fetch", "+refs/heads/*:refs/remotes/origin/*");

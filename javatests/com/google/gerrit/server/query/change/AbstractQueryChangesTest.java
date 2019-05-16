@@ -22,7 +22,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.a
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.project.testing.TestLabels.category;
+import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.concurrent.TimeUnit.HOURS;
@@ -1053,7 +1053,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         Project.nameKey(repo.getRepository().getDescription().getRepositoryName());
 
     LabelType verified =
-        category("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
+        label("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
       ProjectConfig cfg = projectConfigFactory.create(project);
       cfg.load(md);

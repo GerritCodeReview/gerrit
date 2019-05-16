@@ -340,7 +340,7 @@ public class ProjectConfigTest {
     cfg.getLabelSections()
         .put(
             "My-Label",
-            TestLabels.category(
+            TestLabels.label(
                 "My-Label",
                 TestLabels.value(-1, "Negative"),
                 TestLabels.value(0, "No score"),

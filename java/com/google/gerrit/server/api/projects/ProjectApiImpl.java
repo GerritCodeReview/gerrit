@@ -40,9 +40,11 @@ import com.google.gerrit.extensions.api.projects.IndexProjectInput;
 import com.google.gerrit.extensions.api.projects.ParentInput;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.api.projects.PutLabelInput;
 import com.google.gerrit.extensions.api.projects.TagApi;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.LabelTypeInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -75,6 +77,7 @@ import com.google.gerrit.server.restapi.project.ListTags;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.gerrit.server.restapi.project.PutConfig;
 import com.google.gerrit.server.restapi.project.PutDescription;
+import com.google.gerrit.server.restapi.project.PutLabel;
 import com.google.gerrit.server.restapi.project.SetAccess;
 import com.google.gerrit.server.restapi.project.SetHead;
 import com.google.gerrit.server.restapi.project.SetParent;
@@ -124,6 +127,7 @@ public class ProjectApiImpl implements ProjectApi {
   private final GetParent getParent;
   private final SetParent setParent;
   private final Index index;
+  private final PutLabel putLabel;
 
   @AssistedInject
   ProjectApiImpl(
@@ -158,6 +162,7 @@ public class ProjectApiImpl implements ProjectApi {
       GetParent getParent,
       SetParent setParent,
       Index index,
+      PutLabel putLabel,
       @Assisted ProjectResource project) {
     this(
         permissionBackend,
@@ -192,6 +197,7 @@ public class ProjectApiImpl implements ProjectApi {
         getParent,
         setParent,
         index,
+        putLabel,
         null);
   }
 
@@ -228,6 +234,7 @@ public class ProjectApiImpl implements ProjectApi {
       GetParent getParent,
       SetParent setParent,
       Index index,
+      PutLabel putLabel,
       @Assisted String name) {
     this(
         permissionBackend,
@@ -262,6 +269,7 @@ public class ProjectApiImpl implements ProjectApi {
         getParent,
         setParent,
         index,
+        putLabel,
         name);
   }
 
@@ -298,6 +306,7 @@ public class ProjectApiImpl implements ProjectApi {
       GetParent getParent,
       SetParent setParent,
       Index index,
+      PutLabel putLabel,
       String name) {
     this.permissionBackend = permissionBackend;
     this.createProject = createProject;
@@ -330,8 +339,9 @@ public class ProjectApiImpl implements ProjectApi {
     this.setHead = setHead;
     this.getParent = getParent;
     this.setParent = setParent;
-    this.name = name;
     this.index = index;
+    this.putLabel = putLabel;
+    this.name = name;
   }
 
   @Override
@@ -436,6 +446,15 @@ public class ProjectApiImpl implements ProjectApi {
       return putConfig.apply(checkExists(), in);
     } catch (Exception e) {
       throw asRestApiException("Cannot list tags", e);
+    }
+  }
+
+  @Override
+  public List<LabelTypeInfo> label(PutLabelInput labelInput) throws RestApiException {
+    try {
+      return putLabel.apply(checkExists(), labelInput);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot put labels", e);
     }
   }
 

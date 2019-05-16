@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.api.config.AccessCheckInfo;
 import com.google.gerrit.extensions.api.config.AccessCheckInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.LabelTypeInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -48,6 +49,8 @@ public interface ProjectApi {
   ConfigInfo config() throws RestApiException;
 
   ConfigInfo config(ConfigInput in) throws RestApiException;
+
+  List<LabelTypeInfo> label(PutLabelInput labelInput) throws RestApiException;
 
   ListRefsRequest<BranchInfo> branches();
 
@@ -258,6 +261,11 @@ public interface ProjectApi {
 
     @Override
     public ConfigInfo config(ConfigInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<LabelTypeInfo> label(PutLabelInput labelInput) throws RestApiException {
       throw new NotImplementedException();
     }
 

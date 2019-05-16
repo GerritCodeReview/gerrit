@@ -261,7 +261,9 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
       modules.add(configModule);
     modules.add(new DropWizardMetricMaker.ApiModule());
     return Guice.createInjector(
-        PRODUCTION, LibModuleLoader.loadModules(cfgInjector, LibModuleType.DB_MODULE));
+        PRODUCTION,
+        ModuleOverloader.override(
+            modules, LibModuleLoader.loadModules(cfgInjector, LibModuleType.DB_MODULE)));
   }
 
   private Injector createCfgInjector() {

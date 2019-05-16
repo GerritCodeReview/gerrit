@@ -22,7 +22,6 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
-import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -719,7 +718,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   private List<String> getRefs(Git git) throws Exception {
-    return getRefs(git, Predicates.alwaysTrue());
+    return getRefs(git, x -> true);
   }
 
   private List<String> getUserRefs(Git git) throws Exception {

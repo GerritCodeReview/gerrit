@@ -57,6 +57,8 @@ public class Module extends RestApiModule {
     put(PROJECT_KIND, "access:review").to(CreateAccessChange.class);
     get(PROJECT_KIND, "check.access").to(CheckAccessReadView.class);
 
+    put(PROJECT_KIND, "label").to(PutLabel.class);
+
     post(PROJECT_KIND, "check").to(Check.class);
 
     get(PROJECT_KIND, "parent").to(GetParent.class);

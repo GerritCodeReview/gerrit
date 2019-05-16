@@ -35,6 +35,11 @@ bower_component_bundle(
     ],
 )
 
+filegroup(
+    name = "npm_polylint",
+    srcs = ["node_modules/polylint/lib/polylint-bin.js"],
+)
+
 genrule2(
     name = "fonts",
     srcs = [

@@ -15,6 +15,9 @@
 package com.google.gerrit.acceptance.server.quota;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.quota.QuotaGroupDefinitions.REPOSITORY_SIZE_GROUP;
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.resetToStrict;
@@ -92,7 +95,7 @@ public class DefaultQuotaBackendIT extends AbstractDaemonTest {
 
   @Test
   public void requestTokenForUserAndChange() throws Exception {
-    Change.Id changeId = createChange().getChange().getId();
+    Change.Id changeId = retrieveChangeId();
     QuotaRequestContext ctx =
         QuotaRequestContext.builder()
             .user(identifiedAdmin)
@@ -148,7 +151,7 @@ public class DefaultQuotaBackendIT extends AbstractDaemonTest {
 
   @Test
   public void availableTokensForUserAndChange() throws Exception {
-    Change.Id changeId = createChange().getChange().getId();
+    Change.Id changeId = retrieveChangeId();
     QuotaRequestContext ctx =
         QuotaRequestContext.builder()
             .user(identifiedAdmin)
@@ -222,6 +225,20 @@ public class DefaultQuotaBackendIT extends AbstractDaemonTest {
 
     exception.expect(NullPointerException.class);
     quotaBackend.user(identifiedAdmin).availableTokens("testGroup");
+  }
+
+  private Change.Id retrieveChangeId() throws Exception {
+    // make sure that quota enforcer is properly stubbed for repository
+    // size quota check before change gets created
+    expect(
+            quotaEnforcer.availableTokens(
+                eq(REPOSITORY_SIZE_GROUP), anyObject(QuotaRequestContext.class)))
+        .andReturn(QuotaResponse.noOp())
+        .anyTimes();
+    replay(quotaEnforcer);
+    Change.Id changeId = createChange().getChange().getId();
+    resetToStrict(quotaEnforcer);
+    return changeId;
   }
 
   private static QuotaResponse.Aggregated singletonAggregation(QuotaResponse response) {

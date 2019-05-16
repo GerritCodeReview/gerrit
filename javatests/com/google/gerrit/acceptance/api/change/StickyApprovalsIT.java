@@ -26,8 +26,8 @@ import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMM
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.project.testing.Util.category;
-import static com.google.gerrit.server.project.testing.Util.value;
+import static com.google.gerrit.server.project.testing.TestLabels.category;
+import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import com.google.common.collect.ImmutableList;
@@ -47,7 +47,7 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.project.testing.Util;
+import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.inject.Inject;
 import java.util.EnumSet;
 import java.util.List;
@@ -91,12 +91,12 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
         .project(project)
         .forUpdate()
         .add(
-            allowLabel(Util.codeReview().getName())
+            allowLabel(TestLabels.codeReview().getName())
                 .ref(RefNames.REFS_HEADS + "*")
                 .group(REGISTERED_USERS)
                 .range(-2, 2))
         .add(
-            allowLabel(Util.verified().getName())
+            allowLabel(TestLabels.verified().getName())
                 .ref(RefNames.REFS_HEADS + "*")
                 .group(REGISTERED_USERS)
                 .range(-1, 1))

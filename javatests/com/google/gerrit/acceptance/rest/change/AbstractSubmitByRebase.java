@@ -35,7 +35,7 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.project.testing.Util;
+import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.inject.Inject;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -65,7 +65,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
         .add(block(Permission.ADD_PATCH_SET).ref("refs/*").group(REGISTERED_USERS))
         .add(allow(Permission.SUBMIT).ref("refs/heads/*").group(REGISTERED_USERS))
         .add(
-            allowLabel(Util.codeReview().getName())
+            allowLabel(TestLabels.codeReview().getName())
                 .ref("refs/heads/*")
                 .group(REGISTERED_USERS)
                 .range(-2, 2))

@@ -109,6 +109,7 @@ sh_test(
     srcs = ["polylint_test.sh"],
     data = [
         ":pg_code",
+        "//:npm_polylint",
         "//polygerrit-ui:polygerrit_components.bower_components.zip",
     ],
     # Should not run sandboxed.

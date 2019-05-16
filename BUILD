@@ -76,3 +76,8 @@ genrule2(
         "zip -qr $$ROOT/$@ .",
     ]),
 )
+
+filegroup(
+    name = "npm_polylint",
+    srcs = ["node_modules/polylint/lib/polylint-bin.js"],
+)

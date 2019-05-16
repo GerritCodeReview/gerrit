@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "80975113_2dca0be2",
+        "filename": "package.json",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-05-16T14:29:37Z",
+      "side": 1,
+      "message": "No - I tried that. Apparently it\u0027s relative to polygerrit-ui/app.",
+      "parentUuid": "e4378034_050ed2af",
+      "range": {
+        "startLine": 14,
+        "startChar": 69,
+        "endLine": 14,
+        "endChar": 85
+      },
+      "revId": "0021ba00622576f5a20033aa65a64eb35ca718a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62ca93f8_bff2cad1",
         "filename": "polygerrit-ui/README.md",
         "patchSetId": 5

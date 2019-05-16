@@ -28,7 +28,6 @@ import com.github.rholder.retry.WaitStrategies;
 import com.github.rholder.retry.WaitStrategy;
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Predicate;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
@@ -47,6 +46,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -294,7 +294,7 @@ public class RetryHelper {
   private <O> RetryerBuilder<O> createRetryerBuilder(
       ActionType actionType, Options opts, Predicate<Throwable> exceptionPredicate) {
     RetryerBuilder<O> retryerBuilder =
-        RetryerBuilder.<O>newBuilder().retryIfException(exceptionPredicate);
+        RetryerBuilder.<O>newBuilder().retryIfException(exceptionPredicate::test);
     if (opts.listener() != null) {
       retryerBuilder.withRetryListener(opts.listener());
     }

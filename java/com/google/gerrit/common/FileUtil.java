@@ -44,7 +44,6 @@ public class FileUtil {
   }
 
   public static void chmod(int mode, Path path) {
-    // TODO(dborowitz): Is there a portable way to do this with NIO?
     chmod(mode, path.toFile());
   }
 

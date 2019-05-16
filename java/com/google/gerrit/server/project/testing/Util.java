@@ -14,13 +14,10 @@
 
 package com.google.gerrit.server.project.testing;
 
-import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
-import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.project.ProjectConfig;
 import java.util.Arrays;
 
 public class Util {
@@ -54,13 +51,6 @@ public class Util {
 
   public static LabelType category(String name, LabelValue... values) {
     return new LabelType(name, Arrays.asList(values));
-  }
-
-  public static PermissionRule newRule(ProjectConfig project, AccountGroup.UUID groupUUID) {
-    GroupReference group = new GroupReference(groupUUID, groupUUID.get());
-    group = project.resolve(group);
-
-    return new PermissionRule(group);
   }
 
   private Util() {}

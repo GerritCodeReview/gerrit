@@ -22,6 +22,53 @@
       "revId": "6dc73eadef9fcbf562f1266e2b431a3aba165be0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0096ca8_41cc2db6",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-16T12:08:31Z",
+      "side": 1,
+      "message": "+1. If needed, would make these a separate change.",
+      "parentUuid": "e8dbd64d_2ca1dba7",
+      "range": {
+        "startLine": 299,
+        "startChar": 8,
+        "endLine": 299,
+        "endChar": 22
+      },
+      "revId": "6dc73eadef9fcbf562f1266e2b431a3aba165be0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63f42a82_b7719f93",
+        "filename": "javatests/com/google/gerrit/acceptance/api/plugin/PluginLoaderIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-16T12:08:31Z",
+      "side": 1,
+      "message": "Test method\u0027s name is already explicit enough to remove this comment line.",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 84
+      },
+      "revId": "6dc73eadef9fcbf562f1266e2b431a3aba165be0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "e9a4279b_9b01bc5b",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareReadOnlyRefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-16T13:42:48Z",
+      "side": 1,
+      "message": "This doesn\u0027t work on JGit: [1] release 5.3.1, because of this change in JGit: [2]. The error message is: \n\n  java/com/google/gerrit/server/git/PermissionAwareReadOnlyRefDatabase.java:60: error: getRef(String) in PermissionAwareReadOnlyRefDatabase cannot override getRef(String) in RefDatabase\n  public Ref getRef(String name) throws IOException {\n\nThe gitiles plugin is affected as well, that I fixed here: [3].\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/224326\n* [2] https://git.eclipse.org/r/#/c/49570\n* [3] https://gerrit-review.googlesource.com/c/plugins/gitiles/+/224637",
+      "range": {
+        "startLine": 60,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 51
+      },
+      "revId": "d2a96f1f6f80b3baec9ed9370817fb2f61786c0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7347660a_00ae07e4",
         "filename": "java/com/google/gerrit/server/git/PermissionAwareRepository.java",
         "patchSetId": 2

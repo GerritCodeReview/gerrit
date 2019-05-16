@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba2c1513_b798b936",
+        "filename": "java/com/google/gerrit/server/quota/QuotaBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-05-16T16:02:44Z",
+      "side": 1,
+      "message": "nit: remove\n\nPlease explain the racy nature of this method with respect to being a pre-flight check. I think it would be a good idea to document this method entirely here instead of linking to the enforcer doc as that covers different sides of the problem.",
+      "range": {
+        "startLine": 87,
+        "startChar": 53,
+        "endLine": 87,
+        "endChar": 60
+      },
+      "revId": "1088bd470a0f6cf7283103dbc2b01d93f6158fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dce3919_308060d3",
+        "filename": "java/com/google/gerrit/server/quota/QuotaEnforcer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-05-16T16:02:44Z",
+      "side": 1,
+      "message": "Can you add more text here to describe when this should be used?\n\nI think using this instead of request tokens is rather the exceptional case, so we should explicitly say so.",
+      "revId": "1088bd470a0f6cf7283103dbc2b01d93f6158fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

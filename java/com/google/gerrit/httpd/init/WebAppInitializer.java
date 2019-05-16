@@ -134,8 +134,8 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
   private static final String GERRIT_SITE_PATH = "gerrit.site_path";
 
   private Path sitePath;
-  private Injector dbInjector;
   private Injector cfgInjector;
+  private Injector dbInjector;
   private Config config;
   private Injector sysInjector;
   private Injector webInjector;
@@ -179,7 +179,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
       }
 
       try {
-        dbInjector = createDbInjector();
+        cfgInjector = createCfgInjector();
       } catch (CreationException ce) {
         final Message first = ce.getErrorMessages().iterator().next();
         final StringBuilder buf = new StringBuilder();
@@ -199,9 +199,9 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
         throw new CreationException(Collections.singleton(first));
       }
 
-      cfgInjector = createCfgInjector();
+      dbInjector = createDbInjector();
       initIndexType();
-      config = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
+      config = dbInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
       sysInjector = createSysInjector();
       if (!sshdOff()) {
         sshInjector = createSshInjector();
@@ -209,7 +209,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
       webInjector = createWebInjector();
 
       PluginGuiceEnvironment env = sysInjector.getInstance(PluginGuiceEnvironment.class);
-      env.setDbCfgInjector(dbInjector, cfgInjector);
+      env.setDbCfgInjector(cfgInjector, dbInjector);
       if (sshInjector != null) {
         env.setSshInjector(sshInjector);
       }
@@ -230,8 +230,8 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
 
       filter = webInjector.getInstance(GuiceFilter.class);
       manager = new LifecycleManager();
-      manager.add(dbInjector);
       manager.add(cfgInjector);
+      manager.add(dbInjector);
       manager.add(sysInjector);
       if (sshInjector != null) {
         manager.add(sshInjector);
@@ -244,7 +244,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     return new SshAddressesModule().getListenAddresses(config).isEmpty();
   }
 
-  private Injector createDbInjector() {
+  private Injector createCfgInjector() {
     final List<Module> modules = new ArrayList<>();
     AbstractModule secureStore = createSecureStoreModule();
     modules.add(secureStore);
@@ -264,12 +264,12 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
         PRODUCTION, LibModuleLoader.loadModules(cfgInjector, LibModuleType.DB_MODULE));
   }
 
-  private Injector createCfgInjector() {
+  private Injector createDbInjector() {
     final List<Module> modules = new ArrayList<>();
     modules.add(new SchemaModule());
     modules.add(NoteDbSchemaVersionCheck.module());
     modules.add(new AuthConfigModule());
-    return dbInjector.createChildInjector(modules);
+    return cfgInjector.createChildInjector(modules);
   }
 
   private Injector createSysInjector() {
@@ -278,12 +278,12 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new LogFileCompressor.Module());
     modules.add(new EventBroker.Module());
     modules.add(new JdbcAccountPatchReviewStore.Module(config));
-    modules.add(cfgInjector.getInstance(GitRepositoryManagerModule.class));
+    modules.add(dbInjector.getInstance(GitRepositoryManagerModule.class));
     modules.add(new StreamEventsApiListener.Module());
     modules.add(new SysExecutorModule());
     modules.add(new DiffExecutorModule());
     modules.add(new MimeUtil2Module());
-    modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
+    modules.add(dbInjector.getInstance(GerritGlobalModule.class));
     modules.add(new GerritApiModule());
     modules.add(new PluginApiModule());
     modules.add(new SearchingChangeCacheImpl.Module());
@@ -291,7 +291,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new DefaultPermissionBackendModule());
     modules.add(new DefaultMemoryCacheModule());
     modules.add(new H2CacheModule());
-    modules.add(cfgInjector.getInstance(MailReceiver.Module.class));
+    modules.add(dbInjector.getInstance(MailReceiver.Module.class));
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new LocalMergeSuperSetComputation.Module());
@@ -333,9 +333,9 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new ChangeCleanupRunner.Module());
     modules.add(new AccountDeactivator.Module());
     modules.add(new DefaultProjectNameLockManager.Module());
-    return cfgInjector.createChildInjector(
+    return dbInjector.createChildInjector(
         ModuleOverloader.override(
-            modules, LibModuleLoader.loadModules(cfgInjector, LibModuleType.SYS_MODULE)));
+            modules, LibModuleLoader.loadModules(dbInjector, LibModuleType.SYS_MODULE)));
   }
 
   private Module createIndexModule() {
@@ -350,7 +350,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
   }
 
   private void initIndexType() {
-    indexType = IndexModule.getIndexType(cfgInjector);
+    indexType = IndexModule.getIndexType(dbInjector);
   }
 
   private Injector createSshInjector() {
@@ -383,7 +383,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(H2CacheBasedWebSession.module());
     modules.add(new HttpPluginModule());
 
-    AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
+    AuthConfig authConfig = dbInjector.getInstance(AuthConfig.class);
     if (authConfig.getAuthType() == AuthType.OPENID) {
       modules.add(new OpenIdModule());
     } else if (authConfig.getAuthType() == AuthType.OAUTH) {

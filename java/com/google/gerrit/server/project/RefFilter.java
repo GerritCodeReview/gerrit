@@ -14,15 +14,17 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.common.base.Predicate;
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
 import com.google.common.base.Strings;
-import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.api.projects.RefInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import dk.brics.automaton.RegExp;
 import dk.brics.automaton.RunAutomaton;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Stream;
 
 public class RefFilter<T extends RefInfo> {
   private final String prefix;
@@ -55,15 +57,17 @@ public class RefFilter<T extends RefInfo> {
     return this;
   }
 
-  public List<T> filter(List<T> refs) throws BadRequestException {
+  public ImmutableList<T> filter(List<T> refs) throws BadRequestException {
     if (!Strings.isNullOrEmpty(matchSubstring) && !Strings.isNullOrEmpty(matchRegex)) {
       throw new BadRequestException("specify exactly one of m/r");
     }
-    FluentIterable<T> results = FluentIterable.from(refs);
+    Stream<T> results = refs.stream();
     if (!Strings.isNullOrEmpty(matchSubstring)) {
-      results = results.filter(new SubstringPredicate(matchSubstring));
+      String lowercaseSubstring = matchSubstring.toLowerCase(Locale.US);
+      results = results.filter(refInfo -> matchesSubstring(prefix, lowercaseSubstring, refInfo));
     } else if (!Strings.isNullOrEmpty(matchRegex)) {
-      results = results.filter(new RegexPredicate(matchRegex));
+      RunAutomaton a = parseRegex(matchRegex);
+      results = results.filter(refInfo -> matchesRegex(prefix, a, refInfo));
     }
     if (start > 0) {
       results = results.skip(start);
@@ -71,51 +75,39 @@ public class RefFilter<T extends RefInfo> {
     if (limit > 0) {
       results = results.limit(limit);
     }
-    return results.toList();
+    return results.collect(toImmutableList());
   }
 
-  private class SubstringPredicate implements Predicate<T> {
-    private final String substring;
-
-    private SubstringPredicate(String substring) {
-      this.substring = substring.toLowerCase(Locale.US);
+  private static <T extends RefInfo> boolean matchesSubstring(
+      String prefix, String lowercaseSubstring, T refInfo) {
+    String ref = refInfo.ref;
+    if (ref.startsWith(prefix)) {
+      ref = ref.substring(prefix.length());
     }
+    ref = ref.toLowerCase(Locale.US);
+    return ref.contains(lowercaseSubstring);
+  }
 
-    @Override
-    public boolean apply(T in) {
-      String ref = in.ref;
-      if (ref.startsWith(prefix)) {
-        ref = ref.substring(prefix.length());
+  private static RunAutomaton parseRegex(String regex) throws BadRequestException {
+    if (regex.startsWith("^")) {
+      regex = regex.substring(1);
+      if (regex.endsWith("$") && !regex.endsWith("\\$")) {
+        regex = regex.substring(0, regex.length() - 1);
       }
-      ref = ref.toLowerCase(Locale.US);
-      return ref.contains(substring);
+    }
+    try {
+      return new RunAutomaton(new RegExp(regex).toAutomaton());
+    } catch (IllegalArgumentException e) {
+      throw new BadRequestException(e.getMessage());
     }
   }
 
-  private class RegexPredicate implements Predicate<T> {
-    private final RunAutomaton a;
-
-    private RegexPredicate(String regex) throws BadRequestException {
-      if (regex.startsWith("^")) {
-        regex = regex.substring(1);
-        if (regex.endsWith("$") && !regex.endsWith("\\$")) {
-          regex = regex.substring(0, regex.length() - 1);
-        }
-      }
-      try {
-        a = new RunAutomaton(new RegExp(regex).toAutomaton());
-      } catch (IllegalArgumentException e) {
-        throw new BadRequestException(e.getMessage());
-      }
+  private static <T extends RefInfo> boolean matchesRegex(
+      String prefix, RunAutomaton a, T refInfo) {
+    String ref = refInfo.ref;
+    if (ref.startsWith(prefix)) {
+      ref = ref.substring(prefix.length());
     }
-
-    @Override
-    public boolean apply(T in) {
-      String ref = in.ref;
-      if (ref.startsWith(prefix)) {
-        ref = ref.substring(prefix.length());
-      }
-      return a.run(ref);
-    }
+    return a.run(ref);
   }
 }

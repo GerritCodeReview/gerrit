@@ -127,7 +127,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
   }
 
   @Override
-  public List<BranchInfo> apply(ProjectResource rsrc)
+  public ImmutableList<BranchInfo> apply(ProjectResource rsrc)
       throws RestApiException, IOException, PermissionBackendException {
     rsrc.getProjectState().checkStatePermitsRead();
     return new RefFilter<BranchInfo>(Constants.R_HEADS)

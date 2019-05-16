@@ -20,6 +20,7 @@ import static org.easymock.EasyMock.reset;
 import static org.easymock.EasyMock.verify;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.Change;
@@ -68,7 +69,7 @@ public class RestApiQuotaIT extends AbstractDaemonTest {
 
   @Test
   public void changeDetail() throws Exception {
-    Change.Id changeId = createChange().getChange().getId();
+    Change.Id changeId = retrieveChangeId();
     expect(quotaBackendWithResource.requestToken("/restapi/changes/detail:GET"))
         .andReturn(singletonAggregation(QuotaResponse.ok()));
     replay(quotaBackendWithResource);
@@ -81,7 +82,7 @@ public class RestApiQuotaIT extends AbstractDaemonTest {
 
   @Test
   public void revisionDetail() throws Exception {
-    Change.Id changeId = createChange().getChange().getId();
+    Change.Id changeId = retrieveChangeId();
     expect(quotaBackendWithResource.requestToken("/restapi/changes/revisions/actions:GET"))
         .andReturn(singletonAggregation(QuotaResponse.ok()));
     replay(quotaBackendWithResource);
@@ -128,6 +129,12 @@ public class RestApiQuotaIT extends AbstractDaemonTest {
         .andReturn(singletonAggregation(QuotaResponse.error("no quota")));
     replay(quotaBackendWithUser);
     adminRestSession.get("/config/server/version").assertStatus(429);
+  }
+
+  private Change.Id retrieveChangeId() throws Exception {
+    // use REST API so that repository size quota doesn't have to be stubbed
+    ChangeInfo changeInfo = gApi.changes().create(new ChangeInput(project.get(), "master", "test")).get();
+    return new Change.Id(changeInfo._number);
   }
 
   private static QuotaResponse.Aggregated singletonAggregation(QuotaResponse response) {

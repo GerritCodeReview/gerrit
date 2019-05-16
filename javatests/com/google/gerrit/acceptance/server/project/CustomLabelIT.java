@@ -27,7 +27,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.project.testing.TestLabels.category;
+import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
@@ -59,9 +59,9 @@ public class CustomLabelIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
 
   private final LabelType label =
-      category("CustomLabel", value(1, "Positive"), value(0, "No score"), value(-1, "Negative"));
+      label("CustomLabel", value(1, "Positive"), value(0, "No score"), value(-1, "Negative"));
 
-  private final LabelType P = category("CustomLabel2", value(1, "Positive"), value(0, "No score"));
+  private final LabelType P = label("CustomLabel2", value(1, "Positive"), value(0, "No score"));
 
   private RegistrationHandle eventListenerRegistration;
   private CommentAddedListener.Event lastCommentAddedEvent;

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.server.quota;
 
+import static com.google.gerrit.server.quota.QuotaGroupDefinitions.REPOSITORY_SIZE_GROUP;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.reset;
@@ -68,7 +69,7 @@ public class RestApiQuotaIT extends AbstractDaemonTest {
 
   @Test
   public void changeDetail() throws Exception {
-    Change.Id changeId = createChange().getChange().getId();
+    Change.Id changeId = retrieveChangeId();
     expect(quotaBackendWithResource.requestToken("/restapi/changes/detail:GET"))
         .andReturn(singletonAggregation(QuotaResponse.ok()));
     replay(quotaBackendWithResource);
@@ -81,7 +82,7 @@ public class RestApiQuotaIT extends AbstractDaemonTest {
 
   @Test
   public void revisionDetail() throws Exception {
-    Change.Id changeId = createChange().getChange().getId();
+    Change.Id changeId = retrieveChangeId();
     expect(quotaBackendWithResource.requestToken("/restapi/changes/revisions/actions:GET"))
         .andReturn(singletonAggregation(QuotaResponse.ok()));
     replay(quotaBackendWithResource);
@@ -128,6 +129,21 @@ public class RestApiQuotaIT extends AbstractDaemonTest {
         .andReturn(singletonAggregation(QuotaResponse.error("no quota")));
     replay(quotaBackendWithUser);
     adminRestSession.get("/config/server/version").assertStatus(429);
+  }
+
+  private Change.Id retrieveChangeId() throws Exception {
+    // make sure that quota backends are properly stubbed for repository
+    // size quota check before change gets created
+    expect(quotaBackendWithResource.availableTokens(REPOSITORY_SIZE_GROUP))
+        .andReturn(singletonAggregation(QuotaResponse.noOp()))
+        .anyTimes();
+    expect(quotaBackendWithUser.project(project)).andReturn(quotaBackendWithResource).anyTimes();
+    replay(quotaBackendWithResource);
+    replay(quotaBackendWithUser);
+    Change.Id changeId = createChange().getChange().getId();
+    reset(quotaBackendWithResource);
+    reset(quotaBackendWithUser);
+    return changeId;
   }
 
   private static QuotaResponse.Aggregated singletonAggregation(QuotaResponse response) {

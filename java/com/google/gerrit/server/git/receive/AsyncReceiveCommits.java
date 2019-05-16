@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git.receive;
 
+import static com.google.gerrit.server.quota.QuotaGroupDefinitions.REPOSITORY_SIZE_GROUP;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.flogger.FluentLogger;
@@ -46,6 +47,9 @@ import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.quota.QuotaBackend;
+import com.google.gerrit.server.quota.QuotaException;
+import com.google.gerrit.server.quota.QuotaResponse;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
@@ -96,6 +100,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   public static class Module extends PrivateModule {
     @Override
     public void configure() {
+      install(new FactoryModuleBuilder().build(LazyPostReceiveHookChain.Factory.class));
       install(new FactoryModuleBuilder().build(AsyncReceiveCommits.Factory.class));
       expose(AsyncReceiveCommits.Factory.class);
       // Don't expose the binding for ReceiveCommits.Factory. All callers should
@@ -253,9 +258,10 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       RequestScopePropagator scopePropagator,
       ReceiveConfig receiveConfig,
       TransferConfig transferConfig,
-      Provider<LazyPostReceiveHookChain> lazyPostReceive,
+      LazyPostReceiveHookChain.Factory lazyPostReceive,
       ContributorAgreementsChecker contributorAgreements,
       Metrics metrics,
+      QuotaBackend quotaBackend,
       @Named(TIMEOUT_NAME) long timeoutMillis,
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
@@ -284,7 +290,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     receivePack.setRefFilter(new ReceiveRefFilter());
     receivePack.setAllowPushOptions(true);
     receivePack.setPreReceiveHook(this);
-    receivePack.setPostReceiveHook(lazyPostReceive.get());
+    receivePack.setPostReceiveHook(lazyPostReceive.create(user, projectName));
 
     // If the user lacks READ permission, some references may be filtered and hidden from view.
     // Check objects mentioned inside the incoming pack file are reachable from visible refs.
@@ -311,6 +317,17 @@ public class AsyncReceiveCommits implements PreReceiveHook {
         factory.create(
             projectState, user, receivePack, allRefsWatcher, messageSender, resultChangeIds);
     receiveCommits.init();
+    QuotaResponse.Aggregated availableTokens =
+        quotaBackend.user(user).project(projectName).availableTokens(REPOSITORY_SIZE_GROUP);
+    try {
+      availableTokens.throwOnError();
+    } catch (QuotaException e) {
+      logger.atWarning().withCause(e).log(
+          "Quota %s availableTokens request failed for project %s",
+          REPOSITORY_SIZE_GROUP, projectName);
+      throw new RuntimeException(e);
+    }
+    availableTokens.availableTokens().ifPresent(v -> receivePack.setMaxObjectSizeLimit(v));
   }
 
   /** Determine if the user can upload commits. */

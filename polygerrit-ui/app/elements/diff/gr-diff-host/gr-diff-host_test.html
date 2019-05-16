@@ -269,7 +269,7 @@ limitations under the License.
     suite('render reporting', () => {
       test('starts total and content timer on render-start', done => {
         element.dispatchEvent(
-            new CustomEvent('render-start', {bubbles: true}));
+            new CustomEvent('render-start', {bubbles: true, composed: true}));
         assert.isTrue(element.$.reporting.time.calledWithExactly(
             'Diff Total Render'));
         assert.isTrue(element.$.reporting.time.calledWithExactly(
@@ -279,7 +279,7 @@ limitations under the License.
 
       test('ends content and starts syntax timer on render-content', done => {
         element.dispatchEvent(
-            new CustomEvent('render-content', {bubbles: true}));
+            new CustomEvent('render-content', {bubbles: true, composed: true}));
         assert.isTrue(element.$.reporting.time.calledWithExactly(
             'Diff Syntax Render'));
         assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
@@ -289,7 +289,7 @@ limitations under the License.
 
       test('ends total and syntax timer on render-syntax', done => {
         element.dispatchEvent(
-            new CustomEvent('render-syntax', {bubbles: true}));
+            new CustomEvent('render-syntax', {bubbles: true, composed: true}));
         assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
             'Diff Total Render'));
         assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(

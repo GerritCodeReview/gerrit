@@ -118,8 +118,8 @@
 
     _inputTextChanged(text) {
       if (text.length && this.allowAnyInput) {
-        this.dispatchEvent(new CustomEvent('account-text-changed',
-            {bubbles: true}));
+        this.dispatchEvent(new CustomEvent(
+            'account-text-changed', {bubbles: true, composed: true}));
       }
     },
 

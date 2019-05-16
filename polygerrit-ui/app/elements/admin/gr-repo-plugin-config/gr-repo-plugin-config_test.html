@@ -151,7 +151,8 @@ limitations under the License.
         const select = element.$$('select');
         assert.ok(select);
         select.value = 'newTest';
-        select.dispatchEvent(new Event('change', {bubbles: true}));
+        select.dispatchEvent(new Event(
+            'change', {bubbles: true, composed: true}));
         flushAsynchronousOperations();
 
         assert.isTrue(buildStub.called);

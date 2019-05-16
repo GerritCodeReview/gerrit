@@ -96,8 +96,11 @@
             this.$.storage.getEditableContentItem(this.storageKey);
         if (storedContent && storedContent.message) {
           content = storedContent.message;
-          this.dispatchEvent(new CustomEvent('show-alert',
-              {detail: {message: RESTORED_MESSAGE}, bubbles: true}));
+          this.dispatchEvent(new CustomEvent('show-alert', {
+            detail: {message: RESTORED_MESSAGE},
+            bubbles: true,
+            composed: true,
+          }));
         }
       }
       if (!content) {

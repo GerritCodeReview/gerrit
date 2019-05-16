@@ -415,7 +415,7 @@ limitations under the License.
       assert.isTrue(element.$$('#ccs').allowAnyInput);
       assert.isFalse(element.$$('#reviewers').allowAnyInput);
       element.$$('#ccs').dispatchEvent(new CustomEvent('account-text-changed',
-          {bubbles: true}));
+          {bubbles: true, composed: true}));
       assert.isTrue(element._reviewersMutated);
     });
 

@@ -221,8 +221,8 @@
             this._settingTopic = false;
             this.set(['change', 'topic'], newTopic);
             if (newTopic !== lastTopic) {
-              this.dispatchEvent(
-                  new CustomEvent('topic-changed', {bubbles: true}));
+              this.dispatchEvent(new CustomEvent(
+                  'topic-changed', {bubbles: true, composed: true}));
             }
           });
     },
@@ -246,8 +246,8 @@
           this.change._number, {add: [newHashtag]}).then(newHashtag => {
             this.set(['change', 'hashtags'], newHashtag);
             if (newHashtag !== lastHashtag) {
-              this.dispatchEvent(
-                  new CustomEvent('hashtag-changed', {bubbles: true}));
+              this.dispatchEvent(new CustomEvent(
+                  'hashtag-changed', {bubbles: true, composed: true}));
             }
           });
     },
@@ -378,7 +378,7 @@
         target.disabled = false;
         this.set(['change', 'topic'], '');
         this.dispatchEvent(
-            new CustomEvent('topic-changed', {bubbles: true}));
+            new CustomEvent('topic-changed', {bubbles: true, composed: true}));
       }).catch(err => {
         target.disabled = false;
         return;

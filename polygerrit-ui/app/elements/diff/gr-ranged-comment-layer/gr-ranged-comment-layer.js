@@ -188,6 +188,7 @@
               range.end = line.text.length;
               this.dispatchEvent(new CustomEvent('normalize-range', {
                 bubbles: true,
+                composed: true,
                 detail: {lineNum, side},
               }));
             }

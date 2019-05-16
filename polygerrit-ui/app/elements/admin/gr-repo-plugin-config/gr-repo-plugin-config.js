@@ -123,8 +123,8 @@
         notifyPath: `${name}.${notifyPath}`,
       };
 
-      this.dispatchEvent(new CustomEvent(this.PLUGIN_CONFIG_CHANGED,
-          {detail, bubbles: true}));
+      this.dispatchEvent(new CustomEvent(
+          this.PLUGIN_CONFIG_CHANGED, {detail, bubbles: true, composed: true}));
     },
   });
 })();

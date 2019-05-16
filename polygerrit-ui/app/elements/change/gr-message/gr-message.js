@@ -228,6 +228,7 @@
       e.preventDefault();
       this.dispatchEvent(new CustomEvent('message-anchor-tap', {
         bubbles: true,
+        composed: true,
         detail: {id: this.message.id},
       }));
     },

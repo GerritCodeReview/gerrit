@@ -75,8 +75,9 @@
     _handleRunningGC() {
       return this.$.restAPI.runRepoGC(this.repo).then(response => {
         if (response.status === 200) {
-          this.dispatchEvent(new CustomEvent('show-alert',
-              {detail: {message: GC_MESSAGE}, bubbles: true}));
+          this.dispatchEvent(new CustomEvent(
+              'show-alert',
+              {detail: {message: GC_MESSAGE}, bubbles: true, composed: true}));
         }
       });
     },
@@ -100,8 +101,9 @@
             const message = change ?
                 CREATE_CHANGE_SUCCEEDED_MESSAGE :
                 CREATE_CHANGE_FAILED_MESSAGE;
-            this.dispatchEvent(new CustomEvent('show-alert',
-                {detail: {message}, bubbles: true}));
+            this.dispatchEvent(new CustomEvent(
+                'show-alert',
+                {detail: {message}, bubbles: true, composed: true}));
             if (!change) { return; }
 
             Gerrit.Nav.navigateToRelativeUrl(Gerrit.Nav.getEditUrlForDiff(

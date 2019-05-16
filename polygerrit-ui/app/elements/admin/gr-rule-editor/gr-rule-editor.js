@@ -210,12 +210,13 @@
 
     _handleRemoveRule() {
       if (this.rule.value.added) {
-        this.dispatchEvent(new CustomEvent('added-rule-removed',
-            {bubbles: true}));
+        this.dispatchEvent(new CustomEvent(
+            'added-rule-removed', {bubbles: true, composed: true}));
       }
       this._deleted = true;
       this.rule.value.deleted = true;
-      this.dispatchEvent(new CustomEvent('access-modified', {bubbles: true}));
+      this.dispatchEvent(
+          new CustomEvent('access-modified', {bubbles: true, composed: true}));
     },
 
     _handleUndoRemove() {
@@ -237,7 +238,8 @@
       if (!this._originalRuleValues) { return; }
       this.rule.value.modified = true;
       // Allows overall access page to know a change has been made.
-      this.dispatchEvent(new CustomEvent('access-modified', {bubbles: true}));
+      this.dispatchEvent(
+          new CustomEvent('access-modified', {bubbles: true, composed: true}));
     },
 
     _setOriginalRuleValues(value) {

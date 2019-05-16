@@ -406,8 +406,11 @@
       if (!Object.keys(addRemoveObj.add).length &&
           !Object.keys(addRemoveObj.remove).length &&
           !addRemoveObj.parent) {
-        this.dispatchEvent(new CustomEvent('show-alert',
-            {detail: {message: NOTHING_TO_SAVE}, bubbles: true}));
+        this.dispatchEvent(new CustomEvent('show-alert', {
+          detail: {message: NOTHING_TO_SAVE},
+          bubbles: true,
+          composed: true,
+        }));
         return;
       }
       const obj = {

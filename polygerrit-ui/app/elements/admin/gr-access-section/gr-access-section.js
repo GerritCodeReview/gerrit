@@ -95,7 +95,8 @@
         // For a new section, this is not fired because new permissions and
         // rules have to be added in order to save, modifying the ref is not
         // enough.
-        this.dispatchEvent(new CustomEvent('access-modified', {bubbles: true}));
+        this.dispatchEvent(new CustomEvent(
+            'access-modified', {bubbles: true, composed: true}));
       }
       this.section.value.updatedId = this.section.id;
     },
@@ -199,12 +200,13 @@
 
     _handleRemoveReference() {
       if (this.section.value.added) {
-        this.dispatchEvent(new CustomEvent('added-section-removed',
-            {bubbles: true}));
+        this.dispatchEvent(new CustomEvent(
+            'added-section-removed', {bubbles: true, composed: true}));
       }
       this._deleted = true;
       this.section.value.deleted = true;
-      this.dispatchEvent(new CustomEvent('access-modified', {bubbles: true}));
+      this.dispatchEvent(
+          new CustomEvent('access-modified', {bubbles: true, composed: true}));
     },
 
     _handleUndoRemove() {

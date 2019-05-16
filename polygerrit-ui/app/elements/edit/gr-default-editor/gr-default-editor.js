@@ -32,8 +32,9 @@
     },
 
     _handleTextareaInput(e) {
-      this.dispatchEvent(new CustomEvent('content-change',
-          {detail: {value: e.target.value}, bubbles: true}));
+      this.dispatchEvent(new CustomEvent(
+          'content-change',
+          {detail: {value: e.target.value}, bubbles: true, composed: true}));
     },
   });
 })();

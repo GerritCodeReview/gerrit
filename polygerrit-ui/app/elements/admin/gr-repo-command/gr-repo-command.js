@@ -34,7 +34,8 @@
      */
 
     _onCommandTap() {
-      this.dispatchEvent(new CustomEvent('command-tap', {bubbles: true}));
+      this.dispatchEvent(
+          new CustomEvent('command-tap', {bubbles: true, composed: true}));
     },
   });
 })();

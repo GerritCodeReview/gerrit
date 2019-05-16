@@ -104,7 +104,9 @@
     },
 
     _paramsChanged(value) {
-      if (value.view !== Gerrit.Nav.View.EDIT) { return; }
+      if (value.view !== Gerrit.Nav.View.EDIT) {
+        return;
+      }
 
       this._changeNum = value.changeNum;
       this._path = value.path;
@@ -134,7 +136,9 @@
 
     _handlePathChanged(e) {
       const path = e.detail;
-      if (path === this._path) { return Promise.resolve(); }
+      if (path === this._path) {
+        return Promise.resolve();
+      }
       return this.$.restAPI.renameFileInChangeEdit(this._changeNum,
           this._path, path).then(res => {
             if (!res.ok) { return; }
@@ -158,8 +162,11 @@
           .then(res => {
             if (storedContent && storedContent.message &&
                 storedContent.message !== res.content) {
-              this.dispatchEvent(new CustomEvent('show-alert',
-                  {detail: {message: RESTORED_MESSAGE}, bubbles: true}));
+              this.dispatchEvent(new CustomEvent('show-alert', {
+                detail: {message: RESTORED_MESSAGE},
+                bubbles: true,
+                composed: true,
+              }));
 
               this._newContent = storedContent.message;
             } else {
@@ -197,11 +204,14 @@
       this.dispatchEvent(new CustomEvent('show-alert', {
         detail: {message},
         bubbles: true,
+        composed: true,
       }));
     },
 
     _computeSaveDisabled(content, newContent, saving) {
-      if (saving) { return true; }
+      if (saving) {
+        return true;
+      }
       return content === newContent;
     },
 
@@ -224,7 +234,9 @@
 
     _handleSaveShortcut(e) {
       e.preventDefault();
-      if (!this._saveDisabled) { this._saveEdit(); }
+      if (!this._saveDisabled) {
+        this._saveEdit();
+      }
     },
   });
 })();

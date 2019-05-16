@@ -214,6 +214,7 @@
       this.set('change.reviewed', newVal);
       this.dispatchEvent(new CustomEvent('toggle-reviewed', {
         bubbles: true,
+        composed: true,
         detail: {change: this.change, reviewed: newVal},
       }));
     },

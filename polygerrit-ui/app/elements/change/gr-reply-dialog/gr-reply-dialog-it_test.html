@@ -150,7 +150,8 @@ limitations under the License.
           flush(() => {
             const textarea = element.$.textarea.getNativeTextarea();
             textarea.value = 'LGTM';
-            textarea.dispatchEvent(new CustomEvent('input', {bubbles: true}));
+            textarea.dispatchEvent(new CustomEvent(
+                'input', {bubbles: true, composed: true}));
             const labelScoreRows = Polymer.dom(element.$.labelScores.root)
                 .querySelector('gr-label-score-row[name="Code-Review"]');
             const selectedBtn = Polymer.dom(labelScoreRows.root)

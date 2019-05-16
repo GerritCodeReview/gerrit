@@ -762,7 +762,7 @@ limitations under the License.
             () => {
               Promise.resolve();
               element.$.diffBuilder.dispatchEvent(
-                  new CustomEvent('render', {bubbles: true}));
+                  new CustomEvent('render', {bubbles: true, composed: true}));
             });
         const mock = document.createElement('mock-diff-response');
         sandbox.stub(element.$.diffBuilder, 'getDiffLength').returns(10000);

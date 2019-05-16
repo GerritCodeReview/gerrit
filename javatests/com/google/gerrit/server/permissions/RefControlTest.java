@@ -33,8 +33,6 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.project.testing.Util.ADMIN;
-import static com.google.gerrit.server.project.testing.Util.DEVS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.Lists;
@@ -72,6 +70,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class RefControlTest {
+  private static final AccountGroup.UUID ADMIN = AccountGroup.uuid("test.admin");
+  private static final AccountGroup.UUID DEVS = AccountGroup.uuid("test.devs");
+
   private void assertAdminsAreOwnersAndDevsAreNot() throws Exception {
     ProjectControl uBlah = user(localKey, DEVS);
     ProjectControl uAdmin = user(localKey, DEVS, ADMIN);

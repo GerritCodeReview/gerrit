@@ -14,10 +14,10 @@
 
 package com.google.gerrit.metrics.dropwizard;
 
-import com.google.common.base.Function;
 import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
+import java.util.function.Function;
 
 /** Optimized version of {@link BucketedCounter} for single dimension. */
 class CounterImpl1<F1> extends BucketedCounter {

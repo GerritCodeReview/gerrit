@@ -15,10 +15,10 @@
 package com.google.gerrit.metrics.dropwizard;
 
 import com.codahale.metrics.MetricRegistry;
-import com.google.common.base.Function;
 import com.google.gerrit.metrics.CallbackMetric1;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
+import java.util.function.Function;
 
 /** Optimized version of {@link BucketedCallback} for single dimension. */
 class CallbackMetricImpl1<F1, V> extends BucketedCallback<V> {

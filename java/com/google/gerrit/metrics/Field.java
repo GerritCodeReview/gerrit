@@ -16,8 +16,7 @@ package com.google.gerrit.metrics;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.base.Function;
-import com.google.common.base.Functions;
+import java.util.function.Function;
 
 /**
  * Describes a bucketing field used by a metric.
@@ -156,12 +155,11 @@ public class Field<T> {
     return formatter;
   }
 
-  @SuppressWarnings("unchecked")
   private static <T> Function<T, String> initFormatter(Class<T> keyType) {
     if (keyType == String.class) {
-      return (Function<T, String>) Functions.<String>identity();
+      return s -> (String) s;
     } else if (keyType == Integer.class || keyType == Boolean.class) {
-      return (Function<T, String>) Functions.toStringFunction();
+      return Object::toString;
     } else if (Enum.class.isAssignableFrom(keyType)) {
       return in -> ((Enum<?>) in).name();
     }

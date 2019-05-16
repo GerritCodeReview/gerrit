@@ -133,7 +133,8 @@
       const name = e.target.selectedItem.name;
       const value = e.target.selectedItem.getAttribute('value');
       this.dispatchEvent(new CustomEvent(
-        'labels-changed', {detail: {name, value}, bubbles: true}));
+          'labels-changed',
+          {detail: {name, value}, bubbles: true, composed: true}));
     },
 
     _computeAnyPermittedLabelValues(permittedLabels, label) {

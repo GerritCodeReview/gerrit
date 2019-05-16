@@ -50,7 +50,7 @@ limitations under the License.
       element.addEventListener('content-change', contentChangedHandler);
       textarea.value = 'test';
       textarea.dispatchEvent(new CustomEvent('input',
-          {target: textarea, bubbles: true}));
+          {target: textarea, bubbles: true, composed: true}));
     });
   });
 </script>

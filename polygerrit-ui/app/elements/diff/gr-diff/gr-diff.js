@@ -390,12 +390,12 @@
     _redispatchHoverEvents(addedThreadEls) {
       for (const threadEl of addedThreadEls) {
         threadEl.addEventListener('mouseenter', () => {
-          threadEl.dispatchEvent(
-              new CustomEvent('comment-thread-mouseenter', {bubbles: true}));
+          threadEl.dispatchEvent(new CustomEvent(
+              'comment-thread-mouseenter', {bubbles: true, composed: true}));
         });
         threadEl.addEventListener('mouseleave', () => {
-          threadEl.dispatchEvent(
-              new CustomEvent('comment-thread-mouseleave', {bubbles: true}));
+          threadEl.dispatchEvent(new CustomEvent(
+              'comment-thread-mouseleave', {bubbles: true, composed: true}));
         });
       }
     },
@@ -551,6 +551,7 @@
           this._getIsParentCommentByLineAndContent(lineEl, contentEl);
       this.dispatchEvent(new CustomEvent('create-comment', {
         bubbles: true,
+        composed: true,
         detail: {
           lineNum,
           side,
@@ -727,14 +728,16 @@
     _renderDiffTable() {
       this._unobserveIncrementalNodes();
       if (!this.prefs) {
-        this.dispatchEvent(new CustomEvent('render', {bubbles: true}));
+        this.dispatchEvent(
+            new CustomEvent('render', {bubbles: true, composed: true}));
         return;
       }
       if (this.prefs.context === -1 &&
           this._diffLength >= LARGE_DIFF_THRESHOLD_LINES &&
           this._safetyBypass === null) {
         this._showWarning = true;
-        this.dispatchEvent(new CustomEvent('render', {bubbles: true}));
+        this.dispatchEvent(
+            new CustomEvent('render', {bubbles: true, composed: true}));
         return;
       }
 
@@ -744,7 +747,7 @@
       this.$.diffBuilder.render(keyLocations, this._getBypassPrefs())
           .then(() => {
             this.dispatchEvent(
-                new CustomEvent('render', {bubbles: true}));
+                new CustomEvent('render', {bubbles: true, composed: true}));
           });
     },
 

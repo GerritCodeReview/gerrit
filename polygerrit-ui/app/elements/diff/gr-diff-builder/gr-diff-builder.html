@@ -179,7 +179,8 @@ limitations under the License.
 
           const isBinary = !!(this.isImageDiff || this.diff.binary);
 
-          this.dispatchEvent(new CustomEvent('render-start', {bubbles: true}));
+          this.dispatchEvent(new CustomEvent(
+              'render-start', {bubbles: true, composed: true}));
           this._cancelableRenderPromise = util.makeCancelable(
               this.$.processor.process(this.diff.content, isBinary)
                   .then(() => {
@@ -187,7 +188,7 @@ limitations under the License.
                       this._builder.renderDiff();
                     }
                     this.dispatchEvent(new CustomEvent('render-content',
-                        {bubbles: true}));
+                        {bubbles: true, composed: true}));
 
                     if (this._diffTooLargeForSyntax()) {
                       this.$.syntaxLayer.enabled = false;
@@ -196,8 +197,8 @@ limitations under the License.
                     return this.$.syntaxLayer.process();
                   })
                   .then(() => {
-                    this.dispatchEvent(
-                        new CustomEvent('render-syntax', {bubbles: true}));
+                    this.dispatchEvent(new CustomEvent(
+                        'render-syntax', {bubbles: true, composed: true}));
                   }));
           return this._cancelableRenderPromise
               .finally(() => { this._cancelableRenderPromise = null; })
@@ -313,7 +314,7 @@ limitations under the License.
           this.dispatchEvent(new CustomEvent('show-alert', {
             detail: {
               message,
-            }, bubbles: true}));
+            }, bubbles: true, composed: true}));
           throw Error(`Invalid preference value: ${pref}`);
         },
 

@@ -137,17 +137,19 @@
     _handleValueChange() {
       this.permission.value.modified = true;
       // Allows overall access page to know a change has been made.
-      this.dispatchEvent(new CustomEvent('access-modified', {bubbles: true}));
+      this.dispatchEvent(
+          new CustomEvent('access-modified', {bubbles: true, composed: true}));
     },
 
     _handleRemovePermission() {
       if (this.permission.value.added) {
-        this.dispatchEvent(new CustomEvent('added-permission-removed',
-            {bubbles: true}));
+        this.dispatchEvent(new CustomEvent(
+            'added-permission-removed', {bubbles: true, composed: true}));
       }
       this._deleted = true;
       this.permission.value.deleted = true;
-      this.dispatchEvent(new CustomEvent('access-modified', {bubbles: true}));
+      this.dispatchEvent(
+          new CustomEvent('access-modified', {bubbles: true, composed: true}));
     },
 
     _handleRulesChanged(changeRecord) {
@@ -273,7 +275,8 @@
       const value = this._rules[this._rules.length - 1].value;
       value.added = true;
       this.set(['permission', 'value', 'rules', groupId], value);
-      this.dispatchEvent(new CustomEvent('access-modified', {bubbles: true}));
+      this.dispatchEvent(
+          new CustomEvent('access-modified', {bubbles: true, composed: true}));
     },
 
     _computeHasRange(name) {

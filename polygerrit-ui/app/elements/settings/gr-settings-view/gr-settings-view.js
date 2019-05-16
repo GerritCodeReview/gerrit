@@ -414,6 +414,7 @@
       this.dispatchEvent(new CustomEvent('show-alert', {
         detail: {message: RELOAD_MESSAGE},
         bubbles: true,
+        composed: true,
       }));
       this.async(() => {
         window.location.reload();

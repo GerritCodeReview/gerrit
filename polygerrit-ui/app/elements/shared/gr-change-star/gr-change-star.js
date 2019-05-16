@@ -49,6 +49,7 @@
       this.set('change.starred', newVal);
       this.dispatchEvent(new CustomEvent('toggle-star', {
         bubbles: true,
+        composed: true,
         detail: {change: this.change, starred: newVal},
       }));
     },

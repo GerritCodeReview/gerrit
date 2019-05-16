@@ -205,6 +205,7 @@
               this.dispatchEvent(new CustomEvent('show-alert', {
                 detail: {message: SAVING_ERROR_TEXT},
                 bubbles: true,
+                composed: true,
               }));
               return err;
             }

@@ -128,7 +128,8 @@
 
       _numPendingDraftRequests: {
         type: Object,
-        value: {number: 0}, // Intentional to share the object across instances.
+        value:
+            {number: 0}, // Intentional to share the object across instances.
       },
 
       _enableOverlay: {
@@ -230,7 +231,9 @@
      */
     save(opt_comment) {
       let comment = opt_comment;
-      if (!comment) { comment = this.comment; }
+      if (!comment) {
+        comment = this.comment;
+      }
 
       this.set('comment.message', this._messageText);
       this.editing = false;
@@ -340,7 +343,9 @@
 
     _computeSaveDisabled(draft, comment, resolved) {
       // If resolved state has changed and a msg exists, save should be enabled.
-      if (comment.unresolved === resolved && draft) { return false; }
+      if (comment.unresolved === resolved && draft) {
+        return false;
+      }
       return !draft || draft.trim() === '';
     },
 
@@ -376,7 +381,9 @@
     },
 
     _messageTextChanged(newValue, oldValue) {
-      if (!this.comment || (this.comment && this.comment.id)) { return; }
+      if (!this.comment || (this.comment && this.comment.id)) {
+        return;
+      }
 
       this.debounce('store', () => {
         const message = this._messageText;
@@ -400,9 +407,12 @@
 
     _handleAnchorTap(e) {
       e.preventDefault();
-      if (!this.comment.line) { return; }
+      if (!this.comment.line) {
+        return;
+      }
       this.dispatchEvent(new CustomEvent('comment-anchor-tap', {
         bubbles: true,
+        composed: true,
         detail: {
           number: this.comment.line || FILE,
           side: this.side,
@@ -421,7 +431,9 @@
       e.preventDefault();
 
       // Ignore saves started while already saving.
-      if (this.disabled) { return; }
+      if (this.disabled) {
+        return;
+      }
       const timingLabel = this.comment.id ?
           REPORT_UPDATE_DRAFT : REPORT_CREATE_DRAFT;
       const timer = this.$.reporting.getTimer(timingLabel);
@@ -450,6 +462,7 @@
     _handleFix() {
       this.dispatchEvent(new CustomEvent('create-fix-comment', {
         bubbles: true,
+        composed: true,
         detail: this._getEventPayload(),
       }));
     },
@@ -512,7 +525,9 @@
     },
 
     _getSavingMessage(numPending) {
-      if (numPending === 0) { return SAVED_MESSAGE; }
+      if (numPending === 0) {
+        return SAVED_MESSAGE;
+      }
       return [
         SAVING_MESSAGE,
         numPending,
@@ -544,8 +559,8 @@
         // Note: the event is fired on the body rather than this element because
         // this element may not be attached by the time this executes, in which
         // case the event would not bubble.
-        document.body.dispatchEvent(new CustomEvent('show-alert',
-            {detail: {message}, bubbles: true}));
+        document.body.dispatchEvent(new CustomEvent(
+            'show-alert', {detail: {message}, bubbles: true, composed: true}));
       }, TOAST_DEBOUNCE_INTERVAL);
     },
 

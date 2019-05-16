@@ -46,8 +46,9 @@
     },
 
     _dispatchFileAction(action, path) {
-      this.dispatchEvent(new CustomEvent('file-action-tap',
-          {detail: {action, path}, bubbles: true}));
+      this.dispatchEvent(new CustomEvent(
+          'file-action-tap',
+          {detail: {action, path}, bubbles: true, composed: true}));
     },
 
     _computeFileActions(actions) {

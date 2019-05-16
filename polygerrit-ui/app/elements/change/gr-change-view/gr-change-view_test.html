@@ -1599,32 +1599,44 @@ limitations under the License.
       sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl');
 
       // Delete
-      fileList.dispatchEvent(new CustomEvent('file-action-tap',
-          {detail: {action: Actions.DELETE.id, path: 'foo'}, bubbles: true}));
+      fileList.dispatchEvent(new CustomEvent('file-action-tap', {
+        detail: {action: Actions.DELETE.id, path: 'foo'},
+        bubbles: true,
+        composed: true,
+      }));
       flushAsynchronousOperations();
 
       assert.isTrue(controls.openDeleteDialog.called);
       assert.equal(controls.openDeleteDialog.lastCall.args[0], 'foo');
 
       // Restore
-      fileList.dispatchEvent(new CustomEvent('file-action-tap',
-          {detail: {action: Actions.RESTORE.id, path: 'foo'}, bubbles: true}));
+      fileList.dispatchEvent(new CustomEvent('file-action-tap', {
+        detail: {action: Actions.RESTORE.id, path: 'foo'},
+        bubbles: true,
+        composed: true,
+      }));
       flushAsynchronousOperations();
 
       assert.isTrue(controls.openRestoreDialog.called);
       assert.equal(controls.openRestoreDialog.lastCall.args[0], 'foo');
 
       // Rename
-      fileList.dispatchEvent(new CustomEvent('file-action-tap',
-          {detail: {action: Actions.RENAME.id, path: 'foo'}, bubbles: true}));
+      fileList.dispatchEvent(new CustomEvent('file-action-tap', {
+        detail: {action: Actions.RENAME.id, path: 'foo'},
+        bubbles: true,
+        composed: true,
+      }));
       flushAsynchronousOperations();
 
       assert.isTrue(controls.openRenameDialog.called);
       assert.equal(controls.openRenameDialog.lastCall.args[0], 'foo');
 
       // Open
-      fileList.dispatchEvent(new CustomEvent('file-action-tap',
-          {detail: {action: Actions.OPEN.id, path: 'foo'}, bubbles: true}));
+      fileList.dispatchEvent(new CustomEvent('file-action-tap', {
+        detail: {action: Actions.OPEN.id, path: 'foo'},
+        bubbles: true,
+        composed: true,
+      }));
       flushAsynchronousOperations();
 
       assert.isTrue(Gerrit.Nav.getEditUrlForDiff.called);

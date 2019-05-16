@@ -110,7 +110,9 @@
       commitRange: Object,
       filesWeblinks: {
         type: Object,
-        value() { return {}; },
+        value() {
+          return {};
+        },
         notify: true,
       },
       hidden: {
@@ -309,7 +311,9 @@
     },
 
     _getFilesWeblinks(diff) {
-      if (!this.commitRange) { return {}; }
+      if (!this.commitRange) {
+        return {};
+      }
       return {
         meta_a: Gerrit.Nav.getFileWebLinks(
             this.projectName, this.commitRange.baseCommit, this.path,
@@ -435,7 +439,9 @@
      * Report info about the diff response.
      */
     _reportDiff(diff) {
-      if (!diff || !diff.content) { return; }
+      if (!diff || !diff.content) {
+        return;
+      }
 
       // Count the delta lines stemming from normal deltas, and from
       // due_to_rebase deltas.
@@ -663,7 +669,7 @@
      * @param {!Gerrit.Range=} range
      * @return {?Node}
      */
-    _getThreadEl(lineNum, commentSide, range=undefined) {
+    _getThreadEl(lineNum, commentSide, range = undefined) {
       let line;
       if (commentSide === GrDiffBuilder.Side.LEFT) {
         line = {beforeNumber: lineNum};
@@ -778,7 +784,8 @@
       return this.prefs.ignore_whitespace;
     },
 
-    _whitespaceChanged(preferredWhitespaceLevel, loadedWhitespaceLevel,
+    _whitespaceChanged(
+        preferredWhitespaceLevel, loadedWhitespaceLevel,
         noRenderOnPrefsChange) {
       if (preferredWhitespaceLevel !== loadedWhitespaceLevel &&
           !noRenderOnPrefsChange) {
@@ -831,8 +838,8 @@
     },
 
     _handleCommentSaveOrDiscard() {
-      this.dispatchEvent(new CustomEvent('diff-comments-modified',
-          {bubbles: true}));
+      this.dispatchEvent(new CustomEvent(
+          'diff-comments-modified', {bubbles: true, composed: true}));
     },
 
     _removeComment(comment) {

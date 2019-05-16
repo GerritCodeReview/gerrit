@@ -179,8 +179,8 @@ limitations under the License.
         element.commentRanges = [{side: 'right'}];
 
         sandbox.stub(element, 'set');
-        threadEl.dispatchEvent(
-            new CustomEvent('comment-thread-mouseenter', {bubbles: true}));
+        threadEl.dispatchEvent(new CustomEvent(
+            'comment-thread-mouseenter', {bubbles: true, composed: true}));
         assert.isFalse(element.set.called);
       });
 
@@ -204,8 +204,8 @@ limitations under the License.
         }}];
 
         sandbox.stub(element, 'set');
-        threadEl.dispatchEvent(
-            new CustomEvent('comment-thread-mouseenter', {bubbles: true}));
+        threadEl.dispatchEvent(new CustomEvent(
+            'comment-thread-mouseenter', {bubbles: true, composed: true}));
         assert.isTrue(element.set.called);
         const args = element.set.lastCall.args;
         assert.deepEqual(args[0], ['commentRanges', 0, 'hovering']);
@@ -221,8 +221,8 @@ limitations under the License.
         element.commentRanges = [{side: 'right'}];
 
         sandbox.stub(element, 'set');
-        threadEl.dispatchEvent(
-            new CustomEvent('comment-thread-mouseleave', {bubbles: true}));
+        threadEl.dispatchEvent(new CustomEvent(
+            'comment-thread-mouseleave', {bubbles: true, composed: true}));
         assert.isFalse(element.set.called);
       });
 

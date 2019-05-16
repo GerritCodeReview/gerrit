@@ -123,8 +123,11 @@
           // Repopulate the input with what the user tried to enter and have
           // a toast tell them why they can't enter it.
           this.$.entry.setText(reviewer);
-          this.dispatchEvent(new CustomEvent('show-alert',
-            {detail: {message: VALID_EMAIL_ALERT}, bubbles: true}));
+          this.dispatchEvent(new CustomEvent('show-alert', {
+            detail: {message: VALID_EMAIL_ALERT},
+            bubbles: true,
+            composed: true,
+          }));
           return false;
         } else {
           const account = {email: reviewer, _pendingAdd: true};

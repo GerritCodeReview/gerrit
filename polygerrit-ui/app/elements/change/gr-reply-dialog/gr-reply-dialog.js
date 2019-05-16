@@ -749,6 +749,7 @@
       if (this._sendDisabled) {
         this.dispatchEvent(new CustomEvent('show-alert', {
           bubbles: true,
+          composed: true,
           detail: {message: EMPTY_REPLY_MESSAGE},
         }));
         return;
@@ -756,9 +757,11 @@
       return this.send(this._includeComments, this.canBeStarted)
           .then(keepReviewers => {
             this._purgeReviewersPendingRemove(false, keepReviewers);
-          }).catch(err => {
+          })
+          .catch(err => {
             this.dispatchEvent(new CustomEvent('show-error', {
               bubbles: true,
+              composed: true,
               detail: {message: `Error submitting review ${err}`},
             }));
           });

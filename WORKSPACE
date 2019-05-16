@@ -897,7 +897,7 @@ maven_jar(
     sha1 = "5c24325430971ba2fa4769eb446f026b7680d5e7",
 )
 
-JACKSON_VERSION = "2.9.8"
+JACKSON_VERSION = "2.9.9"
 
 maven_jar(
     name = "jackson-core",

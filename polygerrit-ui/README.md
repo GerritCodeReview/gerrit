@@ -71,8 +71,9 @@ that serves PolyGerrit:
 
 ```sh
 bazel build polygerrit && \
-java -jar bazel-bin/polygerrit.war daemon --polygerrit-dev \
--d ../gerrit_testsite --console-log --show-stack-trace
+  java -DsourceRoot=/path/to/my/checkout \
+  -jar bazel-bin/polygerrit.war daemon --polygerrit-dev \
+  -d ../gerrit_testsite --console-log --show-stack-trace
 ```
 
 ## Running Tests

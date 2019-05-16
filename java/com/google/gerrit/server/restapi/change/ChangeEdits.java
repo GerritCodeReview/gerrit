@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.Input;
@@ -380,7 +381,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
       FileInfo r = new FileInfo();
       ChangeEdit edit = rsrc.getChangeEdit();
       Change change = edit.getChange();
-      List<DiffWebLinkInfo> links =
+      ImmutableList<DiffWebLinkInfo> links =
           webLinks.getDiffLinks(
               change.getProject().get(),
               change.getChangeId(),

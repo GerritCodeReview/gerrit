@@ -505,7 +505,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           continue;
         }
 
-        List<WebLinkInfo> links = webLinks.getProjectLinks(projectName.get());
+        ImmutableList<WebLinkInfo> links = webLinks.getProjectLinks(projectName.get());
         info.webLinks = links.isEmpty() ? null : links;
 
         if (stdout == null || format.isJson()) {

@@ -28,6 +28,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.PUSH_CERTIFI
 import static com.google.gerrit.extensions.client.ListChangesOption.WEB_LINKS;
 import static com.google.gerrit.server.CommonConverters.toGitPerson;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
@@ -71,7 +72,6 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
@@ -182,7 +182,7 @@ public class RevisionJson {
     info.message = commit.getFullMessage();
 
     if (addLinks) {
-      List<WebLinkInfo> links = webLinks.getPatchSetLinks(project, commit.name());
+      ImmutableList<WebLinkInfo> links = webLinks.getPatchSetLinks(project, commit.name());
       info.webLinks = links.isEmpty() ? null : links;
     }
 
@@ -192,7 +192,7 @@ public class RevisionJson {
       i.commit = parent.name();
       i.subject = parent.getShortMessage();
       if (addLinks) {
-        List<WebLinkInfo> parentLinks = webLinks.getParentLinks(project, parent.name());
+        ImmutableList<WebLinkInfo> parentLinks = webLinks.getParentLinks(project, parent.name());
         i.webLinks = parentLinks.isEmpty() ? null : parentLinks;
       }
       info.parents.add(i);

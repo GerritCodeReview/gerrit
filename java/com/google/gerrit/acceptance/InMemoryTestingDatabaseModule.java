@@ -55,8 +55,6 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
   @Override
   protected void configure() {
     bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(cfg);
-
-    // TODO(dborowitz): Use jimfs.
     bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
 
     if (repoManager != null) {

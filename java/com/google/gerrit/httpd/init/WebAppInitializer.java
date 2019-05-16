@@ -248,7 +248,6 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     final List<Module> modules = new ArrayList<>();
     AbstractModule secureStore = createSecureStoreModule();
     modules.add(secureStore);
-    if (sitePath != null) {
       Module sitePathModule =
           new AbstractModule() {
             @Override
@@ -260,9 +259,6 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
 
       Module configModule = new GerritServerConfigModule();
       modules.add(configModule);
-    } else {
-      modules.add(new GerritServerConfigModule());
-    }
     modules.add(new DropWizardMetricMaker.ApiModule());
     return Guice.createInjector(
         PRODUCTION, LibModuleLoader.loadModules(cfgInjector, LibModuleType.DB_MODULE));

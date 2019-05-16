@@ -21,13 +21,11 @@ import static com.google.gerrit.reviewdb.client.Project.DEFAULT_SUBMIT_TYPE;
 import static com.google.gerrit.server.permissions.PluginPermissionsUtil.isValidPluginPermission;
 import static java.util.stream.Collectors.toList;
 
-import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
-import com.google.common.primitives.Shorts;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.data.AccessSection;
@@ -878,17 +876,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     }
   }
 
-  private static LabelValue parseLabelValue(String src) {
-    List<String> parts =
-        ImmutableList.copyOf(
-            Splitter.on(CharMatcher.whitespace()).omitEmptyStrings().limit(2).split(src));
-    if (parts.isEmpty()) {
-      throw new IllegalArgumentException("empty value");
-    }
-    String valueText = parts.size() > 1 ? parts.get(1) : "";
-    return new LabelValue(Shorts.checkedCast(PermissionRule.parseInt(parts.get(0))), valueText);
-  }
-
   private void loadLabelSections(Config rc) {
     Map<String, String> lowerNames = Maps.newHashMapWithExpectedSize(2);
     labelSections = new LinkedHashMap<>();
@@ -905,7 +892,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       List<LabelValue> values = new ArrayList<>();
       for (String value : rc.getStringList(LABEL, name, KEY_VALUE)) {
         try {
-          values.add(parseLabelValue(value));
+          values.add(LabelValue.fromString(value));
         } catch (IllegalArgumentException notValue) {
           error(
               new ValidationError(

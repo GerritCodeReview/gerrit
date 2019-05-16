@@ -14,6 +14,11 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
+import com.google.common.primitives.Shorts;
+import java.util.List;
 import java.util.Objects;
 
 public class LabelValue {
@@ -33,6 +38,17 @@ public class LabelValue {
   public LabelValue(short value, String text) {
     this.value = value;
     this.text = text;
+  }
+
+  public static LabelValue fromString(String src) {
+    List<String> parts =
+        ImmutableList.copyOf(
+            Splitter.on(CharMatcher.whitespace()).omitEmptyStrings().limit(2).split(src));
+    if (parts.isEmpty()) {
+      throw new IllegalArgumentException("empty value");
+    }
+    String valueText = parts.size() > 1 ? parts.get(1) : "";
+    return new LabelValue(Shorts.checkedCast(PermissionRule.parseInt(parts.get(0))), valueText);
   }
 
   protected LabelValue() {}

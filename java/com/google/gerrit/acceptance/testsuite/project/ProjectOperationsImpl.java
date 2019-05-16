@@ -180,9 +180,11 @@ public class ProjectOperationsImpl implements ProjectOperations {
             PermissionRule rule = Util.newRule(projectConfig, p.group());
             rule.setAction(p.action());
             rule.setRange(p.min(), p.max());
+            String permissionName =
+                p.impersonation() ? Permission.forLabelAs(p.name()) : Permission.forLabel(p.name());
             projectConfig
                 .getAccessSection(p.ref(), true)
-                .getPermission(Permission.forLabel(p.name()), true)
+                .getPermission(permissionName, true)
                 .add(rule);
           });
     }

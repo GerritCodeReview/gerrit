@@ -3,12 +3,11 @@
 java_library(
     name = "launcher",
     srcs = ["GerritLauncher.java"],
-    resources = [":workspace-root.txt"],
     visibility = ["//visibility:public"],
 )
 
 # The root of the workspace is non-hermetic, but we need it for
-# on-the-flyPolyGerrit updates.
+# on-the-fly PolyGerrit updates.
 genrule(
     name = "gen_root",
     outs = ["workspace-root.txt"],

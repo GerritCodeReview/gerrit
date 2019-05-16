@@ -32,13 +32,7 @@ dependencies can be installed with:
 
 ```sh
 npm install
-sudo npm install -g \
-  eslint \
-  eslint-config-google \
-  eslint-plugin-html \
-  typescript \
-  fried-twinkie \
-  polylint
+sudo npm install -g polylint
 ```
 
 It may complain about a missing `typescript@2.3.4` peer dependency, which is
@@ -155,11 +149,22 @@ to supply the `--ext .html` flag.
 Some useful commands:
 
 * To run ESLint on the whole app, less some dependency code:
-`eslint --ignore-pattern 'bower_components/' --ignore-pattern 'gr-linked-text' --ignore-pattern 'scripts/vendor' --ext .html,.js polygerrit-ui/app`
+
+```sh
+npm run eslint
+```
+
 * To run ESLint on just the subdirectory you modified:
-`eslint --ext .html,.js polygerrit-ui/app/$YOUR_DIR_HERE`
+
+```sh
+node_modules/eslint/bin/eslint.js --ext .html,.js polygerrit-ui/app/$YOUR_DIR_HERE
+```
+
 * To run the linter on all of your local changes:
-`git diff --name-only master | xargs eslint --ext .html,.js`
+
+```sh
+git diff --name-only master | xargs node_modules/eslint/bin/eslint.js --ext .html,.js
+```
 
 We also use the `polylint` tool to lint use of Polymer. To install polylint,
 execute the following command.
@@ -185,6 +190,12 @@ To run on all files, execute the following command:
 
 ```sh
 ./polygerrit-ui/app/run_template_test.sh
+```
+
+or
+
+```sh
+npm run test-template
 ```
 
 To run on a specific top level directory (ex: change-list)

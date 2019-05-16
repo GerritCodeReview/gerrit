@@ -21,7 +21,6 @@ import static com.google.gerrit.index.FieldDef.storedOnly;
 import static com.google.gerrit.index.FieldDef.timestamp;
 import static java.util.stream.Collectors.toSet;
 
-import com.google.common.base.Predicates;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -36,6 +35,7 @@ import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -96,7 +96,7 @@ public class AccountField {
                   FluentIterable.from(a.getExternalIds())
                       .transform(ExternalId::email)
                       .append(Collections.singleton(a.getAccount().getPreferredEmail()))
-                      .filter(Predicates.notNull())
+                      .filter(Objects::nonNull)
                       .transform(String::toLowerCase)
                       .toSet());
 

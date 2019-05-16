@@ -17,7 +17,6 @@ package com.google.gerrit.index;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Predicates;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -26,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /** Specific version of a secondary index schema. */
@@ -191,7 +191,7 @@ public class Schema<T> {
                 return new Values<>(f, Collections.singleton(v));
               }
             })
-        .filter(Predicates.notNull());
+        .filter(Objects::nonNull);
   }
 
   @Override

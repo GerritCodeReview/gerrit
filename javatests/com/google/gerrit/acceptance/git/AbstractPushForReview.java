@@ -131,7 +131,7 @@ import org.junit.Test;
 @SkipProjectClone
 public abstract class AbstractPushForReview extends AbstractDaemonTest {
   protected enum Protocol {
-    // TODO(dborowitz): TEST.
+    IN_PROCESS,
     SSH,
     HTTP
   }
@@ -180,16 +180,19 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   protected void selectProtocol(Protocol p) throws Exception {
     String url;
     switch (p) {
+      case IN_PROCESS:
+        url = registerRepoConnection(project, admin);
+        break;
       case SSH:
-        url = adminSshSession.getUrl();
+        url = adminSshSession.getUrl() + "/" + project.get();
         break;
       case HTTP:
-        url = admin.getHttpUrl(server);
+        url = admin.getHttpUrl(server) + "/" + project.get();
         break;
       default:
         throw new IllegalArgumentException("unexpected protocol: " + p);
     }
-    testRepo = GitUtil.cloneProject(project, url + "/" + project.get());
+    testRepo = GitUtil.cloneProject(project, url);
   }
 
   @Test

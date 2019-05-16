@@ -14,7 +14,6 @@
 
 package com.google.gerrit.metrics.dropwizard;
 
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.metrics.Description;
@@ -22,6 +21,7 @@ import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.Timer2;
 import com.google.gerrit.metrics.Timer3;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 /** Generalized implementation of N-dimensional timer metrics. */
 class TimerImplN extends BucketedTimer implements BucketedMetric {

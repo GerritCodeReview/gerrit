@@ -14,10 +14,10 @@
 
 package com.google.gerrit.metrics.dropwizard;
 
-import com.google.common.base.Function;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.Histogram1;
+import java.util.function.Function;
 
 /** Optimized version of {@link BucketedHistogram} for single dimension. */
 class HistogramImpl1<F1> extends BucketedHistogram implements BucketedMetric {

@@ -14,13 +14,13 @@
 
 package com.google.gerrit.metrics.dropwizard;
 
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.metrics.Counter2;
 import com.google.gerrit.metrics.Counter3;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
+import java.util.function.Function;
 
 /** Generalized implementation of N-dimensional counter metrics. */
 class CounterImplN extends BucketedCounter implements BucketedMetric {

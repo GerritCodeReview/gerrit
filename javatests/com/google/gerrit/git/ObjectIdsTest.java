@@ -15,6 +15,7 @@
 package com.google.gerrit.git;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
@@ -111,8 +112,8 @@ public class ObjectIdsTest {
     assertThat(ObjectIds.matchesAbbreviation(ID, "")).isTrue();
     for (int i = 1; i <= OBJECT_ID_STRING_LENGTH; i++) {
       String prefix = ID.name().substring(0, i);
-      assertThat(ObjectIds.matchesAbbreviation(ID, prefix))
-          .named("match %s against %s", ID.name(), prefix)
+      assertWithMessage("match %s against %s", ID.name(), prefix)
+          .that(ObjectIds.matchesAbbreviation(ID, prefix))
           .isTrue();
     }
 

@@ -21,6 +21,8 @@ import static org.easymock.EasyMock.resetToStrict;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.extensions.annotations.Exports;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.IdentifiedUser;
@@ -92,7 +94,7 @@ public class DefaultQuotaBackendIT extends AbstractDaemonTest {
 
   @Test
   public void requestTokenForUserAndChange() throws Exception {
-    Change.Id changeId = createChange().getChange().getId();
+    Change.Id changeId = retrieveChangeId();
     QuotaRequestContext ctx =
         QuotaRequestContext.builder()
             .user(identifiedAdmin)
@@ -148,7 +150,7 @@ public class DefaultQuotaBackendIT extends AbstractDaemonTest {
 
   @Test
   public void availableTokensForUserAndChange() throws Exception {
-    Change.Id changeId = createChange().getChange().getId();
+    Change.Id changeId = retrieveChangeId();
     QuotaRequestContext ctx =
         QuotaRequestContext.builder()
             .user(identifiedAdmin)
@@ -222,6 +224,13 @@ public class DefaultQuotaBackendIT extends AbstractDaemonTest {
 
     exception.expect(NullPointerException.class);
     quotaBackend.user(identifiedAdmin).availableTokens("testGroup");
+  }
+
+  private Change.Id retrieveChangeId() throws Exception {
+    // use REST API so that repository size quota doesn't have to be stubbed
+    ChangeInfo changeInfo =
+        gApi.changes().create(new ChangeInput(project.get(), "master", "test")).get();
+    return new Change.Id(changeInfo._number);
   }
 
   private static QuotaResponse.Aggregated singletonAggregation(QuotaResponse response) {

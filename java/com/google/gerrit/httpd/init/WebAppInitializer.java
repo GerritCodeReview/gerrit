@@ -248,21 +248,17 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     final List<Module> modules = new ArrayList<>();
     AbstractModule secureStore = createSecureStoreModule();
     modules.add(secureStore);
-    if (sitePath != null) {
-      Module sitePathModule =
-          new AbstractModule() {
-            @Override
-            protected void configure() {
-              bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
-            }
-          };
-      modules.add(sitePathModule);
+    Module sitePathModule =
+        new AbstractModule() {
+          @Override
+          protected void configure() {
+            bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
+          }
+        };
+    modules.add(sitePathModule);
 
-      Module configModule = new GerritServerConfigModule();
-      modules.add(configModule);
-    } else {
-      modules.add(new GerritServerConfigModule());
-    }
+    Module configModule = new GerritServerConfigModule();
+    modules.add(configModule);
     modules.add(new DropWizardMetricMaker.ApiModule());
     return Guice.createInjector(
         PRODUCTION, LibModuleLoader.loadModules(cfgInjector, LibModuleType.DB_MODULE));

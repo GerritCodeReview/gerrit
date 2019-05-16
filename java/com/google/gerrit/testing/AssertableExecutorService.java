@@ -14,7 +14,7 @@
 
 package com.google.gerrit.testing;
 
-import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.util.concurrent.ForwardingExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
@@ -57,8 +57,8 @@ public class AssertableExecutorService extends ForwardingExecutorService {
 
   /** Asserts and resets the number of executions this executor observed. */
   public void assertInteractions(int expectedNumInteractions) {
-    assertThat(numInteractions.get())
-        .named("expectedRunnablesSubmittedOnExecutor")
+    assertWithMessage("expectedRunnablesSubmittedOnExecutor")
+        .that(numInteractions.get())
         .isEqualTo(expectedNumInteractions);
     numInteractions.set(0);
   }

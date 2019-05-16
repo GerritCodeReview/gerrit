@@ -73,7 +73,11 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
   }
 
   protected static FakeEmailSenderSubject assertThat(FakeEmailSender sender) {
-    return assertAbout(FakeEmailSenderSubject::new).that(sender);
+    return assertAbout(fakeEmailSenders()).that(sender);
+  }
+
+  protected static Subject.Factory<FakeEmailSenderSubject, FakeEmailSender> fakeEmailSenders() {
+    return FakeEmailSenderSubject::new;
   }
 
   protected void setEmailStrategy(TestAccount account, EmailStrategy strategy) throws Exception {
@@ -98,10 +102,18 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     private StagedUsers users;
     private Map<RecipientType, List<String>> recipients = new HashMap<>();
     private Set<String> accountedFor = new HashSet<>();
+    private String name;
 
     FakeEmailSenderSubject(FailureMetadata failureMetadata, FakeEmailSender target) {
       super(failureMetadata, target);
       fakeEmailSender = target;
+    }
+
+    @Override
+    protected String actualCustomStringRepresentation() {
+      return name == null
+          ? String.valueOf(fakeEmailSender)
+          : String.format("%s (%s)", name, fakeEmailSender);
     }
 
     public FakeEmailSenderSubject didNotSend() {
@@ -144,7 +156,8 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
 
       // Return a named subject that displays a human-readable table of
       // recipients.
-      return named(recipientMapToString(recipients, users::emailToName));
+      this.name = recipientMapToString(recipients, users::emailToName);
+      return this;
     }
 
     private static String recipientMapToString(

@@ -1,14 +1,14 @@
 load("//gerrit-acceptance-tests:tests.bzl", "acceptance_tests")
 
-acceptance_tests(
-    srcs = glob(["*IT.java"]),
-    group = "git",
+[acceptance_tests(
+    srcs = [f],
+    group = f[:f.index(".")],
     labels = ["git"],
     deps = [
         ":push_for_review",
         ":submodule_util",
     ],
-)
+) for f in glob(["*IT.java"])]
 
 java_library(
     name = "push_for_review",

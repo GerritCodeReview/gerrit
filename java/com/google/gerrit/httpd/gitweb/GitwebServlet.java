@@ -174,10 +174,8 @@ class GitwebServlet extends HttpServlet {
     }
     Path myconf = Files.createTempFile(site.tmp_dir, "gitweb_config", ".perl");
 
-    // To make our configuration file only readable or writable by us;
-    // this reduces the chances of someone tampering with the file.
-    //
-    // TODO(dborowitz): Is there a portable way to do this with NIO?
+    // To make our configuration file only readable or writable by us; this reduces the chances of
+    // someone tampering with the file.
     File myconfFile = myconf.toFile();
     myconfFile.setWritable(false, false /* all */);
     myconfFile.setReadable(false, false /* all */);

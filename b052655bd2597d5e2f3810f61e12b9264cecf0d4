@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0354c037_b3e68605",
+        "filename": "java/com/google/gerrit/httpd/init/WebAppInitializer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-16T20:48:43Z",
+      "side": 0,
+      "message": "Actually, if I look at Daemon.javam then cfgInjector is used on the same place, in Daemon.java:404:\n\n  modules.add(cfgInjector.getInstance(GerritGlobalModule.class));",
+      "range": {
+        "startLine": 281,
+        "startChar": 15,
+        "endLine": 281,
+        "endChar": 73
+      },
+      "revId": "b052655bd2597d5e2f3810f61e12b9264cecf0d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31fa1ae7_918545a7",
+        "filename": "java/com/google/gerrit/httpd/init/WebAppInitializer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-16T20:48:43Z",
+      "side": 0,
+      "message": "Same here, in Daemon.java it is:\n\n  indexType \u003d IndexModule.getIndexType(cfgInjector);",
+      "range": {
+        "startLine": 353,
+        "startChar": 16,
+        "endLine": 353,
+        "endChar": 53
+      },
+      "revId": "b052655bd2597d5e2f3810f61e12b9264cecf0d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

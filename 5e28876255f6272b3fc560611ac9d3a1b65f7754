@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6eb9b240_aec95982",
+        "filename": "java/com/google/gerrit/httpd/init/WebAppInitializer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-16T20:48:43Z",
+      "side": 1,
+      "message": "Gerrit doesn\u0027t use database any more, and in Daemon.java cfgInjector is used in all places, where this change is changing it to DB injector. We should preserve the symmetry between WebAppInitializer and Daemon classes as match as we can. Ideally, we could remove any mentions of database injector from both classes, as 3.0 removed ReviewDb.",
+      "range": {
+        "startLine": 247,
+        "startChar": 19,
+        "endLine": 247,
+        "endChar": 38
+      },
+      "revId": "5e28876255f6272b3fc560611ac9d3a1b65f7754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

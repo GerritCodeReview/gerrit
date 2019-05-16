@@ -19,7 +19,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
 import java.util.Arrays;
 
-public class Util {
+public class TestLabels {
   public static LabelType codeReview() {
     return category(
         "Code-Review",
@@ -49,5 +49,5 @@ public class Util {
     return new LabelType(name, Arrays.asList(values));
   }
 
-  private Util() {}
+  private TestLabels() {}
 }

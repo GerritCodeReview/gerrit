@@ -182,7 +182,7 @@ public class ListTags implements RestReadView<ProjectResource> {
           perm.testOrFalse(RefPermission.DELETE) && projectState.statePermitsWrite() ? true : null;
     }
 
-    List<WebLinkInfo> webLinks = links.getTagLinks(projectState.getName(), ref.getName());
+    ImmutableList<WebLinkInfo> webLinks = links.getTagLinks(projectState.getName(), ref.getName());
     if (object instanceof RevTag) {
       // Annotated or signed tag
       RevTag tag = (RevTag) object;

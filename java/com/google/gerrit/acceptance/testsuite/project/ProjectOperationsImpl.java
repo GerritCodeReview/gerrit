@@ -26,8 +26,10 @@ import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestCapa
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestLabelPermission;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestPermission;
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -36,7 +38,6 @@ import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCreator;
-import com.google.gerrit.server.project.testing.Util;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -143,7 +144,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
             Permission permission =
                 projectConfig.getAccessSection(p.section(), true).getPermission(p.name(), true);
             if (p.group().isPresent()) {
-              permission.remove(Util.newRule(projectConfig, p.group().get()));
+              permission.remove(newRule(projectConfig, p.group().get()));
             } else {
               permission.clearRules();
             }
@@ -153,7 +154,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
     private void addCapabilities(
         ProjectConfig projectConfig, ImmutableList<TestCapability> addedCapabilities) {
       for (TestCapability c : addedCapabilities) {
-        PermissionRule rule = Util.newRule(projectConfig, c.group());
+        PermissionRule rule = newRule(projectConfig, c.group());
         rule.setRange(c.min(), c.max());
         projectConfig
             .getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true)
@@ -165,7 +166,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
     private void addPermissions(
         ProjectConfig projectConfig, ImmutableList<TestPermission> addedPermissions) {
       for (TestPermission p : addedPermissions) {
-        PermissionRule rule = Util.newRule(projectConfig, p.group());
+        PermissionRule rule = newRule(projectConfig, p.group());
         rule.setAction(p.action());
         rule.setForce(p.force());
         projectConfig.getAccessSection(p.ref(), true).getPermission(p.name(), true).add(rule);
@@ -175,7 +176,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
     private void addLabelPermissions(
         ProjectConfig projectConfig, ImmutableList<TestLabelPermission> addedLabelPermissions) {
       for (TestLabelPermission p : addedLabelPermissions) {
-        PermissionRule rule = Util.newRule(projectConfig, p.group());
+        PermissionRule rule = newRule(projectConfig, p.group());
         rule.setAction(p.action());
         rule.setRange(p.min(), p.max());
         String permissionName =
@@ -244,5 +245,11 @@ public class ProjectOperationsImpl implements ProjectOperations {
         throw new IllegalStateException(e);
       }
     }
+  }
+
+  private static PermissionRule newRule(ProjectConfig project, AccountGroup.UUID groupUUID) {
+    GroupReference group = new GroupReference(groupUUID, groupUUID.get());
+    group = project.resolve(group);
+    return new PermissionRule(group);
   }
 }

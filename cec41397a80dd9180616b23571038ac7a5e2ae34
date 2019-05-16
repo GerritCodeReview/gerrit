@@ -22,6 +22,30 @@
       "revId": "cec41397a80dd9180616b23571038ac7a5e2ae34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbf6c18f_bb96d60c",
+        "filename": "package.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-05-16T13:57:46Z",
+      "side": 1,
+      "message": "Good catch - I tried it, but forgot to remove the polygerrit-ui/node_modules/ after moving the package.json, so it was still there... :)",
+      "parentUuid": "07326e90_e0aca3d9",
+      "range": {
+        "startLine": 14,
+        "startChar": 31,
+        "endLine": 14,
+        "endChar": 43
+      },
+      "revId": "cec41397a80dd9180616b23571038ac7a5e2ae34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

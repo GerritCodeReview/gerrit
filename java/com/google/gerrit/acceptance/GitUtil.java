@@ -135,11 +135,6 @@ public class GitUtil {
     return testRepo;
   }
 
-  public static TestRepository<InMemoryRepository> cloneProject(
-      Project.NameKey project, SshSession sshSession) throws Exception {
-    return cloneProject(project, sshSession.getUrl() + "/" + project.get());
-  }
-
   public static Ref createAnnotatedTag(TestRepository<?> testRepo, String name, PersonIdent tagger)
       throws GitAPIException {
     TagCommand cmd =

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d8df674_344aa61d",
+        "filename": "java/com/google/gerrit/launcher/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-16T14:40:30Z",
+      "side": 0,
+      "message": "If you remove it here, you probably want to remove it here as well:\n\n  tools/workspace-status.cmd:echo STABLE_WORKSPACE_ROOT %cd%\n  tools/workspace-status.sh:echo \"STABLE_WORKSPACE_ROOT ${PWD}\"",
+      "range": {
+        "startLine": 16,
+        "startChar": 17,
+        "endLine": 16,
+        "endChar": 38
+      },
+      "revId": "54469e4f54a7f6e44b3d19f8186f7fcc3c99d814",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

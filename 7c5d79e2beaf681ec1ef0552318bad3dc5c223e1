@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd222689_644b44d9",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-05-16T10:40:08Z",
+      "side": 1,
+      "message": "I would prefer to have wct be installed on gerrit/ level instead of in the polygerrit-ui subdir.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 17
+      },
+      "revId": "7c5d79e2beaf681ec1ef0552318bad3dc5c223e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "675c4568_637c76f7",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-05-16T10:40:08Z",
+      "side": 1,
+      "message": "Maybe just remove these five lines.",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 3
+      },
+      "revId": "7c5d79e2beaf681ec1ef0552318bad3dc5c223e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4df1f1a_235bff1b",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-05-16T10:40:08Z",
+      "side": 1,
+      "message": "Why did you remove polygerrit-ui/ here?",
+      "range": {
+        "startLine": 140,
+        "startChar": 51,
+        "endLine": 140,
+        "endChar": 52
+      },
+      "revId": "7c5d79e2beaf681ec1ef0552318bad3dc5c223e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3159984_47baf615",
+        "filename": "polygerrit-ui/package.json",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-05-16T10:40:08Z",
+      "side": 1,
+      "message": "FWIW, I always add \"-l chrome\". Not sure whether without is the test actually completes successfully? Did you try?",
+      "range": {
+        "startLine": 10,
+        "startChar": 43,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "7c5d79e2beaf681ec1ef0552318bad3dc5c223e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

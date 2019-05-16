@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
+import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.LabelTypeInfo;
 import com.google.gerrit.reviewdb.client.LabelId;
@@ -345,5 +346,29 @@ public final class LabelType {
 
   private static Boolean falseToNull(boolean value) {
     return value ? true : null;
+  }
+
+  public LabelCheckResult check() {
+    // TODO(xchangcheng): define a pattern for label name.
+    
+
+
+
+    return LabelCheckResult.valid();
+  }
+
+  @AutoValue
+  public abstract static class LabelCheckResult {
+    public static LabelCheckResult valid() {
+      return new AutoValue_LabelType_LabelCheckResult(true, "");
+    }
+
+    public static LabelCheckResult inValid(String message) {
+      return new AutoValue_LabelType_LabelCheckResult(false, message);
+    }
+
+    public abstract boolean isValid();
+
+    public abstract String errorMessage();
   }
 }

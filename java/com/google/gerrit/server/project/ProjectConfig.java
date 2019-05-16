@@ -35,6 +35,7 @@ import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelType.LabelCheckResult;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
@@ -973,6 +974,12 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       label.setCanOverride(
           rc.getBoolean(LABEL, name, KEY_CAN_OVERRIDE, LabelType.DEF_CAN_OVERRIDE));
       label.setRefPatterns(getStringListOrNull(rc, LABEL, name, KEY_BRANCH));
+
+      LabelCheckResult checkResult = label.check();
+      if (!checkResult.isValid()) {
+        new ValidationError(PROJECT_CONFIG, checkResult.errorMessage());
+      }
+
       labelSections.put(name, label);
     }
   }

@@ -1,0 +1,343 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6d69ef6_72c93be0",
+        "filename": "Documentation/config-mail.txt",
+        "patchSetId": 38
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-16T10:20:35Z",
+      "side": 1,
+      "message": "Why this differentiation and not just always send notification, like we do for keys addition? See also my comment in the code.",
+      "range": {
+        "startLine": 71,
+        "startChar": 35,
+        "endLine": 72,
+        "endChar": 51
+      },
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33e87d91_eadd99d7",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/server/DeleteGpgKey.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-16T10:20:35Z",
+      "side": 1,
+      "message": "Rename this to deleteKeySenderFactory (or just senderFactory) to have the intent more obvious.",
+      "range": {
+        "startLine": 60,
+        "startChar": 30,
+        "endLine": 60,
+        "endChar": 46
+      },
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "347cf473_b485d360",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/server/PostGpgKeys.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-16T10:20:35Z",
+      "side": 1,
+      "message": "Same here: deleteKeySenderFactory (or just senderFactory).",
+      "range": {
+        "startLine": 92,
+        "startChar": 40,
+        "endLine": 92,
+        "endChar": 56
+      },
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0185e41f_942e7c1b",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/server/PostGpgKeys.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-16T10:20:35Z",
+      "side": 1,
+      "message": "Use method reference: map(Fingerprint::toString).",
+      "range": {
+        "startLine": 242,
+        "startChar": 54,
+        "endLine": 242,
+        "endChar": 71
+      },
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54008dfa_88957c1c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteSshKey.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-16T10:20:35Z",
+      "side": 1,
+      "message": "Same here: deleteKeySenderFactory (or just senderFactory).",
+      "range": {
+        "startLine": 49,
+        "startChar": 40,
+        "endLine": 49,
+        "endChar": 56
+      },
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fe95d29_2dd687b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/DeleteKeySender.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-16T10:20:35Z",
+      "side": 1,
+      "message": "Nit: not needed new line?",
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cabf3600_a7cd4bce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/DeleteKeySender.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-16T10:20:35Z",
+      "side": 1,
+      "message": "Better: gpgKeyFingeprints.",
+      "range": {
+        "startLine": 35,
+        "startChar": 61,
+        "endLine": 35,
+        "endChar": 68
+      },
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c5fc3b4_1813acb8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/DeleteKeySender.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-16T10:20:35Z",
+      "side": 1,
+      "message": "It is considered to be a bad practice to use null values for collection types. Use Collections.emptyList() instead? This would also allow you to check gpgKeys.isEmpty() below.",
+      "range": {
+        "startLine": 55,
+        "startChar": 9,
+        "endLine": 55,
+        "endChar": 16
+      },
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c263500a_cbfecd1c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/DeleteKeySender.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-16T10:20:35Z",
+      "side": 1,
+      "message": "Nit: gpgKeyFingeprints. In any event this should be gpgKeys.",
+      "range": {
+        "startLine": 65,
+        "startChar": 29,
+        "endLine": 65,
+        "endChar": 35
+      },
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88567bf5_9c02a813",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/DeleteKeySender.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-16T10:20:35Z",
+      "side": 1,
+      "message": "Carnality mismatch.",
+      "range": {
+        "startLine": 70,
+        "startChar": 9,
+        "endLine": 70,
+        "endChar": 25
+      },
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af3f82e3_55c37b7c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/DeleteKeySender.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-16T10:20:35Z",
+      "side": 1,
+      "message": "This is not symmetric logic to adding a key. If me myself adding a new key I get notified. Why we change the logic for key deletion? Why not send the deletion notification always? For example I have never removed any keys on any of Gerrit installation I am using, so that I wouldn\u0027t expect a lot of spam.",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 87,
+        "endChar": 5
+      },
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f0ac31a_f8c2f8b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/DeleteKeySender.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-16T10:20:35Z",
+      "side": 1,
+      "message": "Throw ISE or IAE instead?",
+      "range": {
+        "startLine": 121,
+        "startChar": 11,
+        "endLine": 121,
+        "endChar": 20
+      },
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea9b206e_5417ff9f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/DeleteKeySender.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-16T10:20:35Z",
+      "side": 1,
+      "message": "gpgKeyFingeprints.",
+      "range": {
+        "startLine": 128,
+        "startChar": 16,
+        "endLine": 128,
+        "endChar": 26
+      },
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff97026e_8629c5fa",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/DeleteKey.soy",
+        "patchSetId": 38
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-16T10:20:35Z",
+      "side": 1,
+      "message": "Nit: two blanks.",
+      "range": {
+        "startLine": 70,
+        "startChar": 37,
+        "endLine": 70,
+        "endChar": 38
+      },
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f221db0_13bb5bfd",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/DeleteKeyHtml.soy",
+        "patchSetId": 38
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-16T10:20:35Z",
+      "side": 1,
+      "message": "Nit: two blanks.",
+      "range": {
+        "startLine": 63,
+        "startChar": 39,
+        "endLine": 63,
+        "endChar": 40
+      },
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

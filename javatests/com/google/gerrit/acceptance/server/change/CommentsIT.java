@@ -22,7 +22,6 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
@@ -65,6 +64,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -133,8 +133,7 @@ public class CommentsIT extends AbstractDaemonTest {
       addDraft(changeId, revId, c4);
       Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
       assertThat(result).hasSize(1);
-      assertThat(Lists.transform(result.get(path), infoToDraft(path)))
-          .containsExactly(c1, c2, c3, c4);
+      assertThat(result.get(path).stream().map(infoToDraft(path))).containsExactly(c1, c2, c3, c4);
     }
   }
 
@@ -235,8 +234,7 @@ public class CommentsIT extends AbstractDaemonTest {
       revision(r).review(input);
       Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
       assertThat(result).isNotEmpty();
-      assertThat(Lists.transform(result.get(file), infoToInput(file)))
-          .containsExactly(c1, c2, c3, c4);
+      assertThat(result.get(file).stream().map(infoToInput(file))).containsExactly(c1, c2, c3, c4);
     }
 
     // for the commit message comments on the auto-merge are not possible
@@ -254,7 +252,7 @@ public class CommentsIT extends AbstractDaemonTest {
       revision(r).review(input);
       Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
       assertThat(result).isNotEmpty();
-      assertThat(Lists.transform(result.get(file), infoToInput(file))).containsExactly(c1, c2, c3);
+      assertThat(result.get(file).stream().map(infoToInput(file))).containsExactly(c1, c2, c3);
     }
   }
 
@@ -295,7 +293,7 @@ public class CommentsIT extends AbstractDaemonTest {
     Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
     assertThat(result).isNotEmpty();
     List<CommentInfo> actualComments = result.get(file);
-    assertThat(Lists.transform(actualComments, infoToInput(file)))
+    assertThat(actualComments.stream().map(infoToInput(file)))
         .containsExactlyElementsIn(expectedComments);
   }
 
@@ -342,7 +340,7 @@ public class CommentsIT extends AbstractDaemonTest {
     Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
     assertThat(result).isNotEmpty();
     List<CommentInfo> actualComments = result.get(file);
-    assertThat(Lists.transform(actualComments, infoToDraft(file)))
+    assertThat(actualComments.stream().map(infoToDraft(file)))
         .containsExactlyElementsIn(expectedDrafts);
   }
 

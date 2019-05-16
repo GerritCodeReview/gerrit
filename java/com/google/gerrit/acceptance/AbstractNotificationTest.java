@@ -73,7 +73,11 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
   }
 
   protected static FakeEmailSenderSubject assertThat(FakeEmailSender sender) {
-    return assertAbout(FakeEmailSenderSubject::new).that(sender);
+    return assertAbout(fakeEmailSenders()).that(sender);
+  }
+
+  protected static Subject.Factory<FakeEmailSenderSubject, FakeEmailSender> fakeEmailSenders() {
+    return FakeEmailSenderSubject::new;
   }
 
   protected void setEmailStrategy(TestAccount account, EmailStrategy strategy) throws Exception {
@@ -142,9 +146,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
                     : header));
       }
 
-      // Return a named subject that displays a human-readable table of
-      // recipients.
-      return named(recipientMapToString(recipients, users::emailToName));
+      return this;
     }
 
     private static String recipientMapToString(
@@ -205,8 +207,9 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
       if (recipients.get(type).contains(email) != expected) {
         failWithoutActual(
             fact(
-                expected ? "should notify" : "shouldn't notify",
-                type + ": " + users.emailToName(email)));
+                expected ? "expected to notify" : "expected not to notify",
+                type + ": " + users.emailToName(email)),
+            fact("but notified", recipientMapToString(recipients, users::emailToName)));
       }
       if (expected) {
         accountedFor.add(email);

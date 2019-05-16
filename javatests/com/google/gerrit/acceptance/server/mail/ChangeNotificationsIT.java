@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.server.mail;
 
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.extensions.api.changes.NotifyHandling.ALL;
 import static com.google.gerrit.extensions.api.changes.NotifyHandling.NONE;
 import static com.google.gerrit.extensions.api.changes.NotifyHandling.OWNER;
@@ -1515,15 +1516,16 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
       }
 
       merge(sc.changeId, sc.owner);
-      assertThat(sender)
-          .named(name)
+      assertWithMessage(name)
+          .about(fakeEmailSenders())
+          .that(sender)
           .sent("merged", sc)
           .cc(sc.reviewer, sc.ccer)
           .cc(sc.reviewerByEmail, sc.ccerByEmail)
           .bcc(sc.starrer)
           .bcc(ALL_COMMENTS, SUBMITTED_CHANGES)
           .noOneElse();
-      assertThat(sender).named(name).didNotSend();
+      assertWithMessage(name).about(fakeEmailSenders()).that(sender).didNotSend();
     }
   }
 

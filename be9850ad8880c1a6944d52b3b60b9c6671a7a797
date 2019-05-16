@@ -118,6 +118,30 @@
       "revId": "be9850ad8880c1a6944d52b3b60b9c6671a7a797",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45d39fca_00ee50c1",
+        "filename": "java/com/google/gerrit/truth/ConfigSubject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-16T12:24:53Z",
+      "side": 1,
+      "message": "SGTM.",
+      "parentUuid": "efe89bbd_b26d0622",
+      "range": {
+        "startLine": 77,
+        "startChar": 11,
+        "endLine": 77,
+        "endChar": 59
+      },
+      "revId": "be9850ad8880c1a6944d52b3b60b9c6671a7a797",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

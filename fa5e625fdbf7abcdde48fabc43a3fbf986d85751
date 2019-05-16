@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb34a636_6ebcfbf0",
+        "filename": "java/com/google/gerrit/server/git/RepositorySizeQuotaEnforcer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-05-16T16:08:55Z",
+      "side": 1,
+      "message": "This class seems superfluous and it\u0027s name clashes with a (potential) implementation of the plugin endpoint. Can we just remove it and put the 4 LOC directly into the caller?",
+      "revId": "fa5e625fdbf7abcdde48fabc43a3fbf986d85751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

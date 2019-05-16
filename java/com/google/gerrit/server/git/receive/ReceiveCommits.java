@@ -41,7 +41,6 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_MISSING_OBJECT;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
 
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
@@ -275,16 +274,14 @@ class ReceiveCommits {
     }
   }
 
-  private static final Function<Exception, RestApiException> INSERT_EXCEPTION =
-      input -> {
-        if (input instanceof RestApiException) {
-          return (RestApiException) input;
-        } else if ((input instanceof ExecutionException)
-            && (input.getCause() instanceof RestApiException)) {
-          return (RestApiException) input.getCause();
-        }
-        return new RestApiException("Error inserting change/patchset", input);
-      };
+  private static RestApiException asRestApiException(Exception e) {
+    if (e instanceof RestApiException) {
+      return (RestApiException) e;
+    } else if ((e instanceof ExecutionException) && (e.getCause() instanceof RestApiException)) {
+      return (RestApiException) e.getCause();
+    }
+    return new RestApiException("Error inserting change/patchset", e);
+  }
 
   // ReceiveCommits has a lot of fields, sorry. Here and in the constructor they are split up
   // somewhat, and kept sorted lexicographically within sections, except where later assignments
@@ -855,7 +852,7 @@ class ReceiveCommits {
       try {
         bu.execute();
       } catch (UpdateException e) {
-        throw INSERT_EXCEPTION.apply(e);
+        throw asRestApiException(e);
       }
 
       replaceByChange.values().stream()
@@ -2522,7 +2519,7 @@ class ReceiveCommits {
             });
         bu.addOp(changeId, new ChangeProgressOp(progress));
       } catch (Exception e) {
-        throw INSERT_EXCEPTION.apply(e);
+        throw asRestApiException(e);
       }
     }
   }

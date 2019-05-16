@@ -897,11 +897,9 @@ maven_jar(
     sha1 = "5c24325430971ba2fa4769eb446f026b7680d5e7",
 )
 
-JACKSON_VERSION = "2.9.8"
-
 maven_jar(
     name = "jackson-core",
-    artifact = "com.fasterxml.jackson.core:jackson-core:" + JACKSON_VERSION,
+    artifact = "com.fasterxml.jackson.core:jackson-core:2.9.8",
     sha1 = "0f5a654e4675769c716e5b387830d19b501ca191",
 )
 

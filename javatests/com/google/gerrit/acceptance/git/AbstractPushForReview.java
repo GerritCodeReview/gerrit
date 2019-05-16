@@ -38,7 +38,7 @@ import static com.google.gerrit.extensions.common.testing.EditInfoSubject.assert
 import static com.google.gerrit.server.git.receive.ReceiveConstants.PUSH_OPTION_SKIP_VALIDATION;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.project.testing.TestLabels.category;
+import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static java.util.Comparator.comparing;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -1202,7 +1202,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void pushWithMultipleApprovals() throws Exception {
     LabelType Q =
-        category("Custom-Label", value(1, "Positive"), value(0, "No score"), value(-1, "Negative"));
+        label("Custom-Label", value(1, "Positive"), value(0, "No score"), value(-1, "Negative"));
     String heads = "refs/heads/*";
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig().getLabelSections().put(Q.getName(), Q);

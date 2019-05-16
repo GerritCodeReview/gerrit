@@ -21,7 +21,7 @@ import java.util.Arrays;
 
 public class TestLabels {
   public static LabelType codeReview() {
-    return category(
+    return label(
         "Code-Review",
         value(2, "Looks good to me, approved"),
         value(1, "Looks good to me, but someone else must approve"),
@@ -31,12 +31,12 @@ public class TestLabels {
   }
 
   public static LabelType verified() {
-    return category("Verified", value(1, "Verified"), value(0, "No score"), value(-1, "Fails"));
+    return label("Verified", value(1, "Verified"), value(0, "No score"), value(-1, "Fails"));
   }
 
   public static LabelType patchSetLock() {
     LabelType label =
-        category("Patch-Set-Lock", value(1, "Patch Set Locked"), value(0, "Patch Set Unlocked"));
+        label("Patch-Set-Lock", value(1, "Patch Set Locked"), value(0, "Patch Set Unlocked"));
     label.setFunction(LabelFunction.PATCH_SET_LOCK);
     return label;
   }
@@ -45,7 +45,7 @@ public class TestLabels {
     return new LabelValue((short) value, text);
   }
 
-  public static LabelType category(String name, LabelValue... values) {
+  public static LabelType label(String name, LabelValue... values) {
     return new LabelType(name, Arrays.asList(values));
   }
 

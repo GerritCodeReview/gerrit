@@ -17,7 +17,7 @@ package com.google.gerrit.server.change;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.common.data.Permission.forLabel;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.project.testing.TestLabels.category;
+import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static org.junit.Assert.assertEquals;
 
@@ -104,7 +104,7 @@ public class LabelNormalizerTest {
       }
     }
     LabelType lt =
-        category("Verified", value(1, "Verified"), value(0, "No score"), value(-1, "Fails"));
+        label("Verified", value(1, "Verified"), value(0, "No score"), value(-1, "Fails"));
     pc.getLabelSections().put(lt.getName(), lt);
     save(pc);
   }

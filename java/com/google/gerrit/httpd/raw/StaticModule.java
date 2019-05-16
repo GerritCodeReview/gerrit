@@ -78,11 +78,6 @@ public class StaticModule extends ServletModule {
           "/dashboard/*",
           "/settings/*",
           "/Documentation/q/*");
-  // TODO(dborowitz): These fragments conflict with the REST API
-  // namespace, so they will need to use a different path.
-  // "/groups/*",
-  // "/projects/*");
-  //
 
   /**
    * Paths that should be treated as static assets when serving PolyGerrit.

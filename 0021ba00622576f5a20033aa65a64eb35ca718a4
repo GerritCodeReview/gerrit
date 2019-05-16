@@ -22,6 +22,30 @@
       "revId": "0021ba00622576f5a20033aa65a64eb35ca718a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e79001a5_de05d20e",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-05-16T14:16:09Z",
+      "side": 1,
+      "message": "Yes, tried:\n\nrm -rf node_modules/\nnpm install\nls -lah node_modules/eslint/bin/eslint.js \n-rwxr-xr-x 1 oler primarygroup 2.5K Oct 26  1985 node_modules/eslint/bin/eslint.js\n\nSo this does get installed executable.",
+      "parentUuid": "62ca93f8_bff2cad1",
+      "range": {
+        "startLine": 163,
+        "startChar": 30,
+        "endLine": 163,
+        "endChar": 33
+      },
+      "revId": "0021ba00622576f5a20033aa65a64eb35ca718a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

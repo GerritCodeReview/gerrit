@@ -38,6 +38,7 @@ import com.google.gerrit.server.config.ReceiveCommitsExecutor;
 import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.ProjectRunnable;
+import com.google.gerrit.server.git.RepositorySizeQuotaEnforcer;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
@@ -96,6 +97,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   public static class Module extends PrivateModule {
     @Override
     public void configure() {
+      install(new FactoryModuleBuilder().build(LazyPostReceiveHookChain.Factory.class));
       install(new FactoryModuleBuilder().build(AsyncReceiveCommits.Factory.class));
       expose(AsyncReceiveCommits.Factory.class);
       // Don't expose the binding for ReceiveCommits.Factory. All callers should
@@ -253,9 +255,10 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       RequestScopePropagator scopePropagator,
       ReceiveConfig receiveConfig,
       TransferConfig transferConfig,
-      Provider<LazyPostReceiveHookChain> lazyPostReceive,
+      LazyPostReceiveHookChain.Factory lazyPostReceive,
       ContributorAgreementsChecker contributorAgreements,
       Metrics metrics,
+      RepositorySizeQuotaEnforcer repoSizeEnforcer,
       @Named(TIMEOUT_NAME) long timeoutMillis,
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
@@ -284,7 +287,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     receivePack.setRefFilter(new ReceiveRefFilter());
     receivePack.setAllowPushOptions(true);
     receivePack.setPreReceiveHook(this);
-    receivePack.setPostReceiveHook(lazyPostReceive.get());
+    receivePack.setPostReceiveHook(lazyPostReceive.create(user, projectName));
 
     // If the user lacks READ permission, some references may be filtered and hidden from view.
     // Check objects mentioned inside the incoming pack file are reachable from visible refs.
@@ -311,6 +314,9 @@ public class AsyncReceiveCommits implements PreReceiveHook {
         factory.create(
             projectState, user, receivePack, allRefsWatcher, messageSender, resultChangeIds);
     receiveCommits.init();
+    repoSizeEnforcer
+        .getAvailableRepositorySize(user, projectName)
+        .ifPresent(v -> receivePack.setMaxObjectSizeLimit(v));
   }
 
   /** Determine if the user can upload commits. */

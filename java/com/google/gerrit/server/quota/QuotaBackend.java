@@ -84,7 +84,7 @@ public interface QuotaBackend {
     QuotaResponse.Aggregated dryRun(String quotaGroup, long tokens);
 
     /**
-     * Requests minium number of tokens available in for all implementations. See {@link
+     * Requests minimum number of tokens available for all implementations. See {@link
      * QuotaResponse.Aggregated#availableTokens()}}.
      */
     QuotaResponse.Aggregated availableTokens(String quotaGroup);

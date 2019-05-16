@@ -131,7 +131,12 @@ import org.junit.Test;
 @SkipProjectClone
 public abstract class AbstractPushForReview extends AbstractDaemonTest {
   protected enum Protocol {
-    // TODO(dborowitz): TEST.
+    // Only test protocols which are actually served by the Gerrit server, since each separate test
+    // class is large and slow.
+    //
+    // This list excludes the test InProcessProtocol, which is used by large numbers of other
+    // acceptance tests. Small tests of InProcessProtocol are still possible, without incurring a
+    // new large slow test.
     SSH,
     HTTP
   }

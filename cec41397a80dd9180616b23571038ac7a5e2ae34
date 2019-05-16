@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07326e90_e0aca3d9",
+        "filename": "package.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-05-16T13:30:03Z",
+      "side": 1,
+      "message": "This will be installed in gerrit\u0027s root not polygerrit\u0027s :) (seeing as package.json is in gerrit\u0027s root).",
+      "range": {
+        "startLine": 14,
+        "startChar": 31,
+        "endLine": 14,
+        "endChar": 43
+      },
+      "revId": "cec41397a80dd9180616b23571038ac7a5e2ae34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

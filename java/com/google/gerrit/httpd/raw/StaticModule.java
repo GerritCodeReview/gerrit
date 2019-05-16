@@ -60,7 +60,6 @@ public class StaticModule extends ServletModule {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static final String CACHE = "static_content";
-  public static final String GERRIT_UI_COOKIE = "GERRIT_UI";
 
   /**
    * Paths at which we should serve the main PolyGerrit application {@code index.html}.

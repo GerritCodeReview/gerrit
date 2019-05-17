@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abd2042a_e58cd783",
+        "filename": "javatests/com/google/gerrit/acceptance/api/plugin/PluginIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-17T09:56:11Z",
+      "side": 1,
+      "message": "\"plugin-e\", consistently with other names herein?",
+      "range": {
+        "startLine": 106,
+        "startChar": 35,
+        "endLine": 106,
+        "endChar": 45
+      },
+      "revId": "0e7c7e56095fa268f86934e9ae02971403108d9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

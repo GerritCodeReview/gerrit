@@ -412,13 +412,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byPrivate() throws Exception {
-    if (getSchemaVersion() < 40) {
-      assertMissingField(ChangeField.PRIVATE);
-      assertFailingQuery(
-          "is:private", "'is:private' operator is not supported by change index version");
-      return;
-    }
-
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo), userId);
     Account.Id user2 =
@@ -443,12 +436,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byWip() throws Exception {
-    if (getSchemaVersion() < 42) {
-      assertMissingField(ChangeField.WIP);
-      assertFailingQuery("is:wip", "'is:wip' operator is not supported by change index version");
-      return;
-    }
-
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo), userId);
 
@@ -465,24 +452,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void excludeWipChangeFromReviewersDashboardsBeforeSchema42() throws Exception {
-    assume().that(getSchemaVersion()).isLessThan(42);
-
-    assertMissingField(ChangeField.WIP);
-    assertFailingQuery("is:wip", "'is:wip' operator is not supported by change index version");
-
-    Account.Id user1 = createAccount("user1");
-    TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(repo, newChangeWorkInProgress(repo), userId);
-    assertQuery("reviewer:" + user1, change1);
-    gApi.changes().id(change1.getChangeId()).setWorkInProgress();
-    assertQuery("reviewer:" + user1, change1);
-  }
-
-  @Test
   public void excludeWipChangeFromReviewersDashboards() throws Exception {
-    assume().that(getSchemaVersion()).isAtLeast(42);
-
     Account.Id user1 = createAccount("user1");
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChangeWorkInProgress(repo), userId);
@@ -500,17 +470,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void byStartedBeforeSchema44() throws Exception {
-    assume().that(getSchemaVersion()).isLessThan(44);
-    assertMissingField(ChangeField.STARTED);
-    assertFailingQuery(
-        "is:started", "'is:started' operator is not supported by change index version");
-  }
-
-  @Test
   public void byStarted() throws Exception {
-    assume().that(getSchemaVersion()).isAtLeast(44);
-
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChangeWorkInProgress(repo));
 
@@ -546,8 +506,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void restorePendingReviewers() throws Exception {
-    assume().that(getSchemaVersion()).isAtLeast(44);
-
     Project.NameKey project = Project.nameKey("repo");
     TestRepository<Repo> repo = createProject(project.get());
     ConfigInput conf = new ConfigInput();
@@ -1377,15 +1335,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byExtension() throws Exception {
-    if (getSchemaVersion() < 52) {
-      assertMissingField(ChangeField.EXTENSION);
-      String unsupportedOperatorMsg =
-          "'extension' operator is not supported by change index version";
-      assertFailingQuery("extension:txt", unsupportedOperatorMsg);
-      assertFailingQuery("ext:txt", unsupportedOperatorMsg);
-      return;
-    }
-
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChangeWithFiles(repo, "foo.h", "foo.cc"));
     Change change2 = insert(repo, newChangeWithFiles(repo, "bar.H", "bar.CC"));
@@ -1409,15 +1358,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byOnlyExtensions() throws Exception {
-    if (getSchemaVersion() < 53) {
-      assertMissingField(ChangeField.ONLY_EXTENSIONS);
-      String unsupportedOperatorMessage =
-          "'onlyextensions' operator is not supported by change index version";
-      assertFailingQuery("onlyextensions:txt,jpg", unsupportedOperatorMessage);
-      assertFailingQuery("onlyexts:txt,jpg", unsupportedOperatorMessage);
-      return;
-    }
-
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChangeWithFiles(repo, "foo.h", "foo.cc", "bar.cc"));
     Change change2 = insert(repo, newChangeWithFiles(repo, "bar.H", "bar.CC", "foo.H"));
@@ -1465,14 +1405,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byFooter() throws Exception {
-    if (getSchemaVersion() < 54) {
-      assertMissingField(ChangeField.FOOTER);
-      assertFailingQuery(
-          "footer:Change-Id=I3d2b978ed455f835d1dad2daa920be0b0ec2ae36",
-          "'footer' operator is not supported by change index version");
-      return;
-    }
-
     TestRepository<Repo> repo = createProject("repo");
     RevCommit commit1 = repo.parseBody(repo.commit().message("Test\n\nfoo: bar").create());
     Change change1 = insert(repo, newChangeForCommit(repo, commit1));
@@ -1522,15 +1454,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byDirectory() throws Exception {
-    if (getSchemaVersion() < 55) {
-      assertMissingField(ChangeField.DIRECTORY);
-      String unsupportedOperatorMessage =
-          "'directory' operator is not supported by change index version";
-      assertFailingQuery("directory:src/java", unsupportedOperatorMessage);
-      assertFailingQuery("dir:src/java", unsupportedOperatorMessage);
-      return;
-    }
-
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChangeWithFiles(repo, "src/foo.h", "src/foo.cc"));
     Change change2 = insert(repo, newChangeWithFiles(repo, "src/java/foo.java", "src/js/bar.js"));
@@ -1597,8 +1520,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byDirectoryRegex() throws Exception {
-    assume().that(getSchemaVersion()).isAtLeast(55);
-
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChangeWithFiles(repo, "src/java/foo.java", "src/js/bar.js"));
     Change change2 =
@@ -2293,25 +2214,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     rin.state = ReviewerState.CC;
     gApi.changes().id(change2.getId().get()).addReviewer(rin);
 
-    if (getSchemaVersion() >= 41) {
-      assertQuery("reviewer:\"" + userByEmailWithName + "\"", change1);
-      assertQuery("cc:\"" + userByEmailWithName + "\"", change2);
+    assertQuery("reviewer:\"" + userByEmailWithName + "\"", change1);
+    assertQuery("cc:\"" + userByEmailWithName + "\"", change2);
 
-      // Omitting the name:
-      assertQuery("reviewer:\"" + userByEmail + "\"", change1);
-      assertQuery("cc:\"" + userByEmail + "\"", change2);
-    } else {
-      assertMissingField(ChangeField.REVIEWER_BY_EMAIL);
-
-      assertFailingQuery(
-          "reviewer:\"" + userByEmailWithName + "\"", "User " + userByEmailWithName + " not found");
-      assertFailingQuery(
-          "cc:\"" + userByEmailWithName + "\"", "User " + userByEmailWithName + " not found");
-
-      // Omitting the name:
-      assertFailingQuery("reviewer:\"" + userByEmail + "\"", "User " + userByEmail + " not found");
-      assertFailingQuery("cc:\"" + userByEmail + "\"", "User " + userByEmail + " not found");
-    }
+    // Omitting the name:
+    assertQuery("reviewer:\"" + userByEmail + "\"", change1);
+    assertQuery("cc:\"" + userByEmail + "\"", change2);
   }
 
   @Test
@@ -2338,17 +2246,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     rin.state = ReviewerState.CC;
     gApi.changes().id(change2.getId().get()).addReviewer(rin);
 
-    if (getSchemaVersion() >= 41) {
-      assertQuery("reviewer:\"someone@example.com\"");
-      assertQuery("cc:\"someone@example.com\"");
-    } else {
-      assertMissingField(ChangeField.REVIEWER_BY_EMAIL);
-
-      String someoneEmail = "someone@example.com";
-      assertFailingQuery(
-          "reviewer:\"" + someoneEmail + "\"", "User " + someoneEmail + " not found");
-      assertFailingQuery("cc:\"" + someoneEmail + "\"", "User " + someoneEmail + " not found");
-    }
+    assertQuery("reviewer:\"someone@example.com\"");
+    assertQuery("cc:\"someone@example.com\"");
   }
 
   @Test
@@ -2587,13 +2486,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void revertOf() throws Exception {
-    if (getSchemaVersion() < 45) {
-      assertMissingField(ChangeField.REVERT_OF);
-      assertFailingQuery(
-          "revertof:1", "'revertof' operator is not supported by change index version");
-      return;
-    }
-
     TestRepository<Repo> repo = createProject("repo");
     // Create two commits and revert second commit (initial commit can't be reverted)
     Change initial = insert(repo, newChange(repo));

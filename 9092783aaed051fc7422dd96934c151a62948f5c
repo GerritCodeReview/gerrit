@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8e9f1ad_b4d9248a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-17T08:41:48Z",
+      "side": 1,
+      "message": "Should this be mentioned in: [1]?\n\n* [1] polygerrit-ui/README.md",
+      "range": {
+        "startLine": 15,
+        "startChar": 3,
+        "endLine": 15,
+        "endChar": 58
+      },
+      "revId": "9092783aaed051fc7422dd96934c151a62948f5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

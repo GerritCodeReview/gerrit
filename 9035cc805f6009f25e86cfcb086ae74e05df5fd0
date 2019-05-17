@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a906f91b_0b0f0714",
+        "filename": "tools/workspace-status.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-17T08:41:48Z",
+      "side": 0,
+      "message": "We should adjust workspace-status.cmd as well when we merge this up to master.",
+      "revId": "9035cc805f6009f25e86cfcb086ae74e05df5fd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

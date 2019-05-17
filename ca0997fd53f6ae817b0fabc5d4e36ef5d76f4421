@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce5e1f75_48ba7eb6",
+        "filename": "java/com/google/gerrit/acceptance/GitUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-17T16:29:49Z",
+      "side": 1,
+      "message": "Move the instantiation in the if block?",
+      "range": {
+        "startLine": 113,
+        "startChar": 4,
+        "endLine": 116,
+        "endChar": 25
+      },
+      "revId": "ca0997fd53f6ae817b0fabc5d4e36ef5d76f4421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d2104fa_1094402f",
+        "filename": "java/com/google/gerrit/acceptance/AbstractNotificationTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-17T09:12:24Z",
+      "side": 1,
+      "message": "Thanks for figuring out how to keep the previously set name. The only issue is that most of the failure paths inside of this subject use failWithoutActual(..). With named(), the recipient table was printed nevertheless. With this approach, it isn\u0027t. We could of course change failWithoutActual(..) to failWithActual() but I have another suggestion. There\u0027s only one occurrence where it makes sense to output the recipient map. I\u0027ve marked it with another comment. I think it\u0027s better if we adjust the message directly there and neither have this method nor the field \u0027name\u0027.",
+      "range": {
+        "startLine": 113,
+        "startChar": 4,
+        "endLine": 117,
+        "endChar": 5
+      },
+      "revId": "1e10b3a66f39b719c3544a90fe79117d34a4b6dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c34e1870_cdd16d31",
+        "filename": "java/com/google/gerrit/acceptance/AbstractNotificationTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-17T09:12:24Z",
+      "side": 1,
+      "message": "We should additionally output the map of recipients here.",
+      "range": {
+        "startLine": 219,
+        "startChar": 8,
+        "endLine": 222,
+        "endChar": 57
+      },
+      "revId": "1e10b3a66f39b719c3544a90fe79117d34a4b6dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

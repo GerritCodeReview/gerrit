@@ -211,4 +211,18 @@ public abstract class SchemaVersion {
   protected static JdbcExecutor newExecutor(ReviewDb db) throws OrmException {
     return new JdbcExecutor(((JdbcSchema) db).getConnection());
   }
+
+  /**
+   * Get number of threads to use for parallel execution, defaults to twice the number of
+   * processors.
+   */
+  protected static int getThreadCount() {
+    int threadCount;
+    try {
+      threadCount = Integer.parseInt(System.getProperty("threadcount"));
+    } catch (NumberFormatException e) {
+      threadCount = Runtime.getRuntime().availableProcessors();
+    }
+    return threadCount;
+  }
 }

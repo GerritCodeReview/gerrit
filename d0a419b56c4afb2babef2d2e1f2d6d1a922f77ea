@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfbd8ab1_b4a750b8",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-17T13:08:02Z",
+      "side": 1,
+      "message": "Consistency nit: forEach vs. traditional for-each-loop. (I saw your other comment about the map. We can also ensure consistency only at that point of the series and decide which approach is better then.)",
+      "range": {
+        "startLine": 139,
+        "startChar": 6,
+        "endLine": 139,
+        "endChar": 33
+      },
+      "revId": "d0a419b56c4afb2babef2d2e1f2d6d1a922f77ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "585717f5_06413cee",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-17T13:08:02Z",
+      "side": 1,
+      "message": "We don\u0027t have to go via Util#newRule. Instead, we could directly use removeRule(..) and construct the GroupReference manually (in the same way as Util#newRule does now).",
+      "range": {
+        "startLine": 144,
+        "startChar": 25,
+        "endLine": 144,
+        "endChar": 77
+      },
+      "revId": "d0a419b56c4afb2babef2d2e1f2d6d1a922f77ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53939ef5_dda8dfb2",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/TestProjectUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-17T13:08:02Z",
+      "side": 1,
+      "message": "Unnecessary here as this is also part of checkLabelName(..).",
+      "range": {
+        "startLine": 213,
+        "startChar": 8,
+        "endLine": 216,
+        "endChar": 27
+      },
+      "revId": "d0a419b56c4afb2babef2d2e1f2d6d1a922f77ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8a3349f_3a5ad952",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/TestProjectUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-17T13:08:02Z",
+      "side": 1,
+      "message": "Nit: We could have a test for this too.",
+      "range": {
+        "startLine": 233,
+        "startChar": 4,
+        "endLine": 233,
+        "endChar": 25
+      },
+      "revId": "d0a419b56c4afb2babef2d2e1f2d6d1a922f77ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb3df5d8_e8a1e9e2",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/TestProjectUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-17T13:08:02Z",
+      "side": 1,
+      "message": "Nit: Could/Should be covered with tests.",
+      "range": {
+        "startLine": 264,
+        "startChar": 8,
+        "endLine": 267,
+        "endChar": 50
+      },
+      "revId": "d0a419b56c4afb2babef2d2e1f2d6d1a922f77ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cfbdd66_a7dc8fd9",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImplTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-17T13:08:02Z",
+      "side": 1,
+      "message": "FYI: Seeing this a couple of times now, we should likely also allow to directly specify permissions/label_permissions/capabilities when the project is created. It\u0027s something we can consider again after your series.",
+      "range": {
+        "startLine": 384,
+        "startChar": 26,
+        "endLine": 389,
+        "endChar": 18
+      },
+      "revId": "d0a419b56c4afb2babef2d2e1f2d6d1a922f77ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "464ae739_8936fe90",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImplTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-17T13:08:02Z",
+      "side": 1,
+      "message": "Nit: Here and in other tests, wouldn\u0027t it be sufficient to just check that the key is present? (This test doesn\u0027t really care about the format and content of the value and I would like to minimize the number of tests which break when we modify something. In theory, we wouldn\u0027t need this assertion at all as we should have other tests which ensure that projectOperations does the correct thing when adding permissions.)",
+      "range": {
+        "startLine": 392,
+        "startChar": 8,
+        "endLine": 392,
+        "endChar": 67
+      },
+      "revId": "d0a419b56c4afb2babef2d2e1f2d6d1a922f77ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfcd004b_526def9d",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImplTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-17T13:08:02Z",
+      "side": 1,
+      "message": "There should also be a test for only removing the permission for one group. The above tests don\u0027t ensure this as there\u0027s always only one permission-group pair present.",
+      "range": {
+        "startLine": 459,
+        "startChar": 14,
+        "endLine": 459,
+        "endChar": 65
+      },
+      "revId": "d0a419b56c4afb2babef2d2e1f2d6d1a922f77ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

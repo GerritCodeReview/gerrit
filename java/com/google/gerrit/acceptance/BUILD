@@ -35,6 +35,7 @@ java_library(
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/sshd",
         "//java/com/google/gerrit/testing:gerrit-test-util",
+        "//java/com/google/gerrit/truth",
         "//lib:args4j",
         "//lib:gson",
         "//lib:guava-retrying",

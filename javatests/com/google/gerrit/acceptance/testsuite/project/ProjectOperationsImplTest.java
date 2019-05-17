@@ -15,14 +15,31 @@
 package com.google.gerrit.acceptance.testsuite.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
+import static com.google.gerrit.common.data.GlobalCapability.ADMINISTRATE_SERVER;
+import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_QUERY_LIMIT;
+import static com.google.gerrit.common.data.GlobalCapability.QUERY_LIMIT;
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
+import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.truth.ConfigSubject.assertThat;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestPermission;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
+import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import java.util.List;
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.junit.Test;
 
 public class ProjectOperationsImplTest extends AbstractDaemonTest {
@@ -48,9 +65,322 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void emptyCommit() throws Exception {
     Project.NameKey key = projectOperations.newProject().create();
+
     List<BranchInfo> branches = gApi.projects().name(key.get()).branches().get();
     assertThat(branches).isNotEmpty();
     assertThat(branches.stream().map(x -> x.ref).collect(toList()))
         .isEqualTo(ImmutableList.of("HEAD", "refs/meta/config", "refs/heads/master"));
+  }
+
+  @Test
+  public void getProjectConfig() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    assertThat(projectOperations.project(key).getProjectConfig().getProject().getDescription())
+        .isEmpty();
+
+    ConfigInput input = new ConfigInput();
+    input.description = "my fancy project";
+    gApi.projects().name(key.get()).config(input);
+
+    assertThat(projectOperations.project(key).getProjectConfig().getProject().getDescription())
+        .isEqualTo("my fancy project");
+  }
+
+  @Test
+  public void mutatingResultOfGetProjectConfigDoesNotMutateGlobalCachedValue() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    ProjectConfig projectConfig = projectOperations.project(key).getProjectConfig();
+    ProjectState cachedProjectState1 = projectCache.checkedGet(key);
+    ProjectConfig cachedProjectConfig1 = cachedProjectState1.getConfig();
+    assertThat(cachedProjectConfig1).isNotSameInstanceAs(projectConfig);
+    assertThat(cachedProjectConfig1.getProject().getDescription()).isEmpty();
+    assertThat(projectConfig.getProject().getDescription()).isEmpty();
+    projectConfig.getProject().setDescription("my fancy project");
+
+    ProjectConfig cachedProjectConfig2 = projectCache.checkedGet(key).getConfig();
+    assertThat(cachedProjectConfig2).isNotSameInstanceAs(projectConfig);
+    assertThat(cachedProjectConfig2.getProject().getDescription()).isEmpty();
+  }
+
+  @Test
+  public void getProjectConfigNoRefsMetaConfig() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    deleteRefsMetaConfig(key);
+
+    ProjectConfig projectConfig = projectOperations.project(key).getProjectConfig();
+    assertThat(projectConfig.getName()).isEqualTo(key);
+    assertThat(projectConfig.getRevision()).isNull();
+  }
+
+  @Test
+  public void getConfig() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).isNotInstanceOf(StoredConfig.class);
+    assertThat(config).text().isEmpty();
+
+    ConfigInput input = new ConfigInput();
+    input.description = "my fancy project";
+    gApi.projects().name(key.get()).config(input);
+
+    config = projectOperations.project(key).getConfig();
+    assertThat(config).isNotInstanceOf(StoredConfig.class);
+    assertThat(config).sections().containsExactly("project");
+    assertThat(config).subsections("project").isEmpty();
+    assertThat(config).sectionValues("project").containsExactly("description", "my fancy project");
+  }
+
+  @Test
+  public void getConfigNoRefsMetaConfig() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    deleteRefsMetaConfig(key);
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).isNotInstanceOf(StoredConfig.class);
+    assertThat(config).isEmpty();
+  }
+
+  @Test
+  public void addAllowPermission() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(TestProjectUpdate.allow(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
+        .update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly("abandon", "group global:Registered-Users");
+  }
+
+  @Test
+  public void addDenyPermission() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(TestProjectUpdate.deny(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
+        .update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly("abandon", "deny group global:Registered-Users");
+  }
+
+  @Test
+  public void addBlockPermission() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(TestProjectUpdate.block(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
+        .update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly("abandon", "block group global:Registered-Users");
+  }
+
+  @Test
+  public void addAllowForcePermission() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(
+            TestProjectUpdate.allow(Permission.ABANDON)
+                .ref("refs/foo")
+                .group(REGISTERED_USERS)
+                .force(true))
+        .update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly("abandon", "+force group global:Registered-Users");
+  }
+
+  @Test
+  public void addMultiplePermissions() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(TestProjectUpdate.allow(Permission.ABANDON).ref("refs/foo").group(PROJECT_OWNERS))
+        .add(TestProjectUpdate.allow(Permission.CREATE).ref("refs/foo").group(REGISTERED_USERS))
+        .update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly(
+            "abandon", "group global:Project-Owners",
+            "create", "group global:Registered-Users");
+  }
+
+  @Test
+  public void addDuplicatePermissions() throws Exception {
+    TestPermission permission =
+        TestProjectUpdate.allow(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS).build();
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations.project(key).forUpdate().add(permission).add(permission).update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly(
+            "abandon", "group global:Registered-Users",
+            "abandon", "group global:Registered-Users");
+
+    projectOperations.project(key).forUpdate().add(permission).update();
+    config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly(
+            "abandon", "group global:Registered-Users",
+            "abandon", "group global:Registered-Users",
+            "abandon", "group global:Registered-Users");
+  }
+
+  @Test
+  public void addAllowLabelPermission() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(
+            TestProjectUpdate.allowLabel("Code-Review")
+                .ref("refs/foo")
+                .group(REGISTERED_USERS)
+                .range(-1, 2))
+        .update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly("label-Code-Review", "-1..+2 group global:Registered-Users");
+  }
+
+  @Test
+  public void addBlockLabelPermission() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(
+            TestProjectUpdate.blockLabel("Code-Review")
+                .ref("refs/foo")
+                .group(REGISTERED_USERS)
+                .range(-1, 2))
+        .update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly("label-Code-Review", "block -1..+2 group global:Registered-Users");
+  }
+
+  @Test
+  public void addAllowExclusiveLabelPermission() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(
+            TestProjectUpdate.allowLabel("Code-Review")
+                .ref("refs/foo")
+                .group(REGISTERED_USERS)
+                .range(-1, 2)
+                .exclusive(true))
+        .update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly(
+            "label-Code-Review", "-1..+2 group global:Registered-Users",
+            "exclusiveGroupPermissions", "label-Code-Review");
+  }
+
+  @Test
+  public void addAllowCapability() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(allowCapability(ADMINISTRATE_SERVER).group(REGISTERED_USERS))
+        .update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("capability");
+    assertThat(config).subsections("capability").isEmpty();
+    assertThat(config)
+        .sectionValues("capability")
+        .containsExactly("administrateServer", "group global:Registered-Users");
+  }
+
+  @Test
+  public void addAllowCapabilityWithRange() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(allowCapability(QUERY_LIMIT).group(REGISTERED_USERS).range(0, 5000))
+        .update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("capability");
+    assertThat(config).subsections("capability").isEmpty();
+    assertThat(config)
+        .sectionValues("capability")
+        .containsExactly("queryLimit", "+0..+5000 group global:Registered-Users");
+  }
+
+  @Test
+  public void addAllowCapabilityWithDefaultRange() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(allowCapability(QUERY_LIMIT).group(REGISTERED_USERS))
+        .update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("capability");
+    assertThat(config).subsections("capability").isEmpty();
+    assertThat(config)
+        .sectionValues("capability")
+        .containsExactly(
+            "queryLimit", "+0..+" + DEFAULT_MAX_QUERY_LIMIT + " group global:Registered-Users");
+  }
+
+  private void deleteRefsMetaConfig(Project.NameKey key) throws Exception {
+    try (Repository repo = repoManager.openRepository(key)) {
+      new TestRepository<>(repo).delete(REFS_CONFIG);
+    }
   }
 }

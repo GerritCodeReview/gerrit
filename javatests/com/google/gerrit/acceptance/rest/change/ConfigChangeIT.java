@@ -16,7 +16,7 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static com.google.gerrit.truth.ConfigSubject.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
@@ -36,10 +36,6 @@ import com.google.inject.Inject;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.revwalk.RevObject;
-import org.eclipse.jgit.revwalk.RevTree;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Before;
 import org.junit.Test;
@@ -75,8 +71,8 @@ public class ConfigChangeIT extends AbstractDaemonTest {
   }
 
   private String testUpdateProjectConfig() throws Exception {
-    Config cfg = readProjectConfig();
-    assertThat(cfg.getString("project", null, "description")).isNull();
+    Config cfg = projectOperations.project(project).getConfig();
+    assertThat(cfg).stringValue("project", null, "description").isNull();
     String desc = "new project description";
     cfg.setString("project", null, "description", desc);
 
@@ -89,7 +85,12 @@ public class ConfigChangeIT extends AbstractDaemonTest {
     assertThat(gApi.changes().id(id).info().status).isEqualTo(ChangeStatus.MERGED);
     assertThat(gApi.projects().name(project.get()).get().description).isEqualTo(desc);
     fetchRefsMetaConfig();
-    assertThat(readProjectConfig().getString("project", null, "description")).isEqualTo(desc);
+    assertThat(
+            projectOperations
+                .project(project)
+                .getConfig()
+                .getString("project", null, "description"))
+        .isEqualTo(desc);
     String changeRev = gApi.changes().id(id).get().currentRevision;
     String branchRev =
         gApi.projects().name(project.get()).branch(RefNames.REFS_CONFIG).get().revision;
@@ -107,8 +108,8 @@ public class ConfigChangeIT extends AbstractDaemonTest {
     gApi.projects().create(parent);
 
     requestScopeOperations.setApiUser(user.id());
-    Config cfg = readProjectConfig();
-    assertThat(cfg.getString("access", null, "inheritFrom")).isAnyOf(null, allProjects.get());
+    Config cfg = projectOperations.project(project).getConfig();
+    assertThat(cfg).stringValue("access", null, "inheritFrom").isAnyOf(null, allProjects.get());
     cfg.setString("access", null, "inheritFrom", parent.name);
 
     PushOneCommit.Result r = createConfigChange(cfg);
@@ -133,7 +134,8 @@ public class ConfigChangeIT extends AbstractDaemonTest {
 
     assertThat(gApi.projects().name(project.get()).get().parent).isEqualTo(allProjects.get());
     fetchRefsMetaConfig();
-    assertThat(readProjectConfig().getString("access", null, "inheritFrom"))
+    assertThat(
+            projectOperations.project(project).getConfig().getString("access", null, "inheritFrom"))
         .isAnyOf(null, allProjects.get());
 
     requestScopeOperations.setApiUser(admin.id());
@@ -141,7 +143,9 @@ public class ConfigChangeIT extends AbstractDaemonTest {
     assertThat(gApi.changes().id(id).info().status).isEqualTo(ChangeStatus.MERGED);
     assertThat(gApi.projects().name(project.get()).get().parent).isEqualTo(parent.name);
     fetchRefsMetaConfig();
-    assertThat(readProjectConfig().getString("access", null, "inheritFrom")).isEqualTo(parent.name);
+    assertThat(
+            projectOperations.project(project).getConfig().getString("access", null, "inheritFrom"))
+        .isEqualTo(parent.name);
   }
 
   @Test
@@ -177,17 +181,6 @@ public class ConfigChangeIT extends AbstractDaemonTest {
   private void fetchRefsMetaConfig() throws Exception {
     git().fetch().setRefSpecs(new RefSpec("refs/meta/config:refs/meta/config")).call();
     testRepo.reset(RefNames.REFS_CONFIG);
-  }
-
-  private Config readProjectConfig() throws Exception {
-    RevWalk rw = testRepo.getRevWalk();
-    RevTree tree = rw.parseTree(testRepo.getRepository().resolve("HEAD"));
-    RevObject obj = rw.parseAny(testRepo.get(tree, "project.config"));
-    ObjectLoader loader = rw.getObjectReader().open(obj);
-    String text = new String(loader.getCachedBytes(), UTF_8);
-    Config cfg = new Config();
-    cfg.fromText(text);
-    return cfg;
   }
 
   private PushOneCommit.Result createConfigChange(Config cfg) throws Exception {

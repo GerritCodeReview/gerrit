@@ -140,7 +140,7 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
 
   private void grantApprove(Project.NameKey project, AccountGroup.UUID groupUUID, boolean exclusive)
       throws Exception {
-    grantLabel("Code-Review", -2, 2, project, "refs/heads/*", false, groupUUID, exclusive);
+    grantLabel("Code-Review", -2, 2, project, "refs/heads/*", groupUUID, exclusive);
   }
 
   private void blockApproveForChangeOwner(Project.NameKey project) throws Exception {

@@ -38,11 +38,13 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Streams;
 import com.google.common.jimfs.Jimfs;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
@@ -52,7 +54,6 @@ import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -277,6 +278,9 @@ public abstract class AbstractDaemonTest {
   protected boolean testRequiresSsh;
   protected BlockStrategy noSleepBlockStrategy = t -> {}; // Don't sleep in tests.
 
+  // TODO(dborowitz): Push down into callers that need it.
+  @Inject protected ProjectOperations projectOperations;
+
   @Inject private AbstractChangeNotes.Args changeNotesArgs;
   @Inject private AccountIndexCollection accountIndexes;
   @Inject private AccountIndexer accountIndexer;
@@ -286,7 +290,6 @@ public abstract class AbstractDaemonTest {
   @Inject private PluginGuiceEnvironment pluginGuiceEnvironment;
   @Inject private PluginUser.Factory pluginUserFactory;
   @Inject private ProjectIndexCollection projectIndexes;
-  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private SitePaths sitePaths;
 
@@ -884,23 +887,23 @@ public abstract class AbstractDaemonTest {
     allow(project, ref, permission, id);
   }
 
-  protected void allow(Project.NameKey p, String ref, String permission, AccountGroup.UUID id)
-      throws Exception {
-    try (ProjectConfigUpdate u = updateProject(p)) {
-      Util.allow(u.getConfig(), permission, id, ref);
-      u.save();
-    }
+  protected void allow(Project.NameKey p, String ref, String permission, AccountGroup.UUID id) {
+    projectOperations
+        .project(p)
+        .forUpdate()
+        .add(TestProjectUpdate.allow(permission).ref(ref).group(id))
+        .update();
   }
 
   protected void allowGlobalCapabilities(
       AccountGroup.UUID id, int min, int max, String... capabilityNames) throws Exception {
-    try (ProjectConfigUpdate u = updateProject(allProjects)) {
-      for (String capabilityName : capabilityNames) {
-        Util.allow(
-            u.getConfig(), capabilityName, id, new PermissionRange(capabilityName, min, max));
-      }
-      u.save();
-    }
+    // TODO(dborowitz): When inlining:
+    // * add a variant that takes a single String
+    // * explicitly add multiple values in callers instead of looping
+    TestProjectUpdate.Builder b = projectOperations.project(allProjects).forUpdate();
+    Arrays.stream(capabilityNames)
+        .forEach(c -> b.add(TestProjectUpdate.allowCapability(c).group(id).range(min, max)));
+    b.update();
   }
 
   protected void allowGlobalCapabilities(AccountGroup.UUID id, String... capabilityNames)
@@ -910,12 +913,13 @@ public abstract class AbstractDaemonTest {
 
   protected void allowGlobalCapabilities(AccountGroup.UUID id, Iterable<String> capabilityNames)
       throws Exception {
-    try (ProjectConfigUpdate u = updateProject(allProjects)) {
-      for (String capabilityName : capabilityNames) {
-        Util.allow(u.getConfig(), capabilityName, id);
-      }
-      u.save();
-    }
+    // TODO(dborowitz): When inlining:
+    // * add a variant that takes a single String
+    // * explicitly add multiple values in callers instead of looping
+    TestProjectUpdate.Builder b = projectOperations.project(allProjects).forUpdate();
+    Streams.stream(capabilityNames)
+        .forEach(c -> b.add(TestProjectUpdate.allowCapability(c).group(id)));
+    b.update();
   }
 
   protected void removeGlobalCapabilities(AccountGroup.UUID id, String... capabilityNames)
@@ -957,44 +961,52 @@ public abstract class AbstractDaemonTest {
 
   protected void deny(Project.NameKey p, String ref, String permission, AccountGroup.UUID id)
       throws Exception {
-    try (ProjectConfigUpdate u = updateProject(p)) {
-      Util.deny(u.getConfig(), permission, id, ref);
-      u.save();
-    }
+    projectOperations
+        .project(p)
+        .forUpdate()
+        .add(TestProjectUpdate.deny(permission).ref(ref).group(id))
+        .update();
   }
 
-  protected PermissionRule block(String ref, String permission, AccountGroup.UUID id)
-      throws Exception {
-    return block(project, ref, permission, id);
+  protected void block(String ref, String permission, AccountGroup.UUID id) throws Exception {
+    block(project, ref, permission, id);
   }
 
-  protected PermissionRule block(
-      Project.NameKey project, String ref, String permission, AccountGroup.UUID id)
+  protected void block(Project.NameKey project, String ref, String permission, AccountGroup.UUID id)
       throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      PermissionRule rule = Util.block(u.getConfig(), permission, id, ref);
-      u.save();
-      return rule;
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(TestProjectUpdate.block(permission).ref(ref).group(id))
+        .update();
   }
 
   protected void blockLabel(
       String label, int min, int max, AccountGroup.UUID id, String ref, Project.NameKey project)
       throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      Util.block(u.getConfig(), Permission.LABEL + label, min, max, id, ref);
-      u.save();
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(TestProjectUpdate.blockLabel(label).ref(ref).group(id).range(min, max))
+        .update();
   }
 
   protected void grant(Project.NameKey project, String ref, String permission)
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
-    grant(project, ref, permission, false);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(TestProjectUpdate.allow(permission).ref(ref).group(adminGroupUuid()))
+        .update();
   }
 
   protected void grant(Project.NameKey project, String ref, String permission, boolean force)
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
-    grant(project, ref, permission, force, adminGroupUuid());
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(TestProjectUpdate.allow(permission).ref(ref).group(adminGroupUuid()).force(force))
+        .update();
   }
 
   protected void grant(
@@ -1004,17 +1016,11 @@ public abstract class AbstractDaemonTest {
       boolean force,
       AccountGroup.UUID groupUUID)
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
-    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
-      md.setMessage(String.format("Grant %s on %s", permission, ref));
-      ProjectConfig config = projectConfigFactory.read(md);
-      AccessSection s = config.getAccessSection(ref, true);
-      Permission p = s.getPermission(permission, true);
-      PermissionRule rule = Util.newRule(config, groupUUID);
-      rule.setForce(force);
-      p.add(rule);
-      config.commit(md);
-      projectCache.evict(config.getProject());
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(TestProjectUpdate.allow(permission).ref(ref).group(groupUUID).force(force))
+        .update();
   }
 
   protected void grantLabel(
@@ -1023,25 +1029,19 @@ public abstract class AbstractDaemonTest {
       int max,
       Project.NameKey project,
       String ref,
-      boolean force,
       AccountGroup.UUID groupUUID,
       boolean exclusive)
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
-    String permission = Permission.LABEL + label;
-    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
-      md.setMessage(String.format("Grant %s on %s", permission, ref));
-      ProjectConfig config = projectConfigFactory.read(md);
-      AccessSection s = config.getAccessSection(ref, true);
-      Permission p = s.getPermission(permission, true);
-      p.setExclusiveGroup(exclusive);
-      PermissionRule rule = Util.newRule(config, groupUUID);
-      rule.setForce(force);
-      rule.setMin(min);
-      rule.setMax(max);
-      p.add(rule);
-      config.commit(md);
-      projectCache.evict(config.getProject());
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            TestProjectUpdate.allowLabel(label)
+                .ref(ref)
+                .group(groupUUID)
+                .range(min, max)
+                .exclusive(exclusive))
+        .update();
   }
 
   protected void removePermission(Project.NameKey project, String ref, String permission)

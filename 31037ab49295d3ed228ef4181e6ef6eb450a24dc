@@ -99,6 +99,30 @@
     },
     {
       "key": {
+        "uuid": "bd26059f_9ce1e4e3",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 905,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-17T12:12:03Z",
+      "side": 1,
+      "message": "Great. 👍",
+      "parentUuid": "49412ab2_f473214b",
+      "range": {
+        "startLine": 905,
+        "startChar": 28,
+        "endLine": 905,
+        "endChar": 45
+      },
+      "revId": "31037ab49295d3ed228ef4181e6ef6eb450a24dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4faed0aa_b836da18",
         "filename": "java/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImpl.java",
         "patchSetId": 4

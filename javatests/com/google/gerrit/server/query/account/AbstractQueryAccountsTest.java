@@ -261,19 +261,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     AccountInfo user2 = newAccount("user");
     requestContext.setContext(newRequestContext(Account.id(user2._accountId)));
 
-    if (getSchemaVersion() < 5) {
-      assertMissingField(AccountField.PREFERRED_EMAIL);
-      assertFailingQuery("email:foo", "'email' operator is not supported by account index version");
-      return;
-    }
-
-    // This at least needs the PREFERRED_EMAIL field which is available from schema version 5.
-    if (getSchemaVersion() >= 5) {
-      assertQuery(preferredEmail, user1);
-    } else {
-      assertQuery(preferredEmail);
-    }
-
+    assertQuery(preferredEmail, user1);
     assertQuery(secondaryEmail);
 
     assertQuery("email:" + preferredEmail, user1);
@@ -360,14 +348,6 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     // by self/me works with any index version
     assertQuery("self", user3);
     assertQuery("me", user3);
-
-    if (getSchemaVersion() < 8) {
-      assertMissingField(AccountField.NAME_PART_NO_SECONDARY_EMAIL);
-
-      // prefix queries only work if the NAME_PART_NO_SECONDARY_EMAIL field is available
-      assertQuery("john");
-      return;
-    }
 
     assertQuery("John", user1);
     assertQuery("john", user1);
@@ -644,11 +624,6 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
     assertThat(rawFields).isPresent();
     assertThat(rawFields.get().getValue(AccountField.ID)).isEqualTo(userInfo._accountId);
-
-    // The field EXTERNAL_ID_STATE is only supported from schema version 6.
-    if (getSchemaVersion() < 6) {
-      return;
-    }
 
     List<AccountExternalIdInfo> externalIdInfos = gApi.accounts().self().getExternalIds();
     List<ByteArrayWrapper> blobs = new ArrayList<>();

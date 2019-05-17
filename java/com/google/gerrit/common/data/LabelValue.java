@@ -14,30 +14,17 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Shorts;
 import java.util.List;
-import java.util.Objects;
 
-public class LabelValue {
-  public static String formatValue(short value) {
-    if (value < 0) {
-      return Short.toString(value);
-    } else if (value == 0) {
-      return " 0";
-    } else {
-      return "+" + Short.toString(value);
-    }
-  }
-
-  protected short value;
-  protected String text;
-
-  public LabelValue(short value, String text) {
-    this.value = value;
-    this.text = text;
+@AutoValue
+public abstract class LabelValue {
+  public static LabelValue create(short value, String text) {
+    return new AutoValue_LabelValue(value, text);
   }
 
   public static LabelValue fromString(String src) {
@@ -48,47 +35,34 @@ public class LabelValue {
       throw new IllegalArgumentException("empty value");
     }
     String valueText = parts.size() > 1 ? parts.get(1) : "";
-    return new LabelValue(Shorts.checkedCast(PermissionRule.parseInt(parts.get(0))), valueText);
+    return new AutoValue_LabelValue(
+        Shorts.checkedCast(PermissionRule.parseInt(parts.get(0))), valueText);
   }
 
-  protected LabelValue() {}
+  public abstract short value();
 
-  public short getValue() {
-    return value;
-  }
-
-  public String getText() {
-    return text;
-  }
-
-  public String formatValue() {
-    return formatValue(value);
-  }
-
-  public String format() {
-    StringBuilder sb = new StringBuilder(formatValue());
-    if (!text.isEmpty()) {
-      sb.append(' ').append(text);
-    }
-    return sb.toString();
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (!(o instanceof LabelValue)) {
-      return false;
-    }
-    LabelValue v = (LabelValue) o;
-    return value == v.value && Objects.equals(text, v.text);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(value, text);
-  }
+  public abstract String text();
 
   @Override
   public String toString() {
-    return format();
+    StringBuilder sb = new StringBuilder(formatValue());
+    if (!text().isEmpty()) {
+      sb.append(' ').append(text());
+    }
+    return sb.toString().trim();
+  }
+
+  public String formatValue() {
+    return formatValue(value());
+  }
+
+  public static String formatValue(short value) {
+    if (value < 0) {
+      return Short.toString(value);
+    } else if (value == 0) {
+      return " 0";
+    } else {
+      return "+" + value;
+    }
   }
 }

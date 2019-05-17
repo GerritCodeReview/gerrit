@@ -979,7 +979,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private boolean isInRange(short value, List<LabelValue> labelValues) {
     for (LabelValue lv : labelValues) {
-      if (lv.getValue() == value) {
+      if (lv.value() == value) {
         return true;
       }
     }
@@ -1442,7 +1442,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           rc, LABEL, name, KEY_CAN_OVERRIDE, label.canOverride(), LabelType.DEF_CAN_OVERRIDE);
       List<String> values = new ArrayList<>(label.getValues().size());
       for (LabelValue value : label.getValues()) {
-        values.add(value.format().trim());
+        values.add(value.toString());
       }
       rc.setStringList(LABEL, name, KEY_VALUE, values);
 

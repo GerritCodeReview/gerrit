@@ -14,7 +14,10 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -28,8 +31,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
+import org.eclipse.jgit.api.GarbageCollectCommand;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -56,10 +75,14 @@ import org.eclipse.jgit.revwalk.RevWalk;
  */
 public class Schema_146 extends SchemaVersion {
   private static final String CREATE_ACCOUNT_MSG = "Create Account";
+  private static final int MIN_CHUNK_SIZE = 100;
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
   private final PersonIdent serverIdent;
+  private AtomicInteger i = new AtomicInteger();
+  private AtomicReference<Instant> start = new AtomicReference<>(Instant.now());
+  private AtomicBoolean gcRunning = new AtomicBoolean();
 
   @Inject
   Schema_146(
@@ -75,13 +98,50 @@ public class Schema_146 extends SchemaVersion {
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
+    int threadCount;
+    try {
+      threadCount = Integer.parseInt(System.getProperty("threadcount"));
+    } catch (NumberFormatException e) {
+      threadCount = Runtime.getRuntime().availableProcessors() * 2;
+    }
+    Set<Entry<Id, Timestamp>> accounts = scanAccounts(db).entrySet();
+    threadCount = Math.min(threadCount, accounts.size() / MIN_CHUNK_SIZE);
+    threadCount = threadCount == 0 ? 1 : threadCount;
+    ui.message(String.format("Migrating users using %d threads", threadCount));
+    Set<List<Entry<Id, Timestamp>>> chunks =
+        Sets.newHashSet(Iterables.partition(accounts, accounts.size() / threadCount));
+    ForkJoinPool customThreadPool = new ForkJoinPool(threadCount);
+    CountDownLatch latch = new CountDownLatch(threadCount);
+    try {
+      customThreadPool.submit(
+          () -> chunks.parallelStream().forEach(chunk -> processChunk(chunk, latch, ui)));
+      latch.await();
+    } catch (RuntimeException e) {
+      customThreadPool.shutdownNow();
+      Throwable cause = e.getCause();
+      if (cause instanceof OrmException) {
+        throw (OrmException) cause;
+      }
+      throw e;
+    } catch (InterruptedException e) {
+      throw new RuntimeException(e);
+    }
+    ui.message(
+        String.format(
+            "[%ss] Migrated all %d users to schema 146", elapsed().toMillis() / 1000, i.get()));
+  }
+
+  private Duration elapsed() {
+    return Duration.between(start.get(), Instant.now());
+  }
+
+  private void processChunk(List<Entry<Id, Timestamp>> chunk, CountDownLatch latch, UpdateUI ui) {
     try (Repository repo = repoManager.openRepository(allUsersName);
         RevWalk rw = new RevWalk(repo);
         ObjectInserter oi = repo.newObjectInserter()) {
       ObjectId emptyTree = emptyTree(oi);
 
-      int i = 0;
-      for (Map.Entry<Account.Id, Timestamp> e : scanAccounts(db).entrySet()) {
+      for (Map.Entry<Account.Id, Timestamp> e : chunk) {
         String refName = RefNames.refsUsers(e.getKey());
         Ref ref = repo.exactRef(refName);
         if (ref != null) {
@@ -89,14 +149,44 @@ public class Schema_146 extends SchemaVersion {
         } else {
           createUserBranch(repo, oi, emptyTree, e.getKey(), e.getValue());
         }
-        i++;
-        if (i % 100 == 0) {
-          ui.message(String.format("... migrated %d users", i));
+        int count = i.incrementAndGet();
+        if (count % 100 == 0) {
+          ui.message(
+              String.format("... [%ss] migrated %d users", elapsed().toMillis() / 1000, count));
+        }
+        if (count % 1000 == 0 && !gcRunning.get()) {
+          gcRunning.set(true);
+          ui.message("... start gc");
+          gc(repo);
+          gcRunning.set(false);
+          ui.message("... finished gc");
         }
       }
-      ui.message(String.format("Migrated all %d users to schema 146", i));
     } catch (IOException e) {
-      throw new OrmException("Failed to rewrite user branches.", e);
+      throw new RuntimeException(new OrmException("Failed to rewrite user branches.", e));
+    } finally {
+      latch.countDown();
+    }
+  }
+
+  private void gc(Repository repo) {
+    if (repo instanceof FileRepository) {
+      FileRepository r = (FileRepository) repo;
+      GC gc = new GC(r);
+      try {
+        gc.packRefs();
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    } else {
+      Git git = Git.wrap(repo);
+      GarbageCollectCommand gc = git.gc();
+      gc.setExpire(new Date());
+      try {
+        gc.call();
+      } catch (GitAPIException e) {
+        throw new RuntimeException(e);
+      }
     }
   }
 

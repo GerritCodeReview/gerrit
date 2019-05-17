@@ -3209,7 +3209,7 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes()
         .id(r.getChangeId())
         .revision(r.getCommit().name())
-        .review(new ReviewInput().label(verified.getName(), verified.getMax().getValue()));
+        .review(new ReviewInput().label(verified.getName(), verified.getMax().value()));
 
     try (ProjectConfigUpdate u = updateProject(project)) {
       // remove label and assert that it's no longer returned for existing
@@ -3285,7 +3285,7 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes()
         .id(r.getChangeId())
         .revision(r.getCommit().name())
-        .review(new ReviewInput().label(verified.getName(), verified.getMax().getValue()));
+        .review(new ReviewInput().label(verified.getName(), verified.getMax().value()));
 
     change = gApi.changes().id(r.getChangeId()).get();
     assertThat(change.labels.keySet()).containsExactly("Code-Review", "Verified");

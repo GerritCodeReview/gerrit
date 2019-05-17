@@ -72,7 +72,7 @@ class PRED_get_legacy_label_types_1 extends Predicate.P1 {
         symLabelType,
         SymbolTerm.intern(type.getName()),
         SymbolTerm.intern(type.getFunction().getFunctionName()),
-        min != null ? new IntegerTerm(min.getValue()) : NONE,
-        max != null ? new IntegerTerm(max.getValue()) : NONE);
+        min != null ? new IntegerTerm(min.value()) : NONE,
+        max != null ? new IntegerTerm(max.value()) : NONE);
   }
 }

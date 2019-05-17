@@ -116,12 +116,12 @@ public class LabelNormalizer {
   private PatchSetApproval applyTypeFloor(LabelType lt, PatchSetApproval a) {
     PatchSetApproval.Builder b = a.toBuilder();
     LabelValue atMin = lt.getMin();
-    if (atMin != null && a.value() < atMin.getValue()) {
-      b.value(atMin.getValue());
+    if (atMin != null && a.value() < atMin.value()) {
+      b.value(atMin.value());
     }
     LabelValue atMax = lt.getMax();
-    if (atMax != null && a.value() > atMax.getValue()) {
-      b.value(atMax.getValue());
+    if (atMax != null && a.value() > atMax.value()) {
+      b.value(atMax.value());
     }
     return b.build();
   }

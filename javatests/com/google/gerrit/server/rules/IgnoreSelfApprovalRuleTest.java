@@ -72,11 +72,11 @@ public class IgnoreSelfApprovalRuleTest {
   private static LabelType makeLabel(String labelName) {
     List<LabelValue> values = new ArrayList<>();
     // The label text is irrelevant here, only the numerical value is used
-    values.add(new LabelValue((short) -2, "-2"));
-    values.add(new LabelValue((short) -1, "-1"));
-    values.add(new LabelValue((short) 0, "No vote."));
-    values.add(new LabelValue((short) 1, "+1"));
-    values.add(new LabelValue((short) 2, "+2"));
+    values.add(LabelValue.create((short) -2, "-2"));
+    values.add(LabelValue.create((short) -1, "-1"));
+    values.add(LabelValue.create((short) 0, "No vote."));
+    values.add(LabelValue.create((short) 1, "+1"));
+    values.add(LabelValue.create((short) 2, "+2"));
     return new LabelType(labelName, values);
   }
 

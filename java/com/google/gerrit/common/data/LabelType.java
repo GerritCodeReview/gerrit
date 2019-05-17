@@ -43,8 +43,8 @@ public class LabelType {
   public static LabelType withDefaultValues(String name) {
     checkName(name);
     List<LabelValue> values = new ArrayList<>(2);
-    values.add(new LabelValue((short) 0, "Rejected"));
-    values.add(new LabelValue((short) 1, "Approved"));
+    values.add(LabelValue.create((short) 0, "Rejected"));
+    values.add(LabelValue.create((short) 1, "Approved"));
     return new LabelType(name, values);
   }
 
@@ -78,14 +78,14 @@ public class LabelType {
     if (values.isEmpty()) {
       return Collections.emptyList();
     }
-    values = values.stream().sorted(comparing(LabelValue::getValue)).collect(toList());
-    short v = values.get(0).getValue();
+    values = values.stream().sorted(comparing(LabelValue::value)).collect(toList());
+    short v = values.get(0).value();
     short i = 0;
     ArrayList<LabelValue> result = new ArrayList<>();
     // Fill in any missing values with empty text.
     while (i < values.size()) {
-      while (v < values.get(i).getValue()) {
-        result.add(new LabelValue(v++, ""));
+      while (v < values.get(i).value()) {
+        result.add(LabelValue.create(v++, ""));
       }
       v++;
       result.add(values.get(i++));
@@ -129,11 +129,11 @@ public class LabelType {
     maxNegative = Short.MIN_VALUE;
     maxPositive = Short.MAX_VALUE;
     if (values.size() > 0) {
-      if (values.get(0).getValue() < 0) {
-        maxNegative = values.get(0).getValue();
+      if (values.get(0).value() < 0) {
+        maxNegative = values.get(0).value();
       }
-      if (values.get(values.size() - 1).getValue() > 0) {
-        maxPositive = values.get(values.size() - 1).getValue();
+      if (values.get(values.size() - 1).value() > 0) {
+        maxPositive = values.get(values.size() - 1).value();
       }
     }
     setCanOverride(DEF_CAN_OVERRIDE);
@@ -148,7 +148,7 @@ public class LabelType {
 
     byValue = new HashMap<>();
     for (LabelValue v : values) {
-      byValue.put(v.getValue(), v);
+      byValue.put(v.value(), v);
     }
   }
 
@@ -307,7 +307,7 @@ public class LabelType {
     LabelValue max = getMax();
     if (min != null && max != null) {
       sb.append(
-          new PermissionRange(Permission.forLabel(name), min.getValue(), max.getValue())
+          new PermissionRange(Permission.forLabel(name), min.value(), max.value())
               .toString()
               .trim());
     } else if (min != null) {
@@ -326,7 +326,7 @@ public class LabelType {
     labelInfo.function = function.toString();
     labelInfo.branches = refPatterns;
 
-    labelInfo.values = values.stream().collect(toMap(LabelValue::formatValue, LabelValue::getText));
+    labelInfo.values = values.stream().collect(toMap(LabelValue::formatValue, LabelValue::text));
     labelInfo.defaultValue = defaultValue;
 
     labelInfo.copyMinScore = falseToNull(copyMinScore);

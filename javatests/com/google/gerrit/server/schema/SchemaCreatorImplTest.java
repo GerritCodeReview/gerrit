@@ -83,14 +83,14 @@ public class SchemaCreatorImplTest {
     assertThat(rangeList).isNotEmpty();
     assertThat(rangeList).isStrictlyOrdered();
 
-    assertThat(label.getValues().stream().map(v -> (int) v.getValue()))
+    assertThat(label.getValues().stream().map(v -> (int) v.value()))
         .containsExactlyElementsIn(rangeList)
         .inOrder();
-    assertThat(label.getMax().getValue()).isEqualTo(Collections.max(rangeList));
-    assertThat(label.getMin().getValue()).isEqualTo(Collections.min(rangeList));
+    assertThat(label.getMax().value()).isEqualTo(Collections.max(rangeList));
+    assertThat(label.getMin().value()).isEqualTo(Collections.min(rangeList));
     for (LabelValue v : label.getValues()) {
-      assertThat(v.getText()).isNotNull();
-      assertThat(v.getText()).isNotEmpty();
+      assertThat(v.text()).isNotNull();
+      assertThat(v.text()).isNotEmpty();
     }
   }
 }

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -24,21 +26,43 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.ReentrantLock;
+import org.eclipse.jgit.api.GarbageCollectCommand;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.internal.storage.dfs.DfsRepository;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -60,6 +84,10 @@ public class Schema_146 extends SchemaVersion {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
   private final PersonIdent serverIdent;
+  private AtomicInteger i = new AtomicInteger();
+  private AtomicReference<Instant> start = new AtomicReference<>(Instant.now());
+  ReentrantLock gcLock = new ReentrantLock();
+  private int size;
 
   @Inject
   Schema_146(
@@ -75,13 +103,39 @@ public class Schema_146 extends SchemaVersion {
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
+    gc();
+    int threadCount = getThreadCount();
+    ui.message(String.format("Migrating users using %d threads", threadCount));
+    Set<Entry<Account.Id, Timestamp>> accounts = scanAccounts(db).entrySet();
+    size = accounts.size();
+    Set<List<Entry<Account.Id, Timestamp>>> batches =
+        Sets.newHashSet(Iterables.partition(accounts, 500));
+    ExecutorService pool = Executors.newFixedThreadPool(threadCount);
+    try {
+      batches.stream().forEach(batch -> pool.submit(() -> processBatch(batch, ui)));
+      pool.shutdown();
+      pool.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
+    } catch (RuntimeException e) {
+      Throwable cause = e.getCause();
+      if (cause instanceof OrmException) {
+        throw (OrmException) cause;
+      }
+      throw e;
+    } catch (InterruptedException e) {
+      throw new RuntimeException(e);
+    }
+    ui.message(
+        String.format(
+            "[%ss] Migrated all %d users to schema 146", elapsed().toMillis() / 1000, i.get()));
+  }
+
+  private void processBatch(List<Entry<Account.Id, Timestamp>> batch, UpdateUI ui) {
     try (Repository repo = repoManager.openRepository(allUsersName);
         RevWalk rw = new RevWalk(repo);
         ObjectInserter oi = repo.newObjectInserter()) {
       ObjectId emptyTree = emptyTree(oi);
 
-      int i = 0;
-      for (Map.Entry<Account.Id, Timestamp> e : scanAccounts(db).entrySet()) {
+      for (Map.Entry<Account.Id, Timestamp> e : batch) {
         String refName = RefNames.refsUsers(e.getKey());
         Ref ref = repo.exactRef(refName);
         if (ref != null) {
@@ -89,14 +143,74 @@ public class Schema_146 extends SchemaVersion {
         } else {
           createUserBranch(repo, oi, emptyTree, e.getKey(), e.getValue());
         }
-        i++;
-        if (i % 100 == 0) {
-          ui.message(String.format("... migrated %d users", i));
+        int count = i.incrementAndGet();
+        showProgress(ui, count);
+        if (count % 1000 == 0) {
+          gc(repo, true);
         }
       }
-      ui.message(String.format("Migrated all %d users to schema 146", i));
     } catch (IOException e) {
-      throw new OrmException("Failed to rewrite user branches.", e);
+      throw new UncheckedIOException(e);
+    }
+  }
+
+  private void showProgress(UpdateUI ui, int count) {
+    if (count % 100 == 0) {
+      ui.message(
+          String.format(
+              "... [%ss] migrated (%d/%d) users", elapsed().toMillis() / 1000, count, size));
+    }
+  }
+
+  private Duration elapsed() {
+    return Duration.between(start.get(), Instant.now());
+  }
+
+  private void gc() {
+    try (Repository repo = repoManager.openRepository(allUsersName)) {
+      gc(repo, false);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void gc(Repository repo, boolean refsOnly) {
+    if (!gcLock.tryLock()) {
+      return;
+    }
+    if (repo instanceof FileRepository) {
+      FileRepository r = (FileRepository) repo;
+      GC gc = new GC(r);
+      ProgressMonitor pm = new TextProgressMonitor();
+      gc.setProgressMonitor(pm);
+      pm.beginTask("gc", ProgressMonitor.UNKNOWN);
+      try {
+        if (refsOnly) {
+          gc.packRefs();
+        } else {
+          gc.setExpire(new Date());
+          gc.gc();
+        }
+      } catch (IOException | ParseException e) {
+        throw new RuntimeException(e);
+      } finally {
+        pm.endTask();
+        gcLock.unlock();
+      }
+    } else if (repo instanceof DfsRepository && refsOnly == false) {
+      GarbageCollectCommand gc = Git.wrap(repo).gc();
+      ProgressMonitor pm = new TextProgressMonitor();
+      gc.setProgressMonitor(pm);
+      pm.beginTask("gc", ProgressMonitor.UNKNOWN);
+      gc.setExpire(new Date());
+      try {
+        gc.call();
+      } catch (GitAPIException e) {
+        throw new RuntimeException(e);
+      } finally {
+        pm.endTask();
+        gcLock.unlock();
+      }
     }
   }
 

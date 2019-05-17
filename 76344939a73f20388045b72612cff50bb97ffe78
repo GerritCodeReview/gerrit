@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "d6b5a15b_ee3150ab",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-17T12:08:24Z",
+      "side": 1,
+      "message": "SGTM. Thanks for the test.",
+      "parentUuid": "237dce30_beda39a2",
+      "range": {
+        "startLine": 135,
+        "startChar": 8,
+        "endLine": 135,
+        "endChar": 94
+      },
+      "revId": "76344939a73f20388045b72612cff50bb97ffe78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "765061b8_3c7bf8d2",
         "filename": "java/com/google/gerrit/acceptance/testsuite/project/TestProjectUpdate.java",
         "patchSetId": 6

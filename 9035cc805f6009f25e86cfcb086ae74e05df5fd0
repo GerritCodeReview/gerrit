@@ -16,6 +16,24 @@
       "revId": "9035cc805f6009f25e86cfcb086ae74e05df5fd0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98777c7e_f5541ff9",
+        "filename": "tools/workspace-status.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-05-17T09:24:22Z",
+      "side": 0,
+      "message": "Ack",
+      "parentUuid": "a906f91b_0b0f0714",
+      "revId": "9035cc805f6009f25e86cfcb086ae74e05df5fd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "adb350272afa71c2e16ad22a1ef3732d852f57d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e24399d_49dbd60e",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-05-17T15:04:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1e5c0fa_8bd8261b",
+      "range": {
+        "startLine": 128,
+        "startChar": 10,
+        "endLine": 129,
+        "endChar": 27
+      },
+      "revId": "adb350272afa71c2e16ad22a1ef3732d852f57d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

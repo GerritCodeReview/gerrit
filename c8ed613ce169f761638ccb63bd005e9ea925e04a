@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79388f4d_cdff9046",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-17T16:20:06Z",
+      "side": 1,
+      "message": "Commit message should be: \"Merge branch \u0027stable-2.14\u0027 into stable-2.15\", see for example: I60d36d06d70d9ae0db0a7b22fe6e4675afb31813.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 66
+      },
+      "revId": "c8ed613ce169f761638ccb63bd005e9ea925e04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

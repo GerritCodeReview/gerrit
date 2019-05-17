@@ -333,7 +333,7 @@ public class ReviewCommand extends SshCommand {
       StringBuilder usage = new StringBuilder("score for ").append(type.getName()).append("\n");
 
       for (LabelValue v : type.getValues()) {
-        usage.append(v.format()).append("\n");
+        usage.append(v.toString()).append("\n");
       }
 
       optionMap.put(newApproveOption(type, usage.toString()), new LabelSetter(type));
@@ -427,7 +427,7 @@ public class ReviewCommand extends SshCommand {
       LabelValue min = type.getMin();
       LabelValue max = type.getMax();
 
-      if (value < min.getValue() || value > max.getValue()) {
+      if (value < min.value() || value > max.value()) {
         String e =
             "\""
                 + token

@@ -53,7 +53,7 @@ public class Util {
   }
 
   public static LabelValue value(int value, String text) {
-    return new LabelValue((short) value, text);
+    return LabelValue.create((short) value, text);
   }
 
   public static LabelType category(String name, LabelValue... values) {

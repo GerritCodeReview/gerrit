@@ -150,7 +150,7 @@ public class LabelsJson {
               labels = currentLabels(filterApprovalsBy, cd);
             }
             short prev = labels.getOrDefault(type.getName(), (short) 0);
-            ok &= v.getValue() >= prev;
+            ok &= v.value() >= prev;
           }
           if (ok) {
             permitted.put(r.label, v.formatValue());
@@ -244,7 +244,7 @@ public class LabelsJson {
     l.label().defaultValue = type.getDefaultValue();
     l.label().values = new LinkedHashMap<>();
     for (LabelValue v : type.getValues()) {
-      l.label().values.put(v.formatValue(), v.getText());
+      l.label().values.put(v.formatValue(), v.text());
     }
     if (isOnlyZero(l.label().values.keySet())) {
       l.label().values = null;
@@ -413,9 +413,9 @@ public class LabelsJson {
     }
 
     if (score != 0) {
-      if (score == type.getMin().getValue()) {
+      if (score == type.getMin().value()) {
         l.label().rejected = accountLoader.get(accountId);
-      } else if (score == type.getMax().getValue()) {
+      } else if (score == type.getMax().value()) {
         l.label().approved = accountLoader.get(accountId);
       } else if (score < 0) {
         l.label().disliked = accountLoader.get(accountId);

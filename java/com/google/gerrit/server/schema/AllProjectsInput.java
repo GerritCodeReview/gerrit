@@ -50,11 +50,11 @@ public abstract class AllProjectsInput {
         new LabelType(
             "Code-Review",
             ImmutableList.of(
-                new LabelValue((short) 2, "Looks good to me, approved"),
-                new LabelValue((short) 1, "Looks good to me, but someone else must approve"),
-                new LabelValue((short) 0, "No score"),
-                new LabelValue((short) -1, "I would prefer this is not merged as is"),
-                new LabelValue((short) -2, "This shall not be merged")));
+                LabelValue.create((short) 2, "Looks good to me, approved"),
+                LabelValue.create((short) 1, "Looks good to me, but someone else must approve"),
+                LabelValue.create((short) 0, "No score"),
+                LabelValue.create((short) -1, "I would prefer this is not merged as is"),
+                LabelValue.create((short) -2, "This shall not be merged")));
     type.setCopyMinScore(true);
     type.setCopyAllScoresOnTrivialRebase(true);
     return type;

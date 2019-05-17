@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1e5c0fa_8bd8261b",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-05-17T12:37:56Z",
+      "side": 1,
+      "message": "I think the default passwd for a dev setup is user \"admin\" and pw \"secret\".  You might mention that somewhere.",
+      "range": {
+        "startLine": 128,
+        "startChar": 10,
+        "endLine": 129,
+        "endChar": 27
+      },
+      "revId": "adb350272afa71c2e16ad22a1ef3732d852f57d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

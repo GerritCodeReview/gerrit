@@ -105,6 +105,24 @@
       "revId": "8a817bb7e545776b6933cc6ee2ae21e69276425e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "859535f6_d499f600",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-17T09:33:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2987fc5_30449d20",
+      "revId": "8a817bb7e545776b6933cc6ee2ae21e69276425e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

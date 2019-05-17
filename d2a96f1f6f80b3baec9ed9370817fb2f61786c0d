@@ -42,6 +42,29 @@
     },
     {
       "key": {
+        "uuid": "a46a1d11_e0d0ac0e",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareReadOnlyRefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-17T04:44:26Z",
+      "side": 1,
+      "message": "Better: ImmutableMap.of(name, ref), and this is also done in gitiles code. Otherwise, the map is constructed in PermissionBackend.ForProject:\n\n  filter(List\u003cRef\u003e refs, Repository repo, RefFilterOptions opts).",
+      "range": {
+        "startLine": 69,
+        "startChar": 28,
+        "endLine": 69,
+        "endChar": 49
+      },
+      "revId": "d2a96f1f6f80b3baec9ed9370817fb2f61786c0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7347660a_00ae07e4",
         "filename": "java/com/google/gerrit/server/git/PermissionAwareRepository.java",
         "patchSetId": 2

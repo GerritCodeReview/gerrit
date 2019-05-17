@@ -15,6 +15,7 @@
 package com.google.gerrit.metrics.proc;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.codahale.metrics.Counter;
@@ -166,8 +167,8 @@ public class ProcMetricModuleTest {
 
   private <M extends Metric> M get(String name, Class<M> type) {
     Metric m = registry.getMetrics().get(name);
-    assertThat(m).named(name).isNotNull();
-    assertThat(m).named(name).isInstanceOf(type);
+    assertWithMessage(name).that(m).isNotNull();
+    assertWithMessage(name).that(m).isInstanceOf(type);
 
     @SuppressWarnings("unchecked")
     M result = (M) m;

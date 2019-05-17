@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.ssh;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -294,8 +295,8 @@ public class QueryIT extends AbstractDaemonTest {
     // computation while formatting the output, such as labels, reviewers etc.
     merge(r);
     for (ListChangesOption option : ListChangesOption.values()) {
-      assertThat(gApi.changes().query(r.getChangeId()).withOption(option).get())
-          .named("Option: " + option)
+      assertWithMessage("Option: " + option)
+          .that(gApi.changes().query(r.getChangeId()).withOption(option).get())
           .hasSize(1);
     }
   }

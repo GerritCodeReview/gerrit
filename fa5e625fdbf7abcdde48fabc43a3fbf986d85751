@@ -16,6 +16,24 @@
       "revId": "fa5e625fdbf7abcdde48fabc43a3fbf986d85751",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "867a1509_d6f45f38",
+        "filename": "java/com/google/gerrit/server/git/RepositorySizeQuotaEnforcer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2019-05-17T07:45:28Z",
+      "side": 1,
+      "message": "I kind of agree ;) however it is used in 3 places and it pre-defines quota group which means that it has to be kept somewhere.\nHaving said that I\u0027m open for suggestions on how to solve it. I can also rename it to sth like RepositorySizeQuotaChecker, etc...",
+      "parentUuid": "fb34a636_6ebcfbf0",
+      "revId": "fa5e625fdbf7abcdde48fabc43a3fbf986d85751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

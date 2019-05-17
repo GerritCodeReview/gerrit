@@ -15,21 +15,20 @@
 package com.google.gerrit.common.data;
 
 import static java.util.Comparator.comparing;
-import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
+import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.LabelTypeInfo;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class LabelType {
+@AutoValue
+public abstract class LabelType {
   public static final boolean DEF_ALLOW_POST_SUBMIT = true;
   public static final boolean DEF_CAN_OVERRIDE = true;
   public static final boolean DEF_COPY_ALL_SCORES_IF_NO_CHANGE = true;
@@ -40,64 +39,44 @@ public class LabelType {
   public static final boolean DEF_COPY_MIN_SCORE = false;
   public static final boolean DEF_IGNORE_SELF_APPROVAL = false;
 
-  protected String name;
-
-  protected LabelFunction function;
-
-  protected boolean copyMinScore;
-  protected boolean copyMaxScore;
-  protected boolean copyAllScoresOnMergeFirstParentUpdate;
-  protected boolean copyAllScoresOnTrivialRebase;
-  protected boolean copyAllScoresIfNoCodeChange;
-  protected boolean copyAllScoresIfNoChange;
-  protected boolean allowPostSubmit;
-  protected boolean ignoreSelfApproval;
-  protected short defaultValue;
-
-  protected List<LabelValue> values;
-  protected short maxNegative;
-  protected short maxPositive;
-
-  private transient boolean canOverride;
-  private transient List<String> refPatterns;
-  private transient Map<Short, LabelValue> byValue;
+  // private transient Map<Short, LabelValue> byValue;
 
   private LabelType(String name, List<LabelValue> valueList) {
-    this.name = checkName(name);
-    canOverride = true;
-    values = sortValues(valueList);
-    defaultValue = 0;
-
-    function = LabelFunction.MAX_WITH_BLOCK;
-
-    maxNegative = Short.MIN_VALUE;
-    maxPositive = Short.MAX_VALUE;
-    if (values.size() > 0) {
-      if (values.get(0).value() < 0) {
-        maxNegative = values.get(0).value();
-      }
-      if (values.get(values.size() - 1).value() > 0) {
-        maxPositive = values.get(values.size() - 1).value();
-      }
-    }
-    setCanOverride(DEF_CAN_OVERRIDE);
-    setCopyAllScoresIfNoChange(DEF_COPY_ALL_SCORES_IF_NO_CHANGE);
-    setCopyAllScoresIfNoCodeChange(DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE);
-    setCopyAllScoresOnTrivialRebase(DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
-    setCopyAllScoresOnMergeFirstParentUpdate(DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE);
-    setCopyMaxScore(DEF_COPY_MAX_SCORE);
-    setCopyMinScore(DEF_COPY_MIN_SCORE);
-    setAllowPostSubmit(DEF_ALLOW_POST_SUBMIT);
-    setIgnoreSelfApproval(DEF_IGNORE_SELF_APPROVAL);
-
-    byValue = new HashMap<>();
-    for (LabelValue v : values) {
-      byValue.put(v.value(), v);
-    }
+    // this.name = checkName(name);
+    // canOverride = true;
+    // values = sortValues(valueList);
+    // defaultValue = 0;
+    //
+    // function = LabelFunction.MAX_WITH_BLOCK;
+    //
+    // maxNegative = Short.MIN_VALUE;
+    // maxPositive = Short.MAX_VALUE;
+    // if (values.size() > 0) {
+    //   if (values.get(0).value() < 0) {
+    //     maxNegative = values.get(0).value();
+    //   }
+    //   if (values.get(values.size() - 1).value() > 0) {
+    //     maxPositive = values.get(values.size() - 1).value();
+    //   }
+    // }
+    // setCanOverride(DEF_CAN_OVERRIDE);
+    // setCopyAllScoresIfNoChange(DEF_COPY_ALL_SCORES_IF_NO_CHANGE);
+    // setCopyAllScoresIfNoCodeChange(DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE);
+    // setCopyAllScoresOnTrivialRebase(DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
+    // setCopyAllScoresOnMergeFirstParentUpdate(DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE);
+    // setCopyMaxScore(DEF_COPY_MAX_SCORE);
+    // setCopyMinScore(DEF_COPY_MIN_SCORE);
+    // setAllowPostSubmit(DEF_ALLOW_POST_SUBMIT);
+    // setIgnoreSelfApproval(DEF_IGNORE_SELF_APPROVAL);
+    //
+    // byValue = new HashMap<>();
+    // for (LabelValue v : values) {
+    //   byValue.put(v.value(), v);
+    // }
   }
 
   public static LabelType create(String name, List<LabelValue> valueList) {
-    return new LabelType(name, valueList);
+    return null; // new LabelType(name, valueList);
   }
 
   public static LabelType withDefaultValues(String name) {
@@ -106,6 +85,42 @@ public class LabelType {
     values.add(LabelValue.create((short) 0, "Rejected"));
     values.add(LabelValue.create((short) 1, "Approved"));
     return LabelType.create(name, values);
+  }
+
+  public abstract String name();
+
+  @Nullable
+  public abstract LabelFunction function();
+
+  public abstract boolean canOverride();
+
+  @Nullable
+  public abstract List<String> refPatterns();
+
+  public abstract boolean allowPostSubmit();
+
+  public abstract boolean ignoreSelfApproval();
+
+  public abstract List<LabelValue> values();
+
+  public abstract short defaultValue();
+
+  public abstract boolean copyMinScore();
+
+  public abstract boolean copyMaxScore();
+
+  public abstract boolean copyAllScoresOnMergeFirstParentUpdate();
+
+  public abstract boolean copyAllScoresOnTrivialRebase();
+
+  public abstract boolean copyAllScoresIfNoCodeChange();
+
+  public abstract boolean copyAllScoresIfNoChange();
+
+  public abstract Builder toBuilder();
+
+  public static Builder builder() {
+    return null;
   }
 
   public static String checkName(String name) {
@@ -154,61 +169,12 @@ public class LabelType {
     return Collections.unmodifiableList(result);
   }
 
-  public String name() {
-    return name;
-  }
-
   public boolean matches(PatchSetApproval psa) {
     return psa.labelId().get().equalsIgnoreCase(name);
   }
 
-  public LabelFunction function() {
-    return function;
-  }
-
   public void setFunction(@Nullable LabelFunction function) {
-    this.function = function;
-  }
-
-  public boolean canOverride() {
-    return canOverride;
-  }
-
-  public void setCanOverride(boolean canOverride) {
-    this.canOverride = canOverride;
-  }
-
-  public List<String> refPatterns() {
-    return refPatterns;
-  }
-
-  public void setRefPatterns(List<String> refPatterns) {
-    if (refPatterns != null) {
-      this.refPatterns =
-          refPatterns.stream().collect(collectingAndThen(toList(), Collections::unmodifiableList));
-    } else {
-      this.refPatterns = null;
-    }
-  }
-
-  public boolean allowPostSubmit() {
-    return allowPostSubmit;
-  }
-
-  public void setAllowPostSubmit(boolean allowPostSubmit) {
-    this.allowPostSubmit = allowPostSubmit;
-  }
-
-  public boolean ignoreSelfApproval() {
-    return ignoreSelfApproval;
-  }
-
-  public void setIgnoreSelfApproval(boolean ignoreSelfApproval) {
-    this.ignoreSelfApproval = ignoreSelfApproval;
-  }
-
-  public List<LabelValue> values() {
-    return values;
+    this.toBuilder().function(function);
   }
 
   public LabelValue getMin() {
@@ -223,63 +189,6 @@ public class LabelType {
       return null;
     }
     return values.get(values.size() - 1);
-  }
-
-  public short defaultValue() {
-    return defaultValue;
-  }
-
-  public void setDefaultValue(short defaultValue) {
-    this.defaultValue = defaultValue;
-  }
-
-  public boolean copyMinScore() {
-    return copyMinScore;
-  }
-
-  public void setCopyMinScore(boolean copyMinScore) {
-    this.copyMinScore = copyMinScore;
-  }
-
-  public boolean copyMaxScore() {
-    return copyMaxScore;
-  }
-
-  public void setCopyMaxScore(boolean copyMaxScore) {
-    this.copyMaxScore = copyMaxScore;
-  }
-
-  public boolean copyAllScoresOnMergeFirstParentUpdate() {
-    return copyAllScoresOnMergeFirstParentUpdate;
-  }
-
-  public void setCopyAllScoresOnMergeFirstParentUpdate(
-      boolean copyAllScoresOnMergeFirstParentUpdate) {
-    this.copyAllScoresOnMergeFirstParentUpdate = copyAllScoresOnMergeFirstParentUpdate;
-  }
-
-  public boolean copyAllScoresOnTrivialRebase() {
-    return copyAllScoresOnTrivialRebase;
-  }
-
-  public void setCopyAllScoresOnTrivialRebase(boolean copyAllScoresOnTrivialRebase) {
-    this.copyAllScoresOnTrivialRebase = copyAllScoresOnTrivialRebase;
-  }
-
-  public boolean copyAllScoresIfNoCodeChange() {
-    return copyAllScoresIfNoCodeChange;
-  }
-
-  public void setCopyAllScoresIfNoCodeChange(boolean copyAllScoresIfNoCodeChange) {
-    this.copyAllScoresIfNoCodeChange = copyAllScoresIfNoCodeChange;
-  }
-
-  public boolean copyAllScoresIfNoChange() {
-    return copyAllScoresIfNoChange;
-  }
-
-  public void setCopyAllScoresIfNoChange(boolean copyAllScoresIfNoChange) {
-    this.copyAllScoresIfNoChange = copyAllScoresIfNoChange;
   }
 
   public boolean isMaxNegative(PatchSetApproval ca) {
@@ -347,5 +256,41 @@ public class LabelType {
 
   private static Boolean falseToNull(boolean value) {
     return value ? true : null;
+  }
+
+  @AutoValue.Builder
+  public abstract class Builder {
+    public abstract Builder name(String name);
+
+    public abstract Builder function(LabelFunction labelFunction);
+
+    public abstract Builder canOverride(boolean canOverride);
+
+    public abstract Builder refPatterns(List<String> refPatterns);
+
+    public abstract Builder allowPostSubmit(boolean allowPostSubmit);
+
+    public abstract Builder ignoreSelfApproval(boolean ignoreSelfApproval);
+
+    public abstract Builder setIgnoreSelfApproval(boolean ignoreSelfApproval);
+
+    public abstract Builder values(List<LabelValue> labelValues);
+
+    public abstract Builder defaultValue(short defaultValue);
+
+    public abstract Builder copyMinScore(boolean copyMinScore);
+
+    public abstract Builder copyMaxScore(boolean copyMaxScore);
+
+    public abstract Builder copyAllScoresOnMergeFirstParentUpdate(
+        boolean copyAllScoresOnMergeFirstParentUpdate);
+
+    public abstract Builder copyAllScoresOnTrivialRebase(boolean copyAllScoresOnTrivialRebase);
+
+    public abstract Builder copyAllScoresIfNoCodeChange(boolean copyAllScoresIfNoCodeChange);
+
+    public abstract Builder copyAllScoresIfNoChange(boolean copyAllScoresIfNoChange);
+
+    public abstract LabelType build();
   }
 }

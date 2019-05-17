@@ -46,18 +46,19 @@ public abstract class AllProjectsInput {
 
   @UsedAt(UsedAt.Project.GOOGLE)
   public static LabelType getDefaultCodeReviewLabel() {
-    LabelType type =
+    LabelType.Builder type =
         LabelType.create(
-            "Code-Review",
-            ImmutableList.of(
-                LabelValue.create((short) 2, "Looks good to me, approved"),
-                LabelValue.create((short) 1, "Looks good to me, but someone else must approve"),
-                LabelValue.create((short) 0, "No score"),
-                LabelValue.create((short) -1, "I would prefer this is not merged as is"),
-                LabelValue.create((short) -2, "This shall not be merged")));
-    type.setCopyMinScore(true);
-    type.setCopyAllScoresOnTrivialRebase(true);
-    return type;
+                "Code-Review",
+                ImmutableList.of(
+                    LabelValue.create((short) 2, "Looks good to me, approved"),
+                    LabelValue.create((short) 1, "Looks good to me, but someone else must approve"),
+                    LabelValue.create((short) 0, "No score"),
+                    LabelValue.create((short) -1, "I would prefer this is not merged as is"),
+                    LabelValue.create((short) -2, "This shall not be merged")))
+            .toBuilder();
+    type.copyMinScore(true);
+    type.copyAllScoresOnTrivialRebase(true);
+    return type.build();
   }
 
   /** The administrator group which gets default permissions granted. */

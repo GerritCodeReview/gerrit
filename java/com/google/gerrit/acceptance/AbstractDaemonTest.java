@@ -1505,9 +1505,8 @@ public abstract class AbstractDaemonTest {
       LabelValue... value)
       throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType labelType = category(label, value);
-      labelType.setFunction(func);
-      labelType.setRefPatterns(refPatterns);
+      LabelType labelType =
+          category(label, value).toBuilder().function(func).refPatterns(refPatterns).build();
       u.getConfig().getLabelSections().put(labelType.name(), labelType);
       u.save();
     }

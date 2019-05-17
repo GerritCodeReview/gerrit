@@ -903,9 +903,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         }
       }
 
-      LabelType label;
+      LabelType.Builder label;
       try {
-        label = LabelType.create(name, values);
+        label = LabelType.create(name, values).toBuilder();
       } catch (IllegalArgumentException badName) {
         error(new ValidationError(PROJECT_CONFIG, String.format("Invalid label \"%s\"", name)));
         continue;
@@ -924,12 +924,12 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
                     "Invalid %s for label \"%s\". Valid names are: %s",
                     KEY_FUNCTION, name, Joiner.on(", ").join(LabelFunction.ALL.keySet()))));
       }
-      label.setFunction(function.orElse(null));
+      label.function(function.orElse(null));
 
       if (!values.isEmpty()) {
         short dv = (short) rc.getInt(LABEL, name, KEY_DEFAULT_VALUE, 0);
         if (isInRange(dv, values)) {
-          label.setDefaultValue(dv);
+          label.defaultValue(dv);
         } else {
           error(
               new ValidationError(
@@ -938,42 +938,41 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
                       "Invalid %s \"%s\" for label \"%s\"", KEY_DEFAULT_VALUE, dv, name)));
         }
       }
-      label.setAllowPostSubmit(
+      label.allowPostSubmit(
           rc.getBoolean(LABEL, name, KEY_ALLOW_POST_SUBMIT, LabelType.DEF_ALLOW_POST_SUBMIT));
-      label.setIgnoreSelfApproval(
+      label.ignoreSelfApproval(
           rc.getBoolean(LABEL, name, KEY_IGNORE_SELF_APPROVAL, LabelType.DEF_IGNORE_SELF_APPROVAL));
-      label.setCopyMinScore(
+      label.copyMinScore(
           rc.getBoolean(LABEL, name, KEY_COPY_MIN_SCORE, LabelType.DEF_COPY_MIN_SCORE));
-      label.setCopyMaxScore(
+      label.copyMaxScore(
           rc.getBoolean(LABEL, name, KEY_COPY_MAX_SCORE, LabelType.DEF_COPY_MAX_SCORE));
-      label.setCopyAllScoresOnMergeFirstParentUpdate(
+      label.copyAllScoresOnMergeFirstParentUpdate(
           rc.getBoolean(
               LABEL,
               name,
               KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE,
               LabelType.DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE));
-      label.setCopyAllScoresOnTrivialRebase(
+      label.copyAllScoresOnTrivialRebase(
           rc.getBoolean(
               LABEL,
               name,
               KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE,
               LabelType.DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE));
-      label.setCopyAllScoresIfNoCodeChange(
+      label.copyAllScoresIfNoCodeChange(
           rc.getBoolean(
               LABEL,
               name,
               KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE,
               LabelType.DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE));
-      label.setCopyAllScoresIfNoChange(
+      label.copyAllScoresIfNoChange(
           rc.getBoolean(
               LABEL,
               name,
               KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
               LabelType.DEF_COPY_ALL_SCORES_IF_NO_CHANGE));
-      label.setCanOverride(
-          rc.getBoolean(LABEL, name, KEY_CAN_OVERRIDE, LabelType.DEF_CAN_OVERRIDE));
-      label.setRefPatterns(getStringListOrNull(rc, LABEL, name, KEY_BRANCH));
-      labelSections.put(name, label);
+      label.canOverride(rc.getBoolean(LABEL, name, KEY_CAN_OVERRIDE, LabelType.DEF_CAN_OVERRIDE));
+      label.refPatterns(getStringListOrNull(rc, LABEL, name, KEY_BRANCH));
+      labelSections.put(name, label.build());
     }
   }
 

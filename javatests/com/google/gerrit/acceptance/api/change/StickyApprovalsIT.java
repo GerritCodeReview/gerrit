@@ -76,12 +76,12 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
               value(0, "No score"),
               value(-1, "I would prefer that you didn't submit this"),
               value(-2, "Do not submit"));
-      codeReview.setCopyAllScoresIfNoChange(false);
+      codeReview = codeReview.toBuilder().copyAllScoresIfNoChange(false).build();
       u.getConfig().getLabelSections().put(codeReview.name(), codeReview);
 
       LabelType verified =
           category("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
-      verified.setCopyAllScoresIfNoChange(false);
+      verified = verified.toBuilder().copyAllScoresIfNoChange(false).build();
       u.getConfig().getLabelSections().put(verified.name(), verified);
 
       AccountGroup.UUID registeredUsers = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
@@ -113,7 +113,14 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   @Test
   public void stickyOnMinScore() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().getLabelSections().get("Code-Review").setCopyMinScore(true);
+      LabelType codeReview =
+          u.getConfig()
+              .getLabelSections()
+              .get("Code-Review")
+              .toBuilder()
+              .copyMinScore(true)
+              .build();
+      u.getConfig().getLabelSections().put("Code-Review", codeReview);
       u.save();
     }
 
@@ -135,7 +142,14 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   @Test
   public void stickyOnMaxScore() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().getLabelSections().get("Code-Review").setCopyMaxScore(true);
+      LabelType codeReview =
+          u.getConfig()
+              .getLabelSections()
+              .get("Code-Review")
+              .toBuilder()
+              .copyMaxScore(true)
+              .build();
+      u.getConfig().getLabelSections().put("Code-Review", codeReview);
       u.save();
     }
 
@@ -157,7 +171,14 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   @Test
   public void stickyOnTrivialRebase() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().getLabelSections().get("Code-Review").setCopyAllScoresOnTrivialRebase(true);
+      LabelType codeReview =
+          u.getConfig()
+              .getLabelSections()
+              .get("Code-Review")
+              .toBuilder()
+              .copyAllScoresOnTrivialRebase(true)
+              .build();
+      u.getConfig().getLabelSections().put("Code-Review", codeReview);
       u.save();
     }
 
@@ -203,7 +224,14 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   @Test
   public void stickyOnNoCodeChange() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().getLabelSections().get("Verified").setCopyAllScoresIfNoCodeChange(true);
+      LabelType verified =
+          u.getConfig()
+              .getLabelSections()
+              .get("Verified")
+              .toBuilder()
+              .copyAllScoresIfNoCodeChange(true)
+              .build();
+      u.getConfig().getLabelSections().put("Verified", verified);
       u.save();
     }
 
@@ -227,10 +255,14 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   @Test
   public void stickyOnMergeFirstParentUpdate() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .getLabelSections()
-          .get("Code-Review")
-          .setCopyAllScoresOnMergeFirstParentUpdate(true);
+      LabelType codeReview =
+          u.getConfig()
+              .getLabelSections()
+              .get("Code-Review")
+              .toBuilder()
+              .copyAllScoresOnMergeFirstParentUpdate(true)
+              .build();
+      u.getConfig().getLabelSections().put("Code-Review", codeReview);
       u.save();
     }
 
@@ -254,8 +286,22 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   @Test
   public void removedVotesNotSticky() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().getLabelSections().get("Code-Review").setCopyAllScoresOnTrivialRebase(true);
-      u.getConfig().getLabelSections().get("Verified").setCopyAllScoresIfNoCodeChange(true);
+      LabelType codeReview =
+          u.getConfig()
+              .getLabelSections()
+              .get("Code-Review")
+              .toBuilder()
+              .copyAllScoresOnTrivialRebase(true)
+              .build();
+      u.getConfig().getLabelSections().put("Code-Review", codeReview);
+      LabelType verified =
+          u.getConfig()
+              .getLabelSections()
+              .get("Verified")
+              .toBuilder()
+              .copyAllScoresIfNoCodeChange(true)
+              .build();
+      u.getConfig().getLabelSections().put("Verified", verified);
       u.save();
     }
 
@@ -284,8 +330,22 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   @Test
   public void stickyAcrossMultiplePatchSets() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().getLabelSections().get("Code-Review").setCopyMaxScore(true);
-      u.getConfig().getLabelSections().get("Verified").setCopyAllScoresIfNoCodeChange(true);
+      LabelType codeReview =
+          u.getConfig()
+              .getLabelSections()
+              .get("Code-Review")
+              .toBuilder()
+              .copyMaxScore(true)
+              .build();
+      u.getConfig().getLabelSections().put("Code-Review", codeReview);
+      LabelType verified =
+          u.getConfig()
+              .getLabelSections()
+              .get("Verified")
+              .toBuilder()
+              .copyAllScoresIfNoCodeChange(true)
+              .build();
+      u.getConfig().getLabelSections().put("Verified", verified);
       u.save();
     }
 
@@ -306,8 +366,15 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   @Test
   public void copyMinMaxAcrossMultiplePatchSets() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().getLabelSections().get("Code-Review").setCopyMaxScore(true);
-      u.getConfig().getLabelSections().get("Code-Review").setCopyMinScore(true);
+      LabelType codeReview =
+          u.getConfig()
+              .getLabelSections()
+              .get("Code-Review")
+              .toBuilder()
+              .copyMaxScore(true)
+              .copyMinScore(true)
+              .build();
+      u.getConfig().getLabelSections().put("Code-Review", codeReview);
       u.save();
     }
 
@@ -347,7 +414,9 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   public void deleteStickyVote() throws Exception {
     String label = "Code-Review";
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().getLabelSections().get(label).setCopyMaxScore(true);
+      LabelType codeReview =
+          u.getConfig().getLabelSections().get(label).toBuilder().copyMaxScore(true).build();
+      u.getConfig().getLabelSections().put(label, codeReview);
       u.save();
     }
 

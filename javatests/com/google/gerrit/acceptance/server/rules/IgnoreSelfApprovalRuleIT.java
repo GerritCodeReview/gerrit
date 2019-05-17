@@ -92,7 +92,9 @@ public class IgnoreSelfApprovalRuleIT extends AbstractDaemonTest {
       if (localLabelSections.isEmpty()) {
         localLabelSections.putAll(projectCache.getAllProjects().getConfig().getLabelSections());
       }
-      localLabelSections.get(labelName).setIgnoreSelfApproval(newState);
+      LabelType label =
+          localLabelSections.get(labelName).toBuilder().ignoreSelfApproval(newState).build();
+      localLabelSections.put(labelName, label);
       u.save();
     }
   }

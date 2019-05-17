@@ -600,8 +600,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
   public void editCommitMessageCopiesLabelScores() throws Exception {
     String cr = "Code-Review";
     try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType codeReview = Util.codeReview();
-      codeReview.setCopyAllScoresIfNoCodeChange(true);
+      LabelType codeReview =
+          Util.codeReview().toBuilder().copyAllScoresIfNoCodeChange(true).build();
       u.getConfig().getLabelSections().put(cr, codeReview);
       u.save();
     }

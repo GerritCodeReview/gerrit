@@ -113,7 +113,7 @@ public class MergedSender extends ReplyToChangeSender {
 
         LabelValue v = lt.getValue(ca);
         if (v != null) {
-          txt.append(v.getText());
+          txt.append(v.text());
         } else {
           txt.append(lt.getName());
           txt.append('=');

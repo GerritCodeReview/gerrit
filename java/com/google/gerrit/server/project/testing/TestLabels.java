@@ -42,7 +42,7 @@ public class TestLabels {
   }
 
   public static LabelValue value(int value, String text) {
-    return new LabelValue((short) value, text);
+    return LabelValue.create((short) value, text);
   }
 
   public static LabelType label(String name, LabelValue... values) {

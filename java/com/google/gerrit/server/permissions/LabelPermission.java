@@ -144,7 +144,7 @@ public class LabelPermission implements ChangePermissionOrLabel {
      * @param value numeric score assigned to the label.
      */
     public WithValue(ForUser forUser, LabelType type, LabelValue value) {
-      this(forUser, type.getName(), value.getValue());
+      this(forUser, type.getName(), value.value());
     }
 
     /**

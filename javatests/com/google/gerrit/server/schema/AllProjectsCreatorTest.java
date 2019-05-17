@@ -48,9 +48,9 @@ public class AllProjectsCreatorTest {
       new LabelType(
           "Test-Label",
           ImmutableList.of(
-              new LabelValue((short) 2, "Two"),
-              new LabelValue((short) 0, "Zero"),
-              new LabelValue((short) 1, "One")));
+              LabelValue.create((short) 2, "Two"),
+              LabelValue.create((short) 0, "Zero"),
+              LabelValue.create((short) 1, "One")));
 
   private static final String TEST_LABEL_STRING =
       String.join(

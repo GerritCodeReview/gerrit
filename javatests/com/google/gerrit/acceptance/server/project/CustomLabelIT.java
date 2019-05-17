@@ -260,11 +260,11 @@ public class CustomLabelIT extends AbstractDaemonTest {
     assertPermitted(info, label.getName());
 
     ReviewInput postSubmitReview1 = new ReviewInput();
-    postSubmitReview1.label(P.getName(), P.getMax().getValue());
+    postSubmitReview1.label(P.getName(), P.getMax().value());
     revision(r).review(postSubmitReview1);
 
     ReviewInput postSubmitReview2 = new ReviewInput();
-    postSubmitReview2.label(label.getName(), label.getMax().getValue());
+    postSubmitReview2.label(label.getName(), label.getMax().value());
     ResourceConflictException thrown =
         assertThrows(ResourceConflictException.class, () -> revision(r).review(postSubmitReview2));
     assertThat(thrown)

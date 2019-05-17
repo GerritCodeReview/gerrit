@@ -58,7 +58,13 @@
       let newMessage = commitMessage;
 
       if (changeStatus === 'MERGED') {
+        // Separate the subject from the rest.
+        let subject = newMessage.split('\n', 1)[0];
+        let bodyFooters = newMessage.substring(subject.length);
+        newMessage = subject;
+        newMessage += '\n\n';
         newMessage += '(cherry picked from commit ' + commitNum + ')';
+        newMessage += bodyFooters;
       }
       this.message = newMessage;
     },

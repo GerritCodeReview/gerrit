@@ -62,11 +62,31 @@ limitations under the License.
 
     test('with merged change', () => {
       element.changeStatus = 'MERGED';
-      element.commitMessage = 'message\n';
+      element.commitMessage = 'subject\n';
       element.commitNum = '123';
       element.branch = 'master';
       flushAsynchronousOperations();
-      const expectedMessage = 'message\n(cherry picked from commit 123)';
+      const expectedMessage = 'subject\n\n(cherry picked from commit 123)\n';
+      assert.equal(element.message, expectedMessage);
+    });
+
+    test('with merged change with commit msg', () => {
+      element.changeStatus = 'MERGED';
+      element.commitMessage = `subject
+
+Message body
+
+A-Footer: footerValue`;
+      element.commitNum = '123';
+      element.branch = 'master';
+      flushAsynchronousOperations();
+      const expectedMessage = `subject
+
+(cherry picked from commit 123)
+
+Message body
+
+A-Footer: footerValue`;
       assert.equal(element.message, expectedMessage);
     });
 

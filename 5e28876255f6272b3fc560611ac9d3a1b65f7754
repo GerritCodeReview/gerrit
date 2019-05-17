@@ -47,6 +47,30 @@
       "revId": "5e28876255f6272b3fc560611ac9d3a1b65f7754",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91154ac0_2cb5a1a2",
+        "filename": "java/com/google/gerrit/httpd/init/WebAppInitializer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-17T09:17:18Z",
+      "side": 1,
+      "message": "Ping, WDYT?",
+      "parentUuid": "37d237c2_98dd3f17",
+      "range": {
+        "startLine": 247,
+        "startChar": 19,
+        "endLine": 247,
+        "endChar": 38
+      },
+      "revId": "5e28876255f6272b3fc560611ac9d3a1b65f7754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

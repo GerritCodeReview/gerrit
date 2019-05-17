@@ -21,7 +21,7 @@ public interface ChangeMessages extends Messages {
 
   String revertChangeDefaultMessage(String commitMsg, String commitId);
 
-  String cherryPickedChangeDefaultMessage(String commitMsg, String commitId);
+  String cherryPickedChangeDefaultMessage(String subject, String bodyFooter, String commitId);
 
   String changeScreenTitleId(String changeId);
 

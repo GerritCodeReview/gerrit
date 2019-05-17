@@ -40,7 +40,10 @@ class CherryPickAction {
       {
         sendButton.setText(Util.C.buttonCherryPickChangeSend());
         if (info.status() == Change.Status.MERGED) {
-          message.setText(Util.M.cherryPickedChangeDefaultMessage(commitMessage.trim(), revision));
+          int subjectEnd = commitMessage.indexOf('\n');
+          String subject = commitMessage.substring(0, subjectEnd);
+          String bodyFooters = commitMessage.substring(subjectEnd);
+          message.setText(Util.M.cherryPickedChangeDefaultMessage(subject, bodyFooters, revision));
         } else {
           message.setText(commitMessage.trim());
         }

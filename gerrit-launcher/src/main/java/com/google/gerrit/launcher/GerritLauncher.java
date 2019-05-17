@@ -14,7 +14,6 @@
 
 package com.google.gerrit.launcher;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
@@ -43,7 +42,6 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.jar.Attributes;
@@ -624,8 +622,6 @@ public final class GerritLauncher {
     return resolveInSourceRoot("eclipse-out");
   }
 
-  static final String SOURCE_ROOT_RESOURCE = "/gerrit-launcher/workspace-root.txt";
-
   /**
    * Locate a path in the source tree.
    *
@@ -637,48 +633,40 @@ public final class GerritLauncher {
     // Find ourselves in the classpath, as a loose class file or jar.
     Class<GerritLauncher> self = GerritLauncher.class;
 
-    // If the build system provides us with a source root, use that.
-    try (InputStream stream = self.getResourceAsStream(SOURCE_ROOT_RESOURCE)) {
-      if (stream != null) {
-        try (Scanner scan = new Scanner(stream, UTF_8.name()).useDelimiter("\n")) {
-          if (scan.hasNext()) {
-            Path p = Paths.get(scan.next());
-            if (!Files.exists(p)) {
-              throw new FileNotFoundException("source root not found: " + p);
-            }
-            return p;
-          }
+    Path dir;
+    String sourceRoot = System.getProperty("sourceRoot");
+    if (sourceRoot != null) {
+      dir = Paths.get(sourceRoot);
+      if (!Files.exists(dir)) {
+        throw new FileNotFoundException("source root not found: " + dir);
+      }
+    } else {
+      URL u = self.getResource(self.getSimpleName() + ".class");
+      if (u == null) {
+        throw new FileNotFoundException("Cannot find class " + self.getName());
+      } else if ("jar".equals(u.getProtocol())) {
+        String p = u.getPath();
+        try {
+          u = new URL(p.substring(0, p.indexOf('!')));
+        } catch (MalformedURLException e) {
+          FileNotFoundException fnfe = new FileNotFoundException("Not a valid jar file: " + u);
+          fnfe.initCause(e);
+          throw fnfe;
         }
       }
-    } catch (IOException e) {
-      // not Bazel, then.
-    }
-
-    URL u = self.getResource(self.getSimpleName() + ".class");
-    if (u == null) {
-      throw new FileNotFoundException("Cannot find class " + self.getName());
-    } else if ("jar".equals(u.getProtocol())) {
-      String p = u.getPath();
-      try {
-        u = new URL(p.substring(0, p.indexOf('!')));
-      } catch (MalformedURLException e) {
-        FileNotFoundException fnfe = new FileNotFoundException("Not a valid jar file: " + u);
-        fnfe.initCause(e);
-        throw fnfe;
+      if (!"file".equals(u.getProtocol())) {
+        throw new FileNotFoundException("Cannot extract path from " + u);
       }
-    }
-    if (!"file".equals(u.getProtocol())) {
-      throw new FileNotFoundException("Cannot extract path from " + u);
-    }
 
-    // Pop up to the top-level source folder by looking for .buckconfig.
-    Path dir = Paths.get(u.getPath());
-    while (!Files.isRegularFile(dir.resolve("WORKSPACE"))) {
-      Path parent = dir.getParent();
-      if (parent == null) {
-        throw new FileNotFoundException("Cannot find source root from " + u);
+      // Pop up to the top-level source folder by looking for WORKSPACE.
+      dir = Paths.get(u.getPath());
+      while (!Files.isRegularFile(dir.resolve("WORKSPACE"))) {
+        Path parent = dir.getParent();
+        if (parent == null) {
+          throw new FileNotFoundException("Cannot find source root from " + u);
+        }
+        dir = parent;
       }
-      dir = parent;
     }
 
     Path ret = dir.resolve(name);

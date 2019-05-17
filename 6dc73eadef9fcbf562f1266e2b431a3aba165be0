@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "3c068343_8d628c86",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-17T09:16:09Z",
+      "side": 1,
+      "message": "Copying here the answer from Luca (from the PS-6):\n\"This is necessary now because this is *the very first test* that can cause the Daemon to fail its startup phase.\"\n\nThis change cannot pass tests without these null checks.\nIf these checks are moved into a separate change then:\n* if the separate change is done before this change, then it doesn\u0027t justify itself\n* if the separate change is done after this change, then this change cannot pass tests.",
+      "parentUuid": "aeaac084_1bcc7e7d",
+      "range": {
+        "startLine": 299,
+        "startChar": 8,
+        "endLine": 299,
+        "endChar": 22
+      },
+      "revId": "6dc73eadef9fcbf562f1266e2b431a3aba165be0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "63f42a82_b7719f93",
         "filename": "javatests/com/google/gerrit/acceptance/api/plugin/PluginLoaderIT.java",
         "patchSetId": 9

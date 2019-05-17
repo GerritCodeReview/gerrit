@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "9104d80d_5599ac60",
+        "filename": "java/com/google/gerrit/httpd/init/WebAppInitializer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-17T09:08:37Z",
+      "side": 1,
+      "message": "This should stay as cfgInjector",
+      "range": {
+        "startLine": 204,
+        "startChar": 15,
+        "endLine": 204,
+        "endChar": 25
+      },
+      "revId": "296f87b4be54322e8249923fc2143ead1b2ab70e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8cd3a6dc_3e0e72ee",
         "filename": "java/com/google/gerrit/httpd/init/WebAppInitializer.java",
         "patchSetId": 5
@@ -41,6 +64,52 @@
         "startChar": 16,
         "endLine": 294,
         "endChar": 26
+      },
+      "revId": "296f87b4be54322e8249923fc2143ead1b2ab70e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b63f2e9_d0fe0d29",
+        "filename": "java/com/google/gerrit/httpd/init/WebAppInitializer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-17T09:08:37Z",
+      "side": 1,
+      "message": "This should stay as cfgInjector",
+      "range": {
+        "startLine": 338,
+        "startChar": 49,
+        "endLine": 338,
+        "endChar": 59
+      },
+      "revId": "296f87b4be54322e8249923fc2143ead1b2ab70e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdd4ae5d_2fc8f6ba",
+        "filename": "java/com/google/gerrit/httpd/init/WebAppInitializer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-05-17T09:08:37Z",
+      "side": 1,
+      "message": "This should stay as cfgInjector",
+      "range": {
+        "startLine": 386,
+        "startChar": 28,
+        "endLine": 386,
+        "endChar": 38
       },
       "revId": "296f87b4be54322e8249923fc2143ead1b2ab70e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

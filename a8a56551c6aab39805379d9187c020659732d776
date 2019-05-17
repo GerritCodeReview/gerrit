@@ -335,6 +335,30 @@
       "revId": "a8a56551c6aab39805379d9187c020659732d776",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2340629d_90cc871c",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/TestProjectUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-17T10:11:53Z",
+      "side": 1,
+      "message": "Okay. Just tell me whether you want to add those tests in this change (which would be preferred) or in a follow-up change (to avoid merge/rebase-hell) and I\u0027ll adjust my vote to it.",
+      "parentUuid": "6b35ee6c_c60272b1",
+      "range": {
+        "startLine": 156,
+        "startChar": 8,
+        "endLine": 160,
+        "endChar": 43
+      },
+      "revId": "a8a56551c6aab39805379d9187c020659732d776",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

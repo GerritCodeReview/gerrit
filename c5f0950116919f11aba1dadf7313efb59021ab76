@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8280373c_1779fda4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-05-17T15:56:17Z",
+      "side": 1,
+      "message": "Another alternative would be more direct, small tests for InProcessProtocol. (That would also involve removing the TODO in AbstractPushForReview, since we would definitely not be adding this new enum value.)",
+      "range": {
+        "startLine": 14,
+        "startChar": 57,
+        "endLine": 15,
+        "endChar": 22
+      },
+      "revId": "c5f0950116919f11aba1dadf7313efb59021ab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

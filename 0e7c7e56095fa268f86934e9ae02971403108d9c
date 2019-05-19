@@ -70,6 +70,30 @@
       "revId": "0e7c7e56095fa268f86934e9ae02971403108d9c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7907ed1_48263311",
+        "filename": "javatests/com/google/gerrit/acceptance/api/plugin/PluginIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-19T14:50:35Z",
+      "side": 1,
+      "message": "The name plugin_e was intentionally used.  See I099015b1e040b57dd41e2366dadf119088d6e9ae",
+      "parentUuid": "51984afb_655e0c43",
+      "range": {
+        "startLine": 106,
+        "startChar": 35,
+        "endLine": 106,
+        "endChar": 45
+      },
+      "revId": "0e7c7e56095fa268f86934e9ae02971403108d9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

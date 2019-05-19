@@ -125,6 +125,21 @@ interface, run:
 git clone ssh://username@localhost:29418/projectname
 ----
 
+To use the `HTTP` protocol, run:
+
+----
+git clone http://username@localhost:8080/projectname
+----
+
+The default password for user `admin` is `secret`. You can regenerate a
+password in the UI under User Settings -- HTTP credentials. The password can be
+stored locally to avoid retyping it:
+
+----
+git config --global credential.helper store
+git pull
+----
+
 To create changes as users of Gerrit would, run:
 
 ----

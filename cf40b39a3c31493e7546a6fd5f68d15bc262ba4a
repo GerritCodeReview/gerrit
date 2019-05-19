@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1b88a81_a0ceb307",
+        "filename": "tools/workspace-status.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-19T08:49:07Z",
+      "side": -1,
+      "message": "We should also remove similar line in workspace-status.cmd. However this file was added only later and the original change was move from master to stable-2.14. Should we remove the line in its own change and re-do the merges? Or remove it in merge commit?",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 35
+      },
+      "revId": "cf40b39a3c31493e7546a6fd5f68d15bc262ba4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

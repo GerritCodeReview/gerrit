@@ -72,7 +72,7 @@ that serves PolyGerrit:
 
 ```sh
 bazel build gerrit &&
-  $(bazel info output_base)/external/local_jdk/bin/java \
+  $(bazel info output_base)/external/local_jdk/bin/java -DsourceRoot=/path/to/my/checkout \
   -jar bazel-bin/gerrit.war daemon --polygerrit-dev \
   -d ../gerrit_testsite --console-log --show-stack-trace
 ```

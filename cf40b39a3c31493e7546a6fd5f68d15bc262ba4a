@@ -70,6 +70,30 @@
       "revId": "cf40b39a3c31493e7546a6fd5f68d15bc262ba4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c07d151d_71845d4f",
+        "filename": "tools/workspace-status.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-19T14:22:47Z",
+      "side": -1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/224858",
+      "parentUuid": "c8d37c09_3e8e6bd4",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 35
+      },
+      "revId": "cf40b39a3c31493e7546a6fd5f68d15bc262ba4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -46,6 +46,30 @@
       "revId": "cf40b39a3c31493e7546a6fd5f68d15bc262ba4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8d37c09_3e8e6bd4",
+        "filename": "tools/workspace-status.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-19T13:20:27Z",
+      "side": -1,
+      "message": "Yes, follow-up is just fine.",
+      "parentUuid": "cfa2cdcc_78298e51",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 35
+      },
+      "revId": "cf40b39a3c31493e7546a6fd5f68d15bc262ba4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

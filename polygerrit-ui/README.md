@@ -59,7 +59,14 @@ it patches the `config/server/info` response with plugin information provided on
 the command line:
 
 ```sh
+<<<<<<< HEAD
 ./polygerrit-ui/run-server.sh --plugins=plugins/my_plugin/static/my_plugin.js,plugins/my_plugin/static/my_plugin.html
+=======
+bazel build gerrit &&
+  $(bazel info output_base)/external/local_jdk/bin/java -DsourceRoot=/path/to/my/checkout \
+  -jar bazel-bin/gerrit.war daemon --polygerrit-dev \
+  -d ../gerrit_testsite --console-log --show-stack-trace
+>>>>>>> stable-3.0
 ```
 
 The biggest draw back of this method is that you cannot log in, so cannot test

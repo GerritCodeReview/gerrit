@@ -567,6 +567,43 @@ To use the binary from the Bazel build, you need to use the `run_npm_binary.py`
 wrapper script. For an example, see the use of `crisper` in `tools/bzl/js.bzl`.
 
 
+
+[[RBE]]
+==== Google Remote Build Support
+
+The Bazel build can be used with Google's Remote Build Execution.
+
+
+This needs the following setup steps:
+
+```
+gcloud auth application-default login
+gcloud services enable remotebuildexecution.googleapis.com  --project=${PROJECT}
+```
+
+Create a worker pool. The instances should have at least 4 CPUs each
+for adequate performance.
+
+```
+gcloud alpha remote-build-execution worker-pools create default \
+    --project=${PROJECT} \
+    --instance=default_instance \
+    --worker-count=50 \
+    --machine-type=n1-highcpu-4 \
+    --disk-size=200
+```
+
+To use RBE, execute
+
+```
+bazel test --config=remote \
+    --remote_instance_name=projects/${PROJECT}/instances/default_instance \
+    javatests/...
+```
+
+
+
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

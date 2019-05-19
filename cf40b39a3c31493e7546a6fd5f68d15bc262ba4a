@@ -22,6 +22,30 @@
       "revId": "cf40b39a3c31493e7546a6fd5f68d15bc262ba4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfa2cdcc_78298e51",
+        "filename": "tools/workspace-status.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-19T09:41:06Z",
+      "side": -1,
+      "message": "Will it work without that change? If so, we can do it as a follow-up commit.",
+      "parentUuid": "e1b88a81_a0ceb307",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 35
+      },
+      "revId": "cf40b39a3c31493e7546a6fd5f68d15bc262ba4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

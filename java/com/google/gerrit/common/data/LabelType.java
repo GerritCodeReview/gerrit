@@ -62,11 +62,19 @@ public final class LabelType {
   private boolean ignoreSelfApproval;
   private boolean canOverride;
 
+  /**
+   * Creates a new label with the given name and value list. All the other fields are set with their
+   * defaults.
+   *
+   * @param name the name of the label.
+   * @param valueList the values of the label.
+   * @throws IllegalArgumentException if the given name or the given value list is invalid.
+   */
   public LabelType(String name, List<LabelValue> valueList) {
     this.name = checkName(name);
     canOverride = true;
     values = sortValues(valueList);
-    defaultValue = 0;
+    setDefaultValue((short) 0);
 
     function = LabelFunction.MAX_WITH_BLOCK;
 

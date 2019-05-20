@@ -112,9 +112,9 @@ public final class LabelType {
   private short maxNegative;
   private short maxPositive;
 
-  private transient boolean canOverride;
-  private transient List<String> refPatterns;
-  private transient Map<Short, LabelValue> byValue;
+  private boolean canOverride;
+  private List<String> refPatterns;
+  private Map<Short, LabelValue> byValue;
 
   public LabelType(String name, List<LabelValue> valueList) {
     this.name = checkName(name);

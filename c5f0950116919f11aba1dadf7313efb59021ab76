@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "15028eb4_a7501444",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-05-20T08:44:39Z",
+      "side": 1,
+      "message": "On my laptop, running just the new test class took 30s. I didn\u0027t measure the marginal difference when running a full \u0027bazel test ...\u0027.",
+      "parentUuid": "b2ae694e_23d4de1d",
+      "range": {
+        "startLine": 14,
+        "startChar": 35,
+        "endLine": 14,
+        "endChar": 45
+      },
+      "revId": "c5f0950116919f11aba1dadf7313efb59021ab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8280373c_1779fda4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -92,6 +116,30 @@
       "revId": "c5f0950116919f11aba1dadf7313efb59021ab76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9a13dc4_b31c43f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-05-20T08:44:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4a9703b_89867d8f",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 22
+      },
+      "revId": "c5f0950116919f11aba1dadf7313efb59021ab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

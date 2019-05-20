@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "2cd026d4_9f34e2f2",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/server/DeleteGpgKey.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-20T06:22:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33e87d91_eadd99d7",
+      "range": {
+        "startLine": 60,
+        "startChar": 30,
+        "endLine": 60,
+        "endChar": 46
+      },
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "347cf473_b485d360",
         "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/server/PostGpgKeys.java",
         "patchSetId": 38
@@ -92,6 +116,30 @@
       "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b64a103_97f0e55c",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/server/PostGpgKeys.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-20T06:22:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "347cf473_b485d360",
+      "range": {
+        "startLine": 92,
+        "startChar": 40,
+        "endLine": 92,
+        "endChar": 56
+      },
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -118,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "2331f77f_1047f1da",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/server/PostGpgKeys.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-20T06:22:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0185e41f_942e7c1b",
+      "range": {
+        "startLine": 242,
+        "startChar": 54,
+        "endLine": 242,
+        "endChar": 71
+      },
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "54008dfa_88957c1c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteSshKey.java",
         "patchSetId": 38
@@ -141,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "8578297c_74a73f3c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteSshKey.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-20T06:22:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54008dfa_88957c1c",
+      "range": {
+        "startLine": 49,
+        "startChar": 40,
+        "endLine": 49,
+        "endChar": 56
+      },
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4fe95d29_2dd687b3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/DeleteKeySender.java",
         "patchSetId": 38
@@ -155,6 +251,24 @@
       "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "127e7fb9_fe3047f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/DeleteKeySender.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-20T06:22:39Z",
+      "side": 1,
+      "message": "google-java-format adds this blank line.",
+      "parentUuid": "4fe95d29_2dd687b3",
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -181,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "60785060_b7c85615",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/DeleteKeySender.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-20T06:22:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cabf3600_a7cd4bce",
+      "range": {
+        "startLine": 35,
+        "startChar": 61,
+        "endLine": 35,
+        "endChar": 68
+      },
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c5fc3b4_1813acb8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/DeleteKeySender.java",
         "patchSetId": 38
@@ -201,6 +339,30 @@
       "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51f195f0_6b79bf8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/DeleteKeySender.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-20T06:22:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c5fc3b4_1813acb8",
+      "range": {
+        "startLine": 55,
+        "startChar": 9,
+        "endLine": 55,
+        "endChar": 16
+      },
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -227,6 +389,30 @@
     },
     {
       "key": {
+        "uuid": "3e67cb58_51316539",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/DeleteKeySender.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-20T06:22:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c263500a_cbfecd1c",
+      "range": {
+        "startLine": 65,
+        "startChar": 29,
+        "endLine": 65,
+        "endChar": 35
+      },
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88567bf5_9c02a813",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/DeleteKeySender.java",
         "patchSetId": 38
@@ -247,6 +433,30 @@
       "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "baabcaf1_20acc5ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/DeleteKeySender.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-20T06:22:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88567bf5_9c02a813",
+      "range": {
+        "startLine": 70,
+        "startChar": 9,
+        "endLine": 70,
+        "endChar": 25
+      },
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -273,6 +483,30 @@
     },
     {
       "key": {
+        "uuid": "699b0e3b_cbd685ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/DeleteKeySender.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-20T06:22:39Z",
+      "side": 1,
+      "message": "This is exactly symmetric to adding a key.  The code is copied from AddKeySender.\n\nThere is a proposed change later in the series to make it always send an email when adding and removing a key, see Ia8e7c3e7065d1ab946043bc256af4aa9fcd07259",
+      "parentUuid": "af3f82e3_55c37b7c",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 87,
+        "endChar": 5
+      },
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f0ac31a_f8c2f8b6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/DeleteKeySender.java",
         "patchSetId": 38
@@ -293,6 +527,30 @@
       "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b81af48d_8a53bde4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/DeleteKeySender.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-20T06:22:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f0ac31a_f8c2f8b6",
+      "range": {
+        "startLine": 121,
+        "startChar": 11,
+        "endLine": 121,
+        "endChar": 20
+      },
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -319,6 +577,30 @@
     },
     {
       "key": {
+        "uuid": "81c53bcf_579f0667",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/DeleteKeySender.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-20T06:22:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea9b206e_5417ff9f",
+      "range": {
+        "startLine": 128,
+        "startChar": 16,
+        "endLine": 128,
+        "endChar": 26
+      },
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff97026e_8629c5fa",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/DeleteKey.soy",
         "patchSetId": 38
@@ -342,6 +624,30 @@
     },
     {
       "key": {
+        "uuid": "5ffbc4de_38c6a820",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/DeleteKey.soy",
+        "patchSetId": 38
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-20T06:22:39Z",
+      "side": 1,
+      "message": "It\u0027s the same in all the templates.",
+      "parentUuid": "ff97026e_8629c5fa",
+      "range": {
+        "startLine": 70,
+        "startChar": 37,
+        "endLine": 70,
+        "endChar": 38
+      },
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f221db0_13bb5bfd",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/DeleteKeyHtml.soy",
         "patchSetId": 38
@@ -362,6 +668,30 @@
       "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aab2b2d4_f1cd3701",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/DeleteKeyHtml.soy",
+        "patchSetId": 38
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-20T06:22:39Z",
+      "side": 1,
+      "message": "It\u0027s the same in all the templates.",
+      "parentUuid": "5f221db0_13bb5bfd",
+      "range": {
+        "startLine": 63,
+        "startChar": 39,
+        "endLine": 63,
+        "endChar": 40
+      },
+      "revId": "4119475290bbbecc5014b4e5aa043b368c050346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

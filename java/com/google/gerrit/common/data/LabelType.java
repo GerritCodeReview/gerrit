@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LabelType {
+public final class LabelType {
   public static final boolean DEF_ALLOW_POST_SUBMIT = true;
   public static final boolean DEF_CAN_OVERRIDE = true;
   public static final boolean DEF_COPY_ALL_SCORES_IF_NO_CHANGE = true;
@@ -94,29 +94,27 @@ public class LabelType {
     return Collections.unmodifiableList(result);
   }
 
-  protected String name;
+  private String name;
 
-  protected LabelFunction function;
+  private LabelFunction function;
 
-  protected boolean copyMinScore;
-  protected boolean copyMaxScore;
-  protected boolean copyAllScoresOnMergeFirstParentUpdate;
-  protected boolean copyAllScoresOnTrivialRebase;
-  protected boolean copyAllScoresIfNoCodeChange;
-  protected boolean copyAllScoresIfNoChange;
-  protected boolean allowPostSubmit;
-  protected boolean ignoreSelfApproval;
-  protected short defaultValue;
+  private boolean copyMinScore;
+  private boolean copyMaxScore;
+  private boolean copyAllScoresOnMergeFirstParentUpdate;
+  private boolean copyAllScoresOnTrivialRebase;
+  private boolean copyAllScoresIfNoCodeChange;
+  private boolean copyAllScoresIfNoChange;
+  private boolean allowPostSubmit;
+  private boolean ignoreSelfApproval;
+  private short defaultValue;
 
-  protected List<LabelValue> values;
-  protected short maxNegative;
-  protected short maxPositive;
+  private List<LabelValue> values;
+  private short maxNegative;
+  private short maxPositive;
 
   private transient boolean canOverride;
   private transient List<String> refPatterns;
   private transient Map<Short, LabelValue> byValue;
-
-  protected LabelType() {}
 
   public LabelType(String name, List<LabelValue> valueList) {
     this.name = checkName(name);

@@ -78,48 +78,55 @@ public class AndSource<T> extends AndPredicate<T>
     if (source == null) {
       throw new StorageException("No DataSource: " + this);
     }
-    List<T> r = new ArrayList<>();
-    T last = null;
-    int nextStart = 0;
-    boolean skipped = false;
-    for (T data : buffer(source.read())) {
-      if (!isMatchable() || match(data)) {
-        r.add(data);
-      } else {
-        skipped = true;
-      }
-      last = data;
-      nextStart++;
-    }
 
-    if (skipped && last != null && source instanceof Paginated) {
-      // If our source is a paginated source and we skipped at
-      // least one of its results, we may not have filled the full
-      // limit the caller wants.  Restart the source and continue.
-      //
-      @SuppressWarnings("unchecked")
-      Paginated<T> p = (Paginated<T>) source;
-      while (skipped && r.size() < p.getOptions().limit() + start) {
-        skipped = false;
-        ResultSet<T> next = p.restart(nextStart);
-
-        for (T data : buffer(next)) {
-          if (match(data)) {
-            r.add(data);
-          } else {
-            skipped = true;
+    // ResultSets are lazy. Calling #read here first and then dealing with ResultSets only when
+    // requested allows the index to run asynchronous queries.
+    ResultSet<T> resultSet = source.read();
+    return new LazyResultSet<>(
+        () -> {
+          List<T> r = new ArrayList<>();
+          T last = null;
+          int nextStart = 0;
+          boolean skipped = false;
+          for (T data : buffer(resultSet)) {
+            if (!isMatchable() || match(data)) {
+              r.add(data);
+            } else {
+              skipped = true;
+            }
+            last = data;
+            nextStart++;
           }
-          nextStart++;
-        }
-      }
-    }
 
-    if (start >= r.size()) {
-      r = ImmutableList.of();
-    } else if (start > 0) {
-      r = ImmutableList.copyOf(r.subList(start, r.size()));
-    }
-    return new ListResultSet<>(r);
+          if (skipped && last != null && source instanceof Paginated) {
+            // If our source is a paginated source and we skipped at
+            // least one of its results, we may not have filled the full
+            // limit the caller wants.  Restart the source and continue.
+            //
+            @SuppressWarnings("unchecked")
+            Paginated<T> p = (Paginated<T>) source;
+            while (skipped && r.size() < p.getOptions().limit() + start) {
+              skipped = false;
+              ResultSet<T> next = p.restart(nextStart);
+
+              for (T data : buffer(next)) {
+                if (match(data)) {
+                  r.add(data);
+                } else {
+                  skipped = true;
+                }
+                nextStart++;
+              }
+            }
+          }
+
+          if (start >= r.size()) {
+            return ImmutableList.of();
+          } else if (start > 0) {
+            return ImmutableList.copyOf(r.subList(start, r.size()));
+          }
+          return ImmutableList.copyOf(r);
+        });
   }
 
   @Override

@@ -85,6 +85,30 @@
       "revId": "f397d1991c7d9dabaf5ede77c1f0049660800296",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b16da1c1_06fad117",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-20T16:18:17Z",
+      "side": 1,
+      "message": "Alternatively, do not create a thread pool explicitly but just use the parallelStream()\nand let it manage its own thread pool.",
+      "parentUuid": "d6546d47_4c5cffac",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 90
+      },
+      "revId": "f397d1991c7d9dabaf5ede77c1f0049660800296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

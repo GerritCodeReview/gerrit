@@ -11,6 +11,7 @@ junit_tests(
         "//java/com/google/gerrit/index:query_exception",
         "//java/com/google/gerrit/index/query/testing",
         "//java/com/google/gerrit/testing:gerrit-test-util",
+        "//java/com/google/gerrit/server",
         "//lib:guava",
         "//lib:junit",
         "//lib/antlr:java-runtime",

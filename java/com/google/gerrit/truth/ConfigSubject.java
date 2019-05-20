@@ -22,8 +22,8 @@ import com.google.common.truth.BooleanSubject;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.IntegerSubject;
 import com.google.common.truth.IterableSubject;
-import com.google.common.truth.ListMultimapSubject;
 import com.google.common.truth.LongSubject;
+import com.google.common.truth.MultimapSubject;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
 import com.google.gerrit.common.Nullable;
@@ -53,18 +53,18 @@ public class ConfigSubject extends Subject<ConfigSubject, Config> {
     return check("getSubsections(%s)", section).that(config.getSubsections(section));
   }
 
-  public ListMultimapSubject sectionValues(String section) {
+  public MultimapSubject sectionValues(String section) {
     requireNonNull(section);
     return sectionValuesImpl(section, null);
   }
 
-  public ListMultimapSubject subsectionValues(String section, String subsection) {
+  public MultimapSubject subsectionValues(String section, String subsection) {
     requireNonNull(section);
     requireNonNull(subsection);
     return sectionValuesImpl(section, subsection);
   }
 
-  private ListMultimapSubject sectionValuesImpl(String section, @Nullable String subsection) {
+  private MultimapSubject sectionValuesImpl(String section, @Nullable String subsection) {
     isNotNull();
     ImmutableListMultimap.Builder<String, String> b = ImmutableListMultimap.builder();
     config

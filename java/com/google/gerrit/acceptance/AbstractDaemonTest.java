@@ -162,7 +162,6 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -991,8 +990,7 @@ public abstract class AbstractDaemonTest {
         .update();
   }
 
-  protected void grant(Project.NameKey project, String ref, String permission)
-      throws RepositoryNotFoundException, IOException, ConfigInvalidException {
+  protected void grant(Project.NameKey project, String ref, String permission) {
     projectOperations
         .project(project)
         .forUpdate()
@@ -1000,8 +998,7 @@ public abstract class AbstractDaemonTest {
         .update();
   }
 
-  protected void grant(Project.NameKey project, String ref, String permission, boolean force)
-      throws RepositoryNotFoundException, IOException, ConfigInvalidException {
+  protected void grant(Project.NameKey project, String ref, String permission, boolean force) {
     projectOperations
         .project(project)
         .forUpdate()
@@ -1014,8 +1011,7 @@ public abstract class AbstractDaemonTest {
       String ref,
       String permission,
       boolean force,
-      AccountGroup.UUID groupUUID)
-      throws RepositoryNotFoundException, IOException, ConfigInvalidException {
+      AccountGroup.UUID groupUUID) {
     projectOperations
         .project(project)
         .forUpdate()
@@ -1030,8 +1026,7 @@ public abstract class AbstractDaemonTest {
       Project.NameKey project,
       String ref,
       AccountGroup.UUID groupUUID,
-      boolean exclusive)
-      throws RepositoryNotFoundException, IOException, ConfigInvalidException {
+      boolean exclusive) {
     projectOperations
         .project(project)
         .forUpdate()

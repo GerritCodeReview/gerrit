@@ -985,7 +985,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
     return info;
   }
 
-  private void allowPushOfExternalIds() throws IOException, ConfigInvalidException {
+  private void allowPushOfExternalIds() {
     grant(allUsers, RefNames.REFS_EXTERNAL_IDS, Permission.READ);
     grant(allUsers, RefNames.REFS_EXTERNAL_IDS, Permission.PUSH);
   }

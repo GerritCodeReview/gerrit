@@ -124,7 +124,7 @@ public final class LabelType {
     this.name = checkName(name);
     canOverride = true;
     values = sortValues(valueList);
-    defaultValue = 0;
+    setDefaultValue((short) 0);
 
     function = LabelFunction.MAX_WITH_BLOCK;
 

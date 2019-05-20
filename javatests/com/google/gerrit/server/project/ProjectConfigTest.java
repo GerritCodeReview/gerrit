@@ -63,7 +63,11 @@ import org.junit.rules.TemporaryFolder;
 
 public class ProjectConfigTest {
   private static final String LABEL_SCORES_CONFIG =
-      "  copyMinScore = "
+      " function = MaxWithBlock\n"
+          + "  value = -1 Negative\n"
+          + "  value = 0 No Score\n"
+          + "  value = +1 Positive\n"
+          + "  copyMinScore = "
           + !LabelType.DEF_COPY_MIN_SCORE
           + "\n"
           + "  copyMaxScore = "
@@ -327,7 +331,6 @@ public class ProjectConfigTest {
                 + "\texcludeProjects = ^/theirproject\n"
                 + "[label \"CustomLabel\"]\n"
                 + LABEL_SCORES_CONFIG
-                + "\tfunction = MaxWithBlock\n" // label gets this function when it is created
                 + "\tdefaultValue = 0\n"); //  label gets this value when it is created
   }
 

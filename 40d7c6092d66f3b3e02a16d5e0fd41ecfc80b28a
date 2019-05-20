@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "441d21fe_f878fe84",
+        "filename": "javatests/com/google/gerrit/server/schema/NoteDbSchemaUpdaterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-20T04:36:45Z",
+      "side": 1,
+      "message": "This is wrong; the if block should not be moved outside.",
+      "range": {
+        "startLine": 126,
+        "startChar": 7,
+        "endLine": 133,
+        "endChar": 9
+      },
+      "revId": "40d7c6092d66f3b3e02a16d5e0fd41ecfc80b28a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

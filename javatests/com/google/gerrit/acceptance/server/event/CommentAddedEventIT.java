@@ -24,6 +24,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -35,6 +36,8 @@ import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -230,7 +233,7 @@ public class CommentAddedEventIT extends AbstractDaemonTest {
     assertThat(pLabelAttr.oldValue).isNull();
     assertThat(pLabelAttr.value).isEqualTo(0);
 
-    LabelType crLabel = LabelType.withDefaultValues("Code-Review");
+    LabelType crLabel = labelWithDefaultValues("Code-Review");
     ApprovalValues crlAttr = getApprovalValues(crLabel);
     assertThat(crlAttr.oldValue).isNull();
     assertThat(crlAttr.value).isEqualTo(0);
@@ -257,6 +260,13 @@ public class CommentAddedEventIT extends AbstractDaemonTest {
     crlAttr = getApprovalValues(crLabel);
     assertThat(crlAttr.oldValue).isNull();
     assertThat(crlAttr.value).isEqualTo(0);
+  }
+
+  private static LabelType labelWithDefaultValues(String name) {
+    List<LabelValue> values = new ArrayList<>(2);
+    values.add(LabelValue.create((short) 0, "Rejected"));
+    values.add(LabelValue.create((short) 1, "Approved"));
+    return new LabelType(name, values);
   }
 
   private static class ApprovalValues {

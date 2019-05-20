@@ -42,14 +42,6 @@ public final class LabelType {
   public static final boolean DEF_COPY_MIN_SCORE = false;
   public static final boolean DEF_IGNORE_SELF_APPROVAL = false;
 
-  public static LabelType withDefaultValues(String name) {
-    checkName(name);
-    List<LabelValue> values = new ArrayList<>(2);
-    values.add(LabelValue.create((short) 0, "Rejected"));
-    values.add(LabelValue.create((short) 1, "Approved"));
-    return new LabelType(name, values);
-  }
-
   public static String checkName(String name) {
     checkNameInternal(name);
     if ("SUBM".equals(name)) {

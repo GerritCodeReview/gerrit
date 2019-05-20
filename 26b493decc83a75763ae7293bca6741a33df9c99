@@ -22,6 +22,30 @@
       "revId": "26b493decc83a75763ae7293bca6741a33df9c99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94cefc59_2b93f0a9",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-20T01:46:25Z",
+      "side": 1,
+      "message": "I forgot about this when I rebased the series.  I\u0027ll look into it as a follow-up instead of blocking the rest of the changes.",
+      "parentUuid": "4c647fc2_c69dcce4",
+      "range": {
+        "startLine": 277,
+        "startChar": 2,
+        "endLine": 284,
+        "endChar": 3
+      },
+      "revId": "26b493decc83a75763ae7293bca6741a33df9c99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

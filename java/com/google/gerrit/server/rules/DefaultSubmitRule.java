@@ -93,15 +93,6 @@ public final class DefaultSubmitRule implements SubmitRule {
 
     for (LabelType t : labelTypes) {
       LabelFunction labelFunction = t.getFunction();
-      if (labelFunction == null) {
-        logger.atSevere().log(
-            "Unable to find the LabelFunction for label %s, change %s", t.getName(), cd.getId());
-
-        submitRecord.errorMessage = "Unable to find the LabelFunction for label " + t.getName();
-        submitRecord.status = SubmitRecord.Status.RULE_ERROR;
-        return Collections.singletonList(submitRecord);
-      }
-
       Collection<PatchSetApproval> approvalsForLabel = getApprovalsForLabel(approvals, t);
       SubmitRecord.Label label = labelFunction.check(t, approvalsForLabel);
       submitRecord.labels.add(label);

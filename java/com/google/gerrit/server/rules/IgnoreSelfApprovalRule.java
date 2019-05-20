@@ -97,10 +97,6 @@ public class IgnoreSelfApprovalRule implements SubmitRule {
       }
 
       LabelFunction labelFunction = t.getFunction();
-      if (labelFunction == null) {
-        continue;
-      }
-
       Collection<PatchSetApproval> allApprovalsForLabel = filterApprovalsByLabel(approvals, t);
       SubmitRecord.Label allApprovalsCheckResult = labelFunction.check(t, allApprovalsForLabel);
       SubmitRecord.Label ignoreSelfApprovalCheckResult =

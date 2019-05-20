@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85a9d4e9_8babb5d3",
+        "filename": "javatests/com/google/gerrit/acceptance/server/quota/RepositorySizeQuotaIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2019-05-20T14:56:53Z",
+      "side": 1,
+      "message": "have to admit that I have failed to write integration tests that were verifying if one cannot request tokens when they got exhausted mainly to the fact that requestTokens get swallowed by InProcessProtocol. To my defence though it doesn\u0027t matter as long as it gets called and quota gets deducted due to the fact that availableTokens will eventually fail and works nicely and is proven in the case below.",
+      "range": {
+        "startLine": 77,
+        "startChar": 1,
+        "endLine": 90,
+        "endChar": 3
+      },
+      "revId": "562732f3549594112330bef9b70ea8bb7b1fc78e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

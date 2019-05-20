@@ -227,7 +227,26 @@ public final class LabelType {
     return defaultValue;
   }
 
+  /**
+   * Sets the default value of the label.
+   *
+   * @param defaultValue the default value of the label to be set.
+   * @throws IllegalArgumentException if the default value isn't within the range of label values.
+   */
   public void setDefaultValue(short defaultValue) {
+    boolean inRange = false;
+    for (LabelValue lv : values) {
+      if (lv.value() == defaultValue) {
+        inRange = true;
+        break;
+      }
+    }
+
+    if (!inRange) {
+      throw new IllegalArgumentException(
+          String.format("Invalid defaultValue \"%s\" for label \"%s\"", defaultValue, name));
+    }
+
     this.defaultValue = defaultValue;
   }
 

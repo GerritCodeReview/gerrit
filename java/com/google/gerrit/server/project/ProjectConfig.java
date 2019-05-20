@@ -919,14 +919,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
       if (!values.isEmpty()) {
         short dv = (short) rc.getInt(LABEL, name, KEY_DEFAULT_VALUE, 0);
-        if (isInRange(dv, values)) {
+        try {
           label.setDefaultValue(dv);
-        } else {
-          error(
-              new ValidationError(
-                  PROJECT_CONFIG,
-                  String.format(
-                      "Invalid %s \"%s\" for label \"%s\"", KEY_DEFAULT_VALUE, dv, name)));
+        } catch (IllegalArgumentException e) {
+          error(new ValidationError(PROJECT_CONFIG, e.getMessage()));
         }
       }
       label.setAllowPostSubmit(
@@ -966,15 +962,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       label.setRefPatterns(getStringListOrNull(rc, LABEL, name, KEY_BRANCH));
       labelSections.put(name, label);
     }
-  }
-
-  private boolean isInRange(short value, List<LabelValue> labelValues) {
-    for (LabelValue lv : labelValues) {
-      if (lv.value() == value) {
-        return true;
-      }
-    }
-    return false;
   }
 
   private List<String> getStringListOrNull(

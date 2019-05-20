@@ -1,4 +1,4 @@
-// Copyright 2008 Google Inc.
+// Copyright (C) 2019 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,21 +18,23 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.ImmutableList;
 import java.util.Iterator;
-import java.util.List;
+import java.util.function.Supplier;
 
 /**
- * Result set for queries that run synchronously or for cases where the result is already known and
- * we just need to pipe it back through our interfaces.
+ * Result set that allows for asynchronous execution of the actual query. Callers should dispatch
+ * the query and call the constructor of this class with a supplier that fetches the result and
+ * blocks on it if necessary.
  *
- * <p>If your implementation benefits from asynchronous execution (i.e. dispatching a query and
- * awaiting results only when {@link ResultSet#toList()} is called, consider using {@link
- * LazyResultSet}.
+ * <p>If the execution is synchronous or the results are know a-priori, consider using {@link
+ * ListResultSet}.
  */
-public class ListResultSet<T> implements ResultSet<T> {
-  private ImmutableList<T> results;
+public class LazyResultSet<T> implements ResultSet<T> {
+  private final Supplier<ImmutableList<T>> resultsCallback;
 
-  public ListResultSet(List<T> r) {
-    results = ImmutableList.copyOf(checkNotNull(r, "results can't be null"));
+  private boolean resultsReturned = false;
+
+  public LazyResultSet(Supplier<ImmutableList<T>> r) {
+    resultsCallback = checkNotNull(r, "results can't be null");
   }
 
   @Override
@@ -42,12 +44,11 @@ public class ListResultSet<T> implements ResultSet<T> {
 
   @Override
   public ImmutableList<T> toList() {
-    if (results == null) {
+    if (resultsReturned) {
       throw new IllegalStateException("Results already obtained");
     }
-    ImmutableList<T> r = results;
-    results = null;
-    return r;
+    resultsReturned = true;
+    return resultsCallback.get();
   }
 
   @Override

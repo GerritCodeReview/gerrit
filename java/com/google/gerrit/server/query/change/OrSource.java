@@ -14,9 +14,12 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.FieldBundle;
-import com.google.gerrit.index.query.ListResultSet;
+import com.google.gerrit.index.query.LazyResultSet;
 import com.google.gerrit.index.query.OrPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.ResultSet;
@@ -25,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public class OrSource extends OrPredicate<ChangeData> implements ChangeDataSource {
@@ -36,22 +40,29 @@ public class OrSource extends OrPredicate<ChangeData> implements ChangeDataSourc
 
   @Override
   public ResultSet<ChangeData> read() {
-    // TODO(spearce) This probably should be more lazy.
-    //
-    List<ChangeData> r = new ArrayList<>();
-    Set<Change.Id> have = new HashSet<>();
-    for (Predicate<ChangeData> p : getChildren()) {
-      if (p instanceof ChangeDataSource) {
-        for (ChangeData cd : ((ChangeDataSource) p).read()) {
-          if (have.add(cd.getId())) {
-            r.add(cd);
-          }
-        }
-      } else {
-        throw new StorageException("No ChangeDataSource: " + p);
-      }
+    Optional<Predicate<ChangeData>> nonChangeDataSource =
+        getChildren().stream().filter(p -> !(p instanceof ChangeDataSource)).findAny();
+    if (nonChangeDataSource.isPresent()) {
+      throw new StorageException("No ChangeDataSource: " + nonChangeDataSource.get());
     }
-    return new ListResultSet<>(r);
+
+    // ResultSets are lazy. Calling #read here first and then dealing with ResultSets only when
+    // requested allows the index to run asynchronous queries.
+    List<ResultSet<ChangeData>> results =
+        getChildren().stream().map(p -> ((ChangeDataSource) p).read()).collect(toImmutableList());
+    return new LazyResultSet<>(
+        () -> {
+          List<ChangeData> r = new ArrayList<>();
+          Set<Change.Id> have = new HashSet<>();
+          for (ResultSet<ChangeData> resultSet : results) {
+            for (ChangeData result : resultSet) {
+              if (have.add(result.getId())) {
+                r.add(result);
+              }
+            }
+          }
+          return ImmutableList.copyOf(r);
+        });
   }
 
   @Override

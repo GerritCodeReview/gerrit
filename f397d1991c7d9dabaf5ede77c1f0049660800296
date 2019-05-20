@@ -22,6 +22,69 @@
       "revId": "f397d1991c7d9dabaf5ede77c1f0049660800296",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b58cd57c_314dc7d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-20T15:12:53Z",
+      "side": 1,
+      "message": "Move this into own method to keep the code here cleaner?",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 53
+      },
+      "revId": "f397d1991c7d9dabaf5ede77c1f0049660800296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75bd8c4f_be970d67",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-20T15:12:53Z",
+      "side": 1,
+      "message": "The latch is unnecessary. We can get an orderly shutdown by using the shutdown and awaitTermination methods (example in the next comment).",
+      "revId": "f397d1991c7d9dabaf5ede77c1f0049660800296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6546d47_4c5cffac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-20T15:12:53Z",
+      "side": 1,
+      "message": "This code is actually utilizing only one thread from the customThreadPool\nfrom which it then creates a parallelStream which internally creates its own thread\npool which is used to execute the processChunk tasks. All other threads of the customThreadPool\nare doing nothing. I believe that this wasn\u0027t the intention here.\n\nWe need to submit a task in the customThreadPool for each chunk and then initiate shutdown\nand await the termination:\n\n      chunks.stream()\n          .forEach(chunk -\u003e customThreadPool.submit(() -\u003e processChunk(chunk, latch, ui)));\n      customThreadPool.shutdown();\n      customThreadPool.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);\n\nSubmitting a task for each chunk doesn\u0027t need to be parallelized.\n\nFurther, the usage of the ForkJoin is likely not necessary in this case. AFAIR, the ForkJoinPool\nis used when submitted tasks will create and submit new tasks and wait for them to finish.\nThis is not the case here. Here we simply submit all the tasks (one for each chunk) and\nthen can wait for them to finish. I would propose to use a fixed thread pool:\n\n  ExecutorService pool \u003d Executors.newFixedThreadPool(threadCount);",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 90
+      },
+      "revId": "f397d1991c7d9dabaf5ede77c1f0049660800296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

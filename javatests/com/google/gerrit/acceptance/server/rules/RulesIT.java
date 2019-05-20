@@ -107,10 +107,9 @@ public class RulesIT extends AbstractDaemonTest {
   private void modifySubmitRules(String ruleTested) throws Exception {
     String newContent = String.format(RULE_TEMPLATE, ruleTested);
 
-    try (Repository repo = repoManager.openRepository(project)) {
-      TestRepository<?> testRepo = new TestRepository<>((InMemoryRepository) repo);
-      testRepo
-          .branch(RefNames.REFS_CONFIG)
+    try (Repository repo = repoManager.openRepository(project);
+        TestRepository<?> tr = new TestRepository<>((InMemoryRepository) repo)) {
+      tr.branch(RefNames.REFS_CONFIG)
           .commit()
           .author(admin.newIdent())
           .committer(admin.newIdent())

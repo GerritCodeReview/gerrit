@@ -55,6 +55,7 @@ import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.restapi.change.PostReview;
 import com.google.inject.Inject;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
@@ -1508,8 +1509,9 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         if (submitType == SubmitType.FAST_FORWARD_ONLY) {
           continue;
         }
-        try (Repository repo = repoManager.openRepository(project)) {
-          new TestRepository<>(repo).branch("master").commit().create();
+        try (Repository repo = repoManager.openRepository(project);
+            TestRepository<?> tr = new TestRepository<>((InMemoryRepository) repo)) {
+          tr.branch("master").commit().create();
         }
         name += " after branch has advanced";
       }

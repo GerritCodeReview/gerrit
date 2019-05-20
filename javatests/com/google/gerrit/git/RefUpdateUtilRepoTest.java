@@ -110,7 +110,9 @@ public class RefUpdateUtilRepoTest extends GerritBaseTests {
   @Test
   public void deleteRef() throws Exception {
     String ref = "refs/heads/foo";
-    new TestRepository<>(repo).branch(ref).commit().create();
+    try (TestRepository<?> tr = new TestRepository<>((InMemoryRepository) repo)) {
+      tr.branch(ref).commit().create();
+    }
     assertThat(repo.exactRef(ref)).isNotNull();
     RefUpdateUtil.deleteChecked(repo, "refs/heads/foo");
     assertThat(repo.exactRef(ref)).isNull();

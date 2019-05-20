@@ -45,11 +45,10 @@ public class GroupTestUtil {
       String fileName,
       String contents)
       throws Exception {
-    try (RevWalk rw = new RevWalk(allUsersRepo)) {
-      TestRepository<Repository> testRepository = new TestRepository<>(allUsersRepo, rw);
+    try (RevWalk rw = new RevWalk(allUsersRepo);
+        TestRepository<Repository> tr = new TestRepository<>(allUsersRepo, rw)) {
       TestRepository<Repository>.CommitBuilder builder =
-          testRepository
-              .branch(refName)
+          tr.branch(refName)
               .commit()
               .add(fileName, contents)
               .message("update group file")

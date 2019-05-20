@@ -123,13 +123,13 @@ public class NoteDbSchemaUpdaterTest extends GerritBaseTests {
 
       @Override
       public void create() throws IOException {
-        try (Repository repo = repoManager.createRepository(allProjectsName)) {
-          if (initialVersion.isPresent()) {
-            TestRepository<?> tr = new TestRepository<>(repo);
+        if (initialVersion.isPresent()) {
+          try (Repository repo = repoManager.createRepository(allProjectsName);
+              TestRepository<?> tr = new TestRepository<>(repo)) {
             tr.update(RefNames.REFS_VERSION, tr.blob(initialVersion.get().toString()));
+          } catch (Exception e) {
+            throw new StorageException(e);
           }
-        } catch (Exception e) {
-          throw new StorageException(e);
         }
         repoManager.createRepository(allUsersName).close();
         setUp();

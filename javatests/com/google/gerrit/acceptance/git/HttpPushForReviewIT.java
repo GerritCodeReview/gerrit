@@ -22,6 +22,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.audit.HttpAuditEvent;
 import com.google.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.CredentialsProvider;
@@ -71,8 +72,9 @@ public class HttpPushForReviewIT extends AbstractPushForReview {
   public void uploadPackAuditEventLog() throws Exception {
     auditService.drainHttpAuditEvents();
     // testRepo is already a clone. Make a server-side change so we have something to fetch.
-    try (Repository repo = repoManager.openRepository(project)) {
-      new TestRepository<>(repo).branch("master").commit().create();
+    try (Repository repo = repoManager.openRepository(project);
+        TestRepository<?> tr = new TestRepository<>((InMemoryRepository) repo)) {
+      tr.branch("master").commit().create();
     }
     testRepo.git().fetch().call();
 

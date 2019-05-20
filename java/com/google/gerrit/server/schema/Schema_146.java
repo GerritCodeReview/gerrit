@@ -80,6 +80,7 @@ public class Schema_146 extends SchemaVersion {
         ObjectInserter oi = repo.newObjectInserter()) {
       ObjectId emptyTree = emptyTree(oi);
 
+      int i = 0;
       for (Map.Entry<Account.Id, Timestamp> e : scanAccounts(db).entrySet()) {
         String refName = RefNames.refsUsers(e.getKey());
         Ref ref = repo.exactRef(refName);
@@ -88,7 +89,12 @@ public class Schema_146 extends SchemaVersion {
         } else {
           createUserBranch(repo, oi, emptyTree, e.getKey(), e.getValue());
         }
+        i++;
+        if (i % 100 == 0) {
+          ui.message(String.format("... migrated %d users", i));
+        }
       }
+      ui.message(String.format("Migrated all %d users to schema 146", i));
     } catch (IOException e) {
       throw new OrmException("Failed to rewrite user branches.", e);
     }

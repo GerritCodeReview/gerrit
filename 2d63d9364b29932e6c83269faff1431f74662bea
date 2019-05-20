@@ -16,6 +16,24 @@
       "revId": "2d63d9364b29932e6c83269faff1431f74662bea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48007843_29d44e4b",
+        "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-05-20T18:46:16Z",
+      "side": 1,
+      "message": "After banging my head against a wall I was unable to fix just this sad ProjectCache usage without also touching all the allow(...) lines in this file (to wrap them in a try/catch that actually updated the project in the repo manager). That in turn would have made a very painful merge conflict when rebasing the change to inline all the allow methods.\n\nSo I took a different tack: I fixed the test setup and inlined all the method calls in a single new change, I61f4a6a19. Thus this file is reverted in later patch sets of this change.",
+      "parentUuid": "09be7795_21301eeb",
+      "revId": "2d63d9364b29932e6c83269faff1431f74662bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

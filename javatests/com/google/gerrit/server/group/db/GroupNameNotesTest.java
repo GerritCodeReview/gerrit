@@ -424,22 +424,24 @@ public class GroupNameNotesTest extends GerritBaseTests {
     GroupReference g1 = newGroup("a");
     GroupReference g2 = newGroup("b");
 
-    TestRepository<?> tr = new TestRepository<>(repo);
     ObjectId k1 = getNoteKey(g1);
     ObjectId k2 = getNoteKey(g2);
     ObjectId k3 = GroupNameNotes.getNoteKey(new AccountGroup.NameKey("c"));
     PersonIdent ident = newPersonIdent();
-    ObjectId origCommitId =
-        tr.branch(REFS_GROUPNAMES)
-            .commit()
-            .message("Prepopulate group name")
-            .author(ident)
-            .committer(ident)
-            .add(k1.name(), "[group]\n\tuuid = a-1\n\tname = a\nanotherKey = foo\n")
-            .add(k2.name(), "[group]\n\tuuid = a-1\n\tname = b\n")
-            .add(k3.name(), "[group]\n\tuuid = c-3\n\tname = c\n")
-            .create()
-            .copy();
+    ObjectId origCommitId;
+    try (TestRepository<?> tr = new TestRepository<>(repo)) {
+      origCommitId =
+          tr.branch(REFS_GROUPNAMES)
+              .commit()
+              .message("Prepopulate group name")
+              .author(ident)
+              .committer(ident)
+              .add(k1.name(), "[group]\n\tuuid = a-1\n\tname = a\nanotherKey = foo\n")
+              .add(k2.name(), "[group]\n\tuuid = a-1\n\tname = b\n")
+              .add(k3.name(), "[group]\n\tuuid = c-3\n\tname = c\n")
+              .create()
+              .copy();
+    }
 
     ident = newPersonIdent();
     updateAllGroups(ident, g1, g2);

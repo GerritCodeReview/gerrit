@@ -32,6 +32,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.restapi.project.DashboardsCollection;
 import java.util.List;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -192,9 +193,9 @@ public class DashboardIT extends AbstractDaemonTest {
         throw e;
       }
     }
-    try (Repository r = repoManager.openRepository(project)) {
-      TestRepository<Repository>.CommitBuilder cb =
-          new TestRepository<>(r).branch(canonicalRef).commit();
+    try (Repository r = repoManager.openRepository(project);
+        TestRepository<?> tr = new TestRepository<>((InMemoryRepository) r)) {
+      TestRepository<?>.CommitBuilder cb = tr.branch(canonicalRef).commit();
       StringBuilder content = new StringBuilder("[dashboard]\n");
       if (info.title != null) {
         content.append("title = ").append(info.title).append("\n");

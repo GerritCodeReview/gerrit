@@ -34,6 +34,7 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -237,9 +238,9 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
     grant(project, "refs/meta/*", Permission.CREATE);
     gApi.projects().name(project.get()).branch(dashboardRef).create(new BranchInput());
 
-    try (Repository r = repoManager.openRepository(project)) {
-      TestRepository<Repository>.CommitBuilder cb =
-          new TestRepository<>(r).branch(dashboardRef).commit();
+    try (Repository r = repoManager.openRepository(project);
+        TestRepository<?> tr = new TestRepository<>((InMemoryRepository) r)) {
+      TestRepository<?>.CommitBuilder cb = tr.branch(dashboardRef).commit();
       StringBuilder content = new StringBuilder("[dashboard]\n");
       content.append("title = ").append("Open Changes").append("\n");
       content.append("[section \"").append("open").append("\"]\n");

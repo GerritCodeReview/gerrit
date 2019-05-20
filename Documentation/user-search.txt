@@ -325,7 +325,7 @@ If 'DIR' starts with `^` it matches directories and directory segments by
 regular expression. The link:http://www.brics.dk/automaton/[dk.brics.automaton
 library] is used for evaluation of such patterns.
 
-[[footer]]
+[[footer-operator]]
 footer:'FOOTER'::
 +
 Matches any change that has 'FOOTER' as footer in the commit message of the

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "097e6dca_64dec55d",
+        "filename": "java/com/google/gerrit/acceptance/AbstractNotificationTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1083648
+      },
+      "writtenOn": "2019-05-20T18:28:23Z",
+      "side": 1,
+      "message": "Eek, thank you for catching that! (I\u0027ve filed a bug for myself to look into a few similar problems I may have introduced in other projects....)",
+      "parentUuid": "1d2104fa_1094402f",
+      "range": {
+        "startLine": 113,
+        "startChar": 4,
+        "endLine": 117,
+        "endChar": 5
+      },
+      "revId": "1e10b3a66f39b719c3544a90fe79117d34a4b6dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c34e1870_cdd16d31",
         "filename": "java/com/google/gerrit/acceptance/AbstractNotificationTest.java",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "1e10b3a66f39b719c3544a90fe79117d34a4b6dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "daa7c89c_315bd2bb",
+        "filename": "java/com/google/gerrit/acceptance/AbstractNotificationTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1083648
+      },
+      "writtenOn": "2019-05-20T18:28:23Z",
+      "side": 1,
+      "message": "Done. Let me know what you think of the formatting.",
+      "parentUuid": "c34e1870_cdd16d31",
+      "range": {
+        "startLine": 219,
+        "startChar": 8,
+        "endLine": 222,
+        "endChar": 57
+      },
+      "revId": "1e10b3a66f39b719c3544a90fe79117d34a4b6dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -15,11 +15,12 @@
 package com.google.gerrit.common.data;
 
 import static java.util.Comparator.comparing;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
-import com.google.gerrit.common.Nullable;
+import com.google.common.base.Joiner;
 import com.google.gerrit.extensions.common.LabelTypeInfo;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -28,6 +29,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public final class LabelType {
   public static final boolean DEF_ALLOW_POST_SUBMIT = true;
@@ -160,8 +162,28 @@ public final class LabelType {
     return function;
   }
 
-  public void setFunction(@Nullable LabelFunction function) {
+  public void setFunction(LabelFunction function) {
+    requireNonNull(function, "function cannot be null");
     this.function = function;
+  }
+
+  /**
+   * Set the function of the label.
+   *
+   * @param functionName the name string of the label function.
+   * @throws IllegalArgumentException if failed to parse a valid function from the function name.
+   */
+  public void setFunction(String functionName) {
+    requireNonNull(function, "function cannot be null");
+    Optional<LabelFunction> labelFunction = LabelFunction.parse(functionName);
+    if (!labelFunction.isPresent()) {
+      throw new IllegalArgumentException(
+          String.format(
+              "Invalid function for label \"%s\". Valid names are: %s",
+              name, Joiner.on(", ").join(LabelFunction.ALL.keySet())));
+    }
+
+    this.function = labelFunction.get();
   }
 
   public List<String> getRefPatterns() {

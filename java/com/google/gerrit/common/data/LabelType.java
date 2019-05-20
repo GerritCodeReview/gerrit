@@ -40,6 +40,60 @@ public final class LabelType {
   public static final boolean DEF_COPY_MIN_SCORE = false;
   public static final boolean DEF_IGNORE_SELF_APPROVAL = false;
 
+  private String name;
+  private LabelFunction function;
+  private List<String> refPatterns;
+
+  private List<LabelValue> values;
+  private Map<Short, LabelValue> byValue;
+  private short defaultValue;
+  private short maxNegative;
+  private short maxPositive;
+
+  private boolean copyMinScore;
+  private boolean copyMaxScore;
+  private boolean copyAllScoresOnMergeFirstParentUpdate;
+  private boolean copyAllScoresOnTrivialRebase;
+  private boolean copyAllScoresIfNoCodeChange;
+  private boolean copyAllScoresIfNoChange;
+  private boolean allowPostSubmit;
+  private boolean ignoreSelfApproval;
+  private boolean canOverride;
+
+  public LabelType(String name, List<LabelValue> valueList) {
+    this.name = checkName(name);
+    canOverride = true;
+    values = sortValues(valueList);
+    defaultValue = 0;
+
+    function = LabelFunction.MAX_WITH_BLOCK;
+
+    maxNegative = Short.MIN_VALUE;
+    maxPositive = Short.MAX_VALUE;
+    if (values.size() > 0) {
+      if (values.get(0).value() < 0) {
+        maxNegative = values.get(0).value();
+      }
+      if (values.get(values.size() - 1).value() > 0) {
+        maxPositive = values.get(values.size() - 1).value();
+      }
+    }
+    setCanOverride(DEF_CAN_OVERRIDE);
+    setCopyAllScoresIfNoChange(DEF_COPY_ALL_SCORES_IF_NO_CHANGE);
+    setCopyAllScoresIfNoCodeChange(DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE);
+    setCopyAllScoresOnTrivialRebase(DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
+    setCopyAllScoresOnMergeFirstParentUpdate(DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE);
+    setCopyMaxScore(DEF_COPY_MAX_SCORE);
+    setCopyMinScore(DEF_COPY_MIN_SCORE);
+    setAllowPostSubmit(DEF_ALLOW_POST_SUBMIT);
+    setIgnoreSelfApproval(DEF_IGNORE_SELF_APPROVAL);
+
+    byValue = new HashMap<>();
+    for (LabelValue v : values) {
+      byValue.put(v.value(), v);
+    }
+  }
+
   public static LabelType withDefaultValues(String name) {
     checkName(name);
     List<LabelValue> values = new ArrayList<>(2);
@@ -94,68 +148,8 @@ public final class LabelType {
     return Collections.unmodifiableList(result);
   }
 
-  private String name;
-
-  private LabelFunction function;
-
-  private boolean copyMinScore;
-  private boolean copyMaxScore;
-  private boolean copyAllScoresOnMergeFirstParentUpdate;
-  private boolean copyAllScoresOnTrivialRebase;
-  private boolean copyAllScoresIfNoCodeChange;
-  private boolean copyAllScoresIfNoChange;
-  private boolean allowPostSubmit;
-  private boolean ignoreSelfApproval;
-  private short defaultValue;
-
-  private List<LabelValue> values;
-  private short maxNegative;
-  private short maxPositive;
-
-  private boolean canOverride;
-  private List<String> refPatterns;
-  private Map<Short, LabelValue> byValue;
-
-  public LabelType(String name, List<LabelValue> valueList) {
-    this.name = checkName(name);
-    canOverride = true;
-    values = sortValues(valueList);
-    defaultValue = 0;
-
-    function = LabelFunction.MAX_WITH_BLOCK;
-
-    maxNegative = Short.MIN_VALUE;
-    maxPositive = Short.MAX_VALUE;
-    if (values.size() > 0) {
-      if (values.get(0).value() < 0) {
-        maxNegative = values.get(0).value();
-      }
-      if (values.get(values.size() - 1).value() > 0) {
-        maxPositive = values.get(values.size() - 1).value();
-      }
-    }
-    setCanOverride(DEF_CAN_OVERRIDE);
-    setCopyAllScoresIfNoChange(DEF_COPY_ALL_SCORES_IF_NO_CHANGE);
-    setCopyAllScoresIfNoCodeChange(DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE);
-    setCopyAllScoresOnTrivialRebase(DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
-    setCopyAllScoresOnMergeFirstParentUpdate(DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE);
-    setCopyMaxScore(DEF_COPY_MAX_SCORE);
-    setCopyMinScore(DEF_COPY_MIN_SCORE);
-    setAllowPostSubmit(DEF_ALLOW_POST_SUBMIT);
-    setIgnoreSelfApproval(DEF_IGNORE_SELF_APPROVAL);
-
-    byValue = new HashMap<>();
-    for (LabelValue v : values) {
-      byValue.put(v.value(), v);
-    }
-  }
-
   public String getName() {
     return name;
-  }
-
-  public boolean matches(PatchSetApproval psa) {
-    return psa.labelId().get().equalsIgnoreCase(name);
   }
 
   public LabelFunction getFunction() {
@@ -166,32 +160,8 @@ public final class LabelType {
     this.function = function;
   }
 
-  public boolean canOverride() {
-    return canOverride;
-  }
-
   public List<String> getRefPatterns() {
     return refPatterns;
-  }
-
-  public void setCanOverride(boolean canOverride) {
-    this.canOverride = canOverride;
-  }
-
-  public boolean allowPostSubmit() {
-    return allowPostSubmit;
-  }
-
-  public void setAllowPostSubmit(boolean allowPostSubmit) {
-    this.allowPostSubmit = allowPostSubmit;
-  }
-
-  public boolean ignoreSelfApproval() {
-    return ignoreSelfApproval;
-  }
-
-  public void setIgnoreSelfApproval(boolean ignoreSelfApproval) {
-    this.ignoreSelfApproval = ignoreSelfApproval;
   }
 
   public void setRefPatterns(List<String> refPatterns) {
@@ -205,6 +175,14 @@ public final class LabelType {
 
   public List<LabelValue> getValues() {
     return values;
+  }
+
+  public LabelValue getValue(short value) {
+    return byValue.get(value);
+  }
+
+  public LabelValue getValue(PatchSetApproval ca) {
+    return byValue.get(ca.value());
   }
 
   public LabelValue getMin() {
@@ -245,6 +223,14 @@ public final class LabelType {
     this.copyMaxScore = copyMaxScore;
   }
 
+  public boolean isMaxNegative(PatchSetApproval ca) {
+    return maxNegative == ca.value();
+  }
+
+  public boolean isMaxPositive(PatchSetApproval ca) {
+    return maxPositive == ca.value();
+  }
+
   public boolean isCopyAllScoresOnMergeFirstParentUpdate() {
     return copyAllScoresOnMergeFirstParentUpdate;
   }
@@ -278,43 +264,36 @@ public final class LabelType {
     this.copyAllScoresIfNoChange = copyAllScoresIfNoChange;
   }
 
-  public boolean isMaxNegative(PatchSetApproval ca) {
-    return maxNegative == ca.value();
+  public boolean allowPostSubmit() {
+    return allowPostSubmit;
   }
 
-  public boolean isMaxPositive(PatchSetApproval ca) {
-    return maxPositive == ca.value();
+  public void setAllowPostSubmit(boolean allowPostSubmit) {
+    this.allowPostSubmit = allowPostSubmit;
   }
 
-  public LabelValue getValue(short value) {
-    return byValue.get(value);
+  public boolean ignoreSelfApproval() {
+    return ignoreSelfApproval;
   }
 
-  public LabelValue getValue(PatchSetApproval ca) {
-    return byValue.get(ca.value());
+  public void setIgnoreSelfApproval(boolean ignoreSelfApproval) {
+    this.ignoreSelfApproval = ignoreSelfApproval;
+  }
+
+  public boolean canOverride() {
+    return canOverride;
+  }
+
+  public void setCanOverride(boolean canOverride) {
+    this.canOverride = canOverride;
+  }
+
+  public boolean matches(PatchSetApproval psa) {
+    return psa.labelId().get().equalsIgnoreCase(name);
   }
 
   public LabelId getLabelId() {
     return LabelId.create(name);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder(name).append('[');
-    LabelValue min = getMin();
-    LabelValue max = getMax();
-    if (min != null && max != null) {
-      sb.append(
-          new PermissionRange(Permission.forLabel(name), min.value(), max.value())
-              .toString()
-              .trim());
-    } else if (min != null) {
-      sb.append(min.formatValue().trim());
-    } else if (max != null) {
-      sb.append(max.formatValue().trim());
-    }
-    sb.append(']');
-    return sb.toString();
   }
 
   public LabelTypeInfo toLabelTypeInfo() {
@@ -343,5 +322,24 @@ public final class LabelType {
 
   private static Boolean falseToNull(boolean value) {
     return value ? true : null;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder(name).append('[');
+    LabelValue min = getMin();
+    LabelValue max = getMax();
+    if (min != null && max != null) {
+      sb.append(
+          new PermissionRange(Permission.forLabel(name), min.value(), max.value())
+              .toString()
+              .trim());
+    } else if (min != null) {
+      sb.append(min.formatValue().trim());
+    } else if (max != null) {
+      sb.append(max.formatValue().trim());
+    }
+    sb.append(']');
+    return sb.toString();
   }
 }

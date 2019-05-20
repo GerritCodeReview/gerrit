@@ -21,7 +21,6 @@ import static com.google.gerrit.reviewdb.client.Project.DEFAULT_SUBMIT_TYPE;
 import static com.google.gerrit.server.permissions.PluginPermissionsUtil.isValidPluginPermission;
 import static java.util.stream.Collectors.toList;
 
-import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
@@ -34,7 +33,6 @@ import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
@@ -76,7 +74,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -917,19 +914,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       }
 
       String functionName = rc.getString(LABEL, name, KEY_FUNCTION);
-      Optional<LabelFunction> function =
-          functionName != null
-              ? LabelFunction.parse(functionName)
-              : Optional.of(LabelFunction.MAX_WITH_BLOCK);
-      if (!function.isPresent()) {
-        error(
-            new ValidationError(
-                PROJECT_CONFIG,
-                String.format(
-                    "Invalid %s for label \"%s\". Valid names are: %s",
-                    KEY_FUNCTION, name, Joiner.on(", ").join(LabelFunction.ALL.keySet()))));
+      if (functionName != null) {
+        try {
+          label.setFunction(functionName);
+        } catch (IllegalArgumentException e) {
+          error(new ValidationError(PROJECT_CONFIG, e.getMessage()));
+        }
       }
-      label.setFunction(function.orElse(null));
 
       if (!values.isEmpty()) {
         short dv = (short) rc.getInt(LABEL, name, KEY_DEFAULT_VALUE, 0);

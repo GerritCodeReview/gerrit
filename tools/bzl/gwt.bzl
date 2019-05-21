@@ -156,7 +156,7 @@ def _gwt_binary_impl(ctx):
     deps = _get_transitive_closure(ctx)
 
     paths = []
-    for dep in deps:
+    for dep in deps.to_list():
         paths.append(dep.path)
 
     gwt_user_agent_modules = []
@@ -192,7 +192,7 @@ def _gwt_binary_impl(ctx):
     ])
 
     ctx.actions.run_shell(
-        inputs = list(deps) + gwt_user_agent_modules,
+        inputs = deps.to_list() + gwt_user_agent_modules,
         outputs = [output_zip],
         tools = ctx.files._jdk + ctx.files._zip,
         mnemonic = "GwtBinary",

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4ac0cbe9_75e07f0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2019-05-21T07:57:47Z",
+      "side": 1,
+      "message": "My intention is to use /lfs:size quota group and let plugin decide what to do with it - obviously it will follow the plugin configuration and either just ignore it or treat individually or handle together with /repository:size group as unified quota so that both requirements to treat LFS size quota independently or unified with overall size quota could be addressed.",
+      "parentUuid": "78f322c7_0e8d8d0c",
+      "revId": "562732f3549594112330bef9b70ea8bb7b1fc78e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "85a9d4e9_8babb5d3",
         "filename": "javatests/com/google/gerrit/acceptance/server/quota/RepositorySizeQuotaIT.java",
         "patchSetId": 2
@@ -77,6 +95,30 @@
       "side": 1,
       "message": "It\u0027s only on master (see [1]) unless we\u0027re OK with backporting it.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/223155",
       "parentUuid": "6ea841c0_f95af2cd",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 109,
+        "endChar": 5
+      },
+      "revId": "562732f3549594112330bef9b70ea8bb7b1fc78e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ad15484_0960e995",
+        "filename": "javatests/com/google/gerrit/acceptance/server/quota/RepositorySizeQuotaIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2019-05-21T07:57:47Z",
+      "side": 1,
+      "message": "Would that mean that we have to also migrate all existing cases to use assertThrows?",
+      "parentUuid": "56e98d6c_58a41343",
       "range": {
         "startLine": 101,
         "startChar": 4,

@@ -110,13 +110,11 @@ public class GitUtil {
       throws Exception {
     DfsRepositoryDescription desc = new DfsRepositoryDescription("clone of " + project.get());
 
-    FS fs = FS.detect();
-
-    // Avoid leaking user state into our tests.
-    fs.setUserHome(null);
-
     InMemoryRepository.Builder b = new InMemoryRepository.Builder().setRepositoryDescription(desc);
     if (uri.startsWith("ssh://")) {
+      FS fs = FS.detect();
+      // Avoid leaking user state into our tests.
+      fs.setUserHome(null);
       // SshTransport depends on a real FS to read ~/.ssh/config, but InMemoryRepository by default
       // uses a null FS.
       b.setFS(fs);

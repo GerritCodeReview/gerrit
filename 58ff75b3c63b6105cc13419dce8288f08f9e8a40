@@ -16,6 +16,24 @@
       "revId": "58ff75b3c63b6105cc13419dce8288f08f9e8a40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e81f242_1127190f",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-21T01:11:34Z",
+      "side": 1,
+      "message": "Quickly replacing lines 780-781 with [1] does pass the #byDirectory test, for one of the Elastic QueryChangesTests, yes. I will work on a change for this issue tomorrow, which I\u0027ll push for review alongside scoring VR for elastic. Thanks for the catch.\n\n[1] return Predicate.any();",
+      "parentUuid": "ba140fd1_4709b7b2",
+      "revId": "58ff75b3c63b6105cc13419dce8288f08f9e8a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

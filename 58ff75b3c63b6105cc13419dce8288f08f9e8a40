@@ -70,6 +70,24 @@
       "revId": "58ff75b3c63b6105cc13419dce8288f08f9e8a40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd78defa_ef5503fc",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-21T14:08:17Z",
+      "side": 1,
+      "message": "\u003e Done through Id03cfc94.\n\u003e \n\u003e Thanks again for your insights from this and that other review we had together last week. This very change was done and reviewed /merged some days before that discussion of ours.\n\n\u003d\u003e I should have thought about getting back to this previous change in order to revisit it accordingly. (What we\u0027re doing now.)",
+      "parentUuid": "b06f1391_66cd39a4",
+      "revId": "58ff75b3c63b6105cc13419dce8288f08f9e8a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

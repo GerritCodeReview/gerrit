@@ -74,7 +74,7 @@ public abstract class TestProjectUpdate {
 
       /** Sets the minimum and maximum values for the capability. */
       public Builder range(int min, int max) {
-        checkArgument(min != 0 || max != 0, "empty range");
+        checkNonInvertedRange(min, max);
         return min(min).max(max);
       }
 
@@ -82,17 +82,20 @@ public abstract class TestProjectUpdate {
       abstract TestCapability autoBuild();
 
       public TestCapability build() {
-        if (min().isPresent() || max().isPresent()) {
-          checkArgument(
-              GlobalCapability.hasRange(name()), "capability %s does not support ranges", name());
-        }
         PermissionRange.WithDefaults withDefaults = GlobalCapability.getRange(name());
-        if (!min().isPresent()) {
-          min(withDefaults != null ? withDefaults.getDefaultMin() : 0);
+        if (withDefaults != null) {
+          int min = min().orElse(withDefaults.getDefaultMin());
+          int max = max().orElse(withDefaults.getDefaultMax());
+          range(min, max);
+          // Don't enforce range is nonempty; this is allowed for e.g. batchChangesLimit.
+        } else {
+          checkArgument(
+              !min().isPresent() && !max().isPresent(),
+              "capability %s does not support ranges",
+              name());
+          range(0, 0);
         }
-        if (!max().isPresent()) {
-          max(withDefaults != null ? withDefaults.getDefaultMax() : 0);
-        }
+
         return autoBuild();
       }
     }
@@ -205,6 +208,8 @@ public abstract class TestProjectUpdate {
 
       /** Sets the minimum and maximum values for the permission. */
       public Builder range(int min, int max) {
+        checkArgument(min != 0 || max != 0, "empty range");
+        checkNonInvertedRange(min, max);
         return min(min).max(max);
       }
 
@@ -389,5 +394,9 @@ public abstract class TestProjectUpdate {
     // using it in production, but specifying it in a test is programmer error.
     checkArgument(!Permission.isLabel(name), "expected label name, got permission name: %s", name);
     LabelType.checkName(name);
+  }
+
+  private static void checkNonInvertedRange(int min, int max) {
+    checkArgument(min <= max, "inverted range: %s > %s", min, max);
   }
 }

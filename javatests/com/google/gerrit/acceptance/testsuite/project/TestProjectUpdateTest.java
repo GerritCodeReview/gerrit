@@ -29,6 +29,7 @@ import static com.google.gerrit.common.data.Permission.ABANDON;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestCapability;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestLabelPermission;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestPermissionKey;
 import java.util.function.Function;
@@ -36,13 +37,24 @@ import org.junit.Test;
 
 public class TestProjectUpdateTest {
   @Test
-  public void testCapabilityDisallowsZeroRange() throws Exception {
+  public void testCapabilityDisallowsZeroRangeOnCapabilityThatHasNoRange() throws Exception {
     assertThrows(
         RuntimeException.class,
         () -> allowCapability(ADMINISTRATE_SERVER).group(REGISTERED_USERS).range(0, 0).build());
+  }
+
+  @Test
+  public void testCapabilityAllowsZeroRangeOnCapabilityThatHasRange() throws Exception {
+    TestCapability c = allowCapability(QUERY_LIMIT).group(REGISTERED_USERS).range(0, 0).build();
+    assertThat(c.min()).isEqualTo(0);
+    assertThat(c.max()).isEqualTo(0);
+  }
+
+  @Test
+  public void testCapabilityDisallowsInvertedRange() throws Exception {
     assertThrows(
         RuntimeException.class,
-        () -> allowCapability(QUERY_LIMIT).group(REGISTERED_USERS).range(0, 0).build());
+        () -> allowCapability(ADMINISTRATE_SERVER).group(REGISTERED_USERS).range(1, 0).build());
   }
 
   @Test
@@ -54,16 +66,14 @@ public class TestProjectUpdateTest {
 
   @Test
   public void testCapabilityRangeIsZeroIfCapabilityDoesNotSupportRange() throws Exception {
-    TestProjectUpdate.TestCapability c =
-        allowCapability(ADMINISTRATE_SERVER).group(REGISTERED_USERS).build();
+    TestCapability c = allowCapability(ADMINISTRATE_SERVER).group(REGISTERED_USERS).build();
     assertThat(c.min()).isEqualTo(0);
     assertThat(c.max()).isEqualTo(0);
   }
 
   @Test
   public void testCapabilityUsesDefaultRangeIfUnspecified() throws Exception {
-    TestProjectUpdate.TestCapability c =
-        allowCapability(QUERY_LIMIT).group(REGISTERED_USERS).build();
+    TestCapability c = allowCapability(QUERY_LIMIT).group(REGISTERED_USERS).build();
     assertThat(c.min()).isEqualTo(0);
     assertThat(c.max()).isEqualTo(DEFAULT_MAX_QUERY_LIMIT);
 
@@ -74,8 +84,7 @@ public class TestProjectUpdateTest {
 
   @Test
   public void testCapabilityUsesExplicitRangeIfSpecified() throws Exception {
-    TestProjectUpdate.TestCapability c =
-        allowCapability(QUERY_LIMIT).group(REGISTERED_USERS).range(5, 20).build();
+    TestCapability c = allowCapability(QUERY_LIMIT).group(REGISTERED_USERS).range(5, 20).build();
     assertThat(c.min()).isEqualTo(5);
     assertThat(c.max()).isEqualTo(20);
   }
@@ -87,6 +96,20 @@ public class TestProjectUpdateTest {
     assertThat(labelBuilder.apply("Code-Review").build().name()).isEqualTo("Code-Review");
     assertThrows(RuntimeException.class, () -> labelBuilder.apply("not a label").build());
     assertThrows(RuntimeException.class, () -> labelBuilder.apply("label-Code-Review").build());
+  }
+
+  @Test
+  public void testLabelPermissionDisallowsZeroRange() throws Exception {
+    assertThrows(
+        RuntimeException.class,
+        () -> allowLabel("Code-Review").ref("refs/*").group(REGISTERED_USERS).range(0, 0).build());
+  }
+
+  @Test
+  public void testLabelPermissionDisallowsInvertedRange() throws Exception {
+    assertThrows(
+        RuntimeException.class,
+        () -> allowLabel("Code-Review").ref("refs/*").group(REGISTERED_USERS).range(1, 0).build());
   }
 
   @Test

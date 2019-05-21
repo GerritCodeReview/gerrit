@@ -46,6 +46,30 @@
       "revId": "26b493decc83a75763ae7293bca6741a33df9c99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a9eef5b_276ea436",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-21T07:14:07Z",
+      "side": 1,
+      "message": "The behavior of ApiUtil.asRestApiException is different; namely, it doesn\u0027t include the handling of ExecutionException.  So for now, let\u0027s leave this here.",
+      "parentUuid": "94cefc59_2b93f0a9",
+      "range": {
+        "startLine": 277,
+        "startChar": 2,
+        "endLine": 284,
+        "endChar": 3
+      },
+      "revId": "26b493decc83a75763ae7293bca6741a33df9c99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

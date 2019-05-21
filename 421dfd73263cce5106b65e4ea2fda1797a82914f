@@ -22,6 +22,23 @@
       "revId": "421dfd73263cce5106b65e4ea2fda1797a82914f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cc9602b_3f20e6a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-21T13:21:38Z",
+      "side": 1,
+      "message": "Since the Stopwatch also gets started at this moment, it will also include the\ntime to scan accounts in the ReviewDb. Therefore, for the first 100 accounts (when\nwe report progress for the first time) it will include these initial operations.\nFor all next chunks of 100 accounts we will measure just the migration time.\nDo you think that this is OK?",
+      "revId": "421dfd73263cce5106b65e4ea2fda1797a82914f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -17,6 +17,7 @@ limitations under the License.
 
 <link rel="import"
     href="../bower_components/polymer-resin/standalone/polymer-resin.html" />
+<link rel="import" href="../behaviors/safe-types-behavior/safe-types-behavior.html">
 <script>
   security.polymer_resin.install({
     allowedIdentifierPrefixes: [''],
@@ -31,6 +32,7 @@ limitations under the License.
             + JSON.stringify(args));
       }
     },
+    safeTypesBridge: Gerrit.SafeTypes.safeTypesBridge,
   });
 </script>
 <script>

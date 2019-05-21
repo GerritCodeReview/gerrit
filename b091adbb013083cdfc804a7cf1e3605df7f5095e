@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9246ccc6_3940005a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-21T07:59:16Z",
+      "side": 1,
+      "message": "Either move this down to the subclass (Schema_146) or in a general purpose utility class.\nHaving a general purpose utility method as a protected method makes it available only\nto the subclasses of this class.",
+      "range": {
+        "startLine": 215,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 3
+      },
+      "revId": "b091adbb013083cdfc804a7cf1e3605df7f5095e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32949728_a0d6c7e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-21T07:59:16Z",
+      "side": 1,
+      "message": "Is there any added value in this exception handling?",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 14
+      },
+      "revId": "b091adbb013083cdfc804a7cf1e3605df7f5095e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6da6c4c_3ab9a3db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-21T07:59:16Z",
+      "side": 1,
+      "message": "Since the size is already set in this.size, we could also compute and write\nthe percentage of completed accounts.",
+      "revId": "b091adbb013083cdfc804a7cf1e3605df7f5095e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40a30b5d_eee16994",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-21T07:59:16Z",
+      "side": 1,
+      "message": "Use Stopwatch class for measuring elapsed time. This class is also used in the base class (SchemaVersion).",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 167,
+        "endChar": 3
+      },
+      "revId": "b091adbb013083cdfc804a7cf1e3605df7f5095e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0de9e92d_87dcd234",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-21T07:59:16Z",
+      "side": 1,
+      "message": "Shall we write a more human readable warning in this case so that our intention\nto continue after a failed gc is obvious to the Gerrit admin performing site upgrade?",
+      "revId": "b091adbb013083cdfc804a7cf1e3605df7f5095e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44de4a73_b0526562",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-21T07:59:16Z",
+      "side": 1,
+      "message": "If any exception gets thrown before this try block is reached, the finally block will\nnot get executed and the gcLock will never be released. The try block should start\nimmediately after the lock is acquired.",
+      "revId": "b091adbb013083cdfc804a7cf1e3605df7f5095e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8af53c0c_78181457",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-21T07:59:16Z",
+      "side": 1,
+      "message": "Swap the order of these two statements to ensure that gcLock is released. Releasing\nthe lock is more critical than updating the progress monitor.",
+      "range": {
+        "startLine": 197,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 24
+      },
+      "revId": "b091adbb013083cdfc804a7cf1e3605df7f5095e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a5eeaad_cfd16f1b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-21T07:59:16Z",
+      "side": 1,
+      "message": "Do we need to handle DfsRepository case?",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 213,
+        "endChar": 7
+      },
+      "revId": "b091adbb013083cdfc804a7cf1e3605df7f5095e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

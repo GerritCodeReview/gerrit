@@ -74,6 +74,7 @@ public abstract class TestProjectUpdate {
 
       /** Sets the minimum and maximum values for the capability. */
       public Builder range(int min, int max) {
+        checkArgument(min != 0 || max != 0, "empty range");
         return min(min).max(max);
       }
 
@@ -362,11 +363,11 @@ public abstract class TestProjectUpdate {
 
     abstract Builder projectUpdater(ThrowingConsumer<TestProjectUpdate> projectUpdater);
 
-    abstract TestProjectUpdate autoBuild();
+    abstract TestProjectUpdate build();
 
     /** Executes the update, updating the underlying project. */
     public void update() {
-      TestProjectUpdate projectUpdate = autoBuild();
+      TestProjectUpdate projectUpdate = build();
       projectUpdate.projectUpdater().acceptAndThrowSilently(projectUpdate);
     }
   }
@@ -384,6 +385,8 @@ public abstract class TestProjectUpdate {
   abstract ThrowingConsumer<TestProjectUpdate> projectUpdater();
 
   private static void checkLabelName(String name) {
+    // "label-Code-Review" is technically a valid label name, and we don't prevent users from
+    // using it in production, but specifying it in a test is programmer error.
     checkArgument(!Permission.isLabel(name), "expected label name, got permission name: %s", name);
     LabelType.checkName(name);
   }

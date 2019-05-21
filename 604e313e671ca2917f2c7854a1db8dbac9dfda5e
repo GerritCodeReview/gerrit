@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1024f9cd_560e55cc",
+        "filename": "tools/bzl/gwt.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-21T20:03:02Z",
+      "side": 1,
+      "message": "Maybe in a follow-up change, @David-O?",
+      "parentUuid": "e6e70ce5_ec166563",
+      "revId": "604e313e671ca2917f2c7854a1db8dbac9dfda5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4746279f_39988998",
         "filename": "tools/bzl/gwt.bzl",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2019-05-21T19:54:20Z",
       "side": 1,
       "message": "To avoid flattening the depset:\ninputs \u003d depset(direct \u003d gwt_user_agent_modules, transitive \u003d [deps])\n\nThis will reduce the memory consumption.",
+      "range": {
+        "startLine": 195,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 57
+      },
+      "revId": "604e313e671ca2917f2c7854a1db8dbac9dfda5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e50f571_7e093e1d",
+        "filename": "tools/bzl/gwt.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-21T20:03:02Z",
+      "side": 1,
+      "message": "Another, likely follow-up (yet needful) change.",
+      "parentUuid": "4746279f_39988998",
       "range": {
         "startLine": 195,
         "startChar": 0,

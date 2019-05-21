@@ -3,12 +3,13 @@ load(
     "//tools/bzl:gwt.bzl",
     "GWT_COMPILER_ARGS",
     "GWT_JVM_ARGS",
-    "GWT_PLUGIN_DEPS",
     "GWT_PLUGIN_DEPS_NEVERLINK",
     "GWT_TRANSITIVE_DEPS",
     "gwt_binary",
+    _gwt_plugin_deps = "GWT_PLUGIN_DEPS",
 )
 
+GWT_PLUGIN_DEPS = _gwt_plugin_deps
 PLUGIN_DEPS = ["//gerrit-plugin-api:lib"]
 PLUGIN_DEPS_NEVERLINK = ["//gerrit-plugin-api:lib-neverlink"]
 

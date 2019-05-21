@@ -52,6 +52,24 @@
       "revId": "58ff75b3c63b6105cc13419dce8288f08f9e8a40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b06f1391_66cd39a4",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-21T14:05:01Z",
+      "side": 1,
+      "message": "Done through Id03cfc94.\n\nThanks again for your insights from this and that other review we had together last week. This very change was done and reviewed /merged some days before that discussion of ours.\n\nAnd I have your proposed redesign backlogged already (Issue 10889) -with all the necessary details. This idea also related to one of my previous comments about potentially relying on a well-known keyword or so.",
+      "parentUuid": "b982469d_6a12357e",
+      "revId": "58ff75b3c63b6105cc13419dce8288f08f9e8a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

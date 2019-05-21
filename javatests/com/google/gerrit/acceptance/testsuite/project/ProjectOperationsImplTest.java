@@ -30,6 +30,7 @@ import static com.google.gerrit.common.data.GlobalCapability.QUERY_LIMIT;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.ConfigSubject.assertThat;
 import static java.util.stream.Collectors.toList;
 
@@ -412,54 +413,52 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void addAllowCapability() throws Exception {
-    Project.NameKey key = projectOperations.newProject().create();
+    Config config = projectOperations.project(allProjects).getConfig();
+    assertThat(config)
+        .sectionValues("capability")
+        .doesNotContainEntry("administrateServer", "group Registered Users");
+
     projectOperations
-        .project(key)
+        .project(allProjects)
         .forUpdate()
         .add(allowCapability(ADMINISTRATE_SERVER).group(REGISTERED_USERS))
         .update();
 
-    Config config = projectOperations.project(key).getConfig();
-    assertThat(config).sections().containsExactly("capability");
-    assertThat(config).subsections("capability").isEmpty();
-    assertThat(config)
+    assertThat(projectOperations.project(allProjects).getConfig())
         .sectionValues("capability")
-        .containsExactly("administrateServer", "group global:Registered-Users");
+        .containsEntry("administrateServer", "group Registered Users");
   }
 
   @Test
   public void addAllowCapabilityWithRange() throws Exception {
-    Project.NameKey key = projectOperations.newProject().create();
+    Config config = projectOperations.project(allProjects).getConfig();
+    assertThat(config).sectionValues("capability").doesNotContainKey("queryLimit");
+
     projectOperations
-        .project(key)
+        .project(allProjects)
         .forUpdate()
         .add(allowCapability(QUERY_LIMIT).group(REGISTERED_USERS).range(0, 5000))
         .update();
 
-    Config config = projectOperations.project(key).getConfig();
-    assertThat(config).sections().containsExactly("capability");
-    assertThat(config).subsections("capability").isEmpty();
-    assertThat(config)
+    assertThat(projectOperations.project(allProjects).getConfig())
         .sectionValues("capability")
-        .containsExactly("queryLimit", "+0..+5000 group global:Registered-Users");
+        .containsEntry("queryLimit", "+0..+5000 group Registered Users");
   }
 
   @Test
   public void addAllowCapabilityWithDefaultRange() throws Exception {
-    Project.NameKey key = projectOperations.newProject().create();
+    Config config = projectOperations.project(allProjects).getConfig();
+    assertThat(config).sectionValues("capability").doesNotContainKey("queryLimit");
+
     projectOperations
-        .project(key)
+        .project(allProjects)
         .forUpdate()
         .add(allowCapability(QUERY_LIMIT).group(REGISTERED_USERS))
         .update();
 
-    Config config = projectOperations.project(key).getConfig();
-    assertThat(config).sections().containsExactly("capability");
-    assertThat(config).subsections("capability").isEmpty();
-    assertThat(config)
+    assertThat(projectOperations.project(allProjects).getConfig())
         .sectionValues("capability")
-        .containsExactly(
-            "queryLimit", "+0..+" + DEFAULT_MAX_QUERY_LIMIT + " group global:Registered-Users");
+        .containsEntry("queryLimit", "+0..+" + DEFAULT_MAX_QUERY_LIMIT + " group Registered Users");
   }
 
   @Test
@@ -514,27 +513,27 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void removeCapability() throws Exception {
-    Project.NameKey key = projectOperations.newProject().create();
     projectOperations
-        .project(key)
+        .project(allProjects)
         .forUpdate()
         .add(allowCapability(ADMINISTRATE_SERVER).group(REGISTERED_USERS))
         .add(allowCapability(ADMINISTRATE_SERVER).group(PROJECT_OWNERS))
         .update();
-    assertThat(projectOperations.project(key).getConfig())
+    assertThat(projectOperations.project(allProjects).getConfig())
         .sectionValues("capability")
-        .containsExactly(
-            "administrateServer", "group global:Registered-Users",
-            "administrateServer", "group global:Project-Owners");
+        .containsAtLeastEntriesIn(
+            ImmutableListMultimap.of(
+                "administrateServer", "group Registered Users",
+                "administrateServer", "group Project Owners"));
 
     projectOperations
-        .project(key)
+        .project(allProjects)
         .forUpdate()
         .remove(capabilityKey(ADMINISTRATE_SERVER).group(REGISTERED_USERS))
         .update();
-    assertThat(projectOperations.project(key).getConfig())
+    assertThat(projectOperations.project(allProjects).getConfig())
         .sectionValues("capability")
-        .containsExactly("administrateServer", "group global:Project-Owners");
+        .doesNotContainEntry("administrateServer", "group Registered Users");
   }
 
   @Test
@@ -565,6 +564,27 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     assertThat(config)
         .subsectionValues("access", "refs/foo")
         .containsEntry("create", "group global:Registered-Users");
+  }
+
+  @Test
+  public void updatingCapabilitiesNotAllowedForNonAllProjects() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    assertThrows(
+        RuntimeException.class,
+        () ->
+            projectOperations
+                .project(key)
+                .forUpdate()
+                .add(allowCapability(ADMINISTRATE_SERVER).group(REGISTERED_USERS))
+                .update());
+    assertThrows(
+        RuntimeException.class,
+        () ->
+            projectOperations
+                .project(key)
+                .forUpdate()
+                .remove(capabilityKey(ADMINISTRATE_SERVER))
+                .update());
   }
 
   private void deleteRefsMetaConfig(Project.NameKey key) throws Exception {

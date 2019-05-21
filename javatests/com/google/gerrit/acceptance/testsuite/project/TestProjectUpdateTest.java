@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.testsuite.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.capabilityKey;
@@ -32,10 +33,14 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestCapability;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestLabelPermission;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestPermissionKey;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.config.AllProjectsName;
 import java.util.function.Function;
 import org.junit.Test;
 
 public class TestProjectUpdateTest {
+  private static final AllProjectsName ALL_PROJECTS_NAME = new AllProjectsName("All-Projects");
+
   @Test
   public void testCapabilityDisallowsZeroRangeOnCapabilityThatHasNoRange() throws Exception {
     assertThrows(
@@ -140,12 +145,58 @@ public class TestProjectUpdateTest {
   public void testProjectUpdateDisallowsGroupOnExclusiveGroupPermissionKey() throws Exception {
     TestPermissionKey.Builder b = permissionKey(ABANDON).ref("refs/*");
     Function<TestPermissionKey.Builder, TestProjectUpdate.Builder> updateBuilder =
-        kb -> TestProjectUpdate.builder(u -> {}).setExclusiveGroup(kb, true);
+        kb -> builder().setExclusiveGroup(kb, true);
 
     assertThat(updateBuilder.apply(b).build().exclusiveGroupPermissions())
         .containsExactly(b.build(), true);
 
     b.group(REGISTERED_USERS);
     assertThrows(RuntimeException.class, () -> updateBuilder.apply(b).build());
+  }
+
+  @Test
+  public void hasCapabilityUpdates() throws Exception {
+    assertThat(builder().build().hasCapabilityUpdates()).isFalse();
+    assertThat(
+            builder()
+                .add(allow(ABANDON).ref("refs/*").group(REGISTERED_USERS))
+                .add(allowLabel("Code-Review").ref("refs/*").group(REGISTERED_USERS).range(0, 1))
+                .remove(permissionKey(ABANDON).ref("refs/foo"))
+                .remove(labelPermissionKey("Code-Review").ref("refs/foo"))
+                .setExclusiveGroup(permissionKey(ABANDON).ref("refs/bar"), true)
+                .setExclusiveGroup(labelPermissionKey(ABANDON).ref("refs/bar"), true)
+                .build()
+                .hasCapabilityUpdates())
+        .isFalse();
+    assertThat(
+            builder(ALL_PROJECTS_NAME)
+                .add(allowCapability(ADMINISTRATE_SERVER).group(REGISTERED_USERS))
+                .build()
+                .hasCapabilityUpdates())
+        .isTrue();
+    assertThat(
+            builder(ALL_PROJECTS_NAME)
+                .remove(capabilityKey(ADMINISTRATE_SERVER))
+                .build()
+                .hasCapabilityUpdates())
+        .isTrue();
+  }
+
+  @Test
+  public void updatingCapabilitiesNotAllowedForNonAllProjects() throws Exception {
+    assertThrows(
+        RuntimeException.class,
+        () -> builder().add(allowCapability(ADMINISTRATE_SERVER).group(REGISTERED_USERS)).update());
+    assertThrows(
+        RuntimeException.class,
+        () -> builder().remove(capabilityKey(ADMINISTRATE_SERVER)).update());
+  }
+
+  private static TestProjectUpdate.Builder builder() {
+    return builder(Project.nameKey("test-project"));
+  }
+
+  private static TestProjectUpdate.Builder builder(Project.NameKey nameKey) {
+    return TestProjectUpdate.builder(nameKey, ALL_PROJECTS_NAME, u -> {});
   }
 }

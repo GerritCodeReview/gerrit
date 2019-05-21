@@ -32,6 +32,7 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.project.CreateProjectArgs;
@@ -55,6 +56,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
 public class ProjectOperationsImpl implements ProjectOperations {
+  private final AllProjectsName allProjectsName;
   private final GitRepositoryManager repoManager;
   private final MetaDataUpdate.Server metaDataUpdateFactory;
   private final ProjectCache projectCache;
@@ -63,11 +65,13 @@ public class ProjectOperationsImpl implements ProjectOperations {
 
   @Inject
   ProjectOperationsImpl(
+      AllProjectsName allProjectsName,
       GitRepositoryManager repoManager,
       MetaDataUpdate.Server metaDataUpdateFactory,
       ProjectCache projectCache,
       ProjectConfig.Factory projectConfigFactory,
       ProjectCreator projectCreator) {
+    this.allProjectsName = allProjectsName;
     this.repoManager = repoManager;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.projectCache = projectCache;
@@ -119,7 +123,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
 
     @Override
     public TestProjectUpdate.Builder forUpdate() {
-      return TestProjectUpdate.builder(this::updateProject);
+      return TestProjectUpdate.builder(nameKey, allProjectsName, this::updateProject);
     }
 
     private void updateProject(TestProjectUpdate projectUpdate)

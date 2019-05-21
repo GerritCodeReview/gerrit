@@ -784,18 +784,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         return new RegexDirectoryPredicate(directory);
       }
 
-      DirectoryPredicate rootPredicate = new DirectoryPredicate(directory);
-      if (isRootAndRecursive(directory)) {
-        RegexDirectoryPredicate recursivePredicate = new RegexDirectoryPredicate("^.*");
-        return Predicate.or(rootPredicate, recursivePredicate);
+      if (IndexModule.getIndexType(cfg).equals(IndexType.ELASTICSEARCH)
+          && (directory.isEmpty() || directory.equals("/"))) {
+        return Predicate.any();
       }
-      return rootPredicate;
+      return new DirectoryPredicate(directory);
     }
     throw new QueryParseException("'directory' operator is not supported by change index version");
-  }
-
-  private static boolean isRootAndRecursive(String directory) {
-    return directory.isEmpty() || directory.equals("/");
   }
 
   @Operator

@@ -17,7 +17,11 @@ package com.google.gerrit.elasticsearch;
 import com.google.gson.JsonObject;
 
 public class ElasticQueryAdapter {
+
   static final String V6_TYPE = "_doc";
+
+  private static final String INCLUDE_TYPE = "include_type_name=true";
+  private static final String INDICES = "?allow_no_indices=false";
 
   private final boolean ignoreUnmapped;
   private final boolean useV5Type;
@@ -25,7 +29,7 @@ public class ElasticQueryAdapter {
   private final boolean omitType;
 
   private final String searchFilteringName;
-  private final String indicesExistParam;
+  private final String indicesExistParams;
   private final String exactFieldType;
   private final String stringFieldType;
   private final String indexProperty;
@@ -39,11 +43,11 @@ public class ElasticQueryAdapter {
     this.omitType = version.isV7OrLater();
     this.versionDiscoveryUrl = version.isV6OrLater() ? "/%s*" : "/%s*/_aliases";
     this.searchFilteringName = "_source";
-    this.indicesExistParam = "?allow_no_indices=false";
+    this.indicesExistParams = version.isV6() ? INDICES + "&" + INCLUDE_TYPE : INDICES;
     this.exactFieldType = "keyword";
     this.stringFieldType = "text";
     this.indexProperty = "true";
-    this.includeTypeNameParam = version.isV6() ? "?include_type_name=true" : "";
+    this.includeTypeNameParam = version.isV6() ? "?" + INCLUDE_TYPE : "";
   }
 
   void setIgnoreUnmapped(JsonObject properties) {
@@ -62,8 +66,8 @@ public class ElasticQueryAdapter {
     return searchFilteringName;
   }
 
-  String indicesExistParam() {
-    return indicesExistParam;
+  String indicesExistParams() {
+    return indicesExistParams;
   }
 
   String exactFieldType() {

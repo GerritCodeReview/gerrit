@@ -15,19 +15,21 @@
 package com.google.gerrit.acceptance.testsuite.project;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.common.data.AccessSection.GLOBAL_CAPABILITIES;
 import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.testsuite.ThrowingConsumer;
-import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.config.AllProjectsName;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Constants;
 
@@ -243,7 +245,7 @@ public abstract class TestProjectUpdate {
 
   /** Starts a builder for describing a capability key for deletion. */
   public static TestPermissionKey.Builder capabilityKey(String name) {
-    return TestPermissionKey.builder().name(name).section(AccessSection.GLOBAL_CAPABILITIES);
+    return TestPermissionKey.builder().name(name).section(GLOBAL_CAPABILITIES);
   }
 
   /** Records the key of a permission (of any type) for deletion. */
@@ -270,7 +272,7 @@ public abstract class TestProjectUpdate {
         requireNonNull(ref);
         checkArgument(ref.startsWith(Constants.R_REFS), "must be a ref: %s", ref);
         checkArgument(
-            !section().isPresent() || !section().get().equals(AccessSection.GLOBAL_CAPABILITIES),
+            !section().isPresent() || !section().get().equals(GLOBAL_CAPABILITIES),
             "can't set ref on global capability");
         return section(ref);
       }
@@ -285,13 +287,23 @@ public abstract class TestProjectUpdate {
     }
   }
 
-  static Builder builder(ThrowingConsumer<TestProjectUpdate> projectUpdater) {
-    return new AutoValue_TestProjectUpdate.Builder().projectUpdater(projectUpdater);
+  static Builder builder(
+      Project.NameKey nameKey,
+      AllProjectsName allProjectsName,
+      ThrowingConsumer<TestProjectUpdate> projectUpdater) {
+    return new AutoValue_TestProjectUpdate.Builder()
+        .nameKey(nameKey)
+        .allProjectsName(allProjectsName)
+        .projectUpdater(projectUpdater);
   }
 
   /** Builder for {@link TestProjectUpdate}. */
   @AutoValue.Builder
   public abstract static class Builder {
+    abstract Builder nameKey(Project.NameKey project);
+
+    abstract Builder allProjectsName(AllProjectsName allProjects);
+
     abstract ImmutableList.Builder<TestPermission> addedPermissionsBuilder();
 
     abstract ImmutableList.Builder<TestLabelPermission> addedLabelPermissionsBuilder();
@@ -359,7 +371,7 @@ public abstract class TestProjectUpdate {
           "do not specify group for setExclusiveGroup: %s",
           testPermissionKey);
       checkArgument(
-          !testPermissionKey.section().equals(AccessSection.GLOBAL_CAPABILITIES),
+          !testPermissionKey.section().equals(GLOBAL_CAPABILITIES),
           "setExclusiveGroup not valid for global capabilities: %s",
           testPermissionKey);
       exclusiveGroupPermissionsBuilder().put(testPermissionKey, exclusive);
@@ -368,7 +380,20 @@ public abstract class TestProjectUpdate {
 
     abstract Builder projectUpdater(ThrowingConsumer<TestProjectUpdate> projectUpdater);
 
-    abstract TestProjectUpdate build();
+    abstract TestProjectUpdate autoBuild();
+
+    TestProjectUpdate build() {
+      TestProjectUpdate projectUpdate = autoBuild();
+      if (projectUpdate.hasCapabilityUpdates()) {
+        checkArgument(
+            projectUpdate.nameKey().equals(projectUpdate.allProjectsName()),
+            "cannot update global capabilities on %s, only %s: %s",
+            projectUpdate.nameKey(),
+            projectUpdate.allProjectsName(),
+            projectUpdate);
+      }
+      return projectUpdate;
+    }
 
     /** Executes the update, updating the underlying project. */
     public void update() {
@@ -376,6 +401,10 @@ public abstract class TestProjectUpdate {
       projectUpdate.projectUpdater().acceptAndThrowSilently(projectUpdate);
     }
   }
+
+  abstract Project.NameKey nameKey();
+
+  abstract AllProjectsName allProjectsName();
 
   abstract ImmutableList<TestPermission> addedPermissions();
 
@@ -388,6 +417,11 @@ public abstract class TestProjectUpdate {
   abstract ImmutableMap<TestPermissionKey, Boolean> exclusiveGroupPermissions();
 
   abstract ThrowingConsumer<TestProjectUpdate> projectUpdater();
+
+  boolean hasCapabilityUpdates() {
+    return !addedCapabilities().isEmpty()
+        || removedPermissions().stream().anyMatch(k -> k.section().equals(GLOBAL_CAPABILITIES));
+  }
 
   private static void checkLabelName(String name) {
     // "label-Code-Review" is technically a valid label name, and we don't prevent users from

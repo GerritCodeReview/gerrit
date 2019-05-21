@@ -1969,9 +1969,12 @@ public class AccountIT extends AbstractDaemonTest {
     addGpgKey(key.getPublicKeyArmored());
     assertKeys(key);
 
+    sender.clear();
     gApi.accounts().self().gpgKey(id).delete();
     accountIndexedCounter.assertReindexOf(admin);
     assertKeys();
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).body()).contains("GPG keys have been deleted");
 
     exception.expect(ResourceNotFoundException.class);
     exception.expectMessage(id);
@@ -2072,12 +2075,16 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(sender.getMessages().get(0).body()).contains("new SSH keys have been added");
 
     // Delete second key
+    sender.clear();
     gApi.accounts().self().deleteSshKey(2);
     info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(2);
     assertThat(info.get(0).seq).isEqualTo(1);
     assertThat(info.get(1).seq).isEqualTo(3);
     accountIndexedCounter.assertReindexOf(admin);
+
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).body()).contains("SSH keys have been deleted");
 
     // Mark first key as invalid
     assertThat(info.get(0).valid).isTrue();
@@ -2741,15 +2748,21 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void userCanGenerateNewHttpPassword() throws Exception {
+    sender.clear();
     String newPassword = gApi.accounts().self().generateHttpPassword();
     assertThat(newPassword).isNotNull();
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).body()).contains("HTTP password was added or updated");
   }
 
   @Test
   public void adminCanGenerateNewHttpPasswordForUser() throws Exception {
     requestScopeOperations.setApiUser(admin.id());
+    sender.clear();
     String newPassword = gApi.accounts().id(user.username()).generateHttpPassword();
     assertThat(newPassword).isNotNull();
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).body()).contains("HTTP password was added or updated");
   }
 
   @Test
@@ -2776,7 +2789,10 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void userCanRemoveHttpPassword() throws Exception {
     requestScopeOperations.setApiUser(user.id());
+    sender.clear();
     assertThat(gApi.accounts().self().setHttpPassword(null)).isNull();
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).body()).contains("HTTP password was deleted");
   }
 
   @Test
@@ -2790,14 +2806,20 @@ public class AccountIT extends AbstractDaemonTest {
   public void adminCanExplicitlySetHttpPasswordForUser() throws Exception {
     requestScopeOperations.setApiUser(admin.id());
     String httpPassword = "new-password-for-user";
+    sender.clear();
     assertThat(gApi.accounts().id(user.username()).setHttpPassword(httpPassword))
         .isEqualTo(httpPassword);
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).body()).contains("HTTP password was added or updated");
   }
 
   @Test
   public void adminCanRemoveHttpPasswordForUser() throws Exception {
     requestScopeOperations.setApiUser(admin.id());
+    sender.clear();
     assertThat(gApi.accounts().id(user.username()).setHttpPassword(null)).isNull();
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).body()).contains("HTTP password was deleted");
   }
 
   @Test

@@ -544,7 +544,7 @@ wrapper script. For an example, see the use of `crisper` in `tools/bzl/js.bzl`.
 
 
 [[RBE]]
-==== Google Remote Build Support
+== Google Remote Build Support
 
 The Bazel build can be used with Google's Remote Build Execution.
 

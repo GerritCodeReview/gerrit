@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "78f322c7_0e8d8d0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-21T07:43:26Z",
+      "side": 1,
+      "message": "Is the intention that the LFS plugin will also enforce the same /repository:size quota group?  Or do we intend to use a separate quota for that?",
+      "revId": "562732f3549594112330bef9b70ea8bb7b1fc78e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "85a9d4e9_8babb5d3",
         "filename": "javatests/com/google/gerrit/acceptance/server/quota/RepositorySizeQuotaIT.java",
         "patchSetId": 2
@@ -18,6 +35,29 @@
         "startChar": 1,
         "endLine": 90,
         "endChar": 3
+      },
+      "revId": "562732f3549594112330bef9b70ea8bb7b1fc78e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ea841c0_f95af2cd",
+        "filename": "javatests/com/google/gerrit/acceptance/server/quota/RepositorySizeQuotaIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-21T07:43:26Z",
+      "side": 1,
+      "message": "Can we use assertThrows here?\n\n(or was that only introduced on master?)",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 109,
+        "endChar": 5
       },
       "revId": "562732f3549594112330bef9b70ea8bb7b1fc78e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

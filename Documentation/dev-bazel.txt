@@ -397,7 +397,7 @@ necessary.
 
 
 [[RBE]]
-==== Google Remote Build Support
+== Google Remote Build Support
 
 The Bazel build can be used with Google's Remote Build Execution.
 

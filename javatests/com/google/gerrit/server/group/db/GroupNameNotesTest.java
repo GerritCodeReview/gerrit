@@ -15,7 +15,6 @@
 package com.google.gerrit.server.group.db;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.common.data.testing.GroupReferenceSubject.groupReferences;
 import static com.google.gerrit.extensions.common.testing.CommitInfoSubject.assertThat;
 import static com.google.gerrit.extensions.common.testing.CommitInfoSubject.commits;
@@ -578,12 +577,13 @@ public class GroupNameNotesTest {
     try (ObjectInserter inserter = repo.newObjectInserter()) {
       BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
       PersonIdent ident = newPersonIdent();
-      try {
-        GroupNameNotes.updateAllGroups(repo, inserter, bru, Arrays.asList(groupRefs), ident);
-        assert_().fail("Expected IllegalArgumentException");
-      } catch (IllegalArgumentException e) {
-        assertThat(e).hasMessageThat().isEqualTo(GroupNameNotes.UNIQUE_REF_ERROR);
-      }
+      IllegalArgumentException thrown =
+          assertThrows(
+              IllegalArgumentException.class,
+              () ->
+                  GroupNameNotes.updateAllGroups(
+                      repo, inserter, bru, Arrays.asList(groupRefs), ident));
+      assertThat(thrown).hasMessageThat().isEqualTo(GroupNameNotes.UNIQUE_REF_ERROR);
     }
   }
 

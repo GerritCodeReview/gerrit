@@ -76,12 +76,8 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
     DeleteBranchesInput input = new DeleteBranchesInput();
     input.branches = branchToDelete;
     requestScopeOperations.setApiUser(user.id());
-    try {
-      project().deleteBranches(input);
-      fail("Expected AuthException");
-    } catch (AuthException e) {
-      assertThat(e).hasMessageThat().isEqualTo("not permitted: delete on refs/heads/test-1");
-    }
+    AuthException thrown = assertThrows(AuthException.class, () -> project().deleteBranches(input));
+    assertThat(thrown).hasMessageThat().isEqualTo("not permitted: delete on refs/heads/test-1");
     requestScopeOperations.setApiUser(admin.id());
     assertBranches(BRANCHES);
   }
@@ -91,12 +87,9 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
     DeleteBranchesInput input = new DeleteBranchesInput();
     input.branches = BRANCHES;
     requestScopeOperations.setApiUser(user.id());
-    try {
-      project().deleteBranches(input);
-      fail("Expected ResourceConflictException");
-    } catch (ResourceConflictException e) {
-      assertThat(e).hasMessageThat().isEqualTo(errorMessageForBranches(BRANCHES));
-    }
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> project().deleteBranches(input));
+    assertThat(thrown).hasMessageThat().isEqualTo(errorMessageForBranches(BRANCHES));
     requestScopeOperations.setApiUser(admin.id());
     assertBranches(BRANCHES);
   }
@@ -107,14 +100,11 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
     List<String> branches = Lists.newArrayList(BRANCHES);
     branches.add("refs/heads/does-not-exist");
     input.branches = branches;
-    try {
-      project().deleteBranches(input);
-      fail("Expected ResourceConflictException");
-    } catch (ResourceConflictException e) {
-      assertThat(e)
-          .hasMessageThat()
-          .isEqualTo(errorMessageForBranches(ImmutableList.of("refs/heads/does-not-exist")));
-    }
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> project().deleteBranches(input));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(errorMessageForBranches(ImmutableList.of("refs/heads/does-not-exist")));
     assertBranchesDeleted(BRANCHES);
   }
 
@@ -126,14 +116,11 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
     List<String> branches = Lists.newArrayList("refs/heads/does-not-exist");
     branches.addAll(BRANCHES);
     input.branches = branches;
-    try {
-      project().deleteBranches(input);
-      fail("Expected ResourceConflictException");
-    } catch (ResourceConflictException e) {
-      assertThat(e)
-          .hasMessageThat()
-          .isEqualTo(errorMessageForBranches(ImmutableList.of("refs/heads/does-not-exist")));
-    }
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> project().deleteBranches(input));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(errorMessageForBranches(ImmutableList.of("refs/heads/does-not-exist")));
     assertBranchesDeleted(BRANCHES);
   }
 

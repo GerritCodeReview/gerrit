@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1707ff0c_f40f4408",
+        "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T09:45:22Z",
+      "side": 1,
+      "message": "Should this be projectConfigFactory?",
+      "range": {
+        "startLine": 215,
+        "startChar": 31,
+        "endLine": 215,
+        "endChar": 80
+      },
+      "revId": "07dc4b29cbc8a2b497d902bb8b6197520122c555",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05da13da_67803302",
+        "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T09:45:22Z",
+      "side": 1,
+      "message": "In the old code this permission was set on the child project.",
+      "range": {
+        "startLine": 758,
+        "startChar": 8,
+        "endLine": 758,
+        "endChar": 62
+      },
+      "revId": "07dc4b29cbc8a2b497d902bb8b6197520122c555",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f768768e_10a9f4de",
+        "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T09:45:22Z",
+      "side": 1,
+      "message": "In the old code the exclusive flag was set in the parent project.",
+      "range": {
+        "startLine": 805,
+        "startChar": 8,
+        "endLine": 805,
+        "endChar": 78
+      },
+      "revId": "07dc4b29cbc8a2b497d902bb8b6197520122c555",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b257591_be4dcd8b",
+        "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T09:45:22Z",
+      "side": 1,
+      "message": "can be a single update",
+      "range": {
+        "startLine": 850,
+        "startChar": 4,
+        "endLine": 860,
+        "endChar": 18
+      },
+      "revId": "07dc4b29cbc8a2b497d902bb8b6197520122c555",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42f333a1_988a785e",
+        "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T09:45:22Z",
+      "side": 1,
+      "message": "can be a single update",
+      "range": {
+        "startLine": 869,
+        "startChar": 3,
+        "endLine": 880,
+        "endChar": 18
+      },
+      "revId": "07dc4b29cbc8a2b497d902bb8b6197520122c555",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

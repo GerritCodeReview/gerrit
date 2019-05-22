@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8213dd79_a9a2819a",
+        "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T09:45:22Z",
+      "side": 0,
+      "message": "Why was this dropped?",
+      "range": {
+        "startLine": 435,
+        "startChar": 4,
+        "endLine": 435,
+        "endChar": 45
+      },
+      "revId": "c9a4b02148dce8dcbe93a5ab3564a86f30b9ad5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca0ea62f_f6e6789c",
+        "filename": "javatests/com/google/gerrit/server/permissions/RefControlTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T09:45:22Z",
+      "side": 0,
+      "message": "Setting this force flag is missing in the new code.",
+      "range": {
+        "startLine": 640,
+        "startChar": 3,
+        "endLine": 640,
+        "endChar": 21
+      },
+      "revId": "c9a4b02148dce8dcbe93a5ab3564a86f30b9ad5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

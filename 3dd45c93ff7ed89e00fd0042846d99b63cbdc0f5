@@ -55,6 +55,23 @@
     },
     {
       "key": {
+        "uuid": "6944240b_565721cc",
+        "filename": "java/com/google/gerrit/server/change/AccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-22T07:27:00Z",
+      "side": 1,
+      "message": "I wonder if this should have a default empty implementation.  Otherwise any other implementations of the interface will fail to build with the new API.\n\nOr should it be mandatory for implementations to also implement this?",
+      "revId": "3dd45c93ff7ed89e00fd0042846d99b63cbdc0f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9ed01ddd_32ef7830",
         "filename": "java/com/google/gerrit/server/change/DeleteChangeOp.java",
         "patchSetId": 1

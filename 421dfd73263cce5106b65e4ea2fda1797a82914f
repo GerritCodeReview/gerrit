@@ -39,6 +39,24 @@
       "revId": "421dfd73263cce5106b65e4ea2fda1797a82914f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46f90a3e_1b6765fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-05-22T09:46:42Z",
+      "side": 1,
+      "message": "now we also show how much time these steps take",
+      "parentUuid": "9cc9602b_3f20e6a2",
+      "revId": "421dfd73263cce5106b65e4ea2fda1797a82914f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

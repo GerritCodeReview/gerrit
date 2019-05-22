@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "367679eb_605428d7",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1445,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T11:52:20Z",
+      "side": 1,
+      "message": "Is this needed? If yes, should the toString() method take care about this? (can be done as follow-up).",
+      "range": {
+        "startLine": 1445,
+        "startChar": 35,
+        "endLine": 1445,
+        "endChar": 42
+      },
+      "revId": "41435d676f45b14008157e9c98ed2754b255fb7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

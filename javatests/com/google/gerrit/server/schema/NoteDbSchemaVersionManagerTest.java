@@ -15,8 +15,8 @@
 package com.google.gerrit.server.schema;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_VERSION;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -54,14 +54,10 @@ public class NoteDbSchemaVersionManagerTest {
   public void readInvalid() throws Exception {
     ObjectId blobId = tr.blob(" 1 2 3 ");
     tr.update(REFS_VERSION, blobId);
-    try {
-      manager.read();
-      assert_().fail("expected StorageException");
-    } catch (StorageException e) {
-      assertThat(e)
-          .hasMessageThat()
-          .isEqualTo("invalid value in refs/meta/version blob at " + blobId.name());
-    }
+    StorageException thrown = assertThrows(StorageException.class, () -> manager.read());
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("invalid value in refs/meta/version blob at " + blobId.name());
   }
 
   @Test
@@ -80,13 +76,9 @@ public class NoteDbSchemaVersionManagerTest {
   @Test
   public void incrementWrongOldVersion() throws Exception {
     tr.update(REFS_VERSION, tr.blob("123"));
-    try {
-      manager.increment(456);
-      assert_().fail("expected StorageException");
-    } catch (StorageException e) {
-      assertThat(e)
-          .hasMessageThat()
-          .isEqualTo("Expected old version 456 for refs/meta/version, found 123");
-    }
+    StorageException thrown = assertThrows(StorageException.class, () -> manager.increment(456));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("Expected old version 456 for refs/meta/version, found 123");
   }
 }

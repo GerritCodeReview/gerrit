@@ -258,24 +258,22 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void fetchExternalIdsBranch() throws Exception {
-    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers, user);
+    final TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers, user);
 
     // refs/meta/external-ids is only visible to users with the 'Access Database' capability
-    try {
-      fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS);
-      fail("expected TransportException");
-    } catch (TransportException e) {
-      assertThat(e.getMessage())
-          .isEqualTo(
-              "Remote does not have " + RefNames.REFS_EXTERNAL_IDS + " available for fetch.");
-    }
+    TransportException thrown =
+        assertThrows(
+            TransportException.class, () -> fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("Remote does not have " + RefNames.REFS_EXTERNAL_IDS + " available for fetch.");
 
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
 
     // re-clone to get new request context, otherwise the old global capabilities are still cached
     // in the IdentifiedUser object
-    allUsersRepo = cloneProject(allUsers, user);
-    fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS);
+    TestRepository<InMemoryRepository> allUsersRepo2 = cloneProject(allUsers, user);
+    fetch(allUsersRepo2, RefNames.REFS_EXTERNAL_IDS);
   }
 
   @Test

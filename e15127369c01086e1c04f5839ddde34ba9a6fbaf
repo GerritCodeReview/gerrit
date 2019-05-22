@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "20aefcde_ef30bf9f",
+        "filename": "java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T11:57:59Z",
+      "side": 1,
+      "message": "According to [1] the static methods should come before the instance types, instance members and constructors.\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#code-organization",
+      "revId": "e15127369c01086e1c04f5839ddde34ba9a6fbaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

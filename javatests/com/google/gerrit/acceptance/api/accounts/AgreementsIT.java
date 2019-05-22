@@ -315,12 +315,9 @@ public class AgreementsIT extends AbstractDaemonTest {
 
     // Create a change is not allowed when CLA is required but not signed
     setUseContributorAgreements(InheritableBoolean.TRUE);
-    try {
-      gApi.changes().create(newChangeInput());
-      fail("Expected AuthException");
-    } catch (AuthException e) {
-      assertThat(e.getMessage()).contains("Contributor Agreement");
-    }
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> gApi.changes().create(newChangeInput()));
+    assertThat(thrown).hasMessageThat().contains("Contributor Agreement");
 
     // Sign the agreement
     gApi.accounts().self().signAgreement(caAutoVerify.getName());

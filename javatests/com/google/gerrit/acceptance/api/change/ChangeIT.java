@@ -1494,12 +1494,8 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // check the user cannot see the change
     requestScopeOperations.setApiUser(user.id());
-    try {
-      gApi.changes().id(result.getChangeId()).get();
-      fail("Expected ResourceNotFoundException");
-    } catch (ResourceNotFoundException e) {
-      // Expected.
-    }
+    assertThrows(
+        ResourceNotFoundException.class, () -> gApi.changes().id(result.getChangeId()).get());
 
     // check that the author/committer was NOT added as reviewer (he can't see
     // the change)
@@ -1571,12 +1567,8 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // check that 'user' cannot see the change
     requestScopeOperations.setApiUser(user.id());
-    try {
-      gApi.changes().id(result.getChangeId()).get();
-      fail("Expected ResourceNotFoundException");
-    } catch (ResourceNotFoundException e) {
-      // Expected.
-    }
+    assertThrows(
+        ResourceNotFoundException.class, () -> gApi.changes().id(result.getChangeId()).get());
 
     // check that 'user' was NOT added as cc ('user' can't see the change)
     requestScopeOperations.setApiUser(admin.id());
@@ -1604,12 +1596,8 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // check the user cannot see the change
     requestScopeOperations.setApiUser(user.id());
-    try {
-      gApi.changes().id(result.getChangeId()).get();
-      fail("Expected ResourceNotFoundException");
-    } catch (ResourceNotFoundException e) {
-      // Expected.
-    }
+    assertThrows(
+        ResourceNotFoundException.class, () -> gApi.changes().id(result.getChangeId()).get());
 
     // try to add user as reviewer
     requestScopeOperations.setApiUser(admin.id());

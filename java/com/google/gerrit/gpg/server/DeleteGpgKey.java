@@ -17,7 +17,10 @@ package com.google.gerrit.gpg.server;
 import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GPGKEY;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
+import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -30,6 +33,7 @@ import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.mail.send.DeleteKeySender;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -42,22 +46,26 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 
 public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Provider<PersonIdent> serverIdent;
   private final Provider<PublicKeyStore> storeProvider;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final ExternalIds externalIds;
+  private final DeleteKeySender.Factory deleteKeySenderFactory;
 
   @Inject
   DeleteGpgKey(
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
       Provider<PublicKeyStore> storeProvider,
       @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
-      ExternalIds externalIds) {
+      ExternalIds externalIds,
+      DeleteKeySender.Factory deleteKeySenderFactory) {
     this.serverIdent = serverIdent;
     this.storeProvider = storeProvider;
     this.accountsUpdateProvider = accountsUpdateProvider;
     this.externalIds = externalIds;
+    this.deleteKeySenderFactory = deleteKeySenderFactory;
   }
 
   @Override
@@ -90,6 +98,15 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
       switch (saveResult) {
         case NO_CHANGE:
         case FAST_FORWARD:
+          try {
+            deleteKeySenderFactory
+                .create(rsrc.getUser(), ImmutableList.of(PublicKeyStore.keyToString(key)))
+                .send();
+          } catch (EmailException e) {
+            logger.atSevere().withCause(e).log(
+                "Cannot send GPG key deletion message to %s",
+                rsrc.getUser().getAccount().getPreferredEmail());
+          }
           break;
         case FORCED:
         case IO_FAILURE:

@@ -1,8 +1,8 @@
 = Gerrit Code Review - NoteDb Backend
 
 NoteDb is the next generation of Gerrit storage backend, which replaces the
-traditional SQL backend for change and account metadata with storing data in the
-same repository as code changes.
+traditional SQL backend for change, account and group metadata with storing
+data in the same repository as code changes.
 
 .Advantages
 - *Simplicity*: All data is stored in one location in the site directory, rather
@@ -32,24 +32,21 @@ same repository as code changes.
   2.15 release. Account data is migrated automatically during the upgrade
   process by running `gerrit.war init`.
 - Storing link:config-groups.html[group metadata] is fully implemented
-  for the 2.16 release. Group data is migrated automatically during
+  in the 2.16 release. Group data is migrated automatically during
   the upgrade process by running `gerrit.war init`
 - Account, group and change metadata on the servers behind `googlesource.com` is fully
   migrated to NoteDb. In other words, if you use
   link:https://gerrit-review.googlesource.com/[gerrit-review], you're already
   using NoteDb.
+- NoteDb is the only database format supported by Gerrit 3.0. The offline
+  change data migration tool is included in Gerrit 3.0, but online
+  migration is only available in the 2.x line.
 
 For an example NoteDb change, poke around at this one:
 ----
   git fetch https://gerrit.googlesource.com/gerrit refs/changes/70/98070/meta \
       && git log -p FETCH_HEAD
 ----
-
-== Future Work ("Gerrit 3.0")
-
-- NoteDb will be the only database format supported by Gerrit 3.0. The offline
-  change data migration tool will be included in Gerrit 3.0, but online
-  migration will only be available in the 2.x line.
 
 [[migration]]
 == Migration
@@ -63,6 +60,9 @@ and group data is migrated automatically by `gerrit.war init`.
 
 [[online-migration]]
 === Online
+
+Note that online migration is only available in 2.x. To do the online migration
+from 2.14.x or 2.15.x to 3.0, it is necessary to first upgrade to 2.16.x.
 
 To start the online migration, set the `noteDb.changes.autoMigrate` option in
 `gerrit.config` and restart Gerrit:
@@ -87,7 +87,7 @@ off. Migration progress will be reported to the Gerrit logs.
 
 *Disadvantages*
 
-* Only available in 2.x; will not be available in Gerrit 3.0.
+* Only available in 2.x; not available in Gerrit 3.0.
 * Much slower than offline; uses only a single thread, to leave resources
   available for serving traffic.
 * Performance may be degraded, particularly of updates; data needs to be written

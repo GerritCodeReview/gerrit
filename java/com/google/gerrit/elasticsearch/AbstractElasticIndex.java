@@ -224,10 +224,15 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   }
 
   protected String getMappingsFor(String type, MappingProperties properties) {
-    JsonObject mappingType = new JsonObject();
-    mappingType.add(type, gson.toJsonTree(properties));
     JsonObject mappings = new JsonObject();
-    mappings.add(MAPPINGS, gson.toJsonTree(mappingType));
+
+    if (client.adapter().omitType()) {
+      mappings.add(MAPPINGS, gson.toJsonTree(properties));
+    } else {
+      JsonObject mappingType = new JsonObject();
+      mappingType.add(type, gson.toJsonTree(properties));
+      mappings.add(MAPPINGS, gson.toJsonTree(mappingType));
+    }
     return gson.toJson(mappings);
   }
 
@@ -310,11 +315,12 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected String getURI(String type, String request) {
     try {
       String encodedIndexName = URLEncoder.encode(indexName, UTF_8.toString());
-      if (SEARCH.equals(request) && client.adapter().omitTypeFromSearch()) {
+      if (SEARCH.equals(request) && client.adapter().omitType()) {
         return encodedIndexName + "/" + request;
       }
-      String encodedType = URLEncoder.encode(type, UTF_8.toString());
-      return encodedIndexName + "/" + encodedType + "/" + request;
+      String encodedTypeIfAny =
+          client.adapter().omitType() ? "" : "/" + URLEncoder.encode(type, UTF_8.toString());
+      return encodedIndexName + encodedTypeIfAny + "/" + request;
     } catch (UnsupportedEncodingException e) {
       throw new StorageException(e);
     }

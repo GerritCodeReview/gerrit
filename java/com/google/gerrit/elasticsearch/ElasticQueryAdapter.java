@@ -17,11 +17,12 @@ package com.google.gerrit.elasticsearch;
 import com.google.gson.JsonObject;
 
 public class ElasticQueryAdapter {
-  static final String POST_V5_TYPE = "_doc";
+  static final String V6_TYPE = "_doc";
 
   private final boolean ignoreUnmapped;
-  private final boolean usePostV5Type;
-  private final boolean omitTypeFromSearch;
+  private final boolean useV5Type;
+  private final boolean useV6Type;
+  private final boolean omitType;
 
   private final String searchFilteringName;
   private final String indicesExistParam;
@@ -34,8 +35,9 @@ public class ElasticQueryAdapter {
 
   ElasticQueryAdapter(ElasticVersion version) {
     this.ignoreUnmapped = false;
-    this.usePostV5Type = version.isV6OrLater();
-    this.omitTypeFromSearch = version.isV7OrLater();
+    this.useV5Type = !version.isV6OrLater();
+    this.useV6Type = version.isV6();
+    this.omitType = version.isV7OrLater();
     this.versionDiscoveryUrl = version.isV6OrLater() ? "/%s*" : "/%s*/_aliases";
     this.searchFilteringName = "_source";
     this.indicesExistParam = "?allow_no_indices=false";
@@ -43,7 +45,7 @@ public class ElasticQueryAdapter {
     this.stringFieldType = "text";
     this.indexProperty = "true";
     this.rawFieldsKey = "_source";
-    this.includeTypeNameParam = version.isV7OrLater() ? "?include_type_name=true" : "";
+    this.includeTypeNameParam = version.isV6() ? "?include_type_name=true" : "";
   }
 
   void setIgnoreUnmapped(JsonObject properties) {
@@ -53,7 +55,7 @@ public class ElasticQueryAdapter {
   }
 
   public void setType(JsonObject properties, String type) {
-    if (!usePostV5Type) {
+    if (useV5Type) {
       properties.addProperty("_type", type);
     }
   }
@@ -82,16 +84,31 @@ public class ElasticQueryAdapter {
     return rawFieldsKey;
   }
 
-  boolean usePostV5Type() {
-    return usePostV5Type;
+  boolean deleteToReplace() {
+    return useV5Type;
   }
 
-  boolean omitTypeFromSearch() {
-    return omitTypeFromSearch;
+  boolean useV5Type() {
+    return useV5Type;
+  }
+
+  boolean useV6Type() {
+    return useV6Type;
+  }
+
+  boolean omitType() {
+    return omitType;
+  }
+
+  String getType() {
+    return getType("");
   }
 
   String getType(String type) {
-    return usePostV5Type() ? POST_V5_TYPE : type;
+    if (useV6Type()) {
+      return V6_TYPE;
+    }
+    return useV5Type() ? type : "";
   }
 
   String getVersionDiscoveryUrl(String name) {

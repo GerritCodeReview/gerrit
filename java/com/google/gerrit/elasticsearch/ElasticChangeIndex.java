@@ -122,7 +122,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     BulkRequest bulk =
         new IndexRequest(getId(cd), indexName, adapter.getType(insertIndex), adapter)
             .add(new UpdateRequest<>(schema, cd));
-    if (!adapter.usePostV5Type()) {
+    if (adapter.deleteToReplace()) {
       bulk.add(new DeleteRequest(cd.getId().toString(), indexName, deleteIndex, adapter));
     }
 
@@ -141,17 +141,19 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       throws QueryParseException {
     Set<Change.Status> statuses = ChangeIndexRewriter.getPossibleStatus(p);
     List<String> indexes = Lists.newArrayListWithCapacity(2);
-    if (client.adapter().usePostV5Type()) {
-      if (!Sets.intersection(statuses, OPEN_STATUSES).isEmpty()
-          || !Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
-        indexes.add(ElasticQueryAdapter.POST_V5_TYPE);
-      }
-    } else {
-      if (!Sets.intersection(statuses, OPEN_STATUSES).isEmpty()) {
-        indexes.add(OPEN_CHANGES);
-      }
-      if (!Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
-        indexes.add(CLOSED_CHANGES);
+    if (!client.adapter().omitType()) {
+      if (client.adapter().useV6Type()) {
+        if (!Sets.intersection(statuses, OPEN_STATUSES).isEmpty()
+            || !Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
+          indexes.add(ElasticQueryAdapter.V6_TYPE);
+        }
+      } else {
+        if (!Sets.intersection(statuses, OPEN_STATUSES).isEmpty()) {
+          indexes.add(OPEN_CHANGES);
+        }
+        if (!Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
+          indexes.add(CLOSED_CHANGES);
+        }
       }
     }
 
@@ -176,16 +178,16 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
   @Override
   protected String getDeleteActions(Change.Id c) {
-    if (client.adapter().usePostV5Type()) {
-      return delete(ElasticQueryAdapter.POST_V5_TYPE, c);
+    if (!client.adapter().useV5Type()) {
+      return delete(client.adapter().getType(), c);
     }
     return delete(OPEN_CHANGES, c) + delete(CLOSED_CHANGES, c);
   }
 
   @Override
   protected String getMappings() {
-    if (client.adapter().usePostV5Type()) {
-      return getMappingsFor(ElasticQueryAdapter.POST_V5_TYPE, mapping.changes);
+    if (!client.adapter().useV5Type()) {
+      return getMappingsFor(client.adapter().getType(), mapping.changes);
     }
     return gson.toJson(ImmutableMap.of(MAPPINGS, mapping));
   }

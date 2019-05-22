@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
@@ -242,13 +243,15 @@ public class CheckAccessIT extends AbstractDaemonTest {
       try {
         info = gApi.projects().name(tc.project).checkAccess(tc.input);
       } catch (RestApiException e) {
-        fail(String.format("check.access(%s, %s): exception %s", tc.project, in, e));
+        assert_().fail(String.format("check.access(%s, %s): exception %s", tc.project, in, e));
       }
 
       int want = tc.want;
       if (want != info.status) {
-        fail(
-            String.format("check.access(%s, %s) = %d, want %d", tc.project, in, info.status, want));
+        assert_()
+            .fail(
+                String.format(
+                    "check.access(%s, %s) = %d, want %d", tc.project, in, info.status, want));
       }
 
       switch (want) {
@@ -264,7 +267,7 @@ public class CheckAccessIT extends AbstractDaemonTest {
           assertThat(info.message).isNull();
           break;
         default:
-          fail(String.format("unknown code %d", want));
+          assert_().fail(String.format("unknown code %d", want));
       }
     }
   }

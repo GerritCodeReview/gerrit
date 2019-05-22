@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.ssh;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 
 import com.google.common.base.Splitter;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -117,7 +118,7 @@ public class UploadArchiveIT extends AbstractDaemonTest {
       // that is currently not public.
       char channel = packet.charAt(0);
       if (channel != 1) {
-        fail("got packet on channel " + (int) channel, packet);
+        assert_().fail("got packet on channel " + (int) channel, packet);
       }
     }
   }

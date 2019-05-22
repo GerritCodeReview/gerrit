@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.extensions.client.ChangeKind.MERGE_FIRST_PARENT_UPDATE;
 import static com.google.gerrit.extensions.client.ChangeKind.NO_CHANGE;
 import static com.google.gerrit.extensions.client.ChangeKind.NO_CODE_CHANGE;
@@ -414,7 +415,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
         noChange(changeId);
         return;
       default:
-        fail("unexpected change kind: " + changeKind);
+        assert_().fail("unexpected change kind: " + changeKind);
     }
   }
 
@@ -523,7 +524,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       case NO_CHANGE:
       case MERGE_FIRST_PARENT_UPDATE:
       default:
-        fail("unexpected change kind: " + changeKind);
+        assert_().fail("unexpected change kind: " + changeKind);
     }
 
     testRepo.reset(getRemoteHead());

@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.group;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -245,7 +246,7 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
       }
     }
 
-    fail(String.format("could not find %s substring '%s' in %s", want, msg, problems));
+    assert_().fail(String.format("could not find %s substring '%s' in %s", want, msg, problems));
   }
 
   private void updateGroupFile(String refName, String fileName, String content) throws Exception {

@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.rest.change;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
@@ -260,7 +261,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
           break;
         case CHERRY_PICK:
         default:
-          fail("Should not reach here.");
+          assert_().fail("Should not reach here.");
           break;
       }
 

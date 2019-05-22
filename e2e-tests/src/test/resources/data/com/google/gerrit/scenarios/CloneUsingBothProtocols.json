@@ -1,0 +1,10 @@
+[
+  {
+    "url": "ssh://admin@localhost:29418/loadtest-repo",
+    "cmd": "clone"
+  },
+  {
+    "url": "http://localhost:8080/loadtest-repo",
+    "cmd": "clone"
+  }
+]

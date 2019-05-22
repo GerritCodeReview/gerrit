@@ -15,8 +15,8 @@
 package com.google.gerrit.json;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.json.JavaSqlTimestampHelper.parseTimestamp;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
@@ -73,12 +73,7 @@ public class JavaSqlTimestampHelperTest {
   }
 
   private static void assertInvalid(String input) {
-    try {
-      parseTimestamp(input);
-      assert_().fail("Expected IllegalArgumentException for: " + input);
-    } catch (IllegalArgumentException e) {
-      // Expected;
-    }
+    assertThrows(IllegalArgumentException.class, () -> parseTimestamp(input));
   }
 
   private String reformat(String input) {

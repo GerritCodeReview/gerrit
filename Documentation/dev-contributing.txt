@@ -17,10 +17,10 @@ link:https://gerrit-review.googlesource.com/#/settings/agreements[Agreements]
 tab on the settings page
 * Click 'New Contributor Agreement' and follow the instructions
 
-For reference, the actual agreements are linked below
+For reference, the actual agreements are linked below:
 
-* link:https://cla.developers.google.com/about/android-individual[Individual Agreement]
-* link:https://source.android.com/source/cla-corporate.pdf[Corporate Agreement]
+* link:https://cla.developers.google.com/about/google-individual[Individual Agreement]
+* link:https://cla.developers.google.com/about/google-corporate[Corporate Agreement]
 
 == Code Review
 As Gerrit is a code review tool, naturally contributions will

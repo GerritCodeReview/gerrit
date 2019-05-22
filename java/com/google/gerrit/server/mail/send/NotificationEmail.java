@@ -131,6 +131,9 @@ public abstract class NotificationEmail extends OutgoingEmail {
     if (lastIndexSlash == 0) {
       return projectName.substring(1); // Remove the first slash
     }
+    if (lastIndexSlash == -1) { // No slash in the project name
+      return projectName;
+    }
 
     return "..." + projectName.substring(lastIndexSlash + 1);
   }

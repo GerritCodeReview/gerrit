@@ -633,12 +633,11 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     requestScopeOperations.setApiUser(user.id());
 
     // Verify that user cannot see the first change.
-    try {
-      gApi.changes().id(changeResult.getChangeId()).get();
-      fail("expected failure");
-    } catch (ResourceNotFoundException e) {
-      assertThat(e.getMessage()).isEqualTo("Not found: " + changeResult.getChangeId());
-    }
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class,
+            () -> gApi.changes().id(changeResult.getChangeId()).get());
+    assertThat(thrown).hasMessageThat().isEqualTo("Not found: " + changeResult.getChangeId());
 
     // Submit is expected to fail.
     submitWithConflict(
@@ -682,24 +681,23 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     requestScopeOperations.setApiUser(user.id());
 
     // Verify that user cannot see the first change.
-    try {
-      gApi.changes().id(changeResult.getChangeId()).get();
-      fail("expected failure");
-    } catch (ResourceNotFoundException e) {
-      assertThat(e.getMessage()).isEqualTo("Not found: " + changeResult.getChangeId());
-    }
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class,
+            () -> gApi.changes().id(changeResult.getChangeId()).get());
+    assertThat(thrown).hasMessageThat().isEqualTo("Not found: " + changeResult.getChangeId());
 
     // Submit is expected to fail.
-    try {
-      gApi.changes().id(change2Result.getChangeId()).current().submit();
-      fail("expected failure");
-    } catch (AuthException e) {
-      assertThat(e.getMessage())
-          .isEqualTo(
-              "A change to be submitted with "
-                  + change2Result.getChange().getId().get()
-                  + " is not visible");
-    }
+    AuthException thrown2 =
+        assertThrows(
+            AuthException.class,
+            () -> gApi.changes().id(change2Result.getChangeId()).current().submit());
+    assertThat(thrown2)
+        .hasMessageThat()
+        .isEqualTo(
+            "A change to be submitted with "
+                + change2Result.getChange().getId().get()
+                + " is not visible");
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
   }
@@ -742,24 +740,21 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     requestScopeOperations.setApiUser(user.id());
 
     // Verify that user cannot see change2a
-    try {
-      gApi.changes().id(change2a.getChangeId()).get();
-      fail("expected failure");
-    } catch (ResourceNotFoundException e) {
-      assertThat(e.getMessage()).isEqualTo("Not found: " + change2a.getChangeId());
-    }
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class, () -> gApi.changes().id(change2a.getChangeId()).get());
+    assertThat(thrown).hasMessageThat().isEqualTo("Not found: " + change2a.getChangeId());
 
     // Submit is expected to fail.
-    try {
-      gApi.changes().id(change1.getChangeId()).current().submit();
-      fail("expected failure");
-    } catch (AuthException e) {
-      assertThat(e.getMessage())
-          .isEqualTo(
-              "A change to be submitted with "
-                  + change1.getChange().getId().get()
-                  + " is not visible");
-    }
+    AuthException thrown2 =
+        assertThrows(
+            AuthException.class, () -> gApi.changes().id(change1.getChangeId()).current().submit());
+    assertThat(thrown2)
+        .hasMessageThat()
+        .isEqualTo(
+            "A change to be submitted with "
+                + change1.getChange().getId().get()
+                + " is not visible");
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
   }

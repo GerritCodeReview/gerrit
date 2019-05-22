@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "3becd1c0_0c223417",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T06:38:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72577999_23aa971c",
+      "revId": "e78a90d12f11d94ddf0825e291aa7472695be27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a32ac31_d083c903",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -71,6 +89,30 @@
       "writtenOn": "2019-05-08T16:53:02Z",
       "side": 1,
       "message": "(Done; thanks btw.)",
+      "parentUuid": "9a32ac31_d083c903",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 47
+      },
+      "revId": "e78a90d12f11d94ddf0825e291aa7472695be27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbf96f6a_150f7ce8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T06:38:17Z",
+      "side": 1,
+      "message": "Clarified this a bit. \n\nI think criteria for mentor assignment should also be discussed further at the hackthon.",
       "parentUuid": "9a32ac31_d083c903",
       "range": {
         "startLine": 34,
@@ -128,6 +170,30 @@
       "revId": "e78a90d12f11d94ddf0825e291aa7472695be27e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de018688_e769561a",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T06:38:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4171a7f6_5a9617c2",
+      "range": {
+        "startLine": 63,
+        "startChar": 35,
+        "endLine": 63,
+        "endChar": 44
+      },
+      "revId": "e78a90d12f11d94ddf0825e291aa7472695be27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -226,6 +292,30 @@
     },
     {
       "key": {
+        "uuid": "53406ab6_9ecabf16",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T06:38:17Z",
+      "side": 1,
+      "message": "I think, that might make sense.\nAdded it to the hackathon discussions, so that we follow-up on this thought.",
+      "parentUuid": "cc88a06f_3164adfe",
+      "range": {
+        "startLine": 231,
+        "startChar": 35,
+        "endLine": 235,
+        "endChar": 10
+      },
+      "revId": "e78a90d12f11d94ddf0825e291aa7472695be27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5607ca9e_7c82f77d",
         "filename": "Documentation/dev-design-doc-template.txt",
         "patchSetId": 1
@@ -273,6 +363,30 @@
     },
     {
       "key": {
+        "uuid": "55d248c0_77e4f2de",
+        "filename": "Documentation/dev-design-doc-template.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T06:38:17Z",
+      "side": 1,
+      "message": "Oh yes. I assumed that would be for granted, but we really should say that explicitly here.",
+      "parentUuid": "5607ca9e_7c82f77d",
+      "range": {
+        "startLine": 43,
+        "startChar": 8,
+        "endLine": 43,
+        "endChar": 18
+      },
+      "revId": "e78a90d12f11d94ddf0825e291aa7472695be27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02dcb5ec_1713a480",
         "filename": "Documentation/dev-design-doc-template.txt",
         "patchSetId": 1
@@ -301,6 +415,24 @@
       "writtenOn": "2019-05-08T16:53:02Z",
       "side": 1,
       "message": "Done",
+      "parentUuid": "02dcb5ec_1713a480",
+      "revId": "e78a90d12f11d94ddf0825e291aa7472695be27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "999690f1_50b38729",
+        "filename": "Documentation/dev-design-doc-template.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T06:38:17Z",
+      "side": 1,
+      "message": "Added it.",
       "parentUuid": "02dcb5ec_1713a480",
       "revId": "e78a90d12f11d94ddf0825e291aa7472695be27e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

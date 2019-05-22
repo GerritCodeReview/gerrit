@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -117,15 +118,15 @@ public class ProjectIndexerIT extends AbstractDaemonTest {
 
   private void updateProjectConfigWithoutIndexUpdate(
       Project.NameKey project, Consumer<ProjectConfig> update) throws Exception {
-    try (AutoCloseable ignored = disableProjectIndex()) {
-      try (ProjectConfigUpdate u = updateProject(project)) {
-        update.accept(u.getConfig());
-        u.save();
-      }
-    } catch (UnsupportedOperationException e) {
-      // Drop, as we just wanted to drop the index update
-      return;
-    }
-    fail("should have a UnsupportedOperationException");
+    assertThrows(
+        UnsupportedOperationException.class,
+        () -> {
+          try (AutoCloseable ignored = disableProjectIndex()) {
+            try (ProjectConfigUpdate u = updateProject(project)) {
+              update.accept(u.getConfig());
+              u.save();
+            }
+          }
+        });
   }
 }

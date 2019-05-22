@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.change.AccountPatchReviewStore;
 import com.google.gerrit.server.config.ConfigUtil;
@@ -288,6 +289,18 @@ public abstract class JdbcAccountPatchReviewStore
                     + "WHERE change_id = ? AND patch_set_id = ?")) {
       stmt.setInt(1, psId.changeId().get());
       stmt.setInt(2, psId.get());
+      stmt.executeUpdate();
+    } catch (SQLException e) {
+      throw convertError("delete", e);
+    }
+  }
+
+  @Override
+  public void clearReviewed(Change.Id changeId) {
+    try (Connection con = ds.getConnection();
+        PreparedStatement stmt =
+            con.prepareStatement("DELETE FROM account_patch_reviews WHERE change_id = ?")) {
+      stmt.setInt(1, changeId.get());
       stmt.executeUpdate();
     } catch (SQLException e) {
       throw convertError("delete", e);

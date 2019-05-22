@@ -185,7 +185,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   @Override
   public void deleteAll() {
     // Delete the index, if it exists.
-    String endpoint = indexName + client.adapter().indicesExistParam();
+    String endpoint = indexName + client.adapter().indicesExistParams();
     Response response = performRequest("HEAD", endpoint);
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode == HttpStatus.SC_OK) {

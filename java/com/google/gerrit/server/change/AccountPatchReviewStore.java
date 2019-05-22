@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import java.util.Collection;
 import java.util.Optional;
@@ -80,6 +81,13 @@ public interface AccountPatchReviewStore {
    * @param psId patch set ID
    */
   void clearReviewed(PatchSet.Id psId);
+
+  /**
+   * Clears the reviewed flags for all files in all patch sets in the given change for all users.
+   *
+   * @param changeId change ID
+   */
+  void clearReviewed(Change.Id changeId);
 
   /**
    * Find the latest patch set, that is smaller or equals to the given patch set, where at least,

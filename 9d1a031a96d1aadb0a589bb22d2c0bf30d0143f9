@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "4cd13b08_bad8c273",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1065251
+      },
+      "writtenOn": "2019-05-22T19:02:12Z",
+      "side": 1,
+      "message": "Gatling",
+      "range": {
+        "startLine": 10,
+        "startChar": 6,
+        "endLine": 10,
+        "endChar": 13
+      },
+      "revId": "9d1a031a96d1aadb0a589bb22d2c0bf30d0143f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9ecd0eef_c980809a",
         "filename": "Documentation/dev-e2e-tests.txt",
         "patchSetId": 2
@@ -161,6 +184,29 @@
       "writtenOn": "2019-05-22T09:00:56Z",
       "side": 1,
       "message": "Can we make the file path somehow a bit shorter? e.g. e2e-tests/load-tests/src/test/scala/scenarios/*.scala",
+      "revId": "9d1a031a96d1aadb0a589bb22d2c0bf30d0143f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61c7e636_f82dcd89",
+        "filename": "e2e-tests/load-tests/src/test/scala/com/google/gerrit/scenarios/ReplayRecordsFromFeeder.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1065251
+      },
+      "writtenOn": "2019-05-22T19:02:12Z",
+      "side": 1,
+      "message": "How do we decide this configuration? \n\nThis is a more generic question about the tool.\nGiven that we load the scenario/(users behavior) from a file, shouldn\u0027t the workload be defined by a multiplier of the real traffic?\nAssuming we have to define these values manually, how do we know they are realistic?",
+      "range": {
+        "startLine": 50,
+        "startChar": 6,
+        "endLine": 54,
+        "endChar": 49
+      },
       "revId": "9d1a031a96d1aadb0a589bb22d2c0bf30d0143f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08316e0c_4e1d3755",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/UploadArchiveIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-22T12:37:09Z",
+      "side": 1,
+      "message": "FYI SideBandInputStream is public since [1] which is included in the version of JGit that we\u0027re now using.\n\n[1] https://git.eclipse.org/r/#/c/115453/",
+      "range": {
+        "startLine": 124,
+        "startChar": 6,
+        "endLine": 125,
+        "endChar": 38
+      },
+      "revId": "efe82ffb67cf857d861476316fc826d98c4470d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

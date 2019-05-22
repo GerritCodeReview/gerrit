@@ -16,8 +16,8 @@ package com.google.gerrit.acceptance.server.account;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
@@ -82,26 +82,16 @@ public class AccountResolverIT extends AbstractDaemonTest {
   }
 
   private void checkBySelfFails() throws Exception {
-    Result result = resolveAsResult("self");
-    assertThat(result.asIdSet()).isEmpty();
-    assertThat(result.isSelf()).isTrue();
-    try {
-      result.asUnique();
-      assert_().fail("expected UnresolvableAccountException");
-    } catch (UnresolvableAccountException e) {
-      assertThat(e).hasMessageThat().isEqualTo("Resolving account 'self' requires login");
-      assertThat(e.isSelf()).isTrue();
-    }
-
-    result = resolveAsResult("me");
-    assertThat(result.asIdSet()).isEmpty();
-    assertThat(result.isSelf()).isTrue();
-    try {
-      result.asUnique();
-      assert_().fail("expected UnresolvableAccountException");
-    } catch (UnresolvableAccountException e) {
-      assertThat(e).hasMessageThat().isEqualTo("Resolving account 'me' requires login");
-      assertThat(e.isSelf()).isTrue();
+    for (String input : ImmutableList.of("self", "me")) {
+      Result result = resolveAsResult(input);
+      assertThat(result.asIdSet()).isEmpty();
+      assertThat(result.isSelf()).isTrue();
+      UnresolvableAccountException thrown =
+          assertThrows(UnresolvableAccountException.class, () -> result.asUnique());
+      assertThat(thrown)
+          .hasMessageThat()
+          .isEqualTo(String.format("Resolving account '%s' requires login", input));
+      assertThat(thrown.isSelf()).isTrue();
     }
   }
 
@@ -268,21 +258,18 @@ public class AccountResolverIT extends AbstractDaemonTest {
     for (String input : inputs) {
       Result result = accountResolver.resolve(input);
       assertWithMessage("results for %s (inactive)", input).that(result.asIdSet()).isEmpty();
-      try {
-        result.asUnique();
-        assert_().fail("expected UnresolvableAccountException");
-      } catch (UnresolvableAccountException e) {
-        assertThat(e)
-            .hasMessageThat()
-            .isEqualTo(
-                "Account '"
-                    + input
-                    + "' only matches inactive accounts. To use an inactive account, retry"
-                    + " with one of the following exact account IDs:\n"
-                    + id
-                    + ": "
-                    + nameEmail);
-      }
+      UnresolvableAccountException thrown =
+          assertThrows(UnresolvableAccountException.class, () -> result.asUnique());
+      assertThat(thrown)
+          .hasMessageThat()
+          .isEqualTo(
+              "Account '"
+                  + input
+                  + "' only matches inactive accounts. To use an inactive account, retry"
+                  + " with one of the following exact account IDs:\n"
+                  + id
+                  + ": "
+                  + nameEmail);
       assertWithMessage("results by name or email for %s (inactive)", input)
           .that(resolveByNameOrEmail(input))
           .isEmpty();

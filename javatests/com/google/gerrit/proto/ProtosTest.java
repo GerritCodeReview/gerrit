@@ -14,8 +14,8 @@
 
 package com.google.gerrit.proto;
 
-import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesKeyProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto;
@@ -33,23 +33,17 @@ public class ProtosTest {
             .setId(ByteString.copyFromUtf8("foo"))
             .build();
     byte[] bytes = Protos.toByteArray(proto);
-    try {
-      Protos.parseUnchecked(ChangeNotesStateProto.parser(), bytes);
-      assert_().fail("expected IllegalArgumentException");
-    } catch (IllegalArgumentException e) {
-      // Expected.
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> Protos.parseUnchecked(ChangeNotesStateProto.parser(), bytes));
   }
 
   @Test
   public void parseUncheckedByteArrayInvalidData() {
     byte[] bytes = new byte[] {0x00};
-    try {
-      Protos.parseUnchecked(ChangeNotesStateProto.parser(), bytes);
-      assert_().fail("expected IllegalArgumentException");
-    } catch (IllegalArgumentException e) {
-      // Expected.
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> Protos.parseUnchecked(ChangeNotesStateProto.parser(), bytes));
   }
 
   @Test
@@ -73,23 +67,17 @@ public class ProtosTest {
             .setId(ByteString.copyFromUtf8("foo"))
             .build();
     byte[] bytes = Protos.toByteArray(proto);
-    try {
-      Protos.parseUnchecked(ChangeNotesStateProto.parser(), bytes, 0, bytes.length);
-      assert_().fail("expected IllegalArgumentException");
-    } catch (IllegalArgumentException e) {
-      // Expected.
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> Protos.parseUnchecked(ChangeNotesStateProto.parser(), bytes, 0, bytes.length));
   }
 
   @Test
   public void parseUncheckedSegmentOfByteArrayInvalidData() {
     byte[] bytes = new byte[] {0x00};
-    try {
-      Protos.parseUnchecked(ChangeNotesStateProto.parser(), bytes, 0, bytes.length);
-      assert_().fail("expected IllegalArgumentException");
-    } catch (IllegalArgumentException e) {
-      // Expected.
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> Protos.parseUnchecked(ChangeNotesStateProto.parser(), bytes, 0, bytes.length));
   }
 
   @Test
@@ -122,23 +110,17 @@ public class ProtosTest {
             .setId(ByteString.copyFromUtf8("foo"))
             .build();
     ByteString byteString = Protos.toByteString(proto);
-    try {
-      Protos.parseUnchecked(ChangeNotesStateProto.parser(), byteString);
-      assert_().fail("expected IllegalArgumentException");
-    } catch (IllegalArgumentException e) {
-      // Expected.
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> Protos.parseUnchecked(ChangeNotesStateProto.parser(), byteString));
   }
 
   @Test
   public void parseUncheckedByteStringInvalidData() {
     ByteString byteString = ByteString.copyFrom(new byte[] {0x00});
-    try {
-      Protos.parseUnchecked(ChangeNotesStateProto.parser(), byteString);
-      assert_().fail("expected IllegalArgumentException");
-    } catch (IllegalArgumentException e) {
-      // Expected.
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> Protos.parseUnchecked(ChangeNotesStateProto.parser(), byteString));
   }
 
   @Test

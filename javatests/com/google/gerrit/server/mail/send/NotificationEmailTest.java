@@ -24,15 +24,20 @@ public class NotificationEmailTest {
   @Test
   public void instanceAndProjectName() throws Exception {
     assertThat(getInstanceAndProjectName("test", "/my/api")).isEqualTo("test/api");
+    assertThat(getInstanceAndProjectName("test", "/api")).isEqualTo("test/api");
+    assertThat(getInstanceAndProjectName("test", "api")).isEqualTo("test/api");
   }
 
   @Test
   public void instanceAndProjectNameNull() throws Exception {
     assertThat(getInstanceAndProjectName(null, "/my/api")).isEqualTo("...api");
+    assertThat(getInstanceAndProjectName(null, "/api")).isEqualTo("api");
+    assertThat(getInstanceAndProjectName(null, "api")).isEqualTo("api");
   }
 
   @Test
   public void shortProjectName() throws Exception {
+    assertThat(getShortProjectName("api")).isEqualTo("api");
     assertThat(getShortProjectName("/api")).isEqualTo("api");
     assertThat(getShortProjectName("/my/api")).isEqualTo("...api");
     assertThat(getShortProjectName("/my/sub/project")).isEqualTo("...project");

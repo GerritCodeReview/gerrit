@@ -15,8 +15,8 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
@@ -127,14 +127,11 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
         };
     ChangeMessageModifier modifier2 = (msg, orig, tip, dest) -> msg + "A-footer: value\n";
     try (AutoCloseable ignored = installChangeMessageModifiers(modifier1, modifier2)) {
-      try {
-        submitWithRebase();
-        assert_().fail("expected ResourceConflictException");
-      } catch (ResourceConflictException e) {
-        Throwable cause = Throwables.getRootCause(e);
-        assertThat(cause).isInstanceOf(RuntimeException.class);
-        assertThat(cause).hasMessageThat().isEqualTo("boom");
-      }
+      ResourceConflictException thrown =
+          assertThrows(ResourceConflictException.class, () -> submitWithRebase());
+      Throwable cause = Throwables.getRootCause(thrown);
+      assertThat(cause).isInstanceOf(RuntimeException.class);
+      assertThat(cause).hasMessageThat().isEqualTo("boom");
     }
   }
 
@@ -143,19 +140,16 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
     ChangeMessageModifier modifier1 = (msg, orig, tip, dest) -> null;
     ChangeMessageModifier modifier2 = (msg, orig, tip, dest) -> msg + "A-footer: value\n";
     try (AutoCloseable ignored = installChangeMessageModifiers(modifier1, modifier2)) {
-      try {
-        submitWithRebase();
-        assert_().fail("expected ResourceConflictException");
-      } catch (ResourceConflictException e) {
-        Throwable cause = Throwables.getRootCause(e);
-        assertThat(cause).isInstanceOf(RuntimeException.class);
-        assertThat(cause)
-            .hasMessageThat()
-            .isEqualTo(
-                modifier1.getClass().getName()
-                    + ".onSubmit from plugin modifier-1 returned null instead of new commit"
-                    + " message");
-      }
+      ResourceConflictException thrown =
+          assertThrows(ResourceConflictException.class, () -> submitWithRebase());
+      Throwable cause = Throwables.getRootCause(thrown);
+      assertThat(cause).isInstanceOf(RuntimeException.class);
+      assertThat(cause)
+          .hasMessageThat()
+          .isEqualTo(
+              modifier1.getClass().getName()
+                  + ".onSubmit from plugin modifier-1 returned null instead of new commit"
+                  + " message");
     }
   }
 

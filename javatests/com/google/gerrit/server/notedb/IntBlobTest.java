@@ -15,7 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.OptionalSubject.assertThat;
 
 import com.google.gerrit.exceptions.StorageException;
@@ -59,12 +59,7 @@ public class IntBlobTest {
   public void parseNonBlob() throws Exception {
     String refName = "refs/foo/master";
     tr.branch(refName).commit().create();
-    try {
-      IntBlob.parse(repo, refName);
-      assert_().fail("Expected IncorrectObjectTypeException");
-    } catch (IncorrectObjectTypeException e) {
-      // Expected.
-    }
+    assertThrows(IncorrectObjectTypeException.class, () -> IntBlob.parse(repo, refName));
   }
 
   @Test
@@ -85,12 +80,9 @@ public class IntBlobTest {
   public void parseInvalid() throws Exception {
     String refName = "refs/foo";
     ObjectId id = tr.update(refName, tr.blob("1 2 3"));
-    try {
-      IntBlob.parse(repo, refName);
-      assert_().fail("Expected StorageException");
-    } catch (StorageException e) {
-      assertThat(e).hasMessageThat().isEqualTo("invalid value in refs/foo blob at " + id.name());
-    }
+    StorageException thrown =
+        assertThrows(StorageException.class, () -> IntBlob.parse(repo, refName));
+    assertThat(thrown).hasMessageThat().isEqualTo("invalid value in refs/foo blob at " + id.name());
   }
 
   @Test
@@ -180,19 +172,19 @@ public class IntBlobTest {
   @Test
   public void storeWrongOldId() throws Exception {
     String refName = "refs/foo";
-    try {
-      IntBlob.store(
-          repo,
-          rw,
-          projectName,
-          refName,
-          ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"),
-          123,
-          GitReferenceUpdated.DISABLED);
-      assert_().fail("expected LockFailureException");
-    } catch (LockFailureException e) {
-      assertThat(e.getFailedRefs()).containsExactly("refs/foo");
-    }
+    LockFailureException thrown =
+        assertThrows(
+            LockFailureException.class,
+            () ->
+                IntBlob.store(
+                    repo,
+                    rw,
+                    projectName,
+                    refName,
+                    ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"),
+                    123,
+                    GitReferenceUpdated.DISABLED));
+    assertThat(thrown.getFailedRefs()).containsExactly("refs/foo");
     assertThat(IntBlob.parse(repo, refName)).isEmpty();
   }
 

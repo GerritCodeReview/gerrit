@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "941a2a2a_bbba7e90",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3414,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T11:42:34Z",
+      "side": 0,
+      "message": "I think we should keep the information here that this is a map of value to description.",
+      "range": {
+        "startLine": 3414,
+        "startChar": 22,
+        "endLine": 3414,
+        "endChar": 71
+      },
+      "revId": "1f4100195799245e0a532dcf64817bfa737b581d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

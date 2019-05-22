@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e50db30c_441991f6",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T11:42:34Z",
+      "side": 1,
+      "message": "This example needs to be updated.",
+      "range": {
+        "startLine": 467,
+        "startChar": 4,
+        "endLine": 475,
+        "endChar": 5
+      },
+      "revId": "466fad59d6b2ce1e4f08b7ccfa729bb534e9d5ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee152a51_0ab45987",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T11:42:34Z",
+      "side": 1,
+      "message": "This example needs to be updated.",
+      "range": {
+        "startLine": 519,
+        "startChar": 4,
+        "endLine": 527,
+        "endChar": 5
+      },
+      "revId": "466fad59d6b2ce1e4f08b7ccfa729bb534e9d5ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e567769c_2d6f36a3",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3415,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T11:42:34Z",
+      "side": 1,
+      "message": "I think it would be better to include a one-sentence description for each of the fields directly here (instead of only having links).",
+      "range": {
+        "startLine": 3415,
+        "startChar": 2,
+        "endLine": 3415,
+        "endChar": 53
+      },
+      "revId": "466fad59d6b2ce1e4f08b7ccfa729bb534e9d5ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68a18afb_2ea125b5",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3419,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T11:42:34Z",
+      "side": 1,
+      "message": "This field seems to be optional?",
+      "range": {
+        "startLine": 3419,
+        "startChar": 0,
+        "endLine": 3419,
+        "endChar": 2
+      },
+      "revId": "466fad59d6b2ce1e4f08b7ccfa729bb534e9d5ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaeff037_632c609e",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3419,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T11:42:34Z",
+      "side": 1,
+      "message": "Maybe explicitly say that this is a list?",
+      "range": {
+        "startLine": 3419,
+        "startChar": 0,
+        "endLine": 3419,
+        "endChar": 59
+      },
+      "revId": "466fad59d6b2ce1e4f08b7ccfa729bb534e9d5ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bd6f6ce_3d80f675",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3422,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T11:42:34Z",
+      "side": 1,
+      "message": "for all optional boolean fields this column should say \"`false` if not set\"",
+      "range": {
+        "startLine": 3422,
+        "startChar": 21,
+        "endLine": 3422,
+        "endChar": 22
+      },
+      "revId": "466fad59d6b2ce1e4f08b7ccfa729bb534e9d5ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab073c18_ddcada36",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3424,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T11:42:34Z",
+      "side": 1,
+      "message": "Should this be:\n\n  copy_all_scores_on_merge_first_parent_update\n\n?\n\nSame below, all field names should be lowercase_underscore",
+      "range": {
+        "startLine": 3424,
+        "startChar": 2,
+        "endLine": 3424,
+        "endChar": 39
+      },
+      "revId": "466fad59d6b2ce1e4f08b7ccfa729bb534e9d5ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "458f75b5_f30445fe",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/GetProjectIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T11:42:34Z",
+      "side": 1,
+      "message": "I think you can just drop these kind of comments.",
+      "revId": "466fad59d6b2ce1e4f08b7ccfa729bb534e9d5ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

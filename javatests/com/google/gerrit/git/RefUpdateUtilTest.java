@@ -16,7 +16,7 @@ package com.google.gerrit.git;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import java.io.IOException;
@@ -80,23 +80,18 @@ public class RefUpdateUtilTest {
 
   @SafeVarargs
   private static void assertIoException(Consumer<ReceiveCommand>... resultSetters) {
-    try {
-      RefUpdateUtil.checkResults(newBatchRefUpdate(resultSetters));
-      assert_().fail("expected IOException");
-    } catch (IOException e) {
-      assertThat(e).isNotInstanceOf(LockFailureException.class);
-    }
+    IOException thrown =
+        assertThrows(
+            IOException.class, () -> RefUpdateUtil.checkResults(newBatchRefUpdate(resultSetters)));
+    assertThat(thrown).isNotInstanceOf(LockFailureException.class);
   }
 
   @SafeVarargs
   private static void assertLockFailureException(Consumer<ReceiveCommand>... resultSetters)
       throws Exception {
-    try {
-      RefUpdateUtil.checkResults(newBatchRefUpdate(resultSetters));
-      assert_().fail("expected LockFailureException");
-    } catch (LockFailureException e) {
-      // Expected.
-    }
+    assertThrows(
+        LockFailureException.class,
+        () -> RefUpdateUtil.checkResults(newBatchRefUpdate(resultSetters)));
   }
 
   @SafeVarargs

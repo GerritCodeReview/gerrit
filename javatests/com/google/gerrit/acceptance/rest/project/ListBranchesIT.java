@@ -173,11 +173,6 @@ public class ListBranchesIT extends AbstractDaemonTest {
   }
 
   private void assertBadRequest(ListRefsRequest<BranchInfo> req) throws Exception {
-    try {
-      req.get();
-      fail("Expected BadRequestException");
-    } catch (BadRequestException e) {
-      // Expected
-    }
+    assertThrows(BadRequestException.class, () -> req.get());
   }
 }

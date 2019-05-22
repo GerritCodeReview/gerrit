@@ -370,12 +370,7 @@ public class TagsIT extends AbstractDaemonTest {
   }
 
   private void assertBadRequest(ListRefsRequest<TagInfo> req) throws Exception {
-    try {
-      req.get();
-      fail("Expected BadRequestException");
-    } catch (BadRequestException e) {
-      // Expected
-    }
+    assertThrows(BadRequestException.class, () -> req.get());
   }
 
   private void grantTagPermissions() throws Exception {

@@ -15,8 +15,8 @@
 package com.google.gerrit.server.index.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.server.index.change.StalenessChecker.refsAreStale;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 
@@ -82,12 +82,7 @@ public class StalenessCheckerTest {
   }
 
   private static void assertInvalidState(String state) {
-    try {
-      RefState.parseStates(byteArrays(state));
-      assert_().fail("expected IllegalArgumentException");
-    } catch (IllegalArgumentException e) {
-      // Expected.
-    }
+    assertThrows(IllegalArgumentException.class, () -> RefState.parseStates(byteArrays(state)));
   }
 
   @Test
@@ -154,12 +149,8 @@ public class StalenessCheckerTest {
   }
 
   private static void assertInvalidPattern(String state) {
-    try {
-      StalenessChecker.parsePatterns(byteArrays(state));
-      assert_().fail("expected IllegalArgumentException");
-    } catch (IllegalArgumentException e) {
-      // Expected.
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> StalenessChecker.parsePatterns(byteArrays(state)));
   }
 
   @Test

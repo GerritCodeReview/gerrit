@@ -1,0 +1,32 @@
+[
+  {
+    "url": "ssh://admin@localhost:29418/loadtest-repo",
+    "cmd": "clone",
+    "pause": "7 ms"
+  },
+  {
+    "url": "ssh://admin@localhost:29418/loadtest-repo",
+    "cmd": "pull",
+    "pause": "7 ms"
+  },
+  {
+    "url": "ssh://admin@localhost:29418/loadtest-repo",
+    "cmd": "push",
+    "pause": "7 ms"
+  },
+  {
+    "url": "http://localhost:8080/loadtest-repo",
+    "cmd": "clone",
+    "pause": "7 ms"
+  },
+  {
+    "url": "http://localhost:8080/loadtest-repo",
+    "cmd": "pull",
+    "pause": "7 ms"
+  },
+  {
+    "url": "http://localhost:8080/loadtest-repo",
+    "cmd": "push",
+    "pause": "7 ms"
+  }
+]

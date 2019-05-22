@@ -15,8 +15,8 @@
 package com.google.gerrit.git;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 
 import java.util.function.Function;
@@ -128,12 +128,7 @@ public class ObjectIdsTest {
   }
 
   private static void assertRuntimeException(Func func) throws Exception {
-    try {
-      func.call();
-      assert_().fail("Expected RuntimeException");
-    } catch (RuntimeException e) {
-      // Expected.
-    }
+    assertThrows(RuntimeException.class, () -> func.call());
   }
 
   private static ObjectReader newReaderWithAmbiguousIds() throws Exception {

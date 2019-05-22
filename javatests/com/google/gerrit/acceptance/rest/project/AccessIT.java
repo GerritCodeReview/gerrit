@@ -14,7 +14,6 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -35,7 +34,6 @@ import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -208,12 +206,7 @@ public class AccessIT extends AbstractDaemonTest {
 
     // check that the change took effect.
     requestScopeOperations.setApiUser(user.id());
-    try {
-      BranchInfo info = pApi().branch("refs/heads/master").get();
-      assert_().fail("wanted failure, got " + newGson().toJson(info));
-    } catch (ResourceNotFoundException e) {
-      // OK.
-    }
+    assertThrows(ResourceNotFoundException.class, () -> pApi().branch("refs/heads/master").get());
 
     // Restore.
     accessInput.add.clear();

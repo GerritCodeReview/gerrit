@@ -1,0 +1,24 @@
+= Gerrit Code Review - End to end load tests
+
+This document describes how to collect client side metrics when load testing Gerrit.
+
+The example scenarios are based on the link:http://gatling.io[`Gatling`] framework.
+
+Gatling is a load testing tool which provides a bit out of the box support for the HTTP protocol.
+However the proposed scenarios show how to run tests using the Git protocol as well.
+
+Gatling is written in Scala, but the abstraction provided by the Gatling DSL makes
+the scenarios implementation easy even without any Scala knowledge.
+
+Examples can be found in the `e2e-tests` directory.
+
+== Prerequisites
+
+. link:https://www.scala-lang.org/download/[`Scala 2.12`]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

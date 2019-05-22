@@ -999,11 +999,7 @@ public class GroupsIT extends AbstractDaemonTest {
     gApi.groups().id(uuid.get()).index();
 
     // Verify "sub-group" has been deleted.
-    try {
-      gApi.groups().id(uuid.get()).get();
-      fail("expected ResourceNotFoundException");
-    } catch (ResourceNotFoundException e) {
-    }
+    assertThrows(ResourceNotFoundException.class, () -> gApi.groups().id(uuid.get()).get());
   }
 
   // reindex is tested by {@link AbstractQueryGroupsTest#reindex}
@@ -1517,12 +1513,7 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   private void assertBadRequest(ListRequest req) throws Exception {
-    try {
-      req.get();
-      fail("Expected BadRequestException");
-    } catch (BadRequestException e) {
-      // Expected
-    }
+    assertThrows(BadRequestException.class, () -> req.get());
   }
 
   @Target({METHOD})

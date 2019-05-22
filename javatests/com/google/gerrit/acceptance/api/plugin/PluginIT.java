@@ -118,12 +118,7 @@ public class PluginIT extends AbstractDaemonTest {
 
     // Non-admin cannot disable
     requestScopeOperations.setApiUser(user.id());
-    try {
-      gApi.plugins().name("plugin-a").disable();
-      fail("Expected AuthException");
-    } catch (AuthException expected) {
-      // Expected
-    }
+    assertThrows(AuthException.class, () -> gApi.plugins().name("plugin-a").disable());
   }
 
   @SuppressWarnings("deprecation")
@@ -172,11 +167,6 @@ public class PluginIT extends AbstractDaemonTest {
   }
 
   private void assertBadRequest(ListRequest req) throws Exception {
-    try {
-      req.get();
-      fail("Expected BadRequestException");
-    } catch (BadRequestException e) {
-      // Expected
-    }
+    assertThrows(BadRequestException.class, () -> req.get());
   }
 }

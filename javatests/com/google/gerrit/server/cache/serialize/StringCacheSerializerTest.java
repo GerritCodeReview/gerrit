@@ -15,7 +15,7 @@
 package com.google.gerrit.server.cache.serialize;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.StandardCharsets;
@@ -34,12 +34,11 @@ public class StringCacheSerializerTest {
   @Test
   public void serializeInvalidChar() {
     // Can't use UTF-8 for the test, since it can encode all Unicode code points.
-    try {
-      StringCacheSerializer.serialize(StandardCharsets.US_ASCII, "\u1234");
-      assert_().fail("expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-      assertThat(expected).hasCauseThat().isInstanceOf(CharacterCodingException.class);
-    }
+    IllegalStateException thrown =
+        assertThrows(
+            IllegalStateException.class,
+            () -> StringCacheSerializer.serialize(StandardCharsets.US_ASCII, "\u1234"));
+    assertThat(thrown).hasCauseThat().isInstanceOf(CharacterCodingException.class);
   }
 
   @Test
@@ -55,11 +54,10 @@ public class StringCacheSerializerTest {
 
   @Test
   public void deserializeInvalidChar() {
-    try {
-      StringCacheSerializer.INSTANCE.deserialize(new byte[] {(byte) 0xff});
-      assert_().fail("expected IllegalStateException");
-    } catch (IllegalStateException expected) {
-      assertThat(expected).hasCauseThat().isInstanceOf(CharacterCodingException.class);
-    }
+    IllegalStateException thrown =
+        assertThrows(
+            IllegalStateException.class,
+            () -> StringCacheSerializer.INSTANCE.deserialize(new byte[] {(byte) 0xff}));
+    assertThat(thrown).hasCauseThat().isInstanceOf(CharacterCodingException.class);
   }
 }

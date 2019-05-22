@@ -15,7 +15,7 @@
 package com.google.gerrit.server.cache.serialize;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import org.junit.Test;
@@ -49,11 +49,6 @@ public class EnumCacheSerializerTest {
 
   private static void assertDeserializeFails(byte[] in) {
     CacheSerializer<MyEnum> s = new EnumCacheSerializer<>(MyEnum.class);
-    try {
-      s.deserialize(in);
-      assert_().fail("expected RuntimeException");
-    } catch (RuntimeException e) {
-      // Expected.
-    }
+    assertThrows(RuntimeException.class, () -> s.deserialize(in));
   }
 }

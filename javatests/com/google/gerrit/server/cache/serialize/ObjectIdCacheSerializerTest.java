@@ -15,8 +15,8 @@
 package com.google.gerrit.server.cache.serialize;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.byteArray;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
@@ -46,11 +46,7 @@ public class ObjectIdCacheSerializerTest {
   }
 
   private void assertDeserializeFails(byte[] bytes) {
-    try {
-      ObjectIdCacheSerializer.INSTANCE.deserialize(bytes);
-      assert_().fail("expected IllegalArgumentException");
-    } catch (IllegalArgumentException e) {
-      // Expected.
-    }
+    assertThrows(
+        IllegalArgumentException.class, () -> ObjectIdCacheSerializer.INSTANCE.deserialize(bytes));
   }
 }

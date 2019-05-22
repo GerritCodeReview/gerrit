@@ -15,10 +15,9 @@
 package com.google.gerrit.server.cache.serialize;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.protobuf.TextFormat;
 import org.junit.Test;
 
 public class BooleanCacheSerializerTest {
@@ -52,11 +51,6 @@ public class BooleanCacheSerializerTest {
   }
 
   private static void assertDeserializeFails(byte[] in) {
-    try {
-      BooleanCacheSerializer.INSTANCE.deserialize(in);
-      assert_().fail("expected deserialization to fail for \"%s\"", TextFormat.escapeBytes(in));
-    } catch (RuntimeException e) {
-      // Expected.
-    }
+    assertThrows(RuntimeException.class, () -> BooleanCacheSerializer.INSTANCE.deserialize(in));
   }
 }

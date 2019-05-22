@@ -15,8 +15,8 @@
 package com.google.gerrit.server.cache.serialize;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.byteString;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.protobuf.ByteString;
 import org.eclipse.jgit.lib.ObjectId;
@@ -42,12 +42,9 @@ public class ObjectIdConverterTest {
 
   @Test
   public void objectIdFromByteStringWrongSize() {
-    try {
-      ObjectIdConverter.create().fromByteString(ByteString.copyFromUtf8("foo"));
-      assert_().fail("expected IllegalArgumentException");
-    } catch (IllegalArgumentException e) {
-      // Expected.
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> ObjectIdConverter.create().fromByteString(ByteString.copyFromUtf8("foo")));
   }
 
   @Test

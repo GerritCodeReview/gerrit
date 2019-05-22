@@ -15,7 +15,7 @@
 package com.google.gerrit.server.cache.serialize;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Converter;
@@ -45,11 +45,6 @@ public class CacheSerializerTest {
 
   @Test
   public void deserializeNullFails() throws Exception {
-    try {
-      SERIALIZER.deserialize(null);
-      assert_().fail("expected RuntimeException");
-    } catch (RuntimeException e) {
-      // Expected.
-    }
+    assertThrows(RuntimeException.class, () -> SERIALIZER.deserialize(null));
   }
 }

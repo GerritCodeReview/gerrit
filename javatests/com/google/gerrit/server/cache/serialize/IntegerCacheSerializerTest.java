@@ -15,7 +15,7 @@
 package com.google.gerrit.server.cache.serialize;
 
 import static com.google.common.truth.Truth.assertWithMessage;
-import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Bytes;
@@ -54,11 +54,6 @@ public class IntegerCacheSerializerTest {
   }
 
   private static void assertDeserializeFails(byte[] in) {
-    try {
-      IntegerCacheSerializer.INSTANCE.deserialize(in);
-      assert_().fail("expected RuntimeException");
-    } catch (RuntimeException e) {
-      // Expected.
-    }
+    assertThrows(RuntimeException.class, () -> IntegerCacheSerializer.INSTANCE.deserialize(in));
   }
 }

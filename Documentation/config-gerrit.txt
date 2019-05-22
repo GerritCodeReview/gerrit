@@ -1694,6 +1694,13 @@ line, separated by spaces.
 Execute `java -jar gerrit.war daemon --help` to see all possible
 options.
 
+[[container.openFilesLimitAddendum]]container.openFilesLimitAddendum::
++
+Supplementary value which will be added to the calculated open
+file descriptor limit in gerrit.sh
++
+Default is 0
+
 [[container.replica]]container.replica::
 +
 Used on Gerrit replica installations. If set to true the Gerrit JVM is

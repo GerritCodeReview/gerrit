@@ -294,6 +294,10 @@ USE_LFS=`get_config --get lfs.plugin`
 test -n "$USE_LFS" && FDS_MULTIPLIER=3
 
 GERRIT_FDS=`expr $FDS_MULTIPLIER \* $GERRIT_FDS`
+GERRIT_FDS_ADDENDUM=`get_config --int container.openFilesLimitAddendum`
+if test -n "$GERRIT_FDS_ADDENDUM" ; then
+    GERRIT_FDS=`expr $GERRIT_FDS + $GERRIT_FDS_ADDENDUM`
+fi
 test $GERRIT_FDS -lt 1024 && GERRIT_FDS=1024
 
 GERRIT_STARTUP_TIMEOUT=`get_config --get container.startupTimeout`

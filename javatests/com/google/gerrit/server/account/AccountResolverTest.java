@@ -17,7 +17,7 @@ package com.google.gerrit.server.account;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.joining;
 
 import com.google.common.collect.ImmutableList;
@@ -224,15 +224,14 @@ public class AccountResolverTest {
 
   @Test
   public void asUniqueWithNoResults() throws Exception {
-    try {
-      String input = "foo";
-      ImmutableList<Searcher<?>> searchers = ImmutableList.of();
-      Supplier<Predicate<AccountState>> visibilitySupplier = allVisible();
-      search(input, searchers, visibilitySupplier).asUnique();
-      assert_().fail("Expected UnresolvableAccountException");
-    } catch (UnresolvableAccountException e) {
-      assertThat(e).hasMessageThat().isEqualTo("Account 'foo' not found");
-    }
+    String input = "foo";
+    ImmutableList<Searcher<?>> searchers = ImmutableList.of();
+    Supplier<Predicate<AccountState>> visibilitySupplier = allVisible();
+    UnresolvableAccountException thrown =
+        assertThrows(
+            UnresolvableAccountException.class,
+            () -> search(input, searchers, visibilitySupplier).asUnique());
+    assertThat(thrown).hasMessageThat().isEqualTo("Account 'foo' not found");
   }
 
   @Test
@@ -248,14 +247,13 @@ public class AccountResolverTest {
   public void asUniqueWithMultipleResults() throws Exception {
     ImmutableList<Searcher<?>> searchers =
         ImmutableList.of(new TestSearcher("foo", false, newAccount(1), newAccount(2)));
-    try {
-      search("foo", searchers, allVisible()).asUnique();
-      assert_().fail("Expected UnresolvableAccountException");
-    } catch (UnresolvableAccountException e) {
-      assertThat(e)
-          .hasMessageThat()
-          .isEqualTo("Account 'foo' is ambiguous:\n1: Anonymous Name (1)\n2: Anonymous Name (2)");
-    }
+    UnresolvableAccountException thrown =
+        assertThrows(
+            UnresolvableAccountException.class,
+            () -> search("foo", searchers, allVisible()).asUnique());
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("Account 'foo' is ambiguous:\n1: Anonymous Name (1)\n2: Anonymous Name (2)");
   }
 
   @Test

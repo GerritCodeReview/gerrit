@@ -21,6 +21,7 @@ import static com.google.gerrit.extensions.client.SubmitType.MERGE_ALWAYS;
 import static com.google.gerrit.extensions.client.SubmitType.MERGE_IF_NECESSARY;
 import static com.google.gerrit.extensions.client.SubmitType.REBASE_ALWAYS;
 import static com.google.gerrit.extensions.client.SubmitType.REBASE_IF_NECESSARY;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -237,22 +238,21 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
     gApi.changes().id(r1.getChangeId()).current().review(ReviewInput.approve());
     gApi.changes().id(r2.getChangeId()).current().review(ReviewInput.approve());
 
-    try {
-      gApi.changes().id(r2.getChangeId()).current().submit();
-      fail("Expected ResourceConflictException");
-    } catch (ResourceConflictException e) {
-      assertThat(e)
-          .hasMessageThat()
-          .isEqualTo(
-              "Failed to submit 2 changes due to the following problems:\n"
-                  + "Change "
-                  + r1.getChange().getId()
-                  + ": Change has submit type "
-                  + "CHERRY_PICK, but previously chose submit type MERGE_IF_NECESSARY "
-                  + "from change "
-                  + r2.getChange().getId()
-                  + " in the same batch");
-    }
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(r2.getChangeId()).current().submit());
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(
+            "Failed to submit 2 changes due to the following problems:\n"
+                + "Change "
+                + r1.getChange().getId()
+                + ": Change has submit type "
+                + "CHERRY_PICK, but previously chose submit type MERGE_IF_NECESSARY "
+                + "from change "
+                + r2.getChange().getId()
+                + " in the same batch");
   }
 
   @Test

@@ -22,6 +22,30 @@
       "revId": "efe82ffb67cf857d861476316fc826d98c4470d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "558b8571_e2dd212c",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/UploadArchiveIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-22T12:44:08Z",
+      "side": 1,
+      "message": "Although we still can\u0027t use it because its constructor is not visible...",
+      "parentUuid": "08316e0c_4e1d3755",
+      "range": {
+        "startLine": 124,
+        "startChar": 6,
+        "endLine": 125,
+        "endChar": 38
+      },
+      "revId": "efe82ffb67cf857d861476316fc826d98c4470d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

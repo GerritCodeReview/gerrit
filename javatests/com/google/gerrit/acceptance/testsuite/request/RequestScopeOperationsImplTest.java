@@ -16,8 +16,8 @@ package com.google.gerrit.acceptance.testsuite.request;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -68,12 +68,9 @@ public class RequestScopeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void setApiUserToNonExistingUser() throws Exception {
     fastCheckCurrentUser(admin.id());
-    try {
-      requestScopeOperations.setApiUser(Account.id(sequences.nextAccountId()));
-      assert_().fail("expected RuntimeException");
-    } catch (RuntimeException e) {
-      // Expected.
-    }
+    assertThrows(
+        RuntimeException.class,
+        () -> requestScopeOperations.setApiUser(Account.id(sequences.nextAccountId())));
     checkCurrentUser(admin.id());
   }
 

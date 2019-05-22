@@ -15,7 +15,7 @@
 package com.google.gerrit.reviewdb.client;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import org.junit.Test;
 
@@ -49,11 +49,6 @@ public class PatchTest {
   }
 
   private static void assertInvalidKey(String str) {
-    try {
-      Patch.Key.parse(str);
-      assert_().fail("expected RuntimeException");
-    } catch (RuntimeException e) {
-      // Expected.
-    }
+    assertThrows(RuntimeException.class, () -> Patch.Key.parse(str));
   }
 }

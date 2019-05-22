@@ -20,6 +20,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.parseCommitMessageRange;
 import static com.google.gerrit.server.restapi.change.DeleteChangeMessage.createNewChangeMessage;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toSet;
 import static org.eclipse.jgit.util.RawParseUtils.decode;
@@ -160,12 +161,9 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     int changeNum = createOneChangeWithMultipleChangeMessagesInHistory();
     requestScopeOperations.setApiUser(user.id());
 
-    try {
-      deleteOneChangeMessage(changeNum, 0, user, "spam");
-      fail("expected AuthException");
-    } catch (AuthException e) {
-      assertThat(e.getMessage()).isEqualTo("administrate server not permitted");
-    }
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> deleteOneChangeMessage(changeNum, 0, user, "spam"));
+    assertThat(thrown).hasMessageThat().isEqualTo("administrate server not permitted");
   }
 
   @Test
@@ -180,12 +178,15 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
   public void deleteCannotBeAppliedWithEmptyChangeMessageUuid() throws Exception {
     String changeId = createChange().getChangeId();
 
-    try {
-      gApi.changes().id(changeId).message("").delete(new DeleteChangeMessageInput("spam"));
-      fail("expected ResourceNotFoundException");
-    } catch (ResourceNotFoundException e) {
-      assertThat(e.getMessage()).isEqualTo("change message  not found");
-    }
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class,
+            () ->
+                gApi.changes()
+                    .id(changeId)
+                    .message("")
+                    .delete(new DeleteChangeMessageInput("spam")));
+    assertThat(thrown).hasMessageThat().isEqualTo("change message  not found");
   }
 
   @Test
@@ -195,12 +196,11 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     String id = "8473b95934b5732ac55d26311a706c9c2bde9941";
     input.reason = "spam";
 
-    try {
-      gApi.changes().id(changeId).message(id).delete(input);
-      fail("expected ResourceNotFoundException");
-    } catch (ResourceNotFoundException e) {
-      assertThat(e.getMessage()).isEqualTo(String.format("change message %s not found", id));
-    }
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class,
+            () -> gApi.changes().id(changeId).message(id).delete(input));
+    assertThat(thrown).hasMessageThat().isEqualTo(String.format("change message %s not found", id));
   }
 
   @Test

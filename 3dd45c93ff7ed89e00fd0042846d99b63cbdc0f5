@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "b4c79a9f_d9d57223",
+        "filename": "java/com/google/gerrit/server/change/AccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-22T07:24:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7563eee1_ddaa7e2f",
+      "revId": "3dd45c93ff7ed89e00fd0042846d99b63cbdc0f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ed01ddd_32ef7830",
         "filename": "java/com/google/gerrit/server/change/DeleteChangeOp.java",
         "patchSetId": 1
@@ -69,6 +87,24 @@
       "revId": "3dd45c93ff7ed89e00fd0042846d99b63cbdc0f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ef4359e_d227ba1f",
+        "filename": "java/com/google/gerrit/server/change/DeleteChangeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-22T07:24:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80dde039_a7c7c812",
+      "revId": "3dd45c93ff7ed89e00fd0042846d99b63cbdc0f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

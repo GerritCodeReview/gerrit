@@ -15,9 +15,9 @@
 package com.google.gerrit.server.util;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.server.util.LabelVote.parse;
 import static com.google.gerrit.server.util.LabelVote.parseWithEquals;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import org.junit.Test;
 
@@ -82,11 +82,6 @@ public class LabelVoteTest {
   }
 
   private void assertParseWithEqualsFails(String value) {
-    try {
-      parseWithEquals(value);
-      assert_().fail("expected IllegalArgumentException when parsing \"%s\"", value);
-    } catch (IllegalArgumentException e) {
-      // Expected.
-    }
+    assertThrows(IllegalArgumentException.class, () -> parseWithEquals(value));
   }
 }

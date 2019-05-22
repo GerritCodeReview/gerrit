@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.quota;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.replay;
@@ -98,12 +99,11 @@ public class MultipleQuotaPluginsIT extends AbstractDaemonTest {
     replay(quotaEnforcerA);
     replay(quotaEnforcerB);
 
-    try {
-      quotaBackend.user(identifiedAdmin).requestToken("testGroup");
-      fail("expected a NullPointerException");
-    } catch (NullPointerException e) {
-      assertThat(exception).isEqualTo(e);
-    }
+    NullPointerException thrown =
+        assertThrows(
+            NullPointerException.class,
+            () -> quotaBackend.user(identifiedAdmin).requestToken("testGroup"));
+    assertThat(exception).isEqualTo(thrown);
 
     verify(quotaEnforcerA);
   }

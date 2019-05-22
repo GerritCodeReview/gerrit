@@ -93,6 +93,30 @@
       "revId": "1e10b3a66f39b719c3544a90fe79117d34a4b6dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ade3cb8_d320d538",
+        "filename": "java/com/google/gerrit/acceptance/AbstractNotificationTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-22T16:26:08Z",
+      "side": 1,
+      "message": "Thanks. The formatting looks good.",
+      "parentUuid": "daa7c89c_315bd2bb",
+      "range": {
+        "startLine": 219,
+        "startChar": 8,
+        "endLine": 222,
+        "endChar": 57
+      },
+      "revId": "1e10b3a66f39b719c3544a90fe79117d34a4b6dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

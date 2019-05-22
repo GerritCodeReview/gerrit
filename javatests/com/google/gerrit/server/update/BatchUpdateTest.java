@@ -17,7 +17,7 @@ package com.google.gerrit.server.update;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
@@ -106,12 +106,11 @@ public class BatchUpdateTest {
     ObjectId oldMetaId = getMetaId(id);
     try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
       bu.addOp(id, new AddMessageOp("Excessive update"));
-      try {
-        bu.execute();
-        assert_().fail("expected ResourceConflictException");
-      } catch (ResourceConflictException e) {
-        assertThat(e).hasMessageThat().isEqualTo(TooManyUpdatesException.message(id, MAX_UPDATES));
-      }
+      ResourceConflictException thrown =
+          assertThrows(ResourceConflictException.class, () -> bu.execute());
+      assertThat(thrown)
+          .hasMessageThat()
+          .isEqualTo(TooManyUpdatesException.message(id, MAX_UPDATES));
     }
     assertThat(getUpdateCount(id)).isEqualTo(MAX_UPDATES);
     assertThat(getMetaId(id)).isEqualTo(oldMetaId);
@@ -125,12 +124,11 @@ public class BatchUpdateTest {
     try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
       bu.addOp(id, new AddMessageOp("Update on PS1", PatchSet.id(id, 1)));
       bu.addOp(id, new AddMessageOp("Update on PS2", PatchSet.id(id, 2)));
-      try {
-        bu.execute();
-        assert_().fail("expected ResourceConflictException");
-      } catch (ResourceConflictException e) {
-        assertThat(e).hasMessageThat().isEqualTo(TooManyUpdatesException.message(id, MAX_UPDATES));
-      }
+      ResourceConflictException thrown =
+          assertThrows(ResourceConflictException.class, () -> bu.execute());
+      assertThat(thrown)
+          .hasMessageThat()
+          .isEqualTo(TooManyUpdatesException.message(id, MAX_UPDATES));
     }
     assertThat(getUpdateCount(id)).isEqualTo(MAX_UPDATES - 1);
     assertThat(getMetaId(id)).isEqualTo(oldMetaId);

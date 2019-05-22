@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.ConfigSubject.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -116,21 +117,18 @@ public class ConfigChangeIT extends AbstractDaemonTest {
     String id = r.getChangeId();
 
     gApi.changes().id(id).current().review(ReviewInput.approve());
-    try {
-      gApi.changes().id(id).current().submit();
-      fail("expected submit to fail");
-    } catch (ResourceConflictException e) {
-      int n = gApi.changes().id(id).info()._number;
-      assertThat(e)
-          .hasMessageThat()
-          .isEqualTo(
-              "Failed to submit 1 change due to the following problems:\n"
-                  + "Change "
-                  + n
-                  + ": Change contains a project configuration that"
-                  + " changes the parent project.\n"
-                  + "The change must be submitted by a Gerrit administrator.");
-    }
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class, () -> gApi.changes().id(id).current().submit());
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(
+            "Failed to submit 1 change due to the following problems:\n"
+                + "Change "
+                + gApi.changes().id(id).info()._number
+                + ": Change contains a project configuration that"
+                + " changes the parent project.\n"
+                + "The change must be submitted by a Gerrit administrator.");
 
     assertThat(gApi.projects().name(project.get()).get().parent).isEqualTo(allProjects.get());
     fetchRefsMetaConfig();

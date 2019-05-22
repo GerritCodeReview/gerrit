@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1cf0c440_1019cfb6",
+        "filename": "java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T12:27:38Z",
+      "side": 1,
+      "message": "Could this be done with a stream?\n\ne.g. something like:\n\nif (!values.stream().anyMatch(lv -\u003e lv.value() \u003d\u003d defaultValue)) {\n  throw ...\n}",
+      "range": {
+        "startLine": 237,
+        "startChar": 3,
+        "endLine": 245,
+        "endChar": 19
+      },
+      "revId": "4ac8cef830b0dbf7337e9c08348e966a07c66d8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

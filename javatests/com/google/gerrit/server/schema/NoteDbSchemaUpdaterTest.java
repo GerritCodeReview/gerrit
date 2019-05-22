@@ -15,9 +15,9 @@
 package com.google.gerrit.server.schema;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.server.schema.NoteDbSchemaUpdater.requiredUpgrades;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSortedMap;
@@ -61,26 +61,20 @@ public class NoteDbSchemaUpdaterTest {
 
   @Test
   public void downgradeNotSupported() throws Exception {
-    try {
-      requiredUpgrades(14, versions(10, 11, 12, 13));
-      assert_().fail("expected StorageException");
-    } catch (StorageException e) {
-      assertThat(e)
-          .hasMessageThat()
-          .contains("Cannot downgrade NoteDb schema from version 14 to 13");
-    }
+    StorageException thrown =
+        assertThrows(StorageException.class, () -> requiredUpgrades(14, versions(10, 11, 12, 13)));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Cannot downgrade NoteDb schema from version 14 to 13");
   }
 
   @Test
   public void skipToFirstVersionNotSupported() throws Exception {
     ImmutableSortedSet<Integer> versions = versions(10, 11, 12);
     assertThat(requiredUpgrades(9, versions)).containsExactly(10, 11, 12).inOrder();
-    try {
-      requiredUpgrades(8, versions);
-      assert_().fail("expected StorageException");
-    } catch (StorageException e) {
-      assertThat(e).hasMessageThat().contains("Cannot skip NoteDb schema from version 8 to 10");
-    }
+    StorageException thrown =
+        assertThrows(StorageException.class, () -> requiredUpgrades(8, versions));
+    assertThat(thrown).hasMessageThat().contains("Cannot skip NoteDb schema from version 8 to 10");
   }
 
   private static class TestUpdate {
@@ -230,12 +224,8 @@ public class NoteDbSchemaUpdaterTest {
             seedGroupSequenceRef();
           }
         };
-    try {
-      u.update();
-      assert_().fail("expected StorageException");
-    } catch (StorageException e) {
-      assertThat(e).hasMessageThat().contains("NoteDb change migration was not completed");
-    }
+    StorageException thrown = assertThrows(StorageException.class, () -> u.update());
+    assertThat(thrown).hasMessageThat().contains("NoteDb change migration was not completed");
     assertThat(u.getMessages()).isEmpty();
     assertThat(u.readVersion()).isEmpty();
   }
@@ -249,12 +239,8 @@ public class NoteDbSchemaUpdaterTest {
             setNotesMigrationConfig();
           }
         };
-    try {
-      u.update();
-      assert_().fail("expected StorageException");
-    } catch (StorageException e) {
-      assertThat(e).hasMessageThat().contains("upgrade to 2.16.x first");
-    }
+    StorageException thrown = assertThrows(StorageException.class, () -> u.update());
+    assertThat(thrown).hasMessageThat().contains("upgrade to 2.16.x first");
     assertThat(u.getMessages()).isEmpty();
     assertThat(u.readVersion()).isEmpty();
   }

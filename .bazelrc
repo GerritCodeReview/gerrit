@@ -2,7 +2,9 @@ build --workspace_status_command=./tools/workspace-status.sh --strategy=Closure=
 build --repository_cache=~/.gerritcodereview/bazel-cache/repository
 build --experimental_strict_action_env
 build --action_env=PATH
-test --build_tests_only
 build --disk_cache=~/.gerritcodereview/bazel-cache/cas
+
+test --build_tests_only
+test --test_output=errors
 
 import tools/remote-bazelrc

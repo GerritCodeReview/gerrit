@@ -335,12 +335,9 @@ public class AccountManagerIT extends AbstractDaemonTest {
     AuthRequest who = AuthRequest.forUser(username);
     who.setActive(false);
     who.setAuthProvidesAccountActiveStatus(true);
-    try {
-      accountManager.authenticate(who);
-      fail("Expected AccountException");
-    } catch (AccountException e) {
-      assertThat(e).hasMessageThat().isEqualTo("Authentication error, account inactive");
-    }
+    AccountException thrown =
+        assertThrows(AccountException.class, () -> accountManager.authenticate(who));
+    assertThat(thrown).hasMessageThat().isEqualTo("Authentication error, account inactive");
 
     Optional<AccountState> accountState = accounts.get(accountId);
     assertThat(accountState).isPresent();
@@ -422,12 +419,11 @@ public class AccountManagerIT extends AbstractDaemonTest {
     // Expect that this fails because the new email is already assigned to the other account.
     AuthRequest who = AuthRequest.forUser(username);
     who.setEmailAddress(newEmail);
-    try {
-      accountManager.authenticate(who);
-      fail("Expected AccountException");
-    } catch (AccountException e) {
-      assertThat(e).hasMessageThat().isEqualTo("Email 'bar@example.com' in use by another account");
-    }
+    AccountException thrown =
+        assertThrows(AccountException.class, () -> accountManager.authenticate(who));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("Email 'bar@example.com' in use by another account");
 
     // Verify that the email in the external ID was not updated.
     Optional<ExternalId> gerritExtId = externalIds.get(gerritExtIdKey);

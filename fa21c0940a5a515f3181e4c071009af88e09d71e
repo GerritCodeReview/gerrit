@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e172206_e0a0d4d9",
+        "filename": "java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T12:09:12Z",
+      "side": 1,
+      "message": "Since [1] we prefer usage of requireNonNull.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/223975",
+      "range": {
+        "startLine": 162,
+        "startChar": 4,
+        "endLine": 162,
+        "endChar": 16
+      },
+      "revId": "fa21c0940a5a515f3181e4c071009af88e09d71e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67e0d718_0b93c275",
+        "filename": "java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T12:09:12Z",
+      "side": 1,
+      "message": "I think it\u0027s better if both setFunction methods behave consistently when invoked with null. At the moment the behavior is not consistent:\n\n- setFunction((LabelFunction)null) --\u003e throws NPE\n- setFunction((String)null) --\u003e defaults to MAX_WITH_BLOCK",
+      "range": {
+        "startLine": 162,
+        "startChar": 3,
+        "endLine": 162,
+        "endChar": 54
+      },
+      "revId": "fa21c0940a5a515f3181e4c071009af88e09d71e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09b234d3_33103b31",
+        "filename": "java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T12:09:12Z",
+      "side": 1,
+      "message": "Annotate with @Nullable if null should be allowed.",
+      "range": {
+        "startLine": 172,
+        "startChar": 26,
+        "endLine": 172,
+        "endChar": 32
+      },
+      "revId": "fa21c0940a5a515f3181e4c071009af88e09d71e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2279a98e_2414d3aa",
+        "filename": "java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T12:09:12Z",
+      "side": 1,
+      "message": "Defaulting to MAX_WITH_BLOCK when functionName \u003d\u003d null should be documented in the method\u0027s JavaDoc.",
+      "range": {
+        "startLine": 176,
+        "startChar": 14,
+        "endLine": 176,
+        "endChar": 56
+      },
+      "revId": "fa21c0940a5a515f3181e4c071009af88e09d71e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

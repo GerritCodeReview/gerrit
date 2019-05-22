@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Iterables;
@@ -127,12 +128,9 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
               throw new ResourceConflictException(msg);
             }
           });
-      try {
-        bu.execute();
-        fail("expected ResourceConflictException");
-      } catch (ResourceConflictException e) {
-        assertThat(e).hasMessageThat().isEqualTo(msg);
-      }
+      ResourceConflictException thrown =
+          assertThrows(ResourceConflictException.class, () -> bu.execute());
+      assertThat(thrown).hasMessageThat().isEqualTo(msg);
     }
 
     // If updateChange hadn't failed, backup would have been updated to master2.
@@ -195,12 +193,7 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
   }
 
   private void assertNoSuchChangeException(Callable<?> callable) throws Exception {
-    try {
-      callable.call();
-      fail("expected NoSuchChangeException");
-    } catch (NoSuchChangeException e) {
-      // Expected.
-    }
+    assertThrows(NoSuchChangeException.class, () -> callable.call());
   }
 
   private class ConcurrentWritingListener implements BatchUpdateListener {

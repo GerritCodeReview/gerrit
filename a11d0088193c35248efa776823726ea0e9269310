@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88a2a249_e3048bbc",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1859,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T08:23:17Z",
+      "side": 1,
+      "message": "combine into a single single TestProjectUpdate call?",
+      "range": {
+        "startLine": 1850,
+        "startChar": 4,
+        "endLine": 1859,
+        "endChar": 18
+      },
+      "revId": "a11d0088193c35248efa776823726ea0e9269310",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "277e89bb_b27c3a01",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1884,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T08:23:17Z",
+      "side": 1,
+      "message": "combine into a single single TestProjectUpdate call?",
+      "range": {
+        "startLine": 1875,
+        "startChar": 4,
+        "endLine": 1884,
+        "endChar": 18
+      },
+      "revId": "a11d0088193c35248efa776823726ea0e9269310",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb12697c_395c85fe",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1908,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T08:23:17Z",
+      "side": 1,
+      "message": "combine into a single single TestProjectUpdate call?",
+      "range": {
+        "startLine": 1899,
+        "startChar": 4,
+        "endLine": 1908,
+        "endChar": 18
+      },
+      "revId": "a11d0088193c35248efa776823726ea0e9269310",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c8c6f0a_09bb3408",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1936,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T08:23:17Z",
+      "side": 1,
+      "message": "combine into a single single TestProjectUpdate call?",
+      "range": {
+        "startLine": 1927,
+        "startChar": 4,
+        "endLine": 1936,
+        "endChar": 18
+      },
+      "revId": "a11d0088193c35248efa776823726ea0e9269310",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cbfecf4_ded65955",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/DeleteBranchIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T08:23:17Z",
+      "side": 1,
+      "message": "Duplicate code, same as line 143 - line 148 above. Remove this?",
+      "range": {
+        "startLine": 149,
+        "startChar": 3,
+        "endLine": 154,
+        "endChar": 18
+      },
+      "revId": "a11d0088193c35248efa776823726ea0e9269310",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

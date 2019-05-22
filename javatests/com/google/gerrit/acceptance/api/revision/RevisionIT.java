@@ -182,14 +182,13 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(approval.postSubmit).isNull();
 
     // Reducing vote is not allowed.
-    try {
-      gApi.changes().id(changeId).current().review(ReviewInput.dislike());
-      fail("expected ResourceConflictException");
-    } catch (ResourceConflictException e) {
-      assertThat(e)
-          .hasMessageThat()
-          .isEqualTo("Cannot reduce vote on labels for closed change: Code-Review");
-    }
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(changeId).current().review(ReviewInput.dislike()));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("Cannot reduce vote on labels for closed change: Code-Review");
     approval = getApproval(changeId, label);
     assertThat(approval.value).isEqualTo(1);
     assertThat(approval.postSubmit).isNull();
@@ -202,14 +201,13 @@ public class RevisionIT extends AbstractDaemonTest {
     assertPermitted(gApi.changes().id(changeId).get(DETAILED_LABELS), "Code-Review", 2);
 
     // Decreasing to previous post-submit vote is still not allowed.
-    try {
-      gApi.changes().id(changeId).current().review(ReviewInput.dislike());
-      fail("expected ResourceConflictException");
-    } catch (ResourceConflictException e) {
-      assertThat(e)
-          .hasMessageThat()
-          .isEqualTo("Cannot reduce vote on labels for closed change: Code-Review");
-    }
+    thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(changeId).current().review(ReviewInput.dislike()));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("Cannot reduce vote on labels for closed change: Code-Review");
     approval = getApproval(changeId, label);
     assertThat(approval.value).isEqualTo(2);
     assertThat(approval.postSubmit).isTrue();
@@ -536,12 +534,11 @@ public class RevisionIT extends AbstractDaemonTest {
     CherryPickInput in = new CherryPickInput();
     in.destination = destBranch;
     in.message = "Cherry-Pick";
-    try {
-      changeApi.revision(r.getCommit().name()).cherryPickAsInfo(in);
-      fail("expected ResourceConflictException");
-    } catch (ResourceConflictException e) {
-      assertThat(e.getMessage()).isEqualTo("Cherry pick failed: merge conflict");
-    }
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> changeApi.revision(r.getCommit().name()).cherryPickAsInfo(in));
+    assertThat(thrown).hasMessageThat().isEqualTo("Cherry pick failed: merge conflict");
 
     // Cherry-pick with auto merge should succeed.
     in.allowConflicts = true;
@@ -618,16 +615,15 @@ public class RevisionIT extends AbstractDaemonTest {
     CherryPickInput in = new CherryPickInput();
     in.destination = "foo";
     in.message = r1.getCommit().getFullMessage();
-    try {
-      gApi.changes().id(t1).current().cherryPick(in);
-      fail("expected ResourceConflictException");
-    } catch (ResourceConflictException e) {
-      assertThat(e.getMessage())
-          .isEqualTo(
-              "Cannot create new patch set of change "
-                  + info(t2)._number
-                  + " because it is abandoned");
-    }
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class, () -> gApi.changes().id(t1).current().cherryPick(in));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(
+            "Cannot create new patch set of change "
+                + info(t2)._number
+                + " because it is abandoned");
 
     gApi.changes().id(t2).restore();
     gApi.changes().id(t1).current().cherryPick(in);

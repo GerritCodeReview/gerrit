@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "322733f6_7b4dbd76",
+        "filename": "java/com/google/gerrit/server/index/account/AccountSchemaDefinitions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-22T13:23:37Z",
+      "side": 1,
+      "message": "I think this comment can be dropped now.",
+      "revId": "b1e4ee3ae3f8bc934ceb3ae6ea4372502fc6a7e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

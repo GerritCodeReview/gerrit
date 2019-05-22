@@ -15,7 +15,7 @@
 package com.google.gerrit.server.logging;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -166,11 +166,7 @@ public class MutableTagsTest {
   }
 
   private void assertNullPointerException(String expectedMessage, Runnable r) {
-    try {
-      r.run();
-      assert_().fail("expected NullPointerException");
-    } catch (NullPointerException e) {
-      assertThat(e.getMessage()).isEqualTo(expectedMessage);
-    }
+    NullPointerException thrown = assertThrows(NullPointerException.class, () -> r.run());
+    assertThat(thrown).hasMessageThat().isEqualTo(expectedMessage);
   }
 }

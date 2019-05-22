@@ -17,7 +17,6 @@ package com.google.gerrit.acceptance.api.accounts;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
@@ -527,18 +526,15 @@ public class AccountIT extends AbstractDaemonTest {
     accountIndexedCounter.assertReindexOf(user);
 
     // Inactive users may only be resolved by ID.
-    try {
-      gApi.accounts().id("user");
-      assert_().fail("expected ResourceNotFoundException");
-    } catch (ResourceNotFoundException e) {
-      assertThat(e)
-          .hasMessageThat()
-          .isEqualTo(
-              "Account 'user' only matches inactive accounts. To use an inactive account, retry"
-                  + " with one of the following exact account IDs:\n"
-                  + id
-                  + ": User <user@example.com>");
-    }
+    ResourceNotFoundException thrown =
+        assertThrows(ResourceNotFoundException.class, () -> gApi.accounts().id("user"));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(
+            "Account 'user' only matches inactive accounts. To use an inactive account, retry"
+                + " with one of the following exact account IDs:\n"
+                + id
+                + ": User <user@example.com>");
     assertThat(gApi.accounts().id(id).getActive()).isFalse();
 
     gApi.accounts().id(id).setActive(true);
@@ -575,12 +571,11 @@ public class AccountIT extends AbstractDaemonTest {
     try {
       /* Test account that can be activated, but not deactivated */
       // Deactivate account that is already inactive
-      try {
-        gApi.accounts().id(activatableAccountId.get()).setActive(false);
-        fail("Expected exception");
-      } catch (ResourceConflictException e) {
-        assertThat(e.getMessage()).isEqualTo("account not active");
-      }
+      ResourceConflictException thrown =
+          assertThrows(
+              ResourceConflictException.class,
+              () -> gApi.accounts().id(activatableAccountId.get()).setActive(false));
+      assertThat(thrown).hasMessageThat().isEqualTo("account not active");
       assertThat(accountOperations.account(activatableAccountId).get().active()).isFalse();
 
       // Activate account that can be activated
@@ -592,12 +587,11 @@ public class AccountIT extends AbstractDaemonTest {
       assertThat(accountOperations.account(activatableAccountId).get().active()).isTrue();
 
       // Try deactivating account that cannot be deactivated
-      try {
-        gApi.accounts().id(activatableAccountId.get()).setActive(false);
-        fail("Expected exception");
-      } catch (ResourceConflictException e) {
-        assertThat(e.getMessage()).isEqualTo("not allowed to deactive account");
-      }
+      thrown =
+          assertThrows(
+              ResourceConflictException.class,
+              () -> gApi.accounts().id(activatableAccountId.get()).setActive(false));
+      assertThat(thrown).hasMessageThat().isEqualTo("not allowed to deactive account");
       assertThat(accountOperations.account(activatableAccountId).get().active()).isTrue();
 
       /* Test account that can be deactivated, but not activated */
@@ -610,21 +604,19 @@ public class AccountIT extends AbstractDaemonTest {
       assertThat(accountOperations.account(deactivatableAccountId).get().active()).isFalse();
 
       // Deactivate account that is already inactive
-      try {
-        gApi.accounts().id(deactivatableAccountId.get()).setActive(false);
-        fail("Expected exception");
-      } catch (ResourceConflictException e) {
-        assertThat(e.getMessage()).isEqualTo("account not active");
-      }
+      thrown =
+          assertThrows(
+              ResourceConflictException.class,
+              () -> gApi.accounts().id(deactivatableAccountId.get()).setActive(false));
+      assertThat(thrown).hasMessageThat().isEqualTo("account not active");
       assertThat(accountOperations.account(deactivatableAccountId).get().active()).isFalse();
 
       // Try activating account that cannot be activated
-      try {
-        gApi.accounts().id(deactivatableAccountId.get()).setActive(true);
-        fail("Expected exception");
-      } catch (ResourceConflictException e) {
-        assertThat(e.getMessage()).isEqualTo("not allowed to active account");
-      }
+      thrown =
+          assertThrows(
+              ResourceConflictException.class,
+              () -> gApi.accounts().id(deactivatableAccountId.get()).setActive(true));
+      assertThat(thrown).hasMessageThat().isEqualTo("not allowed to active account");
       assertThat(accountOperations.account(deactivatableAccountId).get().active()).isFalse();
     } finally {
       registrationHandle.remove();
@@ -645,12 +637,10 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(gApi.accounts().id("user").getActive()).isTrue();
     gApi.accounts().id("user").setActive(false);
     assertThat(gApi.accounts().id(id).getActive()).isFalse();
-    try {
-      gApi.accounts().id(id).setActive(false);
-      fail("Expected exception");
-    } catch (ResourceConflictException e) {
-      assertThat(e.getMessage()).isEqualTo("account not active");
-    }
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class, () -> gApi.accounts().id(id).setActive(false));
+    assertThat(thrown).hasMessageThat().isEqualTo("account not active");
     gApi.accounts().id(id).setActive(true);
   }
 
@@ -981,12 +971,9 @@ public class AccountIT extends AbstractDaemonTest {
             "new.email@example.africa");
     for (String email : emails) {
       EmailInput input = newEmailInput(email);
-      try {
-        gApi.accounts().self().addEmail(input);
-        fail("Expected BadRequestException for invalid email address: " + email);
-      } catch (BadRequestException e) {
-        assertThat(e).hasMessageThat().isEqualTo("invalid email address");
-      }
+      BadRequestException thrown =
+          assertThrows(BadRequestException.class, () -> gApi.accounts().self().addEmail(input));
+      assertWithMessage(email).that(thrown).hasMessageThat().isEqualTo("invalid email address");
     }
     accountIndexedCounter.assertNoReindex();
   }
@@ -1268,12 +1255,7 @@ public class AccountIT extends AbstractDaemonTest {
     deny(allUsers, RefNames.REFS + "*", Permission.READ, ANONYMOUS_USERS);
 
     // fetching user branch without READ permission fails
-    try {
-      fetch(allUsersRepo, userRefName + ":userRef");
-      fail("user branch is visible although no READ permission is granted");
-    } catch (TransportException e) {
-      // expected because no READ granted on user branch
-    }
+    assertThrows(TransportException.class, () -> fetch(allUsersRepo, userRefName + ":userRef"));
 
     // allow each user to read its own user branch
     grant(
@@ -2296,12 +2278,9 @@ public class AccountIT extends AbstractDaemonTest {
             "@", "@foo", "-", "-foo", "_", "_foo", "!", "+", "{", "}", "*", "%", "#", "$", "&", "’",
             "^", "=", "~");
     for (String name : invalidNames) {
-      try {
-        gApi.accounts().create(name);
-        fail(String.format("Expected BadRequestException for username [%s]", name));
-      } catch (BadRequestException e) {
-        assertThat(e).hasMessageThat().isEqualTo(String.format("Invalid username '%s'", name));
-      }
+      BadRequestException thrown =
+          assertThrows(BadRequestException.class, () -> gApi.accounts().create(name));
+      assertThat(thrown).hasMessageThat().isEqualTo(String.format("Invalid username '%s'", name));
     }
   }
 
@@ -2437,12 +2416,9 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(accountInfo.status).isNull();
     assertThat(accountInfo.name).isNotEqualTo(fullName);
 
-    try {
-      update.update("Set Full Name", admin.id(), u -> u.setFullName(fullName));
-      fail("expected LockFailureException");
-    } catch (LockFailureException e) {
-      // Ignore, expected
-    }
+    assertThrows(
+        LockFailureException.class,
+        () -> update.update("Set Full Name", admin.id(), u -> u.setFullName(fullName)));
     assertThat(bgCounter.get()).isEqualTo(status.size());
 
     Account updatedAccount = accounts.get(admin.id()).get().getAccount();
@@ -2760,12 +2736,14 @@ public class AccountIT extends AbstractDaemonTest {
       requestScopeOperations.setApiUser(user.id());
       createDraft(r, PushOneCommit.FILE_NAME, "draft");
       requestScopeOperations.setApiUser(admin.id());
-      try {
-        gApi.accounts().id(user.id().get()).deleteDraftComments(new DeleteDraftCommentsInput());
-        assert_().fail("expected AuthException");
-      } catch (AuthException e) {
-        assertThat(e).hasMessageThat().isEqualTo("Cannot delete drafts of other user");
-      }
+      AuthException thrown =
+          assertThrows(
+              AuthException.class,
+              () ->
+                  gApi.accounts()
+                      .id(user.id().get())
+                      .deleteDraftComments(new DeleteDraftCommentsInput()));
+      assertThat(thrown).hasMessageThat().isEqualTo("Cannot delete drafts of other user");
     } finally {
       cleanUpDrafts();
     }

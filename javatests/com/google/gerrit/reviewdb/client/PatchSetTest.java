@@ -15,9 +15,9 @@
 package com.google.gerrit.reviewdb.client;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.reviewdb.client.PatchSet.joinGroups;
 import static com.google.gerrit.reviewdb.client.PatchSet.splitGroups;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import org.junit.Test;
@@ -126,11 +126,6 @@ public class PatchSetTest {
   }
 
   private static void assertRuntimeException(Runnable runnable) {
-    try {
-      runnable.run();
-      assert_().fail("expected RuntimeException");
-    } catch (RuntimeException e) {
-      // Expected.
-    }
+    assertThrows(RuntimeException.class, () -> runnable.run());
   }
 }

@@ -15,7 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.fail;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
@@ -545,12 +545,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   }
 
   private void assertParseFails(RevCommit commit) throws Exception {
-    try {
-      newParser(commit).parseAll();
-      fail("Expected parse to fail:\n" + commit.getFullMessage());
-    } catch (ConfigInvalidException e) {
-      // Expected
-    }
+    assertThrows(ConfigInvalidException.class, () -> newParser(commit).parseAll());
   }
 
   private ChangeNotesParser newParser(ObjectId tip) throws Exception {

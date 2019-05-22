@@ -1314,8 +1314,8 @@ bower_archive(
 bower_archive(
     name = "polymer-resin",
     package = "polymer/polymer-resin",
-    sha1 = "5cb65081d461e710252a1ba1e671fe4c290356ef",
-    version = "1.2.8",
+    sha1 = "94c29926c20ea3a9b636f26b3e0d689ead8137e5",
+    version = "2.0.1",
 )
 
 bower_archive(

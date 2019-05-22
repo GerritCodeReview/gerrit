@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
@@ -131,20 +130,17 @@ public class AssigneeIT extends AbstractDaemonTest {
   public void setAssigneeToInactiveUser() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.accounts().id(user.id().get()).setActive(false);
-    try {
-      setAssignee(r, user.email());
-      assert_().fail("expected UnresolvableAccountException");
-    } catch (UnresolvableAccountException e) {
-      assertThat(e)
-          .hasMessageThat()
-          .isEqualTo(
-              "Account '"
-                  + user.email()
-                  + "' only matches inactive accounts. To use an inactive account, retry with one"
-                  + " of the following exact account IDs:\n"
-                  + user.id()
-                  + ": User <user@example.com>");
-    }
+    UnresolvableAccountException thrown =
+        assertThrows(UnresolvableAccountException.class, () -> setAssignee(r, user.email()));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(
+            "Account '"
+                + user.email()
+                + "' only matches inactive accounts. To use an inactive account, retry with one"
+                + " of the following exact account IDs:\n"
+                + user.id()
+                + ": User <user@example.com>");
   }
 
   @Test

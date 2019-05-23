@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "444a8a50_dd60735f",
+        "filename": "java/com/google/gerrit/index/query/LazyResultSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-23T10:05:14Z",
+      "side": 1,
+      "message": "broken sentence?",
+      "range": {
+        "startLine": 28,
+        "startChar": 57,
+        "endLine": 28,
+        "endChar": 70
+      },
+      "revId": "9ac8657b787ec2a431cc55e00b8cb17315f9f42e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "600710b2_36494151",
+        "filename": "java/com/google/gerrit/index/query/LazyResultSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-23T10:05:14Z",
+      "side": 1,
+      "message": "Since [1] we prefer requireNonNull.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/223975",
+      "range": {
+        "startLine": 37,
+        "startChar": 22,
+        "endLine": 37,
+        "endChar": 34
+      },
+      "revId": "9ac8657b787ec2a431cc55e00b8cb17315f9f42e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae2775fd_e938c922",
+        "filename": "java/com/google/gerrit/index/query/ListResultSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-23T10:05:14Z",
+      "side": 1,
+      "message": "requireNonNull",
+      "range": {
+        "startLine": 35,
+        "startChar": 35,
+        "endLine": 35,
+        "endChar": 47
+      },
+      "revId": "9ac8657b787ec2a431cc55e00b8cb17315f9f42e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93ec69b7_003b1a76",
+        "filename": "java/com/google/gerrit/index/query/ListResultSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-23T10:05:14Z",
+      "side": 1,
+      "message": "Why is results not set to null here, as it was done in the old code?",
+      "revId": "9ac8657b787ec2a431cc55e00b8cb17315f9f42e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

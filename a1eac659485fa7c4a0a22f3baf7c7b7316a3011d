@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7511190b_2c86c180",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-23T15:10:29Z",
+      "side": 1,
+      "message": "For Lucene tests, I saw that there\u0027s a mismatch between \u0027lucene\u0027 in the config and \u0027LUCENE\u0027 as enum name. I\u0027m pretty sure that you need equalsIgnoreCase() here.",
+      "range": {
+        "startLine": 745,
+        "startChar": 57,
+        "endLine": 745,
+        "endChar": 96
+      },
+      "revId": "a1eac659485fa7c4a0a22f3baf7c7b7316a3011d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -191,7 +191,7 @@ sh_test(
         "embed/test.html",
         "test/common-test-setup.html",
         ":embed_test_files",
-        ":polygerrit_embed_ui.zip",
+        ":pg_code.zip",
         ":test_components.zip",
     ],
     # Should not run sandboxed.

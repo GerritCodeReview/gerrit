@@ -62,6 +62,7 @@ import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
@@ -74,13 +75,13 @@ import org.eclipse.jgit.lib.Config;
  */
 public class IndexModule extends LifecycleModule {
   public static class IndexType {
-    private static final String LUCENE = "LUCENE";
-    private static final String ELASTICSEARCH = "ELASTICSEARCH";
+    private static final String LUCENE = "lucene";
+    private static final String ELASTICSEARCH = "elasticsearch";
 
     private final String type;
 
     public IndexType(@Nullable String type) {
-      this.type = type == null ? getDefault() : type;
+      this.type = type == null ? getDefault() : type.toLowerCase();
     }
 
     public static String getDefault() {
@@ -92,11 +93,11 @@ public class IndexModule extends LifecycleModule {
     }
 
     public boolean isLucene() {
-      return type.equalsIgnoreCase(LUCENE);
+      return type.equals(LUCENE);
     }
 
     public boolean isElasticsearch() {
-      return type.equalsIgnoreCase(ELASTICSEARCH);
+      return type.equals(ELASTICSEARCH);
     }
 
     @Override

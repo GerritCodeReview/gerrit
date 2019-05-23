@@ -172,8 +172,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
   @Test
   public void deleteCanBeAppliedWithAdministrateServerCapability() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ADMINISTRATE_SERVER).group(REGISTERED_USERS))
         .update();
     int changeNum = createOneChangeWithMultipleChangeMessagesInHistory();

@@ -1048,8 +1048,7 @@ public class GroupsIT extends AbstractDaemonTest {
   public void pushToGroupNamesBranchIsRejectedForAllUsersRepo() throws Exception {
     // refs/meta/group-names isn't usually available for fetch, so grant ACCESS_DATABASE
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
     assertPushToGroupBranch(allUsers, RefNames.REFS_GROUPNAMES, "group update not allowed");
@@ -1198,8 +1197,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
       // refs/meta/group-names is only visible with ACCESS_DATABASE
       projectOperations
-          .project(allProjects)
-          .forUpdate()
+          .allProjectsForUpdate()
           .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
           .update();
 
@@ -1241,8 +1239,7 @@ public class GroupsIT extends AbstractDaemonTest {
   public void cannotDeleteGroupNamesBranch() throws Exception {
     // refs/meta/group-names is only visible with ACCESS_DATABASE
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
 

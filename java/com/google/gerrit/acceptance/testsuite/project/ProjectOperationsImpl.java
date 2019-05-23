@@ -104,6 +104,11 @@ public class ProjectOperationsImpl implements ProjectOperations {
     return new PerProjectOperations(key);
   }
 
+  @Override
+  public TestProjectUpdate.Builder allProjectsForUpdate() {
+    return project(allProjectsName).forUpdate();
+  }
+
   private class PerProjectOperations implements ProjectOperations.PerProjectOperations {
     Project.NameKey nameKey;
 

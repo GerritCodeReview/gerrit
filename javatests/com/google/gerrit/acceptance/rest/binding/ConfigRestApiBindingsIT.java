@@ -89,8 +89,7 @@ public class ConfigRestApiBindingsIT extends AbstractDaemonTest {
   public void configEndpoints() throws Exception {
     // 'Access Database' is needed for the '/config/server/check.consistency' REST endpoint
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
 

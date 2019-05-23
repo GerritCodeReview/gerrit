@@ -131,8 +131,7 @@ public class LabelNormalizerTest {
   @Test
   public void noNormalizeByPermission() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-1, 1))
         .add(allowLabel("Verified").ref("refs/heads/*").group(REGISTERED_USERS).range(-1, 1))
         .update();
@@ -145,8 +144,7 @@ public class LabelNormalizerTest {
   @Test
   public void normalizeByType() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-5, 5))
         .add(allowLabel("Verified").ref("refs/heads/*").group(REGISTERED_USERS).range(-5, 5))
         .update();
@@ -168,8 +166,7 @@ public class LabelNormalizerTest {
   @Test
   public void explicitZeroVoteOnNonEmptyRangeIsPresent() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-1, 1))
         .update();
 

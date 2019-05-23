@@ -130,8 +130,7 @@ public class CacheOperationsIT extends AbstractDaemonTest {
   @Test
   public void flushWebSessions_Forbidden() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.FLUSH_CACHES).group(REGISTERED_USERS))
         .add(allowCapability(GlobalCapability.VIEW_CACHES).group(REGISTERED_USERS))
         .update();
@@ -148,8 +147,7 @@ public class CacheOperationsIT extends AbstractDaemonTest {
           .assertForbidden();
     } finally {
       projectOperations
-          .project(allProjects)
-          .forUpdate()
+          .allProjectsForUpdate()
           .remove(capabilityKey(GlobalCapability.FLUSH_CACHES).group(REGISTERED_USERS))
           .remove(capabilityKey(GlobalCapability.VIEW_CACHES).group(REGISTERED_USERS))
           .update();

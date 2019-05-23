@@ -64,8 +64,7 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
   @Before
   public void basicSetup() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
 

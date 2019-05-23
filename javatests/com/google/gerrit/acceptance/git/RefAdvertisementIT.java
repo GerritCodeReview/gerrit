@@ -129,8 +129,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       u.save();
     }
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allow(Permission.READ).ref("refs/*").group(admins))
         .update();
 
@@ -344,8 +343,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Test
   public void uploadPackSubsetOfRefsVisibleWithAccessDatabase() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
     projectOperations
@@ -422,8 +420,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     assertRefs(allProjects, user, true);
 
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
     assertRefs(allProjects, user, true, "refs/sequences/changes");
@@ -555,8 +552,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Test
   public void advertisedReferencesIncludeAllUserBranchesWithAccessDatabase() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
     TestRepository<?> userTestRepository = cloneProject(allUsers, user);
@@ -598,8 +594,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Test
   public void advertisedReferencesIncludeAllGroupBranchesWithAccessDatabase() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
     AccountGroup.UUID users = createGroup("Users", admins);
@@ -621,8 +616,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         .add(allow(Permission.READ).ref(RefNames.REFS_GROUPS + "*").group(REGISTERED_USERS))
         .update();
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ADMINISTRATE_SERVER).group(REGISTERED_USERS))
         .update();
     AccountGroup.UUID users = createGroup("Users", admins);
@@ -763,8 +757,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Test
   public void hideMetadata() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
     // create change

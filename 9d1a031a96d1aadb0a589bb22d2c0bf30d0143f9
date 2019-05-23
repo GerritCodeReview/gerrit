@@ -99,6 +99,24 @@
     },
     {
       "key": {
+        "uuid": "b8020826_6c0f34f5",
+        "filename": "e2e-tests/load-tests/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-05-23T06:33:02Z",
+      "side": 1,
+      "message": "Can also be done in a separate change IMHO.",
+      "parentUuid": "c5e03d78_1130c05d",
+      "revId": "9d1a031a96d1aadb0a589bb22d2c0bf30d0143f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6b771f0a_3f00d4b3",
         "filename": "e2e-tests/load-tests/README.md",
         "patchSetId": 2
@@ -133,6 +151,24 @@
       "writtenOn": "2019-05-22T09:00:56Z",
       "side": 1,
       "message": "Should we use bazel [1] to be consistent?\n\n[1] https://github.com/bazelbuild/rules_scala",
+      "revId": "9d1a031a96d1aadb0a589bb22d2c0bf30d0143f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14a26d5d_fdbfcadd",
+        "filename": "e2e-tests/load-tests/build.sbt",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-05-23T06:33:02Z",
+      "side": 1,
+      "message": "Can also be done in a separate change IMHO.",
+      "parentUuid": "70689fec_3cc7a728",
       "revId": "9d1a031a96d1aadb0a589bb22d2c0bf30d0143f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -213,6 +249,30 @@
     },
     {
       "key": {
+        "uuid": "dcaf0ab7_34cd8b9c",
+        "filename": "e2e-tests/load-tests/src/test/scala/com/google/gerrit/scenarios/ReplayRecordsFromFeeder.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-05-23T06:33:02Z",
+      "side": 1,
+      "message": "They are probably not, but so far we did not implement a mechanic to simulate the realistic creation of users. I am also not sure whether this would be sensible. There will always be some ramp up time needed to create the user threads. We would anyway have to take that into account. Further, the time scale of a test will be quite different to the real thing. The average number of active users on a real server will probably rather change over hours (e.g. day-night cycle), with some spikes inbetween. A test will probably only be run for a few minutes collecting a snapshot.\nAlso AFAIK Gatling does not have a functionality to adjust user numbers from a feeder. The way it works is that a user with nothing to do will get the next line from the feeder, so in the end actions done by the same user in real life will probably be done by different users in the load test. The simulation I fear can go only that far. We anyway can\u0027t simulate the exact state, since it will be hard to get the exact data which was pushed for example.",
+      "parentUuid": "61c7e636_f82dcd89",
+      "range": {
+        "startLine": 50,
+        "startChar": 6,
+        "endLine": 54,
+        "endChar": 49
+      },
+      "revId": "9d1a031a96d1aadb0a589bb22d2c0bf30d0143f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3b8bcf3b_6adfb095",
         "filename": "e2e-tests/load-tests/src/test/scala/com/google/gerrit/scenarios/ReplayRecordsFromFeeder.scala",
         "patchSetId": 2
@@ -224,6 +284,24 @@
       "writtenOn": "2019-05-22T09:00:56Z",
       "side": 1,
       "message": "This is still buggy, unfortunately (Sorry for that). A lot of the created repositories will not be deleted. Probably because some process is interfering. My guess is the git-gc.\n\nI would suggest to remove the deletion of the temporary files for now, until we find a way around that.",
+      "revId": "9d1a031a96d1aadb0a589bb22d2c0bf30d0143f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec986c65_21e1ec0a",
+        "filename": "e2e-tests/load-tests/src/test/scala/com/google/gerrit/scenarios/ReplayRecordsFromFeeder.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-05-23T06:33:02Z",
+      "side": 1,
+      "message": "Can also be done in a separate change IMHO.",
+      "parentUuid": "3b8bcf3b_6adfb095",
       "revId": "9d1a031a96d1aadb0a589bb22d2c0bf30d0143f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

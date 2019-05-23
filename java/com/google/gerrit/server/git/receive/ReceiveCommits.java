@@ -1949,14 +1949,15 @@ class ReceiveCommits {
     BranchCommitValidator validator =
         commitValidatorFactory.create(projectState, changeEnt.getDest(), user);
     try {
-      if (validator.validCommit(
+      BranchCommitValidator.Result validationResult = validator.validateCommit(
           receivePack.getRevWalk().getObjectReader(),
           cmd,
           newCommit,
           false,
-          messages,
           rejectCommits,
-          changeEnt)) {
+          changeEnt);
+      messages.addAll(validationResult.messages());
+      if (validationResult.isValid()) {
         logger.atFine().log("Replacing change %s", changeEnt.getId());
         requestReplace(cmd, true, changeEnt, newCommit);
       }
@@ -2114,14 +2115,15 @@ class ReceiveCommits {
           logger.atFine().log("Creating new change for %s even though it is already tracked", name);
         }
 
-        if (!validator.validCommit(
+        BranchCommitValidator.Result validationResult = validator.validateCommit(
             receivePack.getRevWalk().getObjectReader(),
             magicBranch.cmd,
             c,
             magicBranch.merged,
-            messages,
             rejectCommits,
-            null)) {
+            null);
+        messages.addAll(validationResult.messages());
+        if (!validationResult.isValid()) {
           // Not a change the user can propose? Abort as early as possible.
           logger.atFine().log("Aborting early due to invalid commit");
           return Collections.emptyList();
@@ -3113,8 +3115,10 @@ class ReceiveCommits {
           continue;
         }
 
-        if (!validator.validCommit(
-            walk.getObjectReader(), cmd, c, false, messages, rejectCommits, null)) {
+        BranchCommitValidator.Result validationResult =
+            validator.validateCommit(walk.getObjectReader(), cmd, c, false, rejectCommits, null);
+        messages.addAll(validationResult.messages());
+        if (!validationResult.isValid()) {
           break;
         }
       }

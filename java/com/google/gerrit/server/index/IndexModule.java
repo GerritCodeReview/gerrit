@@ -17,9 +17,11 @@ package com.google.gerrit.server.index;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.common.Nullable;
@@ -71,9 +73,36 @@ import org.eclipse.jgit.lib.Config;
  * (e.g. Lucene).
  */
 public class IndexModule extends LifecycleModule {
-  public enum IndexType {
-    LUCENE,
-    ELASTICSEARCH
+  public static class IndexType {
+    private static final String LUCENE = "LUCENE";
+    private static final String ELASTICSEARCH = "ELASTICSEARCH";
+
+    private final String type;
+
+    public IndexType(@Nullable String type) {
+      this.type = type == null ? getDefault() : type;
+    }
+
+    public static String getDefault() {
+      return LUCENE;
+    }
+
+    public static ImmutableSet<String> getKnownTypes() {
+      return ImmutableSet.of(LUCENE, ELASTICSEARCH);
+    }
+
+    public boolean isLucene() {
+      return type.equalsIgnoreCase(LUCENE);
+    }
+
+    public boolean isElasticsearch() {
+      return type.equalsIgnoreCase(ELASTICSEARCH);
+    }
+
+    @Override
+    public String toString() {
+      return MoreObjects.toStringHelper(this).add("type", type).toString();
+    }
   }
 
   public static final ImmutableCollection<SchemaDefinitions<?>> ALL_SCHEMA_DEFS =
@@ -90,7 +119,8 @@ public class IndexModule extends LifecycleModule {
 
   /** Type of secondary index. */
   public static IndexType getIndexType(@Nullable Config cfg) {
-    return cfg != null ? cfg.getEnum("index", null, "type", IndexType.LUCENE) : IndexType.LUCENE;
+    String configValue = cfg != null ? cfg.getString("index", null, "type") : null;
+    return new IndexType(configValue);
   }
 
   private final int threads;

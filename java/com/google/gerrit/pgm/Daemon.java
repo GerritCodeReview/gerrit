@@ -485,24 +485,19 @@ public class Daemon extends SiteProgram {
     if (luceneModule != null) {
       return luceneModule;
     }
-    switch (indexType) {
-      case LUCENE:
-        return LuceneIndexModule.latestVersion(slave);
-      case ELASTICSEARCH:
-        return ElasticIndexModule.latestVersion(slave);
-      default:
-        throw new IllegalStateException("unsupported index.type = " + indexType);
+    if (indexType.isLucene()) {
+      return LuceneIndexModule.latestVersion(slave);
     }
+    if (indexType.isElasticsearch()) {
+      return ElasticIndexModule.latestVersion(slave);
+    }
+    throw new IllegalStateException("unsupported index.type = " + indexType);
   }
 
   private void initIndexType() {
     indexType = IndexModule.getIndexType(cfgInjector);
-    switch (indexType) {
-      case LUCENE:
-      case ELASTICSEARCH:
-        break;
-      default:
-        throw new IllegalStateException("unsupported index.type = " + indexType);
+    if (!indexType.isLucene() && !indexType.isElasticsearch()) {
+      throw new IllegalStateException("unsupported index.type = " + indexType);
     }
   }
 

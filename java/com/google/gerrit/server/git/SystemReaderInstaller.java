@@ -67,7 +67,7 @@ public class SystemReaderInstaller implements LifecycleListener {
 
       @Override
       public FileBasedConfig openUserConfig(Config parent, FS fs) {
-        return current.openSystemConfig(parent, fs);
+        return current.openUserConfig(parent, fs);
       }
 
       @Override

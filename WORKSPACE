@@ -941,12 +941,12 @@ maven_jar(
     sha1 = "0f5a654e4675769c716e5b387830d19b501ca191",
 )
 
-TESTCONTAINERS_VERSION = "1.11.2"
+TESTCONTAINERS_VERSION = "1.11.3"
 
 maven_jar(
     name = "testcontainers",
     artifact = "org.testcontainers:testcontainers:" + TESTCONTAINERS_VERSION,
-    sha1 = "eae47ed24bb07270d4b60b5e2c3444c5bf3c8ea9",
+    sha1 = "154b69dd976416734b2fc809fb86e173ad9aa25b",
 )
 
 maven_jar(

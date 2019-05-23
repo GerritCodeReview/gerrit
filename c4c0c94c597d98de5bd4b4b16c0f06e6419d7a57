@@ -70,6 +70,30 @@
       "revId": "c4c0c94c597d98de5bd4b4b16c0f06e6419d7a57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bfe2b7c_dde32622",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-23T14:17:13Z",
+      "side": 1,
+      "message": "\u003e The method expects that the config either contains \"LUCENE\" or \"ELASTICSEARCH\" for index.type. For any other values (e.g. different type of index), it generates an IllegalArgumentException.\n\nOn it; thanks for the info.",
+      "parentUuid": "05a69510_f1096e16",
+      "range": {
+        "startLine": 787,
+        "startChar": 10,
+        "endLine": 787,
+        "endChar": 39
+      },
+      "revId": "c4c0c94c597d98de5bd4b4b16c0f06e6419d7a57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

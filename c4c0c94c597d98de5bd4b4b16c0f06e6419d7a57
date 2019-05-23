@@ -118,6 +118,30 @@
       "revId": "c4c0c94c597d98de5bd4b4b16c0f06e6419d7a57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3963efd_ad02c266",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-23T14:57:24Z",
+      "side": 1,
+      "message": "\u003e Ia129d3eb should be a fix.\n\nI also (concurrently) just uploaded Ib5f8e4d6, which has a smaller footprint.",
+      "parentUuid": "09e7669a_9c7b9302",
+      "range": {
+        "startLine": 787,
+        "startChar": 10,
+        "endLine": 787,
+        "endChar": 39
+      },
+      "revId": "c4c0c94c597d98de5bd4b4b16c0f06e6419d7a57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

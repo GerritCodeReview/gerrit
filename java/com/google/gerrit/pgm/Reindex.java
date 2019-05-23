@@ -147,16 +147,13 @@ public class Reindex extends SiteProgram {
     boolean slave = globalConfig.getBoolean("container", "slave", false);
     List<Module> modules = new ArrayList<>();
     Module indexModule;
-    switch (IndexModule.getIndexType(dbInjector)) {
-      case LUCENE:
-        indexModule = LuceneIndexModule.singleVersionWithExplicitVersions(versions, threads, slave);
-        break;
-      case ELASTICSEARCH:
-        indexModule =
-            ElasticIndexModule.singleVersionWithExplicitVersions(versions, threads, slave);
-        break;
-      default:
-        throw new IllegalStateException("unsupported index.type");
+    IndexType indexType = IndexModule.getIndexType(dbInjector);
+    if (indexType.isLucene()) {
+      indexModule = LuceneIndexModule.singleVersionWithExplicitVersions(versions, threads, slave);
+    } else if (indexType.isElasticsearch()) {
+      indexModule = ElasticIndexModule.singleVersionWithExplicitVersions(versions, threads, slave);
+    } else {
+      throw new IllegalStateException("unsupported index.type = " + indexType);
     }
     modules.add(indexModule);
     modules.add(new BatchProgramModule());
@@ -173,7 +170,7 @@ public class Reindex extends SiteProgram {
 
   private void overrideConfig() {
     // Disable auto-commit for speed; committing will happen at the end of the process.
-    if (IndexModule.getIndexType(dbInjector) == IndexType.LUCENE) {
+    if (IndexModule.getIndexType(dbInjector).isLucene()) {
       globalConfig.setLong("index", "changes_open", "commitWithin", -1);
       globalConfig.setLong("index", "changes_closed", "commitWithin", -1);
     }

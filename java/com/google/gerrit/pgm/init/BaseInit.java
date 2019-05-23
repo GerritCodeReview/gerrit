@@ -38,6 +38,7 @@ import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.IndexModule;
+import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.plugins.JarScanner;
 import com.google.gerrit.server.schema.NoteDbSchemaUpdater;
 import com.google.gerrit.server.schema.UpdateUI;
@@ -404,15 +405,13 @@ public class BaseInit extends SiteProgram {
             }
           });
       Injector dbInjector = createDbInjector();
-      switch (IndexModule.getIndexType(dbInjector)) {
-        case LUCENE:
-          modules.add(new LuceneIndexModuleOnInit());
-          break;
-        case ELASTICSEARCH:
-          modules.add(new ElasticIndexModuleOnInit());
-          break;
-        default:
-          throw new IllegalStateException("unsupported index.type");
+      IndexType indexType = IndexModule.getIndexType(dbInjector);
+      if (indexType.isLucene()) {
+        modules.add(new LuceneIndexModuleOnInit());
+      } else if (indexType.isElasticsearch()) {
+        modules.add(new ElasticIndexModuleOnInit());
+      } else {
+        throw new IllegalStateException("unsupported index.type = " + indexType);
       }
       sysInjector = dbInjector.createChildInjector(modules);
     }

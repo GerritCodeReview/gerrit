@@ -22,6 +22,30 @@
       "revId": "d34dfe399d93473bff2b8de8d7297f6503ffc662",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6489e9fd_ab1c96b0",
+        "filename": "java/com/google/gerrit/server/git/SystemReaderInstaller.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-05-23T21:20:41Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/225532",
+      "parentUuid": "925278b8_a0b9b927",
+      "range": {
+        "startLine": 70,
+        "startChar": 23,
+        "endLine": 70,
+        "endChar": 39
+      },
+      "revId": "d34dfe399d93473bff2b8de8d7297f6503ffc662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

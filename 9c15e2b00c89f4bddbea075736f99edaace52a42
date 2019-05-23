@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "afee5ee1_31efca5c",
+        "filename": ".bazelrc",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-05-23T16:13:57Z",
+      "side": 1,
+      "message": "This seems to break running bazel in a directory other than the root:\n\n $ cd $(git rev-parse --show-toplevel)/plugins \u0026\u0026 bazel test ...\n [bazel INFO src/main/cpp/option_processor.cc:381] Looking for the following rc files: /etc/bazel.bazelrc,/usr/local/google/home/dborowitz/nobackup/c/gerrit-upstream/gerrit/.bazelrc,/usr/local/google/home/dborowitz/.bazelrc\n [bazel INFO src/main/cpp/rc_file.cc:56] Parsing the RcFile /etc/bazel.bazelrc\n [bazel INFO src/main/cpp/rc_file.cc:56] Parsing the RcFile /usr/local/google/home/dborowitz/nobackup/c/gerrit-upstream/gerrit/.bazelrc\n [bazel INFO src/main/cpp/rc_file.cc:56] Parsing the RcFile tools/remote-bazelrc\n [bazel FATAL src/main/cpp/blaze.cc:1330] Unexpected error reading .blazerc file \u0027tools/remote-bazelrc\u0027",
+      "revId": "9c15e2b00c89f4bddbea075736f99edaace52a42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

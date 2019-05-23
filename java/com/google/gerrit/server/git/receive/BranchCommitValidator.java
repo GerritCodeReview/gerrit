@@ -17,6 +17,8 @@ package com.google.gerrit.server.git.receive;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
 
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.BranchNameKey;
@@ -27,7 +29,6 @@ import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.CommitValidators;
-import com.google.gerrit.server.git.validators.ValidationMessage;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.ssh.SshInfo;
@@ -56,6 +57,23 @@ public class BranchCommitValidator {
         ProjectState projectState, BranchNameKey branch, IdentifiedUser user);
   }
 
+  /** A boolean validation status and a list of additional messages. */
+  @AutoValue
+  public static abstract class Result {
+    static Result create(boolean isValid, List<CommitValidationMessage> messages) {
+      return new AutoValue_BranchCommitValidator_Result(isValid, messages);
+    }
+
+    /** Whether the commit is valid. */
+    abstract boolean isValid();
+
+    /**
+     * A list of messages related to the validation. Messages may be present regardless of the
+     * {@link #isValid()} status.
+     */
+    abstract List<CommitValidationMessage> messages();
+  }
+
   @Inject
   BranchCommitValidator(
       CommitValidators.Factory commitValidatorsFactory,
@@ -80,16 +98,18 @@ public class BranchCommitValidator {
    * @param commit the commit being validated.
    * @param isMerged whether this is a merge commit created by magicBranch --merge option
    * @param change the change for which this is a new patchset.
+   *
+   * @return The validation {@link Result}.
    */
-  public boolean validCommit(
+  Result validateCommit(
       ObjectReader objectReader,
       ReceiveCommand cmd,
       RevCommit commit,
       boolean isMerged,
-      List<ValidationMessage> messages,
       NoteMap rejectCommits,
       @Nullable Change change)
       throws IOException {
+    ImmutableList.Builder<CommitValidationMessage> messages = new ImmutableList.Builder<>();
     try (CommitReceivedEvent receiveEvent =
         new CommitReceivedEvent(cmd, project, branch.branch(), objectReader, commit, user)) {
       CommitValidators validators;
@@ -123,9 +143,9 @@ public class BranchCommitValidator {
                 messageForCommit(commit, m.getMessage(), objectReader), m.getType()));
       }
       cmd.setResult(REJECTED_OTHER_REASON, messageForCommit(commit, e.getMessage(), objectReader));
-      return false;
+      return Result.create(false, messages.build());
     }
-    return true;
+    return Result.create(true, messages.build());
   }
 
   private String messageForCommit(RevCommit c, String msg, ObjectReader objectReader)

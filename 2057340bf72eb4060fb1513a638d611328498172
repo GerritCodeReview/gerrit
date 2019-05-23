@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "057eb8aa_b2e4c7ba",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-23T15:43:09Z",
+      "side": 1,
+      "message": "As this change is only a temporary fix, we should additionally add a TODO somewhere (which makes this also more apparent).",
+      "revId": "2057340bf72eb4060fb1513a638d611328498172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

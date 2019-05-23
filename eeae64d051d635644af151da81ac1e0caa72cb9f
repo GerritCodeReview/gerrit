@@ -22,6 +22,30 @@
       "revId": "eeae64d051d635644af151da81ac1e0caa72cb9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "222ae414_2974886d",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-23T14:05:06Z",
+      "side": 1,
+      "message": "Following this thread up using Id03cfc94\u0027s trailing comments.",
+      "parentUuid": "065f6873_07e7a1ae",
+      "range": {
+        "startLine": 745,
+        "startChar": 27,
+        "endLine": 745,
+        "endChar": 56
+      },
+      "revId": "eeae64d051d635644af151da81ac1e0caa72cb9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

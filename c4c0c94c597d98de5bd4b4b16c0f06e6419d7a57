@@ -22,6 +22,30 @@
       "revId": "c4c0c94c597d98de5bd4b4b16c0f06e6419d7a57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e380816d_4acaf3aa",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-23T14:04:53Z",
+      "side": 1,
+      "message": "Do we know in what way exactly, or what is a reproducible /manual test (steps) for this new issue? I\u0027ll be looking into this code anyway again meanwhile.",
+      "parentUuid": "47f6349e_a15c974b",
+      "range": {
+        "startLine": 787,
+        "startChar": 10,
+        "endLine": 787,
+        "endChar": 39
+      },
+      "revId": "c4c0c94c597d98de5bd4b4b16c0f06e6419d7a57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

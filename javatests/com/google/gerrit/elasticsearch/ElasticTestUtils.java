@@ -32,7 +32,7 @@ public final class ElasticTestUtils {
   }
 
   public static void configure(Config config, int port, String prefix, ElasticVersion version) {
-    config.setString("index", null, "type", "ELASTICSEARCH");
+    config.setString("index", null, "type", "elasticsearch");
     config.setString("elasticsearch", null, "server", "http://localhost:" + port);
     config.setString("elasticsearch", null, "prefix", prefix);
     config.setInt("index", null, "maxLimit", 10000);

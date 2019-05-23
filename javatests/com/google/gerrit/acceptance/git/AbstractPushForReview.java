@@ -2342,8 +2342,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertPushRejected(pr, ref, "NoteDb update requires access database permission");
 
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
     pr = pushOne(testRepo, c.name(), ref, false, false, opts);

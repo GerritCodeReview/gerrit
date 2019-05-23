@@ -80,8 +80,7 @@ public class PushPermissionsIT extends AbstractDaemonTest {
 
     // Include some auxiliary permissions.
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allow(Permission.FORGE_AUTHOR).ref("refs/*").group(REGISTERED_USERS))
         .add(allow(Permission.FORGE_COMMITTER).ref("refs/*").group(REGISTERED_USERS))
         .update();

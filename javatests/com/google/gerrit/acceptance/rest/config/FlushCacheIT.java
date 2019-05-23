@@ -71,8 +71,7 @@ public class FlushCacheIT extends AbstractDaemonTest {
   @Test
   public void flushWebSessionsCache_Forbidden() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.FLUSH_CACHES).group(REGISTERED_USERS))
         .add(allowCapability(GlobalCapability.VIEW_CACHES).group(REGISTERED_USERS))
         .update();
@@ -84,8 +83,7 @@ public class FlushCacheIT extends AbstractDaemonTest {
       userRestSession.post("/config/server/caches/web_sessions/flush").assertForbidden();
     } finally {
       projectOperations
-          .project(allProjects)
-          .forUpdate()
+          .allProjectsForUpdate()
           .remove(capabilityKey(GlobalCapability.FLUSH_CACHES).group(REGISTERED_USERS))
           .remove(capabilityKey(GlobalCapability.VIEW_CACHES).group(REGISTERED_USERS))
           .update();

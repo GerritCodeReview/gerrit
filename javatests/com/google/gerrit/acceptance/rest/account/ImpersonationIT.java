@@ -611,16 +611,14 @@ public class ImpersonationIT extends AbstractDaemonTest {
 
   private void allowRunAs() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.RUN_AS).group(ANONYMOUS_USERS))
         .update();
   }
 
   private void removeRunAs() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .remove(capabilityKey(GlobalCapability.RUN_AS).group(ANONYMOUS_USERS))
         .update();
   }

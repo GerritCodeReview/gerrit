@@ -613,8 +613,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
     Account.Id accountId = accountOperations.newAccount().create();
     AccountGroup.UUID groupUuid = groupOperations.newGroup().addMember(accountId).create();
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.QUERY_LIMIT).group(groupUuid).range(0, 2))
         .update();
     requestScopeOperations.setApiUser(accountId);

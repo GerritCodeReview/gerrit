@@ -2549,8 +2549,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void queryChangesNoLimit() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(
             allowCapability(GlobalCapability.QUERY_LIMIT)
                 .group(SystemGroupBackend.REGISTERED_USERS)

@@ -329,8 +329,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @Test
   public void createProjectWithCapability() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(
             allowCapability(GlobalCapability.CREATE_PROJECT)
                 .group(SystemGroupBackend.REGISTERED_USERS))
@@ -343,8 +342,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
       assertThat(p.name).isEqualTo(in.name);
     } finally {
       projectOperations
-          .project(allProjects)
-          .forUpdate()
+          .allProjectsForUpdate()
           .remove(
               capabilityKey(GlobalCapability.CREATE_PROJECT)
                   .group(SystemGroupBackend.REGISTERED_USERS))
@@ -372,8 +370,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     Project parent = projectCache.get(allProjects).getProject();
     parent.setState(com.google.gerrit.extensions.client.ProjectState.HIDDEN);
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(
             allowCapability(GlobalCapability.CREATE_PROJECT)
                 .group(SystemGroupBackend.REGISTERED_USERS))
@@ -387,8 +384,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     } finally {
       parent.setState(com.google.gerrit.extensions.client.ProjectState.ACTIVE);
       projectOperations
-          .project(allProjects)
-          .forUpdate()
+          .allProjectsForUpdate()
           .remove(
               capabilityKey(GlobalCapability.CREATE_PROJECT)
                   .group(SystemGroupBackend.REGISTERED_USERS))

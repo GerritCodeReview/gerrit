@@ -186,8 +186,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     // Clear cached group info.
     requestScopeOperations.setApiUser(user1.id());
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.VIEW_ALL_ACCOUNTS).group(group1))
         .update();
     reviewers = suggestReviewers(changeId, user2.username(), 2);

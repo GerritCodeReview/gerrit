@@ -50,7 +50,7 @@ public class CapabilitiesIT extends AbstractDaemonTest {
         GlobalCapability.getAllNames().stream()
             .filter(c -> !ADMINISTRATE_SERVER.equals(c) && !PRIORITY.equals(c))
             .collect(toImmutableList());
-    TestProjectUpdate.Builder allowBuilder = projectOperations.project(allProjects).forUpdate();
+    TestProjectUpdate.Builder allowBuilder = projectOperations.allProjectsForUpdate();
     all.forEach(c -> allowBuilder.add(allowCapability(c).group(REGISTERED_USERS)));
     allowBuilder.update();
     try {
@@ -76,7 +76,7 @@ public class CapabilitiesIT extends AbstractDaemonTest {
         }
       }
     } finally {
-      TestProjectUpdate.Builder removeBuilder = projectOperations.project(allProjects).forUpdate();
+      TestProjectUpdate.Builder removeBuilder = projectOperations.allProjectsForUpdate();
       all.forEach(c -> removeBuilder.remove(capabilityKey(c).group(REGISTERED_USERS)));
       removeBuilder.update();
     }

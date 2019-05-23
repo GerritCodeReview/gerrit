@@ -1240,8 +1240,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Sandboxed
   public void userCanSetNameOfOtherUserWithModifyAccountPermission() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.MODIFY_ACCOUNT).group(REGISTERED_USERS))
         .update();
     gApi.accounts().id(admin.username()).setName("Admin McAdminface");
@@ -1532,8 +1531,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void pushAccountConfigToUserBranchForReviewDeactivateOtherAccount() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
 
@@ -1805,8 +1803,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void pushAccountConfigToUserBranchDeactivateOtherAccount() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
 
@@ -1865,8 +1862,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void createUserBranchWithAccessDatabaseCapability() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
     projectOperations
@@ -1889,8 +1885,7 @@ public class AccountIT extends AbstractDaemonTest {
   public void cannotCreateNonUserBranchUnderRefsUsersWithAccessDatabaseCapability()
       throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
     projectOperations
@@ -1962,8 +1957,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void deleteUserBranchWithAccessDatabaseCapability() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
     projectOperations
@@ -2231,8 +2225,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void checkConsistency() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
     requestScopeOperations.resetCurrentApiUser();
@@ -2572,8 +2565,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void atomicReadMofifyWriteExternalIds() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
 

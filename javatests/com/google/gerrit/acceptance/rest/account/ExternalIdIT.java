@@ -126,8 +126,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Test
   public void getExternalIdsOfOtherUserWithAccessDatabase() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
 
@@ -204,8 +203,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Test
   public void deleteExternalIdsOfOtherUserWithAccessDatabase() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
 
@@ -281,8 +279,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
         .isEqualTo("Remote does not have " + RefNames.REFS_EXTERNAL_IDS + " available for fetch.");
 
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
 
@@ -295,8 +292,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Test
   public void pushToExternalIdsBranch() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
 
@@ -324,8 +320,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Test
   public void pushToExternalIdsBranchRejectsExternalIdWithoutAccountId() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
 
@@ -346,8 +341,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   public void pushToExternalIdsBranchRejectsExternalIdWithKeyThatDoesntMatchTheNoteId()
       throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
 
@@ -367,8 +361,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Test
   public void pushToExternalIdsBranchRejectsExternalIdWithInvalidConfig() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
 
@@ -388,8 +381,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Test
   public void pushToExternalIdsBranchRejectsExternalIdWithEmptyNote() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
 
@@ -432,8 +424,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   private void testPushToExternalIdsBranchRejectsInvalidExternalId(ExternalId invalidExtId)
       throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
 
@@ -452,8 +443,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Test
   public void readExternalIdsWhenInvalidExternalIdsExist() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
     requestScopeOperations.resetCurrentApiUser();
@@ -477,8 +467,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Test
   public void checkConsistency() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
         .update();
     requestScopeOperations.resetCurrentApiUser();

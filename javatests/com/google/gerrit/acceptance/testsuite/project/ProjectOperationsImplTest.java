@@ -419,8 +419,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
         .doesNotContainEntry("administrateServer", "group Registered Users");
 
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(ADMINISTRATE_SERVER).group(REGISTERED_USERS))
         .update();
 
@@ -435,8 +434,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     assertThat(config).sectionValues("capability").doesNotContainKey("queryLimit");
 
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(QUERY_LIMIT).group(REGISTERED_USERS).range(0, 5000))
         .update();
 
@@ -451,8 +449,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     assertThat(config).sectionValues("capability").doesNotContainKey("queryLimit");
 
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(QUERY_LIMIT).group(REGISTERED_USERS))
         .update();
 
@@ -514,8 +511,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void removeCapability() throws Exception {
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(ADMINISTRATE_SERVER).group(REGISTERED_USERS))
         .add(allowCapability(ADMINISTRATE_SERVER).group(PROJECT_OWNERS))
         .update();
@@ -527,8 +523,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
                 "administrateServer", "group Project Owners"));
 
     projectOperations
-        .project(allProjects)
-        .forUpdate()
+        .allProjectsForUpdate()
         .remove(capabilityKey(ADMINISTRATE_SERVER).group(REGISTERED_USERS))
         .update();
     assertThat(projectOperations.project(allProjects).getConfig())

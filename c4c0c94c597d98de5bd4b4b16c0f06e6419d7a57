@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47f6349e_a15c974b",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-23T12:23:34Z",
+      "side": 1,
+      "message": "This method is implemented in a way which doesn\u0027t work on googlesource.com. This wasn\u0027t an issue in the past because this method was never used in a relevant code path. Now it is and we have to fix it.",
+      "range": {
+        "startLine": 787,
+        "startChar": 10,
+        "endLine": 787,
+        "endChar": 39
+      },
+      "revId": "c4c0c94c597d98de5bd4b4b16c0f06e6419d7a57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

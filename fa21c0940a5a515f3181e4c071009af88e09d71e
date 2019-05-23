@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "667f6ece_305fd5a7",
+        "filename": "java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-05-23T10:26:26Z",
+      "side": 1,
+      "message": "Let\u0027s require it not null then.",
+      "parentUuid": "67e0d718_0b93c275",
+      "range": {
+        "startLine": 162,
+        "startChar": 3,
+        "endLine": 162,
+        "endChar": 54
+      },
+      "revId": "fa21c0940a5a515f3181e4c071009af88e09d71e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3828344_6f787028",
+        "filename": "java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-05-23T10:26:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e172206_e0a0d4d9",
+      "range": {
+        "startLine": 162,
+        "startChar": 4,
+        "endLine": 162,
+        "endChar": 16
+      },
+      "revId": "fa21c0940a5a515f3181e4c071009af88e09d71e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09b234d3_33103b31",
         "filename": "java/com/google/gerrit/common/data/LabelType.java",
         "patchSetId": 2
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c14fec45_32bd3d65",
+        "filename": "java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-05-23T10:26:26Z",
+      "side": 1,
+      "message": "I think it doesn\u0027t need to be allowed anymore.",
+      "parentUuid": "09b234d3_33103b31",
+      "range": {
+        "startLine": 172,
+        "startChar": 26,
+        "endLine": 172,
+        "endChar": 32
+      },
+      "revId": "fa21c0940a5a515f3181e4c071009af88e09d71e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2279a98e_2414d3aa",
         "filename": "java/com/google/gerrit/common/data/LabelType.java",
         "patchSetId": 2
@@ -91,6 +163,30 @@
       "revId": "fa21c0940a5a515f3181e4c071009af88e09d71e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe97627b_f09db97d",
+        "filename": "java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-05-23T10:26:26Z",
+      "side": 1,
+      "message": "Ack, since the new patch set doesn\u0027t allow \"functionName\" to be null.",
+      "parentUuid": "2279a98e_2414d3aa",
+      "range": {
+        "startLine": 176,
+        "startChar": 14,
+        "endLine": 176,
+        "endChar": 56
+      },
+      "revId": "fa21c0940a5a515f3181e4c071009af88e09d71e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

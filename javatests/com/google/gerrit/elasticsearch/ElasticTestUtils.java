@@ -15,7 +15,6 @@
 package com.google.gerrit.elasticsearch;
 
 import com.google.gerrit.index.IndexDefinition;
-import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
@@ -33,7 +32,7 @@ public final class ElasticTestUtils {
   }
 
   public static void configure(Config config, int port, String prefix, ElasticVersion version) {
-    config.setEnum("index", null, "type", IndexType.ELASTICSEARCH);
+    config.setString("index", null, "type", "ELASTICSEARCH");
     config.setString("elasticsearch", null, "server", "http://localhost:" + port);
     config.setString("elasticsearch", null, "prefix", prefix);
     config.setInt("index", null, "maxLimit", 10000);

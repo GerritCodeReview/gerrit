@@ -223,23 +223,12 @@ public class InMemoryModule extends FactoryModule {
     bind(AllChangesIndexer.class).toProvider(Providers.of(null));
     bind(AllGroupsIndexer.class).toProvider(Providers.of(null));
 
-    IndexType indexType = null;
-    try {
-      indexType = cfg.getEnum("index", null, "type", IndexType.LUCENE);
-    } catch (IllegalArgumentException e) {
-      // Custom index type, caller must provide their own module.
-    }
-    if (indexType != null) {
-      switch (indexType) {
-        case LUCENE:
-          install(luceneIndexModule());
-          break;
-        case ELASTICSEARCH:
-          install(elasticIndexModule());
-          break;
-        default:
-          throw new ProvisionException("index type unsupported in tests: " + indexType);
-      }
+    IndexType indexType = new IndexType(cfg.getString("index", null, "type"));
+    // For custom index types, callers must provide their own module.
+    if (indexType.isLucene()) {
+      install(luceneIndexModule());
+    } else if (indexType.isElasticsearch()) {
+      install(elasticIndexModule());
     }
     bind(ServerInformationImpl.class);
     bind(ServerInformation.class).to(ServerInformationImpl.class);

@@ -67,7 +67,6 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.IndexModule;
-import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
@@ -742,7 +741,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> extension(String ext) throws QueryParseException {
     if (args.getSchema().hasField(ChangeField.EXTENSION)) {
-      if (ext.isEmpty() && IndexModule.getIndexType(cfg).equals(IndexType.ELASTICSEARCH)) {
+      if (ext.isEmpty() && IndexModule.getIndexType(cfg).isElasticsearch()) {
         return new FileWithNoExtensionInElasticPredicate();
       }
       return new FileExtensionPredicate(ext);
@@ -784,7 +783,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         return new RegexDirectoryPredicate(directory);
       }
 
-      if (IndexModule.getIndexType(cfg).equals(IndexType.ELASTICSEARCH)
+      if (IndexModule.getIndexType(cfg).isElasticsearch()
           && (directory.isEmpty() || directory.equals("/"))) {
         return Predicate.any();
       }

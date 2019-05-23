@@ -742,7 +742,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> extension(String ext) throws QueryParseException {
     if (args.getSchema().hasField(ChangeField.EXTENSION)) {
-      if (ext.isEmpty() && IndexModule.getIndexType(cfg).equals(IndexType.ELASTICSEARCH)) {
+      if (ext.isEmpty() && IndexModule.getIndexType(cfg).equals(IndexType.ELASTICSEARCH.name())) {
         return new FileWithNoExtensionInElasticPredicate();
       }
       return new FileExtensionPredicate(ext);
@@ -784,7 +784,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         return new RegexDirectoryPredicate(directory);
       }
 
-      if (IndexModule.getIndexType(cfg).equals(IndexType.ELASTICSEARCH)
+      if (IndexModule.getIndexType(cfg).equals(IndexType.ELASTICSEARCH.name())
           && (directory.isEmpty() || directory.equals("/"))) {
         return Predicate.any();
       }

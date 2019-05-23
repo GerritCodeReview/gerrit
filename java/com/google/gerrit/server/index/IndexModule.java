@@ -85,12 +85,20 @@ public class IndexModule extends LifecycleModule {
 
   /** Type of secondary index. */
   public static IndexType getIndexType(Injector injector) {
-    return getIndexType(injector.getInstance(Key.get(Config.class, GerritServerConfig.class)));
+    Config cfg = injector.getInstance(Key.get(Config.class, GerritServerConfig.class));
+    if (cfg != null) {
+      return cfg.getEnum("index", null, "type", IndexType.LUCENE);
+    }
+    return IndexType.LUCENE;
   }
 
   /** Type of secondary index. */
-  public static IndexType getIndexType(@Nullable Config cfg) {
-    return cfg != null ? cfg.getEnum("index", null, "type", IndexType.LUCENE) : IndexType.LUCENE;
+  // TODO: stop relying on this method fostering error-prone string comparisons.
+  public static String getIndexType(@Nullable Config cfg) {
+    if (cfg != null) {
+      return cfg.getString("index", null, "type");
+    }
+    return IndexType.LUCENE.name();
   }
 
   private final int threads;

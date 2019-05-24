@@ -41,6 +41,7 @@ java_package_configuration(
         "-XepDisableWarningsInGeneratedCode",
         "-Xep:AmbiguousMethodReference:ERROR",
         "-Xep:BadComparable:ERROR",
+        "-Xep:StringEquality:ERROR",
         "-Xep:MissingCasesInEnumSwitch:ERROR",
         "-Xep:WildcardImport:ERROR",
     ],

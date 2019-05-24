@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b09bf85_f26c15db",
+        "filename": "polygerrit-ui/app/embed/test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-05-24T07:25:45Z",
+      "side": 1,
+      "message": "Strange - these paths look wrong - is that because you execute them from polygerrit_ui/elements? Maybe leave a comment here and above.",
+      "range": {
+        "startLine": 25,
+        "startChar": 19,
+        "endLine": 25,
+        "endChar": 28
+      },
+      "revId": "d2fce8addbe6377f5588bca1182afb731852ebee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a2e9675_678fe1e4",
+        "filename": "polygerrit-ui/app/embed_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-05-24T07:25:45Z",
+      "side": 1,
+      "message": "If you want to keep this, I think you should prefix it with what this path is. Otherwise drop.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 7
+      },
+      "revId": "d2fce8addbe6377f5588bca1182afb731852ebee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

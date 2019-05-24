@@ -293,7 +293,8 @@ public class ProjectCacheImpl implements ProjectCache {
 
     @Override
     public ProjectState load(String projectName) throws Exception {
-      try (TraceTimer timer = TraceContext.newTimer("Loading project %s", projectName)) {
+      try (TraceTimer timer =
+          TraceContext.newTimer("Loading project", "projectName", projectName)) {
         long now = clock.read();
         Project.NameKey key = Project.nameKey(projectName);
         try (Repository git = mgr.openRepository(key)) {

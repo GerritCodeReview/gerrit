@@ -157,8 +157,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
 
     @Override
     public AllExternalIds load(ObjectId notesRev) throws Exception {
-      try (TraceTimer timer =
-          TraceContext.newTimer("Loading external IDs (revision=%s)", notesRev)) {
+      try (TraceTimer timer = TraceContext.newTimer("Loading external IDs", "revision", notesRev)) {
         ImmutableSet<ExternalId> externalIds = externalIdReader.all(notesRev);
         externalIds.forEach(ExternalId::checkThatBlobIdIsSet);
         return AllExternalIds.create(externalIds);

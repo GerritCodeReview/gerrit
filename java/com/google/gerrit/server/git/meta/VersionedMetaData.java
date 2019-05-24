@@ -499,8 +499,15 @@ public abstract class VersionedMetaData {
 
     try (TraceTimer timer =
             TraceContext.newTimer(
-                "Read file '%s' from ref '%s' of project '%s' from revision '%s'",
-                fileName, getRefName(), projectName, revision.name());
+                "Read file",
+                "fileName",
+                fileName,
+                "ref",
+                getRefName(),
+                "projectName",
+                projectName,
+                "revision",
+                revision.name());
         TreeWalk tw = TreeWalk.forPath(reader, fileName, revision.getTree())) {
       if (tw != null) {
         ObjectLoader obj = reader.open(tw.getObjectId(0), Constants.OBJ_BLOB);
@@ -575,7 +582,7 @@ public abstract class VersionedMetaData {
   protected void saveFile(String fileName, byte[] raw) throws IOException {
     try (TraceTimer timer =
         TraceContext.newTimer(
-            "Save file '%s' in ref '%s' of project '%s'", fileName, getRefName(), projectName)) {
+            "Save file", "fileName", fileName, "ref", getRefName(), "projectName", projectName)) {
       DirCacheEditor editor = newTree.editor();
       if (raw != null && 0 < raw.length) {
         final ObjectId blobId = inserter.insert(Constants.OBJ_BLOB, raw);

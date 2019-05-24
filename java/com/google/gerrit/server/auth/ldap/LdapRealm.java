@@ -353,7 +353,8 @@ class LdapRealm extends AbstractRealm {
 
     @Override
     public Optional<Account.Id> load(String username) throws Exception {
-      try (TraceTimer timer = TraceContext.newTimer("Loading account for username %s", username)) {
+      try (TraceTimer timer =
+          TraceContext.newTimer("Loading account for username", "username", username)) {
         return externalIds
             .get(ExternalId.Key.create(SCHEME_GERRIT, username))
             .map(ExternalId::accountId);
@@ -372,7 +373,7 @@ class LdapRealm extends AbstractRealm {
     @Override
     public Set<AccountGroup.UUID> load(String username) throws Exception {
       try (TraceTimer timer =
-          TraceContext.newTimer("Loading group for member with username %s", username)) {
+          TraceContext.newTimer("Loading group for member with username", "username", username)) {
         final DirContext ctx = helper.open();
         try {
           return helper.queryForGroups(ctx, username, null);
@@ -393,7 +394,7 @@ class LdapRealm extends AbstractRealm {
 
     @Override
     public Boolean load(String groupDn) throws Exception {
-      try (TraceTimer timer = TraceContext.newTimer("Loading groupDn %s", groupDn)) {
+      try (TraceTimer timer = TraceContext.newTimer("Loading groupDn", "groupDn", groupDn)) {
         final DirContext ctx = helper.open();
         try {
           Name compositeGroupName = new CompositeName().add(groupDn);

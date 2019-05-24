@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -500,8 +501,7 @@ class PatchScriptBuilder {
       try {
         final boolean reuse;
         if (Patch.COMMIT_MSG.equals(path)) {
-          if (comparisonType.isAgainstParentOrAutoMerge()
-              && (aId == within || within.equals(aId))) {
+          if (comparisonType.isAgainstParentOrAutoMerge() && Objects.equals(aId, within)) {
             id = ObjectId.zeroId();
             src = Text.EMPTY;
             srcContent = Text.NO_BYTES;
@@ -520,8 +520,7 @@ class PatchScriptBuilder {
           }
           reuse = false;
         } else if (Patch.MERGE_LIST.equals(path)) {
-          if (comparisonType.isAgainstParentOrAutoMerge()
-              && (aId == within || within.equals(aId))) {
+          if (comparisonType.isAgainstParentOrAutoMerge() && Objects.equals(aId, within)) {
             id = ObjectId.zeroId();
             src = Text.EMPTY;
             srcContent = Text.NO_BYTES;

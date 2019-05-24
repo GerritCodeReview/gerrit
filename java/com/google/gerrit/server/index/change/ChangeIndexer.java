@@ -174,8 +174,11 @@ public class ChangeIndexer {
     for (Index<?, ChangeData> i : getWriteIndexes()) {
       try (TraceTimer traceTimer =
           TraceContext.newTimer(
-              "Replacing change %d in index version %d",
-              cd.getId().get(), i.getSchema().getVersion())) {
+              "Replacing change in index",
+              "changeId",
+              cd.getId().get(),
+              "indexVersion",
+              i.getSchema().getVersion())) {
         i.replace(cd);
       }
     }
@@ -336,7 +339,11 @@ public class ChangeIndexer {
       for (ChangeIndex i : getWriteIndexes()) {
         try (TraceTimer traceTimer =
             TraceContext.newTimer(
-                "Deleteing change %d in index version %d", id.get(), i.getSchema().getVersion())) {
+                "Deleting change in index",
+                "changeId",
+                id.get(),
+                "indexVersion",
+                i.getSchema().getVersion())) {
           i.delete(id);
         }
       }

@@ -152,7 +152,8 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
 
     @Override
     public List<CachedChange> load(Project.NameKey key) throws Exception {
-      try (TraceTimer timer = TraceContext.newTimer("Loading changes of project %s", key);
+      try (TraceTimer timer =
+              TraceContext.newTimer("Loading changes of project", "projectName", key);
           ManualRequestContext ctx = requestContext.open()) {
         List<ChangeData> cds =
             queryProvider

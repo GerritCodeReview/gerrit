@@ -106,7 +106,8 @@ public class SshKeyCacheImpl implements SshKeyCache {
     @Override
     public Iterable<SshKeyCacheEntry> load(String username) throws Exception {
       try (TraceTimer timer =
-          TraceContext.newTimer("Loading SSH keys for account with username %s", username)) {
+          TraceContext.newTimer(
+              "Loading SSH keys for account with username", "username", username)) {
         Optional<ExternalId> user =
             externalIds.get(ExternalId.Key.create(SCHEME_USERNAME, username));
         if (!user.isPresent()) {

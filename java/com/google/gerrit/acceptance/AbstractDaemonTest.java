@@ -1508,14 +1508,6 @@ public abstract class AbstractDaemonTest {
     }
   }
 
-  /**
-   * @deprecated Use {@code assert_().fail()} from {@link com.google.common.truth.Truth} instead.
-   */
-  @Deprecated
-  protected void fail(@Nullable String format, Object... args) {
-    assert_().fail(format, args);
-  }
-
   protected void enableCreateNewChangeForAllNotInTarget() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig()

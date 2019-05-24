@@ -74,6 +74,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -89,6 +90,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   private AccountGroup.UUID nonInteractiveUsers;
 
   private ChangeData cd1;
+  private RevCommit rc1;
   private String psRef1;
   private String metaRef1;
 
@@ -156,6 +158,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master%submit");
     mr.assertOkStatus();
     cd1 = mr.getChange();
+    rc1 = mr.getCommit();
     psRef1 = cd1.currentPatchSet().id().toRefName();
     metaRef1 = RefNames.changeMetaRef(cd1.getId());
     PushOneCommit.Result br =
@@ -450,6 +453,49 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         "refs/heads/master",
         "refs/tags/branch-tag",
         "refs/tags/master-tag");
+  }
+
+  @Test
+  public void uploadPackSubsetRefsVisibleNonCommitTag() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
+    createTreeTag();
+
+    requestScopeOperations.setApiUser(user.id());
+    assertUploadPackRefs(
+        "HEAD", psRef1, metaRef1, psRef3, metaRef3, "refs/heads/master", "refs/tags/master-tag");
+    // tree-tag is not visible because we don't look at trees reachable from
+    // refs
+  }
+
+  @Test
+  public void uploadPackAllRefsVisibleNonCommitTag() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+    createTreeTag();
+
+    assertUploadPackRefs(
+        "HEAD",
+        psRef1,
+        metaRef1,
+        psRef2,
+        metaRef2,
+        psRef3,
+        metaRef3,
+        psRef4,
+        metaRef4,
+        "refs/heads/branch",
+        "refs/heads/master",
+        RefNames.REFS_CONFIG,
+        "refs/tags/branch-tag",
+        "refs/tags/master-tag",
+        "refs/tags/tree-tag");
   }
 
   @Test
@@ -908,5 +954,16 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   private static Map<String, Ref> getAllRefs(Repository repo) throws IOException {
     return repo.getRefDatabase().getRefs().stream()
         .collect(toMap(Ref::getName, Function.identity()));
+  }
+
+  private void createTreeTag() throws IOException {
+    // Create a tag for the tree of the commit on 'master'
+    try (Repository repo = repoManager.openRepository(project)) {
+      // tree-tag -> master.tree
+      RefUpdate ctu = repo.updateRef("refs/tags/tree-tag");
+      ctu.setExpectedOldObjectId(ObjectId.zeroId());
+      ctu.setNewObjectId(rc1.getTree().toObjectId());
+      assertThat(ctu.update()).isEqualTo(RefUpdate.Result.NEW);
+    }
   }
 }

@@ -46,6 +46,7 @@ java_package_configuration(
         "-Xep:CannotMockFinalClass:ERROR",
         "-Xep:ClassCanBeStatic:ERROR",
         "-Xep:ClassNewInstance:ERROR",
+        "-Xep:DefaultCharset:ERROR",
         "-Xep:DoubleCheckedLocking:ERROR",
         "-Xep:ElementsCountedInLoop:ERROR",
         "-Xep:StringEquality:ERROR",

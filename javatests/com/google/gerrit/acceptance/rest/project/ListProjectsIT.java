@@ -19,6 +19,7 @@ import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertThat
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Splitter;
@@ -149,7 +150,9 @@ public class ListProjectsIT extends AbstractDaemonTest {
       listProjects.displayToStream(displayOut);
 
       List<String> lines =
-          Splitter.on("\n").omitEmptyStrings().splitToList(new String(displayOut.toByteArray()));
+          Splitter.on("\n")
+              .omitEmptyStrings()
+              .splitToList(new String(displayOut.toByteArray(), UTF_8));
       assertThat(lines).isEqualTo(testProjects);
     }
   }
@@ -178,7 +181,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
       listProjects.setFormat(jsonFormat);
       listProjects.displayToStream(displayOut);
 
-      String projectsJsonOutput = new String(displayOut.toByteArray());
+      String projectsJsonOutput = new String(displayOut.toByteArray(), UTF_8);
 
       Gson gson = jsonFormat.newGson();
       Set<String> projectsJsonNames = gson.fromJson(projectsJsonOutput, JsonObject.class).keySet();

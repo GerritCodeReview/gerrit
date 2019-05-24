@@ -144,6 +144,14 @@
     constructor() {
       // Container of per-canonical-path caches.
       this._data = new Map();
+      if (window.INITIAL_DATA != undefined) {
+        // Put all data shipped with index.html into the cache. This makes it
+        // so that we spare more round trips to the server when the app loads
+        // initially.
+        Object
+            .entries(window.INITIAL_DATA)
+            .forEach(e => this._cache().set(e[0], e[1]));
+      }
     }
 
     // Returns the cache for the current canonical path.

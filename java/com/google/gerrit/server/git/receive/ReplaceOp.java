@@ -290,7 +290,7 @@ public class ReplaceOp implements BatchUpdateOp {
       }
       if (shouldPublishComments()) {
         boolean workInProgress = change.isWorkInProgress();
-        if (magicBranch != null && magicBranch.workInProgress) {
+        if (magicBranch.workInProgress) {
           workInProgress = true;
         }
         comments = publishComments(ctx, workInProgress);

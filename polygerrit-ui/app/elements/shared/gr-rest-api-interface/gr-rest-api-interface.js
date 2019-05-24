@@ -1260,17 +1260,6 @@
         O: options,
         S: opt_offset || 0,
       };
-
-      // This triggers a CheckChangeInfo entity to be added to the plugins
-      // list in ChangeInfo, if the checks plugin is installed. Otherwise the
-      // server will just ignore this.
-      // TODO(brohlfs): Only add this parameter, if the checks plugin is
-      // installed. Currently this code may be executed even before the
-      // /config/server/info response is processed, so having that information
-      // included in the host page is a blocking requirement for resolving this
-      // TODO.
-      params['checks--combined'] = '';
-
       if (opt_changesPerPage) { params.n = opt_changesPerPage; }
       if (opt_query && opt_query.length > 0) {
         params.q = opt_query;

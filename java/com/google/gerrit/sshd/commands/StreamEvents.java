@@ -87,29 +87,6 @@ public final class StreamEvents extends BaseCommand {
     EventTypes.register(DroppedOutputEvent.TYPE, DroppedOutputEvent.class);
   }
 
-  private final CancelableRunnable writer =
-      new CancelableRunnable() {
-        @Override
-        public void run() {
-          writeEvents();
-        }
-
-        @Override
-        public void cancel() {
-          onExit(0);
-        }
-
-        @Override
-        public String toString() {
-          StringBuilder b = new StringBuilder();
-          b.append("Stream Events");
-          if (currentUser.getUserName().isPresent()) {
-            b.append(" (").append(currentUser.getUserName().get()).append(")");
-          }
-          return b.toString();
-        }
-      };
-
   /** True if {@link DroppedOutputEvent} needs to be sent. */
   private volatile boolean dropped;
 
@@ -127,8 +104,6 @@ public final class StreamEvents extends BaseCommand {
    */
   private Future<?> task;
 
-  private PrintWriter stdout;
-
   @Override
   public void start(Environment env) throws IOException {
     try {
@@ -144,7 +119,30 @@ public final class StreamEvents extends BaseCommand {
       return;
     }
 
-    stdout = toPrintWriter(out);
+    PrintWriter stdout = toPrintWriter(out);
+    CancelableRunnable writer =
+        new CancelableRunnable() {
+          @Override
+          public void run() {
+            writeEvents(this, stdout);
+          }
+
+          @Override
+          public void cancel() {
+            onExit(0);
+          }
+
+          @Override
+          public String toString() {
+            StringBuilder b = new StringBuilder();
+            b.append("Stream Events");
+            if (currentUser.getUserName().isPresent()) {
+              b.append(" (").append(currentUser.getUserName().get()).append(")");
+            }
+            return b.toString();
+          }
+        };
+
     eventListenerRegistration =
         eventListeners.add(
             "gerrit",
@@ -152,7 +150,7 @@ public final class StreamEvents extends BaseCommand {
               @Override
               public void onEvent(Event event) {
                 if (subscribedToEvents.isEmpty() || subscribedToEvents.contains(event.getType())) {
-                  offer(event);
+                  offer(writer, event);
                 }
               }
 
@@ -199,7 +197,7 @@ public final class StreamEvents extends BaseCommand {
     }
   }
 
-  private void offer(Event event) {
+  private void offer(CancelableRunnable writer, Event event) {
     synchronized (taskLock) {
       if (!queue.offer(event)) {
         dropped = true;
@@ -221,7 +219,7 @@ public final class StreamEvents extends BaseCommand {
     }
   }
 
-  private void writeEvents() {
+  private void writeEvents(CancelableRunnable writer, PrintWriter stdout) {
     int processed = 0;
 
     while (processed < BATCH_SIZE) {
@@ -231,13 +229,13 @@ public final class StreamEvents extends BaseCommand {
         // accepting output. Either way terminate this instance.
         //
         removeEventListenerRegistration();
-        flush();
+        flush(stdout);
         onExit(0);
         return;
       }
 
       if (dropped) {
-        write(new DroppedOutputEvent());
+        write(stdout, new DroppedOutputEvent());
         dropped = false;
       }
 
@@ -246,11 +244,11 @@ public final class StreamEvents extends BaseCommand {
         break;
       }
 
-      write(event);
+      write(stdout, event);
       processed++;
     }
 
-    flush();
+    flush(stdout);
 
     if (BATCH_SIZE <= processed) {
       // We processed the limit, but more might remain in the queue.
@@ -263,7 +261,7 @@ public final class StreamEvents extends BaseCommand {
     }
   }
 
-  private void write(Object message) {
+  private void write(PrintWriter stdout, Object message) {
     String msg = null;
     try {
       msg = gson.toJson(message) + "\n";
@@ -277,7 +275,7 @@ public final class StreamEvents extends BaseCommand {
     }
   }
 
-  private void flush() {
+  private void flush(PrintWriter stdout) {
     synchronized (stdout) {
       stdout.flush();
     }

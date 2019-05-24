@@ -139,7 +139,7 @@ public class UploadArchive extends AbstractGitCommand {
     PacketLineIn packetIn = new PacketLineIn(in);
     for (; ; ) {
       String s = packetIn.readString();
-      if (s == PacketLineIn.END) {
+      if (isPacketLineEnd(s)) {
         break;
       }
       if (!s.startsWith(argCmd)) {
@@ -161,6 +161,11 @@ public class UploadArchive extends AbstractGitCommand {
     } catch (CmdLineException e) {
       throw new Failure(2, "fatal: unable to parse arguments, " + e);
     }
+  }
+
+  @SuppressWarnings("StringEquality") // JGit API depends on reference equality with sentinel.
+  private static boolean isPacketLineEnd(String s) {
+    return s == PacketLineIn.END;
   }
 
   @Override

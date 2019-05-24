@@ -42,8 +42,7 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.GroupAuditService;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.group.GroupIndexer;
-import com.google.gerrit.server.logging.TraceContext;
-import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.performancelog.TraceTimer;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Provider;
@@ -113,6 +112,7 @@ public class GroupsUpdate {
   private final MetaDataUpdateFactory metaDataUpdateFactory;
   private final GitReferenceUpdated gitRefUpdated;
   private final RetryHelper retryHelper;
+  private final TraceTimer.Factory traceTimerFactory;
 
   @AssistedInject
   GroupsUpdate(
@@ -129,7 +129,8 @@ public class GroupsUpdate {
       @GerritPersonIdent PersonIdent serverIdent,
       MetaDataUpdate.InternalFactory metaDataUpdateInternalFactory,
       GitReferenceUpdated gitRefUpdated,
-      RetryHelper retryHelper) {
+      RetryHelper retryHelper,
+      TraceTimer.Factory traceTimerFactory) {
     this(
         repoManager,
         allUsersName,
@@ -145,6 +146,7 @@ public class GroupsUpdate {
         metaDataUpdateInternalFactory,
         gitRefUpdated,
         retryHelper,
+        traceTimerFactory,
         Optional.empty());
   }
 
@@ -164,6 +166,7 @@ public class GroupsUpdate {
       MetaDataUpdate.InternalFactory metaDataUpdateInternalFactory,
       GitReferenceUpdated gitRefUpdated,
       RetryHelper retryHelper,
+      TraceTimer.Factory traceTimerFactory,
       @Assisted IdentifiedUser currentUser) {
     this(
         repoManager,
@@ -180,6 +183,7 @@ public class GroupsUpdate {
         metaDataUpdateInternalFactory,
         gitRefUpdated,
         retryHelper,
+        traceTimerFactory,
         Optional.of(currentUser));
   }
 
@@ -198,6 +202,7 @@ public class GroupsUpdate {
       MetaDataUpdate.InternalFactory metaDataUpdateInternalFactory,
       GitReferenceUpdated gitRefUpdated,
       RetryHelper retryHelper,
+      TraceTimer.Factory traceTimerFactory,
       Optional<IdentifiedUser> currentUser) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
@@ -208,6 +213,7 @@ public class GroupsUpdate {
     this.renameGroupOpFactory = renameGroupOpFactory;
     this.gitRefUpdated = gitRefUpdated;
     this.retryHelper = retryHelper;
+    this.traceTimerFactory = traceTimerFactory;
     this.currentUser = currentUser;
 
     auditLogFormatter = AuditLogFormatter.createBackedBy(accountCache, groupBackend, serverId);
@@ -264,7 +270,7 @@ public class GroupsUpdate {
       InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
       throws DuplicateKeyException, IOException, ConfigInvalidException {
     try (TraceTimer timer =
-        TraceContext.newTimer(
+        traceTimerFactory.newTimer(
             "Creating group",
             "groupName",
             groupUpdate.getName().orElseGet(groupCreation::getNameKey))) {
@@ -287,7 +293,7 @@ public class GroupsUpdate {
    */
   public void updateGroup(AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
       throws DuplicateKeyException, IOException, NoSuchGroupException, ConfigInvalidException {
-    try (TraceTimer timer = TraceContext.newTimer("Updating group", "groupUuid", groupUuid)) {
+    try (TraceTimer timer = traceTimerFactory.newTimer("Updating group", "groupUuid", groupUuid)) {
       Optional<Timestamp> updatedOn = groupUpdate.getUpdatedOn();
       if (!updatedOn.isPresent()) {
         updatedOn = Optional.of(TimeUtil.nowTs());

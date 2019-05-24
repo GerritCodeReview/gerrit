@@ -151,6 +151,7 @@ import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.patch.PatchScriptFactory;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.performancelog.PerformanceLogger;
 import com.google.gerrit.server.permissions.PermissionCollection;
 import com.google.gerrit.server.permissions.SectionSortCache;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
@@ -380,6 +381,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicItem.itemOf(binder(), ProjectNameLockManager.class);
     DynamicSet.setOf(binder(), SubmitRule.class);
     DynamicSet.setOf(binder(), QuotaEnforcer.class);
+    DynamicSet.setOf(binder(), PerformanceLogger.class);
 
     DynamicMap.mapOf(binder(), MailFilter.class);
     bind(MailFilter.class).annotatedWith(Exports.named("ListMailFilter")).to(ListMailFilter.class);

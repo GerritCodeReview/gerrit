@@ -15,6 +15,7 @@
 package com.google.gerrit.reviewdb.converter;
 
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.Immutable;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -23,6 +24,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 
+@Immutable
 public enum PatchSetProtoConverter implements ProtoConverter<Entities.PatchSet, PatchSet> {
   INSTANCE;
 

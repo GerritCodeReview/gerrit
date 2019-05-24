@@ -35,7 +35,9 @@ public enum ArchiveFormat {
   TXZ("application/x-xz", new TxzFormat()),
   ZIP("application/x-zip", new ZipFormat());
 
+  @SuppressWarnings("ImmutableEnumChecker") // ArchiveCommand.Format is effectively immutable.
   private final ArchiveCommand.Format<?> format;
+
   private final String mimeType;
 
   ArchiveFormat(String mimeType, ArchiveCommand.Format<?> format) {

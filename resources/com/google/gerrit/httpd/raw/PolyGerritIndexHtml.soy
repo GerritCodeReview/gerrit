@@ -19,6 +19,7 @@
 {template .Index}
   {@param canonicalPath: ?}
   {@param staticResourcePath: ?}
+  {@param gerritInitialData: ?}
   {@param? assetsPath: ?}  /** {string} URL to static assets root, if served from CDN. */
   {@param? assetsBundle: ?}  /** {string} Assets bundle .html file, served from $assetsPath. */
   {@param? faviconPath: ?}
@@ -63,6 +64,9 @@
   <link rel="stylesheet" href="{$staticResourcePath}/styles/fonts.css">{\n}
   <link rel="stylesheet" href="{$staticResourcePath}/styles/main.css">{\n}
   <script src="{$staticResourcePath}/bower_components/webcomponentsjs/webcomponents-lite.js"></script>{\n}
+  <script type="text/javascript">
+    gerritInitialData = JSON.parse({$gerritInitialData});
+  </script>
   // Content between webcomponents-lite and the load of the main app element
   // run before polymer-resin is installed so may have security consequences.
   // Contact your local security engineer if you have any questions, and

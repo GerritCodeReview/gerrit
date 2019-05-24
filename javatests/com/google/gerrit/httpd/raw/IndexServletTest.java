@@ -15,53 +15,60 @@
 package com.google.gerrit.httpd.raw;
 
 import static com.google.common.truth.Truth.assertThat;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
+import com.google.gerrit.util.http.testutil.FakeHttpServletResponse;
+import com.google.template.soy.data.SanitizedContent;
 import com.google.template.soy.data.SoyMapData;
-import java.net.URISyntaxException;
+import java.util.Map;
 import org.junit.Test;
 
 public class IndexServletTest {
   static class TestIndexServlet extends IndexServlet {
     private static final long serialVersionUID = 1L;
 
-    TestIndexServlet(String canonicalURL, String cdnPath, String faviconPath)
-        throws URISyntaxException {
-      super(canonicalURL, cdnPath, faviconPath);
+    TestIndexServlet(String canonicalURL, String cdnPath, String faviconPath) {
+      super(canonicalURL, cdnPath, faviconPath, null);
     }
 
-    String getIndexSource() {
-      return new String(indexSource, UTF_8);
+    @Override
+    Map<String, SanitizedContent> getInitialData() {
+      // Don't render any initial data. This would require a mock of the Gerrit API which is
+      // cumbersome to keep in sync. Alternatively one could make this an integration test, but
+      // this would unnecessarily slow it down.
+      return ImmutableMap.of();
     }
   }
 
   @Test
-  public void noPathAndNoCDN() throws URISyntaxException {
-    SoyMapData data = IndexServlet.getTemplateData("http://example.com/", null, null);
+  public void noPathAndNoCDN() throws Exception {
+    SoyMapData data = IndexServlet.getStaticTemplateData("http://example.com/", null, null);
     assertThat(data.getSingle("canonicalPath").stringValue()).isEqualTo("");
     assertThat(data.getSingle("staticResourcePath").stringValue()).isEqualTo("");
   }
 
   @Test
-  public void pathAndNoCDN() throws URISyntaxException {
-    SoyMapData data = IndexServlet.getTemplateData("http://example.com/gerrit/", null, null);
+  public void pathAndNoCDN() throws Exception {
+    SoyMapData data = IndexServlet.getStaticTemplateData("http://example.com/gerrit/", null, null);
     assertThat(data.getSingle("canonicalPath").stringValue()).isEqualTo("/gerrit");
     assertThat(data.getSingle("staticResourcePath").stringValue()).isEqualTo("/gerrit");
   }
 
   @Test
-  public void noPathAndCDN() throws URISyntaxException {
+  public void noPathAndCDN() throws Exception {
     SoyMapData data =
-        IndexServlet.getTemplateData("http://example.com/", "http://my-cdn.com/foo/bar/", null);
+        IndexServlet.getStaticTemplateData(
+            "http://example.com/", "http://my-cdn.com/foo/bar/", null);
     assertThat(data.getSingle("canonicalPath").stringValue()).isEqualTo("");
     assertThat(data.getSingle("staticResourcePath").stringValue())
         .isEqualTo("http://my-cdn.com/foo/bar/");
   }
 
   @Test
-  public void pathAndCDN() throws URISyntaxException {
+  public void pathAndCDN() throws Exception {
     SoyMapData data =
-        IndexServlet.getTemplateData(
+        IndexServlet.getStaticTemplateData(
             "http://example.com/gerrit", "http://my-cdn.com/foo/bar/", null);
     assertThat(data.getSingle("canonicalPath").stringValue()).isEqualTo("/gerrit");
     assertThat(data.getSingle("staticResourcePath").stringValue())
@@ -69,12 +76,15 @@ public class IndexServletTest {
   }
 
   @Test
-  public void renderTemplate() throws URISyntaxException {
+  public void renderTemplate() throws Exception {
     String testCanonicalUrl = "foo-url";
     String testCdnPath = "bar-cdn";
     String testFaviconURL = "zaz-url";
     TestIndexServlet servlet = new TestIndexServlet(testCanonicalUrl, testCdnPath, testFaviconURL);
-    String output = servlet.getIndexSource();
+
+    FakeHttpServletResponse response = new FakeHttpServletResponse();
+    servlet.doGet(new FakeHttpServletRequest(), response);
+    String output = response.getActualBodyString();
     assertThat(output).contains("<!DOCTYPE html>");
     assertThat(output).contains("window.CANONICAL_PATH = '" + testCanonicalUrl);
     assertThat(output).contains("<link rel=\"preload\" href=\"" + testCdnPath);

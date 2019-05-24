@@ -14,12 +14,21 @@
 
 package com.google.gerrit.httpd.raw;
 
+import static com.google.template.soy.data.ordainers.GsonOrdainer.serializeObject;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 import com.google.common.io.Resources;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.accounts.AccountApi;
+import com.google.gerrit.extensions.api.config.Server;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.json.OutputFormat;
+import com.google.gson.Gson;
 import com.google.template.soy.SoyFileSet;
 import com.google.template.soy.data.SanitizedContent;
 import com.google.template.soy.data.SoyMapData;
@@ -29,37 +38,56 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Map;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class IndexServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
-  protected final byte[] indexSource;
+
+  @Nullable private final String canonicalURL;
+  @Nullable private final String cdnPath;
+  @Nullable private final String faviconPath;
+  private final GerritApi gerritApi;
+  private final SoyTofu soyTofu;
 
   IndexServlet(
-      @Nullable String canonicalURL, @Nullable String cdnPath, @Nullable String faviconPath)
-      throws URISyntaxException {
-    String resourcePath = "com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy";
-    SoyFileSet.Builder builder = SoyFileSet.builder();
-    builder.add(Resources.getResource(resourcePath));
-    SoyTofu.Renderer renderer =
-        builder
+      @Nullable String canonicalURL,
+      @Nullable String cdnPath,
+      @Nullable String faviconPath,
+      GerritApi gerritApi) {
+    this.canonicalURL = canonicalURL;
+    this.cdnPath = cdnPath;
+    this.faviconPath = faviconPath;
+    this.gerritApi = gerritApi;
+    this.soyTofu =
+        SoyFileSet.builder()
+            .add(Resources.getResource("com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy"))
             .build()
-            .compileToTofu()
-            .newRenderer("com.google.gerrit.httpd.raw.Index")
-            .setContentKind(SanitizedContent.ContentKind.HTML)
-            .setData(getTemplateData(canonicalURL, cdnPath, faviconPath));
-    indexSource = renderer.render().getBytes(UTF_8);
+            .compileToTofu();
   }
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
+    SoyTofu.Renderer renderer;
+    try {
+      SoyMapData templateData = getStaticTemplateData(canonicalURL, cdnPath, faviconPath);
+      templateData.put("gerritInitialData", getInitialData());
+      renderer =
+          soyTofu
+              .newRenderer("com.google.gerrit.httpd.raw.Index")
+              .setContentKind(SanitizedContent.ContentKind.HTML)
+              .setData(templateData);
+    } catch (URISyntaxException | RestApiException e) {
+      throw new IOException(e);
+    }
+
     rsp.setCharacterEncoding(UTF_8.name());
     rsp.setContentType("text/html");
     rsp.setStatus(SC_OK);
     try (OutputStream w = rsp.getOutputStream()) {
-      w.write(indexSource);
+      w.write(renderer.render().getBytes(UTF_8));
     }
   }
 
@@ -74,7 +102,7 @@ public class IndexServlet extends HttpServlet {
     return uri.getPath().replaceAll("/$", "");
   }
 
-  static SoyMapData getTemplateData(String canonicalURL, String cdnPath, String faviconPath)
+  static SoyMapData getStaticTemplateData(String canonicalURL, String cdnPath, String faviconPath)
       throws URISyntaxException {
     String canonicalPath = computeCanonicalPath(canonicalURL);
 
@@ -95,5 +123,32 @@ public class IndexServlet extends HttpServlet {
         "canonicalPath", canonicalPath,
         "staticResourcePath", sanitizedStaticPath,
         "faviconPath", faviconPath);
+  }
+
+  Map<String, SanitizedContent> getInitialData() throws RestApiException {
+    Gson gson = OutputFormat.JSON_COMPACT.newGson();
+    Map<String, SanitizedContent> initialData = Maps.newLinkedHashMapWithExpectedSize(6);
+    Server serverApi = gerritApi.config().server();
+    initialData.put("\"/config/server/info\"", serializeObject(gson, serverApi.getInfo()));
+    initialData.put("\"/config/server/version\"", serializeObject(gson, serverApi.getVersion()));
+    initialData.put("\"/config/server/top-menus\"", serializeObject(gson, serverApi.topMenus()));
+
+    try {
+      AccountApi accountApi = gerritApi.accounts().self();
+      initialData.put("\"/accounts/self/detail\"", serializeObject(gson, accountApi.get()));
+      initialData.put(
+          "\"/accounts/self/preferences\"", serializeObject(gson, accountApi.getPreferences()));
+      initialData.put(
+          "\"/accounts/self/preferences.diff\"",
+          serializeObject(gson, accountApi.getDiffPreferences()));
+      initialData.put(
+          "\"/accounts/self/preferences.edit\"",
+          serializeObject(gson, accountApi.getEditPreferences()));
+    } catch (AuthException e) {
+      // Don't render data
+      // TODO(hiesel): Tell the client that the user is not authenticated so that it doesn't have to
+      // fetch anyway. This requires more client side modifications.
+    }
+    return initialData;
   }
 }

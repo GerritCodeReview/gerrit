@@ -136,6 +136,7 @@
             return;
           }
 
+<<<<<<< HEAD   (f7f400 Clarify introduction to external IDs)
           // Process the next section and incorporate the result.
           const result = this._processNext(state, content);
           for (const group of result.groups) {
@@ -144,6 +145,20 @@
           }
           state.lineNums.left += result.lineDelta.left;
           state.lineNums.right += result.lineDelta.right;
+=======
+            let currentBatch = 0;
+            const nextStep = () => {
+              if (this._isScrolling) {
+                this._nextStepHandle = this.async(nextStep, 100);
+                return;
+              }
+              // If we are done, resolve the promise.
+              if (state.sectionIndex >= content.length) {
+                resolve(this.groups);
+                this._nextStepHandle = null;
+                return;
+              }
+>>>>>>> CHANGE (8c090d Fix _nextStepHandle not being assigned a value when scrollin)
 
           // Increment the index and recurse.
           state.sectionIndex++;

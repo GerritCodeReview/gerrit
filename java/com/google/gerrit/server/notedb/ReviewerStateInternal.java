@@ -21,13 +21,13 @@ import org.eclipse.jgit.revwalk.FooterKey;
 /** State of a reviewer on a change. */
 public enum ReviewerStateInternal {
   /** The user has contributed at least one nonzero vote on the change. */
-  REVIEWER(new FooterKey("Reviewer"), ReviewerState.REVIEWER),
+  REVIEWER("Reviewer", ReviewerState.REVIEWER),
 
   /** The reviewer was added to the change, but has not voted. */
-  CC(new FooterKey("CC"), ReviewerState.CC),
+  CC("CC", ReviewerState.CC),
 
   /** The user was previously a reviewer on the change, but was removed. */
-  REMOVED(new FooterKey("Removed"), ReviewerState.REMOVED);
+  REMOVED("Removed", ReviewerState.REMOVED);
 
   public static ReviewerStateInternal fromReviewerState(ReviewerState state) {
     return ReviewerStateInternal.values()[state.ordinal()];
@@ -50,20 +50,20 @@ public enum ReviewerStateInternal {
     }
   }
 
-  private final FooterKey footerKey;
+  private final String footer;
   private final ReviewerState state;
 
-  ReviewerStateInternal(FooterKey footerKey, ReviewerState state) {
-    this.footerKey = footerKey;
+  ReviewerStateInternal(String footer, ReviewerState state) {
+    this.footer = footer;
     this.state = state;
   }
 
   FooterKey getFooterKey() {
-    return footerKey;
+    return new FooterKey(footer);
   }
 
   FooterKey getByEmailFooterKey() {
-    return new FooterKey(footerKey.getName() + "-email");
+    return new FooterKey(footer + "-email");
   }
 
   public ReviewerState asReviewerState() {

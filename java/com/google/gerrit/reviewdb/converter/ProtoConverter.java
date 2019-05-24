@@ -14,9 +14,11 @@
 
 package com.google.gerrit.reviewdb.converter;
 
+import com.google.errorprone.annotations.Immutable;
 import com.google.protobuf.MessageLite;
 import com.google.protobuf.Parser;
 
+@Immutable
 public interface ProtoConverter<P extends MessageLite, C> {
 
   P toProto(C valueClass);

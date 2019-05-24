@@ -14,10 +14,12 @@
 
 package com.google.gerrit.reviewdb.converter;
 
+import com.google.errorprone.annotations.Immutable;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.protobuf.Parser;
 
+@Immutable
 public enum ProjectNameKeyProtoConverter
     implements ProtoConverter<Entities.Project_NameKey, Project.NameKey> {
   INSTANCE;

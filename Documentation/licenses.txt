@@ -52,6 +52,7 @@ Apache2.0
 * commons:pool
 * commons:validator
 * dropwizard:dropwizard-core
+* errorprone:annotations
 * flogger:api
 * fonts:robotofonts
 * guice:guice

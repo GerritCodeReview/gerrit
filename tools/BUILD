@@ -94,7 +94,7 @@ java_package_configuration(
         #"-Xep:SynchronizeOnNonFinalField:ERROR",
         "-Xep:TruthConstantAsserts:ERROR",
         "-Xep:TypeParameterShadowing:ERROR",
-        #"-Xep:TypeParameterUnusedInFormals:ERROR",
+        "-Xep:TypeParameterUnusedInFormals:ERROR",
         "-Xep:URLEqualsHashCode:ERROR",
         "-Xep:UnsynchronizedOverridesSynchronized:ERROR",
         "-Xep:WaitNotInLoop:ERROR",

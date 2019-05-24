@@ -24,8 +24,7 @@ import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.logging.TraceContext;
-import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.performancelog.TraceTimer;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gerrit.server.ssh.SshKeyCreator;
 import com.google.inject.Inject;
@@ -96,17 +95,22 @@ public class SshKeyCacheImpl implements SshKeyCache {
   static class Loader extends CacheLoader<String, Iterable<SshKeyCacheEntry>> {
     private final ExternalIds externalIds;
     private final VersionedAuthorizedKeys.Accessor authorizedKeys;
+    private final TraceTimer.Factory traceTimerFactory;
 
     @Inject
-    Loader(ExternalIds externalIds, VersionedAuthorizedKeys.Accessor authorizedKeys) {
+    Loader(
+        ExternalIds externalIds,
+        VersionedAuthorizedKeys.Accessor authorizedKeys,
+        TraceTimer.Factory traceTimerFactory) {
       this.externalIds = externalIds;
       this.authorizedKeys = authorizedKeys;
+      this.traceTimerFactory = traceTimerFactory;
     }
 
     @Override
     public Iterable<SshKeyCacheEntry> load(String username) throws Exception {
       try (TraceTimer timer =
-          TraceContext.newTimer(
+          traceTimerFactory.newTimer(
               "Loading SSH keys for account with username", "username", username)) {
         Optional<ExternalId> user =
             externalIds.get(ExternalId.Key.create(SCHEME_USERNAME, username));

@@ -23,8 +23,7 @@ import com.google.gerrit.index.Index;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.InternalGroup;
-import com.google.gerrit.server.logging.TraceContext;
-import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.performancelog.TraceTimer;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -45,6 +44,7 @@ public class GroupIndexerImpl implements GroupIndexer {
   private final GroupCache groupCache;
   private final PluginSetContext<GroupIndexedListener> indexedListener;
   private final StalenessChecker stalenessChecker;
+  private final TraceTimer.Factory traceTimerFactory;
   @Nullable private final GroupIndexCollection indexes;
   @Nullable private final GroupIndex index;
 
@@ -53,10 +53,12 @@ public class GroupIndexerImpl implements GroupIndexer {
       GroupCache groupCache,
       PluginSetContext<GroupIndexedListener> indexedListener,
       StalenessChecker stalenessChecker,
+      TraceTimer.Factory traceTimerFactory,
       @Assisted GroupIndexCollection indexes) {
     this.groupCache = groupCache;
     this.indexedListener = indexedListener;
     this.stalenessChecker = stalenessChecker;
+    this.traceTimerFactory = traceTimerFactory;
     this.indexes = indexes;
     this.index = null;
   }
@@ -66,10 +68,12 @@ public class GroupIndexerImpl implements GroupIndexer {
       GroupCache groupCache,
       PluginSetContext<GroupIndexedListener> indexedListener,
       StalenessChecker stalenessChecker,
+      TraceTimer.Factory traceTimerFactory,
       @Assisted @Nullable GroupIndex index) {
     this.groupCache = groupCache;
     this.indexedListener = indexedListener;
     this.stalenessChecker = stalenessChecker;
+    this.traceTimerFactory = traceTimerFactory;
     this.indexes = null;
     this.index = index;
   }
@@ -89,13 +93,13 @@ public class GroupIndexerImpl implements GroupIndexer {
     for (Index<AccountGroup.UUID, InternalGroup> i : getWriteIndexes()) {
       if (internalGroup.isPresent()) {
         try (TraceTimer traceTimer =
-            TraceContext.newTimer(
+            traceTimerFactory.newTimer(
                 "Replacing group %s in index version %d", uuid.get(), i.getSchema().getVersion())) {
           i.replace(internalGroup.get());
         }
       } else {
         try (TraceTimer traceTimer =
-            TraceContext.newTimer(
+            traceTimerFactory.newTimer(
                 "Deleting group %s in index version %d", uuid.get(), i.getSchema().getVersion())) {
           i.delete(uuid);
         }

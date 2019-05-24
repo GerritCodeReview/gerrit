@@ -28,8 +28,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gerrit.server.logging.TraceContext;
-import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.performancelog.TraceTimer;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.ManualRequestContext;
@@ -143,17 +142,22 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
   static class Loader extends CacheLoader<Project.NameKey, List<CachedChange>> {
     private final OneOffRequestContext requestContext;
     private final Provider<InternalChangeQuery> queryProvider;
+    private final TraceTimer.Factory traceTimerFactory;
 
     @Inject
-    Loader(OneOffRequestContext requestContext, Provider<InternalChangeQuery> queryProvider) {
+    Loader(
+        OneOffRequestContext requestContext,
+        Provider<InternalChangeQuery> queryProvider,
+        TraceTimer.Factory traceTimerFactory) {
       this.requestContext = requestContext;
       this.queryProvider = queryProvider;
+      this.traceTimerFactory = traceTimerFactory;
     }
 
     @Override
     public List<CachedChange> load(Project.NameKey key) throws Exception {
       try (TraceTimer timer =
-              TraceContext.newTimer("Loading changes of project", "projectName", key);
+              traceTimerFactory.newTimer("Loading changes of project", "projectName", key);
           ManualRequestContext ctx = requestContext.open()) {
         List<ChangeData> cds =
             queryProvider

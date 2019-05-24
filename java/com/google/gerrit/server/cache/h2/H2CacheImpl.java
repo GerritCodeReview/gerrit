@@ -26,8 +26,7 @@ import com.google.common.hash.BloomFilter;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.cache.PersistentCache;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
-import com.google.gerrit.server.logging.TraceContext;
-import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.performancelog.TraceTimer;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.TypeLiteral;
 import java.io.IOException;
@@ -228,16 +227,22 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     private final Executor executor;
     private final SqlStore<K, V> store;
     private final CacheLoader<K, V> loader;
+    private final TraceTimer.Factory traceTimerFactory;
 
-    Loader(Executor executor, SqlStore<K, V> store, CacheLoader<K, V> loader) {
+    Loader(
+        Executor executor,
+        SqlStore<K, V> store,
+        CacheLoader<K, V> loader,
+        TraceTimer.Factory traceTimerFactory) {
       this.executor = executor;
       this.store = store;
       this.loader = loader;
+      this.traceTimerFactory = traceTimerFactory;
     }
 
     @Override
     public ValueHolder<V> load(K key) throws Exception {
-      try (TraceTimer timer = TraceContext.newTimer("Loading value from cache", "key", key)) {
+      try (TraceTimer timer = traceTimerFactory.newTimer("Loading value from cache", "key", key)) {
         if (store.mightContain(key)) {
           ValueHolder<V> h = store.getIfPresent(key);
           if (h != null) {

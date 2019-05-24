@@ -27,8 +27,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.db.Groups;
-import com.google.gerrit.server.logging.TraceContext;
-import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.performancelog.TraceTimer;
 import com.google.gerrit.server.query.group.InternalGroupQuery;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -144,16 +143,19 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
   static class GroupsWithMemberLoader
       extends CacheLoader<Account.Id, ImmutableSet<AccountGroup.UUID>> {
     private final Provider<InternalGroupQuery> groupQueryProvider;
+    private final TraceTimer.Factory traceTimerFactory;
 
     @Inject
-    GroupsWithMemberLoader(Provider<InternalGroupQuery> groupQueryProvider) {
+    GroupsWithMemberLoader(
+        Provider<InternalGroupQuery> groupQueryProvider, TraceTimer.Factory traceTimerFactory) {
       this.groupQueryProvider = groupQueryProvider;
+      this.traceTimerFactory = traceTimerFactory;
     }
 
     @Override
     public ImmutableSet<AccountGroup.UUID> load(Account.Id memberId) {
       try (TraceTimer timer =
-          TraceContext.newTimer("Loading groups with member", "memberId", memberId)) {
+          traceTimerFactory.newTimer("Loading groups with member", "memberId", memberId)) {
         return groupQueryProvider.get().byMember(memberId).stream()
             .map(InternalGroup::getGroupUUID)
             .collect(toImmutableSet());
@@ -164,15 +166,19 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
   static class ParentGroupsLoader
       extends CacheLoader<AccountGroup.UUID, ImmutableList<AccountGroup.UUID>> {
     private final Provider<InternalGroupQuery> groupQueryProvider;
+    private final TraceTimer.Factory traceTimerFactory;
 
     @Inject
-    ParentGroupsLoader(Provider<InternalGroupQuery> groupQueryProvider) {
+    ParentGroupsLoader(
+        Provider<InternalGroupQuery> groupQueryProvider, TraceTimer.Factory traceTimerFactory) {
       this.groupQueryProvider = groupQueryProvider;
+      this.traceTimerFactory = traceTimerFactory;
     }
 
     @Override
     public ImmutableList<AccountGroup.UUID> load(AccountGroup.UUID key) {
-      try (TraceTimer timer = TraceContext.newTimer("Loading parent groups", "groupUuid", key)) {
+      try (TraceTimer timer =
+          traceTimerFactory.newTimer("Loading parent groups", "groupUuid", key)) {
         return groupQueryProvider.get().bySubgroup(key).stream()
             .map(InternalGroup::getGroupUUID)
             .collect(toImmutableList());
@@ -182,15 +188,17 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
 
   static class AllExternalLoader extends CacheLoader<String, ImmutableList<AccountGroup.UUID>> {
     private final Groups groups;
+    private final TraceTimer.Factory traceTimerFactory;
 
     @Inject
-    AllExternalLoader(Groups groups) {
+    AllExternalLoader(Groups groups, TraceTimer.Factory traceTimerFactory) {
       this.groups = groups;
+      this.traceTimerFactory = traceTimerFactory;
     }
 
     @Override
     public ImmutableList<AccountGroup.UUID> load(String key) throws Exception {
-      try (TraceTimer timer = TraceContext.newTimer("Loading all external groups")) {
+      try (TraceTimer timer = traceTimerFactory.newTimer("Loading all external groups")) {
         return groups.getExternalGroups().collect(toImmutableList());
       }
     }

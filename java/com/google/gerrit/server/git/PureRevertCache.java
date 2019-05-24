@@ -27,8 +27,8 @@ import com.google.gerrit.server.cache.proto.Cache.PureRevertKeyProto;
 import com.google.gerrit.server.cache.serialize.BooleanCacheSerializer;
 import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.gerrit.server.cache.serialize.ProtobufSerializer;
-import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.performancelog.TraceTimer;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -137,21 +137,23 @@ public class PureRevertCache {
     private final GitRepositoryManager repoManager;
     private final MergeUtil.Factory mergeUtilFactory;
     private final ProjectCache projectCache;
+    private final TraceTimer.Factory traceTimerFactory;
 
     @Inject
     Loader(
         GitRepositoryManager repoManager,
         MergeUtil.Factory mergeUtilFactory,
-        ProjectCache projectCache) {
+        ProjectCache projectCache,
+        TraceTimer.Factory traceTimerFactory) {
       this.repoManager = repoManager;
       this.mergeUtilFactory = mergeUtilFactory;
       this.projectCache = projectCache;
+      this.traceTimerFactory = traceTimerFactory;
     }
 
     @Override
     public Boolean load(PureRevertKeyProto key) throws BadRequestException, IOException {
-      try (TraceContext.TraceTimer ignored =
-          TraceContext.newTimer("Loading pure revert", "key", key)) {
+      try (TraceTimer ignored = traceTimerFactory.newTimer("Loading pure revert", "key", key)) {
         ObjectId original = ObjectIdConverter.create().fromByteString(key.getClaimedOriginal());
         ObjectId revert = ObjectIdConverter.create().fromByteString(key.getClaimedRevert());
         Project.NameKey project = Project.nameKey(key.getProject());

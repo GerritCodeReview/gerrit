@@ -37,8 +37,7 @@ import com.google.gerrit.server.auth.AuthenticationUnavailableException;
 import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.logging.TraceContext;
-import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.performancelog.TraceTimer;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
@@ -345,16 +344,18 @@ class LdapRealm extends AbstractRealm {
 
   static class UserLoader extends CacheLoader<String, Optional<Account.Id>> {
     private final ExternalIds externalIds;
+    private final TraceTimer.Factory traceTimerFactory;
 
     @Inject
-    UserLoader(ExternalIds externalIds) {
+    UserLoader(ExternalIds externalIds, TraceTimer.Factory traceTimerFactory) {
       this.externalIds = externalIds;
+      this.traceTimerFactory = traceTimerFactory;
     }
 
     @Override
     public Optional<Account.Id> load(String username) throws Exception {
       try (TraceTimer timer =
-          TraceContext.newTimer("Loading account for username", "username", username)) {
+          traceTimerFactory.newTimer("Loading account for username", "username", username)) {
         return externalIds
             .get(ExternalId.Key.create(SCHEME_GERRIT, username))
             .map(ExternalId::accountId);
@@ -364,16 +365,19 @@ class LdapRealm extends AbstractRealm {
 
   static class MemberLoader extends CacheLoader<String, Set<AccountGroup.UUID>> {
     private final Helper helper;
+    private final TraceTimer.Factory traceTimerFactory;
 
     @Inject
-    MemberLoader(Helper helper) {
+    MemberLoader(Helper helper, TraceTimer.Factory traceTimerFactory) {
       this.helper = helper;
+      this.traceTimerFactory = traceTimerFactory;
     }
 
     @Override
     public Set<AccountGroup.UUID> load(String username) throws Exception {
       try (TraceTimer timer =
-          TraceContext.newTimer("Loading group for member with username", "username", username)) {
+          traceTimerFactory.newTimer(
+              "Loading group for member with username", "username", username)) {
         final DirContext ctx = helper.open();
         try {
           return helper.queryForGroups(ctx, username, null);
@@ -386,15 +390,17 @@ class LdapRealm extends AbstractRealm {
 
   static class ExistenceLoader extends CacheLoader<String, Boolean> {
     private final Helper helper;
+    private final TraceTimer.Factory traceTimerFactory;
 
     @Inject
-    ExistenceLoader(Helper helper) {
+    ExistenceLoader(Helper helper, TraceTimer.Factory traceTimerFactory) {
       this.helper = helper;
+      this.traceTimerFactory = traceTimerFactory;
     }
 
     @Override
     public Boolean load(String groupDn) throws Exception {
-      try (TraceTimer timer = TraceContext.newTimer("Loading groupDn", "groupDn", groupDn)) {
+      try (TraceTimer timer = traceTimerFactory.newTimer("Loading groupDn", "groupDn", groupDn)) {
         final DirContext ctx = helper.open();
         try {
           Name compositeGroupName = new CompositeName().add(groupDn);

@@ -36,8 +36,7 @@ import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.logging.TraceContext;
-import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.performancelog.TraceTimer;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
@@ -278,23 +277,26 @@ public class ProjectCacheImpl implements ProjectCache {
     private final GitRepositoryManager mgr;
     private final ProjectCacheClock clock;
     private final ProjectConfig.Factory projectConfigFactory;
+    private final TraceTimer.Factory traceTimerFactory;
 
     @Inject
     Loader(
         ProjectState.Factory psf,
         GitRepositoryManager g,
         ProjectCacheClock clock,
-        ProjectConfig.Factory projectConfigFactory) {
+        ProjectConfig.Factory projectConfigFactory,
+        TraceTimer.Factory traceTimerFactory) {
       projectStateFactory = psf;
       mgr = g;
       this.clock = clock;
       this.projectConfigFactory = projectConfigFactory;
+      this.traceTimerFactory = traceTimerFactory;
     }
 
     @Override
     public ProjectState load(String projectName) throws Exception {
       try (TraceTimer timer =
-          TraceContext.newTimer("Loading project", "projectName", projectName)) {
+          traceTimerFactory.newTimer("Loading project", "projectName", projectName)) {
         long now = clock.read();
         Project.NameKey key = Project.nameKey(projectName);
         try (Repository git = mgr.openRepository(key)) {
@@ -317,15 +319,17 @@ public class ProjectCacheImpl implements ProjectCache {
 
   static class Lister extends CacheLoader<ListKey, ImmutableSortedSet<Project.NameKey>> {
     private final GitRepositoryManager mgr;
+    private final TraceTimer.Factory traceTimerFactory;
 
     @Inject
-    Lister(GitRepositoryManager mgr) {
+    Lister(GitRepositoryManager mgr, TraceTimer.Factory traceTimerFactory) {
       this.mgr = mgr;
+      this.traceTimerFactory = traceTimerFactory;
     }
 
     @Override
     public ImmutableSortedSet<Project.NameKey> load(ListKey key) throws Exception {
-      try (TraceTimer timer = TraceContext.newTimer("Loading project list")) {
+      try (TraceTimer timer = traceTimerFactory.newTimer("Loading project list")) {
         return ImmutableSortedSet.copyOf(mgr.list());
       }
     }

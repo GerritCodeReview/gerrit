@@ -23,8 +23,7 @@ import com.google.gerrit.index.project.ProjectIndex;
 import com.google.gerrit.index.project.ProjectIndexCollection;
 import com.google.gerrit.index.project.ProjectIndexer;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.logging.TraceContext;
-import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.performancelog.TraceTimer;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -43,6 +42,7 @@ public class ProjectIndexerImpl implements ProjectIndexer {
   }
 
   private final ProjectCache projectCache;
+  private final TraceTimer.Factory traceTimerFactory;
   private final PluginSetContext<ProjectIndexedListener> indexedListener;
   @Nullable private final ProjectIndexCollection indexes;
   @Nullable private final ProjectIndex index;
@@ -50,9 +50,11 @@ public class ProjectIndexerImpl implements ProjectIndexer {
   @AssistedInject
   ProjectIndexerImpl(
       ProjectCache projectCache,
+      TraceTimer.Factory traceTimerFactory,
       PluginSetContext<ProjectIndexedListener> indexedListener,
       @Assisted ProjectIndexCollection indexes) {
     this.projectCache = projectCache;
+    this.traceTimerFactory = traceTimerFactory;
     this.indexedListener = indexedListener;
     this.indexes = indexes;
     this.index = null;
@@ -61,9 +63,11 @@ public class ProjectIndexerImpl implements ProjectIndexer {
   @AssistedInject
   ProjectIndexerImpl(
       ProjectCache projectCache,
+      TraceTimer.Factory traceTimerFactory,
       PluginSetContext<ProjectIndexedListener> indexedListener,
       @Assisted @Nullable ProjectIndex index) {
     this.projectCache = projectCache;
+    this.traceTimerFactory = traceTimerFactory;
     this.indexedListener = indexedListener;
     this.indexes = null;
     this.index = index;
@@ -77,7 +81,7 @@ public class ProjectIndexerImpl implements ProjectIndexer {
       ProjectData projectData = projectState.toProjectData();
       for (ProjectIndex i : getWriteIndexes()) {
         try (TraceTimer traceTimer =
-            TraceContext.newTimer(
+            traceTimerFactory.newTimer(
                 "Replacing project %s in index version %d",
                 nameKey.get(), i.getSchema().getVersion())) {
           i.replace(projectData);
@@ -88,7 +92,7 @@ public class ProjectIndexerImpl implements ProjectIndexer {
       logger.atFine().log("Delete project %s from index", nameKey.get());
       for (ProjectIndex i : getWriteIndexes()) {
         try (TraceTimer traceTimer =
-            TraceContext.newTimer(
+            traceTimerFactory.newTimer(
                 "Deleting project %s in index version %d",
                 nameKey.get(), i.getSchema().getVersion())) {
           i.delete(nameKey);

@@ -22,8 +22,7 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.logging.TraceContext;
-import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.performancelog.TraceTimer;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
@@ -149,15 +148,18 @@ class ExternalIdCacheImpl implements ExternalIdCache {
 
   static class Loader extends CacheLoader<ObjectId, AllExternalIds> {
     private final ExternalIdReader externalIdReader;
+    private final TraceTimer.Factory traceTimerFactory;
 
     @Inject
-    Loader(ExternalIdReader externalIdReader) {
+    Loader(ExternalIdReader externalIdReader, TraceTimer.Factory traceTimerFactory) {
       this.externalIdReader = externalIdReader;
+      this.traceTimerFactory = traceTimerFactory;
     }
 
     @Override
     public AllExternalIds load(ObjectId notesRev) throws Exception {
-      try (TraceTimer timer = TraceContext.newTimer("Loading external IDs", "revision", notesRev)) {
+      try (TraceTimer timer =
+          traceTimerFactory.newTimer("Loading external IDs", "revision", notesRev)) {
         ImmutableSet<ExternalId> externalIds = externalIdReader.all(notesRev);
         externalIds.forEach(ExternalId::checkThatBlobIdIsSet);
         return AllExternalIds.create(externalIds);

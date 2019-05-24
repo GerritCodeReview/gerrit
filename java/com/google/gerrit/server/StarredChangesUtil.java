@@ -42,8 +42,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexer;
-import com.google.gerrit.server.logging.TraceContext;
-import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.performancelog.TraceTimer;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -169,6 +168,7 @@ public class StarredChangesUtil {
   private final Provider<PersonIdent> serverIdent;
   private final ChangeIndexer indexer;
   private final Provider<InternalChangeQuery> queryProvider;
+  private final TraceTimer.Factory traceTimerFactory;
 
   @Inject
   StarredChangesUtil(
@@ -177,13 +177,15 @@ public class StarredChangesUtil {
       AllUsersName allUsers,
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
       ChangeIndexer indexer,
-      Provider<InternalChangeQuery> queryProvider) {
+      Provider<InternalChangeQuery> queryProvider,
+      TraceTimer.Factory traceTimerFactory) {
     this.repoManager = repoManager;
     this.gitRefUpdated = gitRefUpdated;
     this.allUsers = allUsers;
     this.serverIdent = serverIdent;
     this.indexer = indexer;
     this.queryProvider = queryProvider;
+    this.traceTimerFactory = traceTimerFactory;
   }
 
   public ImmutableSortedSet<String> getLabels(Account.Id accountId, Change.Id changeId) {
@@ -375,8 +377,8 @@ public class StarredChangesUtil {
         ImmutableSet.of(getReviewedLabel(rsrc.getChange())));
   }
 
-  public static StarRef readLabels(Repository repo, String refName) throws IOException {
-    try (TraceTimer traceTimer = TraceContext.newTimer("Read star labels", "ref", refName)) {
+  public StarRef readLabels(Repository repo, String refName) throws IOException {
+    try (TraceTimer traceTimer = traceTimerFactory.newTimer("Read star labels", "ref", refName)) {
       Ref ref = repo.exactRef(refName);
       if (ref == null) {
         return StarRef.MISSING;
@@ -450,7 +452,7 @@ public class StarredChangesUtil {
       Repository repo, String refName, ObjectId oldObjectId, Collection<String> labels)
       throws IOException, InvalidLabelsException {
     try (TraceTimer traceTimer =
-            TraceContext.newTimer("Update star labels", "ref", refName, "labels", labels);
+            traceTimerFactory.newTimer("Update star labels", "ref", refName, "labels", labels);
         RevWalk rw = new RevWalk(repo)) {
       RefUpdate u = repo.updateRef(refName);
       u.setExpectedOldObjectId(oldObjectId);
@@ -487,7 +489,7 @@ public class StarredChangesUtil {
       return;
     }
 
-    try (TraceTimer traceTimer = TraceContext.newTimer("Delete star labels", "ref", refName)) {
+    try (TraceTimer traceTimer = traceTimerFactory.newTimer("Delete star labels", "ref", refName)) {
       RefUpdate u = repo.updateRef(refName);
       u.setForceUpdate(true);
       u.setExpectedOldObjectId(oldObjectId);

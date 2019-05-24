@@ -30,6 +30,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.logging.LoggingContextAwareExecutorService;
 import com.google.gerrit.server.logging.LoggingContextAwareScheduledExecutorService;
+import com.google.gerrit.server.performancelog.TraceTimer;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -55,6 +56,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
   private final Path cacheDir;
   private final List<H2CacheImpl<?, ?>> caches;
   private final DynamicMap<Cache<?, ?>> cacheMap;
+  private final TraceTimer.Factory traceTimerFactory;
   private final ExecutorService executor;
   private final ScheduledExecutorService cleanup;
   private final long h2CacheSize;
@@ -65,7 +67,8 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
       MemoryCacheFactory memCacheFactory,
       @GerritServerConfig Config cfg,
       SitePaths site,
-      DynamicMap<Cache<?, ?>> cacheMap) {
+      DynamicMap<Cache<?, ?>> cacheMap,
+      TraceTimer.Factory traceTimerFactory) {
     this.memCacheFactory = memCacheFactory;
     config = cfg;
     cacheDir = getCacheDir(site, cfg.getString("cache", null, "directory"));
@@ -73,6 +76,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     h2AutoServer = cfg.getBoolean("cache", null, "h2AutoServer", false);
     caches = new LinkedList<>();
     this.cacheMap = cacheMap;
+    this.traceTimerFactory = traceTimerFactory;
 
     if (cacheDir != null) {
       executor =
@@ -188,7 +192,9 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     Cache<K, ValueHolder<V>> mem =
         (Cache<K, ValueHolder<V>>)
             memCacheFactory.build(
-                def, (CacheLoader<K, V>) new H2CacheImpl.Loader<>(executor, store, loader));
+                def,
+                (CacheLoader<K, V>)
+                    new H2CacheImpl.Loader<>(executor, store, loader, traceTimerFactory));
     H2CacheImpl<K, V> cache = new H2CacheImpl<>(executor, store, def.keyType(), mem);
     synchronized (caches) {
       caches.add(cache);

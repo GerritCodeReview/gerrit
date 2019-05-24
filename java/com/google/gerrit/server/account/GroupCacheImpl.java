@@ -21,8 +21,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.db.Groups;
-import com.google.gerrit.server.logging.TraceContext;
-import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.performancelog.TraceTimer;
 import com.google.gerrit.server.query.group.InternalGroupQuery;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -141,15 +140,18 @@ public class GroupCacheImpl implements GroupCache {
 
   static class ByIdLoader extends CacheLoader<AccountGroup.Id, Optional<InternalGroup>> {
     private final Provider<InternalGroupQuery> groupQueryProvider;
+    private final TraceTimer.Factory traceTimerFactory;
 
     @Inject
-    ByIdLoader(Provider<InternalGroupQuery> groupQueryProvider) {
+    ByIdLoader(
+        Provider<InternalGroupQuery> groupQueryProvider, TraceTimer.Factory traceTimerFactory) {
       this.groupQueryProvider = groupQueryProvider;
+      this.traceTimerFactory = traceTimerFactory;
     }
 
     @Override
     public Optional<InternalGroup> load(AccountGroup.Id key) throws Exception {
-      try (TraceTimer timer = TraceContext.newTimer("Loading group by ID", "groupId", key)) {
+      try (TraceTimer timer = traceTimerFactory.newTimer("Loading group by ID", "groupId", key)) {
         return groupQueryProvider.get().byId(key);
       }
     }
@@ -157,15 +159,19 @@ public class GroupCacheImpl implements GroupCache {
 
   static class ByNameLoader extends CacheLoader<String, Optional<InternalGroup>> {
     private final Provider<InternalGroupQuery> groupQueryProvider;
+    private final TraceTimer.Factory traceTimerFactory;
 
     @Inject
-    ByNameLoader(Provider<InternalGroupQuery> groupQueryProvider) {
+    ByNameLoader(
+        Provider<InternalGroupQuery> groupQueryProvider, TraceTimer.Factory traceTimerFactory) {
       this.groupQueryProvider = groupQueryProvider;
+      this.traceTimerFactory = traceTimerFactory;
     }
 
     @Override
     public Optional<InternalGroup> load(String name) throws Exception {
-      try (TraceTimer timer = TraceContext.newTimer("Loading group by name", "groupName", name)) {
+      try (TraceTimer timer =
+          traceTimerFactory.newTimer("Loading group by name", "groupName", name)) {
         return groupQueryProvider.get().byName(AccountGroup.nameKey(name));
       }
     }
@@ -173,15 +179,18 @@ public class GroupCacheImpl implements GroupCache {
 
   static class ByUUIDLoader extends CacheLoader<String, Optional<InternalGroup>> {
     private final Groups groups;
+    private final TraceTimer.Factory traceTimerFactory;
 
     @Inject
-    ByUUIDLoader(Groups groups) {
+    ByUUIDLoader(Groups groups, TraceTimer.Factory traceTimerFactory) {
       this.groups = groups;
+      this.traceTimerFactory = traceTimerFactory;
     }
 
     @Override
     public Optional<InternalGroup> load(String uuid) throws Exception {
-      try (TraceTimer timer = TraceContext.newTimer("Loading group by UUID", "groupUuid", uuid)) {
+      try (TraceTimer timer =
+          traceTimerFactory.newTimer("Loading group by UUID", "groupUuid", uuid)) {
         return groups.getGroup(AccountGroup.uuid(uuid));
       }
     }

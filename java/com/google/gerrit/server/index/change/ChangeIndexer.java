@@ -27,8 +27,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexExecutor;
-import com.google.gerrit.server.logging.TraceContext;
-import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.performancelog.TraceTimer;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.RequestContext;
@@ -68,6 +67,7 @@ public class ChangeIndexer {
   private final ListeningExecutorService executor;
   private final PluginSetContext<ChangeIndexedListener> indexedListeners;
   private final StalenessChecker stalenessChecker;
+  private final TraceTimer.Factory traceTimerFactory;
   private final boolean autoReindexIfStale;
 
   @AssistedInject
@@ -77,6 +77,7 @@ public class ChangeIndexer {
       ThreadLocalRequestContext context,
       PluginSetContext<ChangeIndexedListener> indexedListeners,
       StalenessChecker stalenessChecker,
+      TraceTimer.Factory traceTimerFactory,
       @IndexExecutor(BATCH) ListeningExecutorService batchExecutor,
       @Assisted ListeningExecutorService executor,
       @Assisted ChangeIndex index) {
@@ -85,6 +86,7 @@ public class ChangeIndexer {
     this.context = context;
     this.indexedListeners = indexedListeners;
     this.stalenessChecker = stalenessChecker;
+    this.traceTimerFactory = traceTimerFactory;
     this.batchExecutor = batchExecutor;
     this.autoReindexIfStale = autoReindexIfStale(cfg);
     this.index = index;
@@ -98,6 +100,7 @@ public class ChangeIndexer {
       ThreadLocalRequestContext context,
       PluginSetContext<ChangeIndexedListener> indexedListeners,
       StalenessChecker stalenessChecker,
+      TraceTimer.Factory traceTimerFactory,
       @IndexExecutor(BATCH) ListeningExecutorService batchExecutor,
       @Assisted ListeningExecutorService executor,
       @Assisted ChangeIndexCollection indexes) {
@@ -106,6 +109,7 @@ public class ChangeIndexer {
     this.context = context;
     this.indexedListeners = indexedListeners;
     this.stalenessChecker = stalenessChecker;
+    this.traceTimerFactory = traceTimerFactory;
     this.batchExecutor = batchExecutor;
     this.autoReindexIfStale = autoReindexIfStale(cfg);
     this.index = null;
@@ -173,7 +177,7 @@ public class ChangeIndexer {
     logger.atFine().log("Replace change %d in index.", cd.getId().get());
     for (Index<?, ChangeData> i : getWriteIndexes()) {
       try (TraceTimer traceTimer =
-          TraceContext.newTimer(
+          traceTimerFactory.newTimer(
               "Replacing change in index",
               "changeId",
               cd.getId().get(),
@@ -338,7 +342,7 @@ public class ChangeIndexer {
       // change ID.
       for (ChangeIndex i : getWriteIndexes()) {
         try (TraceTimer traceTimer =
-            TraceContext.newTimer(
+            traceTimerFactory.newTimer(
                 "Deleting change in index",
                 "changeId",
                 id.get(),

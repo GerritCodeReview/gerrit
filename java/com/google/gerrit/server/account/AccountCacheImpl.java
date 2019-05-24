@@ -27,8 +27,7 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.logging.TraceContext;
-import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.performancelog.TraceTimer;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -175,15 +174,17 @@ public class AccountCacheImpl implements AccountCache {
 
   static class ByIdLoader extends CacheLoader<Account.Id, Optional<AccountState>> {
     private final Accounts accounts;
+    private final TraceTimer.Factory traceTimerFactory;
 
     @Inject
-    ByIdLoader(Accounts accounts) {
+    ByIdLoader(Accounts accounts, TraceTimer.Factory traceTimerFactory) {
       this.accounts = accounts;
+      this.traceTimerFactory = traceTimerFactory;
     }
 
     @Override
     public Optional<AccountState> load(Account.Id who) throws Exception {
-      try (TraceTimer timer = TraceContext.newTimer("Loading account", "accountId", who)) {
+      try (TraceTimer timer = traceTimerFactory.newTimer("Loading account", "accountId", who)) {
         return accounts.get(who);
       }
     }

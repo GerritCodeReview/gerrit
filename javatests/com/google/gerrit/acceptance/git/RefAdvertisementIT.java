@@ -249,6 +249,18 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void uploadPackTagsVisible() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/tags/*").group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+    assertUploadPackRefs();
+  }
+
+  @Test
   public void uploadPackSubsetOfBranchesVisibleIncludingHead() throws Exception {
     projectOperations
         .project(project)

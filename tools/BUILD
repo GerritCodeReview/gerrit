@@ -31,7 +31,7 @@ java_package_configuration(
         "-Xep:BadComparable:WARN",
         "-Xep:BoxedPrimitiveConstructor:ERROR",
         "-Xep:CannotMockFinalClass:WARN",
-        "-Xep:ClassCanBeStatic:WARN",
+        "-Xep:ClassCanBeStatic:ERROR",
         "-Xep:ClassNewInstance:WARN",
         "-Xep:DateFormatConstant:ERROR",
         "-Xep:DefaultCharset:ERROR",

@@ -300,6 +300,31 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void uploadPackSubsetOfBranchesVisibleInSubProject() throws Exception {
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allow(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(deny(Permission.READ).ref("refs/heads/branch").group(REGISTERED_USERS))
+        .setExclusiveGroup(permissionKey(Permission.READ).ref("refs/heads/branch"), true)
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+    assertUploadPackRefs(
+        "HEAD",
+        psRef1,
+        metaRef1,
+        psRef3,
+        metaRef3,
+        "refs/heads/master",
+        RefNames.REFS_CONFIG,
+        "refs/tags/master-tag");
+  }
+
+  @Test
   public void uploadPackSubsetOfBranchesVisibleIncludingHead() throws Exception {
     projectOperations
         .project(project)

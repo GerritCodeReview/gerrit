@@ -65,7 +65,7 @@ java_package_configuration(
         "-Xep:NullableConstructor:WARN",
         "-Xep:NullablePrimitive:WARN",
         "-Xep:NullableVoid:WARN",
-        "-Xep:OperatorPrecedence:WARN",
+        "-Xep:OperatorPrecedence:ERROR",
         "-Xep:OverridesGuiceInjectableMethod:WARN",
         "-Xep:PreconditionsInvalidPlaceholder:WARN",
         "-Xep:ProtoFieldPreconditionsCheckNotNull:WARN",

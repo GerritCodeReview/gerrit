@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8275af3_d1c004bf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-05-24T11:40:20Z",
+      "side": 1,
+      "message": "The same problem in principle also appears here, but it\u0027s much less likely because you will rarely have 150k changes lines in a change. I am slightly reluctant to hedge against that, but if you feel strongly, let me know.",
+      "range": {
+        "startLine": 248,
+        "startChar": 9,
+        "endLine": 248,
+        "endChar": 22
+      },
+      "revId": "67ccf67a5273b1d1c76aa46379655c7e918a904f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

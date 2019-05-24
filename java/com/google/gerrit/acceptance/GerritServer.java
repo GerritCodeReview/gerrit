@@ -524,7 +524,7 @@ public class GerritServer implements AutoCloseable {
   }
 
   private static Injector createTestInjector(Daemon daemon) throws Exception {
-    Injector sysInjector = get(daemon, "sysInjector");
+    Injector sysInjector = getInjector(daemon, "sysInjector");
     Module module =
         new FactoryModule() {
           @Override
@@ -557,13 +557,14 @@ public class GerritServer implements AutoCloseable {
     return sysInjector.createChildInjector(module);
   }
 
-  @SuppressWarnings("unchecked")
-  private static <T> T get(Object obj, String field)
+  private static Injector getInjector(Object obj, String field)
       throws SecurityException, NoSuchFieldException, IllegalArgumentException,
           IllegalAccessException {
     Field f = obj.getClass().getDeclaredField(field);
     f.setAccessible(true);
-    return (T) f.get(obj);
+    Object v = f.get(obj);
+    checkArgument(v instanceof Injector, "not an Injector: %s", v);
+    return (Injector) f.get(obj);
   }
 
   private static InetAddress getLocalHost() {

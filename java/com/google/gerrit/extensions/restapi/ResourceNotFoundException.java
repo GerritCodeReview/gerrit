@@ -34,9 +34,8 @@ public class ResourceNotFoundException extends RestApiException {
     super("Not found: " + id.get());
   }
 
-  @SuppressWarnings("unchecked")
-  @Override
   public ResourceNotFoundException caching(CacheControl c) {
-    return super.caching(c);
+    setCaching(c);
+    return this;
   }
 }

@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1558645985 -0700\nnonce AC6AUtO1OCBPxBtICddfxKpqNiv128M9ISOVsdzBQRV/yE1tVpAeaNTPxgwxlBoWeInRaln32Ht5\n\n0000000000000000000000000000000000000000 9bc5d100f566d3c0d04792ad5a7fb56dccdad8dd refs/for/master%r\u003dsasa.zivkov@sap.com,r\u003daliceks\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlznDOEVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMI4IP/icR8DfqDSkGBJNHa8pqIjFG8+8p\nDTyj7jdohKHYyElF5OB6ukwXwZ/E9poAn4umGwLXB07eovdQY5P4uZncANzAR7r1\n/N6oeqVmlcvHwA3c//G9z3yUj29m8UxihFxf6+yRu6szmhBmodYxHJ4PLB0goV8D\noxAILoKbvIo1OKse+BZSpXtpeyrnO0MfRLo+2XfDQYNfB+bUYzcFIQL2ysGtOkxX\nACGmeDZML4QPXUaHH31/eB3Y8gXyIoBf6vHr3nr6inU/76i0uVbwRFnRuUolsEP4\nRkvrcNSgX4uWQuhjsAVA/C0qdhKj6d4JR0rFBfCg6k+XjXiReXCbGs8Xi6vxuurL\nKZN3AMaP2ZYJ1ibDpDzCq5BcIzgd1cunQ97pJQo7wO51AQz5QrhOJiX+Ee679h9/\nfyvfnNYLGOgcNRp42wJaL43LkdCiz8Irv+PqCmMNPhGe3HhTQl1yVRcKim/0cgRK\nVr6qeF+dyMeWI4uo0DKb6oxW88m1HH5y8XNe9+GTDYhxJnryBsCDN648UFJgJcUL\nQm6AYig5fy5f4PgMkuwmGOPdMlnqc/sZKi4Sgbf/MNb1j4HdHA5+Gsr8eU2ktkiI\nUheZmK7Utcx/Kc8R+Pkd6OS+yyvB/437W/TrVbfRzpL0NHqHvbDtVez9BEsLdeDc\nmDCp5Wf+/rM3GbVf\n\u003d/k/x\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "982a5afe_713ce5a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-24T08:31:21Z",
+      "side": 1,
+      "message": "Yes",
+      "revId": "9bc5d100f566d3c0d04792ad5a7fb56dccdad8dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6056e08_59094a79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-24T08:31:21Z",
+      "side": 1,
+      "message": "As I commented in [1] I wanted just:\n\n  $SITE/etc/jgit.config \u003c repo config\n\nWhat you propose here would also work, but there some Gerrit admins\nmay run into puzzling issues if they are not aware that Gerrit\nwould also look into $HOME/.gitconfig.\n\nDo we need to support $HOME/.gitconfig? WDYT?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/142932",
+      "revId": "9bc5d100f566d3c0d04792ad5a7fb56dccdad8dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

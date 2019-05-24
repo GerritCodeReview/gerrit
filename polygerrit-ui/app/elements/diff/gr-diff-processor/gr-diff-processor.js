@@ -126,7 +126,7 @@
         let currentBatch = 0;
         const nextStep = () => {
           if (this._isScrolling) {
-            this.async(nextStep, 100);
+            this._nextStepHandle = this.async(nextStep, 100);
             return;
           }
           // If we are done, resolve the promise.

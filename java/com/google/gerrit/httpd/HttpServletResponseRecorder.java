@@ -67,7 +67,7 @@ public class HttpServletResponseRecorder extends HttpServletResponseWrapper {
     headers.put(name, value);
   }
 
-  @SuppressWarnings("all")
+  @SuppressWarnings({"all", "MissingOverride"})
   // @Override is omitted for backwards compatibility with servlet-api 2.5
   // TODO: Remove @SuppressWarnings and add @Override when Google upgrades
   //       to servlet-api 3.1

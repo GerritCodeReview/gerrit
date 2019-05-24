@@ -14,6 +14,7 @@
 
 package com.google.gerrit.reviewdb.converter;
 
+import com.google.errorprone.annotations.Immutable;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.LabelId;
@@ -21,6 +22,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.protobuf.Parser;
 
+@Immutable
 public enum PatchSetApprovalKeyProtoConverter
     implements ProtoConverter<Entities.PatchSetApproval_Key, PatchSetApproval.Key> {
   INSTANCE;

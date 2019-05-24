@@ -46,6 +46,30 @@
       "revId": "67ccf67a5273b1d1c76aa46379655c7e918a904f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "459ce11f_445c6319",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-05-24T12:12:41Z",
+      "side": 1,
+      "message": "I just went ahead and fixed that too. Using not sure if extend or a loop is more efficient (extend will copy the entire array, but at least does it in native code I assume - push might preallocate the right amount, but might also execute the loop in JS and that might make it slower). I think using the higher level function typically makes it easier for compilers to optimize, so I do that.",
+      "parentUuid": "6103d798_54987c7d",
+      "range": {
+        "startLine": 248,
+        "startChar": 9,
+        "endLine": 248,
+        "endChar": 22
+      },
+      "revId": "67ccf67a5273b1d1c76aa46379655c7e918a904f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

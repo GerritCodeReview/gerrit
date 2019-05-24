@@ -128,7 +128,7 @@ public class Section {
   public <T extends Enum<?>, E extends EnumSet<? extends T>> T select(
       String title, String name, T defValue, boolean nullIfDefault) {
     @SuppressWarnings("unchecked")
-    E allowedValues = (E) EnumSet.allOf(defValue.getClass());
+    E allowedValues = (E) EnumSet.allOf(defValue.getDeclaringClass());
     return select(title, name, defValue, allowedValues, nullIfDefault);
   }
 

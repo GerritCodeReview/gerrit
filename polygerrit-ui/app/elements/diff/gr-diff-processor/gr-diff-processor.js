@@ -239,12 +239,11 @@
     },
 
     _linesFromSection(section, offsetLeft, offsetRight) {
-      const lines = [];
       if (section.ab) {
-        lines.push(...section.ab.map((row, i) =>
-          this._lineFromRow(
-              GrDiffLine.Type.BOTH, offsetLeft, offsetRight, row, i)));
+        return section.ab.map((row, i) => this._lineFromRow(
+            GrDiffLine.Type.BOTH, offsetLeft, offsetRight, row, i));
       }
+      const lines = [];
       if (section.a) {
         lines.push(...this._deltaLinesFromRows(
             GrDiffLine.Type.REMOVE, section.a, offsetLeft,

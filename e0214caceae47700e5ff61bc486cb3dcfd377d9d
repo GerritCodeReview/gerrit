@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1558628412 -0700\nnonce AC6AUtO8gAHmBjd3lGUsGOMnA0E/X5gv56t6bDwPMXxtf//AtdraoUpSWnsyACrXzQt4TQ1VbBDp\n\n0000000000000000000000000000000000000000 e0214caceae47700e5ff61bc486cb3dcfd377d9d refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlzmyDwVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiM/SUP/jqKfQDG//BvKay/2zHYWYBx6Jx3\nL49WhgNZiXU/Ssu9t62qp1HhwD+xMfhKOfQ6E77Ebo1oFqZxDcOaoHM5qZZzehBs\nrO8ZllzaxX3RHpLqpdpE6+f/oKXNmZujXrZircDntQybk1EF0/VYSioH54cS9LJu\nYcGrpCl++yt0418G1J/vwaqvtiTQaFTaCt5hCCpsDOA+hYnId/8vu14hKZgCZ0t0\nfKoNsi2204jvIKXqcGsAtgW/WZUc9w76u7DFd90ZQcbGoK2jB9rv9cC3lKMbgtoq\ntsIAu/0d+LBrVW8aTQGkJ+N8nVpCLij3yQ6tSlf9LJzPcLzOANMJb2i4teh/2Z9S\nkDQAQ4G2AyZWEKdcMIo3XJP9te0LlGZlIw0Ya0HP1h2Z8XFT9Vtt2El5kw9GWKm6\nWjYSMkGCAcvbY4Rtaapv3us1pq5DS4QwhRYmyvn5ecgMXA/nqcxLMllqS+GHE3CS\niLWmqg0UnEK8Nkz96Eu7DkxosViAWlGjhCXm0Xkt4cKKuVr0Py2LXnNavjKtXvsf\nqUMgIpSm3hRGFpknkeS5dbWDQHF8HzOgvblk4qVRElVtpBNzVonQu4pHrp8A85I6\nEpMEUoZXDx9COo59b2Q/KGpkvjTLbmtAuBgzl7lkKLiiGcdQN4JiOkk9r6Cb4LY/\nVzHrJrGDvgMC1e4F\n\u003dMvoj\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9fb1564e_dab85c7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-24T09:25:42Z",
+      "side": 1,
+      "message": "Thanks for noticing this.",
+      "range": {
+        "startLine": 7,
+        "startChar": 19,
+        "endLine": 7,
+        "endChar": 67
+      },
+      "revId": "e0214caceae47700e5ff61bc486cb3dcfd377d9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1e0500e_1e11a842",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-24T09:25:42Z",
+      "side": 1,
+      "message": "Optional: I would have rather preferred an API which doesn\u0027t even allow to add/remove capabilities on other projects. One way I imagine how this would be possible to achieve is by not offering the add/remove methods for capabilities on the general TestProjectUpdate. Instead, we could have a different chain started on the top level of ProjectOperations (e.g. projectOperations.global().add(allowCapability(..)).remove(capabilityKey(..).update()) with some more refinements). I\u0027m fine if you don\u0027t want to invest more time for this right now. We can always improve the API later.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 57
+      },
+      "revId": "e0214caceae47700e5ff61bc486cb3dcfd377d9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

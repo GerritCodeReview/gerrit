@@ -15,7 +15,6 @@
 package com.google.gerrit.server.index;
 
 import com.google.gerrit.index.IndexConfig;
-import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.project.ProjectIndex;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -44,9 +43,21 @@ public abstract class AbstractIndexModule extends AbstractModule {
   @Override
   protected void configure() {
     if (slave) {
-      bind(AccountIndex.Factory.class).toInstance(AbstractIndexModule::createDummyIndexFactory);
-      bind(ChangeIndex.Factory.class).toInstance(AbstractIndexModule::createDummyIndexFactory);
-      bind(ProjectIndex.Factory.class).toInstance(AbstractIndexModule::createDummyIndexFactory);
+      bind(AccountIndex.Factory.class)
+          .toInstance(
+              s -> {
+                throw new UnsupportedOperationException();
+              });
+      bind(ChangeIndex.Factory.class)
+          .toInstance(
+              s -> {
+                throw new UnsupportedOperationException();
+              });
+      bind(ProjectIndex.Factory.class)
+          .toInstance(
+              s -> {
+                throw new UnsupportedOperationException();
+              });
     } else {
       install(
           new FactoryModuleBuilder()
@@ -72,11 +83,6 @@ public abstract class AbstractIndexModule extends AbstractModule {
     } else {
       install(new SingleVersionModule(singleVersions));
     }
-  }
-
-  @SuppressWarnings("unused")
-  private static <T> T createDummyIndexFactory(Schema<?> schema) {
-    throw new UnsupportedOperationException();
   }
 
   protected abstract Class<? extends AccountIndex> getAccountIndex();

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.restapi;
 
+import static java.util.Objects.requireNonNull;
+
 /** Root exception type for REST API failures. */
 public class RestApiException extends Exception {
   private static final long serialVersionUID = 1L;
@@ -33,9 +35,7 @@ public class RestApiException extends Exception {
     return caching;
   }
 
-  @SuppressWarnings("unchecked")
-  public <T extends RestApiException> T caching(CacheControl c) {
-    caching = c;
-    return (T) this;
+  protected void setCaching(CacheControl caching) {
+    this.caching = requireNonNull(caching);
   }
 }

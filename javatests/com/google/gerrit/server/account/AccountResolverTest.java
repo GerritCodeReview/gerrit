@@ -36,7 +36,7 @@ import java.util.stream.Stream;
 import org.junit.Test;
 
 public class AccountResolverTest {
-  private class TestSearcher extends StringSearcher {
+  private static class TestSearcher extends StringSearcher {
     private final String pattern;
     private final boolean shortCircuit;
     private final ImmutableList<AccountState> accounts;

@@ -44,6 +44,7 @@ java_package_configuration(
         "-Xep:BadComparable:ERROR",
         "-Xep:BoxedPrimitiveConstructor:ERROR",
         "-Xep:CannotMockFinalClass:ERROR",
+        "-Xep:ClassCanBeStatic:ERROR",
         "-Xep:ClassNewInstance:ERROR",
         "-Xep:DoubleCheckedLocking:ERROR",
         "-Xep:ElementsCountedInLoop:ERROR",

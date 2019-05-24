@@ -515,6 +515,34 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void uploadPackSubsetRefsVisibleOrphanedTagInvisible() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/heads/branch").group(REGISTERED_USERS))
+        .update();
+    // Create a tag for the pending change on 'branch' so that the tag is orphaned
+    try (Repository repo = repoManager.openRepository(project)) {
+      // change4-tag -> psRef4
+      RefUpdate ctu = repo.updateRef("refs/tags/change4-tag");
+      ctu.setExpectedOldObjectId(ObjectId.zeroId());
+      ctu.setNewObjectId(repo.exactRef(psRef4).getObjectId());
+      assertThat(ctu.update()).isEqualTo(RefUpdate.Result.NEW);
+    }
+
+    requestScopeOperations.setApiUser(user.id());
+    assertUploadPackRefs(
+        psRef2,
+        metaRef2,
+        psRef4,
+        metaRef4,
+        "refs/heads/branch",
+        "refs/tags/branch-tag",
+        // See comment in subsetOfBranchesVisibleNotIncludingHead.
+        "refs/tags/master-tag");
+  }
+
+  @Test
   public void receivePackListsOpenChangesAsAdditionalHaves() throws Exception {
     ReceiveCommitsAdvertiseRefsHook.Result r = getReceivePackRefs();
     assertThat(r.allRefs().keySet())

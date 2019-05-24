@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c5f2399_3b782b70",
+        "filename": "tools/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-24T19:01:11Z",
+      "side": 0,
+      "message": "Was wondering, why these options were removed in this change, but seeing now, that they are re-added with more options in follow-up change.",
+      "range": {
+        "startLine": 42,
+        "startChar": 9,
+        "endLine": 45,
+        "endChar": 46
+      },
+      "revId": "40b16007123c0785e902580a60061b1dfd3ceb30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

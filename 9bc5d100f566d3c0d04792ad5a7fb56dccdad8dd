@@ -34,6 +34,24 @@
       "revId": "9bc5d100f566d3c0d04792ad5a7fb56dccdad8dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f7faf86_3f22f447",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-05-24T14:05:26Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/142932/5/java/com/google/gerrit/server/git/SystemReaderInstaller.java#70",
+      "parentUuid": "c6056e08_59094a79",
+      "revId": "9bc5d100f566d3c0d04792ad5a7fb56dccdad8dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

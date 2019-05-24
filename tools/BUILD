@@ -91,7 +91,7 @@ java_package_configuration(
         "-Xep:SimpleDateFormatConstant:ERROR",
         "-Xep:StaticGuardedByInstance:ERROR",
         "-Xep:StringEquality:ERROR",
-        #"-Xep:SynchronizeOnNonFinalField:ERROR",
+        "-Xep:SynchronizeOnNonFinalField:ERROR",
         "-Xep:TruthConstantAsserts:ERROR",
         "-Xep:TypeParameterShadowing:ERROR",
         "-Xep:TypeParameterUnusedInFormals:ERROR",

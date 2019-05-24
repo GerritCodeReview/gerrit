@@ -46,6 +46,30 @@
       "revId": "e0214caceae47700e5ff61bc486cb3dcfd377d9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d09674d7_f51dff1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2019-05-24T15:24:12Z",
+      "side": 1,
+      "message": "I agree, this does feel like it should be solved at the API level. I started going in that direction at https://gerrit-review.googlesource.com/c/gerrit/+/225456, but I likely won\u0027t have more time to work on it soon.",
+      "parentUuid": "b1e0500e_1e11a842",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 57
+      },
+      "revId": "e0214caceae47700e5ff61bc486cb3dcfd377d9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

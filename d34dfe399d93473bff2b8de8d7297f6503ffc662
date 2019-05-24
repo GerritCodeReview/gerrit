@@ -70,6 +70,30 @@
       "revId": "d34dfe399d93473bff2b8de8d7297f6503ffc662",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f323688f_ed442688",
+        "filename": "java/com/google/gerrit/server/git/SystemReaderInstaller.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-24T08:23:51Z",
+      "side": 1,
+      "message": "\u003e Did you mean openUserConfig?\n\nOh, this was definitely a typo. I think I wanted this to be just:\n\n  return jgit_config;\n\nor actually delegate to the openSystemConfig of this instance (not current):\n\n  return openSystemConfig(parent, fs);\n\n\n\n\u003e Rereading the commit message...maybe this was intentional, with the intent of bypassing the user config as well?\n\nThe intention was to have $SITE/etc/jgit.config be the parent of repo config:\n\n  $SITE/etc/jgit.config \u003c repo config\n\nBasically I wanted to use $SITE/etc/jgit.config as both user-level and system-level config.\n\n\n \n\u003e I still don\u0027t think this is the right behavior though, current.openSystemConfig will return /etc/gitconfig. If your goal is to ignore /etc/gitconfig entirely, then that\u0027s not what you want.\n\u003e \n\u003e Maybe this should instead be something like what SystemReader.Default is doing?\n\u003e \n\u003e  return new FileBasedConfig(parent, null, fs) {\n\u003e    @Override public void load() {}\n\u003e    @Override public boolean isOutdated() { return false; }\n\u003e  }\n\u003e \n\u003e In other words, when using SystemReaderInstaller, it should use $site/etc/jgit.config in place of the system config, and always force the user config to be a completely empty config.\n\nAs said, I wanted to use the etc/jgit.config for both system and user level config.\nI don\u0027t see a value in having both system level and user level jgit config for Gerrit\nruntime.",
+      "parentUuid": "1dcd47d6_8a47ec32",
+      "range": {
+        "startLine": 70,
+        "startChar": 23,
+        "endLine": 70,
+        "endChar": 39
+      },
+      "revId": "d34dfe399d93473bff2b8de8d7297f6503ffc662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

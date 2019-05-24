@@ -14,6 +14,7 @@
 
 package com.google.gerrit.reviewdb.converter;
 
+import com.google.errorprone.annotations.Immutable;
 import com.google.gerrit.proto.Entities;
 import com.google.protobuf.Parser;
 import org.eclipse.jgit.lib.ObjectId;
@@ -30,6 +31,7 @@ import org.eclipse.jgit.lib.ObjectId;
  *   <li>This maintains backwards wire compatibility with a pre-NoteDb implementation.
  * </ul>
  */
+@Immutable
 public enum ObjectIdProtoConverter implements ProtoConverter<Entities.ObjectId, ObjectId> {
   INSTANCE;
 

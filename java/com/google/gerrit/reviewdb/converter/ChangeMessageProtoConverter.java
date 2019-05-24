@@ -14,6 +14,7 @@
 
 package com.google.gerrit.reviewdb.converter;
 
+import com.google.errorprone.annotations.Immutable;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -22,6 +23,7 @@ import com.google.protobuf.Parser;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+@Immutable
 public enum ChangeMessageProtoConverter
     implements ProtoConverter<Entities.ChangeMessage, ChangeMessage> {
   INSTANCE;

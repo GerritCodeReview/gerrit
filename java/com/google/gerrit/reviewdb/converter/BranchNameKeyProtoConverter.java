@@ -14,11 +14,13 @@
 
 package com.google.gerrit.reviewdb.converter;
 
+import com.google.errorprone.annotations.Immutable;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.protobuf.Parser;
 
+@Immutable
 public enum BranchNameKeyProtoConverter
     implements ProtoConverter<Entities.Branch_NameKey, BranchNameKey> {
   INSTANCE;

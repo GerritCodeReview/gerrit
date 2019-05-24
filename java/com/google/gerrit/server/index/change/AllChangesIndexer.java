@@ -23,6 +23,7 @@ import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.primitives.Ints;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.index.SiteIndexer;
@@ -108,7 +109,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     int projectsFailed = 0;
     for (Project.NameKey name : projectCache.all()) {
       try (Repository repo = repoManager.openRepository(name)) {
-        long size = estimateSize(repo);
+        int size = estimateSize(repo);
         changeCount += size;
         projects.add(new ProjectHolder(name, size));
       } catch (IOException e) {
@@ -126,15 +127,17 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     return indexAll(index, projects);
   }
 
-  private long estimateSize(Repository repo) throws IOException {
+  private int estimateSize(Repository repo) throws IOException {
     // Estimate size based on IDs that show up in ref names. This is not perfect, since patch set
     // refs may exist for changes whose metadata was never successfully stored. But that's ok, as
     // the estimate is just used as a heuristic for sorting projects.
-    return repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_CHANGES).stream()
-        .map(r -> Change.Id.fromRef(r.getName()))
-        .filter(Objects::nonNull)
-        .distinct()
-        .count();
+    long size =
+        repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_CHANGES).stream()
+            .map(r -> Change.Id.fromRef(r.getName()))
+            .filter(Objects::nonNull)
+            .distinct()
+            .count();
+    return Ints.saturatedCast(size);
   }
 
   private SiteIndexer.Result indexAll(ChangeIndex index, SortedSet<ProjectHolder> projects) {

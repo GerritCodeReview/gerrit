@@ -506,10 +506,10 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
     String topic1 = "test-topic-1";
     String topic2 = "test-topic-2";
-    PushOneCommit.Result change1 = createChange("Change 1", "a.txt", "content", topic2);
-    PushOneCommit.Result change2 = createChange("Change 2", "b.txt", "content", topic2);
-    PushOneCommit.Result change3 = createChange("Change 3", "c.txt", "content", topic1);
-    PushOneCommit.Result change4 = createChange("Change 4", "d.txt", "content", topic1);
+    PushOneCommit.Result change1 = createChange("Change 1", "a.txt", "content", topic1);
+    PushOneCommit.Result change2 = createChange("Change 2", "b.txt", "content", topic1);
+    PushOneCommit.Result change3 = createChange("Change 3", "c.txt", "content", topic2);
+    PushOneCommit.Result change4 = createChange("Change 4", "d.txt", "content", topic2);
     approve(change1.getChangeId());
     approve(change2.getChangeId());
     approve(change3.getChangeId());
@@ -518,12 +518,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     String expectedTopic1 = name(topic1);
     String expectedTopic2 = name(topic2);
     if (getSubmitType() == SubmitType.CHERRY_PICK) {
-      change1.assertChange(Change.Status.NEW, expectedTopic2, admin);
-      change2.assertChange(Change.Status.NEW, expectedTopic2, admin);
+      change1.assertChange(Change.Status.NEW, expectedTopic1, admin);
+      change2.assertChange(Change.Status.NEW, expectedTopic1, admin);
 
     } else {
-      change1.assertChange(Change.Status.MERGED, expectedTopic2, admin);
-      change2.assertChange(Change.Status.MERGED, expectedTopic2, admin);
+      change1.assertChange(Change.Status.MERGED, expectedTopic1, admin);
+      change2.assertChange(Change.Status.MERGED, expectedTopic1, admin);
     }
 
     // Check for the exact change to have the correct submitter.

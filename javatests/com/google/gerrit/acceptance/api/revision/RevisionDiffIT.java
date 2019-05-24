@@ -2406,6 +2406,46 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     assertThat(diffInfo).content().isEmpty();
   }
 
+  // This behavior is likely a bug. A fix might not be easy as it might break syntax highlighting.
+  // TODO: Fix this issue or remove the broken parameter (at least in the documentation).
+  @Test
+  public void contextParameterIsIgnored() throws Exception {
+    addModifiedPatchSet(
+        changeId, FILE_NAME, content -> content.replace("Line 20\n", "Line twenty\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME)
+            .withBase(initialPatchSetId)
+            .withContext(5)
+            .get();
+    assertThat(diffInfo).content().element(0).commonLines().hasSize(19);
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 20");
+    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line twenty");
+    assertThat(diffInfo).content().element(2).commonLines().hasSize(81);
+  }
+
+  // This behavior is likely a bug. A fix might not be easy as it might break syntax highlighting.
+  // TODO: Fix this issue or remove the broken parameter (at least in the documentation).
+  @Test
+  public void contextParameterIsIgnoredForUnmodifiedFileWithComment() throws Exception {
+    addModifiedPatchSet(
+        changeId, FILE_NAME, content -> content.replace("Line 20\n", "Line twenty\n"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    CommentInput comment = createCommentInput(20, 0, 21, 0, "Should be 'Line 20'.");
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.comments = ImmutableMap.of(FILE_NAME, ImmutableList.of(comment));
+    gApi.changes().id(changeId).revision(previousPatchSetId).review(reviewInput);
+    addModifiedPatchSet(
+        changeId, FILE_NAME2, content -> content.replace("2nd line\n", "Second line\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME)
+            .withBase(previousPatchSetId)
+            .withContext(5)
+            .get();
+    assertThat(diffInfo).content().element(0).commonLines().hasSize(101);
+  }
+
   @Test
   public void requestingDiffForOldFileNameOfRenamedFileYieldsReasonableResult() throws Exception {
     addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 2\n", "Line two\n"));

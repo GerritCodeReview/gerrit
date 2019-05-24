@@ -155,7 +155,7 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
 
     MutableInteger leafTerms = new MutableInteger();
     Predicate<ChangeData> out = rewriteImpl(in, index, opts, leafTerms);
-    if (in == out || out instanceof IndexPredicate) {
+    if (isSameInstance(in, out) || out instanceof IndexPredicate) {
       return new IndexedChangeQuery(index, out, opts);
     } else if (out == null /* cannot rewrite */) {
       return in;
@@ -207,7 +207,7 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
     for (int i = 0; i < n; i++) {
       Predicate<ChangeData> c = in.getChild(i);
       Predicate<ChangeData> nc = rewriteImpl(c, index, opts, leafTerms);
-      if (nc == c) {
+      if (isSameInstance(nc, c)) {
         isIndexed.set(i);
         newChildren.add(c);
       } else if (nc == null /* cannot rewrite c */) {
@@ -290,5 +290,10 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
   private static boolean isRewritePossible(Predicate<ChangeData> p) {
     return p.getChildCount() > 0
         && (p instanceof AndPredicate || p instanceof OrPredicate || p instanceof NotPredicate);
+  }
+
+  @SuppressWarnings("ReferenceEquality")
+  private static <T> boolean isSameInstance(T a, T b) {
+    return a == b;
   }
 }

@@ -177,7 +177,7 @@ final class WrappableSearcherManager extends ReferenceManager<IndexSearcher> {
    * Expert: creates a searcher from the provided {@link IndexReader} using the provided {@link
    * SearcherFactory}. NOTE: this decRefs incoming reader on throwing an exception.
    */
-  @SuppressWarnings("resource")
+  @SuppressWarnings({"resource", "ReferenceEquality"})
   public static IndexSearcher getSearcher(SearcherFactory searcherFactory, IndexReader reader)
       throws IOException {
     boolean success = false;

@@ -23,6 +23,29 @@
       "revId": "e63cf2ba0c2f236df73c9f5129689f3b135d9449",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88bc2ce7_244f04b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-05-24T09:02:32Z",
+      "side": 1,
+      "message": "Sounds very reasonable.",
+      "range": {
+        "startLine": 10,
+        "startChar": 33,
+        "endLine": 12,
+        "endChar": 28
+      },
+      "revId": "e63cf2ba0c2f236df73c9f5129689f3b135d9449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

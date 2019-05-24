@@ -17,15 +17,17 @@ package com.google.gerrit.server.git;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.common.collect.ImmutableSortedSet.toImmutableSortedSet;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Comparator.naturalOrder;
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.joining;
 
-import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
@@ -68,7 +70,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -847,25 +848,20 @@ public class MergeUtil {
       return String.format("Merge \"%s\"", c.getShortMessage());
     }
 
-    LinkedHashSet<String> topics = new LinkedHashSet<>(4);
-    for (CodeReviewCommit c : merged) {
-      if (!Strings.isNullOrEmpty(c.change().getTopic())) {
-        topics.add(c.change().getTopic());
-      }
-    }
+    ImmutableSortedSet<String> topics =
+        merged.stream()
+            .map(c -> c.change().getTopic())
+            .filter(t -> !Strings.isNullOrEmpty(t))
+            .collect(toImmutableSortedSet(naturalOrder()));
 
-    if (topics.size() == 1) {
-      return String.format("Merge changes from topic \"%s\"", Iterables.getFirst(topics, null));
-    } else if (topics.size() > 1) {
-      return String.format("Merge changes from topics \"%s\"", Joiner.on("\", \"").join(topics));
+    if (!topics.isEmpty()) {
+      String prefix = "Merge changes from topic" + (topics.size() > 1 ? "s" : "") + " \"";
+      return topics.stream().collect(joining(", ", prefix, "\""));
     } else {
-      return String.format(
-          "Merge changes %s%s",
-          FluentIterable.from(merged)
-              .limit(5)
-              .transform(c -> c.change().getKey().abbreviate())
-              .join(Joiner.on(',')),
-          merged.size() > 5 ? ", ..." : "");
+      return merged.stream()
+          .limit(5)
+          .map(c -> c.change().getKey().abbreviate())
+          .collect(joining(",", "Merge changes ", merged.size() > 5 ? ", ..." : ""));
     }
   }
 

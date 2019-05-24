@@ -376,7 +376,7 @@ public class StarredChangesUtil {
   }
 
   public static StarRef readLabels(Repository repo, String refName) throws IOException {
-    try (TraceTimer traceTimer = TraceContext.newTimer("Read star labels from %s", refName)) {
+    try (TraceTimer traceTimer = TraceContext.newTimer("Read star labels", "ref", refName)) {
       Ref ref = repo.exactRef(refName);
       if (ref == null) {
         return StarRef.MISSING;
@@ -487,7 +487,7 @@ public class StarredChangesUtil {
       return;
     }
 
-    try (TraceTimer traceTimer = TraceContext.newTimer("Delete star labels in %s", refName)) {
+    try (TraceTimer traceTimer = TraceContext.newTimer("Delete star labels", "ref", refName)) {
       RefUpdate u = repo.updateRef(refName);
       u.setForceUpdate(true);
       u.setExpectedOldObjectId(oldObjectId);

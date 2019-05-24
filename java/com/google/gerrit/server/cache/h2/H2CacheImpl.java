@@ -237,7 +237,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
     @Override
     public ValueHolder<V> load(K key) throws Exception {
-      try (TraceTimer timer = TraceContext.newTimer("Loading value for %s from cache", key)) {
+      try (TraceTimer timer = TraceContext.newTimer("Loading value from cache", "key", key)) {
         if (store.mightContain(key)) {
           ValueHolder<V> h = store.getIfPresent(key);
           if (h != null) {

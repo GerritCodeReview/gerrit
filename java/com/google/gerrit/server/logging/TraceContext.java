@@ -169,12 +169,13 @@ public class TraceContext implements AutoCloseable {
    *
    * <p>If request tracing is not enabled this is a no-op.
    *
-   * @param format the message format string
-   * @param arg argument for the message
+   * @param message the message
+   * @param key meta data key
+   * @param value meta data value
    * @return the trace timer
    */
-  public static TraceTimer newTimer(String format, Object arg) {
-    return new TraceTimer(format, arg);
+  public static TraceTimer newTimer(String message, String key, Object value) {
+    return new TraceTimer(message + " (%s=%s)", key, value);
   }
 
   /**
@@ -182,45 +183,80 @@ public class TraceContext implements AutoCloseable {
    *
    * <p>If request tracing is not enabled this is a no-op.
    *
-   * @param format the message format string
-   * @param arg1 first argument for the message
-   * @param arg2 second argument for the message
-   * @return the trace timer
-   */
-  public static TraceTimer newTimer(String format, Object arg1, Object arg2) {
-    return new TraceTimer(format, arg1, arg2);
-  }
-
-  /**
-   * Opens a new timer that logs the time for an operation if request tracing is enabled.
-   *
-   * <p>If request tracing is not enabled this is a no-op.
-   *
-   * @param format the message format string
-   * @param arg1 first argument for the message
-   * @param arg2 second argument for the message
-   * @param arg3 third argument for the message
-   * @return the trace timer
-   */
-  public static TraceTimer newTimer(String format, Object arg1, Object arg2, Object arg3) {
-    return new TraceTimer(format, arg1, arg2, arg3);
-  }
-
-  /**
-   * Opens a new timer that logs the time for an operation if request tracing is enabled.
-   *
-   * <p>If request tracing is not enabled this is a no-op.
-   *
-   * @param format the message format string
-   * @param arg1 first argument for the message
-   * @param arg2 second argument for the message
-   * @param arg3 third argument for the message
-   * @param arg4 fourth argument for the message
+   * @param message the message
+   * @param key1 first meta data key
+   * @param value1 first meta data value
+   * @param key2 second meta data key
+   * @param value2 second meta data value
    * @return the trace timer
    */
   public static TraceTimer newTimer(
-      String format, Object arg1, Object arg2, Object arg3, Object arg4) {
-    return new TraceTimer(format, arg1, arg2, arg3, arg4);
+      String message, String key1, Object value1, String key2, Object value2) {
+    return new TraceTimer(message + " (%s=%s, %s=%s)", key1, value1, key2, value2);
+  }
+
+  /**
+   * Opens a new timer that logs the time for an operation if request tracing is enabled.
+   *
+   * <p>If request tracing is not enabled this is a no-op.
+   *
+   * @param message the message
+   * @param key1 first meta data key
+   * @param value1 first meta data value
+   * @param key2 second meta data key
+   * @param value2 second meta data value
+   * @param key3 third meta data key
+   * @param value3 third meta data value
+   * @return the trace timer
+   */
+  public static TraceTimer newTimer(
+      String message,
+      String key1,
+      Object value1,
+      String key2,
+      Object value2,
+      String key3,
+      Object value3) {
+    return new TraceTimer(
+        message + " (%s=%s, %s=%s, %s=%s)", key1, value1, key2, value2, key3, value3);
+  }
+
+  /**
+   * Opens a new timer that logs the time for an operation if request tracing is enabled.
+   *
+   * <p>If request tracing is not enabled this is a no-op.
+   *
+   * @param message the message
+   * @param key1 first meta data key
+   * @param value1 first meta data value
+   * @param key2 second meta data key
+   * @param value2 second meta data value
+   * @param key3 third meta data key
+   * @param value3 third meta data value
+   * @param key4 fourth meta data key
+   * @param value4 fourth meta data value
+   * @return the trace timer
+   */
+  public static TraceTimer newTimer(
+      String message,
+      String key1,
+      Object value1,
+      String key2,
+      Object value2,
+      String key3,
+      Object value3,
+      String key4,
+      Object value4) {
+    return new TraceTimer(
+        message + " (%s=%s, %s=%s, %s=%s, %s=%s)",
+        key1,
+        value1,
+        key2,
+        value2,
+        key3,
+        value3,
+        key4,
+        value4);
   }
 
   public static class TraceTimer implements AutoCloseable {
@@ -233,17 +269,8 @@ public class TraceContext implements AutoCloseable {
       this(elapsedMs -> logger.atFine().log(message + " (%d ms)", elapsedMs));
     }
 
-    private TraceTimer(String format, @Nullable Object arg) {
-      this(elapsedMs -> logger.atFine().log(format + " (%d ms)", arg, elapsedMs));
-    }
-
     private TraceTimer(String format, @Nullable Object arg1, @Nullable Object arg2) {
       this(elapsedMs -> logger.atFine().log(format + " (%d ms)", arg1, arg2, elapsedMs));
-    }
-
-    private TraceTimer(
-        String format, @Nullable Object arg1, @Nullable Object arg2, @Nullable Object arg3) {
-      this(elapsedMs -> logger.atFine().log(format + " (%d ms)", arg1, arg2, arg3, elapsedMs));
     }
 
     private TraceTimer(
@@ -254,6 +281,36 @@ public class TraceContext implements AutoCloseable {
         @Nullable Object arg4) {
       this(
           elapsedMs -> logger.atFine().log(format + " (%d ms)", arg1, arg2, arg3, arg4, elapsedMs));
+    }
+
+    private TraceTimer(
+        String format,
+        @Nullable Object arg1,
+        @Nullable Object arg2,
+        @Nullable Object arg3,
+        @Nullable Object arg4,
+        @Nullable Object arg5,
+        @Nullable Object arg6) {
+      this(
+          elapsedMs ->
+              logger.atFine().log(
+                  format + " (%d ms)", arg1, arg2, arg3, arg4, arg5, arg6, elapsedMs));
+    }
+
+    private TraceTimer(
+        String format,
+        @Nullable Object arg1,
+        @Nullable Object arg2,
+        @Nullable Object arg3,
+        @Nullable Object arg4,
+        @Nullable Object arg5,
+        @Nullable Object arg6,
+        @Nullable Object arg7,
+        @Nullable Object arg8) {
+      this(
+          elapsedMs ->
+              logger.atFine().log(
+                  format + " (%d ms)", arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, elapsedMs));
     }
 
     private TraceTimer(Consumer<Long> logFn) {

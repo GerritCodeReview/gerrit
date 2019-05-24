@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1558646747 -0700\nnonce AC6AUtNGuvk/7rOegqp2dWmHHFspsuefjiEP/AYAuUQY3zGuL7hVMNGHvDQLyAH7tY4F0Et426kz\n\n0000000000000000000000000000000000000000 e63cf2ba0c2f236df73c9f5129689f3b135d9449 refs/for/master%r\u003dsasa.zivkov@sap.com,r\u003daliceks\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlznD9sVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMqoEP+wSu/QwPdn0JiBM3aGaBwrUpHLr/\n68EIAyXLq397KS+ixeFXazZ/6H0bKF1m6NpgfN7ywP23gq2tXxk4Njmr2aOB3irt\nK/D+ppcZertyaJP5Yx3paCbdbQslFZ88szn1E5Q3jvGd9nlXt0J809xHNSE8np6+\nTayVs5QK7eI/JorOQZbFxdNbOyYDJavaS/EqKbp9Zg/EWp7iJWZ29mzSl5aBWWj2\nsXMkafu3++r/K+YtdLn/uvcoC/xj1Q8ndIXJt1sSVhNYnAKjcsCW/iLPeHNyQ0t/\nJYTpc7sOkYeT/b5cD2Jcc9c84TsRXzhSUjeFXJ6ONrN1XqV8dnQmz90538svWHKq\nahZRt6TzgtGEKode3/HCboxqV/vc8SuQo9shi+vhtdsZVteHAjwLPTAkx5DhHKDk\nZVr9/24ugLXzuk7LHtvASslAbvUyAfDw1Pl4lIwRX48T4kjW8Lh+RbQ4CSG6AUTY\n5pbJ1pE2hPEPgUBCHkV1Kvyys5gzsjwVcoTSJYOHHCtFjQ1Jfcrn6t3sWRIIA+dO\nBbMjyEJH4Qm+9cVTMGs8xO29tpAt2dH72rhj5p9ijCCy0BnxcwrOOSeq4FJodc75\nUlVH4hdGZWZ5r/CheYIYL1GYTQysJgAJsRuQthzeFJlLtBut/xTxY9BV2vvcuE+T\nkyTH6YqHdQyFIZjA\n\u003d/LbG\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "032db052_57fc7d67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-24T08:54:09Z",
+      "side": 1,
+      "message": "OK, I think I see your point here. This also answers my questions\nfrom [1] and [2]. Let\u0027s then keep the config stack as:\n\n $SITE/etc/jgit.config \u003c user config \u003c repo config\n\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/142932/5/java/com/google/gerrit/server/git/SystemReaderInstaller.java#70\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/225532/1//COMMIT_MSG#16",
+      "range": {
+        "startLine": 11,
+        "startChar": 51,
+        "endLine": 12,
+        "endChar": 28
+      },
+      "revId": "e63cf2ba0c2f236df73c9f5129689f3b135d9449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -85,7 +85,7 @@ java_package_configuration(
         "-Xep:PreconditionsInvalidPlaceholder:ERROR",
         "-Xep:ProtoFieldPreconditionsCheckNotNull:ERROR",
         "-Xep:ProtocolBufferOrdinal:ERROR",
-        #"-Xep:ReferenceEquality:ERROR",
+        "-Xep:ReferenceEquality:ERROR",
         "-Xep:RequiredModifiers:ERROR",
         "-Xep:ShortCircuitBoolean:ERROR",
         "-Xep:SimpleDateFormatConstant:ERROR",

@@ -59,7 +59,7 @@ java_package_configuration(
         "-Xep:FragmentInjection:ERROR",
         "-Xep:FragmentNotInstantiable:ERROR",
         "-Xep:FunctionalInterfaceClash:ERROR",
-        #"-Xep:FutureReturnValueIgnored:ERROR",
+        "-Xep:FutureReturnValueIgnored:ERROR",
         #"-Xep:GetClassOnEnum:ERROR",
         "-Xep:ImmutableAnnotationChecker:ERROR",
         #"-Xep:ImmutableEnumChecker:ERROR",

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.elasticsearch;
 
+import static java.util.concurrent.TimeUnit.MINUTES;
+
 import com.google.gerrit.elasticsearch.ElasticTestUtils.ElasticNodeInfo;
 import com.google.gerrit.server.query.change.AbstractQueryChangesTest;
 import com.google.gerrit.testing.ConfigSuite;
@@ -65,14 +67,16 @@ public class ElasticV7QueryChangesTest extends AbstractQueryChangesTest {
   @Rule public final GerritTestName testName = new GerritTestName();
 
   @After
-  public void closeIndex() {
-    client.execute(
-        new HttpPost(
-            String.format(
-                "http://localhost:%d/%s*/_close",
-                nodeInfo.port, testName.getSanitizedMethodName())),
-        HttpClientContext.create(),
-        null);
+  public void closeIndex() throws Exception {
+    client
+        .execute(
+            new HttpPost(
+                String.format(
+                    "http://localhost:%d/%s*/_close",
+                    nodeInfo.port, testName.getSanitizedMethodName())),
+            HttpClientContext.create(),
+            null)
+        .get(5, MINUTES);
   }
 
   @Override

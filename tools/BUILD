@@ -23,10 +23,31 @@ default_java_toolchain(
     visibility = ["//visibility:public"],
 )
 
+default_java_toolchain(
+    name = "full_error_prone_warnings_toolchain",
+    bootclasspath = ["@bazel_tools//tools/jdk:platformclasspath.jar"],
+    jvm_opts = JDK9_JVM_OPTS,
+    package_configuration = [
+        ":full_error_prone",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# Error Prone errors and warnings enabled by default; see ../.bazelrc for how
+# this is enabled.
+java_package_configuration(
+    name = "error_prone",
+    javacopts = [
+        "-XepDisableWarningsInGeneratedCode",
+        "-Xep:WildcardImport:ERROR",
+    ],
+    packages = ["error_prone_packages"],
+)
+
 # This EP warnings list is based on:
 # https://github.com/bazelbuild/BUILD_file_generator/blob/master/tools/bazel_defs/java.bzl
 java_package_configuration(
-    name = "error_prone",
+    name = "full_error_prone",
     javacopts = [
         "-XepDisableWarningsInGeneratedCode",
         "-Xep:MissingCasesInEnumSwitch:ERROR",

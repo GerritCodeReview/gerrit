@@ -47,8 +47,6 @@ public class SystemReaderInstaller implements LifecycleListener {
   private SystemReader customReader() {
     SystemReader current = SystemReader.getInstance();
 
-    FileBasedConfig jgitConfig = new FileBasedConfig(site.jgit_config.toFile(), FS.DETECTED);
-
     return new SystemReader() {
       @Override
       public String getHostname() {
@@ -67,12 +65,12 @@ public class SystemReaderInstaller implements LifecycleListener {
 
       @Override
       public FileBasedConfig openUserConfig(Config parent, FS fs) {
-        return current.openSystemConfig(parent, fs);
+        return current.openUserConfig(parent, fs);
       }
 
       @Override
       public FileBasedConfig openSystemConfig(Config parent, FS fs) {
-        return jgitConfig;
+        return new FileBasedConfig(parent, site.jgit_config.toFile(), FS.DETECTED);
       }
 
       @Override

@@ -22,6 +22,30 @@
       "revId": "67ccf67a5273b1d1c76aa46379655c7e918a904f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6103d798_54987c7d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-05-24T11:41:47Z",
+      "side": 1,
+      "message": "It\u0027s actually not just 150k changes lines, but 150k changed lines where there is zero resemblance, so they all end up in a single chunk. \nI guess the only point this might happen is when you add such a large file. So maybe we should guard against that after all?",
+      "parentUuid": "e8275af3_d1c004bf",
+      "range": {
+        "startLine": 248,
+        "startChar": 9,
+        "endLine": 248,
+        "endChar": 22
+      },
+      "revId": "67ccf67a5273b1d1c76aa46379655c7e918a904f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

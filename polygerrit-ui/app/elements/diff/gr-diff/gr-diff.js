@@ -776,7 +776,15 @@
           // are ignored.
           const slot = document.createElement('slot');
           slot.name = threadEl.slot;
-          Polymer.dom(threadGroupEl).appendChild(Gerrit.slotToContent(slot));
+          const content = Gerrit.slotToContent(slot);
+          console.log('content: ', content);
+          console.log('threadGroupEl: ', threadGroupEl);
+          console.log('threadGroupEl.children.length before: ',
+              threadGroupEl.children.length);
+          const returnValue = Polymer.dom(threadGroupEl).appendChild(content);
+          console.log('threadGroupEl.children.length after: ',
+              threadGroupEl.children.length);
+          console.log('appendChild return value: ', returnValue);
         }
       });
     },

@@ -39,6 +39,9 @@ java_package_configuration(
     name = "error_prone",
     javacopts = [
         "-XepDisableWarningsInGeneratedCode",
+        "-Xep:AmbiguousMethodReference:ERROR",
+        "-Xep:BadComparable:ERROR",
+        "-Xep:MissingCasesInEnumSwitch:ERROR",
         "-Xep:WildcardImport:ERROR",
     ],
     packages = ["error_prone_packages"],

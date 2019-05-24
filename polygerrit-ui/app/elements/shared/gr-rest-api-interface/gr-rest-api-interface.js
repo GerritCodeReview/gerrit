@@ -2780,7 +2780,7 @@
     },
 
     getTopMenus(opt_errFn) {
-      return this._fetchJSON({
+      return this._fetchSharedCacheURL({
         url: '/config/server/top-menus',
         errFn: opt_errFn,
         reportUrlAsIs: true,

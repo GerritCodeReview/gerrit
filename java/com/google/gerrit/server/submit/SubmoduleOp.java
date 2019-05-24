@@ -646,7 +646,7 @@ public class SubmoduleOp {
         int newSize = msgbuf.length() + bullet.length() + message.length();
         if (++numMessages > maxCommitMessages
             || newSize > maxCombinedCommitMessageSize
-            || iter.hasNext() && (newSize + ellipsis.length()) > maxCombinedCommitMessageSize) {
+            || (iter.hasNext() && (newSize + ellipsis.length()) > maxCombinedCommitMessageSize)) {
           msgbuf.append(ellipsis);
           break;
         }

@@ -23,18 +23,10 @@ default_java_toolchain(
     visibility = ["//visibility:public"],
 )
 
-default_java_toolchain(
-    name = "full_error_prone_warnings_toolchain",
-    bootclasspath = ["@bazel_tools//tools/jdk:platformclasspath.jar"],
-    jvm_opts = JDK9_JVM_OPTS,
-    package_configuration = [
-        ":full_error_prone",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# Error Prone errors and warnings enabled by default; see ../.bazelrc for how
-# this is enabled.
+# Error Prone errors enabled by default; see ../.bazelrc for how this is
+# enabled. This warnings list is originally based on:
+# https://github.com/bazelbuild/BUILD_file_generator/blob/master/tools/bazel_defs/java.bzl
+# However, feel free to add any additional errors. Thus far they have all been pretty useful.
 java_package_configuration(
     name = "error_prone",
     javacopts = [
@@ -99,74 +91,6 @@ java_package_configuration(
         "-Xep:UnsynchronizedOverridesSynchronized:ERROR",
         "-Xep:WaitNotInLoop:ERROR",
         "-Xep:WildcardImport:ERROR",
-    ],
-    packages = ["error_prone_packages"],
-)
-
-# This EP warnings list is based on:
-# https://github.com/bazelbuild/BUILD_file_generator/blob/master/tools/bazel_defs/java.bzl
-java_package_configuration(
-    name = "full_error_prone",
-    javacopts = [
-        "-XepDisableWarningsInGeneratedCode",
-        "-Xep:AmbiguousMethodReference:WARN",
-        "-Xep:BadAnnotationImplementation:WARN",
-        "-Xep:BadComparable:WARN",
-        "-Xep:BoxedPrimitiveConstructor:ERROR",
-        "-Xep:CannotMockFinalClass:WARN",
-        "-Xep:ClassCanBeStatic:WARN",
-        "-Xep:ClassNewInstance:WARN",
-        "-Xep:DefaultCharset:ERROR",
-        "-Xep:DoubleCheckedLocking:WARN",
-        "-Xep:ElementsCountedInLoop:WARN",
-        "-Xep:EqualsHashCode:WARN",
-        "-Xep:EqualsIncompatibleType:WARN",
-        "-Xep:ExpectedExceptionChecker:ERROR",
-        "-Xep:Finally:WARN",
-        "-Xep:FloatingPointLiteralPrecision:WARN",
-        "-Xep:FragmentInjection:WARN",
-        "-Xep:FragmentNotInstantiable:WARN",
-        "-Xep:FunctionalInterfaceClash:WARN",
-        "-Xep:FutureReturnValueIgnored:WARN",
-        "-Xep:GetClassOnEnum:WARN",
-        "-Xep:ImmutableAnnotationChecker:WARN",
-        "-Xep:ImmutableEnumChecker:WARN",
-        "-Xep:IncompatibleModifiers:WARN",
-        "-Xep:InjectOnConstructorOfAbstractClass:WARN",
-        "-Xep:InputStreamSlowMultibyteRead:WARN",
-        "-Xep:IterableAndIterator:WARN",
-        "-Xep:JUnit3FloatingPointComparisonWithoutDelta:WARN",
-        "-Xep:JUnitAmbiguousTestClass:WARN",
-        "-Xep:LiteralClassName:WARN",
-        "-Xep:MissingCasesInEnumSwitch:ERROR",
-        "-Xep:MissingFail:WARN",
-        "-Xep:MissingOverride:WARN",
-        "-Xep:MutableConstantField:ERROR",
-        "-Xep:NarrowingCompoundAssignment:WARN",
-        "-Xep:NonAtomicVolatileUpdate:WARN",
-        "-Xep:NonOverridingEquals:WARN",
-        "-Xep:NullableConstructor:WARN",
-        "-Xep:NullablePrimitive:WARN",
-        "-Xep:NullableVoid:WARN",
-        "-Xep:OperatorPrecedence:WARN",
-        "-Xep:OverridesGuiceInjectableMethod:WARN",
-        "-Xep:PreconditionsInvalidPlaceholder:WARN",
-        "-Xep:ProtoFieldPreconditionsCheckNotNull:WARN",
-        "-Xep:ProtocolBufferOrdinal:WARN",
-        "-Xep:ReferenceEquality:WARN",
-        "-Xep:RequiredModifiers:WARN",
-        "-Xep:ShortCircuitBoolean:WARN",
-        "-Xep:SimpleDateFormatConstant:WARN",
-        "-Xep:StaticGuardedByInstance:WARN",
-        "-Xep:StringEquality:WARN",
-        "-Xep:SynchronizeOnNonFinalField:WARN",
-        "-Xep:TruthConstantAsserts:WARN",
-        "-Xep:TypeParameterShadowing:WARN",
-        "-Xep:TypeParameterUnusedInFormals:WARN",
-        "-Xep:URLEqualsHashCode:WARN",
-        "-Xep:UnsynchronizedOverridesSynchronized:WARN",
-        "-Xep:WaitNotInLoop:WARN",
-        "-Xep:WildcardImport:WARN",
     ],
     packages = ["error_prone_packages"],
 )

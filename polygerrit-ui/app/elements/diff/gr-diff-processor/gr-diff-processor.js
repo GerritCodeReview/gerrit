@@ -239,19 +239,22 @@
     },
 
     _linesFromSection(section, offsetLeft, offsetRight) {
-      const lines = [];
       if (section.ab) {
-        lines.push(...section.ab.map((row, i) =>
-          this._lineFromRow(
-              GrDiffLine.Type.BOTH, offsetLeft, offsetRight, row, i)));
+        return section.ab.map((row, i) => this._lineFromRow(
+            GrDiffLine.Type.BOTH, offsetLeft, offsetRight, row, i));
       }
+      let lines = [];
       if (section.a) {
-        lines.push(...this._deltaLinesFromRows(
+        // Avoiding a.push(...b) because that causes callstack overflows for
+        // large b, which can occur when large files are added removed.
+        lines = lines.concat(this._deltaLinesFromRows(
             GrDiffLine.Type.REMOVE, section.a, offsetLeft,
             section[DiffHighlights.REMOVED]));
       }
       if (section.b) {
-        lines.push(...this._deltaLinesFromRows(
+        // Avoiding a.push(...b) because that causes callstack overflows for
+        // large b, which can occur when large files are added removed.
+        lines = lines.concat(this._deltaLinesFromRows(
             GrDiffLine.Type.ADD, section.b, offsetRight,
             section[DiffHighlights.ADDED]));
       }

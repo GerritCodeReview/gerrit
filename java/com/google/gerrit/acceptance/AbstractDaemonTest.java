@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.truth.OptionalSubject.optionals;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.NON_VISIBLE_CHANGES;
@@ -1506,14 +1505,6 @@ public abstract class AbstractDaemonTest {
       u.getConfig().getLabelSections().put(labelType.getName(), labelType);
       u.save();
     }
-  }
-
-  /**
-   * @deprecated Use {@code assert_().fail()} from {@link com.google.common.truth.Truth} instead.
-   */
-  @Deprecated
-  protected void fail(@Nullable String format, Object... args) {
-    assert_().fail(format, args);
   }
 
   protected void enableCreateNewChangeForAllNotInTarget() throws Exception {

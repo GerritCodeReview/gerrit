@@ -16,6 +16,24 @@
       "revId": "9c15e2b00c89f4bddbea075736f99edaace52a42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "081cc409_93f42323",
+        "filename": ".bazelrc",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-24T04:39:45Z",
+      "side": 1,
+      "message": "Why is the error message talking about \"blazerc\"?  I assumed you were using the internal google \u0027blaze\u0027 tool, but it seems to also be like that in open source bazel.\n\nFixed in https://bazel-review.googlesource.com/c/bazel/+/100951",
+      "parentUuid": "afee5ee1_31efca5c",
+      "revId": "9c15e2b00c89f4bddbea075736f99edaace52a42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

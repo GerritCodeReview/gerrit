@@ -90,13 +90,21 @@ public class AccountIndexerImpl implements AccountIndexer {
       if (accountState.isPresent()) {
         try (TraceTimer traceTimer =
             TraceContext.newTimer(
-                "Replacing account %d in index version %d", id.get(), i.getSchema().getVersion())) {
+                "Replacing account in index",
+                "accountId",
+                id.get(),
+                "indexVersion",
+                i.getSchema().getVersion())) {
           i.replace(accountState.get());
         }
       } else {
         try (TraceTimer traceTimer =
             TraceContext.newTimer(
-                "Deleteing account %d in index version %d", id.get(), i.getSchema().getVersion())) {
+                "Deleting account in index",
+                "accountId",
+                id.get(),
+                "indexVersion",
+                i.getSchema().getVersion())) {
           i.delete(id);
         }
       }

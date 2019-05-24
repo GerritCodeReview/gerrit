@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.access.AccessSectionInfo;
@@ -42,7 +41,6 @@ public final class PluginAccessIT extends AbstractDaemonTest {
   private static final String TEST_PLUGIN_PROJECT_PERMISSION = "aPluginProjectPermission";
 
   @Inject PluginPermissionsUtil pluginPermissionsUtil;
-  @Inject private ProjectOperations projectOperations;
 
   @Override
   public Module createModule() {

@@ -74,7 +74,7 @@ java_package_configuration(
         "-Xep:MissingFail:ERROR",
         "-Xep:MissingOverride:ERROR",
         "-Xep:MutableConstantField:ERROR",
-        #"-Xep:NarrowingCompoundAssignment:ERROR",
+        "-Xep:NarrowingCompoundAssignment:ERROR",
         "-Xep:StringEquality:ERROR",
         "-Xep:MissingCasesInEnumSwitch:ERROR",
         "-Xep:WildcardImport:ERROR",

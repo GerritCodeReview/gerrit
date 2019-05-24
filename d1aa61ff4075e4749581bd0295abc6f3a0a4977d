@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0cb73518_baa4403a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-05-24T13:52:46Z",
+      "side": 1,
+      "message": "When scrolling, _nextStepHandle is not being assigned to the async nextStep call.\nThis does not allow cancel() function to cancel the promise when changing files\nresulting in incorrect text showing on the second file.\n\nLooks better to the eyes :)",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "d1aa61ff4075e4749581bd0295abc6f3a0a4977d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86abad30_9e82ff53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-05-24T13:52:46Z",
+      "side": 1,
+      "message": "Should be Bug: Issue 9409",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 11
+      },
+      "revId": "d1aa61ff4075e4749581bd0295abc6f3a0a4977d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

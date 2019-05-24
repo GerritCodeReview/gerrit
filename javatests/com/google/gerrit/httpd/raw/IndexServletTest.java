@@ -15,53 +15,52 @@
 package com.google.gerrit.httpd.raw;
 
 import static com.google.common.truth.Truth.assertThat;
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 
+import com.google.common.collect.ImmutableList;
+import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.accounts.Accounts;
+import com.google.gerrit.extensions.api.config.Config;
+import com.google.gerrit.extensions.api.config.Server;
+import com.google.gerrit.extensions.common.ServerInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
+import com.google.gerrit.util.http.testutil.FakeHttpServletResponse;
 import com.google.template.soy.data.SoyMapData;
-import java.net.URISyntaxException;
 import org.junit.Test;
 
 public class IndexServletTest {
-  static class TestIndexServlet extends IndexServlet {
-    private static final long serialVersionUID = 1L;
-
-    TestIndexServlet(String canonicalURL, String cdnPath, String faviconPath)
-        throws URISyntaxException {
-      super(canonicalURL, cdnPath, faviconPath);
-    }
-
-    String getIndexSource() {
-      return new String(indexSource, UTF_8);
-    }
-  }
-
   @Test
-  public void noPathAndNoCDN() throws URISyntaxException {
-    SoyMapData data = IndexServlet.getTemplateData("http://example.com/", null, null);
+  public void noPathAndNoCDN() throws Exception {
+    SoyMapData data = IndexServlet.getStaticTemplateData("http://example.com/", null, null);
     assertThat(data.getSingle("canonicalPath").stringValue()).isEqualTo("");
     assertThat(data.getSingle("staticResourcePath").stringValue()).isEqualTo("");
   }
 
   @Test
-  public void pathAndNoCDN() throws URISyntaxException {
-    SoyMapData data = IndexServlet.getTemplateData("http://example.com/gerrit/", null, null);
+  public void pathAndNoCDN() throws Exception {
+    SoyMapData data = IndexServlet.getStaticTemplateData("http://example.com/gerrit/", null, null);
     assertThat(data.getSingle("canonicalPath").stringValue()).isEqualTo("/gerrit");
     assertThat(data.getSingle("staticResourcePath").stringValue()).isEqualTo("/gerrit");
   }
 
   @Test
-  public void noPathAndCDN() throws URISyntaxException {
+  public void noPathAndCDN() throws Exception {
     SoyMapData data =
-        IndexServlet.getTemplateData("http://example.com/", "http://my-cdn.com/foo/bar/", null);
+        IndexServlet.getStaticTemplateData(
+            "http://example.com/", "http://my-cdn.com/foo/bar/", null);
     assertThat(data.getSingle("canonicalPath").stringValue()).isEqualTo("");
     assertThat(data.getSingle("staticResourcePath").stringValue())
         .isEqualTo("http://my-cdn.com/foo/bar/");
   }
 
   @Test
-  public void pathAndCDN() throws URISyntaxException {
+  public void pathAndCDN() throws Exception {
     SoyMapData data =
-        IndexServlet.getTemplateData(
+        IndexServlet.getStaticTemplateData(
             "http://example.com/gerrit", "http://my-cdn.com/foo/bar/", null);
     assertThat(data.getSingle("canonicalPath").stringValue()).isEqualTo("/gerrit");
     assertThat(data.getSingle("staticResourcePath").stringValue())
@@ -69,12 +68,45 @@ public class IndexServletTest {
   }
 
   @Test
-  public void renderTemplate() throws URISyntaxException {
+  public void renderTemplate() throws Exception {
+    Accounts accountsApi = createMock(Accounts.class);
+    expect(accountsApi.self()).andThrow(new AuthException("user needs to be authenticated"));
+
+    Server serverApi = createMock(Server.class);
+    expect(serverApi.getVersion()).andReturn("123");
+    expect(serverApi.topMenus()).andReturn(ImmutableList.of());
+    ServerInfo serverInfo = new ServerInfo();
+    serverInfo.defaultTheme = "my-default-theme";
+    expect(serverApi.getInfo()).andReturn(serverInfo);
+
+    Config configApi = createMock(Config.class);
+    expect(configApi.server()).andReturn(serverApi);
+
+    GerritApi gerritApi = createMock(GerritApi.class);
+    expect(gerritApi.accounts()).andReturn(accountsApi);
+    expect(gerritApi.config()).andReturn(configApi);
+
     String testCanonicalUrl = "foo-url";
     String testCdnPath = "bar-cdn";
     String testFaviconURL = "zaz-url";
-    TestIndexServlet servlet = new TestIndexServlet(testCanonicalUrl, testCdnPath, testFaviconURL);
-    String output = servlet.getIndexSource();
+    IndexServlet servlet =
+        new IndexServlet(testCanonicalUrl, testCdnPath, testFaviconURL, gerritApi);
+
+    FakeHttpServletResponse response = new FakeHttpServletResponse();
+
+    replay(gerritApi);
+    replay(configApi);
+    replay(serverApi);
+    replay(accountsApi);
+
+    servlet.doGet(new FakeHttpServletRequest(), response);
+
+    verify(gerritApi);
+    verify(configApi);
+    verify(serverApi);
+    verify(accountsApi);
+
+    String output = response.getActualBodyString();
     assertThat(output).contains("<!DOCTYPE html>");
     assertThat(output).contains("window.CANONICAL_PATH = '" + testCanonicalUrl);
     assertThat(output).contains("<link rel=\"preload\" href=\"" + testCdnPath);
@@ -84,5 +116,12 @@ public class IndexServletTest {
                 + testCanonicalUrl
                 + "/"
                 + testFaviconURL);
+    assertThat(output)
+        .contains(
+            "<script type=\"text/javascript\">gerritInitialData = JSON.parse("
+                + "'\\x7b\\x22\\/config\\/server\\/version\\x22: \\x22123\\x22, "
+                + "\\x22\\/config\\/server\\/info\\x22: \\x7b\\x22default_theme\\x22:"
+                + "\\x22my-default-theme\\x22\\x7d, \\x22\\/config\\/server\\/top-menus\\x22: "
+                + "\\x5b\\x5d\\x7d');</script>");
   }
 }

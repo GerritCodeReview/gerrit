@@ -22,6 +22,7 @@ import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.httpd.XsrfCookieFilter;
 import com.google.gerrit.httpd.raw.ResourceServlet.Resource;
 import com.google.gerrit.launcher.GerritLauncher;
@@ -41,7 +42,6 @@ import com.google.inject.servlet.ServletModule;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
 import javax.servlet.Filter;
@@ -218,11 +218,12 @@ public class StaticModule extends ServletModule {
     @Singleton
     @Named(POLYGERRIT_INDEX_SERVLET)
     HttpServlet getPolyGerritUiIndexServlet(
-        @CanonicalWebUrl @Nullable String canonicalUrl, @GerritServerConfig Config cfg)
-        throws URISyntaxException {
+        @CanonicalWebUrl @Nullable String canonicalUrl,
+        @GerritServerConfig Config cfg,
+        GerritApi gerritApi) {
       String cdnPath = cfg.getString("gerrit", null, "cdnPath");
       String faviconPath = cfg.getString("gerrit", null, "faviconPath");
-      return new IndexServlet(canonicalUrl, cdnPath, faviconPath);
+      return new IndexServlet(canonicalUrl, cdnPath, faviconPath, gerritApi);
     }
 
     @Provides

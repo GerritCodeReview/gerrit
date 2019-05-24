@@ -4,15 +4,15 @@ set -ex
 
 t=$(mktemp -d || mktemp -d -t wct-XXXXXXXXXX)
 components=$TEST_SRCDIR/gerrit/polygerrit-ui/app/test_components.zip
-code=$TEST_SRCDIR/gerrit/polygerrit-ui/app/polygerrit_embed_ui.zip
-index=$TEST_SRCDIR/gerrit/polygerrit-ui/app/embed/test.html
-tests=$TEST_SRCDIR/gerrit/polygerrit-ui/app/embed/*_test.html
+code=$TEST_SRCDIR/gerrit/polygerrit-ui/app/pg_code.zip
 
+echo $t
 unzip -qd $t $components
 unzip -qd $t $code
+# Purge test/ directory contents coming from pg_code.zip.
+rm -rf $t/test
 mkdir -p $t/test
-cp $index $t/test/
-cp $tests $t/test/
+cp $TEST_SRCDIR/gerrit/polygerrit-ui/app/embed/test.html $t/test/
 
 if [ "${WCT_HEADLESS_MODE:-0}" != "0" ]; then
     CHROME_OPTIONS=[\'start-maximized\',\'headless\',\'disable-gpu\',\'no-sandbox\']
@@ -61,9 +61,9 @@ module.exports = {
     };
 EOF
 
-export PATH="$(dirname $WCT):$(dirname $NPM):$PATH"
+export PATH="$(dirname $NPM):$PATH"
 
 cd $t
 test -n "${WCT}"
 
-$(basename ${WCT}) ${WCT_ARGS}
+${WCT} ${WCT_ARGS}

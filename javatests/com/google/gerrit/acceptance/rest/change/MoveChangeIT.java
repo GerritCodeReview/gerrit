@@ -16,6 +16,8 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
@@ -24,6 +26,7 @@ import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
@@ -36,10 +39,8 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BranchNameKey;
-import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.project.testing.Util;
+import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.inject.Inject;
 import java.util.Arrays;
 import org.eclipse.jgit.junit.TestRepository;
@@ -49,6 +50,7 @@ import org.junit.Test;
 
 @NoHttpd
 public class MoveChangeIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test
@@ -181,10 +183,11 @@ public class MoveChangeIT extends AbstractDaemonTest {
     BranchNameKey newBranch =
         BranchNameKey.create(r.getChange().change().getProject(), "blocked_branch");
     createBranch(newBranch);
-    block(
-        "refs/for/" + newBranch.branch(),
-        Permission.PUSH,
-        systemGroupBackend.getGroup(REGISTERED_USERS).getUUID());
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.PUSH).ref("refs/for/" + newBranch.branch()).group(REGISTERED_USERS))
+        .update();
     AuthException thrown =
         assertThrows(AuthException.class, () -> move(r.getChangeId(), newBranch.branch()));
     assertThat(thrown).hasMessageThat().contains("move not permitted");
@@ -196,10 +199,14 @@ public class MoveChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     BranchNameKey newBranch = BranchNameKey.create(r.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);
-    block(
-        r.getChange().change().getDest().branch(),
-        Permission.ABANDON,
-        systemGroupBackend.getGroup(REGISTERED_USERS).getUUID());
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            block(Permission.ABANDON)
+                .ref(r.getChange().change().getDest().branch())
+                .group(REGISTERED_USERS))
+        .update();
     requestScopeOperations.setApiUser(user.id());
     AuthException thrown =
         assertThrows(AuthException.class, () -> move(r.getChangeId(), newBranch.branch()));
@@ -236,20 +243,20 @@ public class MoveChangeIT extends AbstractDaemonTest {
     BranchNameKey newBranch = BranchNameKey.create(r.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);
 
+    LabelType patchSetLock = TestLabels.patchSetLock();
     try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType patchSetLock = Util.patchSetLock();
       u.getConfig().getLabelSections().put(patchSetLock.getName(), patchSetLock);
-      AccountGroup.UUID registeredUsers = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
-      Util.allow(
-          u.getConfig(),
-          Permission.forLabel(patchSetLock.getName()),
-          0,
-          1,
-          registeredUsers,
-          "refs/heads/*");
       u.save();
     }
-    grant(project, "refs/heads/*", Permission.LABEL + "Patch-Set-Lock");
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(patchSetLock.getName())
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(0, 1))
+        .update();
     revision(r).review(new ReviewInput().label("Patch-Set-Lock", 1));
 
     ResourceConflictException thrown =
@@ -275,16 +282,13 @@ public class MoveChangeIT extends AbstractDaemonTest {
     configLabel(testLabelB, LabelFunction.MAX_NO_BLOCK);
     configLabel(testLabelC, LabelFunction.NO_BLOCK);
 
-    AccountGroup.UUID registered = SystemGroupBackend.REGISTERED_USERS;
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      Util.allow(
-          u.getConfig(), Permission.forLabel(testLabelA), -1, +1, registered, "refs/heads/*");
-      Util.allow(
-          u.getConfig(), Permission.forLabel(testLabelB), -1, +1, registered, "refs/heads/*");
-      Util.allow(
-          u.getConfig(), Permission.forLabel(testLabelC), -1, +1, registered, "refs/heads/*");
-      u.save();
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel(testLabelA).ref("refs/heads/*").group(REGISTERED_USERS).range(-1, +1))
+        .add(allowLabel(testLabelB).ref("refs/heads/*").group(REGISTERED_USERS).range(-1, +1))
+        .add(allowLabel(testLabelC).ref("refs/heads/*").group(REGISTERED_USERS).range(-1, +1))
+        .update();
 
     String changeId = createChange().getChangeId();
     gApi.changes().id(changeId).current().review(ReviewInput.reject());
@@ -324,12 +328,11 @@ public class MoveChangeIT extends AbstractDaemonTest {
     String testLabelA = "Label-A";
     configLabel(testLabelA, LabelFunction.MAX_WITH_BLOCK, Arrays.asList("refs/heads/master"));
 
-    AccountGroup.UUID registered = SystemGroupBackend.REGISTERED_USERS;
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      Util.allow(
-          u.getConfig(), Permission.forLabel(testLabelA), -1, +1, registered, "refs/heads/master");
-      u.save();
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel(testLabelA).ref("refs/heads/master").group(REGISTERED_USERS).range(-1, +1))
+        .update();
 
     String changeId = createChange().getChangeId();
 

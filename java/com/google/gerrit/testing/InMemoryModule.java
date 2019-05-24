@@ -20,6 +20,8 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.common.base.Strings;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperationsImpl;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
@@ -234,6 +236,8 @@ public class InMemoryModule extends FactoryModule {
     bind(ServerInformation.class).to(ServerInformationImpl.class);
     install(new RestApiModule());
     install(new DefaultProjectNameLockManager.Module());
+
+    bind(ProjectOperations.class).to(ProjectOperationsImpl.class);
   }
 
   /** Copy of SchemaModule with a slightly different server ID provider. */

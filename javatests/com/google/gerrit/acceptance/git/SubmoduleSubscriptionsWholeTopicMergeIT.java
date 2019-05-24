@@ -17,11 +17,13 @@ package com.google.gerrit.acceptance.git;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.GitUtil.getChangeId;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.testsuite.ThrowingConsumer;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
@@ -31,6 +33,7 @@ import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.testing.ConfigSuite;
+import com.google.inject.Inject;
 import java.util.ArrayDeque;
 import java.util.Map;
 import org.apache.commons.lang.RandomStringUtils;
@@ -69,6 +72,8 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
   public static Config rebaseIfNecessary() {
     return submitByRebaseIfNecessaryConfig();
   }
+
+  @Inject private ProjectOperations projectOperations;
 
   @Test
   public void subscriptionUpdateOfManyChanges() throws Exception {
@@ -285,8 +290,12 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
               .name(prefix + "sub" + i)
               .submitType(getSubmitType())
               .create();
-      grant(subKey[i], "refs/heads/*", Permission.PUSH);
-      grant(subKey[i], "refs/for/refs/heads/*", Permission.SUBMIT);
+      projectOperations
+          .project(subKey[i])
+          .forUpdate()
+          .add(allow(Permission.PUSH).ref("refs/heads/*").group(adminGroupUuid()))
+          .add(allow(Permission.SUBMIT).ref("refs/for/refs/heads/*").group(adminGroupUuid()))
+          .update();
       sub[i] = cloneProject(subKey[i]);
     }
 
@@ -396,7 +405,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
     gApi.changes().id(subChangeId).current().submit();
 
     expectToHaveSubmoduleState(superRepo, "master", subKey, subRepo, "master");
-    RevCommit superHead = getRemoteHead(superKey, "master");
+    RevCommit superHead = projectOperations.project(superKey).getHead("master");
     assertThat(superHead.getShortMessage()).contains("some message");
     assertThat(superHead.getId()).isNotEqualTo(superId);
   }
@@ -430,7 +439,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
     gApi.changes().id(subChangeId).current().submit();
 
-    RevCommit superHead = getRemoteHead(superKey, "master");
+    RevCommit superHead = projectOperations.project(superKey).getHead("master");
     assertThat(superHead.getShortMessage()).isEqualTo("some message");
     assertThat(superHead.getId()).isEqualTo(superId);
   }
@@ -746,13 +755,13 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
     approve(getChangeId(repoB, bDevHead).get());
 
     gApi.changes().id(getChangeId(repoA, aDevHead).get()).current().submit();
-    assertThat(getRemoteHead(keyA, "refs/heads/master").getShortMessage())
+    assertThat(projectOperations.project(keyA).getHead("refs/heads/master").getShortMessage())
         .contains("some message in a master.txt");
-    assertThat(getRemoteHead(keyA, "refs/heads/dev").getShortMessage())
+    assertThat(projectOperations.project(keyA).getHead("refs/heads/dev").getShortMessage())
         .contains("some message in a dev.txt");
-    assertThat(getRemoteHead(keyB, "refs/heads/master").getShortMessage())
+    assertThat(projectOperations.project(keyB).getHead("refs/heads/master").getShortMessage())
         .contains("some message in b master.txt");
-    assertThat(getRemoteHead(keyB, "refs/heads/dev").getShortMessage())
+    assertThat(projectOperations.project(keyB).getHead("refs/heads/dev").getShortMessage())
         .contains("some message in b dev.txt");
   }
 
@@ -845,13 +854,13 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
 
     sub1.git().fetch().call();
     RevWalk rw1 = sub1.getRevWalk();
-    RevCommit master1 = rw1.parseCommit(getRemoteHead(subKey1, "master"));
+    RevCommit master1 = rw1.parseCommit(projectOperations.project(subKey1).getHead("master"));
     RevCommit change1Ps = parseCurrentRevision(rw1, changeId1);
     assertThat(rw1.isMergedInto(change1Ps, master1)).isTrue();
 
     sub2.git().fetch().call();
     RevWalk rw2 = sub2.getRevWalk();
-    RevCommit master2 = rw2.parseCommit(getRemoteHead(subKey2, "master"));
+    RevCommit master2 = rw2.parseCommit(projectOperations.project(subKey2).getHead("master"));
     RevCommit change2Ps = parseCurrentRevision(rw2, changeId2);
     assertThat(rw2.isMergedInto(change2Ps, master2)).isTrue();
 

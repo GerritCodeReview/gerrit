@@ -16,6 +16,8 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_HEADS;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -23,6 +25,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchApi;
@@ -40,6 +43,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class CreateBranchIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   private BranchNameKey testBranch;
@@ -103,15 +107,23 @@ public class CreateBranchIT extends AbstractDaemonTest {
   @Test
   public void createMetaBranch() throws Exception {
     String metaRef = RefNames.REFS_META + "foo";
-    allow(metaRef, Permission.CREATE, REGISTERED_USERS);
-    allow(metaRef, Permission.PUSH, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref(metaRef).group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref(metaRef).group(REGISTERED_USERS))
+        .update();
     assertCreateSucceeds(BranchNameKey.create(project, metaRef));
   }
 
   @Test
   public void createUserBranch_Conflict() throws Exception {
-    allow(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE, REGISTERED_USERS);
-    allow(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH, REGISTERED_USERS);
+    projectOperations
+        .project(allUsers)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref(RefNames.REFS_USERS + "*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref(RefNames.REFS_USERS + "*").group(REGISTERED_USERS))
+        .update();
     assertCreateFails(
         BranchNameKey.create(allUsers, RefNames.refsUsers(Account.id(1))),
         RefNames.refsUsers(admin.id()),
@@ -121,8 +133,12 @@ public class CreateBranchIT extends AbstractDaemonTest {
 
   @Test
   public void createGroupBranch_Conflict() throws Exception {
-    allow(allUsers, RefNames.REFS_GROUPS + "*", Permission.CREATE, REGISTERED_USERS);
-    allow(allUsers, RefNames.REFS_GROUPS + "*", Permission.PUSH, REGISTERED_USERS);
+    projectOperations
+        .project(allUsers)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref(RefNames.REFS_GROUPS + "*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref(RefNames.REFS_GROUPS + "*").group(REGISTERED_USERS))
+        .update();
     assertCreateFails(
         BranchNameKey.create(allUsers, RefNames.refsGroups(AccountGroup.uuid("foo"))),
         RefNames.refsGroups(adminGroupUuid()),
@@ -131,11 +147,19 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   private void blockCreateReference() throws Exception {
-    block("refs/*", Permission.CREATE, ANONYMOUS_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.CREATE).ref("refs/*").group(ANONYMOUS_USERS))
+        .update();
   }
 
   private void grantOwner() throws Exception {
-    allow("refs/*", Permission.OWNER, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.OWNER).ref("refs/*").group(REGISTERED_USERS))
+        .update();
   }
 
   private BranchApi branch(BranchNameKey branch) throws Exception {

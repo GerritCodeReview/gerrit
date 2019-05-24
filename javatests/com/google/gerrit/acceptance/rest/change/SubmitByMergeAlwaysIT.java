@@ -17,11 +17,14 @@ package com.google.gerrit.acceptance.rest.change;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.inject.Inject;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
 public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
+  @Inject private ProjectOperations projectOperations;
 
   @Override
   protected SubmitType getSubmitType() {
@@ -30,10 +33,10 @@ public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
 
   @Test
   public void submitWithMergeIfFastForwardPossible() throws Throwable {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
     PushOneCommit.Result change = createChange();
     submit(change.getChangeId());
-    RevCommit headAfterSubmit = getRemoteHead();
+    RevCommit headAfterSubmit = projectOperations.project(project).getHead("master");
     assertThat(headAfterSubmit.getParentCount()).isEqualTo(2);
     assertThat(headAfterSubmit.getParent(0)).isEqualTo(initialHead);
     assertThat(headAfterSubmit.getParent(1)).isEqualTo(change.getCommit());
@@ -47,7 +50,7 @@ public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
 
   @Test
   public void submitMultipleChanges() throws Throwable {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
 
     // Submit a change so that the remote head advances
     PushOneCommit.Result change = createChange("Change 1", "b", "b");

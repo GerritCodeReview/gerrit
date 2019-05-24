@@ -19,23 +19,26 @@ import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.inject.Inject;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
 public abstract class AbstractSubmitByMerge extends AbstractSubmit {
+  @Inject private ProjectOperations projectOperations;
 
   @Test
   public void submitWithMerge() throws Throwable {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
 
-    RevCommit oldHead = getRemoteHead();
+    RevCommit oldHead = projectOperations.project(project).getHead("master");
     testRepo.reset(initialHead);
     PushOneCommit.Result change2 = createChange("Change 2", "b.txt", "other content");
     submit(change2.getChangeId());
-    RevCommit head = getRemoteHead();
+    RevCommit head = projectOperations.project(project).getHead("master");
     assertThat(head.getParentCount()).isEqualTo(2);
     assertThat(head.getParent(0)).isEqualTo(oldHead);
     assertThat(head.getParent(1)).isEqualTo(change2.getCommit());
@@ -49,11 +52,11 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
     PushOneCommit.Result change2 = createChange("Change 2", "a.txt", "aaa\nbbb\nccc\nddd\n");
     submit(change2.getChangeId());
 
-    RevCommit oldHead = getRemoteHead();
+    RevCommit oldHead = projectOperations.project(project).getHead("master");
     testRepo.reset(change.getCommit());
     PushOneCommit.Result change3 = createChange("Change 3", "a.txt", "bbb\nccc\n");
     submit(change3.getChangeId());
-    RevCommit head = getRemoteHead();
+    RevCommit head = projectOperations.project(project).getHead("master");
     assertThat(head.getParentCount()).isEqualTo(2);
     assertThat(head.getParent(0)).isEqualTo(oldHead);
     assertThat(head.getParent(1)).isEqualTo(change3.getCommit());
@@ -62,11 +65,11 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
   public void submitWithContentMerge_Conflict() throws Throwable {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
 
-    RevCommit oldHead = getRemoteHead();
+    RevCommit oldHead = projectOperations.project(project).getHead("master");
     testRepo.reset(initialHead);
     PushOneCommit.Result change2 = createChange("Change 2", "a.txt", "other content");
     submitWithConflict(
@@ -78,7 +81,7 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
             + "Change could not be merged due to a path conflict. "
             + "Please rebase the change locally "
             + "and upload the rebased commit for review.");
-    assertThat(getRemoteHead()).isEqualTo(oldHead);
+    assertThat(projectOperations.project(project).getHead("master")).isEqualTo(oldHead);
   }
 
   @Test
@@ -88,7 +91,8 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
     PushOneCommit.Result change2 = createChange();
     approve(change1.getChangeId());
     submit(change2.getChangeId());
-    assertThat(getRemoteHead().getId()).isEqualTo(change2.getCommit());
+    assertThat(projectOperations.project(project).getHead("master").getId())
+        .isEqualTo(change2.getCommit());
   }
 
   @Test
@@ -108,7 +112,7 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
     approve(change1.getChangeId());
     submit(change2.getChangeId());
 
-    RevCommit head = getRemoteHead();
+    RevCommit head = projectOperations.project(project).getHead("master");
     assertThat(head.getParents()).hasLength(2);
     assertThat(head.getParent(0)).isEqualTo(change1.getCommit());
     assertThat(head.getParent(1)).isEqualTo(change2.getCommit());

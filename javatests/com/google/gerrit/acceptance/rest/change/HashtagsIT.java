@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.Objects.requireNonNull;
@@ -27,6 +28,7 @@ import com.google.common.truth.IterableSubject;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
@@ -41,6 +43,8 @@ import org.junit.Test;
 
 @NoHttpd
 public class HashtagsIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
+
   @BeforeClass
   public static void setTimeForTesting() {
     TestTimeUtil.resetWithClockStep(1, SECONDS);
@@ -267,7 +271,11 @@ public class HashtagsIT extends AbstractDaemonTest {
   @Test
   public void addHashtagWithPermissionAllowed() throws Exception {
     PushOneCommit.Result r = createChange();
-    grant(project, "refs/heads/master", Permission.EDIT_HASHTAGS, false, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.EDIT_HASHTAGS).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
     requestScopeOperations.setApiUser(user.id());
     addHashtags(r, "MyHashtag");
     assertThatGet(r).containsExactly("MyHashtag");

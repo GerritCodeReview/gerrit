@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.extensions.common.testing.EditInfoSubject.assertThat;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -30,10 +31,10 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.changes.RelatedChangeAndCommitInfo;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.CommitInfo;
@@ -43,7 +44,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
 import com.google.gerrit.server.restapi.change.GetRelated;
@@ -81,6 +81,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
   @Inject private AccountOperations accountOperations;
   @Inject private GroupOperations groupOperations;
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   private String systemTimeZone;
@@ -611,11 +612,10 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
     Account.Id accountId = accountOperations.newAccount().create();
     AccountGroup.UUID groupUuid = groupOperations.newGroup().addMember(accountId).create();
-    try (ProjectConfigUpdate u = updateProject(allProjects)) {
-      PermissionRule rule = Util.allow(u.getConfig(), GlobalCapability.QUERY_LIMIT, groupUuid);
-      rule.setRange(0, 2);
-      u.save();
-    }
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.QUERY_LIMIT).group(groupUuid).range(0, 2))
+        .update();
     requestScopeOperations.setApiUser(accountId);
 
     assertRelated(lastPsId, expected);

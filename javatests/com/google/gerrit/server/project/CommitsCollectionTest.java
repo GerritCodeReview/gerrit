@@ -14,12 +14,18 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.common.data.Permission.READ;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static org.eclipse.jgit.lib.Constants.R_REFS;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupReference;
@@ -32,7 +38,6 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
-import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.restapi.project.CommitsCollection;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.InMemoryTestEnvironment;
@@ -43,6 +48,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -57,10 +63,10 @@ public class CommitsCollectionTest {
   @Inject protected MetaDataUpdate.Server metaDataUpdateFactory;
   @Inject protected AllProjectsName allProjects;
   @Inject private CommitsCollection commits;
-  @Inject private ProjectConfig.Factory projectConfigFactory;
+  @Inject private ProjectOperations projectOperations;
 
   private TestRepository<InMemoryRepository> repo;
-  private ProjectConfig project;
+  private Project.NameKey project;
 
   @Before
   public void setUp() throws Exception {
@@ -68,17 +74,22 @@ public class CommitsCollectionTest {
 
     Account.Id user = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
     testEnvironment.setApiUser(user);
+    project = projectOperations.newProject().create();
+    repo = new TestRepository<>(repoManager.openRepository(project));
+  }
 
-    Project.NameKey name = Project.nameKey("project");
-    InMemoryRepository inMemoryRepo = repoManager.createRepository(name);
-    project = projectConfigFactory.create(name);
-    project.load(inMemoryRepo);
-    repo = new TestRepository<>(inMemoryRepo);
+  @After
+  public void tearDown() {
+    repo.getRepository().close();
   }
 
   @Test
   public void canReadCommitWhenAllRefsVisible() throws Exception {
-    allow(project, READ, REGISTERED_USERS, "refs/*");
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
     ObjectId id = repo.branch("master").commit().create();
     ProjectState state = readProjectState();
     RevWalk rw = repo.getRevWalk();
@@ -89,8 +100,12 @@ public class CommitsCollectionTest {
 
   @Test
   public void canReadCommitIfTwoRefsVisible() throws Exception {
-    allow(project, READ, REGISTERED_USERS, "refs/heads/branch1");
-    allow(project, READ, REGISTERED_USERS, "refs/heads/branch2");
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(READ).ref("refs/heads/branch1").group(REGISTERED_USERS))
+        .add(allow(READ).ref("refs/heads/branch2").group(REGISTERED_USERS))
+        .update();
 
     ObjectId id1 = repo.branch("branch1").commit().create();
     ObjectId id2 = repo.branch("branch2").commit().create();
@@ -105,8 +120,12 @@ public class CommitsCollectionTest {
 
   @Test
   public void canReadCommitIfRefVisible() throws Exception {
-    allow(project, READ, REGISTERED_USERS, "refs/heads/branch1");
-    deny(project, READ, REGISTERED_USERS, "refs/heads/branch2");
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(READ).ref("refs/heads/branch1").group(REGISTERED_USERS))
+        .add(deny(READ).ref("refs/heads/branch2").group(REGISTERED_USERS))
+        .update();
 
     ObjectId id1 = repo.branch("branch1").commit().create();
     ObjectId id2 = repo.branch("branch2").commit().create();
@@ -121,8 +140,12 @@ public class CommitsCollectionTest {
 
   @Test
   public void canReadCommitIfReachableFromVisibleRef() throws Exception {
-    allow(project, READ, REGISTERED_USERS, "refs/heads/branch1");
-    deny(project, READ, REGISTERED_USERS, "refs/heads/branch2");
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(READ).ref("refs/heads/branch1").group(REGISTERED_USERS))
+        .add(deny(READ).ref("refs/heads/branch2").group(REGISTERED_USERS))
+        .update();
 
     RevCommit parent1 = repo.commit().create();
     repo.branch("branch1").commit().parent(parent1).create();
@@ -139,7 +162,11 @@ public class CommitsCollectionTest {
 
   @Test
   public void cannotReadAfterRollbackWithRestrictedRead() throws Exception {
-    allow(project, READ, REGISTERED_USERS, "refs/heads/branch1");
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(READ).ref("refs/heads/branch1").group(REGISTERED_USERS))
+        .update();
 
     RevCommit parent1 = repo.commit().create();
     ObjectId id1 = repo.branch("branch1").commit().parent(parent1).create();
@@ -158,7 +185,11 @@ public class CommitsCollectionTest {
 
   @Test
   public void canReadAfterRollbackWithAllRefsVisible() throws Exception {
-    allow(project, READ, REGISTERED_USERS, "refs/*");
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
 
     RevCommit parent1 = repo.commit().create();
     ObjectId id1 = repo.branch("branch1").commit().parent(parent1).create();
@@ -176,41 +207,19 @@ public class CommitsCollectionTest {
   }
 
   private ProjectState readProjectState() throws Exception {
-    return projectCache.get(project.getName());
-  }
-
-  protected void allow(ProjectConfig project, String permission, AccountGroup.UUID id, String ref)
-      throws Exception {
-    Util.allow(project, permission, id, ref);
-    saveProjectConfig(project);
-  }
-
-  protected void deny(ProjectConfig project, String permission, AccountGroup.UUID id, String ref)
-      throws Exception {
-    Util.deny(project, permission, id, ref);
-    saveProjectConfig(project);
-  }
-
-  protected void saveProjectConfig(ProjectConfig cfg) throws Exception {
-    try (MetaDataUpdate md = metaDataUpdateFactory.create(cfg.getName())) {
-      cfg.commit(md);
-    }
-    projectCache.evict(cfg.getProject());
+    return projectCache.get(project);
   }
 
   private void setUpPermissions() throws Exception {
-    ImmutableList<AccountGroup.UUID> admins = getAdmins();
-
     // Remove read permissions for all users besides admin, because by default
     // Anonymous user group has ALLOW READ permission in refs/*.
     // This method is idempotent, so is safe to call on every test setup.
-    ProjectConfig pc = projectCache.checkedGet(allProjects).getConfig();
-    for (AccessSection sec : pc.getAccessSections()) {
-      sec.removePermission(Permission.READ);
-    }
-    for (AccountGroup.UUID admin : admins) {
-      allow(pc, Permission.READ, admin, "refs/*");
-    }
+    TestProjectUpdate.Builder u = projectOperations.allProjectsForUpdate();
+    projectCache.checkedGet(allProjects).getConfig().getAccessSectionNames().stream()
+        .filter(sec -> sec.startsWith(R_REFS))
+        .forEach(sec -> u.remove(permissionKey(Permission.READ).ref(sec)));
+    getAdmins().forEach(admin -> u.add(allow(Permission.READ).ref("refs/*").group(admin)));
+    u.update();
   }
 
   private ImmutableList<AccountGroup.UUID> getAdmins() {

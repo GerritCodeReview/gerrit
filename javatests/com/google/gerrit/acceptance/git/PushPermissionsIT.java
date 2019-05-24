@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.git;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.git.testing.PushResultSubject.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.stream.Collectors.toList;
@@ -24,6 +25,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -36,7 +38,6 @@ import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.project.ProjectConfig;
-import com.google.gerrit.server.project.testing.Util;
 import com.google.inject.Inject;
 import java.util.Arrays;
 import java.util.function.Consumer;
@@ -54,6 +55,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class PushPermissionsIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   @Before
@@ -73,13 +75,15 @@ public class PushPermissionsIT extends AbstractDaemonTest {
           Permission.PUSH_MERGE,
           Permission.SUBMIT);
       removeAllGlobalCapabilities(cfg, GlobalCapability.ADMINISTRATE_SERVER);
-
-      // Include some auxiliary permissions.
-      Util.allow(cfg, Permission.FORGE_AUTHOR, REGISTERED_USERS, "refs/*");
-      Util.allow(cfg, Permission.FORGE_COMMITTER, REGISTERED_USERS, "refs/*");
-
       u.save();
     }
+
+    // Include some auxiliary permissions.
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allow(Permission.FORGE_AUTHOR).ref("refs/*").group(REGISTERED_USERS))
+        .add(allow(Permission.FORGE_COMMITTER).ref("refs/*").group(REGISTERED_USERS))
+        .update();
   }
 
   @Test
@@ -202,7 +206,11 @@ public class PushPermissionsIT extends AbstractDaemonTest {
 
   @Test
   public void refsMetaConfigUpdateRequiresProjectOwner() throws Exception {
-    grant(project, "refs/meta/config", Permission.PUSH, false, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/meta/config").group(REGISTERED_USERS))
+        .update();
 
     forceFetch("refs/meta/config");
     ObjectId commit = testRepo.branch("refs/meta/config").commit().create();
@@ -222,7 +230,11 @@ public class PushPermissionsIT extends AbstractDaemonTest {
             "Contact an administrator to fix the permissions");
     assertThat(r).hasProcessed(ImmutableMap.of("refs", 1));
 
-    grant(project, "refs/*", Permission.OWNER, false, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.OWNER).ref("refs/*").group(REGISTERED_USERS))
+        .update();
 
     // Re-fetch refs/meta/config from the server because the grant changed it, and we want a
     // fast-forward.
@@ -249,7 +261,11 @@ public class PushPermissionsIT extends AbstractDaemonTest {
 
   @Test
   public void updateBySubmitDenied() throws Exception {
-    grant(project, "refs/for/refs/heads/*", Permission.PUSH, false, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/for/refs/heads/*").group(REGISTERED_USERS))
+        .update();
 
     ObjectId commit = testRepo.branch("HEAD").commit().create();
     assertThat(push("HEAD:refs/for/master")).onlyRef("refs/for/master").isOk();
@@ -267,7 +283,11 @@ public class PushPermissionsIT extends AbstractDaemonTest {
 
   @Test
   public void addPatchSetDenied() throws Exception {
-    grant(project, "refs/for/refs/heads/*", Permission.PUSH, false, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/for/refs/heads/*").group(REGISTERED_USERS))
+        .update();
     requestScopeOperations.setApiUser(user.id());
     ChangeInput ci = new ChangeInput();
     ci.project = project.get();
@@ -288,7 +308,11 @@ public class PushPermissionsIT extends AbstractDaemonTest {
 
   @Test
   public void skipValidationDenied() throws Exception {
-    grant(project, "refs/heads/*", Permission.PUSH, false, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
 
     testRepo.branch("HEAD").commit().create();
     PushResult r =
@@ -305,7 +329,11 @@ public class PushPermissionsIT extends AbstractDaemonTest {
 
   @Test
   public void accessDatabaseForNoteDbDenied() throws Exception {
-    grant(project, "refs/heads/*", Permission.PUSH, false, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
 
     testRepo.branch("HEAD").commit().create();
     PushResult r =
@@ -322,8 +350,12 @@ public class PushPermissionsIT extends AbstractDaemonTest {
 
   @Test
   public void administrateServerForUpdateParentDenied() throws Exception {
-    grant(project, "refs/meta/config", Permission.PUSH, false, REGISTERED_USERS);
-    grant(project, "refs/*", Permission.OWNER, false, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/meta/config").group(REGISTERED_USERS))
+        .add(allow(Permission.OWNER).ref("refs/*").group(REGISTERED_USERS))
+        .update();
 
     String project2 = name("project2");
     gApi.projects().create(project2);

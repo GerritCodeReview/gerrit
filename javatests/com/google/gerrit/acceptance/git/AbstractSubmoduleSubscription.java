@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Iterables;
@@ -59,11 +60,12 @@ import org.junit.Before;
 
 public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
 
+  @Inject private ProjectOperations projectOperations;
+
   protected TestRepository<?> superRepo;
   protected Project.NameKey superKey;
   protected TestRepository<?> subRepo;
   protected Project.NameKey subKey;
-  @Inject protected ProjectOperations projectOperations;
 
   protected SubmitType getSubmitType() {
     return cfg.getEnum("project", null, "submitType", SubmitType.MERGE_IF_NECESSARY);
@@ -105,8 +107,12 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
   }
 
   protected void grantPush(Project.NameKey project) throws Exception {
-    grant(project, "refs/heads/*", Permission.PUSH);
-    grant(project, "refs/for/refs/heads/*", Permission.SUBMIT);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/*").group(adminGroupUuid()))
+        .add(allow(Permission.SUBMIT).ref("refs/for/refs/heads/*").group(adminGroupUuid()))
+        .update();
   }
 
   protected Project.NameKey createProjectForPush(SubmitType submitType) throws Exception {

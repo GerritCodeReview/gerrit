@@ -15,17 +15,27 @@
 package com.google.gerrit.acceptance.testsuite.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.blockLabel;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.capabilityKey;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.labelPermissionKey;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.common.data.GlobalCapability.ADMINISTRATE_SERVER;
 import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_QUERY_LIMIT;
 import static com.google.gerrit.common.data.GlobalCapability.QUERY_LIMIT;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.ConfigSubject.assertThat;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestPermission;
 import com.google.gerrit.common.data.Permission;
@@ -146,7 +156,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     projectOperations
         .project(key)
         .forUpdate()
-        .add(TestProjectUpdate.allow(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
+        .add(allow(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
         .update();
 
     Config config = projectOperations.project(key).getConfig();
@@ -163,7 +173,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     projectOperations
         .project(key)
         .forUpdate()
-        .add(TestProjectUpdate.deny(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
+        .add(deny(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
         .update();
 
     Config config = projectOperations.project(key).getConfig();
@@ -180,7 +190,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     projectOperations
         .project(key)
         .forUpdate()
-        .add(TestProjectUpdate.block(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
+        .add(block(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
         .update();
 
     Config config = projectOperations.project(key).getConfig();
@@ -197,11 +207,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     projectOperations
         .project(key)
         .forUpdate()
-        .add(
-            TestProjectUpdate.allow(Permission.ABANDON)
-                .ref("refs/foo")
-                .group(REGISTERED_USERS)
-                .force(true))
+        .add(allow(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS).force(true))
         .update();
 
     Config config = projectOperations.project(key).getConfig();
@@ -213,13 +219,69 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
   }
 
   @Test
+  public void updateExclusivePermission() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(allow(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
+        .setExclusiveGroup(permissionKey(Permission.ABANDON).ref("refs/foo"), true)
+        .update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly(
+            "abandon", "group global:Registered-Users",
+            "exclusiveGroupPermissions", "abandon");
+
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .setExclusiveGroup(permissionKey(Permission.ABANDON).ref("refs/foo"), false)
+        .update();
+
+    config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly("abandon", "group global:Registered-Users");
+  }
+
+  @Test
+  public void addMultipleExclusivePermission() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .setExclusiveGroup(permissionKey(Permission.ABANDON).ref("refs/foo"), true)
+        .setExclusiveGroup(permissionKey(Permission.CREATE).ref("refs/foo"), true)
+        .update();
+    assertThat(projectOperations.project(key).getConfig())
+        .subsectionValues("access", "refs/foo")
+        .containsEntry("exclusiveGroupPermissions", "abandon create");
+
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .setExclusiveGroup(permissionKey(Permission.ABANDON).ref("refs/foo"), false)
+        .update();
+    assertThat(projectOperations.project(key).getConfig())
+        .subsectionValues("access", "refs/foo")
+        .containsEntry("exclusiveGroupPermissions", "create");
+  }
+
+  @Test
   public void addMultiplePermissions() throws Exception {
     Project.NameKey key = projectOperations.newProject().create();
     projectOperations
         .project(key)
         .forUpdate()
-        .add(TestProjectUpdate.allow(Permission.ABANDON).ref("refs/foo").group(PROJECT_OWNERS))
-        .add(TestProjectUpdate.allow(Permission.CREATE).ref("refs/foo").group(REGISTERED_USERS))
+        .add(allow(Permission.ABANDON).ref("refs/foo").group(PROJECT_OWNERS))
+        .add(allow(Permission.CREATE).ref("refs/foo").group(REGISTERED_USERS))
         .update();
 
     Config config = projectOperations.project(key).getConfig();
@@ -266,11 +328,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     projectOperations
         .project(key)
         .forUpdate()
-        .add(
-            TestProjectUpdate.allowLabel("Code-Review")
-                .ref("refs/foo")
-                .group(REGISTERED_USERS)
-                .range(-1, 2))
+        .add(allowLabel("Code-Review").ref("refs/foo").group(REGISTERED_USERS).range(-1, 2))
         .update();
 
     Config config = projectOperations.project(key).getConfig();
@@ -287,11 +345,7 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     projectOperations
         .project(key)
         .forUpdate()
-        .add(
-            TestProjectUpdate.blockLabel("Code-Review")
-                .ref("refs/foo")
-                .group(REGISTERED_USERS)
-                .range(-1, 2))
+        .add(blockLabel("Code-Review").ref("refs/foo").group(REGISTERED_USERS).range(-1, 2))
         .update();
 
     Config config = projectOperations.project(key).getConfig();
@@ -308,12 +362,8 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     projectOperations
         .project(key)
         .forUpdate()
-        .add(
-            TestProjectUpdate.allowLabel("Code-Review")
-                .ref("refs/foo")
-                .group(REGISTERED_USERS)
-                .range(-1, 2)
-                .exclusive(true))
+        .add(allowLabel("Code-Review").ref("refs/foo").group(REGISTERED_USERS).range(-1, 2))
+        .setExclusiveGroup(labelPermissionKey("Code-Review").ref("refs/foo"), true)
         .update();
 
     Config config = projectOperations.project(key).getConfig();
@@ -324,58 +374,212 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
         .containsExactly(
             "label-Code-Review", "-1..+2 group global:Registered-Users",
             "exclusiveGroupPermissions", "label-Code-Review");
+
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .setExclusiveGroup(labelPermissionKey("Code-Review").ref("refs/foo"), false)
+        .update();
+
+    config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly("label-Code-Review", "-1..+2 group global:Registered-Users");
+  }
+
+  @Test
+  public void addAllowLabelAsPermission() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(
+            allowLabel("Code-Review")
+                .ref("refs/foo")
+                .group(REGISTERED_USERS)
+                .range(-1, 2)
+                .impersonation(true))
+        .update();
+
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).sections().containsExactly("access");
+    assertThat(config).subsections("access").containsExactly("refs/foo");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsExactly("labelAs-Code-Review", "-1..+2 group global:Registered-Users");
   }
 
   @Test
   public void addAllowCapability() throws Exception {
-    Project.NameKey key = projectOperations.newProject().create();
+    Config config = projectOperations.project(allProjects).getConfig();
+    assertThat(config)
+        .sectionValues("capability")
+        .doesNotContainEntry("administrateServer", "group Registered Users");
+
     projectOperations
-        .project(key)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(ADMINISTRATE_SERVER).group(REGISTERED_USERS))
         .update();
 
-    Config config = projectOperations.project(key).getConfig();
-    assertThat(config).sections().containsExactly("capability");
-    assertThat(config).subsections("capability").isEmpty();
-    assertThat(config)
+    assertThat(projectOperations.project(allProjects).getConfig())
         .sectionValues("capability")
-        .containsExactly("administrateServer", "group global:Registered-Users");
+        .containsEntry("administrateServer", "group Registered Users");
   }
 
   @Test
   public void addAllowCapabilityWithRange() throws Exception {
-    Project.NameKey key = projectOperations.newProject().create();
+    Config config = projectOperations.project(allProjects).getConfig();
+    assertThat(config).sectionValues("capability").doesNotContainKey("queryLimit");
+
     projectOperations
-        .project(key)
-        .forUpdate()
+        .allProjectsForUpdate()
         .add(allowCapability(QUERY_LIMIT).group(REGISTERED_USERS).range(0, 5000))
         .update();
 
-    Config config = projectOperations.project(key).getConfig();
-    assertThat(config).sections().containsExactly("capability");
-    assertThat(config).subsections("capability").isEmpty();
-    assertThat(config)
+    assertThat(projectOperations.project(allProjects).getConfig())
         .sectionValues("capability")
-        .containsExactly("queryLimit", "+0..+5000 group global:Registered-Users");
+        .containsEntry("queryLimit", "+0..+5000 group Registered Users");
   }
 
   @Test
   public void addAllowCapabilityWithDefaultRange() throws Exception {
+    Config config = projectOperations.project(allProjects).getConfig();
+    assertThat(config).sectionValues("capability").doesNotContainKey("queryLimit");
+
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(QUERY_LIMIT).group(REGISTERED_USERS))
+        .update();
+
+    assertThat(projectOperations.project(allProjects).getConfig())
+        .sectionValues("capability")
+        .containsEntry("queryLimit", "+0..+" + DEFAULT_MAX_QUERY_LIMIT + " group Registered Users");
+  }
+
+  @Test
+  public void removePermission() throws Exception {
     Project.NameKey key = projectOperations.newProject().create();
     projectOperations
         .project(key)
         .forUpdate()
-        .add(allowCapability(QUERY_LIMIT).group(REGISTERED_USERS))
+        .add(allow(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
+        .add(allow(Permission.ABANDON).ref("refs/foo").group(PROJECT_OWNERS))
         .update();
-
-    Config config = projectOperations.project(key).getConfig();
-    assertThat(config).sections().containsExactly("capability");
-    assertThat(config).subsections("capability").isEmpty();
-    assertThat(config)
-        .sectionValues("capability")
+    assertThat(projectOperations.project(key).getConfig())
+        .subsectionValues("access", "refs/foo")
         .containsExactly(
-            "queryLimit", "+0..+" + DEFAULT_MAX_QUERY_LIMIT + " group global:Registered-Users");
+            "abandon", "group global:Registered-Users",
+            "abandon", "group global:Project-Owners");
+
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .remove(permissionKey(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
+        .update();
+    assertThat(projectOperations.project(key).getConfig())
+        .subsectionValues("access", "refs/foo")
+        .containsExactly("abandon", "group global:Project-Owners");
+  }
+
+  @Test
+  public void removeLabelPermission() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(allowLabel("Code-Review").ref("refs/foo").group(REGISTERED_USERS).range(-1, 2))
+        .add(allowLabel("Code-Review").ref("refs/foo").group(PROJECT_OWNERS).range(-2, 1))
+        .update();
+    assertThat(projectOperations.project(key).getConfig())
+        .subsectionValues("access", "refs/foo")
+        .containsExactly(
+            "label-Code-Review", "-1..+2 group global:Registered-Users",
+            "label-Code-Review", "-2..+1 group global:Project-Owners");
+
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .remove(labelPermissionKey("Code-Review").ref("refs/foo").group(REGISTERED_USERS))
+        .update();
+    assertThat(projectOperations.project(key).getConfig())
+        .subsectionValues("access", "refs/foo")
+        .containsExactly("label-Code-Review", "-2..+1 group global:Project-Owners");
+  }
+
+  @Test
+  public void removeCapability() throws Exception {
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(ADMINISTRATE_SERVER).group(REGISTERED_USERS))
+        .add(allowCapability(ADMINISTRATE_SERVER).group(PROJECT_OWNERS))
+        .update();
+    assertThat(projectOperations.project(allProjects).getConfig())
+        .sectionValues("capability")
+        .containsAtLeastEntriesIn(
+            ImmutableListMultimap.of(
+                "administrateServer", "group Registered Users",
+                "administrateServer", "group Project Owners"));
+
+    projectOperations
+        .allProjectsForUpdate()
+        .remove(capabilityKey(ADMINISTRATE_SERVER).group(REGISTERED_USERS))
+        .update();
+    assertThat(projectOperations.project(allProjects).getConfig())
+        .sectionValues("capability")
+        .doesNotContainEntry("administrateServer", "group Registered Users");
+  }
+
+  @Test
+  public void removeOnePermissionForAllGroupsFromOneAccessSection() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .add(allow(Permission.ABANDON).ref("refs/foo").group(PROJECT_OWNERS))
+        .add(allow(Permission.ABANDON).ref("refs/foo").group(REGISTERED_USERS))
+        .add(allow(Permission.CREATE).ref("refs/foo").group(REGISTERED_USERS))
+        .update();
+    assertThat(projectOperations.project(key).getConfig())
+        .subsectionValues("access", "refs/foo")
+        .containsAtLeastEntriesIn(
+            ImmutableListMultimap.of(
+                "abandon", "group global:Project-Owners",
+                "abandon", "group global:Registered-Users",
+                "create", "group global:Registered-Users"));
+
+    projectOperations
+        .project(key)
+        .forUpdate()
+        .remove(permissionKey(Permission.ABANDON).ref("refs/foo"))
+        .update();
+    Config config = projectOperations.project(key).getConfig();
+    assertThat(config).subsectionValues("access", "refs/foo").doesNotContainKey("abandon");
+    assertThat(config)
+        .subsectionValues("access", "refs/foo")
+        .containsEntry("create", "group global:Registered-Users");
+  }
+
+  @Test
+  public void updatingCapabilitiesNotAllowedForNonAllProjects() throws Exception {
+    Project.NameKey key = projectOperations.newProject().create();
+    assertThrows(
+        RuntimeException.class,
+        () ->
+            projectOperations
+                .project(key)
+                .forUpdate()
+                .add(allowCapability(ADMINISTRATE_SERVER).group(REGISTERED_USERS))
+                .update());
+    assertThrows(
+        RuntimeException.class,
+        () ->
+            projectOperations
+                .project(key)
+                .forUpdate()
+                .remove(capabilityKey(ADMINISTRATE_SERVER))
+                .update());
   }
 
   private void deleteRefsMetaConfig(Project.NameKey key) throws Exception {

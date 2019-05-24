@@ -14,14 +14,15 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.common.data.Permission.forLabel;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.project.testing.Util.allow;
-import static com.google.gerrit.server.project.testing.Util.category;
-import static com.google.gerrit.server.project.testing.Util.value;
+import static com.google.gerrit.server.project.testing.TestLabels.label;
+import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -69,6 +70,7 @@ public class LabelNormalizerTest {
   @Inject private ChangeNotes.Factory changeNotesFactory;
   @Inject private ProjectConfig.Factory projectConfigFactory;
   @Inject private GerritApi gApi;
+  @Inject private ProjectOperations projectOperations;
 
   private LifecycleManager lifecycle;
   private Account.Id userId;
@@ -102,7 +104,7 @@ public class LabelNormalizerTest {
       }
     }
     LabelType lt =
-        category("Verified", value(1, "Verified"), value(0, "No score"), value(-1, "Fails"));
+        label("Verified", value(1, "Verified"), value(0, "No score"), value(-1, "Fails"));
     pc.getLabelSections().put(lt.getName(), lt);
     save(pc);
   }
@@ -128,10 +130,11 @@ public class LabelNormalizerTest {
 
   @Test
   public void noNormalizeByPermission() throws Exception {
-    ProjectConfig pc = loadAllProjects();
-    allow(pc, forLabel("Code-Review"), -1, 1, REGISTERED_USERS, "refs/heads/*");
-    allow(pc, forLabel("Verified"), -1, 1, REGISTERED_USERS, "refs/heads/*");
-    save(pc);
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-1, 1))
+        .add(allowLabel("Verified").ref("refs/heads/*").group(REGISTERED_USERS).range(-1, 1))
+        .update();
 
     PatchSetApproval cr = psa(userId, "Code-Review", 2);
     PatchSetApproval v = psa(userId, "Verified", 1);
@@ -140,10 +143,11 @@ public class LabelNormalizerTest {
 
   @Test
   public void normalizeByType() throws Exception {
-    ProjectConfig pc = loadAllProjects();
-    allow(pc, forLabel("Code-Review"), -5, 5, REGISTERED_USERS, "refs/heads/*");
-    allow(pc, forLabel("Verified"), -5, 5, REGISTERED_USERS, "refs/heads/*");
-    save(pc);
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-5, 5))
+        .add(allowLabel("Verified").ref("refs/heads/*").group(REGISTERED_USERS).range(-5, 5))
+        .update();
 
     PatchSetApproval cr = psa(userId, "Code-Review", 5);
     PatchSetApproval v = psa(userId, "Verified", 5);
@@ -161,9 +165,10 @@ public class LabelNormalizerTest {
 
   @Test
   public void explicitZeroVoteOnNonEmptyRangeIsPresent() throws Exception {
-    ProjectConfig pc = loadAllProjects();
-    allow(pc, forLabel("Code-Review"), -1, 1, REGISTERED_USERS, "refs/heads/*");
-    save(pc);
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-1, 1))
+        .update();
 
     PatchSetApproval cr = psa(userId, "Code-Review", 0);
     PatchSetApproval v = psa(userId, "Verified", 0);

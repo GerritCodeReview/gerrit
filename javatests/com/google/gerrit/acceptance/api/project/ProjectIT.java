@@ -15,6 +15,8 @@
 package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 import static com.google.gerrit.server.project.ProjectState.INHERITED_FROM_GLOBAL;
 import static com.google.gerrit.server.project.ProjectState.INHERITED_FROM_PARENT;
@@ -238,7 +240,11 @@ public class ProjectIT extends AbstractDaemonTest {
 
   @Test
   public void createAndDeleteBranchByPush() throws Exception {
-    grant(project, "refs/*", Permission.PUSH, true);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/*").group(adminGroupUuid()).force(true))
+        .update();
     projectIndexedCounter.clear();
 
     assertThat(hasHead(project, "foo")).isFalse();
@@ -256,14 +262,14 @@ public class ProjectIT extends AbstractDaemonTest {
 
   @Test
   public void descriptionChangeCausesRefUpdate() throws Exception {
-    RevCommit initialHead = getRemoteHead(project, RefNames.REFS_CONFIG);
+    RevCommit initialHead = projectOperations.project(project).getHead(RefNames.REFS_CONFIG);
     assertThat(gApi.projects().name(project.get()).description()).isEmpty();
     DescriptionInput in = new DescriptionInput();
     in.description = "new project description";
     gApi.projects().name(project.get()).description(in);
     assertThat(gApi.projects().name(project.get()).description()).isEqualTo(in.description);
 
-    RevCommit updatedHead = getRemoteHead(project, RefNames.REFS_CONFIG);
+    RevCommit updatedHead = projectOperations.project(project).getHead(RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(
         project.get(), RefNames.REFS_CONFIG, initialHead, updatedHead);
   }
@@ -282,7 +288,7 @@ public class ProjectIT extends AbstractDaemonTest {
 
   @Test
   public void configChangeCausesRefUpdate() throws Exception {
-    RevCommit initialHead = getRemoteHead(project, RefNames.REFS_CONFIG);
+    RevCommit initialHead = projectOperations.project(project).getHead(RefNames.REFS_CONFIG);
 
     ConfigInfo info = gApi.projects().name(project.get()).config();
     assertThat(info.defaultSubmitType.value).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
@@ -293,7 +299,7 @@ public class ProjectIT extends AbstractDaemonTest {
     info = gApi.projects().name(project.get()).config();
     assertThat(info.defaultSubmitType.value).isEqualTo(SubmitType.CHERRY_PICK);
 
-    RevCommit updatedHead = getRemoteHead(project, RefNames.REFS_CONFIG);
+    RevCommit updatedHead = projectOperations.project(project).getHead(RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(
         project.get(), RefNames.REFS_CONFIG, initialHead, updatedHead);
   }
@@ -425,8 +431,18 @@ public class ProjectIT extends AbstractDaemonTest {
     assertThat(gApi.projects().name(project.get()).config().state).isEqualTo(ProjectState.HIDDEN);
 
     // Revoke OWNER permission for admin and block them from reading the project's refs
-    block(project, RefNames.REFS + "*", Permission.OWNER, SystemGroupBackend.REGISTERED_USERS);
-    block(project, RefNames.REFS + "*", Permission.READ, SystemGroupBackend.REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            block(Permission.OWNER)
+                .ref(RefNames.REFS + "*")
+                .group(SystemGroupBackend.REGISTERED_USERS))
+        .add(
+            block(Permission.READ)
+                .ref(RefNames.REFS + "*")
+                .group(SystemGroupBackend.REGISTERED_USERS))
+        .update();
 
     // HIDDEN => ACTIVE
     ConfigInput ci2 = new ConfigInput();
@@ -725,7 +741,7 @@ public class ProjectIT extends AbstractDaemonTest {
 
   @Nullable
   protected RevCommit getRemoteHead(String project, String branch) throws Exception {
-    return getRemoteHead(Project.nameKey(project), branch);
+    return projectOperations.project(Project.nameKey(project)).getHead(branch);
   }
 
   boolean hasHead(Project.NameKey k, String b) {

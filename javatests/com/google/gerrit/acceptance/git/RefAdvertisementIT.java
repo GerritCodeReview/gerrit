@@ -18,6 +18,10 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
@@ -29,6 +33,7 @@ import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
@@ -50,7 +55,6 @@ import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
-import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
@@ -78,6 +82,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Inject private AllUsersName allUsersName;
   @Inject private ChangeNoteUtil noteUtil;
   @Inject private PermissionBackend permissionBackend;
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   private AccountGroup.UUID admins;
@@ -121,9 +126,12 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       for (AccessSection sec : u.getConfig().getAccessSections()) {
         sec.removePermission(Permission.READ);
       }
-      Util.allow(u.getConfig(), Permission.READ, admins, "refs/*");
       u.save();
     }
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allow(Permission.READ).ref("refs/*").group(admins))
+        .update();
 
     // Remove all read permissions on All-Users.
     try (ProjectConfigUpdate u = updateProject(allUsers)) {
@@ -139,7 +147,11 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     // First 2 changes are merged, which means the tags pointing to them are
     // visible.
-    allow("refs/for/refs/heads/*", Permission.SUBMIT, admins);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.SUBMIT).ref("refs/for/refs/heads/*").group(admins))
+        .update();
     PushOneCommit.Result mr =
         pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master%submit");
     mr.assertOkStatus();
@@ -182,12 +194,13 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void uploadPackAllRefsVisibleNoRefsMetaConfig() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      Util.allow(u.getConfig(), Permission.READ, REGISTERED_USERS, "refs/*");
-      Util.allow(u.getConfig(), Permission.READ, admins, RefNames.REFS_CONFIG);
-      Util.doNotInherit(u.getConfig(), Permission.READ, RefNames.REFS_CONFIG);
-      u.save();
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .add(allow(Permission.READ).ref(RefNames.REFS_CONFIG).group(admins))
+        .setExclusiveGroup(permissionKey(Permission.READ).ref(RefNames.REFS_CONFIG), true)
+        .update();
 
     requestScopeOperations.setApiUser(user.id());
     assertUploadPackRefs(
@@ -208,8 +221,12 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void uploadPackAllRefsVisibleWithRefsMetaConfig() throws Exception {
-    allow("refs/*", Permission.READ, REGISTERED_USERS);
-    allow(RefNames.REFS_CONFIG, Permission.READ, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .add(allow(Permission.READ).ref(RefNames.REFS_CONFIG).group(REGISTERED_USERS))
+        .update();
 
     assertUploadPackRefs(
         "HEAD",
@@ -230,8 +247,12 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void uploadPackSubsetOfBranchesVisibleIncludingHead() throws Exception {
-    allow("refs/heads/master", Permission.READ, REGISTERED_USERS);
-    deny("refs/heads/branch", Permission.READ, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/heads/master").group(REGISTERED_USERS))
+        .add(deny(Permission.READ).ref("refs/heads/branch").group(REGISTERED_USERS))
+        .update();
 
     requestScopeOperations.setApiUser(user.id());
     assertUploadPackRefs(
@@ -240,8 +261,12 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void uploadPackSubsetOfBranchesVisibleNotIncludingHead() throws Exception {
-    deny("refs/heads/master", Permission.READ, REGISTERED_USERS);
-    allow("refs/heads/branch", Permission.READ, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(deny(Permission.READ).ref("refs/heads/master").group(REGISTERED_USERS))
+        .add(allow(Permission.READ).ref("refs/heads/branch").group(REGISTERED_USERS))
+        .update();
 
     requestScopeOperations.setApiUser(user.id());
     assertUploadPackRefs(
@@ -258,7 +283,11 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void uploadPackSubsetOfBranchesVisibleWithEdit() throws Exception {
-    allow("refs/heads/master", Permission.READ, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
 
     // Admin's edit is not visible.
     requestScopeOperations.setApiUser(admin.id());
@@ -281,8 +310,12 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void uploadPackSubsetOfBranchesAndEditsVisibleWithViewPrivateChanges() throws Exception {
-    allow("refs/heads/master", Permission.READ, REGISTERED_USERS);
-    allow("refs/*", Permission.VIEW_PRIVATE_CHANGES, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/heads/master").group(REGISTERED_USERS))
+        .add(allow(Permission.VIEW_PRIVATE_CHANGES).ref("refs/*").group(REGISTERED_USERS))
+        .update();
 
     // Admin's edit on change3 is visible.
     requestScopeOperations.setApiUser(admin.id());
@@ -309,9 +342,16 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void uploadPackSubsetOfRefsVisibleWithAccessDatabase() throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
-    deny("refs/heads/master", Permission.READ, REGISTERED_USERS);
-    allow("refs/heads/branch", Permission.READ, REGISTERED_USERS);
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(deny(Permission.READ).ref("refs/heads/master").group(REGISTERED_USERS))
+        .add(allow(Permission.READ).ref("refs/heads/branch").group(REGISTERED_USERS))
+        .update();
 
     requestScopeOperations.setApiUser(admin.id());
     gApi.changes().id(cd3.getId().get()).edit().create();
@@ -348,7 +388,11 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   private void uploadPackNoSearchingChangeCacheImpl() throws Exception {
-    allow("refs/heads/*", Permission.READ, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
 
     requestScopeOperations.setApiUser(user.id());
     assertRefs(
@@ -375,13 +419,20 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   public void uploadPackSequencesWithAccessDatabase() throws Exception {
     assertRefs(allProjects, user, true);
 
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
     assertRefs(allProjects, user, true, "refs/sequences/changes");
   }
 
   @Test
   public void uploadPackAllRefsAreVisibleOrphanedTag() throws Exception {
-    allow("refs/*", Permission.READ, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
     // Delete the pending change on 'branch' and 'branch' itself so that the tag gets orphaned
     gApi.changes().id(cd4.getId().get()).delete();
     gApi.projects().name(project.get()).branch("refs/heads/branch").delete();
@@ -418,8 +469,12 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void receivePackRespectsVisibilityOfOpenChanges() throws Exception {
-    allow("refs/heads/master", Permission.READ, REGISTERED_USERS);
-    deny("refs/heads/branch", Permission.READ, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/heads/master").group(REGISTERED_USERS))
+        .add(deny(Permission.READ).ref("refs/heads/branch").group(REGISTERED_USERS))
+        .update();
     requestScopeOperations.setApiUser(user.id());
 
     assertThat(getReceivePackRefs().additionalHaves()).containsExactly(obj(cd3, 1));
@@ -482,7 +537,11 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void advertisedReferencesOmitUserBranchesOfOtherUsers() throws Exception {
-    allow(allUsersName, RefNames.REFS_USERS + "*", Permission.READ, REGISTERED_USERS);
+    projectOperations
+        .project(allUsersName)
+        .forUpdate()
+        .add(allow(Permission.READ).ref(RefNames.REFS_USERS + "*").group(REGISTERED_USERS))
+        .update();
     TestRepository<?> userTestRepository = cloneProject(allUsers, user);
     try (Git git = userTestRepository.git()) {
       assertThat(getUserRefs(git))
@@ -492,7 +551,10 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void advertisedReferencesIncludeAllUserBranchesWithAccessDatabase() throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
     TestRepository<?> userTestRepository = cloneProject(allUsers, user);
     try (Git git = userTestRepository.git()) {
       assertThat(getUserRefs(git))
@@ -514,7 +576,11 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void advertisedReferencesOmitGroupBranchesOfNonOwnedGroups() throws Exception {
-    allow(allUsersName, RefNames.REFS_GROUPS + "*", Permission.READ, REGISTERED_USERS);
+    projectOperations
+        .project(allUsersName)
+        .forUpdate()
+        .add(allow(Permission.READ).ref(RefNames.REFS_GROUPS + "*").group(REGISTERED_USERS))
+        .update();
     AccountGroup.UUID users = createGroup("Users", admins, user);
     AccountGroup.UUID foos = createGroup("Foos", users);
     AccountGroup.UUID bars = createSelfOwnedGroup("Bars", user);
@@ -527,7 +593,10 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void advertisedReferencesIncludeAllGroupBranchesWithAccessDatabase() throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
     AccountGroup.UUID users = createGroup("Users", admins);
     TestRepository<?> userTestRepository = cloneProject(allUsers, user);
     try (Git git = userTestRepository.git()) {
@@ -541,8 +610,15 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void advertisedReferencesIncludeAllGroupBranchesForAdmins() throws Exception {
-    allow(allUsersName, RefNames.REFS_GROUPS + "*", Permission.READ, REGISTERED_USERS);
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ADMINISTRATE_SERVER);
+    projectOperations
+        .project(allUsersName)
+        .forUpdate()
+        .add(allow(Permission.READ).ref(RefNames.REFS_GROUPS + "*").group(REGISTERED_USERS))
+        .update();
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.ADMINISTRATE_SERVER).group(REGISTERED_USERS))
+        .update();
     AccountGroup.UUID users = createGroup("Users", admins);
     TestRepository<?> userTestRepository = cloneProject(allUsers, user);
     try (Git git = userTestRepository.git()) {
@@ -556,7 +632,11 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void advertisedReferencesOmitNoteDbNotesBranches() throws Exception {
-    allow(allUsersName, RefNames.REFS + "*", Permission.READ, REGISTERED_USERS);
+    projectOperations
+        .project(allUsersName)
+        .forUpdate()
+        .add(allow(Permission.READ).ref(RefNames.REFS + "*").group(REGISTERED_USERS))
+        .update();
     TestRepository<?> userTestRepository = cloneProject(allUsers, user);
     try (Git git = userTestRepository.git()) {
       assertThat(getRefs(git)).containsNoneOf(RefNames.REFS_EXTERNAL_IDS, RefNames.REFS_GROUPNAMES);
@@ -565,7 +645,11 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void advertisedReferencesOmitPrivateChangesOfOtherUsers() throws Exception {
-    allow("refs/heads/master", Permission.READ, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
 
     TestRepository<?> userTestRepository = cloneProject(project, user);
     try (Git git = userTestRepository.git()) {
@@ -582,7 +666,11 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     assume()
         .that(baseConfig.getBoolean("auth", "skipFullRefEvaluationIfAllRefsAreVisible", true))
         .isTrue();
-    allow("refs/*", Permission.READ, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
 
     TestRepository<?> userTestRepository = cloneProject(project, user);
     try (Git git = userTestRepository.git()) {
@@ -598,7 +686,11 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @GerritConfig(name = "auth.skipFullRefEvaluationIfAllRefsAreVisible", value = "false")
   public void advertisedReferencesOmitPrivateChangesOfOtherUsersWhenShortcutDisabled()
       throws Exception {
-    allow("refs/*", Permission.READ, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
 
     TestRepository<?> userTestRepository = cloneProject(project, user);
     try (Git git = userTestRepository.git()) {
@@ -612,8 +704,16 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void advertisedReferencesOmitDraftCommentRefsOfOtherUsers() throws Exception {
-    allow(project, "refs/*", Permission.READ, REGISTERED_USERS);
-    allow(allUsersName, "refs/*", Permission.READ, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+    projectOperations
+        .project(allUsersName)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
 
     requestScopeOperations.setApiUser(user.id());
     DraftInput draftInput = new DraftInput();
@@ -632,8 +732,16 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void advertisedReferencesOmitStarredChangesRefsOfOtherUsers() throws Exception {
-    allow(project, "refs/*", Permission.READ, REGISTERED_USERS);
-    allow(allUsersName, "refs/*", Permission.READ, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+    projectOperations
+        .project(allUsersName)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
 
     requestScopeOperations.setApiUser(user.id());
     gApi.accounts().self().starChange(cd3.getId().toString());
@@ -648,7 +756,10 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void hideMetadata() throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
     // create change
     TestRepository<?> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, RefNames.REFS_USERS_SELF + ":userRef");

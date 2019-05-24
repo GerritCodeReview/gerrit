@@ -15,6 +15,8 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
@@ -22,7 +24,7 @@ import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.TagApi;
@@ -37,6 +39,7 @@ import org.junit.Test;
 public class DeleteTagIT extends AbstractDaemonTest {
   private static final String TAG = "refs/tags/test";
 
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   @Before
@@ -102,24 +105,32 @@ public class DeleteTagIT extends AbstractDaemonTest {
     projectOperations
         .project(project)
         .forUpdate()
-        .add(
-            TestProjectUpdate.block(Permission.PUSH)
-                .ref("refs/tags/*")
-                .group(ANONYMOUS_USERS)
-                .force(true))
+        .add(block(Permission.PUSH).ref("refs/tags/*").group(ANONYMOUS_USERS).force(true))
         .update();
   }
 
   private void grantForcePush() throws Exception {
-    grant(project, "refs/tags/*", Permission.PUSH, true, ANONYMOUS_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/tags/*").group(ANONYMOUS_USERS).force(true))
+        .update();
   }
 
   private void grantDelete() throws Exception {
-    allow("refs/tags/*", Permission.DELETE, ANONYMOUS_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.DELETE).ref("refs/tags/*").group(ANONYMOUS_USERS))
+        .update();
   }
 
   private void grantOwner() throws Exception {
-    allow("refs/tags/*", Permission.OWNER, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.OWNER).ref("refs/tags/*").group(REGISTERED_USERS))
+        .update();
   }
 
   private TagApi tag() throws Exception {

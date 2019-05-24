@@ -15,6 +15,8 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -27,7 +29,6 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.project.testing.Util;
 import com.google.inject.Inject;
 import java.util.List;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -48,7 +49,11 @@ public class IndexChangeIT extends AbstractDaemonTest {
   @Test
   public void indexChangeOnNonVisibleBranch() throws Exception {
     String changeId = createChange().getChangeId();
-    blockRead("refs/heads/master");
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
     userRestSession.post("/changes/" + changeId + "/index/").assertNotFound();
   }
 
@@ -62,15 +67,15 @@ public class IndexChangeIT extends AbstractDaemonTest {
 
     // Create a project and restrict its visibility to the group
     Project.NameKey p = projectOperations.newProject().create();
-    try (ProjectConfigUpdate u = updateProject(p)) {
-      Util.allow(
-          u.getConfig(),
-          Permission.READ,
-          groupCache.get(AccountGroup.nameKey(group)).get().getGroupUUID(),
-          "refs/*");
-      Util.block(u.getConfig(), Permission.READ, REGISTERED_USERS, "refs/*");
-      u.save();
-    }
+    projectOperations
+        .project(p)
+        .forUpdate()
+        .add(
+            allow(Permission.READ)
+                .ref("refs/*")
+                .group(groupCache.get(AccountGroup.nameKey(group)).get().getGroupUUID()))
+        .add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
 
     // Clone it and push a change as a regular user
     TestRepository<InMemoryRepository> repo = cloneProject(p, user);

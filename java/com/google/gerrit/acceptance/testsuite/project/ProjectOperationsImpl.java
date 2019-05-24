@@ -20,22 +20,25 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectCreation.Builder;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestCapability;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestLabelPermission;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestPermission;
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCreator;
-import com.google.gerrit.server.project.testing.Util;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,6 +56,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
 public class ProjectOperationsImpl implements ProjectOperations {
+  private final AllProjectsName allProjectsName;
   private final GitRepositoryManager repoManager;
   private final MetaDataUpdate.Server metaDataUpdateFactory;
   private final ProjectCache projectCache;
@@ -61,11 +65,13 @@ public class ProjectOperationsImpl implements ProjectOperations {
 
   @Inject
   ProjectOperationsImpl(
+      AllProjectsName allProjectsName,
       GitRepositoryManager repoManager,
       MetaDataUpdate.Server metaDataUpdateFactory,
       ProjectCache projectCache,
       ProjectConfig.Factory projectConfigFactory,
       ProjectCreator projectCreator) {
+    this.allProjectsName = allProjectsName;
     this.repoManager = repoManager;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.projectCache = projectCache;
@@ -98,6 +104,11 @@ public class ProjectOperationsImpl implements ProjectOperations {
     return new PerProjectOperations(key);
   }
 
+  @Override
+  public TestProjectUpdate.Builder allProjectsForUpdate() {
+    return project(allProjectsName).forUpdate();
+  }
+
   private class PerProjectOperations implements ProjectOperations.PerProjectOperations {
     Project.NameKey nameKey;
 
@@ -117,25 +128,43 @@ public class ProjectOperationsImpl implements ProjectOperations {
 
     @Override
     public TestProjectUpdate.Builder forUpdate() {
-      return TestProjectUpdate.builder(this::updateProject);
+      return TestProjectUpdate.builder(nameKey, allProjectsName, this::updateProject);
     }
 
     private void updateProject(TestProjectUpdate projectUpdate)
         throws IOException, ConfigInvalidException {
       try (MetaDataUpdate metaDataUpdate = metaDataUpdateFactory.create(nameKey)) {
         ProjectConfig projectConfig = projectConfigFactory.read(metaDataUpdate);
+        removePermissions(projectConfig, projectUpdate.removedPermissions());
         addCapabilities(projectConfig, projectUpdate.addedCapabilities());
         addPermissions(projectConfig, projectUpdate.addedPermissions());
         addLabelPermissions(projectConfig, projectUpdate.addedLabelPermissions());
+        setExclusiveGroupPermissions(projectConfig, projectUpdate.exclusiveGroupPermissions());
         projectConfig.commit(metaDataUpdate);
       }
       projectCache.evict(nameKey);
     }
 
+    private void removePermissions(
+        ProjectConfig projectConfig,
+        ImmutableList<TestProjectUpdate.TestPermissionKey> removedPermissions) {
+      for (TestProjectUpdate.TestPermissionKey p : removedPermissions) {
+        Permission permission =
+            projectConfig.getAccessSection(p.section(), true).getPermission(p.name(), true);
+        if (p.group().isPresent()) {
+          GroupReference group = new GroupReference(p.group().get(), p.group().get().get());
+          group = projectConfig.resolve(group);
+          permission.removeRule(group);
+        } else {
+          permission.clearRules();
+        }
+      }
+    }
+
     private void addCapabilities(
         ProjectConfig projectConfig, ImmutableList<TestCapability> addedCapabilities) {
       for (TestCapability c : addedCapabilities) {
-        PermissionRule rule = Util.newRule(projectConfig, c.group());
+        PermissionRule rule = newRule(projectConfig, c.group());
         rule.setRange(c.min(), c.max());
         projectConfig
             .getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true)
@@ -147,7 +176,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
     private void addPermissions(
         ProjectConfig projectConfig, ImmutableList<TestPermission> addedPermissions) {
       for (TestPermission p : addedPermissions) {
-        PermissionRule rule = Util.newRule(projectConfig, p.group());
+        PermissionRule rule = newRule(projectConfig, p.group());
         rule.setAction(p.action());
         rule.setForce(p.force());
         projectConfig.getAccessSection(p.ref(), true).getPermission(p.name(), true).add(rule);
@@ -157,16 +186,26 @@ public class ProjectOperationsImpl implements ProjectOperations {
     private void addLabelPermissions(
         ProjectConfig projectConfig, ImmutableList<TestLabelPermission> addedLabelPermissions) {
       for (TestLabelPermission p : addedLabelPermissions) {
-        PermissionRule rule = Util.newRule(projectConfig, p.group());
+        PermissionRule rule = newRule(projectConfig, p.group());
         rule.setAction(p.action());
         rule.setRange(p.min(), p.max());
+        String permissionName =
+            p.impersonation() ? Permission.forLabelAs(p.name()) : Permission.forLabel(p.name());
         Permission permission =
-            projectConfig
-                .getAccessSection(p.ref(), true)
-                .getPermission(Permission.forLabel(p.name()), true);
-        permission.setExclusiveGroup(p.exclusive());
+            projectConfig.getAccessSection(p.ref(), true).getPermission(permissionName, true);
         permission.add(rule);
       }
+    }
+
+    private void setExclusiveGroupPermissions(
+        ProjectConfig projectConfig,
+        ImmutableMap<TestProjectUpdate.TestPermissionKey, Boolean> exclusiveGroupPermissions) {
+      exclusiveGroupPermissions.forEach(
+          (key, exclusive) ->
+              projectConfig
+                  .getAccessSection(key.section(), true)
+                  .getPermission(key.name(), true)
+                  .setExclusiveGroup(exclusive));
     }
 
     private RevCommit headOrNull(String branch) {
@@ -216,5 +255,11 @@ public class ProjectOperationsImpl implements ProjectOperations {
         throw new IllegalStateException(e);
       }
     }
+  }
+
+  private static PermissionRule newRule(ProjectConfig project, AccountGroup.UUID groupUUID) {
+    GroupReference group = new GroupReference(groupUUID, groupUUID.get());
+    group = project.resolve(group);
+    return new PermissionRule(group);
   }
 }

@@ -14,6 +14,9 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.blockLabel;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.labelPermissionKey;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -140,11 +143,24 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
 
   private void grantApprove(Project.NameKey project, AccountGroup.UUID groupUUID, boolean exclusive)
       throws Exception {
-    grantLabel("Code-Review", -2, 2, project, "refs/heads/*", groupUUID, exclusive);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel("Code-Review").ref("refs/heads/*").group(groupUUID).range(-2, 2))
+        .setExclusiveGroup(labelPermissionKey("Code-Review").ref("refs/heads/*"), exclusive)
+        .update();
   }
 
   private void blockApproveForChangeOwner(Project.NameKey project) throws Exception {
-    blockLabel("Code-Review", -2, 2, SystemGroupBackend.CHANGE_OWNER, "refs/heads/*", project);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            blockLabel("Code-Review")
+                .ref("refs/heads/*")
+                .group(SystemGroupBackend.CHANGE_OWNER)
+                .range(-2, 2))
+        .update();
   }
 
   private String createMyChange(TestRepository<InMemoryRepository> testRepo) throws Exception {

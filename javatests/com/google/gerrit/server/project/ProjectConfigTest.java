@@ -36,7 +36,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
-import com.google.gerrit.server.project.testing.Util;
+import com.google.gerrit.server.project.testing.TestLabels;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -340,11 +340,11 @@ public class ProjectConfigTest {
     cfg.getLabelSections()
         .put(
             "My-Label",
-            Util.category(
+            TestLabels.label(
                 "My-Label",
-                Util.value(-1, "Negative"),
-                Util.value(0, "No score"),
-                Util.value(1, "Positive")));
+                TestLabels.value(-1, "Negative"),
+                TestLabels.value(0, "No score"),
+                TestLabels.value(1, "Positive")));
     rev = commit(cfg);
     assertThat(text(rev, "project.config"))
         .isEqualTo(

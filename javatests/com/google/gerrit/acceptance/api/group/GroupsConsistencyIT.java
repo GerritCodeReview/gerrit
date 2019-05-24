@@ -16,12 +16,14 @@ package com.google.gerrit.acceptance.api.group;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
@@ -52,6 +54,7 @@ import org.junit.Test;
 public class GroupsConsistencyIT extends AbstractDaemonTest {
 
   @Inject protected GroupOperations groupOperations;
+  @Inject private ProjectOperations projectOperations;
   private GroupInfo gAdmin;
   private GroupInfo g1;
   private GroupInfo g2;
@@ -60,7 +63,10 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
 
   @Before
   public void basicSetup() throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
 
     String name1 = groupOperations.newGroup().name("g1").create().get();
     String name2 = groupOperations.newGroup().name("g2").create().get();

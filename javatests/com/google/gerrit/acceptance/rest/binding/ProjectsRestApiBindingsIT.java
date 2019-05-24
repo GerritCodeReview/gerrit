@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.rest.binding;
 import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.rest.util.RestCall.Method.GET;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_DASHBOARDS;
 import static com.google.gerrit.server.restapi.project.DashboardsCollection.DEFAULT_DASHBOARD_NAME;
 import static org.apache.http.HttpStatus.SC_METHOD_NOT_ALLOWED;
@@ -216,7 +217,7 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
         testRepo
             .commit()
             .message("A change")
-            .parent(getRemoteHead())
+            .parent(projectOperations.project(project).getHead("master"))
             .add(filename, "content")
             .insertChangeId()
             .create();
@@ -234,7 +235,11 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
 
   private void createDefaultDashboard() throws Exception {
     String dashboardRef = REFS_DASHBOARDS + "team";
-    grant(project, "refs/meta/*", Permission.CREATE);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref("refs/meta/*").group(adminGroupUuid()))
+        .update();
     gApi.projects().name(project.get()).branch(dashboardRef).create(new BranchInput());
 
     try (Repository r = repoManager.openRepository(project)) {

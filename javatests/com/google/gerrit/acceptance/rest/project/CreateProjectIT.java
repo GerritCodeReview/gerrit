@@ -19,6 +19,8 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectInfo;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectOwners;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.capabilityKey;
 import static com.google.gerrit.server.project.ProjectConfig.PROJECT_CONFIG;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -31,6 +33,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.UseLocalDisk;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
@@ -73,6 +76,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Test;
 
 public class CreateProjectIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test
@@ -324,7 +328,12 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
   @Test
   public void createProjectWithCapability() throws Exception {
-    allowGlobalCapabilities(SystemGroupBackend.REGISTERED_USERS, GlobalCapability.CREATE_PROJECT);
+    projectOperations
+        .allProjectsForUpdate()
+        .add(
+            allowCapability(GlobalCapability.CREATE_PROJECT)
+                .group(SystemGroupBackend.REGISTERED_USERS))
+        .update();
     try {
       requestScopeOperations.setApiUser(user.id());
       ProjectInput in = new ProjectInput();
@@ -332,8 +341,12 @@ public class CreateProjectIT extends AbstractDaemonTest {
       ProjectInfo p = gApi.projects().create(in).get();
       assertThat(p.name).isEqualTo(in.name);
     } finally {
-      removeGlobalCapabilities(
-          SystemGroupBackend.REGISTERED_USERS, GlobalCapability.CREATE_PROJECT);
+      projectOperations
+          .allProjectsForUpdate()
+          .remove(
+              capabilityKey(GlobalCapability.CREATE_PROJECT)
+                  .group(SystemGroupBackend.REGISTERED_USERS))
+          .update();
     }
   }
 
@@ -356,7 +369,12 @@ public class CreateProjectIT extends AbstractDaemonTest {
   public void createProjectWithCreateProjectCapabilityAndParentNotVisible() throws Exception {
     Project parent = projectCache.get(allProjects).getProject();
     parent.setState(com.google.gerrit.extensions.client.ProjectState.HIDDEN);
-    allowGlobalCapabilities(SystemGroupBackend.REGISTERED_USERS, GlobalCapability.CREATE_PROJECT);
+    projectOperations
+        .allProjectsForUpdate()
+        .add(
+            allowCapability(GlobalCapability.CREATE_PROJECT)
+                .group(SystemGroupBackend.REGISTERED_USERS))
+        .update();
     try {
       requestScopeOperations.setApiUser(user.id());
       ProjectInput in = new ProjectInput();
@@ -365,8 +383,12 @@ public class CreateProjectIT extends AbstractDaemonTest {
       assertThat(p.name).isEqualTo(in.name);
     } finally {
       parent.setState(com.google.gerrit.extensions.client.ProjectState.ACTIVE);
-      removeGlobalCapabilities(
-          SystemGroupBackend.REGISTERED_USERS, GlobalCapability.CREATE_PROJECT);
+      projectOperations
+          .allProjectsForUpdate()
+          .remove(
+              capabilityKey(GlobalCapability.CREATE_PROJECT)
+                  .group(SystemGroupBackend.REGISTERED_USERS))
+          .update();
     }
   }
 

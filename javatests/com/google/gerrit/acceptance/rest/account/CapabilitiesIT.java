@@ -14,8 +14,11 @@
 
 package com.google.gerrit.acceptance.rest.account;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.capabilityKey;
 import static com.google.gerrit.common.data.GlobalCapability.ACCESS_DATABASE;
 import static com.google.gerrit.common.data.GlobalCapability.ADMINISTRATE_SERVER;
 import static com.google.gerrit.common.data.GlobalCapability.BATCH_CHANGES_LIMIT;
@@ -26,24 +29,30 @@ import static com.google.gerrit.common.data.GlobalCapability.QUERY_LIMIT;
 import static com.google.gerrit.common.data.GlobalCapability.RUN_AS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
-import com.google.common.collect.Iterables;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.google.inject.Inject;
 import org.junit.Test;
 
 public class CapabilitiesIT extends AbstractDaemonTest {
 
+  @Inject private ProjectOperations projectOperations;
+
   @Test
   public void capabilitiesUser() throws Exception {
-    Iterable<String> all =
-        Iterables.filter(
-            GlobalCapability.getAllNames(),
-            c -> !ADMINISTRATE_SERVER.equals(c) && !PRIORITY.equals(c));
-
-    allowGlobalCapabilities(REGISTERED_USERS, all);
+    ImmutableList<String> all =
+        GlobalCapability.getAllNames().stream()
+            .filter(c -> !ADMINISTRATE_SERVER.equals(c) && !PRIORITY.equals(c))
+            .collect(toImmutableList());
+    TestProjectUpdate.Builder allowBuilder = projectOperations.allProjectsForUpdate();
+    all.forEach(c -> allowBuilder.add(allowCapability(c).group(REGISTERED_USERS)));
+    allowBuilder.update();
     try {
       RestResponse r = userRestSession.get("/accounts/self/capabilities");
       r.assertOK();
@@ -67,7 +76,9 @@ public class CapabilitiesIT extends AbstractDaemonTest {
         }
       }
     } finally {
-      removeGlobalCapabilities(REGISTERED_USERS, all);
+      TestProjectUpdate.Builder removeBuilder = projectOperations.allProjectsForUpdate();
+      all.forEach(c -> removeBuilder.remove(capabilityKey(c).group(REGISTERED_USERS)));
+      removeBuilder.update();
     }
   }
 

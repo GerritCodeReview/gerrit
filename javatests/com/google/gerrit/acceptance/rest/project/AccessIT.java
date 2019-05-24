@@ -15,6 +15,7 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
@@ -126,7 +127,7 @@ public class AccessIT extends AbstractDaemonTest {
 
   @Test
   public void addAccessSection() throws Exception {
-    RevCommit initialHead = getRemoteHead(newProjectName, RefNames.REFS_CONFIG);
+    RevCommit initialHead = projectOperations.project(newProjectName).getHead(RefNames.REFS_CONFIG);
 
     ProjectAccessInput accessInput = newProjectAccessInput();
     AccessSectionInfo accessSectionInfo = createDefaultAccessSectionInfo();
@@ -136,7 +137,7 @@ public class AccessIT extends AbstractDaemonTest {
 
     assertThat(pApi().access().local).isEqualTo(accessInput.add);
 
-    RevCommit updatedHead = getRemoteHead(newProjectName, RefNames.REFS_CONFIG);
+    RevCommit updatedHead = projectOperations.project(newProjectName).getHead(RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(
         newProjectName.get(), RefNames.REFS_CONFIG, null, initialHead, initialHead, updatedHead);
   }
@@ -169,7 +170,11 @@ public class AccessIT extends AbstractDaemonTest {
 
   @Test
   public void createAccessChange() throws Exception {
-    allow(newProjectName, RefNames.REFS_CONFIG, Permission.READ, REGISTERED_USERS);
+    projectOperations
+        .project(newProjectName)
+        .forUpdate()
+        .add(allow(Permission.READ).ref(RefNames.REFS_CONFIG).group(REGISTERED_USERS))
+        .update();
     // User can see the branch
     requestScopeOperations.setApiUser(user.id());
     pApi().branch("refs/heads/master").get();

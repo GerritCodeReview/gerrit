@@ -15,6 +15,8 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
@@ -23,7 +25,6 @@ import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
-import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchApi;
@@ -123,8 +124,12 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   @Test
   public void deleteMetaBranch() throws Exception {
     String metaRef = RefNames.REFS_META + "foo";
-    allow(metaRef, Permission.CREATE, REGISTERED_USERS);
-    allow(metaRef, Permission.PUSH, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref(metaRef).group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref(metaRef).group(REGISTERED_USERS))
+        .update();
 
     BranchNameKey metaBranch = BranchNameKey.create(project, metaRef);
     branch(metaBranch).create(new BranchInput());
@@ -138,14 +143,8 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     projectOperations
         .project(allUsers)
         .forUpdate()
-        .add(
-            TestProjectUpdate.allow(Permission.CREATE)
-                .ref(RefNames.REFS_USERS + "*")
-                .group(REGISTERED_USERS))
-        .add(
-            TestProjectUpdate.allow(Permission.PUSH)
-                .ref(RefNames.REFS_USERS + "*")
-                .group(REGISTERED_USERS))
+        .add(allow(Permission.CREATE).ref(RefNames.REFS_USERS + "*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref(RefNames.REFS_USERS + "*").group(REGISTERED_USERS))
         .update();
 
     ResourceConflictException thrown =
@@ -157,8 +156,12 @@ public class DeleteBranchIT extends AbstractDaemonTest {
 
   @Test
   public void deleteGroupBranch_Conflict() throws Exception {
-    allow(allUsers, RefNames.REFS_GROUPS + "*", Permission.CREATE, REGISTERED_USERS);
-    allow(allUsers, RefNames.REFS_GROUPS + "*", Permission.PUSH, REGISTERED_USERS);
+    projectOperations
+        .project(allUsers)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref(RefNames.REFS_GROUPS + "*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref(RefNames.REFS_GROUPS + "*").group(REGISTERED_USERS))
+        .update();
 
     ResourceConflictException thrown =
         assertThrows(
@@ -173,24 +176,32 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     projectOperations
         .project(project)
         .forUpdate()
-        .add(
-            TestProjectUpdate.block(Permission.PUSH)
-                .ref("refs/heads/*")
-                .group(ANONYMOUS_USERS)
-                .force(true))
+        .add(block(Permission.PUSH).ref("refs/heads/*").group(ANONYMOUS_USERS).force(true))
         .update();
   }
 
   private void grantForcePush() throws Exception {
-    grant(project, "refs/heads/*", Permission.PUSH, true, ANONYMOUS_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/*").group(ANONYMOUS_USERS).force(true))
+        .update();
   }
 
   private void grantDelete() throws Exception {
-    allow("refs/*", Permission.DELETE, ANONYMOUS_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.DELETE).ref("refs/*").group(ANONYMOUS_USERS))
+        .update();
   }
 
   private void grantOwner() throws Exception {
-    allow("refs/*", Permission.OWNER, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.OWNER).ref("refs/*").group(REGISTERED_USERS))
+        .update();
   }
 
   private BranchApi branch(BranchNameKey branch) throws Exception {

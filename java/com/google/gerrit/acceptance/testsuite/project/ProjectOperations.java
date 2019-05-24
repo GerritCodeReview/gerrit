@@ -30,6 +30,9 @@ public interface ProjectOperations {
 
   PerProjectOperations project(Project.NameKey key);
 
+  /** Starts a fluent chain for updating All-Projects. */
+  TestProjectUpdate.Builder allProjectsForUpdate();
+
   interface PerProjectOperations {
     /**
      * Returns the commit for this project. branchName can either be shortened ("HEAD", "master") or

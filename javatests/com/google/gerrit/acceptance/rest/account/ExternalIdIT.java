@@ -18,6 +18,8 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_UUID;
@@ -34,6 +36,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
@@ -92,6 +95,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Inject private ExternalIds externalIds;
   @Inject private ExternalIdReader externalIdReader;
   @Inject private ExternalIdNotes.Factory externalIdNotesFactory;
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test
@@ -121,7 +125,10 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void getExternalIdsOfOtherUserWithAccessDatabase() throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
 
     Collection<ExternalId> expectedIds = getAccountState(admin.id()).getExternalIds();
     List<AccountExternalIdInfo> expectedIdInfos = toExternalIdInfos(expectedIds);
@@ -195,7 +202,10 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void deleteExternalIdsOfOtherUserWithAccessDatabase() throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
 
     List<AccountExternalIdInfo> externalIds = gApi.accounts().self().getExternalIds();
 
@@ -268,7 +278,10 @@ public class ExternalIdIT extends AbstractDaemonTest {
         .hasMessageThat()
         .isEqualTo("Remote does not have " + RefNames.REFS_EXTERNAL_IDS + " available for fetch.");
 
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
 
     // re-clone to get new request context, otherwise the old global capabilities are still cached
     // in the IdentifiedUser object
@@ -278,7 +291,10 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void pushToExternalIdsBranch() throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS + ":" + RefNames.REFS_EXTERNAL_IDS);
@@ -303,7 +319,10 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void pushToExternalIdsBranchRejectsExternalIdWithoutAccountId() throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS + ":" + RefNames.REFS_EXTERNAL_IDS);
@@ -321,7 +340,10 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Test
   public void pushToExternalIdsBranchRejectsExternalIdWithKeyThatDoesntMatchTheNoteId()
       throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS + ":" + RefNames.REFS_EXTERNAL_IDS);
@@ -338,7 +360,10 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void pushToExternalIdsBranchRejectsExternalIdWithInvalidConfig() throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS + ":" + RefNames.REFS_EXTERNAL_IDS);
@@ -355,7 +380,10 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void pushToExternalIdsBranchRejectsExternalIdWithEmptyNote() throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS + ":" + RefNames.REFS_EXTERNAL_IDS);
@@ -395,7 +423,10 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   private void testPushToExternalIdsBranchRejectsInvalidExternalId(ExternalId invalidExtId)
       throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS + ":" + RefNames.REFS_EXTERNAL_IDS);
@@ -411,7 +442,10 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void readExternalIdsWhenInvalidExternalIdsExist() throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
     requestScopeOperations.resetCurrentApiUser();
 
     insertValidExternalIds();
@@ -432,7 +466,10 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void checkConsistency() throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
     requestScopeOperations.resetCurrentApiUser();
 
     insertValidExternalIds();
@@ -984,8 +1021,12 @@ public class ExternalIdIT extends AbstractDaemonTest {
   }
 
   private void allowPushOfExternalIds() {
-    grant(allUsers, RefNames.REFS_EXTERNAL_IDS, Permission.READ);
-    grant(allUsers, RefNames.REFS_EXTERNAL_IDS, Permission.PUSH);
+    projectOperations
+        .project(allUsers)
+        .forUpdate()
+        .add(allow(Permission.READ).ref(RefNames.REFS_EXTERNAL_IDS).group(adminGroupUuid()))
+        .add(allow(Permission.PUSH).ref(RefNames.REFS_EXTERNAL_IDS).group(adminGroupUuid()))
+        .update();
   }
 
   private void assertRefUpdateFailure(RemoteRefUpdate update, String msg) {

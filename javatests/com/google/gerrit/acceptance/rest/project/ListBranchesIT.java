@@ -15,13 +15,17 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.gerrit.acceptance.rest.project.RefAssert.assertRefs;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -32,6 +36,7 @@ import org.junit.Test;
 
 @NoHttpd
 public class ListBranchesIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test
@@ -43,7 +48,11 @@ public class ListBranchesIT extends AbstractDaemonTest {
 
   @Test
   public void listBranchesOfNonVisibleProject_NotFound() throws Exception {
-    blockRead("refs/*");
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
     requestScopeOperations.setApiUser(user.id());
     assertThrows(
         ResourceNotFoundException.class,
@@ -62,7 +71,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
   public void listBranches() throws Exception {
     String master = pushTo("refs/heads/master").getCommit().name();
     String dev = pushTo("refs/heads/dev").getCommit().name();
-    String refsConfig = getRemoteHead(project, RefNames.REFS_CONFIG).name();
+    String refsConfig = projectOperations.project(project).getHead(RefNames.REFS_CONFIG).name();
     assertRefs(
         ImmutableList.of(
             branch("HEAD", "master", false),
@@ -74,7 +83,11 @@ public class ListBranchesIT extends AbstractDaemonTest {
 
   @Test
   public void listBranchesSomeHidden() throws Exception {
-    blockRead("refs/heads/dev");
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/heads/dev").group(REGISTERED_USERS))
+        .update();
     String master = pushTo("refs/heads/master").getCommit().name();
     pushTo("refs/heads/dev");
     requestScopeOperations.setApiUser(user.id());
@@ -87,7 +100,11 @@ public class ListBranchesIT extends AbstractDaemonTest {
 
   @Test
   public void listBranchesHeadHidden() throws Exception {
-    blockRead("refs/heads/master");
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
     pushTo("refs/heads/master");
     String dev = pushTo("refs/heads/dev").getCommit().name();
     requestScopeOperations.setApiUser(user.id());
@@ -99,7 +116,10 @@ public class ListBranchesIT extends AbstractDaemonTest {
   public void listBranchesUsingPagination() throws Exception {
     BranchInfo head = branch("HEAD", "master", false);
     BranchInfo refsConfig =
-        branch(RefNames.REFS_CONFIG, getRemoteHead(project, RefNames.REFS_CONFIG).name(), false);
+        branch(
+            RefNames.REFS_CONFIG,
+            projectOperations.project(project).getHead(RefNames.REFS_CONFIG).name(),
+            false);
     BranchInfo master =
         branch("refs/heads/master", pushTo("refs/heads/master").getCommit().getName(), false);
     BranchInfo branch1 =

@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.binding;
 
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.common.collect.ImmutableList;
@@ -22,10 +23,12 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.rest.util.RestApiCallHelper;
 import com.google.gerrit.acceptance.rest.util.RestCall;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.restapi.config.ListTasks.TaskInfo;
 import com.google.gson.reflect.TypeToken;
+import com.google.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 import org.junit.Test;
@@ -80,10 +83,15 @@ public class ConfigRestApiBindingsIT extends AbstractDaemonTest {
           // Task deletion must be tested last
           RestCall.delete("/config/server/tasks/%s"));
 
+  @Inject private ProjectOperations projectOperations;
+
   @Test
   public void configEndpoints() throws Exception {
     // 'Access Database' is needed for the '/config/server/check.consistency' REST endpoint
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
 
     RestApiCallHelper.execute(adminRestSession, CONFIG_ENDPOINTS);
   }

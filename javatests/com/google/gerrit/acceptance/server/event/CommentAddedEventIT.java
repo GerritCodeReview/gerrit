@@ -15,16 +15,17 @@
 package com.google.gerrit.acceptance.server.event;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
-import static com.google.gerrit.server.project.testing.Util.category;
-import static com.google.gerrit.server.project.testing.Util.value;
+import static com.google.gerrit.server.project.testing.TestLabels.label;
+import static com.google.gerrit.server.project.testing.TestLabels.value;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -32,8 +33,6 @@ import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.events.CommentAddedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.project.testing.Util;
 import com.google.inject.Inject;
 import org.junit.After;
 import org.junit.Before;
@@ -43,37 +42,25 @@ import org.junit.Test;
 public class CommentAddedEventIT extends AbstractDaemonTest {
 
   @Inject private DynamicSet<CommentAddedListener> source;
+  @Inject private ProjectOperations projectOperations;
 
   private final LabelType label =
-      category("CustomLabel", value(1, "Positive"), value(0, "No score"), value(-1, "Negative"));
+      label("CustomLabel", value(1, "Positive"), value(0, "No score"), value(-1, "Negative"));
 
   private final LabelType pLabel =
-      category("CustomLabel2", value(1, "Positive"), value(0, "No score"));
+      label("CustomLabel2", value(1, "Positive"), value(0, "No score"));
 
   private RegistrationHandle eventListenerRegistration;
   private CommentAddedListener.Event lastCommentAddedEvent;
 
   @Before
   public void setUp() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      AccountGroup.UUID anonymousUsers = systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
-      Util.allow(
-          u.getConfig(),
-          Permission.forLabel(label.getName()),
-          -1,
-          1,
-          anonymousUsers,
-          "refs/heads/*");
-      Util.allow(
-          u.getConfig(),
-          Permission.forLabel(pLabel.getName()),
-          0,
-          1,
-          anonymousUsers,
-          "refs/heads/*");
-      u.save();
-    }
-
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel(label.getName()).ref("refs/heads/*").group(ANONYMOUS_USERS).range(-1, 1))
+        .add(allowLabel(pLabel.getName()).ref("refs/heads/*").group(ANONYMOUS_USERS).range(0, 1))
+        .update();
     eventListenerRegistration = source.add("gerrit", event -> lastCommentAddedEvent = event);
   }
 

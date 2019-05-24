@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.api.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.extensions.client.ChangeKind.MERGE_FIRST_PARENT_UPDATE;
 import static com.google.gerrit.extensions.client.ChangeKind.NO_CHANGE;
 import static com.google.gerrit.extensions.client.ChangeKind.NO_CODE_CHANGE;
@@ -26,8 +27,8 @@ import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMM
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.project.testing.Util.category;
-import static com.google.gerrit.server.project.testing.Util.value;
+import static com.google.gerrit.server.project.testing.TestLabels.label;
+import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import com.google.common.collect.ImmutableList;
@@ -36,9 +37,9 @@ import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
@@ -46,9 +47,8 @@ import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.project.testing.Util;
+import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.inject.Inject;
 import java.util.EnumSet;
 import java.util.List;
@@ -62,6 +62,7 @@ import org.junit.Test;
 
 @NoHttpd
 public class StickyApprovalsIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   @Before
@@ -70,7 +71,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       // Overwrite "Code-Review" label that is inherited from All-Projects.
       // This way changes to the "Code Review" label don't affect other tests.
       LabelType codeReview =
-          category(
+          label(
               "Code-Review",
               value(2, "Looks good to me, approved"),
               value(1, "Looks good to me, but someone else must approve"),
@@ -81,28 +82,26 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       u.getConfig().getLabelSections().put(codeReview.getName(), codeReview);
 
       LabelType verified =
-          category("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
+          label("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
       verified.setCopyAllScoresIfNoChange(false);
       u.getConfig().getLabelSections().put(verified.getName(), verified);
 
-      AccountGroup.UUID registeredUsers = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
-      String heads = RefNames.REFS_HEADS + "*";
-      Util.allow(
-          u.getConfig(),
-          Permission.forLabel(Util.codeReview().getName()),
-          -2,
-          2,
-          registeredUsers,
-          heads);
-      Util.allow(
-          u.getConfig(),
-          Permission.forLabel(Util.verified().getName()),
-          -1,
-          1,
-          registeredUsers,
-          heads);
       u.save();
     }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(TestLabels.codeReview().getName())
+                .ref(RefNames.REFS_HEADS + "*")
+                .group(REGISTERED_USERS)
+                .range(-2, 2))
+        .add(
+            allowLabel(TestLabels.verified().getName())
+                .ref(RefNames.REFS_HEADS + "*")
+                .group(REGISTERED_USERS)
+                .range(-1, 1))
+        .update();
   }
 
   @Test
@@ -120,7 +119,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
     for (ChangeKind changeKind :
         EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
-      testRepo.reset(getRemoteHead());
+      testRepo.reset(projectOperations.project(project).getHead("master"));
 
       String changeId = createChange(changeKind);
       vote(admin, changeId, -1, 1);
@@ -142,7 +141,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
     for (ChangeKind changeKind :
         EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
-      testRepo.reset(getRemoteHead());
+      testRepo.reset(projectOperations.project(project).getHead("master"));
 
       String changeId = createChange(changeKind);
       vote(admin, changeId, 2, 1);
@@ -179,7 +178,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     assertNotSticky(EnumSet.of(REWORK, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE));
 
     // check that votes are sticky when trivial rebase is done by cherry-pick
-    testRepo.reset(getRemoteHead());
+    testRepo.reset(projectOperations.project(project).getHead("master"));
     changeId = createChange().getChangeId();
     vote(admin, changeId, 2, 1);
     vote(user, changeId, -2, -1);
@@ -190,7 +189,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     assertVotes(c, user, -2, 0);
 
     // check that votes are not sticky when rework is done by cherry-pick
-    testRepo.reset(getRemoteHead());
+    testRepo.reset(projectOperations.project(project).getHead("master"));
     changeId = createChange().getChangeId();
     vote(admin, changeId, 2, 1);
     vote(user, changeId, -2, -1);
@@ -262,7 +261,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
     for (ChangeKind changeKind :
         EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
-      testRepo.reset(getRemoteHead());
+      testRepo.reset(projectOperations.project(project).getHead("master"));
 
       String changeId = createChange(changeKind);
       vote(admin, changeId, 2, 1);
@@ -370,7 +369,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
   private void assertNotSticky(Set<ChangeKind> changeKinds) throws Exception {
     for (ChangeKind changeKind : changeKinds) {
-      testRepo.reset(getRemoteHead());
+      testRepo.reset(projectOperations.project(project).getHead("master"));
 
       String changeId = createChange(changeKind);
       vote(admin, changeId, +2, 1);
@@ -461,7 +460,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
   private void trivialRebase(String changeId) throws Exception {
     requestScopeOperations.setApiUser(admin.id());
-    testRepo.reset(getRemoteHead());
+    testRepo.reset(projectOperations.project(project).getHead("master"));
     PushOneCommit push =
         pushFactory.create(
             admin.newIdent(),
@@ -527,7 +526,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
         assert_().fail("unexpected change kind: " + changeKind);
     }
 
-    testRepo.reset(getRemoteHead());
+    testRepo.reset(projectOperations.project(project).getHead("master"));
     PushOneCommit.Result r =
         pushFactory
             .create(

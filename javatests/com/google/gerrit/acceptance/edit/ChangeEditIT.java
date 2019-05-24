@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.edit;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMMIT;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
@@ -58,7 +59,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.project.testing.Util;
+import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.restapi.change.ChangeEdits.EditMessage;
 import com.google.gerrit.server.restapi.change.ChangeEdits.Post;
 import com.google.gerrit.server.restapi.change.ChangeEdits.Put;
@@ -600,7 +601,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   public void editCommitMessageCopiesLabelScores() throws Exception {
     String cr = "Code-Review";
     try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType codeReview = Util.codeReview();
+      LabelType codeReview = TestLabels.codeReview();
       codeReview.setCopyAllScoresIfNoCodeChange(true);
       u.getConfig().getLabelSections().put(cr, codeReview);
       u.save();
@@ -693,7 +694,11 @@ public class ChangeEditIT extends AbstractDaemonTest {
     TestRepository<InMemoryRepository> userTestRepo = cloneProject(p, user);
 
     // Block default permission
-    block(p, "refs/for/*", Permission.ADD_PATCH_SET, REGISTERED_USERS);
+    projectOperations
+        .project(p)
+        .forUpdate()
+        .add(block(Permission.ADD_PATCH_SET).ref("refs/for/*").group(REGISTERED_USERS))
+        .update();
 
     // Create change as user
     PushOneCommit push = pushFactory.create(user.newIdent(), userTestRepo);

@@ -22,6 +22,9 @@ import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.api.group.GroupAssert.assertGroupInfo;
 import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAccountInfos;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
@@ -44,6 +47,7 @@ import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -86,8 +90,6 @@ import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.index.group.StalenessChecker;
 import com.google.gerrit.server.notedb.Sequences;
-import com.google.gerrit.server.project.ProjectConfig;
-import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.GerritJUnit.ThrowingRunnable;
@@ -133,6 +135,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Inject private Groups groups;
   @Inject private GroupsConsistencyChecker consistencyChecker;
   @Inject private PeriodicGroupIndexer slaveGroupIndexer;
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private Sequences seq;
   @Inject private StalenessChecker stalenessChecker;
@@ -1044,7 +1047,10 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void pushToGroupNamesBranchIsRejectedForAllUsersRepo() throws Exception {
     // refs/meta/group-names isn't usually available for fetch, so grant ACCESS_DATABASE
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
     assertPushToGroupBranch(allUsers, RefNames.REFS_GROUPNAMES, "group update not allowed");
   }
 
@@ -1074,15 +1080,18 @@ public class GroupsIT extends AbstractDaemonTest {
 
   private void assertPushToGroupBranch(
       Project.NameKey project, String groupRefName, String expectedErrorOnUpdate) throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      ProjectConfig cfg = u.getConfig();
-      Util.allow(cfg, Permission.CREATE, REGISTERED_USERS, RefNames.REFS_GROUPS + "*");
-      Util.allow(cfg, Permission.PUSH, REGISTERED_USERS, RefNames.REFS_GROUPS + "*");
-      Util.allow(cfg, Permission.CREATE, REGISTERED_USERS, RefNames.REFS_DELETED_GROUPS + "*");
-      Util.allow(cfg, Permission.PUSH, REGISTERED_USERS, RefNames.REFS_DELETED_GROUPS + "*");
-      Util.allow(cfg, Permission.PUSH, REGISTERED_USERS, RefNames.REFS_GROUPNAMES);
-      u.save();
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref(RefNames.REFS_GROUPS + "*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref(RefNames.REFS_GROUPS + "*").group(REGISTERED_USERS))
+        .add(
+            allow(Permission.CREATE)
+                .ref(RefNames.REFS_DELETED_GROUPS + "*")
+                .group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref(RefNames.REFS_DELETED_GROUPS + "*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref(RefNames.REFS_GROUPNAMES).group(REGISTERED_USERS))
+        .update();
 
     TestRepository<InMemoryRepository> repo = cloneProject(project);
 
@@ -1101,12 +1110,12 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   private void assertCreateGroupBranch(Project.NameKey project) throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      ProjectConfig cfg = u.getConfig();
-      Util.allow(cfg, Permission.CREATE, REGISTERED_USERS, RefNames.REFS_GROUPS + "*");
-      Util.allow(cfg, Permission.PUSH, REGISTERED_USERS, RefNames.REFS_GROUPS + "*");
-      u.save();
-    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref(RefNames.REFS_GROUPS + "*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref(RefNames.REFS_GROUPS + "*").group(REGISTERED_USERS))
+        .update();
     TestRepository<InMemoryRepository> repo = cloneProject(project);
     PushOneCommit.Result r =
         pushFactory
@@ -1187,15 +1196,22 @@ public class GroupsIT extends AbstractDaemonTest {
       }
 
       // refs/meta/group-names is only visible with ACCESS_DATABASE
-      allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+      projectOperations
+          .allProjectsForUpdate()
+          .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+          .update();
 
       testCannotCreateGroupBranch(RefNames.REFS_GROUPNAMES, RefNames.REFS_GROUPNAMES);
     }
   }
 
   private void testCannotCreateGroupBranch(String refPattern, String groupRef) throws Exception {
-    grant(allUsers, refPattern, Permission.CREATE);
-    grant(allUsers, refPattern, Permission.PUSH);
+    projectOperations
+        .project(allUsers)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref(refPattern).group(adminGroupUuid()))
+        .add(allow(Permission.PUSH).ref(refPattern).group(adminGroupUuid()))
+        .update();
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     PushOneCommit.Result r = pushFactory.create(admin.newIdent(), allUsersRepo).to(groupRef);
@@ -1222,13 +1238,20 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void cannotDeleteGroupNamesBranch() throws Exception {
     // refs/meta/group-names is only visible with ACCESS_DATABASE
-    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
+        .update();
 
     testCannotDeleteGroupBranch(RefNames.REFS_GROUPNAMES, RefNames.REFS_GROUPNAMES);
   }
 
   private void testCannotDeleteGroupBranch(String refPattern, String groupRef) throws Exception {
-    grant(allUsers, refPattern, Permission.DELETE, true, REGISTERED_USERS);
+    projectOperations
+        .project(allUsers)
+        .forUpdate()
+        .add(allow(Permission.DELETE).ref(refPattern).group(REGISTERED_USERS).force(true))
+        .update();
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     PushResult r = deleteRef(allUsersRepo, groupRef);
@@ -1411,8 +1434,16 @@ public class GroupsIT extends AbstractDaemonTest {
 
   private void pushToGroupBranchForReviewAndSubmit(
       Project.NameKey project, String groupRef, String expectedError) throws Throwable {
-    grantLabel("Code-Review", -2, 2, project, RefNames.REFS_GROUPS + "*", REGISTERED_USERS, false);
-    grant(project, RefNames.REFS_GROUPS + "*", Permission.SUBMIT, false, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel("Code-Review")
+                .ref(RefNames.REFS_GROUPS + "*")
+                .group(REGISTERED_USERS)
+                .range(-2, 2))
+        .add(allow(Permission.SUBMIT).ref(RefNames.REFS_GROUPS + "*").group(REGISTERED_USERS))
+        .update();
 
     TestRepository<InMemoryRepository> repo = cloneProject(project);
     fetch(repo, groupRef + ":groupRef");

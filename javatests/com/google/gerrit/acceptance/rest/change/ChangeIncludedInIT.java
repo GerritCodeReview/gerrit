@@ -15,19 +15,24 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.reviewdb.client.BranchNameKey;
+import com.google.inject.Inject;
 import org.junit.Test;
 
 @NoHttpd
 public class ChangeIncludedInIT extends AbstractDaemonTest {
+
+  @Inject private ProjectOperations projectOperations;
 
   @Test
   public void includedInOpenChange() throws Exception {
@@ -49,7 +54,11 @@ public class ChangeIncludedInIT extends AbstractDaemonTest {
         .containsExactly("master");
     assertThat(gApi.changes().id(result.getChangeId()).includedIn().tags).isEmpty();
 
-    grant(project, R_TAGS + "*", Permission.CREATE_TAG);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE_TAG).ref(R_TAGS + "*").group(adminGroupUuid()))
+        .update();
     gApi.projects().name(project.get()).tag("test-tag").create(new TagInput());
 
     assertThat(gApi.changes().id(result.getChangeId()).includedIn().tags)

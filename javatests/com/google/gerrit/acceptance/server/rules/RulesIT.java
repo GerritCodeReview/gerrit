@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
@@ -41,6 +42,7 @@ public class RulesIT extends AbstractDaemonTest {
   private static final String RULE_TEMPLATE =
       "submit_rule(submit(W)) :- \n" + "%s,\n" + "W = label('OK', ok(user(1000000))).";
 
+  @Inject private ProjectOperations projectOperations;
   @Inject private SubmitRuleEvaluator.Factory evaluatorFactory;
 
   @Before
@@ -85,7 +87,7 @@ public class RulesIT extends AbstractDaemonTest {
   }
 
   private SubmitRecord.Status statusForRule() throws Exception {
-    String oldHead = getRemoteHead().name();
+    String oldHead = projectOperations.project(project).getHead("master").name();
     PushOneCommit.Result result1 =
         pushFactory.create(user.newIdent(), testRepo).to("refs/for/master");
     testRepo.reset(oldHead);

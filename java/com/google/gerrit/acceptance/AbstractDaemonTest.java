@@ -24,9 +24,8 @@ import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.NON_VISIBLE_CHANGES;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
-import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.project.testing.Util.category;
-import static com.google.gerrit.server.project.testing.Util.value;
+import static com.google.gerrit.server.project.testing.TestLabels.label;
+import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
@@ -38,13 +37,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Streams;
 import com.google.common.jimfs.Jimfs;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
-import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
-import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
@@ -125,7 +121,6 @@ import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.TestServerPlugin;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
-import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.change.Revisions;
@@ -161,7 +156,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -276,9 +270,6 @@ public abstract class AbstractDaemonTest {
   protected Description description;
   protected boolean testRequiresSsh;
   protected BlockStrategy noSleepBlockStrategy = t -> {}; // Don't sleep in tests.
-
-  // TODO(dborowitz): Push down into callers that need it.
-  @Inject protected ProjectOperations projectOperations;
 
   @Inject private AbstractChangeNotes.Args changeNotesArgs;
   @Inject private AccountIndexCollection accountIndexes;
@@ -882,60 +873,6 @@ public abstract class AbstractDaemonTest {
     return gApi.changes().id(r.getChangeId()).current();
   }
 
-  protected void allow(String ref, String permission, AccountGroup.UUID id) throws Exception {
-    allow(project, ref, permission, id);
-  }
-
-  protected void allow(Project.NameKey p, String ref, String permission, AccountGroup.UUID id) {
-    projectOperations
-        .project(p)
-        .forUpdate()
-        .add(TestProjectUpdate.allow(permission).ref(ref).group(id))
-        .update();
-  }
-
-  protected void allowGlobalCapabilities(
-      AccountGroup.UUID id, int min, int max, String... capabilityNames) throws Exception {
-    // TODO(dborowitz): When inlining:
-    // * add a variant that takes a single String
-    // * explicitly add multiple values in callers instead of looping
-    TestProjectUpdate.Builder b = projectOperations.project(allProjects).forUpdate();
-    Arrays.stream(capabilityNames)
-        .forEach(c -> b.add(TestProjectUpdate.allowCapability(c).group(id).range(min, max)));
-    b.update();
-  }
-
-  protected void allowGlobalCapabilities(AccountGroup.UUID id, String... capabilityNames)
-      throws Exception {
-    allowGlobalCapabilities(id, Arrays.asList(capabilityNames));
-  }
-
-  protected void allowGlobalCapabilities(AccountGroup.UUID id, Iterable<String> capabilityNames)
-      throws Exception {
-    // TODO(dborowitz): When inlining:
-    // * add a variant that takes a single String
-    // * explicitly add multiple values in callers instead of looping
-    TestProjectUpdate.Builder b = projectOperations.project(allProjects).forUpdate();
-    Streams.stream(capabilityNames)
-        .forEach(c -> b.add(TestProjectUpdate.allowCapability(c).group(id)));
-    b.update();
-  }
-
-  protected void removeGlobalCapabilities(AccountGroup.UUID id, String... capabilityNames)
-      throws Exception {
-    removeGlobalCapabilities(id, Arrays.asList(capabilityNames));
-  }
-
-  protected void removeGlobalCapabilities(AccountGroup.UUID id, Iterable<String> capabilityNames)
-      throws Exception {
-    try (ProjectConfigUpdate u = updateProject(allProjects)) {
-      for (String capabilityName : capabilityNames) {
-        Util.remove(u.getConfig(), capabilityName, id);
-      }
-      u.save();
-    }
-  }
-
   protected void setUseSignedOffBy(InheritableBoolean value) throws Exception {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
       ProjectConfig config = projectConfigFactory.read(md);
@@ -952,108 +889,6 @@ public abstract class AbstractDaemonTest {
       config.commit(md);
       projectCache.evict(config.getProject());
     }
-  }
-
-  protected void deny(String ref, String permission, AccountGroup.UUID id) throws Exception {
-    deny(project, ref, permission, id);
-  }
-
-  protected void deny(Project.NameKey p, String ref, String permission, AccountGroup.UUID id)
-      throws Exception {
-    projectOperations
-        .project(p)
-        .forUpdate()
-        .add(TestProjectUpdate.deny(permission).ref(ref).group(id))
-        .update();
-  }
-
-  protected void block(String ref, String permission, AccountGroup.UUID id) throws Exception {
-    block(project, ref, permission, id);
-  }
-
-  protected void block(Project.NameKey project, String ref, String permission, AccountGroup.UUID id)
-      throws Exception {
-    projectOperations
-        .project(project)
-        .forUpdate()
-        .add(TestProjectUpdate.block(permission).ref(ref).group(id))
-        .update();
-  }
-
-  protected void blockLabel(
-      String label, int min, int max, AccountGroup.UUID id, String ref, Project.NameKey project)
-      throws Exception {
-    projectOperations
-        .project(project)
-        .forUpdate()
-        .add(TestProjectUpdate.blockLabel(label).ref(ref).group(id).range(min, max))
-        .update();
-  }
-
-  protected void grant(Project.NameKey project, String ref, String permission) {
-    projectOperations
-        .project(project)
-        .forUpdate()
-        .add(TestProjectUpdate.allow(permission).ref(ref).group(adminGroupUuid()))
-        .update();
-  }
-
-  protected void grant(Project.NameKey project, String ref, String permission, boolean force) {
-    projectOperations
-        .project(project)
-        .forUpdate()
-        .add(TestProjectUpdate.allow(permission).ref(ref).group(adminGroupUuid()).force(force))
-        .update();
-  }
-
-  protected void grant(
-      Project.NameKey project,
-      String ref,
-      String permission,
-      boolean force,
-      AccountGroup.UUID groupUUID) {
-    projectOperations
-        .project(project)
-        .forUpdate()
-        .add(TestProjectUpdate.allow(permission).ref(ref).group(groupUUID).force(force))
-        .update();
-  }
-
-  protected void grantLabel(
-      String label,
-      int min,
-      int max,
-      Project.NameKey project,
-      String ref,
-      AccountGroup.UUID groupUUID,
-      boolean exclusive) {
-    projectOperations
-        .project(project)
-        .forUpdate()
-        .add(
-            TestProjectUpdate.allowLabel(label)
-                .ref(ref)
-                .group(groupUUID)
-                .range(min, max)
-                .exclusive(exclusive))
-        .update();
-  }
-
-  protected void removePermission(Project.NameKey project, String ref, String permission)
-      throws IOException, ConfigInvalidException {
-    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
-      md.setMessage(String.format("Remove %s on %s", permission, ref));
-      ProjectConfig config = projectConfigFactory.read(md);
-      AccessSection s = config.getAccessSection(ref, true);
-      Permission p = s.getPermission(permission, true);
-      p.clearRules();
-      config.commit(md);
-      projectCache.evict(config.getProject());
-    }
-  }
-
-  protected void blockRead(String ref) throws Exception {
-    block(ref, Permission.READ, REGISTERED_USERS);
   }
 
   protected PushOneCommit.Result pushTo(String ref) throws Exception {
@@ -1118,15 +953,6 @@ public abstract class AbstractDaemonTest {
       Ref r = repo.exactRef(name);
       return rw.parseCommit(r.getObjectId());
     }
-  }
-
-  // TODO(hanwen): push this down.
-  protected RevCommit getRemoteHead(Project.NameKey project, String branch) throws Exception {
-    return projectOperations.project(project).getHead(branch);
-  }
-
-  protected RevCommit getRemoteHead() throws Exception {
-    return getRemoteHead(project, "master");
   }
 
   protected void assertMailReplyTo(Message message, String email) throws Exception {
@@ -1500,7 +1326,7 @@ public abstract class AbstractDaemonTest {
       LabelValue... value)
       throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType labelType = category(label, value);
+      LabelType labelType = label(label, value);
       labelType.setFunction(func);
       labelType.setRefPatterns(refPatterns);
       u.getConfig().getLabelSections().put(labelType.getName(), labelType);

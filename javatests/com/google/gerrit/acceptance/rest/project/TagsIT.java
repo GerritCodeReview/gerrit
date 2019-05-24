@@ -15,6 +15,8 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
@@ -24,6 +26,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
@@ -59,6 +62,7 @@ public class TagsIT extends AbstractDaemonTest {
           + "=XFeC\n"
           + "-----END PGP SIGNATURE-----";
 
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test
@@ -76,7 +80,11 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void listTagsOfNonVisibleProject() throws Exception {
-    blockRead("refs/*");
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
     requestScopeOperations.setApiUser(user.id());
     assertThrows(
         ResourceNotFoundException.class, () -> gApi.projects().name(project.get()).tags().get());
@@ -84,7 +92,11 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void getTagOfNonVisibleProject() throws Exception {
-    blockRead("refs/*");
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
     assertThrows(
         ResourceNotFoundException.class,
         () -> gApi.projects().name(project.get()).tag("tag").get());
@@ -162,7 +174,11 @@ public class TagsIT extends AbstractDaemonTest {
     assertThat(tags.get(1).ref).isEqualTo(R_TAGS + tag2.ref);
     assertThat(tags.get(1).revision).isEqualTo(tag2.revision);
 
-    blockRead("refs/heads/hidden");
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/heads/hidden").group(REGISTERED_USERS))
+        .update();
     tags = getTags().get();
     assertThat(tags).hasSize(1);
     assertThat(tags.get(0).ref).isEqualTo(R_TAGS + tag1.ref);
@@ -257,7 +273,11 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void createTagNotAllowed() throws Exception {
-    block(R_TAGS + "*", Permission.CREATE, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.CREATE).ref(R_TAGS + "*").group(REGISTERED_USERS))
+        .update();
     TagInput input = new TagInput();
     input.ref = "test";
     AuthException thrown = assertThrows(AuthException.class, () -> tag(input.ref).create(input));
@@ -266,7 +286,11 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void createAnnotatedTagNotAllowed() throws Exception {
-    block(R_TAGS + "*", Permission.CREATE_TAG, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.CREATE_TAG).ref(R_TAGS + "*").group(REGISTERED_USERS))
+        .update();
     TagInput input = new TagInput();
     input.ref = "test";
     input.message = "annotation";
@@ -374,9 +398,13 @@ public class TagsIT extends AbstractDaemonTest {
   }
 
   private void grantTagPermissions() throws Exception {
-    grant(project, R_TAGS + "*", Permission.CREATE);
-    grant(project, R_TAGS + "", Permission.DELETE);
-    grant(project, R_TAGS + "*", Permission.CREATE_TAG);
-    grant(project, R_TAGS + "*", Permission.CREATE_SIGNED_TAG);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref(R_TAGS + "*").group(adminGroupUuid()))
+        .add(allow(Permission.DELETE).ref(R_TAGS + "").group(adminGroupUuid()))
+        .add(allow(Permission.CREATE_TAG).ref(R_TAGS + "*").group(adminGroupUuid()))
+        .add(allow(Permission.CREATE_SIGNED_TAG).ref(R_TAGS + "*").group(adminGroupUuid()))
+        .update();
   }
 }

@@ -18,12 +18,15 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.inject.Inject;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
 public class SubmitByRebaseIfNecessaryIT extends AbstractSubmitByRebase {
+  @Inject private ProjectOperations projectOperations;
 
   @Override
   protected SubmitType getSubmitType() {
@@ -33,10 +36,10 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmitByRebase {
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
   public void submitWithFastForward() throws Throwable {
-    RevCommit oldHead = getRemoteHead();
+    RevCommit oldHead = projectOperations.project(project).getHead("master");
     PushOneCommit.Result change = createChange();
     submit(change.getChangeId());
-    RevCommit head = getRemoteHead();
+    RevCommit head = projectOperations.project(project).getHead("master");
     assertThat(head.getId()).isEqualTo(change.getCommit());
     assertThat(head.getParent(0)).isEqualTo(oldHead);
     assertApproved(change.getChangeId());
@@ -51,19 +54,19 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmitByRebase {
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
   public void submitWithContentMerge() throws Throwable {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "aaa\nbbb\nccc\n");
     submit(change.getChangeId());
-    RevCommit headAfterFirstSubmit = getRemoteHead();
+    RevCommit headAfterFirstSubmit = projectOperations.project(project).getHead("master");
     PushOneCommit.Result change2 = createChange("Change 2", "a.txt", "aaa\nbbb\nccc\nddd\n");
     submit(change2.getChangeId());
 
-    RevCommit headAfterSecondSubmit = getRemoteHead();
+    RevCommit headAfterSecondSubmit = projectOperations.project(project).getHead("master");
     testRepo.reset(change.getCommit());
     PushOneCommit.Result change3 = createChange("Change 3", "a.txt", "bbb\nccc\n");
     submit(change3.getChangeId());
     assertRebase(testRepo, true);
-    RevCommit headAfterThirdSubmit = getRemoteHead();
+    RevCommit headAfterThirdSubmit = projectOperations.project(project).getHead("master");
     assertThat(headAfterThirdSubmit.getParent(0)).isEqualTo(headAfterSecondSubmit);
     assertApproved(change3.getChangeId());
     assertCurrentRevision(change3.getChangeId(), 2, headAfterThirdSubmit);

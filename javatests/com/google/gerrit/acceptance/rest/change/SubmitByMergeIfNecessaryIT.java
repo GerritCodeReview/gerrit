@@ -16,6 +16,9 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
@@ -65,10 +68,10 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void submitWithFastForward() throws Throwable {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
     PushOneCommit.Result change = createChange();
     submit(change.getChangeId());
-    RevCommit updatedHead = getRemoteHead();
+    RevCommit updatedHead = projectOperations.project(project).getHead("master");
     assertThat(updatedHead.getId()).isEqualTo(change.getCommit());
     assertThat(updatedHead.getParent(0)).isEqualTo(initialHead);
     assertSubmitter(change.getChangeId(), 1);
@@ -81,7 +84,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void submitMultipleChanges() throws Throwable {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
 
     testRepo.reset(initialHead);
     PushOneCommit.Result change = createChange("Change 1", "b", "b");
@@ -142,8 +145,8 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     Project.NameKey p2 = projectOperations.newProject().create();
     Project.NameKey p3 = projectOperations.newProject().create();
 
-    RevCommit initialHead2 = getRemoteHead(p2, "master");
-    RevCommit initialHead3 = getRemoteHead(p3, "master");
+    RevCommit initialHead2 = projectOperations.project(p2).getHead("master");
+    RevCommit initialHead3 = projectOperations.project(p3).getHead("master");
 
     TestRepository<?> repo1 = cloneProject(p1);
     TestRepository<?> repo2 = cloneProject(p2);
@@ -223,9 +226,9 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     TestRepository<?> repo2 = cloneProject(p2);
     TestRepository<?> repo3 = cloneProject(p3);
 
-    RevCommit initialHead1 = getRemoteHead(p1, "master");
-    RevCommit initialHead2 = getRemoteHead(p2, "master");
-    RevCommit initialHead3 = getRemoteHead(p3, "master");
+    RevCommit initialHead1 = projectOperations.project(p1).getHead("master");
+    RevCommit initialHead2 = projectOperations.project(p2).getHead("master");
+    RevCommit initialHead3 = projectOperations.project(p3).getHead("master");
 
     PushOneCommit.Result change1a =
         createChange(
@@ -312,12 +315,12 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void submitWithMergedAncestorsOnOtherBranch() throws Throwable {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
 
     PushOneCommit.Result change1 =
         createChange(testRepo, "master", "base commit", "a.txt", "1", "");
     submit(change1.getChangeId());
-    RevCommit headAfterFirstSubmit = getRemoteHead();
+    RevCommit headAfterFirstSubmit = projectOperations.project(project).getHead("master");
 
     gApi.projects().name(project.get()).branch("branch").create(new BranchInput());
 
@@ -361,11 +364,11 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void submitWithOpenAncestorsOnOtherBranch() throws Throwable {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
     PushOneCommit.Result change1 =
         createChange(testRepo, "master", "base commit", "a.txt", "1", "");
     submit(change1.getChangeId());
-    RevCommit headAfterFirstSubmit = getRemoteHead();
+    RevCommit headAfterFirstSubmit = projectOperations.project(project).getHead("master");
 
     gApi.projects().name(project.get()).branch("branch").create(new BranchInput());
 
@@ -393,7 +396,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     Project.NameKey p3 = projectOperations.newProject().create();
     TestRepository<?> repo3 = cloneProject(p3);
-    RevCommit repo3Head = getRemoteHead(p3, "master");
+    RevCommit repo3Head = projectOperations.project(p3).getHead("master");
     PushOneCommit.Result change3b =
         createChange(
             repo3,
@@ -434,7 +437,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void gerritWorkflow() throws Throwable {
-    RevCommit initialHead = getRemoteHead();
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
 
     // We'll setup a master and a stable branch.
     // Then we create a change to be applied to master, which is
@@ -460,8 +463,8 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     gApi.changes().id(cherryId).current().submit();
 
     // Create the merge locally
-    RevCommit stable = getRemoteHead(project, "stable");
-    RevCommit master = getRemoteHead(project, "master");
+    RevCommit stable = projectOperations.project(project).getHead("stable");
+    RevCommit master = projectOperations.project(project).getHead("master");
     testRepo.git().fetch().call();
     testRepo.git().branchCreate().setName("stable").setStartPoint(stable).call();
     testRepo.git().branchCreate().setName("master").setStartPoint(master).call();
@@ -607,8 +610,12 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void dependencyOnChangeForNonVisibleBranchPreventsMerge() throws Throwable {
-    grantLabel("Code-Review", -2, 2, project, "refs/heads/*", REGISTERED_USERS, false);
-    grant(project, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-2, 2))
+        .add(allow(Permission.SUBMIT).ref("refs/*").group(REGISTERED_USERS))
+        .update();
 
     // Create a change
     PushOneCommit change = pushFactory.create(admin.newIdent(), testRepo, "fix", "a.txt", "foo");
@@ -628,7 +635,11 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         .branch(secretBranch.branch())
         .create(new BranchInput());
     gApi.changes().id(changeResult.getChangeId()).move(secretBranch.branch());
-    block(secretBranch.branch(), "read", ANONYMOUS_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block("read").ref(secretBranch.branch()).group(ANONYMOUS_USERS))
+        .update();
 
     requestScopeOperations.setApiUser(user.id());
 
@@ -661,8 +672,12 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void dependencyOnHiddenChangePreventsMerge() throws Throwable {
-    grantLabel("Code-Review", -2, 2, project, "refs/heads/*", REGISTERED_USERS, false);
-    grant(project, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-2, 2))
+        .add(allow(Permission.SUBMIT).ref("refs/*").group(REGISTERED_USERS))
+        .update();
 
     // Create a change
     PushOneCommit change = pushFactory.create(admin.newIdent(), testRepo, "fix", "a.txt", "foo");
@@ -714,10 +729,18 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     Project.NameKey p1 = projectOperations.newProject().create();
     Project.NameKey p2 = projectOperations.newProject().create();
 
-    grantLabel("Code-Review", -2, 2, p1, "refs/heads/*", REGISTERED_USERS, false);
-    grant(p1, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
-    grantLabel("Code-Review", -2, 2, p2, "refs/heads/*", REGISTERED_USERS, false);
-    grant(p2, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
+    projectOperations
+        .project(p1)
+        .forUpdate()
+        .add(allowLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-2, 2))
+        .add(allow(Permission.SUBMIT).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+    projectOperations
+        .project(p2)
+        .forUpdate()
+        .add(allowLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-2, 2))
+        .add(allow(Permission.SUBMIT).ref("refs/*").group(REGISTERED_USERS))
+        .update();
 
     TestRepository<?> repo1 = cloneProject(p1);
     TestRepository<?> repo2 = cloneProject(p2);

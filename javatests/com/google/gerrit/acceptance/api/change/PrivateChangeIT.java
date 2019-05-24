@@ -15,12 +15,14 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.client.ChangeStatus;
@@ -42,6 +44,7 @@ import org.junit.Test;
 
 public class PrivateChangeIT extends AbstractDaemonTest {
 
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test
@@ -167,7 +170,11 @@ public class PrivateChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result result = createChange();
     gApi.changes().id(result.getChangeId()).setPrivate(true, null);
 
-    allow("refs/*", Permission.VIEW_PRIVATE_CHANGES, REGISTERED_USERS);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.VIEW_PRIVATE_CHANGES).ref("refs/*").group(REGISTERED_USERS))
+        .update();
     requestScopeOperations.setApiUser(user.id());
     assertThat(gApi.changes().id(result.getChangeId()).get().isPrivate).isTrue();
   }

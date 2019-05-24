@@ -72,7 +72,7 @@ java_package_configuration(
         "-Xep:LiteralClassName:ERROR",
         "-Xep:MissingCasesInEnumSwitch:ERROR",
         "-Xep:MissingFail:ERROR",
-        #"-Xep:MissingOverride:ERROR",
+        "-Xep:MissingOverride:ERROR",
         "-Xep:MutableConstantField:ERROR",
         #"-Xep:NarrowingCompoundAssignment:ERROR",
         "-Xep:StringEquality:ERROR",

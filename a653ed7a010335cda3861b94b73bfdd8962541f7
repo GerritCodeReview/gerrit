@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59b14f46_a1487501",
+        "filename": "java/com/google/gerrit/pgm/init/api/Section.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-25T01:33:33Z",
+      "side": 1,
+      "message": "Eclipse doesn\u0027t like this:\n\n  The method allOf(Class\u003cE\u003e) in the type EnumSet is not applicable for the arguments (Class\u003ccapture#3-of ?\u003e)",
+      "revId": "a653ed7a010335cda3861b94b73bfdd8962541f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

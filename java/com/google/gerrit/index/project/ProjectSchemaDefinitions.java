@@ -20,24 +20,15 @@ import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaDefinitions;
 
 public class ProjectSchemaDefinitions extends SchemaDefinitions<ProjectData> {
-
-  @Deprecated
-  static final Schema<ProjectData> V1 =
+  static final Schema<ProjectData> V4 =
       schema(
-          ProjectField.NAME,
+          ProjectField.ANCESTOR_NAME,
           ProjectField.DESCRIPTION,
-          ProjectField.PARENT_NAME,
+          ProjectField.NAME,
           ProjectField.NAME_PART,
-          ProjectField.ANCESTOR_NAME);
-
-  @Deprecated
-  static final Schema<ProjectData> V2 = schema(V1, ProjectField.STATE, ProjectField.REF_STATE);
-
-  // Bump Lucene version requires reindexing
-  @Deprecated static final Schema<ProjectData> V3 = schema(V2);
-
-  // Lucene index was changed to add an additional field for sorting.
-  static final Schema<ProjectData> V4 = schema(V3);
+          ProjectField.PARENT_NAME,
+          ProjectField.REF_STATE,
+          ProjectField.STATE);
 
   public static final ProjectSchemaDefinitions INSTANCE = new ProjectSchemaDefinitions();
 

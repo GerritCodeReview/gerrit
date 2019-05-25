@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c978fc8_d3bfa990",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2409,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-25T02:21:33Z",
+      "side": 1,
+      "message": "Add \"TODO\" in these comments?",
+      "revId": "18d3ae7eac5294870739b39f4ae6345e2df7726c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

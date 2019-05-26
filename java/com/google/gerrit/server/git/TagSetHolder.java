@@ -17,8 +17,8 @@ package com.google.gerrit.server.git;
 import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.proto.Protos;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import java.util.Collection;

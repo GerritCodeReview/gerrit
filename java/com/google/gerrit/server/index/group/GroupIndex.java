@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.index.group;
 
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.query.group.GroupPredicates;
 

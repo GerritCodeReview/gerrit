@@ -15,7 +15,7 @@
 package com.google.gerrit.server.auth.ldap;
 
 import com.google.common.cache.LoadingCache;
-import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.project.ProjectCache;

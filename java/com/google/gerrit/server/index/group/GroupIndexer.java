@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.index.group;
 
-import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.entities.AccountGroup;
 
 public interface GroupIndexer {
 

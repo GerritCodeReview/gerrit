@@ -15,8 +15,8 @@
 package com.google.gerrit.server.index.change;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.index.IndexCollection;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Singleton;
 

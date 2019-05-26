@@ -17,8 +17,8 @@ package com.google.gerrit.server.account;
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.git.ValidationError;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;

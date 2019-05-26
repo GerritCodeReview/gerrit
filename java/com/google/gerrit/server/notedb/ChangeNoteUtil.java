@@ -16,7 +16,7 @@ package com.google.gerrit.server.notedb;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.inject.Inject;
 import java.util.Date;

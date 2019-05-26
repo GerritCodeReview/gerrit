@@ -15,7 +15,7 @@
 package com.google.gerrit.server;
 
 import com.google.auto.value.AutoValue;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.logging.TraceContext;
 import java.util.Optional;
 

@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.entities.FixReplacement;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.reviewdb.client.FixReplacement;
 import com.google.inject.TypeLiteral;
 import java.util.List;
 

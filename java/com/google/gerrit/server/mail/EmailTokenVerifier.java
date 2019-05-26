@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.mail;
 
-import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.mail.send.RegisterNewEmailSender;
 

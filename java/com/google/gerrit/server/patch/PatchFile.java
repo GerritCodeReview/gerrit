@@ -16,8 +16,8 @@ package com.google.gerrit.server.patch;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.exceptions.NoSuchEntityException;
-import com.google.gerrit.reviewdb.client.Patch;
 import java.io.IOException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;

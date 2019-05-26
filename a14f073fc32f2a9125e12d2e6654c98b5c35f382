@@ -1,0 +1,52 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f92bcc7_3b596478",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-05-26T19:41:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0d998f2_59ba957d",
+      "range": {
+        "startLine": 308,
+        "startChar": 0,
+        "endLine": 308,
+        "endChar": 3
+      },
+      "revId": "a14f073fc32f2a9125e12d2e6654c98b5c35f382",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c067a07_f3c376ea",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-05-26T19:41:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "beda5928_053a22c7",
+      "range": {
+        "startLine": 311,
+        "startChar": 66,
+        "endLine": 311,
+        "endChar": 66
+      },
+      "revId": "a14f073fc32f2a9125e12d2e6654c98b5c35f382",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -15,8 +15,8 @@
 package com.google.gerrit.server.group;
 
 import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.inject.TypeLiteral;
 
 public class SubgroupResource extends GroupResource {

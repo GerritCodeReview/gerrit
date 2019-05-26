@@ -15,8 +15,8 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.reviewdb.client.Change;
 
 /**
  * Exception indicating that the change has received too many updates. Further actions apart from

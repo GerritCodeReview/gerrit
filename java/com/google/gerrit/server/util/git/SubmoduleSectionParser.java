@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.util.git;
 
-import com.google.gerrit.reviewdb.client.BranchNameKey;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.SubmoduleSubscription;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashSet;

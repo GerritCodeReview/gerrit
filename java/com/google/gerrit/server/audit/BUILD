@@ -7,6 +7,7 @@ java_library(
     resources = ["//resources/com/google/gerrit/server"],
     visibility = ["//visibility:public"],
     deps = [
+        "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/index:query_exception",
@@ -14,7 +15,6 @@ java_library(
         "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/metrics",
         "//java/com/google/gerrit/prettify:server",
-        "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/ioutil",
         "//java/com/google/gerrit/server/logging",

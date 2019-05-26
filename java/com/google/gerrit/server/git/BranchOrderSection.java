@@ -15,7 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.entities.RefNames;
 import java.util.List;
 
 public class BranchOrderSection {

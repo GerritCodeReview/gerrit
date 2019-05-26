@@ -21,9 +21,9 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.resetToStrict;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.FactoryModule;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.quota.QuotaBackend;
 import com.google.gerrit.server.quota.QuotaEnforcer;

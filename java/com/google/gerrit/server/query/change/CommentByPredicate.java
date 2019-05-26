@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.Comment;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.ChangeMessage;
+import com.google.gerrit.entities.Comment;
 import com.google.gerrit.server.index.change.ChangeField;
 import java.util.Objects;
 

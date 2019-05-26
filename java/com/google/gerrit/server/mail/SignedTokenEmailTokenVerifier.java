@@ -17,7 +17,7 @@ package com.google.gerrit.server.mail;
 import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.mail.send.RegisterNewEmailSender;
 import com.google.inject.AbstractModule;

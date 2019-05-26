@@ -7,7 +7,7 @@ junit_tests(
     resources = ["//prologtests:gerrit_common_test"],
     deps = [
         "//java/com/google/gerrit/common:server",
-        "//java/com/google/gerrit/reviewdb:server",
+        "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/project/testing:project-test-util",
         "//java/com/google/gerrit/server/util/time",

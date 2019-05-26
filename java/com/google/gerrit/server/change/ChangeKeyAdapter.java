@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Key;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Change.Key;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -26,8 +26,8 @@ import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
 
 /**
- * Adapter that serializes {@link com.google.gerrit.reviewdb.client.Change.Key}'s {@code key} field
- * as {@code id}, for backwards compatibility in stream-events.
+ * Adapter that serializes {@link com.google.gerrit.entities.Change.Key}'s {@code key} field as
+ * {@code id}, for backwards compatibility in stream-events.
  */
 // TODO(dborowitz): auto-value-gson should support this directly using @SerializedName on the
 // AutoValue method.

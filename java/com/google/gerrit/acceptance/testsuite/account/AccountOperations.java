@@ -14,7 +14,7 @@
 
 package com.google.gerrit.acceptance.testsuite.account;
 
-import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.entities.Account;
 
 /**
  * An aggregation of operations on accounts for test purposes.

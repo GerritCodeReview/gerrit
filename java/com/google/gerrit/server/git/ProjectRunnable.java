@@ -13,7 +13,7 @@
 // limitations under the License.
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Project;
 
 /** Used to retrieve the project name from an operation * */
 public interface ProjectRunnable extends Runnable {

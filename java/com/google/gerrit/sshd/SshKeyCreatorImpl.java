@@ -15,8 +15,8 @@
 package com.google.gerrit.sshd;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.InvalidSshKeyException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.ssh.SshKeyCreator;
 import java.security.NoSuchAlgorithmException;

@@ -143,7 +143,8 @@ public class Schema_159_to_160_Test {
     prefs.signedOffBy = !firstNonNull(prefs.signedOffBy, false);
     gApi.config().server().setDefaultPreferences(prefs);
 
-    try (Repository repo = repoManager.openRepository(allUsersName)) {
+    try (Repository repo = repoManager.openRepository(allUsersName);
+        TestRepository<Repository> tr = new TestRepository<>(repo)) {
       Config cfg = new BlobBasedConfig(null, repo, readRef(REFS_USERS_DEFAULT).get(), PREFERENCES);
       assertThat(cfg.getSubsections("my")).containsExactlyElementsIn(defaultNames).inOrder();
 
@@ -152,11 +153,7 @@ public class Schema_159_to_160_Test {
       cfg.setString("my", "Drafts", "url", "#/q/owner:self+is:draft");
       cfg.setString("my", "Something else", "url", "#/q/owner:self+is:draft+is:mergeable");
       cfg.setString("my", "Totally not drafts", "url", "#/q/owner:self+is:draft");
-      new TestRepository<>(repo)
-          .branch(REFS_USERS_DEFAULT)
-          .commit()
-          .add(PREFERENCES, cfg.toText())
-          .create();
+      tr.branch(REFS_USERS_DEFAULT).commit().add(PREFERENCES, cfg.toText()).create();
     }
 
     List<String> oldNames =

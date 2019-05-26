@@ -192,9 +192,9 @@ public class DashboardIT extends AbstractDaemonTest {
         throw e;
       }
     }
-    try (Repository r = repoManager.openRepository(project)) {
-      TestRepository<Repository>.CommitBuilder cb =
-          new TestRepository<>(r).branch(canonicalRef).commit();
+    try (Repository r = repoManager.openRepository(project);
+        TestRepository<Repository> tr = new TestRepository<>(r)) {
+      TestRepository<Repository>.CommitBuilder cb = tr.branch(canonicalRef).commit();
       StringBuilder content = new StringBuilder("[dashboard]\n");
       if (info.title != null) {
         content.append("title = ").append(info.title).append("\n");

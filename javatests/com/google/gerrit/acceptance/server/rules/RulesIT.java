@@ -26,7 +26,6 @@ import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import java.util.Collection;
-import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
@@ -107,8 +106,8 @@ public class RulesIT extends AbstractDaemonTest {
   private void modifySubmitRules(String ruleTested) throws Exception {
     String newContent = String.format(RULE_TEMPLATE, ruleTested);
 
-    try (Repository repo = repoManager.openRepository(project)) {
-      TestRepository<?> testRepo = new TestRepository<>((InMemoryRepository) repo);
+    try (Repository repo = repoManager.openRepository(project);
+        TestRepository<Repository> testRepo = new TestRepository<>(repo)) {
       testRepo
           .branch(RefNames.REFS_CONFIG)
           .commit()

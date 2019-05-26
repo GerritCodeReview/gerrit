@@ -116,9 +116,9 @@ public class NoteDbSchemaUpdaterTest {
 
       @Override
       public void create() throws IOException {
-        try (Repository repo = repoManager.createRepository(allProjectsName)) {
+        try (Repository repo = repoManager.createRepository(allProjectsName);
+            TestRepository<Repository> tr = new TestRepository<>(repo)) {
           if (initialVersion.isPresent()) {
-            TestRepository<?> tr = new TestRepository<>(repo);
             tr.update(RefNames.REFS_VERSION, tr.blob(initialVersion.get().toString()));
           }
         } catch (Exception e) {

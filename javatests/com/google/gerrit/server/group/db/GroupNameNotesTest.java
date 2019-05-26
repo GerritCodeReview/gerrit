@@ -441,35 +441,36 @@ public class GroupNameNotesTest {
     GroupReference g1 = newGroup("a");
     GroupReference g2 = newGroup("b");
 
-    TestRepository<?> tr = new TestRepository<>(repo);
-    ObjectId k1 = getNoteKey(g1);
-    ObjectId k2 = getNoteKey(g2);
-    ObjectId k3 = GroupNameNotes.getNoteKey(AccountGroup.nameKey("c"));
-    PersonIdent ident = newPersonIdent();
-    ObjectId origCommitId =
-        tr.branch(REFS_GROUPNAMES)
-            .commit()
-            .message("Prepopulate group name")
-            .author(ident)
-            .committer(ident)
-            .add(k1.name(), "[group]\n\tuuid = a-1\n\tname = a\nanotherKey = foo\n")
-            .add(k2.name(), "[group]\n\tuuid = a-1\n\tname = b\n")
-            .add(k3.name(), "[group]\n\tuuid = c-3\n\tname = c\n")
-            .create()
-            .copy();
+    try (TestRepository<Repository> tr = new TestRepository<>(repo)) {
+      ObjectId k1 = getNoteKey(g1);
+      ObjectId k2 = getNoteKey(g2);
+      ObjectId k3 = GroupNameNotes.getNoteKey(AccountGroup.nameKey("c"));
+      PersonIdent ident = newPersonIdent();
+      ObjectId origCommitId =
+          tr.branch(REFS_GROUPNAMES)
+              .commit()
+              .message("Prepopulate group name")
+              .author(ident)
+              .committer(ident)
+              .add(k1.name(), "[group]\n\tuuid = a-1\n\tname = a\nanotherKey = foo\n")
+              .add(k2.name(), "[group]\n\tuuid = a-1\n\tname = b\n")
+              .add(k3.name(), "[group]\n\tuuid = c-3\n\tname = c\n")
+              .create()
+              .copy();
 
-    ident = newPersonIdent();
-    updateAllGroups(ident, g1, g2);
+      ident = newPersonIdent();
+      updateAllGroups(ident, g1, g2);
 
-    assertThat(GroupNameNotes.loadAllGroups(repo)).containsExactly(g1, g2);
+      assertThat(GroupNameNotes.loadAllGroups(repo)).containsExactly(g1, g2);
 
-    ImmutableList<CommitInfo> log = log();
-    assertThat(log).hasSize(2);
-    assertThat(log.get(0)).commit().isEqualTo(origCommitId.name());
+      ImmutableList<CommitInfo> log = log();
+      assertThat(log).hasSize(2);
+      assertThat(log.get(0)).commit().isEqualTo(origCommitId.name());
 
-    assertThat(log.get(1)).message().isEqualTo("Store 2 group names");
-    assertThat(log.get(1)).author().matches(ident);
-    assertThat(log.get(1)).committer().matches(ident);
+      assertThat(log.get(1)).message().isEqualTo("Store 2 group names");
+      assertThat(log.get(1)).author().matches(ident);
+      assertThat(log.get(1)).committer().matches(ident);
+    }
 
     // Old note content was overwritten.
     assertThat(readNameNote(g1)).isEqualTo("[group]\n\tuuid = a-1\n\tname = a\n");

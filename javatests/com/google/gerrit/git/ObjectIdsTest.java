@@ -27,6 +27,7 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.junit.Test;
 
@@ -135,13 +136,14 @@ public class ObjectIdsTest {
   private static ObjectReader newReaderWithAmbiguousIds() throws Exception {
     // Recipe for creating ambiguous IDs courtesy of git core:
     // https://github.com/git/git/blob/df799f5d99ac51d4fc791d546de3f936088582fc/t/t1512-rev-parse-disambiguation.sh
-    TestRepository<?> tr =
-        new TestRepository<>(new InMemoryRepository(new DfsRepositoryDescription("repo")));
-    String blobData = "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n\nb1rwzyc3\n";
-    RevBlob blob = tr.blob(blobData);
-    assertThat(blob.name()).isEqualTo(AMBIGUOUS_BLOB_ID.name());
-    assertThat(tr.tree(tr.file("a0blgqsjc", blob)).name()).isEqualTo(AMBIGUOUS_TREE_ID.name());
-    return tr.getRevWalk().getObjectReader();
+    try (TestRepository<Repository> tr =
+        new TestRepository<>(new InMemoryRepository(new DfsRepositoryDescription("repo")))) {
+      String blobData = "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n\nb1rwzyc3\n";
+      RevBlob blob = tr.blob(blobData);
+      assertThat(blob.name()).isEqualTo(AMBIGUOUS_BLOB_ID.name());
+      assertThat(tr.tree(tr.file("a0blgqsjc", blob)).name()).isEqualTo(AMBIGUOUS_TREE_ID.name());
+      return tr.getRevWalk().getObjectReader();
+    }
   }
 
   private static class MyObjectId extends ObjectId {

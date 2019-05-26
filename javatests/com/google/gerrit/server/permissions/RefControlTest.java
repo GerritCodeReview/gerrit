@@ -199,8 +199,9 @@ public class RefControlTest {
     // Clear out All-Projects and use the lowest-level API possible for project creation, so the
     // only ACL entries are exactly what is initialized by this test, and we aren't subject to
     // changing defaults in SchemaCreator or ProjectCreator.
-    try (Repository allProjectsRepo = repoManager.createRepository(allProjectsName)) {
-      new TestRepository<>(allProjectsRepo).delete(REFS_CONFIG);
+    try (Repository allProjectsRepo = repoManager.createRepository(allProjectsName);
+        TestRepository<Repository> tr = new TestRepository<>(allProjectsRepo)) {
+      tr.delete(REFS_CONFIG);
       try (MetaDataUpdate md = metaDataUpdateFactory.create(allProjectsName)) {
         ProjectConfig allProjectsConfig = projectConfigFactory.create(allProjectsName);
         allProjectsConfig.load(md);

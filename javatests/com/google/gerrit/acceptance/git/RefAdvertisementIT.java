@@ -427,8 +427,8 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Test
   public void receivePackOmitsMissingObject() throws Exception {
     String rev = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
-    try (Repository repo = repoManager.openRepository(project)) {
-      TestRepository<?> tr = new TestRepository<>(repo);
+    try (Repository repo = repoManager.openRepository(project);
+        TestRepository<Repository> tr = new TestRepository<>(repo)) {
       String subject = "Subject for missing commit";
       Change c = new Change(c3.change());
       PatchSet.Id psId = new PatchSet.Id(c3.getId(), 2);

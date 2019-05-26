@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.data;
 
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 

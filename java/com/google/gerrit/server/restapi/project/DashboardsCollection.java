@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.project;
 
-import static com.google.gerrit.reviewdb.client.RefNames.REFS_DASHBOARDS;
+import static com.google.gerrit.entities.RefNames.REFS_DASHBOARDS;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
@@ -22,6 +22,7 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
 import com.google.gerrit.extensions.api.projects.DashboardSectionInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -33,7 +34,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.UrlEncoded;
 import com.google.gerrit.server.git.GitRepositoryManager;

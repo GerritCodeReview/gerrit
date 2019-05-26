@@ -21,9 +21,9 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
 import org.junit.Test;
 

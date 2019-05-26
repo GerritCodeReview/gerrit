@@ -19,7 +19,7 @@ import static java.nio.charset.StandardCharsets.US_ASCII;
 
 import com.google.gerrit.acceptance.SshEnabled;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.inject.Inject;

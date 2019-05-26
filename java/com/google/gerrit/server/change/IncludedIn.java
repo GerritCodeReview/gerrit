@@ -16,12 +16,12 @@ package com.google.gerrit.server.change;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
 import com.google.gerrit.extensions.config.ExternalIncludedIn;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.acceptance.testsuite.project;
 
-import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
+import static com.google.gerrit.entities.RefNames.REFS_CONFIG;
 import static com.google.gerrit.server.project.ProjectConfig.PROJECT_CONFIG;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
@@ -29,9 +29,9 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;

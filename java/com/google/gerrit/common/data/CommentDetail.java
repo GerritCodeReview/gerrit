@@ -14,9 +14,9 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Comment;
-import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.PatchSet;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;

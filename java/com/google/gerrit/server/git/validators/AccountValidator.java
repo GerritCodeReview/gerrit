@@ -18,7 +18,7 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.account.AccountProperties;

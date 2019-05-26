@@ -14,7 +14,7 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.entities.Account;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;

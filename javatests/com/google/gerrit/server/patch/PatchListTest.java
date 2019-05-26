@@ -16,7 +16,7 @@ package com.google.gerrit.server.patch;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.entities.Patch;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;

@@ -15,8 +15,8 @@
 package gerrit;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.server.rules.StoredValues;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;

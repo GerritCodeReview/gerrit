@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.IncludedIn;
 import com.google.gerrit.server.project.CommitResource;
 import com.google.inject.Inject;

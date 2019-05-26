@@ -21,7 +21,7 @@ import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.reviewdb.client.CodedEnum;
+import com.google.gerrit.entities.CodedEnum;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;

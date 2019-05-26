@@ -13,7 +13,7 @@
 // limitations under the License.
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.entities.Account;
 
 public class SuggestedReviewer {
 

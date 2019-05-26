@@ -16,7 +16,7 @@ package com.google.gerrit.acceptance.testsuite.request;
 
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.testsuite.account.TestAccount;
-import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.entities.Account;
 
 /**
  * An aggregation of operations on Guice request scopes for test purposes.

@@ -16,7 +16,7 @@ package com.google.gerrit.server.config;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Project;
 import org.junit.Test;
 
 public class AllProjectsNameTest {

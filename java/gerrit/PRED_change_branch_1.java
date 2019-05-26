@@ -14,7 +14,7 @@
 
 package gerrit;
 
-import com.google.gerrit.reviewdb.client.BranchNameKey;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.server.rules.StoredValues;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.Operation;

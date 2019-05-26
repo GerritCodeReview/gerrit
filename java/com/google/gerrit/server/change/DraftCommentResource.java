@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Comment;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.CurrentUser;
 import com.google.inject.TypeLiteral;
 

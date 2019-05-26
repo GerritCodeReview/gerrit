@@ -15,12 +15,12 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.collect.Lists;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.index.query.OrPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.RangeUtil;
 import com.google.gerrit.index.query.RangeUtil.Range;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectCache;

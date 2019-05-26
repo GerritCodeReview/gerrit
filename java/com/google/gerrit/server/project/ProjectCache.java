@@ -16,8 +16,8 @@ package com.google.gerrit.server.project;
 
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.Project;
 import java.io.IOException;
 import java.util.Set;
 
@@ -35,7 +35,7 @@ public interface ProjectCache {
    * @param projectName name of the project.
    * @return the cached data; null if no such project exists, projectName is null or an error
    *     occurred.
-   * @see #checkedGet(com.google.gerrit.reviewdb.client.Project.NameKey)
+   * @see #checkedGet(com.google.gerrit.entities.Project.NameKey)
    */
   ProjectState get(@Nullable Project.NameKey projectName);
 

@@ -17,7 +17,7 @@ package com.google.gerrit.server.patch;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Project;
 import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.diff.Edit;

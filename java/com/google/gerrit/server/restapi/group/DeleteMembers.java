@@ -16,6 +16,8 @@ package com.google.gerrit.server.restapi.group;
 
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -23,8 +25,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupControl;

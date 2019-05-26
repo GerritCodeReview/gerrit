@@ -17,7 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
-import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.time.TimeUtil;
 import org.eclipse.jgit.errors.ConfigInvalidException;

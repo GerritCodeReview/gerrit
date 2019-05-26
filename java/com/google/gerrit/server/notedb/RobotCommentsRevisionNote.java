@@ -16,7 +16,7 @@ package com.google.gerrit.server.notedb;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.gerrit.reviewdb.client.RobotComment;
+import com.google.gerrit.entities.RobotComment;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;

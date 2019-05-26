@@ -17,13 +17,13 @@ package com.google.gerrit.server.query.change;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.LazyResultSet;
 import com.google.gerrit.index.query.OrPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.ResultSet;
-import com.google.gerrit.reviewdb.client.Change;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;

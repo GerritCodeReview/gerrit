@@ -15,10 +15,10 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.ChangeKind;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.query.change.ChangeData;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;

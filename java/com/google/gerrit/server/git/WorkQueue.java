@@ -18,11 +18,11 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CaseFormat;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import com.google.gerrit.server.logging.LoggingContext;

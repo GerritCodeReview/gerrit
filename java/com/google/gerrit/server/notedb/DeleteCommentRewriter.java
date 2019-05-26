@@ -15,15 +15,15 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.reviewdb.client.PatchLineComment.Status.PUBLISHED;
+import static com.google.gerrit.entities.PatchLineComment.Status.PUBLISHED;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Comment;
-import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.RefNames;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;

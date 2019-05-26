@@ -17,8 +17,8 @@ package com.google.gerrit.server.query.change;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import java.util.Arrays;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;

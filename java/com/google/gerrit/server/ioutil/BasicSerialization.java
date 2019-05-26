@@ -31,7 +31,7 @@ package com.google.gerrit.server.ioutil;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.gerrit.reviewdb.client.CodedEnum;
+import com.google.gerrit.entities.CodedEnum;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;

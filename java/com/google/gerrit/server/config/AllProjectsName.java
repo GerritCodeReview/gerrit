@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Project;
 
 /** Special name of the project that all projects derive from. */
 public class AllProjectsName extends Project.NameKey {

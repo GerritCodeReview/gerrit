@@ -18,11 +18,11 @@ import static java.util.concurrent.TimeUnit.HOURS;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.httpd.WebSessionManager.Key;
 import com.google.gerrit.httpd.WebSessionManager.Val;
 import com.google.gerrit.httpd.restapi.ParameterParser;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;

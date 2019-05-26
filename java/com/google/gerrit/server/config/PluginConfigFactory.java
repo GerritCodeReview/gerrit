@@ -15,7 +15,7 @@
 package com.google.gerrit.server.config;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.plugins.Plugin;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.project.NoSuchProjectException;

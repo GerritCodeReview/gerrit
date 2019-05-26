@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.server.index.change.ChangeField;
 import java.util.List;
 

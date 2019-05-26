@@ -14,8 +14,8 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.client.BranchNameKey;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Project;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;

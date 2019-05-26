@@ -20,11 +20,11 @@ import static com.google.gerrit.index.FieldDef.fullText;
 import static com.google.gerrit.index.FieldDef.prefix;
 import static com.google.gerrit.index.FieldDef.storedOnly;
 
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.SchemaUtil;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 
 /** Index schema for projects. */
 public class ProjectField {

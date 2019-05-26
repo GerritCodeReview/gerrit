@@ -18,11 +18,11 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.config.PluginProjectPermissionDefinition;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.restapi.config.ListCapabilities;

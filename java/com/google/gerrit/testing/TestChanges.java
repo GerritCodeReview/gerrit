@@ -106,8 +106,8 @@ public class TestChanges {
     // Change doesn't exist yet. NoteDb requires that there be a commit for the
     // first patch set, so create one.
     GitRepositoryManager repoManager = injector.getInstance(GitRepositoryManager.class);
-    try (Repository repo = repoManager.openRepository(c.getProject())) {
-      TestRepository<Repository> tr = new TestRepository<>(repo);
+    try (Repository repo = repoManager.openRepository(c.getProject());
+        TestRepository<Repository> tr = new TestRepository<>(repo)) {
       PersonIdent ident =
           user.asIdentifiedUser().newCommitterIdent(update.getWhen(), TimeZone.getDefault());
       TestRepository<Repository>.CommitBuilder cb =

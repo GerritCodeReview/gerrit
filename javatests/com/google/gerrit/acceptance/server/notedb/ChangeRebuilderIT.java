@@ -446,8 +446,9 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     NoteDbChangeState oldState = NoteDbChangeState.parse(getUnwrappedDb().changes().get(id));
     String topic = name("a-topic");
     gApi.changes().id(id.get()).topic(topic);
-    try (Repository repo = repoManager.openRepository(project)) {
-      new TestRepository<>(repo).update(RefNames.changeMetaRef(id), oldState.getChangeMetaId());
+    try (Repository repo = repoManager.openRepository(project);
+        TestRepository<Repository> tr = new TestRepository<>(repo)) {
+      tr.update(RefNames.changeMetaRef(id), oldState.getChangeMetaId());
     }
     assertChangeUpToDate(false, id);
 

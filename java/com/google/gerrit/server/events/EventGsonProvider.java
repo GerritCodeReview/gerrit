@@ -15,8 +15,8 @@
 package com.google.gerrit.server.events;
 
 import com.google.common.base.Supplier;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.change.ChangeKeyAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

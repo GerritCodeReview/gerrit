@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.inject.TypeLiteral;
 
 public class RobotCommentResource implements RestResource {

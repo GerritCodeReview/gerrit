@@ -17,7 +17,7 @@ package com.google.gerrit.server;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.inject.Scopes.SINGLETON;
 
-import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.FakeRealm;
 import com.google.gerrit.server.account.GroupBackend;

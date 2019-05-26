@@ -15,7 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.common.collect.Sets;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Project;
 import com.google.inject.Singleton;
 import java.util.Collection;
 import java.util.HashSet;

@@ -17,7 +17,7 @@ package com.google.gerrit.server.git;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.byteArray;
 
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.cache.proto.Cache;
 import com.google.protobuf.ByteString;
 import org.eclipse.jgit.lib.ObjectId;

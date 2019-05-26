@@ -19,9 +19,9 @@ import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import java.io.IOException;
 import java.util.Collections;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;

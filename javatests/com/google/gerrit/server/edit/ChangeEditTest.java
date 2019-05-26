@@ -16,10 +16,10 @@ package com.google.gerrit.server.edit;
 
 import static org.junit.Assert.assertEquals;
 
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.RefNames;
 import org.junit.Test;
 
 public class ChangeEditTest {

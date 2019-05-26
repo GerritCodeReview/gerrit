@@ -18,10 +18,10 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupByIdAudit;
-import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.AccountGroupByIdAudit;
+import com.google.gerrit.entities.AccountGroupMemberAudit;
 import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.group.InternalGroup;
 import java.sql.Timestamp;

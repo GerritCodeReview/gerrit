@@ -15,7 +15,7 @@
 package com.google.gerrit.server.events;
 
 import com.google.common.base.Supplier;
-import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.data.AccountAttribute;
 
 public class ReviewerAddedEvent extends PatchSetEvent {

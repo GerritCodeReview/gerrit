@@ -18,7 +18,7 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
-import com.google.gerrit.reviewdb.client.Comment;
+import com.google.gerrit.entities.Comment;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

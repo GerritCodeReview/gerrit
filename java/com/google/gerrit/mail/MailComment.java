@@ -14,7 +14,7 @@
 
 package com.google.gerrit.mail;
 
-import com.google.gerrit.reviewdb.client.Comment;
+import com.google.gerrit.entities.Comment;
 import java.util.Objects;
 
 /** A comment parsed from inbound email */

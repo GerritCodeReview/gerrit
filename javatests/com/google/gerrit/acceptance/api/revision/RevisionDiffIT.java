@@ -16,10 +16,10 @@ package com.google.gerrit.acceptance.api.revision;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.extensions.common.testing.DiffInfoSubject.assertThat;
 import static com.google.gerrit.extensions.common.testing.FileInfoSubject.assertThat;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
-import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toMap;
 

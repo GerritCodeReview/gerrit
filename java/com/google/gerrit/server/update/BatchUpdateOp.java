@@ -19,7 +19,7 @@ package com.google.gerrit.server.update;
  *
  * <p>Each operation has {@link #updateChange(ChangeContext)} called once the change is read in a
  * transaction. Ops are associated with updates via {@link
- * BatchUpdate#addOp(com.google.gerrit.reviewdb.client.Change.Id, BatchUpdateOp)}.
+ * BatchUpdate#addOp(com.google.gerrit.entities.Change.Id, BatchUpdateOp)}.
  *
  * <p>Usually, a single {@code BatchUpdateOp} instance is only associated with a single change, i.e.
  * {@code addOp} is only called once with that instance. Additionally, each method in {@code

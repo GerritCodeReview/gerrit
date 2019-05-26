@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.git.validators;
 
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.validators.ValidationException;
 import java.util.Collection;
 import org.eclipse.jgit.lib.ObjectId;

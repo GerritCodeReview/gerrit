@@ -18,9 +18,9 @@ import static com.google.gerrit.git.ObjectIds.matchesAbbreviation;
 import static com.google.gerrit.server.index.change.ChangeField.COMMIT;
 import static com.google.gerrit.server.index.change.ChangeField.EXACT_COMMIT;
 
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.index.FieldDef;
-import com.google.gerrit.reviewdb.client.PatchSet;
 
 public class CommitPredicate extends ChangeIndexPredicate {
   static FieldDef<ChangeData, ?> commitField(String id) {

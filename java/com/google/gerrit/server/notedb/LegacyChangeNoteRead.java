@@ -18,11 +18,11 @@ import static com.google.gerrit.server.notedb.ChangeNotes.parseException;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Comment;
-import com.google.gerrit.reviewdb.client.CommentRange;
-import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.CommentRange;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.inject.Inject;
 import java.sql.Timestamp;

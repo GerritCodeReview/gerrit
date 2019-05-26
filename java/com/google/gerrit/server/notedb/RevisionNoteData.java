@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
-import com.google.gerrit.reviewdb.client.Comment;
+import com.google.gerrit.entities.Comment;
 import java.util.List;
 
 /**

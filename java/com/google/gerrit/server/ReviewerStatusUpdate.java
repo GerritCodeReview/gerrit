@@ -15,7 +15,7 @@
 package com.google.gerrit.server;
 
 import com.google.auto.value.AutoValue;
-import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import java.sql.Timestamp;
 

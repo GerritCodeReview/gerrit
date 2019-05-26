@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.events;
 
-import com.google.gerrit.reviewdb.client.BranchNameKey;
+import com.google.gerrit.entities.BranchNameKey;
 
 public abstract class RefEvent extends ProjectEvent {
   protected RefEvent(String type) {

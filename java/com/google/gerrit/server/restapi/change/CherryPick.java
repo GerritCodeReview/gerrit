@@ -17,14 +17,14 @@ package com.google.gerrit.server.restapi.change;
 import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.common.CherryPickChangeInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
-import com.google.gerrit.reviewdb.client.BranchNameKey;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.permissions.PermissionBackend;

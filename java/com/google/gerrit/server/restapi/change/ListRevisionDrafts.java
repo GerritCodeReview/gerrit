@@ -15,9 +15,9 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.entities.Comment;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;

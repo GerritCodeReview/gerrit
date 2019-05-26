@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.project;
 
-import static com.google.gerrit.reviewdb.client.RefNames.isConfigRef;
+import static com.google.gerrit.entities.RefNames.isConfigRef;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
 import com.google.gerrit.extensions.common.Input;

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.update;
 
-import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.entities.Change;
 import java.io.IOException;
 
 /**

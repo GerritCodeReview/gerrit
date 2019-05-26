@@ -19,12 +19,12 @@ import static com.google.gerrit.server.submit.CommitMergeStatus.EMPTY_COMMIT;
 import static com.google.gerrit.server.submit.CommitMergeStatus.SKIPPED_IDENTICAL_TREE;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.entities.BooleanProjectConfig;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.git.CodeReviewCommit;

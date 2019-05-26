@@ -17,7 +17,7 @@ package com.google.gerrit.server.util;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Throwables;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.inject.Key;

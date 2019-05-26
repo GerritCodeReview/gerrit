@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Patch;
 import com.google.inject.TypeLiteral;
 
 public class FileResource implements RestResource {

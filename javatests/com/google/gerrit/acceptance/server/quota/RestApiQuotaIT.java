@@ -20,9 +20,9 @@ import static org.easymock.EasyMock.reset;
 import static org.easymock.EasyMock.verify;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.config.FactoryModule;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.quota.QuotaBackend;
 import com.google.gerrit.server.quota.QuotaResponse;

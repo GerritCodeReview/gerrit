@@ -16,7 +16,7 @@ package com.google.gerrit.server.git;
 
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.entities.Change;
 
 public interface ChangeReportFormatter {
   @AutoValue

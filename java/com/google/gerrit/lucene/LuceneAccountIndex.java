@@ -19,6 +19,7 @@ import static com.google.gerrit.server.index.account.AccountField.FULL_NAME;
 import static com.google.gerrit.server.index.account.AccountField.ID;
 import static com.google.gerrit.server.index.account.AccountField.PREFERRED_EMAIL_EXACT;
 
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
@@ -27,7 +28,6 @@ import com.google.gerrit.index.Schema.Values;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.GerritServerConfig;

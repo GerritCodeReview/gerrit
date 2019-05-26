@@ -17,11 +17,11 @@ package com.google.gerrit.server.auth.oauth;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_EXTERNAL;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.auth.oauth.OAuthLoginProvider;
 import com.google.gerrit.extensions.auth.oauth.OAuthUserInfo;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AbstractRealm;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;

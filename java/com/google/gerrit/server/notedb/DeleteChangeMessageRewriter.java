@@ -20,8 +20,8 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.parseCommitMessageR
 import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.util.RawParseUtils.decode;
 
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.RefNames;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Optional;

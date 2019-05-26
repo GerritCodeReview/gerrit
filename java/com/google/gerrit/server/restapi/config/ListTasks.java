@@ -17,9 +17,9 @@ package com.google.gerrit.server.restapi.config;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.git.WorkQueue;

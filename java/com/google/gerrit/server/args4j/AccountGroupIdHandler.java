@@ -16,7 +16,7 @@ package com.google.gerrit.server.args4j;
 
 import static com.google.gerrit.util.cli.Localizable.localizable;
 
-import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.inject.Inject;

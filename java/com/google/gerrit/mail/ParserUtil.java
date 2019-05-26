@@ -16,7 +16,7 @@ package com.google.gerrit.mail;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
-import com.google.gerrit.reviewdb.client.Comment;
+import com.google.gerrit.entities.Comment;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.regex.Pattern;

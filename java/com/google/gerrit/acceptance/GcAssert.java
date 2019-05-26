@@ -16,7 +16,7 @@ package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertWithMessage;
 
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import java.io.File;

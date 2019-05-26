@@ -15,7 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;

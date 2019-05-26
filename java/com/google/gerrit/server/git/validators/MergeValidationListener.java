@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.git.validators;
 
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.reviewdb.client.BranchNameKey;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.project.ProjectState;

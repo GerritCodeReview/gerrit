@@ -50,7 +50,6 @@ java_library(
         "//lib/guice:guice-servlet",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/mina:sshd",
-        "//lib/mockito",
         "//prolog:gerrit-prolog-common",
     ],
 )
@@ -91,6 +90,7 @@ java_library2(
         "//lib/jgit/org.eclipse.jgit.junit:junit",
         "//lib/log:impl-log4j",
         "//lib/log:log4j",
+        "//lib/mockito",
         "//lib/truth",
         "//lib/truth:truth-java8-extension",
         "//prolog:gerrit-prolog-common",

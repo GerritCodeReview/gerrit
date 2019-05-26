@@ -124,27 +124,27 @@ public class CommentJsonMigratorTest extends AbstractChangeNotesTest {
             .build(),
         out3);
 
-    TestRepository<Repository> testRepository = new TestRepository<>(repo, rw);
+    try (TestRepository<Repository> testRepository = new TestRepository<>(repo, rw)) {
+      String metaRefName = RefNames.changeMetaRef(c.getId());
+      testRepository
+          .branch(metaRefName)
+          .commit()
+          .message("Review ps 1\n\nPatch-set: 1")
+          .add(ps1Comment1.revId, out1.toString())
+          .author(serverIdent)
+          .committer(serverIdent)
+          .create();
 
-    String metaRefName = RefNames.changeMetaRef(c.getId());
-    testRepository
-        .branch(metaRefName)
-        .commit()
-        .message("Review ps 1\n\nPatch-set: 1")
-        .add(ps1Comment1.revId, out1.toString())
-        .author(serverIdent)
-        .committer(serverIdent)
-        .create();
-
-    testRepository
-        .branch(metaRefName)
-        .commit()
-        .message("Review ps 2\n\nPatch-set: 2")
-        .add(ps2Comment1.revId, out2.toString())
-        .add(ps1Comment1.revId, out3.toString())
-        .author(serverIdent)
-        .committer(serverIdent)
-        .create();
+      testRepository
+          .branch(metaRefName)
+          .commit()
+          .message("Review ps 2\n\nPatch-set: 2")
+          .add(ps2Comment1.revId, out2.toString())
+          .add(ps1Comment1.revId, out3.toString())
+          .author(serverIdent)
+          .committer(serverIdent)
+          .create();
+    }
 
     notes = newNotes(c);
     assertThat(getToStringRepresentations(notes.getComments()))
@@ -219,9 +219,9 @@ public class CommentJsonMigratorTest extends AbstractChangeNotesTest {
         ImmutableListMultimap.<Integer, Comment>builder().put(1, otherCommentPs1).build(), out3);
 
     try (Repository allUsersRepo = repoManager.openRepository(allUsers);
-        RevWalk allUsersRw = new RevWalk(allUsersRepo)) {
-      TestRepository<Repository> testRepository = new TestRepository<>(allUsersRepo, allUsersRw);
-
+        RevWalk allUsersRw = new RevWalk(allUsersRepo);
+        TestRepository<Repository> testRepository =
+            new TestRepository<>(allUsersRepo, allUsersRw); ) {
       testRepository
           .branch(RefNames.refsDraftComments(c.getId(), changeOwner.getAccountId()))
           .commit()
@@ -326,82 +326,83 @@ public class CommentJsonMigratorTest extends AbstractChangeNotesTest {
     legacyChangeNoteWrite.buildNote(
         ImmutableListMultimap.<Integer, Comment>builder().put(1, ps1Comment).build(), out1);
 
-    TestRepository<Repository> testRepository = new TestRepository<>(repo, rw);
+    try (TestRepository<Repository> testRepository = new TestRepository<>(repo, rw)) {
 
-    String metaRefName = RefNames.changeMetaRef(c.getId());
-    testRepository
-        .branch(metaRefName)
-        .commit()
-        .message("Review ps 1\n\nPatch-set: 1")
-        .add(ps1Comment.revId, out1.toString())
-        .author(serverIdent)
-        .committer(serverIdent)
-        .create();
+      String metaRefName = RefNames.changeMetaRef(c.getId());
+      testRepository
+          .branch(metaRefName)
+          .commit()
+          .message("Review ps 1\n\nPatch-set: 1")
+          .add(ps1Comment.revId, out1.toString())
+          .author(serverIdent)
+          .committer(serverIdent)
+          .create();
 
-    notes = newNotes(c);
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    Comment ps2Comment = newComment(notes, 2, "comment on ps2 (JSON)");
-    update.putComment(Status.PUBLISHED, ps2Comment);
-    update.commit();
+      notes = newNotes(c);
+      ChangeUpdate update = newUpdate(c, changeOwner);
+      Comment ps2Comment = newComment(notes, 2, "comment on ps2 (JSON)");
+      update.putComment(Status.PUBLISHED, ps2Comment);
+      update.commit();
 
-    Comment ps3Comment = newComment(notes, 3, "comment on ps3 (legacy)");
-    ByteArrayOutputStream out3 = new ByteArrayOutputStream(0);
-    legacyChangeNoteWrite.buildNote(
-        ImmutableListMultimap.<Integer, Comment>builder().put(3, ps3Comment).build(), out3);
+      Comment ps3Comment = newComment(notes, 3, "comment on ps3 (legacy)");
+      ByteArrayOutputStream out3 = new ByteArrayOutputStream(0);
+      legacyChangeNoteWrite.buildNote(
+          ImmutableListMultimap.<Integer, Comment>builder().put(3, ps3Comment).build(), out3);
 
-    testRepository
-        .branch(metaRefName)
-        .commit()
-        .message("Review ps 3\n\nPatch-set: 3")
-        .add(ps3Comment.revId, out3.toString())
-        .author(serverIdent)
-        .committer(serverIdent)
-        .create();
+      testRepository
+          .branch(metaRefName)
+          .commit()
+          .message("Review ps 3\n\nPatch-set: 3")
+          .add(ps3Comment.revId, out3.toString())
+          .author(serverIdent)
+          .committer(serverIdent)
+          .create();
 
-    notes = newNotes(c);
-    assertThat(getToStringRepresentations(notes.getComments()))
-        .containsExactly(
-            getRevId(notes, 1), ps1Comment.toString(),
-            getRevId(notes, 2), ps2Comment.toString(),
-            getRevId(notes, 3), ps3Comment.toString());
+      notes = newNotes(c);
+      assertThat(getToStringRepresentations(notes.getComments()))
+          .containsExactly(
+              getRevId(notes, 1), ps1Comment.toString(),
+              getRevId(notes, 2), ps2Comment.toString(),
+              getRevId(notes, 3), ps3Comment.toString());
 
-    // Comments at each commit match expected format.
-    ImmutableList<RevCommit> oldLog = log(project, RefNames.changeMetaRef(c.getId()));
-    assertThat(oldLog).hasSize(6);
-    assertThat(getLegacyFormatMapForPublishedComments(notes, oldLog.get(0))).isEmpty();
-    assertThat(getLegacyFormatMapForPublishedComments(notes, oldLog.get(1))).isEmpty();
-    assertThat(getLegacyFormatMapForPublishedComments(notes, oldLog.get(2))).isEmpty();
-    assertThat(getLegacyFormatMapForPublishedComments(notes, oldLog.get(3)))
-        .containsExactly(ps1Comment.key, true);
-    assertThat(getLegacyFormatMapForPublishedComments(notes, oldLog.get(4)))
-        .containsExactly(ps1Comment.key, true, ps2Comment.key, false);
-    assertThat(getLegacyFormatMapForPublishedComments(notes, oldLog.get(5)))
-        .containsExactly(ps1Comment.key, true, ps2Comment.key, false, ps3Comment.key, true);
+      // Comments at each commit match expected format.
+      ImmutableList<RevCommit> oldLog = log(project, RefNames.changeMetaRef(c.getId()));
+      assertThat(oldLog).hasSize(6);
+      assertThat(getLegacyFormatMapForPublishedComments(notes, oldLog.get(0))).isEmpty();
+      assertThat(getLegacyFormatMapForPublishedComments(notes, oldLog.get(1))).isEmpty();
+      assertThat(getLegacyFormatMapForPublishedComments(notes, oldLog.get(2))).isEmpty();
+      assertThat(getLegacyFormatMapForPublishedComments(notes, oldLog.get(3)))
+          .containsExactly(ps1Comment.key, true);
+      assertThat(getLegacyFormatMapForPublishedComments(notes, oldLog.get(4)))
+          .containsExactly(ps1Comment.key, true, ps2Comment.key, false);
+      assertThat(getLegacyFormatMapForPublishedComments(notes, oldLog.get(5)))
+          .containsExactly(ps1Comment.key, true, ps2Comment.key, false, ps3Comment.key, true);
 
-    ChangeNotes oldNotes = notes;
-    checkMigrate(project, ImmutableList.of(RefNames.changeMetaRef(c.getId())));
-    assertNoDifferences(notes, oldNotes);
+      ChangeNotes oldNotes = notes;
+      checkMigrate(project, ImmutableList.of(RefNames.changeMetaRef(c.getId())));
+      assertNoDifferences(notes, oldNotes);
 
-    // Comment content is the same.
-    notes = newNotes(c);
-    assertThat(getToStringRepresentations(notes.getComments()))
-        .containsExactly(
-            getRevId(notes, 1), ps1Comment.toString(),
-            getRevId(notes, 2), ps2Comment.toString(),
-            getRevId(notes, 3), ps3Comment.toString());
+      // Comment content is the same.
+      notes = newNotes(c);
+      assertThat(getToStringRepresentations(notes.getComments()))
+          .containsExactly(
+              getRevId(notes, 1), ps1Comment.toString(),
+              getRevId(notes, 2), ps2Comment.toString(),
+              getRevId(notes, 3), ps3Comment.toString());
 
-    // Comments at each commit all have JSON format.
-    ImmutableList<RevCommit> newLog = log(project, RefNames.changeMetaRef(c.getId()));
-    assertLogEqualExceptTrees(newLog, oldLog);
-    assertThat(getLegacyFormatMapForPublishedComments(notes, newLog.get(0))).isEmpty();
-    assertThat(getLegacyFormatMapForPublishedComments(notes, newLog.get(1))).isEmpty();
-    assertThat(getLegacyFormatMapForPublishedComments(notes, newLog.get(2))).isEmpty();
-    assertThat(getLegacyFormatMapForPublishedComments(notes, newLog.get(3)))
-        .containsExactly(ps1Comment.key, false);
-    assertThat(getLegacyFormatMapForPublishedComments(notes, newLog.get(4)))
-        .containsExactly(ps1Comment.key, false, ps2Comment.key, false);
-    assertThat(getLegacyFormatMapForPublishedComments(notes, newLog.get(5)))
-        .containsExactly(ps1Comment.key, false, ps2Comment.key, false, ps3Comment.key, false);
+      // Comments at each commit all have JSON format.
+      ImmutableList<RevCommit> newLog = log(project, RefNames.changeMetaRef(c.getId()));
+      assertLogEqualExceptTrees(newLog, oldLog);
+      assertThat(getLegacyFormatMapForPublishedComments(notes, newLog.get(0))).isEmpty();
+      assertThat(getLegacyFormatMapForPublishedComments(notes, newLog.get(1))).isEmpty();
+      assertThat(getLegacyFormatMapForPublishedComments(notes, newLog.get(2))).isEmpty();
+      assertThat(getLegacyFormatMapForPublishedComments(notes, newLog.get(3)))
+          .containsExactly(ps1Comment.key, false);
+      assertThat(getLegacyFormatMapForPublishedComments(notes, newLog.get(4)))
+          .containsExactly(ps1Comment.key, false, ps2Comment.key, false);
+      assertThat(getLegacyFormatMapForPublishedComments(notes, newLog.get(5)))
+          .containsExactly(ps1Comment.key, false, ps2Comment.key, false, ps3Comment.key, false);
+    }
   }
 
   private void checkMigrate(Project.NameKey project, List<String> expectedRefs) throws Exception {

@@ -22,7 +22,7 @@ import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.IterableSubject;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
-import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.server.group.InternalGroup;
 import java.sql.Timestamp;
 import org.eclipse.jgit.lib.ObjectId;

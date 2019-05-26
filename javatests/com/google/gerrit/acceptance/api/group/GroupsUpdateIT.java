@@ -19,10 +19,10 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.group.db.GroupsUpdate;

@@ -22,10 +22,10 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupIncludeCache;

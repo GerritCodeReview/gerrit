@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.query.group;
 
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.group.GroupField;
 import java.util.Locale;

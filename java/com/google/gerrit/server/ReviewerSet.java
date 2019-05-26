@@ -22,8 +22,8 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import java.sql.Timestamp;
 

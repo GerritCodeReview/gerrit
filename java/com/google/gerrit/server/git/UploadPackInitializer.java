@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.reviewdb.client.Project;
 import org.eclipse.jgit.transport.UploadPack;
 
 @ExtensionPoint

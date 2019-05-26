@@ -16,8 +16,8 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.inject.Inject;
 import java.util.Optional;

@@ -18,8 +18,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.common.AccountInfo;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.assistedinject.Assisted;

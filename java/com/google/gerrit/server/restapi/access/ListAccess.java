@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.restapi.access;
 
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.restapi.project.GetAccess;
 import com.google.inject.Inject;
 import java.util.ArrayList;

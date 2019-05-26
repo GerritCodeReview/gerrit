@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.git.receive;
 
-import static com.google.gerrit.reviewdb.client.RefNames.REFS_CACHE_AUTOMERGE;
-import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
+import static com.google.gerrit.entities.RefNames.REFS_CACHE_AUTOMERGE;
+import static com.google.gerrit.entities.RefNames.REFS_CHANGES;
 
 import com.google.common.collect.Maps;
 import java.util.Map;

@@ -15,12 +15,12 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Patch;
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.common.FileInfo;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;

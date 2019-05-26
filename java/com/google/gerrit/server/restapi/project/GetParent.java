@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;

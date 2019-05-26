@@ -17,9 +17,9 @@ package com.google.gerrit.server.notedb;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.primitives.Bytes;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Comment;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.PatchLineComment;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.validators.RefOperationValidators;
 import com.google.gerrit.server.validators.ValidationException;

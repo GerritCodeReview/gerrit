@@ -18,11 +18,11 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.git.GitUpdateFailureException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.ObjectIds;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;

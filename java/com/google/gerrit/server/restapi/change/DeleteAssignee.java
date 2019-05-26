@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountLoader;

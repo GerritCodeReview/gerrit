@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server;
 
-import com.google.gerrit.reviewdb.client.BranchNameKey;
-import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import java.io.IOException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;

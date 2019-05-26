@@ -14,10 +14,10 @@
 
 package com.google.gerrit.index.project;
 
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.reviewdb.client.Project;
 
 public interface ProjectIndex extends Index<Project.NameKey, ProjectData> {
 

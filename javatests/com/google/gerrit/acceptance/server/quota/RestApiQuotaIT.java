@@ -21,10 +21,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.config.FactoryModule;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.quota.QuotaBackend;
 import com.google.gerrit.server.quota.QuotaResponse;

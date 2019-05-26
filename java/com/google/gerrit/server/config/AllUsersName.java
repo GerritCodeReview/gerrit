@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Project;
 
 /** Special name of the project in which meta data for all users is stored. */
 public class AllUsersName extends Project.NameKey {

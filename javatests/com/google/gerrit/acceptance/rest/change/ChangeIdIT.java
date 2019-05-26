@@ -17,8 +17,8 @@ package com.google.gerrit.acceptance.rest.change;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
-import com.google.gerrit.reviewdb.client.Change;
 import org.junit.Test;
 
 public class ChangeIdIT extends AbstractDaemonTest {

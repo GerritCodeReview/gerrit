@@ -18,9 +18,9 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.OptionalSubject.assertThat;
 
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.git.LockFailureException;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import java.io.IOException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;

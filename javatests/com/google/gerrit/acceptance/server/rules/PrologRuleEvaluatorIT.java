@@ -20,7 +20,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.SubmitRecord;
-import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.PrologOptions;
 import com.google.gerrit.server.rules.PrologRuleEvaluator;

@@ -20,10 +20,10 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.reviewdb.client.BranchNameKey;
 import org.junit.Before;
 import org.junit.Test;
 

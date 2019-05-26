@@ -17,7 +17,7 @@ package com.google.gerrit.server.submit;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;

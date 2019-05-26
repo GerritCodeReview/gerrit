@@ -14,16 +14,16 @@
 
 package com.google.gerrit.server.restapi.project;
 
-import static com.google.gerrit.reviewdb.client.RefNames.REFS_DASHBOARDS;
+import static com.google.gerrit.entities.RefNames.REFS_DASHBOARDS;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;

@@ -13,7 +13,7 @@ java_library(
         "//java/com/google/gerrit/exceptions",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/httpd",
-        "//java/com/google/gerrit/reviewdb:server",
+        "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/util/http",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/audit",

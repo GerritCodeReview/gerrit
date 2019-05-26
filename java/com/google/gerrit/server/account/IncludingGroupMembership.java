@@ -17,7 +17,7 @@ package com.google.gerrit.server.account;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.inject.Inject;

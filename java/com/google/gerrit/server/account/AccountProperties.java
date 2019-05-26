@@ -16,7 +16,7 @@ package com.google.gerrit.server.account;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.entities.Account;
 import java.sql.Timestamp;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;

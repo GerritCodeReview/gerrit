@@ -22,7 +22,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.UseSsh;
-import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.testing.ConfigSuite;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;

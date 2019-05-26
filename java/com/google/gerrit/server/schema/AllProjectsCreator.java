@@ -15,7 +15,7 @@
 package com.google.gerrit.server.schema;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.reviewdb.client.RefNames.REFS_SEQUENCES;
+import static com.google.gerrit.entities.RefNames.REFS_SEQUENCES;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -30,8 +30,8 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;

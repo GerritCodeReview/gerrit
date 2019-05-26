@@ -18,7 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.UseSsh;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.project.ProjectState;
 import org.junit.Test;
 

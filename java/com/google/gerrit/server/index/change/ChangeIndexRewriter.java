@@ -19,6 +19,8 @@ import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Change.Status;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.IndexRewriter;
@@ -32,8 +34,6 @@ import com.google.gerrit.index.query.OrPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.TooManyTermsInQueryException;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.server.query.change.AndChangeSource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;

@@ -15,10 +15,10 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.index.query.IsVisibleToPredicate;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.index.IndexUtils;

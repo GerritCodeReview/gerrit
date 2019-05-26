@@ -17,14 +17,14 @@ package com.google.gerrit.sshd.commands;
 import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.group.AddMembers;

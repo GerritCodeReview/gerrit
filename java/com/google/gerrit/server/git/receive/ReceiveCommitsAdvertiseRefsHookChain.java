@@ -15,7 +15,7 @@
 package com.google.gerrit.server.git.receive;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;

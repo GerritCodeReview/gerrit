@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.ChangeCleanupConfig;

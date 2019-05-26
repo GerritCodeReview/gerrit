@@ -14,7 +14,7 @@
 
 package gerrit;
 
-import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.Text;

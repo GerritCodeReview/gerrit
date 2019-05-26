@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.account;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.extensions.api.accounts.UsernameInput;
 import com.google.gerrit.extensions.client.AccountFieldName;
@@ -27,7 +28,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountResource;

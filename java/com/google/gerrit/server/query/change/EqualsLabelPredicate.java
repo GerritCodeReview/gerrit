@@ -16,11 +16,11 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.permissions.ChangePermission;

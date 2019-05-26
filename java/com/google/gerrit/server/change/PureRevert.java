@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.git.PureRevertCache;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.inject.Inject;

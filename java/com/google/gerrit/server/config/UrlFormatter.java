@@ -16,8 +16,8 @@ package com.google.gerrit.server.config;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import java.util.Optional;
 
 /**

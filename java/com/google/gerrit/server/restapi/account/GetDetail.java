@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.restapi.account;
 
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.InternalAccountDirectory;

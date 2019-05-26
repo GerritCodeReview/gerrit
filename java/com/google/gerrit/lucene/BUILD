@@ -24,12 +24,12 @@ java_library(
     deps = [
         ":query_builder",
         "//java/com/google/gerrit/common:annotations",
+        "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/exceptions",
         "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/index:query_exception",
         "//java/com/google/gerrit/index/project",
         "//java/com/google/gerrit/proto",
-        "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/logging",
         "//lib:guava",

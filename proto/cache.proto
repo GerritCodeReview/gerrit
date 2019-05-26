@@ -178,7 +178,7 @@ message ChangeNotesStateProto {
   // Raw ChangeMessage proto as produced by ChangeMessageProtoConverter.
   repeated bytes change_message = 15;
 
-  // JSON produced from com.google.gerrit.reviewdb.client.Comment.
+  // JSON produced from com.google.gerrit.entities.Comment.
   repeated string published_comment = 16;
 
   reserved 17;  // read_only_until

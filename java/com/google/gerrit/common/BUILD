@@ -21,9 +21,9 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         ":annotations",
+        "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/prettify:server",
-        "//java/com/google/gerrit/reviewdb:server",
         "//lib:guava",
         "//lib:servlet-api",
         "//lib/auto:auto-value",

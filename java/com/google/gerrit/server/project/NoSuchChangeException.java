@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.reviewdb.client.Change;
 
 /** Indicates the change does not exist. */
 public class NoSuchChangeException extends StorageException {

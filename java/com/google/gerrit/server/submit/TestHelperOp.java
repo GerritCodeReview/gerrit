@@ -15,7 +15,7 @@
 package com.google.gerrit.server.submit;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.RepoContext;

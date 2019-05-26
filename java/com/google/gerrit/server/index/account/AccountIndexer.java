@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.index.account;
 
-import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.entities.Account;
 
 public interface AccountIndexer {
 

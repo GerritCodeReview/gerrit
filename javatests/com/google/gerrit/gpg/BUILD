@@ -7,11 +7,11 @@ junit_tests(
     visibility = ["//visibility:public"],
     runtime_deps = ["//java/com/google/gerrit/lucene"],
     deps = [
+        "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/gpg",
         "//java/com/google/gerrit/gpg/testing:gpg-test-util",
         "//java/com/google/gerrit/lifecycle",
-        "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/testing:gerrit-test-util",

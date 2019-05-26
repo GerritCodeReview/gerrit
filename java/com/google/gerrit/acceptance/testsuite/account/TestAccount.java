@@ -15,7 +15,7 @@
 package com.google.gerrit.acceptance.testsuite.account;
 
 import com.google.auto.value.AutoValue;
-import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.entities.Account;
 import java.util.Optional;
 
 @AutoValue

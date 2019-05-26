@@ -19,8 +19,8 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.Ordering;
 import com.google.common.io.BaseEncoding;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.security.SecureRandom;

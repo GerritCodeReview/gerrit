@@ -16,7 +16,7 @@ package com.google.gerrit.server.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
-import static com.google.gerrit.reviewdb.client.BooleanProjectConfig.REQUIRE_CHANGE_ID;
+import static com.google.gerrit.entities.BooleanProjectConfig.REQUIRE_CHANGE_ID;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -26,10 +26,10 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.client.InheritableBoolean;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.SitePaths;

@@ -15,8 +15,8 @@
 package com.google.gerrit.index.project;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.index.IndexCollection;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Singleton;
 
 @Singleton

@@ -15,9 +15,9 @@
 package com.google.gerrit.server.git.validators;
 
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.reviewdb.client.Change.CHANGE_ID_PATTERN;
-import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
-import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
+import static com.google.gerrit.entities.Change.CHANGE_ID_PATTERN;
+import static com.google.gerrit.entities.RefNames.REFS_CHANGES;
+import static com.google.gerrit.entities.RefNames.REFS_CONFIG;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -25,14 +25,14 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.BooleanProjectConfig;
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
-import com.google.gerrit.reviewdb.client.BranchNameKey;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalIdsConsistencyChecker;

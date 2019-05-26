@@ -17,12 +17,12 @@ package com.google.gerrit.server.change;
 import static com.google.common.flogger.LazyArgs.lazy;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.extensions.events.ChangeDeleted;

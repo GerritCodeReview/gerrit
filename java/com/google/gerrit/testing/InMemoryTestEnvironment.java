@@ -14,8 +14,8 @@
 
 package com.google.gerrit.testing;
 
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.lifecycle.LifecycleManager;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;

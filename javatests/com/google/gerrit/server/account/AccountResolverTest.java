@@ -22,7 +22,7 @@ import static java.util.stream.Collectors.joining;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.AccountResolver.Result;
 import com.google.gerrit.server.account.AccountResolver.Searcher;
 import com.google.gerrit.server.account.AccountResolver.StringSearcher;

@@ -31,8 +31,8 @@ java_library(
         "ProjectAssert.java",
     ],
     deps = [
+        "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",
-        "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
         "//lib:guava",
         "//lib/truth",

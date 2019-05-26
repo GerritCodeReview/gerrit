@@ -20,9 +20,9 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Ordering;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.InvalidSshKeyException;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;

@@ -18,9 +18,9 @@ import static com.google.common.base.Preconditions.checkState;
 import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Change.Status;
 import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.server.index.change.ChangeField;
 import java.util.ArrayList;
 import java.util.List;

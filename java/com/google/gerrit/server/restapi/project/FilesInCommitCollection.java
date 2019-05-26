@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -23,7 +24,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.server.change.FileInfoJson;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListKey;

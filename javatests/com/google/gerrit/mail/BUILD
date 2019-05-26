@@ -8,8 +8,8 @@ junit_tests(
     ),
     visibility = ["//visibility:public"],
     deps = [
+        "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/mail",
-        "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:gson",
         "//lib:guava-retrying",

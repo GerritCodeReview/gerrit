@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Project;
 import com.google.inject.ImplementedBy;
 import com.google.inject.Singleton;
 import java.io.IOException;

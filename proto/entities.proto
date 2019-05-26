@@ -18,19 +18,19 @@ package devtools.gerritcodereview;
 
 option java_package = "com.google.gerrit.proto";
 
-// Serialized form of com.google.gerrit.reviewdb.client.Change.Id.
+// Serialized form of com.google.gerrit.entities.Change.Id.
 // Next ID: 2
 message Change_Id {
   required int32 id = 1;
 }
 
-// Serialized form of com.google.gerrit.reviewdb.client.Change.Key.
+// Serialized form of com.google.gerrit.entities.Change.Key.
 // Next ID: 2
 message Change_Key {
   optional string id = 1;
 }
 
-// Serialized form of com.google.gerrit.reviewdb.client.Change.
+// Serialized form of com.google.gerrit.entities.Change.
 // Next ID: 24
 message Change {
   required Change_Id change_id = 1;
@@ -61,14 +61,14 @@ message Change {
   reserved 101;  // note_db_state
 }
 
-// Serialized form of com.google.gerrit.reviewdb.client.ChangeMessage.
+// Serialized form of com.google.gerrit.enities.ChangeMessage.
 // Next ID: 3
 message ChangeMessage_Key {
   required Change_Id change_id = 1;
   required string uuid = 2;
 }
 
-// Serialized form of com.google.gerrit.reviewdb.client.ChangeMessage.
+// Serialized form of com.google.gerrit.entities.ChangeMessage.
 // Next ID: 8
 message ChangeMessage {
   required ChangeMessage_Key key = 1;
@@ -80,14 +80,14 @@ message ChangeMessage {
   optional Account_Id real_author = 7;
 }
 
-// Serialized form of com.google.gerrit.reviewdb.client.PatchSet.Id.
+// Serialized form of com.google.gerrit.entities.PatchSet.Id.
 // Next ID: 3
 message PatchSet_Id {
   required Change_Id change_id = 1;
   required int32 id = 2;
 }
 
-// Serialized form of com.google.gerrit.reviewdb.client.PatchSet.
+// Serialized form of com.google.gerrit.entities.PatchSet.
 // Next ID: 10
 message PatchSet {
   required PatchSet_Id id = 1;
@@ -103,19 +103,19 @@ message PatchSet {
   reserved 7;  // pushCertficate
 }
 
-// Serialized form of com.google.gerrit.reviewdb.client.Account.Id.
+// Serialized form of com.google.gerrit.entities.Account.Id.
 // Next ID: 2
 message Account_Id {
   required int32 id = 1;
 }
 
-// Serialized form of com.google.gerrit.reviewdb.client.LabelId.
+// Serialized form of com.google.gerrit.entities.LabelId.
 // Next ID: 2
 message LabelId {
   required string id = 1;
 }
 
-// Serialized form of com.google.gerrit.reviewdb.client.PatchSetApproval.Key.
+// Serialized form of com.google.gerrit.entities.PatchSetApproval.Key.
 // Next ID: 4
 message PatchSetApproval_Key {
   required PatchSet_Id patch_set_id = 1;
@@ -123,7 +123,7 @@ message PatchSetApproval_Key {
   required LabelId label_id = 3;
 }
 
-// Serialized form of com.google.gerrit.reviewdb.client.PatchSetApproval.
+// Serialized form of com.google.gerrit.entities.PatchSetApproval.
 // Next ID: 9
 message PatchSetApproval {
   required PatchSetApproval_Key key = 1;
@@ -138,13 +138,13 @@ message PatchSetApproval {
   reserved 5;  // changeSortKey
 }
 
-// Serialized form of com.google.gerrit.reviewdb.client.Project.NameKey.
+// Serialized form of com.google.gerrit.entities.Project.NameKey.
 // Next ID: 2
 message Project_NameKey {
   optional string name = 1;
 }
 
-// Serialized form of com.google.gerrit.reviewdb.client.Branch.NameKey.
+// Serialized form of com.google.gerrit.entities.Branch.NameKey.
 // Next ID: 3
 message Branch_NameKey {
   optional Project_NameKey project = 1;

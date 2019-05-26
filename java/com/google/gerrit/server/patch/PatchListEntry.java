@@ -30,10 +30,10 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.Patch.ChangeType;
-import com.google.gerrit.reviewdb.client.Patch.PatchType;
-import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.entities.Patch;
+import com.google.gerrit.entities.Patch.ChangeType;
+import com.google.gerrit.entities.Patch.PatchType;
+import com.google.gerrit.entities.PatchSet;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;

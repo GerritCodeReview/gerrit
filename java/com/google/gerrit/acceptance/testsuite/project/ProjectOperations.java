@@ -14,7 +14,7 @@
 
 package com.google.gerrit.acceptance.testsuite.project;
 
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.project.ProjectConfig;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevCommit;

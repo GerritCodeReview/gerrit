@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.account;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.client.ListAccountsOption;
 import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -30,7 +31,6 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryResult;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.account.AccountInfoComparator;
 import com.google.gerrit.server.account.AccountLoader;

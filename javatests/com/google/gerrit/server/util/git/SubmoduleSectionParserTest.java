@@ -17,9 +17,9 @@ package com.google.gerrit.server.util.git;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Sets;
-import com.google.gerrit.reviewdb.client.BranchNameKey;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.SubmoduleSubscription;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;

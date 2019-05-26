@@ -18,12 +18,12 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USE
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_UUID;
 
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.LoginUrlToken;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.template.SiteHeaderFooter;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;

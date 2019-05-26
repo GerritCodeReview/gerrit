@@ -15,7 +15,7 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.entities.PatchSetApproval;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;

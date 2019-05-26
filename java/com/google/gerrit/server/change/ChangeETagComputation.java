@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
 
 /**
  * Allows plugins to contribute a value to the change ETag computation.

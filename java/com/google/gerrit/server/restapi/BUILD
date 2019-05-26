@@ -10,6 +10,7 @@ java_library(
     deps = [
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
+        "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/exceptions",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/git",
@@ -21,7 +22,6 @@ java_library(
         "//java/com/google/gerrit/mail",
         "//java/com/google/gerrit/metrics",
         "//java/com/google/gerrit/prettify:server",
-        "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/ioutil",
         "//java/com/google/gerrit/server/util/time",

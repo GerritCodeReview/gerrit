@@ -17,7 +17,7 @@ package com.google.gerrit.common.data;
 import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.entities.AccountGroup;
 
 /** Describes a group within a projects {@link AccessSection}s. */
 public class GroupReference implements Comparable<GroupReference> {

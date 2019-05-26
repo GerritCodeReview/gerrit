@@ -16,7 +16,7 @@ package com.google.gerrit.server.account;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.entities.AccountGroup;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Test;
 

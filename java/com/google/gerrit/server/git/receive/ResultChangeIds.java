@@ -15,7 +15,7 @@
 package com.google.gerrit.server.git.receive;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.entities.Change;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;

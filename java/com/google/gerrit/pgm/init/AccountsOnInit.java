@@ -18,10 +18,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.InitFlags;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.account.AccountProperties;
 import com.google.gerrit.server.account.Accounts;

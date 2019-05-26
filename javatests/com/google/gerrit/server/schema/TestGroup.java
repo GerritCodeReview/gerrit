@@ -15,7 +15,7 @@
 package com.google.gerrit.server.schema;
 
 import com.google.auto.value.AutoValue;
-import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.server.util.time.TimeUtil;
 import java.sql.Timestamp;
 import java.util.Optional;

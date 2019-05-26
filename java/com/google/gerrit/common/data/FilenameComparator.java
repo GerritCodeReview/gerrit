@@ -14,7 +14,7 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.entities.Patch;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;

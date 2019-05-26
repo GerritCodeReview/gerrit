@@ -22,7 +22,7 @@ import com.google.common.io.CharStreams;
 import com.google.gerrit.acceptance.AbstractPluginFieldsTest;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.query.change.OutputStreamQuery;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

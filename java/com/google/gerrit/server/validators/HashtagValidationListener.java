@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.validators;
 
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.reviewdb.client.Change;
 import java.util.Set;
 
 /** Listener to provide validation of hashtag changes. */

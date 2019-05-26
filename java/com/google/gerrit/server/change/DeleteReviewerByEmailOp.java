@@ -15,10 +15,10 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.ChangeMessage;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.mail.Address;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.mail.send.DeleteReviewerSender;
 import com.google.gerrit.server.update.BatchUpdateOp;

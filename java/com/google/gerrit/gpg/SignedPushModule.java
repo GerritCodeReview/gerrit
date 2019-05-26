@@ -16,9 +16,9 @@ package com.google.gerrit.gpg;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.BooleanProjectConfig;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.EnableSignedPush;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;

@@ -15,8 +15,8 @@
 package com.google.gerrit.httpd;
 
 import com.google.auto.value.AutoValue;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Project;
 
 @AutoValue
 abstract class AdvertisedObjectsCacheKey {

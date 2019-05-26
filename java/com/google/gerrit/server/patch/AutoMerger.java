@@ -19,7 +19,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
-import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.InMemoryInserter;

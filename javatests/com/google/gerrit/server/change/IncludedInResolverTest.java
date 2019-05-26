@@ -15,7 +15,7 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.reviewdb.client.RefNames.REFS_TAGS;
+import static com.google.gerrit.entities.RefNames.REFS_TAGS;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;

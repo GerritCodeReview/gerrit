@@ -20,8 +20,8 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.InsertedObject;

@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.Project;
 import java.util.List;
 
 public class CreateProjectArgs {

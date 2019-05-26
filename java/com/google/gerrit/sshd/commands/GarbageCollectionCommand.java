@@ -21,8 +21,8 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GarbageCollectionResult;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;

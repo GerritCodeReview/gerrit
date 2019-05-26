@@ -17,8 +17,8 @@ package com.google.gerrit.server.query.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.gerrit.testing.InMemoryRepositoryManager.Repo;
 import com.google.inject.Guice;

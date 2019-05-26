@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.entities.AccountGroup;
 import java.util.Collections;
 import java.util.Set;
 

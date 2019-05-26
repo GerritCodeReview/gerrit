@@ -8,8 +8,8 @@ java_library(
     srcs = glob(["*.java"]),
     deps = [
         "//java/com/google/gerrit/common:server",
+        "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",
-        "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
         "//lib:guava",
         "//lib/jgit/org.eclipse.jgit:jgit",

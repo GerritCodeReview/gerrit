@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.inject.TypeLiteral;
 
 /** A change message resource. */

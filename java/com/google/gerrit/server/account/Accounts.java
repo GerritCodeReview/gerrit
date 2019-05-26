@@ -19,8 +19,8 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;

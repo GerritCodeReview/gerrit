@@ -15,10 +15,10 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.git.ObjectIds;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.notedb.ChangeNotes;

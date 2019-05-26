@@ -306,6 +306,13 @@ def _bundle_impl(ctx):
     destdir = ctx.outputs.html.path + ".dir"
     zips = [z for d in ctx.attr.deps for z in d.transitive_zipfiles.to_list()]
 
+    # We are splitting off the package dir from the app.path such that
+    # we can set the package dir as the root for the bundler, which means
+    # that absolute imports are interpreted relative to that root.
+    pkg_dir = ctx.attr.pkg.lstrip("/")
+    app_path = ctx.file.app.path
+    app_path = app_path[app_path.index(pkg_dir) + len(pkg_dir):]
+
     hermetic_npm_binary = " ".join([
         "python",
         "$p/" + ctx.file._run_npm.path,
@@ -315,10 +322,11 @@ def _bundle_impl(ctx):
         "--strip-comments",
         "--out-file",
         "$p/" + bundled.path,
-        ctx.file.app.path,
+        "--root",
+        pkg_dir,
+        app_path,
     ])
 
-    pkg_dir = ctx.attr.pkg.lstrip("/")
     cmd = " && ".join([
         # unpack dependencies.
         "export PATH",

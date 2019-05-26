@@ -28,6 +28,11 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.SubscribeSection;
+import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.BooleanProjectConfig;
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -37,11 +42,6 @@ import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer1;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
-import com.google.gerrit.reviewdb.client.BranchNameKey;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
@@ -70,7 +70,7 @@ import org.eclipse.jgit.lib.Repository;
 
 /**
  * Cached information on a project. Must not contain any data derived from parents other than it's
- * immediate parent's {@link com.google.gerrit.reviewdb.client.Project.NameKey}.
+ * immediate parent's {@link com.google.gerrit.entities.Project.NameKey}.
  */
 public class ProjectState {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

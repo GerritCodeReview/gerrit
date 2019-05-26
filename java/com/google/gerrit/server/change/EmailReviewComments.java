@@ -18,9 +18,9 @@ import static com.google.gerrit.server.CommentsUtil.COMMENT_ORDER;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.Comment;
-import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.entities.ChangeMessage;
+import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SendEmailExecutor;

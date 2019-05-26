@@ -14,7 +14,7 @@
 
 package com.google.gerrit.acceptance.testsuite.group;
 
-import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.entities.AccountGroup;
 
 /**
  * An aggregation of operations on groups for test purposes.

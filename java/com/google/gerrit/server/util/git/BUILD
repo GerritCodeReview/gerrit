@@ -5,7 +5,7 @@ java_library(
     srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
-        "//java/com/google/gerrit/reviewdb:server",
+        "//java/com/google/gerrit/entities",
         "//lib/jgit/org.eclipse.jgit:jgit",
     ],
 )

@@ -20,6 +20,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -29,7 +30,6 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.api.changes.ChangeApiImpl.DynamicOptionParser;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
 import com.google.gerrit.server.restapi.change.CreateChange;

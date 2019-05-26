@@ -14,12 +14,12 @@
 
 package com.google.gerrit.server.query.project;
 
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.index.project.ProjectField;
 import com.google.gerrit.index.project.ProjectPredicate;
 import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.reviewdb.client.Project;
 import java.util.Locale;
 
 public class ProjectPredicates {

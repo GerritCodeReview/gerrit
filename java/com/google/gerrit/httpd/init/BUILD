@@ -6,6 +6,7 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/elasticsearch",
+        "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/gpg",
         "//java/com/google/gerrit/httpd",
@@ -17,7 +18,6 @@ java_library(
         "//java/com/google/gerrit/metrics/dropwizard",
         "//java/com/google/gerrit/pgm/init",
         "//java/com/google/gerrit/pgm/util",
-        "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server:module",
         "//java/com/google/gerrit/server/api",

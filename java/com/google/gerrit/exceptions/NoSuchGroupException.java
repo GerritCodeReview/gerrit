@@ -14,7 +14,7 @@
 
 package com.google.gerrit.exceptions;
 
-import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.entities.AccountGroup;
 
 /** Indicates the account group does not exist. */
 public class NoSuchGroupException extends Exception {

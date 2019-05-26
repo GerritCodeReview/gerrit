@@ -15,9 +15,9 @@
 package com.google.gerrit.httpd;
 
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.change.ChangesCollection;

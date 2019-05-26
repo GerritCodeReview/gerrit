@@ -15,12 +15,12 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.entities.ChangeMessage;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.common.DescriptionInput;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
-import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RevisionResource;

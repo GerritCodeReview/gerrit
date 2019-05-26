@@ -14,7 +14,7 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.entities.AccountGroup;
 
 /** Summary information about an {@link AccountGroup}, for simple tabular displays. */
 public class GroupInfo {

@@ -14,10 +14,11 @@
 
 package com.google.gerrit.server.restapi.project;
 
-import static com.google.gerrit.reviewdb.client.RefNames.isConfigRef;
+import static com.google.gerrit.entities.RefNames.isConfigRef;
 import static java.util.Comparator.comparing;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
@@ -26,7 +27,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.git.GitRepositoryManager;

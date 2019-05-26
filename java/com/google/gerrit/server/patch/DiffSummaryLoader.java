@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.patch;
 
-import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Patch;
+import com.google.gerrit.entities.Project;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.ArrayList;

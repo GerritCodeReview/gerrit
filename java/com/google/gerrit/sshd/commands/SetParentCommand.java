@@ -16,6 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import static java.util.stream.Collectors.toList;
 
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.projects.ParentInput;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -23,7 +24,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectResource;

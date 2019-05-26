@@ -19,12 +19,12 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountState;

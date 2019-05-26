@@ -14,14 +14,14 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.FixResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.edit.ChangeEdit;

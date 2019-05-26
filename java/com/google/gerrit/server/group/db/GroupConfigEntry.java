@@ -15,7 +15,7 @@
 package com.google.gerrit.server.group.db;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.server.group.InternalGroup;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;

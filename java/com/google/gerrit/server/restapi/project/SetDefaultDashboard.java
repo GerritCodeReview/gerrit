@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.project;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
 import com.google.gerrit.extensions.api.projects.SetDashboardInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -24,7 +25,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.ProjectPermission;

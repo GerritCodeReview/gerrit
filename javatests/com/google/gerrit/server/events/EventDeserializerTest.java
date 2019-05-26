@@ -18,10 +18,10 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.BranchNameKey;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.RefUpdateAttribute;

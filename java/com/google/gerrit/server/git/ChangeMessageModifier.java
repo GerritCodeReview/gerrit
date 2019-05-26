@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.reviewdb.client.BranchNameKey;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 /**

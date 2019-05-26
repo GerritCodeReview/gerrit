@@ -17,9 +17,9 @@ package com.google.gerrit.server.group.db;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo.warning;
 
+import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.group.db.testing.GroupTestUtil;
 import java.util.List;
 import org.junit.Test;

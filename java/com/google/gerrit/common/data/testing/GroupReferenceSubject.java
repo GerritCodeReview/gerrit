@@ -21,7 +21,7 @@ import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
 import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.entities.AccountGroup;
 
 public class GroupReferenceSubject extends Subject {
 

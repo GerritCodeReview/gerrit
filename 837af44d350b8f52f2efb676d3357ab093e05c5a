@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d989f24_460a6b78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-05-26T19:00:32Z",
+      "side": 1,
+      "message": "Maybe explain why this needs to be done?",
+      "revId": "837af44d350b8f52f2efb676d3357ab093e05c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

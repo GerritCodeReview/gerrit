@@ -16,10 +16,10 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Comment;
-import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
-import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.PatchLineComment.Status;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.server.util.time.TimeUtil;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;

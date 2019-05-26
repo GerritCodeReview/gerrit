@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.audit.group;
 
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AccountGroup;
 import java.sql.Timestamp;
 
 /** An audit event for groups. */
@@ -23,14 +23,14 @@ public interface GroupAuditEvent {
   /**
    * Gets the acting user who is updating the group.
    *
-   * @return the {@link com.google.gerrit.reviewdb.client.Account.Id} of the acting user.
+   * @return the {@link com.google.gerrit.entities.Account.Id} of the acting user.
    */
   Account.Id getActor();
 
   /**
-   * Gets the {@link com.google.gerrit.reviewdb.client.AccountGroup.UUID} of the updated group.
+   * Gets the {@link com.google.gerrit.entities.AccountGroup.UUID} of the updated group.
    *
-   * @return the {@link com.google.gerrit.reviewdb.client.AccountGroup.UUID} of the updated group.
+   * @return the {@link com.google.gerrit.entities.AccountGroup.UUID} of the updated group.
    */
   AccountGroup.UUID getUpdatedGroup();
 

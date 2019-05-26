@@ -16,9 +16,9 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.RefUpdateUtil;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.inject.Inject;

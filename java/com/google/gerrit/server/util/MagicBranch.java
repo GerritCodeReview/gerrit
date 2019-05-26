@@ -16,7 +16,7 @@ package com.google.gerrit.server.util;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.Capable;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Project;
 import java.io.IOException;
 import java.util.List;
 import org.eclipse.jgit.lib.Ref;

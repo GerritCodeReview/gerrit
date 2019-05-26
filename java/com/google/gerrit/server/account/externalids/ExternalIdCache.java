@@ -15,7 +15,7 @@
 package com.google.gerrit.server.account.externalids;
 
 import com.google.common.collect.SetMultimap;
-import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.entities.Account;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Set;

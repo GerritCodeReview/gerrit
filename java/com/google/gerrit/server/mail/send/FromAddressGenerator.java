@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.mail.send;
 
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.mail.Address;
-import com.google.gerrit.reviewdb.client.Account;
 
 /** Constructs an address to send email from. */
 public interface FromAddressGenerator {

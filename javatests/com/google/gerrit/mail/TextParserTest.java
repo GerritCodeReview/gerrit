@@ -16,7 +16,7 @@ package com.google.gerrit.mail;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.reviewdb.client.Comment;
+import com.google.gerrit.entities.Comment;
 import java.util.List;
 import org.junit.Test;
 

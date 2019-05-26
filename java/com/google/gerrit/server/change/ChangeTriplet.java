@@ -15,10 +15,10 @@
 package com.google.gerrit.server.change;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.reviewdb.client.BranchNameKey;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
 import java.util.Optional;
 
 @AutoValue

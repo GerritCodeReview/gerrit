@@ -18,8 +18,8 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.common.AccountInfo;
-import com.google.gerrit.reviewdb.client.Account;
 import java.util.List;
 
 public class AccountAssert {

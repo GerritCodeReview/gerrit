@@ -16,8 +16,8 @@ package com.google.gerrit.server.project;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.events.LifecycleListener;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.logging.LoggingContextAwareExecutorService;
 import com.google.inject.Inject;

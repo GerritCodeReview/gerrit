@@ -15,8 +15,8 @@
 package com.google.gerrit.server.index.group;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.index.IndexCollection;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.inject.Singleton;
 

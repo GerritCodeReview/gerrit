@@ -15,7 +15,7 @@
 package com.google.gerrit.server.group.db;
 
 import com.google.auto.value.AutoValue;
-import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.entities.AccountGroup;
 
 /**
  * Definition of all properties necessary for a group creation.

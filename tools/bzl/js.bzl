@@ -305,6 +305,9 @@ def _bundle_impl(ctx):
         bundled = ctx.outputs.html
     destdir = ctx.outputs.html.path + ".dir"
     zips = [z for d in ctx.attr.deps for z in d.transitive_zipfiles.to_list()]
+    pkg_dir = ctx.attr.pkg.lstrip("/")
+    app_path = ctx.file.app.path
+    app_path = app_path[app_path.index(pkg_dir) + len(pkg_dir):]
 
     hermetic_npm_binary = " ".join([
         "python",
@@ -315,10 +318,11 @@ def _bundle_impl(ctx):
         "--strip-comments",
         "--out-file",
         "$p/" + bundled.path,
-        ctx.file.app.path,
+        "--root",
+        pkg_dir,
+        app_path,
     ])
 
-    pkg_dir = ctx.attr.pkg.lstrip("/")
     cmd = " && ".join([
         # unpack dependencies.
         "export PATH",

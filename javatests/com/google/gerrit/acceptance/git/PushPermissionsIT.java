@@ -159,8 +159,8 @@ public class PushPermissionsIT extends AbstractDaemonTest {
 
   @Test
   public void groupRefsByMessage() throws Exception {
-    try (Repository repo = repoManager.openRepository(project)) {
-      TestRepository<?> tr = new TestRepository<>(repo);
+    try (Repository repo = repoManager.openRepository(project);
+        TestRepository<Repository> tr = new TestRepository<>(repo)) {
       tr.branch("foo").commit().create();
       tr.branch("bar").commit().create();
     }

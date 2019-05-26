@@ -175,8 +175,8 @@ public class RepoSequenceTest extends GerritBaseTests {
 
   @Test
   public void failOnWrongType() throws Exception {
-    try (Repository repo = repoManager.openRepository(project)) {
-      TestRepository<Repository> tr = new TestRepository<>(repo);
+    try (Repository repo = repoManager.openRepository(project);
+        TestRepository<Repository> tr = new TestRepository<>(repo)) {
       tr.branch(RefNames.REFS_SEQUENCES + "id").commit().create();
       try {
         newSequence("id", 1, 3).next();

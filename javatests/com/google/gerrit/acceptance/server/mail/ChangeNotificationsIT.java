@@ -1508,8 +1508,9 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         if (submitType == SubmitType.FAST_FORWARD_ONLY) {
           continue;
         }
-        try (Repository repo = repoManager.openRepository(project)) {
-          new TestRepository<>(repo).branch("master").commit().create();
+        try (Repository repo = repoManager.openRepository(project);
+            TestRepository<Repository> tr = new TestRepository<>(repo)) {
+          tr.branch("master").commit().create();
         }
         name += " after branch has advanced";
       }

@@ -652,8 +652,9 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   }
 
   private ObjectId directUpdateRef(Project.NameKey project, String ref) throws Exception {
-    try (Repository serverRepo = repoManager.openRepository(project)) {
-      return new TestRepository<>(serverRepo).branch(ref).commit().create().copy();
+    try (Repository serverRepo = repoManager.openRepository(project);
+        TestRepository<Repository> tr = new TestRepository<>(serverRepo)) {
+      return tr.branch(ref).commit().create().copy();
     }
   }
 

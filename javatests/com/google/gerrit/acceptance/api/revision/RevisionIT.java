@@ -995,8 +995,8 @@ public class RevisionIT extends AbstractDaemonTest {
 
     // Make the same change in a separate commit and update server HEAD behind Gerrit's back, which
     // will not reindex any open changes.
-    try (Repository repo = repoManager.openRepository(project)) {
-      TestRepository<?> tr = new TestRepository<>(repo);
+    try (Repository repo = repoManager.openRepository(project);
+        TestRepository<Repository> tr = new TestRepository<>(repo)) {
       String ref = "refs/heads/master";
       assertThat(repo.exactRef(ref).getObjectId()).isEqualTo(r1.getCommit());
       tr.update(ref, tr.getRevWalk().parseCommit(initial));

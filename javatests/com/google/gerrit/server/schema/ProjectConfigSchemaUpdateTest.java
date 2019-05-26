@@ -72,8 +72,8 @@ public class ProjectConfigSchemaUpdateTest {
   public void noBaseConfig() throws Exception {
     assertThat(getConfig().getString("foo", null, "bar")).isNull();
 
-    try (Repository repo = new FileRepository(allProjectsRepoFile)) {
-      TestRepository<?> tr = new TestRepository<>(repo);
+    try (Repository repo = new FileRepository(allProjectsRepoFile);
+        TestRepository<Repository> tr = new TestRepository<>(repo)) {
       tr.branch("refs/meta/config").commit().add("project.config", "[foo]\nbar = baz").create();
     }
 
@@ -90,8 +90,8 @@ public class ProjectConfigSchemaUpdateTest {
 
     assertThat(getConfig().getString("foo", null, "bar")).isEqualTo("base");
 
-    try (Repository repo = new FileRepository(allProjectsRepoFile)) {
-      TestRepository<?> tr = new TestRepository<>(repo);
+    try (Repository repo = new FileRepository(allProjectsRepoFile);
+        TestRepository<Repository> tr = new TestRepository<>(repo)) {
       tr.branch("refs/meta/config").commit().add("project.config", "[foo]\nbar = baz").create();
     }
 

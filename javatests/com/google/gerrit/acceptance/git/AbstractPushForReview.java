@@ -1779,8 +1779,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     Change.Id id2 = r2.getChange().getId();
 
     // Merge change 1 behind Gerrit's back.
-    try (Repository repo = repoManager.openRepository(project)) {
-      TestRepository<?> tr = new TestRepository<>(repo);
+    try (Repository repo = repoManager.openRepository(project);
+        TestRepository<?> tr = new TestRepository<>(repo)) {
       tr.branch("refs/heads/master").update(r1.getCommit());
     }
 
@@ -1859,12 +1859,12 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     Change c = r.getChange().change();
 
     RevCommit ps2Commit;
-    try (Repository repo = repoManager.openRepository(project)) {
+    try (Repository repo = repoManager.openRepository(project);
+        TestRepository<?> tr = new TestRepository<>(repo)) {
       // Create a new patch set of the change directly in Gerrit's repository,
       // without pushing it. In reality it's more likely that the client would
       // create and push this behind Gerrit's back (e.g. an admin accidentally
       // using direct ssh access to the repo), but that's harder to do in tests.
-      TestRepository<?> tr = new TestRepository<>(repo);
       ps2Commit =
           tr.branch("refs/heads/master")
               .commit()
@@ -1980,8 +1980,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
     gApi.changes().id(r.getChangeId()).current().submit();
 
-    try (Repository repo = repoManager.openRepository(project)) {
-      TestRepository<?> tr = new TestRepository<>(repo);
+    try (Repository repo = repoManager.openRepository(project);
+        TestRepository<Repository> tr = new TestRepository<>(repo)) {
       tr.branch("refs/heads/branch").commit().message("Initial commit on branch").create();
     }
 
@@ -2039,8 +2039,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     // expecting the change to be auto-closed, but the change metadata update
     // fails.
     ObjectId c2;
-    try (Repository repo = repoManager.openRepository(project)) {
-      TestRepository<?> tr = new TestRepository<>(repo);
+    try (Repository repo = repoManager.openRepository(project);
+        TestRepository<Repository> tr = new TestRepository<>(repo)) {
       RevCommit commit2 =
           tr.amend(c1).message("New subject").insertChangeId(r.getChangeId().substring(1)).create();
       c2 = commit2.copy();

@@ -237,9 +237,9 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
     grant(project, "refs/meta/*", Permission.CREATE);
     gApi.projects().name(project.get()).branch(dashboardRef).create(new BranchInput());
 
-    try (Repository r = repoManager.openRepository(project)) {
-      TestRepository<Repository>.CommitBuilder cb =
-          new TestRepository<>(r).branch(dashboardRef).commit();
+    try (Repository r = repoManager.openRepository(project);
+        TestRepository<Repository> tr = new TestRepository<>(r)) {
+      TestRepository<Repository>.CommitBuilder cb = tr.branch(dashboardRef).commit();
       StringBuilder content = new StringBuilder("[dashboard]\n");
       content.append("title = ").append("Open Changes").append("\n");
       content.append("[section \"").append("open").append("\"]\n");

@@ -3952,8 +3952,8 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   private void modifySubmitRules(String newContent) throws Exception {
-    try (Repository repo = repoManager.openRepository(project)) {
-      TestRepository<?> testRepo = new TestRepository<>((InMemoryRepository) repo);
+    try (Repository repo = repoManager.openRepository(project);
+        TestRepository<Repository> testRepo = new TestRepository<>(repo)) {
       testRepo
           .branch(RefNames.REFS_CONFIG)
           .commit()

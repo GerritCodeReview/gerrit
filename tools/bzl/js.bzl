@@ -315,7 +315,7 @@ def _bundle_impl(ctx):
         "--strip-comments",
         "--out-file",
         "$p/" + bundled.path,
-        ctx.file.app.path,
+        "-r polygerrit-ui/app/ elements/gr-app.html",
     ])
 
     pkg_dir = ctx.attr.pkg.lstrip("/")

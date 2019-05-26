@@ -496,8 +496,8 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   private Optional<String> readProjectConfig(String projectName) throws Exception {
-    try (Repository repo = repoManager.openRepository(Project.nameKey(projectName))) {
-      TestRepository<?> tr = new TestRepository<>(repo);
+    try (Repository repo = repoManager.openRepository(Project.nameKey(projectName));
+        TestRepository<Repository> tr = new TestRepository<>(repo)) {
       RevWalk rw = tr.getRevWalk();
       Ref ref = repo.exactRef(RefNames.REFS_CONFIG);
       if (ref == null) {

@@ -583,8 +583,9 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
   }
 
   private void deleteRefsMetaConfig(Project.NameKey key) throws Exception {
-    try (Repository repo = repoManager.openRepository(key)) {
-      new TestRepository<>(repo).delete(REFS_CONFIG);
+    try (Repository repo = repoManager.openRepository(key);
+        TestRepository<Repository> tr = new TestRepository<>(repo)) {
+      tr.delete(REFS_CONFIG);
     }
   }
 }

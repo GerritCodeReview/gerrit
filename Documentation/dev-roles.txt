@@ -142,7 +142,7 @@ Maintainers should only approve changes that:
 
 * they fully understand
 * are in line with the project vision and project scope that are
-  defined by the link:dev-processes.html#steering-committee[steering
+  defined by the link:dev-processes.html#steering-committee[engineering steering
   committee], and should consult them, when in doubt
 * meet the quality expectations of the project (well-tested, properly
   documented, scalable, backwards-compatible)
@@ -221,10 +221,10 @@ include:
 * activity on the mailing list
 
 [[steering-committee-member]]
-== Steering Committee Member
+== Engineering Steering Committee Member
 
-The Gerrit project has a steering committee that governs the project,
-see link:dev-processes.html#project-governance[Project Governance].
+The Gerrit project has an Engineering Steering Committee (ESC) that
+governs the project, see link:dev-processes.html#project-governance[Project Governance].
 
 Members of the steering committee are expected to act in the interest
 of the Gerrit project and the whole Gerrit community.

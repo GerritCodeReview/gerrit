@@ -70,6 +70,24 @@
       "revId": "48c63106a09a31b6ae07b6dfc68fd05809ec0009",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d83e0a5a_52979d2f",
+        "filename": "tools/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-27T06:01:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef48eb8f_57c1733c",
+      "revId": "48c63106a09a31b6ae07b6dfc68fd05809ec0009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

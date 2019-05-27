@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "298f8d53_d23e2cd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-27T20:17:57Z",
+      "side": 1,
+      "message": "But we would on win some time, and then this incompatible option would be removed in future Bazel versions and we wouldn\u0027t be able to upgrade.",
+      "revId": "c85ee3b2b06b92345373d5c46f7139c519656b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

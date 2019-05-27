@@ -15,6 +15,7 @@
 package com.google.gerrit.server.logging;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -234,6 +235,63 @@ public class TraceContextTest {
       assertThat(traceIdConsumer.tagName).isEqualTo(RequestId.Type.TRACE_ID.name());
       assertThat(traceIdConsumer.traceId).isEqualTo(traceId2);
     }
+  }
+
+  @Test
+  public void operationForTraceTimerCannotBeNull() throws Exception {
+    assertThrows(NullPointerException.class, () -> TraceContext.newTimer(null));
+    assertThrows(NullPointerException.class, () -> TraceContext.newTimer(null, "foo", "bar"));
+    assertThrows(
+        NullPointerException.class,
+        () -> TraceContext.newTimer(null, "foo1", "bar1", "foo2", "bar2"));
+    assertThrows(
+        NullPointerException.class,
+        () -> TraceContext.newTimer(null, "foo1", "bar1", "foo2", "bar2", "foo3", "bar3"));
+    assertThrows(
+        NullPointerException.class,
+        () ->
+            TraceContext.newTimer(
+                null, "foo1", "bar1", "foo2", "bar2", "foo3", "bar3", "foo4", "bar4"));
+  }
+
+  @Test
+  public void keysForTraceTimerCannotBeNull() throws Exception {
+    assertThrows(NullPointerException.class, () -> TraceContext.newTimer("test", null, "bar"));
+    assertThrows(
+        NullPointerException.class,
+        () -> TraceContext.newTimer("test", null, "bar1", "foo2", "bar2"));
+    assertThrows(
+        NullPointerException.class,
+        () -> TraceContext.newTimer("test", "foo1", "bar1", null, "bar2"));
+    assertThrows(
+        NullPointerException.class,
+        () -> TraceContext.newTimer("test", null, "bar1", "foo2", "bar2", "foo3", "bar3"));
+    assertThrows(
+        NullPointerException.class,
+        () -> TraceContext.newTimer("test", "foo1", "bar1", null, "bar2", "foo3", "bar3"));
+    assertThrows(
+        NullPointerException.class,
+        () -> TraceContext.newTimer("test", "foo1", "bar1", "foo2", "bar2", null, "bar3"));
+    assertThrows(
+        NullPointerException.class,
+        () ->
+            TraceContext.newTimer(
+                "test", null, "bar1", "foo2", "bar2", "foo3", "bar3", "foo4", "bar4"));
+    assertThrows(
+        NullPointerException.class,
+        () ->
+            TraceContext.newTimer(
+                "test", "foo1", "bar1", null, "bar2", "foo3", "bar3", "foo4", "bar4"));
+    assertThrows(
+        NullPointerException.class,
+        () ->
+            TraceContext.newTimer(
+                "test", "foo1", "bar1", "foo2", "bar2", null, "bar3", "foo4", "bar4"));
+    assertThrows(
+        NullPointerException.class,
+        () ->
+            TraceContext.newTimer(
+                "test", "foo1", "bar1", "foo2", "bar2", "foo3", "bar3", null, "bar4"));
   }
 
   private void assertTags(ImmutableMap<String, ImmutableSet<String>> expectedTagMap) {

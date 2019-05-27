@@ -22,6 +22,30 @@
       "revId": "05c4cbad400760af39ea1af1356df8f4dacde619",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72db9e9a_a68c1f4e",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-27T07:41:50Z",
+      "side": 1,
+      "message": "I think that\u0027s still correct. Semantically external ID\u0027s are exactly this: links to identities in external systems. If you use LDAP, accounts will have an external ID that links to the ID in LDAP. Technically this is realized by storing the LDAP username in the external ID.",
+      "parentUuid": "d0b86599_9114c1fe",
+      "range": {
+        "startLine": 289,
+        "startChar": 0,
+        "endLine": 291,
+        "endChar": 0
+      },
+      "revId": "05c4cbad400760af39ea1af1356df8f4dacde619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

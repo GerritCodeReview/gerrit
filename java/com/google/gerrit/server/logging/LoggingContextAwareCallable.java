@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.logging;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSetMultimap;
 import java.util.concurrent.Callable;
 
@@ -35,12 +36,16 @@ class LoggingContextAwareCallable<T> implements Callable<T> {
   private final Thread callingThread;
   private final ImmutableSetMultimap<String, String> tags;
   private final boolean forceLogging;
+  private final boolean performanceLogging;
+  private final ImmutableList<PerformanceLogRecord> performanceLogRecords;
 
   LoggingContextAwareCallable(Callable<T> callable) {
     this.callable = callable;
     this.callingThread = Thread.currentThread();
     this.tags = LoggingContext.getInstance().getTagsAsMap();
     this.forceLogging = LoggingContext.getInstance().isLoggingForced();
+    this.performanceLogging = LoggingContext.getInstance().isPerformanceLogging();
+    this.performanceLogRecords = LoggingContext.getInstance().getPerformanceLogEntries();
   }
 
   @Override
@@ -54,13 +59,20 @@ class LoggingContextAwareCallable<T> implements Callable<T> {
     LoggingContext loggingCtx = LoggingContext.getInstance();
     ImmutableSetMultimap<String, String> oldTags = loggingCtx.getTagsAsMap();
     boolean oldForceLogging = loggingCtx.isLoggingForced();
+    boolean oldPerformanceLogging = loggingCtx.isPerformanceLogging();
+    ImmutableList<PerformanceLogRecord> oldPerformanceLogRecords =
+        loggingCtx.getPerformanceLogEntries();
     loggingCtx.setTags(tags);
     loggingCtx.forceLogging(forceLogging);
+    loggingCtx.performanceLogging(performanceLogging);
+    loggingCtx.setPerformanceLogEntries(performanceLogRecords);
     try {
       return callable.call();
     } finally {
       loggingCtx.setTags(oldTags);
       loggingCtx.forceLogging(oldForceLogging);
+      loggingCtx.performanceLogging(oldPerformanceLogging);
+      loggingCtx.setPerformanceLogEntries(oldPerformanceLogRecords);
     }
   }
 }

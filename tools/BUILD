@@ -100,5 +100,16 @@ package_group(
     packages = [
         "//java/...",
         "//javatests/...",
+        "//plugins/codemirror-editor/...",
+        "//plugins/commit-message-length-validator/...",
+        "//plugins/delete-project/...",
+        "//plugins/download-commands/...",
+        "//plugins/gitiles/...",
+        "//plugins/hooks/...",
+        "//plugins/plugin-manager/...",
+        "//plugins/replication/...",
+        "//plugins/reviewnotes/...",
+        "//plugins/singleusergroup/...",
+        "//plugins/webhooks/...",
     ],
 )

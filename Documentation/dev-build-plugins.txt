@@ -75,6 +75,12 @@ bazel-genfiles/plugins/<plugin-name>/<plugin-name>.jar
 Some plugins describe their build process in `src/main/resources/Documentation/build.md`
 file. It may worth checking.
 
+=== Error Prone checks
+
+Error Prone checks are enabled by default for core Gerrit and all core plugins. To
+enable the checks for custom plugins, add it in the `error_prone_packages` group
+in `tools/BUILD`.
+
 === Plugins with external dependencies ===
 
 If the plugin has external dependencies, then they must be included from Gerrit's

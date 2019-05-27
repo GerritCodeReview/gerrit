@@ -35,14 +35,14 @@ frame since once a design is approved and submitted the implementation
 may start immediately.
 
 Within the 10 calendar days time frame, the contributor should hear back
-from the link:dev-processes.html#steering-committee[steering committee]
+from the link:dev-processes.html#steering-committee[engineering steering committee]
 whether the proposed feature is in scope of the project and if it can
 be accepted.
 
 In order to be accepted/submitted, it is not necessary that the design
 doc fully specifies all the details, but the idea of the feature and
 how it fits into Gerrit should be sufficiently clear (judged by the
-steering committee). Contributors are expected to keep the design doc
+engineering steering committee). Contributors are expected to keep the design doc
 updated and fill in gaps while they go forward with the implementation.
 
 [[watch-designs]]

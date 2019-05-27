@@ -74,6 +74,7 @@ import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -118,6 +119,8 @@ import com.google.gerrit.server.git.validators.RefOperationValidationException;
 import com.google.gerrit.server.git.validators.RefOperationValidators;
 import com.google.gerrit.server.git.validators.ValidationMessage;
 import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.logging.PerformanceLogContext;
+import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
@@ -306,6 +309,7 @@ class ReceiveCommits {
   private final MergedByPushOp.Factory mergedByPushOpFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchSetUtil psUtil;
+  private final DynamicSet<PerformanceLogger> performanceLoggers;
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
   private final Provider<InternalChangeQuery> queryProvider;
@@ -382,6 +386,7 @@ class ReceiveCommits {
       MergedByPushOp.Factory mergedByPushOpFactory,
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetUtil psUtil,
+      DynamicSet<PerformanceLogger> performanceLoggers,
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       Provider<InternalChangeQuery> queryProvider,
@@ -427,6 +432,7 @@ class ReceiveCommits {
     this.pluginConfigEntries = pluginConfigEntries;
     this.projectCache = projectCache;
     this.psUtil = psUtil;
+    this.performanceLoggers = performanceLoggers;
     this.queryProvider = queryProvider;
     this.receiveConfig = receiveConfig;
     this.refValidatorsFactory = refValidatorsFactory;
@@ -525,10 +531,12 @@ class ReceiveCommits {
       Collection<ReceiveCommand> commands, MultiProgressMonitor progress) {
     parsePushOptions();
     try (TraceContext traceContext =
-        TraceContext.newTrace(
-            tracePushOption.isPresent(),
-            tracePushOption.orElse(null),
-            (tagName, traceId) -> addMessage(tagName + ": " + traceId))) {
+            TraceContext.newTrace(
+                tracePushOption.isPresent(),
+                tracePushOption.orElse(null),
+                (tagName, traceId) -> addMessage(tagName + ": " + traceId));
+        PerformanceLogContext performanceLogContext =
+            new PerformanceLogContext(performanceLoggers)) {
       traceContext.addTag(RequestId.Type.RECEIVE_ID, new RequestId(project.getNameKey().get()));
 
       logger.atFinest().log("Calling user: %s", user.getLoggableName());

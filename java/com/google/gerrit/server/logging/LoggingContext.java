@@ -14,8 +14,14 @@
 
 package com.google.gerrit.server.logging;
 
+import static java.util.Objects.requireNonNull;
+
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.flogger.backend.Tags;
+import com.google.inject.Provider;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
 
@@ -35,6 +41,9 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
 
   private static final ThreadLocal<MutableTags> tags = new ThreadLocal<>();
   private static final ThreadLocal<Boolean> forceLogging = new ThreadLocal<>();
+  private static final ThreadLocal<Boolean> performanceLogging = new ThreadLocal<>();
+  private static final ThreadLocal<ArrayList<PerformanceLogRecord>> performanceLogRecords =
+      new ThreadLocal<>();
 
   private LoggingContext() {}
 
@@ -47,14 +56,28 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
     if (runnable instanceof LoggingContextAwareRunnable) {
       return runnable;
     }
-    return new LoggingContextAwareRunnable(runnable);
+
+    // Pass the mutable list instance for performance log records into the
+    // LoggingContextAwareRunnable constructor so that performance log records that are created in
+    // the wrapped runnable are added to this list instance. This is important since performance
+    // log records are processed only at the end of the request and performance log records that
+    // are created in another thread should not get lost.
+    return new LoggingContextAwareRunnable(
+        runnable, getInstance().getMutablePerformanceLogRecordList());
   }
 
   public static <T> Callable<T> copy(Callable<T> callable) {
     if (callable instanceof LoggingContextAwareCallable) {
       return callable;
     }
-    return new LoggingContextAwareCallable<>(callable);
+
+    // Pass the mutable list instance for performance log records into the
+    // LoggingContextAwareCallable constructor so that performance log records that are created in
+    // the wrapped callable are added to this list instance. This is important since performance
+    // log records are processed only at the end of the request and performance log records that
+    // are created in another thread should not get lost.
+    return new LoggingContextAwareCallable<>(
+        callable, getInstance().getMutablePerformanceLogRecordList());
   }
 
   @Override
@@ -119,5 +142,108 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
       forceLogging.remove();
     }
     return oldValue != null ? oldValue : false;
+  }
+
+  boolean isPerformanceLogging() {
+    Boolean isPerformanceLogging = performanceLogging.get();
+    return isPerformanceLogging != null ? isPerformanceLogging : false;
+  }
+
+  /**
+   * Enables performance logging.
+   *
+   * <p>It's important to enable performance logging only in a context that ensures to consume the
+   * captured performance log records. Otherwise captured performance log records might leak into
+   * other requests that are executed by the same thread (if a thread pool is used to process
+   * requests).
+   *
+   * @param enable whether performance logging should be enabled.
+   * @return whether performance logging was be enabled before invoking this method (old value).
+   */
+  boolean performanceLogging(boolean enable) {
+    Boolean oldValue = performanceLogging.get();
+    if (enable) {
+      performanceLogging.set(true);
+    } else {
+      performanceLogging.remove();
+    }
+    return oldValue != null ? oldValue : false;
+  }
+
+  /**
+   * Adds a performance log record, if performance logging is enabled.
+   *
+   * @param recordProvider Provider for the performance log record. This provider is only invoked if
+   *     performance logging is enabled. This means if performance logging is disabled, we avoid the
+   *     creation of a {@link PerformanceLogRecord}.
+   */
+  public void addPerformanceLogRecord(Provider<PerformanceLogRecord> recordProvider) {
+    if (!isPerformanceLogging()) {
+      // return early and avoid the creation of a PerformanceLogRecord
+      return;
+    }
+
+    getMutablePerformanceLogRecordList().add(recordProvider.get());
+  }
+
+  ImmutableList<PerformanceLogRecord> getPerformanceLogRecords() {
+    List<PerformanceLogRecord> records = performanceLogRecords.get();
+    if (records != null) {
+      return ImmutableList.copyOf(records);
+    }
+    return ImmutableList.of();
+  }
+
+  void clearPerformanceLogEntries() {
+    performanceLogRecords.remove();
+  }
+
+  /**
+   * Set the performance log records in this logging context. Existing log records are overwritten.
+   *
+   * <p>This method makes a defensive copy of the passed in list.
+   *
+   * @param newPerformanceLogRecords performance log records that should be set
+   */
+  void setPerformanceLogRecords(List<PerformanceLogRecord> newPerformanceLogRecords) {
+    if (newPerformanceLogRecords.isEmpty()) {
+      performanceLogRecords.remove();
+      return;
+    }
+
+    // Make defensive copy.
+    ArrayList<PerformanceLogRecord> records = new ArrayList<>();
+    records.addAll(newPerformanceLogRecords);
+
+    performanceLogRecords.set(records);
+  }
+
+  /**
+   * Sets a list instance for storing performance log records.
+   *
+   * <p><strong>Attention:</strong> The passed in list is directly stored in the logging context.
+   *
+   * <p>This method is intended to be only used when the logging context is copied to a new thread
+   * to ensure that the performance log records that are added in the new thread are added to the
+   * same list instance (see {@link LoggingContextAwareRunnable} and {@link
+   * LoggingContextAwareCallable}). This is important since performance log records are processed
+   * only at the end of the request and performance log records that are created in another thread
+   * should not get lost.
+   *
+   * @param performanceLogRecordList the list instance in which performance log records should be
+   *     stored
+   */
+  void setMutablePerformanceLogRecordList(
+      ArrayList<PerformanceLogRecord> performanceLogRecordList) {
+    performanceLogRecords.set(requireNonNull(performanceLogRecordList));
+  }
+
+  private ArrayList<PerformanceLogRecord> getMutablePerformanceLogRecordList() {
+    ArrayList<PerformanceLogRecord> records = performanceLogRecords.get();
+    if (records == null) {
+      records = new ArrayList<>();
+      performanceLogRecords.set(records);
+    }
+    return records;
   }
 }

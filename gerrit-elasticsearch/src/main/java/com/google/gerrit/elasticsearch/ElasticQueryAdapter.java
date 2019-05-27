@@ -24,7 +24,6 @@ public class ElasticQueryAdapter {
   private static final String INCLUDE_TYPE = "include_type_name=true";
   private static final String INDICES = "?allow_no_indices=false";
 
-  private final boolean ignoreUnmapped;
   private final boolean useV5Type;
   private final boolean useV6Type;
   private final boolean omitType;
@@ -38,7 +37,6 @@ public class ElasticQueryAdapter {
   private final String includeTypeNameParam;
 
   ElasticQueryAdapter(ElasticVersion version) {
-    this.ignoreUnmapped = false;
     this.useV5Type = !version.isV6OrLater();
     this.useV6Type = version.isV6();
     this.omitType = version.isV7OrLater();
@@ -50,12 +48,6 @@ public class ElasticQueryAdapter {
     this.stringFieldType = "text";
     this.indexProperty = "true";
     this.includeTypeNameParam = version.isAtLeastMinorVersion(V6_7) ? "?" + INCLUDE_TYPE : "";
-  }
-
-  void setIgnoreUnmapped(JsonObject properties) {
-    if (ignoreUnmapped) {
-      properties.addProperty("ignore_unmapped", true);
-    }
   }
 
   public void setType(JsonObject properties, String type) {

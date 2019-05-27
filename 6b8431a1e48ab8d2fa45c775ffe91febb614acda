@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13b37ed1_62b986a8",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-05-27T09:51:22Z",
+      "side": 1,
+      "message": "7?\n\nActually I am not a big fan of \"WithExpectedSize\". It is rare the this optimization matters.",
+      "range": {
+        "startLine": 130,
+        "startChar": 86,
+        "endLine": 130,
+        "endChar": 87
+      },
+      "revId": "6b8431a1e48ab8d2fa45c775ffe91febb614acda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c5113fd_b4cbe46a",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-05-27T09:51:22Z",
+      "side": 1,
+      "message": "It would be great, if it could be documented somewhere what type gerritInitialData has and what data is in there. Even more so, because I have no idea how SOY translates Map\u003cString, SanitizedContent\u003e into JSON.",
+      "revId": "6b8431a1e48ab8d2fa45c775ffe91febb614acda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

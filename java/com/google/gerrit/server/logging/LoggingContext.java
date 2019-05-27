@@ -14,8 +14,12 @@
 
 package com.google.gerrit.server.logging;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.flogger.backend.Tags;
+import com.google.inject.Provider;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
 
@@ -35,6 +39,9 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
 
   private static final ThreadLocal<MutableTags> tags = new ThreadLocal<>();
   private static final ThreadLocal<Boolean> forceLogging = new ThreadLocal<>();
+  private static final ThreadLocal<Boolean> performanceLogging = new ThreadLocal<>();
+  private static final ThreadLocal<List<PerformanceLogRecord>> performanceLogRecords =
+      new ThreadLocal<>();
 
   private LoggingContext() {}
 
@@ -119,5 +126,74 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
       forceLogging.remove();
     }
     return oldValue != null ? oldValue : false;
+  }
+
+  boolean isPerformanceLogging() {
+    Boolean isPerformanceLogging = performanceLogging.get();
+    return isPerformanceLogging != null ? isPerformanceLogging : false;
+  }
+
+  /**
+   * Enables performance logging.
+   *
+   * <p>It's important to enable performance logging only in a context that ensures to consume the
+   * captured performance log records. Otherwise captured performance log records might leak into
+   * other requests that are executed by the same thread (if a thread pool is used to process
+   * requests).
+   *
+   * @param enable whether performance logging should be enabled.
+   * @return whether performance logging was be enabled before invoking this method (old value).
+   */
+  boolean performanceLogging(boolean enable) {
+    Boolean oldValue = performanceLogging.get();
+    if (enable) {
+      performanceLogging.set(true);
+    } else {
+      performanceLogging.remove();
+    }
+    return oldValue != null ? oldValue : false;
+  }
+
+  /**
+   * Adds a performance log record, if performance logging is enabled.
+   *
+   * @param recordProvider Provider for the performance log record. This provider is only invoked if
+   *     performance logging is enabled. This means if performance logging is disabled, we avoid the
+   *     creation of a {@link PerformanceLogRecord}.
+   */
+  public void addPerformanceLogEntry(Provider<PerformanceLogRecord> recordProvider) {
+    if (!isPerformanceLogging()) {
+      // return early and avoid the creation of a PerformanceLogRecord
+      return;
+    }
+
+    List<PerformanceLogRecord> records = performanceLogRecords.get();
+    if (records == null) {
+      records = new ArrayList<>();
+      performanceLogRecords.set(records);
+    }
+    records.add(recordProvider.get());
+  }
+
+  ImmutableList<PerformanceLogRecord> getPerformanceLogEntries() {
+    List<PerformanceLogRecord> records = performanceLogRecords.get();
+    if (records != null) {
+      return ImmutableList.copyOf(records);
+    }
+    return ImmutableList.of();
+  }
+
+  void setPerformanceLogEntries(List<PerformanceLogRecord> newPerformanceLogRecords) {
+    if (newPerformanceLogRecords.isEmpty()) {
+      performanceLogRecords.remove();
+      return;
+    }
+    List<PerformanceLogRecord> records = new ArrayList<>();
+    records.addAll(newPerformanceLogRecords);
+    performanceLogRecords.set(records);
+  }
+
+  void clearPerformanceLogEntries() {
+    performanceLogRecords.remove();
   }
 }

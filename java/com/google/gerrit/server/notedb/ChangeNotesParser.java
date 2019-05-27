@@ -999,7 +999,8 @@ class ChangeNotesParser {
 
   private void updatePatchSetStates() {
     Set<PatchSet.Id> missing = new TreeSet<>(comparing(PatchSet.Id::get));
-    missing.addAll(patchSets.keySet());
+    patchSets.keySet().stream().filter(p -> !patchSetCommitParsed(p)).forEach(p -> missing.add(p));
+
     for (Map.Entry<PatchSet.Id, PatchSetState> e : patchSetStates.entrySet()) {
       switch (e.getValue()) {
         case PUBLISHED:

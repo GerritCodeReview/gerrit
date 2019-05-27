@@ -136,6 +136,7 @@ import com.google.gerrit.server.git.validators.UploadValidationListener;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.group.db.GroupDbModule;
 import com.google.gerrit.server.index.change.ReindexAfterRefUpdate;
+import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.mail.AutoReplyMailFilter;
 import com.google.gerrit.server.mail.EmailModule;
 import com.google.gerrit.server.mail.ListMailFilter;
@@ -380,6 +381,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicItem.itemOf(binder(), ProjectNameLockManager.class);
     DynamicSet.setOf(binder(), SubmitRule.class);
     DynamicSet.setOf(binder(), QuotaEnforcer.class);
+    DynamicSet.setOf(binder(), PerformanceLogger.class);
 
     DynamicMap.mapOf(binder(), MailFilter.class);
     bind(MailFilter.class).annotatedWith(Exports.named("ListMailFilter")).to(ListMailFilter.class);

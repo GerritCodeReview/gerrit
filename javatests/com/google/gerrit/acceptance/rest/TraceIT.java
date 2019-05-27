@@ -17,7 +17,9 @@ package com.google.gerrit.acceptance.rest;
 import static com.google.common.truth.Truth.assertThat;
 import static org.apache.http.HttpStatus.SC_CREATED;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.truth.Expect;
@@ -34,12 +36,16 @@ import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.logging.LoggingContext;
+import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import org.apache.http.message.BasicHeader;
@@ -53,12 +59,15 @@ public class TraceIT extends AbstractDaemonTest {
 
   @Inject private DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners;
   @Inject private DynamicSet<CommitValidationListener> commitValidationListeners;
+  @Inject private DynamicSet<PerformanceLogger> performanceLoggers;
   @Inject private WorkQueue workQueue;
 
   private TraceValidatingProjectCreationValidationListener projectCreationListener;
   private RegistrationHandle projectCreationListenerRegistrationHandle;
   private TraceValidatingCommitValidationListener commitValidationListener;
   private RegistrationHandle commitValidationRegistrationHandle;
+  private TestPerformanceLogger testPerformanceLogger;
+  private RegistrationHandle performanceLoggerRegistrationHandle;
 
   @Before
   public void setup() {
@@ -68,12 +77,15 @@ public class TraceIT extends AbstractDaemonTest {
     commitValidationListener = new TraceValidatingCommitValidationListener();
     commitValidationRegistrationHandle =
         commitValidationListeners.add("gerrit", commitValidationListener);
+    testPerformanceLogger = new TestPerformanceLogger();
+    performanceLoggerRegistrationHandle = performanceLoggers.add("gerrit", testPerformanceLogger);
   }
 
   @After
   public void cleanup() {
     projectCreationListenerRegistrationHandle.remove();
     commitValidationRegistrationHandle.remove();
+    performanceLoggerRegistrationHandle.remove();
   }
 
   @Test
@@ -263,6 +275,25 @@ public class TraceIT extends AbstractDaemonTest {
     assertForceLogging(false);
   }
 
+  @Test
+  public void performanceLoggingForRestCall() throws Exception {
+    RestResponse response = adminRestSession.put("/projects/new10");
+    assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
+
+    // This assertion assumes that the server invokes the PerformanceLogger plugins before it sends
+    // the response to the client. If this assertion gets flaky it's likely that this got changed on
+    // server-side.
+    assertThat(testPerformanceLogger.logEntries()).isNotEmpty();
+  }
+
+  @Test
+  public void performanceLoggingForPush() throws Exception {
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    PushOneCommit.Result r = push.to("refs/heads/master");
+    r.assertOkStatus();
+    assertThat(testPerformanceLogger.logEntries()).isNotEmpty();
+  }
+
   private void assertForceLogging(boolean expected) {
     assertThat(LoggingContext.getInstance().shouldForceLogging(null, null, false))
         .isEqualTo(expected);
@@ -295,5 +326,29 @@ public class TraceIT extends AbstractDaemonTest {
       this.isLoggingForced = LoggingContext.getInstance().shouldForceLogging(null, null, false);
       return ImmutableList.of();
     }
+  }
+
+  private static class TestPerformanceLogger implements PerformanceLogger {
+    private List<PerformanceLogEntry> logEntries = new ArrayList<>();
+
+    @Override
+    public void log(String operation, long durationMs, Map<String, Optional<Object>> metaData) {
+      logEntries.add(PerformanceLogEntry.create(operation, metaData));
+    }
+
+    ImmutableList<PerformanceLogEntry> logEntries() {
+      return ImmutableList.copyOf(logEntries);
+    }
+  }
+
+  @AutoValue
+  abstract static class PerformanceLogEntry {
+    static PerformanceLogEntry create(String operation, Map<String, Optional<Object>> metaData) {
+      return new AutoValue_TraceIT_PerformanceLogEntry(operation, ImmutableMap.copyOf(metaData));
+    }
+
+    abstract String operation();
+
+    abstract ImmutableMap<String, Object> metaData();
   }
 }

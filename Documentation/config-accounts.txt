@@ -286,8 +286,9 @@ Invalid keys are marked with the prefix '# INVALID'.
 [[external-ids]]
 == External IDs
 
-External IDs are used to link external identities, such as an LDAP
-account or an OAUTH identity, to an account in Gerrit.
+External IDs are used to link identities, such as the username and email
+addresses, and external identies such as an LDAP account or an OAUTH
+identity, to an account in Gerrit.
 
 External IDs are stored as Git Notes in the `All-Users` repository. The
 name of the notes branch is `refs/meta/external-ids`.

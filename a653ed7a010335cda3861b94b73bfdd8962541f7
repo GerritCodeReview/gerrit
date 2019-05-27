@@ -34,6 +34,24 @@
       "revId": "a653ed7a010335cda3861b94b73bfdd8962541f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c260e41e_9d102a8e",
+        "filename": "java/com/google/gerrit/pgm/init/api/Section.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-27T00:11:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a52a4a8_7dce7b33",
+      "revId": "a653ed7a010335cda3861b94b73bfdd8962541f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

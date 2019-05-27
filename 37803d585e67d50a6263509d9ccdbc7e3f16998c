@@ -22,6 +22,30 @@
       "revId": "37803d585e67d50a6263509d9ccdbc7e3f16998c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38bed0b9_2c84f6e2",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-27T15:39:31Z",
+      "side": 1,
+      "message": "\u003e How about inlining (collapsing) the major check, to also simplify these checks overall?:\n\u003e \n\u003e return isAtLeastVersion(version.getMajor()) \u0026\u0026 getMinor() \u003e\u003d version.getMinor());\n\n(Extra closing parenthesis to remove.)\n\nreturn isAtLeastVersion(version.getMajor()) \u0026\u0026 getMinor() \u003e\u003d version.getMinor();",
+      "parentUuid": "70562cad_d4c1abf9",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 82
+      },
+      "revId": "37803d585e67d50a6263509d9ccdbc7e3f16998c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

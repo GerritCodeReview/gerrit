@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.logging;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSetMultimap;
 import java.util.concurrent.Callable;
 
@@ -35,12 +36,24 @@ class LoggingContextAwareCallable<T> implements Callable<T> {
   private final Thread callingThread;
   private final ImmutableSetMultimap<String, String> tags;
   private final boolean forceLogging;
+  private final boolean performanceLogging;
+  private final MutablePerformanceLogRecords mutablePerformanceLogRecords;
 
-  LoggingContextAwareCallable(Callable<T> callable) {
+  /**
+   * Creates a LoggingContextAwareCallable that wraps the given {@link Callable}.
+   *
+   * @param callable Callable that should be wrapped.
+   * @param mutablePerformanceLogRecords instance of {@link MutablePerformanceLogRecords} to which
+   *     performance log records that are created from the runnable are added
+   */
+  LoggingContextAwareCallable(
+      Callable<T> callable, MutablePerformanceLogRecords mutablePerformanceLogRecords) {
     this.callable = callable;
     this.callingThread = Thread.currentThread();
     this.tags = LoggingContext.getInstance().getTagsAsMap();
     this.forceLogging = LoggingContext.getInstance().isLoggingForced();
+    this.performanceLogging = LoggingContext.getInstance().isPerformanceLogging();
+    this.mutablePerformanceLogRecords = mutablePerformanceLogRecords;
   }
 
   @Override
@@ -54,13 +67,27 @@ class LoggingContextAwareCallable<T> implements Callable<T> {
     LoggingContext loggingCtx = LoggingContext.getInstance();
     ImmutableSetMultimap<String, String> oldTags = loggingCtx.getTagsAsMap();
     boolean oldForceLogging = loggingCtx.isLoggingForced();
+    boolean oldPerformanceLogging = loggingCtx.isPerformanceLogging();
+    ImmutableList<PerformanceLogRecord> oldPerformanceLogRecords =
+        loggingCtx.getPerformanceLogRecords();
     loggingCtx.setTags(tags);
     loggingCtx.forceLogging(forceLogging);
+    loggingCtx.performanceLogging(performanceLogging);
+
+    // For the performance log records use the {@link MutablePerformanceLogRecords} instance from
+    // the logging context of the calling thread in the logging context of the new thread. This way
+    // performance log records that are created from the new thread are available from the logging
+    // context of the calling thread. This is important since performance log records are processed
+    // only at the end of the request and performance log records that are created in another thread
+    // should not get lost.
+    loggingCtx.setMutablePerformanceLogRecords(mutablePerformanceLogRecords);
     try {
       return callable.call();
     } finally {
       loggingCtx.setTags(oldTags);
       loggingCtx.forceLogging(oldForceLogging);
+      loggingCtx.performanceLogging(oldPerformanceLogging);
+      loggingCtx.setPerformanceLogRecords(oldPerformanceLogRecords);
     }
   }
 }

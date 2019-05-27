@@ -17,25 +17,71 @@ package com.google.gerrit.server.logging;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.truth.Expect;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
+import com.google.gerrit.testing.InMemoryModule;
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import java.util.Map;
+import java.util.Optional;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
 public class LoggingContextAwareExecutorServiceTest {
   @Rule public final Expect expect = Expect.create();
 
+  @Inject private DynamicSet<PerformanceLogger> performanceLoggers;
+
+  private PerformanceLogger testPerformanceLogger;
+  private RegistrationHandle performanceLoggerRegistrationHandle;
+
+  @Before
+  public void setup() {
+    Injector injector = Guice.createInjector(new InMemoryModule());
+    injector.injectMembers(this);
+
+    testPerformanceLogger =
+        new PerformanceLogger() {
+          @Override
+          public void log(
+              String operation, long durationMs, Map<String, Optional<Object>> metaData) {
+            // do nothing
+          }
+        };
+    performanceLoggerRegistrationHandle = performanceLoggers.add("gerrit", testPerformanceLogger);
+  }
+
+  @After
+  public void cleanup() {
+    performanceLoggerRegistrationHandle.remove();
+  }
+
   @Test
   public void loggingContextPropagationToBackgroundThread() throws Exception {
     assertThat(LoggingContext.getInstance().getTags().isEmpty()).isTrue();
     assertForceLogging(false);
-    try (TraceContext traceContext = TraceContext.open().forceLogging().addTag("foo", "bar")) {
+    assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
+    assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
+
+    try (TraceContext traceContext = TraceContext.open().forceLogging().addTag("foo", "bar");
+        PerformanceLogContext performanceLogContext =
+            new PerformanceLogContext(performanceLoggers)) {
+      // Create a performance log record.
+      TraceContext.newTimer("test").close();
+
       SortedMap<String, SortedSet<Object>> tagMap = LoggingContext.getInstance().getTags().asMap();
       assertThat(tagMap.keySet()).containsExactly("foo");
       assertThat(tagMap.get("foo")).containsExactly("bar");
       assertForceLogging(true);
+      assertThat(LoggingContext.getInstance().isPerformanceLogging()).isTrue();
+      assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).hasSize(1);
 
       ExecutorService executor =
           new LoggingContextAwareExecutorService(Executors.newFixedThreadPool(1));
@@ -51,17 +97,32 @@ public class LoggingContextAwareExecutorServiceTest {
                 expect
                     .that(LoggingContext.getInstance().shouldForceLogging(null, null, false))
                     .isTrue();
+                expect.that(LoggingContext.getInstance().isPerformanceLogging()).isTrue();
+                expect.that(LoggingContext.getInstance().getPerformanceLogRecords()).hasSize(1);
+
+                // Create another performance log record. We expect this to be visible in the outer
+                // thread.
+                TraceContext.newTimer("test2").close();
+                expect.that(LoggingContext.getInstance().getPerformanceLogRecords()).hasSize(2);
               })
           .get();
 
-      // Verify that tags and force logging flag in the outer thread are still set.
+      // Verify that logging context values in the outer thread are still set.
       tagMap = LoggingContext.getInstance().getTags().asMap();
       assertThat(tagMap.keySet()).containsExactly("foo");
       assertThat(tagMap.get("foo")).containsExactly("bar");
       assertForceLogging(true);
+      assertThat(LoggingContext.getInstance().isPerformanceLogging()).isTrue();
+
+      // The performance log record that was added in the inner thread is available in addition to
+      // the performance log record that was created in the outer thread.
+      assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).hasSize(2);
     }
+
     assertThat(LoggingContext.getInstance().getTags().isEmpty()).isTrue();
     assertForceLogging(false);
+    assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
+    assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
   }
 
   private void assertForceLogging(boolean expected) {

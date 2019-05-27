@@ -18,6 +18,8 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
+import com.google.gerrit.server.logging.LoggingContext;
+import com.google.gerrit.server.logging.PerformanceLogRecord;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -75,7 +77,14 @@ public abstract class Timer1<F1> implements RegistrationHandle {
    * @param unit time unit of the value
    */
   public final void record(F1 field1, long value, TimeUnit unit) {
-    logger.atFinest().log("%s (%s) took %dms", name, field1, unit.toMillis(value));
+    long durationMs = unit.toMillis(value);
+
+    // TODO(ekempin): We don't know the field name here. Check whether we can make it available.
+    LoggingContext.getInstance()
+        .addPerformanceLogRecord(
+            () -> PerformanceLogRecord.create(name, durationMs, "field1", field1));
+
+    logger.atFinest().log("%s (%s) took %dms", name, field1, durationMs);
     doRecord(field1, value, unit);
   }
 

@@ -136,6 +136,7 @@ java_library(
         ":server",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/server/git/receive",
+        "//java/com/google/gerrit/server/logging",
         "//java/com/google/gerrit/server/restapi",
         "//lib:blame-cache",
         "//lib:guava",

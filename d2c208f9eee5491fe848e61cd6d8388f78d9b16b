@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac8c57eb_7be7b0db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-05-27T07:14:05Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me why this cannot just be installed through NPM- I guess some machine that runs it cannot access the internet? In that case, I would still add it as a dev dependency to package.json, and then for machines that do not have this restriction, they can install it normally.\n\nnpm install --save-dev polymer-bundler@4.0.9",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 78
+      },
+      "revId": "d2c208f9eee5491fe848e61cd6d8388f78d9b16b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

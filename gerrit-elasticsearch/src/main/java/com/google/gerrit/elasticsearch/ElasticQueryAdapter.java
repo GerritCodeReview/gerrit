@@ -14,6 +14,8 @@
 
 package com.google.gerrit.elasticsearch;
 
+import static com.google.gerrit.elasticsearch.ElasticVersion.V6_7;
+
 import com.google.gson.JsonObject;
 
 public class ElasticQueryAdapter {
@@ -42,11 +44,12 @@ public class ElasticQueryAdapter {
     this.omitType = version.isV7OrLater();
     this.versionDiscoveryUrl = version.isV6OrLater() ? "/%s*" : "/%s*/_aliases";
     this.searchFilteringName = "_source";
-    this.indicesExistParams = version.isV6() ? INDICES + "&" + INCLUDE_TYPE : INDICES;
+    this.indicesExistParams =
+        version.isAtLeastMinorVersion(V6_7) ? INDICES + "&" + INCLUDE_TYPE : INDICES;
     this.exactFieldType = "keyword";
     this.stringFieldType = "text";
     this.indexProperty = "true";
-    this.includeTypeNameParam = version.isV6() ? "?" + INCLUDE_TYPE : "";
+    this.includeTypeNameParam = version.isAtLeastMinorVersion(V6_7) ? "?" + INCLUDE_TYPE : "";
   }
 
   void setIgnoreUnmapped(JsonObject properties) {

@@ -71,12 +71,21 @@ public enum ElasticVersion {
     return isAtLeastVersion(7);
   }
 
-  private boolean isAtLeastVersion(int v) {
-    return getMajor() >= v;
+  private boolean isAtLeastVersion(int major) {
+    return getMajor() >= major;
+  }
+
+  public boolean isAtLeastVersion(ElasticVersion version) {
+    return getMajor() > version.getMajor()
+        || (getMajor() >= version.getMajor() && getMinor() >= version.getMinor());
   }
 
   private Integer getMajor() {
     return Integer.valueOf(version.split("\\.")[0]);
+  }
+
+  private Integer getMinor() {
+    return Integer.valueOf(version.split("\\.")[1]);
   }
 
   @Override

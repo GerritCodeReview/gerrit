@@ -71,6 +71,18 @@ public class ElasticVersionTest {
   }
 
   @Test
+  public void atLeastVersion() throws Exception {
+    assertThat(ElasticVersion.V5_6.isAtLeastVersion(ElasticVersion.V6_7)).isFalse();
+    assertThat(ElasticVersion.V6_2.isAtLeastVersion(ElasticVersion.V6_7)).isFalse();
+    assertThat(ElasticVersion.V6_3.isAtLeastVersion(ElasticVersion.V6_7)).isFalse();
+    assertThat(ElasticVersion.V6_4.isAtLeastVersion(ElasticVersion.V6_7)).isFalse();
+    assertThat(ElasticVersion.V6_5.isAtLeastVersion(ElasticVersion.V6_7)).isFalse();
+    assertThat(ElasticVersion.V6_6.isAtLeastVersion(ElasticVersion.V6_7)).isFalse();
+    assertThat(ElasticVersion.V6_7.isAtLeastVersion(ElasticVersion.V6_7)).isTrue();
+    assertThat(ElasticVersion.V7_0.isAtLeastVersion(ElasticVersion.V6_7)).isTrue();
+  }
+
+  @Test
   public void version7() throws Exception {
     assertThat(ElasticVersion.V5_6.isV7OrLater()).isFalse();
     assertThat(ElasticVersion.V6_2.isV7OrLater()).isFalse();

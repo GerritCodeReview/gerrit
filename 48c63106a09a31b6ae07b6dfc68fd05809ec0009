@@ -34,6 +34,24 @@
       "revId": "48c63106a09a31b6ae07b6dfc68fd05809ec0009",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57f73fb0_b576a4b1",
+        "filename": "tools/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-27T05:40:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e906a9a_faa3ac73",
+      "revId": "48c63106a09a31b6ae07b6dfc68fd05809ec0009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

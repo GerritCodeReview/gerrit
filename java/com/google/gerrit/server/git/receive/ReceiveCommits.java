@@ -62,6 +62,7 @@ import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.exceptions.StorageException;
@@ -1516,6 +1517,10 @@ class ReceiveCommits {
       }
       // TODO(dpursehouse): validate hashtags
     }
+
+    @UsedAt(UsedAt.Project.GOOGLE)
+    @Option(name = "--create-cod-token", usage = "create a token for consistency-on-demand")
+    private boolean createCodToken;
 
     MagicBranchInput(IdentifiedUser user, ReceiveCommand cmd, LabelTypes labelTypes) {
       this.deprecatedTopicSeen = false;

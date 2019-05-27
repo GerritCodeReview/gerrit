@@ -100,5 +100,6 @@ package_group(
     packages = [
         "//java/...",
         "//javatests/...",
+        "//plugins/...",
     ],
 )

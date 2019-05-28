@@ -22,6 +22,30 @@
       "revId": "2e47f0617c93d75c9e8b8d169eafcf6c6c0892bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "930283a2_1403be37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-05-28T07:53:12Z",
+      "side": 1,
+      "message": "For now, we are building it as a feature based on google global replicated infrastructure (most of its implementation will be google internal). We haven\u0027t considered about building it as an open source feature, but will be happy to hear if the CoD feature will somehow also make sense to the community.",
+      "parentUuid": "d57d987e_f99ea78c",
+      "range": {
+        "startLine": 10,
+        "startChar": 2,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "2e47f0617c93d75c9e8b8d169eafcf6c6c0892bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

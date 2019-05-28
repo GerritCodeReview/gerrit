@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77537992_b5ef8c5a",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-05-28T21:37:06Z",
+      "side": 1,
+      "message": "why is this never null?",
+      "range": {
+        "startLine": 332,
+        "startChar": 36,
+        "endLine": 332,
+        "endChar": 44
+      },
+      "revId": "dc6ed65da836eef10f2cad0f54d4559eeb42cb53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

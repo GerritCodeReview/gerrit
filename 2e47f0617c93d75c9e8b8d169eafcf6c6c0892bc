@@ -46,6 +46,30 @@
       "revId": "2e47f0617c93d75c9e8b8d169eafcf6c6c0892bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab789453_d1fe9c2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-05-28T15:29:51Z",
+      "side": 1,
+      "message": "I think there are probably people in the community that have been interested in multi-site Gerrit that would also be interested in CoD.\n\nAlso, if this switch is (for now) only going to be used by a google-internal implementation, could it be moved to a plugin? I don\u0027t think we want to add switches to open-source Gerrit for Google internal-only features.",
+      "parentUuid": "930283a2_1403be37",
+      "range": {
+        "startLine": 10,
+        "startChar": 2,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "2e47f0617c93d75c9e8b8d169eafcf6c6c0892bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50a09aa6_e65a71f1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-05-28T14:02:51Z",
+      "side": 1,
+      "message": "That *should* also work with Polymer 1. I have a similar pending change in https://gerrit-review.googlesource.com/c/gerrit/+/224406.",
+      "revId": "2b4f02eedaa2c7684a75910e34e493201b98ef48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

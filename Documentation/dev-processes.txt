@@ -28,6 +28,9 @@ The steering committee has 5 members:
 * 2 non-Google maintainers, elected by non-Google maintainers for the
   period of 1 year (see link:#steering-committee-election[below])
 
+Refer to the project homepage for the link:https://www.gerritcodereview.com/esc.html[
+list of current committee members].
+
 The steering committee should act in the interest of the Gerrit project
 and the whole Gerrit community.
 

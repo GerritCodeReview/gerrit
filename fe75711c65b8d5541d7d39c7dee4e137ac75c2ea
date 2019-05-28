@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a191f03_e44605f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-05-28T07:41:54Z",
+      "side": 1,
+      "message": "Nit: Have you already verified? Otherwise maybe just say \"We expect this to...\"",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 28
+      },
+      "revId": "fe75711c65b8d5541d7d39c7dee4e137ac75c2ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff7b858e_945807d2",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-05-28T07:41:54Z",
+      "side": 1,
+      "message": "My understanding is that this code should follow the Google Java style guide, which would require `canonicalUrl` here: https://google.github.io/styleguide/javaguide.html#s5.3-camel-case",
+      "range": {
+        "startLine": 49,
+        "startChar": 43,
+        "endLine": 49,
+        "endChar": 45
+      },
+      "revId": "fe75711c65b8d5541d7d39c7dee4e137ac75c2ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c569fcb0_111890d5",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-05-28T07:41:54Z",
+      "side": 1,
+      "message": "Maybe at least log something so we can later count how frequent this case is?",
+      "range": {
+        "startLine": 147,
+        "startChar": 6,
+        "endLine": 147,
+        "endChar": 31
+      },
+      "revId": "fe75711c65b8d5541d7d39c7dee4e137ac75c2ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7aefb53e_0732fe8b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-05-28T07:41:54Z",
+      "side": 1,
+      "message": "This seems extremely defensive. In other places, all we do is `gerritInitialData !\u003d undefined` or even just `gerritInitialData`. Yes, one can redefine undefined in JS and get funny results, but who does that? And if you speak about an attacker, they must never be able to execute code - when we have to work around attackers redefining undefined, all bets are off anyways.",
+      "range": {
+        "startLine": 147,
+        "startChar": 10,
+        "endLine": 147,
+        "endChar": 50
+      },
+      "revId": "fe75711c65b8d5541d7d39c7dee4e137ac75c2ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

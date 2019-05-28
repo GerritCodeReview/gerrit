@@ -16,6 +16,24 @@
       "revId": "2b4f02eedaa2c7684a75910e34e493201b98ef48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7506839a_c3c83ad1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-05-28T14:21:10Z",
+      "side": 1,
+      "message": "Thanks, can that be possibly rebased out of series if it works with polymer 1.x?",
+      "parentUuid": "50a09aa6_e65a71f1",
+      "revId": "2b4f02eedaa2c7684a75910e34e493201b98ef48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

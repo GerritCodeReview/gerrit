@@ -164,7 +164,6 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   private JsonArray getSortArray() {
     JsonObject properties = new JsonObject();
     properties.addProperty(ORDER, "desc");
-    client.adapter().setIgnoreUnmapped(properties);
 
     JsonArray sortArray = new JsonArray();
     addNamedElement(ChangeField.UPDATED.getName(), properties, sortArray);

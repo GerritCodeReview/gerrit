@@ -305,7 +305,6 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected JsonArray getSortArray(String idFieldName) {
     JsonObject properties = new JsonObject();
     properties.addProperty(ORDER, "asc");
-    client.adapter().setIgnoreUnmapped(properties);
 
     JsonArray sortArray = new JsonArray();
     addNamedElement(idFieldName, properties, sortArray);

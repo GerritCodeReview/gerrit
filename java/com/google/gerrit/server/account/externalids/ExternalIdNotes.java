@@ -805,7 +805,7 @@ public class ExternalIdNotes extends VersionedMetaData {
       }
       checkState(
           accountId.equals(extId.accountId()),
-          "external id %s belongs to account %s, expected account %s",
+          "external id %s belongs to account %s, but expected account %s",
           extId.key().get(),
           extId.accountId().get(),
           accountId.get());
@@ -863,7 +863,7 @@ public class ExternalIdNotes extends VersionedMetaData {
     ExternalId actualExtId = ExternalId.parse(noteId.name(), raw, noteDataId);
     checkState(
         extId.equals(actualExtId),
-        "external id %s should be removed, but it's not matching the actual external id %s",
+        "external id %s should be removed, but it doesn't match the actual external id %s",
         extId.toString(),
         actualExtId.toString());
     noteMap.remove(noteId);

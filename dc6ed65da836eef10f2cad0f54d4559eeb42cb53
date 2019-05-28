@@ -22,6 +22,30 @@
       "revId": "dc6ed65da836eef10f2cad0f54d4559eeb42cb53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c675aa48_daf16fab",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-05-28T23:18:57Z",
+      "side": 1,
+      "message": "Because we always create a BitSet in addTag().\n\nIf we want to be paranoid about nulls, we could add null checks to all these. That is actually how we have it deployed internally, but that version of the code doesn\u0027t create empty BitSets on lines 360 and 363. I think with those empty BitSets, we\u0027re safe from NPEing ever.",
+      "parentUuid": "77537992_b5ef8c5a",
+      "range": {
+        "startLine": 332,
+        "startChar": 36,
+        "endLine": 332,
+        "endChar": 44
+      },
+      "revId": "dc6ed65da836eef10f2cad0f54d4559eeb42cb53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

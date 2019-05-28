@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e7aed39_7fbab7b8",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-28T01:58:22Z",
+      "side": 1,
+      "message": "\"Another\"?\n\nOr reword the sentence at 730 to introduce that there are multiple special behaviors (or maybe refer to them as \"caveats\"?) and then list them in bullets?  I.e. move the content of the paragraph starting at L730 and this new paragraph into two bullets under the new introductory sentence.",
+      "range": {
+        "startLine": 737,
+        "startChar": 0,
+        "endLine": 737,
+        "endChar": 9
+      },
+      "revId": "1dd68054b72c9ef4a9369962ee50fb9933801af9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a397870_f3963993",
+        "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-28T01:58:22Z",
+      "side": 1,
+      "message": "Rename this to make it clearer what we\u0027re testing?  I.e something like grantReadOnRefsTagsDoesNothing?",
+      "range": {
+        "startLine": 252,
+        "startChar": 14,
+        "endLine": 252,
+        "endChar": 35
+      },
+      "revId": "1dd68054b72c9ef4a9369962ee50fb9933801af9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e4fabd7_000165aa",
+        "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-28T01:58:22Z",
+      "side": 1,
+      "message": "Add a comment here to make it clear we expect nothing to be visible?",
+      "revId": "1dd68054b72c9ef4a9369962ee50fb9933801af9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

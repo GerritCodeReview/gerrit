@@ -19,6 +19,7 @@ limitations under the License.
 
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.html">
+<link rel="import" href="../../../behaviors/polymer-version-behavior/polymer-version-behavior.html">
 <link rel="import" href="/bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -39,10 +40,19 @@ limitations under the License.
       <div id="form">
         <section>
           <span class="title">Group name</span>
-          <input
-              is="iron-input"
-              id="groupNameInput"
-              bind-value="{{_name}}">
+          <template is="dom-if" if="[[getPolymerVersion()]]">
+            <iron-input bind-value="{{_name}}">
+              <input
+                  is="iron-input"
+                  id="groupNameInput">
+            </iron-input>
+          </template>
+          <template is="dom-if" if="[[!getPolymerVersion()]]">
+            <input
+                is="iron-input"
+                id="groupNameInput"
+                bind-value="{{_name}}">
+          </template>
         </section>
       </div>
     </div>

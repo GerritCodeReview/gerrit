@@ -16,6 +16,24 @@
       "revId": "4f9f03c3fa8d82eeb984b8e9b0c0ea1a640b6e5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6253aab_9522ff6c",
+        "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-05-28T15:34:03Z",
+      "side": 1,
+      "message": "That\u0027s what uploadPackAllRefsAreVisibleOrphanedTag() does.",
+      "parentUuid": "691376a0_6cf64164",
+      "revId": "4f9f03c3fa8d82eeb984b8e9b0c0ea1a640b6e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

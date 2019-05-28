@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d57d987e_f99ea78c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-05-28T01:35:53Z",
+      "side": 1,
+      "message": "Is consistency on demand going to be an open source feature? i.e. can I build \u0026 deploy Gerrit with it?",
+      "range": {
+        "startLine": 10,
+        "startChar": 2,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "2e47f0617c93d75c9e8b8d169eafcf6c6c0892bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

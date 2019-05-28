@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "769fa5f6_98cc7fac",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-05-28T13:54:18Z",
+      "side": 1,
+      "message": "Can you put a comment here why it is important to close this scope earlier (copy from commit message)?",
+      "range": {
+        "startLine": 556,
+        "startChar": 8,
+        "endLine": 556,
+        "endChar": 9
+      },
+      "revId": "72057e821e7ddf055a614144b018311beea5c2f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1dc67d8_1c59b045",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContextAwareCallable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-05-28T13:54:18Z",
+      "side": 1,
+      "message": "I think this won\u0027t work with respect to getting back the performance log records logged in another thread: When the runnable returns, we need to propagate the newly created PerformanceLogs back to the caller.\n\nCurrent behavior:\nMain thread: List\u003cPerformanceLog\u003e  (1 entry)\nRunnable on BG thread, receives this item through propagation (unnecessary)\nRunnable adds item, now has 2 entries\nRunnable is done, we reset it\u0027s state to null.\nMain thread still has only 1 entry\n\nDesired behavior:\nMain thread: List\u003cPerformanceLog\u003e  (1 entry)\nRunnable on BG thread, new List created in a thread local\nRunnable adds item, now has 1 entries\nRunnable is done, we add that 1 item to the Main thread\u0027s list, set it to null in the callable\nMain thread has 2 entries\n\nCan we add a test for this? It should be easy to create an executor with a single thread, wrap it and then assert state.",
+      "revId": "72057e821e7ddf055a614144b018311beea5c2f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbe994a1_067a5e7d",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContextAwareRunnable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-05-28T13:54:18Z",
+      "side": 1,
+      "message": "I think we shouldn\u0027t restore any old state but throw (or log) instead:\n\nIf you run a Runnable on a thread it can\u0027t be preempted in itself. So it would be safe to expect that:\nWhen we start processing it, all thread locals are null. If they are not, a prior action has leaked state.\nBefore we leave, we clean up by un-setting all thread locals.",
+      "range": {
+        "startLine": 97,
+        "startChar": 7,
+        "endLine": 98,
+        "endChar": 68
+      },
+      "revId": "72057e821e7ddf055a614144b018311beea5c2f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c503979_a308ded0",
+        "filename": "java/com/google/gerrit/server/logging/PerformanceLogContext.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-05-28T13:54:18Z",
+      "side": 1,
+      "message": "Please seem my comment above",
+      "revId": "72057e821e7ddf055a614144b018311beea5c2f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

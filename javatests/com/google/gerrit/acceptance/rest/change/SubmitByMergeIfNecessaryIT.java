@@ -19,6 +19,7 @@ import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.common.data.Permission.READ;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
@@ -638,7 +639,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     projectOperations
         .project(project)
         .forUpdate()
-        .add(block("read").ref(secretBranch.branch()).group(ANONYMOUS_USERS))
+        .add(block(READ).ref(secretBranch.branch()).group(ANONYMOUS_USERS))
         .update();
 
     requestScopeOperations.setApiUser(user.id());

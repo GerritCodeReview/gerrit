@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.common.data.Permission.READ;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static java.util.stream.Collectors.toList;
 
@@ -166,8 +167,8 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     projectOperations
         .project(project)
         .forUpdate()
-        .add(block("read").ref("refs/*").group(ANONYMOUS_USERS))
-        .add(allow("read").ref("refs/*").group(group1))
+        .add(block(READ).ref("refs/*").group(ANONYMOUS_USERS))
+        .add(allow(READ).ref("refs/*").group(group1))
         .update();
     reviewers = suggestReviewers(changeId, user2.username(), 2);
     assertThat(reviewers).isEmpty();

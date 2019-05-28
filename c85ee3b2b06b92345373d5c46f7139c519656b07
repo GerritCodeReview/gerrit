@@ -16,6 +16,24 @@
       "revId": "c85ee3b2b06b92345373d5c46f7139c519656b07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6af821ac_7cab1091",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-05-28T07:48:19Z",
+      "side": 1,
+      "message": "Yes, it was my intention to have this as a temporary workaround to buy us some time.\n\nAre the bazel-developers actually planing to remove this option again? Or to even fully enforce the current state? If the second alternative is the case, we would have to remove this option to be able to upgrade, which in itself would not be a huge effort, but the danger is that the underlying issue will not be solved in time, because with this workaround people become complacent.",
+      "parentUuid": "298f8d53_d23e2cd2",
+      "revId": "c85ee3b2b06b92345373d5c46f7139c519656b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

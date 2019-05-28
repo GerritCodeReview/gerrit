@@ -38,11 +38,6 @@
 	url = ../plugins/replication
 	branch = .
 
-[submodule "plugins/reviewnotes"]
-	path = plugins/reviewnotes
-	url = ../plugins/reviewnotes
-	branch = .
-
 [submodule "plugins/singleusergroup"]
 	path = plugins/singleusergroup
 	url = ../plugins/singleusergroup

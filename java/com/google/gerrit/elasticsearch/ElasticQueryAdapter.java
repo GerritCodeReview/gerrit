@@ -14,6 +14,8 @@
 
 package com.google.gerrit.elasticsearch;
 
+import static com.google.gerrit.elasticsearch.ElasticVersion.V6_7;
+
 import com.google.gson.JsonObject;
 
 public class ElasticQueryAdapter {
@@ -22,7 +24,6 @@ public class ElasticQueryAdapter {
   private static final String INCLUDE_TYPE = "include_type_name=true";
   private static final String INDICES = "?allow_no_indices=false";
 
-  private final boolean ignoreUnmapped;
   private final boolean useV5Type;
   private final boolean useV6Type;
   private final boolean omitType;
@@ -37,24 +38,18 @@ public class ElasticQueryAdapter {
   private final String includeTypeNameParam;
 
   ElasticQueryAdapter(ElasticVersion version) {
-    this.ignoreUnmapped = false;
     this.useV5Type = !version.isV6OrLater();
     this.useV6Type = version.isV6();
     this.omitType = version.isV7OrLater();
     this.versionDiscoveryUrl = version.isV6OrLater() ? "/%s*" : "/%s*/_aliases";
     this.searchFilteringName = "_source";
-    this.indicesExistParams = version.isV6() ? INDICES + "&" + INCLUDE_TYPE : INDICES;
+    this.indicesExistParams =
+        version.isAtLeastMinorVersion(V6_7) ? INDICES + "&" + INCLUDE_TYPE : INDICES;
     this.exactFieldType = "keyword";
     this.stringFieldType = "text";
     this.indexProperty = "true";
     this.rawFieldsKey = "_source";
-    this.includeTypeNameParam = version.isV6() ? "?" + INCLUDE_TYPE : "";
-  }
-
-  void setIgnoreUnmapped(JsonObject properties) {
-    if (ignoreUnmapped) {
-      properties.addProperty("ignore_unmapped", true);
-    }
+    this.includeTypeNameParam = version.isAtLeastMinorVersion(V6_7) ? "?" + INCLUDE_TYPE : "";
   }
 
   public void setType(JsonObject properties, String type) {

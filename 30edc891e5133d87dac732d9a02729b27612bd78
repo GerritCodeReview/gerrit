@@ -22,6 +22,30 @@
       "revId": "30edc891e5133d87dac732d9a02729b27612bd78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44f0dd65_1fca3b07",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-28T05:54:51Z",
+      "side": 1,
+      "message": "lol: s/ass/add",
+      "parentUuid": "2883c2be_46c6c9a7",
+      "range": {
+        "startLine": 232,
+        "startChar": 54,
+        "endLine": 234,
+        "endChar": 35
+      },
+      "revId": "30edc891e5133d87dac732d9a02729b27612bd78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

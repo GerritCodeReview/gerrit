@@ -23,7 +23,6 @@
   {@param? assetsBundle: ?}  /** {string} Assets bundle .html file, served from $assetsPath. */
   {@param? faviconPath: ?}
   {@param? versionInfo: ?}
-  {@param? deprecateGwtUi: ?}
   {@param? polymer2: ?}
   <!DOCTYPE html>{\n}
   <html lang="en">{\n}
@@ -39,7 +38,6 @@
   <script>
     window.CLOSURE_NO_DEPS = true;
     {if $canonicalPath != ''}window.CANONICAL_PATH = '{$canonicalPath}';{/if}
-    {if $deprecateGwtUi}window.DEPRECATE_GWT_UI = true;{/if}
     {if $versionInfo}window.VERSION_INFO = '{$versionInfo}';{/if}
     {if $staticResourcePath != ''}window.STATIC_RESOURCE_PATH = '{$staticResourcePath}';{/if}
     {if $assetsPath}window.ASSETS_PATH = '{$assetsPath}';{/if}

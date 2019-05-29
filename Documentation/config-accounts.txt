@@ -275,7 +275,7 @@ branch is fast.
 To identify SSH keys in the REST API Gerrit uses
 link:rest-api-accounts.html#ssh-key-id[sequence numbers per account].
 This is why the order of the keys in the `authorized_keys` file is
-used to determines the sequence numbers of the keys (the sequence
+used to determine the sequence numbers of the keys (the sequence
 numbers start at 1).
 
 To keep the sequence numbers intact when a key is deleted, a
@@ -286,19 +286,21 @@ Invalid keys are marked with the prefix '# INVALID'.
 [[external-ids]]
 == External IDs
 
-External IDs are used to link external identities, such as an LDAP
-account or an OAUTH identity, to an account in Gerrit.
+External IDs are used to link identities, such as the username and email
+addresses, and external identies such as an LDAP account or an OAUTH
+identity, to an account in Gerrit.
 
 External IDs are stored as Git Notes in the `All-Users` repository. The
 name of the notes branch is `refs/meta/external-ids`.
 
-As note key the SHA1 of the external ID key is used. This ensures that
-an external ID is used only once (e.g. an external ID can never be
-assigned to multiple accounts at a point in time).
+As note key the SHA1 of the external ID key is used, for example the key
+for the external ID `username:jdoe` is `e0b751ae90ef039f320e097d7d212f490e933706`.
+This ensures that an external ID is used only once (e.g. an external ID can
+never be assigned to multiple accounts at a point in time).
 
 [IMPORTANT]
 If the external ID key is changed manually you must adapt the note key
-to the new SHA1. Otherwise the external ID becomes inconsistent and is
+to the new SHA1, otherwise the external ID becomes inconsistent and is
 ignored by Gerrit.
 
 The note content is a Git config file:
@@ -310,14 +312,14 @@ The note content is a Git config file:
   password = bcrypt:4:LCbmSBDivK/hhGVQMfkDpA==:XcWn0pKYSVU/UJgOvhidkEtmqCp6oKB7
 ----
 
-The config file has one `externalId` section. The external ID key which
-consists of scheme and ID in the format '<scheme>:<id>' is used as
+The config file has one `externalId` section. The external ID key, which
+consists of scheme and ID in the format '<scheme>:<id>', is used as
 subsection name.
 
-The `accountId` field is mandatory, the `email` and `password` fields
+The `accountId` field is mandatory. The `email` and `password` fields
 are optional.
 
-The external IDs are maintained by Gerrit, this means users are not
+The external IDs are maintained by Gerrit. This means users are not
 allowed to manually edit their external IDs. Only users with the
 link:access-control.html#capability_accessDatabase[Access Database]
 global capability can push updates to the `refs/meta/external-ids`

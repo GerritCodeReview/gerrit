@@ -44,16 +44,24 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
  * Builds a set of tags reachable from non-tag, non-special refs and tracks which of those refs can
- * reach each tag.
+ * reach each tag. An instance is constructed from a snapshot of the ref database. TagSets can be
+ * incrementally updated to newer states of the refdatabase using the refresh method.
  *
  * <p>{@link com.google.gerrit.server.permissions.DefaultRefFilter} uses this set to determine which
  * tags should be advertised when a subset of refs are visible.
+ *
+ * <p>TagSets can be serialized for use in a persisted TagCache
  */
 class TagSet {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Project.NameKey projectName;
+
+  // refName => ref. CachedRef is a ref that has an integer identity, used for indexing into
+  // BitSets.
   private final Map<String, CachedRef> refs;
+
+  // ObjectId-pointed-to-by-tag => Tag
   private final ObjectIdOwnerMap<Tag> tags;
 
   TagSet(Project.NameKey projectName) {
@@ -409,6 +417,8 @@ class TagSet {
   }
 
   static final class Tag extends ObjectIdOwnerMap.Entry {
+    // a RefCache.flag => isVisible map. This reference is aliased to the
+    // bitset in TagCommit.refFlags.
     @VisibleForTesting final BitSet refFlags;
 
     Tag(AnyObjectId id, BitSet flags) {
@@ -424,30 +434,38 @@ class TagSet {
     public String toString() {
       return MoreObjects.toStringHelper(this).addValue(name()).add("refFlags", refFlags).toString();
     }
-  }
 
-  @VisibleForTesting
-  static final class CachedRef extends AtomicReference<ObjectId> {
-    private static final long serialVersionUID = 1L;
+    /**
+     * A ref that is identified by an integer.
+     *
+     * <p>NOSUBMIT: AtomicReference suggests that this is used in multithreaded contexts. How? If
+     * yes, this should be documented in TagSet's Javadoc. If no, we can cut object overhead by
+     * inlining the ObjectId?
+     */
+    @VisibleForTesting
+    static final class CachedRef extends AtomicReference<ObjectId> {
+      private static final long serialVersionUID = 1L;
 
-    final int flag;
+      // unique identifier for this ref within the TagSet.
+      final int flag;
 
-    CachedRef(Ref ref, int flag) {
-      this(flag, ref.getObjectId());
-    }
+      CachedRef(Ref ref, int flag) {
+        this(flag, ref.getObjectId());
+      }
 
-    CachedRef(int flag, ObjectId id) {
-      this.flag = flag;
-      set(id);
-    }
+      CachedRef(int flag, ObjectId id) {
+        this.flag = flag;
+        set(id);
+      }
 
-    @Override
-    public String toString() {
-      ObjectId id = get();
-      return MoreObjects.toStringHelper(this)
-          .addValue(id != null ? id.name() : "null")
-          .add("flag", flag)
-          .toString();
+      @Override
+      public String toString() {
+        ObjectId id = get();
+        return MoreObjects.toStringHelper(this)
+            .addValue(id != null ? id.name() : "null")
+            .add("flag", flag)
+            .toString();
+      }
     }
   }
 
@@ -462,7 +480,10 @@ class TagSet {
     }
   }
 
+  // NOSUBMIT: TagCommit is a misleading name, as it also holds commits which are not tags.
+  // maybe CommitWithReachability ?
   private static final class TagCommit extends RevCommit {
+    // CachedRef.flag => isVisible, indicating if this commit is reachable from the ref.
     BitSet refFlags;
 
     TagCommit(AnyObjectId id) {

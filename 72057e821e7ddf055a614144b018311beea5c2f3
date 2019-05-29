@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d3c8bccc_e6dddcee",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-29T11:45:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "769fa5f6_98cc7fac",
+      "range": {
+        "startLine": 556,
+        "startChar": 8,
+        "endLine": 556,
+        "endChar": 9
+      },
+      "revId": "72057e821e7ddf055a614144b018311beea5c2f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1dc67d8_1c59b045",
         "filename": "java/com/google/gerrit/server/logging/LoggingContextAwareCallable.java",
         "patchSetId": 4
@@ -39,6 +63,24 @@
       "revId": "72057e821e7ddf055a614144b018311beea5c2f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf96b95d_1e3d87be",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContextAwareCallable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-29T11:45:08Z",
+      "side": 1,
+      "message": "Good catch. Done.",
+      "parentUuid": "a1dc67d8_1c59b045",
+      "revId": "72057e821e7ddf055a614144b018311beea5c2f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "80c7bf05_f3187c01",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContextAwareRunnable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-29T11:45:08Z",
+      "side": 1,
+      "message": "Makes sense, but I would rather do this in a follow-up change, since the same applies to the tags and forceLogging option (which is existing code not introduced by this change).",
+      "parentUuid": "fbe994a1_067a5e7d",
+      "range": {
+        "startLine": 97,
+        "startChar": 7,
+        "endLine": 98,
+        "endChar": 68
+      },
+      "revId": "72057e821e7ddf055a614144b018311beea5c2f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5c503979_a308ded0",
         "filename": "java/com/google/gerrit/server/logging/PerformanceLogContext.java",
         "patchSetId": 4
@@ -79,6 +145,24 @@
       "revId": "72057e821e7ddf055a614144b018311beea5c2f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81844976_11a7fa96",
+        "filename": "java/com/google/gerrit/server/logging/PerformanceLogContext.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-29T11:45:08Z",
+      "side": 1,
+      "message": "This is needed to support nesting of PerformanceLogContext\u0027s (which we don\u0027t do, but is legal to do). This is tested by PerformanceLogContextTest#nestingPerformanceLogContextsIsPossible().",
+      "parentUuid": "5c503979_a308ded0",
+      "revId": "72057e821e7ddf055a614144b018311beea5c2f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

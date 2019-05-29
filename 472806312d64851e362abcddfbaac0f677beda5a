@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ec5ae037_941f0401",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-29T12:29:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9006dcbc_e3e29624",
+      "range": {
+        "startLine": 296,
+        "startChar": 17,
+        "endLine": 296,
+        "endChar": 24
+      },
+      "revId": "472806312d64851e362abcddfbaac0f677beda5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "998c6321_1174283d",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "472806312d64851e362abcddfbaac0f677beda5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50d68fa6_ddf7eb6a",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-05-29T12:29:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "998c6321_1174283d",
+      "range": {
+        "startLine": 297,
+        "startChar": 21,
+        "endLine": 298,
+        "endChar": 32
+      },
+      "revId": "472806312d64851e362abcddfbaac0f677beda5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -109,6 +109,8 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
     return apply(rsrc.getUser(), newPassword);
   }
 
+  // Used by the admin console plugin
+  // TODO(dpursehouse): Replace comment with @UsedAt
   public Response<String> apply(IdentifiedUser user, String newPassword)
       throws ResourceNotFoundException, ResourceConflictException, OrmException, IOException,
           ConfigInvalidException {

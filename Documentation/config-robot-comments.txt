@@ -36,7 +36,6 @@ Robot comments can be dropped by deleting this ref.
 
 == Limitations
 
-* Robot comments are not displayed in the web UI yet.
 * There is no support for draft robot comments, but robot comments are
   always published and visible to everyone who can see the change.
 

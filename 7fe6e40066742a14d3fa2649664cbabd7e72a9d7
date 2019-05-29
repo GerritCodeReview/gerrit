@@ -16,6 +16,24 @@
       "revId": "7fe6e40066742a14d3fa2649664cbabd7e72a9d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09bd331a_6b147d75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-29T04:32:55Z",
+      "side": 1,
+      "message": "I think it\u0027s to avoid the admin-server permission check, but didn\u0027t look into it in details. This is probably something that should be improved, but I\u0027d rather just fix it quickly for now.",
+      "parentUuid": "3225f305_775c8ab0",
+      "revId": "7fe6e40066742a14d3fa2649664cbabd7e72a9d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

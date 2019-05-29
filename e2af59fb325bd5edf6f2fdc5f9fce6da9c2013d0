@@ -22,6 +22,30 @@
       "revId": "e2af59fb325bd5edf6f2fdc5f9fce6da9c2013d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca673454_0fbd360a",
+        "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 959,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-05-29T17:56:27Z",
+      "side": 1,
+      "message": "I could do that if you prefer. I felt this way was clearly showing the impact of a non-commit tag. I\u0027d have to copy/reference the comment on lines 470/471 to a lot of places otherwise.",
+      "parentUuid": "57d1d4de_efc84ac3",
+      "range": {
+        "startLine": 959,
+        "startChar": 15,
+        "endLine": 959,
+        "endChar": 28
+      },
+      "revId": "e2af59fb325bd5edf6f2fdc5f9fce6da9c2013d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

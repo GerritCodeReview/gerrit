@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.logging;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSetMultimap;
 
 /**
@@ -86,11 +85,6 @@ public class LoggingContextAwareRunnable implements Runnable {
 
     // propagate logging context
     LoggingContext loggingCtx = LoggingContext.getInstance();
-    ImmutableSetMultimap<String, String> oldTags = loggingCtx.getTagsAsMap();
-    boolean oldForceLogging = loggingCtx.isLoggingForced();
-    boolean oldPerformanceLogging = loggingCtx.isPerformanceLogging();
-    ImmutableList<PerformanceLogRecord> oldPerformanceLogRecords =
-        loggingCtx.getPerformanceLogRecords();
     loggingCtx.setTags(tags);
     loggingCtx.forceLogging(forceLogging);
     loggingCtx.performanceLogging(performanceLogging);
@@ -105,10 +99,11 @@ public class LoggingContextAwareRunnable implements Runnable {
     try {
       runnable.run();
     } finally {
-      loggingCtx.setTags(oldTags);
-      loggingCtx.forceLogging(oldForceLogging);
-      loggingCtx.performanceLogging(oldPerformanceLogging);
-      loggingCtx.setPerformanceLogRecords(oldPerformanceLogRecords);
+      // Cleanup logging context. This is important if the thread is pooled and reused.
+      loggingCtx.clearTags();
+      loggingCtx.forceLogging(false);
+      loggingCtx.performanceLogging(false);
+      loggingCtx.clearPerformanceLogEntries();
     }
   }
 }

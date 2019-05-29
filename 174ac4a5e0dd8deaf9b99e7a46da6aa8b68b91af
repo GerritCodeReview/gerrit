@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c16ffe3_26a4b331",
+        "filename": "java/com/google/gerrit/server/restapi/account/PutHttpPassword.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-05-29T16:32:02Z",
+      "side": 1,
+      "message": "Cannot resolve; WIP.",
+      "range": {
+        "startLine": 112,
+        "startChar": 67,
+        "endLine": 112,
+        "endChar": 79
+      },
+      "revId": "174ac4a5e0dd8deaf9b99e7a46da6aa8b68b91af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

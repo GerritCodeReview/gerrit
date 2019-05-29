@@ -512,23 +512,6 @@ class ReceiveCommits {
   }
 
   void processCommands(Collection<ReceiveCommand> commands, MultiProgressMonitor progress) {
-    Task commandProgress = progress.beginSubTask("refs", UNKNOWN);
-    commands = commands.stream().map(c -> wrapReceiveCommand(c, commandProgress)).collect(toList());
-    processCommandsUnsafe(commands, progress);
-    rejectRemaining(commands, "internal server error");
-
-    // This sends error messages before the 'done' string of the progress monitor is sent.
-    // Currently, the test framework relies on this ordering to understand if pushes completed
-    // successfully.
-    sendErrorMessages();
-
-    commandProgress.end();
-    progress.end();
-  }
-
-  // Process as many commands as possible, but may leave some commands in state NOT_ATTEMPTED.
-  private void processCommandsUnsafe(
-      Collection<ReceiveCommand> commands, MultiProgressMonitor progress) {
     parsePushOptions();
     try (TraceContext traceContext =
             TraceContext.newTrace(
@@ -539,90 +522,108 @@ class ReceiveCommits {
             new PerformanceLogContext(performanceLoggers)) {
       traceContext.addTag(RequestId.Type.RECEIVE_ID, new RequestId(project.getNameKey().get()));
 
-      logger.atFinest().log("Calling user: %s", user.getLoggableName());
-
       // Log the push options here, rather than in parsePushOptions(), so that they are included
       // into the trace if tracing is enabled.
       logger.atFine().log("push options: %s", receivePack.getPushOptions());
 
-      if (!projectState.getProject().getState().permitsWrite()) {
-        for (ReceiveCommand cmd : commands) {
-          reject(cmd, "prohibited by Gerrit: project state does not permit write");
-        }
-        return;
-      }
+      Task commandProgress = progress.beginSubTask("refs", UNKNOWN);
+      commands =
+          commands.stream().map(c -> wrapReceiveCommand(c, commandProgress)).collect(toList());
+      processCommandsUnsafe(commands, progress);
+      rejectRemaining(commands, "internal server error");
 
-      logger.atFine().log("Parsing %d commands", commands.size());
+      // This sends error messages before the 'done' string of the progress monitor is sent.
+      // Currently, the test framework relies on this ordering to understand if pushes completed
+      // successfully.
+      sendErrorMessages();
 
-      List<ReceiveCommand> magicCommands = new ArrayList<>();
-      List<ReceiveCommand> directPatchSetPushCommands = new ArrayList<>();
-      List<ReceiveCommand> regularCommands = new ArrayList<>();
-
-      for (ReceiveCommand cmd : commands) {
-        if (MagicBranch.isMagicBranch(cmd.getRefName())) {
-          magicCommands.add(cmd);
-        } else if (isDirectChangesPush(cmd.getRefName())) {
-          directPatchSetPushCommands.add(cmd);
-        } else {
-          regularCommands.add(cmd);
-        }
-      }
-
-      int commandTypes =
-          (magicCommands.isEmpty() ? 0 : 1)
-              + (directPatchSetPushCommands.isEmpty() ? 0 : 1)
-              + (regularCommands.isEmpty() ? 0 : 1);
-
-      if (commandTypes > 1) {
-        rejectRemaining(commands, "cannot combine normal pushes and magic pushes");
-        return;
-      }
-
-      try {
-        if (!regularCommands.isEmpty()) {
-          handleRegularCommands(regularCommands, progress);
-          return;
-        }
-
-        for (ReceiveCommand cmd : directPatchSetPushCommands) {
-          parseDirectChangesPush(cmd);
-        }
-
-        boolean first = true;
-        for (ReceiveCommand cmd : magicCommands) {
-          if (first) {
-            parseMagicBranch(cmd);
-            first = false;
-          } else {
-            reject(cmd, "duplicate request");
-          }
-        }
-      } catch (PermissionBackendException | NoSuchProjectException | IOException err) {
-        logger.atSevere().withCause(err).log("Failed to process refs in %s", project.getName());
-        return;
-      }
-
-      Task newProgress = progress.beginSubTask("new", UNKNOWN);
-      Task replaceProgress = progress.beginSubTask("updated", UNKNOWN);
-
-      List<CreateRequest> newChanges = Collections.emptyList();
-      if (magicBranch != null && magicBranch.cmd.getResult() == NOT_ATTEMPTED) {
-        newChanges = selectNewAndReplacedChangesFromMagicBranch(newProgress);
-      }
-
-      // Commit validation has already happened, so any changes without Change-Id are for the
-      // deprecated feature.
-      warnAboutMissingChangeId(newChanges);
-      preparePatchSetsForReplace(newChanges);
-      insertChangesAndPatchSets(newChanges, replaceProgress);
-      newProgress.end();
-      replaceProgress.end();
-      queueSuccessMessages(newChanges);
-
-      logger.atFine().log(
-          "Command results: %s",
-          lazy(() -> commands.stream().map(ReceiveCommits::commandToString).collect(joining(","))));
+      commandProgress.end();
+      progress.end();
     }
+  }
+
+  // Process as many commands as possible, but may leave some commands in state NOT_ATTEMPTED.
+  private void processCommandsUnsafe(
+      Collection<ReceiveCommand> commands, MultiProgressMonitor progress) {
+    logger.atFinest().log("Calling user: %s", user.getLoggableName());
+
+    if (!projectState.getProject().getState().permitsWrite()) {
+      for (ReceiveCommand cmd : commands) {
+        reject(cmd, "prohibited by Gerrit: project state does not permit write");
+      }
+      return;
+    }
+
+    logger.atFine().log("Parsing %d commands", commands.size());
+
+    List<ReceiveCommand> magicCommands = new ArrayList<>();
+    List<ReceiveCommand> directPatchSetPushCommands = new ArrayList<>();
+    List<ReceiveCommand> regularCommands = new ArrayList<>();
+
+    for (ReceiveCommand cmd : commands) {
+      if (MagicBranch.isMagicBranch(cmd.getRefName())) {
+        magicCommands.add(cmd);
+      } else if (isDirectChangesPush(cmd.getRefName())) {
+        directPatchSetPushCommands.add(cmd);
+      } else {
+        regularCommands.add(cmd);
+      }
+    }
+
+    int commandTypes =
+        (magicCommands.isEmpty() ? 0 : 1)
+            + (directPatchSetPushCommands.isEmpty() ? 0 : 1)
+            + (regularCommands.isEmpty() ? 0 : 1);
+
+    if (commandTypes > 1) {
+      rejectRemaining(commands, "cannot combine normal pushes and magic pushes");
+      return;
+    }
+
+    try {
+      if (!regularCommands.isEmpty()) {
+        handleRegularCommands(regularCommands, progress);
+        return;
+      }
+
+      for (ReceiveCommand cmd : directPatchSetPushCommands) {
+        parseDirectChangesPush(cmd);
+      }
+
+      boolean first = true;
+      for (ReceiveCommand cmd : magicCommands) {
+        if (first) {
+          parseMagicBranch(cmd);
+          first = false;
+        } else {
+          reject(cmd, "duplicate request");
+        }
+      }
+    } catch (PermissionBackendException | NoSuchProjectException | IOException err) {
+      logger.atSevere().withCause(err).log("Failed to process refs in %s", project.getName());
+      return;
+    }
+
+    Task newProgress = progress.beginSubTask("new", UNKNOWN);
+    Task replaceProgress = progress.beginSubTask("updated", UNKNOWN);
+
+    List<CreateRequest> newChanges = Collections.emptyList();
+    if (magicBranch != null && magicBranch.cmd.getResult() == NOT_ATTEMPTED) {
+      newChanges = selectNewAndReplacedChangesFromMagicBranch(newProgress);
+    }
+
+    // Commit validation has already happened, so any changes without Change-Id are for the
+    // deprecated feature.
+    warnAboutMissingChangeId(newChanges);
+    preparePatchSetsForReplace(newChanges);
+    insertChangesAndPatchSets(newChanges, replaceProgress);
+    newProgress.end();
+    replaceProgress.end();
+    queueSuccessMessages(newChanges);
+
+    logger.atFine().log(
+        "Command results: %s",
+        lazy(() -> commands.stream().map(ReceiveCommits::commandToString).collect(joining(","))));
   }
 
   private void sendErrorMessages() {

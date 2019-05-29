@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3225f305_775c8ab0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-05-29T04:23:43Z",
+      "side": 1,
+      "message": "Different question is: why admin-console plugin doesn\u0027t use plugin API and uses endpoints directly?",
+      "revId": "7fe6e40066742a14d3fa2649664cbabd7e72a9d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

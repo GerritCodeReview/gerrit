@@ -29,43 +29,9 @@ import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import com.google.gerrit.util.http.testutil.FakeHttpServletResponse;
-import com.google.template.soy.data.SoyMapData;
 import org.junit.Test;
 
 public class IndexServletTest {
-  @Test
-  public void noPathAndNoCDN() throws Exception {
-    SoyMapData data = IndexServlet.getStaticTemplateData("http://example.com/", null, null);
-    assertThat(data.getSingle("canonicalPath").stringValue()).isEqualTo("");
-    assertThat(data.getSingle("staticResourcePath").stringValue()).isEqualTo("");
-  }
-
-  @Test
-  public void pathAndNoCDN() throws Exception {
-    SoyMapData data = IndexServlet.getStaticTemplateData("http://example.com/gerrit/", null, null);
-    assertThat(data.getSingle("canonicalPath").stringValue()).isEqualTo("/gerrit");
-    assertThat(data.getSingle("staticResourcePath").stringValue()).isEqualTo("/gerrit");
-  }
-
-  @Test
-  public void noPathAndCDN() throws Exception {
-    SoyMapData data =
-        IndexServlet.getStaticTemplateData(
-            "http://example.com/", "http://my-cdn.com/foo/bar/", null);
-    assertThat(data.getSingle("canonicalPath").stringValue()).isEqualTo("");
-    assertThat(data.getSingle("staticResourcePath").stringValue())
-        .isEqualTo("http://my-cdn.com/foo/bar/");
-  }
-
-  @Test
-  public void pathAndCDN() throws Exception {
-    SoyMapData data =
-        IndexServlet.getStaticTemplateData(
-            "http://example.com/gerrit", "http://my-cdn.com/foo/bar/", null);
-    assertThat(data.getSingle("canonicalPath").stringValue()).isEqualTo("/gerrit");
-    assertThat(data.getSingle("staticResourcePath").stringValue())
-        .isEqualTo("http://my-cdn.com/foo/bar/");
-  }
 
   @Test
   public void renderTemplate() throws Exception {

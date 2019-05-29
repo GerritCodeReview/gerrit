@@ -46,6 +46,7 @@ EXPORTS = [
     "//java/com/google/gerrit/server/api",
     "//java/com/google/gerrit/server/audit",
     "//java/com/google/gerrit/server/cache/mem",
+    "//java/com/google/gerrit/server/cache/serialize",
     "//java/com/google/gerrit/server/logging",
     "//java/com/google/gerrit/server/schema",
     "//java/com/google/gerrit/server/util/time",

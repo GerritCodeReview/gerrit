@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d5a0b336_341d4cfe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-05-29T22:09:09Z",
+      "side": 1,
+      "message": "I studied the tagSet code for a bit (see https://gerrit-review.googlesource.com/c/gerrit/+/226392 - you\u0027re welcome to fold that in here or submit separately), but I don\u0027t understand why this helps. \n\nTagSet#build does a revwalk starting from all the refs that went through addRef(), creating a bitset for each of commit. This would likely cover most of the commits. \n\nSo, where does the space savings come from? Is it because of incremental updates to the tagset (that somehow avoid creating bitsets?)",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 5
+      },
+      "revId": "dc6ed65da836eef10f2cad0f54d4559eeb42cb53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "77537992_b5ef8c5a",
         "filename": "java/com/google/gerrit/server/git/TagSet.java",
         "patchSetId": 3

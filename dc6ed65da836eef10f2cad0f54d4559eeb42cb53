@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "654c7894_aa1f7dd1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-05-29T22:52:14Z",
+      "side": 1,
+      "message": "\u003e \u003e TagSet#build does a revwalk starting from all the refs that went through addRef(), creating a bitset for each of commit. This would likely cover most of the commits. \n\u003e \n\u003e The current tip version creates a bitset for each commit. This change modifies that approach to only create and keep a bitset for commits directly pointed to by tags. Non-tag commits have their BitSet (if any) copied/ORed with their parent(s).\n\nOops, didn\u0027t finish that sentence. Trying again:\nNon-tag commits have their BitSet (if any) copied/ORed with their parent(s) and then set to null so that the memory can be reclaimed.",
+      "parentUuid": "417a1b73_266938ef",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 5
+      },
+      "revId": "dc6ed65da836eef10f2cad0f54d4559eeb42cb53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "77537992_b5ef8c5a",
         "filename": "java/com/google/gerrit/server/git/TagSet.java",
         "patchSetId": 3

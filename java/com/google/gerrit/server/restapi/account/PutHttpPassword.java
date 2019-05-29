@@ -103,8 +103,14 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
       newPassword = input.httpPassword;
     }
+    return apply(rsrc.getUser(), newPassword);
+  }
 
-    IdentifiedUser user = rsrc.getUser();
+  // Used by the admin console plugin
+  // TODO(dpursehouse): Replace comment with @UsedAt
+  public Response<String> apply(IdentifiedUser user, String newPassword)
+      throws ResourceNotFoundException, ResourceConflictException, OrmException, IOException,
+          ConfigInvalidException {
     String userName =
         user.getUserName().orElseThrow(() -> new ResourceConflictException("username must be set"));
     Optional<ExternalId> optionalExtId =

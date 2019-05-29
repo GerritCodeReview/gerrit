@@ -46,6 +46,30 @@
       "revId": "e2af59fb325bd5edf6f2fdc5f9fce6da9c2013d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02867e7f_ffbfc953",
+        "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 959,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-05-29T18:40:19Z",
+      "side": 1,
+      "message": "What I think is important, is that all the other tests don\u0027t fail with this tree tag since that is what we are really trying to show. Whether you then think these extra tests provide additional value on top of all the other test, I would leave that up to you.",
+      "parentUuid": "ca673454_0fbd360a",
+      "range": {
+        "startLine": 959,
+        "startChar": 15,
+        "endLine": 959,
+        "endChar": 28
+      },
+      "revId": "e2af59fb325bd5edf6f2fdc5f9fce6da9c2013d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

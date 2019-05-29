@@ -290,12 +290,12 @@ Tasks:
 * watch out for community issues and address them proactively
 * serve as contact person for community issues
 
-The community managers should be a pair of two that share the work:
+The community managers should be a pair or trio that shares the work:
 
-* one Googler that is appointed by Google
-* one non-Googler, elected by the community if there are multiple
-  candidates (if there is no candidate, we only have the one community
-  manager from Google)
+* One Googler that is appointed by Google.
+* One or two non-Googlers, elected by the community if there are more
+  than two candidates. If there is no candidate, we only have the one
+  community manager from Google.
 
 Community managers must not be link:#steering-committee-member[
 steering committee members] at the same time so that they can represent

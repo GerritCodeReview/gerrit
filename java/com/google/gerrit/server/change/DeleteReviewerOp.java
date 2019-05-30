@@ -28,7 +28,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.Project.NameKey;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
@@ -206,7 +206,10 @@ public class DeleteReviewerOp implements BatchUpdateOp {
   }
 
   private void emailReviewers(
-      NameKey projectName, Change change, ChangeMessage changeMessage, NotifyResolver.Result notify)
+      Project.NameKey projectName,
+      Change change,
+      ChangeMessage changeMessage,
+      NotifyResolver.Result notify)
       throws EmailException {
     Account.Id userId = user.get().getAccountId();
     if (userId.equals(reviewer.getAccount().getId())) {

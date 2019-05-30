@@ -15,7 +15,6 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Key;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -40,7 +39,7 @@ public class ChangeKeyAdapter implements JsonSerializer<Change.Key>, JsonDeseria
   }
 
   @Override
-  public Key deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+  public Change.Key deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
       throws JsonParseException {
     JsonElement keyJson = json.getAsJsonObject().get("id");
     if (keyJson == null || !keyJson.isJsonPrimitive() || !keyJson.getAsJsonPrimitive().isString()) {

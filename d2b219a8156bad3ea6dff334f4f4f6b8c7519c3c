@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2acb5903_03366dce",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-30T00:55:17Z",
+      "side": 1,
+      "message": "Build is failing because it fails to resolve CachedRef here.",
+      "range": {
+        "startLine": 71,
+        "startChar": 54,
+        "endLine": 71,
+        "endChar": 63
+      },
+      "revId": "d2b219a8156bad3ea6dff334f4f4f6b8c7519c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

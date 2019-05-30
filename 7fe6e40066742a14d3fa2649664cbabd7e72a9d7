@@ -34,6 +34,29 @@
       "revId": "7fe6e40066742a14d3fa2649664cbabd7e72a9d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eec64153_00c0a485",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutHttpPassword.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-05-30T03:20:18Z",
+      "side": 1,
+      "message": "serviceuser",
+      "range": {
+        "startLine": 112,
+        "startChar": 17,
+        "endLine": 112,
+        "endChar": 30
+      },
+      "revId": "7fe6e40066742a14d3fa2649664cbabd7e72a9d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

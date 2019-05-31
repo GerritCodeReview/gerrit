@@ -419,13 +419,6 @@ java_library(
 )
 
 java_library(
-    name = "javassist",
-    data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
-    visibility = ["//visibility:public"],
-    exports = ["@javassist//jar"],
-)
-
-java_library(
     name = "soy",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],

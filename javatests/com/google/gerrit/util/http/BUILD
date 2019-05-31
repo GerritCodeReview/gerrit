@@ -8,8 +8,6 @@ junit_tests(
         "//java/com/google/gerrit/util/http",
         "//javatests/com/google/gerrit/util/http/testutil",
         "//lib:junit",
-        "//lib:servlet-api-3_1-without-neverlink",
-        "//lib/easymock",
         "//lib/truth",
     ],
 )

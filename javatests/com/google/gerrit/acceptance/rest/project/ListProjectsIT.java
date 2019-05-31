@@ -66,7 +66,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
     Project.NameKey someProject = projectOperations.newProject().create();
     assertThatNameList(gApi.projects().list().get())
         .containsExactly(allProjects, allUsers, project, someProject);
-    assertThatNameList(gApi.projects().list().get()).isOrdered();
+    assertThatNameList(gApi.projects().list().get()).isInOrder();
   }
 
   @Test

@@ -1540,7 +1540,7 @@ public class GroupsIT extends AbstractDaemonTest {
   private static void assertIncludes(List<GroupInfo> includes, String... expectedNames) {
     List<String> names = includes.stream().map(i -> i.name).collect(toImmutableList());
     assertThat(names).containsExactlyElementsIn(Arrays.asList(expectedNames));
-    assertThat(names).isOrdered();
+    assertThat(names).isInOrder();
   }
 
   private void assertBadRequest(ListRequest req) throws Exception {

@@ -9,12 +9,8 @@ java_library(
     ),
     visibility = ["//visibility:public"],
     exports = [
+        "//lib:junit",
         "//lib/easymock",
-        "//lib/powermock:powermock-api-easymock",
-        "//lib/powermock:powermock-api-support",
-        "//lib/powermock:powermock-core",
-        "//lib/powermock:powermock-module-junit4",
-        "//lib/powermock:powermock-module-junit4-common",
     ],
     deps = [
         "//java/com/google/gerrit/acceptance/testsuite/project",

@@ -51,7 +51,7 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
     Project.NameKey child1_1 = projectOperations.newProject().parent(child1).create();
     Project.NameKey child1_2 = projectOperations.newProject().parent(child1).create();
 
-    assertThatNameList(gApi.projects().name(child1.get()).children()).isOrdered();
+    assertThatNameList(gApi.projects().name(child1.get()).children()).isInOrder();
     assertThatNameList(gApi.projects().name(child1.get()).children())
         .containsExactly(child1_1, child1_2);
   }

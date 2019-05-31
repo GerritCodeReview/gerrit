@@ -57,7 +57,7 @@ public class RegexListSearcherTest {
   }
 
   private void assertSearchReturns(List<?> expected, String re, List<String> inputs) {
-    assertThat(inputs).isOrdered();
+    assertThat(inputs).isInOrder();
     assertThat(RegexListSearcher.ofStrings(re).search(inputs))
         .containsExactlyElementsIn(expected)
         .inOrder();

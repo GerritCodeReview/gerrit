@@ -81,7 +81,7 @@ public class SchemaCreatorImplTest {
   private void assertValueRange(LabelType label, Integer... range) {
     List<Integer> rangeList = Arrays.asList(range);
     assertThat(rangeList).isNotEmpty();
-    assertThat(rangeList).isStrictlyOrdered();
+    assertThat(rangeList).isInStrictOrder();
 
     assertThat(label.getValues().stream().map(v -> (int) v.getValue()))
         .containsExactlyElementsIn(rangeList)

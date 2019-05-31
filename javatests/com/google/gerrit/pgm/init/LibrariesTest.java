@@ -14,32 +14,33 @@
 
 package com.google.gerrit.pgm.init;
 
-import static org.easymock.EasyMock.createStrictMock;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.verifyZeroInteractions;
 
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
 import java.nio.file.Paths;
 import java.util.Collections;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
+@RunWith(MockitoJUnitRunner.class)
 public class LibrariesTest {
+  @Mock ConsoleUI ui;
+  @Mock StaleLibraryRemover remover;
+
   @Test
   public void create() throws Exception {
     final SitePaths site = new SitePaths(Paths.get("."));
-    final ConsoleUI ui = createStrictMock(ConsoleUI.class);
-    final StaleLibraryRemover remover = createStrictMock(StaleLibraryRemover.class);
-
-    replay(ui);
 
     Libraries lib =
         new Libraries(
             () -> new LibraryDownloader(ui, site, remover), Collections.emptyList(), false);
 
     assertNotNull(lib.mysqlDriver);
-
-    verify(ui);
+    verifyZeroInteractions(ui);
+    verifyZeroInteractions(remover);
   }
 }

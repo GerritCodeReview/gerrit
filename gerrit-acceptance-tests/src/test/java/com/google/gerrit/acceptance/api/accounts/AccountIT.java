@@ -740,6 +740,29 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Sandboxed
+  public void deleteAllEmails() throws Exception {
+    EmailInput input = new EmailInput();
+    input.email = "foo.bar@example.com";
+    input.noConfirmation = true;
+    gApi.accounts().self().addEmail(input);
+    accountIndexedCounter.assertReindexOf(admin);
+
+    resetCurrentApiUser();
+    Set<String> allEmails = getEmails();
+    assertThat(allEmails).hasSize(2);
+
+    accountIndexedCounter.clear();
+    for (String email : allEmails) {
+      gApi.accounts().self().deleteEmail(email);
+    }
+
+    resetCurrentApiUser();
+    assertThat(getEmails()).isEmpty();
+    assertThat(gApi.accounts().self().get().email).isNull();
+  }
+
+  @Test
   public void deleteEmailFromCustomExternalIdSchemes() throws Exception {
     String email = "foo.bar@example.com";
     String extId1 = "foo:bar";

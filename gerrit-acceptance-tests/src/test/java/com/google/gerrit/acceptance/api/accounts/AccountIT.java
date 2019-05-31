@@ -711,6 +711,33 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void deletePreferredEmail() throws Exception {
+    String email = "foo.bar@example.com";
+    EmailInput input = new EmailInput();
+    input.email = email;
+    input.noConfirmation = true;
+    input.preferred = true;
+    gApi.accounts().self().addEmail(input);
+
+    // Account is reindexed twice; once on adding the new email,
+    // and then again on setting the email preferred.
+    accountIndexedCounter.assertReindexOf(admin, 2);
+
+    String preferred = gApi.accounts().self().get().email;
+    assertThat(preferred).isEqualTo(email);
+
+    accountIndexedCounter.clear();
+    gApi.accounts().self().deleteEmail(input.email);
+
+    // Account is reindexed twice; once on removing the new email,
+    // and then again on unsetting the email preferred.
+    accountIndexedCounter.assertReindexOf(admin, 2);
+
+    resetCurrentApiUser();
+    assertThat(getEmails()).doesNotContain(email);
+  }
+
+  @Test
   public void deleteEmailFromCustomExternalIdSchemes() throws Exception {
     String email = "foo.bar@example.com";
     String extId1 = "foo:bar";

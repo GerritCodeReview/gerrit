@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e59d15d2_7a09577b",
+        "filename": ".bazelversion",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-06-01T08:22:28Z",
+      "side": 1,
+      "message": "We are currently using 0.25.0. I think we should update in a separate change, considering the past bazel-updates and the required changes in the Gerrit-source code.\n\nBTW can we use the minimum required bazel version in the WORKSPACE file to set the version for bazelisk, so that we do not have to set the version at two locations?",
+      "revId": "4e3c5db6918ecb324934640828c1444deeddea13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

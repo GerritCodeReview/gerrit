@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f218232_3ad31fc6",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-02T07:45:42Z",
+      "side": 1,
+      "message": "This can be potentially problematic upgrade. We are using protoc compiler through indirect dependency to rules_closure, that depends on protobuf transitively.\n\nAfter this change we would still use protoc version 3.7.1, but protobuf_java version 3.8.0. Those releases may or may not be compatible. In the past two major protobuf releases were not compatible, see for example NSME error with protobuf version mismatch I reported here: [1].\n\nThe correct sequence of upgrades would be:\n\n* 1. Bump protobuf version in rules_closure, see for example my PR: [2] where I bumped the version to 3.7.1\n* 2. Upgrade rules_closure in gerrit core\n* 3. Upgrade protobuf-java to 3.8.0.\n\n* [1] https://github.com/bazelbuild/bazel/issues/6852\n* [2] https://github.com/bazelbuild/rules_closure/pull/344",
+      "range": {
+        "startLine": 223,
+        "startChar": 50,
+        "endLine": 223,
+        "endChar": 55
+      },
+      "revId": "f3aed50c50c510c5f22761201c8289c1a546a03b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

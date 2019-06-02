@@ -22,6 +22,30 @@
       "revId": "f3aed50c50c510c5f22761201c8289c1a546a03b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51ad7ee2_8f8432a0",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-02T07:59:22Z",
+      "side": 1,
+      "message": "I went ahead, and removed own protobuf-java version fetching in gerrit core altogether and replaced it with the version consumed through transitive rules_closure dependency: [1]. This is even better that does add a comment here.\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/226652",
+      "parentUuid": "2f218232_3ad31fc6",
+      "range": {
+        "startLine": 223,
+        "startChar": 50,
+        "endLine": 223,
+        "endChar": 55
+      },
+      "revId": "f3aed50c50c510c5f22761201c8289c1a546a03b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

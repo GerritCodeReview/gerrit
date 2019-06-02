@@ -19,6 +19,7 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.jgit.diff.ReplaceEdit;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -34,7 +35,6 @@ import java.util.concurrent.TimeoutException;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.MyersDiff;
-import org.eclipse.jgit.diff.ReplaceEdit;
 import org.eclipse.jgit.lib.Config;
 
 class IntraLineLoader implements Callable<IntraLineDiff> {

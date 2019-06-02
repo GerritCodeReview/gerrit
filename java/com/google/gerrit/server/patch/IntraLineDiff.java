@@ -21,6 +21,7 @@ import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.jgit.diff.ReplaceEdit;
 import com.google.gerrit.reviewdb.client.CodedEnum;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +33,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.eclipse.jgit.diff.Edit;
-import org.eclipse.jgit.diff.ReplaceEdit;
 
 public class IntraLineDiff implements Serializable {
   static final long serialVersionUID = IntraLineDiffKey.serialVersionUID;

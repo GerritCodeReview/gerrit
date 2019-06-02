@@ -65,7 +65,7 @@ final class Upload extends AbstractGitCommand {
     up.setPackConfig(config.getPackConfig());
     up.setTimeout(config.getTimeout());
     up.setPostUploadHook(PostUploadHookChain.newChain(Lists.newArrayList(postUploadHooks)));
-    if (config.enableProtocolV2() && extraParameters != null) {
+    if (extraParameters != null) {
       up.setExtraParameters(ImmutableList.copyOf(extraParameters));
     }
 

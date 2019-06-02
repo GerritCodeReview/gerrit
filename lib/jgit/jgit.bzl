@@ -41,14 +41,12 @@ def jgit_maven_repos():
         artifact = "org.eclipse.jgit:org.eclipse.jgit:" + _JGIT_VERS,
         repository = _JGIT_REPO,
         sha1 = "dba85014483315fa426259bc1b8ccda9373a624b",
-        unsign = True,
     )
     maven_jar(
         name = "jgit-servlet",
         artifact = "org.eclipse.jgit:org.eclipse.jgit.http.server:" + _JGIT_VERS,
         repository = _JGIT_REPO,
         sha1 = "3287341fca859340a00b51cb5dd3b78b8e532b39",
-        unsign = True,
     )
     maven_jar(
         name = "jgit-archive",
@@ -61,7 +59,6 @@ def jgit_maven_repos():
         artifact = "org.eclipse.jgit:org.eclipse.jgit.junit:" + _JGIT_VERS,
         repository = _JGIT_REPO,
         sha1 = "3d9ba7e610d6ab5d08dcb1e4ba448b592a34de77",
-        unsign = True,
     )
 
 def jgit_dep(name):

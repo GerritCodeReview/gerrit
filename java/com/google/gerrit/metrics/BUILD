@@ -6,7 +6,6 @@ java_library(
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/lifecycle",
-        "//java/org/eclipse/jgit:server",
         "//lib:guava",
         "//lib/flogger:api",
         "//lib/guice",

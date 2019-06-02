@@ -55,7 +55,7 @@ java_library(
         "//java/com/google/gerrit/util/ssl",
         "//java/com/google/gwtorm",
         "//java/org/apache/commons/net",
-        "//java/org/eclipse/jgit:server",
+        "//java/org/eclipse/jgit",
         "//lib:args4j",
         "//lib:autolink",
         "//lib:automaton",

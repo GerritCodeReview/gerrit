@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e945610f_b355518c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-02T11:00:15Z",
+      "side": 1,
+      "message": "removal",
+      "range": {
+        "startLine": 9,
+        "startChar": 60,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "41377af8ddc73d6891a51896230845f39e6fdb7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6f8e323_4f8108f5",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-02T11:00:15Z",
+      "side": 1,
+      "message": "This can be removed as well now. This was needed because were patching the JGit library that we don\u0027t do anymore, since GWT UI removal change.",
+      "range": {
+        "startLine": 44,
+        "startChar": 8,
+        "endLine": 44,
+        "endChar": 22
+      },
+      "revId": "41377af8ddc73d6891a51896230845f39e6fdb7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

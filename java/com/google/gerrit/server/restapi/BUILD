@@ -24,7 +24,7 @@ java_library(
         "//java/com/google/gerrit/server/logging",
         "//java/com/google/gerrit/server/util/time",
         "//java/com/google/gerrit/util/cli",
-        "//java/org/eclipse/jgit:server",
+        "//java/org/eclipse/jgit",
         "//lib:args4j",
         "//lib:blame-cache",
         "//lib:gson",

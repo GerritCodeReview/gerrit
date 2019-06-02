@@ -63,7 +63,7 @@ junit_tests(
         "//java/com/google/gerrit/testing:assertable-executor",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//java/com/google/gerrit/truth",
-        "//java/org/eclipse/jgit:server",
+        "//java/org/eclipse/jgit",
         "//lib:gson",
         "//lib:guava",
         "//lib:guava-retrying",

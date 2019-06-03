@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be055829_5c65f27c",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-06-03T19:37:37Z",
+      "side": 1,
+      "message": "I think if you want to truly make npm binaries part of the Bazel BUILD, then you would rather have to look into tools/bzl/js.bzl and use the npm_binary rule or something similar.  Depending on node_modules/... would always require the user or CI system to have to run \"npm install\" first.\n\nAlternatively, you could just make the \"npm install\" part of the \"polylint_test.sh\" script and forget about the dependency in the Blaze BUILD rules.",
+      "revId": "beb035545d2642c21baf384db3bcd4cefeb29057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e668c8ab_08b3c154",
+        "filename": "polygerrit-ui/app/polylint_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-06-03T19:37:37Z",
+      "side": 1,
+      "message": "If you are looking into the node_modules dir relative to the Gerrit root, then you probably want to drop the -g flag here (and everywhere else in the docs?).",
+      "range": {
+        "startLine": 14,
+        "startChar": 24,
+        "endLine": 14,
+        "endChar": 26
+      },
+      "revId": "beb035545d2642c21baf384db3bcd4cefeb29057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

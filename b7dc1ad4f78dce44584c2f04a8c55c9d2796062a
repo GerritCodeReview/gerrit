@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "506e76e6_9a23899e",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-03T23:44:15Z",
+      "side": 1,
+      "message": "This new wording is confusing.  I will rewrite it.",
+      "range": {
+        "startLine": 41,
+        "startChar": 61,
+        "endLine": 44,
+        "endChar": 0
+      },
+      "revId": "b7dc1ad4f78dce44584c2f04a8c55c9d2796062a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

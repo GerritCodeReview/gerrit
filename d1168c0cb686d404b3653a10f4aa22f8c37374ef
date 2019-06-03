@@ -1,0 +1,464 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58d3812e_18a2e6b5",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2822,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-03T17:44:57Z",
+      "side": 1,
+      "message": "hosting (Consistently with the other, nearby added sub-titles.)",
+      "range": {
+        "startLine": 2822,
+        "startChar": 15,
+        "endLine": 2822,
+        "endChar": 22
+      },
+      "revId": "d1168c0cb686d404b3653a10f4aa22f8c37374ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40f3eb86_af415ce8",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2824,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-03T17:44:57Z",
+      "side": 1,
+      "message": "Redundant with following \u0027the\u0027 (L2825).",
+      "range": {
+        "startLine": 2824,
+        "startChar": 30,
+        "endLine": 2824,
+        "endChar": 33
+      },
+      "revId": "d1168c0cb686d404b3653a10f4aa22f8c37374ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69a705de_def0f22a",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2827,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-03T17:44:57Z",
+      "side": 1,
+      "message": "I would bring this role earlier in the new plugin proposal (acceptance) process. In the spirit of the quality contribution or design-doc approach, or process. I\u0027d then not only wait for an escalation (if any) to involve the ESC. Rather, I think the latter should be a mandatory step in deciding if a new plugin gets added to the Gerrit project or not.\n\nThis in order to preserve the overall project (loose architecture) integrity, to not host any more ill-maintained or poorer-quality plugins. Especially if CI eventually starts automatically building them all, expecting their tests to pass against core versions \u0026c.\n\nSince this is the first time for this process to become documented, then maybe now is the time to provision the above, straight in.",
+      "range": {
+        "startLine": 2827,
+        "startChar": 32,
+        "endLine": 2827,
+        "endChar": 62
+      },
+      "revId": "d1168c0cb686d404b3653a10f4aa22f8c37374ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c0a4880_4b47155b",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2838,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-03T17:44:57Z",
+      "side": 1,
+      "message": "The ESC I think should also be involved here for this step, to prevent single individual(s) from unilaterally ending some specific plugin(s!) maintenance. Otherwise, other people depending on a said plugin might see their maintenance needs be thrown out the window -without their consent.\n\nGiven that a plugin maintainer declares no more interest towards a still used plugin, then the ESC could help reestablish sufficient maintainer-ship for it. As opposed to letting that plugin be abandoned in an unexpected fashion.",
+      "range": {
+        "startLine": 2836,
+        "startChar": 2,
+        "endLine": 2838,
+        "endChar": 21
+      },
+      "revId": "d1168c0cb686d404b3653a10f4aa22f8c37374ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13c6a654_bcfbf40e",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2861,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-03T17:44:57Z",
+      "side": 1,
+      "message": "GJF, rather?",
+      "range": {
+        "startLine": 2861,
+        "startChar": 13,
+        "endLine": 2861,
+        "endChar": 16
+      },
+      "revId": "d1168c0cb686d404b3653a10f4aa22f8c37374ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd4e4cac_f4e981a4",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2861,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-03T17:44:57Z",
+      "side": 1,
+      "message": "to be in",
+      "range": {
+        "startLine": 2861,
+        "startChar": 62,
+        "endLine": 2861,
+        "endChar": 67
+      },
+      "revId": "d1168c0cb686d404b3653a10f4aa22f8c37374ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00781571_c0c9479a",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2869,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-03T17:44:57Z",
+      "side": 1,
+      "message": "Would remove this last part.",
+      "range": {
+        "startLine": 2869,
+        "startChar": 0,
+        "endLine": 2869,
+        "endChar": 59
+      },
+      "revId": "d1168c0cb686d404b3653a10f4aa22f8c37374ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62dfe3ee_5145d5ae",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2878,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-03T17:44:57Z",
+      "side": 1,
+      "message": "prototyping",
+      "range": {
+        "startLine": 2878,
+        "startChar": 11,
+        "endLine": 2878,
+        "endChar": 22
+      },
+      "revId": "d1168c0cb686d404b3653a10f4aa22f8c37374ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01cfa7b9_f0f6fd7a",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2889,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-03T17:44:57Z",
+      "side": 1,
+      "message": "proposal",
+      "range": {
+        "startLine": 2889,
+        "startChar": 12,
+        "endLine": 2889,
+        "endChar": 20
+      },
+      "revId": "d1168c0cb686d404b3653a10f4aa22f8c37374ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "337dd71a_d8a9e816",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2895,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-03T17:44:57Z",
+      "side": 1,
+      "message": "formalizes",
+      "range": {
+        "startLine": 2895,
+        "startChar": 18,
+        "endLine": 2895,
+        "endChar": 27
+      },
+      "revId": "d1168c0cb686d404b3653a10f4aa22f8c37374ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c826814_4934968d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2902,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-03T17:44:57Z",
+      "side": 1,
+      "message": "Hello community, (consistently with L2855)",
+      "range": {
+        "startLine": 2902,
+        "startChar": 2,
+        "endLine": 2902,
+        "endChar": 19
+      },
+      "revId": "d1168c0cb686d404b3653a10f4aa22f8c37374ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e605fb3a_5e210b59",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2903,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-03T17:44:57Z",
+      "side": 1,
+      "message": "After",
+      "range": {
+        "startLine": 2903,
+        "startChar": 2,
+        "endLine": 2903,
+        "endChar": 7
+      },
+      "revId": "d1168c0cb686d404b3653a10f4aa22f8c37374ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f61e2380_b9b6dee2",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2912,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-03T17:44:57Z",
+      "side": 1,
+      "message": "Gender equality?\n\nAlternatively, this line could mention the organization\u0027s name to maintain the plugin initially. Also, keeping the door open to potentially more maintainers from elsewhere. However this is back to the ongoing plugin survey initiated by DavidP and ESC. This becomes input for the latter.",
+      "range": {
+        "startLine": 2912,
+        "startChar": 52,
+        "endLine": 2912,
+        "endChar": 55
+      },
+      "revId": "d1168c0cb686d404b3653a10f4aa22f8c37374ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "831a8f0e_564e88bd",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2918,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-03T17:44:57Z",
+      "side": 1,
+      "message": "Relates to my previous comment about always involving the ESC, too.",
+      "range": {
+        "startLine": 2917,
+        "startChar": 78,
+        "endLine": 2918,
+        "endChar": 19
+      },
+      "revId": "d1168c0cb686d404b3653a10f4aa22f8c37374ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4db523d2_5f97f7cf",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2920,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-03T17:44:57Z",
+      "side": 1,
+      "message": "as",
+      "range": {
+        "startLine": 2920,
+        "startChar": 9,
+        "endLine": 2920,
+        "endChar": 10
+      },
+      "revId": "d1168c0cb686d404b3653a10f4aa22f8c37374ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4964e41_180c0a2e",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2946,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-03T17:44:57Z",
+      "side": 1,
+      "message": "Currently three; how about referring to that text instead, to not duplicate it here? (We may forget to soon update it here, otherwise.)",
+      "range": {
+        "startLine": 2946,
+        "startChar": 75,
+        "endLine": 2946,
+        "endChar": 78
+      },
+      "revId": "d1168c0cb686d404b3653a10f4aa22f8c37374ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55078c6e_89e82808",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2947,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-03T17:44:57Z",
+      "side": 1,
+      "message": "Or, interested candidates could optionally request to become plugin maintainers. -Mention this option here?",
+      "range": {
+        "startLine": 2947,
+        "startChar": 52,
+        "endLine": 2947,
+        "endChar": 58
+      },
+      "revId": "d1168c0cb686d404b3653a10f4aa22f8c37374ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9173f8e4_596f303c",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2954,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-03T17:44:57Z",
+      "side": 1,
+      "message": "I think this should also be in-sync with ESC\u0027s release clock and ways.",
+      "range": {
+        "startLine": 2953,
+        "startChar": 31,
+        "endLine": 2954,
+        "endChar": 8
+      },
+      "revId": "d1168c0cb686d404b3653a10f4aa22f8c37374ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a239561_abdd16e4",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2962,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-03T17:44:57Z",
+      "side": 1,
+      "message": "versions:",
+      "range": {
+        "startLine": 2962,
+        "startChar": 70,
+        "endLine": 2962,
+        "endChar": 79
+      },
+      "revId": "d1168c0cb686d404b3653a10f4aa22f8c37374ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a52189e_19e8b054",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2979,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-03T17:44:57Z",
+      "side": 1,
+      "message": "(Related comment about involving the ESC, alongside maintainers and community.)",
+      "range": {
+        "startLine": 2976,
+        "startChar": 11,
+        "endLine": 2979,
+        "endChar": 83
+      },
+      "revId": "d1168c0cb686d404b3653a10f4aa22f8c37374ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -159,8 +159,6 @@ def _maven_jar_impl(ctx):
     args = [python, script, "-o", binjar_path, "-u", binurl]
     if ctx.attr.sha1:
         args.extend(["-v", sha1])
-    if ctx.attr.unsign:
-        args.append("--unsign")
     for x in ctx.attr.exclude:
         args.extend(["-x", x])
 

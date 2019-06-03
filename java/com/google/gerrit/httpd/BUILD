@@ -27,7 +27,6 @@ java_library(
         "//java/com/google/gerrit/server/util/time",
         "//java/com/google/gerrit/util/cli",
         "//java/com/google/gerrit/util/http",
-        "//java/org/eclipse/jgit:server",
         "//lib:args4j",
         "//lib:gson",
         "//lib:guava",

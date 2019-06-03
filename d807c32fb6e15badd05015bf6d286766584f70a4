@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "998cfb53_3ea9a6c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-03T10:56:31Z",
+      "side": 1,
+      "message": "FYI: I don\u0027t think that there\u0027s a replacement for DefaultSubject (as switching to Subject instead doesn\u0027t go well with the method signatures our code is calling). The only \u0027solution\u0027 I can think of is to remove the generic type parameters, which is in line with the general plans to remove the type parameters from Subject.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 51
+      },
+      "revId": "d807c32fb6e15badd05015bf6d286766584f70a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

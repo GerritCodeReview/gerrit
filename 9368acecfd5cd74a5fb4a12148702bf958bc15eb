@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f92db0d_fefa51e0",
+        "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-06-03T19:57:00Z",
+      "side": 1,
+      "message": "Can you use lines 498-499 to create this orphaned tag (maybe make it a universal setup?)",
+      "range": {
+        "startLine": 527,
+        "startChar": 48,
+        "endLine": 527,
+        "endChar": 55
+      },
+      "revId": "9368acecfd5cd74a5fb4a12148702bf958bc15eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -39,8 +39,8 @@ data in the same repository as code changes.
   link:https://gerrit-review.googlesource.com/[gerrit-review], you're already
   using NoteDb.
 - NoteDb is the only database format supported by Gerrit 3.0. The offline
-  change data migration tool is included in Gerrit 3.0, but online
-  migration is only available in the 2.x line.
+  change data migration tool is only included in Gerrit 2.15 and 2.16; it is
+  not available in 3.0. In 3.0 only the online migration is available.
 
 For an example NoteDb change, poke around at this one:
 ----
@@ -114,7 +114,7 @@ tool as well.
 * Much faster than online; can use all available CPUs, since no live traffic
   needs to be served.
 * No degraded performance of live servers due to writing data to 2 locations.
-* Available in both Gerrit 2.x and 3.0.
+* Available in Gerrit 2.15 and 2.16 only.
 
 *Disadvantages*
 

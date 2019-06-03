@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d17bebb_fa0125e9",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-06-03T15:05:56Z",
+      "side": 1,
+      "message": "This needs to change also: both offline and online migrations are available only in v2.15 and v2.16.",
+      "range": {
+        "startLine": 42,
+        "startChar": 56,
+        "endLine": 43,
+        "endChar": 46
+      },
+      "revId": "7209239dc7b369a73a3e94e2d27aeb613262e703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a06f5ff5_0d5f3276",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-06-03T15:05:56Z",
+      "side": 1,
+      "message": "2.15 and 2.16",
+      "range": {
+        "startLine": 117,
+        "startChar": 22,
+        "endLine": 117,
+        "endChar": 25
+      },
+      "revId": "7209239dc7b369a73a3e94e2d27aeb613262e703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

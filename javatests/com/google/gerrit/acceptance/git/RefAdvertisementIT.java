@@ -74,6 +74,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -89,6 +90,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   private AccountGroup.UUID nonInteractiveUsers;
 
   private ChangeData cd1;
+  private RevCommit rc1;
   private String psRef1;
   private String metaRef1;
 
@@ -156,6 +158,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master%submit");
     mr.assertOkStatus();
     cd1 = mr.getChange();
+    rc1 = mr.getCommit();
     psRef1 = cd1.currentPatchSet().id().toRefName();
     metaRef1 = RefNames.changeMetaRef(cd1.getId());
     PushOneCommit.Result br =
@@ -189,10 +192,18 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       btu.setExpectedOldObjectId(ObjectId.zeroId());
       btu.setNewObjectId(repo.exactRef("refs/heads/branch").getObjectId());
       assertThat(btu.update()).isEqualTo(RefUpdate.Result.NEW);
+
+      // Create a tag for the tree of the commit on 'master'
+      // tree-tag -> master.tree
+      RefUpdate ttu = repo.updateRef("refs/tags/tree-tag");
+      ttu.setExpectedOldObjectId(ObjectId.zeroId());
+      ttu.setNewObjectId(rc1.getTree().toObjectId());
+      assertThat(ttu.update()).isEqualTo(RefUpdate.Result.NEW);
     }
   }
 
   @Test
+  @GerritConfig(name = "auth.skipFullRefEvaluationIfAllRefsAreVisible", value = "false")
   public void uploadPackAllRefsVisibleNoRefsMetaConfig() throws Exception {
     projectOperations
         .project(project)
@@ -217,6 +228,36 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         "refs/heads/master",
         "refs/tags/branch-tag",
         "refs/tags/master-tag");
+    // tree-tag not visible. See comment in subsetOfBranchesVisibleIncludingHead.
+  }
+
+  @Test
+  @GerritConfig(name = "auth.skipFullRefEvaluationIfAllRefsAreVisible", value = "true")
+  public void uploadPackAllRefsVisibleNoRefsMetaConfigSkipFullRefEval() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .add(allow(Permission.READ).ref(RefNames.REFS_CONFIG).group(admins))
+        .setExclusiveGroup(permissionKey(Permission.READ).ref(RefNames.REFS_CONFIG), true)
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+    assertUploadPackRefs(
+        "HEAD",
+        psRef1,
+        metaRef1,
+        psRef2,
+        metaRef2,
+        psRef3,
+        metaRef3,
+        psRef4,
+        metaRef4,
+        "refs/heads/branch",
+        "refs/heads/master",
+        "refs/tags/branch-tag",
+        "refs/tags/master-tag",
+        "refs/tags/tree-tag");
   }
 
   @Test
@@ -242,7 +283,20 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         "refs/heads/master",
         RefNames.REFS_CONFIG,
         "refs/tags/branch-tag",
-        "refs/tags/master-tag");
+        "refs/tags/master-tag",
+        "refs/tags/tree-tag");
+  }
+
+  @Test
+  public void grantReadOnRefsTagsIsNoOp() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/tags/*").group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+    assertUploadPackRefs(); // We expect no refs returned
   }
 
   @Test
@@ -257,6 +311,8 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
     assertUploadPackRefs(
         "HEAD", psRef1, metaRef1, psRef3, metaRef3, "refs/heads/master", "refs/tags/master-tag");
+    // tree-tag is not visible because we don't look at trees reachable from
+    // refs
   }
 
   @Test
@@ -279,6 +335,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         // master branch is not visible but master-tag is reachable from branch
         // (since PushOneCommit always bases changes on each other).
         "refs/tags/master-tag");
+    // tree-tag not visible. See comment in subsetOfBranchesVisibleIncludingHead.
   }
 
   @Test
@@ -306,6 +363,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         "refs/heads/master",
         "refs/tags/master-tag",
         "refs/users/01/1000001/edit-" + cd3.getId() + "/1");
+    // tree-tag not visible. See comment in subsetOfBranchesVisibleIncludingHead.
   }
 
   @Test
@@ -338,6 +396,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         "refs/tags/master-tag",
         "refs/users/00/1000000/edit-" + cd3.getId() + "/1",
         "refs/users/01/1000001/edit-" + cd3.getId() + "/1");
+    // tree-tag not visible. See comment in subsetOfBranchesVisibleIncludingHead.
   }
 
   @Test
@@ -374,6 +433,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         "refs/tags/master-tag",
         // All edits are visible due to accessDatabase capability.
         "refs/users/00/1000000/edit-" + cd3.getId() + "/1");
+    // tree-tag not visible. See comment in subsetOfBranchesVisibleIncludingHead.
   }
 
   @Test
@@ -413,6 +473,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         "refs/heads/master",
         "refs/tags/branch-tag",
         "refs/tags/master-tag");
+    // tree-tag not visible. See comment in subsetOfBranchesVisibleIncludingHead.
   }
 
   @Test
@@ -449,6 +510,35 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         metaRef3,
         "refs/heads/master",
         "refs/tags/branch-tag",
+        "refs/tags/master-tag",
+        "refs/tags/tree-tag");
+  }
+
+  @Test
+  public void uploadPackSubsetRefsVisibleOrphanedTagInvisible() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/heads/branch").group(REGISTERED_USERS))
+        .update();
+    // Create a tag for the pending change on 'branch' so that the tag is orphaned
+    try (Repository repo = repoManager.openRepository(project)) {
+      // change4-tag -> psRef4
+      RefUpdate ctu = repo.updateRef("refs/tags/change4-tag");
+      ctu.setExpectedOldObjectId(ObjectId.zeroId());
+      ctu.setNewObjectId(repo.exactRef(psRef4).getObjectId());
+      assertThat(ctu.update()).isEqualTo(RefUpdate.Result.NEW);
+    }
+
+    requestScopeOperations.setApiUser(user.id());
+    assertUploadPackRefs(
+        psRef2,
+        metaRef2,
+        psRef4,
+        metaRef4,
+        "refs/heads/branch",
+        "refs/tags/branch-tag",
+        // See comment in subsetOfBranchesVisibleNotIncludingHead.
         "refs/tags/master-tag");
   }
 
@@ -463,7 +553,8 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
             "refs/heads/master",
             "refs/meta/config",
             "refs/tags/branch-tag",
-            "refs/tags/master-tag");
+            "refs/tags/master-tag",
+            "refs/tags/tree-tag");
     assertThat(r.additionalHaves()).containsExactly(obj(cd3, 1), obj(cd4, 1));
   }
 

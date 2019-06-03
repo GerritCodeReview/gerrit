@@ -727,12 +727,28 @@ changes, comments, code diffs, and Git access over SSH or HTTP.
 A user must have this access granted in order to see a project, its
 changes, or any of its data.
 
-This category has a special behavior, where the per-project ACL is
-evaluated before the global all projects ACL.  If the per-project
-ACL has granted `Read` with 'DENY', and does not otherwise grant
-`Read` with 'ALLOW', then a `Read` in the all projects ACL
-is ignored.  This behavior is useful to hide a handful of projects
+[[read_special_behaviors]]
+==== Special behaviors
+
+This category has multiple special behaviors:
+
+The per-project ACL is evaluated before the global all projects ACL.
+If the per-project ACL has granted `Read` with 'DENY', and does not
+otherwise grant `Read` with 'ALLOW', then a `Read` in the all projects
+ACL is ignored.  This behavior is useful to hide a handful of projects
 on an otherwise public server.
+
+You cannot grant `Read` on the `refs/tags/` namespace.  Visibility to
+`refs/tags/` is derived from `Read` grants on refs namespaces other than
+`refs/tags/`, `refs/changes/`, and `refs/cache-automerge/` by finding
+tags reachable from those refs.  For example, if a tag `refs/tags/test`
+points to a commit on the branch `refs/heads/master`, then allowing
+`Read` access to `refs/heads/master` would also allow access to
+`refs/tags/test`.  If a tag is reachable from multiple refs, allowing
+access to any of those refs allows access to the tag.
+
+[[read_typical_usage]]
+==== Typical usage
 
 For an open source, public Gerrit installation it is common to grant
 `Read` to `Anonymous Users` in the `All-Projects` ACL, enabling
@@ -911,7 +927,7 @@ any changes.
 
 Suggested access rights to grant:
 
-* xref:category_read[`Read`] on 'refs/heads/\*' and 'refs/tags/*'
+* xref:category_read[`Read`] on 'refs/heads/\*'
 * xref:category_push[`Push`] to 'refs/for/refs/heads/*'
 * link:config-labels.html#label_Code-Review[`Code-Review`] with range '-1' to '+1' for 'refs/heads/*'
 
@@ -939,7 +955,7 @@ exclusively.
 
 Suggested access rights to grant:
 
-* xref:category_read[`Read`] on 'refs/heads/\*' and 'refs/tags/*'
+* xref:category_read[`Read`] on 'refs/heads/\*'
 * xref:category_push[`Push`] to 'refs/for/refs/heads/*'
 * xref:category_push_merge[`Push merge commit`] to 'refs/for/refs/heads/*'
 * xref:category_forge_author[`Forge Author Identity`] to 'refs/heads/*'
@@ -994,7 +1010,7 @@ and so the push right can be found under the optional section.
 
 Suggested access rights to grant, that won't block changes:
 
-* xref:category_read[`Read`] on 'refs/heads/\*' and 'refs/tags/*'
+* xref:category_read[`Read`] on 'refs/heads/\*'
 * link:config-labels.html#label_Code-Review[`Label: Code-Review`] with range '-1' to '0' for 'refs/heads/*'
 * link:config-labels.html#label_Verified[`Label: Verified`] with range '0' to '+1' for 'refs/heads/*'
 

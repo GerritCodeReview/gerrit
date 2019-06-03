@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b541200c_4b929913",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-06-03T15:22:15Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "2d17bebb_fa0125e9",
+      "range": {
+        "startLine": 42,
+        "startChar": 56,
+        "endLine": 43,
+        "endChar": 46
+      },
+      "revId": "7209239dc7b369a73a3e94e2d27aeb613262e703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a06f5ff5_0d5f3276",
         "filename": "Documentation/note-db.txt",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "7209239dc7b369a73a3e94e2d27aeb613262e703",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3734103e_1aa2e863",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-06-03T15:22:15Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "a06f5ff5_0d5f3276",
+      "range": {
+        "startLine": 117,
+        "startChar": 22,
+        "endLine": 117,
+        "endChar": 25
+      },
+      "revId": "7209239dc7b369a73a3e94e2d27aeb613262e703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -493,22 +493,5 @@ public class AccountManager {
     }
 
     externalIdsUpdateFactory.create().delete(extIds);
-
-    if (extIds.stream().anyMatch(e -> e.email() != null)) {
-      accountsUpdateFactory
-          .create()
-          .update(
-              from,
-              a -> {
-                if (a.getPreferredEmail() != null) {
-                  for (ExternalId extId : extIds) {
-                    if (a.getPreferredEmail().equals(extId.email())) {
-                      a.setPreferredEmail(null);
-                      break;
-                    }
-                  }
-                }
-              });
-    }
   }
 }

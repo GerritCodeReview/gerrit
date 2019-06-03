@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
@@ -25,6 +26,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -63,7 +65,8 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
   public Response<?> apply(AccountResource resource, List<String> extIds)
       throws RestApiException, IOException, OrmException, ConfigInvalidException,
           PermissionBackendException {
-    if (!self.get().hasSameAccountId(resource.getUser())) {
+    IdentifiedUser user = resource.getUser();
+    if (!self.get().hasSameAccountId(user)) {
       permissionBackend.user(self).check(GlobalPermission.ACCESS_DATABASE);
     }
 
@@ -72,11 +75,10 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
     }
 
     Map<ExternalId.Key, ExternalId> externalIdMap =
-        externalIds.byAccount(resource.getUser().getAccountId()).stream()
-            .collect(toMap(i -> i.key(), i -> i));
+        externalIds.byAccount(user.getAccountId()).stream().collect(toMap(i -> i.key(), i -> i));
 
     List<ExternalId> toDelete = new ArrayList<>();
-    ExternalId.Key last = resource.getUser().getLastLoginExternalIdKey();
+    ExternalId.Key last = user.getLastLoginExternalIdKey();
     for (String externalIdStr : extIds) {
       ExternalId id = externalIdMap.get(ExternalId.Key.parse(externalIdStr));
 
@@ -86,7 +88,9 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
       }
 
       if ((!id.isScheme(SCHEME_USERNAME))
-          && ((last == null) || (!last.get().equals(id.key().get())))) {
+          && ((last == null) || (!last.get().equals(id.key().get())))
+          && (!(id.isScheme(SCHEME_MAILTO)
+              && id.email().equals(user.getAccount().getPreferredEmail())))) {
         toDelete.add(id);
       } else {
         throw new ResourceConflictException(
@@ -96,7 +100,7 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
 
     try {
       accountManager.unlink(
-          resource.getUser().getAccountId(), toDelete.stream().map(e -> e.key()).collect(toSet()));
+          user.getAccountId(), toDelete.stream().map(e -> e.key()).collect(toSet()));
     } catch (AccountException e) {
       throw new ResourceConflictException(e.getMessage());
     }

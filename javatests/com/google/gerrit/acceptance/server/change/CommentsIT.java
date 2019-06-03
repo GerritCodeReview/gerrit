@@ -271,6 +271,35 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void postCommentsReplacingDrafts() throws Exception {
+    String file = "file";
+    PushOneCommit push =
+        pushFactory.create(admin.newIdent(), testRepo, "first subject", file, "contents");
+    PushOneCommit.Result r = push.to("refs/for/master");
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+
+    DraftInput draft = newDraft(file, Side.REVISION, 0, "comment");
+    addDraft(changeId, revId, draft);
+    Map<String, List<CommentInfo>> drafts = getDraftComments(changeId, revId);
+    CommentInfo draftInfo = Iterables.getOnlyElement(drafts.get(draft.path));
+
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.drafts = DraftHandling.KEEP;
+    reviewInput.message = "foo";
+    CommentInput comment = newComment(file, Side.REVISION, 0, "comment", false);
+    // Replace the existing draft.
+    comment.id = draftInfo.id;
+    reviewInput.comments = new HashMap<>();
+    reviewInput.comments.put(comment.path, ImmutableList.of(comment));
+    revision(r).review(reviewInput);
+
+    // The draft was deleted despite DraftHandling.KEEP.
+    drafts = getDraftComments(changeId, revId);
+    assertThat(drafts).isEmpty();
+  }
+
+  @Test
   public void listComments() throws Exception {
     String file = "file";
     PushOneCommit push =

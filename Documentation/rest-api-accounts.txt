@@ -668,7 +668,8 @@ link:#email-info[EmailInfo] entity.
 'DELETE /accounts/link:#account-id[\{account-id\}]/emails/link:#email-id[\{email-id\}]'
 --
 
-Deletes an email address of an account.
+Deletes an email address of an account. It is not allowed to delete an email address
+that is currently set as the preferred email address.
 
 .Request
 ----

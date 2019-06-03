@@ -711,8 +711,7 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deletePreferredEmail() throws Exception {
-    String previous = gApi.accounts().self().get().email;
+  public void cannotDeletePreferredEmail() throws Exception {
     String email = "foo.bar.baz@example.com";
     EmailInput input = new EmailInput();
     input.email = email;
@@ -727,16 +726,10 @@ public class AccountIT extends AbstractDaemonTest {
     // The new preferred email is set
     assertThat(gApi.accounts().self().get().email).isEqualTo(email);
 
-    accountIndexedCounter.clear();
-    gApi.accounts().self().deleteEmail(input.email);
-
-    // Account is reindexed twice; once on removing the new email,
-    // and then again on unsetting the email preferred.
-    accountIndexedCounter.assertReindexOf(admin, 2);
-
     resetCurrentApiUser();
-    assertThat(getEmails()).containsExactly(previous);
-    assertThat(gApi.accounts().self().get().email).isNull();
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("cannot delete preferred email");
+    gApi.accounts().self().deleteEmail(input.email);
   }
 
   @Test

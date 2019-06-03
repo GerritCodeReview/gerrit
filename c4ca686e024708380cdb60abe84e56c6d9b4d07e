@@ -25,6 +25,52 @@
     },
     {
       "key": {
+        "uuid": "aa913547_e08be3d7",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2808,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-06-03T13:41:04Z",
+      "side": 1,
+      "message": "they",
+      "range": {
+        "startLine": 2808,
+        "startChar": 75,
+        "endLine": 2808,
+        "endChar": 76
+      },
+      "revId": "c4ca686e024708380cdb60abe84e56c6d9b4d07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "156cca78_43ad19b0",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2809,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-06-03T13:41:04Z",
+      "side": 1,
+      "message": "nit:\n...be visible *to* and reviewed by...",
+      "range": {
+        "startLine": 2808,
+        "startChar": 80,
+        "endLine": 2809,
+        "endChar": 13
+      },
+      "revId": "c4ca686e024708380cdb60abe84e56c6d9b4d07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ead48735_40463404",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 2
@@ -117,6 +163,29 @@
     },
     {
       "key": {
+        "uuid": "a81a3d0d_98baf7bc",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2825,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-06-03T13:41:04Z",
+      "side": 1,
+      "message": "by who?",
+      "range": {
+        "startLine": 2825,
+        "startChar": 5,
+        "endLine": 2825,
+        "endChar": 13
+      },
+      "revId": "c4ca686e024708380cdb60abe84e56c6d9b4d07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "03b8b9fd_378db505",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 2
@@ -133,6 +202,29 @@
         "startChar": 41,
         "endLine": 2828,
         "endChar": 50
+      },
+      "revId": "c4ca686e024708380cdb60abe84e56c6d9b4d07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2900c5c3_11ffa2f0",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2828,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-06-03T13:41:04Z",
+      "side": 1,
+      "message": "comma",
+      "range": {
+        "startLine": 2828,
+        "startChar": 81,
+        "endLine": 2828,
+        "endChar": 88
       },
       "revId": "c4ca686e024708380cdb60abe84e56c6d9b4d07e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

@@ -163,6 +163,30 @@
     },
     {
       "key": {
+        "uuid": "e1e0fef6_87cc28e3",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2823,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-06-03T14:18:45Z",
+      "side": 1,
+      "message": "What about allowing the user to choose an open source license? Or must it be \"Apache 2.0 license\" on gerrit-review?",
+      "parentUuid": "0f751f52_348ba499",
+      "range": {
+        "startLine": 2823,
+        "startChar": 50,
+        "endLine": 2823,
+        "endChar": 54
+      },
+      "revId": "c4ca686e024708380cdb60abe84e56c6d9b4d07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a81a3d0d_98baf7bc",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 2
@@ -255,6 +279,23 @@
     },
     {
       "key": {
+        "uuid": "2db08b4c_38c7c7bc",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2832,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-06-03T14:18:45Z",
+      "side": 1,
+      "message": "Released how? Does this mean merging the first initial commit? Or does this mean tagging it as v3.0?",
+      "revId": "c4ca686e024708380cdb60abe84e56c6d9b4d07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "50ef40c3_0651c7dc",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 2
@@ -266,6 +307,23 @@
       "writtenOn": "2019-06-03T13:37:36Z",
       "side": 1,
       "message": "I\u0027d add a phase Maintenance mentioning that plugin authors should maintain their plugins as new Gerrit versions are released and update them if necessary.\nA plugin should at least declare which Gerrit versions it\u0027s supporting. When a new Gerrit release is created it may take a while for plugins to catch up,\nbut the community would benefit if it\u0027s always known which plugin versions work on which Gerrit releases",
+      "revId": "c4ca686e024708380cdb60abe84e56c6d9b4d07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c6b8463_324b0e1a",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2836,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-06-03T14:18:45Z",
+      "side": 1,
+      "message": "What if the maintainer does not do this? (Or rather become inactive?)",
       "revId": "c4ca686e024708380cdb60abe84e56c6d9b4d07e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -497,6 +555,30 @@
     },
     {
       "key": {
+        "uuid": "f681babf_2bd89618",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2984,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-06-03T14:18:45Z",
+      "side": 1,
+      "message": "I agree with Francois too. We should keep the plugins open but the description of the plugin should clearly note [DEPRECATED].",
+      "parentUuid": "04de19db_57f5f389",
+      "range": {
+        "startLine": 2984,
+        "startChar": 43,
+        "endLine": 2984,
+        "endChar": 57
+      },
+      "revId": "c4ca686e024708380cdb60abe84e56c6d9b4d07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4c39ff96_737828d3",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 2
@@ -508,6 +590,24 @@
       "writtenOn": "2019-06-03T13:41:49Z",
       "side": 1,
       "message": "we should purge empty plugin repositories if a new plugin repository was created but no code was pushed there within a reasonable time frame (e.g. 6 months).\nAt the moment we have quite a number of empty repositories.",
+      "revId": "c4ca686e024708380cdb60abe84e56c6d9b4d07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab6672af_0353f7b7",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2985,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-06-03T14:18:45Z",
+      "side": 1,
+      "message": "I agree with Matthias on this one.",
+      "parentUuid": "4c39ff96_737828d3",
       "revId": "c4ca686e024708380cdb60abe84e56c6d9b4d07e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

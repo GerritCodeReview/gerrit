@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7df7b224_a64066ce",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-03T05:44:16Z",
+      "side": 1,
+      "message": "As pointed out in the description issue 10956, the key in _initializedPlugins should probably be: plugin.name + \u0027.\u0027 + moduleName, to ensure that different modules from the same plugin are loaded correctly.",
+      "range": {
+        "startLine": 115,
+        "startChar": 39,
+        "endLine": 115,
+        "endChar": 50
+      },
+      "revId": "465d12d8a091837192060a87d747e64fbf385a23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "9368acecfd5cd74a5fb4a12148702bf958bc15eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2eae5c43_a6ce2c35",
+        "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-06-03T22:03:24Z",
+      "side": 1,
+      "message": "Those lines are doing a different thing. They delete the ref \u0027refs/heads/branch\u0027, which makes my line 522 pointless. This test is showing that even when you have permission to the branch, you can\u0027t see a tag for an unmerged change on that branch.",
+      "parentUuid": "5f92db0d_fefa51e0",
+      "range": {
+        "startLine": 527,
+        "startChar": 48,
+        "endLine": 527,
+        "endChar": 55
+      },
+      "revId": "9368acecfd5cd74a5fb4a12148702bf958bc15eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

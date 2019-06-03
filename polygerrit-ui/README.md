@@ -89,7 +89,7 @@ directly from the sources in `polygerrit_ui/app/` instead of from the war:
 
 ```sh
 $(bazel info output_base)/external/local_jdk/bin/java \
-    -DsourceRoot=/path/to/my/checkout \
+    -DsourceRoot=$(bazel info workspace) \
     -jar bazel-bin/gerrit.war daemon \
     -d $GERRIT_SITE \
     --console-log \

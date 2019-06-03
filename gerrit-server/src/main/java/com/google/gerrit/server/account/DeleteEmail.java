@@ -17,11 +17,12 @@ package com.google.gerrit.server.account;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.gerrit.extensions.client.AccountFieldName;
-import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -65,8 +66,7 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
 
   @Override
   public Response<?> apply(AccountResource.Email rsrc, Input input)
-      throws AuthException, ResourceNotFoundException, ResourceConflictException,
-          MethodNotAllowedException, OrmException, IOException, ConfigInvalidException,
+      throws RestApiException, OrmException, IOException, ConfigInvalidException,
           PermissionBackendException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
@@ -75,8 +75,7 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
   }
 
   public Response<?> apply(IdentifiedUser user, String email)
-      throws ResourceNotFoundException, ResourceConflictException, MethodNotAllowedException,
-          OrmException, IOException, ConfigInvalidException {
+      throws RestApiException, OrmException, IOException, ConfigInvalidException {
     if (!realm.allowsEdit(AccountFieldName.REGISTER_NEW_EMAIL)) {
       throw new MethodNotAllowedException("realm does not allow deleting emails");
     }
@@ -87,6 +86,10 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
             .collect(toSet());
     if (extIds.isEmpty()) {
       throw new ResourceNotFoundException(email);
+    }
+
+    if (email.equals(user.getAccount().getPreferredEmail())) {
+      throw new BadRequestException("cannot delete preferred email");
     }
 
     try {

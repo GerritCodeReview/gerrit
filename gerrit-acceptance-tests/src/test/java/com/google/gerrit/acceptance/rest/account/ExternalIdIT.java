@@ -44,6 +44,7 @@ import com.google.gerrit.extensions.api.config.ConsistencyCheckInput;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInput.CheckAccountExternalIdsInput;
 import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.Account;
@@ -223,11 +224,11 @@ public class ExternalIdIT extends AbstractDaemonTest {
     String preferredEmail = gApi.accounts().self().get().email;
     assertThat(preferredEmail).isNotNull();
 
+    exception.expect(ResourceConflictException.class);
     gApi.accounts()
         .self()
         .deleteExternalIds(
             ImmutableList.of(ExternalId.Key.create(SCHEME_MAILTO, preferredEmail).get()));
-    assertThat(gApi.accounts().self().get().email).isNull();
   }
 
   @Test

@@ -668,7 +668,8 @@ link:#email-info[EmailInfo] entity.
 'DELETE /accounts/link:#account-id[\{account-id\}]/emails/link:#email-id[\{email-id\}]'
 --
 
-Deletes an email address of an account.
+Deletes an email address of an account. It is not allowed to delete an email address
+that is currently set as the preferred email address.
 
 .Request
 ----
@@ -1749,7 +1750,9 @@ link:#account-external-id-info[AccountExternalIdInfo] entities.
 Delete a list of external ids for a user account. The target external ids must
 be provided as a list in the request body.
 
-Only external ids belonging to the caller may be deleted.
+Only external ids belonging to the caller may be deleted. It is not allowed to
+delete the external id of an email address that is currently the user's preferred
+email address.
 
 .Request
 ----

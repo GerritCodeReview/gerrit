@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f751f52_348ba499",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2823,
+      "author": {
+        "id": 1017568
+      },
+      "writtenOn": "2019-06-03T13:05:28Z",
+      "side": 1,
+      "message": "missing word : \"Apache 2.0 license\" ?",
+      "range": {
+        "startLine": 2823,
+        "startChar": 50,
+        "endLine": 2823,
+        "endChar": 54
+      },
+      "revId": "c4ca686e024708380cdb60abe84e56c6d9b4d07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b076d774_15302003",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2871,
+      "author": {
+        "id": 1017568
+      },
+      "writtenOn": "2019-06-03T13:05:28Z",
+      "side": 1,
+      "message": "should there be some criteria to decide when discussion is over? (like 1 week with no comment)",
+      "range": {
+        "startLine": 2871,
+        "startChar": 0,
+        "endLine": 2871,
+        "endChar": 20
+      },
+      "revId": "c4ca686e024708380cdb60abe84e56c6d9b4d07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d637a88_955a6161",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2900,
+      "author": {
+        "id": 1017568
+      },
+      "writtenOn": "2019-06-03T13:05:28Z",
+      "side": 1,
+      "message": "this feedback from community does not appear in the \u0027prototyping phase\u0027 : it mentions only an announcement.",
+      "range": {
+        "startLine": 2900,
+        "startChar": 2,
+        "endLine": 2900,
+        "endChar": 46
+      },
+      "revId": "c4ca686e024708380cdb60abe84e56c6d9b4d07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd08cf43_89562ee9",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2924,
+      "author": {
+        "id": 1017568
+      },
+      "writtenOn": "2019-06-03T13:05:28Z",
+      "side": 1,
+      "message": "slightly separate concern, but I think it would make sense to reference these plugins as well, somewhere : e.g. have a \"complete\" list of plugins, indicating some status (deprecated? specific? supported releases...)\n\nThis would be best-effort, but would be valuable anyway IMHO.",
+      "range": {
+        "startLine": 2923,
+        "startChar": 42,
+        "endLine": 2924,
+        "endChar": 116
+      },
+      "revId": "c4ca686e024708380cdb60abe84e56c6d9b4d07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76ed9bbc_73468626",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2955,
+      "author": {
+        "id": 1017568
+      },
+      "writtenOn": "2019-06-03T13:05:28Z",
+      "side": 1,
+      "message": "AFAIK, most plugins don\u0027t have tags, and just maintain a branch (\"stable-3.0\") for each Gerrit release.",
+      "range": {
+        "startLine": 2955,
+        "startChar": 64,
+        "endLine": 2955,
+        "endChar": 89
+      },
+      "revId": "c4ca686e024708380cdb60abe84e56c6d9b4d07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6eaefbe9_7db33f39",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2973,
+      "author": {
+        "id": 1017568
+      },
+      "writtenOn": "2019-06-03T13:05:28Z",
+      "side": 1,
+      "message": "should there also be ways to either (or both):\n- find another maintainer for the plugin\n- un-deprecate the plugin, if a maintainer steps out after the plugin was deprecated",
+      "revId": "c4ca686e024708380cdb60abe84e56c6d9b4d07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c07b5fdd_58bc5b9c",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2984,
+      "author": {
+        "id": 1017568
+      },
+      "writtenOn": "2019-06-03T13:05:28Z",
+      "side": 1,
+      "message": "this prevents both \"revitalisation\" of the plugin, as well as studying the code to port the functionality in some new place.\n\nThough I understand the need to both clarify the status of the plugin and reduce load needed to maintain old plugins, I think the code should stay available and visible somewhere, in some way : move plugin to another folder (\u0027deprecated\u0027), reset master branch to just a deprecation notice...",
+      "range": {
+        "startLine": 2984,
+        "startChar": 43,
+        "endLine": 2984,
+        "endChar": 57
+      },
+      "revId": "c4ca686e024708380cdb60abe84e56c6d9b4d07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

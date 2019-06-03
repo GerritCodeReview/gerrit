@@ -54,7 +54,7 @@ public class GroupsUpdateIT {
     createGroup(groupCreation, groupUpdate);
 
     Stream<String> allGroupNames = getAllGroupNames();
-    assertThat(allGroupNames).containsAllOf("users", "verifiers");
+    assertThat(allGroupNames).containsAtLeast("users", "verifiers");
   }
 
   @Test
@@ -70,7 +70,7 @@ public class GroupsUpdateIT {
     updateGroup(AccountGroup.uuid("users-UUID"), groupUpdate);
 
     Stream<String> allGroupNames = getAllGroupNames();
-    assertThat(allGroupNames).containsAllOf("contributors", "verifiers");
+    assertThat(allGroupNames).containsAtLeast("contributors", "verifiers");
   }
 
   @Test

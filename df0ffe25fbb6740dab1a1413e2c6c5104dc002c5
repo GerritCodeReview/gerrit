@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4edd5c4d_6ad92f92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-03T13:10:00Z",
+      "side": 1,
+      "message": "I also discussed some of this with Dave in person. My take on it was that we shouldn\u0027t have one large directory containing all entities but rather have them close to their respective code. Of course, since the entities need to be public, they should be in another directory than the internal implementation for NoteDb related stuff.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 48
+      },
+      "revId": "df0ffe25fbb6740dab1a1413e2c6c5104dc002c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

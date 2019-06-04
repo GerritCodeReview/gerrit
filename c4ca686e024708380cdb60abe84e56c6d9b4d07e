@@ -708,6 +708,24 @@
     },
     {
       "key": {
+        "uuid": "29436d0d_63b8a375",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2973,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-06-04T06:20:13Z",
+      "side": 1,
+      "message": "We do not currently have a process for the above, and never had that situation either. This change is more for documenting how things work now.",
+      "parentUuid": "6eaefbe9_7db33f39",
+      "revId": "c4ca686e024708380cdb60abe84e56c6d9b4d07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c07b5fdd_58bc5b9c",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 2
@@ -803,6 +821,30 @@
     },
     {
       "key": {
+        "uuid": "2064f9d0_fc61e463",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2984,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-06-04T06:20:13Z",
+      "side": 1,
+      "message": "I\u0027ve removed the whole paragraph.",
+      "parentUuid": "715f4a5d_548958c0",
+      "range": {
+        "startLine": 2984,
+        "startChar": 43,
+        "endLine": 2984,
+        "endChar": 57
+      },
+      "revId": "c4ca686e024708380cdb60abe84e56c6d9b4d07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4c39ff96_737828d3",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 2
@@ -835,6 +877,24 @@
       "revId": "c4ca686e024708380cdb60abe84e56c6d9b4d07e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35b66866_9b4a82eb",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2985,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-06-04T06:20:13Z",
+      "side": 1,
+      "message": "True, however, it isn\u0027t in the scope of this change IMHO.",
+      "parentUuid": "ab6672af_0353f7b7",
+      "revId": "c4ca686e024708380cdb60abe84e56c6d9b4d07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

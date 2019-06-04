@@ -22,8 +22,7 @@ import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 
-public class FixReplacementInfoSubject
-    extends Subject<FixReplacementInfoSubject, FixReplacementInfo> {
+public class FixReplacementInfoSubject extends Subject {
 
   public static FixReplacementInfoSubject assertThat(FixReplacementInfo fixReplacementInfo) {
     return assertAbout(fixReplacements()).that(fixReplacementInfo);

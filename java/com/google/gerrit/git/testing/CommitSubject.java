@@ -24,7 +24,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 /** Subject over JGit {@link RevCommit}s. */
-public class CommitSubject extends Subject<CommitSubject, RevCommit> {
+public class CommitSubject extends Subject {
 
   /**
    * Constructs a new subject.

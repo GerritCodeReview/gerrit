@@ -25,8 +25,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
-public class ChangeFileContentModificationSubject
-    extends Subject<ChangeFileContentModificationSubject, ChangeFileContentModification> {
+public class ChangeFileContentModificationSubject extends Subject {
 
   public static ChangeFileContentModificationSubject assertThat(
       ChangeFileContentModification modification) {

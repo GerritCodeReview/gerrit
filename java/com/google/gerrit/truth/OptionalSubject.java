@@ -18,7 +18,6 @@ import static com.google.common.truth.Fact.fact;
 import static com.google.common.truth.Truth.assertAbout;
 
 import com.google.common.truth.CustomSubjectBuilder;
-import com.google.common.truth.DefaultSubject;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.StandardSubjectBuilder;
 import com.google.common.truth.Subject;
@@ -26,32 +25,26 @@ import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public class OptionalSubject<S extends Subject<S, ? super T>, T>
-    extends Subject<OptionalSubject<S, T>, Optional<T>> {
+public class OptionalSubject<S extends Subject, T> extends Subject {
 
   private final Optional<T> optional;
   private final BiFunction<StandardSubjectBuilder, ? super T, ? extends S> valueSubjectCreator;
 
   // TODO(aliceks): Remove when all relevant usages are adapted to new check()/factory approach.
-  public static <S extends Subject<S, T>, T> OptionalSubject<S, T> assertThat(
+  public static <S extends Subject, T> OptionalSubject<S, T> assertThat(
       Optional<T> optional, Function<? super T, ? extends S> elementAssertThatFunction) {
     Subject.Factory<S, T> valueSubjectFactory =
         (metadata, value) -> elementAssertThatFunction.apply(value);
     return assertThat(optional, valueSubjectFactory);
   }
 
-  public static <S extends Subject<S, T>, T> OptionalSubject<S, T> assertThat(
+  public static <S extends Subject, T> OptionalSubject<S, T> assertThat(
       Optional<T> optional, Subject.Factory<S, T> valueSubjectFactory) {
     return assertAbout(optionals()).thatCustom(optional, valueSubjectFactory);
   }
 
-  public static OptionalSubject<DefaultSubject, ?> assertThat(Optional<?> optional) {
-    // Unfortunately, we need to cast to DefaultSubject as StandardSubjectBuilder#that
-    // only returns Subject<DefaultSubject, Object>. There shouldn't be a way
-    // for that method not to return a DefaultSubject because the generic type
-    // definitions of a Subject are quite strict.
-    return assertAbout(optionals())
-        .that(optional, (builder, value) -> (DefaultSubject) builder.that(value));
+  public static OptionalSubject<Subject, ?> assertThat(Optional<?> optional) {
+    return assertAbout(optionals()).that(optional);
   }
 
   public static CustomSubjectBuilder.Factory<OptionalSubjectBuilder> optionals() {
@@ -97,16 +90,16 @@ public class OptionalSubject<S extends Subject<S, ? super T>, T>
       super(failureMetadata);
     }
 
-    public <S extends Subject<S, T>, T> OptionalSubject<S, T> thatCustom(
+    public <S extends Subject, T> OptionalSubject<S, T> thatCustom(
         Optional<T> optional, Subject.Factory<S, T> valueSubjectFactory) {
       return that(optional, (builder, value) -> builder.about(valueSubjectFactory).that(value));
     }
 
-    public OptionalSubject<DefaultSubject, ?> that(Optional<?> optional) {
-      return that(optional, (builder, value) -> (DefaultSubject) builder.that(value));
+    public OptionalSubject<Subject, ?> that(Optional<?> optional) {
+      return that(optional, StandardSubjectBuilder::that);
     }
 
-    public <S extends Subject<S, ? super T>, T> OptionalSubject<S, T> that(
+    public <S extends Subject, T> OptionalSubject<S, T> that(
         Optional<T> optional,
         BiFunction<StandardSubjectBuilder, ? super T, ? extends S> valueSubjectCreator) {
       return new OptionalSubject<>(metadata(), optional, valueSubjectCreator);

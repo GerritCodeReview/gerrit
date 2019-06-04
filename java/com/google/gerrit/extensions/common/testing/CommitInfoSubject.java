@@ -24,7 +24,7 @@ import com.google.common.truth.Subject;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.truth.ListSubject;
 
-public class CommitInfoSubject extends Subject<CommitInfoSubject, CommitInfo> {
+public class CommitInfoSubject extends Subject {
 
   public static CommitInfoSubject assertThat(CommitInfo commitInfo) {
     return assertAbout(commits()).that(commitInfo);

@@ -21,9 +21,8 @@ import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
 import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 
-public class GroupReferenceSubject extends Subject<GroupReferenceSubject, GroupReference> {
+public class GroupReferenceSubject extends Subject {
 
   public static GroupReferenceSubject assertThat(GroupReference group) {
     return assertAbout(groupReferences()).that(group);
@@ -40,7 +39,7 @@ public class GroupReferenceSubject extends Subject<GroupReferenceSubject, GroupR
     this.group = group;
   }
 
-  public ComparableSubject<?, AccountGroup.UUID> groupUuid() {
+  public ComparableSubject groupUuid() {
     isNotNull();
     return check("getUUID()").that(group.getUUID());
   }

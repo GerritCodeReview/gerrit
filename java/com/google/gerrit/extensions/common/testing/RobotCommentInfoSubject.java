@@ -24,7 +24,7 @@ import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.truth.ListSubject;
 import java.util.List;
 
-public class RobotCommentInfoSubject extends Subject<RobotCommentInfoSubject, RobotCommentInfo> {
+public class RobotCommentInfoSubject extends Subject {
 
   public static ListSubject<RobotCommentInfoSubject, RobotCommentInfo> assertThatList(
       List<RobotCommentInfo> robotCommentInfos) {

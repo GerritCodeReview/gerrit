@@ -92,6 +92,30 @@
       "revId": "3c818b1c7c4daf581d92081efde0ff57720c0b02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06569263_3e86d41e",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-04T12:49:52Z",
+      "side": 1,
+      "message": "\u003e On one hand I agree that it would be easier to maintain a simple list of plugins.  On the other hand, I think we should somehow document how one should go about making these mass changes, and that change does that.\n\nI agree that we would need some additional documentation. The change only indirectly documents it. It might be better than nothing, of course.\n\n\u003e Note that most (if not all) of those plugins don\u0027t have a standalone build, so the only way to make sure they compile and tests pass is to include them in-tree.\n\u003e \n\u003e Maybe we should, in parallel to this change, try to come up with a way that makes it easier to make updates to non-core plugins?\n\nThat would be very helpful.",
+      "parentUuid": "5c3c8e45_66e618ac",
+      "range": {
+        "startLine": 163,
+        "startChar": 0,
+        "endLine": 163,
+        "endChar": 69
+      },
+      "revId": "3c818b1c7c4daf581d92081efde0ff57720c0b02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

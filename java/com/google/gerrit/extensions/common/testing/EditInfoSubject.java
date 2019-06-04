@@ -24,7 +24,7 @@ import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.truth.OptionalSubject;
 import java.util.Optional;
 
-public class EditInfoSubject extends Subject<EditInfoSubject, EditInfo> {
+public class EditInfoSubject extends Subject {
 
   public static EditInfoSubject assertThat(EditInfo editInfo) {
     return assertAbout(edits()).that(editInfo);

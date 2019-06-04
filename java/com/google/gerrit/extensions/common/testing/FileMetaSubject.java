@@ -21,7 +21,7 @@ import com.google.common.truth.IntegerSubject;
 import com.google.common.truth.Subject;
 import com.google.gerrit.extensions.common.DiffInfo.FileMeta;
 
-public class FileMetaSubject extends Subject<FileMetaSubject, FileMeta> {
+public class FileMetaSubject extends Subject {
 
   public static FileMetaSubject assertThat(FileMeta fileMeta) {
     return assertAbout(fileMetas()).that(fileMeta);

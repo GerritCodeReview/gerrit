@@ -26,7 +26,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Optional;
 
-public class BinaryResultSubject extends Subject<BinaryResultSubject, BinaryResult> {
+public class BinaryResultSubject extends Subject {
 
   public static BinaryResultSubject assertThat(BinaryResult binaryResult) {
     return assertAbout(binaryResults()).that(binaryResult);

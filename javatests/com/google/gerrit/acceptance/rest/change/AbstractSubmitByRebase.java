@@ -31,10 +31,8 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.server.project.testing.Util;
 import org.eclipse.jgit.lib.ObjectId;
@@ -350,28 +348,6 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
 
     assertRefUpdatedEvents(initialHead, headAfterSubmit);
     assertChangeMergedEvents(id2, headAfterSubmit.name(), id1, headAfterSubmit.name());
-  }
-
-  @Test
-  public void submitChangesAfterBranchOnSecond() throws Exception {
-    RevCommit initialHead = getRemoteHead();
-
-    PushOneCommit.Result change = createChange();
-    approve(change.getChangeId());
-
-    PushOneCommit.Result change2 = createChange();
-    approve(change2.getChangeId());
-    Project.NameKey project = change2.getChange().change().getProject();
-    Branch.NameKey branch = new Branch.NameKey(project, "branch");
-    createBranchWithRevision(branch, change2.getCommit().getName());
-    gApi.changes().id(change2.getChangeId()).current().submit();
-    assertMerged(change2.getChangeId());
-    assertMerged(change.getChangeId());
-
-    RevCommit newHead = getRemoteHead();
-    assertRefUpdatedEvents(initialHead, newHead);
-    assertChangeMergedEvents(
-        change.getChangeId(), newHead.name(), change2.getChangeId(), newHead.name());
   }
 
   @Test

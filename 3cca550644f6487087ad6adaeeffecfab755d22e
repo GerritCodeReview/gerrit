@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7b23bcfb_71a05fde",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-06-04T07:54:18Z",
+      "side": 1,
+      "message": "You mean context for why I\u0027m doing this, or for the actual code changes?",
+      "parentUuid": "aa5ab2e3_6cb97aaf",
+      "revId": "3cca550644f6487087ad6adaeeffecfab755d22e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d968c142_85d43271",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "3cca550644f6487087ad6adaeeffecfab755d22e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b03fed7_92f5e57b",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-06-04T07:54:18Z",
+      "side": 1,
+      "message": "OK, I\u0027ll remove the non-test code from this change and do that in a follow-up change.",
+      "parentUuid": "d968c142_85d43271",
+      "revId": "3cca550644f6487087ad6adaeeffecfab755d22e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

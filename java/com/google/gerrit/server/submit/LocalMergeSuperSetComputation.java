@@ -15,12 +15,15 @@
 package com.google.gerrit.server.submit;
 
 import static com.google.common.base.Preconditions.checkState;
+import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -51,8 +54,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -88,7 +92,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   private final PermissionBackend permissionBackend;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Map<QueryKey, List<ChangeData>> queryCache;
-  private final Map<Branch.NameKey, Optional<RevCommit>> heads;
+  private final Table<Project.NameKey, String, RevCommit> heads;
   private final ProjectCache projectCache;
 
   @Inject
@@ -100,7 +104,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
     this.permissionBackend = permissionBackend;
     this.queryProvider = queryProvider;
     this.queryCache = new HashMap<>();
-    this.heads = new HashMap<>();
+    this.heads = HashBasedTable.create();
   }
 
   @Override
@@ -145,11 +149,10 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
         }
       }
 
-      Set<String> visibleHashes =
-          walkChangesByHashes(visibleCommits, Collections.emptySet(), or, b);
+      Set<String> visibleHashes = walkChangesByHashes(visibleCommits, Collections.emptySet(), or);
       Iterables.addAll(visibleChanges, byCommitsOnBranchNotMerged(or, db, b, visibleHashes));
 
-      Set<String> nonVisibleHashes = walkChangesByHashes(nonVisibleCommits, visibleHashes, or, b);
+      Set<String> nonVisibleHashes = walkChangesByHashes(nonVisibleCommits, visibleHashes, or);
       Iterables.addAll(nonVisibleChanges, byCommitsOnBranchNotMerged(or, db, b, nonVisibleHashes));
     }
 
@@ -229,11 +232,11 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   }
 
   private Set<String> walkChangesByHashes(
-      Collection<RevCommit> sourceCommits, Set<String> ignoreHashes, OpenRepo or, Branch.NameKey b)
+      Collection<RevCommit> sourceCommits, Set<String> ignoreHashes, OpenRepo or)
       throws IOException {
     Set<String> destHashes = new HashSet<>();
     or.rw.reset();
-    markHeadUninteresting(or, b);
+    markHeadsUninteresting(or);
     for (RevCommit c : sourceCommits) {
       String name = c.name();
       if (ignoreHashes.contains(name)) {
@@ -253,15 +256,19 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
     return destHashes;
   }
 
-  private void markHeadUninteresting(OpenRepo or, Branch.NameKey b) throws IOException {
-    Optional<RevCommit> head = heads.get(b);
-    if (head == null) {
-      Ref ref = or.repo.getRefDatabase().exactRef(b.get());
-      head = ref != null ? Optional.of(or.rw.parseCommit(ref.getObjectId())) : Optional.empty();
-      heads.put(b, head);
+  private void markHeadsUninteresting(OpenRepo or) throws IOException {
+    if (!heads.containsRow(or.getProjectName())) {
+      for (Ref ref : or.repo.getRefDatabase().getRefsByPrefix(R_HEADS)) {
+        try {
+          heads.put(or.getProjectName(), ref.getName(), or.rw.parseCommit(ref.getObjectId()));
+        } catch (IncorrectObjectTypeException | MissingObjectException e) {
+          logger.atWarning().log("Couldn't parse commit %s", ref.getObjectId().name());
+        }
+      }
     }
-    if (head.isPresent()) {
-      or.rw.markUninteresting(head.get());
+
+    for (RevCommit c : heads.row(or.getProjectName()).values()) {
+      or.rw.markUninteresting(c);
     }
   }
 

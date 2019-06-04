@@ -21,7 +21,7 @@ import com.google.common.truth.Subject;
 import com.google.gerrit.truth.ListSubject;
 import java.util.List;
 
-public class TreeModificationSubject extends Subject<TreeModificationSubject, TreeModification> {
+public class TreeModificationSubject extends Subject {
 
   public static TreeModificationSubject assertThat(TreeModification treeModification) {
     return assertAbout(treeModifications()).that(treeModification);

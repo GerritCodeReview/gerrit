@@ -25,7 +25,7 @@ import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.truth.ListSubject;
 
-public class FixSuggestionInfoSubject extends Subject<FixSuggestionInfoSubject, FixSuggestionInfo> {
+public class FixSuggestionInfoSubject extends Subject {
 
   public static FixSuggestionInfoSubject assertThat(FixSuggestionInfo fixSuggestionInfo) {
     return assertAbout(fixSuggestions()).that(fixSuggestionInfo);

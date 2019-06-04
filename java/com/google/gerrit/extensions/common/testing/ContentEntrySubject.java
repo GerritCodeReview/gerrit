@@ -27,7 +27,7 @@ import com.google.common.truth.Subject;
 import com.google.gerrit.extensions.common.DiffInfo.ContentEntry;
 import com.google.gerrit.truth.ListSubject;
 
-public class ContentEntrySubject extends Subject<ContentEntrySubject, ContentEntry> {
+public class ContentEntrySubject extends Subject {
 
   public static ContentEntrySubject assertThat(ContentEntry contentEntry) {
     return assertAbout(contentEntries()).that(contentEntry);

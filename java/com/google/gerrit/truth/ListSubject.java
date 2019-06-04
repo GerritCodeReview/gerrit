@@ -27,12 +27,12 @@ import com.google.common.truth.Subject;
 import java.util.List;
 import java.util.function.BiFunction;
 
-public class ListSubject<S extends Subject<S, E>, E> extends IterableSubject {
+public class ListSubject<S extends Subject, E> extends IterableSubject {
 
   private final List<E> list;
   private final BiFunction<StandardSubjectBuilder, E, S> elementSubjectCreator;
 
-  public static <S extends Subject<S, E>, E> ListSubject<S, E> assertThat(
+  public static <S extends Subject, E> ListSubject<S, E> assertThat(
       List<E> list, Subject.Factory<S, E> subjectFactory) {
     return assertAbout(elements()).thatCustom(list, subjectFactory);
   }
@@ -77,12 +77,12 @@ public class ListSubject<S extends Subject<S, E>, E> extends IterableSubject {
       super(failureMetadata);
     }
 
-    public <S extends Subject<S, E>, E> ListSubject<S, E> thatCustom(
+    public <S extends Subject, E> ListSubject<S, E> thatCustom(
         List<E> list, Subject.Factory<S, E> subjectFactory) {
       return that(list, (builder, element) -> builder.about(subjectFactory).that(element));
     }
 
-    public <S extends Subject<S, E>, E> ListSubject<S, E> that(
+    public <S extends Subject, E> ListSubject<S, E> that(
         List<E> list, BiFunction<StandardSubjectBuilder, E, S> elementSubjectCreator) {
       return new ListSubject<>(metadata(), list, elementSubjectCreator);
     }

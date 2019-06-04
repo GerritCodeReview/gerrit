@@ -23,7 +23,7 @@ import com.google.common.truth.Subject;
 import com.google.gerrit.index.query.QueryParser;
 import org.antlr.runtime.tree.Tree;
 
-public class TreeSubject extends Subject<TreeSubject, Tree> {
+public class TreeSubject extends Subject {
   public static TreeSubject assertThat(Tree actual) {
     return assertAbout(TreeSubject::new).that(actual);
   }

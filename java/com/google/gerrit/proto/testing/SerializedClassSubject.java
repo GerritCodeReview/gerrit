@@ -48,7 +48,7 @@ import org.apache.commons.lang3.reflect.FieldUtils;
  * the hand-written serializer. Usually, serializer implementations should be written in such a way
  * that new fields are considered optional, and won't require bumping the version.
  */
-public class SerializedClassSubject extends Subject<SerializedClassSubject, Class<?>> {
+public class SerializedClassSubject extends Subject {
   public static SerializedClassSubject assertThatSerializedClass(Class<?> actual) {
     // This formulation fails in Eclipse 4.7.3a with "The type
     // SerializedClassSubject does not define SerializedClassSubject() that is

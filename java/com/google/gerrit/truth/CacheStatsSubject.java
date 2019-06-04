@@ -24,7 +24,7 @@ import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.UsedAt.Project;
 
 @UsedAt(Project.PLUGINS_ALL)
-public class CacheStatsSubject extends Subject<CacheStatsSubject, CacheStats> {
+public class CacheStatsSubject extends Subject {
   public static CacheStatsSubject assertThat(CacheStats stats) {
     return assertAbout(CacheStatsSubject::new).that(stats);
   }

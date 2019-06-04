@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertAbout;
 
 import com.google.common.truth.BooleanSubject;
 import com.google.common.truth.ComparableSubject;
-import com.google.common.truth.DefaultSubject;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.IterableSubject;
 import com.google.common.truth.StringSubject;
@@ -60,7 +59,7 @@ public class InternalGroupSubject extends Subject<InternalGroupSubject, Internal
     return check("getName()").that(group.getName());
   }
 
-  public Subject<DefaultSubject, Object> id() {
+  public Subject<?, ?> id() {
     isNotNull();
     return check("getId()").that(group.getId());
   }

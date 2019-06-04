@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef057666_181ab66f",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T11:42:15Z",
+      "side": 1,
+      "message": "This makes it sound like the behavior is not expected, however I would say that it is expected.  If I have a draft comment with ID 123 and then publish a comment with the same ID, I would expect the draft to be deleted.\n\nMaybe change the comment to \"DraftHandling.KEEP is ignored on publishing a comment\"?",
+      "range": {
+        "startLine": 297,
+        "startChar": 29,
+        "endLine": 297,
+        "endChar": 56
+      },
+      "revId": "060c1d83617b2433fdf7801da45516d6c7f13e91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

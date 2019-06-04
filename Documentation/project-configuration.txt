@@ -131,6 +131,8 @@ Thus, Rebase Always can be considered similar to Cherry Pick, but with
 the important distinction that Rebase Always does not ignore dependencies.
 
 [[content_merge]]
+=== Allow content merges
+
 If `Allow content merges` is enabled, Gerrit will try
 to do a content merge when a path conflict occurs.
 

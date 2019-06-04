@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "20a091fc_3aa017bf",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T12:31:28Z",
+      "side": 1,
+      "message": "are performed",
+      "range": {
+        "startLine": 160,
+        "startChar": 19,
+        "endLine": 160,
+        "endChar": 28
+      },
+      "revId": "3c818b1c7c4daf581d92081efde0ff57720c0b02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6050182d_5b0bc83e",
         "filename": "Documentation/dev-build-plugins.txt",
         "patchSetId": 4
@@ -36,6 +59,30 @@
       "writtenOn": "2019-06-04T08:15:20Z",
       "side": 1,
       "message": "I think it would be best to list those plugins here instead of linking to an abandoned change. This would also make it easier to add/remove plugins from the list if necessary in the future.",
+      "range": {
+        "startLine": 163,
+        "startChar": 0,
+        "endLine": 163,
+        "endChar": 69
+      },
+      "revId": "3c818b1c7c4daf581d92081efde0ff57720c0b02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c3c8e45_66e618ac",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T12:31:28Z",
+      "side": 1,
+      "message": "On one hand I agree that it would be easier to maintain a simple list of plugins.  On the other hand, I think we should somehow document how one should go about making these mass changes, and that change does that.\n\nNote that most (if not all) of those plugins don\u0027t have a standalone build, so the only way to make sure they compile and tests pass is to include them in-tree.\n\nMaybe we should, in parallel to this change, try to come up with a way that makes it easier to make updates to non-core plugins?",
+      "parentUuid": "6050182d_5b0bc83e",
       "range": {
         "startLine": 163,
         "startChar": 0,

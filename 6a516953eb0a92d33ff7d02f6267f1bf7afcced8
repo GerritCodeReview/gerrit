@@ -46,6 +46,30 @@
       "revId": "6a516953eb0a92d33ff7d02f6267f1bf7afcced8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9735b830_1678db0e",
+        "filename": "java/com/google/gerrit/server/group/testing/InternalGroupSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-04T08:37:37Z",
+      "side": 1,
+      "message": "Sounds also good to me.\n\nI\u0027m pretty sure that there\u0027ll be a time when the type parameters are removed throughout our code base (due to our internal, newer version of Truth) but Truth can\u0027t be upgraded as the corresponding open-source release isn\u0027t available yet. Do you think you could live with the Eclipse warnings in the meantime or would you want to have warning suppressions throughout our code base?",
+      "parentUuid": "353474cf_99b11c73",
+      "range": {
+        "startLine": 62,
+        "startChar": 16,
+        "endLine": 62,
+        "endChar": 22
+      },
+      "revId": "6a516953eb0a92d33ff7d02f6267f1bf7afcced8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

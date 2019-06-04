@@ -1063,7 +1063,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void deletePreferredEmail() throws Exception {
-    String email = "foo.bar@example.com";
+    String email = "foo.bar.baz@example.com";
     EmailInput input = new EmailInput();
     input.email = email;
     input.noConfirmation = true;

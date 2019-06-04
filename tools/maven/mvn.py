@@ -43,9 +43,13 @@ if 'install' == args.a:
     '-Dversion=%s' % args.v,
   ]
 elif 'deploy' == args.a:
+  if environ.get('NO_GPG_SIGN'):
+     mvn_cmd = 'deploy:deploy-file'
+  else:
+     mvn_cmd = 'gpg:sign-and-deploy-file'
   cmd = [
     'mvn',
-    'gpg:sign-and-deploy-file',
+    mvn_cmd,
     '-Dversion=%s' % args.v,
     '-DrepositoryId=%s' % args.repository,
     '-Durl=%s' % args.url,

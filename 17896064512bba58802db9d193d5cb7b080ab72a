@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "4d138aad_26577ad1",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-04T05:37:26Z",
+      "side": 0,
+      "message": "Is this a wrong removal?",
+      "range": {
+        "startLine": 284,
+        "startChar": 4,
+        "endLine": 284,
+        "endChar": 53
+      },
+      "revId": "17896064512bba58802db9d193d5cb7b080ab72a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5d82160_b2d70e84",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-04T05:37:26Z",
+      "side": 0,
+      "message": "Shouldn\u0027t rather DefaultAdvertiseRefsHook be replaced with new PermissionAwareRepository?",
+      "range": {
+        "startLine": 303,
+        "startChar": 4,
+        "endLine": 304,
+        "endChar": 100
+      },
+      "revId": "17896064512bba58802db9d193d5cb7b080ab72a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "952249a4_cd1299ca",
         "filename": "lib/jgit/org.eclipse.jgit/BUILD",
         "patchSetId": 7

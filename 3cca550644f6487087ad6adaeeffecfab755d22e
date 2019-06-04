@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa5ab2e3_6cb97aaf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T07:14:01Z",
+      "side": 1,
+      "message": "Add some more context here?",
+      "revId": "3cca550644f6487087ad6adaeeffecfab755d22e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d968c142_85d43271",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T07:14:01Z",
+      "side": 1,
+      "message": "Add this test in a separate commit before the refactoring? Then it will show that the refactoring does not change the behavior.",
+      "revId": "3cca550644f6487087ad6adaeeffecfab755d22e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9d485d9_8fa4d321",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 2838,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-06-04T07:07:11Z",
+      "side": 1,
+      "message": "maintains",
+      "range": {
+        "startLine": 2838,
+        "startChar": 13,
+        "endLine": 2838,
+        "endChar": 21
+      },
+      "revId": "b71a9ca2b97724c95da221a37a74ca58ea42e104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c86614d5_8baa70cf",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 2838,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-06-04T07:07:11Z",
+      "side": 1,
+      "message": "updates",
+      "range": {
+        "startLine": 2838,
+        "startChar": 73,
+        "endLine": 2838,
+        "endChar": 79
+      },
+      "revId": "b71a9ca2b97724c95da221a37a74ca58ea42e104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66f8e980_914287d0",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 2839,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-06-04T07:07:11Z",
+      "side": 1,
+      "message": "reviews",
+      "range": {
+        "startLine": 2839,
+        "startChar": 47,
+        "endLine": 2839,
+        "endChar": 53
+      },
+      "revId": "b71a9ca2b97724c95da221a37a74ca58ea42e104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24c9257a_4555013f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 2839,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-06-04T07:07:11Z",
+      "side": 1,
+      "message": "develops",
+      "range": {
+        "startLine": 2839,
+        "startChar": 2,
+        "endLine": 2839,
+        "endChar": 9
+      },
+      "revId": "b71a9ca2b97724c95da221a37a74ca58ea42e104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bd06638_cf3258c3",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 2922,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-06-04T07:07:11Z",
+      "side": 1,
+      "message": "discusses",
+      "range": {
+        "startLine": 2922,
+        "startChar": 14,
+        "endLine": 2922,
+        "endChar": 21
+      },
+      "revId": "b71a9ca2b97724c95da221a37a74ca58ea42e104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4c1d5a7_8ed60e13",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 2971,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-06-04T07:07:11Z",
+      "side": 1,
+      "message": "Such practice can lead to violation of semantic versioning.\nI.e. if the plugin doesn\u0027t do breaking changes (or even did not do any changes) between 2.16 and 3.0 why\nshould it bump the major version ? I think if a plugin release is tagged it should rather express if it\n\n- broke it\u0027s own API (major version increases),\n- added new features (minor version increases)\n- or only fixed bugs (micro version increases)\n\ncompared to the previous release.\nAlso there are plugins versions which can run unchanged on multiple Gerrit releases.\n\nIf this is intended we should document this explicitly",
+      "range": {
+        "startLine": 2971,
+        "startChar": 33,
+        "endLine": 2971,
+        "endChar": 89
+      },
+      "revId": "b71a9ca2b97724c95da221a37a74ca58ea42e104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

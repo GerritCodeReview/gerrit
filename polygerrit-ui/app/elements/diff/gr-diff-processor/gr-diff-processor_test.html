@@ -62,7 +62,7 @@ limitations under the License.
         element.context = 4;
       });
 
-      test('process loaded content', done => {
+      test('process loaded content', () => {
         const content = [
           {
             ab: [
@@ -88,7 +88,7 @@ limitations under the License.
           },
         ];
 
-        element.process(content).then(() => {
+        return element.process(content).then(() => {
           const groups = element.groups;
 
           assert.equal(groups.length, 4);
@@ -141,31 +141,15 @@ limitations under the License.
             'everyone pretend to shower.',
             'Fry: Same as every day. Got it.',
           ]);
-
-          done();
         });
       });
 
-      test('insert context groups', done => {
+      test('first group is for file', () => {
         const content = [
-          {ab: []},
-          {a: ['all work and no play make andybons a dull boy']},
-          {ab: []},
-          {b: ['elgoog elgoog elgoog']},
-          {ab: []},
+          {b: ['foo']},
         ];
-        for (let i = 0; i < 100; i++) {
-          content[0].ab.push('all work and no play make jack a dull boy');
-          content[4].ab.push('all work and no play make jill a dull girl');
-        }
-        for (let i = 0; i < 5; i++) {
-          content[2].ab.push('no tv and no beer make homer go crazy');
-        }
 
-        const context = 10;
-        element.context = context;
-
-        element.process(content).then(() => {
+        return element.process(content).then(() => {
           const groups = element.groups;
 
           assert.equal(groups[0].type, GrDiffGroup.Type.BOTH);
@@ -173,107 +157,174 @@ limitations under the License.
           assert.equal(groups[0].lines[0].text, '');
           assert.equal(groups[0].lines[0].beforeNumber, GrDiffLine.FILE);
           assert.equal(groups[0].lines[0].afterNumber, GrDiffLine.FILE);
-
-          assert.equal(groups[1].type, GrDiffGroup.Type.CONTEXT_CONTROL);
-          assert.instanceOf(groups[1].lines[0].contextGroups[0], GrDiffGroup);
-          assert.equal(groups[1].lines[0].contextGroups[0].lines.length, 90);
-          for (const l of groups[1].lines[0].contextGroups[0].lines) {
-            assert.equal(l.text, content[0].ab[0]);
-          }
-
-          assert.equal(groups[2].type, GrDiffGroup.Type.BOTH);
-          assert.equal(groups[2].lines.length, context);
-          for (const l of groups[2].lines) {
-            assert.equal(l.text, content[0].ab[0]);
-          }
-
-          assert.equal(groups[3].type, GrDiffGroup.Type.DELTA);
-          assert.equal(groups[3].lines.length, 1);
-          assert.equal(groups[3].removes.length, 1);
-          assert.equal(groups[3].removes[0].text,
-              'all work and no play make andybons a dull boy');
-
-          assert.equal(groups[4].type, GrDiffGroup.Type.BOTH);
-          assert.equal(groups[4].lines.length, 5);
-          for (const l of groups[4].lines) {
-            assert.equal(l.text, content[2].ab[0]);
-          }
-
-          assert.equal(groups[5].type, GrDiffGroup.Type.DELTA);
-          assert.equal(groups[5].lines.length, 1);
-          assert.equal(groups[5].adds.length, 1);
-          assert.equal(groups[5].adds[0].text, 'elgoog elgoog elgoog');
-
-          assert.equal(groups[6].type, GrDiffGroup.Type.BOTH);
-          assert.equal(groups[6].lines.length, context);
-          for (const l of groups[6].lines) {
-            assert.equal(l.text, content[4].ab[0]);
-          }
-
-          assert.equal(groups[7].type, GrDiffGroup.Type.CONTEXT_CONTROL);
-          assert.instanceOf(groups[7].lines[0].contextGroups[0], GrDiffGroup);
-          assert.equal(groups[7].lines[0].contextGroups[0].lines.length, 90);
-          for (const l of groups[7].lines[0].contextGroups[0].lines) {
-            assert.equal(l.text, content[4].ab[0]);
-          }
-
-          done();
         });
       });
 
-      test('insert context groups', done => {
-        const content = [
-          {a: ['all work and no play make andybons a dull boy']},
-          {ab: []},
-          {b: ['elgoog elgoog elgoog']},
-        ];
-        for (let i = 0; i < 50; i++) {
-          content[1].ab.push('no tv and no beer make homer go crazy');
-        }
+      suite('context groups', () => {
+        test('at the beginning, larger than context', () => {
+          element.context = 10;
+          const content = [
+            {ab: new Array(100)
+                .fill('all work and no play make jack a dull boy')},
+            {a: ['all work and no play make andybons a dull boy']},
+          ];
 
-        const context = 10;
-        element.context = context;
+          return element.process(content).then(() => {
+            const groups = element.groups;
 
-        element.process(content).then(() => {
-          const groups = element.groups;
+            // group[0] is the file group
 
-          assert.equal(groups[0].type, GrDiffGroup.Type.BOTH);
-          assert.equal(groups[0].lines.length, 1);
-          assert.equal(groups[0].lines[0].text, '');
-          assert.equal(groups[0].lines[0].beforeNumber, GrDiffLine.FILE);
-          assert.equal(groups[0].lines[0].afterNumber, GrDiffLine.FILE);
+            assert.equal(groups[1].type, GrDiffGroup.Type.CONTEXT_CONTROL);
+            assert.instanceOf(groups[1].lines[0].contextGroups[0], GrDiffGroup);
+            assert.equal(groups[1].lines[0].contextGroups[0].lines.length, 90);
+            for (const l of groups[1].lines[0].contextGroups[0].lines) {
+              assert.equal(l.text, 'all work and no play make jack a dull boy');
+            }
 
-          assert.equal(groups[1].type, GrDiffGroup.Type.DELTA);
-          assert.equal(groups[1].lines.length, 1);
-          assert.equal(groups[1].removes.length, 1);
-          assert.equal(groups[1].removes[0].text,
-              'all work and no play make andybons a dull boy');
+            assert.equal(groups[2].type, GrDiffGroup.Type.BOTH);
+            assert.equal(groups[2].lines.length, 10);
+            for (const l of groups[2].lines) {
+              assert.equal(l.text, 'all work and no play make jack a dull boy');
+            }
+          });
+        });
 
-          assert.equal(groups[2].type, GrDiffGroup.Type.BOTH);
-          assert.equal(groups[2].lines.length, context);
-          for (const l of groups[2].lines) {
-            assert.equal(l.text, content[1].ab[0]);
-          }
+        test('at the beginning, smaller than context', () => {
+          element.context = 10;
+          const content = [
+            {ab: new Array(5)
+                .fill('all work and no play make jack a dull boy')},
+            {a: ['all work and no play make andybons a dull boy']},
+          ];
 
-          assert.equal(groups[3].type, GrDiffGroup.Type.CONTEXT_CONTROL);
-          assert.instanceOf(groups[3].lines[0].contextGroups[0], GrDiffGroup);
-          assert.equal(groups[3].lines[0].contextGroups[0].lines.length, 30);
-          for (const l of groups[3].lines[0].contextGroups[0].lines) {
-            assert.equal(l.text, content[1].ab[0]);
-          }
+          return element.process(content).then(() => {
+            const groups = element.groups;
 
-          assert.equal(groups[4].type, GrDiffGroup.Type.BOTH);
-          assert.equal(groups[4].lines.length, context);
-          for (const l of groups[4].lines) {
-            assert.equal(l.text, content[1].ab[0]);
-          }
+            // group[0] is the file group
 
-          assert.equal(groups[5].type, GrDiffGroup.Type.DELTA);
-          assert.equal(groups[5].lines.length, 1);
-          assert.equal(groups[5].adds.length, 1);
-          assert.equal(groups[5].adds[0].text, 'elgoog elgoog elgoog');
+            assert.equal(groups[1].type, GrDiffGroup.Type.BOTH);
+            assert.equal(groups[1].lines.length, 5);
+            for (const l of groups[1].lines) {
+              assert.equal(l.text, 'all work and no play make jack a dull boy');
+            }
+          });
+        });
 
-          done();
+        test('at the end, larger than context', () => {
+          element.context = 10;
+          const content = [
+            {a: ['all work and no play make andybons a dull boy']},
+            {ab: new Array(100)
+                .fill('all work and no play make jill a dull girl')},
+          ];
+
+          return element.process(content).then(() => {
+            const groups = element.groups;
+
+            // group[0] is the file group
+            // group[1] is the "a" group
+
+            assert.equal(groups[2].type, GrDiffGroup.Type.BOTH);
+            assert.equal(groups[2].lines.length, 10);
+            for (const l of groups[2].lines) {
+              assert.equal(
+                  l.text, 'all work and no play make jill a dull girl');
+            }
+
+            assert.equal(groups[3].type, GrDiffGroup.Type.CONTEXT_CONTROL);
+            assert.instanceOf(groups[3].lines[0].contextGroups[0], GrDiffGroup);
+            assert.equal(groups[3].lines[0].contextGroups[0].lines.length, 90);
+            for (const l of groups[3].lines[0].contextGroups[0].lines) {
+              assert.equal(
+                  l.text, 'all work and no play make jill a dull girl');
+            }
+          });
+        });
+
+        test('at the end, smaller than context', () => {
+          element.context = 10;
+          const content = [
+            {a: ['all work and no play make andybons a dull boy']},
+            {ab: new Array(5)
+                .fill('all work and no play make jill a dull girl')},
+          ];
+
+          return element.process(content).then(() => {
+            const groups = element.groups;
+
+            // group[0] is the file group
+            // group[1] is the "a" group
+
+            assert.equal(groups[2].type, GrDiffGroup.Type.BOTH);
+            assert.equal(groups[2].lines.length, 5);
+            for (const l of groups[2].lines) {
+              assert.equal(
+                  l.text, 'all work and no play make jill a dull girl');
+            }
+          });
+        });
+
+        test('in the middle, larger than context', () => {
+          element.context = 10;
+          const content = [
+            {a: ['all work and no play make andybons a dull boy']},
+            {ab: new Array(100)
+                .fill('all work and no play make jill a dull girl')},
+            {a: ['all work and no play make andybons a dull boy']},
+          ];
+
+          return element.process(content).then(() => {
+            const groups = element.groups;
+
+            // group[0] is the file group
+            // group[1] is the "a" group
+
+            assert.equal(groups[2].type, GrDiffGroup.Type.BOTH);
+            assert.equal(groups[2].lines.length, 10);
+            for (const l of groups[2].lines) {
+              assert.equal(
+                  l.text, 'all work and no play make jill a dull girl');
+            }
+
+            assert.equal(groups[3].type, GrDiffGroup.Type.CONTEXT_CONTROL);
+            assert.instanceOf(groups[3].lines[0].contextGroups[0], GrDiffGroup);
+            assert.equal(groups[3].lines[0].contextGroups[0].lines.length, 80);
+            for (const l of groups[3].lines[0].contextGroups[0].lines) {
+              assert.equal(
+                  l.text, 'all work and no play make jill a dull girl');
+            }
+
+            assert.equal(groups[4].type, GrDiffGroup.Type.BOTH);
+            assert.equal(groups[4].lines.length, 10);
+            for (const l of groups[4].lines) {
+              assert.equal(
+                  l.text, 'all work and no play make jill a dull girl');
+            }
+          });
+        });
+
+        test('in the middle, smaller than context', () => {
+          element.context = 10;
+          const content = [
+            {a: ['all work and no play make andybons a dull boy']},
+            {ab: new Array(5)
+                .fill('all work and no play make jill a dull girl')},
+            {a: ['all work and no play make andybons a dull boy']},
+          ];
+
+          return element.process(content).then(() => {
+            const groups = element.groups;
+
+            // group[0] is the file group
+            // group[1] is the "a" group
+
+            assert.equal(groups[2].type, GrDiffGroup.Type.BOTH);
+            assert.equal(groups[2].lines.length, 5);
+            for (const l of groups[2].lines) {
+              assert.equal(
+                  l.text, 'all work and no play make jill a dull girl');
+            }
+          });
         });
       });
 

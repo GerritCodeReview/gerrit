@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a350f5d_5d40bb18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-04T08:15:20Z",
+      "side": 1,
+      "message": "plugins",
+      "range": {
+        "startLine": 11,
+        "startChar": 42,
+        "endLine": 11,
+        "endChar": 48
+      },
+      "revId": "3c818b1c7c4daf581d92081efde0ff57720c0b02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6050182d_5b0bc83e",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-04T08:15:20Z",
+      "side": 1,
+      "message": "I think it would be best to list those plugins here instead of linking to an abandoned change. This would also make it easier to add/remove plugins from the list if necessary in the future.",
+      "range": {
+        "startLine": 163,
+        "startChar": 0,
+        "endLine": 163,
+        "endChar": 69
+      },
+      "revId": "3c818b1c7c4daf581d92081efde0ff57720c0b02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

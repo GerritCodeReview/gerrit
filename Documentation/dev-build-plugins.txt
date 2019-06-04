@@ -155,6 +155,12 @@ cd reviewers
 bazel build reviewers
 ----
 
+== Mass changes of Gerrit's plugin API
+
+When major changes performed in plugin API, a number of plugins should be
+adapted in addition to the core plugins. The list of plugins can be found in
+this link:https://gerrit-review.googlesource.com/c/gerrit/+/220678[change].
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

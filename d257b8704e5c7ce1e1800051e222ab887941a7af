@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b30acaf_dc4aad63",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2821,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-04T10:55:16Z",
+      "side": 1,
+      "message": "This essentially forces contributors to create a repo elsewhere. After the previous step (running the idea through the mailing list) we could give the contributor a leap of faith and just create the repo if they provide a timeline on when they intend to be done.\n\nThe repo description can list this as \u0027under development\u0027 or \u0027prototype\u0027 or something else.\n\nIf it doesn\u0027t work out, the repo gets deleted.",
+      "range": {
+        "startLine": 2819,
+        "startChar": 0,
+        "endLine": 2821,
+        "endChar": 30
+      },
+      "revId": "d257b8704e5c7ce1e1800051e222ab887941a7af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

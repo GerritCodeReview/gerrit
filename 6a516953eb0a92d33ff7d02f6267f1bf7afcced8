@@ -22,6 +22,30 @@
       "revId": "6a516953eb0a92d33ff7d02f6267f1bf7afcced8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "353474cf_99b11c73",
+        "filename": "java/com/google/gerrit/server/group/testing/InternalGroupSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T08:28:32Z",
+      "side": 1,
+      "message": "Using the raw Subject results in another warning from Eclipse.  We can suppress it, but then we would still have to do another change later when the generic types are removed and Eclipse then complains about an unnecessary suppression.\n\nI\u0027d rather just do it like this and then remove the generic parameters later along with the next upgrade of Truth.",
+      "parentUuid": "08a6e211_dff4ce66",
+      "range": {
+        "startLine": 62,
+        "startChar": 16,
+        "endLine": 62,
+        "endChar": 22
+      },
+      "revId": "6a516953eb0a92d33ff7d02f6267f1bf7afcced8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

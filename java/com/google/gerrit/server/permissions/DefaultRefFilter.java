@@ -154,7 +154,11 @@ class DefaultRefFilter {
       TagMatcher tags =
           tagCache
               .get(projectState.getNameKey())
-              .matcher(tagCache, repo, allVisibleBranches.visibleRefs().values());
+              .matcher(
+                  tagCache,
+                  repo,
+                  allVisibleBranches.visibleRefs().values(),
+                  initialRefFilter.deferredTags());
       for (Ref tag : initialRefFilter.deferredTags()) {
         try {
           if (tags.isReachable(tag)) {
@@ -300,7 +304,9 @@ class DefaultRefFilter {
   private static Map<String, Ref> getTaggableRefsMap(Repository repo)
       throws PermissionBackendException {
     try {
-      return repo.getRefDatabase().getRefs().stream()
+      return repo.getRefDatabase()
+          .getRefs()
+          .stream()
           .filter(
               r ->
                   !RefNames.isGerritRef(r.getName())

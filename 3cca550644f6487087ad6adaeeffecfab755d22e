@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "469ec256_166972e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T08:04:35Z",
+      "side": 1,
+      "message": "A summary of what is being changed would have helped the review.  That said, my previous review was on mobile so maybe if I look at it again it will be easier to review.",
+      "parentUuid": "7b23bcfb_71a05fde",
+      "revId": "3cca550644f6487087ad6adaeeffecfab755d22e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d968c142_85d43271",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 1

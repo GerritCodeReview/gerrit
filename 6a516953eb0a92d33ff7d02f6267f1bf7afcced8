@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08a6e211_dff4ce66",
+        "filename": "java/com/google/gerrit/server/group/testing/InternalGroupSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-04T08:21:57Z",
+      "side": 1,
+      "message": "As the generic type parameters will go away (e.g. see Javadoc of Subject), we should rather use the raw Subject type instead. This will save us another change in the future.",
+      "range": {
+        "startLine": 62,
+        "startChar": 16,
+        "endLine": 62,
+        "endChar": 22
+      },
+      "revId": "6a516953eb0a92d33ff7d02f6267f1bf7afcced8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

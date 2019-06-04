@@ -1,0 +1,510 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47f1ad88_5663d313",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T00:12:33Z",
+      "side": 1,
+      "message": "plugins",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "62992686d52eca24ce8afe836d42d238b2dc3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85fc84d4_78862193",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T00:12:33Z",
+      "side": 1,
+      "message": "sets",
+      "range": {
+        "startLine": 13,
+        "startChar": 27,
+        "endLine": 13,
+        "endChar": 30
+      },
+      "revId": "62992686d52eca24ce8afe836d42d238b2dc3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df92a444_0e21e344",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2807,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T00:12:33Z",
+      "side": 1,
+      "message": "\"as the\"",
+      "range": {
+        "startLine": 2807,
+        "startChar": 51,
+        "endLine": 2807,
+        "endChar": 58
+      },
+      "revId": "62992686d52eca24ce8afe836d42d238b2dc3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee66afc0_49195c2f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2814,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T00:12:33Z",
+      "side": 1,
+      "message": "process?",
+      "range": {
+        "startLine": 2814,
+        "startChar": 4,
+        "endLine": 2814,
+        "endChar": 11
+      },
+      "revId": "62992686d52eca24ce8afe836d42d238b2dc3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51b36816_70669e0d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2823,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T00:12:33Z",
+      "side": 1,
+      "message": "link?",
+      "range": {
+        "startLine": 2823,
+        "startChar": 54,
+        "endLine": 2823,
+        "endChar": 83
+      },
+      "revId": "62992686d52eca24ce8afe836d42d238b2dc3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea9fa3c2_109f872e",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2832,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T00:12:33Z",
+      "side": 1,
+      "message": "\"with contributions, reviews, and help from the ... \"?",
+      "range": {
+        "startLine": 2831,
+        "startChar": 66,
+        "endLine": 2832,
+        "endChar": 63
+      },
+      "revId": "62992686d52eca24ce8afe836d42d238b2dc3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db92de59_2baaa014",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2843,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T00:12:33Z",
+      "side": 1,
+      "message": "\"it starts\"",
+      "range": {
+        "startLine": 2843,
+        "startChar": 53,
+        "endLine": 2843,
+        "endChar": 59
+      },
+      "revId": "62992686d52eca24ce8afe836d42d238b2dc3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f83294a3_281c5c4b",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2844,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T00:12:33Z",
+      "side": 1,
+      "message": "contribution",
+      "range": {
+        "startLine": 2844,
+        "startChar": 55,
+        "endLine": 2844,
+        "endChar": 68
+      },
+      "revId": "62992686d52eca24ce8afe836d42d238b2dc3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0942cfa8_1e0f728b",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2856,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T00:12:33Z",
+      "side": 1,
+      "message": "\"brand new\" without the hyphen, or just \"new\"",
+      "range": {
+        "startLine": 2856,
+        "startChar": 29,
+        "endLine": 2856,
+        "endChar": 38
+      },
+      "revId": "62992686d52eca24ce8afe836d42d238b2dc3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bfeeaad_4455a0b4",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2892,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T00:12:33Z",
+      "side": 1,
+      "message": "as",
+      "range": {
+        "startLine": 2892,
+        "startChar": 53,
+        "endLine": 2892,
+        "endChar": 55
+      },
+      "revId": "62992686d52eca24ce8afe836d42d238b2dc3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebeae977_19196e04",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2893,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T00:12:33Z",
+      "side": 1,
+      "message": "have",
+      "range": {
+        "startLine": 2893,
+        "startChar": 0,
+        "endLine": 2893,
+        "endChar": 6
+      },
+      "revId": "62992686d52eca24ce8afe836d42d238b2dc3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81486183_1f04827b",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2916,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T00:12:33Z",
+      "side": 1,
+      "message": "child project",
+      "range": {
+        "startLine": 2916,
+        "startChar": 50,
+        "endLine": 2916,
+        "endChar": 66
+      },
+      "revId": "62992686d52eca24ce8afe836d42d238b2dc3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0119f62_4a72fb20",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2916,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T00:12:33Z",
+      "side": 1,
+      "message": "who",
+      "range": {
+        "startLine": 2916,
+        "startChar": 20,
+        "endLine": 2916,
+        "endChar": 24
+      },
+      "revId": "62992686d52eca24ce8afe836d42d238b2dc3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66fc1a90_c8c45be0",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2918,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T00:12:33Z",
+      "side": 1,
+      "message": "Where is this defined?",
+      "range": {
+        "startLine": 2917,
+        "startChar": 70,
+        "endLine": 2918,
+        "endChar": 55
+      },
+      "revId": "62992686d52eca24ce8afe836d42d238b2dc3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "646b039c_e5f8e7c6",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2920,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T00:12:33Z",
+      "side": 1,
+      "message": "\"already partially covers\"",
+      "range": {
+        "startLine": 2919,
+        "startChar": 79,
+        "endLine": 2920,
+        "endChar": 20
+      },
+      "revId": "62992686d52eca24ce8afe836d42d238b2dc3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8af5dde4_5a608eda",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2930,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T00:12:33Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 2930,
+        "startChar": 95,
+        "endLine": 2930,
+        "endChar": 97
+      },
+      "revId": "62992686d52eca24ce8afe836d42d238b2dc3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49de1243_e5d4a20c",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2931,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T00:12:33Z",
+      "side": 1,
+      "message": "\"in the\"",
+      "range": {
+        "startLine": 2931,
+        "startChar": 34,
+        "endLine": 2931,
+        "endChar": 40
+      },
+      "revId": "62992686d52eca24ce8afe836d42d238b2dc3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f039c43_c5a7e6d8",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2941,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T00:12:33Z",
+      "side": 1,
+      "message": "This should be enclosed in a formatting block so that it gets properly rendered.",
+      "range": {
+        "startLine": 2935,
+        "startChar": 0,
+        "endLine": 2941,
+        "endChar": 20
+      },
+      "revId": "62992686d52eca24ce8afe836d42d238b2dc3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1232a7b_fae19783",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2943,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T00:12:33Z",
+      "side": 1,
+      "message": "as",
+      "range": {
+        "startLine": 2943,
+        "startChar": 38,
+        "endLine": 2943,
+        "endChar": 40
+      },
+      "revId": "62992686d52eca24ce8afe836d42d238b2dc3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30a54e96_b50dc319",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2955,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T00:12:33Z",
+      "side": 1,
+      "message": "Typically we don\u0027t tag non-core plugins.  If we want to mandate tagging, this should be proposed as a follow up to this change, which IIUC is only to document the current process.",
+      "range": {
+        "startLine": 2954,
+        "startChar": 0,
+        "endLine": 2955,
+        "endChar": 27
+      },
+      "revId": "62992686d52eca24ce8afe836d42d238b2dc3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc61bb84_b90a1840",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2972,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T00:12:33Z",
+      "side": 1,
+      "message": "Wrap in formatting block",
+      "range": {
+        "startLine": 2963,
+        "startChar": 2,
+        "endLine": 2972,
+        "endChar": 25
+      },
+      "revId": "62992686d52eca24ce8afe836d42d238b2dc3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec36027e_8c348010",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2986,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T00:12:33Z",
+      "side": 1,
+      "message": "Is it possible to do both?  IIUC the project states are one of: \"active\", \"read-only\" and \"hidden\".  Unless you mean set the state read-only and adjust the ACLs to remove READ permissions?  In the latter case this should be more clearly documented, preferably as a follow-up change since this is beyond the scope of the current informal process.",
+      "range": {
+        "startLine": 2986,
+        "startChar": 19,
+        "endLine": 2986,
+        "endChar": 58
+      },
+      "revId": "62992686d52eca24ce8afe836d42d238b2dc3d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

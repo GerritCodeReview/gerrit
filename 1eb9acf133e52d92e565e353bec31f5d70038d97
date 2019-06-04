@@ -22,6 +22,30 @@
       "revId": "1eb9acf133e52d92e565e353bec31f5d70038d97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12f9038b_9f65eaf4",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-04T13:50:10Z",
+      "side": 1,
+      "message": "I think it\u0027s fine, parsePushOptions is not doing much.",
+      "parentUuid": "064ad704_134a4f6c",
+      "range": {
+        "startLine": 515,
+        "startChar": 3,
+        "endLine": 515,
+        "endChar": 23
+      },
+      "revId": "1eb9acf133e52d92e565e353bec31f5d70038d97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

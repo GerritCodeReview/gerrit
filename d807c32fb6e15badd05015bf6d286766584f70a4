@@ -22,6 +22,30 @@
       "revId": "d807c32fb6e15badd05015bf6d286766584f70a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62743f02_8c5c4278",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-04T00:55:48Z",
+      "side": 1,
+      "message": "That\u0027s what I was initially doing, but gave up on including it in this commit because I couldn\u0027t get it to compile.",
+      "parentUuid": "998cfb53_3ea9a6c5",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 51
+      },
+      "revId": "d807c32fb6e15badd05015bf6d286766584f70a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

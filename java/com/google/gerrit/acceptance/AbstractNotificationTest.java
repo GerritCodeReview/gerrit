@@ -95,8 +95,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     gApi.accounts().self().setPreferences(prefs);
   }
 
-  protected static class FakeEmailSenderSubject
-      extends Subject<FakeEmailSenderSubject, FakeEmailSender> {
+  protected static class FakeEmailSenderSubject extends Subject {
     private final FakeEmailSender fakeEmailSender;
     private Message message;
     private StagedUsers users;

@@ -22,12 +22,9 @@ import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.IterableSubject;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.InternalGroup;
-import java.sql.Timestamp;
-import org.eclipse.jgit.lib.ObjectId;
 
-public class InternalGroupSubject extends Subject<InternalGroupSubject, InternalGroup> {
+public class InternalGroupSubject extends Subject {
 
   public static InternalGroupSubject assertThat(InternalGroup group) {
     return assertAbout(internalGroups()).that(group);
@@ -44,12 +41,12 @@ public class InternalGroupSubject extends Subject<InternalGroupSubject, Internal
     this.group = group;
   }
 
-  public ComparableSubject<?, AccountGroup.UUID> groupUuid() {
+  public ComparableSubject groupUuid() {
     isNotNull();
     return check("getGroupUUID()").that(group.getGroupUUID());
   }
 
-  public ComparableSubject<?, AccountGroup.NameKey> nameKey() {
+  public ComparableSubject nameKey() {
     isNotNull();
     return check("getNameKey()").that(group.getNameKey());
   }
@@ -59,7 +56,7 @@ public class InternalGroupSubject extends Subject<InternalGroupSubject, Internal
     return check("getName()").that(group.getName());
   }
 
-  public Subject<?, ?> id() {
+  public Subject id() {
     isNotNull();
     return check("getId()").that(group.getId());
   }
@@ -69,7 +66,7 @@ public class InternalGroupSubject extends Subject<InternalGroupSubject, Internal
     return check("getDescription()").that(group.getDescription());
   }
 
-  public ComparableSubject<?, AccountGroup.UUID> ownerGroupUuid() {
+  public ComparableSubject ownerGroupUuid() {
     isNotNull();
     return check("getOwnerGroupUUID()").that(group.getOwnerGroupUUID());
   }
@@ -79,7 +76,7 @@ public class InternalGroupSubject extends Subject<InternalGroupSubject, Internal
     return check("isVisibleToAll()").that(group.isVisibleToAll());
   }
 
-  public ComparableSubject<?, Timestamp> createdOn() {
+  public ComparableSubject createdOn() {
     isNotNull();
     return check("getCreatedOn()").that(group.getCreatedOn());
   }
@@ -94,7 +91,7 @@ public class InternalGroupSubject extends Subject<InternalGroupSubject, Internal
     return check("getSubgroups()").that(group.getSubgroups());
   }
 
-  public ComparableSubject<?, ObjectId> refState() {
+  public ComparableSubject refState() {
     isNotNull();
     return check("getRefState()").that(group.getRefState());
   }

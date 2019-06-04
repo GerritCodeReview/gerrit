@@ -22,7 +22,7 @@ import com.google.common.truth.IntegerSubject;
 import com.google.common.truth.Subject;
 import com.google.gerrit.extensions.client.Comment;
 
-public class RangeSubject extends Subject<RangeSubject, Comment.Range> {
+public class RangeSubject extends Subject {
 
   public static RangeSubject assertThat(Comment.Range range) {
     return assertAbout(ranges()).that(range);

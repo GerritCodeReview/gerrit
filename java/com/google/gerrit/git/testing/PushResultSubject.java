@@ -32,7 +32,7 @@ import com.google.gerrit.common.Nullable;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 
-public class PushResultSubject extends Subject<PushResultSubject, PushResult> {
+public class PushResultSubject extends Subject {
   public static PushResultSubject assertThat(PushResult actual) {
     return assertAbout(PushResultSubject::new).that(actual);
   }
@@ -139,8 +139,7 @@ public class PushResultSubject extends Subject<PushResultSubject, PushResult> {
     return ref(refName);
   }
 
-  public static class RemoteRefUpdateSubject
-      extends Subject<RemoteRefUpdateSubject, RemoteRefUpdate> {
+  public static class RemoteRefUpdateSubject extends Subject {
     private final RemoteRefUpdate remoteRefUpdate;
 
     private RemoteRefUpdateSubject(FailureMetadata metadata, RemoteRefUpdate remoteRefUpdate) {

@@ -20,7 +20,7 @@ import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.Subject;
 import org.eclipse.jgit.lib.ObjectId;
 
-public class ObjectIdSubject extends Subject<ObjectIdSubject, ObjectId> {
+public class ObjectIdSubject extends Subject {
   public static ObjectIdSubject assertThat(ObjectId objectId) {
     return assertAbout(objectIds()).that(objectId);
   }

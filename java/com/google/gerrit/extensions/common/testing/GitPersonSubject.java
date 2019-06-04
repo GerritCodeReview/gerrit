@@ -23,11 +23,10 @@ import com.google.common.truth.IntegerSubject;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
 import com.google.gerrit.extensions.common.GitPerson;
-import java.sql.Timestamp;
 import java.util.Date;
 import org.eclipse.jgit.lib.PersonIdent;
 
-public class GitPersonSubject extends Subject<GitPersonSubject, GitPerson> {
+public class GitPersonSubject extends Subject {
 
   public static GitPersonSubject assertThat(GitPerson gitPerson) {
     return assertAbout(gitPersons()).that(gitPerson);
@@ -54,7 +53,7 @@ public class GitPersonSubject extends Subject<GitPersonSubject, GitPerson> {
     return check("email").that(gitPerson.email);
   }
 
-  public ComparableSubject<?, Timestamp> date() {
+  public ComparableSubject date() {
     isNotNull();
     return check("date").that(gitPerson.date);
   }

@@ -30,7 +30,7 @@ import com.google.gerrit.common.Nullable;
 import java.util.Arrays;
 import org.eclipse.jgit.lib.Config;
 
-public class ConfigSubject extends Subject<ConfigSubject, Config> {
+public class ConfigSubject extends Subject {
   public static ConfigSubject assertThat(Config config) {
     return assertAbout(ConfigSubject::new).that(config);
   }

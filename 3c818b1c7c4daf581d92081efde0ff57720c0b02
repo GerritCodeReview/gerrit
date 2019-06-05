@@ -116,6 +116,30 @@
       "revId": "3c818b1c7c4daf581d92081efde0ff57720c0b02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42313efd_dd448711",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2019-06-05T20:48:41Z",
+      "side": 1,
+      "message": "my first thought was also that pointing at a change is a bad idea. it should be a gitweb link to the current version of the authoritative file(s) instead (though i don\u0027t see any such on gerrit-review, which seems rather suboptimal).\n\ni agree that the \"howto\" side should be documented separately, and it\u0027s also not what the sentence containing the link promises.",
+      "parentUuid": "06569263_3e86d41e",
+      "range": {
+        "startLine": 163,
+        "startChar": 0,
+        "endLine": 163,
+        "endChar": 69
+      },
+      "revId": "3c818b1c7c4daf581d92081efde0ff57720c0b02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -39,7 +39,7 @@ public class OptionalSubject<S extends Subject, T> extends Subject {
   }
 
   public static <S extends Subject, T> OptionalSubject<S, T> assertThat(
-      Optional<T> optional, Subject.Factory<S, T> valueSubjectFactory) {
+      Optional<T> optional, Subject.Factory<? extends S, ? super T> valueSubjectFactory) {
     return assertAbout(optionals()).thatCustom(optional, valueSubjectFactory);
   }
 
@@ -91,7 +91,7 @@ public class OptionalSubject<S extends Subject, T> extends Subject {
     }
 
     public <S extends Subject, T> OptionalSubject<S, T> thatCustom(
-        Optional<T> optional, Subject.Factory<S, T> valueSubjectFactory) {
+        Optional<T> optional, Subject.Factory<? extends S, ? super T> valueSubjectFactory) {
       return that(optional, (builder, value) -> builder.about(valueSubjectFactory).that(value));
     }
 

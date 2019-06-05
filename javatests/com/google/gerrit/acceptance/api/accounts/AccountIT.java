@@ -1062,6 +1062,23 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void addEmailAndSetPreferred() throws Exception {
+    String email = "foo.bar@example.com";
+    EmailInput input = new EmailInput();
+    input.email = email;
+    input.noConfirmation = true;
+    input.preferred = true;
+    gApi.accounts().self().addEmail(input);
+
+    // Account is reindexed twice; once on adding the new email,
+    // and then again on setting the email preferred.
+    accountIndexedCounter.assertReindexOf(admin, 2);
+
+    String preferred = gApi.accounts().self().get().email;
+    assertThat(preferred).isEqualTo(email);
+  }
+
+  @Test
   public void deleteEmail() throws Exception {
     String email = "foo.bar@example.com";
     EmailInput input = newEmailInput(email);
@@ -1069,6 +1086,29 @@ public class AccountIT extends AbstractDaemonTest {
 
     requestScopeOperations.resetCurrentApiUser();
     assertThat(getEmails()).contains(email);
+
+    accountIndexedCounter.clear();
+    gApi.accounts().self().deleteEmail(input.email);
+    accountIndexedCounter.assertReindexOf(admin);
+
+    requestScopeOperations.resetCurrentApiUser();
+    assertThat(getEmails()).doesNotContain(email);
+  }
+
+  @Test
+  public void deletePreferredEmail() throws Exception {
+    String email = "foo.bar.baz@example.com";
+    EmailInput input = new EmailInput();
+    input.email = email;
+    input.noConfirmation = true;
+    input.preferred = true;
+    gApi.accounts().self().addEmail(input);
+
+    // Account is reindexed twice; once on adding the new email,
+    // and then again on setting the email preferred.
+    accountIndexedCounter.assertReindexOf(admin, 2);
+
+    assertThat(gApi.accounts().self().get().email).isEqualTo(email);
 
     accountIndexedCounter.clear();
     gApi.accounts().self().deleteEmail(input.email);

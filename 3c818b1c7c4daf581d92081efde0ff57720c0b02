@@ -140,6 +140,30 @@
       "revId": "3c818b1c7c4daf581d92081efde0ff57720c0b02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "037a9e70_b2dec6cf",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-06-05T20:53:31Z",
+      "side": 1,
+      "message": "\u003e my first thought was also that pointing at a change is a bad idea. it should be a gitweb link to the current version of the authoritative file(s) instead (though i don\u0027t see any such on gerrit-review, which seems rather suboptimal).\n\nI have to agree to Oswald: having an open change that is supposed to be kept open, isn\u0027t really a very good pattern to include in our documentation.\n\nWhy don\u0027t we just create a branch called \u0027google-plugins\u0027 and merge it there?\n\n\u003e i agree that the \"howto\" side should be documented separately, and it\u0027s also not what the sentence containing the link promises.\n\nAgreed.",
+      "parentUuid": "42313efd_dd448711",
+      "range": {
+        "startLine": 163,
+        "startChar": 0,
+        "endLine": 163,
+        "endChar": 69
+      },
+      "revId": "3c818b1c7c4daf581d92081efde0ff57720c0b02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

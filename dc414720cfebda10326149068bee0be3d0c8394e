@@ -22,6 +22,30 @@
       "revId": "dc414720cfebda10326149068bee0be3d0c8394e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9346526_5914c2f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083648
+      },
+      "writtenOn": "2019-06-05T02:04:17Z",
+      "side": 1,
+      "message": "Yep, sorry. I accidentally dropped that bit of context when I migrated this pull request out from a Google-internal version of the change. The \"deprecation\" of the type parameters is mentioned here: https://github.com/google/truth/releases/tag/release_0_45",
+      "parentUuid": "a4c133cd_660f6b78",
+      "range": {
+        "startLine": 9,
+        "startChar": 104,
+        "endLine": 9,
+        "endChar": 201
+      },
+      "revId": "dc414720cfebda10326149068bee0be3d0c8394e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

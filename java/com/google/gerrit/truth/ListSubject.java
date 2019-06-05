@@ -30,10 +30,10 @@ import java.util.function.BiFunction;
 public class ListSubject<S extends Subject, E> extends IterableSubject {
 
   private final List<E> list;
-  private final BiFunction<StandardSubjectBuilder, E, S> elementSubjectCreator;
+  private final BiFunction<StandardSubjectBuilder, ? super E, ? extends S> elementSubjectCreator;
 
   public static <S extends Subject, E> ListSubject<S, E> assertThat(
-      List<E> list, Subject.Factory<S, E> subjectFactory) {
+      List<E> list, Subject.Factory<? extends S, ? super E> subjectFactory) {
     return assertAbout(elements()).thatCustom(list, subjectFactory);
   }
 
@@ -44,7 +44,7 @@ public class ListSubject<S extends Subject, E> extends IterableSubject {
   private ListSubject(
       FailureMetadata failureMetadata,
       List<E> list,
-      BiFunction<StandardSubjectBuilder, E, S> elementSubjectCreator) {
+      BiFunction<StandardSubjectBuilder, ? super E, ? extends S> elementSubjectCreator) {
     super(failureMetadata, list);
     this.list = list;
     this.elementSubjectCreator = elementSubjectCreator;
@@ -78,12 +78,13 @@ public class ListSubject<S extends Subject, E> extends IterableSubject {
     }
 
     public <S extends Subject, E> ListSubject<S, E> thatCustom(
-        List<E> list, Subject.Factory<S, E> subjectFactory) {
+        List<E> list, Subject.Factory<? extends S, ? super E> subjectFactory) {
       return that(list, (builder, element) -> builder.about(subjectFactory).that(element));
     }
 
     public <S extends Subject, E> ListSubject<S, E> that(
-        List<E> list, BiFunction<StandardSubjectBuilder, E, S> elementSubjectCreator) {
+        List<E> list,
+        BiFunction<StandardSubjectBuilder, ? super E, ? extends S> elementSubjectCreator) {
       return new ListSubject<>(metadata(), list, elementSubjectCreator);
     }
   }

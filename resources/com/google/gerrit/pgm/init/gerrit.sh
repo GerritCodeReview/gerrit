@@ -434,8 +434,8 @@ case "$ACTION" in
       fi
     fi
 
+    PID=`cat "$GERRIT_PID"`
     if test $UID = 0; then
-        PID=`cat "$GERRIT_PID"`
         if test -f "/proc/${PID}/oom_score_adj" ; then
             echo -1000 > "/proc/${PID}/oom_score_adj"
         else

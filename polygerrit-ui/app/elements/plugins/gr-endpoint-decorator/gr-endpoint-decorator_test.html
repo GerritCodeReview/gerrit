@@ -127,6 +127,22 @@ limitations under the License.
       });
     });
 
+    test('two modules', done => {
+      plugin.registerCustomComponent('banana', 'mod-one');
+      plugin.registerCustomComponent('banana', 'mod-two');
+      flush(() => {
+        const element =
+            container.querySelector('gr-endpoint-decorator[name="banana"]');
+        const module1 = Polymer.dom(element.root).children.find(
+            element => element.nodeName === 'MOD-ONE');
+        assert.isOk(module1);
+        const module2 = Polymer.dom(element.root).children.find(
+            element => element.nodeName === 'MOD-TWO');
+        assert.isOk(module2);
+        done();
+      });
+    });
+
     test('late param setup', done => {
       const element =
           container.querySelector('gr-endpoint-decorator[name="banana"]');

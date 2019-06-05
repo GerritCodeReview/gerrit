@@ -23,20 +23,11 @@ import com.google.common.truth.StandardSubjectBuilder;
 import com.google.common.truth.Subject;
 import java.util.Optional;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 public class OptionalSubject<S extends Subject, T> extends Subject {
 
   private final Optional<T> optional;
   private final BiFunction<StandardSubjectBuilder, ? super T, ? extends S> valueSubjectCreator;
-
-  // TODO(aliceks): Remove when all relevant usages are adapted to new check()/factory approach.
-  public static <S extends Subject, T> OptionalSubject<S, T> assertThat(
-      Optional<T> optional, Function<? super T, ? extends S> elementAssertThatFunction) {
-    Subject.Factory<S, T> valueSubjectFactory =
-        (metadata, value) -> elementAssertThatFunction.apply(value);
-    return assertThat(optional, valueSubjectFactory);
-  }
 
   public static <S extends Subject, T> OptionalSubject<S, T> assertThat(
       Optional<T> optional, Subject.Factory<? extends S, ? super T> valueSubjectFactory) {

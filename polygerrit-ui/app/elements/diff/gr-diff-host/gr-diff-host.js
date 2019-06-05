@@ -632,7 +632,7 @@
     _createThreadElement(thread) {
       const threadEl = document.createElement('gr-comment-thread');
       threadEl.className = 'comment-thread';
-      threadEl.slot = `${thread.commentSide}-${thread.lineNum}`;
+      threadEl.setAttribute('slot', `${thread.commentSide}-${thread.lineNum}`);
       threadEl.comments = thread.comments;
       threadEl.commentSide = thread.commentSide;
       threadEl.isOnParent = !!thread.isOnParent;

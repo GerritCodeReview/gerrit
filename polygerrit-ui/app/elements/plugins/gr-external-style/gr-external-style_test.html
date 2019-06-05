@@ -72,7 +72,7 @@ limitations under the License.
 
     setup(() => {
       sandbox = sinon.sandbox.create();
-      stub('gr-external-style', {
+      stub(Polymer, {
         importHref: (url, resolve) => resolve(),
       });
       sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(Promise.resolve());
@@ -85,13 +85,13 @@ limitations under the License.
     test('imports plugin-provided module', async () => {
       lateRegister();
       await new Promise(flush);
-      assert.isTrue(element.importHref.calledWith(new URL(TEST_URL)));
+      assert.isTrue(Polymer.importHref.calledWith(new URL(TEST_URL)));
     });
 
     test('applies plugin-provided styles', async () => {
       lateRegister();
       await new Promise(flush);
-      assert.isTrue(element._applyStyle.calledWith('some-module'));
+      assert.isTrue(Polymer._applyStyle.calledWith('some-module'));
     });
 
     test('does not double import', async () => {

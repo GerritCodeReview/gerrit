@@ -44,7 +44,7 @@ limitations under the License.
       element = fixture('basic');
       sandbox = sinon.sandbox.create();
       sandbox.stub(document.body, 'appendChild');
-      sandbox.stub(element, 'importHref');
+      sandbox.stub(Polymer, 'importHref');
       url = window.location.origin;
     });
 
@@ -68,16 +68,16 @@ limitations under the License.
       element.config = {
         plugin: {html_resource_paths: ['foo/bar', 'baz']},
       };
-      assert.equal(element.importHref.firstCall.args[0], url + '/foo/bar');
-      assert.isTrue(element.importHref.firstCall.args[3]);
+      assert.equal(Polymer.importHref.firstCall.args[0], url + '/foo/bar');
+      assert.isTrue(Polymer.importHref.firstCall.args[3]);
 
-      assert.equal(element.importHref.secondCall.args[0], url + '/baz');
-      assert.isTrue(element.importHref.secondCall.args[3]);
+      assert.equal(Polymer.importHref.secondCall.args[0], url + '/baz');
+      assert.isTrue(Polymer.importHref.secondCall.args[3]);
 
       assert.equal(Gerrit._pluginInstallError.callCount, 0);
-      element.importHref.firstCall.args[2]();
+      Polymer.importHref.firstCall.args[2]();
       assert.equal(Gerrit._pluginInstallError.callCount, 1);
-      element.importHref.secondCall.args[2]();
+      Polymer.importHref.secondCall.args[2]();
       assert.equal(Gerrit._pluginInstallError.callCount, 2);
     });
 
@@ -86,26 +86,26 @@ limitations under the License.
       sandbox.stub(element, 'getBaseUrl').returns('/the-base');
       element.config = {
         plugin: {html_resource_paths: ['foo/bar', 'baz']}};
-      assert.equal(element.importHref.firstCall.args[0],
+      assert.equal(Polymer.importHref.firstCall.args[0],
           url + '/the-base/foo/bar');
-      assert.isTrue(element.importHref.firstCall.args[3]);
+      assert.isTrue(Polymer.importHref.firstCall.args[3]);
 
-      assert.equal(element.importHref.secondCall.args[0],
+      assert.equal(Polymer.importHref.secondCall.args[0],
           url + '/the-base/baz');
-      assert.isTrue(element.importHref.secondCall.args[3]);
+      assert.isTrue(Polymer.importHref.secondCall.args[3]);
       assert.equal(Gerrit._pluginInstallError.callCount, 0);
-      element.importHref.firstCall.args[2]();
+      Polymer.importHref.firstCall.args[2]();
       assert.equal(Gerrit._pluginInstallError.callCount, 1);
-      element.importHref.secondCall.args[2]();
+      Polymer.importHref.secondCall.args[2]();
       assert.equal(Gerrit._pluginInstallError.callCount, 2);
     });
 
     test('importHref is not called with null callback functions', () => {
       const plugins = ['path/to/plugin'];
       element._importHtmlPlugins(plugins);
-      assert.isTrue(element.importHref.calledOnce);
-      assert.isFunction(element.importHref.lastCall.args[1]);
-      assert.isFunction(element.importHref.lastCall.args[2]);
+      assert.isTrue(Polymer.importHref.calledOnce);
+      assert.isFunction(Polymer.importHref.lastCall.args[1]);
+      assert.isFunction(Polymer.importHref.lastCall.args[2]);
     });
 
     test('imports absolute html plugins from config', () => {
@@ -118,17 +118,17 @@ limitations under the License.
           ],
         },
       };
-      assert.equal(element.importHref.firstCall.args[0],
+      assert.equal(Polymer.importHref.firstCall.args[0],
           'http://example.com/foo/bar');
-      assert.isTrue(element.importHref.firstCall.args[3]);
+      assert.isTrue(Polymer.importHref.firstCall.args[3]);
 
-      assert.equal(element.importHref.secondCall.args[0],
+      assert.equal(Polymer.importHref.secondCall.args[0],
           'https://example.com/baz');
-      assert.isTrue(element.importHref.secondCall.args[3]);
+      assert.isTrue(Polymer.importHref.secondCall.args[3]);
       assert.equal(Gerrit._pluginInstallError.callCount, 0);
-      element.importHref.firstCall.args[2]();
+      Polymer.importHref.firstCall.args[2]();
       assert.equal(Gerrit._pluginInstallError.callCount, 1);
-      element.importHref.secondCall.args[2]();
+      Polymer.importHref.secondCall.args[2]();
       assert.equal(Gerrit._pluginInstallError.callCount, 2);
     });
 
@@ -178,15 +178,15 @@ limitations under the License.
           html_resource_paths: ['some'],
         },
       };
-      assert.equal(element.importHref.firstCall.args[0], url + '/oof');
-      assert.isFalse(element.importHref.firstCall.args[3]);
+      assert.equal(Polymer.importHref.firstCall.args[0], url + '/oof');
+      assert.isFalse(Polymer.importHref.firstCall.args[3]);
 
-      assert.equal(element.importHref.secondCall.args[0], url + '/some');
-      assert.isTrue(element.importHref.secondCall.args[3]);
+      assert.equal(Polymer.importHref.secondCall.args[0], url + '/some');
+      assert.isTrue(Polymer.importHref.secondCall.args[3]);
       assert.equal(Gerrit._pluginInstallError.callCount, 0);
-      element.importHref.firstCall.args[2]();
+      Polymer.importHref.firstCall.args[2]();
       assert.equal(Gerrit._pluginInstallError.callCount, 1);
-      element.importHref.secondCall.args[2]();
+      Polymer.importHref.secondCall.args[2]();
       assert.equal(Gerrit._pluginInstallError.callCount, 2);
     });
 
@@ -207,7 +207,7 @@ limitations under the License.
         default_theme: '/oof',
         plugin: {},
       };
-      assert.isFalse(element.importHref.calledWith(url + '/oof'));
+      assert.isFalse(Polymer.importHref.calledWith(url + '/oof'));
     });
 
     test('skips preloaded plugins', () => {
@@ -226,7 +226,7 @@ limitations under the License.
       assert.isTrue(
           Gerrit._setPluginsPending.calledWith([url + '/plugins/baz']));
       assert.equal(element._createScriptTag.callCount, 0);
-      assert.isTrue(element.importHref.calledWith(url + '/plugins/baz'));
+      assert.isTrue(Polymer.importHref.calledWith(url + '/plugins/baz'));
     });
   });
 </script>

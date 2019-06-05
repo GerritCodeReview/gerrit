@@ -37,7 +37,7 @@
       if (this._urlsImported.includes(url)) { return Promise.resolve(); }
       this._urlsImported.push(url);
       return new Promise((resolve, reject) => {
-        this.importHref(url, resolve, reject);
+        Polymer.importHref(url, resolve, reject);
       });
     },
 

@@ -50,7 +50,7 @@
 
     _import(url) {
       return new Promise((resolve, reject) => {
-        this.importHref(url, resolve, reject);
+        Polymer.importHref(url, resolve, reject);
       });
     },
 

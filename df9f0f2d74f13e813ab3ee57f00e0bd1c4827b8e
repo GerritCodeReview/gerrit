@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9edfef2e_2cc2199c",
+        "filename": "java/com/google/gerrit/truth/OptionalSubject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-05T11:21:34Z",
+      "side": 1,
+      "message": "Nit: Without the type parameters, the cast is unnecessary and this can simply be:\n\n  StandardSubjectBuilder::that",
+      "range": {
+        "startLine": 49,
+        "startChar": 24,
+        "endLine": 49,
+        "endChar": 80
+      },
+      "revId": "df9f0f2d74f13e813ab3ee57f00e0bd1c4827b8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52b04f8e_0b0313b1",
+        "filename": "java/com/google/gerrit/truth/OptionalSubject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-05T11:21:34Z",
+      "side": 1,
+      "message": "Nit: Same as above.\n\n  StandardSubjectBuilder::that",
+      "range": {
+        "startLine": 101,
+        "startChar": 28,
+        "endLine": 101,
+        "endChar": 84
+      },
+      "revId": "df9f0f2d74f13e813ab3ee57f00e0bd1c4827b8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

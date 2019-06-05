@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "8a7c1dbf_f8353e6c",
+        "filename": "java/com/google/gerrit/truth/OptionalSubject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1083648
+      },
+      "writtenOn": "2019-06-05T21:45:23Z",
+      "side": 1,
+      "message": "Done.\n\nAnd thanks, I had missed the reference to DefaultSubject here. Taking care of it now should save us another round trip.",
+      "parentUuid": "23911c1c_d21967e2",
+      "range": {
+        "startLine": 49,
+        "startChar": 24,
+        "endLine": 49,
+        "endChar": 80
+      },
+      "revId": "df9f0f2d74f13e813ab3ee57f00e0bd1c4827b8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "52b04f8e_0b0313b1",
         "filename": "java/com/google/gerrit/truth/OptionalSubject.java",
         "patchSetId": 2
@@ -69,6 +93,30 @@
       "revId": "df9f0f2d74f13e813ab3ee57f00e0bd1c4827b8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "164a37e3_1679b0d4",
+        "filename": "java/com/google/gerrit/truth/OptionalSubject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1083648
+      },
+      "writtenOn": "2019-06-05T21:45:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52b04f8e_0b0313b1",
+      "range": {
+        "startLine": 101,
+        "startChar": 28,
+        "endLine": 101,
+        "endChar": 84
+      },
+      "revId": "df9f0f2d74f13e813ab3ee57f00e0bd1c4827b8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

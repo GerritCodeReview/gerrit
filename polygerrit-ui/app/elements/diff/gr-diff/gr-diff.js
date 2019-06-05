@@ -767,7 +767,7 @@
           // that is okay because the first matching slot is used and the rest
           // are ignored.
           const slot = document.createElement('slot');
-          slot.name = threadEl.slot;
+          slot.name = threadEl.getAttribute('slot');
           Polymer.dom(threadGroupEl).appendChild(Gerrit.slotToContent(slot));
         }
       });

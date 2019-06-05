@@ -136,11 +136,11 @@
       }
     },
 
-    moveToNextChunk() {
+    moveToNextChunk(opt_clipToTop) {
       this.$.cursorManager.next(this._isFirstRowOfChunk.bind(this),
           target => {
             return target.parentNode.scrollHeight;
-          });
+          }, opt_clipToTop);
       this._fixSide();
     },
 
@@ -200,7 +200,7 @@
 
     moveToFirstChunk() {
       this.$.cursorManager.moveToStart();
-      this.moveToNextChunk();
+      this.moveToNextChunk(true);
     },
 
     reInitCursor() {

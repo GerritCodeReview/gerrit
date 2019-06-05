@@ -477,7 +477,8 @@
 
   flushPreinstalls();
 
-  const Gerrit = window.Gerrit || {};
+  window.Gerrit = window.Gerrit || {};
+  const Gerrit = window.Gerrit;
 
   let _resolveAllPluginsLoaded = null;
   let _allPluginsPromise = null;
@@ -688,8 +689,6 @@
       return false;
     }
   };
-
-  window.Gerrit = Gerrit;
 
   // Preloaded plugins should be installed after Gerrit.install() is set,
   // since plugin preloader substitutes Gerrit.install() temporarily.

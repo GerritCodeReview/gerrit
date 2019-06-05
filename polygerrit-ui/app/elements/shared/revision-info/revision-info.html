@@ -72,9 +72,7 @@ limitations under the License.
       return rev.commit.parents[parentIndex].commit;
     };
 
-    if (!window.Gerrit) {
-      window.Gerrit = {};
-    }
+    window.Gerrit = window.Gerrit || {};
     window.Gerrit.RevisionInfo = RevisionInfo;
   })();
 </script>

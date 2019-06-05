@@ -15,10 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <script>
-  // Needed for JSCompiler to understand it's global.
-  // eslint-disable-next-line no-unused-vars, prefer-const
-  let Gerrit = window.Gerrit || {};
-  window.Gerrit = Gerrit;
+  window.Gerrit = window.Gerrit || {};
 </script>
 <link rel="import" href="../elements/diff/gr-diff/gr-diff.html">
 <link rel="import" href="../elements/diff/gr-diff-cursor/gr-diff-cursor.html">

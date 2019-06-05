@@ -22,6 +22,30 @@
       "revId": "2188598a1894446e87cdba299f5346e26cff7508",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd4e6339_ac094daa",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-05T03:21:42Z",
+      "side": 1,
+      "message": "Fixed in https://gerrit-review.googlesource.com/c/gerrit/+/226859",
+      "parentUuid": "b6185c5f_2510e330",
+      "range": {
+        "startLine": 440,
+        "startChar": 0,
+        "endLine": 446,
+        "endChar": 9
+      },
+      "revId": "2188598a1894446e87cdba299f5346e26cff7508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

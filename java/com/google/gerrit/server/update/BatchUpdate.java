@@ -34,6 +34,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -187,6 +188,10 @@ public class BatchUpdate implements AutoCloseable {
         || e instanceof NoSuchRefException
         || e instanceof NoSuchProjectException) {
       throw new ResourceNotFoundException(e.getMessage(), e);
+    } else if (e instanceof CommentsRejectedException) {
+      // SC_BAD_REQUEST is not ideal because it's not a syntactic error, but there is no better
+      // status code and it's isolated in monitoring.
+      throw new BadRequestException(e.getMessage(), e);
     }
 
     Throwables.throwIfUnchecked(e);
@@ -290,7 +295,7 @@ public class BatchUpdate implements AutoCloseable {
   private enum ChangeResult {
     SKIPPED,
     UPSERTED,
-    DELETED;
+    DELETED
   }
 
   private final GitRepositoryManager repoManager;
@@ -567,9 +572,7 @@ public class BatchUpdate implements AutoCloseable {
         handle.setResult(id, ChangeResult.SKIPPED);
         continue;
       }
-      for (ChangeUpdate u : ctx.updates.values()) {
-        handle.manager.add(u);
-      }
+      ctx.updates.values().forEach(handle.manager::add);
       if (ctx.deleted) {
         logDebug("Change %s was deleted", id);
         handle.manager.deleteChange(id);

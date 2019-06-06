@@ -18,23 +18,48 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.validators.CommentForValidation;
+import com.google.gerrit.extensions.validators.CommentValidationListener;
+import com.google.gerrit.extensions.validators.CommentValidationListener.CommentType;
 import com.google.gerrit.mail.MailMessage;
 import com.google.gerrit.mail.MailProcessingUtil;
 import com.google.gerrit.server.mail.receive.MailProcessor;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
+import com.google.inject.Module;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
+import org.junit.Before;
 import org.junit.Test;
 
 public class MailProcessorIT extends AbstractMailIT {
   @Inject private MailProcessor mailProcessor;
   @Inject private AccountOperations accountOperations;
+
+  @Override
+  public Module createModule() {
+    return new FactoryModule() {
+      @Override
+      public void configure() {
+        bind(CommentValidationListener.class)
+            .annotatedWith(Exports.named("TestCommentValidationListener"))
+            .to(TestCommentValidationListener.class)
+            .asEagerSingleton();
+      }
+    };
+  }
+
+  @Before
+  public void setUp() {
+    getValidationCalls().clear();
+  }
 
   @Test
   public void parseAndPersistChangeMessage() throws Exception {
@@ -221,6 +246,85 @@ public class MailProcessorIT extends AbstractMailIT {
     Message message = sender.nextMessage();
     assertThat(message.body()).contains("was unable to parse your email");
     assertThat(message.headers()).containsKey("Subject");
+  }
+
+  @Test
+  public void validateChangeMessage_rejected() throws Exception {
+    String changeId = createChangeWithReview();
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
+    String ts =
+        MailProcessingUtil.rfcDateformatter.format(
+            ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
+
+    MailMessage.Builder b = messageBuilderWithDefaultFields();
+    String changeMessageText = "This change message will be rejected";
+    String txt =
+        newPlaintextBody(getChangeUrl(changeInfo) + "/1", changeMessageText, null, null, null);
+    b.textContent(txt + textFooterForChange(changeInfo._number, ts));
+
+    Collection<CommentInfo> commentsBefore = getPublishedComments(changeId);
+    mailProcessor.process(b.build());
+    assertThat(getPublishedComments(changeId)).isEqualTo(commentsBefore);
+
+    assertNotifyTo(user);
+    Message message = sender.nextMessage();
+    assertThat(message.body()).contains("rejected one or more comments");
+    assertThat(getValidationCalls())
+        .contains(
+            CommentForValidation.create(CommentType.EMAIL_COMMENT_OR_MESSAGE, changeMessageText));
+  }
+
+  @Test
+  public void validateInlineComment_rejected() throws Exception {
+    String changeId = createChangeWithReview();
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
+    String ts =
+        MailProcessingUtil.rfcDateformatter.format(
+            ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
+
+    MailMessage.Builder b = messageBuilderWithDefaultFields();
+    String commentText = "reject me!";
+    String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, commentText, null, null);
+    b.textContent(txt + textFooterForChange(changeInfo._number, ts));
+
+    Collection<CommentInfo> commentsBefore = getPublishedComments(changeId);
+    mailProcessor.process(b.build());
+    assertThat(getPublishedComments(changeId)).isEqualTo(commentsBefore);
+
+    assertNotifyTo(user);
+    Message message = sender.nextMessage();
+    assertThat(message.body()).contains("rejected one or more comments");
+    assertThat(getValidationCalls())
+        .contains(CommentForValidation.create(CommentType.EMAIL_COMMENT_OR_MESSAGE, commentText));
+  }
+
+  @Test
+  public void validateFileComment_rejected() throws Exception {
+    String changeId = createChangeWithReview();
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
+    String ts =
+        MailProcessingUtil.rfcDateformatter.format(
+            ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
+
+    MailMessage.Builder b = messageBuilderWithDefaultFields();
+    String fileCommentText = "rejected comment on file 1";
+    String txt =
+        newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, null, fileCommentText, null);
+    b.textContent(txt + textFooterForChange(changeInfo._number, ts));
+
+    Collection<CommentInfo> commentsBefore = getPublishedComments(changeId);
+    mailProcessor.process(b.build());
+    assertThat(getPublishedComments(changeId)).isEqualTo(commentsBefore);
+
+    assertNotifyTo(user);
+    Message message = sender.nextMessage();
+    assertThat(message.body()).contains("rejected one or more comments");
+    assertThat(getValidationCalls())
+        .contains(
+            CommentForValidation.create(CommentType.EMAIL_COMMENT_OR_MESSAGE, fileCommentText));
   }
 
   private String getChangeUrl(ChangeInfo changeInfo) {

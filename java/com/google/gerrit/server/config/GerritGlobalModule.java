@@ -62,6 +62,7 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.systemstatus.MessageOfTheDay;
+import com.google.gerrit.extensions.validators.CommentValidationListener;
 import com.google.gerrit.extensions.webui.BranchWebLink;
 import com.google.gerrit.extensions.webui.DiffWebLink;
 import com.google.gerrit.extensions.webui.FileHistoryWebLink;
@@ -340,6 +341,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.bind(binder(), EventListener.class).to(EventsMetrics.class);
     DynamicSet.setOf(binder(), UserScopedEventListener.class);
     DynamicSet.setOf(binder(), CommitValidationListener.class);
+    DynamicSet.setOf(binder(), CommentValidationListener.class);
     DynamicSet.setOf(binder(), ChangeMessageModifier.class);
     DynamicSet.setOf(binder(), RefOperationValidationListener.class);
     DynamicSet.setOf(binder(), OnSubmitValidationListener.class);

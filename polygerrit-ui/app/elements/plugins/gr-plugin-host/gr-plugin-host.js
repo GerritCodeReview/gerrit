@@ -80,7 +80,7 @@
       for (const url of plugins) {
         // onload (second param) needs to be a function. When null or undefined
         // were passed, plugins were not loaded correctly.
-        this.importHref(
+        (this.importHref || Polymer.importHref)(
             this._urlFor(url), () => {},
             Gerrit._pluginInstallError.bind(null, `${url} import error`),
             async);

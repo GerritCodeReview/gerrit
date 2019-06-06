@@ -66,14 +66,16 @@
      * Loads the dark theme document. Returns a promise that resolves with a
      * custom-style DOM element.
      * @return {!Promise<Element>}
+     * @suppress {checkTypes}
      */
     getDarkTheme() {
       return new Promise((resolve, reject) => {
-        this.importHref(this._getLibRoot() + DARK_THEME_PATH, () => {
-          const module = document.createElement('style', 'custom-style');
-          module.setAttribute('include', 'dark-theme');
-          resolve(module);
-        });
+        (this.importHref || Polymer.importHref)(
+            this._getLibRoot() + DARK_THEME_PATH, () => {
+              const module = document.createElement('style', 'custom-style');
+              module.setAttribute('include', 'dark-theme');
+              resolve(module);
+            });
       });
     },
 

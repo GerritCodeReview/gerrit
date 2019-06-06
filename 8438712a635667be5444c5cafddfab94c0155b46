@@ -94,6 +94,29 @@
     },
     {
       "key": {
+        "uuid": "7715e821_bdddfa52",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-06T10:34:12Z",
+      "side": 1,
+      "message": "actually, isn\u0027t the logic of this reversed?  see the output above.",
+      "range": {
+        "startLine": 79,
+        "startChar": 2,
+        "endLine": 79,
+        "endChar": 19
+      },
+      "revId": "8438712a635667be5444c5cafddfab94c0155b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a86bce9b_06869a9a",
         "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
         "patchSetId": 1

@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "740c626b_0b7ded5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-06T14:55:11Z",
+      "side": 1,
+      "message": "How about: Add extension point to allow plugins to filter comments before publishing\n\nThe first line is the most important one because it\u0027s the title of the Gerrit change and the only thing you see in git\u0027s short history.",
+      "revId": "e4ac127186ef7f0da2fc5f88736f8672b91ae00f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "935fcece_d030d2fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-06T14:55:11Z",
+      "side": 1,
+      "message": "nit: I would remove the comments about parts. Since we submit these changes in a series that information is already contained in Git and in Gerrit\u0027s \u0027relation chain\u0027\n\nWe sometime say: \"This is the first change in a series that will eventually ...\" In your message, this would fit in l.21 as \"With this change\" isn\u0027t accurate since this change is just defining an interface.",
+      "revId": "e4ac127186ef7f0da2fc5f88736f8672b91ae00f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c50457d1_4deb8a15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-06T14:55:11Z",
+      "side": 1,
+      "message": "Can you describe what the current UX is?",
+      "revId": "e4ac127186ef7f0da2fc5f88736f8672b91ae00f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f6d9a07_7cc8e4cc",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentForValidation.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-06T14:55:11Z",
+      "side": 1,
+      "message": "Please add a JavaDoc",
+      "revId": "e4ac127186ef7f0da2fc5f88736f8672b91ae00f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4f1c4d4_0bad7294",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidationFailure.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-06T14:55:11Z",
+      "side": 1,
+      "message": "Can this be a CommentValidationResult instead?\n\nThat leaves options for the future in case we would want to return warnings meaning it is still OK to publish but we want to present the user with some message.",
+      "range": {
+        "startLine": 21,
+        "startChar": 39,
+        "endLine": 21,
+        "endChar": 46
+      },
+      "revId": "e4ac127186ef7f0da2fc5f88736f8672b91ae00f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bb45284_8f675fa6",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidationListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-06T14:55:11Z",
+      "side": 1,
+      "message": "Can we split this up in INLINE and FILE_COMMENT?",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 26
+      },
+      "revId": "e4ac127186ef7f0da2fc5f88736f8672b91ae00f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1addec4_cee37c17",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidationListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-06T14:55:11Z",
+      "side": 1,
+      "message": "This is mixing the source (email, draft) with the type (change_message, inline, file). The source  doesn\u0027t matter as much from what I see, but the type might.",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 28
+      },
+      "revId": "e4ac127186ef7f0da2fc5f88736f8672b91ae00f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

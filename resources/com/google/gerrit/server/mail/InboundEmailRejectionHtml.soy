@@ -78,3 +78,10 @@
   <p>
   {call .InboundEmailRejectionFooterHtml /}
 {/template}
+
+{template .InboundEmailRejectionHtml_COMMENT_REJECTED}
+  <p>
+    Gerrit Code Review rejected one or more comments because they did not pass validation.
+  </p>
+  {call .InboundEmailRejectionFooterHtml /}
+{/template}

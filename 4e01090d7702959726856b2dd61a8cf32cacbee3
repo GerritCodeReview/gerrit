@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c05a538_19768649",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-06-06T12:36:22Z",
+      "side": 1,
+      "message": "DavidP proposed to use the atMostEvery modifier of the flogger here:\n\n  logger.atWarning().atMostEvery(30, MINUTES).log(...)\n\nHowever, flogger semantics here is that really the call from *this line* is to be limited\nto every 30 MINUTES. This means that if we log for one plugin:\n\n  Restarting mandatory plugin foo not allowed\n\nAnd then immediately log the same for another plugin \"bar\", that log will be skipped.\n\nTherefore, the atMostEvery is not going to help us here.",
+      "revId": "4e01090d7702959726856b2dd61a8cf32cacbee3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

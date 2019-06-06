@@ -37,7 +37,7 @@ java_library(
     name = "protobuf",
     data = ["//lib:LICENSE-protobuf"],
     visibility = ["//visibility:public"],
-    exports = ["@protobuf//jar"],
+    exports = ["@com_google_protobuf//:protobuf_java"],
 )
 
 java_library(

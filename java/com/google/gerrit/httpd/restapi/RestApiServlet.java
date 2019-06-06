@@ -606,6 +606,7 @@ public class RestApiServlet extends HttpServlet {
             replyError(req, res, status = SC_NOT_IMPLEMENTED, messageOr(e, "Not Implemented"), e);
       } catch (UpdateException e) {
         Throwable t = e.getCause();
+        // XXX Handle CommentsRejectedException.
         if (t instanceof LockFailureException) {
           logger.atSevere().withCause(t).log("Error in %s %s", req.getMethod(), uriForLogging(req));
           responseBytes =

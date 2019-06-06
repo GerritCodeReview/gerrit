@@ -48,9 +48,9 @@ http_archive(
 
 http_archive(
     name = "io_bazel_rules_closure",
-    sha256 = "bdb00831682cd0923df36e19b01619b8230896d582f16304a937d8dc8270b1b6",
-    strip_prefix = "rules_closure-ad75d7cc1cff0e845cd83683881915d995bd75b2",
-    urls = ["https://github.com/bazelbuild/rules_closure/archive/ad75d7cc1cff0e845cd83683881915d995bd75b2.tar.gz"],
+    sha256 = "75c58680af5f7b938ce9fe2abe8ecd9d24c698d160c0b71a945bd100fa77632b",
+    strip_prefix = "rules_closure-10cb1a78bd6cc8927eb39c2644c0369934f4aed6",
+    urls = ["https://github.com/bazelbuild/rules_closure/archive/10cb1a78bd6cc8927eb39c2644c0369934f4aed6.tar.gz"],
 )
 
 # File is specific to Polymer and copied from the Closure Github -- should be
@@ -226,12 +226,6 @@ maven_jar(
     artifact = "com.google.gerrit:gwtorm:1.18",
     sha1 = "f326dec463439a92ccb32f05b38345e21d0b5ecf",
     src_sha1 = "e0b973d5cafef3d145fa80cdf032fcead1186d29",
-)
-
-maven_jar(
-    name = "protobuf",
-    artifact = "com.google.protobuf:protobuf-java:3.0.0-beta-2",
-    sha1 = "de80fe047052445869b96f6def6baca7182c95af",
 )
 
 maven_jar(

@@ -154,7 +154,7 @@
     },
 
     _getReviewerSuggestions(input) {
-      if (!this.change || !this.change._number || !this._loggedIn) {
+      if (!this.change || !this.change._number || !this._loggedIn || !this.allowAnyUser) {
         return Promise.resolve([]);
       }
 

@@ -52,6 +52,7 @@
         type: Boolean,
         value: false,
       },
+      _showBlockUserList: Boolean,
       _showGroup: Boolean,
       _showGroupAuditLog: Boolean,
       _showGroupList: Boolean,
@@ -154,6 +155,8 @@
       const isRepoView = params.view === Gerrit.Nav.View.REPO;
       const isAdminView = params.view === Gerrit.Nav.View.ADMIN;
 
+      this.set('_showBlockUserList',
+          params.adminView === 'gr-block-user');
       this.set('_showGroup', isGroupView && !params.detail);
       this.set('_showGroupAuditLog', isGroupView &&
           params.detail === Gerrit.Nav.GroupDetailView.LOG);

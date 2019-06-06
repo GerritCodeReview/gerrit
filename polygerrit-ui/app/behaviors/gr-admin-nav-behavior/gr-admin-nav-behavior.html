@@ -18,7 +18,7 @@ limitations under the License.
 (function(window) {
   'use strict';
 
-  const ACCOUNT_CAPABILITIES = ['createProject', 'createGroup', 'viewPlugins'];
+  const ACCOUNT_CAPABILITIES = ['createProject', 'createGroup', 'viewPlugins', 'modifyAccount'];
 
   const ADMIN_LINKS = [{
     name: 'Repositories',
@@ -39,6 +39,12 @@ limitations under the License.
     noBaseUrl: true,
     url: '/admin/plugins',
     view: 'gr-plugin-list',
+  }, {
+    name: 'People',
+    capability: 'modifyAccount',
+    section: 'People',
+    url: '/admin/people',
+    view: 'gr-block-user',
   }];
 
   window.Gerrit = window.Gerrit || {};

@@ -3096,5 +3096,47 @@
         body: {query},
       });
     },
+
+    getUserAccount(accountId) {
+      return this.send('GET', '/accounts/' + accountId)
+          .then(response => {
+            if (response.status === 200) {
+              return this.getResponseObject(response);
+            } else {
+              return null;
+            }
+          });
+    },
+
+    _getUserBlockURL(accountId) {
+      return '/accounts/' + accountId + '/active';
+    },
+
+    getUserBlocked(accountId) {
+      return this.send('GET', this._getUserBlockURL(accountId))
+          .then(response => {
+            return response.status === 204;
+          });
+    },
+
+    /**
+     * @return {boolean} true if account unblocked.
+     */
+    unblockUser(accountId) {
+      return this.send('PUT', this._getUserBlockURL(accountId)).then(
+          response => {
+            return response.status === 200 || response.status === 201;
+          });
+    },
+
+    /**
+     * @return {boolean} true if account blocked.
+     */
+    blockUser(accountId) {
+      return this.send('DELETE', this._getUserBlockURL(accountId)).then(
+          response => {
+            return response.status === 204 || response.status === 409;
+          });
+    },
   });
 })();

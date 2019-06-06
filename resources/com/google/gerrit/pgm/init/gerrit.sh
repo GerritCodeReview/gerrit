@@ -75,6 +75,7 @@ thread_dump() {
 }
 
 get_config() {
+  command -v git >/dev/null 2>&1 || { echo >&2 "Cannot locate the git command, required to run Gerrit"; exit 1; }
   if test -f "$GERRIT_CONFIG" ; then
     if test "x$1" = x--int ; then
       # Git might not be able to expand "8g" properly.  If it gives

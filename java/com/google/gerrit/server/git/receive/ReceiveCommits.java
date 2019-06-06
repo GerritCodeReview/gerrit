@@ -60,7 +60,6 @@ import com.google.common.collect.Sets;
 import com.google.common.collect.SortedSetMultimap;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.data.LabelType;
@@ -80,19 +79,26 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.extensions.validators.CommentForValidation;
+import com.google.gerrit.extensions.validators.CommentForValidation.CommentType;
+import com.google.gerrit.extensions.validators.CommentValidationFailure;
+import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CreateGroupPermissionSyncer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.NotifyResolver;
@@ -298,6 +304,8 @@ class ReceiveCommits {
   private final ChangeNotes.Factory notesFactory;
   private final ChangeReportFormatter changeFormatter;
   private final CmdLineParser.Factory optionParserFactory;
+  private final CommentsUtil commentsUtil;
+  private final PluginSetContext<CommentValidator> commentValidators;
   private final BranchCommitValidator.Factory commitValidatorFactory;
   private final CreateGroupPermissionSyncer createGroupPermissionSyncer;
   private final CreateRefControl createRefControl;
@@ -374,11 +382,13 @@ class ReceiveCommits {
       ChangeNotes.Factory notesFactory,
       DynamicItem<ChangeReportFormatter> changeFormatterProvider,
       CmdLineParser.Factory optionParserFactory,
+      CommentsUtil commentsUtil,
       BranchCommitValidator.Factory commitValidatorFactory,
       CreateGroupPermissionSyncer createGroupPermissionSyncer,
       CreateRefControl createRefControl,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginSetContext<ReceivePackInitializer> initializers,
+      PluginSetContext<CommentValidator> commentValidators,
       MergedByPushOp.Factory mergedByPushOpFactory,
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetUtil psUtil,
@@ -410,6 +420,8 @@ class ReceiveCommits {
     this.batchUpdateFactory = batchUpdateFactory;
     this.changeFormatter = changeFormatterProvider.get();
     this.changeInserterFactory = changeInserterFactory;
+    this.commentsUtil = commentsUtil;
+    this.commentValidators = commentValidators;
     this.commitValidatorFactory = commitValidatorFactory;
     this.createRefControl = createRefControl;
     this.createGroupPermissionSyncer = createGroupPermissionSyncer;
@@ -1290,7 +1302,6 @@ class ReceiveCommits {
     Optional<AuthException> err = checkRefPermission(cmd, RefPermission.DELETE);
     if (!err.isPresent()) {
       validRefOperation(cmd);
-
     } else {
       rejectProhibited(cmd, err.get());
     }
@@ -1366,6 +1377,13 @@ class ReceiveCommits {
     final ReceiveCommand cmd;
     final LabelTypes labelTypes;
     private final boolean defaultPublishComments;
+    /**
+     * Result of running {@link CommentValidator}-s on drafts that are published with the commit
+     * (which happens iff {@code --publish-comments} is set). Remains {@code true} if none are
+     * installed.
+     */
+    private boolean commentsValid = true;
+
     BranchNameKey dest;
     PermissionBackend.ForRef perm;
     Set<String> reviewer = Sets.newLinkedHashSet();
@@ -1568,7 +1586,15 @@ class ReceiveCommits {
           .collect(toImmutableSet());
     }
 
+    void setCommentsValid(boolean commentsValid) {
+      this.commentsValid = commentsValid;
+    }
+
     boolean shouldPublishComments() {
+      if (!commentsValid) {
+        // Validation messages of type WARNING have already been added, now withhold the comments.
+        return false;
+      }
       if (publishComments) {
         return true;
       } else if (noPublishComments) {
@@ -1965,7 +1991,7 @@ class ReceiveCommits {
       messages.addAll(validationResult.messages());
       if (validationResult.isValid()) {
         logger.atFine().log("Replacing change %s", changeEnt.getId());
-        requestReplace(cmd, true, changeEnt, newCommit);
+        requestReplaceAndValidateComments(cmd, true, changeEnt, newCommit);
       }
     } catch (IOException e) {
       reject(cmd, "I/O exception validating commit");
@@ -1973,10 +1999,12 @@ class ReceiveCommits {
   }
 
   /**
-   * Add an update for an existing change. Returns true if it succeeded; rejects the command if it
-   * failed.
+   * Update an existing change. If draft comments are to be published, these are validated and may
+   * be withheld.
+   *
+   * @return True if the command succeeded, false if it was rejected.
    */
-  private boolean requestReplace(
+  private boolean requestReplaceAndValidateComments(
       ReceiveCommand cmd, boolean checkMergedInto, Change change, RevCommit newCommit) {
     if (change.isClosed()) {
       reject(
@@ -1991,6 +2019,30 @@ class ReceiveCommits {
       reject(cmd, "duplicate request");
       return false;
     }
+
+    if (magicBranch != null && magicBranch.shouldPublishComments()) {
+      List<Comment> drafts =
+          commentsUtil.draftByChangeAuthor(notesFactory.createChecked(change), user.getAccountId());
+      ImmutableList<CommentForValidation> draftsForValidation =
+          drafts.stream()
+              .map(
+                  comment ->
+                      CommentForValidation.create(
+                          comment.lineNbr > 0
+                              ? CommentType.INLINE_COMMENT
+                              : CommentType.FILE_COMMENT,
+                          comment.message))
+              .collect(ImmutableList.toImmutableList());
+      List<CommentValidationFailure> commentValidationFailures =
+          PublishCommentUtil.findInvalidComments(commentValidators, draftsForValidation);
+      magicBranch.setCommentsValid(commentValidationFailures.isEmpty());
+      commentValidationFailures.forEach(
+          failure ->
+              addMessage(
+                  "Comment validation failure: " + failure.getMessage(),
+                  ValidationMessage.Type.WARNING));
+    }
+
     replaceByChange.put(req.ontoChange, req);
     return true;
   }
@@ -2002,7 +2054,7 @@ class ReceiveCommits {
       } catch (IOException e) {
         continue;
       }
-      List<String> idList = create.commit.getFooterLines(FooterConstants.CHANGE_ID);
+      List<String> idList = create.commit.getFooterLines(CHANGE_ID);
 
       if (idList.isEmpty()) {
         messages.add(
@@ -2207,7 +2259,8 @@ class ReceiveCommits {
               continue;
             }
           }
-          if (requestReplace(magicBranch.cmd, false, changes.get(0).change(), p.commit)) {
+          if (requestReplaceAndValidateComments(
+              magicBranch.cmd, false, changes.get(0).change(), p.commit)) {
             continue;
           }
           return Collections.emptyList();

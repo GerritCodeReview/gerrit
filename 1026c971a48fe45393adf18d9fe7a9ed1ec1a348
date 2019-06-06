@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "09e04cab_967ac0f3",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareRepository.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-06T21:54:30Z",
+      "side": 1,
+      "message": "Indeed. What is the canonical way to make it work for both DfsRepository and FileRepository?",
+      "parentUuid": "cbe49b3b_33811354",
+      "revId": "1026c971a48fe45393adf18d9fe7a9ed1ec1a348",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ec087d5c_7aa78929",
         "filename": "java/com/google/gerrit/server/git/PermissionAwareRepository.java",
         "patchSetId": 12
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "1a7528bc_ebb1035a",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareRepository.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-06T21:54:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec087d5c_7aa78929",
+      "revId": "1026c971a48fe45393adf18d9fe7a9ed1ec1a348",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be3c7825_be2b350c",
         "filename": "lib/jgit/jgit.bzl",
         "patchSetId": 12
@@ -47,6 +83,30 @@
       "writtenOn": "2019-06-06T15:03:07Z",
       "side": 1,
       "message": "amazing, David can travel to the future",
+      "range": {
+        "startLine": 50,
+        "startChar": 71,
+        "endLine": 50,
+        "endChar": 76
+      },
+      "revId": "1026c971a48fe45393adf18d9fe7a9ed1ec1a348",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42548ec3_27060fec",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 12
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-06T21:54:30Z",
+      "side": 1,
+      "message": "I named the new custom release on GH first: 5.5.0. But then we have decided to rename Repository#getPath() method to Repository#getIdentifier(). And then I had to conduct a new release.\n\nLet\u0027s hope this is the last one I had to release before the official JGit is released with Repository#getIdentifier() method ;-)",
+      "parentUuid": "be3c7825_be2b350c",
       "range": {
         "startLine": 50,
         "startChar": 71,

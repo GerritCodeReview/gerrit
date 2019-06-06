@@ -1,5 +1,5 @@
 java_library(
-    name = "server",
+    name = "jgit",
     srcs = [
         "diff/ReplaceEdit.java",
     ],

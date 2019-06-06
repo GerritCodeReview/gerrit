@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package org.eclipse.jgit.diff;
+package com.google.gerrit.jgit.diff;
 
 import java.util.List;
+import org.eclipse.jgit.diff.Edit;
 
 public class ReplaceEdit extends Edit {
   private List<Edit> internalEdit;

@@ -49,9 +49,9 @@ http_archive(
 
 http_archive(
     name = "io_bazel_rules_closure",
-    sha256 = "bdb00831682cd0923df36e19b01619b8230896d582f16304a937d8dc8270b1b6",
-    strip_prefix = "rules_closure-ad75d7cc1cff0e845cd83683881915d995bd75b2",
-    urls = ["https://github.com/bazelbuild/rules_closure/archive/ad75d7cc1cff0e845cd83683881915d995bd75b2.tar.gz"],
+    sha256 = "75c58680af5f7b938ce9fe2abe8ecd9d24c698d160c0b71a945bd100fa77632b",
+    strip_prefix = "rules_closure-10cb1a78bd6cc8927eb39c2644c0369934f4aed6",
+    urls = ["https://github.com/bazelbuild/rules_closure/archive/10cb1a78bd6cc8927eb39c2644c0369934f4aed6.tar.gz"],
 )
 
 # File is specific to Polymer and copied from the Closure Github -- should be
@@ -216,12 +216,6 @@ maven_jar(
     name = "gson",
     artifact = "com.google.code.gson:gson:2.8.5",
     sha1 = "f645ed69d595b24d4cf8b3fbb64cc505bede8829",
-)
-
-maven_jar(
-    name = "protobuf",
-    artifact = "com.google.protobuf:protobuf-java:3.7.1",
-    sha1 = "0bce1b6dc9e4531169542ab37a1c8641bcaa8afb",
 )
 
 load("//lib:guava.bzl", "GUAVA_BIN_SHA1", "GUAVA_VERSION")
@@ -1071,8 +1065,8 @@ maven_jar(
 # and httpasyncclient as necessary.
 maven_jar(
     name = "elasticsearch-rest-client",
-    artifact = "org.elasticsearch.client:elasticsearch-rest-client:7.1.0",
-    sha1 = "93e8e8b96121069d1d6a6f94d29e7aebd3327301",
+    artifact = "org.elasticsearch.client:elasticsearch-rest-client:7.1.1",
+    sha1 = "ca04d8012f92cac561be343b931ec73302b2ff3e",
 )
 
 maven_jar(

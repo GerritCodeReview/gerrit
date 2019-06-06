@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BEHALF_OF;
@@ -29,9 +30,11 @@ import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
+import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.Hashing;
@@ -61,6 +64,10 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.extensions.validators.CommentForValidation;
+import com.google.gerrit.extensions.validators.CommentForValidation.CommentType;
+import com.google.gerrit.extensions.validators.CommentValidationFailure;
+import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
@@ -106,12 +113,14 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.CommentsRejectedException;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
@@ -137,6 +146,7 @@ import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -173,6 +183,7 @@ public class PostReview
   private final WorkInProgressOp.Factory workInProgressOpFactory;
   private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
+  private final PluginSetContext<CommentValidator> commentValidators;
   private final boolean strictLabels;
 
   @Inject
@@ -195,7 +206,8 @@ public class PostReview
       @GerritServerConfig Config gerritConfig,
       WorkInProgressOp.Factory workInProgressOpFactory,
       ProjectCache projectCache,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      PluginSetContext<CommentValidator> commentValidators) {
     super(retryHelper);
     this.changeResourceFactory = changeResourceFactory;
     this.changeDataFactory = changeDataFactory;
@@ -215,6 +227,7 @@ public class PostReview
     this.workInProgressOpFactory = workInProgressOpFactory;
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
+    this.commentValidators = commentValidators;
     this.strictLabels = gerritConfig.getBoolean("change", "strictLabels", false);
   }
 
@@ -858,7 +871,7 @@ public class PostReview
     @Override
     public boolean updateChange(ChangeContext ctx)
         throws ResourceConflictException, UnprocessableEntityException, IOException,
-            PatchListNotAvailableException {
+            PatchListNotAvailableException, CommentsRejectedException {
       user = ctx.getIdentifiedUser();
       notes = ctx.getNotes();
       ps = psUtil.get(ctx.getNotes(), psId);
@@ -891,7 +904,8 @@ public class PostReview
     }
 
     private boolean insertComments(ChangeContext ctx)
-        throws UnprocessableEntityException, PatchListNotAvailableException {
+        throws UnprocessableEntityException, PatchListNotAvailableException,
+            CommentsRejectedException {
       Map<String, List<CommentInput>> inputComments = in.comments;
       if (inputComments == null) {
         inputComments = Collections.emptyMap();
@@ -910,6 +924,7 @@ public class PostReview
         }
       }
 
+      // This will be populated with Comment-s created from inputComments.
       List<Comment> toPublish = new ArrayList<>();
 
       Set<CommentSetEntry> existingComments =
@@ -954,17 +969,37 @@ public class PostReview
       switch (in.drafts) {
         case PUBLISH:
         case PUBLISH_ALL_REVISIONS:
+          validateComments(Streams.concat(drafts.values().stream(), toPublish.stream()));
           publishCommentUtil.publish(ctx, psId, drafts.values(), in.tag);
           comments.addAll(drafts.values());
           break;
         case KEEP:
         default:
+          validateComments(toPublish.stream());
           break;
       }
       ChangeUpdate changeUpdate = ctx.getUpdate(psId);
       commentsUtil.putComments(changeUpdate, Status.PUBLISHED, toPublish);
       comments.addAll(toPublish);
       return !toPublish.isEmpty();
+    }
+
+    private void validateComments(Stream<Comment> comments) throws CommentsRejectedException {
+      ImmutableList<CommentForValidation> draftsForValidation =
+          comments
+              .map(
+                  comment ->
+                      CommentForValidation.create(
+                          comment.lineNbr > 0
+                              ? CommentForValidation.CommentType.INLINE_COMMENT
+                              : CommentType.FILE_COMMENT,
+                          comment.message))
+              .collect(toImmutableList());
+      List<CommentValidationFailure> draftValidationFailures =
+          PublishCommentUtil.findInvalidComments(commentValidators, draftsForValidation);
+      if (!draftValidationFailures.isEmpty()) {
+        throw new CommentsRejectedException(draftValidationFailures);
+      }
     }
 
     private boolean insertRobotComments(ChangeContext ctx) throws PatchListNotAvailableException {
@@ -1337,7 +1372,7 @@ public class PostReview
       return current;
     }
 
-    private boolean insertMessage(ChangeContext ctx) {
+    private boolean insertMessage(ChangeContext ctx) throws CommentsRejectedException {
       String msg = Strings.nullToEmpty(in.message).trim();
 
       StringBuilder buf = new StringBuilder();
@@ -1350,6 +1385,15 @@ public class PostReview
         buf.append(String.format("\n\n(%d comments)", comments.size()));
       }
       if (!msg.isEmpty()) {
+        List<CommentValidationFailure> messageValidationFailure =
+            PublishCommentUtil.findInvalidComments(
+                commentValidators,
+                ImmutableList.of(
+                    CommentForValidation.create(
+                        CommentForValidation.CommentType.CHANGE_MESSAGE, msg)));
+        if (!messageValidationFailure.isEmpty()) {
+          throw new CommentsRejectedException(messageValidationFailure);
+        }
         buf.append("\n\n").append(msg);
       } else if (in.ready) {
         buf.append("\n\n" + START_REVIEW_MESSAGE);

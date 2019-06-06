@@ -25,9 +25,9 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
 public interface CommentValidator {
 
   /**
-   * Validate the specified commits.
+   * Validate the specified comments.
    *
-   * @return An empty list if all commits are valid, or else a list of validation failures.
+   * @return An empty list if all comments are valid, or else a list of validation failures.
    */
   ImmutableList<CommentValidationFailure> validateComments(
       ImmutableList<CommentForValidation> comments);

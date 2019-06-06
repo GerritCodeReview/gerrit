@@ -16,6 +16,24 @@
       "revId": "4e3c5db6918ecb324934640828c1444deeddea13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b66c56c_a36d8bee",
+        "filename": ".bazelversion",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-06T19:26:10Z",
+      "side": 1,
+      "message": "\u003e We are currently using 0.25.0.\n\nThis is not accurate.\n\n* 1. The minimum supported Bazel version we are checking against in WORKSPACE is 0.25.0.\n* 2. The Bazel version currently installed on GerritForge CI and defined in Docker bazel image is 0.25.0.\n\nHowever, this is not a contradiction to specify a newer Bazel version in .bazelversion to use with Bazelisk.\n\nNote, that until we have not taught the CI to use Bazelisk we cannot just bump used Bazel version in WORKSPACE; we would have to upgrade CI to actually use this new version first.\n\n\u003e BTW can we use the minimum required bazel version in the WORKSPACE file to set the version for bazelisk, so that we do not have to set the version at two locations?\n\nI don\u0027t see how this could be done.",
+      "parentUuid": "e59d15d2_7a09577b",
+      "revId": "4e3c5db6918ecb324934640828c1444deeddea13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

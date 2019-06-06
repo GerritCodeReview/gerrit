@@ -161,12 +161,25 @@ def gen_classpath(ext):
             e.setAttribute('output', out)
         if exported:
             e.setAttribute('exported', 'true')
+        atts = None
         if out and "test" in out:
             atts = doc.createElement('attributes')
             testAtt = doc.createElement('attribute')
             testAtt.setAttribute('name', 'test')
             testAtt.setAttribute('value', 'true')
             atts.appendChild(testAtt)
+        if "apt_generated" in path:
+            if not atts:
+                atts = doc.createElement('attributes')
+            ignoreOptionalProblems = doc.createElement('attribute')
+            ignoreOptionalProblems.setAttribute('name', 'ignore_optional_problems')
+            ignoreOptionalProblems.setAttribute('value', 'true')
+            atts.appendChild(ignoreOptionalProblems)
+            optional = doc.createElement('attribute')
+            optional.setAttribute('name', 'optional')
+            optional.setAttribute('value', 'true')
+            atts.appendChild(optional)
+        if atts:
             e.appendChild(atts)
         doc.documentElement.appendChild(e)
 
@@ -264,6 +277,8 @@ def gen_classpath(ext):
 
     classpathentry('con', JRE)
     classpathentry('output', 'eclipse-out/classes')
+    classpathentry('src', '.apt_generated')
+    classpathentry('src', '.apt_generated_tests', out="eclipse-out/test")
 
     p = path.join(ROOT, '.classpath')
     with open(p, 'w') as fd:

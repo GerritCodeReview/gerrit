@@ -25,6 +25,40 @@
     },
     {
       "key": {
+        "uuid": "158b8433_f7e70e60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-06T09:20:38Z",
+      "side": 1,
+      "message": "Please replace \"Fixes\" with \"Bug\"",
+      "revId": "8438712a635667be5444c5cafddfab94c0155b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44bb9b8f_9ceb3ef3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-06T09:20:38Z",
+      "side": 1,
+      "message": "Please remove this blank line. The issue should be in the footer.",
+      "revId": "8438712a635667be5444c5cafddfab94c0155b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "df4bfad7_53ff6443",
         "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
         "patchSetId": 1

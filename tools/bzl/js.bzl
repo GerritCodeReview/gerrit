@@ -48,9 +48,9 @@ npm_binary = repository_rule(
 def _run_npm_binary_str(ctx, tarball, args):
     python_bin = ctx.which("python")
     return " ".join([
-        python_bin,
-        ctx.path(ctx.attr._run_npm),
-        ctx.path(tarball),
+        str(python_bin),
+        str(ctx.path(ctx.attr._run_npm)),
+        str(ctx.path(tarball)),
     ] + args)
 
 def _bower_archive(ctx):

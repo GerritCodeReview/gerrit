@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1442a8da_fd4b8b4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-06-06T09:09:55Z",
+      "side": 1,
+      "message": "This seems more the body of an issue, can you rephrase with wording more focused on this change and merge with the second bullet point?\n\nExample:\n\n  Improve the error message presented to the user when the \u0027git\u0027 command is not found in the current PATH",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "8438712a635667be5444c5cafddfab94c0155b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df4bfad7_53ff6443",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-06-06T09:09:55Z",
+      "side": 1,
+      "message": "if \u0027git\u0027 cannot be located, then this already fails.",
+      "revId": "8438712a635667be5444c5cafddfab94c0155b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a86bce9b_06869a9a",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-06-06T09:09:55Z",
+      "side": 1,
+      "message": "Better to avoid passive statements. Would it clearer IMHO as \u0027Cannot locate the git command, required to run Gerrit\u0027.",
+      "range": {
+        "startLine": 81,
+        "startChar": 12,
+        "endLine": 81,
+        "endChar": 50
+      },
+      "revId": "8438712a635667be5444c5cafddfab94c0155b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46fd2e72_38a66801",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-06-06T09:09:55Z",
+      "side": 1,
+      "message": "Which version?",
+      "range": {
+        "startLine": 82,
+        "startChar": 19,
+        "endLine": 82,
+        "endChar": 26
+      },
+      "revId": "8438712a635667be5444c5cafddfab94c0155b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b7ebcb1_0055e7e4",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-06-06T09:09:55Z",
+      "side": 1,
+      "message": "PATH environment variable of the user that is running Gerrit.",
+      "range": {
+        "startLine": 82,
+        "startChar": 45,
+        "endLine": 82,
+        "endChar": 49
+      },
+      "revId": "8438712a635667be5444c5cafddfab94c0155b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

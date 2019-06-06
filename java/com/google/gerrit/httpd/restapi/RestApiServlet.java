@@ -115,6 +115,7 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.quota.QuotaException;
+import com.google.gerrit.server.update.CommentsRejectedException;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.util.http.CacheHeaders;
@@ -611,6 +612,9 @@ public class RestApiServlet extends HttpServlet {
           responseBytes =
               replyError(
                   req, res, status = SC_SERVICE_UNAVAILABLE, messageOr(t, "Lock failure"), e);
+        } else if (t instanceof CommentsRejectedException) {
+          responseBytes =
+              replyError(req, res, status = SC_FORBIDDEN, messageOr(t, "Comments rejected"), e);
         } else {
           status = SC_INTERNAL_SERVER_ERROR;
           responseBytes = handleException(e, req, res);

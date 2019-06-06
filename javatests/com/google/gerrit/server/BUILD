@@ -34,6 +34,7 @@ junit_tests(
     ],
     deps = [
         ":custom-truth-subjects",
+        "//java/com/google/gerrit/acceptance:framework-lib",
         "//java/com/google/gerrit/acceptance/testsuite/project",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
@@ -79,5 +80,6 @@ junit_tests(
         "//lib/truth:truth-java8-extension",
         "//lib/truth:truth-proto-extension",
         "//proto:cache_java_proto",
+        "@servlet-api-3_1//jar",
     ],
 )

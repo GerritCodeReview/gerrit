@@ -76,6 +76,24 @@
     },
     {
       "key": {
+        "uuid": "7a0a4b5e_84754a83",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-06T10:32:55Z",
+      "side": 1,
+      "message": "Can be fixed by:\n\n GIT\u003d`which git || echo`\n\nSee:\n\n $ GIT\u003d`which git || echo`\n $ test -z \"$GIT\"\n $ echo $?\n 1\n $ GIT\u003d`which sfsdfsd || echo`\n $ test -z \"$GIT\"\n $ echo $?\n 0",
+      "parentUuid": "df4bfad7_53ff6443",
+      "revId": "8438712a635667be5444c5cafddfab94c0155b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a86bce9b_06869a9a",
         "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
         "patchSetId": 1

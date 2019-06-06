@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbe49b3b_33811354",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareRepository.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-06-06T15:03:07Z",
+      "side": 1,
+      "message": "is this going to work for a DfsRepository ?",
+      "revId": "1026c971a48fe45393adf18d9fe7a9ed1ec1a348",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec087d5c_7aa78929",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareRepository.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-06-06T15:03:07Z",
+      "side": 1,
+      "message": "Why should Gerrit care about non-bare repositories ?\nI consider serving from a non-bare repository harmful hence I\u0027d rather throw an exception here.",
+      "revId": "1026c971a48fe45393adf18d9fe7a9ed1ec1a348",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be3c7825_be2b350c",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 12
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-06-06T15:03:07Z",
+      "side": 1,
+      "message": "amazing, David can travel to the future",
+      "range": {
+        "startLine": 50,
+        "startChar": 71,
+        "endLine": 50,
+        "endChar": 76
+      },
+      "revId": "1026c971a48fe45393adf18d9fe7a9ed1ec1a348",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

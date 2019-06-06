@@ -20,6 +20,7 @@ jars in the site path's `plugins` directory to `<plugin-jar-name>.disabled`.
 * Caller must be a member of the privileged 'Administrators' group.
 * link:config-gerrit.html#plugins.allowRemoteAdmin[plugins.allowRemoteAdmin]
 must be enabled in `$site_path/etc/gerrit.config`.
+* Mandatory plugin cannot be disabled
 
 == SCRIPTING
 This command is intended to be used in scripts.

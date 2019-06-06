@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.plugin;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
@@ -35,6 +36,7 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.plugins.MandatoryPluginsCollection;
 import com.google.inject.Inject;
 import java.util.List;
 import org.junit.Test;
@@ -53,6 +55,7 @@ public class PluginIT extends AbstractDaemonTest {
           "plugin-a.js", "plugin-b.html", "plugin-c.js", "plugin-d.html", "plugin_e.js");
 
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private MandatoryPluginsCollection mandatoryPluginsCollection;
 
   @Test
   @GerritConfig(name = "plugins.allowRemoteAdmin", value = "true")
@@ -99,7 +102,19 @@ public class PluginIT extends AbstractDaemonTest {
     assertBadRequest(list().regex(".*in-b").prefix("a"));
     assertBadRequest(list().substring(".*in-b").prefix("a"));
 
-    // Disable
+    // Disable mandatory
+    mandatoryPluginsCollection.add("plugin_e");
+    api = gApi.plugins().name("plugin_e");
+    try {
+      api.disable();
+      assert_().fail("Disabling mandatory plugin should have failed");
+    } catch (MethodNotAllowedException e) {
+      // expected
+    }
+    api = gApi.plugins().name("plugin_e");
+    assertThat(api.get().disabled).isNull();
+
+    // Disable non-mandatory
     api = gApi.plugins().name("plugin-a");
     api.disable();
     api = gApi.plugins().name("plugin-a");

@@ -207,7 +207,8 @@ public abstract class AbstractDaemonTest {
               beforeTest(description);
               ProjectResetter.Config input = requireNonNull(resetProjects());
 
-              try (ProjectResetter resetter = projectResetter.builder().build(input)) {
+              try (ProjectResetter resetter =
+                  projectResetter != null ? projectResetter.builder().build(input) : null) {
                 AbstractDaemonTest.this.resetter = resetter;
                 base.evaluate();
               } finally {
@@ -287,12 +288,16 @@ public abstract class AbstractDaemonTest {
 
   @Before
   public void clearSender() {
-    sender.clear();
+    if (sender != null) {
+      sender.clear();
+    }
   }
 
   @Before
   public void startEventRecorder() {
-    eventRecorder = eventRecorderFactory.create(admin);
+    if (eventRecorderFactory != null) {
+      eventRecorder = eventRecorderFactory.create(admin);
+    }
   }
 
   @Before
@@ -307,7 +312,9 @@ public abstract class AbstractDaemonTest {
 
   @After
   public void closeEventRecorder() {
-    eventRecorder.close();
+    if (eventRecorder != null) {
+      eventRecorder.close();
+    }
   }
 
   @AfterClass

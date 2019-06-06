@@ -229,12 +229,6 @@ maven_jar(
 )
 
 maven_jar(
-    name = "protobuf",
-    artifact = "com.google.protobuf:protobuf-java:3.0.0-beta-2",
-    sha1 = "de80fe047052445869b96f6def6baca7182c95af",
-)
-
-maven_jar(
     name = "joda-time",
     artifact = "joda-time:joda-time:2.9.4",
     sha1 = "1c295b462f16702ebe720bbb08f62e1ba80da41b",

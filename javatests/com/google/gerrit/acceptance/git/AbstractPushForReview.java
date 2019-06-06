@@ -2567,16 +2567,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     return d;
   }
 
-  private CommentInfo addDraft(String changeId, String revId, DraftInput in) throws Exception {
-    return gApi.changes().id(changeId).revision(revId).createDraft(in).get();
-  }
-
-  private Collection<CommentInfo> getPublishedComments(String changeId) throws Exception {
-    return gApi.changes().id(changeId).comments().values().stream()
-        .flatMap(Collection::stream)
-        .collect(toList());
-  }
-
   private String getLastMessage(String changeId) throws Exception {
     return Streams.findLast(
             gApi.changes().id(changeId).get(MESSAGES).messages.stream().map(m -> m.message))

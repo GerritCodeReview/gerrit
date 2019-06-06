@@ -26,6 +26,10 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.extensions.validators.CommentForValidation;
+import com.google.gerrit.extensions.validators.CommentValidationFailure;
+import com.google.gerrit.extensions.validators.CommentValidationListener;
+import com.google.gerrit.extensions.validators.CommentValidationListener.CommentType;
 import com.google.gerrit.mail.HtmlParser;
 import com.google.gerrit.mail.MailComment;
 import com.google.gerrit.mail.MailHeaderParser;
@@ -43,6 +47,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Emails;
@@ -54,6 +59,7 @@ import com.google.gerrit.server.mail.send.InboundEmailRejectionSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -98,6 +104,7 @@ public class MailProcessor {
   private final ApprovalsUtil approvalsUtil;
   private final AccountCache accountCache;
   private final DynamicItem<UrlFormatter> urlFormatter;
+  private final PluginSetContext<CommentValidationListener> commentValidationListeners;
 
   @Inject
   public MailProcessor(
@@ -115,7 +122,8 @@ public class MailProcessor {
       ApprovalsUtil approvalsUtil,
       CommentAdded commentAdded,
       AccountCache accountCache,
-      DynamicItem<UrlFormatter> urlFormatter) {
+      DynamicItem<UrlFormatter> urlFormatter,
+      PluginSetContext<CommentValidationListener> commentValidationListeners) {
     this.emails = emails;
     this.emailRejectionSender = emailRejectionSender;
     this.retryHelper = retryHelper;
@@ -131,6 +139,7 @@ public class MailProcessor {
     this.approvalsUtil = approvalsUtil;
     this.accountCache = accountCache;
     this.urlFormatter = urlFormatter;
+    this.commentValidationListeners = commentValidationListeners;
   }
 
   /**
@@ -256,6 +265,21 @@ public class MailProcessor {
         logger.atWarning().log(
             "Could not parse any comments from %s. Will delete message.", message.id());
         sendRejectionEmail(message, InboundEmailRejectionSender.Error.PARSING_ERROR);
+        return;
+      }
+
+      ImmutableList<CommentForValidation> parsedCommentsForValidation =
+          parsedComments.stream()
+              .map(
+                  comment ->
+                      CommentForValidation.create(
+                          CommentType.EMAIL_COMMENT_OR_MESSAGE, comment.getMessage()))
+              .collect(ImmutableList.toImmutableList());
+      List<CommentValidationFailure> commentValidationFailures =
+          PublishCommentUtil.findInvalidComments(
+              commentValidationListeners, parsedCommentsForValidation);
+      if (!commentValidationFailures.isEmpty()) {
+        sendRejectionEmail(message, InboundEmailRejectionSender.Error.COMMENT_REJECTED);
         return;
       }
 

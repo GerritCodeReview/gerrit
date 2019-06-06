@@ -52,15 +52,19 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.client.Comment;
+import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
+import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeType;
@@ -70,6 +74,9 @@ import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.validators.CommentForValidation;
+import com.google.gerrit.extensions.validators.CommentValidationFailure;
+import com.google.gerrit.extensions.validators.CommentValidationListener;
 import com.google.gerrit.index.project.ProjectIndex;
 import com.google.gerrit.index.project.ProjectIndexCollection;
 import com.google.gerrit.json.OutputFormat;
@@ -116,6 +123,7 @@ import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.AbstractChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.TestServerPlugin;
 import com.google.gerrit.server.project.ProjectCache;
@@ -219,6 +227,22 @@ public abstract class AbstractDaemonTest {
         }
       };
 
+  protected static class TestCommentValidationListener implements CommentValidationListener {
+    @Override
+    public ImmutableList<CommentValidationFailure> validateComments(
+        ImmutableList<CommentForValidation> comments) {
+      arguments.addAll(comments);
+      for (CommentForValidation c : comments) {
+        if (c.getText().contains("reject")) {
+          return ImmutableList.of(c.failValidation("invalid comment: contains 'reject'"));
+        }
+      }
+      return ImmutableList.of();
+    }
+
+    List<CommentForValidation> arguments = new ArrayList<>();
+  }
+
   @Inject @CanonicalWebUrl protected Provider<String> canonicalWebUrl;
   @Inject @GerritPersonIdent protected Provider<PersonIdent> serverIdent;
   @Inject @GerritServerConfig protected Config cfg;
@@ -281,6 +305,7 @@ public abstract class AbstractDaemonTest {
   @Inject private ProjectIndexCollection projectIndexes;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private SitePaths sitePaths;
+  @Inject private PluginSetContext<CommentValidationListener> commentValidationListeners;
 
   private ProjectResetter resetter;
   private List<Repository> toClose;
@@ -1441,5 +1466,49 @@ public abstract class AbstractDaemonTest {
           "module must be static: %s",
           moduleClass.getName());
     }
+  }
+
+  protected CommentInfo addDraft(String changeId, String revId, DraftInput in) throws Exception {
+    return gApi.changes().id(changeId).revision(revId).createDraft(in).get();
+  }
+
+  protected Collection<CommentInfo> getPublishedComments(String changeId) throws Exception {
+    return gApi.changes().id(changeId).comments().values().stream()
+        .flatMap(Collection::stream)
+        .collect(toList());
+  }
+
+  protected DraftInput newDraft(String message) {
+    return populate(new DraftInput(), "file", message);
+  }
+
+  private static <C extends Comment> C populate(C c, String path, Range range, String message) {
+    int line = range.startLine;
+    c.path = path;
+    c.side = Side.REVISION;
+    c.parent = null;
+    c.line = line != 0 ? line : null;
+    c.message = message;
+    c.unresolved = false;
+    if (line != 0) c.range = range;
+    return c;
+  }
+
+  protected static <C extends Comment> C populate(C c, String path, String message) {
+    return populate(c, path, createLineRange(), message);
+  }
+
+  private static Range createLineRange() {
+    Range range = new Range();
+    range.startLine = 0;
+    range.startCharacter = 1;
+    range.endLine = 0;
+    range.endCharacter = 5;
+    return range;
+  }
+
+  protected List<CommentForValidation> getValidationCalls() {
+    return ((TestCommentValidationListener) commentValidationListeners.iterator().next().get())
+        .arguments;
   }
 }

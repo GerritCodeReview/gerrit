@@ -75,6 +75,13 @@ thread_dump() {
 }
 
 get_config() {
+  GIT=`which git`
+  if test -z "$GIT"
+  then
+      echo "The location of git cannot be detected"
+      echo "Please install and add it to the path"
+      exit 1
+  fi
   if test -f "$GERRIT_CONFIG" ; then
     if test "x$1" = x--int ; then
       # Git might not be able to expand "8g" properly.  If it gives

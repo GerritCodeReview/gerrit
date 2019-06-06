@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea7c2199_9c1d9682",
+        "filename": ".bazelrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-06T06:15:49Z",
+      "side": 1,
+      "message": "This introduced a regression with wrong byte code generation (Java 11) on upcoming Bazel 0.27 release. I can reproduce the problem already on Bazel 0.27rc2. See: [1], [2], [3].\n\n* [1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d10954\n* [2] https://github.com/bazelbuild/bazel/issues/8539\n* [3] https://github.com/bazelbuild/bazel/issues/7816#issuecomment-499358541",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 61
+      },
+      "revId": "7e6ec140a21e06145fefb2d8db364705aa0a081a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

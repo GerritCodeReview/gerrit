@@ -289,7 +289,7 @@ limitations under the License.
           const contextIndex = groups.findIndex(group =>
             group.element === sectionEl
           );
-          groups.splice(...[contextIndex, 1].concat(newGroups));
+          groups.splice(contextIndex, 1, ...newGroups);
 
           for (const newGroup of newGroups) {
             this._builder.emitGroup(newGroup, sectionEl);

@@ -20,21 +20,27 @@
   // Prevent redefinition.
   if (window.GrDiffLine) { return; }
 
-  function GrDiffLine(type) {
+  /**
+   * @param {GrDiffLine.Type} type
+   * @param {number|string=} opt_beforeLine
+   * @param {number|string=} opt_afterLine
+   */
+  function GrDiffLine(type, opt_beforeLine, opt_afterLine) {
     this.type = type;
+
+    /** @type {number|string} */
+    this.beforeNumber = opt_beforeLine || 0;
+    /** @type {number|string} */
+    this.afterNumber = opt_afterLine || 0;
+
     this.highlights = [];
+
+    /** @type {?Array<Object>} ?Array<!GrDiffGroup> */
+    this.contextGroups = null;
+
+    this.text = '';
   }
 
-  /** @type {number|string} */
-  GrDiffLine.prototype.afterNumber = 0;
-
-  /** @type {number|string} */
-  GrDiffLine.prototype.beforeNumber = 0;
-
-  /** @type {?Array<Object>} ?Array<!GrDiffLine> */
-  GrDiffLine.prototype.contextGroups = null;
-
-  GrDiffLine.prototype.text = '';
 
   GrDiffLine.Type = {
     ADD: 'add',

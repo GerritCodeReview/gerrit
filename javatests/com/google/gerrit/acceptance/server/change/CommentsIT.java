@@ -1050,10 +1050,6 @@ public class CommentsIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);
   }
 
-  private CommentInfo addDraft(String changeId, String revId, DraftInput in) throws Exception {
-    return gApi.changes().id(changeId).revision(revId).createDraft(in).get();
-  }
-
   private void updateDraft(String changeId, String revId, DraftInput in, String uuid)
       throws Exception {
     gApi.changes().id(changeId).revision(revId).draft(uuid).update(in);

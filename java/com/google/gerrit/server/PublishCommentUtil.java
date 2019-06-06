@@ -18,17 +18,24 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.reviewdb.client.PatchLineComment.Status.PUBLISHED;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.validators.CommentForValidation;
+import com.google.gerrit.extensions.validators.CommentValidationFailure;
+import com.google.gerrit.extensions.validators.CommentValidationListener;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 @Singleton
@@ -76,5 +83,21 @@ public class PublishCommentUtil {
 
   private static PatchSet.Id psId(ChangeNotes notes, Comment c) {
     return PatchSet.id(notes.getChangeId(), c.key.patchSetId);
+  }
+
+  /**
+   * Helper to run the specified set of {@link CommentValidationListener}-s on the specified
+   * comments.
+   *
+   * @return See {@link CommentValidationListener#validateComments(ImmutableList)}.
+   */
+  public static List<CommentValidationFailure> findInvalidComments(
+      PluginSetContext<CommentValidationListener> commentValidationListeners,
+      ImmutableList<CommentForValidation> commentsForValidation) {
+    List<CommentValidationFailure> commentValidationFailures = new ArrayList<>();
+    commentValidationListeners.runEach(
+        listener ->
+            commentValidationFailures.addAll(listener.validateComments(commentsForValidation)));
+    return commentValidationFailures;
   }
 }

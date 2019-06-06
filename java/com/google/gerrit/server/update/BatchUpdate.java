@@ -290,7 +290,7 @@ public class BatchUpdate implements AutoCloseable {
   private enum ChangeResult {
     SKIPPED,
     UPSERTED,
-    DELETED;
+    DELETED
   }
 
   private final GitRepositoryManager repoManager;
@@ -567,9 +567,7 @@ public class BatchUpdate implements AutoCloseable {
         handle.setResult(id, ChangeResult.SKIPPED);
         continue;
       }
-      for (ChangeUpdate u : ctx.updates.values()) {
-        handle.manager.add(u);
-      }
+      ctx.updates.values().forEach(handle.manager::add);
       if (ctx.deleted) {
         logDebug("Change %s was deleted", id);
         handle.manager.deleteChange(id);

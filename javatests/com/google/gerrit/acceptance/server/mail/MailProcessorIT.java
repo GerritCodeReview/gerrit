@@ -16,25 +16,51 @@ package com.google.gerrit.acceptance.server.mail;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.validators.CommentForValidation;
+import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.mail.MailMessage;
 import com.google.gerrit.mail.MailProcessingUtil;
 import com.google.gerrit.server.mail.receive.MailProcessor;
 import com.google.gerrit.testing.FakeEmailSender.Message;
+import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
+import com.google.inject.Module;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
+import org.easymock.EasyMock;
 import org.junit.Test;
 
 public class MailProcessorIT extends AbstractMailIT {
   @Inject private MailProcessor mailProcessor;
   @Inject private AccountOperations accountOperations;
+  @Inject private CommentValidator mockCommentValidator;
+  @Inject private TestCommentHelper testCommentHelper;
+
+  private static final String COMMENT_TEXT = "The comment text";
+
+  @Override
+  public Module createModule() {
+    return new FactoryModule() {
+      @Override
+      public void configure() {
+        CommentValidator mockCommentValidator = EasyMock.createMock(CommentValidator.class);
+        bind(CommentValidator.class)
+            .annotatedWith(Exports.named(mockCommentValidator.getClass()))
+            .toInstance(mockCommentValidator);
+        bind(CommentValidator.class).toInstance(mockCommentValidator);
+      }
+    };
+  }
 
   @Test
   public void parseAndPersistChangeMessage() throws Exception {
@@ -223,7 +249,119 @@ public class MailProcessorIT extends AbstractMailIT {
     assertThat(message.headers()).containsKey("Subject");
   }
 
+  @Test
+  public void validateChangeMessage_rejected() throws Exception {
+    relaxValidatorMockForSetup();
+    String changeId = createChangeWithReview();
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
+    String ts =
+        MailProcessingUtil.rfcDateformatter.format(
+            ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
+
+    EasyMock.reset(mockCommentValidator);
+    CommentForValidation commentForValidation =
+        CommentForValidation.create(CommentForValidation.CommentType.CHANGE_MESSAGE, COMMENT_TEXT);
+    EasyMock.expect(
+            mockCommentValidator.validateComments(
+                ImmutableList.of(
+                    CommentForValidation.create(
+                        CommentForValidation.CommentType.CHANGE_MESSAGE, COMMENT_TEXT))))
+        .andReturn(ImmutableList.of(commentForValidation.failValidation("Oh no!")));
+    EasyMock.replay(mockCommentValidator);
+
+    MailMessage.Builder b = messageBuilderWithDefaultFields();
+    String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", COMMENT_TEXT, null, null, null);
+    b.textContent(txt + textFooterForChange(changeInfo._number, ts));
+
+    Collection<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
+    mailProcessor.process(b.build());
+    assertThat(testCommentHelper.getPublishedComments(changeId)).isEqualTo(commentsBefore);
+
+    assertNotifyTo(user);
+    Message message = sender.nextMessage();
+    assertThat(message.body()).contains("rejected one or more comments");
+    EasyMock.verify(mockCommentValidator);
+  }
+
+  @Test
+  public void validateInlineComment_rejected() throws Exception {
+    relaxValidatorMockForSetup();
+    String changeId = createChangeWithReview();
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
+    String ts =
+        MailProcessingUtil.rfcDateformatter.format(
+            ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
+
+    EasyMock.reset(mockCommentValidator);
+    CommentForValidation commentForValidation =
+        CommentForValidation.create(CommentForValidation.CommentType.CHANGE_MESSAGE, COMMENT_TEXT);
+    EasyMock.expect(
+            mockCommentValidator.validateComments(
+                ImmutableList.of(
+                    CommentForValidation.create(
+                        CommentForValidation.CommentType.INLINE_COMMENT, COMMENT_TEXT))))
+        .andReturn(ImmutableList.of(commentForValidation.failValidation("Oh no!")));
+    EasyMock.replay(mockCommentValidator);
+
+    MailMessage.Builder b = messageBuilderWithDefaultFields();
+    String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, COMMENT_TEXT, null, null);
+    b.textContent(txt + textFooterForChange(changeInfo._number, ts));
+
+    Collection<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
+    mailProcessor.process(b.build());
+    assertThat(testCommentHelper.getPublishedComments(changeId)).isEqualTo(commentsBefore);
+
+    assertNotifyTo(user);
+    Message message = sender.nextMessage();
+    assertThat(message.body()).contains("rejected one or more comments");
+    EasyMock.verify(mockCommentValidator);
+  }
+
+  @Test
+  public void validateFileComment_rejected() throws Exception {
+    relaxValidatorMockForSetup();
+    String changeId = createChangeWithReview();
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
+    String ts =
+        MailProcessingUtil.rfcDateformatter.format(
+            ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
+
+    EasyMock.reset(mockCommentValidator);
+    CommentForValidation commentForValidation =
+        CommentForValidation.create(CommentForValidation.CommentType.CHANGE_MESSAGE, COMMENT_TEXT);
+    EasyMock.expect(
+            mockCommentValidator.validateComments(
+                ImmutableList.of(
+                    CommentForValidation.create(
+                        CommentForValidation.CommentType.FILE_COMMENT, COMMENT_TEXT))))
+        .andReturn(ImmutableList.of(commentForValidation.failValidation("Oh no!")));
+    EasyMock.replay(mockCommentValidator);
+
+    MailMessage.Builder b = messageBuilderWithDefaultFields();
+    String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, null, COMMENT_TEXT, null);
+    b.textContent(txt + textFooterForChange(changeInfo._number, ts));
+
+    Collection<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
+    mailProcessor.process(b.build());
+    assertThat(testCommentHelper.getPublishedComments(changeId)).isEqualTo(commentsBefore);
+
+    assertNotifyTo(user);
+    Message message = sender.nextMessage();
+    assertThat(message.body()).contains("rejected one or more comments");
+    EasyMock.verify(mockCommentValidator);
+  }
+
   private String getChangeUrl(ChangeInfo changeInfo) {
     return canonicalWebUrl.get() + "c/" + changeInfo.project + "/+/" + changeInfo._number;
+  }
+
+  private void relaxValidatorMockForSetup() {
+    EasyMock.reset(mockCommentValidator);
+    EasyMock.expect(mockCommentValidator.validateComments(EasyMock.anyObject()))
+        .andReturn(ImmutableList.of());
+    EasyMock.replay(mockCommentValidator);
   }
 }

@@ -18,6 +18,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.Side;
@@ -26,6 +27,9 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.extensions.validators.CommentForValidation;
+import com.google.gerrit.extensions.validators.CommentValidationFailure;
+import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.mail.HtmlParser;
 import com.google.gerrit.mail.MailComment;
 import com.google.gerrit.mail.MailHeaderParser;
@@ -43,6 +47,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Emails;
@@ -54,6 +59,7 @@ import com.google.gerrit.server.mail.send.InboundEmailRejectionSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -83,6 +89,15 @@ import java.util.Set;
 public class MailProcessor {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private static final ImmutableMap<MailComment.CommentType, CommentForValidation.CommentType>
+      MAIL_COMMENT_TYPE_TO_VALIDATION_TYPE =
+          ImmutableMap.of(
+              MailComment.CommentType.CHANGE_MESSAGE,
+                  CommentForValidation.CommentType.CHANGE_MESSAGE,
+              MailComment.CommentType.FILE_COMMENT, CommentForValidation.CommentType.FILE_COMMENT,
+              MailComment.CommentType.INLINE_COMMENT,
+                  CommentForValidation.CommentType.INLINE_COMMENT);
+
   private final Emails emails;
   private final InboundEmailRejectionSender.Factory emailRejectionSender;
   private final RetryHelper retryHelper;
@@ -98,6 +113,7 @@ public class MailProcessor {
   private final ApprovalsUtil approvalsUtil;
   private final AccountCache accountCache;
   private final DynamicItem<UrlFormatter> urlFormatter;
+  private final PluginSetContext<CommentValidator> commentValidators;
 
   @Inject
   public MailProcessor(
@@ -115,7 +131,8 @@ public class MailProcessor {
       ApprovalsUtil approvalsUtil,
       CommentAdded commentAdded,
       AccountCache accountCache,
-      DynamicItem<UrlFormatter> urlFormatter) {
+      DynamicItem<UrlFormatter> urlFormatter,
+      PluginSetContext<CommentValidator> commentValidators) {
     this.emails = emails;
     this.emailRejectionSender = emailRejectionSender;
     this.retryHelper = retryHelper;
@@ -131,6 +148,7 @@ public class MailProcessor {
     this.approvalsUtil = approvalsUtil;
     this.accountCache = accountCache;
     this.urlFormatter = urlFormatter;
+    this.commentValidators = commentValidators;
   }
 
   /**
@@ -256,6 +274,21 @@ public class MailProcessor {
         logger.atWarning().log(
             "Could not parse any comments from %s. Will delete message.", message.id());
         sendRejectionEmail(message, InboundEmailRejectionSender.Error.PARSING_ERROR);
+        return;
+      }
+
+      ImmutableList<CommentForValidation> parsedCommentsForValidation =
+          parsedComments.stream()
+              .map(
+                  comment ->
+                      CommentForValidation.create(
+                          MAIL_COMMENT_TYPE_TO_VALIDATION_TYPE.get(comment.getType()),
+                          comment.getMessage()))
+              .collect(ImmutableList.toImmutableList());
+      List<CommentValidationFailure> commentValidationFailures =
+          PublishCommentUtil.findInvalidComments(commentValidators, parsedCommentsForValidation);
+      if (!commentValidationFailures.isEmpty()) {
+        sendRejectionEmail(message, InboundEmailRejectionSender.Error.COMMENT_REJECTED);
         return;
       }
 

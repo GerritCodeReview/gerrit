@@ -62,3 +62,8 @@
   This might be caused by an ongoing maintenance or a data corruption.
   {call .InboundEmailRejectionFooter /}
 {/template}
+
+{template .InboundEmailRejection_COMMENT_REJECTED kind="text"}
+  Gerrit Code Review rejected one or more comments because they did not pass validation.
+  {call .InboundEmailRejectionFooter /}
+{/template}

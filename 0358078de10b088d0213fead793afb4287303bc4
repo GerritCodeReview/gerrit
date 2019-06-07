@@ -16,6 +16,24 @@
       "revId": "0358078de10b088d0213fead793afb4287303bc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36388fdc_af17c5ef",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-06-07T09:37:07Z",
+      "side": 1,
+      "message": "Nothing changed here. The dom-module is literally the same.\n\nIf you do it the other way around, then the gr-app-wrapper is difficult  to review.\n\nYou could use a diff tool of your choice as a workaround to see a proper diff.\n\nI think it is better to keep gr-app the same looking from the outside.",
+      "parentUuid": "c2317a84_cabcbf15",
+      "revId": "0358078de10b088d0213fead793afb4287303bc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

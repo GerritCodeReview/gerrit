@@ -70,6 +70,24 @@
       "revId": "0358078de10b088d0213fead793afb4287303bc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ec9cd77d_3babd632",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-06-07T10:49:59Z",
+      "side": 1,
+      "message": "Thanks, I think that\u0027s probably as good as it gets. I hope fixing that build error is not causing a lot of extra work.\n\nYou might want to submit these as a \"topic\", so that external stuff that depends on gr-app breaks when one is merged but not the other.",
+      "parentUuid": "7ce6b359_beae2b0c",
+      "revId": "0358078de10b088d0213fead793afb4287303bc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

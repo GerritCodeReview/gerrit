@@ -52,6 +52,24 @@
       "revId": "0358078de10b088d0213fead793afb4287303bc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ce6b359_beae2b0c",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-06-07T10:27:39Z",
+      "side": 1,
+      "message": "There is no \"git cp\". I have squeezed a \"git mv\" commit in between. Hope that is what you wanted. It at least preserves the blame history of the the bigger chunk of the lines.",
+      "parentUuid": "9ada1361_71d347ef",
+      "revId": "0358078de10b088d0213fead793afb4287303bc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

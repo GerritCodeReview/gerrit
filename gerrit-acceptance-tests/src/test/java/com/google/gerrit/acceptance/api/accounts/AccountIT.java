@@ -1765,6 +1765,58 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(sender.getMessages().get(0).body()).contains("SSH keys have been deleted");
   }
 
+  @Test
+  @UseSsh
+  public void adminCanAddOrRemoveSshKeyOnOtherAccount() throws Exception {
+    // The test account should initially have exactly one ssh key
+    List<SshKeyInfo> info = gApi.accounts().id(user.username).listSshKeys();
+    assertThat(info).hasSize(1);
+    assertSequenceNumbers(info);
+    SshKeyInfo key = info.get(0);
+    String initial = AccountCreator.publicKey(user.sshKey, user.email);
+    assertThat(key.sshPublicKey).isEqualTo(initial);
+    accountIndexedCounter.assertNoReindex();
+
+    // Add a new key
+    sender.clear();
+    String newKey = AccountCreator.publicKey(AccountCreator.genSshKey(), user.email);
+    gApi.accounts().id(user.username).addSshKey(newKey);
+    info = gApi.accounts().id(user.username).listSshKeys();
+    assertThat(info).hasSize(2);
+    assertSequenceNumbers(info);
+    accountIndexedCounter.assertReindexOf(user);
+
+    // No email is sent when key is added by admin
+    assertThat(sender.getMessages()).isEmpty();
+
+    // Delete key
+    sender.clear();
+    gApi.accounts().id(user.username).deleteSshKey(1);
+    info = gApi.accounts().id(user.username).listSshKeys();
+    assertThat(info).hasSize(1);
+    accountIndexedCounter.assertReindexOf(user);
+
+    // No email is sent when key is deleted by admin
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  @UseSsh
+  public void userCannotAddSshKeyToOtherAccount() throws Exception {
+    String newKey = AccountCreator.publicKey(AccountCreator.genSshKey(), admin.email);
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    gApi.accounts().id(admin.username).addSshKey(newKey);
+  }
+
+  @Test
+  @UseSsh
+  public void userCannotDeleteSshKeyOfOtherAccount() throws Exception {
+    setApiUser(user);
+    exception.expect(ResourceNotFoundException.class);
+    gApi.accounts().id(admin.username).deleteSshKey(0);
+  }
+
   // reindex is tested by {@link AbstractQueryAccountsTest#reindex}
   @Test
   public void reindexPermissions() throws Exception {

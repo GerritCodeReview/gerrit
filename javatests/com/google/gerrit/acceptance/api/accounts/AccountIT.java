@@ -2044,6 +2044,17 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void adminCannotAddGpgKeyToOtherAccount() throws Exception {
+    TestKey key = validKeyWithoutExpiration();
+    addExternalIdEmail(user, "test1@example.com");
+
+    sender.clear();
+    setApiUser(admin);
+    exception.expect(ResourceNotFoundException.class);
+    addGpgKey(user, key.getPublicKeyArmored());
+  }
+
+  @Test
   public void reAddExistingGpgKey() throws Exception {
     addExternalIdEmail(admin, "test5@example.com");
     TestKey key = validKeyWithSecondUserId();
@@ -2086,6 +2097,7 @@ public class AccountIT extends AbstractDaemonTest {
     ResourceConflictException thrown =
         assertThrows(ResourceConflictException.class, () -> addGpgKey(key.getPublicKeyArmored()));
     assertThat(thrown).hasMessageThat().contains("GPG key already associated with another account");
+    addGpgKey(user, key.getPublicKeyArmored());
   }
 
   @Test
@@ -2241,6 +2253,63 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(info.get(0).valid).isFalse();
     assertThat(info.get(1).seq).isEqualTo(3);
     accountIndexedCounter.assertReindexOf(admin);
+  }
+
+  @Test
+  @UseSsh
+  public void adminCanAddOrRemoveSshKeyOnOtherAccount() throws Exception {
+    // The test account should initially have exactly one ssh key
+    List<SshKeyInfo> info = gApi.accounts().self().listSshKeys();
+    assertThat(info).hasSize(1);
+    assertSequenceNumbers(info);
+    SshKeyInfo key = info.get(0);
+    KeyPair keyPair = sshKeys.getKeyPair(admin);
+    String initial = TestSshKeys.publicKey(keyPair, admin.email());
+    assertThat(key.sshPublicKey).isEqualTo(initial);
+    accountIndexedCounter.assertNoReindex();
+
+    // Add a new key
+    sender.clear();
+    String newKey = TestSshKeys.publicKey(TestSshKeys.genSshKey(), user.email());
+    gApi.accounts().id(user.username()).addSshKey(newKey);
+    info = gApi.accounts().id(user.username()).listSshKeys();
+    assertThat(info).hasSize(2);
+    assertSequenceNumbers(info);
+    accountIndexedCounter.assertReindexOf(user);
+
+    assertThat(sender.getMessages()).hasSize(1);
+    Message message = sender.getMessages().get(0);
+    assertThat(message.rcpt()).containsExactly(user.emailAddress());
+    assertThat(message.body()).contains("new SSH keys have been added");
+
+    // Delete key
+    sender.clear();
+    gApi.accounts().id(user.username).deleteSshKey(1);
+    info = gApi.accounts().id(user.username).listSshKeys();
+    assertThat(info).hasSize(1);
+    accountIndexedCounter.assertReindexOf(user);
+
+    assertThat(sender.getMessages()).hasSize(1);
+    message = sender.getMessages().get(0);
+    assertThat(message.rcpt()).containsExactly(user.emailAddress());
+    assertThat(message.body()).contains("SSH keys have been deleted");
+  }
+
+  @Test
+  @UseSsh
+  public void userCannotAddSshKeyToOtherAccount() throws Exception {
+    String newKey = TestSshKeys.publicKey(TestSshKeys.genSshKey(), admin.email());
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    gApi.accounts().id(admin.username()).addSshKey(newKey);
+  }
+
+  @Test
+  @UseSsh
+  public void userCannotDeleteSshKeyOfOtherAccount() throws Exception {
+    setApiUser(user);
+    exception.expect(ResourceNotFoundException.class);
+    gApi.accounts().id(admin.username()).deleteSshKey(0);
   }
 
   // reindex is tested by {@link AbstractQueryAccountsTest#reindex}
@@ -3129,9 +3198,15 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   private Map<String, GpgKeyInfo> addGpgKey(String armored) throws Exception {
+    return addGpgKey(admin, armored);
+  }
+
+  private Map<String, GpgKeyInfo> addGpgKey(TestAccount account, String armored) throws Exception {
     Map<String, GpgKeyInfo> gpgKeys =
-        gApi.accounts().self().putGpgKeys(ImmutableList.of(armored), ImmutableList.of());
-    accountIndexedCounter.assertReindexOf(gApi.accounts().self().get());
+        gApi.accounts()
+            .id(account.username())
+            .putGpgKeys(ImmutableList.of(armored), ImmutableList.<String>of());
+    accountIndexedCounter.assertReindexOf(gApi.accounts().id(account.username()).get());
     return gpgKeys;
   }
 

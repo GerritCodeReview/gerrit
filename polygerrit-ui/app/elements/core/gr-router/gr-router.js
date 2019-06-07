@@ -226,7 +226,11 @@
     },
 
     _setParams(params) {
-      this._app.params = params;
+      this._appElement().params = params;
+    },
+
+    _appElement() {
+      return document.querySelector('#app-element');
     },
 
     _redirect(url) {
@@ -1468,7 +1472,7 @@
       // Note: the app's 404 display is tightly-coupled with catching 404
       // network responses, so we simulate a 404 response status to display it.
       // TODO: Decouple the gr-app error view from network responses.
-      this._app.dispatchEvent(new CustomEvent('page-error',
+      this._appElement().dispatchEvent(new CustomEvent('page-error',
           {detail: {response: {status: 404}}}));
     },
   });

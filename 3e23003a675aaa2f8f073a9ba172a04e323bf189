@@ -1,0 +1,186 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "178f7b13_73d07784",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-07T07:04:43Z",
+      "side": 1,
+      "message": "The first line of the commit message should explain in a tl;dr fashion what is contained in this change, the context usually goes into the body.\n\nHow about:\n\nValidate comments and message in PostSubmit using new interface\n\nThis commit adds logic to PostReview to validate all comments that get published as well as the change message through the new CommentValidationListener.\n\nTests cover both validation success and failure for these cases:\n- Publishing draft comments\n- Publishing comments directly\n- Adding a change message\n\nSurrounding logic is refactored where needed.",
+      "revId": "3e23003a675aaa2f8f073a9ba172a04e323bf189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37d284e6_bb6975ca",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-07T07:04:43Z",
+      "side": 1,
+      "message": "AbstractDaemonTest has unfortunately grow very large and every now and then we are trying to cut down it\u0027s scope, so for new things, we try not to add them to it.\n\nThis can just go in the test class itself.",
+      "revId": "3e23003a675aaa2f8f073a9ba172a04e323bf189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b25d1226_9d3e2cdb",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-07T07:04:43Z",
+      "side": 1,
+      "message": "This can be injected directly into the test class",
+      "revId": "3e23003a675aaa2f8f073a9ba172a04e323bf189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5555973c_5db8a679",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1472,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-07T07:04:43Z",
+      "side": 1,
+      "message": "Please use gApi directly where you need it.",
+      "revId": "3e23003a675aaa2f8f073a9ba172a04e323bf189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d55ce26_df43c447",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1485,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-07T07:04:43Z",
+      "side": 1,
+      "message": "Please put these in a Util class or the test class itself to keep AbstractDaemonTest from growing",
+      "revId": "3e23003a675aaa2f8f073a9ba172a04e323bf189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34092cd0_b77cfed2",
+        "filename": "javatests/com/google/gerrit/server/restapi/change/PostReviewIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-07T07:04:43Z",
+      "side": 1,
+      "message": "No Need to inject this, just use gApi.changes().id(\u003cthe id you want\u003e)",
+      "revId": "3e23003a675aaa2f8f073a9ba172a04e323bf189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e12c411e_34f53992",
+        "filename": "javatests/com/google/gerrit/server/restapi/change/PostReviewIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-07T07:04:43Z",
+      "side": 1,
+      "message": "Just use: gApi.changes().id(someid).current().review(ent)",
+      "revId": "3e23003a675aaa2f8f073a9ba172a04e323bf189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c06e1e8_4a9d6754",
+        "filename": "javatests/com/google/gerrit/server/restapi/change/PostReviewIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-07T07:04:43Z",
+      "side": 1,
+      "message": "this should not be necessary",
+      "range": {
+        "startLine": 66,
+        "startChar": 13,
+        "endLine": 66,
+        "endChar": 29
+      },
+      "revId": "3e23003a675aaa2f8f073a9ba172a04e323bf189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55bf6aa5_e15536e7",
+        "filename": "javatests/com/google/gerrit/server/restapi/change/PostReviewIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-07T07:04:43Z",
+      "side": 1,
+      "message": "Here and below:\n\nPushOneCommit.Result r \u003d createChange();\nr.getChange() then has all change details",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 43
+      },
+      "revId": "3e23003a675aaa2f8f073a9ba172a04e323bf189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62177e85_1e79619d",
+        "filename": "javatests/com/google/gerrit/server/restapi/change/PostReviewIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-07T07:04:43Z",
+      "side": 1,
+      "message": "This code will become easier when you use gApi",
+      "revId": "3e23003a675aaa2f8f073a9ba172a04e323bf189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

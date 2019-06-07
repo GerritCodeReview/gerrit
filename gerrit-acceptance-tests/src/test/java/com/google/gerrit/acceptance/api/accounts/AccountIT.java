@@ -1586,6 +1586,17 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void adminCannotAddGpgKeyToOtherAccount() throws Exception {
+    TestKey key = validKeyWithoutExpiration();
+    addExternalIdEmail(user, "test1@example.com");
+
+    sender.clear();
+    setApiUser(admin);
+    exception.expect(ResourceNotFoundException.class);
+    addGpgKey(user, key.getPublicKeyArmored());
+  }
+
+  @Test
   public void reAddExistingGpgKey() throws Exception {
     addExternalIdEmail(admin, "test5@example.com");
     TestKey key = validKeyWithSecondUserId();
@@ -1622,7 +1633,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("GPG key already associated with another account");
-    addGpgKey(key.getPublicKeyArmored());
+    addGpgKey(user, key.getPublicKeyArmored());
   }
 
   @Test
@@ -2189,9 +2200,15 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   private Map<String, GpgKeyInfo> addGpgKey(String armored) throws Exception {
+    return addGpgKey(admin, armored);
+  }
+
+  private Map<String, GpgKeyInfo> addGpgKey(TestAccount account, String armored) throws Exception {
     Map<String, GpgKeyInfo> gpgKeys =
-        gApi.accounts().self().putGpgKeys(ImmutableList.of(armored), ImmutableList.<String>of());
-    accountIndexedCounter.assertReindexOf(gApi.accounts().self().get());
+        gApi.accounts()
+            .id(account.username)
+            .putGpgKeys(ImmutableList.of(armored), ImmutableList.<String>of());
+    accountIndexedCounter.assertReindexOf(gApi.accounts().id(account.username).get());
     return gpgKeys;
   }
 

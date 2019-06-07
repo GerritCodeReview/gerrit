@@ -70,21 +70,26 @@ limitations under the License.
       sandbox.restore();
     });
 
+    appElement = () => {
+      return element.$['app-element'];
+    };
+
     test('reporting', () => {
-      assert.isTrue(element.$.reporting.appStarted.calledOnce);
+      assert.isTrue(appElement().$.reporting.appStarted.calledOnce);
     });
 
     test('passes config to gr-plugin-host', () => {
-      return element.$.restAPI.getConfig.lastCall.returnValue.then(config => {
-        assert.deepEqual(element.$.plugins.config, config);
+      const config = appElement().$.restAPI.getConfig;
+      return config.lastCall.returnValue.then(config => {
+        assert.deepEqual(appElement().$.plugins.config, config);
       });
     });
 
     test('_paramsChanged sets search page', () => {
-      element._paramsChanged({base: {view: Gerrit.Nav.View.CHANGE}});
-      assert.notOk(element._lastSearchPage);
-      element._paramsChanged({base: {view: Gerrit.Nav.View.SEARCH}});
-      assert.ok(element._lastSearchPage);
+      appElement()._paramsChanged({base: {view: Gerrit.Nav.View.CHANGE}});
+      assert.notOk(appElement()._lastSearchPage);
+      appElement()._paramsChanged({base: {view: Gerrit.Nav.View.SEARCH}});
+      assert.ok(appElement()._lastSearchPage);
     });
   });
 </script>

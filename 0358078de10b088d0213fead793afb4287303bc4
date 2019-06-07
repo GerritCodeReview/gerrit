@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2317a84_cabcbf15",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-06-07T09:31:53Z",
+      "side": 1,
+      "message": "Seems like Git does not get that this is forked, which breaks the blame history, and makes this review very complex. How about doing it the other way around: gr-app is what it always was, and gr-app-wrapper or *-setup or *-init or *-host is the thing you fork for init code?",
+      "revId": "0358078de10b088d0213fead793afb4287303bc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.raw;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Resources;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -28,6 +29,7 @@ import com.google.template.soy.tofu.SoyTofu;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
+import java.util.Map;
 import java.util.function.Function;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -67,14 +69,16 @@ public class IndexServlet extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     SoyTofu.Renderer renderer;
     try {
+      Map<String, String> parameterMap = req.getParameterMap();
       // TODO(hiesel): Remove URL ordainer as parameter once Soy is consistent
+      ImmutableMap<String, Object> templateData =
+          IndexHtmlUtil.templateData(
+              gerritApi, canonicalUrl, cdnPath, faviconPath, parameterMap, urlOrdainer);
       renderer =
           soyTofu
               .newRenderer("com.google.gerrit.httpd.raw.Index")
               .setContentKind(SanitizedContent.ContentKind.HTML)
-              .setData(
-                  IndexHtmlUtil.templateData(
-                      gerritApi, canonicalUrl, cdnPath, faviconPath, urlOrdainer));
+              .setData(templateData);
     } catch (URISyntaxException | RestApiException e) {
       throw new IOException(e);
     }

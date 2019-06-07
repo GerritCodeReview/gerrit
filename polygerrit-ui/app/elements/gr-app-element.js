@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
+ * Copyright (C) 2019 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,16 +17,8 @@
 (function() {
   'use strict';
 
-  // Eagerly render Polymer components when backgrounded. (Skips
-  // requestAnimationFrame.)
-  // @see https://github.com/Polymer/polymer/issues/3851
-  // @see Issue 4699
-  if (!window.POLYMER2) {
-    Polymer.RenderStatus._makeReady();
-  }
-
   Polymer({
-    is: 'gr-app',
+    is: 'gr-app-element',
     _legacyUndefinedCheck: true,
 
     /**

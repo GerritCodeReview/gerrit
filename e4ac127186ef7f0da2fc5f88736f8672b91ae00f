@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b6c74c53_34f70a32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-06-07T08:46:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "740c626b_0b7ded5b",
+      "revId": "e4ac127186ef7f0da2fc5f88736f8672b91ae00f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "935fcece_d030d2fb",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -33,6 +51,24 @@
       "revId": "e4ac127186ef7f0da2fc5f88736f8672b91ae00f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b04f9782_5895ca56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-06-07T08:46:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "935fcece_d030d2fb",
+      "revId": "e4ac127186ef7f0da2fc5f88736f8672b91ae00f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "d149f650_8aa0b4c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-06-07T08:46:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c50457d1_4deb8a15",
+      "revId": "e4ac127186ef7f0da2fc5f88736f8672b91ae00f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f6d9a07_7cc8e4cc",
         "filename": "java/com/google/gerrit/extensions/validators/CommentForValidation.java",
         "patchSetId": 6
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "cabc33cf_71c97c08",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentForValidation.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-06-07T08:46:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f6d9a07_7cc8e4cc",
+      "revId": "e4ac127186ef7f0da2fc5f88736f8672b91ae00f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4f1c4d4_0bad7294",
         "filename": "java/com/google/gerrit/extensions/validators/CommentValidationFailure.java",
         "patchSetId": 6
@@ -81,6 +153,30 @@
       "writtenOn": "2019-06-06T14:55:11Z",
       "side": 1,
       "message": "Can this be a CommentValidationResult instead?\n\nThat leaves options for the future in case we would want to return warnings meaning it is still OK to publish but we want to present the user with some message.",
+      "range": {
+        "startLine": 21,
+        "startChar": 39,
+        "endLine": 21,
+        "endChar": 46
+      },
+      "revId": "e4ac127186ef7f0da2fc5f88736f8672b91ae00f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "231c3e34_50271a17",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidationFailure.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-06-07T08:46:10Z",
+      "side": 1,
+      "message": "I know we discussed it like that, but then it seemed overly complex to have to search through lists of results to see if one has a failure status. I see your point about non-binary status in the future, but shouldn\u0027t we add that only when it\u0027s actually needed? Otherwise we introduce complexity for a potential future use case that might not materialize for a while.",
+      "parentUuid": "e4f1c4d4_0bad7294",
       "range": {
         "startLine": 21,
         "startChar": 39,
@@ -116,6 +212,53 @@
     },
     {
       "key": {
+        "uuid": "00baf6d9_cbe8df71",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidationListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-06-07T08:46:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e815b3d7_a462e691",
+      "range": {
+        "startLine": 25,
+        "startChar": 34,
+        "endLine": 25,
+        "endChar": 42
+      },
+      "revId": "e4ac127186ef7f0da2fc5f88736f8672b91ae00f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e8e58c7_7f574f85",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidationListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-06-07T08:46:10Z",
+      "side": 1,
+      "message": "I moved this to CommentForValidation because that seemed like a better fit: It is referenced by that class, but not by CommentValidator.",
+      "range": {
+        "startLine": 28,
+        "startChar": 7,
+        "endLine": 28,
+        "endChar": 18
+      },
+      "revId": "e4ac127186ef7f0da2fc5f88736f8672b91ae00f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8bb45284_8f675fa6",
         "filename": "java/com/google/gerrit/extensions/validators/CommentValidationListener.java",
         "patchSetId": 6
@@ -139,6 +282,30 @@
     },
     {
       "key": {
+        "uuid": "441899d9_5f7a9388",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidationListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-06-07T08:46:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bb45284_8f675fa6",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 26
+      },
+      "revId": "e4ac127186ef7f0da2fc5f88736f8672b91ae00f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e1addec4_cee37c17",
         "filename": "java/com/google/gerrit/extensions/validators/CommentValidationListener.java",
         "patchSetId": 6
@@ -159,6 +326,30 @@
       "revId": "e4ac127186ef7f0da2fc5f88736f8672b91ae00f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "530c4b53_3ab9b56e",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidationListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-06-07T08:46:10Z",
+      "side": 1,
+      "message": "I think we are anticipating what information a plugin might need. But I agree that we should keep it simple unless there is a concrete use case, so removing.",
+      "parentUuid": "e1addec4_cee37c17",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 28
+      },
+      "revId": "e4ac127186ef7f0da2fc5f88736f8672b91ae00f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

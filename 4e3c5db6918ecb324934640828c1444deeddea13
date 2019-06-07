@@ -34,6 +34,24 @@
       "revId": "4e3c5db6918ecb324934640828c1444deeddea13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d035ecc6_b499a34f",
+        "filename": ".bazelversion",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-06-07T07:30:02Z",
+      "side": 1,
+      "message": "\u003e This is not accurate.\n\u003e\n\u003e 1. The minimum supported Bazel version we are checking against in WORKSPACE is 0.25.0.\n\u003e 2. The Bazel version currently installed on GerritForge CI and defined in Docker bazel image is 0.25.0.\n\u003e \n\u003e However, this is not a contradiction to specify a newer Bazel version in .bazelversion to use \u003e with Bazelisk.\n\nI was aware of that. However, IMHO it would be more consistent to use the same version and it would assure that users of bazelisk actually produce the same result as our CI. As I previously mentioned, there were some breaking changes, which required us to change the Gerrit code to work with a newer version of bazel (e.g. the issue with the standalone builds of plugins breaking the ability to in-tree build multiple plugins with external dependencies, which we are facing right now.). So setting the version to a newer version than we use for the \"official\" builds, might increase the chance for issues that come up for developers. Thus, I thought having the current version used for our CI (and release?) builds, would be a sensible default, still leaving the option for each developer to set a newer version for his-/herself.\nThat being said (just to clarify what I\u0027ve meant), I still like the idea of using bazelisk a lot. Thanks for bringing it up, David :-).",
+      "parentUuid": "9b66c56c_a36d8bee",
+      "revId": "4e3c5db6918ecb324934640828c1444deeddea13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -17,21 +17,42 @@ package com.google.gerrit.httpd.raw;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.httpd.raw.IndexHtmlUtil.staticTemplateData;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.template.soy.data.SanitizedContent;
 import com.google.template.soy.data.UnsafeSanitizedContentOrdainer;
+import java.util.HashMap;
 import org.junit.Test;
 
 public class IndexHtmlUtilTest {
   @Test
+  public void polymer2() throws Exception {
+    assertThat(
+            staticTemplateData(
+                "http://example.com/",
+                null,
+                null,
+                ImmutableMap.of("polymer2", new String[0]),
+                IndexHtmlUtilTest::ordain))
+        .containsExactly("canonicalPath", "", "polymer2", "true", "staticResourcePath", ordain(""));
+  }
+
+  @Test
   public void noPathAndNoCDN() throws Exception {
-    assertThat(staticTemplateData("http://example.com/", null, null, IndexHtmlUtilTest::ordain))
+    assertThat(
+            staticTemplateData(
+                "http://example.com/", null, null, new HashMap<>(), IndexHtmlUtilTest::ordain))
         .containsExactly("canonicalPath", "", "staticResourcePath", ordain(""));
   }
 
   @Test
   public void pathAndNoCDN() throws Exception {
     assertThat(
-            staticTemplateData("http://example.com/gerrit/", null, null, IndexHtmlUtilTest::ordain))
+            staticTemplateData(
+                "http://example.com/gerrit/",
+                null,
+                null,
+                new HashMap<>(),
+                IndexHtmlUtilTest::ordain))
         .containsExactly("canonicalPath", "/gerrit", "staticResourcePath", ordain("/gerrit"));
   }
 
@@ -42,6 +63,7 @@ public class IndexHtmlUtilTest {
                 "http://example.com/",
                 "http://my-cdn.com/foo/bar/",
                 null,
+                new HashMap<>(),
                 IndexHtmlUtilTest::ordain))
         .containsExactly(
             "canonicalPath", "", "staticResourcePath", ordain("http://my-cdn.com/foo/bar/"));
@@ -54,6 +76,7 @@ public class IndexHtmlUtilTest {
                 "http://example.com/gerrit",
                 "http://my-cdn.com/foo/bar/",
                 null,
+                new HashMap<>(),
                 IndexHtmlUtilTest::ordain))
         .containsExactly(
             "canonicalPath", "/gerrit", "staticResourcePath", ordain("http://my-cdn.com/foo/bar/"));

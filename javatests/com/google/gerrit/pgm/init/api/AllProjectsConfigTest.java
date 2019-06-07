@@ -15,8 +15,6 @@
 package com.google.gerrit.pgm.init.api;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.easymock.EasyMock.createStrictMock;
-import static org.easymock.EasyMock.replay;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.server.config.SitePaths;
@@ -37,11 +35,17 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
+@RunWith(MockitoJUnitRunner.class)
 public class AllProjectsConfigTest {
   private static final String ALL_PROJECTS = "All-The-Projects";
 
   @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
+
+  @Mock ConsoleUI ui;
 
   private SitePaths sitePaths;
   private AllProjectsConfig allProjectsConfig;
@@ -70,8 +74,6 @@ public class AllProjectsConfigTest {
 
     InMemorySecureStore secureStore = new InMemorySecureStore();
     InitFlags flags = new InitFlags(sitePaths, secureStore, ImmutableList.of(), false);
-    ConsoleUI ui = createStrictMock(ConsoleUI.class);
-    replay(ui);
     Section.Factory sections =
         (name, subsection) -> new Section(flags, sitePaths, secureStore, ui, name, subsection);
     allProjectsConfig =

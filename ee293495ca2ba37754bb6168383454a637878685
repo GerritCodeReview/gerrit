@@ -16,6 +16,24 @@
       "revId": "ee293495ca2ba37754bb6168383454a637878685",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e54f5c80_b6c0ee9c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1596,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-07T06:01:23Z",
+      "side": 1,
+      "message": "I don\u0027t see the point of such a comment; the purpose of the test is to demonstrate that it\u0027s not possible, and I don\u0027t think there\u0027s any intention to implement it.  TBH I\u0027m not sure why it\u0027s even possible for SSH keys.",
+      "parentUuid": "f8214361_686e7aab",
+      "revId": "ee293495ca2ba37754bb6168383454a637878685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

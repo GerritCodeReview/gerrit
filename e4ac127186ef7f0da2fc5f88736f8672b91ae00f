@@ -93,6 +93,29 @@
     },
     {
       "key": {
+        "uuid": "e815b3d7_a462e691",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidationListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-07T07:05:55Z",
+      "side": 1,
+      "message": "nit: I would not call this a listener, we are more and more moving away from that naming pattern. \"CommentValidator\" would be a better fit in my opinion.",
+      "range": {
+        "startLine": 25,
+        "startChar": 34,
+        "endLine": 25,
+        "endChar": 42
+      },
+      "revId": "e4ac127186ef7f0da2fc5f88736f8672b91ae00f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8bb45284_8f675fa6",
         "filename": "java/com/google/gerrit/extensions/validators/CommentValidationListener.java",
         "patchSetId": 6

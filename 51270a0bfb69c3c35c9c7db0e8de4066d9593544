@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "988e8abe_020c600e",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1593,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-07T07:17:53Z",
+      "side": 1,
+      "message": "I think we should split this method up. Right now, we are using it\u0027s returned value to set commentsValid, which then changes the returned value of this method.\n\nHow about:\n/** Returns true if the user settings, host settings or push options instruct us to publish comments. */\nprivate publishingCommentsDesired()\n\n/** Returns true if the BatchUpdateOp must publish draft comments. True iff all comments passed validation and user settings, host settings or push options instruct us to publish comments. */\npublishComments()",
+      "revId": "51270a0bfb69c3c35c9c7db0e8de4066d9593544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64b950cc_8e271853",
+        "filename": "javatests/com/google/gerrit/acceptance/server/git/receive/ReceiveCommitsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-07T07:17:53Z",
+      "side": 1,
+      "message": "Please assert the result of the amendChange",
+      "revId": "51270a0bfb69c3c35c9c7db0e8de4066d9593544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0563daaa_81e83c20",
+        "filename": "javatests/com/google/gerrit/acceptance/server/git/receive/ReceiveCommitsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-07T07:17:53Z",
+      "side": 1,
+      "message": "Please assert the result of amendChange and see if you get the expected message.",
+      "revId": "51270a0bfb69c3c35c9c7db0e8de4066d9593544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

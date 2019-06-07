@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8214361_686e7aab",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1596,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-07T05:58:35Z",
+      "side": 1,
+      "message": "Optional: Add a one liner explaining that adding gpg key on behalf of another user is currently not supported.",
+      "revId": "ee293495ca2ba37754bb6168383454a637878685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

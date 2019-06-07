@@ -52,6 +52,24 @@
       "revId": "4e3c5db6918ecb324934640828c1444deeddea13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f89e9814_93efbe5b",
+        "filename": ".bazelversion",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-07T07:47:17Z",
+      "side": 1,
+      "message": "\u003e So setting the version to a newer version than we use for the \"official\" builds, might increase the chance for issues that come up for developers.\n\nYes, my intention is to find out critical build issues ASAP, and yes, break developers and their workflow. That what is master branch is for.\n\nSee for example this severe java runtime mismatch regression in upcoming Bazel release, that was fixed yesterday: [1]. Also note, that Bazel team promises to do less incompatible changes at least in near future: [3].\n\n* [1] https://github.com/bazelbuild/bazel/issues/8539\n* [2] https://github.com/bazelbuild/bazel/issues/7816#issuecomment-499358541\n* [3] https://groups.google.com/d/topic/bazel-discuss/I84fBAla-sk/discussion",
+      "parentUuid": "d035ecc6_b499a34f",
+      "revId": "4e3c5db6918ecb324934640828c1444deeddea13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

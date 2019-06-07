@@ -87,6 +87,23 @@
     },
     {
       "key": {
+        "uuid": "ec5269a7_43ed001d",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1511,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-07T07:20:29Z",
+      "side": 1,
+      "message": "This essentially created a mock. I would remove it. If you want a mock to assert calls, please use easymock.\n\nInstead, I would just validate the outcomes as you already do in your test and check if the validation message matches in case of failure.",
+      "revId": "3e23003a675aaa2f8f073a9ba172a04e323bf189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "34092cd0_b77cfed2",
         "filename": "javatests/com/google/gerrit/server/restapi/change/PostReviewIT.java",
         "patchSetId": 1

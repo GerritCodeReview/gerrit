@@ -8,6 +8,8 @@ You need to use Python (2 or 3), Java 8, and Node.js for building gerrit.
 You can install Bazel from the bazel.io:
 https://www.bazel.io/versions/master/docs/install.html
 
+Alternatively use Bazelisk to use the latest supported Bazel version on
+different stable branches: https://github.com/bazelbuild/bazelisk.
 
 [[build]]
 == Building on the Command Line

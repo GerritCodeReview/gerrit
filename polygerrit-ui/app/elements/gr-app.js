@@ -21,9 +21,7 @@
   // requestAnimationFrame.)
   // @see https://github.com/Polymer/polymer/issues/3851
   // @see Issue 4699
-  if (!window.POLYMER2) {
-    Polymer.RenderStatus._makeReady();
-  }
+  Polymer.RenderStatus._makeReady();
 
   Polymer({
     is: 'gr-app',

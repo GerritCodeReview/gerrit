@@ -90,9 +90,9 @@
     <link rel="import" href="{$assetsPath}/{$assetsBundle}">{\n}
   {/if}
 
-  <link rel="preload" href="{$staticResourcePath}/elements/gr-app.js" as="script" crossorigin="anonymous">{\n}
-  <link rel="import" href="{$staticResourcePath}/elements/gr-app.html">{\n}
+  <link rel="preload" href="{$staticResourcePath}/elements/gr-app{if $polymer2}-p2{/if}.js" as="script" crossorigin="anonymous">{\n}
+  <link rel="import" href="{$staticResourcePath}/elements/gr-app{if $polymer2}-p2{/if}.html">{\n}
 
   <body unresolved>{\n}
-  <gr-app id="app"></gr-app>{\n}
+  <{if $polymer2}gr-app-p2{else}gr-app{/if} id="app"></gr-app>{\n}
 {/template}

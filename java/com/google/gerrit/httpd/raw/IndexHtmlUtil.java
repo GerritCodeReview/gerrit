@@ -49,10 +49,12 @@ public class IndexHtmlUtil {
       String canonicalURL,
       String cdnPath,
       String faviconPath,
+      Map<String, String> urlParameterMap,
       Function<String, SanitizedContent> urlInScriptTagOrdainer)
       throws URISyntaxException, RestApiException {
     return ImmutableMap.<String, Object>builder()
-        .putAll(staticTemplateData(canonicalURL, cdnPath, faviconPath, urlInScriptTagOrdainer))
+        .putAll(staticTemplateData(
+            canonicalURL, cdnPath, faviconPath, urlParameterMap, urlInScriptTagOrdainer))
         .putAll(dynamicTemplateData(gerritApi))
         .build();
   }
@@ -94,6 +96,7 @@ public class IndexHtmlUtil {
       String canonicalURL,
       String cdnPath,
       String faviconPath,
+      Map<String, String> urlParameterMap,
       Function<String, SanitizedContent> urlInScriptTagOrdainer)
       throws URISyntaxException {
     String canonicalPath = computeCanonicalPath(canonicalURL);
@@ -115,6 +118,9 @@ public class IndexHtmlUtil {
     }
     if (faviconPath != null) {
       data.put("faviconPath", faviconPath);
+    }
+    if (urlParameterMap.containsKey("p2")) {
+      data.put("polymer2", "true");
     }
     return data.build();
   }

@@ -67,14 +67,16 @@ public class IndexServlet extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     SoyTofu.Renderer renderer;
     try {
+      Map<String, String> parameterMap = req.getParameterMap();
       // TODO(hiesel): Remove URL ordainer as parameter once Soy is consistent
+      ImmutableMap<String, Object> templateData = IndexHtmlUtil.templateData(
+          gerritApi, canonicalUrl, cdnPath, faviconPath, parameterMap,
+          urlOrdainer);
       renderer =
           soyTofu
               .newRenderer("com.google.gerrit.httpd.raw.Index")
               .setContentKind(SanitizedContent.ContentKind.HTML)
-              .setData(
-                  IndexHtmlUtil.templateData(
-                      gerritApi, canonicalUrl, cdnPath, faviconPath, urlOrdainer));
+              .setData(templateData);
     } catch (URISyntaxException | RestApiException e) {
       throw new IOException(e);
     }

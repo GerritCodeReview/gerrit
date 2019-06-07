@@ -42,7 +42,14 @@
     {if $versionInfo}window.VERSION_INFO = '{$versionInfo}';{/if}
     {if $staticResourcePath != ''}window.STATIC_RESOURCE_PATH = '{$staticResourcePath}';{/if}
     {if $assetsPath}window.ASSETS_PATH = '{$assetsPath}';{/if}
-    {if $polymer2}window.POLYMER2 = true;{/if}
+    {if $polymer2}
+      {literal}
+        window.POLYMER2 = true;
+        if (window.customElements) window.customElements.forcePolyfill = true;
+        ShadyDOM = { force: true };
+        ShadyCSS = { shimcssproperties: true};
+      {/literal}
+    {/if}
     {if $gerritInitialData}
       // INITIAL_DATA is a string that represents a JSON map. It's inlined here so that we can
       // spare calls to the API when starting up the app.

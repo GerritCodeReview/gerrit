@@ -17,13 +17,9 @@ package com.google.gerrit.server.mail.send;
 import com.google.common.base.Joiner;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountSshKey;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.util.Collections;
@@ -36,22 +32,14 @@ public class DeleteKeySender extends OutgoingEmail {
     DeleteKeySender create(IdentifiedUser user, List<String> gpgKeyFingerprints);
   }
 
-  private final PermissionBackend permissionBackend;
-  private final IdentifiedUser callingUser;
   private final IdentifiedUser user;
   private final AccountSshKey sshKey;
   private final List<String> gpgKeyFingerprints;
 
   @AssistedInject
   public DeleteKeySender(
-      EmailArguments ea,
-      PermissionBackend permissionBackend,
-      IdentifiedUser callingUser,
-      @Assisted IdentifiedUser user,
-      @Assisted AccountSshKey sshKey) {
+      EmailArguments ea, @Assisted IdentifiedUser user, @Assisted AccountSshKey sshKey) {
     super(ea, "deletekey");
-    this.permissionBackend = permissionBackend;
-    this.callingUser = callingUser;
     this.user = user;
     this.gpgKeyFingerprints = Collections.emptyList();
     this.sshKey = sshKey;
@@ -59,14 +47,8 @@ public class DeleteKeySender extends OutgoingEmail {
 
   @AssistedInject
   public DeleteKeySender(
-      EmailArguments ea,
-      PermissionBackend permissionBackend,
-      IdentifiedUser callingUser,
-      @Assisted IdentifiedUser user,
-      @Assisted List<String> gpgKeyFingerprints) {
+      EmailArguments ea, @Assisted IdentifiedUser user, @Assisted List<String> gpgKeyFingerprints) {
     super(ea, "deletekey");
-    this.permissionBackend = permissionBackend;
-    this.callingUser = callingUser;
     this.user = user;
     this.gpgKeyFingerprints = gpgKeyFingerprints;
     this.sshKey = null;
@@ -81,20 +63,7 @@ public class DeleteKeySender extends OutgoingEmail {
 
   @Override
   protected boolean shouldSendMessage() {
-    if (user.equals(callingUser)) {
-      // Send email if the user self-removed a key; this notification is necessary to alert
-      // the user if their account was compromised and a key was unexpectedly deleted.
-      return true;
-    }
-
-    try {
-      // Don't email if an administrator removed a key on behalf of the user.
-      permissionBackend.user(callingUser).check(GlobalPermission.ADMINISTRATE_SERVER);
-      return false;
-    } catch (AuthException | PermissionBackendException e) {
-      // Send email if a non-administrator modified the keys, e.g. by MODIFY_ACCOUNT.
-      return true;
-    }
+    return true;
   }
 
   @Override

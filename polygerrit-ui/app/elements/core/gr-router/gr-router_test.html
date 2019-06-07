@@ -677,11 +677,12 @@ limitations under the License.
       });
 
       test('_handleDefaultRoute', () => {
-        element._app = {dispatchEvent: sinon.stub()};
+        const appElementStub = {dispatchEvent: sinon.stub()};
+        element._appElement = () => appElementStub;
         element._handleDefaultRoute();
-        assert.isTrue(element._app.dispatchEvent.calledOnce);
+        assert.isTrue(appElementStub.dispatchEvent.calledOnce);
         assert.equal(
-            element._app.dispatchEvent.lastCall.args[0].detail.response.status,
+            appElementStub.dispatchEvent.lastCall.args[0].detail.response.status,
             404);
       });
 

@@ -1,6 +1,6 @@
 <!--
 @license
-Copyright (C) 2015 The Android Open Source Project
+Copyright (C) 2019 The Android Open Source Project
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,36 +14,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<script>
-  if (!window.POLYMER2) {
-    // This must be set prior to loading Polymer for the first time.
-    if (localStorage.getItem('USE_SHADOW_DOM') === 'true') {
-      window.Polymer = {
-        dom: 'shadow',
-        passiveTouchGestures: true,
-      };
-    } else if (!window.Polymer) {
-      window.Polymer = {
-        passiveTouchGestures: true,
-      };
-    }
-  }
-  window.Gerrit = window.Gerrit || {};
-</script>
+<script src="/bower_components/moment/moment.js"></script>
+<script src="../scripts/util.js"></script>
 
 <link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/polymer-resin/standalone/polymer-resin.html">
-<link rel="import" href="/bower_components/polymer/lib/legacy/legacy-data-mixin.html">
-<link rel="import" href="../behaviors/safe-types-behavior/safe-types-behavior.html">
-<script>
-  security.polymer_resin.install({
-    allowedIdentifierPrefixes: [''],
-    reportHandler: security.polymer_resin.CONSOLE_LOGGING_REPORT_HANDLER,
-    safeTypesBridge: Gerrit.SafeTypes.safeTypesBridge,
-  });
-</script>
-<script src="/bower_components/moment/moment.js"></script>
-
 <link rel="import" href="../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../styles/shared-styles.html">
@@ -73,9 +47,7 @@ limitations under the License.
 <link rel="import" href="./shared/gr-lib-loader/gr-lib-loader.html">
 <link rel="import" href="./shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
-<script src="../scripts/util.js"></script>
-
-<dom-module id="gr-app">
+<dom-module id="gr-app-element">
   <template>
     <style include="shared-styles">
       :host {
@@ -256,5 +228,5 @@ limitations under the License.
     <gr-lib-loader id="libLoader"></gr-lib-loader>
     <gr-external-style id="externalStyle" name="app-theme"></gr-external-style>
   </template>
-  <script src="gr-app.js" crossorigin="anonymous"></script>
+  <script src="gr-app-element.js" crossorigin="anonymous"></script>
 </dom-module>

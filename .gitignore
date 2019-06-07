@@ -6,7 +6,6 @@
 *.swp
 *~
 .DS_Store
-.gwt_work_dir
 /.apt_generated
 /.apt_generated_tests
 /.bazel_path
@@ -27,7 +26,6 @@
 /eclipse-out
 /extras
 /gerrit-package-plugins
-/gwt-unitCache
 /infer-out
 /local.properties
 /node_modules/

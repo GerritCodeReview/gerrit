@@ -34,6 +34,24 @@
       "revId": "0358078de10b088d0213fead793afb4287303bc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ada1361_71d347ef",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-06-07T09:42:40Z",
+      "side": 1,
+      "message": "I could, but the blame history is still broken. Other idea: Does it get better if we split this commit into multiple, i.e.\n\n1) git cp gr-app to gr-app-element - do not use it, and do not change anything yet - I suppose a cp would not break the blame history?\n2) Make the changes.",
+      "parentUuid": "36388fdc_af17c5ef",
+      "revId": "0358078de10b088d0213fead793afb4287303bc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -147,7 +147,7 @@ def _maven_jar_impl(ctx):
     out = ctx.execute(args)
 
     if out.return_code:
-        fail("failed %s: %s" % (" ".join(args), out.stderr))
+        fail("failed %s: %s" % (args, out.stderr))
 
     srcjar = None
     if ctx.attr.src_sha1 or ctx.attr.attach_source:

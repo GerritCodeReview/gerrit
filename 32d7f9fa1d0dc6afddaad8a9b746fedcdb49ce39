@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddd194d7_9b1aeeb4",
+        "filename": "WORKSPACE",
+        "patchSetId": 13
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-08T15:56:41Z",
+      "side": 1,
+      "message": "Mention, that this dependency was also updated?",
+      "range": {
+        "startLine": 811,
+        "startChar": 31,
+        "endLine": 811,
+        "endChar": 42
+      },
+      "revId": "32d7f9fa1d0dc6afddaad8a9b746fedcdb49ce39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfa3d588_02d8e64d",
+        "filename": "WORKSPACE",
+        "patchSetId": 13
+      },
+      "lineNbr": 817,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-08T15:56:41Z",
+      "side": 1,
+      "message": "Mention, that this dependency was also updated?",
+      "range": {
+        "startLine": 817,
+        "startChar": 32,
+        "endLine": 817,
+        "endChar": 48
+      },
+      "revId": "32d7f9fa1d0dc6afddaad8a9b746fedcdb49ce39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

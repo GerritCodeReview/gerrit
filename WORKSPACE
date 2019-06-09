@@ -983,12 +983,6 @@ maven_jar(
 )
 
 maven_jar(
-    name = "jetty-servlets",
-    artifact = "org.eclipse.jetty:jetty-servlets:" + JETTY_VERS,
-    sha1 = "38cfc07b53e5d285bb2fca78bb2531565ed9c9e5",
-)
-
-maven_jar(
     name = "jetty-server",
     artifact = "org.eclipse.jetty:jetty-server:" + JETTY_VERS,
     sha1 = "b36a3d52d78a1df6406f6fa236a6eeff48cbfef6",

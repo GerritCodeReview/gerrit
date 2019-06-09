@@ -15,13 +15,6 @@ java_library(
 )
 
 java_library(
-    name = "servlets",
-    data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
-    exports = ["@jetty-servlets//jar"],
-)
-
-java_library(
     name = "server",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],

@@ -772,7 +772,7 @@ maven_jar(
 )
 
 # When updating Bouncy Castle, also update it in bazlets.
-BC_VERS = "1.60"
+BC_VERS = "1.61"
 
 maven_jar(
     name = "bcprov",

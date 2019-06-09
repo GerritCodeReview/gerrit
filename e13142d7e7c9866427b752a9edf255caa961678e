@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f43909a_699639b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-09T09:37:36Z",
+      "side": 1,
+      "message": "Nit: We usually call the dependencies according to their Central artifact name, also just bouncycastle in this case, see for example previous upgrade: [1].\n\n* [1] https://gerrit-review.googlesource.com/c/bazlets/+/203514",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "e13142d7e7c9866427b752a9edf255caa961678e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "442c7aae_0a59fa89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-09T09:37:36Z",
+      "side": 1,
+      "message": "The day before yesterday 1.62 version was released: [2]. I would prefer to upgrade bc to the latest available version, unless we have reasons not to, that should be explicitly specified in the commit message.\n\n* [2] http://central.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/1.62",
+      "range": {
+        "startLine": 7,
+        "startChar": 33,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "e13142d7e7c9866427b752a9edf255caa961678e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

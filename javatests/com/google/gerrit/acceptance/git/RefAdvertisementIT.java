@@ -122,13 +122,10 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   @ConfigSuite.Config
-  public static Config enableRefPermissionBackend() {
+  public static Config enableAdvertiseRefsHook() {
     Config cfg = new Config();
     cfg.setString(
-        "receive",
-        null,
-        "refPermissionBackend",
-        RefPermissionBackend.PERMISSION_AWARE_REF_DATABASE.name());
+        "receive", null, "refPermissionBackend", RefPermissionBackend.ADVERTISE_REF_HOOK.name());
     return cfg;
   }
 

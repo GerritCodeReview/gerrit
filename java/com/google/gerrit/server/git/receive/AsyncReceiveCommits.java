@@ -277,7 +277,12 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     Project.NameKey projectName = projectState.getNameKey();
     this.perm = permissionBackend.user(user).project(projectName);
 
-    receivePack = new ReceivePack(PermissionAwareRepositoryManager.wrap(repo, perm));
+    receivePack =
+        transferConfig.getRefPermissionBackend().isPermissionAwareRefDatabase()
+            ? new ReceivePack(
+                PermissionAwareRepositoryManager.wrap(
+                    repo, perm))
+            : new ReceivePack(repo);
     receivePack.setAllowCreates(true);
     receivePack.setAllowDeletes(true);
     receivePack.setAllowNonFastForwards(true);
@@ -301,8 +306,11 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     List<AdvertiseRefsHook> advHooks = new ArrayList<>(4);
     allRefsWatcher = new AllRefsWatcher();
     advHooks.add(allRefsWatcher);
-    advHooks.add(
-        new DefaultAdvertiseRefsHook(perm, RefFilterOptions.builder().setFilterMeta(true).build()));
+    if (!transferConfig.getRefPermissionBackend().isPermissionAwareRefDatabase()) {
+      advHooks.add(
+          new DefaultAdvertiseRefsHook(
+              perm, RefFilterOptions.builder().setFilterMeta(true).build()));
+    }
     advHooks.add(new ReceiveCommitsAdvertiseRefsHook(queryProvider, projectName));
     advHooks.add(new HackPushNegotiateHook());
     receivePack.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));

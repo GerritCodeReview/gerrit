@@ -73,6 +73,7 @@ class Helper {
   private final String password;
   private final String referral;
   private final boolean startTls;
+  private final boolean supportAnonymous;
   private final boolean sslVerify;
   private final String authentication;
   private volatile LdapSchema ldapSchema;
@@ -91,6 +92,7 @@ class Helper {
     this.password = LdapRealm.optional(config, "password", "");
     this.referral = LdapRealm.optional(config, "referral", "ignore");
     this.startTls = config.getBoolean("ldap", "startTls", false);
+    this.supportAnonymous = config.getBoolean("ldap", "supportAnonymous", true);
     this.sslVerify = config.getBoolean("ldap", "sslverify", true);
     this.groupsVisibleToAll = config.getBoolean("ldap", "groupsVisibleToAll", false);
     this.authentication = LdapRealm.optional(config, "authentication", "simple");
@@ -170,8 +172,15 @@ class Helper {
     if ("GSSAPI".equals(authentication)) {
       return kerberosOpen(env);
     }
+
+    if (!supportAnonymous && username != null) {
+      env.put(Context.SECURITY_PRINCIPAL, username);
+      env.put(Context.SECURITY_CREDENTIALS, password);
+    }
+
     LdapContext ctx = createContext(env);
-    if (username != null) {
+
+    if (supportAnonymous && username != null) {
       ctx.addToEnvironment(Context.SECURITY_PRINCIPAL, username);
       ctx.addToEnvironment(Context.SECURITY_CREDENTIALS, password);
       ctx.reconnect(null);

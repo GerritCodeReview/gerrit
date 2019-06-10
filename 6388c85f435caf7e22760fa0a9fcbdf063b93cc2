@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "efd74a1b_0f292b3d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2966,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-10T10:56:05Z",
+      "side": 1,
+      "message": "\"only at\"?",
+      "range": {
+        "startLine": 2966,
+        "startChar": 42,
+        "endLine": 2966,
+        "endChar": 45
+      },
+      "revId": "6388c85f435caf7e22760fa0a9fcbdf063b93cc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4131f25a_b01e0f84",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2967,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-10T10:56:05Z",
+      "side": 1,
+      "message": "implementations",
+      "range": {
+        "startLine": 2967,
+        "startChar": 16,
+        "endLine": 2967,
+        "endChar": 30
+      },
+      "revId": "6388c85f435caf7e22760fa0a9fcbdf063b93cc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

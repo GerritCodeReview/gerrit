@@ -54,15 +54,19 @@ opts.add_option('-j', '--java', action='store',
                 dest='java', help='Post Java 8 support (9)')
 opts.add_option('-e', '--edge_java', action='store',
                 dest='edge_java', help='Post Java 9 support (10|11|...)')
+opts.add_option('--bazel', help='name of the bazel executable',
+                action='store', default='bazel', dest='bazel_exe')
+
 args, _ = opts.parse_args()
 
 batch_option = '--batch' if args.batch else None
 custom_java = args.java
 edge_java = args.edge_java
+bazel_exe = args.bazel_exe
 
 def _build_bazel_cmd(*args):
     build = False
-    cmd = ['bazel']
+    cmd = [bazel_exe]
     if batch_option:
         cmd.append('--batch')
     for arg in args:
@@ -82,7 +86,7 @@ def retrieve_ext_location():
 
 
 def gen_bazel_path(ext_location):
-    bazel = check_output(['which', 'bazel']).strip().decode('UTF-8')
+    bazel = check_output(['which', bazel_exe]).strip().decode('UTF-8')
     with open(path.join(ROOT, ".bazel_path"), 'w') as fd:
         fd.write("output_base=%s\n" % ext_location)
         fd.write("bazel=%s\n" % bazel)

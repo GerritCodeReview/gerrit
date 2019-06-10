@@ -67,9 +67,17 @@ final class Upload extends AbstractGitCommand {
       throw new Failure(1, "fatal: unable to check permissions " + e);
     }
 
-    Repository permissionAwareRepository = PermissionAwareRepositoryManager.wrap(repo, perm);
-    final UploadPack up = new UploadPack(permissionAwareRepository);
-    up.setAdvertiseRefsHook(new DefaultAdvertiseRefsHook(perm, RefFilterOptions.defaults()));
+    Repository maybePermissionAwareRepo;
+    UploadPack up;
+    if (config.getRefPermissionBackend().isPermissionAwareRefDatabase()) {
+      maybePermissionAwareRepo = PermissionAwareRepositoryManager.wrap(repo, perm);
+      up = new UploadPack(maybePermissionAwareRepo);
+    } else {
+      up = new UploadPack(repo);
+      maybePermissionAwareRepo = repo;
+      up.setAdvertiseRefsHook(new DefaultAdvertiseRefsHook(perm, RefFilterOptions.defaults()));
+    }
+
     up.setPackConfig(config.getPackConfig());
     up.setTimeout(config.getTimeout());
     up.setPostUploadHook(PostUploadHookChain.newChain(Lists.newArrayList(postUploadHooks)));
@@ -77,7 +85,7 @@ final class Upload extends AbstractGitCommand {
     List<PreUploadHook> allPreUploadHooks = Lists.newArrayList(preUploadHooks);
     allPreUploadHooks.add(
         uploadValidatorsFactory.create(
-            project, permissionAwareRepository, session.getRemoteAddressAsString()));
+            project, maybePermissionAwareRepo, session.getRemoteAddressAsString()));
     up.setPreUploadHook(PreUploadHookChain.newChain(allPreUploadHooks));
     for (UploadPackInitializer initializer : uploadPackInitializers) {
       initializer.init(projectState.getNameKey(), up);

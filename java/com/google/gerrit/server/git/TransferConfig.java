@@ -53,7 +53,7 @@ public class TransferConfig {
             null,
             "refPermissionBackend",
             RefPermissionBackend.PERMISSION_AWARE_REF_DATABASE);
-    enableProtocolV2 = cfg.getBoolean("receive", "enableProtocolV2", false);
+    enableProtocolV2 = cfg.getBoolean("receive", "enableProtocolV2", true);
 
     packConfig = new PackConfig();
     packConfig.setDeltaCompress(false);

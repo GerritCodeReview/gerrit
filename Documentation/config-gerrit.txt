@@ -3865,13 +3865,11 @@ backends: `ADVERTISE_REF_HOOK` and `PERMISSION_AWARE_REF_DATABASE`. While
 `ADVERTISE_REF_HOOK` relies on the fact that advertise refs filter is called
 by the JGit layer, `PERMISSION_AWARE_REF_DATABASE` backend replaces ref
 database with a permission-aware implementation. This database will only
-ever return refs that the user has access to. For backwards compatibility
-`ADVERTISE_REF_HOOK` is the default backend.
+ever return refs that the user has access to.
 +
-In future gerrit releases, the default will be switched, the old backend
-will be deprecated and removed.
+In future gerrit releases, the old backend will be deprecated and removed.
 +
-By default, `ADVERTISE_REF_HOOK`.
+By default, `PERMISSION_AWARE_REF_DATABASE`.
 
 [[receive.enableProtocolV2]]receive.enableProtocolV2::
 +

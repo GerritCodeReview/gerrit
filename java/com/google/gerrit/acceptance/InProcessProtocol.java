@@ -241,15 +241,20 @@ class InProcessProtocol extends TestProtocol<Context> {
       if (projectState == null) {
         throw new RuntimeException("can't load project state for " + req.project.get());
       }
-      Repository permissionAwareRepository = PermissionAwareRepositoryManager.wrap(repo, perm);
-      UploadPack up = new UploadPack(permissionAwareRepository);
+      UploadPack up;
+      Repository repo2;
+      if (transferConfig.getRefPermissionBackend().isPermissionAwareRefDatabase()) {
+        repo2 = PermissionAwareRepositoryManager.wrap(repo, perm);
+        up = new UploadPack(repo2);
+      } else {
+        up = new UploadPack(repo);
+        up.setAdvertiseRefsHook(new DefaultAdvertiseRefsHook(perm, RefFilterOptions.defaults()));
+        repo2 = repo;
+      }
       up.setPackConfig(transferConfig.getPackConfig());
       up.setTimeout(transferConfig.getTimeout());
-      up.setAdvertiseRefsHook(new DefaultAdvertiseRefsHook(perm, RefFilterOptions.defaults()));
       List<PreUploadHook> hooks = Lists.newArrayList(preUploadHooks);
-      hooks.add(
-          uploadValidatorsFactory.create(
-              projectState.getProject(), permissionAwareRepository, "localhost-test"));
+      hooks.add(uploadValidatorsFactory.create(projectState.getProject(), repo2, "localhost-test"));
       up.setPreUploadHook(PreUploadHookChain.newChain(hooks));
       uploadPackInitializers.runEach(initializer -> initializer.init(req.project, up));
       return up;

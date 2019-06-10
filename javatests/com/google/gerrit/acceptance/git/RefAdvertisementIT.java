@@ -50,6 +50,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.RefPermissionBackend;
 import com.google.gerrit.server.git.receive.ReceiveCommitsAdvertiseRefsHook;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.Sequences;
@@ -109,6 +110,18 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @ConfigSuite.Config
   public static Config enableFullRefEvaluation() {
     Config cfg = new Config();
+    cfg.setBoolean("auth", null, "skipFullRefEvaluationIfAllRefsAreVisible", false);
+    return cfg;
+  }
+
+  @ConfigSuite.Config
+  public static Config enableRefPermissionBackend() {
+    Config cfg = new Config();
+    cfg.setString(
+        "receive",
+        null,
+        "refPermissionBackend",
+        RefPermissionBackend.PERMISSION_AWARE_REF_DATABASE.name());
     cfg.setBoolean("auth", null, "skipFullRefEvaluationIfAllRefsAreVisible", false);
     return cfg;
   }

@@ -330,10 +330,15 @@ public class GitOverHttpServlet extends GitServlet {
     @Override
     public UploadPack create(HttpServletRequest req, Repository repo) {
       ProjectState state = (ProjectState) req.getAttribute(ATT_STATE);
-      UploadPack up =
-          new UploadPack(
-              PermissionAwareRepositoryManager.wrap(
-                  repo, permissionBackend.currentUser().project(state.getNameKey())));
+      UploadPack up;
+      if (config.getRefPermissionBackend().isPermissionAwareRefDatabase()) {
+        up =
+            new UploadPack(
+                PermissionAwareRepositoryManager.wrap(
+                    repo, permissionBackend.currentUser().project(state.getNameKey())));
+      } else {
+        up = new UploadPack(repo);
+      }
       up.setPackConfig(config.getPackConfig());
       up.setTimeout(config.getTimeout());
       up.setPreUploadHook(PreUploadHookChain.newChain(Lists.newArrayList(preUploadHooks)));
@@ -350,10 +355,12 @@ public class GitOverHttpServlet extends GitServlet {
     private final GroupAuditService groupAuditService;
     private final Metrics metrics;
     private final PluginSetContext<RequestListener> requestListeners;
+    private final boolean enableRefPermissionBackend;
 
     @Inject
     UploadFilter(
         UploadValidators.Factory uploadValidatorsFactory,
+        TransferConfig config,
         PermissionBackend permissionBackend,
         Provider<CurrentUser> userProvider,
         GroupAuditService groupAuditService,
@@ -365,6 +372,8 @@ public class GitOverHttpServlet extends GitServlet {
       this.groupAuditService = groupAuditService;
       this.metrics = metrics;
       this.requestListeners = requestListeners;
+      this.enableRefPermissionBackend =
+          config.getRefPermissionBackend().isPermissionAwareRefDatabase();
     }
 
     @Override
@@ -411,7 +420,9 @@ public class GitOverHttpServlet extends GitServlet {
         up.setPreUploadHook(
             PreUploadHookChain.newChain(
                 Lists.newArrayList(up.getPreUploadHook(), uploadValidators)));
-        up.setAdvertiseRefsHook(new DefaultAdvertiseRefsHook(perm, RefFilterOptions.defaults()));
+        if (!enableRefPermissionBackend) {
+          up.setAdvertiseRefsHook(new DefaultAdvertiseRefsHook(perm, RefFilterOptions.defaults()));
+        }
         next.doFilter(httpRequest, responseWrapper);
       } finally {
         groupAuditService.dispatch(

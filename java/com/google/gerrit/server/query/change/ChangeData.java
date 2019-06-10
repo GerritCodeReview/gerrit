@@ -936,7 +936,7 @@ public class ChangeData {
   }
 
   public List<SubmitRecord> submitRecords(SubmitRuleOptions options) {
-    List<SubmitRecord> records = submitRecords.get(options);
+    List<SubmitRecord> records = getCachedSubmitRecord(options);
     if (records == null) {
       if (!lazyLoad) {
         return Collections.emptyList();
@@ -949,7 +949,21 @@ public class ChangeData {
 
   @Nullable
   public List<SubmitRecord> getSubmitRecords(SubmitRuleOptions options) {
-    return submitRecords.get(options);
+    return getCachedSubmitRecord(options);
+  }
+
+  private List<SubmitRecord> getCachedSubmitRecord(SubmitRuleOptions options) {
+    List<SubmitRecord> records = submitRecords.get(options);
+    if (records != null) {
+      return records;
+    }
+
+    if (options.allowClosed() && change != null && change.getStatus().isOpen()) {
+      SubmitRuleOptions openSubmitRuleOptions = options.toBuilder().allowClosed(false).build();
+      return submitRecords.get(openSubmitRuleOptions);
+    }
+
+    return null;
   }
 
   public void setSubmitRecords(SubmitRuleOptions options, List<SubmitRecord> records) {

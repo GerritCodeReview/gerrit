@@ -7080,7 +7080,7 @@ entities.
 |`reviewed`     |optional|
 Indicates whether the caller is authenticated and has commented on the
 current revision. Only set if link:#reviewed[REVIEWED] option is requested.
-|`messageWithFooter` |optional|
+|`commit_with_footers` |optional|
 If the link:#commit-footers[COMMIT_FOOTERS] option is requested and
 this is the current patch set, contains the full commit message with
 Gerrit-specific commit footers, as if this revision were submitted

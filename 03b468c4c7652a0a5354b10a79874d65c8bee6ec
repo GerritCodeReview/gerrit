@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db6a9641_e5f00c3b",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-10T10:19:17Z",
+      "side": 1,
+      "message": "Filtering of meta refs is not activated for permission aware repository, see line 280 above. In this case the underlying implementation would use RefFilterOptions.defaults() that is wrong here.",
+      "range": {
+        "startLine": 305,
+        "startChar": 43,
+        "endLine": 305,
+        "endChar": 89
+      },
+      "revId": "03b468c4c7652a0a5354b10a79874d65c8bee6ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

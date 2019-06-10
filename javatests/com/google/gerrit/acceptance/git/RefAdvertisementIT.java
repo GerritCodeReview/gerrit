@@ -770,8 +770,58 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         "refs/tags/master-tag");
   }
 
-  // first  ls-remote: rcBranch (c2)        <- newcommit1 (branch-oldtag) <- newcommit2 (branch)
-  // second ls-remote: rcBranch (c2 branch) <- newcommit1 (branch-oldtag)
+  // first  ls-remote: rcBranch (c2 branch) <- newcommit1 (branch-newtag)
+  // second ls-remote: rcBranch (c2)        <- newcommit1 (branch-newtag) <- newcommit2 (branch)
+  @Test
+  public void uploadPackBranchFFMakeTagReachableVisible() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/heads/branch").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref("refs/tags/*").group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      // rcBranch (c2 branch) <- newcommit1 (branch-newtag)
+      PushOneCommit.Result r =
+          pushFactory
+              .create(admin.newIdent(), testRepo)
+              .setParent(rcBranch)
+              .to("refs/tags/branch-newtag");
+      r.assertOkStatus();
+      RevCommit tagRc = r.getCommit();
+
+      assertUploadPackRefs(
+          psRef2,
+          metaRef2,
+          psRef4,
+          metaRef4,
+          "refs/heads/branch",
+          "refs/tags/branch-tag",
+          // See comment in subsetOfBranchesVisibleNotIncludingHead.
+          "refs/tags/master-tag");
+
+      // rcBranch (c2) <- newcommit1 (branch-newtag) <- newcommit2 (branch)
+      r = pushFactory.create(admin.newIdent(), testRepo).setParent(tagRc).to("refs/heads/branch");
+      r.assertOkStatus();
+    }
+
+    assertUploadPackRefs(
+        psRef2,
+        metaRef2,
+        psRef4,
+        metaRef4,
+        "refs/heads/branch",
+        "refs/tags/branch-tag",
+        "refs/tags/branch-newtag",
+        // See comment in subsetOfBranchesVisibleNotIncludingHead.
+        "refs/tags/master-tag");
+  }
+
+  // first  ls-remote: c2          <- newcommit1 (branch-oldtag) <- newcommit2 (branch)
+  // second ls-remote: c2 (branch) <- newcommit1 (branch-oldtag)
   @Test
   public void uploadPackBranchRewindMakeTagUnreachableInVisible() throws Exception {
     projectOperations

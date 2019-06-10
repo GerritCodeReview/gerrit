@@ -170,7 +170,7 @@ The output archive that contains Java binaries, Java sources and
 Java docs will be placed in:
 
 ----
-  bazel-genfiles/api.zip
+  bazel-bin/api.zip
 ----
 
 Install {extension,plugin,acceptance-framework}-api to the local
@@ -195,13 +195,13 @@ Install gerrit.war to the local maven repository:
 The output JAR files for individual plugins will be placed in:
 
 ----
-  bazel-genfiles/plugins/<name>/<name>.jar
+  bazel-bin/plugins/<name>/<name>.jar
 ----
 
 The JAR files will also be packaged in:
 
 ----
-  bazel-genfiles/plugins/core.zip
+  bazel-bin/plugins/core.zip
 ----
 
 To build a specific plugin:
@@ -213,7 +213,7 @@ To build a specific plugin:
 The output JAR file will be be placed in:
 
 ----
-  bazel-genfiles/plugins/<name>/<name>.jar
+  bazel-bin/plugins/<name>/<name>.jar
 ----
 
 Note that when building an individual plugin, the `core.zip` package

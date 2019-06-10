@@ -3858,6 +3858,21 @@ link:https://www.gnupg.org/documentation/manuals/gnupg/OpenPGP-Key-Management.ht
 If no keys are specified, web-of-trust checks are disabled. This is the
 default behavior.
 
+[[receive.refPermissionBackend]]receive.refPermissionBackend::
++
+Starting from release 3.1 Gerrit supports two alternative ref permission
+backends: `ADVERTISE_REF_HOOK` and `PERMISSION_AWARE_REF_DATABASE`. While
+`ADVERTISE_REF_HOOK` relies on the fact that advertise refs filter is called
+by the JGit layer, `PERMISSION_AWARE_REF_DATABASE` backend replaces ref
+database with a permission-aware implementation. This database will only
+ever return refs that the user has access to. For backwards compatibility
+`ADVERTISE_REF_HOOK` is the default backend.
++
+In future gerrit releases, the default will be switched, the old backend
+will be deprecated and removed.
++
+By default, `ADVERTISE_REF_HOOK`.
+
 [[repository]]
 === Section repository
 

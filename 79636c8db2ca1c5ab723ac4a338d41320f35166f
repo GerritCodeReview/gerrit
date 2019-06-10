@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dfb01297_d888999b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-10T23:20:55Z",
+      "side": 1,
+      "message": "This link will become outdated as the master branch advances. It would be better to use a link to the exact revision, or just remove it.",
+      "revId": "79636c8db2ca1c5ab723ac4a338d41320f35166f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -49,7 +49,10 @@ public class TransferConfig {
         cfg.getBoolean("receive", "inheritProjectMaxObjectSizeLimit", false);
     refPermissionBackend =
         cfg.getEnum(
-            "receive", null, "refPermissionBackend", RefPermissionBackend.ADVERTISE_REF_HOOK);
+            "receive",
+            null,
+            "refPermissionBackend",
+            RefPermissionBackend.PERMISSION_AWARE_REF_DATABASE);
     enableProtocolV2 = cfg.getBoolean("receive", "enableProtocolV2", false);
 
     packConfig = new PackConfig();

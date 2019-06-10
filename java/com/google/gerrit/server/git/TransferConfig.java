@@ -29,6 +29,7 @@ public class TransferConfig {
   private final long maxObjectSizeLimit;
   private final String maxObjectSizeLimitFormatted;
   private final boolean inheritProjectMaxObjectSizeLimit;
+  private final RefPermissionBackend refPermissionBackend;
 
   @Inject
   TransferConfig(@GerritServerConfig Config cfg) {
@@ -45,6 +46,9 @@ public class TransferConfig {
     maxObjectSizeLimitFormatted = cfg.getString("receive", null, "maxObjectSizeLimit");
     inheritProjectMaxObjectSizeLimit =
         cfg.getBoolean("receive", "inheritProjectMaxObjectSizeLimit", false);
+    refPermissionBackend =
+        cfg.getEnum(
+            "receive", null, "refPermissionBackend", RefPermissionBackend.ADVERTISE_REF_HOOK);
 
     packConfig = new PackConfig();
     packConfig.setDeltaCompress(false);
@@ -71,5 +75,9 @@ public class TransferConfig {
 
   public boolean inheritProjectMaxObjectSizeLimit() {
     return inheritProjectMaxObjectSizeLimit;
+  }
+
+  public RefPermissionBackend getRefPermissionBackend() {
+    return refPermissionBackend;
   }
 }

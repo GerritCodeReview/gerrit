@@ -39,8 +39,10 @@ public class ReceiveCommitsAdvertiseRefsHookChain {
       AllRefsWatcher allRefsWatcher,
       PermissionBackend.ForProject perm,
       Provider<InternalChangeQuery> queryProvider,
-      Project.NameKey projectName) {
-    return create(allRefsWatcher, perm, queryProvider, projectName, false);
+      Project.NameKey projectName,
+      boolean skipDefaultAdvertiseRefsHook) {
+    return create(
+        allRefsWatcher, perm, queryProvider, projectName, skipDefaultAdvertiseRefsHook, false);
   }
 
   /**
@@ -62,11 +64,15 @@ public class ReceiveCommitsAdvertiseRefsHookChain {
       PermissionBackend.ForProject perm,
       Provider<InternalChangeQuery> queryProvider,
       Project.NameKey projectName,
+      boolean skipDefaultAdvertiseRefsHook,
       boolean skipHackPushNegotiateHook) {
     List<AdvertiseRefsHook> advHooks = new ArrayList<>();
     advHooks.add(allRefsWatcher);
-    advHooks.add(
-        new DefaultAdvertiseRefsHook(perm, RefFilterOptions.builder().setFilterMeta(true).build()));
+    if (!skipDefaultAdvertiseRefsHook) {
+      advHooks.add(
+          new DefaultAdvertiseRefsHook(
+              perm, RefFilterOptions.builder().setFilterMeta(true).build()));
+    }
     advHooks.add(new ReceiveCommitsAdvertiseRefsHook(queryProvider, projectName));
     if (!skipHackPushNegotiateHook) {
       advHooks.add(new HackPushNegotiateHook());

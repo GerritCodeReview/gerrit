@@ -29,8 +29,10 @@ import com.github.rholder.retry.WaitStrategies;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -40,7 +42,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
@@ -69,9 +70,12 @@ public class RepoSequence {
   }
 
   @VisibleForTesting
-  static RetryerBuilder<RefUpdate> retryerBuilder() {
-    return RetryerBuilder.<RefUpdate>newBuilder()
-        .retryIfResult(ru -> ru != null && RefUpdate.Result.LOCK_FAILURE.equals(ru.getResult()))
+  static RetryerBuilder<ImmutableList<Integer>> retryerBuilder() {
+    return RetryerBuilder.<ImmutableList<Integer>>newBuilder()
+        .retryIfException(
+            t ->
+                t instanceof StorageException
+                    && ((StorageException) t).getCause() instanceof LockFailureException)
         .withWaitStrategy(
             WaitStrategies.join(
                 WaitStrategies.exponentialWait(5, TimeUnit.SECONDS),
@@ -79,7 +83,7 @@ public class RepoSequence {
         .withStopStrategy(StopStrategies.stopAfterDelay(30, TimeUnit.SECONDS));
   }
 
-  private static final Retryer<RefUpdate> RETRYER = retryerBuilder().build();
+  private static final Retryer<ImmutableList<Integer>> RETRYER = retryerBuilder().build();
 
   private final GitRepositoryManager repoManager;
   private final GitReferenceUpdated gitRefUpdated;
@@ -89,7 +93,7 @@ public class RepoSequence {
   private final int floor;
   private final int batchSize;
   private final Runnable afterReadRef;
-  private final Retryer<RefUpdate> retryer;
+  private final Retryer<ImmutableList<Integer>> retryer;
 
   // Protects all non-final fields.
   private final Lock counterLock;
@@ -147,7 +151,7 @@ public class RepoSequence {
       Seed seed,
       int batchSize,
       Runnable afterReadRef,
-      Retryer<RefUpdate> retryer) {
+      Retryer<ImmutableList<Integer>> retryer) {
     this(repoManager, gitRefUpdated, projectName, name, seed, batchSize, afterReadRef, retryer, 0);
   }
 
@@ -159,7 +163,7 @@ public class RepoSequence {
       Seed seed,
       int batchSize,
       Runnable afterReadRef,
-      Retryer<RefUpdate> retryer,
+      Retryer<ImmutableList<Integer>> retryer,
       int floor) {
     this.repoManager = requireNonNull(repoManager, "repoManager");
     this.gitRefUpdated = requireNonNull(gitRefUpdated, "gitRefUpdated");
@@ -184,78 +188,85 @@ public class RepoSequence {
     counterLock = new ReentrantLock(true);
   }
 
+  /**
+   * Retrieves the next available sequence number.
+   *
+   * <p>This method is thread-safe.
+   *
+   * @return the next available sequence number
+   */
   public int next() {
-    counterLock.lock();
-    try {
-      if (counter >= limit) {
-        acquire(batchSize);
-      }
-      return counter++;
-    } finally {
-      counterLock.unlock();
-    }
+    return Iterables.getOnlyElement(next(1));
   }
 
+  /**
+   * Retrieves the next N available sequence number.
+   *
+   * <p>This method is thread-safe.
+   *
+   * @param count the number of sequence numbers which should be returned
+   * @return the next N available sequence numbers
+   */
   public ImmutableList<Integer> next(int count) {
     if (count == 0) {
       return ImmutableList.of();
     }
     checkArgument(count > 0, "count is negative: %s", count);
-    counterLock.lock();
-    try {
-      List<Integer> ids = new ArrayList<>(count);
-      while (counter < limit) {
-        ids.add(counter++);
-        if (ids.size() == count) {
-          return ImmutableList.copyOf(ids);
-        }
-      }
-      acquire(Math.max(count - ids.size(), batchSize));
-      while (ids.size() < count) {
-        ids.add(counter++);
-      }
-      return ImmutableList.copyOf(ids);
-    } finally {
-      counterLock.unlock();
-    }
-  }
 
-  private void acquire(int count) {
-    try (Repository repo = repoManager.openRepository(projectName);
-        RevWalk rw = new RevWalk(repo)) {
-      TryAcquire attempt = new TryAcquire(repo, rw, count);
-      RefUpdateUtil.checkResult(retryer.call(attempt));
-      counter = attempt.next;
-      limit = counter + count;
-      acquireCount++;
+    try {
+      return retryer.call(
+          () -> {
+            counterLock.lock();
+            try {
+              if (count == 1) {
+                if (counter >= limit) {
+                  acquire(batchSize);
+                }
+                return ImmutableList.of(counter++);
+              }
+
+              List<Integer> ids = new ArrayList<>(count);
+              while (counter < limit) {
+                ids.add(counter++);
+                if (ids.size() == count) {
+                  return ImmutableList.copyOf(ids);
+                }
+              }
+              acquire(Math.max(count - ids.size(), batchSize));
+              while (ids.size() < count) {
+                ids.add(counter++);
+              }
+              return ImmutableList.copyOf(ids);
+            } finally {
+              counterLock.unlock();
+            }
+          });
     } catch (ExecutionException | RetryException e) {
       if (e.getCause() != null) {
         Throwables.throwIfInstanceOf(e.getCause(), StorageException.class);
       }
       throw new StorageException(e);
-    } catch (IOException e) {
-      throw new StorageException(e);
     }
   }
 
-  private class TryAcquire implements Callable<RefUpdate> {
-    private final Repository repo;
-    private final RevWalk rw;
-    private final int count;
-
-    private int next;
-
-    private TryAcquire(Repository repo, RevWalk rw, int count) {
-      this.repo = repo;
-      this.rw = rw;
-      this.count = count;
-    }
-
-    @Override
-    public RefUpdate call() throws Exception {
+  /**
+   * Updates the next available sequence number in NoteDb in order to have a batch of sequence
+   * numbers available that can be handed out. {@link #counter} stores the next sequence number that
+   * can be handed out. When {@link #limit} is reached a new batch of sequence numbers needs to be
+   * retrieved by calling this method.
+   *
+   * <p><strong>Note:</strong> Callers are required to acquire the {@link #counterLock} before
+   * calling this method.
+   *
+   * @param count the number of sequence numbers which should be retrieved
+   */
+  private void acquire(int count) {
+    try (Repository repo = repoManager.openRepository(projectName);
+        RevWalk rw = new RevWalk(repo)) {
       Optional<IntBlob> blob = IntBlob.parse(repo, refName, rw);
       afterReadRef.run();
       ObjectId oldId;
+      int next;
       if (!blob.isPresent()) {
         oldId = ObjectId.zeroId();
         next = seed.get();
@@ -264,7 +275,14 @@ public class RepoSequence {
         next = blob.get().value();
       }
       next = Math.max(floor, next);
-      return IntBlob.tryStore(repo, rw, projectName, refName, oldId, next + count, gitRefUpdated);
+      RefUpdate refUpdate =
+          IntBlob.tryStore(repo, rw, projectName, refName, oldId, next + count, gitRefUpdated);
+      RefUpdateUtil.checkResult(refUpdate);
+      counter = next;
+      limit = counter + count;
+      acquireCount++;
+    } catch (IOException e) {
+      throw new StorageException(e);
     }
   }
 

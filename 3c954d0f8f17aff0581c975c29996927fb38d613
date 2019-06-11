@@ -1,0 +1,187 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "196ae691_62b45a4c",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-11T13:06:17Z",
+      "side": 1,
+      "message": "In Gerrit\u0027s world, this would rather be a BAD_REQUEST.\n\n403 indicates a permission issue (from Wikipedia): \"HTTP 403 is returned when the client is not permitted access to the resource despite providing authentication such as insufficient permissions of the authenticated account.\"\n\nHowever, this isn\u0027t a permission issue or an issue that can be fixed with more powerful permissions. We just don\u0027t want to have these comments published. Hence the request asking for that as invalid.\n\nAside from that, can we do this conversion in PostReview instead? RestApiServlet tries to be generic and it looks like this case can only ever happen in code paths originating from PostReview.\n\nThis has the benefit that you can test it using only the Java API and don\u0027t have to do write and REST tests.",
+      "range": {
+        "startLine": 617,
+        "startChar": 44,
+        "endLine": 617,
+        "endChar": 56
+      },
+      "revId": "3c954d0f8f17aff0581c975c29996927fb38d613",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c6c08d0_31e6e361",
+        "filename": "java/com/google/gerrit/server/PublishCommentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-11T13:06:17Z",
+      "side": 1,
+      "message": "nit: response could be immutable",
+      "revId": "3c954d0f8f17aff0581c975c29996927fb38d613",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5e408eb_11a97b25",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-11T13:06:17Z",
+      "side": 1,
+      "message": "nit: all callers are converting to a stream before calling validateComments. Should we accept a Collection\u003cComment\u003e instead?",
+      "range": {
+        "startLine": 972,
+        "startChar": 32,
+        "endLine": 972,
+        "endChar": 41
+      },
+      "revId": "3c954d0f8f17aff0581c975c29996927fb38d613",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10b1379a_b86d880f",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 986,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-11T13:06:17Z",
+      "side": 1,
+      "message": "Can we add isInlineComment or isFileComment or getType() to Comment instead of checking this manually here?",
+      "range": {
+        "startLine": 986,
+        "startChar": 26,
+        "endLine": 986,
+        "endChar": 45
+      },
+      "revId": "3c954d0f8f17aff0581c975c29996927fb38d613",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5088c6ef_dbb8a090",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 990,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-11T13:06:17Z",
+      "side": 1,
+      "message": "nit: import this statically",
+      "revId": "3c954d0f8f17aff0581c975c29996927fb38d613",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97ed71c7_7760cd8c",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1381,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-11T13:06:17Z",
+      "side": 1,
+      "message": "This calls the validators a second time, this time just with the change message. I think this is fine because the interface doesn\u0027t make any guarantees about being called just once. Just something that stood out.",
+      "revId": "3c954d0f8f17aff0581c975c29996927fb38d613",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2be4081_59c1ca04",
+        "filename": "java/com/google/gerrit/testing/TestCommentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-11T13:06:17Z",
+      "side": 1,
+      "message": "I think it would be easier to make this class all-static and pass in a gApi only in the two methods where you need it.\n\nNon-static helpers have the tendency to accumulate state that can easily turn them into tech debt in the future",
+      "revId": "3c954d0f8f17aff0581c975c29996927fb38d613",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f22f621_c47ff68a",
+        "filename": "javatests/com/google/gerrit/server/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-11T13:06:17Z",
+      "side": 1,
+      "message": "PostReviewIT is in the wrong package (hence this dep was required).\n\nCan you just move it to: com.google.gerrit.acceptance.api.change",
+      "range": {
+        "startLine": 37,
+        "startChar": 7,
+        "endLine": 37,
+        "endChar": 60
+      },
+      "revId": "3c954d0f8f17aff0581c975c29996927fb38d613",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce558b47_fbbbfe18",
+        "filename": "javatests/com/google/gerrit/server/restapi/change/PostReviewIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-11T13:06:17Z",
+      "side": 1,
+      "message": "nit: we usually use ImmutableList.of() or ImmutableList.copyOf()",
+      "range": {
+        "startLine": 99,
+        "startChar": 51,
+        "endLine": 99,
+        "endChar": 70
+      },
+      "revId": "3c954d0f8f17aff0581c975c29996927fb38d613",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

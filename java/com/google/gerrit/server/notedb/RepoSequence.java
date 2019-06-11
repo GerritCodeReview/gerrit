@@ -220,24 +220,6 @@ public class RepoSequence {
     }
   }
 
-  @VisibleForTesting
-  public void set(int val) {
-    // Don't bother spinning. This is only for tests, and a test that calls set
-    // concurrently with other writes is doing it wrong.
-    counterLock.lock();
-    try {
-      try (Repository repo = repoManager.openRepository(projectName);
-          RevWalk rw = new RevWalk(repo)) {
-        IntBlob.store(repo, rw, projectName, refName, null, val, gitRefUpdated);
-        counter = limit;
-      } catch (IOException e) {
-        throw new StorageException(e);
-      }
-    } finally {
-      counterLock.unlock();
-    }
-  }
-
   private void acquire(int count) {
     try (Repository repo = repoManager.openRepository(projectName);
         RevWalk rw = new RevWalk(repo)) {

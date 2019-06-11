@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0f0ed44_e658397d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-11T13:36:21Z",
+      "side": 1,
+      "message": "I think the fact that we now just have a single point where lock/unlock is called makes up for that.",
+      "range": {
+        "startLine": 60,
+        "startChar": 11,
+        "endLine": 60,
+        "endChar": 41
+      },
+      "revId": "f26953359bad756a1db681178036dcf0ccc82ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80459b03_ee3e62eb",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-11T13:36:21Z",
+      "side": 1,
+      "message": "Can you add javadoc that this method is thread safe?",
+      "revId": "f26953359bad756a1db681178036dcf0ccc82ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cba5800b_97c4be2d",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-11T13:36:21Z",
+      "side": 1,
+      "message": "Can you add javadoc that this method is thread safe?",
+      "revId": "f26953359bad756a1db681178036dcf0ccc82ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b406a9bc_4ba060b9",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-11T13:36:21Z",
+      "side": 1,
+      "message": "Can you add a javadoc that this method is only to be called after #lock was called?",
+      "revId": "f26953359bad756a1db681178036dcf0ccc82ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fc2a842_b8efb68f",
+        "filename": "javatests/com/google/gerrit/server/notedb/RepoSequenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-11T13:36:21Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be easier to just have a block strategy that blocks forever?\n\nThen you can dispatch a normal call after that with no lock failure and see if that makes it through.\n\nMaybe it\u0027s not easier coding-wise but I would argue that it is easier to understand than a block strategy that itself dispatches a call (which is something block strategies aren\u0027t supposed to do).",
+      "range": {
+        "startLine": 228,
+        "startChar": 3,
+        "endLine": 236,
+        "endChar": 94
+      },
+      "revId": "f26953359bad756a1db681178036dcf0ccc82ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4762f249_9e86148b",
+        "filename": "javatests/com/google/gerrit/server/notedb/RepoSequenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-11T13:36:21Z",
+      "side": 1,
+      "message": "nit: fits in previous line",
+      "range": {
+        "startLine": 255,
+        "startChar": 22,
+        "endLine": 255,
+        "endChar": 29
+      },
+      "revId": "f26953359bad756a1db681178036dcf0ccc82ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

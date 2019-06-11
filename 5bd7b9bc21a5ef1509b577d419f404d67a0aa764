@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ead1b87_f7d14a6f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-11T00:19:44Z",
+      "side": 1,
+      "message": "On my local system, using bazel 0.26.1, the bazel-genfiles folder is still created but is symlinked to the same location as bazel-bin.\n\nWill bazel-genfiles symlinking be stopped at some point?  If so we should also update tools/maven/api.sh since it still refers to bazel-genfiles.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 70
+      },
+      "revId": "5bd7b9bc21a5ef1509b577d419f404d67a0aa764",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

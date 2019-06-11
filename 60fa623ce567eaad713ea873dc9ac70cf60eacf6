@@ -1,0 +1,251 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e385eac8_812fddfb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutPreferred.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-11T02:13:26Z",
+      "side": 1,
+      "message": "This is going to result in the email being sent twice when a new email is added and set preferred at the same time, because PutPreferred is invoked by CreateEmail in that case, and CreateEmail also sends the notification.",
+      "revId": "60fa623ce567eaad713ea873dc9ac70cf60eacf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e582c101_0d823ed8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/EmailModifiedAddressSender.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-11T02:13:26Z",
+      "side": 1,
+      "message": "This doesn\u0027t need to be a list.  If this was done due to guice errors with having two String types assisted injected, then use the @Assisted annotation with a name, as below.",
+      "range": {
+        "startLine": 34,
+        "startChar": 75,
+        "endLine": 34,
+        "endChar": 89
+      },
+      "revId": "60fa623ce567eaad713ea873dc9ac70cf60eacf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54537a5a_ddb6e11d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/EmailModifiedAddressSender.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-11T02:13:26Z",
+      "side": 1,
+      "message": "@Assisted(\"address\")",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 16
+      },
+      "revId": "60fa623ce567eaad713ea873dc9ac70cf60eacf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9832cea6_642726bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/EmailModifiedAddressSender.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-11T02:13:26Z",
+      "side": 1,
+      "message": "@Assisted(\"operation\") String operation",
+      "range": {
+        "startLine": 48,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 38
+      },
+      "revId": "60fa623ce567eaad713ea873dc9ac70cf60eacf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be20eba8_172fc719",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/EmailModifiedAddressSender.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-11T02:13:26Z",
+      "side": 1,
+      "message": "Store the result from L61 instead of calling it again and instantiating a new list.",
+      "range": {
+        "startLine": 62,
+        "startChar": 35,
+        "endLine": 62,
+        "endChar": 45
+      },
+      "revId": "60fa623ce567eaad713ea873dc9ac70cf60eacf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98eb3872_4ddb91b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/EmailModifiedAddressSender.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-11T02:13:26Z",
+      "side": 1,
+      "message": "This is returning a collection, so the method name should be plural",
+      "range": {
+        "startLine": 66,
+        "startChar": 20,
+        "endLine": 66,
+        "endChar": 28
+      },
+      "revId": "60fa623ce567eaad713ea873dc9ac70cf60eacf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d3150fd_8c0ca575",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/EmailModifiedAddressSender.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-11T02:13:26Z",
+      "side": 1,
+      "message": "This should have a type specifier.",
+      "range": {
+        "startLine": 66,
+        "startChar": 9,
+        "endLine": 66,
+        "endChar": 19
+      },
+      "revId": "60fa623ce567eaad713ea873dc9ac70cf60eacf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bc9add9_843dbaaf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/EmailModifiedAddressSender.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-11T02:13:26Z",
+      "side": 1,
+      "message": "The code below is sending it to all of the secondary addresses.",
+      "range": {
+        "startLine": 72,
+        "startChar": 9,
+        "endLine": 72,
+        "endChar": 19
+      },
+      "revId": "60fa623ce567eaad713ea873dc9ac70cf60eacf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ff52d0e_ca385f8b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/EmailModifiedAddressSender.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-11T02:13:26Z",
+      "side": 1,
+      "message": "Should not return null for a Collection type, but instead return an empty collection.",
+      "range": {
+        "startLine": 78,
+        "startChar": 8,
+        "endLine": 78,
+        "endChar": 20
+      },
+      "revId": "60fa623ce567eaad713ea873dc9ac70cf60eacf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c91dd79e_80f8e9d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/EmailModifiedAddressSender.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-11T02:13:26Z",
+      "side": 1,
+      "message": "1. Invoking getEmail twice results in a new arraylist being created twice.\n2. The template assumes that email is a single instance, not a collection.",
+      "range": {
+        "startLine": 104,
+        "startChar": 37,
+        "endLine": 104,
+        "endChar": 68
+      },
+      "revId": "60fa623ce567eaad713ea873dc9ac70cf60eacf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e975775a_c2a7b265",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/EmailModifiedAddress.soy",
+        "patchSetId": 22
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-11T02:13:26Z",
+      "side": 1,
+      "message": "This is a weird name.  Maybe rename it to EmailAddressModified or EmailAddressUpdated?",
+      "range": {
+        "startLine": 20,
+        "startChar": 8,
+        "endLine": 20,
+        "endChar": 28
+      },
+      "revId": "60fa623ce567eaad713ea873dc9ac70cf60eacf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

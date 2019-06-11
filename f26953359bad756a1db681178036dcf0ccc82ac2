@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3b2addc4_66f7723d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-11T15:04:39Z",
+      "side": 1,
+      "message": "Good point. Added this to the commit message.",
+      "parentUuid": "f0f0ed44_e658397d",
+      "range": {
+        "startLine": 60,
+        "startChar": 11,
+        "endLine": 60,
+        "endChar": 41
+      },
+      "revId": "f26953359bad756a1db681178036dcf0ccc82ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "80459b03_ee3e62eb",
         "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "f26953359bad756a1db681178036dcf0ccc82ac2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "703d1975_98fc0af7",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-11T15:04:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80459b03_ee3e62eb",
+      "revId": "f26953359bad756a1db681178036dcf0ccc82ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "24270cbb_068e24a8",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-11T15:04:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cba5800b_97c4be2d",
+      "revId": "f26953359bad756a1db681178036dcf0ccc82ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b406a9bc_4ba060b9",
         "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
         "patchSetId": 1
@@ -73,6 +133,24 @@
       "revId": "f26953359bad756a1db681178036dcf0ccc82ac2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8090b511_03b64c98",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-11T15:04:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b406a9bc_4ba060b9",
+      "revId": "f26953359bad756a1db681178036dcf0ccc82ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -99,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "fc9f9a42_9b0a17ab",
+        "filename": "javatests/com/google/gerrit/server/notedb/RepoSequenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-11T15:04:39Z",
+      "side": 1,
+      "message": "OK, I rewrote the test. Not sure if it\u0027s easier to follow now.",
+      "parentUuid": "8fc2a842_b8efb68f",
+      "range": {
+        "startLine": 228,
+        "startChar": 3,
+        "endLine": 236,
+        "endChar": 94
+      },
+      "revId": "f26953359bad756a1db681178036dcf0ccc82ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4762f249_9e86148b",
         "filename": "javatests/com/google/gerrit/server/notedb/RepoSequenceTest.java",
         "patchSetId": 1
@@ -119,6 +221,30 @@
       "revId": "f26953359bad756a1db681178036dcf0ccc82ac2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b85b6da4_7e6533e8",
+        "filename": "javatests/com/google/gerrit/server/notedb/RepoSequenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-11T15:04:39Z",
+      "side": 1,
+      "message": "no longer applicable",
+      "parentUuid": "4762f249_9e86148b",
+      "range": {
+        "startLine": 255,
+        "startChar": 22,
+        "endLine": 255,
+        "endChar": 29
+      },
+      "revId": "f26953359bad756a1db681178036dcf0ccc82ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

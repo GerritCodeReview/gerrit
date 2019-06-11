@@ -73,6 +73,7 @@ class Helper {
   private final String password;
   private final String referral;
   private final boolean startTls;
+  private final boolean supportAnonymous;
   private final boolean sslVerify;
   private final String authentication;
   private volatile LdapSchema ldapSchema;
@@ -91,6 +92,7 @@ class Helper {
     this.password = LdapRealm.optional(config, "password", "");
     this.referral = LdapRealm.optional(config, "referral", "ignore");
     this.startTls = config.getBoolean("ldap", "startTls", false);
+    this.supportAnonymous = config.getBoolean("ldap", "supportAnonymous", true);
     this.sslVerify = config.getBoolean("ldap", "sslverify", true);
     this.groupsVisibleToAll = config.getBoolean("ldap", "groupsVisibleToAll", false);
     this.authentication = LdapRealm.optional(config, "authentication", "simple");
@@ -170,8 +172,15 @@ class Helper {
     if ("GSSAPI".equals(authentication)) {
       return kerberosOpen(env);
     }
+
+    if (!supportAnonymous && username != null) {
+      env.put(Context.SECURITY_PRINCIPAL, username);
+      env.put(Context.SECURITY_CREDENTIALS, password);
+    }
+
     LdapContext ctx = createContext(env);
-    if (username != null) {
+
+    if (supportAnonymous && username != null) {
       ctx.addToEnvironment(Context.SECURITY_PRINCIPAL, username);
       ctx.addToEnvironment(Context.SECURITY_CREDENTIALS, password);
       ctx.reconnect(null);
@@ -207,12 +216,23 @@ class Helper {
   DirContext authenticate(String dn, String password) throws AccountException {
     final Properties env = createContextProperties();
     try {
+      env.put(Context.REFERRAL, referral);
+
+      if (!supportAnonymous) {
+        env.put(Context.SECURITY_AUTHENTICATION, "simple");
+        env.put(Context.SECURITY_PRINCIPAL, dn);
+        env.put(Context.SECURITY_CREDENTIALS, password);
+      }
+
       LdapContext ctx = createContext(env);
-      ctx.addToEnvironment(Context.SECURITY_AUTHENTICATION, "simple");
-      ctx.addToEnvironment(Context.SECURITY_PRINCIPAL, dn);
-      ctx.addToEnvironment(Context.SECURITY_CREDENTIALS, password);
-      ctx.addToEnvironment(Context.REFERRAL, referral);
-      ctx.reconnect(null);
+
+      if (supportAnonymous) {
+        ctx.addToEnvironment(Context.SECURITY_AUTHENTICATION, "simple");
+        ctx.addToEnvironment(Context.SECURITY_PRINCIPAL, dn);
+        ctx.addToEnvironment(Context.SECURITY_CREDENTIALS, password);
+        ctx.reconnect(null);
+      }
+
       return ctx;
     } catch (IOException | NamingException e) {
       throw new AuthenticationFailedException("Incorrect username or password", e);

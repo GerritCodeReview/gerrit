@@ -2961,6 +2961,14 @@ If true, Gerrit will perform StartTLS extended operation.
 +
 By default, false, StartTLS will not be enabled.
 
+[[ldap.supportAnonymous]]ldap.supportAnonymous::
++
+If false, Gerrit will provide credentials only at connection open, this is
+required for some `LDAP` implementations that do not allow anonymous bind
+for StartTLS or for reauthentication.
++
+By default, true.
+
 [[ldap.sslVerify]]ldap.sslVerify::
 +
 If false and ldap.server is an `ldaps://` style URL or `ldap.startTls`

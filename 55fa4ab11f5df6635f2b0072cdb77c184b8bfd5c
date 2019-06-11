@@ -22,6 +22,30 @@
       "revId": "55fa4ab11f5df6635f2b0072cdb77c184b8bfd5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7233a005_ebc549ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-11T23:28:58Z",
+      "side": 1,
+      "message": "The motivation for this was to make testing easier when implementing the feature to send a notification when email is added/removed or preferred email is changed.  Also, I think it makes sense to align the API with what is allowed by the UI.\n\nI don\u0027t necessarily want to enforce users to always have a preferred email address, but perhaps make it so that if they want to delete the address that is preferred, they must first set another one preferred?  Note that we don\u0027t currently have any API to unset an address preferred; only to set another existing one preferred or create a new one and set preferred on creation.\n\nI guess for users that currently don\u0027t have a preferred email, we can just leave them, on the assumption that most of the existing code is already handling that situation correctly.\n\nSide note: I\u0027m not sure if the consequences of not having a preferred email address are clear.  Does it mean that the user can no longer for example create changes in the UI or do any action in the UI that causes a commit (i.e. cherry pick, rebase, merge) since they use the preferred email in the committer field?",
+      "parentUuid": "5c4e616e_b815b333",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 0
+      },
+      "revId": "55fa4ab11f5df6635f2b0072cdb77c184b8bfd5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

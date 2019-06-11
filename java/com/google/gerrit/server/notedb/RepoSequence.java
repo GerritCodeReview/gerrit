@@ -238,31 +238,6 @@ public class RepoSequence {
     }
   }
 
-  public void increaseTo(int val) {
-    counterLock.lock();
-    try {
-      try (Repository repo = repoManager.openRepository(projectName);
-          RevWalk rw = new RevWalk(repo)) {
-        TryIncreaseTo attempt = new TryIncreaseTo(repo, rw, val);
-        RefUpdate ru = retryer.call(attempt);
-        // Null update is a sentinel meaning nothing to do.
-        if (ru != null) {
-          RefUpdateUtil.checkResult(ru);
-        }
-        counter = limit;
-      } catch (ExecutionException | RetryException e) {
-        if (e.getCause() != null) {
-          Throwables.throwIfInstanceOf(e.getCause(), StorageException.class);
-        }
-        throw new StorageException(e);
-      } catch (IOException e) {
-        throw new StorageException(e);
-      }
-    } finally {
-      counterLock.unlock();
-    }
-  }
-
   private void acquire(int count) {
     try (Repository repo = repoManager.openRepository(projectName);
         RevWalk rw = new RevWalk(repo)) {
@@ -308,38 +283,6 @@ public class RepoSequence {
       }
       next = Math.max(floor, next);
       return IntBlob.tryStore(repo, rw, projectName, refName, oldId, next + count, gitRefUpdated);
-    }
-  }
-
-  private class TryIncreaseTo implements Callable<RefUpdate> {
-    private final Repository repo;
-    private final RevWalk rw;
-    private final int value;
-
-    private TryIncreaseTo(Repository repo, RevWalk rw, int value) {
-      this.repo = repo;
-      this.rw = rw;
-      this.value = value;
-    }
-
-    @Override
-    public RefUpdate call() throws Exception {
-      Optional<IntBlob> blob = IntBlob.parse(repo, refName, rw);
-      afterReadRef.run();
-      ObjectId oldId;
-      if (!blob.isPresent()) {
-        oldId = ObjectId.zeroId();
-      } else {
-        oldId = blob.get().id();
-        int next = blob.get().value();
-        if (next >= value) {
-          // A concurrent write updated the ref already to this or a higher value; return null as a
-          // sentinel meaning nothing to do. Returning RefUpdate doesn't give us the flexibility to
-          // return any other kind of sentinel, since it's a fairly thick object.
-          return null;
-        }
-      }
-      return IntBlob.tryStore(repo, rw, projectName, refName, oldId, value, gitRefUpdated);
     }
   }
 

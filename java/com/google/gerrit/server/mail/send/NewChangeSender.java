@@ -56,7 +56,9 @@ public abstract class NewChangeSender extends ChangeEmail {
   protected void init() throws EmailException {
     super.init();
 
-    setHeader("Message-ID", getChangeMessageThreadId());
+    String threadId = getChangeMessageThreadId();
+    setHeader("Message-ID", threadId);
+    setHeader("References", threadId);
 
     switch (notify.handling()) {
       case NONE:

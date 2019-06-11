@@ -20,9 +20,12 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import com.github.rholder.retry.BlockStrategy;
 import com.github.rholder.retry.Retryer;
 import com.github.rholder.retry.RetryerBuilder;
 import com.github.rholder.retry.StopStrategies;
+import com.google.common.collect.ImmutableList;
+import com.google.common.truth.Expect;
 import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Project;
@@ -31,6 +34,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -41,11 +45,14 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 public class RepoSequenceTest {
+  @Rule public final Expect expect = Expect.create();
+
   // Don't sleep in tests.
-  private static final Retryer<RefUpdate> RETRYER =
+  private static final Retryer<ImmutableList<Integer>> RETRYER =
       RepoSequence.retryerBuilder().withBlockStrategy(t -> {}).build();
 
   private InMemoryRepositoryManager repoManager;
@@ -160,7 +167,7 @@ public class RepoSequenceTest {
     RepoSequence s = newSequence("id", 1, 10, bgUpdate, RETRYER);
     assertThat(doneBgUpdate.get()).isFalse();
     assertThat(s.next()).isEqualTo(1234);
-    // Single acquire call that results in 2 ref reads.
+    // Two acquire calls, but only one successful.
     assertThat(s.acquireCount).isEqualTo(1);
     assertThat(doneBgUpdate.get()).isTrue();
   }
@@ -182,8 +189,7 @@ public class RepoSequenceTest {
       tr.branch(RefNames.REFS_SEQUENCES + "id").commit().create();
       StorageException e =
           assertThrows(StorageException.class, () -> newSequence("id", 1, 3).next());
-      assertThat(e.getCause()).isInstanceOf(ExecutionException.class);
-      assertThat(e.getCause().getCause()).isInstanceOf(IncorrectObjectTypeException.class);
+      assertThat(e.getCause()).isInstanceOf(IncorrectObjectTypeException.class);
     }
   }
 
@@ -196,13 +202,69 @@ public class RepoSequenceTest {
             1,
             10,
             () -> writeBlob("id", Integer.toString(bgCounter.getAndAdd(1000))),
-            RetryerBuilder.<RefUpdate>newBuilder()
+            RetryerBuilder.<ImmutableList<Integer>>newBuilder()
                 .withStopStrategy(StopStrategies.stopAfterAttempt(3))
                 .build());
     StorageException thrown = assertThrows(StorageException.class, () -> s.next());
     assertThat(thrown)
         .hasMessageThat()
         .contains("Failed to update refs/sequences/id: LOCK_FAILURE");
+  }
+
+  @Test
+  public void idCanBeRetrievedFromOtherThreadWhileWaitingToRetry() throws Exception {
+    // Seed existing ref value.
+    writeBlob("id", "1");
+
+    // Let the first update of the sequence fail with LOCK_FAILURE, so that the update is retried.
+    AtomicBoolean doneBgUpdate = new AtomicBoolean(false);
+    Runnable bgUpdate =
+        () -> {
+          if (!doneBgUpdate.getAndSet(true)) {
+            writeBlob("id", "1234");
+          }
+        };
+
+    // The block strategy of a retryer is invoked after a failed attempt to block until the next
+    // attempt. We expect that the RepoSequence.counterLock is released while the retryer blocks.
+    // To test this we use a block strategy that executes another thread that consumes another ID
+    // from the sequence. Creating an ID requires the RepoSequence.counterLock, if it's not free
+    // (because we forgot to release it before blocking) the call in the other thread would hang and
+    // the test would time out.
+    // We can set the runnable that consumes the ID from another thread only after RepoSequence was
+    // created, because we need the RepoSequence instance to get the next ID.
+    BlockStrategyThatTriggersRunnable blockStrategy = new BlockStrategyThatTriggersRunnable();
+
+    // Use batch size = 1 to make each call go to NoteDb.
+    RepoSequence s =
+        newSequence(
+            "id",
+            1,
+            1,
+            bgUpdate,
+            RepoSequence.retryerBuilder().withBlockStrategy(blockStrategy).build());
+    blockStrategy.runOnBlock =
+        () -> {
+          try {
+            Executors.newFixedThreadPool(1)
+                .submit(
+                    () -> {
+                      // This call hangs if we don't release the RepoSequence.counterLock while we
+                      // are blocking until the next try. If this happens we block until the test
+                      // times
+                      // out.
+                      expect.that(s.next()).isEqualTo(1234);
+                    })
+                .get();
+          } catch (ExecutionException | InterruptedException e) {
+            expect.fail();
+          }
+        };
+    assertThat(doneBgUpdate.get()).isFalse();
+    assertThat(s.next()).isEqualTo(1235);
+    // Two successful acquire calls (because batch size == 1).
+    assertThat(s.acquireCount).isEqualTo(2);
+    assertThat(doneBgUpdate.get()).isTrue();
   }
 
   @Test
@@ -260,7 +322,7 @@ public class RepoSequenceTest {
       final int start,
       int batchSize,
       Runnable afterReadRef,
-      Retryer<RefUpdate> retryer) {
+      Retryer<ImmutableList<Integer>> retryer) {
     return new RepoSequence(
         repoManager,
         GitReferenceUpdated.DISABLED,
@@ -298,5 +360,14 @@ public class RepoSequenceTest {
 
   private static long divCeil(float a, float b) {
     return Math.round(Math.ceil(a / b));
+  }
+
+  private static class BlockStrategyThatTriggersRunnable implements BlockStrategy {
+    Runnable runOnBlock;
+
+    @Override
+    public void block(long sleepTime) throws InterruptedException {
+      runOnBlock.run();
+    }
   }
 }

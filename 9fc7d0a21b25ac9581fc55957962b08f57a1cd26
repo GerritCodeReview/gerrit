@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "55765393_a1341fc5",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-12T15:00:50Z",
+      "side": 1,
+      "message": "\u003e maybe you could make a helper function? You could get the caller out of the stacktrace.\n\nWe could, but getting a stacktrace is relatively expensive (e.g. see this comment in the Flogger lib [1]), so we rather want to avoid this.\n\n\u003e The project is constant across callers for REceiveCommits.\n\nAdded a helper method to cover this.\n\n[1] https://github.com/google/flogger/blob/master/api/src/main/java/com/google/common/flogger/util/CallerFinder.java#L50",
+      "parentUuid": "d46ac06e_60d31eaf",
+      "range": {
+        "startLine": 724,
+        "startChar": 21,
+        "endLine": 724,
+        "endChar": 29
+      },
+      "revId": "9fc7d0a21b25ac9581fc55957962b08f57a1cd26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3e63802_50f89264",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "9fc7d0a21b25ac9581fc55957962b08f57a1cd26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a271494_4ecbc04b",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-12T15:00:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3e63802_50f89264",
+      "range": {
+        "startLine": 725,
+        "startChar": 28,
+        "endLine": 725,
+        "endChar": 48
+      },
+      "revId": "9fc7d0a21b25ac9581fc55957962b08f57a1cd26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

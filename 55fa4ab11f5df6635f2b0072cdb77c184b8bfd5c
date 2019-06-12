@@ -46,6 +46,30 @@
       "revId": "55fa4ab11f5df6635f2b0072cdb77c184b8bfd5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6604bb54_c2c76d61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-12T05:55:34Z",
+      "side": 1,
+      "message": "I think one way to unset the preferred email address is by push to the user branch. Just saying, because if we want to disallow unsetting a preferred email, we also have to do it there.\n\n\u003e Side note: I\u0027m not sure if the consequences of not having a preferred email address are clear.  \n\u003e Does it mean that the user can no longer for example create changes in the UI or do any action \n\u003e in the UI that causes a commit (i.e. cherry pick, rebase, merge) since they use the preferred\n\u003e email in the committer field?\n\nYes, without email you can\u0027t create commits, and also pushing commits will not work (because you cannot check if committer or author were forged). But for example you could use the SSH API. IIRC at SAP we made use of this to create service accounts which could use the SSH API, but were not able to push commits.\nBut these consequences may not be all, they are not documented and likely also not tested :/\n\nInternally at Google we sometimes link 2 accounts. Doing this means, moving the external IDs of the one account to the other account. Then the account without external IDs becomes inactive. In this case the preferred email of the old account should be unset (we don\u0027t do that but that\u0027s rather an inconsistency because now the email can be resolved to multiple accounts). Not sure if others have this use case. Of course this is our internal code, so we wouldn\u0027t be affected.\n\nOther than that I\u0027m not aware of uses cases that require unsetting the preferred email.",
+      "parentUuid": "7233a005_ebc549ff",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 0
+      },
+      "revId": "55fa4ab11f5df6635f2b0072cdb77c184b8bfd5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

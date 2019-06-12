@@ -45,6 +45,54 @@
       "revId": "c2f0ce5d155d6fd317cf5cf7ad2a969739dcda8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed01fe47_51f15808",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-06-12T16:52:51Z",
+      "side": 1,
+      "message": "I have add more explanation here as to how the DAG is different than the BitSets since I want the classes themselves to document the code, and the commit message to focus on documenting how/why it is different from the previous code.",
+      "parentUuid": "c6b828de_24aff49d",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 34
+      },
+      "revId": "c2f0ce5d155d6fd317cf5cf7ad2a969739dcda8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11d0bf24_ceb9d74b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-06-12T16:52:51Z",
+      "side": 1,
+      "message": "Done wherever it is not referencing the \u0027Dag\u0027 class.",
+      "parentUuid": "a98ec7e5_f7ff8b4f",
+      "range": {
+        "startLine": 9,
+        "startChar": 35,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "c2f0ce5d155d6fd317cf5cf7ad2a969739dcda8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

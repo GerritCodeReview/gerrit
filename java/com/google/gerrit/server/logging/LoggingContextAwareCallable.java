@@ -15,6 +15,7 @@
 package com.google.gerrit.server.logging;
 
 import com.google.common.collect.ImmutableSetMultimap;
+import com.google.common.flogger.FluentLogger;
 import java.util.concurrent.Callable;
 
 /**
@@ -31,6 +32,8 @@ import java.util.concurrent.Callable;
  * @see LoggingContextAwareRunnable
  */
 class LoggingContextAwareCallable<T> implements Callable<T> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final Callable<T> callable;
   private final Thread callingThread;
   private final ImmutableSetMultimap<String, String> tags;
@@ -62,8 +65,13 @@ class LoggingContextAwareCallable<T> implements Callable<T> {
       return callable.call();
     }
 
-    // propagate logging context
     LoggingContext loggingCtx = LoggingContext.getInstance();
+
+    if (!loggingCtx.isEmpty()) {
+      logger.atWarning().log("Logging context is not empty: %s", loggingCtx);
+    }
+
+    // propagate logging context
     loggingCtx.setTags(tags);
     loggingCtx.forceLogging(forceLogging);
     loggingCtx.performanceLogging(performanceLogging);
@@ -79,10 +87,7 @@ class LoggingContextAwareCallable<T> implements Callable<T> {
       return callable.call();
     } finally {
       // Cleanup logging context. This is important if the thread is pooled and reused.
-      loggingCtx.clearTags();
-      loggingCtx.forceLogging(false);
-      loggingCtx.performanceLogging(false);
-      loggingCtx.clearPerformanceLogEntries();
+      loggingCtx.clear();
     }
   }
 }

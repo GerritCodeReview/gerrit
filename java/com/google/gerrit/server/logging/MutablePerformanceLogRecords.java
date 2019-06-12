@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.logging;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,5 +44,12 @@ public class MutablePerformanceLogRecords {
 
   public synchronized ImmutableList<PerformanceLogRecord> list() {
     return ImmutableList.copyOf(performanceLogRecords);
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+        .add("performanceLogRecords", performanceLogRecords)
+        .toString();
   }
 }

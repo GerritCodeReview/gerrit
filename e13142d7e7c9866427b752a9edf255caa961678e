@@ -45,6 +45,54 @@
       "revId": "e13142d7e7c9866427b752a9edf255caa961678e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "193c2735_83ea73fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1067901
+      },
+      "writtenOn": "2019-06-12T22:56:08Z",
+      "side": 1,
+      "message": "Acking due to your comment below.",
+      "parentUuid": "442c7aae_0a59fa89",
+      "range": {
+        "startLine": 7,
+        "startChar": 33,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "e13142d7e7c9866427b752a9edf255caa961678e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c38632c0_f4f46645",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1067901
+      },
+      "writtenOn": "2019-06-12T22:56:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f43909a_699639b6",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "e13142d7e7c9866427b752a9edf255caa961678e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

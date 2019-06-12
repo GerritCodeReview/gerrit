@@ -201,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "e3373c96_22a4783b",
+        "filename": "javatests/com/google/gerrit/server/notedb/RepoSequenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-12T07:57:09Z",
+      "side": 1,
+      "message": "I think it gets cleaner if you use properly named countdown latches. Here is my suggestion:\n\n  @Test\n  public void idCanBeRetrievedFromOtherThreadWhileWaitingToRetry() throws Exception {\n    // Seed existing ref value.\n    writeBlob(\"id\", \"1\");\n\n    // Let the first update of the sequence fail with LOCK_FAILURE, so that the update is retried.\n    CountDownLatch lockFailure \u003d new CountDownLatch(1);\n    CountDownLatch parallelSuccessfulSequenceGeneration \u003d new CountDownLatch(1);\n\n    AtomicBoolean doneBgUpdate \u003d new AtomicBoolean(false);\n    Runnable bgUpdate \u003d\n        () -\u003e {\n          if (!doneBgUpdate.getAndSet(true)) {\n            // Provoke a LOCK_FAILURE on the first attempt\n            writeBlob(\"id\", \"1234\");\n          }\n        };\n\n    BlockStrategy blockStrategy \u003d\n        t -\u003e {\n          // Keep blocking until we verified that another thread can retrieve a sequence number\n          // while we are blocking here.\n          lockFailure.countDown();\n          parallelSuccessfulSequenceGeneration.await(2, TimeUnit.SECONDS);\n        };\n\n    // Use batch size \u003d 1 to make each call go to NoteDb.\n    RepoSequence s \u003d\n        newSequence(\n            \"id\",\n            1,\n            1,\n            bgUpdate,\n            RepoSequence.retryerBuilder().withBlockStrategy(blockStrategy).build());\n\n    // Start a thread to get a sequence number. This thread needs to update the sequence in NoteDb,\n    // but due to the background update (see bgUpdate) the first attempt to update NoteDb fails\n    // with LOCK_FAILURE. RepoSequence uses a retryer to retry the NoteDb update on LOCK_FAILURE,\n    // but our block strategy ensures that this retry only happens after isBlocking was set to\n    // false.\n    Future\u003c?\u003e future \u003d\n        Executors.newFixedThreadPool(1)\n            .submit(\n                () -\u003e {\n                  // The background update sets the next available sequence number to 1234. Then the\n                  // test thread retrieves one sequence number, so that the next available sequence\n                  // number for this thread is 1235.\n                  expect.that(s.next()).isEqualTo(1235);\n                });\n\n    lockFailure.await(2, TimeUnit.SECONDS);\n\n    // Verify that we can retrieve a sequence number while the other thread is blocked. If the\n    // s.next() call hangs it means that the RepoSequence.counterLock was not released before the\n    // background thread started to block for retry. In this case the test would time out.\n    assertThat(s.next()).isEqualTo(1234);\n\n    // Stop blocking the retry of the background thread (and verify that it was still blocked).\n    parallelSuccessfulSequenceGeneration.countDown();\n\n    // Wait until the background thread is done.\n    future.get();\n\n    // Two successful acquire calls (because batch size \u003d\u003d 1).\n    assertThat(s.acquireCount).isEqualTo(2);\n  }\n\nStill not optimal, because the Runnable is just a workaround. Ideally, we can tell the storage to throw a LOCK_FAILURE on the first try, but that would be way more work.",
+      "parentUuid": "fc9f9a42_9b0a17ab",
+      "range": {
+        "startLine": 228,
+        "startChar": 3,
+        "endLine": 236,
+        "endChar": 94
+      },
+      "revId": "f26953359bad756a1db681178036dcf0ccc82ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4762f249_9e86148b",
         "filename": "javatests/com/google/gerrit/server/notedb/RepoSequenceTest.java",
         "patchSetId": 1

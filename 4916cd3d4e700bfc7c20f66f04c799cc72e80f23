@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dfb96f5_df6b6a30",
+        "filename": "java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-06-12T23:49:54Z",
+      "side": 1,
+      "message": "This isn\u0027t used anywhere in Gerrit but only in the Replication plugin. Why not add an extension point there instead, without the need to introduce a method in core that soon people will forget why it was created and will get rid of it because unused?",
+      "range": {
+        "startLine": 57,
+        "startChar": 20,
+        "endLine": 57,
+        "endChar": 33
+      },
+      "revId": "4916cd3d4e700bfc7c20f66f04c799cc72e80f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

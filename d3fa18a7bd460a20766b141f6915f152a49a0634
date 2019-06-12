@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1224d8bd_384ddb77",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContextAwareCallable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-12T11:12:29Z",
+      "side": 1,
+      "message": "Done in follow-up change:\n  https://gerrit-review.googlesource.com/c/gerrit/+/227473",
+      "parentUuid": "7f56d2a3_df031989",
+      "revId": "d3fa18a7bd460a20766b141f6915f152a49a0634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17e2086a_8a3cc8bd",
         "filename": "java/com/google/gerrit/server/logging/LoggingContextAwareCallable.java",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "d3fa18a7bd460a20766b141f6915f152a49a0634",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5edf57ba_6726cd5b",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContextAwareCallable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-12T11:12:29Z",
+      "side": 1,
+      "message": "Done in follow-up change:\n  https://gerrit-review.googlesource.com/c/gerrit/+/227473",
+      "parentUuid": "17e2086a_8a3cc8bd",
+      "range": {
+        "startLine": 80,
+        "startChar": 17,
+        "endLine": 80,
+        "endChar": 26
+      },
+      "revId": "d3fa18a7bd460a20766b141f6915f152a49a0634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "03b468c4c7652a0a5354b10a79874d65c8bee6ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18dcdfeb_661e7c62",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-12T08:39:31Z",
+      "side": 1,
+      "message": "The problem there is that DefaultAdvertiseRefsHook mixes up visibility checks with semantic filtering (e.g. remove meta refs here and there).\n\nI think this isn\u0027t a problem tough, we would advertise a little more refs (after all, there aren\u0027t many meta refs). And only the ones that are visible to the user.\n\nLong-term we can dissolve DefaultAdvertiseRefs hook by moving out all non-permission related checks and refactoring the rest.",
+      "parentUuid": "db6a9641_e5f00c3b",
+      "range": {
+        "startLine": 305,
+        "startChar": 43,
+        "endLine": 305,
+        "endChar": 89
+      },
+      "revId": "03b468c4c7652a0a5354b10a79874d65c8bee6ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

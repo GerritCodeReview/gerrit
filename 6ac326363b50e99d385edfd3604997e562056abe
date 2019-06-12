@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a6df478_7fba82b6",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-12T23:08:52Z",
+      "side": 1,
+      "message": "Is it possible to detect if the init is running on a slave, and then skip this step?",
+      "range": {
+        "startLine": 143,
+        "startChar": 9,
+        "endLine": 150,
+        "endChar": 0
+      },
+      "revId": "6ac326363b50e99d385edfd3604997e562056abe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

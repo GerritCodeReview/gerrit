@@ -54,10 +54,11 @@ limitations under the License.
       <div id="form">
         <section>
           <span class="title">Repository name</span>
-          <input is="iron-input"
-              id="repoNameInput"
-              autocomplete="on"
-              bind-value="{{_repoConfig.name}}">
+          <iron-input id="repoNameInput"
+                      bind-value="{{_repoConfig.name}}">
+            <input autocomplete="on"
+                   bind-value="{{_repoConfig.name}}">
+          </iron-input>
         </section>
         <section>
           <span class="title">Rights inherit from</span>

@@ -44,27 +44,27 @@ limitations under the License.
       <div id="form">
         <section>
           <span class="title">[[detailType]] name</span>
-          <input
-              is="iron-input"
-              id="itemNameInput"
-              placeholder="[[detailType]] Name"
-              bind-value="{{_itemName}}">
+          <iron-input id="itemNameInput"
+                      bind-value="{{_itemName}}">
+            <input placeholder="[[detailType]] Name"
+                   bind-value="{{_itemName}}">
+          </iron-input>
         </section>
         <section>
           <span class="title">Initial Revision</span>
-          <input
-              is="iron-input"
-              id="itemRevisionInput"
-              placeholder="Revision (Branch or SHA-1)"
-              bind-value="{{_itemRevision}}">
+          <iron-input id="itemRevisionInput"
+                      bind-value="{{_itemRevision}}">
+            <input placeholder="Revision (Branch or SHA-1)"
+                   bind-value="{{_itemRevision}}">
+          </iron-input>
         </section>
         <section class$="[[_computeHideItemClass(itemDetail)]]">
           <span class="title">Annotation</span>
-          <input
-              is="iron-input"
-              id="itemAnnotationInput"
-              placeholder="Annotation (Optional)"
-              bind-value="{{_itemAnnotation}}">
+          <iron-input id="itemAnnotationInput"
+                      bind-value="{{_itemAnnotation}}">
+            <input placeholder="Annotation (Optional)"
+                   bind-value="{{_itemAnnotation}}">
+          </iron-input>
         </section>
       </div>
     </div>

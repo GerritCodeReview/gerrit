@@ -44,6 +44,8 @@ npm_binary = repository_rule(
     implementation = _npm_binary_impl,
 )
 
+ComponentInfo = provider()
+
 # for use in repo rules.
 def _run_npm_binary_str(ctx, tarball, args):
     python_bin = ctx.which("python")
@@ -132,31 +134,29 @@ bower_archive = repository_rule(
 def _bower_component_impl(ctx):
     transitive_zipfiles = depset(
         direct = [ctx.file.zipfile],
-        transitive = [d.transitive_zipfiles for d in ctx.attr.deps],
+        transitive = [d[ComponentInfo].transitive_zipfiles for d in ctx.attr.deps],
     )
 
     transitive_licenses = depset(
         direct = [ctx.file.license],
-        transitive = [d.transitive_licenses for d in ctx.attr.deps],
+        transitive = [d[ComponentInfo].transitive_licenses for d in ctx.attr.deps],
     )
 
     transitive_versions = depset(
         direct = ctx.files.version_json,
-        transitive = [d.transitive_versions for d in ctx.attr.deps],
+        transitive = [d[ComponentInfo].transitive_versions for d in ctx.attr.deps],
     )
 
-    return struct(
-        transitive_zipfiles = transitive_zipfiles,
-        transitive_versions = transitive_versions,
-        transitive_licenses = transitive_licenses,
-    )
+    return [
+        ComponentInfo(
+            transitive_licenses = transitive_licenses,
+            transitive_versions = transitive_versions,
+            transitive_zipfiles = transitive_zipfiles,
+        ),
+    ]
 
 _common_attrs = {
-    "deps": attr.label_list(providers = [
-        "transitive_zipfiles",
-        "transitive_versions",
-        "transitive_licenses",
-    ]),
+    "deps": attr.label_list(providers = [ComponentInfo]),
 }
 
 def _js_component(ctx):
@@ -186,11 +186,13 @@ def _js_component(ctx):
     if ctx.file.license:
         licenses.append(ctx.file.license)
 
-    return struct(
-        transitive_zipfiles = list([ctx.outputs.zip]),
-        transitive_versions = depset(),
-        transitive_licenses = depset(licenses),
-    )
+    return [
+        ComponentInfo(
+            transitive_licenses = depset(licenses),
+            transitive_versions = depset(),
+            transitive_zipfiles = list([ctx.outputs.zip]),
+        ),
+    ]
 
 js_component = rule(
     _js_component,
@@ -232,16 +234,16 @@ def _bower_component_bundle_impl(ctx):
     """A bunch of bower components zipped up."""
     zips = depset()
     for d in ctx.attr.deps:
-        files = d.transitive_zipfiles
+        files = d[ComponentInfo].transitive_zipfiles
 
         # TODO(davido): Make sure the field always contains a depset
         if type(files) == "list":
             files = depset(files)
         zips = depset(transitive = [zips, files])
 
-    versions = depset(transitive = [d.transitive_versions for d in ctx.attr.deps])
+    versions = depset(transitive = [d[ComponentInfo].transitive_versions for d in ctx.attr.deps])
 
-    licenses = depset(transitive = [d.transitive_versions for d in ctx.attr.deps])
+    licenses = depset(transitive = [d[ComponentInfo].transitive_versions for d in ctx.attr.deps])
 
     out_zip = ctx.outputs.zip
     out_versions = ctx.outputs.version_json
@@ -271,11 +273,13 @@ def _bower_component_bundle_impl(ctx):
         command = "(echo '{' ; for j in  %s ; do cat $j; echo ',' ; done ; echo \\\"\\\":\\\"\\\"; echo '}') > %s" % (" ".join([v.path for v in versions.to_list()]), out_versions.path),
     )
 
-    return struct(
-        transitive_zipfiles = zips,
-        transitive_versions = versions,
-        transitive_licenses = licenses,
-    )
+    return [
+        ComponentInfo(
+            transitive_licenses = licenses,
+            transitive_versions = versions,
+            transitive_zipfiles = zips,
+        ),
+    ]
 
 bower_component_bundle = rule(
     _bower_component_bundle_impl,
@@ -301,7 +305,7 @@ def _vulcanize_impl(ctx):
         ctx.outputs.html.path + ".vulcanized.html",
     )
     destdir = ctx.outputs.html.path + ".dir"
-    zips = [z for d in ctx.attr.deps for z in d.transitive_zipfiles.to_list()]
+    zips = [z for d in ctx.attr.deps for z in d[ComponentInfo].transitive_zipfiles.to_list()]
 
     hermetic_npm_binary = " ".join([
         "python",
@@ -392,7 +396,7 @@ _vulcanize_rule = rule(
             allow_single_file = True,
         ),
         "pkg": attr.string(mandatory = True),
-        "deps": attr.label_list(providers = ["transitive_zipfiles"]),
+        "deps": attr.label_list(providers = [ComponentInfo]),
         "_crisper_archive": attr.label(
             default = Label("@crisper//:%s" % _npm_tarball("crisper")),
             allow_single_file = True,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7874e061_0e2ad6c2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-12T07:41:02Z",
+      "side": 1,
+      "message": "Looks like this is unneeded, since the counter is not checked below?\nMaybe this test doesn\u0027t need to verify index events at all?",
+      "revId": "f883e215b1ae58bf8e3bd961046075607b3d589c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -16,6 +16,7 @@ package com.google.gerrit.server.logging;
 
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
@@ -109,5 +110,11 @@ public class MutableTags {
     Tags.Builder tagsBuilder = Tags.builder();
     tagMap.forEach(tagsBuilder::addTag);
     tags = tagsBuilder.build();
+  }
+
+  @Override
+  public String toString() {
+    buildTags();
+    return MoreObjects.toStringHelper(this).add("tags", tags).toString();
   }
 }

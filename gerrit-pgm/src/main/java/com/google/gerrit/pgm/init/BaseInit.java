@@ -140,7 +140,13 @@ public class BaseInit extends SiteProgram {
       try {
         indexManager.start();
         run = createSiteRun(init);
-        run.upgradeSchema();
+        try {
+          run.upgradeSchema();
+        } catch (OrmException e) {
+          String msg = "Couldn't upgrade schema. Expected if slave and read-only database";
+          System.err.println(msg);
+          log.warn(msg, e);
+        }
 
         init.initializer.postRun(sysInjector);
       } finally {

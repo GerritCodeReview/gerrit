@@ -16,6 +16,7 @@ package com.google.gerrit.server.logging;
 
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.flogger.backend.Tags;
@@ -77,6 +78,20 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
     // are created in another thread should not get lost.
     return new LoggingContextAwareCallable<>(
         callable, getInstance().getMutablePerformanceLogRecords());
+  }
+
+  public boolean isEmpty() {
+    return tags.get() == null
+        && forceLogging.get() == null
+        && performanceLogging.get() == null
+        && performanceLogRecords == null;
+  }
+
+  public void clear() {
+    tags.remove();
+    forceLogging.remove();
+    performanceLogging.remove();
+    performanceLogRecords.remove();
   }
 
   @Override
@@ -240,5 +255,15 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
       performanceLogRecords.set(records);
     }
     return records;
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+        .add("tags", tags.get())
+        .add("forceLogging", forceLogging.get())
+        .add("performanceLogging", performanceLogging.get())
+        .add("performanceLogRecords", performanceLogRecords.get())
+        .toString();
   }
 }

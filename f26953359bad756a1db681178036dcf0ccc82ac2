@@ -225,6 +225,30 @@
     },
     {
       "key": {
+        "uuid": "fbc924ff_9774010e",
+        "filename": "javatests/com/google/gerrit/server/notedb/RepoSequenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-12T15:18:00Z",
+      "side": 1,
+      "message": "I agree that using countdown latches is better. Done (just without timeout since timeouts can make tests flaky).\n\n\u003e Still not optimal, because the Runnable is just a workaround. Ideally,\n\u003e we can tell the storage to throw a LOCK_FAILURE on the first try, but\n\u003e that would be way more work.\n\nYes, maybe there is a better way than the background runnable to provoke a LOCK_FAILURE, but the technique of using background runnables for this is used in multiple places and for consistency we should update all of them if we want to switch to a better technique. So yes, outside the scope of this change.",
+      "parentUuid": "e3373c96_22a4783b",
+      "range": {
+        "startLine": 228,
+        "startChar": 3,
+        "endLine": 236,
+        "endChar": 94
+      },
+      "revId": "f26953359bad756a1db681178036dcf0ccc82ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4762f249_9e86148b",
         "filename": "javatests/com/google/gerrit/server/notedb/RepoSequenceTest.java",
         "patchSetId": 1

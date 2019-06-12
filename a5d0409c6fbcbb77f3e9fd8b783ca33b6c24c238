@@ -22,6 +22,30 @@
       "revId": "a5d0409c6fbcbb77f3e9fd8b783ca33b6c24c238",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f46dec4b_19285bd3",
+        "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-12T05:57:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9aaf91e2_34a81d8d",
+      "range": {
+        "startLine": 125,
+        "startChar": 4,
+        "endLine": 125,
+        "endChar": 84
+      },
+      "revId": "a5d0409c6fbcbb77f3e9fd8b783ca33b6c24c238",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.logging;
 
 import com.google.common.collect.ImmutableSetMultimap;
+import com.google.common.flogger.FluentLogger;
 
 /**
  * Wrapper for a {@link Runnable} that copies the {@link LoggingContext} from the current thread to
@@ -49,16 +50,30 @@ import com.google.common.collect.ImmutableSetMultimap;
  * @see LoggingContextAwareCallable
  */
 public class LoggingContextAwareRunnable implements Runnable {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final Runnable runnable;
   private final Thread callingThread;
   private final ImmutableSetMultimap<String, String> tags;
   private final boolean forceLogging;
+  private final boolean performanceLogging;
+  private final MutablePerformanceLogRecords mutablePerformanceLogRecords;
 
-  LoggingContextAwareRunnable(Runnable runnable) {
+  /**
+   * Creates a LoggingContextAwareRunnable that wraps the given {@link Runnable}.
+   *
+   * @param runnable Runnable that should be wrapped.
+   * @param mutablePerformanceLogRecords instance of {@link MutablePerformanceLogRecords} to which
+   *     performance log records that are created from the runnable are added
+   */
+  LoggingContextAwareRunnable(
+      Runnable runnable, MutablePerformanceLogRecords mutablePerformanceLogRecords) {
     this.runnable = runnable;
     this.callingThread = Thread.currentThread();
     this.tags = LoggingContext.getInstance().getTagsAsMap();
     this.forceLogging = LoggingContext.getInstance().isLoggingForced();
+    this.performanceLogging = LoggingContext.getInstance().isPerformanceLogging();
+    this.mutablePerformanceLogRecords = mutablePerformanceLogRecords;
   }
 
   public Runnable unwrap() {
@@ -73,17 +88,29 @@ public class LoggingContextAwareRunnable implements Runnable {
       return;
     }
 
-    // propagate logging context
     LoggingContext loggingCtx = LoggingContext.getInstance();
-    ImmutableSetMultimap<String, String> oldTags = loggingCtx.getTagsAsMap();
-    boolean oldForceLogging = loggingCtx.isLoggingForced();
+
+    if (!loggingCtx.isEmpty()) {
+      logger.atWarning().log("Logging context is not empty: %s", loggingCtx);
+    }
+
+    // propagate logging context
     loggingCtx.setTags(tags);
     loggingCtx.forceLogging(forceLogging);
+    loggingCtx.performanceLogging(performanceLogging);
+
+    // For the performance log records use the {@link MutablePerformanceLogRecords} instance from
+    // the logging context of the calling thread in the logging context of the new thread. This way
+    // performance log records that are created from the new thread are available from the logging
+    // context of the calling thread. This is important since performance log records are processed
+    // only at the end of the request and performance log records that are created in another thread
+    // should not get lost.
+    loggingCtx.setMutablePerformanceLogRecords(mutablePerformanceLogRecords);
     try {
       runnable.run();
     } finally {
-      loggingCtx.setTags(oldTags);
-      loggingCtx.forceLogging(oldForceLogging);
+      // Cleanup logging context. This is important if the thread is pooled and reused.
+      loggingCtx.clear();
     }
   }
 }

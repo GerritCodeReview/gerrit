@@ -2801,6 +2801,15 @@ class ApiQpsEnforcer implements QuotaEnforcer {
 }
 ----
 
+[[performance-logger]]
+== Performance Logger
+
+`com.google.gerrit.server.logging.PerformanceLogger` is an extension point that
+is invoked for all operations for which the execution time is measured. The
+invocation of the extension point does not happen immediately, but only at the
+end of a request (REST call, SSH call, git push). Implementors can write the
+execution times into a performance log for further analysis.
+
 [[plugins_hosting]]
 == Plugins source code hosting
 

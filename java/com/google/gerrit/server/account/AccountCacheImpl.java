@@ -183,7 +183,7 @@ public class AccountCacheImpl implements AccountCache {
 
     @Override
     public Optional<AccountState> load(Account.Id who) throws Exception {
-      try (TraceTimer timer = TraceContext.newTimer("Loading account %s", who)) {
+      try (TraceTimer timer = TraceContext.newTimer("Loading account", "accountId", who)) {
         return accounts.get(who);
       }
     }

@@ -265,7 +265,9 @@ public class GroupsUpdate {
       throws DuplicateKeyException, IOException, ConfigInvalidException {
     try (TraceTimer timer =
         TraceContext.newTimer(
-            "Creating group '%s'", groupUpdate.getName().orElseGet(groupCreation::getNameKey))) {
+            "Creating group",
+            "groupName",
+            groupUpdate.getName().orElseGet(groupCreation::getNameKey))) {
       InternalGroup createdGroup = createGroupInNoteDbWithRetry(groupCreation, groupUpdate);
       evictCachesOnGroupCreation(createdGroup);
       dispatchAuditEventsOnGroupCreation(createdGroup);
@@ -285,7 +287,7 @@ public class GroupsUpdate {
    */
   public void updateGroup(AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
       throws DuplicateKeyException, IOException, NoSuchGroupException, ConfigInvalidException {
-    try (TraceTimer timer = TraceContext.newTimer("Updating group %s", groupUuid)) {
+    try (TraceTimer timer = TraceContext.newTimer("Updating group", "groupUuid", groupUuid)) {
       Optional<Timestamp> updatedOn = groupUpdate.getUpdatedOn();
       if (!updatedOn.isPresent()) {
         updatedOn = Optional.of(TimeUtil.nowTs());

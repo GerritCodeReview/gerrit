@@ -151,7 +151,7 @@ public class PureRevertCache {
     @Override
     public Boolean load(PureRevertKeyProto key) throws BadRequestException, IOException {
       try (TraceContext.TraceTimer ignored =
-          TraceContext.newTimer("Loading pure revert for %s", key)) {
+          TraceContext.newTimer("Loading pure revert", "key", key)) {
         ObjectId original = ObjectIdConverter.create().fromByteString(key.getClaimedOriginal());
         ObjectId revert = ObjectIdConverter.create().fromByteString(key.getClaimedRevert());
         Project.NameKey project = Project.nameKey(key.getProject());

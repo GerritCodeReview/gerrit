@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0efd17d4_24f7b885",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-13T09:15:01Z",
+      "side": 1,
+      "message": "BadRequestException here and below",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 20
+      },
+      "revId": "126fc7c98ee2c434b6864d063c0b35ccb2497356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f79a8f29_da34509f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-13T09:15:01Z",
+      "side": 1,
+      "message": "This test is now redundant because the Java API and the REST API behave the same way. Handling BadRequestException correctly in RestApiServlet is (hopefully) tested elsewhere.",
+      "revId": "126fc7c98ee2c434b6864d063c0b35ccb2497356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

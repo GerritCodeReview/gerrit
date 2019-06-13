@@ -437,6 +437,24 @@
     },
     {
       "key": {
+        "uuid": "f668812f_3543f40e",
+        "filename": "java/com/google/gerrit/testing/TestCommentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-13T09:15:01Z",
+      "side": 1,
+      "message": "Sounds good to me",
+      "parentUuid": "ad245ffc_39305726",
+      "revId": "3c954d0f8f17aff0581c975c29996927fb38d613",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f22f621_c47ff68a",
         "filename": "javatests/com/google/gerrit/server/BUILD",
         "patchSetId": 3

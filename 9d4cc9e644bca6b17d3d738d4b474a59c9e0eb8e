@@ -46,6 +46,30 @@
       "revId": "9d4cc9e644bca6b17d3d738d4b474a59c9e0eb8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "726878e4_7330db20",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-13T07:43:09Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/227640",
+      "parentUuid": "57d61b6f_2c46c296",
+      "range": {
+        "startLine": 222,
+        "startChar": 4,
+        "endLine": 222,
+        "endChar": 64
+      },
+      "revId": "9d4cc9e644bca6b17d3d738d4b474a59c9e0eb8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

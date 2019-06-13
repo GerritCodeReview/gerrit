@@ -219,7 +219,6 @@ when coding:
     when operating on slow links.  If the action buttons are disabled,
     they cannot be resubmitted and the user can see that Gerrit is still
     busy.
-  * ...and so is Guava (previously known as Google Collections).
 
 [[tests]]
 == Tests

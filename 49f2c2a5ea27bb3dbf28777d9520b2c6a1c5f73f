@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d594d48f_dd259693",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-06-13T11:30:18Z",
+      "side": 1,
+      "message": "You can just drop that - it\u0027s the default.",
+      "range": {
+        "startLine": 478,
+        "startChar": 11,
+        "endLine": 478,
+        "endChar": 14
+      },
+      "revId": "49f2c2a5ea27bb3dbf28777d9520b2c6a1c5f73f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

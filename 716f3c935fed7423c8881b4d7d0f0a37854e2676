@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43c8e0bc_26521fcf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-13T16:38:02Z",
+      "side": 1,
+      "message": "23000, according to this changed code and below.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 5
+      },
+      "revId": "716f3c935fed7423c8881b4d7d0f0a37854e2676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28484a45_40b48fa8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MysqlAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-13T16:38:02Z",
+      "side": 1,
+      "message": "And 14 other cases, according to [1] from the commit message. Should this comment be changed, and most importantly, is it OK to handle them all (15 potential cases) through an OrmDuplicateKeyException? -As many of those 23000 cases seem to differ from the previous duplicate-key overall case.",
+      "range": {
+        "startLine": 42,
+        "startChar": 21,
+        "endLine": 42,
+        "endChar": 31
+      },
+      "revId": "716f3c935fed7423c8881b4d7d0f0a37854e2676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

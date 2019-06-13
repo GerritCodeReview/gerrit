@@ -147,6 +147,24 @@
       "revId": "126fc7c98ee2c434b6864d063c0b35ccb2497356",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "894732ea_d7dac474",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-06-13T12:46:08Z",
+      "side": 1,
+      "message": "Right, sorry. Removed.",
+      "parentUuid": "4d744a12_c762694c",
+      "revId": "126fc7c98ee2c434b6864d063c0b35ccb2497356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

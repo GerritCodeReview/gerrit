@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10cffcd8_ad5d1941",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-13T08:19:08Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "fea59300516aff3e3bf73f1927539bad06565231",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

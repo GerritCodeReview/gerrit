@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b380384b_f9556cb7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-13T09:41:26Z",
+      "side": 1,
+      "message": "BadRequestException extends RestApiException, so we can do either one of two things:\n\n    BadRequestException restApiException \u003d\n        assertThrows(\n            BadRequestException.class,\n            () -\u003e gApi.changes().id(r.getChangeId()).current().review(input));\n\nor\n\n    RestApiException restApiException \u003d\n        assertThrows(\n            RestApiException.class,\n            () -\u003e gApi.changes().id(r.getChangeId()).current().review(input));\nassertThat(restApiException).isInstanceOf(BadRequestException.class);\n\nThis is because we need to check that we really get a bad request exception. This is important for the later processing code in RestApiServlet to handle this correctly. The cause is interesting as well (\u003dCommentsRejectedException), but not primarily.",
+      "parentUuid": "cba7a763_85dfe47e",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 20
+      },
+      "revId": "126fc7c98ee2c434b6864d063c0b35ccb2497356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f79a8f29_da34509f",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
         "patchSetId": 5

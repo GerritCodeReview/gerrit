@@ -230,7 +230,13 @@
     },
 
     _appElement() {
-      return document.querySelector('#app-element');
+      // In Polymer2 you have to reach through the shadow root of the app
+      // element. This obviously breaks encapsulation.
+      // TODO(brohlfs): Make this more elegant, e.g. by exposing app-element
+      // explicitly in app, or by delegating to it.
+      return document.getElementById('app-element') ||
+          document.getElementById('app').shadowRoot.getElementById(
+              'app-element');
     },
 
     _redirect(url) {

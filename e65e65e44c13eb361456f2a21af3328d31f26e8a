@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87a4aa80_0864c3d5",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContextAwareCallable.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-13T11:00:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6b1133e_5c4c2ec0",
+      "revId": "e65e65e44c13eb361456f2a21af3328d31f26e8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f15410c_f9548eb1",
         "filename": "java/com/google/gerrit/server/logging/MutablePerformanceLogRecords.java",
         "patchSetId": 9
@@ -33,6 +51,24 @@
       "revId": "e65e65e44c13eb361456f2a21af3328d31f26e8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f400770_c0608c8b",
+        "filename": "java/com/google/gerrit/server/logging/MutablePerformanceLogRecords.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-13T11:00:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f15410c_f9548eb1",
+      "revId": "e65e65e44c13eb361456f2a21af3328d31f26e8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -347,10 +347,6 @@ class DefaultRefFilter {
 
   private boolean visibleEdit(Repository repo, String name) throws PermissionBackendException {
     Change.Id id = Change.Id.fromEditRefPart(name);
-    // Initialize if it wasn't yet
-    if (visibleChanges == null) {
-      visible(repo, id);
-    }
     if (id == null) {
       return false;
     }
@@ -359,6 +355,11 @@ class DefaultRefFilter {
         && name.startsWith(RefNames.refsEditPrefix(user.asIdentifiedUser().getAccountId()))
         && visible(repo, id)) {
       return true;
+    }
+
+    // Initialize visibleChanges if it wasn't initialized yet.
+    if (visibleChanges == null) {
+      visible(repo, id);
     }
     if (visibleChanges.containsKey(id)) {
       try {

@@ -149,6 +149,20 @@ public abstract class CallerFinder {
    */
   public abstract int skip();
 
+  /**
+   * Packages that should be ignored and not be considered as caller once a target has been found.
+   *
+   * @return the ignored packages
+   */
+  public abstract ImmutableList<String> ignoredPackages();
+
+  /**
+   * Classes that should be ignored and not be considered as caller once a target has been found.
+   *
+   * @return the qualified names of the ignored classes
+   */
+  public abstract ImmutableList<String> ignoredClasses();
+
   @AutoValue.Builder
   public abstract static class Builder {
     abstract ImmutableList.Builder<Class<?>> targetsBuilder();
@@ -163,6 +177,20 @@ public abstract class CallerFinder {
     public abstract Builder matchInnerClasses(boolean matchInnerClasses);
 
     public abstract Builder skip(int skip);
+
+    abstract ImmutableList.Builder<String> ignoredPackagesBuilder();
+
+    public Builder addIgnoredPackage(String ignoredPackage) {
+      ignoredPackagesBuilder().add(ignoredPackage);
+      return this;
+    }
+
+    abstract ImmutableList.Builder<String> ignoredClassesBuilder();
+
+    public Builder addIgnoredClass(Class<?> ignoredClass) {
+      ignoredClassesBuilder().add(ignoredClass.getName());
+      return this;
+    }
 
     public abstract CallerFinder build();
   }
@@ -194,7 +222,9 @@ public abstract class CallerFinder {
         StackTraceElement element = stack[index];
         if (isCaller(target, element.getClassName(), matchSubClasses())) {
           foundCaller = true;
-        } else if (foundCaller) {
+        } else if (foundCaller
+            && !ignoredPackages().contains(getPackageName(element))
+            && !ignoredClasses().contains(element.getClassName())) {
           return Optional.of(element.toString());
         }
       }
@@ -204,6 +234,11 @@ public abstract class CallerFinder {
       // (ClassNotFoundException), however we don't want anything to be thrown from here.
       return Optional.empty();
     }
+  }
+
+  private static String getPackageName(StackTraceElement element) {
+    String className = element.getClassName();
+    return className.substring(0, className.lastIndexOf("."));
   }
 
   private boolean isCaller(Class<?> target, String className, boolean matchSubClasses)

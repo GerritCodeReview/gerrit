@@ -36,10 +36,13 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
 import com.google.gerrit.server.index.account.AccountIndexer;
+import com.google.gerrit.server.logging.CallerFinder;
+import com.google.gerrit.server.update.RetryHelper;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -265,6 +268,7 @@ public class ExternalIdNotes extends VersionedMetaData {
   private final AllUsersName allUsersName;
   private final Counter0 updateCount;
   private final Repository repo;
+  private final CallerFinder callerFinder;
 
   private NoteMap noteMap;
   private ObjectId oldRev;
@@ -294,6 +298,19 @@ public class ExternalIdNotes extends VersionedMetaData {
             new Description("Total number of external ID updates.").setRate().setUnit("updates"));
     this.allUsersName = requireNonNull(allUsersName, "allUsersRepo");
     this.repo = requireNonNull(allUsersRepo, "allUsersRepo");
+    this.callerFinder =
+        CallerFinder.builder()
+            // 1. callers that come through ExternalIds
+            .addTarget(ExternalIds.class)
+
+            // 2. callers that come through AccountsUpdate
+            .addTarget(AccountsUpdate.class)
+            .addIgnoredPackage("com.github.rholder.retry")
+            .addIgnoredClass(RetryHelper.class)
+
+            // 3. direct callers
+            .addTarget(ExternalIdNotes.class)
+            .build();
   }
 
   public ExternalIdNotes setAfterReadRevision(Runnable afterReadRevision) {
@@ -658,7 +675,7 @@ public class ExternalIdNotes extends VersionedMetaData {
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
     if (revision != null) {
-      logger.atFine().log("Reading external ID note map");
+      logger.atFine().log("Reading external ID note map (caller: %s)", callerFinder.findCaller());
       noteMap = NoteMap.read(reader, revision);
     } else {
       noteMap = NoteMap.newEmptyMap();

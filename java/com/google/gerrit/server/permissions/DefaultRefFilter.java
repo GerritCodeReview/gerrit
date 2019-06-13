@@ -129,23 +129,42 @@ class DefaultRefFilter {
   /** Filters given refs and tags by visibility. */
   Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
       throws PermissionBackendException {
+    logger.atFinest().log(
+        "Filter refs for repository %s by visibility (options = %s, refs = %s)",
+        projectState.getNameKey(), opts, refs);
+    logger.atFinest().log("Calling user: %s", user.getLoggableName());
+    logger.atFinest().log(
+        "auth.skipFullRefEvaluationIfAllRefsAreVisible = %s",
+        skipFullRefEvaluationIfAllRefsAreVisible);
+    logger.atFinest().log(
+        "Project state %s permits read = %s",
+        projectState.getProject().getState(), projectState.statePermitsRead());
+
     // See if we can get away with a single, cheap ref evaluation.
     if (refs.size() == 1) {
       String refName = Iterables.getOnlyElement(refs.values()).getName();
       if (opts.filterMeta() && isMetadata(refName)) {
+        logger.atFinest().log("Filter out metadata ref %s", refName);
         return ImmutableMap.of();
       }
       if (RefNames.isRefsChanges(refName)) {
-        return canSeeSingleChangeRef(refName) ? refs : ImmutableMap.of();
+        boolean isChangeRefVisisble = canSeeSingleChangeRef(refName);
+        if (isChangeRefVisisble) {
+          logger.atFinest().log("Change ref %s is visible", refName);
+          return refs;
+        }
+        logger.atFinest().log("Filter out non-visible change ref %s", refName);
+        return ImmutableMap.of();
       }
     }
 
     // Perform an initial ref filtering with all the refs the caller asked for. If we find tags that
-    // we have to investigate (deferred tags) separately then perform a reachability check starting
+    // we have to investigate separately (deferred tags) then perform a reachability check starting
     // from all visible branches (refs/heads/*).
     Result initialRefFilter = filterRefs(refs, repo, opts);
     Map<String, Ref> visibleRefs = initialRefFilter.visibleRefs();
     if (!initialRefFilter.deferredTags().isEmpty()) {
+      logger.atFinest().log("Check visibility of deferred tags");
       Result allVisibleBranches = filterRefs(getTaggableRefsMap(repo), repo, opts);
       checkState(
           allVisibleBranches.deferredTags().isEmpty(),
@@ -158,23 +177,30 @@ class DefaultRefFilter {
       for (Ref tag : initialRefFilter.deferredTags()) {
         try {
           if (tags.isReachable(tag)) {
+            logger.atFinest().log("Include reachable tag %s", tag.getName());
             visibleRefs.put(tag.getName(), tag);
+          } else {
+            logger.atFinest().log("Filter out non-reachable tag %s", tag.getName());
           }
         } catch (IOException e) {
           throw new PermissionBackendException(e);
         }
       }
     }
+
+    logger.atFinest().log("visible refs = %s", visibleRefs);
     return visibleRefs;
   }
 
   /**
    * Filters refs by visibility. Returns tags where visibility can't be trivially computed
-   * separately for later ref-walk-based visibility computation. Tags where visibility is trivial to
+   * separately for later rev-walk-based visibility computation. Tags where visibility is trivial to
    * compute will be returned as part of {@link Result#visibleRefs()}.
    */
   Result filterRefs(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
       throws PermissionBackendException {
+    logger.atFinest().log("Filter refs (refs = %s)", refs);
+
     if (projectState.isAllUsers()) {
       refs = addUsersSelfSymref(refs);
     }
@@ -182,16 +208,22 @@ class DefaultRefFilter {
     // TODO(hiesel): Remove when optimization is done.
     boolean hasReadOnRefsStar =
         checkProjectPermission(permissionBackendForProject, ProjectPermission.READ);
+    logger.atFinest().log("User has READ on refs/* = %s", hasReadOnRefsStar);
     if (skipFullRefEvaluationIfAllRefsAreVisible && !projectState.isAllUsers()) {
       if (projectState.statePermitsRead() && hasReadOnRefsStar) {
         skipFilterCount.increment();
+        logger.atFinest().log(
+            "Fast path, all refs are visible because user has READ on refs/*: %s", refs);
         return new AutoValue_DefaultRefFilter_Result(refs, ImmutableList.of());
       } else if (projectControl.allRefsAreVisible(ImmutableSet.of(RefNames.REFS_CONFIG))) {
         skipFilterCount.increment();
-        return new AutoValue_DefaultRefFilter_Result(
-            fastHideRefsMetaConfig(refs), ImmutableList.of());
+        refs = fastHideRefsMetaConfig(refs);
+        logger.atFinest().log(
+            "Fast path, all refs except %s are visible: %s", RefNames.REFS_CONFIG, refs);
+        return new AutoValue_DefaultRefFilter_Result(refs, ImmutableList.of());
       }
     }
+    logger.atFinest().log("Doing full ref filtering");
     fullFilterCount.increment();
 
     boolean viewMetadata;
@@ -204,36 +236,53 @@ class DefaultRefFilter {
       isAdmin = withUser.testOrFalse(GlobalPermission.ADMINISTRATE_SERVER);
       identifiedUser = user.asIdentifiedUser();
       userId = identifiedUser.getAccountId();
+      logger.atFinest().log(
+          "Account = %d; can view metadata = %s; is admin = %",
+          userId.get(), viewMetadata, isAdmin);
     } else {
+      logger.atFinest().log("User is anonymous");
       viewMetadata = false;
       isAdmin = false;
       userId = null;
       identifiedUser = null;
     }
 
-    Map<String, Ref> result = new HashMap<>();
+    Map<String, Ref> resultRefs = new HashMap<>();
     List<Ref> deferredTags = new ArrayList<>();
     for (Ref ref : refs.values()) {
       String name = ref.getName();
       Change.Id changeId;
       Account.Id accountId;
       AccountGroup.UUID accountGroupUuid;
-      if (name.startsWith(REFS_CACHE_AUTOMERGE) || (opts.filterMeta() && isMetadata(name))) {
+      if (name.startsWith(REFS_CACHE_AUTOMERGE)) {
+        logger.atFinest().log("Filter out ref %s", name);
+        continue;
+      } else if (opts.filterMeta() && isMetadata(name)) {
+        logger.atFinest().log("Filter out metadata ref %s", name);
         continue;
       } else if (RefNames.isRefsEdit(name)) {
         // Edits are visible only to the owning user, if change is visible.
         if (viewMetadata || visibleEdit(repo, name)) {
-          result.put(name, ref);
+          logger.atFinest().log("Include edit ref %s", name);
+          resultRefs.put(name, ref);
+        } else {
+          logger.atFinest().log("Filter out edit ref %s", name);
         }
       } else if ((changeId = Change.Id.fromRef(name)) != null) {
         // Change ref is visible only if the change is visible.
         if (viewMetadata || visible(repo, changeId)) {
-          result.put(name, ref);
+          logger.atFinest().log("Include change ref %s", name);
+          resultRefs.put(name, ref);
+        } else {
+          logger.atFinest().log("Filter out change ref %s", name);
         }
       } else if ((accountId = Account.Id.fromRef(name)) != null) {
         // Account ref is visible only to the corresponding account.
         if (viewMetadata || (accountId.equals(userId) && canReadRef(name))) {
-          result.put(name, ref);
+          logger.atFinest().log("Include user ref %s", name);
+          resultRefs.put(name, ref);
+        } else {
+          logger.atFinest().log("Filter out user ref %s", name);
         }
       } else if ((accountGroupUuid = AccountGroup.UUID.fromRef(name)) != null) {
         // Group ref is visible only to the corresponding owner group.
@@ -242,7 +291,10 @@ class DefaultRefFilter {
             || (group != null
                 && isGroupOwner(group, identifiedUser, isAdmin)
                 && canReadRef(name))) {
-          result.put(name, ref);
+          logger.atFinest().log("Include group ref %s", name);
+          resultRefs.put(name, ref);
+        } else {
+          logger.atFinest().log("Filter out group ref %s", name);
         }
       } else if (isTag(ref)) {
         if (hasReadOnRefsStar) {
@@ -255,39 +307,56 @@ class DefaultRefFilter {
           // (e.g. a private change ref) if a tag was attached to it. Tags are meant to be used on
           // the regular Git tree that users interact with, not on any of the Gerrit trees, so this
           // is a negligible risk.
-          result.put(name, ref);
+          logger.atFinest().log("Include tag ref %s because user has read on refs/*", name);
+          resultRefs.put(name, ref);
         } else {
           // If its a tag, consider it later.
           if (ref.getObjectId() != null) {
+            logger.atFinest().log("Defer tag ref %s", name);
             deferredTags.add(ref);
+          } else {
+            logger.atFinest().log("Filter out tag ref %s that is not a tag", name);
           }
         }
       } else if (name.startsWith(RefNames.REFS_SEQUENCES)) {
         // Sequences are internal database implementation details.
         if (viewMetadata) {
-          result.put(name, ref);
+          logger.atFinest().log("Include sequence ref %s", name);
+          resultRefs.put(name, ref);
+        } else {
+          logger.atFinest().log("Filter out sequence ref %s", name);
         }
       } else if (projectState.isAllUsers()
           && (name.equals(RefNames.REFS_EXTERNAL_IDS) || name.equals(RefNames.REFS_GROUPNAMES))) {
         // The notes branches with the external IDs / group names must not be exposed to normal
         // users.
         if (viewMetadata) {
-          result.put(name, ref);
+          logger.atFinest().log("Include external IDs branch %s", name);
+          resultRefs.put(name, ref);
+        } else {
+          logger.atFinest().log("Filter out external IDs branch %s", name);
         }
       } else if (canReadRef(ref.getLeaf().getName())) {
         // Use the leaf to lookup the control data. If the reference is
         // symbolic we want the control around the final target. If its
         // not symbolic then getLeaf() is a no-op returning ref itself.
-        result.put(name, ref);
+        logger.atFinest().log(
+            "Include ref %s because its leaf %s is readable", name, ref.getLeaf().getName());
+        resultRefs.put(name, ref);
       } else if (isRefsUsersSelf(ref)) {
         // viewMetadata allows to see all account refs, hence refs/users/self should be included as
         // well
         if (viewMetadata) {
-          result.put(name, ref);
+          logger.atFinest().log("Include ref %s", REFS_USERS_SELF);
+          resultRefs.put(name, ref);
         }
+      } else {
+        logger.atFinest().log("Filter out ref %s", name);
       }
     }
-    return new AutoValue_DefaultRefFilter_Result(result, deferredTags);
+    Result result = new AutoValue_DefaultRefFilter_Result(resultRefs, deferredTags);
+    logger.atFinest().log("Result of ref filtering = %s", result);
+    return result;
   }
 
   /**
@@ -324,12 +393,17 @@ class DefaultRefFilter {
 
   private Map<String, Ref> addUsersSelfSymref(Map<String, Ref> refs) {
     if (user.isIdentifiedUser()) {
-      Ref r = refs.get(RefNames.refsUsers(user.getAccountId()));
-      if (r != null) {
-        SymbolicRef s = new SymbolicRef(REFS_USERS_SELF, r);
-        refs = new HashMap<>(refs);
-        refs.put(s.getName(), s);
+      String refName = RefNames.refsUsers(user.getAccountId());
+      Ref r = refs.get(refName);
+      if (r == null) {
+        logger.atWarning().log("User ref %s not found", refName);
+        return refs;
       }
+
+      SymbolicRef s = new SymbolicRef(REFS_USERS_SELF, r);
+      refs = new HashMap<>(refs);
+      refs.put(s.getName(), s);
+      logger.atFinest().log("Added %s as alias for user ref %s", REFS_USERS_SELF, refName);
     }
     return refs;
   }
@@ -341,6 +415,7 @@ class DefaultRefFilter {
       } else {
         visibleChanges = visibleChangesBySearch();
       }
+      logger.atFinest().log("Visible changes: %s", visibleChanges.keySet());
     }
     return visibleChanges.containsKey(changeId);
   }
@@ -348,12 +423,14 @@ class DefaultRefFilter {
   private boolean visibleEdit(Repository repo, String name) throws PermissionBackendException {
     Change.Id id = Change.Id.fromEditRefPart(name);
     if (id == null) {
+      logger.atWarning().log("Couldn't extract change ID from edit ref %s", name);
       return false;
     }
 
     if (user.isIdentifiedUser()
         && name.startsWith(RefNames.refsEditPrefix(user.asIdentifiedUser().getAccountId()))
         && visible(repo, id)) {
+      logger.atFinest().log("Own change edit ref is visible: %s", name);
       return true;
     }
 
@@ -367,11 +444,15 @@ class DefaultRefFilter {
         permissionBackendForProject
             .ref(visibleChanges.get(id).branch())
             .check(RefPermission.READ_PRIVATE_CHANGES);
+        logger.atFinest().log("Foreign change edit ref is visible: %s", name);
         return true;
       } catch (AuthException e) {
+        logger.atFinest().log("Foreign change edit ref is not visible: %s", name);
         return false;
       }
     }
+
+    logger.atFinest().log("Change %d of change edit ref %s is not visible", id.get(), name);
     return false;
   }
 
@@ -443,7 +524,9 @@ class DefaultRefFilter {
   }
 
   private boolean isMetadata(String name) {
-    return RefNames.isRefsChanges(name) || RefNames.isRefsEdit(name);
+    boolean isMetaData = RefNames.isRefsChanges(name) || RefNames.isRefsEdit(name);
+    logger.atFinest().log("ref %s is " + (isMetaData ? "" : "not ") + "a metadata ref", name);
+    return isMetaData;
   }
 
   private static boolean isTag(Ref ref) {
@@ -479,8 +562,10 @@ class DefaultRefFilter {
     requireNonNull(group);
 
     // Keep this logic in sync with GroupControl#isOwner().
-    return isAdmin
-        || (user != null && user.getEffectiveGroups().contains(group.getOwnerGroupUUID()));
+    boolean isGroupOwner =
+        isAdmin || (user != null && user.getEffectiveGroups().contains(group.getOwnerGroupUUID()));
+    logger.atFinest().log("User is owner of group %s = %s", group.getGroupUUID(), isGroupOwner);
+    return isGroupOwner;
   }
 
   /**

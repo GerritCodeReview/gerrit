@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b838d39_526e3e00",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2035,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-13T14:08:52Z",
+      "side": 1,
+      "message": "nit: import statically",
+      "range": {
+        "startLine": 2035,
+        "startChar": 37,
+        "endLine": 2035,
+        "endChar": 52
+      },
+      "revId": "d899b6f2ae74e59a53d6755ae691291af4abdc8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b86024d0_146fe4ba",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2057,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-13T14:08:52Z",
+      "side": 1,
+      "message": "nit: please keep this as is",
+      "revId": "d899b6f2ae74e59a53d6755ae691291af4abdc8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbb80c86_ba3fb6ba",
+        "filename": "javatests/com/google/gerrit/acceptance/server/git/receive/ReceiveCommitsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-13T14:08:52Z",
+      "side": 1,
+      "message": "nit: ReceiveCommitCommentValidationIT",
+      "range": {
+        "startLine": 42,
+        "startChar": 13,
+        "endLine": 42,
+        "endChar": 29
+      },
+      "revId": "d899b6f2ae74e59a53d6755ae691291af4abdc8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

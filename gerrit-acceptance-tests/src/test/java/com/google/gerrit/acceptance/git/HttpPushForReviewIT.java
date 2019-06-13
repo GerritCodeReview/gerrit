@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.git;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.junit.Before;
+import org.junit.Test;
 
 public class HttpPushForReviewIT extends AbstractPushForReview {
   @Before
@@ -24,5 +25,11 @@ public class HttpPushForReviewIT extends AbstractPushForReview {
     CredentialsProvider.setDefault(
         new UsernamePasswordCredentialsProvider(admin.username, admin.httpPassword));
     selectProtocol(Protocol.HTTP);
+  }
+  
+  @Override
+  @Test
+  public void skipValidation() throws Exception {
+    super.skipValidation();
   }
 }

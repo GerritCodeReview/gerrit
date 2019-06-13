@@ -129,6 +129,24 @@
       "revId": "126fc7c98ee2c434b6864d063c0b35ccb2497356",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d744a12_c762694c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-13T11:04:33Z",
+      "side": 1,
+      "message": "BatchUpdate.wrapAndThrowException() is tested by the above tests checking for a BadRequestException",
+      "parentUuid": "7390b5d4_faf97ee6",
+      "revId": "126fc7c98ee2c434b6864d063c0b35ccb2497356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

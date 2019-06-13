@@ -51,6 +51,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicReference;
@@ -356,7 +357,7 @@ public abstract class BaseCommand implements Command {
       }
       m.append(" during ");
       m.append(context.getCommandLine());
-      logger.atSevere().withCause(e).log(m.toString());
+      logCauseIfRelevant(e, m);
     }
 
     if (e instanceof Failure) {
@@ -381,6 +382,20 @@ public abstract class BaseCommand implements Command {
       logger.atWarning().withCause(e2).log("Cannot send internal server error message to client");
     }
     return 128;
+  }
+
+  private void logCauseIfRelevant(Throwable e, StringBuilder message) {
+    String zeroLength = "length=0";
+    String streamAlreadyClosed = "stream is already closed";
+    boolean isZeroLength = false;
+
+    if (streamAlreadyClosed.equals(e.getMessage())) {
+      StackTraceElement[] stackTrace = e.getStackTrace();
+      isZeroLength = Arrays.stream(stackTrace).anyMatch(s -> s.toString().contains(zeroLength));
+    }
+    if (!isZeroLength) {
+      logger.atSevere().withCause(e).log(message.toString());
+    }
   }
 
   protected UnloggedFailure die(String msg) {

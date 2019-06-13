@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cba7a763_85dfe47e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-06-13T09:32:39Z",
+      "side": 1,
+      "message": "It\u0027s wrapped in a RestApiException at this point (prior art e.g. SubmitByMergeIfNecessaryIT.java:285). BatchUpdate.execute() throws UpdateException, RestApiException so I think this follows the existing design.",
+      "parentUuid": "0efd17d4_24f7b885",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 20
+      },
+      "revId": "126fc7c98ee2c434b6864d063c0b35ccb2497356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f79a8f29_da34509f",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
         "patchSetId": 5
@@ -36,6 +60,24 @@
       "writtenOn": "2019-06-13T09:15:01Z",
       "side": 1,
       "message": "This test is now redundant because the Java API and the REST API behave the same way. Handling BadRequestException correctly in RestApiServlet is (hopefully) tested elsewhere.",
+      "revId": "126fc7c98ee2c434b6864d063c0b35ccb2497356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7390b5d4_faf97ee6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-06-13T09:32:39Z",
+      "side": 1,
+      "message": "We still need to test the code added to BatchUpdate.wrapAndThrowException(), so I decided to keep this test for that purpose.",
+      "parentUuid": "f79a8f29_da34509f",
       "revId": "126fc7c98ee2c434b6864d063c0b35ccb2497356",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

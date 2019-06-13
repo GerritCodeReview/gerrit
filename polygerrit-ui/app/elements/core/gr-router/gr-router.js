@@ -230,7 +230,11 @@
     },
 
     _appElement() {
-      return document.querySelector('#app-element');
+      // In Polymer2 you have to reach through the shadow root of the app
+      // element.
+      return document.getElementById('app-element') ||
+          document.getElementById('app').shadowRoot.getElementById(
+              'app-element');
     },
 
     _redirect(url) {

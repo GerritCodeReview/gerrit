@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.gerrit.common.data.RefConfigSection.ALL;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_TAGS;
+import static com.google.gerrit.server.util.MagicBranch.NEW_CHANGE;
 
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
@@ -302,7 +304,7 @@ public class ProjectControl {
   public boolean canUpload() {
     for (SectionMatcher matcher : access()) {
       AccessSection section = matcher.section;
-      if (section.getName().startsWith("refs/for/")) {
+      if (section.getName().startsWith(NEW_CHANGE)) {
         Permission permission = section.getPermission(Permission.PUSH);
         if (permission != null && controlForRef(section.getName()).canPerform(Permission.PUSH)) {
           return true;
@@ -323,7 +325,7 @@ public class ProjectControl {
 
   /** Is this user a project owner? Ownership does not imply {@link #isVisible()} */
   public boolean isOwner() {
-    return (isDeclaredOwner() && !controlForRef("refs/*").isBlocked(Permission.OWNER))
+    return (isDeclaredOwner() && !controlForRef(ALL).isBlocked(Permission.OWNER))
         || user.getCapabilities().canAdministrateServer();
   }
 
@@ -473,7 +475,7 @@ public class ProjectControl {
   private boolean canPerformOnAllRefs(String permission, Set<String> ignore) {
     boolean canPerform = false;
     Set<String> patterns = allRefPatterns(permission);
-    if (patterns.contains(AccessSection.ALL)) {
+    if (patterns.contains(ALL)) {
       // Only possible if granted on the pattern that
       // matches every possible reference.  Check all
       // patterns also have the permission.

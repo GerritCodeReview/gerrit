@@ -150,7 +150,6 @@
         this.$.accountInfo.loadData(),
         this.$.watchedProjectsEditor.loadData(),
         this.$.groupList.loadData(),
-        this.$.httpPass.loadData(),
       ];
 
       promises.push(this.$.restAPI.getPreferences().then(prefs => {
@@ -179,6 +178,8 @@
 
         return Promise.all(configPromises);
       }));
+
+      promises.push(this.$.httpPass.loadData());
 
       if (this.params.emailToken) {
         promises.push(this.$.restAPI.confirmEmail(this.params.emailToken).then(

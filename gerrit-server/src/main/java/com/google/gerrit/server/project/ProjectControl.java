@@ -305,7 +305,8 @@ public class ProjectControl {
   public boolean canUpload() {
     for (SectionMatcher matcher : access()) {
       AccessSection section = matcher.section;
-      if (section.getName().startsWith(NEW_CHANGE)) {
+      if (section.getName().startsWith(NEW_CHANGE)
+          || section.getName().startsWith(REGEX_PREFIX + NEW_CHANGE)) {
         Permission permission = section.getPermission(Permission.PUSH);
         if (permission != null && controlForRef(section.getName()).canPerform(Permission.PUSH)) {
           return true;

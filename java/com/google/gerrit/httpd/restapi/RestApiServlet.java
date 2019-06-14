@@ -310,7 +310,10 @@ public class RestApiServlet extends HttpServlet {
           logger.atFinest().log(
               "Received REST request: %s %s (parameters: %s)",
               req.getMethod(), req.getRequestURI(), getParameterNames(req));
-          logger.atFinest().log("Calling user: %s", globals.currentUser.get().getLoggableName());
+          logger.atFinest().log(
+              "Calling user: %s (groups = %s)",
+              globals.currentUser.get().getLoggableName(),
+              globals.currentUser.get().getEffectiveGroups().getKnownGroups());
 
           if (isCorsPreflight(req)) {
             doCorsPreflight(req, res);

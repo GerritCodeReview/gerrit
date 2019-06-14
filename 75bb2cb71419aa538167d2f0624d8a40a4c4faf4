@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "51a6a940_b3128b0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1078567
+      },
+      "writtenOn": "2019-06-14T19:18:05Z",
+      "side": 1,
+      "message": "No, line 191 will also return a Future with result \"null\" (or checked exception). It is also not possible to check the results of the Futures at this time.",
+      "parentUuid": "e53dd321_84164b0e",
+      "range": {
+        "startLine": 207,
+        "startChar": 6,
+        "endLine": 207,
+        "endChar": 43
+      },
+      "revId": "75bb2cb71419aa538167d2f0624d8a40a4c4faf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0a77d3b2_2c7c40f8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeIndexer.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2019-06-14T16:42:27Z",
       "side": 1,
       "message": "else if\n\n-To save one check if this instanceof IndexTask is true.",
+      "range": {
+        "startLine": 405,
+        "startChar": 10,
+        "endLine": 405,
+        "endChar": 12
+      },
+      "revId": "75bb2cb71419aa538167d2f0624d8a40a4c4faf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f05c397e_67251db4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1078567
+      },
+      "writtenOn": "2019-06-14T19:18:05Z",
+      "side": 1,
+      "message": "This logic is moved to the derived classes.",
+      "parentUuid": "0a77d3b2_2c7c40f8",
       "range": {
         "startLine": 405,
         "startChar": 10,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "4a569b0a_4d226a72",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1078567
+      },
+      "writtenOn": "2019-06-14T19:18:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1504886f_2e136901",
+      "revId": "75bb2cb71419aa538167d2f0624d8a40a4c4faf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a84324be_0fdc0a30",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ReindexAfterRefUpdate.java",
         "patchSetId": 1
@@ -79,6 +145,24 @@
       "revId": "75bb2cb71419aa538167d2f0624d8a40a4c4faf4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3e805d5_48c89b02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ReindexAfterRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1078567
+      },
+      "writtenOn": "2019-06-14T19:18:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a84324be_0fdc0a30",
+      "revId": "75bb2cb71419aa538167d2f0624d8a40a4c4faf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

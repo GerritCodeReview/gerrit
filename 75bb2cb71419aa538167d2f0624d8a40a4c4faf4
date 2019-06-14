@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e53dd321_84164b0e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-14T16:42:27Z",
+      "side": 1,
+      "message": "Should this be skipped if indexAsync(project, id) returns a null-set future from line 193 above?",
+      "range": {
+        "startLine": 207,
+        "startChar": 6,
+        "endLine": 207,
+        "endChar": 43
+      },
+      "revId": "75bb2cb71419aa538167d2f0624d8a40a4c4faf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a77d3b2_2c7c40f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-14T16:42:27Z",
+      "side": 1,
+      "message": "else if\n\n-To save one check if this instanceof IndexTask is true.",
+      "range": {
+        "startLine": 405,
+        "startChar": 10,
+        "endLine": 405,
+        "endChar": 12
+      },
+      "revId": "75bb2cb71419aa538167d2f0624d8a40a4c4faf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1504886f_2e136901",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-14T16:42:27Z",
+      "side": 1,
+      "message": "Can the above removals be moved to their respective class implementation? This would allow 1. no need to check for this instanceof, and 2. the ability to do the removal at a more accurate location, timing-wise.\n\nRemoval could also be enforced by means of an abstract method for implementing classes to absolutely override.",
+      "revId": "75bb2cb71419aa538167d2f0624d8a40a4c4faf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a84324be_0fdc0a30",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ReindexAfterRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-14T16:42:27Z",
+      "side": 1,
+      "message": "Same comments as in the other changed file.",
+      "revId": "75bb2cb71419aa538167d2f0624d8a40a4c4faf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -723,14 +723,13 @@ public class ProjectIT extends AbstractDaemonTest {
       assertReindexOf(projectName, 1);
     }
 
-    void assertReindexOf(String projectName, int expectedCount) {
-      assertThat(getCount(projectName)).isEqualTo(expectedCount);
-      assertThat(countsByProject).hasSize(1);
+    void assertReindexOf(String projectName, long expectedCount) {
+      assertThat(countsByProject.asMap()).containsExactly(projectName, expectedCount);
       clear();
     }
 
     void assertNoReindex() {
-      assertThat(countsByProject).isEmpty();
+      assertThat(countsByProject.asMap()).isEmpty();
     }
 
     void assertReindexExactly(ImmutableMap<String, Long> expected) {

@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.api.group;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
@@ -31,6 +30,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -1564,24 +1564,18 @@ public class GroupsIT extends AbstractDaemonTest {
       countsByGroup.clear();
     }
 
-    long getCount(AccountGroup.UUID groupUuid) {
-      return countsByGroup.get(groupUuid.get());
-    }
-
     void assertReindexOf(AccountGroup.UUID groupUuid) {
       assertReindexOf(ImmutableList.of(groupUuid));
     }
 
     void assertReindexOf(List<AccountGroup.UUID> groupUuids) {
-      for (AccountGroup.UUID groupUuid : groupUuids) {
-        assertWithMessage(groupUuid.get()).that(getCount(groupUuid)).isEqualTo(1);
-      }
-      assertThat(countsByGroup).hasSize(groupUuids.size());
+      Map<String, Long> expected = groupUuids.stream().collect(toMap(u -> u.get(), u -> 1L));
+      assertThat(countsByGroup.asMap()).containsExactlyEntriesIn(expected);
       clear();
     }
 
     void assertNoReindex() {
-      assertThat(countsByGroup).isEmpty();
+      assertThat(countsByGroup.asMap()).isEmpty();
     }
   }
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3c26906_f7483122",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MysqlAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-14T15:23:56Z",
+      "side": 1,
+      "message": "LGTM. The only case where this may break I think is if the error code can only be reliably provided through err.getNextException()\u0027s own code, or recursively through one of err.iterator()\u0027s.\n\nTesting this change would likely tell us that. I cannot test it myself either right now. But otherwise, the above fix can only help improve the situation anyway I think.",
+      "range": {
+        "startLine": 41,
+        "startChar": 12,
+        "endLine": 41,
+        "endChar": 30
+      },
+      "revId": "7914435c95bfc83ef5f0a4ead28a2942cc93b0f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

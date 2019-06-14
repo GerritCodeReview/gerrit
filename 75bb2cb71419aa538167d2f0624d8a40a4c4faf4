@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b9a333d3_30f59bb6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-14T20:42:56Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "51a6a940_b3128b0d",
+      "range": {
+        "startLine": 207,
+        "startChar": 6,
+        "endLine": 207,
+        "endChar": 43
+      },
+      "revId": "75bb2cb71419aa538167d2f0624d8a40a4c4faf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a77d3b2_2c7c40f8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeIndexer.java",
         "patchSetId": 1

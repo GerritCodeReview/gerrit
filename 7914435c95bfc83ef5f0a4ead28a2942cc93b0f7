@@ -22,6 +22,30 @@
       "revId": "7914435c95bfc83ef5f0a4ead28a2942cc93b0f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48fea2cb_3c404953",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MysqlAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-14T20:06:54Z",
+      "side": 1,
+      "message": "I just realized, that this code has to be already included in gwtorm that is very stable and was running for many years. Indeed my fix was identical to what gwtorm is doing: [1].\n\n* [1] https://gerrit.googlesource.com/gwtorm/+/refs/heads/master/src/main/java/com/google/gwtorm/schema/sql/DialectMySQL.java#226",
+      "parentUuid": "b3c26906_f7483122",
+      "range": {
+        "startLine": 41,
+        "startChar": 12,
+        "endLine": 41,
+        "endChar": 30
+      },
+      "revId": "7914435c95bfc83ef5f0a4ead28a2942cc93b0f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

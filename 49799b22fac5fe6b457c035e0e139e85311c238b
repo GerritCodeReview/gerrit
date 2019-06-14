@@ -251,6 +251,29 @@
       "revId": "49799b22fac5fe6b457c035e0e139e85311c238b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ae45ae1_5092f0d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MysqlAccountPatchReviewStore.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-14T20:06:14Z",
+      "side": 1,
+      "message": "This is wrong and was reported as: [1]. It should have been:\n\n  err.getErrorCode()\n\nas it is done in gwtorm in similar case [2]:\n\n  switch (err.getErrorCode()) {\n\nThe fix is here: [3].\n\n* [1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d10664\n* [2] https://gerrit.googlesource.com/gwtorm/+/refs/heads/master/src/main/java/com/google/gwtorm/schema/sql/DialectMySQL.java#226\n* [3] https://gerrit-review.googlesource.com/c/gerrit/+/227638",
+      "range": {
+        "startLine": 39,
+        "startChar": 12,
+        "endLine": 39,
+        "endChar": 31
+      },
+      "revId": "49799b22fac5fe6b457c035e0e139e85311c238b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -18,6 +18,7 @@ import static com.google.gerrit.server.extensions.events.EventUtil.logEventListe
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
 import com.google.common.base.Function;
+import com.google.common.base.Objects;
 import com.google.common.util.concurrent.Atomics;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -50,7 +51,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
@@ -110,6 +113,11 @@ public class ChangeIndexer {
   private final DynamicSet<ChangeIndexedListener> indexedListeners;
   private final StalenessChecker stalenessChecker;
   private final boolean autoReindexIfStale;
+
+  private final Set<IndexTask> queuedIndexTasks =
+      Collections.newSetFromMap(new ConcurrentHashMap<>());
+  private final Set<ReindexIfStaleTask> queuedReindexIfStaleTasks =
+      Collections.newSetFromMap(new ConcurrentHashMap<>());
 
   @AssistedInject
   ChangeIndexer(
@@ -178,7 +186,11 @@ public class ChangeIndexer {
   @SuppressWarnings("deprecation")
   public com.google.common.util.concurrent.CheckedFuture<?, IOException> indexAsync(
       Project.NameKey project, Change.Id id) {
-    return submit(new IndexTask(project, id));
+    IndexTask task = new IndexTask(project, id);
+    if (queuedIndexTasks.add(task)) {
+      return submit(task);
+    }
+    return Futures.immediateCheckedFuture(null);
   }
 
   /**
@@ -309,7 +321,11 @@ public class ChangeIndexer {
   @SuppressWarnings("deprecation")
   public com.google.common.util.concurrent.CheckedFuture<Boolean, IOException> reindexIfStale(
       Project.NameKey project, Change.Id id) {
-    return submit(new ReindexIfStaleTask(project, id), batchExecutor);
+    ReindexIfStaleTask task = new ReindexIfStaleTask(project, id);
+    if (queuedReindexIfStaleTasks.add(task)) {
+      return submit(task, batchExecutor);
+    }
+    return Futures.immediateCheckedFuture(false);
   }
 
   private void autoReindexIfStale(ChangeData cd) {
@@ -383,6 +399,12 @@ public class ChangeIndexer {
             };
         RequestContext oldCtx = context.setContext(newCtx);
         try {
+          if (this instanceof IndexTask) {
+            queuedIndexTasks.remove(this);
+          }
+          if (this instanceof ReindexIfStaleTask) {
+            queuedReindexIfStaleTasks.remove(this);
+          }
           return callImpl(newCtx.getReviewDbProvider());
         } finally {
           context.setContext(oldCtx);
@@ -408,6 +430,20 @@ public class ChangeIndexer {
       ChangeData cd = newChangeData(db.get(), project, id);
       index(cd);
       return null;
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hashCode(IndexTask.class, id.get());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (!(obj instanceof IndexTask)) {
+        return false;
+      }
+      IndexTask other = (IndexTask) obj;
+      return id.get() == other.id.get();
     }
 
     @Override
@@ -462,6 +498,20 @@ public class ChangeIndexer {
             project.get());
       }
       return false;
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hashCode(ReindexIfStaleTask.class, id.get());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (!(obj instanceof ReindexIfStaleTask)) {
+        return false;
+      }
+      ReindexIfStaleTask other = (ReindexIfStaleTask) obj;
+      return id.get() == other.id.get();
     }
 
     @Override

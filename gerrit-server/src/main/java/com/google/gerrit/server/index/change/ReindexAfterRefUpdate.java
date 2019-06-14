@@ -17,6 +17,7 @@ package com.google.gerrit.server.index.change;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 
+import com.google.common.base.Objects;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListeningExecutorService;
@@ -42,8 +43,11 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Future;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
@@ -61,6 +65,8 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
   private final AccountCache accountCache;
   private final ListeningExecutorService executor;
   private final boolean enabled;
+
+  private final Set<Index> queuedIndexTasks = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
   @Inject
   ReindexAfterRefUpdate(
@@ -109,9 +115,12 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
           @Override
           public void onSuccess(List<Change> changes) {
             for (Change c : changes) {
-              // Don't retry indefinitely; if this fails changes may be stale.
-              @SuppressWarnings("unused")
-              Future<?> possiblyIgnoredError = executor.submit(new Index(event, c.getId()));
+              Index task = new Index(event, c.getId());
+              if (queuedIndexTasks.add(task)) {
+                // Don't retry indefinitely; if this fails changes may be stale.
+                @SuppressWarnings("unused")
+                Future<?> possiblyIgnoredError = executor.submit(task);
+              }
             }
           }
 
@@ -133,6 +142,9 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
     @Override
     public final V call() throws Exception {
       try (ManualRequestContext ctx = requestContext.open()) {
+        if (this instanceof Index) {
+          queuedIndexTasks.remove(this);
+        }
         return impl(ctx);
       } catch (Exception e) {
         log.error("Failed to reindex changes after " + event, e);
@@ -189,6 +201,20 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
         indexerFactory.create(executor, indexes).delete(id);
       }
       return null;
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hashCode(Index.class, id.get());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (!(obj instanceof Index)) {
+        return false;
+      }
+      Index other = (Index) obj;
+      return id.get() == other.id.get();
     }
 
     @Override

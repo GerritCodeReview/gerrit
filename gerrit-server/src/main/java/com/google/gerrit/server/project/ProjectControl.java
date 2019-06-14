@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.common.data.AccessSection.ALL;
+import static com.google.gerrit.common.data.RefConfigSection.REGEX_PREFIX;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_TAGS;
 import static com.google.gerrit.server.util.MagicBranch.NEW_CHANGE;
 
@@ -292,7 +293,8 @@ public class ProjectControl {
     for (SectionMatcher matcher : access()) {
       AccessSection section = matcher.section;
 
-      if (section.getName().startsWith(REFS_TAGS)) {
+      if (section.getName().startsWith(REFS_TAGS)
+          || section.getName().startsWith(REGEX_PREFIX + REFS_TAGS)) {
         Permission permission = section.getPermission(permissionName);
         if (permission == null) {
           continue;

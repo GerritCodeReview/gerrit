@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f691f852_db127c88",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-14T06:42:32Z",
+      "side": 1,
+      "message": "Not applicable any more.",
+      "parentUuid": "43c8e0bc_26521fcf",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 5
+      },
+      "revId": "716f3c935fed7423c8881b4d7d0f0a37854e2676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "28484a45_40b48fa8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MysqlAccountPatchReviewStore.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "716f3c935fed7423c8881b4d7d0f0a37854e2676",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "816310be_39d4eb03",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MysqlAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-14T06:42:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28484a45_40b48fa8",
+      "range": {
+        "startLine": 42,
+        "startChar": 21,
+        "endLine": 42,
+        "endChar": 31
+      },
+      "revId": "716f3c935fed7423c8881b4d7d0f0a37854e2676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

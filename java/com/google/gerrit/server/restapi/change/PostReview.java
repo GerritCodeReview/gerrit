@@ -136,6 +136,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -145,7 +146,7 @@ public class PostReview
     extends RetryingRestModifyView<RevisionResource, ReviewInput, Response<ReviewResult>> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public static final String ERROR_ADDING_REVIEWER = "error adding reviewer";
+  private static final String ERROR_ADDING_REVIEWER = "error adding reviewer";
   public static final String ERROR_WIP_READY_MUTUALLY_EXCLUSIVE =
       "work_in_progress and ready are mutually exclusive";
 
@@ -290,7 +291,7 @@ public class PostReview
       Account.Id id = revision.getUser().getAccountId();
       boolean ccOrReviewer = false;
       if (input.labels != null && !input.labels.isEmpty()) {
-        ccOrReviewer = input.labels.values().stream().filter(v -> v != 0).findFirst().isPresent();
+        ccOrReviewer = input.labels.values().stream().anyMatch(v -> v != 0);
       }
 
       if (!ccOrReviewer) {
@@ -792,7 +793,10 @@ public class PostReview
     }
   }
 
-  /** Used to compare Comments with CommentInput comments. */
+  /**
+   * Used to compare existing {@link Comment}-s with {@link CommentInput} comments by copying only
+   * the fields to compare.
+   */
   @AutoValue
   abstract static class CommentSetEntry {
     private static CommentSetEntry create(
@@ -858,8 +862,7 @@ public class PostReview
       user = ctx.getIdentifiedUser();
       notes = ctx.getNotes();
       ps = psUtil.get(ctx.getNotes(), psId);
-      boolean dirty = false;
-      dirty |= insertComments(ctx);
+      boolean dirty = insertComments(ctx);
       dirty |= insertRobotComments(ctx);
       dirty |= updateLabels(projectState, ctx);
       dirty |= insertMessage(ctx);
@@ -889,13 +892,17 @@ public class PostReview
 
     private boolean insertComments(ChangeContext ctx)
         throws UnprocessableEntityException, PatchListNotAvailableException {
-      Map<String, List<CommentInput>> map = in.comments;
-      if (map == null) {
-        map = Collections.emptyMap();
+      Map<String, List<CommentInput>> inputComments = in.comments;
+      if (inputComments == null) {
+        inputComments = Collections.emptyMap();
       }
 
-      Map<String, Comment> drafts = Collections.emptyMap();
-      if (!map.isEmpty() || in.drafts != DraftHandling.KEEP) {
+      // HashMap instead of Collections.emptyMap() avoids warning about remove() on immutable
+      // object.
+      Map<String, Comment> drafts = new HashMap<>();
+      // If there are inputComments we need the deduplication loop below, so we have to read (and
+      // publish) drafts here.
+      if (!inputComments.isEmpty() || in.drafts != DraftHandling.KEEP) {
         if (in.drafts == DraftHandling.PUBLISH_ALL_REVISIONS) {
           drafts = changeDrafts(ctx);
         } else {
@@ -905,30 +912,42 @@ public class PostReview
 
       List<Comment> toPublish = new ArrayList<>();
 
-      Set<CommentSetEntry> existingIds =
+      Set<CommentSetEntry> existingComments =
           in.omitDuplicateComments ? readExistingComments(ctx) : Collections.emptySet();
 
-      for (Map.Entry<String, List<CommentInput>> ent : map.entrySet()) {
-        String path = ent.getKey();
-        for (CommentInput c : ent.getValue()) {
-          String parent = Url.decode(c.inReplyTo);
-          Comment e = drafts.remove(Url.decode(c.id));
-          if (e == null) {
-            e = commentsUtil.newComment(ctx, path, psId, c.side(), c.message, c.unresolved, parent);
+      // Deduplication:
+      // - Ignore drafts with the same ID as an inputComment here. These are deleted later.
+      // - Swallow comments that already exist.
+      for (Map.Entry<String, List<CommentInput>> entry : inputComments.entrySet()) {
+        String path = entry.getKey();
+        for (CommentInput inputComment : entry.getValue()) {
+          Comment comment = drafts.remove(Url.decode(inputComment.id));
+          if (comment == null) {
+            String parent = Url.decode(inputComment.inReplyTo);
+            comment =
+                commentsUtil.newComment(
+                    ctx,
+                    path,
+                    psId,
+                    inputComment.side(),
+                    inputComment.message,
+                    inputComment.unresolved,
+                    parent);
           } else {
-            e.writtenOn = ctx.getWhen();
-            e.side = c.side();
-            e.message = c.message;
+            // In ChangeUpdate#putComment() the draft with the same ID will be deleted.
+            comment.writtenOn = ctx.getWhen();
+            comment.side = inputComment.side();
+            comment.message = inputComment.message;
           }
 
-          setCommentCommitId(e, patchListCache, ctx.getChange(), ps);
-          e.setLineNbrAndRange(c.line, c.range);
-          e.tag = in.tag;
+          setCommentCommitId(comment, patchListCache, ctx.getChange(), ps);
+          comment.setLineNbrAndRange(inputComment.line, inputComment.range);
+          comment.tag = in.tag;
 
-          if (existingIds.contains(CommentSetEntry.create(e))) {
+          if (existingComments.contains(CommentSetEntry.create(comment))) {
             continue;
           }
-          toPublish.add(e);
+          toPublish.add(comment);
         }
       }
 
@@ -942,8 +961,8 @@ public class PostReview
         default:
           break;
       }
-      ChangeUpdate u = ctx.getUpdate(psId);
-      commentsUtil.putComments(u, Status.PUBLISHED, toPublish);
+      ChangeUpdate changeUpdate = ctx.getUpdate(psId);
+      commentsUtil.putComments(changeUpdate, Status.PUBLISHED, toPublish);
       comments.addAll(toPublish);
       return !toPublish.isEmpty();
     }
@@ -1042,21 +1061,19 @@ public class PostReview
     }
 
     private Map<String, Comment> changeDrafts(ChangeContext ctx) {
-      Map<String, Comment> drafts = new HashMap<>();
-      for (Comment c : commentsUtil.draftByChangeAuthor(ctx.getNotes(), user.getAccountId())) {
-        c.tag = in.tag;
-        drafts.put(c.key.uuid, c);
-      }
-      return drafts;
+      return commentsUtil.draftByChangeAuthor(ctx.getNotes(), user.getAccountId()).stream()
+          .collect(
+              Collectors.toMap(
+                  c -> c.key.uuid,
+                  c -> {
+                    c.tag = in.tag;
+                    return c;
+                  }));
     }
 
     private Map<String, Comment> patchSetDrafts(ChangeContext ctx) {
-      Map<String, Comment> drafts = new HashMap<>();
-      for (Comment c :
-          commentsUtil.draftByPatchSetAuthor(psId, user.getAccountId(), ctx.getNotes())) {
-        drafts.put(c.key.uuid, c);
-      }
-      return drafts;
+      return commentsUtil.draftByPatchSetAuthor(psId, user.getAccountId(), ctx.getNotes()).stream()
+          .collect(Collectors.toMap(c -> c.key.uuid, c -> c));
     }
 
     private Map<String, Short> approvalsByKey(Collection<PatchSetApproval> patchsetApprovals) {
@@ -1104,10 +1121,7 @@ public class PostReview
       }
       ChangeData cd = changeDataFactory.create(ctx.getNotes());
       ReviewerSet reviewers = cd.reviewers();
-      if (reviewers.byState(REVIEWER).contains(ctx.getAccountId())) {
-        return true;
-      }
-      return false;
+      return reviewers.byState(REVIEWER).contains(ctx.getAccountId());
     }
 
     private boolean updateLabels(ProjectState projectState, ChangeContext ctx)

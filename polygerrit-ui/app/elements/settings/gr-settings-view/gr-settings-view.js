@@ -150,7 +150,6 @@
         this.$.accountInfo.loadData(),
         this.$.watchedProjectsEditor.loadData(),
         this.$.groupList.loadData(),
-        this.$.httpPass.loadData(),
       ];
 
       promises.push(this.$.restAPI.getPreferences().then(prefs => {

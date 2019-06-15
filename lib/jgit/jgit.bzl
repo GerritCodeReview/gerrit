@@ -1,3 +1,4 @@
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("//tools/bzl:maven_jar.bzl", "MAVEN_CENTRAL", "maven_jar")
 
 _JGIT_VERS = "5.3.1.201904271842-r"
@@ -12,17 +13,31 @@ _JGIT_REPO = MAVEN_CENTRAL  # Leave here even if set to MAVEN_CENTRAL.
 # "/home/<user>/projects/jgit"
 LOCAL_JGIT_REPO = ""
 
+# set this to build from a specific commit.
+JGIT_SRC_COMMIT = ""
+JGIT_ARCHIVE_SHA256 = ""
+
 def jgit_repos():
     if LOCAL_JGIT_REPO:
         native.local_repository(
             name = "jgit",
             path = LOCAL_JGIT_REPO,
         )
-        jgit_maven_repos_dev()
+        jgit_maven_transitive_deps()
+    elif JGIT_SRC_COMMIT:
+        http_archive(
+            name = "jgit",
+            strip_prefix = "jgit-" + JGIT_SRC_COMMIT,
+            sha256 = JGIT_ARCHIVE_SHA256,
+            urls = [
+                "https://github.com/eclipse/jgit/archive/" + JGIT_SRC_COMMIT + ".tar.gz",
+            ],
+        )
+        jgit_maven_transitive_deps()
     else:
         jgit_maven_repos()
 
-def jgit_maven_repos_dev():
+def jgit_maven_transitive_deps():
     # Transitive dependencies from JGit's WORKSPACE.
     maven_jar(
         name = "hamcrest-library",
@@ -69,7 +84,7 @@ def jgit_dep(name):
         "@jgit-servlet//jar": "@jgit//org.eclipse.jgit.http.server:jgit-servlet",
     }
 
-    if LOCAL_JGIT_REPO:
+    if LOCAL_JGIT_REPO or JGIT_SRC_COMMIT:
         return mapping[name]
     else:
         return name

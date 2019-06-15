@@ -25,7 +25,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.template.soy.SoyFileSet;
 import com.google.template.soy.data.SanitizedContent;
 import com.google.template.soy.data.UnsafeSanitizedContentOrdainer;
-import com.google.template.soy.tofu.SoyTofu;
+import com.google.template.soy.jbcsrc.api.SoySauce;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
@@ -42,7 +42,7 @@ public class IndexServlet extends HttpServlet {
   @Nullable private final String cdnPath;
   @Nullable private final String faviconPath;
   private final GerritApi gerritApi;
-  private final SoyTofu soyTofu;
+  private final SoySauce soySauce;
   private final Function<String, SanitizedContent> urlOrdainer;
 
   IndexServlet(
@@ -54,11 +54,11 @@ public class IndexServlet extends HttpServlet {
     this.cdnPath = cdnPath;
     this.faviconPath = faviconPath;
     this.gerritApi = gerritApi;
-    this.soyTofu =
+    this.soySauce =
         SoyFileSet.builder()
             .add(Resources.getResource("com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy"))
             .build()
-            .compileToTofu();
+            .compileTemplates();
     this.urlOrdainer =
         (s) ->
             UnsafeSanitizedContentOrdainer.ordainAsSafe(
@@ -67,7 +67,7 @@ public class IndexServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
-    SoyTofu.Renderer renderer;
+    SoySauce.Renderer renderer;
     try {
       Map<String, String[]> parameterMap = req.getParameterMap();
       // TODO(hiesel): Remove URL ordainer as parameter once Soy is consistent
@@ -75,9 +75,9 @@ public class IndexServlet extends HttpServlet {
           IndexHtmlUtil.templateData(
               gerritApi, canonicalUrl, cdnPath, faviconPath, parameterMap, urlOrdainer);
       renderer =
-          soyTofu
-              .newRenderer("com.google.gerrit.httpd.raw.Index")
-              .setContentKind(SanitizedContent.ContentKind.HTML)
+          soySauce
+              .renderTemplate("com.google.gerrit.httpd.raw.Index")
+              .setExpectedContentKind(SanitizedContent.ContentKind.HTML)
               .setData(templateData);
     } catch (URISyntaxException | RestApiException e) {
       throw new IOException(e);
@@ -87,7 +87,7 @@ public class IndexServlet extends HttpServlet {
     rsp.setContentType("text/html");
     rsp.setStatus(SC_OK);
     try (OutputStream w = rsp.getOutputStream()) {
-      w.write(renderer.render().getBytes(UTF_8));
+      w.write(renderer.render().get().getBytes(UTF_8));
     }
   }
 }

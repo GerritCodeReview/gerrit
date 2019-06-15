@@ -196,7 +196,7 @@ public class JettyServer {
         c = newServerConnector(server, acceptors, config);
 
       } else if ("https".equals(u.getScheme())) {
-        SslContextFactory ssl = new SslContextFactory();
+        SslContextFactory.Server ssl = new SslContextFactory.Server();
         final Path keystore = getFile(cfg, "sslkeystore", "etc/keystore");
         String password = cfg.getString("httpd", null, "sslkeypassword");
         if (password == null) {

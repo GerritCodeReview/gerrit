@@ -1,7 +1,7 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("//tools/bzl:maven_jar.bzl", "maven_jar")
 
-_JGIT_VERS = "692524d2bd7bccccecbebe624e427d7a3587cb5f"
+_JGIT_VERS = "8cd07cb8157eec75099cb93c25d6daa9d5e6e0bc"
 
 _DOC_VERS = _JGIT_VERS  # Set to _JGIT_VERS unless using a snapshot
 
@@ -25,7 +25,7 @@ def jgit_repos():
         http_archive(
             name = "jgit",
             strip_prefix = "jgit-" + _JGIT_VERS,
-            sha256 = "608a3a01614f63a573bb14d6bdf53ebee39065b624f51ccd400d2e10efc84180",
+            sha256 = "49d300977bd26384206aeb6aeec11b35c0e9dfcfd5b244e99266a21d9d8e3aa9",
             urls = [
                 "https://github.com/eclipse/jgit/archive/" + _JGIT_VERS + ".tar.gz",
             ],

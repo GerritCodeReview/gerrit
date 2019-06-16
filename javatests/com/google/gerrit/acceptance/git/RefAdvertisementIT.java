@@ -50,7 +50,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.git.RefPermissionBackend;
 import com.google.gerrit.server.git.receive.ReceiveCommitsAdvertiseRefsHookChain;
 import com.google.gerrit.server.git.receive.testing.TestRefAdvertiser;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
@@ -112,20 +111,10 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   private String psRef4;
   private String metaRef4;
 
-  private RefPermissionBackend refPermissionBackend;
-
   @ConfigSuite.Config
   public static Config enableFullRefEvaluation() {
     Config cfg = new Config();
     cfg.setBoolean("auth", null, "skipFullRefEvaluationIfAllRefsAreVisible", false);
-    return cfg;
-  }
-
-  @ConfigSuite.Config
-  public static Config enableAdvertiseRefsHook() {
-    Config cfg = new Config();
-    cfg.setString(
-        "receive", null, "refPermissionBackend", RefPermissionBackend.ADVERTISE_REF_HOOK.name());
     return cfg;
   }
 
@@ -135,9 +124,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     nonInteractiveUsers = groupUuid("Non-Interactive Users");
     setUpPermissions();
     setUpChanges();
-    refPermissionBackend =
-        cfg.getEnum(
-            "receive", null, "refPermissionBackend", RefPermissionBackend.ADVERTISE_REF_HOOK);
   }
 
   // This method is idempotent, so it is safe to call it on every test setup.
@@ -1041,8 +1027,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void receivePackListsOpenChangesAsAdditionalHaves() throws Exception {
-    TestRefAdvertiser.Result r =
-        getReceivePackRefs(admin, refPermissionBackend.isPermissionAwareRefDatabase());
+    TestRefAdvertiser.Result r = getReceivePackRefs();
     assertThat(r.allRefs().keySet())
         .containsExactly(
             // meta refs are excluded
@@ -1065,10 +1050,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         .update();
     requestScopeOperations.setApiUser(user.id());
 
-    assertThat(
-            getReceivePackRefs(user, refPermissionBackend.isPermissionAwareRefDatabase())
-                .additionalHaves())
-        .containsExactly(obj(cd3, 1));
+    assertThat(getReceivePackRefs().additionalHaves()).containsExactly(obj(cd3, 1));
   }
 
   @Test
@@ -1077,10 +1059,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     PushOneCommit.Result r = amendChange(cd3.change().getKey().get());
     r.assertOkStatus();
     cd3 = r.getChange();
-    assertThat(
-            getReceivePackRefs(admin, refPermissionBackend.isPermissionAwareRefDatabase())
-                .additionalHaves())
-        .containsExactly(obj(cd3, 2), obj(cd4, 1));
+    assertThat(getReceivePackRefs().additionalHaves()).containsExactly(obj(cd3, 2), obj(cd4, 1));
   }
 
   @Test
@@ -1118,10 +1097,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       indexer.index(c.getProject(), c.getId());
     }
 
-    assertThat(
-            getReceivePackRefs(admin, refPermissionBackend.isPermissionAwareRefDatabase())
-                .additionalHaves())
-        .containsExactly(obj(cd4, 1));
+    assertThat(getReceivePackRefs().additionalHaves()).containsExactly(obj(cd4, 1));
   }
 
   @Test
@@ -1467,12 +1443,10 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     }
   }
 
-  private TestRefAdvertiser.Result getReceivePackRefs(
-      TestAccount u, boolean skipDefaultAdvertiseRefsHook) throws Exception {
+  private TestRefAdvertiser.Result getReceivePackRefs() throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
       AdvertiseRefsHook adv =
-          ReceiveCommitsAdvertiseRefsHookChain.createForTest(
-              newFilter(project, u), queryProvider, project, skipDefaultAdvertiseRefsHook);
+          ReceiveCommitsAdvertiseRefsHookChain.createForTest(queryProvider, project);
       ReceivePack rp = new ReceivePack(repo);
       rp.setAdvertiseRefsHook(adv);
       TestRefAdvertiser advertiser = new TestRefAdvertiser(repo);

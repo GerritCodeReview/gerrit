@@ -28,7 +28,6 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.audit.HttpAuditEvent;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PermissionAwareRepositoryManager;
 import com.google.gerrit.server.git.TransferConfig;
@@ -37,7 +36,6 @@ import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.group.GroupAuditService;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
@@ -328,15 +326,10 @@ public class GitOverHttpServlet extends GitServlet {
     @Override
     public UploadPack create(HttpServletRequest req, Repository repo) {
       ProjectState state = (ProjectState) req.getAttribute(ATT_STATE);
-      UploadPack up;
-      if (config.getRefPermissionBackend().isPermissionAwareRefDatabase()) {
-        up =
-            new UploadPack(
-                PermissionAwareRepositoryManager.wrap(
-                    repo, permissionBackend.currentUser().project(state.getNameKey())));
-      } else {
-        up = new UploadPack(repo);
-      }
+      UploadPack up =
+          new UploadPack(
+              PermissionAwareRepositoryManager.wrap(
+                  repo, permissionBackend.currentUser().project(state.getNameKey())));
       up.setPackConfig(config.getPackConfig());
       up.setTimeout(config.getTimeout());
       up.setPreUploadHook(PreUploadHookChain.newChain(Lists.newArrayList(preUploadHooks)));
@@ -359,12 +352,10 @@ public class GitOverHttpServlet extends GitServlet {
     private final Provider<CurrentUser> userProvider;
     private final GroupAuditService groupAuditService;
     private final Metrics metrics;
-    private final boolean enableRefPermissionBackend;
 
     @Inject
     UploadFilter(
         UploadValidators.Factory uploadValidatorsFactory,
-        TransferConfig config,
         PermissionBackend permissionBackend,
         Provider<CurrentUser> userProvider,
         GroupAuditService groupAuditService,
@@ -374,8 +365,6 @@ public class GitOverHttpServlet extends GitServlet {
       this.userProvider = userProvider;
       this.groupAuditService = groupAuditService;
       this.metrics = metrics;
-      this.enableRefPermissionBackend =
-          config.getRefPermissionBackend().isPermissionAwareRefDatabase();
     }
 
     @Override
@@ -415,9 +404,6 @@ public class GitOverHttpServlet extends GitServlet {
         up.setPreUploadHook(
             PreUploadHookChain.newChain(
                 Lists.newArrayList(up.getPreUploadHook(), uploadValidators)));
-        if (!enableRefPermissionBackend) {
-          up.setAdvertiseRefsHook(new DefaultAdvertiseRefsHook(perm, RefFilterOptions.defaults()));
-        }
         next.doFilter(httpRequest, responseWrapper);
       } finally {
         groupAuditService.dispatch(

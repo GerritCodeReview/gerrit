@@ -16,6 +16,24 @@
       "revId": "9d8f75c0d91a5c0fde6bff950feb7fa79c8953cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5faf6741_6c023e2b",
+        "filename": "plugins/gitiles",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-16T07:08:03Z",
+      "side": 1,
+      "message": "Gitiles plugin extends Repository class to implement ref filtering.  The JGIT commit that is bumped here added new method getIdentity(). So that gitiles must be updated.",
+      "parentUuid": "616d2f49_906a24c0",
+      "revId": "9d8f75c0d91a5c0fde6bff950feb7fa79c8953cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

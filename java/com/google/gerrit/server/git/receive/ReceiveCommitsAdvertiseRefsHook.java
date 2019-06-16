@@ -58,9 +58,6 @@ import org.eclipse.jgit.transport.UploadPack;
  * objects that client sends to the server. Unnecessary here refers to objects that the server
  * already has.
  *
- * <p>For some code paths in {@link com.google.gerrit.server.git.DefaultAdvertiseRefsHook}, we
- * already removed refs/changes, so the logic to skip these in this class become a no-op.
- *
  * <p>TODO(hiesel): Instrument this heuristic and proof its value.
  */
 public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {

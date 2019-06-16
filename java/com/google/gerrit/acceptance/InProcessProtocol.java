@@ -31,7 +31,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.config.GerritRequestModule;
-import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
 import com.google.gerrit.server.git.PermissionAwareRepositoryManager;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TransferConfig;
@@ -39,7 +38,6 @@ import com.google.gerrit.server.git.UploadPackInitializer;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
@@ -248,22 +246,14 @@ class InProcessProtocol extends TestProtocol<Context> {
       if (projectState == null) {
         throw new RuntimeException("can't load project state for " + req.project.get());
       }
-      UploadPack up;
-      Repository maybePermissionAwareRepo;
-      if (transferConfig.getRefPermissionBackend().isPermissionAwareRefDatabase()) {
-        maybePermissionAwareRepo = PermissionAwareRepositoryManager.wrap(repo, perm);
-        up = new UploadPack(maybePermissionAwareRepo);
-      } else {
-        up = new UploadPack(repo);
-        up.setAdvertiseRefsHook(new DefaultAdvertiseRefsHook(perm, RefFilterOptions.defaults()));
-        maybePermissionAwareRepo = repo;
-      }
+      Repository permissionAwareRepository = PermissionAwareRepositoryManager.wrap(repo, perm);
+      UploadPack up = new UploadPack(permissionAwareRepository);
       up.setPackConfig(transferConfig.getPackConfig());
       up.setTimeout(transferConfig.getTimeout());
       List<PreUploadHook> hooks = Lists.newArrayList(preUploadHooks);
       hooks.add(
           uploadValidatorsFactory.create(
-              projectState.getProject(), maybePermissionAwareRepo, "localhost-test"));
+              projectState.getProject(), permissionAwareRepository, "localhost-test"));
       up.setPreUploadHook(PreUploadHookChain.newChain(hooks));
       uploadPackInitializers.runEach(initializer -> initializer.init(req.project, up));
       return up;

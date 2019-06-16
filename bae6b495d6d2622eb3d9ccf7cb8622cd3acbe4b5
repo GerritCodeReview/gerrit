@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69af1e2c_9cd41663",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2001,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-16T21:43:18Z",
+      "side": 1,
+      "message": "Remove?",
+      "range": {
+        "startLine": 2001,
+        "startChar": 0,
+        "endLine": 2001,
+        "endChar": 28
+      },
+      "revId": "bae6b495d6d2622eb3d9ccf7cb8622cd3acbe4b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

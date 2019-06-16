@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ee8863a_a3ec8c6b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-16T23:05:10Z",
+      "side": 1,
+      "message": "This is now using RefConfigSection.ALL instead of AccessSection.ALL.\n\nI guess this means we have duplicate/redundant constants.  Should one of them be removed?",
+      "range": {
+        "startLine": 349,
+        "startChar": 26,
+        "endLine": 349,
+        "endChar": 29
+      },
+      "revId": "7ab6e7328a90e6695b2dcfc63e9f2c2cf31cb6b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
-import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
 import com.google.gerrit.server.git.PermissionAwareRepositoryManager;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.UploadPackInitializer;
@@ -28,7 +27,6 @@ import com.google.gerrit.server.git.validators.UploadValidationException;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
@@ -67,16 +65,8 @@ final class Upload extends AbstractGitCommand {
       throw new Failure(1, "fatal: unable to check permissions " + e);
     }
 
-    Repository maybePermissionAwareRepo;
-    UploadPack up;
-    if (config.getRefPermissionBackend().isPermissionAwareRefDatabase()) {
-      maybePermissionAwareRepo = PermissionAwareRepositoryManager.wrap(repo, perm);
-      up = new UploadPack(maybePermissionAwareRepo);
-    } else {
-      up = new UploadPack(repo);
-      maybePermissionAwareRepo = repo;
-      up.setAdvertiseRefsHook(new DefaultAdvertiseRefsHook(perm, RefFilterOptions.defaults()));
-    }
+    Repository permissionAwareRepo = PermissionAwareRepositoryManager.wrap(repo, perm);
+    UploadPack up = new UploadPack(permissionAwareRepo);
 
     up.setPackConfig(config.getPackConfig());
     up.setTimeout(config.getTimeout());
@@ -88,7 +78,7 @@ final class Upload extends AbstractGitCommand {
     List<PreUploadHook> allPreUploadHooks = Lists.newArrayList(preUploadHooks);
     allPreUploadHooks.add(
         uploadValidatorsFactory.create(
-            project, maybePermissionAwareRepo, session.getRemoteAddressAsString()));
+            project, permissionAwareRepo, session.getRemoteAddressAsString()));
     up.setPreUploadHook(PreUploadHookChain.newChain(allPreUploadHooks));
     for (UploadPackInitializer initializer : uploadPackInitializers) {
       initializer.init(projectState.getNameKey(), up);

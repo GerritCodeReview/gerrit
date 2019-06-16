@@ -163,10 +163,8 @@ public class UploadArchive extends AbstractGitCommand {
     }
   }
 
-  // JGit API depends on reference equality with sentinel.
-  @SuppressWarnings({"ReferenceEquality", "StringEquality"})
   private static boolean isPacketLineEnd(String s) {
-    return s == PacketLineIn.END;
+    return PacketLineIn.isEnd(s);
   }
 
   @Override

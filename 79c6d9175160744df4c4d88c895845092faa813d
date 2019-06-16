@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "242844cd_ddfbc406",
+        "filename": "java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-16T23:14:33Z",
+      "side": 1,
+      "message": "This can be inlined. I think the only reason it was extracted to a method previously was to be able to suppress the warnings only on the relevant code.",
+      "range": {
+        "startLine": 167,
+        "startChar": 11,
+        "endLine": 167,
+        "endChar": 33
+      },
+      "revId": "79c6d9175160744df4c4d88c895845092faa813d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

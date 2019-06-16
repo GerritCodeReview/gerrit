@@ -29,7 +29,6 @@ public class TransferConfig {
   private final long maxObjectSizeLimit;
   private final String maxObjectSizeLimitFormatted;
   private final boolean inheritProjectMaxObjectSizeLimit;
-  private final RefPermissionBackend refPermissionBackend;
   private final boolean enableProtocolV2;
 
   @Inject
@@ -47,12 +46,6 @@ public class TransferConfig {
     maxObjectSizeLimitFormatted = cfg.getString("receive", null, "maxObjectSizeLimit");
     inheritProjectMaxObjectSizeLimit =
         cfg.getBoolean("receive", "inheritProjectMaxObjectSizeLimit", false);
-    refPermissionBackend =
-        cfg.getEnum(
-            "receive",
-            null,
-            "refPermissionBackend",
-            RefPermissionBackend.PERMISSION_AWARE_REF_DATABASE);
     enableProtocolV2 = cfg.getBoolean("receive", "enableProtocolV2", true);
 
     packConfig = new PackConfig();
@@ -80,10 +73,6 @@ public class TransferConfig {
 
   public boolean inheritProjectMaxObjectSizeLimit() {
     return inheritProjectMaxObjectSizeLimit;
-  }
-
-  public RefPermissionBackend getRefPermissionBackend() {
-    return refPermissionBackend;
   }
 
   public boolean enableProtocolV2() {

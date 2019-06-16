@@ -14,8 +14,8 @@ _JGIT_REPO = MAVEN_CENTRAL  # Leave here even if set to MAVEN_CENTRAL.
 LOCAL_JGIT_REPO = ""
 
 # set this to build from a specific commit.
-JGIT_SRC_COMMIT = ""
-JGIT_ARCHIVE_SHA256 = ""
+JGIT_SRC_COMMIT = "8cd07cb8157eec75099cb93c25d6daa9d5e6e0bc"
+JGIT_ARCHIVE_SHA256 = "49d300977bd26384206aeb6aeec11b35c0e9dfcfd5b244e99266a21d9d8e3aa9"
 
 def jgit_repos():
     if LOCAL_JGIT_REPO:

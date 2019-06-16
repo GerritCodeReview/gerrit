@@ -337,12 +337,10 @@ public class GitOverHttpServlet extends GitServlet {
       up.setTimeout(config.getTimeout());
       up.setPreUploadHook(PreUploadHookChain.newChain(Lists.newArrayList(preUploadHooks)));
       up.setPostUploadHook(PostUploadHookChain.newChain(Lists.newArrayList(postUploadHooks)));
-      if (config.enableProtocolV2()) {
-        String header = req.getHeader("Git-Protocol");
-        if (header != null) {
-          String[] params = header.split(":");
-          up.setExtraParameters(Arrays.asList(params));
-        }
+      String header = req.getHeader("Git-Protocol");
+      if (header != null) {
+        String[] params = header.split(":");
+        up.setExtraParameters(Arrays.asList(params));
       }
       uploadPackInitializers.runEach(initializer -> initializer.init(state.getNameKey(), up));
       return up;

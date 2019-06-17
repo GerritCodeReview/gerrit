@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f44f571_d9d331f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-17T12:32:28Z",
+      "side": 1,
+      "message": "Why do we create a ConcurrentHashMap but then convert it to a normal Set?  Doesn\u0027t that lose the concurrency handling of the ConcurrentHashMap?",
+      "range": {
+        "startLine": 117,
+        "startChar": 2,
+        "endLine": 118,
+        "endChar": 59
+      },
+      "revId": "d5a6f96a22fa6b32637866cb1f8b3c1ed1c11b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

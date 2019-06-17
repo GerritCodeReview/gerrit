@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59e99036_8f85e468",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-06-17T07:32:22Z",
+      "side": 1,
+      "message": "This is breaking encapsulation. I am fine with it as it is for now, but you might want to add a TODO to clean this up. From what I can tell, _appElement is only used twice:\n\n1) in _setPrams() - this can be avoided by adding a _setParams method to `app`, which deletates to `app-element`.\n\n2) To dispatch a page-error event - looks like that is handled in gr-app-element.js. This again be delegated.\n\nOr, maybe the routing should continue to use appElement, but then `app` should explicitly expose that element, maybe through a `getAppElement` method.",
+      "range": {
+        "startLine": 233,
+        "startChar": 21,
+        "endLine": 233,
+        "endChar": 62
+      },
+      "revId": "83839261f5fd9389b53f41d0391dfea5048dfd1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

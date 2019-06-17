@@ -174,21 +174,25 @@ class DefaultRefFilter {
             "unexpected tags found when filtering refs/heads/* "
                 + allVisibleBranches.deferredTags());
 
-        TagMatcher tags =
-            tagCache
-                .get(projectState.getNameKey())
-                .matcher(tagCache, repo, allVisibleBranches.visibleRefs().values());
-        for (Ref tag : initialRefFilter.deferredTags()) {
-          try {
+        try {
+          TagMatcher tags =
+              tagCache
+                  .get(projectState.getNameKey())
+                  .matcher(
+                      tagCache,
+                      repo,
+                      allVisibleBranches.visibleRefs().values(),
+                      initialRefFilter.deferredTags());
+          for (Ref tag : initialRefFilter.deferredTags()) {
             if (tags.isReachable(tag)) {
               logger.atFinest().log("Include reachable tag %s", tag.getName());
               visibleRefs.put(tag.getName(), tag);
             } else {
               logger.atFinest().log("Filter out non-reachable tag %s", tag.getName());
             }
-          } catch (IOException e) {
-            throw new PermissionBackendException(e);
           }
+        } catch (IOException e) {
+          throw new PermissionBackendException(e);
         }
       }
     }

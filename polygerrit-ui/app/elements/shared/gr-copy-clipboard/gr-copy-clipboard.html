@@ -47,20 +47,29 @@ limitations under the License.
       }
     </style>
     <div class="text">
-        <input id="input" is="iron-input"
+      <iron-input
+          class$="copyText [[_computeInputClass(hideInput)]]"
+          type="text"
+          bind-value="[[text]]"
+          on-tap="_handleInputTap"
+          readonly>
+        <input
+            id="input"
+            is="iron-input"
             class$="copyText [[_computeInputClass(hideInput)]]"
             type="text"
             bind-value="[[text]]"
             on-tap="_handleInputTap"
             readonly>
-        <gr-button id="button"
-            link
-            has-tooltip="[[hasTooltip]]"
-            class="copyToClipboard"
-            title="[[buttonTitle]]"
-            on-tap="_copyToClipboard">
-          <iron-icon id="icon" icon="gr-icons:content-copy"></iron-icon>
-        </gr-button>
+      </iron-input>
+      <gr-button id="button"
+          link
+          has-tooltip="[[hasTooltip]]"
+          class="copyToClipboard"
+          title="[[buttonTitle]]"
+          on-tap="_copyToClipboard">
+        <iron-icon id="icon" icon="gr-icons:content-copy"></iron-icon>
+      </gr-button>
     </div>
   </template>
   <script src="gr-copy-clipboard.js"></script>

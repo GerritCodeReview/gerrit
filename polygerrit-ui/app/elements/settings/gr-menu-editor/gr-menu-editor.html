@@ -85,19 +85,30 @@ limitations under the License.
         <tfoot>
           <tr>
             <th>
-              <input
-                  is="iron-input"
+              <iron-input
                   placeholder="New Title"
                   on-keydown="_handleInputKeydown"
                   bind-value="{{_newName}}">
+                <input
+                    is="iron-input"
+                    placeholder="New Title"
+                    on-keydown="_handleInputKeydown"
+                    bind-value="{{_newName}}">
+              </iron-input>
             </th>
             <th>
-              <input
+              <iron-input
                   class="newUrlInput"
-                  is="iron-input"
                   placeholder="New URL"
                   on-keydown="_handleInputKeydown"
                   bind-value="{{_newUrl}}">
+                <input
+                    class="newUrlInput"
+                    is="iron-input"
+                    placeholder="New URL"
+                    on-keydown="_handleInputKeydown"
+                    bind-value="{{_newUrl}}">
+              </iron-input>
             </th>
             <th></th>
             <th></th>

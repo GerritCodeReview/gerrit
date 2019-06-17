@@ -69,23 +69,33 @@ limitations under the License.
       <section class$="[[_computeBranchClass(baseChange)]]">
         <span class="title">Provide base commit sha1 for change</span>
         <span class="value">
-          <input
-              is="iron-input"
-              id="baseCommitInput"
+          <iron-input
               maxlength="40"
               placeholder="(optional)"
               bind-value="{{baseCommit}}">
+            <input
+                is="iron-input"
+                id="baseCommitInput"
+                maxlength="40"
+                placeholder="(optional)"
+                bind-value="{{baseCommit}}">
+          </iron-input>
         </span>
       </section>
       <section>
         <span class="title">Enter topic for new change</span>
         <span class="value">
-          <input
-              is="iron-input"
-              id="tagNameInput"
+          <iron-input
               maxlength="1024"
               placeholder="(optional)"
               bind-value="{{topic}}">
+            <input
+                is="iron-input"
+                id="tagNameInput"
+                maxlength="1024"
+                placeholder="(optional)"
+                bind-value="{{topic}}">
+          </iron-input>
         </span>
       </section>
       <section id="description">

@@ -16,6 +16,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
@@ -81,19 +82,27 @@ limitations under the License.
         <hr>
         <section>
           <div class="title">Full Name</div>
-          <input
-              is="iron-input"
-              id="name"
+          <iron-input
               bind-value="{{_account.name}}"
               disabled="[[_saving]]">
+            <input
+                is="iron-input"
+                id="name"
+                bind-value="{{_account.name}}"
+                disabled="[[_saving]]">
+          </iron-input>
         </section>
         <section class$="[[_computeUsernameClass(_usernameMutable)]]">
           <div class="title">Username</div>
-          <input
-              is="iron-input"
-              id="username"
+          <iron-input
               bind-value="{{_account.username}}"
               disabled="[[_saving]]">
+            <input
+                is="iron-input"
+                id="username"
+                bind-value="{{_account.username}}"
+                disabled="[[_saving]]">
+          </iron-input>
         </section>
         <section>
           <div class="title">Preferred Email</div>

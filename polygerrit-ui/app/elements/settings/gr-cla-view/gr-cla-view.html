@@ -95,7 +95,13 @@ limitations under the License.
         </div>
         <div class$="agreementsTextBox [[_computeHideAgreementClass(_agreementName, _serverConfig.auth.contributor_agreements)]]">
           <h3 class="smallHeading">Complete the agreement:</h3>
-          <input id="input-agreements" is="iron-input" bind-value="{{_agreementsText}}" placeholder="Enter 'I agree' here" />
+          <iron-input bind-value="{{_agreementsText}}"
+                      placeholder="Enter 'I agree' here">
+            <input id="input-agreements"
+                   is="iron-input"
+                   bind-value="{{_agreementsText}}"
+                   placeholder="Enter 'I agree' here">
+          </iron-input>
           <gr-button on-tap="_handleSaveAgreements" disabled="[[_disableAgreementsText(_agreementsText)]]">
             Submit
           </gr-button>

@@ -27,6 +27,10 @@
       _passwordUrl: String,
     },
 
+    attached() {
+      this.loadData();
+    },
+
     loadData() {
       const promises = [];
 

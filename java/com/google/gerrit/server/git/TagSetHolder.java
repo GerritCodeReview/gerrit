@@ -21,6 +21,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
+import java.io.IOException;
 import java.util.Collection;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -29,7 +30,7 @@ public class TagSetHolder {
   private final Object buildLock = new Object();
   private final Project.NameKey projectName;
 
-  @Nullable private volatile TagSet tags;
+  @Nullable private volatile TagSet tagSet;
 
   TagSetHolder(Project.NameKey projectName) {
     this.projectName = projectName;
@@ -40,60 +41,53 @@ public class TagSetHolder {
   }
 
   TagSet getTagSet() {
-    return tags;
+    return tagSet;
   }
 
-  void setTagSet(TagSet tags) {
-    this.tags = tags;
+  void setTagSet(TagSet tagSet) {
+    this.tagSet = tagSet;
   }
 
-  public TagMatcher matcher(TagCache cache, Repository db, Collection<Ref> include) {
+  public TagMatcher matcher(
+      TagCache cache, Repository db, Collection<Ref> include, Iterable<Ref> tags)
+      throws IOException {
     include = include.stream().filter(r -> !TagSet.skip(r)).collect(toList());
 
-    TagSet tags = this.tags;
-    if (tags == null) {
-      tags = build(cache, db);
+    TagSet tagSet = this.tagSet;
+    if (tagSet == null) {
+      tagSet = build(cache, db);
     }
 
-    TagMatcher m = new TagMatcher(this, cache, db, include, tags, false);
-    tags.prepare(m);
-    if (!m.newRefs.isEmpty() || !m.lostRefs.isEmpty()) {
-      tags = rebuild(cache, db, tags, m);
+    TagMatcher m = new TagMatcher(this, cache, db, include, tagSet, tags);
+    if (!m.toUpdate.isEmpty()) {
+      tagSet = rebuild(cache, db, tagSet, m);
 
-      m = new TagMatcher(this, cache, db, include, tags, true);
-      tags.prepare(m);
+      m = new TagMatcher(this, cache, db, include, tagSet, tags);
     }
     return m;
   }
 
-  void rebuildForNewTags(TagCache cache, TagMatcher m) {
-    m.tags = rebuild(cache, m.db, m.tags, null);
-    m.mask.clear();
-    m.newRefs.clear();
-    m.lostRefs.clear();
-    m.tags.prepare(m);
-  }
-
-  private TagSet build(TagCache cache, Repository db) {
+  private TagSet build(TagCache cache, Repository db) throws IOException {
     synchronized (buildLock) {
-      TagSet tags = this.tags;
-      if (tags == null) {
-        tags = new TagSet(projectName);
-        tags.build(db, null, null);
-        this.tags = tags;
+      TagSet tagSet = this.tagSet;
+      if (tagSet == null) {
+        tagSet = new TagSet(projectName);
+        tagSet.build(db, null, null);
+        this.tagSet = tagSet;
         cache.put(projectName, this);
       }
-      return tags;
+      return tagSet;
     }
   }
 
-  private TagSet rebuild(TagCache cache, Repository db, TagSet old, TagMatcher m) {
+  private TagSet rebuild(TagCache cache, Repository db, TagSet old, TagMatcher m)
+      throws IOException {
     synchronized (buildLock) {
-      TagSet cur = this.tags;
+      TagSet cur = this.tagSet;
       if (cur == old) {
         cur = new TagSet(projectName);
         cur.build(db, old, m);
-        this.tags = cur;
+        this.tagSet = cur;
         cache.put(projectName, this);
       }
       return cur;
@@ -107,9 +101,9 @@ public class TagSetHolder {
     public byte[] serialize(TagSetHolder object) {
       TagSetHolderProto.Builder b =
           TagSetHolderProto.newBuilder().setProjectName(object.projectName.get());
-      TagSet tags = object.tags;
-      if (tags != null) {
-        b.setTags(tags.toProto());
+      TagSet tagSet = object.tagSet;
+      if (tagSet != null) {
+        b.setTags(tagSet.toProto());
       }
       return Protos.toByteArray(b.build());
     }
@@ -119,7 +113,7 @@ public class TagSetHolder {
       TagSetHolderProto proto = Protos.parseUnchecked(TagSetHolderProto.parser(), in);
       TagSetHolder holder = new TagSetHolder(Project.nameKey(proto.getProjectName()));
       if (proto.hasTags()) {
-        holder.tags = TagSet.fromProto(proto.getTags());
+        holder.tagSet = TagSet.fromProto(proto.getTags());
       }
       return holder;
     }

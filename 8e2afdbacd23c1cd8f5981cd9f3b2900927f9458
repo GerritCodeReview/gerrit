@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a85de044_a9119410",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-06-17T06:26:53Z",
+      "side": 1,
+      "message": "Maybe also document this in https://gerrit.googlesource.com/gerrit/+/master/Documentation/pg-plugin-endpoints.txt?",
+      "revId": "8e2afdbacd23c1cd8f5981cd9f3b2900927f9458",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac4b155b_16d02b37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-06-17T06:26:53Z",
+      "side": 1,
+      "message": "I would be interested in a more detailed explanation why this extension point is useful.",
+      "revId": "8e2afdbacd23c1cd8f5981cd9f3b2900927f9458",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

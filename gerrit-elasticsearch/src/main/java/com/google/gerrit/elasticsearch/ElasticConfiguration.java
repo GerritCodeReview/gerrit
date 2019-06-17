@@ -43,7 +43,7 @@ class ElasticConfiguration {
   static final String KEY_NUMBER_OF_REPLICAS = "numberOfReplicas";
   static final String DEFAULT_PORT = "9200";
   static final String DEFAULT_USERNAME = "elastic";
-  static final int DEFAULT_NUMBER_OF_SHARDS = 5;
+  static final int DEFAULT_NUMBER_OF_SHARDS = 1;
   static final int DEFAULT_NUMBER_OF_REPLICAS = 1;
 
   private final Config cfg;

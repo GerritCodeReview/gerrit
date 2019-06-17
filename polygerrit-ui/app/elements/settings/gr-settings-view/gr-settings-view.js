@@ -166,7 +166,6 @@
         this.$.accountInfo.loadData(),
         this.$.watchedProjectsEditor.loadData(),
         this.$.groupList.loadData(),
-        this.$.httpPass.loadData(),
         this.$.identities.loadData(),
         this.$.editPrefs.loadData(),
         this.$.diffPrefs.loadData(),

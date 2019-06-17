@@ -21,23 +21,20 @@ import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatS
 import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.byteString;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSortedSet;
-import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto.TagSetProto;
-import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto.TagSetProto.CachedRefProto;
-import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto.TagSetProto.TagProto;
-import com.google.gerrit.server.git.TagSet.CachedRef;
-import com.google.gerrit.server.git.TagSet.Tag;
+import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto.TagSetProto.NodeProto;
+import com.google.gerrit.server.git.DecoratedDag;
+import com.google.gerrit.server.git.DecoratedDag.Node;
 import com.google.inject.TypeLiteral;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.BitSet;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.junit.Test;
@@ -45,21 +42,56 @@ import org.junit.Test;
 public class TagSetTest {
   @Test
   public void roundTripToProto() {
-    HashMap<String, CachedRef> refs = new HashMap<>();
-    refs.put(
-        "refs/heads/master",
-        new CachedRef(1, ObjectId.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")));
-    refs.put(
-        "refs/heads/branch",
-        new CachedRef(2, ObjectId.fromString("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")));
-    ObjectIdOwnerMap<Tag> tags = new ObjectIdOwnerMap<>();
-    tags.add(
-        new Tag(
-            ObjectId.fromString("cccccccccccccccccccccccccccccccccccccccc"), newBitSet(1, 3, 5)));
-    tags.add(
-        new Tag(
-            ObjectId.fromString("dddddddddddddddddddddddddddddddddddddddd"), newBitSet(2, 4, 6)));
-    TagSet tagSet = new TagSet(Project.nameKey("project"), refs, tags);
+    DecoratedDag dag = new DecoratedDag();
+
+    Node ic1 = new Node(ObjectId.fromString("0000000000000000000000000000000000000001"));
+    dag.setInitialCommit(ic1);
+
+    String branch1 = "refs/heads/branch1";
+    Node ic2 =
+        new Node(
+            ObjectId.fromString("0000000000000000000000000000000000000002"), decorations(branch1));
+    dag.setInitialCommit(ic2);
+
+    String tag1 = "refs/tags/tag1";
+    Node ic3 =
+        new Node(
+            ObjectId.fromString("0000000000000000000000000000000000000003"), decorations(tag1));
+    dag.setInitialCommit(ic3);
+
+    String tag2 = "refs/tags/tag2";
+    String branch2 = "refs/heads/branch2";
+    Node ic4 =
+        new Node(
+            ObjectId.fromString("0000000000000000000000000000000000000004"),
+            decorations(tag2, branch2));
+    dag.setInitialCommit(ic4);
+
+    String tag3 = "refs/tags/tag3";
+    ObjectId idTag3 = ObjectId.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa3");
+    dag.decorate(idTag3, tag3);
+    Node nodeTag3 = dag.getOrCreate(idTag3);
+    nodeTag3.parents.add(ic4);
+
+    ObjectId idMaster = ObjectId.fromString("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+    String master = "refs/heads/master";
+    dag.decorate(idMaster, master);
+    Node nodeMaster = dag.getOrCreate(idMaster);
+    nodeMaster.parents.add(nodeTag3);
+
+    String tag4 = "refs/tags/tag4";
+    ObjectId idTag4 = ObjectId.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa4");
+    dag.decorate(idTag4, tag4);
+    Node nodeTag4 = dag.getOrCreate(idTag4);
+    nodeTag4.parents.add(nodeTag3);
+
+    String branch3 = "refs/heads/branch3";
+    ObjectId idBranch3 = ObjectId.fromString("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb3");
+    dag.decorate(idBranch3, branch3);
+    Node nodeBranch3 = dag.getOrCreate(idBranch3);
+    nodeBranch3.parents.add(nodeTag4);
+
+    TagSet tagSet = new TagSet(Project.nameKey("project"), dag);
 
     TagSetProto proto = tagSet.toProto();
     assertThat(proto)
@@ -67,43 +99,93 @@ public class TagSetTest {
         .isEqualTo(
             TagSetProto.newBuilder()
                 .setProjectName("project")
-                .putRef(
-                    "refs/heads/master",
-                    CachedRefProto.newBuilder()
+                .addNodes(
+                    NodeProto.newBuilder()
+                        .setId(
+                            byteString(
+                                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01))
+                        .addAllDecorations(decorations(""))
+                        .build())
+                .addNodes(
+                    NodeProto.newBuilder()
+                        .setId(
+                            byteString(
+                                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02))
+                        .addAllDecorations(decorations("", branch1))
+                        .build())
+                .addNodes(
+                    NodeProto.newBuilder()
+                        .setId(
+                            byteString(
+                                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03))
+                        .addAllDecorations(decorations("", tag1))
+                        .build())
+                .addNodes(
+                    NodeProto.newBuilder()
+                        .setId(
+                            byteString(
+                                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04))
+                        .addAllDecorations(decorations("", tag2, branch2))
+                        .build())
+                .addNodes(
+                    NodeProto.newBuilder()
                         .setId(
                             byteString(
                                 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa,
-                                0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa))
-                        .setFlag(1)
+                                0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa3))
+                        .addAllDecorations(decorations(tag3))
+                        .addAllParentNumbers(parentNumbers(3))
                         .build())
-                .putRef(
-                    "refs/heads/branch",
-                    CachedRefProto.newBuilder()
+                .addNodes(
+                    NodeProto.newBuilder()
                         .setId(
                             byteString(
                                 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb,
                                 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb))
-                        .setFlag(2)
+                        .addAllDecorations(decorations(master))
+                        .addAllParentNumbers(parentNumbers(4))
                         .build())
-                .addTag(
-                    TagProto.newBuilder()
+                .addNodes(
+                    NodeProto.newBuilder()
                         .setId(
                             byteString(
-                                0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc,
-                                0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc))
-                        .setFlags(byteString(0x2a))
+                                0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa,
+                                0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xa4))
+                        .addAllDecorations(decorations(tag4))
+                        .addAllParentNumbers(parentNumbers(4))
                         .build())
-                .addTag(
-                    TagProto.newBuilder()
+                .addNodes(
+                    NodeProto.newBuilder()
                         .setId(
                             byteString(
-                                0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd,
-                                0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd))
-                        .setFlags(byteString(0x54))
+                                0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb,
+                                0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xbb, 0xb3))
+                        .addAllDecorations(decorations(branch3))
+                        .addAllParentNumbers(parentNumbers(6))
                         .build())
                 .build());
 
     assertEqual(tagSet, TagSet.fromProto(proto));
+  }
+
+  private Set<String> decorations(String... refs) {
+    Set<String> decorations = new HashSet<>();
+    for (String ref : refs) {
+      decorations.add(ref);
+    }
+    return decorations;
+  }
+
+  private List<Integer> parentNumbers(Integer... parents) {
+    List<Integer> parentNums = new ArrayList<>();
+    for (Integer parent : parents) {
+      parentNums.add(parent);
+    }
+    return parentNums;
   }
 
   @Test
@@ -112,27 +194,49 @@ public class TagSetTest {
         .hasFields(
             ImmutableMap.of(
                 "projectName", Project.NameKey.class,
-                "refs", new TypeLiteral<Map<String, CachedRef>>() {}.getType(),
-                "tags", new TypeLiteral<ObjectIdOwnerMap<Tag>>() {}.getType()));
+                "dag", DecoratedDag.class));
   }
 
   @Test
-  public void cachedRefFields() {
-    assertThatSerializedClass(CachedRef.class)
-        .extendsClass(new TypeLiteral<AtomicReference<ObjectId>>() {}.getType());
-    assertThatSerializedClass(CachedRef.class)
-        .hasFields(
-            ImmutableMap.of(
-                "flag", int.class, "value", AtomicReference.class.getTypeParameters()[0]));
+  public <V> void dagFields() {
+    assertThatSerializedClass(DecoratedDag.class)
+        .extendsClass(new TypeLiteral<ObjectIdOwnerMap<Node>>() {}.getType());
+
+    // How can we create a generic double dimensioned array (V[][])?
+    // The code below fails with:
+    //
+    // dagFields(com.google.gerrit.server.git.TagSetTest)
+    // value of           : serializedClass.fields()
+    // Not true that <{decorated=java.util.Set<com.google.gerrit.server.git.TagSet$Node>,
+    // directory=V[][], size=int, grow=int, bits=int, mask=int}> contains exactly
+    // <{decorated=java.util.Set<com.google.gerrit.server.git.TagSet$Node>, directory=V[][],
+    // size=int, grow=int, bits=int, mask=int}>. It has the following entries with matching keys but
+    // different values: {directory=(expected V[][]
+    // (com.google.inject.internal.MoreTypes$GenericArrayTypeImpl) but got V[][]
+    // (sun.reflect.generics.reflectiveObjects.GenericArrayTypeImpl))}
+    // serializedClass was: class com.google.gerrit.server.git.TagSet$DecoratedDag
+    //         at com.google.gerrit.server.git.TagSetTest.dagFields(TagSetTest.java:200)
+    //
+//         assertThatSerializedClass(DecoratedDag.class)
+//             .hasFields(
+//                 ImmutableMap.<String, Type>builder()
+//                     .put("decorated", new TypeLiteral<Set<Node>>() {}.getType())
+//                     .put("directory", new TypeLiteral<V[][]>() {}.getType())
+//                     .put("size", int.class)
+//                     .put("grow", int.class)
+//                     .put("bits", int.class)
+//                     .put("mask", int.class)
+//                     .build());
   }
 
   @Test
-  public void tagFields() {
-    assertThatSerializedClass(Tag.class).extendsClass(ObjectIdOwnerMap.Entry.class);
-    assertThatSerializedClass(Tag.class)
+  public void nodeFields() {
+    assertThatSerializedClass(Node.class).extendsClass(ObjectIdOwnerMap.Entry.class);
+    assertThatSerializedClass(Node.class)
         .hasFields(
             ImmutableMap.<String, Type>builder()
-                .put("refFlags", BitSet.class)
+                .put("decorations", new TypeLiteral<Set<String>>() {}.getType())
+                .put("parents", new TypeLiteral<Set<Node>>() {}.getType())
                 .put("next", ObjectIdOwnerMap.Entry.class)
                 .put("w1", int.class)
                 .put("w2", int.class)
@@ -142,8 +246,6 @@ public class TagSetTest {
                 .build());
   }
 
-  // TODO(dborowitz): Find some more common place to put this method, which requires access to
-  // package-private TagSet details.
   static void assertEqual(@Nullable TagSet a, @Nullable TagSet b) {
     if (a == null || b == null) {
       assertWithMessage("only one TagSet is null out of\n%s\n%s", a, b)
@@ -153,33 +255,8 @@ public class TagSetTest {
     }
     assertThat(a.getProjectName()).isEqualTo(b.getProjectName());
 
-    Map<String, CachedRef> aRefs = a.getRefsForTesting();
-    Map<String, CachedRef> bRefs = b.getRefsForTesting();
-    assertWithMessage("ref name set")
-        .that(ImmutableSortedSet.copyOf(aRefs.keySet()))
-        .isEqualTo(ImmutableSortedSet.copyOf(bRefs.keySet()));
-    for (String name : aRefs.keySet()) {
-      CachedRef aRef = aRefs.get(name);
-      CachedRef bRef = bRefs.get(name);
-      assertWithMessage("value of ref %s", name).that(aRef.get()).isEqualTo(bRef.get());
-      assertWithMessage("flag of ref %s", name).that(aRef.flag).isEqualTo(bRef.flag);
-    }
-
-    ObjectIdOwnerMap<Tag> aTags = a.getTagsForTesting();
-    ObjectIdOwnerMap<Tag> bTags = b.getTagsForTesting();
-    assertWithMessage("tag ID set").that(getTagIds(aTags)).isEqualTo(getTagIds(bTags));
-    for (Tag aTag : aTags) {
-      Tag bTag = bTags.get(aTag);
-      assertWithMessage("flags for tag %s", aTag.name())
-          .that(aTag.refFlags)
-          .isEqualTo(bTag.refFlags);
-    }
-  }
-
-  private static ImmutableSortedSet<String> getTagIds(ObjectIdOwnerMap<Tag> bTags) {
-    return Streams.stream(bTags)
-        .map(Tag::name)
-        .collect(ImmutableSortedSet.toImmutableSortedSet(Comparator.naturalOrder()));
+    a.dag.decorated.containsAll(b.dag.decorated);
+    b.dag.decorated.containsAll(a.dag.decorated);
   }
 
   private BitSet newBitSet(int... bits) {

@@ -285,7 +285,7 @@ public class MailProcessor {
                           MAIL_COMMENT_TYPE_TO_VALIDATION_TYPE.get(comment.getType()),
                           comment.getMessage()))
               .collect(ImmutableList.toImmutableList());
-      List<CommentValidationFailure> commentValidationFailures =
+      ImmutableList<CommentValidationFailure> commentValidationFailures =
           PublishCommentUtil.findInvalidComments(commentValidators, parsedCommentsForValidation);
       if (!commentValidationFailures.isEmpty()) {
         sendRejectionEmail(message, InboundEmailRejectionSender.Error.COMMENT_REJECTED);

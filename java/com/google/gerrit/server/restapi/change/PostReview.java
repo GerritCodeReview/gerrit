@@ -995,7 +995,7 @@ public class PostReview
                               : CommentType.FILE_COMMENT,
                           comment.message))
               .collect(toImmutableList());
-      List<CommentValidationFailure> draftValidationFailures =
+      ImmutableList<CommentValidationFailure> draftValidationFailures =
           PublishCommentUtil.findInvalidComments(commentValidators, draftsForValidation);
       if (!draftValidationFailures.isEmpty()) {
         throw new CommentsRejectedException(draftValidationFailures);
@@ -1385,7 +1385,7 @@ public class PostReview
         buf.append(String.format("\n\n(%d comments)", comments.size()));
       }
       if (!msg.isEmpty()) {
-        List<CommentValidationFailure> messageValidationFailure =
+        ImmutableList<CommentValidationFailure> messageValidationFailure =
             PublishCommentUtil.findInvalidComments(
                 commentValidators,
                 ImmutableList.of(

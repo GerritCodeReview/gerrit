@@ -2045,7 +2045,7 @@ class ReceiveCommits {
                               : CommentType.FILE_COMMENT,
                           comment.message))
               .collect(toImmutableList());
-      List<CommentValidationFailure> commentValidationFailures =
+      ImmutableList<CommentValidationFailure> commentValidationFailures =
           PublishCommentUtil.findInvalidComments(commentValidators, draftsForValidation);
       magicBranch.setCommentsValid(commentValidationFailures.isEmpty());
       commentValidationFailures.forEach(

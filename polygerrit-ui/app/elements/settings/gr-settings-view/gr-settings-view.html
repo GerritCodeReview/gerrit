@@ -387,12 +387,14 @@ limitations under the License.
               disabled="[[!_computeAddEmailButtonEnabled(_newEmail, _addingEmail)]]"
               on-tap="_handleAddEmailButton">Send verification</gr-button>
         </fieldset>
-        <div hidden$="[[!_showHttpAuth(_serverConfig)]]">
-          <h2 id="HTTPCredentials">HTTP Credentials</h2>
-          <fieldset>
-            <gr-http-password id="httpPass"></gr-http-password>
-          </fieldset>
-        </div>
+        <template is="dom-if" if="[[_showHttpAuth(_serverConfig)]]">
+          <div>
+            <h2 id="HTTPCredentials">HTTP Credentials</h2>
+            <fieldset>
+              <gr-http-password id="httpPass"></gr-http-password>
+            </fieldset>
+          </div>
+        </template>
         <div hidden$="[[!_serverConfig.sshd]]">
           <h2
               id="SSHKeys"

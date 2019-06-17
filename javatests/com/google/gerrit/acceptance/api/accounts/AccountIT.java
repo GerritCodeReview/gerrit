@@ -3291,10 +3291,6 @@ public class AccountIT extends AbstractDaemonTest {
       countsByAccount.clear();
     }
 
-    long getCount(Account.Id accountId) {
-      return countsByAccount.get(accountId.get());
-    }
-
     void assertReindexOf(TestAccount testAccount) {
       assertReindexOf(testAccount, 1);
     }
@@ -3303,19 +3299,18 @@ public class AccountIT extends AbstractDaemonTest {
       assertReindexOf(Account.id(accountInfo._accountId), 1);
     }
 
-    void assertReindexOf(TestAccount testAccount, int expectedCount) {
-      assertThat(getCount(testAccount.id())).isEqualTo(expectedCount);
-      assertThat(countsByAccount).hasSize(1);
+    void assertReindexOf(TestAccount testAccount, long expectedCount) {
+      assertThat(countsByAccount.asMap()).containsExactly(testAccount.id().get(), expectedCount);
       clear();
     }
 
-    void assertReindexOf(Account.Id accountId, int expectedCount) {
-      assertThat(getCount(accountId)).isEqualTo(expectedCount);
+    void assertReindexOf(Account.Id accountId, long expectedCount) {
+      assertThat(countsByAccount.asMap()).containsEntry(accountId.get(), expectedCount);
       countsByAccount.remove(accountId.get());
     }
 
     void assertNoReindex() {
-      assertThat(countsByAccount).isEmpty();
+      assertThat(countsByAccount.asMap()).isEmpty();
     }
   }
 
@@ -3339,23 +3334,17 @@ public class AccountIT extends AbstractDaemonTest {
       countsByProjectRefs.clear();
     }
 
-    long getCount(String projectRef) {
-      return countsByProjectRefs.get(projectRef);
-    }
-
     void assertRefUpdateFor(String... projectRefs) {
-      Map<String, Integer> expectedRefUpdateCounts = new HashMap<>();
+      Map<String, Long> expectedRefUpdateCounts = new HashMap<>();
       for (String projectRef : projectRefs) {
-        expectedRefUpdateCounts.put(projectRef, 1);
+        expectedRefUpdateCounts.put(projectRef, 1L);
       }
       assertRefUpdateFor(expectedRefUpdateCounts);
     }
 
-    void assertRefUpdateFor(Map<String, Integer> expectedProjectRefUpdateCounts) {
-      for (Map.Entry<String, Integer> e : expectedProjectRefUpdateCounts.entrySet()) {
-        assertThat(getCount(e.getKey())).isEqualTo(e.getValue());
-      }
-      assertThat(countsByProjectRefs).hasSize(expectedProjectRefUpdateCounts.size());
+    void assertRefUpdateFor(Map<String, Long> expectedProjectRefUpdateCounts) {
+      assertThat(countsByProjectRefs.asMap())
+          .containsExactlyEntriesIn(expectedProjectRefUpdateCounts);
       clear();
     }
   }

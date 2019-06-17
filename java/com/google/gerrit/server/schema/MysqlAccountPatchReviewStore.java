@@ -38,7 +38,7 @@ public class MysqlAccountPatchReviewStore extends JdbcAccountPatchReviewStore {
 
   @Override
   public OrmException convertError(String op, SQLException err) {
-    switch (getSQLStateInt(err)) {
+    switch (err.getErrorCode()) {
       case 1022: // ER_DUP_KEY
       case 1062: // ER_DUP_ENTRY
       case 1169: // ER_DUP_UNIQUE;

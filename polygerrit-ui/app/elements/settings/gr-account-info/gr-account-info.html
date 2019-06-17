@@ -79,12 +79,17 @@ limitations under the License.
         <span
             hidden$="[[!usernameMutable]]"
             class="value">
-          <input
-              is="iron-input"
-              id="usernameInput"
+          <iron-input
               disabled="[[_saving]]"
               on-keydown="_handleKeydown"
               bind-value="{{_username}}">
+            <input
+                is="iron-input"
+                id="usernameInput"
+                disabled="[[_saving]]"
+                on-keydown="_handleKeydown"
+                bind-value="{{_username}}">
+          </iron-input>
         </span>
       </section>
       <section id="nameSection">
@@ -95,24 +100,34 @@ limitations under the License.
         <span
             hidden$="[[!nameMutable]]"
             class="value">
-          <input
-              is="iron-input"
-              id="nameInput"
+          <iron-input
               disabled="[[_saving]]"
               on-keydown="_handleKeydown"
               bind-value="{{_account.name}}">
+            <input
+                is="iron-input"
+                id="nameInput"
+                disabled="[[_saving]]"
+                on-keydown="_handleKeydown"
+                bind-value="{{_account.name}}">
+          </iron-input>
         </span>
       </section>
       <section>
         <span class="title">Status (e.g. "Vacation")</span>
         <span class="value">
-          <input
-              is="iron-input"
-              id="statusInput"
+          <iron-input
               disabled="[[_saving]]"
               on-keydown="_handleKeydown"
               bind-value="{{_account.status}}">
-          </span>
+            <input
+                is="iron-input"
+                id="statusInput"
+                disabled="[[_saving]]"
+                on-keydown="_handleKeydown"
+                bind-value="{{_account.status}}">
+          </iron-input>
+        </span>
       </section>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

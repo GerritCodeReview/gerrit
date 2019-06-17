@@ -15,6 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
@@ -103,11 +104,15 @@ limitations under the License.
                   placeholder="Repo"></gr-autocomplete>
             </th>
             <th colspan$="[[_getTypeCount()]]">
-              <input
-                  id="newFilter"
+              <iron-input
                   class="newFilterInput"
-                  is="iron-input"
                   placeholder="branch:name, or other search expression">
+                <input
+                    id="newFilter"
+                    class="newFilterInput"
+                    is="iron-input"
+                    placeholder="branch:name, or other search expression">
+              </iron-input>
             </th>
             <th>
               <gr-button link on-tap="_handleAddProject">Add</gr-button>

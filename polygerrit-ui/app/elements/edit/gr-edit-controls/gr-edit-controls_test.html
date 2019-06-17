@@ -191,6 +191,9 @@ suite('gr-edit-controls tests', () => {
     let navStub;
     let renameStub;
     let renameAutocomplete;
+    const inputSelector = Polymer.Element ?
+        '.newPathIronInput' :
+        '.newPathInput';
 
     setup(() => {
       navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
@@ -210,7 +213,7 @@ suite('gr-edit-controls tests', () => {
         assert.isTrue(queryStub.called);
         assert.isTrue(element.$.renameDialog.disabled);
 
-        element.$.renameDialog.querySelector('.newPathInput').bindValue =
+        element.$.renameDialog.querySelector(inputSelector).bindValue =
             'src/test.newPath';
 
         assert.isFalse(element.$.renameDialog.disabled);
@@ -238,7 +241,7 @@ suite('gr-edit-controls tests', () => {
         assert.isTrue(queryStub.called);
         assert.isTrue(element.$.renameDialog.disabled);
 
-        element.$.renameDialog.querySelector('.newPathInput').bindValue =
+        element.$.renameDialog.querySelector(inputSelector).bindValue =
             'src/test.newPath';
 
         assert.isFalse(element.$.renameDialog.disabled);
@@ -260,7 +263,7 @@ suite('gr-edit-controls tests', () => {
         assert.isTrue(element.$.renameDialog.disabled);
         element.$.renameDialog.querySelector('gr-autocomplete').text =
             'src/test.cpp';
-        element.$.renameDialog.querySelector('.newPathInput').bindValue =
+        element.$.renameDialog.querySelector(inputSelector).bindValue =
             'src/test.newPath';
         assert.isFalse(element.$.renameDialog.disabled);
         MockInteractions.tap(element.$.renameDialog.$$('gr-button'));

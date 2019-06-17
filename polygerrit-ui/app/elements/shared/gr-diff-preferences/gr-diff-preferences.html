@@ -60,43 +60,67 @@ limitations under the License.
       <section>
         <span class="title">Diff width</span>
         <span class="value">
-          <input
-              is="iron-input"
+          <iron-input
               type="number"
-              id="columnsInput"
               prevent-invalid-input
               allowed-pattern="[0-9]"
               bind-value="{{diffPrefs.line_length}}"
               on-keypress="_handleDiffPrefsChanged"
               on-change="_handleDiffPrefsChanged">
+            <input
+                is="iron-input"
+                type="number"
+                id="columnsInput"
+                prevent-invalid-input
+                allowed-pattern="[0-9]"
+                bind-value="{{diffPrefs.line_length}}"
+                on-keypress="_handleDiffPrefsChanged"
+                on-change="_handleDiffPrefsChanged">
+          </iron-input>
         </span>
       </section>
       <section>
         <span class="title">Tab width</span>
         <span class="value">
-          <input
-              is="iron-input"
+          <iron-input
               type="number"
-              id="tabSizeInput"
               prevent-invalid-input
               allowed-pattern="[0-9]"
               bind-value="{{diffPrefs.tab_size}}"
               on-keypress="_handleDiffPrefsChanged"
               on-change="_handleDiffPrefsChanged">
+            <input
+                is="iron-input"
+                type="number"
+                id="tabSizeInput"
+                prevent-invalid-input
+                allowed-pattern="[0-9]"
+                bind-value="{{diffPrefs.tab_size}}"
+                on-keypress="_handleDiffPrefsChanged"
+                on-change="_handleDiffPrefsChanged">
+          </iron-input>
         </span>
       </section>
       <section hidden$="[[!diffPrefs.font_size]]">
         <span class="title">Font size</span>
         <span class="value">
-          <input
-              is="iron-input"
+          <iron-input
               type="number"
-              id="fontSizeInput"
               prevent-invalid-input
               allowed-pattern="[0-9]"
               bind-value="{{diffPrefs.font_size}}"
               on-keypress="_handleDiffPrefsChanged"
               on-change="_handleDiffPrefsChanged">
+            <input
+                is="iron-input"
+                type="number"
+                id="fontSizeInput"
+                prevent-invalid-input
+                allowed-pattern="[0-9]"
+                bind-value="{{diffPrefs.font_size}}"
+                on-keypress="_handleDiffPrefsChanged"
+                on-change="_handleDiffPrefsChanged">
+          </iron-input>
         </span>
       </section>
       <section>

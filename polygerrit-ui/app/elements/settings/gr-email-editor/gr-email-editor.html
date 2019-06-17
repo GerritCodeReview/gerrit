@@ -63,14 +63,22 @@ limitations under the License.
             <tr>
               <td class="emailColumn">[[item.email]]</td>
               <td class="preferredControl" on-tap="_handlePreferredControlTap">
-                <input
-                    is="iron-input"
+                <iron-input
                     class="preferredRadio"
                     type="radio"
                     on-change="_handlePreferredChange"
                     name="preferred"
                     value="[[item.email]]"
                     checked$="[[item.preferred]]">
+                  <input
+                      is="iron-input"
+                      class="preferredRadio"
+                      type="radio"
+                      on-change="_handlePreferredChange"
+                      name="preferred"
+                      value="[[item.email]]"
+                      checked$="[[item.preferred]]">
+                </iron-input>
               </td>
               <td>
                 <gr-button

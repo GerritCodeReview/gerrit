@@ -21,6 +21,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="/bower_components/iron-dropdown/iron-dropdown.html">
+<link rel="import" href="/bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../core/gr-reporting/gr-reporting.html">
@@ -303,7 +304,9 @@ limitations under the License.
           <gr-endpoint-decorator name="annotation-toggler">
             <span hidden id="annotation-span">
               <label for="annotation-checkbox" id="annotation-label"></label>
-              <input is="iron-input" type="checkbox" id="annotation-checkbox" disabled>
+              <iron-input type="checkbox" disabled>
+                <input is="iron-input" type="checkbox" id="annotation-checkbox" disabled>
+              </iron-input>
             </span>
           </gr-endpoint-decorator>
         </div>

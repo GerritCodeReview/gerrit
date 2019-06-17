@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dae2f7c1_3832f5a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MysqlAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-17T06:38:38Z",
+      "side": 1,
+      "message": "FTR, here are the steps I used to verify this:\n\n* 1. Install MariaDB 10.2.24\n* 2. Create account_patch_reviews database\n* 3. Grant newly created user access to the account_patch_reviews database \n* 4. Install database driver into \u003cgerrit_site\u003e/lib, e.g.:  http://central.maven.org/maven2/mysql/mysql-connector-java/8.0.16/mysql-connector-java-8.0.16.jar\n* 5. Set-up accountPatchReviewDb to use MySQL dialect:\n\n  accountPatchReviewDb.url \u003d jdbc:mysql://localhost/account_patch_reviews?user\u003dscott\u0026password\u003dtiger\n\n* 6. start gerrit, create new change, add a file and open the change file in diff view twice\n* 7. When diff view is opened second time, the SQLException should be trown:\n\n  java.sql.SQLIntegrityConstraintViolationException: Duplicate entry \u00273427-7-1000000-src/path/to/some/file\u0027 for key \u0027PRIMARY\u0027\n  SQLState: 23000\n  vendorCode: 1062\n\nThe stack trace is:\n\n  java.sql.SQLIntegrityConstraintViolationException: Duplicate entry \u00273427-7-1000000-src/path/to/some/file\u0027 for key \u0027PRIMARY\u0027\n\tat com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:117)\n\tat com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97)\n\tat com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)\n\tat com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:955)\n\tat com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1094)\n\tat com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1042)\n\tat com.mysql.cj.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:1345)\n\tat com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:1027)\n\tat org.apache.commons.dbcp.DelegatingPreparedStatement.executeUpdate(DelegatingPreparedStatement.java:105)\n\tat org.apache.commons.dbcp.DelegatingPreparedStatement.executeUpdate(DelegatingPreparedStatement.java:105)\n\tat com.google.gerrit.server.schema.JdbcAccountPatchReviewStore.markReviewed(JdbcAccountPatchReviewStore.java:225)\n\tat com.google.gerrit.server.restapi.change.Reviewed$PutReviewed.lambda$0(Reviewed.java:42)\n  [...]\n\nerror code 1062 is detected correctly and OrmDuplicateKeyException() is thrown that is recognized as duplicate key exception and the diff view is opened ax expected.",
+      "revId": "98b13a9809f366b57f269bcbb03c44af865e7089",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

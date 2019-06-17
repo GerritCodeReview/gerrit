@@ -82,7 +82,6 @@ java_library(
         "//lib:jgit-archive",
         "//lib:mime-util",
         "//lib:protobuf",
-        "//lib:roaringbitmap",
         "//lib:servlet-api",
         "//lib:soy",
         "//lib:tukaani-xz",

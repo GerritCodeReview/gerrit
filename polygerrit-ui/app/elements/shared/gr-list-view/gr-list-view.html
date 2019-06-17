@@ -15,6 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-input/iron-input.html">
 
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.html">
@@ -68,10 +69,15 @@ limitations under the License.
     <div id="topContainer">
       <div class="filterContainer">
         <label>Filter:</label>
-        <input is="iron-input"
+        <iron-input
             type="text"
-            id="filter"
             bind-value="{{filter}}">
+          <input
+              is="iron-input"
+              type="text"
+              id="filter"
+              bind-value="{{filter}}">
+        </iron-input>
       </div>
       <div id="createNewContainer"
           class$="[[_computeCreateClass(createNew)]]">

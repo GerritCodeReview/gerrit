@@ -270,12 +270,17 @@ limitations under the License.
               <section>
                 <span class="title">Maximum Git object size limit</span>
                 <span class="value">
-                  <input
-                      id="maxGitObjSizeInput"
+                  <iron-input
                       bind-value="{{_repoConfig.max_object_size_limit.configured_value}}"
-                      is="iron-input"
                       type="text"
                       disabled$="[[_readOnly]]">
+                    <input
+                        id="maxGitObjSizeInput"
+                        bind-value="{{_repoConfig.max_object_size_limit.configured_value}}"
+                        is="iron-input"
+                        type="text"
+                        disabled$="[[_readOnly]]">
+                  </iron-input>
                   <template is="dom-if" if="[[_repoConfig.max_object_size_limit.value]]">
                     effective: [[_repoConfig.max_object_size_limit.value]] bytes
                   </template>

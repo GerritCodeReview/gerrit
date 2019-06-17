@@ -83,11 +83,15 @@ limitations under the License.
         <div class="row placeholder">None configured.</div>
       </template>
       <div class$="row [[_computeShowInputRow(disabled)]]">
-        <input
-            is="iron-input"
-            id="input"
+        <iron-input
             on-keydown="_handleInputKeydown"
-            bind-value="{{_newValue}}"/>
+            bind-value="{{_newValue}}">
+          <input
+              is="iron-input"
+              id="input"
+              on-keydown="_handleInputKeydown"
+              bind-value="{{_newValue}}">
+        </iron-input>
         <gr-button
             id="addButton"
             disabled$="[[!_newValue.length]]"

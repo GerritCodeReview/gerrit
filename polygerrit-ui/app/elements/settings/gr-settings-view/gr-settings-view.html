@@ -16,6 +16,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-input/iron-input.html">
 
 <link rel="import" href="../../../behaviors/docs-url-behavior/docs-url-behavior.html">
 <link rel="import" href="/bower_components/paper-toggle-button/paper-toggle-button.html">
@@ -49,7 +50,7 @@ limitations under the License.
       :host {
         color: var(--primary-text-color);
       }
-      #newEmailInput {
+      .newEmailInput {
         width: 20em;
       }
       #email {
@@ -365,14 +366,22 @@ limitations under the License.
           <section>
             <span class="title">New email address</span>
             <span class="value">
-              <input
-                  id="newEmailInput"
+              <iron-input
+                  class="newEmailInput"
                   bind-value="{{_newEmail}}"
-                  is="iron-input"
                   type="text"
                   disabled="[[_addingEmail]]"
                   on-keydown="_handleNewEmailKeydown"
                   placeholder="email@example.com">
+                <input
+                    class="newEmailInput"
+                    bind-value="{{_newEmail}}"
+                    is="iron-input"
+                    type="text"
+                    disabled="[[_addingEmail]]"
+                    on-keydown="_handleNewEmailKeydown"
+                    placeholder="email@example.com">
+              </iron-input>
             </span>
           </section>
           <section

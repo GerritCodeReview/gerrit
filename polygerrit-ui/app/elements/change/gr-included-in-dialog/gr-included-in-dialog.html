@@ -16,6 +16,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
@@ -77,11 +78,15 @@ limitations under the License.
             link
             on-tap="_handleCloseTap">Close</gr-button>
       </span>
-      <input
-          id="filterInput"
-          is="iron-input"
+      <iron-input
           placeholder="Filter"
           on-bind-value-changed="_onFilterChanged">
+        <input
+            id="filterInput"
+            is="iron-input"
+            placeholder="Filter"
+            on-bind-value-changed="_onFilterChanged">
+      </iron-input>
     </header>
     <div class$="[[_computeLoadingClass(_loaded)]]">Loading...</div>
     <template

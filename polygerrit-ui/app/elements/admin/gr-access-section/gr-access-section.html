@@ -100,12 +100,17 @@ limitations under the License.
               <iron-icon id="icon" icon="gr-icons:create"></iron-icon>
             </gr-button>
           </div>
-          <input
-              id="editRefInput"
+          <iron-input
               bind-value="{{section.id}}"
-              is="iron-input"
               type="text"
               on-input="_handleValueChange">
+            <input
+                id="editRefInput"
+                bind-value="{{section.id}}"
+                is="iron-input"
+                type="text"
+                on-input="_handleValueChange">
+          </iron-input>
           <gr-button
               link
               id="deleteBtn"

@@ -178,7 +178,11 @@ class DefaultRefFilter {
         TagMatcher tags =
             tagCache
                 .get(projectState.getNameKey())
-                .matcher(tagCache, repo, allVisibleBranches.visibleRefs().values());
+                .matcher(
+                    tagCache,
+                    repo,
+                    allVisibleBranches.visibleRefs().values(),
+                    initialRefFilter.deferredTags());
         for (Ref tag : initialRefFilter.deferredTags()) {
           try {
             if (tags.isReachable(tag)) {

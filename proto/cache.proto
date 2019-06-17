@@ -202,23 +202,18 @@ message ConflictKeyProto {
 message TagSetHolderProto {
   string project_name = 1;
 
-  // Next ID: 4
+  // Next ID: 3
   message TagSetProto {
     string project_name = 1;
 
-    // Next ID: 3
-    message CachedRefProto {
+    // Next ID: 4
+    message NodeProto {
       bytes id = 1;
-      int32 flag = 2;
+      repeated string decorations = 2;
+      repeated int32 parent_numbers = 3;
     }
-    map<string, CachedRefProto> ref = 2;
 
-    // Next ID: 3
-    message TagProto {
-      bytes id = 1;
-      bytes flags = 2;
-    }
-    repeated TagProto tag = 3;
+    repeated NodeProto nodes = 2;
   }
   TagSetProto tags = 2;
 }

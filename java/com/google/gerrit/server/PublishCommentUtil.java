@@ -96,6 +96,9 @@ public class PublishCommentUtil {
     commentValidators.runEach(
         listener ->
             commentValidationFailures.addAll(listener.validateComments(commentsForValidation)));
+    if (!commentsForValidation.isEmpty()) {
+      return ImmutableList.of(commentsForValidation.get(0).failValidation("foobar"));
+    }
     return commentValidationFailures.build();
   }
 }

@@ -64,6 +64,6 @@ public class TagSetHolderTest {
             ImmutableMap.of(
                 "buildLock", Object.class,
                 "projectName", Project.NameKey.class,
-                "tags", TagSet.class));
+                "tagSet", TagSet.class));
   }
 }

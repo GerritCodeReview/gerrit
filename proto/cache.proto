@@ -238,23 +238,20 @@ message ConflictKeyProto {
 message TagSetHolderProto {
   string project_name = 1;
 
-  // Next ID: 4
+  // Next ID: 5
   message TagSetProto {
     string project_name = 1;
 
-    // Next ID: 3
-    message CachedRefProto {
-      bytes id = 1;
-      int32 flag = 2;
-    }
-    map<string, CachedRefProto> ref = 2;
+    reserved 2; // ref
+    reserved 3; // tag
 
-    // Next ID: 3
-    message TagProto {
+    // Next ID: 4
+    message NodeProto {
       bytes id = 1;
-      bytes flags = 2; // org.roaringbitmap.RoaringBitmap serialized as ByteString
+      repeated string decorations = 2;
+      repeated int32 parent_numbers = 3;
     }
-    repeated TagProto tag = 3;
+    repeated NodeProto nodes = 4;
   }
   TagSetProto tags = 2;
 }

@@ -123,6 +123,11 @@ public class RefNames {
     return shard(id.get(), r).append(META_SUFFIX).toString();
   }
 
+  public static String patchSetRef(PatchSet.Id id) {
+    StringBuilder r = newStringBuilder().append(REFS_CHANGES);
+    return shard(id.changeId().get(), r).append('/').append(id.get()).toString();
+  }
+
   public static String robotCommentsRef(Change.Id id) {
     StringBuilder r = newStringBuilder().append(REFS_CHANGES);
     return shard(id.get(), r).append(ROBOT_COMMENTS_SUFFIX).toString();

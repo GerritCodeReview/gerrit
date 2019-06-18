@@ -35,12 +35,10 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ReceiveCommitsExecutor;
-import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
@@ -58,7 +56,6 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Named;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -66,8 +63,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.AdvertiseRefsHook;
-import org.eclipse.jgit.transport.AdvertiseRefsHookChain;
 import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
@@ -297,15 +292,10 @@ public class AsyncReceiveCommits implements PreReceiveHook {
           receiveConfig.checkReferencedObjectsAreReachable);
     }
 
-    List<AdvertiseRefsHook> advHooks = new ArrayList<>(4);
     allRefsWatcher = new AllRefsWatcher();
-    advHooks.add(allRefsWatcher);
-    advHooks.add(
-        new DefaultAdvertiseRefsHook(perm, RefFilterOptions.builder().setFilterMeta(true).build()));
-    advHooks.add(new ReceiveCommitsAdvertiseRefsHook(queryProvider, projectName));
-    advHooks.add(new HackPushNegotiateHook());
-    receivePack.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));
-
+    receivePack.setAdvertiseRefsHook(
+        ReceiveCommitsAdvertiseRefsHookChain.create(
+            allRefsWatcher, perm, queryProvider, projectName));
     resultChangeIds = new ResultChangeIds();
     receiveCommits =
         factory.create(

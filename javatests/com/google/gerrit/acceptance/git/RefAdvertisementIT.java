@@ -50,7 +50,8 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.git.receive.ReceiveCommitsAdvertiseRefsHook;
+import com.google.gerrit.server.git.receive.ReceiveCommitsAdvertiseRefsHookChain;
+import com.google.gerrit.server.git.receive.testing.TestRefAdvertiser;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -75,6 +76,8 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.AdvertiseRefsHook;
+import org.eclipse.jgit.transport.ReceivePack;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -544,11 +547,10 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void receivePackListsOpenChangesAsAdditionalHaves() throws Exception {
-    ReceiveCommitsAdvertiseRefsHook.Result r = getReceivePackRefs();
+    TestRefAdvertiser.Result r = getReceivePackRefs(admin);
     assertThat(r.allRefs().keySet())
         .containsExactly(
             // meta refs are excluded
-            "HEAD",
             "refs/heads/branch",
             "refs/heads/master",
             "refs/meta/config",
@@ -568,7 +570,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         .update();
     requestScopeOperations.setApiUser(user.id());
 
-    assertThat(getReceivePackRefs().additionalHaves()).containsExactly(obj(cd3, 1));
+    assertThat(getReceivePackRefs(user).additionalHaves()).containsExactly(obj(cd3, 1));
   }
 
   @Test
@@ -577,7 +579,8 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     PushOneCommit.Result r = amendChange(cd3.change().getKey().get());
     r.assertOkStatus();
     cd3 = r.getChange();
-    assertThat(getReceivePackRefs().additionalHaves()).containsExactly(obj(cd3, 2), obj(cd4, 1));
+    assertThat(getReceivePackRefs(admin).additionalHaves())
+        .containsExactly(obj(cd3, 2), obj(cd4, 1));
   }
 
   @Test
@@ -615,7 +618,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       indexer.index(c.getProject(), c.getId());
     }
 
-    assertThat(getReceivePackRefs().additionalHaves()).containsExactly(obj(cd4, 1));
+    assertThat(getReceivePackRefs(admin).additionalHaves()).containsExactly(obj(cd4, 1));
   }
 
   @Test
@@ -961,11 +964,16 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     }
   }
 
-  private ReceiveCommitsAdvertiseRefsHook.Result getReceivePackRefs() throws Exception {
-    ReceiveCommitsAdvertiseRefsHook hook =
-        new ReceiveCommitsAdvertiseRefsHook(queryProvider, project);
+  private TestRefAdvertiser.Result getReceivePackRefs(TestAccount u) throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
-      return hook.advertiseRefs(getAllRefs(repo));
+      AdvertiseRefsHook adv =
+          ReceiveCommitsAdvertiseRefsHookChain.createForTest(
+              newFilter(project, u), queryProvider, project);
+      ReceivePack rp = new ReceivePack(repo);
+      rp.setAdvertiseRefsHook(adv);
+      TestRefAdvertiser advertiser = new TestRefAdvertiser(repo);
+      rp.sendAdvertisedRefs(advertiser);
+      return advertiser.result();
     }
   }
 

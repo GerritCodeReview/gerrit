@@ -8,6 +8,7 @@ load("//javatests/com/google/gerrit/acceptance:tests.bzl", "acceptance_tests")
         ":push_for_review",
         ":submodule_util",
         "//java/com/google/gerrit/git",
+        "//java/com/google/gerrit/server/git/receive/testing",
         "//lib/commons:lang",
     ],
 ) for f in glob(["*IT.java"])]

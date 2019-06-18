@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b3f1082_5a4fec8c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1074424
+      },
+      "writtenOn": "2019-06-18T15:42:40Z",
+      "side": 1,
+      "message": "Are there unit tests for the builder by any chance?",
+      "revId": "3aea905ccc4abba36043c42698f3fbd649bd693c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

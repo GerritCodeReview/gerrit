@@ -14,9 +14,8 @@
 
 package com.google.gerrit.server.git.receive;
 
-import com.google.auto.value.AutoValue;
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.Maps;
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.exceptions.StorageException;
@@ -29,27 +28,43 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Provider;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.BaseReceivePack;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadPack;
 
-/** Exposes only the non refs/changes/ reference names. */
+/**
+ * Exposes only the non refs/changes/ reference names and provide additional haves.
+ *
+ * <p>Negotiation on Git push is suboptimal in that it tends to send more objects to the server than
+ * it should. This results in increased latencies for {@code git push}.
+ *
+ * <p>Ref advertisement for Git pushes it not yet on V2. Therefore the server needs to send all
+ * available references. For large repositories, this can be in the tens of megabytes to send to the
+ * client. We therefore remove all refs in refs/changes/* to scale down that footprint. Trivially,
+ * this would increase the unnecessary objects that the client has to send to the server because the
+ * common ancestor it finds in negotiation might be further back in history.
+ *
+ * <p>To work around this, we advertise the last 32 changes in that repository as additional {@code
+ * .haves}. This is a heuristical approach that aims at scaling down the number of unnecessary
+ * objects that client sends to the server. Unnecessary here refers to objects that the server
+ * already has.
+ *
+ * <p>For some code paths in {@link com.google.gerrit.server.git.DefaultAdvertiseRefsHook}, we
+ * already removed refs/changes, so the logic to skip these in this class become a no-op.
+ *
+ * <p>TODO(hiesel): Instrument this heuristic and proof it's value.
+ */
 public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  @VisibleForTesting
-  @AutoValue
-  public abstract static class Result {
-    public abstract Map<String, Ref> allRefs();
-
-    public abstract Set<ObjectId> additionalHaves();
-  }
 
   private final Provider<InternalChangeQuery> queryProvider;
   private final Project.NameKey projectName;
@@ -68,51 +83,46 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
 
   @Override
   public void advertiseRefs(BaseReceivePack rp) throws ServiceMayNotContinueException {
-    Result r = advertiseRefs(HookUtil.ensureAllRefsAdvertised(rp));
-    rp.setAdvertisedRefs(r.allRefs(), r.additionalHaves());
+    Map<String, Ref> advertisedRefs = HookUtil.ensureAllRefsAdvertised(rp);
+    advertisedRefs.keySet().stream()
+        .filter(ReceiveCommitsAdvertiseRefsHook::skip)
+        .collect(toImmutableList())
+        .forEach(r -> advertisedRefs.remove(r));
+    rp.setAdvertisedRefs(advertisedRefs, advertiseOpenChanges(rp.getRepository()));
   }
 
-  @VisibleForTesting
-  public Result advertiseRefs(Map<String, Ref> oldRefs) {
-    Map<String, Ref> r = Maps.newHashMapWithExpectedSize(oldRefs.size());
-    Set<ObjectId> allPatchSets = Sets.newHashSetWithExpectedSize(oldRefs.size());
-    for (Map.Entry<String, Ref> e : oldRefs.entrySet()) {
-      String name = e.getKey();
-      if (!skip(name)) {
-        r.put(name, e.getValue());
-      }
-      if (name.startsWith(RefNames.REFS_CHANGES)) {
-        allPatchSets.add(e.getValue().getObjectId());
-      }
-    }
-    return new AutoValue_ReceiveCommitsAdvertiseRefsHook_Result(
-        r, advertiseOpenChanges(allPatchSets));
-  }
-
-  private Set<ObjectId> advertiseOpenChanges(Set<ObjectId> allPatchSets) {
+  private Set<ObjectId> advertiseOpenChanges(Repository repo)
+      throws ServiceMayNotContinueException {
     // Advertise some recent open changes, in case a commit is based on one.
     int limit = 32;
     try {
       Set<ObjectId> r = Sets.newHashSetWithExpectedSize(limit);
-      for (ChangeData cd :
-          queryProvider
-              .get()
-              .setRequestedFields(
-                  // Required for ChangeIsVisibleToPrdicate.
-                  ChangeField.CHANGE,
-                  ChangeField.REVIEWER,
-                  // Required during advertiseOpenChanges.
-                  ChangeField.PATCH_SET)
-              .enforceVisibility(true)
-              .setLimit(limit)
-              .byProjectOpen(projectName)) {
-        PatchSet ps = cd.currentPatchSet();
-        if (ps != null) {
-          // Ensure we actually observed a patch set ref pointing to this
-          // object, in case the database is out of sync with the repo and the
-          // object doesn't actually exist.
-          if (allPatchSets.contains(ps.commitId())) {
-            r.add(ps.commitId());
+      // TODO(hiesel): Use RefDatabase#getTipsWithSha1 instead when available
+      try (ObjectReader reader = repo.newObjectReader()) {
+        for (ChangeData cd :
+            queryProvider
+                .get()
+                .setRequestedFields(
+                    // Required for ChangeIsVisibleToPrdicate.
+                    ChangeField.CHANGE,
+                    ChangeField.REVIEWER,
+                    // Required during advertiseOpenChanges.
+                    ChangeField.PATCH_SET)
+                .enforceVisibility(true)
+                .setLimit(limit)
+                .byProjectOpen(projectName)) {
+          PatchSet ps = cd.currentPatchSet();
+          if (ps != null) {
+            // Ensure we actually observed a patch set ref pointing to this
+            // object, in case the database is out of sync with the repo and the
+            // object doesn't actually exist.
+            try {
+              if (reader.has(ps.commitId())) {
+                r.add(ps.commitId());
+              }
+            } catch (IOException e) {
+              throw new ServiceMayNotContinueException(e);
+            }
           }
         }
       }

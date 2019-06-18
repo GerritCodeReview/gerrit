@@ -214,9 +214,15 @@
       delete this.section.value.deleted;
     },
 
+    editRefInput() {
+      return Polymer.dom(this.root).querySelector(Polymer.Element ?
+          'iron-input.editRefInput' :
+          'input[is=iron-input].editRefInput');
+    },
+
     editReference() {
       this._editingRef = true;
-      this.$.editRefInput.focus();
+      this.editRefInput().focus();
     },
 
     _isEditEnabled(canUpload, ownerOf, sectionId) {

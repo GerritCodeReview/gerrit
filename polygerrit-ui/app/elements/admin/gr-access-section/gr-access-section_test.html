@@ -457,7 +457,7 @@ limitations under the License.
               1);
         });
 
-        test('edit section reference', () => {
+        test('edit section reference', done => {
           element.canUpload = true;
           element.ownerOf = [];
           element.section = {id: 'refs/for/bar', value: {permissions: {}}};
@@ -466,14 +466,16 @@ limitations under the License.
           assert.isTrue(element.$.section.classList.contains('editing'));
           assert.isFalse(element._editingRef);
           MockInteractions.tap(element.$.editBtn);
-          element.$.editRefInput.bindValue='new/ref';
-          flushAsynchronousOperations();
-          assert.equal(element.section.id, 'new/ref');
-          assert.isTrue(element._editingRef);
-          assert.isTrue(element.$.section.classList.contains('editingRef'));
-          element.editing = false;
-          assert.isFalse(element._editingRef);
-          assert.equal(element.section.id, 'refs/for/bar');
+          element.editRefInput().bindValue='new/ref';
+          setTimeout(() => {
+            assert.equal(element.section.id, 'new/ref');
+            assert.isTrue(element._editingRef);
+            assert.isTrue(element.$.section.classList.contains('editingRef'));
+            element.editing = false;
+            assert.isFalse(element._editingRef);
+            assert.equal(element.section.id, 'refs/for/bar');
+            done();
+          });
         });
 
         test('_handleValueChange', () => {

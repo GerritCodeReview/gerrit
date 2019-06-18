@@ -19,8 +19,8 @@ java_library(
         "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",
+        "//lib:jgit",
         "//lib/guice",
-        "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/truth",
     ],
 )
@@ -37,7 +37,7 @@ junit_tests(
         ":abstract_query_tests",
         "//java/com/google/gerrit/index/project",
         "//java/com/google/gerrit/testing:gerrit-test-util",
+        "//lib:jgit",
         "//lib/guice",
-        "//lib/jgit/org.eclipse.jgit:jgit",
     ],
 )

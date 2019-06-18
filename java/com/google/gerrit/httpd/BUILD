@@ -31,6 +31,8 @@ java_library(
         "//lib:args4j",
         "//lib:gson",
         "//lib:guava",
+        "//lib:jgit",
+        "//lib:jgit-servlet",
         "//lib:jsch",
         "//lib:servlet-api",
         "//lib:soy",
@@ -42,7 +44,5 @@ java_library(
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/guice:guice-servlet",
-        "//lib/jgit/org.eclipse.jgit.http.server:jgit-servlet",
-        "//lib/jgit/org.eclipse.jgit:jgit",
     ],
 )

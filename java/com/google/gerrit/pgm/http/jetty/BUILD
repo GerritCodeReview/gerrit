@@ -13,6 +13,7 @@ java_library(
         "//java/com/google/gerrit/sshd",
         "//java/com/google/gerrit/util/http",
         "//lib:guava",
+        "//lib:jgit",
         "//lib:servlet-api",
         "//lib/flogger:api",
         "//lib/guice",
@@ -21,7 +22,6 @@ java_library(
         "//lib/jetty:jmx",
         "//lib/jetty:server",
         "//lib/jetty:servlet",
-        "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:log4j",
     ],
 )

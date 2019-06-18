@@ -3358,6 +3358,145 @@ describes the revision.
 Adding query parameter `links` (for example `/changes/.../commit?links`)
 returns a link:#commit-info[CommitInfo] with the additional field `web_links`.
 
+[[get-tree]]
+=== Get Tree
+--
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/tree'
+--
+
+Retrieves a tree of a project.
+
+The tree must be visible to the caller.
+
+.Request
+----
+  GET /changes/myProject~master~I7d82a4498df56dbe06878fd09789e218622bb8b1/revisions/43c33c3503044d36c943be084f550be98e614fed/tree HTTP/1.0
+----
+
+As result a link:#tree-info[TreeInfo] entity
+is returned that describes the tree of the revision.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "sha": "d16525216d669968cc7697ea3466b12df303e00b",
+    "tree": [
+      {
+        "mode": "100644",
+        "path": "README.md",
+        "sha": "b33c5606734ea563dac93e08bbaae96c811b05b8",
+        "type": "blob"
+      },
+      {
+        "mode": "100644",
+        "path": "package.json",
+        "sha": "d99a2ed91da5b17d3abab3fafb5efbafa6c74f5a",
+        "type": "blob"
+      },
+      {
+        "mode": "40000",
+        "path": "scripts",
+        "sha": "2571af88400f3db18d507423f745f75be5a93f72",
+        "type": "tree"
+      }
+    ]
+  }
+----
+
+[[tree-options]]
+==== Tree Options
+
+Recursive(r)::
+Get the trees of a revision recursively.
+
+.Request
+----
+  GET /changes/myProject~master~I7d82a4498df56dbe06878fd09789e218622bb8b1/revisions/43c33c3503044d36c943be084f550be98e614fed/tree?r=1 HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "sha": "d16525216d669968cc7697ea3466b12df303e00b",
+    "tree": [
+      {
+        "mode": "100644",
+        "path": "README.md",
+        "sha": "b33c5606734ea563dac93e08bbaae96c811b05b8",
+        "type": "blob"
+      },
+      {
+        "mode": "100644",
+        "path": "package.json",
+        "sha": "d99a2ed91da5b17d3abab3fafb5efbafa6c74f5a",
+        "type": "blob"
+      },
+      {
+        "mode": "40000",
+        "path": "scripts",
+        "sha": "2571af88400f3db18d507423f745f75be5a93f72",
+        "type": "tree"
+      },
+      {
+        "mode": "100644",
+        "path": "scripts/authors",
+        "sha": "a358ac9bb63ca1552666d8e827385da45c71d607",
+        "type": "blob"
+      },
+      {
+        "mode": "40000",
+        "path": "scripts/git",
+        "sha": "dbcf7e5c7da928440bcaae78798f2edb8d054851",
+        "type": "tree"
+      },
+      {
+        "mode": "100644",
+        "path": "scripts/git/pre-commit",
+        "sha": "6ebc4f698ac74797188d61e06bf5c7c65aa868ab",
+        "type": "blob"
+      },
+    ]
+  }
+----
+
+Path(p)::
+Get the trees of a specific path in the repository.
+
+.Request
+----
+  GET /changes/myProject~master~I7d82a4498df56dbe06878fd09789e218622bb8b1/revisions/43c33c3503044d36c943be084f550be98e614fed/tree?p=scripts%2Fgit HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "sha": "dbcf7e5c7da928440bcaae78798f2edb8d054851",
+    "tree": [
+      {
+        "mode": "100644",
+        "path": "scripts/git/pre-commit",
+        "sha": "6ebc4f698ac74797188d61e06bf5c7c65aa868ab",
+        "type": "blob"
+      },
+    ]
+  }
+----
+
 [[get-description]]
 === Get Description
 --
@@ -7290,6 +7429,32 @@ The `TrackingIdInfo` entity describes a reference to an external tracking system
 |`system`  |The name of the external tracking system.
 |`id`      |The tracking id.
 |======================
+
+[[tree-info]]
+=== TreeInfo
+The `TreeInfo` entity contains information about a tree.
+
+[options="header",cols="1,^2,4"]
+|=========================
+|Field Name  ||Description
+|`sha`       ||The tree ID.
+|`tree`  ||The entreis in the tree as a list of 
+link:#tree-entry[TreeEntry] entities.
+|=========================
+
+[[tree-entry]]
+=== TreeEntry
+
+The `TreeEntry` entity contains information about a tree entry.
+
+[options="header",cols="1,^2,4"]
+|=========================
+|Field Name  ||Description
+|`mode`       ||The file mode of the entry.
+|`path`  ||The entry's complete path in the repository.
+|`sha`   ||The Git object ID of the entry.
+|`type`       ||The Git object type of the entry.
+|=========================
 
 [[voting-range-info]]
 === VotingRangeInfo

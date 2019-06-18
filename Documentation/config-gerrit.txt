@@ -3052,7 +3052,7 @@ manually.
 [[elasticsearch.numberOfShards]]elasticsearch.numberOfShards::
 +
 Sets the number of shards to use per index. Refer to the
-link:https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#getting-started-shards-and-replicas[
+link:https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-concepts.html#getting-started-shards-and-replicas[
 Elasticsearch documentation] for details.
 +
 Defaults to 5.
@@ -3060,7 +3060,7 @@ Defaults to 5.
 [[elasticsearch.numberOfReplicas]]elasticsearch.numberOfReplicas::
 +
 Sets the number of replicas to use per index. Refer to the
-link:https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#getting-started-shards-and-replicas[
+link:https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-concepts.html#getting-started-shards-and-replicas[
 Elasticsearch documentation] for details.
 +
 Defaults to 1.

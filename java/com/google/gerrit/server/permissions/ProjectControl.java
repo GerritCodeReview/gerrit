@@ -15,7 +15,10 @@
 package com.google.gerrit.server.permissions;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.common.data.AccessSection.ALL;
+import static com.google.gerrit.common.data.RefConfigSection.REGEX_PREFIX;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_TAGS;
+import static com.google.gerrit.server.util.MagicBranch.NEW_CHANGE;
 
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
@@ -138,7 +141,7 @@ class ProjectControl {
 
   /** Is this user a project owner? */
   boolean isOwner() {
-    return (isDeclaredOwner() && controlForRef("refs/*").canPerform(Permission.OWNER)) || isAdmin();
+    return (isDeclaredOwner() && controlForRef(ALL).canPerform(Permission.OWNER)) || isAdmin();
   }
 
   /**
@@ -199,7 +202,8 @@ class ProjectControl {
   private boolean canCreateChanges() {
     for (SectionMatcher matcher : access()) {
       AccessSection section = matcher.getSection();
-      if (section.getName().startsWith("refs/for/")) {
+      if (section.getName().startsWith(NEW_CHANGE)
+          || section.getName().startsWith(REGEX_PREFIX + NEW_CHANGE)) {
         Permission permission = section.getPermission(Permission.PUSH);
         if (permission != null && controlForRef(section.getName()).canPerform(Permission.PUSH)) {
           return true;
@@ -221,7 +225,8 @@ class ProjectControl {
     for (SectionMatcher matcher : access()) {
       AccessSection section = matcher.getSection();
 
-      if (section.getName().startsWith(REFS_TAGS)) {
+      if (section.getName().startsWith(REFS_TAGS)
+          || section.getName().startsWith(REGEX_PREFIX + REFS_TAGS)) {
         Permission permission = section.getPermission(permissionName);
         if (permission == null) {
           continue;
@@ -275,7 +280,7 @@ class ProjectControl {
   private boolean canPerformOnAllRefs(String permission, Set<String> ignore) {
     boolean canPerform = false;
     Set<String> patterns = allRefPatterns(permission);
-    if (patterns.contains(AccessSection.ALL)) {
+    if (patterns.contains(ALL)) {
       // Only possible if granted on the pattern that
       // matches every possible reference.  Check all
       // patterns also have the permission.

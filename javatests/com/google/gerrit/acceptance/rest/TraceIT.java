@@ -16,6 +16,8 @@ package com.google.gerrit.acceptance.rest;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.apache.http.HttpStatus.SC_CREATED;
+import static org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR;
+import static org.apache.http.HttpStatus.SC_OK;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
@@ -26,6 +28,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.httpd.restapi.ParameterParser;
@@ -40,10 +43,14 @@ import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.project.CreateProjectArgs;
+import com.google.gerrit.server.project.SubmitRuleOptions;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -59,6 +66,7 @@ public class TraceIT extends AbstractDaemonTest {
   @Inject private DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners;
   @Inject private DynamicSet<CommitValidationListener> commitValidationListeners;
   @Inject private DynamicSet<PerformanceLogger> performanceLoggers;
+  @Inject private DynamicSet<SubmitRule> submitRules;
   @Inject private WorkQueue workQueue;
 
   private TraceValidatingProjectCreationValidationListener projectCreationListener;
@@ -306,6 +314,45 @@ public class TraceIT extends AbstractDaemonTest {
     assertThat(testPerformanceLogger.logEntries()).isEmpty();
   }
 
+  @Test
+  @GerritConfig(name = "retry.retryWithTraceOnFailure", value = "true")
+  public void autoRetryWithTrace() throws Exception {
+    String changeId = createChange().getChangeId();
+    approve(changeId);
+
+    TraceSubmitRule traceSubmitRule = new TraceSubmitRule();
+    traceSubmitRule.failOnce = true;
+    RegistrationHandle submitRuleRegistrationHandle = submitRules.add("gerrit", traceSubmitRule);
+    try {
+      RestResponse response = adminRestSession.post("/changes/" + changeId + "/submit");
+      assertThat(response.getStatusCode()).isEqualTo(SC_OK);
+      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(traceSubmitRule.traceId).startsWith("retry-on-failure-");
+      assertThat(traceSubmitRule.isLoggingForced).isTrue();
+    } finally {
+      submitRuleRegistrationHandle.remove();
+    }
+  }
+
+  @Test
+  public void noAutoRetryWithTraceIfDisabled() throws Exception {
+    String changeId = createChange().getChangeId();
+    approve(changeId);
+
+    TraceSubmitRule traceSubmitRule = new TraceSubmitRule();
+    traceSubmitRule.failOnce = true;
+    RegistrationHandle submitRuleRegistrationHandle = submitRules.add("gerrit", traceSubmitRule);
+    try {
+      RestResponse response = adminRestSession.post("/changes/" + changeId + "/submit");
+      assertThat(response.getStatusCode()).isEqualTo(SC_INTERNAL_SERVER_ERROR);
+      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(traceSubmitRule.traceId).isNull();
+      assertThat(traceSubmitRule.isLoggingForced).isNull();
+    } finally {
+      submitRuleRegistrationHandle.remove();
+    }
+  }
+
   private void assertForceLogging(boolean expected) {
     assertThat(LoggingContext.getInstance().shouldForceLogging(null, null, false))
         .isEqualTo(expected);
@@ -337,6 +384,28 @@ public class TraceIT extends AbstractDaemonTest {
           Iterables.getFirst(LoggingContext.getInstance().getTagsAsMap().get("TRACE_ID"), null);
       this.isLoggingForced = LoggingContext.getInstance().shouldForceLogging(null, null, false);
       return ImmutableList.of();
+    }
+  }
+
+  private static class TraceSubmitRule implements SubmitRule {
+    String traceId;
+    Boolean isLoggingForced;
+    boolean failOnce;
+
+    @Override
+    public Collection<SubmitRecord> evaluate(ChangeData changeData, SubmitRuleOptions options) {
+      if (failOnce) {
+        failOnce = false;
+        throw new IllegalStateException("forced failure from test");
+      }
+
+      this.traceId =
+          Iterables.getFirst(LoggingContext.getInstance().getTagsAsMap().get("TRACE_ID"), null);
+      this.isLoggingForced = LoggingContext.getInstance().shouldForceLogging(null, null, false);
+
+      SubmitRecord submitRecord = new SubmitRecord();
+      submitRecord.status = SubmitRecord.Status.OK;
+      return ImmutableList.of(submitRecord);
     }
   }
 

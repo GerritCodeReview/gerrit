@@ -40,11 +40,14 @@ import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.RequestId;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -94,11 +97,19 @@ public class RetryHelper {
     @Nullable
     abstract Duration timeout();
 
+    abstract Optional<Class<?>> caller();
+
+    abstract Optional<Predicate<Throwable>> retryWithTrace();
+
     @AutoValue.Builder
     public abstract static class Builder {
       public abstract Builder listener(RetryListener listener);
 
       public abstract Builder timeout(Duration timeout);
+
+      public abstract Builder caller(Class<?> caller);
+
+      public abstract Builder retryWithTrace(Predicate<Throwable> exceptionPredicate);
 
       public abstract Options build();
     }
@@ -147,6 +158,7 @@ public class RetryHelper {
   private final Map<ActionType, Duration> defaultTimeouts;
   private final WaitStrategy waitStrategy;
   @Nullable private final Consumer<RetryerBuilder<?>> overwriteDefaultRetryerStrategySetup;
+  private final boolean retryWithTraceOnFailure;
 
   @Inject
   RetryHelper(@GerritServerConfig Config cfg, Metrics metrics, BatchUpdate.Factory updateFactory) {
@@ -186,6 +198,7 @@ public class RetryHelper {
                 MILLISECONDS),
             WaitStrategies.randomWait(50, MILLISECONDS));
     this.overwriteDefaultRetryerStrategySetup = overwriteDefaultRetryerStrategySetup;
+    this.retryWithTraceOnFailure = cfg.getBoolean("retry", "retryWithTraceOnFailure", false);
   }
 
   public Duration getDefaultTimeout(ActionType actionType) {
@@ -256,8 +269,35 @@ public class RetryHelper {
       Predicate<Throwable> exceptionPredicate)
       throws Throwable {
     MetricListener listener = new MetricListener();
-    try {
-      RetryerBuilder<T> retryerBuilder = createRetryerBuilder(actionType, opts, exceptionPredicate);
+    try (TraceContext traceContext = TraceContext.open()) {
+      RetryerBuilder<T> retryerBuilder =
+          createRetryerBuilder(
+              actionType,
+              opts,
+              t -> {
+                // exceptionPredicate checks for temporary errors for which the operation should be
+                // retried (e.g. LockFailure). The retry has good chances to succeed.
+                if (exceptionPredicate.test(t)) {
+                  return true;
+                }
+
+                // A non-recoverable failure occurred. Check if we should retry to capture a trace
+                // of the failure. If a trace was already done there is no need to retry.
+                if (retryWithTraceOnFailure
+                    && opts.retryWithTrace().isPresent()
+                    && opts.retryWithTrace().get().test(t)
+                    && !traceContext.isLoggingForced()) {
+                  traceContext
+                      .addTag(RequestId.Type.TRACE_ID, "retry-on-failure-" + new RequestId())
+                      .forceLogging();
+                  logger.atFine().withCause(t).log(
+                      "%s failed, retry with tracing eanbled",
+                      opts.caller().map(Class::getSimpleName).orElse("N/A"));
+                  return true;
+                }
+
+                return false;
+              });
       retryerBuilder.withRetryListener(listener);
       return executeWithTimeoutCount(actionType, action, retryerBuilder.build());
     } finally {

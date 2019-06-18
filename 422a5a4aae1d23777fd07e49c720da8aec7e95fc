@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b931f2c_72cb9446",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-18T22:15:02Z",
+      "side": 1,
+      "message": "Note to the reviewer: I have to bump the JGit release, because otherwise, JGit cannot be built in gerrit tree with the outdated release. This is because this commit is missing: [1], that synchronized BouncyCastle rules between JGit and Gerrit projects. Given that the latest JGit release has some issues, this change cannot be verified.\n\n* [1] https://git.eclipse.org/r/#/c/142272",
+      "range": {
+        "startLine": 4,
+        "startChar": 13,
+        "endLine": 4,
+        "endChar": 35
+      },
+      "revId": "422a5a4aae1d23777fd07e49c720da8aec7e95fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

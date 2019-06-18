@@ -1,3 +1,7 @@
+[submodule "lib/jgit"]
+	path = lib/jgit
+	url = https://git.eclipse.org/gitroot/jgit/jgit
+
 [submodule "plugins/codemirror-editor"]
 	path = plugins/codemirror-editor
 	url = ../plugins/codemirror-editor

@@ -27,10 +27,10 @@ java_library(
         "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/sshd",
         "//lib:guava",
+        "//lib:jgit",
         "//lib:servlet-api",
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-servlet",
-        "//lib/jgit/org.eclipse.jgit:jgit",
     ],
 )

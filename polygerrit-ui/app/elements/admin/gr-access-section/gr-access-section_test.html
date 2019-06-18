@@ -466,14 +466,15 @@ limitations under the License.
           assert.isTrue(element.$.section.classList.contains('editing'));
           assert.isFalse(element._editingRef);
           MockInteractions.tap(element.$.editBtn);
-          element.$.editRefInput.bindValue='new/ref';
-          flushAsynchronousOperations();
-          assert.equal(element.section.id, 'new/ref');
-          assert.isTrue(element._editingRef);
-          assert.isTrue(element.$.section.classList.contains('editingRef'));
-          element.editing = false;
-          assert.isFalse(element._editingRef);
-          assert.equal(element.section.id, 'refs/for/bar');
+          element.editRefInput().bindValue='new/ref';
+          setTimeout(() => {
+            assert.equal(element.section.id, 'new/ref');
+            assert.isTrue(element._editingRef);
+            assert.isTrue(element.$.section.classList.contains('editingRef'));
+            element.editing = false;
+            assert.isFalse(element._editingRef);
+            assert.equal(element.section.id, 'refs/for/bar');
+          });
         });
 
         test('_handleValueChange', () => {

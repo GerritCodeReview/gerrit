@@ -22,17 +22,17 @@ import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import com.google.template.soy.SoyFileSet;
+import com.google.template.soy.jbcsrc.api.SoySauce;
 import com.google.template.soy.shared.SoyAstCache;
-import com.google.template.soy.tofu.SoyTofu;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-/** Configures Soy Tofu object for rendering email templates. */
+/** Configures Soy Sauce object for rendering email templates. */
 @Singleton
-public class MailSoyTofuProvider implements Provider<SoyTofu> {
+public class MailSoySauceProvider implements Provider<SoySauce> {
 
   // Note: will fail to construct the tofu object if this array is empty.
   private static final String[] TEMPLATES = {
@@ -82,19 +82,19 @@ public class MailSoyTofuProvider implements Provider<SoyTofu> {
   private final SoyAstCache cache;
 
   @Inject
-  MailSoyTofuProvider(SitePaths site, SoyAstCache cache) {
+  MailSoySauceProvider(SitePaths site, SoyAstCache cache) {
     this.site = site;
     this.cache = cache;
   }
 
   @Override
-  public SoyTofu get() throws ProvisionException {
+  public SoySauce get() throws ProvisionException {
     SoyFileSet.Builder builder = SoyFileSet.builder();
     builder.setSoyAstCache(cache);
     for (String name : TEMPLATES) {
       addTemplate(builder, name);
     }
-    return builder.build().compileToTofu();
+    return builder.build().compileTemplates();
   }
 
   private void addTemplate(SoyFileSet.Builder builder, String name) throws ProvisionException {

@@ -543,11 +543,12 @@ public abstract class OutgoingEmail {
   }
 
   private String soyTemplate(String name, SanitizedContent.ContentKind kind) {
-    return args.soyTofu
-        .newRenderer("com.google.gerrit.server.mail.template." + name)
-        .setContentKind(kind)
+    return args.soySauce
+        .renderTemplate("com.google.gerrit.server.mail.template." + name)
+        .setExpectedContentKind(kind)
         .setData(soyContext)
-        .render();
+        .render()
+        .get();
   }
 
   protected String textTemplate(String name) {

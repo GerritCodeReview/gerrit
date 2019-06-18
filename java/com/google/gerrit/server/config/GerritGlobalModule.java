@@ -145,7 +145,7 @@ import com.google.gerrit.server.mail.MailFilter;
 import com.google.gerrit.server.mail.send.FromAddressGenerator;
 import com.google.gerrit.server.mail.send.FromAddressGeneratorProvider;
 import com.google.gerrit.server.mail.send.InboundEmailRejectionSender;
-import com.google.gerrit.server.mail.send.MailSoyTofuProvider;
+import com.google.gerrit.server.mail.send.MailSoySauceProvider;
 import com.google.gerrit.server.mail.send.MailTemplates;
 import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.gerrit.server.mime.MimeUtilFileTypeRegistry;
@@ -192,7 +192,7 @@ import com.google.gitiles.blame.cache.BlameCacheImpl;
 import com.google.inject.Inject;
 import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
-import com.google.template.soy.tofu.SoyTofu;
+import com.google.template.soy.jbcsrc.api.SoySauce;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.transport.PostReceiveHook;
@@ -282,7 +282,7 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(ApprovalsUtil.class);
 
-    bind(SoyTofu.class).annotatedWith(MailTemplates.class).toProvider(MailSoyTofuProvider.class);
+    bind(SoySauce.class).annotatedWith(MailTemplates.class).toProvider(MailSoySauceProvider.class);
     bind(FromAddressGenerator.class).toProvider(FromAddressGeneratorProvider.class).in(SINGLETON);
     bind(Boolean.class)
         .annotatedWith(EnableReverseDnsLookup.class)

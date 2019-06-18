@@ -45,7 +45,7 @@ import com.google.gerrit.server.ssh.SshAdvertisedAddresses;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.template.soy.tofu.SoyTofu;
+import com.google.template.soy.jbcsrc.api.SoySauce;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -75,7 +75,7 @@ public class EmailArguments {
 
   final ChangeQueryBuilder queryBuilder;
   final ChangeData.Factory changeDataFactory;
-  final SoyTofu soyTofu;
+  final SoySauce soySauce;
   final EmailSettings settings;
   final DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners;
   final Provider<InternalAccountQuery> accountQueryProvider;
@@ -105,7 +105,7 @@ public class EmailArguments {
       AllProjectsName allProjectsName,
       ChangeQueryBuilder queryBuilder,
       ChangeData.Factory changeDataFactory,
-      @MailTemplates SoyTofu soyTofu,
+      @MailTemplates SoySauce soySauce,
       EmailSettings settings,
       @SshAdvertisedAddresses List<String> sshAddresses,
       SitePaths site,
@@ -134,7 +134,7 @@ public class EmailArguments {
     this.allProjectsName = allProjectsName;
     this.queryBuilder = queryBuilder;
     this.changeDataFactory = changeDataFactory;
-    this.soyTofu = soyTofu;
+    this.soySauce = soySauce;
     this.settings = settings;
     this.sshAddresses = sshAddresses;
     this.site = site;

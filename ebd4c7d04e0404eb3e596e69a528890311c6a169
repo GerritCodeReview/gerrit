@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dec6656f_7b48523a",
+        "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-06-18T09:40:16Z",
+      "side": 1,
+      "message": "this can be removed?",
+      "range": {
+        "startLine": 150,
+        "startChar": 74,
+        "endLine": 150,
+        "endChar": 77
+      },
+      "revId": "ebd4c7d04e0404eb3e596e69a528890311c6a169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f40494c_4dd0730d",
+        "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-06-18T09:40:16Z",
+      "side": 1,
+      "message": "Normally, branching in Git graphs starts from a commit and not from a relation.\nIMHO, this would be more readable:\n\n  //   rcMaster (c1 master master-tag) \u003c-- rcBranch (c2 branch branch-tag) \u003c-\n  //       \\                                   \\\n  //     (c3_open)                           (c4_open)\n\nSame for other ascii graphs below.",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 152,
+        "endChar": 84
+      },
+      "revId": "ebd4c7d04e0404eb3e596e69a528890311c6a169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

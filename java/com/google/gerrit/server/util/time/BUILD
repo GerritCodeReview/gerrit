@@ -8,6 +8,6 @@ java_library(
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/server/util/git",
         "//lib:guava",
-        "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib:jgit",
     ],
 )

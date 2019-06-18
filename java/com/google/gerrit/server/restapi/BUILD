@@ -30,6 +30,7 @@ java_library(
         "//lib:blame-cache",
         "//lib:gson",
         "//lib:guava",
+        "//lib:jgit",
         "//lib:servlet-api",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
@@ -39,6 +40,5 @@ java_library(
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
-        "//lib/jgit/org.eclipse.jgit:jgit",
     ],
 )

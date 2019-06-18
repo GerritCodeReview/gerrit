@@ -8,7 +8,7 @@ java_library(
         "//java/com/google/gerrit/reviewdb:server",
         "//lib:automaton",
         "//lib:guava",
-        "//lib/jgit/org.eclipse.jgit.archive:jgit-archive",
-        "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib:jgit",
+        "//lib:jgit-archive",
     ],
 )

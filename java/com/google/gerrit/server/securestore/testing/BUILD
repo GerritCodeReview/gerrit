@@ -8,6 +8,6 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/server",
-        "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib:jgit",
     ],
 )

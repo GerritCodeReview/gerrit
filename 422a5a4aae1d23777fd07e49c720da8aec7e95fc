@@ -22,6 +22,46 @@
       "revId": "422a5a4aae1d23777fd07e49c720da8aec7e95fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a78c446d_53203f05",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-06-18T22:34:18Z",
+      "side": 1,
+      "message": "Why not simply having JGit Git repository as a submodule instead?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 22
+      },
+      "revId": "422a5a4aae1d23777fd07e49c720da8aec7e95fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6570518_5bc42342",
+        "filename": "plugins/gitiles",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-06-18T22:34:18Z",
+      "side": 1,
+      "message": "Is this Gitiles update related to the change in JGit version?",
+      "revId": "422a5a4aae1d23777fd07e49c720da8aec7e95fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

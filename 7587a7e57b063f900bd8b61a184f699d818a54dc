@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc099315_e0414b03",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommitsAdvertiseRefsHook.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-18T11:13:12Z",
+      "side": 1,
+      "message": "Performance-wise this is not optimal.\n\nhttps://git.eclipse.org/r/#/c/135547/ provides a faster way to get the same result. We should move to that once we are on the new JGit version.",
+      "range": {
+        "startLine": 100,
+        "startChar": 10,
+        "endLine": 100,
+        "endChar": 58
+      },
+      "revId": "7587a7e57b063f900bd8b61a184f699d818a54dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

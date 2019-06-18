@@ -25,10 +25,10 @@ java_library(
         "//java/com/google/gerrit/server/util/time",
         "//lib:guava",
         "//lib:h2",
+        "//lib:jgit",
         "//lib/commons:validator",
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
-        "//lib/jgit/org.eclipse.jgit:jgit",
     ],
 )

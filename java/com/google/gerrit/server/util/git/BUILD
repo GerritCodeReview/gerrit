@@ -6,6 +6,6 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/reviewdb:server",
-        "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib:jgit",
     ],
 )

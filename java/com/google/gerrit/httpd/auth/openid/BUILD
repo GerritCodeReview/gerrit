@@ -21,7 +21,7 @@ java_library(
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-servlet",
-        "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib:jgit",
         "//lib/openid:consumer",
     ],
 )

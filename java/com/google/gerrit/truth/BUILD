@@ -8,7 +8,7 @@ java_library(
     deps = [
         "//java/com/google/gerrit/common:annotations",
         "//lib:guava",
-        "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib:jgit",
         "//lib/truth",
     ],
 )

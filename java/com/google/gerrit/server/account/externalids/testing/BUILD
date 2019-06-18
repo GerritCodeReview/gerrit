@@ -8,6 +8,6 @@ java_library(
     deps = [
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
-        "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib:jgit",
     ],
 )

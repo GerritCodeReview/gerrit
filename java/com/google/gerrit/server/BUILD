@@ -93,6 +93,8 @@ java_library(
         "//lib:gson",
         "//lib:guava",
         "//lib:guava-retrying",
+        "//lib:jgit",
+        "//lib:jgit-archive",
         "//lib:jsch",
         "//lib:juniversalchardet",
         "//lib:mime-util",
@@ -114,8 +116,6 @@ java_library(
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/guice:guice-servlet",
-        "//lib/jgit/org.eclipse.jgit.archive:jgit-archive",
-        "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jsoup",
         "//lib/log:jsonevent-layout",
         "//lib/log:log4j",
@@ -146,9 +146,9 @@ java_library(
         "//java/com/google/gerrit/server/restapi",
         "//lib:blame-cache",
         "//lib:guava",
+        "//lib:jgit",
         "//lib:soy",
         "//lib/guice",
-        "//lib/jgit/org.eclipse.jgit:jgit",
     ],
 )
 

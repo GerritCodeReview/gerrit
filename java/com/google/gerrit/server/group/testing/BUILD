@@ -11,7 +11,7 @@ java_library(
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
         "//lib:guava",
-        "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib:jgit",
         "//lib/truth",
     ],
 )

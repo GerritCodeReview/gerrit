@@ -36,6 +36,49 @@ java_library(
 )
 
 java_library(
+    name = "jgit",
+    data = ["//lib:LICENSE-jgit"],
+    visibility = ["//visibility:public"],
+    exports = ["@jgit//org.eclipse.jgit:jgit"],
+    runtime_deps = [
+        ":javaewah",
+        "//lib/log:api",
+    ],
+)
+
+java_library(
+    name = "jgit-archive",
+    data = ["//lib:LICENSE-jgit"],
+    visibility = ["//visibility:public"],
+    exports = ["@jgit//org.eclipse.jgit.archive:jgit-archive"],
+    runtime_deps = [":jgit"],
+)
+
+java_library(
+    name = "jgit-junit",
+    testonly = True,
+    data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
+    visibility = ["//visibility:public"],
+    exports = ["@jgit//org.eclipse.jgit.junit:junit"],
+    runtime_deps = [":jgit"],
+)
+
+java_library(
+    name = "jgit-servlet",
+    data = ["//lib:LICENSE-jgit"],
+    visibility = ["//visibility:public"],
+    exports = ["@jgit//org.eclipse.jgit.http.server:jgit-servlet"],
+    runtime_deps = [":jgit"],
+)
+
+java_library(
+    name = "javaewah",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@javaewah//jar"],
+)
+
+java_library(
     name = "protobuf",
     data = ["//lib:LICENSE-protobuf"],
     visibility = ["//visibility:public"],

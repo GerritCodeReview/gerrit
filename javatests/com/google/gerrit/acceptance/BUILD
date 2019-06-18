@@ -9,7 +9,7 @@ junit_tests(
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//java/com/google/gerrit/truth",
         "//lib:guava",
-        "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib:jgit",
         "//lib/truth",
     ],
 )

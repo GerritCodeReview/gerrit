@@ -52,3 +52,6 @@
 	path = plugins/webhooks
 	url = ../plugins/webhooks
 	branch = .
+[submodule "lib/jgit"]
+	path = lib/jgit
+	url = https://git.eclipse.org/gitroot/jgit/jgit

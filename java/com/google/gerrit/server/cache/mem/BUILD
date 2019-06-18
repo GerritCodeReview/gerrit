@@ -9,7 +9,7 @@ java_library(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/server",
         "//lib:guava",
+        "//lib:jgit",
         "//lib/guice",
-        "//lib/jgit/org.eclipse.jgit:jgit",
     ],
 )

@@ -11,11 +11,11 @@ java_library(
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/extensions:api",
         "//lib:guava",
+        "//lib:jgit",
         "//lib:protobuf",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/errorprone:annotations",
-        "//lib/jgit/org.eclipse.jgit:jgit",
         "//proto:entities_java_proto",
     ],
 )

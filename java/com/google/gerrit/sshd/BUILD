@@ -25,6 +25,8 @@ java_library(
         "//lib:args4j",
         "//lib:gson",
         "//lib:guava",
+        "//lib:jgit",
+        "//lib:jgit-archive",
         "//lib:jsch",
         "//lib:servlet-api",
         "//lib/auto:auto-value",
@@ -36,8 +38,6 @@ java_library(
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/guice:guice-servlet",  # SSH should not depend on servlet
-        "//lib/jgit/org.eclipse.jgit.archive:jgit-archive",
-        "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:log4j",
         "//lib/mina:core",
         "//lib/mina:sshd",

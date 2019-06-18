@@ -17,6 +17,7 @@ java_library(
         "//java/com/google/gerrit/server",
         "//lib:gson",
         "//lib:guava",
+        "//lib:jgit",
         "//lib:protobuf",
         "//lib/commons:codec",
         "//lib/commons:lang",
@@ -29,6 +30,5 @@ java_library(
         "//lib/httpcomponents:httpcore",
         "//lib/httpcomponents:httpcore-nio",
         "//lib/jackson:jackson-core",
-        "//lib/jgit/org.eclipse.jgit:jgit",
     ],
 )

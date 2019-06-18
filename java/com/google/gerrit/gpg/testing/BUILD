@@ -8,7 +8,7 @@ java_library(
     deps = [
         "//java/com/google/gerrit/gpg",
         "//lib:guava",
+        "//lib:jgit",
         "//lib/bouncycastle:bcpg-neverlink",
-        "//lib/jgit/org.eclipse.jgit:jgit",
     ],
 )

@@ -11,9 +11,9 @@ junit_tests(
     deps = [
         "//java/com/google/gerrit/git",
         "//lib:guava",
+        "//lib:jgit",
+        "//lib:jgit-junit",
         "//lib:junit",
-        "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/jgit/org.eclipse.jgit.junit:junit",
         "//lib/truth",
     ],
 )
@@ -29,8 +29,8 @@ junit_tests(
         "//java/com/google/gerrit/git",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",
-        "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/jgit/org.eclipse.jgit.junit:junit",
+        "//lib:jgit",
+        "//lib:jgit-junit",
         "//lib/truth",
     ],
 )

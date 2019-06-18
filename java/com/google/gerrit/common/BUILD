@@ -25,11 +25,11 @@ java_library(
         "//java/com/google/gerrit/prettify:server",
         "//java/com/google/gerrit/reviewdb:server",
         "//lib:guava",
+        "//lib:jgit",
         "//lib:servlet-api",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/flogger:api",
-        "//lib/jgit/org.eclipse.jgit:jgit",
     ],
 )
 

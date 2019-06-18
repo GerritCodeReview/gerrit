@@ -298,7 +298,7 @@ public abstract class OutgoingEmail {
     return null;
   }
 
-  public String getGerritUrl() {
+  private String getGerritUrl() {
     return args.urlFormatter.get().getWebUrl().orElse(null);
   }
 

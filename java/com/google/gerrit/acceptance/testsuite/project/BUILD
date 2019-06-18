@@ -13,10 +13,10 @@ java_library(
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
         "//lib:guava",
+        "//lib:jgit",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/commons:lang",
         "//lib/guice",
-        "//lib/jgit/org.eclipse.jgit:jgit",
     ],
 )

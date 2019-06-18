@@ -53,13 +53,16 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('name is updated correctly', () => {
+    test('name is updated correctly', done => {
       assert.isFalse(element.hasNewGroupName);
 
-      element.$.groupNameInput.bindValue = GROUP_NAME;
+      ironInput(element.root).bindValue = GROUP_NAME;
 
-      assert.isTrue(element.hasNewGroupName);
-      assert.deepEqual(element._name, GROUP_NAME);
+      setTimeout(() => {
+        assert.isTrue(element.hasNewGroupName);
+        assert.deepEqual(element._name, GROUP_NAME);
+        done();
+      });
     });
 
     test('test for redirecting to group on successful creation', done => {

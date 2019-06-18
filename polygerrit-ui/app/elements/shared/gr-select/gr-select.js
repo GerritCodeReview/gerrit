@@ -57,7 +57,9 @@
 
     ready() {
       // If not set via the property, set bind-value to the element value.
-      if (!this.bindValue) { this.bindValue = this.nativeSelect.value; }
+      if (this.bindValue == undefined) {
+        this.bindValue = this.nativeSelect.value;
+      }
     },
   });
 })();

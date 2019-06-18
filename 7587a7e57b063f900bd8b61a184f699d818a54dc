@@ -22,6 +22,30 @@
       "revId": "7587a7e57b063f900bd8b61a184f699d818a54dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be020733_2e8c154a",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommitsAdvertiseRefsHook.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-06-18T11:33:09Z",
+      "side": 1,
+      "message": "We should be able to just use RefDb. Let me fix that.",
+      "parentUuid": "cc099315_e0414b03",
+      "range": {
+        "startLine": 100,
+        "startChar": 10,
+        "endLine": 100,
+        "endChar": 58
+      },
+      "revId": "7587a7e57b063f900bd8b61a184f699d818a54dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

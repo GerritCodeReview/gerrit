@@ -61,9 +61,18 @@ public interface UrlFormatter {
   }
 
   /** Returns a URL pointing to a section of the settings page. */
+  default Optional<String> getSettingsUrl() {
+    return getWebUrl().map(url -> url + "settings");
+  }
+
+  /**
+   * Returns a URL pointing to a section of the settings page, or the settings page if {@code
+   * section} is null.
+   */
   default Optional<String> getSettingsUrl(@Nullable String section) {
-    return getWebUrl()
-        .map(url -> url + "settings" + (Strings.isNullOrEmpty(section) ? "" : "#" + section));
+    return Strings.isNullOrEmpty(section)
+        ? getSettingsUrl()
+        : getSettingsUrl().map(url -> url + "#" + section);
   }
 
   /** Returns a URL pointing to a documentation page, at a given named anchor. */

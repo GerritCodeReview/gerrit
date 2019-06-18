@@ -73,7 +73,6 @@ Apache2.0
 * jetty:server
 * jetty:servlet
 * jetty:util
-* jgit/org.eclipse.jgit:javaewah
 * log:json-smart
 * log:jsonevent-layout
 * log:log4j
@@ -96,6 +95,7 @@ Apache2.0
 * guava-retrying
 * html-types
 * j2objc
+* javaewah
 * jsr305
 * mime-util
 * servlet-api
@@ -2438,9 +2438,9 @@ Database section 7.
 [[jgit]]
 jgit
 
-* jgit/org.eclipse.jgit.archive:jgit-archive
-* jgit/org.eclipse.jgit.http.server:jgit-servlet
-* jgit/org.eclipse.jgit:jgit
+* jgit
+* jgit-archive
+* jgit-servlet
 
 [[jgit_license]]
 ----

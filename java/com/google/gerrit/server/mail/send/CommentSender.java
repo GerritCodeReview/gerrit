@@ -76,20 +76,10 @@ public class CommentSender extends ReplyToChangeSender {
 
     /** @return a web link to the given patch set and file. */
     public String getLink() {
-      String url = getGerritUrl();
-      if (url == null) {
-        return null;
-      }
-
-      return new StringBuilder()
-          .append(url)
-          .append("#/c/")
-          .append(change.getId())
-          .append('/')
-          .append(patchSetId)
-          .append('/')
-          .append(KeyUtil.encode(filename))
-          .toString();
+      return args.urlFormatter
+          .get()
+          .getPatchFileView(change, patchSetId, KeyUtil.encode(filename))
+          .orElse(null);
     }
 
     /**

@@ -511,6 +511,8 @@ public class MergeOp implements AutoCloseable {
                     retryHelper
                         .getDefaultTimeout(ActionType.CHANGE_UPDATE)
                         .multipliedBy(cs.projects().size()))
+                .caller(getClass())
+                .retryWithTrace(t -> !(t instanceof RestApiException))
                 .build());
 
         if (projects > 1) {

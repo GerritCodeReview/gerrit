@@ -398,6 +398,10 @@ public class TraceContext implements AutoCloseable {
     return this;
   }
 
+  public boolean isLoggingForced() {
+    return LoggingContext.getInstance().isLoggingForced();
+  }
+
   @Override
   public void close() {
     for (Table.Cell<String, String, Boolean> cell : tags.cellSet()) {

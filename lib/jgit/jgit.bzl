@@ -1,12 +1,11 @@
-load("//tools/bzl:maven_jar.bzl", "MAVEN_CENTRAL", "maven_jar")
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("//tools/bzl:maven_jar.bzl", "maven_jar")
 
-_JGIT_VERS = "5.3.1.201904271842-r"
+_JGIT_VERS = "692524d2bd7bccccecbebe624e427d7a3587cb5f"
 
 _DOC_VERS = _JGIT_VERS  # Set to _JGIT_VERS unless using a snapshot
 
 JGIT_DOC_URL = "https://download.eclipse.org/jgit/site/" + _DOC_VERS + "/apidocs"
-
-_JGIT_REPO = MAVEN_CENTRAL  # Leave here even if set to MAVEN_CENTRAL.
 
 # set this to use a local version.
 # "/home/<user>/projects/jgit"
@@ -18,11 +17,22 @@ def jgit_repos():
             name = "jgit",
             path = LOCAL_JGIT_REPO,
         )
-        jgit_maven_repos_dev()
     else:
-        jgit_maven_repos()
+        # TODO(davido): Replace github URL with
+        # https://git.eclipse.org/r/plugins/gitiles/jgit
+        # wenn this JGit bug is fixed:
+        # https://bugs.eclipse.org/bugs/show_bug.cgi?id=548312
+        http_archive(
+            name = "jgit",
+            strip_prefix = "jgit-" + _JGIT_VERS,
+            sha256 = "608a3a01614f63a573bb14d6bdf53ebee39065b624f51ccd400d2e10efc84180",
+            urls = [
+                "https://github.com/eclipse/jgit/archive/" + _JGIT_VERS + ".tar.gz",
+            ],
+        )
+    jgit_maven_repos()
 
-def jgit_maven_repos_dev():
+def jgit_maven_repos():
     # Transitive dependencies from JGit's WORKSPACE.
     maven_jar(
         name = "hamcrest-library",
@@ -34,42 +44,3 @@ def jgit_maven_repos_dev():
         artifact = "com.jcraft:jzlib:1.1.1",
         sha1 = "a1551373315ffc2f96130a0e5704f74e151777ba",
     )
-
-def jgit_maven_repos():
-    maven_jar(
-        name = "jgit-lib",
-        artifact = "org.eclipse.jgit:org.eclipse.jgit:" + _JGIT_VERS,
-        repository = _JGIT_REPO,
-        sha1 = "dba85014483315fa426259bc1b8ccda9373a624b",
-    )
-    maven_jar(
-        name = "jgit-servlet",
-        artifact = "org.eclipse.jgit:org.eclipse.jgit.http.server:" + _JGIT_VERS,
-        repository = _JGIT_REPO,
-        sha1 = "3287341fca859340a00b51cb5dd3b78b8e532b39",
-    )
-    maven_jar(
-        name = "jgit-archive",
-        artifact = "org.eclipse.jgit:org.eclipse.jgit.archive:" + _JGIT_VERS,
-        repository = _JGIT_REPO,
-        sha1 = "3585027e83fb44a5de2c10ae9ddbf976593bf080",
-    )
-    maven_jar(
-        name = "jgit-junit",
-        artifact = "org.eclipse.jgit:org.eclipse.jgit.junit:" + _JGIT_VERS,
-        repository = _JGIT_REPO,
-        sha1 = "3d9ba7e610d6ab5d08dcb1e4ba448b592a34de77",
-    )
-
-def jgit_dep(name):
-    mapping = {
-        "@jgit-archive//jar": "@jgit//org.eclipse.jgit.archive:jgit-archive",
-        "@jgit-junit//jar": "@jgit//org.eclipse.jgit.junit:junit",
-        "@jgit-lib//jar": "@jgit//org.eclipse.jgit:jgit",
-        "@jgit-servlet//jar": "@jgit//org.eclipse.jgit.http.server:jgit-servlet",
-    }
-
-    if LOCAL_JGIT_REPO:
-        return mapping[name]
-    else:
-        return name

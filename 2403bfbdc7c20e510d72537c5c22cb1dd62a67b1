@@ -45,6 +45,69 @@
       "revId": "2403bfbdc7c20e510d72537c5c22cb1dd62a67b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0ce0466_8a3e3ee4",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommitsAdvertiseRefsHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-18T11:37:40Z",
+      "side": 1,
+      "message": "Make it clearer that V2 does not have any improvements for ref advertisement on push.",
+      "range": {
+        "startLine": 50,
+        "startChar": 6,
+        "endLine": 50,
+        "endChar": 56
+      },
+      "revId": "2403bfbdc7c20e510d72537c5c22cb1dd62a67b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18625b7b_793eec5d",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommitsAdvertiseRefsHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-18T11:37:40Z",
+      "side": 1,
+      "message": "its",
+      "range": {
+        "startLine": 64,
+        "startChar": 56,
+        "endLine": 64,
+        "endChar": 60
+      },
+      "revId": "2403bfbdc7c20e510d72537c5c22cb1dd62a67b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebdbd653_ad9dd491",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommitsAdvertiseRefsHookChain.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-18T11:37:40Z",
+      "side": 1,
+      "message": "Maybe annotate with @VisibleForTesting",
+      "revId": "2403bfbdc7c20e510d72537c5c22cb1dd62a67b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

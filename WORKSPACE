@@ -104,6 +104,12 @@ go_repository(
     importpath = "github.com/howeyc/fsnotify",
 )
 
+# JGit external repository consumed from git submodule
+local_repository(
+    name = "jgit",
+    path = "modules/jgit",
+)
+
 ANTLR_VERS = "3.5.2"
 
 # TODO(davido): Remove this upgrade, when new Bazel version is released
@@ -200,9 +206,18 @@ maven_jar(
     sha1 = "021a212688ec94fe77aff74ab34cc74f6f940e60",
 )
 
-load("//lib/jgit:jgit.bzl", "jgit_repos")
+# JGit's transitive dependencies
+maven_jar(
+    name = "hamcrest-library",
+    artifact = "org.hamcrest:hamcrest-library:1.3",
+    sha1 = "4785a3c21320980282f9f33d0d1264a69040538f",
+)
 
-jgit_repos()
+maven_jar(
+    name = "jzlib",
+    artifact = "com.jcraft:jzlib:1.1.1",
+    sha1 = "a1551373315ffc2f96130a0e5704f74e151777ba",
+)
 
 maven_jar(
     name = "javaewah",

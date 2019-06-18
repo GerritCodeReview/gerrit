@@ -7,8 +7,8 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//lib:guava",
+        "//lib:jgit",
         "//lib:servlet-api",
         "//lib/httpcomponents:httpclient",
-        "//lib/jgit/org.eclipse.jgit:jgit",
     ],
 )

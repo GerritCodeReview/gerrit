@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08f2d818_7881c7aa",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-06-18T12:22:25Z",
+      "side": 1,
+      "message": "Do you not need to pass in and call done here? I think otherwise the test succeeds because that code runs.",
+      "range": {
+        "startLine": 470,
+        "startChar": 9,
+        "endLine": 470,
+        "endChar": 28
+      },
+      "revId": "2c0242ce7489b7cabce08d678d4baaa91129decb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

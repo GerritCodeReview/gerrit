@@ -1,10 +1,8 @@
-load("//lib/jgit:jgit.bzl", "jgit_dep")
-
 java_library(
     name = "jgit",
     data = ["//lib:LICENSE-jgit"],
     visibility = ["//visibility:public"],
-    exports = [jgit_dep("@jgit-lib//jar")],
+    exports = ["@jgit//org.eclipse.jgit:jgit"],
     runtime_deps = [
         ":javaewah",
         "//lib/log:api",

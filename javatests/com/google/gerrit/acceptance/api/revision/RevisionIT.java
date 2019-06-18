@@ -73,6 +73,8 @@ import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.common.TreeInfo;
+import com.google.gerrit.extensions.common.TreeEntry;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -86,6 +88,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
+import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
@@ -109,10 +112,13 @@ import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
 
@@ -1557,6 +1563,51 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(revisionInfo.commit.message).isEqualTo(input.message);
     assertThat(revisionInfo.commit.parents).hasSize(1);
     assertThat(revisionInfo.commit.parents.get(0).commit).isEqualTo(input.base);
+  }
+
+  @Test
+  public void tree() throws Exception {
+    try (Repository repo = repoManager.openRepository(project)) {
+      TestRepository<?> tr = new TestRepository<>(repo);
+
+      String file1 = "a.txt";
+      String file2 = "b.txt";
+      String content1 = "a";
+      String content2 = "b";
+      String id1 = tr.blob(content1).getName();
+      String id2 = tr.blob(content2).getName();
+
+      PushOneCommit.Result result = createChange();
+      String changeId = result.getChangeId();
+      result = amendChange(changeId, SUBJECT, file1, content1);
+      result = amendChange(changeId, SUBJECT, file2, content2);
+      RevCommit commit = result.getCommit();
+      RevWalk rw = tr.getRevWalk();
+      RevTree tree = rw.parseTree(commit.toObjectId());
+
+      TreeInfo info = getTree(changeId, "current");
+      assertThat(info.sha).isEqualTo(tree.getName());
+      assertThat(info.tree).hasSize(2);
+      TreeEntry e1 = info.tree.get(0);
+      TreeEntry e2 = info.tree.get(1);
+      assertThat(e1.id).isEqualTo(id1);
+      assertThat(e1.mode).isEqualTo("100644");
+      assertThat(e1.path).isEqualTo(file1);
+      assertThat(e1.type).isEqualTo(Constants.TYPE_BLOB);
+      assertThat(e2.id).isEqualTo(id2);
+      assertThat(e2.mode).isEqualTo("100644");
+      assertThat(e2.path).isEqualTo(file2);
+      assertThat(e2.type).isEqualTo(Constants.TYPE_BLOB);
+    }
+  }
+
+  private TreeInfo getTree(String changeId, String revision) throws Exception {
+    RestResponse r =
+        userRestSession.get("/changes/" + changeId + "/revisions/" + revision + "/tree");
+    r.assertOK();
+    TreeInfo result = OutputFormat.JSON_COMPACT.newGson().fromJson(r.getReader(), TreeInfo.class);
+    r.consume();
+    return result;
   }
 
   private PushOneCommit.Result updateChange(PushOneCommit.Result r, String content)

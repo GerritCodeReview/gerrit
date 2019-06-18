@@ -141,6 +141,7 @@ public class Module extends RestApiModule {
     post(REVISION_KIND, "test.submit_type").to(TestSubmitType.class);
     get(REVISION_KIND, "archive").to(GetArchive.class);
     get(REVISION_KIND, "mergelist").to(GetMergeList.class);
+    get(REVISION_KIND, "tree").to(GetTree.class);
 
     child(REVISION_KIND, "reviewers").to(RevisionReviewers.class);
 

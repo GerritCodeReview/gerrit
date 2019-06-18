@@ -279,7 +279,7 @@
     } else if (type === GrDiffBuilder.ContextButtonType.ABOVE) {
       text = '+' + context + '↑';
       groups = GrDiffGroup.hideInContextControl(line.contextGroups,
-          context, undefined);
+          context, numLines);
     } else if (type === GrDiffBuilder.ContextButtonType.BELOW) {
       text = '+' + context + '↓';
       groups = GrDiffGroup.hideInContextControl(line.contextGroups,

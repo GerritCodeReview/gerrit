@@ -6,6 +6,6 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//lib:guava",
-        "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib:jgit",
     ],
 )

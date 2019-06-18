@@ -458,12 +458,6 @@ To build against SNAPSHOT Maven JARs, the complete SNAPSHOT version must be used
  )
 ----
 
-[[consume-jgit-from-development-tree]]
-
-To consume the JGit dependency from the development tree, edit
-`lib/jgit/jgit.bzl` setting LOCAL_JGIT_REPO to a directory holding a
-JGit repository.
-
 [[bazel-local-caches]]
 
 To accelerate builds, several caches are activated per default:

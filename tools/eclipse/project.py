@@ -28,6 +28,11 @@ JRE = '/'.join([
     'org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType',
     'JavaSE-1.8',
 ])
+JGIT_SRC = dict([
+    ('org.eclipse.jgit/libjgit', 'modules/jgit/org.eclipse.jgit/src'),
+    ('org.eclipse.jgit.archive/libjgit-archive', 'modules/jgit/org.eclipse.jgit.archive/src'),
+    ('org.eclipse.jgit.http.server/libjgit-servlet', 'modules/jgit/org.eclipse.jgit.http.server/src'),
+])
 # Map of targets to corresponding classpath collector rules
 cp_targets = {
     AUTO: '//tools/eclipse:autovalue_classpath_collect',
@@ -291,6 +296,10 @@ def gen_classpath(ext):
                 p = os.path.join(prefix, "jar", "%s-src.jar" % suffix)
                 if os.path.exists(p):
                     s = p
+            else:
+                for k, v in JGIT_SRC.items():
+                    if k in j:
+                        s = v
             if args.plugins:
                 classpathentry('lib', j, s, exported=True)
             else:

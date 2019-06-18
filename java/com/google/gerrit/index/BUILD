@@ -30,10 +30,10 @@ java_library(
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server/logging",
         "//lib:guava",
+        "//lib:jgit",
         "//lib/antlr:java-runtime",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/flogger:api",
-        "//lib/jgit/org.eclipse.jgit:jgit",
     ],
 )

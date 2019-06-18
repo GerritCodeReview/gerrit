@@ -51,7 +51,7 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('branch created', () => {
+    test('branch created', done => {
       sandbox.stub(element.$.restAPI, 'createRepoBranch', () => {
         return Promise.resolve({});
       });
@@ -61,17 +61,18 @@ limitations under the License.
       element._itemName = 'test-branch';
       element.itemDetail = 'branches';
 
-      element.$.itemNameInput.bindValue = 'test-branch2';
-      element.$.itemRevisionInput.bindValue = 'HEAD';
+      ironInput(element.$.itemNameSection).bindValue = 'test-branch2';
+      ironInput(element.$.itemRevisionSection).bindValue = 'HEAD';
 
-      assert.isTrue(element.hasNewItemName);
-
-      assert.equal(element._itemName, 'test-branch2');
-
-      assert.equal(element._itemRevision, 'HEAD');
+      setTimeout(() => {
+        assert.isTrue(element.hasNewItemName);
+        assert.equal(element._itemName, 'test-branch2');
+        assert.equal(element._itemRevision, 'HEAD');
+        done();
+      });
     });
 
-    test('tag created', () => {
+    test('tag created', done => {
       sandbox.stub(element.$.restAPI, 'createRepoTag', () => {
         return Promise.resolve({});
       });
@@ -81,17 +82,18 @@ limitations under the License.
       element._itemName = 'test-tag';
       element.itemDetail = 'tags';
 
-      element.$.itemNameInput.bindValue = 'test-tag2';
-      element.$.itemRevisionInput.bindValue = 'HEAD';
+      ironInput(element.$.itemNameSection).bindValue = 'test-tag2';
+      ironInput(element.$.itemRevisionSection).bindValue = 'HEAD';
 
-      assert.isTrue(element.hasNewItemName);
-
-      assert.equal(element._itemName, 'test-tag2');
-
-      assert.equal(element._itemRevision, 'HEAD');
+      setTimeout(() => {
+        assert.isTrue(element.hasNewItemName);
+        assert.equal(element._itemName, 'test-tag2');
+        assert.equal(element._itemRevision, 'HEAD');
+        done();
+      });
     });
 
-    test('tag created with annotations', () => {
+    test('tag created with annotations', done => {
       sandbox.stub(element.$.restAPI, 'createRepoTag', () => {
         return Promise.resolve({});
       });
@@ -102,17 +104,17 @@ limitations under the License.
       element._itemAnnotation = 'test-message';
       element.itemDetail = 'tags';
 
-      element.$.itemNameInput.bindValue = 'test-tag2';
-      element.$.itemAnnotationInput.bindValue = 'test-message2';
-      element.$.itemRevisionInput.bindValue = 'HEAD';
+      ironInput(element.$.itemNameSection).bindValue = 'test-tag2';
+      ironInput(element.$.itemAnnotationSection).bindValue = 'test-message2';
+      ironInput(element.$.itemRevisionSection).bindValue = 'HEAD';
 
-      assert.isTrue(element.hasNewItemName);
-
-      assert.equal(element._itemName, 'test-tag2');
-
-      assert.equal(element._itemAnnotation, 'test-message2');
-
-      assert.equal(element._itemRevision, 'HEAD');
+      setTimeout(() => {
+        assert.isTrue(element.hasNewItemName);
+        assert.equal(element._itemName, 'test-tag2');
+        assert.equal(element._itemAnnotation, 'test-message2');
+        assert.equal(element._itemRevision, 'HEAD');
+        done();
+      });
     });
 
     test('_computeHideItemClass returns hideItem if type is branches', () => {

@@ -15,4 +15,12 @@
  * limitations under the License.
  */
 
-// Intentionally blank - will contain shared Polymer 2 test setup code.
+/**
+ * Helps looking up the proper iron-input element during the Polymer 2
+ * transition. Polymer 2 uses the <iron-input> element, while Polymer 1 uses
+ * the nested <input is="iron-input"> element.
+ */
+window.ironInput = function(element) {
+  return Polymer.dom(element).querySelector(
+      Polymer.Element ? 'iron-input' : 'input[is=iron-input]');
+};

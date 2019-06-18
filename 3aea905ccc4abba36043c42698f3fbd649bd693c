@@ -16,6 +16,24 @@
       "revId": "3aea905ccc4abba36043c42698f3fbd649bd693c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "145aaea9_1f0c491a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-06-18T15:55:39Z",
+      "side": 1,
+      "message": "Yes, quite a few actually, but they do not test any interaction (just \"building\"). I could probably figure out how to make a unit tests that covers this, but I opted for a fast fix in this case.",
+      "parentUuid": "4b3f1082_5a4fec8c",
+      "revId": "3aea905ccc4abba36043c42698f3fbd649bd693c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

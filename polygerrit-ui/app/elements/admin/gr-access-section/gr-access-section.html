@@ -65,11 +65,11 @@ limitations under the License.
       #addPermission,
       #deleteBtn,
       .editingRef .name,
-      #editRefInput {
+      .editRefInput {
         display: none;
       }
       .editing #editBtn,
-      .editingRef #editRefInput {
+      .editingRef .editRefInput {
         display: flex;
       }
       .deleted #deletedContainer {
@@ -101,11 +101,12 @@ limitations under the License.
             </gr-button>
           </div>
           <iron-input
+              class="editRefInput"
               bind-value="{{section.id}}"
               type="text"
               on-input="_handleValueChange">
             <input
-                id="editRefInput"
+                class="editRefInput"
                 bind-value="{{section.id}}"
                 is="iron-input"
                 type="text"

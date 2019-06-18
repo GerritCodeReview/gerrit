@@ -7,8 +7,8 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//lib:guava",
+        "//lib:jgit",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
-        "//lib/jgit/org.eclipse.jgit:jgit",
     ],
 )

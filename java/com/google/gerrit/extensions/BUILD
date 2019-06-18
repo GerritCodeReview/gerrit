@@ -1,7 +1,10 @@
 load("@rules_java//java:defs.bzl", "java_binary", "java_library")
 load("//lib:guava.bzl", "GUAVA_DOC_URL")
-load("//lib/jgit:jgit.bzl", "JGIT_DOC_URL")
 load("//tools/bzl:javadoc.bzl", "java_doc")
+
+_DOC_VERS = "5.5.0.201909110433-r"
+
+JGIT_DOC_URL = "https://download.eclipse.org/jgit/site/" + _DOC_VERS + "/apidocs"
 
 java_binary(
     name = "extension-api",

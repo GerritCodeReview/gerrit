@@ -622,13 +622,17 @@ public class CommentsIT extends AbstractDaemonTest {
                 + "comments\n"
                 + "\n"
                 + url
-                + "#/c/"
+                + "c/"
+                + project.get()
+                + "/+/"
                 + c
                 + "/1/a.txt \n"
                 + "File a.txt:\n"
                 + "\n"
                 + url
-                + "#/c/"
+                + "c/"
+                + project.get()
+                + "/+/"
                 + c
                 + "/1/a.txt@a2 \n"
                 + "PS1, Line 2: \n"
@@ -636,7 +640,9 @@ public class CommentsIT extends AbstractDaemonTest {
                 + "\n"
                 + "\n"
                 + url
-                + "#/c/"
+                + "c/"
+                + project.get()
+                + "/+/"
                 + c
                 + "/1/a.txt@1 \n"
                 + "PS1, Line 1: boring\n"
@@ -644,13 +650,17 @@ public class CommentsIT extends AbstractDaemonTest {
                 + "\n"
                 + "\n"
                 + url
-                + "#/c/"
+                + "c/"
+                + project.get()
+                + "/+/"
                 + c
                 + "/2/a.txt \n"
                 + "File a.txt:\n"
                 + "\n"
                 + url
-                + "#/c/"
+                + "c/"
+                + project.get()
+                + "/+/"
                 + c
                 + "/2/a.txt@a1 \n"
                 + "PS2, Line 1: \n"
@@ -658,7 +668,9 @@ public class CommentsIT extends AbstractDaemonTest {
                 + "\n"
                 + "\n"
                 + url
-                + "#/c/"
+                + "c/"
+                + project.get()
+                + "/+/"
                 + c
                 + "/2/a.txt@a2 \n"
                 + "PS2, Line 2: \n"
@@ -666,7 +678,9 @@ public class CommentsIT extends AbstractDaemonTest {
                 + "\n"
                 + "\n"
                 + url
-                + "#/c/"
+                + "c/"
+                + project.get()
+                + "/+/"
                 + c
                 + "/2/a.txt@1 \n"
                 + "PS2, Line 1: interesting\n"
@@ -674,7 +688,9 @@ public class CommentsIT extends AbstractDaemonTest {
                 + "\n"
                 + "\n"
                 + url
-                + "#/c/"
+                + "c/"
+                + project.get()
+                + "/+/"
                 + c
                 + "/2/a.txt@2 \n"
                 + "PS2, Line 2: nten\n"

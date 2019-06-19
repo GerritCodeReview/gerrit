@@ -282,16 +282,10 @@ public abstract class OutgoingEmail {
   }
 
   public String getSettingsUrl() {
-    if (getGerritUrl() != null) {
-      final StringBuilder r = new StringBuilder();
-      r.append(getGerritUrl());
-      r.append("settings");
-      return r.toString();
-    }
-    return null;
+    return args.urlFormatter.get().getSettingsUrl().orElse(null);
   }
 
-  public String getGerritUrl() {
+  private String getGerritUrl() {
     return args.urlFormatter.get().getWebUrl().orElse(null);
   }
 

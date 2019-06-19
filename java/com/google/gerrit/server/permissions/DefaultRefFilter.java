@@ -208,7 +208,7 @@ class DefaultRefFilter {
     logger.atFinest().log("Filter refs (refs = %s)", refs);
 
     if (projectState.isAllUsers()) {
-      refs = addUsersSelfSymref(refs);
+      refs = addUsersSelfSymref(repo, refs);
     }
 
     // TODO(hiesel): Remove when optimization is done.
@@ -397,19 +397,24 @@ class DefaultRefFilter {
     return refs;
   }
 
-  private Map<String, Ref> addUsersSelfSymref(Map<String, Ref> refs) {
+  private Map<String, Ref> addUsersSelfSymref(Repository repo, Map<String, Ref> refs)
+      throws PermissionBackendException {
     if (user.isIdentifiedUser()) {
       String refName = RefNames.refsUsers(user.getAccountId());
-      Ref r = refs.get(refName);
-      if (r == null) {
-        logger.atWarning().log("User ref %s not found", refName);
-        return refs;
-      }
+      try {
+        Ref r = repo.exactRef(refName);
+        if (r == null) {
+          logger.atWarning().log("User ref %s not found", refName);
+          return refs;
+        }
 
-      SymbolicRef s = new SymbolicRef(REFS_USERS_SELF, r);
-      refs = new HashMap<>(refs);
-      refs.put(s.getName(), s);
-      logger.atFinest().log("Added %s as alias for user ref %s", REFS_USERS_SELF, refName);
+        SymbolicRef s = new SymbolicRef(REFS_USERS_SELF, r);
+        refs = new HashMap<>(refs);
+        refs.put(s.getName(), s);
+        logger.atFinest().log("Added %s as alias for user ref %s", REFS_USERS_SELF, refName);
+      } catch (IOException e) {
+        throw new PermissionBackendException(e);
+      }
     }
     return refs;
   }

@@ -77,7 +77,6 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.receive.ReceiveConstants;
-import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -1976,8 +1975,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     }
 
     @Override
-    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
-        throws CommitValidationException {
+    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent) {
       count.incrementAndGet();
       return Collections.emptyList();
     }

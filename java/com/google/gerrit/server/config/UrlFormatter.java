@@ -47,10 +47,32 @@ public interface UrlFormatter {
     return getWebUrl().map(url -> url + "c/" + project.get() + "/+/" + id.get());
   }
 
+  /** Returns the URL for viewing a file in a given patch set of a change. */
+  default Optional<String> getPatchFileView(Change change, int patchsetId, String filename) {
+    return getChangeViewUrl(change.getProject(), change.getId())
+        .map(url -> url + "/" + patchsetId + "/" + filename);
+  }
+
+  /** Returns the URL for viewing a comment in a file in a given patch set of a change. */
+  default Optional<String> getInlineCommentView(
+      Change change, int patchsetId, String filename, short side, int startLine) {
+    return getPatchFileView(change, patchsetId, filename)
+        .map(url -> url + String.format("@%s%d", side == 0 ? "a" : "", startLine));
+  }
+
   /** Returns a URL pointing to a section of the settings page. */
+  default Optional<String> getSettingsUrl() {
+    return getWebUrl().map(url -> url + "settings");
+  }
+
+  /**
+   * Returns a URL pointing to a section of the settings page, or the settings page if {@code
+   * section} is null.
+   */
   default Optional<String> getSettingsUrl(@Nullable String section) {
-    return getWebUrl()
-        .map(url -> url + "settings" + (Strings.isNullOrEmpty(section) ? "" : "#" + section));
+    return Strings.isNullOrEmpty(section)
+        ? getSettingsUrl()
+        : getSettingsUrl().map(url -> url + "#" + section);
   }
 
   /** Returns a URL pointing to a documentation page, at a given named anchor. */

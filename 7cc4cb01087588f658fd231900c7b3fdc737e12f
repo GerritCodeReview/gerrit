@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48c0be3f_401271f1",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-19T20:11:47Z",
+      "side": 1,
+      "message": "Once/if passed the RFC state, would apply this change also to the above versions. I suspect this was the original intention.",
+      "revId": "7cc4cb01087588f658fd231900c7b3fdc737e12f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

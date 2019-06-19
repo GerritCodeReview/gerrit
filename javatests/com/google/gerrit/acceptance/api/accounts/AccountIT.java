@@ -131,6 +131,8 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.account.StalenessChecker;
 import com.google.gerrit.server.notedb.Sequences;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
@@ -217,6 +219,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private Sequences seq;
   @Inject private StalenessChecker stalenessChecker;
   @Inject private VersionedAuthorizedKeys.Accessor authorizedKeys;
+  @Inject private PermissionBackend permissionBackend;
 
   @Inject protected Emails emails;
 
@@ -1368,6 +1371,19 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(thrown)
         .hasMessageThat()
         .contains("Remote does not have " + otherUserRefName + " available for fetch.");
+  }
+
+  @Test
+  public void refsUsersSelfIsAdvertised() throws Exception {
+    try (Repository allUsersRepo = repoManager.openRepository(allUsers)) {
+      assertThat(
+              permissionBackend
+                  .currentUser()
+                  .project(allUsers)
+                  .filter(ImmutableList.of(), allUsersRepo, RefFilterOptions.defaults())
+                  .keySet())
+          .containsExactly(RefNames.REFS_USERS_SELF);
+    }
   }
 
   @Test

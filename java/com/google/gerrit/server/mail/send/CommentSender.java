@@ -75,21 +75,19 @@ public class CommentSender extends ReplyToChangeSender {
     public List<Comment> comments = new ArrayList<>();
 
     /** @return a web link to the given patch set and file. */
-    public String getLink() {
-      String url = getGerritUrl();
-      if (url == null) {
-        return null;
-      }
+    public String getFileLink() {
+      return args.urlFormatter
+          .get()
+          .getPatchFileView(change, patchSetId, KeyUtil.encode(filename))
+          .orElse(null);
+    }
 
-      return new StringBuilder()
-          .append(url)
-          .append("#/c/")
-          .append(change.getId())
-          .append('/')
-          .append(patchSetId)
-          .append('/')
-          .append(KeyUtil.encode(filename))
-          .toString();
+    /** @return a web link to a comment within a given patch set and file. */
+    public String getCommentLink(short side, int startLine) {
+      return args.urlFormatter
+          .get()
+          .getInlineCommentView(change, patchSetId, KeyUtil.encode(filename), side, startLine)
+          .orElse(null);
     }
 
     /**
@@ -391,7 +389,7 @@ public class CommentSender extends ReplyToChangeSender {
 
     for (CommentSender.FileCommentGroup group : getGroupedInlineComments(repo)) {
       Map<String, Object> groupData = new HashMap<>();
-      groupData.put("link", group.getLink());
+      groupData.put("link", group.getFileLink());
       groupData.put("title", group.getTitle());
       groupData.put("patchSetId", group.patchSetId);
 
@@ -420,11 +418,9 @@ public class CommentSender extends ReplyToChangeSender {
 
         // Set the comment link.
         if (comment.lineNbr == 0) {
-          commentData.put("link", group.getLink());
-        } else if (comment.side == 0) {
-          commentData.put("link", group.getLink() + "@a" + startLine);
+          commentData.put("link", group.getFileLink());
         } else {
-          commentData.put("link", group.getLink() + '@' + startLine);
+          commentData.put("link", group.getCommentLink(comment.side, startLine));
         }
 
         // Set robot comment data.

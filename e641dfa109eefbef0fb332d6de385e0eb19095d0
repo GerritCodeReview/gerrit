@@ -22,6 +22,30 @@
       "revId": "e641dfa109eefbef0fb332d6de385e0eb19095d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18ff03d4_903d42ae",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-19T20:52:45Z",
+      "side": 0,
+      "message": "\u003e These OSS specific images I think were disabling (or softening) the default security settings of ES server under test. This change works then only if that is still the case with blacktop\u0027s. -Local verification in progress for this currently changed example (blacktop for 7.1.1).\n\nDone. I (or we) can re-Verify once amended for all versions or so.",
+      "parentUuid": "2dfa21a9_09d5ecec",
+      "range": {
+        "startLine": 56,
+        "startChar": 61,
+        "endLine": 56,
+        "endChar": 65
+      },
+      "revId": "e641dfa109eefbef0fb332d6de385e0eb19095d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

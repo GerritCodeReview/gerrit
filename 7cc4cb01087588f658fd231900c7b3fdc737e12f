@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb36c5eb_9d7aa53c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1980,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-19T23:11:06Z",
+      "side": 0,
+      "message": "It\u0027s not thrown from this method, but it\u0027s part of the interface signature and doesn\u0027t raise any warnings at least in Eclipse.  Does it cause warnings somewhere else?",
+      "revId": "7cc4cb01087588f658fd231900c7b3fdc737e12f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

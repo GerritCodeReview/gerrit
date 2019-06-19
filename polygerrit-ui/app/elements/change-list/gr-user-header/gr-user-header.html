@@ -16,12 +16,14 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
+<link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
+<link rel="import" href="../../plugins/gr-endpoint-param/gr-endpoint-param.html">
 <link rel="import" href="../../shared/gr-avatar/gr-avatar.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../../styles/dashboard-header-styles.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-user-header">
   <template>
@@ -62,6 +64,12 @@ limitations under the License.
             date-str="[[_computeDetail(_accountDetails, 'registered_on')]]">
         </gr-date-formatter>
       </div>
+      <gr-endpoint-decorator name="user-header">
+        <gr-endpoint-param name="accountDetails" value="[[_accountDetails]]">
+        </gr-endpoint-param>
+        <gr-endpoint-param name="loggedIn" value="[[loggedIn]]">
+        </gr-endpoint-param>
+      </gr-endpoint-decorator>
     </div>
     <div class="info">
       <div class$="[[_computeDashboardLinkClass(showDashboardLink, loggedIn)]]">

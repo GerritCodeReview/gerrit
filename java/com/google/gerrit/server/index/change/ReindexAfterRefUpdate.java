@@ -17,6 +17,7 @@ package com.google.gerrit.server.index.change;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 
+import com.google.common.base.Objects;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
@@ -44,8 +45,11 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Future;
 import org.eclipse.jgit.lib.Config;
 
@@ -62,6 +66,8 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
   private final Provider<AccountIndexer> indexer;
   private final ListeningExecutorService executor;
   private final boolean enabled;
+
+  private final Set<Index> queuedIndexTasks = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
   @Inject
   ReindexAfterRefUpdate(
@@ -113,9 +119,12 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
           @Override
           public void onSuccess(List<Change> changes) {
             for (Change c : changes) {
-              // Don't retry indefinitely; if this fails changes may be stale.
-              @SuppressWarnings("unused")
-              Future<?> possiblyIgnoredError = executor.submit(new Index(event, c.getId()));
+              Index task = new Index(event, c.getId());
+              if (queuedIndexTasks.add(task)) {
+                // Don't retry indefinitely; if this fails changes may be stale.
+                @SuppressWarnings("unused")
+                Future<?> possiblyIgnoredError = executor.submit(task);
+              }
             }
           }
 
@@ -145,6 +154,8 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
     }
 
     protected abstract V impl(RequestContext ctx) throws Exception;
+
+    protected abstract void remove();
   }
 
   private class GetChanges extends Task<List<Change>> {
@@ -169,6 +180,9 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
           + " update of project "
           + event.getProjectName();
     }
+
+    @Override
+    protected void remove() {}
   }
 
   private class Index extends Task<Void> {
@@ -183,6 +197,7 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
     protected Void impl(RequestContext ctx) throws OrmException, IOException {
       // Reload change, as some time may have passed since GetChanges.
       ReviewDb db = ctx.getReviewDbProvider().get();
+      remove();
       try {
         Change c =
             notesFactory
@@ -196,8 +211,27 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
     }
 
     @Override
+    public int hashCode() {
+      return Objects.hashCode(Index.class, id.get());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (!(obj instanceof Index)) {
+        return false;
+      }
+      Index other = (Index) obj;
+      return id.get() == other.id.get();
+    }
+
+    @Override
     public String toString() {
       return "Index change " + id.get() + " of project " + event.getProjectName();
+    }
+
+    @Override
+    protected void remove() {
+      queuedIndexTasks.remove(this);
     }
   }
 }

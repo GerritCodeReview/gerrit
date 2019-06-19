@@ -3055,7 +3055,7 @@ Sets the number of shards to use per index. Refer to the
 link:https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-concepts.html#getting-started-shards-and-replicas[
 Elasticsearch documentation] for details.
 +
-Defaults to 5.
+Defaults to 5 for Elasticsearch versions 5 and 6, and to 1 starting with Elasticsearch 7.
 
 [[elasticsearch.numberOfReplicas]]elasticsearch.numberOfReplicas::
 +

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f75d13d_547fa607",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-19T20:01:49Z",
+      "side": 1,
+      "message": "What would be the \"business\" need behind this change? (Not sure I understand the context fully.) -Maybe add an explanation right before this paragraph?",
+      "range": {
+        "startLine": 25,
+        "startChar": 60,
+        "endLine": 27,
+        "endChar": 39
+      },
+      "revId": "e641dfa109eefbef0fb332d6de385e0eb19095d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54196eaa_38e10e6b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2806,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-19T20:01:49Z",
+      "side": 1,
+      "message": "Always false so far; expected?",
+      "range": {
+        "startLine": 2806,
+        "startChar": 74,
+        "endLine": 2806,
+        "endChar": 88
+      },
+      "revId": "e641dfa109eefbef0fb332d6de385e0eb19095d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

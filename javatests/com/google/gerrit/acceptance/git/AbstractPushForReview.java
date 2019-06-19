@@ -85,6 +85,8 @@ import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.testing.EditInfoSubject;
 import com.google.gerrit.git.ObjectIds;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
@@ -94,8 +96,11 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.receive.NoteDbPushOption;
 import com.google.gerrit.server.git.receive.ReceiveConstants;
+import com.google.gerrit.server.git.validators.CommitValidationListener;
+import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.CommitValidators.ChangeIdValidator;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.testing.TestLabels;
@@ -105,6 +110,7 @@ import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -112,6 +118,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -151,6 +158,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   private static String NEW_CHANGE_INDICATOR = " [NEW]";
   private LabelType patchSetLock;
+
+  @Inject private DynamicSet<CommitValidationListener> commitValidators;
 
   @BeforeClass
   public static void setTimeForTesting() {
@@ -2328,6 +2337,56 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(gApi.changes().query(q).get()).isEmpty();
     assertThat(gApi.projects().name(project.get()).branch(master).get().revision)
         .isEqualTo(Iterables.getLast(commits).name());
+  }
+
+  private static class TestValidator implements CommitValidationListener {
+    private final AtomicInteger count = new AtomicInteger();
+
+    @Override
+    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent) {
+      count.incrementAndGet();
+      return Collections.emptyList();
+    }
+
+    public int count() {
+      return count.get();
+    }
+  }
+
+  @Test
+  public void skipValidation() throws Exception {
+    String master = "refs/heads/master";
+    TestValidator validator = new TestValidator();
+    RegistrationHandle handle = commitValidators.add("test-validator", validator);
+
+    try {
+      // Validation listener is called on normal push
+      PushOneCommit push =
+          pushFactory.create(admin.newIdent(), testRepo, "change1", "a.txt", "content");
+      PushOneCommit.Result r = push.to(master);
+      r.assertOkStatus();
+      assertThat(validator.count()).isEqualTo(1);
+
+      // Push is rejected and validation listener is not called when not allowed
+      // to use skip option
+      PushOneCommit push2 =
+          pushFactory.create(admin.newIdent(), testRepo, "change2", "b.txt", "content");
+      push2.setPushOptions(ImmutableList.of(PUSH_OPTION_SKIP_VALIDATION));
+      r = push2.to(master);
+      r.assertErrorStatus("not permitted: skip validation");
+      assertThat(validator.count()).isEqualTo(1);
+
+      // Validation listener is not called when skip option is used
+      grantSkipValidation(project, master, SystemGroupBackend.REGISTERED_USERS);
+      PushOneCommit push3 =
+          pushFactory.create(admin.newIdent(), testRepo, "change2", "b.txt", "content");
+      push3.setPushOptions(ImmutableList.of(PUSH_OPTION_SKIP_VALIDATION));
+      r = push3.to(master);
+      r.assertOkStatus();
+      assertThat(validator.count()).isEqualTo(1);
+    } finally {
+      handle.remove();
+    }
   }
 
   @Test

@@ -198,7 +198,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     }
 
     // Recreate the index.
-    String indexCreationFields = concatJsonString(getSettings(), getMappings());
+    String indexCreationFields = concatJsonString(getSettings(client.adapter()), getMappings());
     response =
         performRequest(
             "PUT", indexName + client.adapter().includeTypeNameParam(), indexCreationFields);
@@ -213,8 +213,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   protected abstract String getMappings();
 
-  private String getSettings() {
-    return gson.toJson(ImmutableMap.of(SETTINGS, ElasticSetting.createSetting(config)));
+  private String getSettings(ElasticQueryAdapter adapter) {
+    return gson.toJson(ImmutableMap.of(SETTINGS, ElasticSetting.createSetting(config, adapter)));
   }
 
   protected abstract String getId(V v);

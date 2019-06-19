@@ -27,6 +27,7 @@ public class ElasticQueryAdapter {
   private final boolean useV5Type;
   private final boolean useV6Type;
   private final boolean omitType;
+  private final int defaultNumberOfShards;
 
   private final String searchFilteringName;
   private final String indicesExistParams;
@@ -41,6 +42,7 @@ public class ElasticQueryAdapter {
     this.useV5Type = !version.isV6OrLater();
     this.useV6Type = version.isV6();
     this.omitType = version.isV7OrLater();
+    this.defaultNumberOfShards = version.isV7OrLater() ? 1 : 5;
     this.versionDiscoveryUrl = version.isV6OrLater() ? "/%s*" : "/%s*/_aliases";
     this.searchFilteringName = "_source";
     this.indicesExistParams =
@@ -96,6 +98,10 @@ public class ElasticQueryAdapter {
 
   boolean omitType() {
     return omitType;
+  }
+
+  int getDefaultNumberOfShards() {
+    return defaultNumberOfShards;
   }
 
   String getType() {

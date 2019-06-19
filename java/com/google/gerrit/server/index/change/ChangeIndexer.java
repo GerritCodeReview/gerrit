@@ -255,7 +255,7 @@ public class ChangeIndexer {
     if (queuedReindexIfStaleTasks.add(task)) {
       return submit(task, batchExecutor);
     }
-    return Futures.immediateCheckedFuture(false);
+    return Futures.immediateFuture(false);
   }
 
   private void autoReindexIfStale(ChangeData cd) {

@@ -34,6 +34,24 @@
       "revId": "7cc4cb01087588f658fd231900c7b3fdc737e12f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "532997ad_145b64af",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1980,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-19T23:39:38Z",
+      "side": 0,
+      "message": "Ack",
+      "parentUuid": "e4163ecb_1a55a2ae",
+      "revId": "7cc4cb01087588f658fd231900c7b3fdc737e12f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

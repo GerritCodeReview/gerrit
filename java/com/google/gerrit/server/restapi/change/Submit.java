@@ -254,11 +254,6 @@ public class Submit
         return BLOCKED_HIDDEN_SUBMIT_TOOLTIP;
       }
       for (ChangeData c : cs.changes()) {
-        if (cd.getId().equals(c.getId())) {
-          // We ignore the change about to be submitted, as these checks are already done in the
-          // #apply and #getDescription methods.
-          continue;
-        }
         Set<ChangePermission> can =
             permissionBackend
                 .user(user)

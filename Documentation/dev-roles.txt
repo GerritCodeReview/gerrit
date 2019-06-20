@@ -137,7 +137,7 @@ maintainers].
 
 Maintainers are the gatekeepers of the project and are in charge of
 approving and submitting changes. Refer to the project homepage for
-the link:https://www.gerritcodereview.com/maintainers.html[
+the link:https://www.gerritcodereview.com/members.html#maintainers[
 list of current maintainers].
 
 Maintainers should only approve changes that:
@@ -230,7 +230,7 @@ governs the project, see link:dev-processes.html#project-governance[Project Gove
 
 Members of the steering committee are expected to act in the interest
 of the Gerrit project and the whole Gerrit community. Refer to the project
-homepage for the link:https://www.gerritcodereview.com/esc.html[
+homepage for the link:https://www.gerritcodereview.com/members.html#engineering-steering-committee[
 list of current committee members].
 
 For those that are familiar with scrum, the steering committee member

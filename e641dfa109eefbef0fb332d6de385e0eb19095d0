@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ee350eab_df61d6da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-20T00:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f75d13d_547fa607",
+      "range": {
+        "startLine": 25,
+        "startChar": 60,
+        "endLine": 27,
+        "endChar": 39
+      },
+      "revId": "e641dfa109eefbef0fb332d6de385e0eb19095d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "54196eaa_38e10e6b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "e641dfa109eefbef0fb332d6de385e0eb19095d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "891041bd_22972749",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2806,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-20T00:45:32Z",
+      "side": 1,
+      "message": "I think this is intentional; it\u0027s on a path where previously the skip-validation push option was not considered.\n\nI\u0027ve refactored this a bit to remove the explicit passing of \u0027false\u0027 at callers.",
+      "parentUuid": "54196eaa_38e10e6b",
+      "range": {
+        "startLine": 2806,
+        "startChar": 74,
+        "endLine": 2806,
+        "endChar": 88
+      },
+      "revId": "e641dfa109eefbef0fb332d6de385e0eb19095d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

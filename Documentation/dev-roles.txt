@@ -277,7 +277,9 @@ design doc].
 == Community Manager
 
 Community managers should act as stakeholders for the Gerrit community
-and focus on the health of the community.
+and focus on the health of the community. Refer to the project homepage
+for the link:https://www.gerritcodereview.com/members.html#community-managers[
+list of current community managers].
 
 Tasks:
 

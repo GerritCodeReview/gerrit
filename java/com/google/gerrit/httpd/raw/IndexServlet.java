@@ -18,17 +18,18 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Resources;
 import com.google.gerrit.common.Nullable;
 import com.google.template.soy.SoyFileSet;
 import com.google.template.soy.data.SanitizedContent;
-import com.google.template.soy.data.SoyMapData;
 import com.google.template.soy.data.UnsafeSanitizedContentOrdainer;
 import com.google.template.soy.tofu.SoyTofu;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Map;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -74,8 +75,8 @@ public class IndexServlet extends HttpServlet {
     return uri.getPath().replaceAll("/$", "");
   }
 
-  static SoyMapData getTemplateData(String canonicalURL, String cdnPath, String faviconPath)
-      throws URISyntaxException {
+  static Map<String, Object> getTemplateData(
+      String canonicalURL, String cdnPath, String faviconPath) throws URISyntaxException {
     String canonicalPath = computeCanonicalPath(canonicalURL);
 
     String staticPath = "";
@@ -91,9 +92,16 @@ public class IndexServlet extends HttpServlet {
         UnsafeSanitizedContentOrdainer.ordainAsSafe(
             staticPath, SanitizedContent.ContentKind.TRUSTED_RESOURCE_URI);
 
-    return new SoyMapData(
-        "canonicalPath", canonicalPath,
-        "staticResourcePath", sanitizedStaticPath,
-        "faviconPath", faviconPath);
+    ImmutableMap.Builder<String, Object> data = ImmutableMap.builder();
+    if (canonicalPath != null) {
+      data.put("canonicalPath", canonicalPath);
+    }
+    if (sanitizedStaticPath != null) {
+      data.put("staticResourcePath", sanitizedStaticPath);
+    }
+    if (faviconPath != null) {
+      data.put("faviconPath", faviconPath);
+    }
+    return data.build();
   }
 }

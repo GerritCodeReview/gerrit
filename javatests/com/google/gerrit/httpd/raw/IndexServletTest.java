@@ -18,8 +18,8 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.testing.GerritBaseTests;
-import com.google.template.soy.data.SoyMapData;
 import java.net.URISyntaxException;
+import java.util.Map;
 import org.junit.Test;
 
 public class IndexServletTest extends GerritBaseTests {
@@ -38,35 +38,34 @@ public class IndexServletTest extends GerritBaseTests {
 
   @Test
   public void noPathAndNoCDN() throws URISyntaxException {
-    SoyMapData data = IndexServlet.getTemplateData("http://example.com/", null, null);
-    assertThat(data.getSingle("canonicalPath").stringValue()).isEqualTo("");
-    assertThat(data.getSingle("staticResourcePath").stringValue()).isEqualTo("");
+    Map<String, Object> data = IndexServlet.getTemplateData("http://example.com/", null, null);
+    assertThat(data.get("canonicalPath")).isEqualTo("");
+    assertThat(data.get("staticResourcePath").toString()).isEqualTo("");
   }
 
   @Test
   public void pathAndNoCDN() throws URISyntaxException {
-    SoyMapData data = IndexServlet.getTemplateData("http://example.com/gerrit/", null, null);
-    assertThat(data.getSingle("canonicalPath").stringValue()).isEqualTo("/gerrit");
-    assertThat(data.getSingle("staticResourcePath").stringValue()).isEqualTo("/gerrit");
+    Map<String, Object> data =
+        IndexServlet.getTemplateData("http://example.com/gerrit/", null, null);
+    assertThat(data.get("canonicalPath")).isEqualTo("/gerrit");
+    assertThat(data.get("staticResourcePath").toString()).isEqualTo("/gerrit");
   }
 
   @Test
   public void noPathAndCDN() throws URISyntaxException {
-    SoyMapData data =
+    Map<String, Object> data =
         IndexServlet.getTemplateData("http://example.com/", "http://my-cdn.com/foo/bar/", null);
-    assertThat(data.getSingle("canonicalPath").stringValue()).isEqualTo("");
-    assertThat(data.getSingle("staticResourcePath").stringValue())
-        .isEqualTo("http://my-cdn.com/foo/bar/");
+    assertThat(data.get("canonicalPath")).isEqualTo("");
+    assertThat(data.get("staticResourcePath").toString()).isEqualTo("http://my-cdn.com/foo/bar/");
   }
 
   @Test
   public void pathAndCDN() throws URISyntaxException {
-    SoyMapData data =
+    Map<String, Object> data =
         IndexServlet.getTemplateData(
             "http://example.com/gerrit", "http://my-cdn.com/foo/bar/", null);
-    assertThat(data.getSingle("canonicalPath").stringValue()).isEqualTo("/gerrit");
-    assertThat(data.getSingle("staticResourcePath").stringValue())
-        .isEqualTo("http://my-cdn.com/foo/bar/");
+    assertThat(data.get("canonicalPath")).isEqualTo("/gerrit");
+    assertThat(data.get("staticResourcePath").toString()).isEqualTo("http://my-cdn.com/foo/bar/");
   }
 
   @Test

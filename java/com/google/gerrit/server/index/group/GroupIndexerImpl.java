@@ -90,13 +90,21 @@ public class GroupIndexerImpl implements GroupIndexer {
       if (internalGroup.isPresent()) {
         try (TraceTimer traceTimer =
             TraceContext.newTimer(
-                "Replacing group %s in index version %d", uuid.get(), i.getSchema().getVersion())) {
+                "Replacing group",
+                "groupUuid",
+                uuid.get(),
+                "indexVersion",
+                i.getSchema().getVersion())) {
           i.replace(internalGroup.get());
         }
       } else {
         try (TraceTimer traceTimer =
             TraceContext.newTimer(
-                "Deleting group %s in index version %d", uuid.get(), i.getSchema().getVersion())) {
+                "Deleting group",
+                "groupUuid",
+                uuid.get(),
+                "indexVersion",
+                i.getSchema().getVersion())) {
           i.delete(uuid);
         }
       }

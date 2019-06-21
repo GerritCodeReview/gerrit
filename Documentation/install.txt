@@ -46,7 +46,7 @@ found in `README.txt`.
 == Download Gerrit
 
 Current and past binary releases of Gerrit can be obtained from
-the link:https://www.gerritcodereview.com/download/index.html[
+the link:https://gerrit-releases.storage.googleapis.com/index.html[
 Gerrit Releases site].
 
 Download any current `*.war` package. The war will be referred to as

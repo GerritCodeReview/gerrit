@@ -83,7 +83,7 @@
 == Resources
 * link:licenses.html[Licenses and Notices]
 * link:https://www.gerritcodereview.com/[Homepage]
-* link:https://www.gerritcodereview.com/download/index.html[Downloads]
+* link:https://gerrit-releases.storage.googleapis.com/index.html[Downloads]
 * link:https://bugs.chromium.org/p/gerrit/issues/list[Issue Tracking]
 * link:https://gerrit.googlesource.com/gerrit[Source Code]
 * link:https://www.gerritcodereview.com/about.md[A History of Gerrit Code Review]

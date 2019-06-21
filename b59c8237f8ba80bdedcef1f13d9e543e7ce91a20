@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a61e5430_244bec9b",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-06-21T16:59:38Z",
+      "side": 1,
+      "message": "You may want to use the base url (im not sure if !link.url.startsWith(\u0027/\u0027) works with base urls like /r)\n\ne.g\n\nlinkObj.external \u003d !link.url.startsWith(this.getBaseUrl() + \u0027/\u0027);\n\nYou will need to import the base-url-behavior behabour to access getBaseUrl (see https://github.com/GerritCodeReview/gerrit/blob/master/polygerrit-ui/app/behaviors/base-url-behavior/base-url-behavior.html)",
+      "revId": "b59c8237f8ba80bdedcef1f13d9e543e7ce91a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "42e47c67_5b35f61d",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header_test.html",
         "patchSetId": 2

@@ -3440,7 +3440,7 @@ class ReceiveCommits {
   }
 
   private TraceTimer newTimer(Class<?> clazz, String name) {
-    return TraceContext.newTimer(clazz.getSimpleName() + "#" + name, "project", project);
+    return TraceContext.newTimer(clazz.getSimpleName() + "#" + name, "projectName", project);
   }
 
   private TraceTimer newTimer(String name, String key, @Nullable Object value) {
@@ -3449,7 +3449,7 @@ class ReceiveCommits {
 
   private TraceTimer newTimer(Class<?> clazz, String name, String key, @Nullable Object value) {
     return TraceContext.newTimer(
-        clazz.getSimpleName() + "#" + name, "project", project, key, value);
+        clazz.getSimpleName() + "#" + name, "projectName", project, key, value);
   }
 
   private static void reject(ReceiveCommand cmd, String why) {

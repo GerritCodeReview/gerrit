@@ -75,7 +75,10 @@ public enum ListChangesOption implements ListOption {
   TRACKING_IDS(21),
 
   /** Skip mergeability data */
-  SKIP_MERGEABLE(22);
+  SKIP_MERGEABLE(22),
+
+  /**Skip unnecessary insertions and deletions calculations*/
+  SKIP_INSERT_DELETE(23);
 
   private final int value;
 

@@ -332,6 +332,9 @@
     if (line.type !== GrDiffLine.Type.BLANK) {
       td.classList.add('content');
     }
+    if (line.highlights.length === 0) {
+      td.classList.add('no-highlights');
+    }
     td.classList.add(line.type);
 
     const lineLimit =

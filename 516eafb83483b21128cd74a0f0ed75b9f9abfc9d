@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "1a27f693_2b04adc0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-06-21T03:02:48Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "83f52afd_6a0240f6",
+      "revId": "516eafb83483b21128cd74a0f0ed75b9f9abfc9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ae673e1_4ed83c2c",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.html",
         "patchSetId": 4
@@ -69,6 +87,24 @@
       "revId": "516eafb83483b21128cd74a0f0ed75b9f9abfc9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8da6d522_2ea171d3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-06-21T03:02:48Z",
+      "side": 1,
+      "message": "Yup, tested this change. Tested with it switched off and switched on.",
+      "parentUuid": "6ae673e1_4ed83c2c",
+      "revId": "516eafb83483b21128cd74a0f0ed75b9f9abfc9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

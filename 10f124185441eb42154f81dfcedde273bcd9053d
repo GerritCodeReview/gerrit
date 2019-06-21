@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1f959d2_25b22f80",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-06-21T06:50:32Z",
+      "side": 1,
+      "message": "Using !important is generally frowned upon, because\n\n1. There is no chance to override it further, if you want to add yet another CSS rule doing something different in another scenario.\n\n2. It comes across as not understanding the rules of CSS specificity.\n\nThis is a \"leaf\" rule, so I would be ok with using \"!important\" here, but only with an explanatory comment like \"this is a leaf rule and we have to compete with a specificity of 5 classes coming from a display:flex in shared styles\".\n\nMy recommendation though would be to use \"#options .repositorySettings\" for making the rule more specific. The usage of one id trumps any number of classes in other rules.",
+      "revId": "10f124185441eb42154f81dfcedde273bcd9053d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

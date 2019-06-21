@@ -318,6 +318,11 @@ effect.
 A change's mergeability can be requested separately by calling the
 link:#get-mergeable[get-mergeable] endpoint.
 --
+[[skip_diffstat]]
+--
+* `SKIP_DIFFSTAT`: skips the computation in `ChangeData` which ends up in `ChangeInfo`, since
+  diffstat computation may be expensive for large trees.
+--
 
 [[submittable]]
 --

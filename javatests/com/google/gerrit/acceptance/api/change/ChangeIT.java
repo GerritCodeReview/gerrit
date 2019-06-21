@@ -2281,7 +2281,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(messages).hasSize(1);
     Message msg = messages.get(0);
     assertThat(msg.rcpt()).containsExactly(user.emailAddress);
-    assertThat(msg.body()).contains(admin.fullName + " has removed a vote on this change.\n");
+    assertThat(msg.body()).contains(admin.fullName + " has removed a vote on this change.");
     assertThat(msg.body())
         .contains("Removed Code-Review+1 by " + user.fullName + " <" + user.email + ">\n");
 

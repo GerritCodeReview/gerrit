@@ -34,6 +34,41 @@
       "revId": "516eafb83483b21128cd74a0f0ed75b9f9abfc9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83f52afd_6a0240f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-21T02:50:57Z",
+      "side": 1,
+      "message": "OK, please update the commit message to clarify.\n\nAlso please add a bit more context; i.e. what is broken and how this fixes it.\n\nI\u0027m assuming it\u0027s something to do with the signed push option being disabled at server level, and that the options are getting shown (with empty drop downs) on gerrit-review.",
+      "parentUuid": "528d933a_58960175",
+      "revId": "516eafb83483b21128cd74a0f0ed75b9f9abfc9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ae673e1_4ed83c2c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-21T02:50:57Z",
+      "side": 1,
+      "message": "Does this still work (i.e. the setting is shown correctly) when signed push is enabled at server level?",
+      "revId": "516eafb83483b21128cd74a0f0ed75b9f9abfc9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

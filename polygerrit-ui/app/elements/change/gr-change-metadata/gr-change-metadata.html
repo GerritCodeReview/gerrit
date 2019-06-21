@@ -200,38 +200,26 @@ limitations under the License.
               allow-any-user></gr-account-list>
         </span>
       </section>
-      <template is="dom-if" if="[[_showReviewersByState]]">
-        <section>
-          <span class="title">Reviewers</span>
-          <span class="value">
-            <gr-reviewer-list
-                change="{{change}}"
-                mutable="[[_mutable]]"
-                reviewers-only
-                max-reviewers-displayed="3"></gr-reviewer-list>
-          </span>
-        </section>
-        <section>
-          <span class="title">CC</span>
-          <span class="value">
-            <gr-reviewer-list
-                change="{{change}}"
-                mutable="[[_mutable]]"
-                ccs-only
-                max-reviewers-displayed="3"></gr-reviewer-list>
-          </span>
-        </section>
-      </template>
-      <template is="dom-if" if="[[!_showReviewersByState]]">
-        <section>
-          <span class="title">Reviewers</span>
-          <span class="value">
-            <gr-reviewer-list
-                change="{{change}}"
-                mutable="[[_mutable]]"></gr-reviewer-list>
-          </span>
-        </section>
-      </template>
+      <section>
+        <span class="title">Reviewers</span>
+        <span class="value">
+          <gr-reviewer-list
+              change="{{change}}"
+              mutable="[[_mutable]]"
+              reviewers-only
+              max-reviewers-displayed="3"></gr-reviewer-list>
+        </span>
+      </section>
+      <section>
+        <span class="title">CC</span>
+        <span class="value">
+          <gr-reviewer-list
+              change="{{change}}"
+              mutable="[[_mutable]]"
+              ccs-only
+              max-reviewers-displayed="3"></gr-reviewer-list>
+        </span>
+      </section>
       <section>
         <span class="title">Repo</span>
         <span class="value">
@@ -299,31 +287,29 @@ limitations under the License.
         <span class="title">Strategy</span>
         <span class="value">[[_computeStrategy(change)]]</span>
       </section>
-      <template is="dom-if" if="[[serverConfig.note_db_enabled]]">
-        <section class="hashtag">
-          <span class="title">Hashtags</span>
-          <span class="value">
-            <template is="dom-repeat" items="[[change.hashtags]]">
-              <gr-linked-chip
-                  class="hashtagChip"
-                  text="[[item]]"
-                  href="[[_computeHashtagURL(item)]]"
-                  removable="[[!_hashtagReadOnly]]"
-                  on-remove="_handleHashtagRemoved">
-              </gr-linked-chip>
-            </template>
-            <template is="dom-if" if="[[!_hashtagReadOnly]]">
-              <gr-editable-label
-                  uppercase
-                  label-text="Add a hashtag"
-                  value="{{_newHashtag}}"
-                  placeholder="[[_computeHashtagPlaceholder(_hashtagReadOnly)]]"
-                  read-only="[[_hashtagReadOnly]]"
-                  on-changed="_handleHashtagChanged"></gr-editable-label>
-            </template>
-          </span>
-        </section>
-      </template>
+      <section class="hashtag">
+        <span class="title">Hashtags</span>
+        <span class="value">
+          <template is="dom-repeat" items="[[change.hashtags]]">
+            <gr-linked-chip
+                class="hashtagChip"
+                text="[[item]]"
+                href="[[_computeHashtagURL(item)]]"
+                removable="[[!_hashtagReadOnly]]"
+                on-remove="_handleHashtagRemoved">
+            </gr-linked-chip>
+          </template>
+          <template is="dom-if" if="[[!_hashtagReadOnly]]">
+            <gr-editable-label
+                uppercase
+                label-text="Add a hashtag"
+                value="{{_newHashtag}}"
+                placeholder="[[_computeHashtagPlaceholder(_hashtagReadOnly)]]"
+                read-only="[[_hashtagReadOnly]]"
+                on-changed="_handleHashtagChanged"></gr-editable-label>
+          </template>
+        </span>
+      </section>
       <div class="separatedSection">
         <gr-change-requirements
             change="{{change}}"

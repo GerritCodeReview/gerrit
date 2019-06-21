@@ -1102,11 +1102,8 @@ class ReceiveCommits {
   }
 
   private void parseRewind(ReceiveCommand cmd) throws PermissionBackendException, IOException {
-    RevCommit newObject;
     try {
-      newObject = rp.getRevWalk().parseCommit(cmd.getNewId());
-    } catch (IncorrectObjectTypeException notCommit) {
-      newObject = null;
+      rp.getRevWalk().parseCommit(cmd.getNewId());
     } catch (IOException err) {
       logError(
           "Invalid object " + cmd.getNewId().name() + " for " + cmd.getRefName() + " forced update",
@@ -1116,11 +1113,12 @@ class ReceiveCommits {
     }
     logDebug("Rewinding {}", cmd);
 
-    if (newObject != null) {
-      validateNewCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
-      if (cmd.getResult() != NOT_ATTEMPTED) {
-        return;
-      }
+    if (!validRefOperation(cmd)) {
+      return;
+    }
+    validateNewCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
+    if (cmd.getResult() != NOT_ATTEMPTED) {
+      return;
     }
 
     boolean ok;
@@ -1131,9 +1129,6 @@ class ReceiveCommits {
       ok = false;
     }
     if (ok) {
-      if (!validRefOperation(cmd)) {
-        return;
-      }
       actualCommands.add(cmd);
     } else {
       cmd.setResult(

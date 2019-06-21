@@ -171,21 +171,19 @@ limitations under the License.
               on-account-text-changed="_handleAccountTextEntry">
           </gr-account-list>
         </div>
-        <template is="dom-if" if="[[serverConfig.note_db_enabled]]">
-          <div class="peopleList">
-            <div class="peopleListLabel">CC</div>
-            <gr-account-list
-                id="ccs"
-                accounts="{{_ccs}}"
-                change="[[change]]"
-                filter="[[filterCCSuggestion]]"
-                pending-confirmation="{{_ccPendingConfirmation}}"
-                allow-any-input
-                placeholder="Add CC..."
-                on-account-text-changed="_handleAccountTextEntry">
-            </gr-account-list>
-          </div>
-        </template>
+        <div class="peopleList">
+          <div class="peopleListLabel">CC</div>
+          <gr-account-list
+              id="ccs"
+              accounts="{{_ccs}}"
+              change="[[change]]"
+              filter="[[filterCCSuggestion]]"
+              pending-confirmation="{{_ccPendingConfirmation}}"
+              allow-any-input
+              placeholder="Add CC..."
+              on-account-text-changed="_handleAccountTextEntry">
+          </gr-account-list>
+        </div>
         <gr-overlay
             id="reviewerConfirmationOverlay"
             on-iron-overlay-canceled="_cancelPendingReviewer">

@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "96e29ddf_12f583c9",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-06-21T17:21:41Z",
+      "side": 1,
+      "message": "This should be linkObj.",
+      "range": {
+        "startLine": 315,
+        "startChar": 26,
+        "endLine": 315,
+        "endChar": 30
+      },
+      "revId": "b59c8237f8ba80bdedcef1f13d9e543e7ce91a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "42e47c67_5b35f61d",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header_test.html",
         "patchSetId": 2

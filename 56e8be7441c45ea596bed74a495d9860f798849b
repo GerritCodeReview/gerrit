@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7bc71a78_737d8575",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1109,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-21T12:44:39Z",
+      "side": 0,
+      "message": "This was added in [1]. In local tests attempting to reproduce the issue linked in [1], I wasn\u0027t able to get a situation where newObject is null.  It is also never null in any of the integration tests.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/16738",
+      "range": {
+        "startLine": 1105,
+        "startChar": 4,
+        "endLine": 1109,
+        "endChar": 23
+      },
+      "revId": "56e8be7441c45ea596bed74a495d9860f798849b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -142,10 +142,6 @@
       },
       permittedLabels: Object,
       /**
-       * @type {{ note_db_enabled: boolean }}
-       */
-      serverConfig: Object,
-      /**
        * @type {{ commentlinks: Array }}
        */
       projectConfig: Object,
@@ -195,10 +191,6 @@
         type: String,
         computed: '_computeSendButtonLabel(canBeStarted)',
       },
-      _ccsEnabled: {
-        type: Boolean,
-        computed: '_computeCCsEnabled(serverConfig)',
-      },
       _savingComments: Boolean,
       _reviewersMutated: {
         type: Boolean,
@@ -245,7 +237,7 @@
     },
 
     observers: [
-      '_changeUpdated(change.reviewers.*, change.owner, serverConfig)',
+      '_changeUpdated(change.reviewers.*, change.owner)',
       '_ccsChanged(_ccs.splices)',
       '_reviewersChanged(_reviewers.splices)',
     ],
@@ -629,14 +621,14 @@
         'Say something nice...';
     },
 
-    _changeUpdated(changeRecord, owner, serverConfig) {
-      this._rebuildReviewerArrays(changeRecord.base, owner, serverConfig);
+    _changeUpdated(changeRecord, owner) {
+      this._rebuildReviewerArrays(changeRecord.base, owner);
     },
 
-    _rebuildReviewerArrays(change, owner, serverConfig) {
+    _rebuildReviewerArrays(change, owner) {
       this._owner = owner;
 
-      let reviewers = [];
+      const reviewers = [];
       const ccs = [];
 
       for (const key in change) {
@@ -661,12 +653,7 @@
         }
       }
 
-      if (this._ccsEnabled) {
-        this._ccs = ccs;
-      } else {
-        this._ccs = [];
-        reviewers = reviewers.concat(ccs);
-      }
+      this._ccs = ccs;
       this._reviewers = reviewers;
     },
 
@@ -719,8 +706,7 @@
       this.fire('cancel', null, {bubbles: false});
       this.$.textarea.closeDropdown();
       this._purgeReviewersPendingRemove(true);
-      this._rebuildReviewerArrays(this.change.reviewers, this._owner,
-          this.serverConfig);
+      this._rebuildReviewerArrays(this.change.reviewers, this._owner);
     },
 
     _saveTapHandler(e) {
@@ -853,10 +839,6 @@
 
     _computeSendButtonTooltip(canBeStarted) {
       return canBeStarted ? ButtonTooltips.START_REVIEW : ButtonTooltips.SEND;
-    },
-
-    _computeCCsEnabled(serverConfig) {
-      return serverConfig && serverConfig.note_db_enabled;
     },
 
     _computeSavingLabelClass(savingComments) {

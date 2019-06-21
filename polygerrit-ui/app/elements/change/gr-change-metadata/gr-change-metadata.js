@@ -84,9 +84,7 @@
         type: Boolean,
         computed: '_computeIsMutable(account)',
       },
-      /**
-       * @type {{ note_db_enabled: string }}
-       */
+      /** @type {?} */
       serverConfig: Object,
       parentIsCurrent: Boolean,
       _notCurrentMessage: {
@@ -101,10 +99,6 @@
       _hashtagReadOnly: {
         type: Boolean,
         computed: '_computeHashtagReadOnly(_mutable, change)',
-      },
-      _showReviewersByState: {
-        type: Boolean,
-        computed: '_computeShowReviewersByState(serverConfig)',
       },
       /**
        * @type {Defs.PushCertificateValidation}
@@ -281,10 +275,6 @@
 
     _computeHashtagPlaceholder(_hashtagReadOnly) {
       return _hashtagReadOnly ? '' : HASHTAG_ADD_MESSAGE;
-    },
-
-    _computeShowReviewersByState(serverConfig) {
-      return !!serverConfig.note_db_enabled;
     },
 
     _computeShowRequirements(change) {

@@ -13,5 +13,6 @@ java_library(
         "//lib/auto:auto-value-annotations",
         "//lib/flogger:api",
         "//lib/guice",
+        "//lib/jgit/org.eclipse.jgit:jgit",
     ],
 )

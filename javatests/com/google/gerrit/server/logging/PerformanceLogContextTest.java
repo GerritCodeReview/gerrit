@@ -28,6 +28,7 @@ import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.metrics.Timer2;
 import com.google.gerrit.metrics.Timer3;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
@@ -36,11 +37,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.eclipse.jgit.lib.Config;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class PerformanceLogContextTest {
+  @Inject @GerritServerConfig private Config config;
   @Inject private DynamicSet<PerformanceLogger> performanceLoggers;
 
   // In this test setup this gets the DisabledMetricMaker injected. This means it doesn't record any
@@ -72,7 +75,8 @@ public class PerformanceLogContextTest {
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
     assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
 
-    try (PerformanceLogContext traceContext = new PerformanceLogContext(performanceLoggers)) {
+    try (PerformanceLogContext traceContext =
+        new PerformanceLogContext(config, performanceLoggers)) {
       assertThat(LoggingContext.getInstance().isPerformanceLogging()).isTrue();
 
       TraceContext.newTimer("test1").close();
@@ -122,7 +126,8 @@ public class PerformanceLogContextTest {
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
     assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
 
-    try (PerformanceLogContext traceContext = new PerformanceLogContext(performanceLoggers)) {
+    try (PerformanceLogContext traceContext =
+        new PerformanceLogContext(config, performanceLoggers)) {
       assertThat(LoggingContext.getInstance().isPerformanceLogging()).isTrue();
 
       TraceContext.newTimer("test1").close();
@@ -188,7 +193,8 @@ public class PerformanceLogContextTest {
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
     assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
 
-    try (PerformanceLogContext traceContext = new PerformanceLogContext(performanceLoggers)) {
+    try (PerformanceLogContext traceContext =
+        new PerformanceLogContext(config, performanceLoggers)) {
       assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
 
       TraceContext.newTimer("test1").close();
@@ -212,7 +218,8 @@ public class PerformanceLogContextTest {
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
     assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
 
-    try (PerformanceLogContext traceContext = new PerformanceLogContext(performanceLoggers)) {
+    try (PerformanceLogContext traceContext =
+        new PerformanceLogContext(config, performanceLoggers)) {
       assertThat(LoggingContext.getInstance().isPerformanceLogging()).isTrue();
 
       Timer0 timer0 =
@@ -274,7 +281,8 @@ public class PerformanceLogContextTest {
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
     assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
 
-    try (PerformanceLogContext traceContext = new PerformanceLogContext(performanceLoggers)) {
+    try (PerformanceLogContext traceContext =
+        new PerformanceLogContext(config, performanceLoggers)) {
       assertThat(LoggingContext.getInstance().isPerformanceLogging()).isTrue();
 
       Timer1<String> timer1 =
@@ -371,7 +379,8 @@ public class PerformanceLogContextTest {
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
     assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
 
-    try (PerformanceLogContext traceContext = new PerformanceLogContext(performanceLoggers)) {
+    try (PerformanceLogContext traceContext =
+        new PerformanceLogContext(config, performanceLoggers)) {
       assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
 
       Timer0 timer0 =
@@ -416,14 +425,16 @@ public class PerformanceLogContextTest {
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
     assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
 
-    try (PerformanceLogContext traceContext1 = new PerformanceLogContext(performanceLoggers)) {
+    try (PerformanceLogContext traceContext1 =
+        new PerformanceLogContext(config, performanceLoggers)) {
       assertThat(LoggingContext.getInstance().isPerformanceLogging()).isTrue();
 
       TraceContext.newTimer("test1").close();
 
       assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).hasSize(1);
 
-      try (PerformanceLogContext traceContext2 = new PerformanceLogContext(performanceLoggers)) {
+      try (PerformanceLogContext traceContext2 =
+          new PerformanceLogContext(config, performanceLoggers)) {
         assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
         assertThat(LoggingContext.getInstance().isPerformanceLogging()).isTrue();
 

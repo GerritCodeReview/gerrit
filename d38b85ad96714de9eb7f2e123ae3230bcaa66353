@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "878c1f38_bc4722d6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RefOperationValidationIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-21T07:45:44Z",
+      "side": 1,
+      "message": "Should also test rejection of creation by push, i.e.\n\n git push origin HEAD:refs/heads/new-branch",
+      "revId": "d38b85ad96714de9eb7f2e123ae3230bcaa66353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7065b18_d18ba955",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RefOperationValidationIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-21T07:45:44Z",
+      "side": 1,
+      "message": "Should also test rejection of deletion by push, i.e.\n\n  git push origin :refs/heads/branch",
+      "revId": "d38b85ad96714de9eb7f2e123ae3230bcaa66353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

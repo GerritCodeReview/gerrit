@@ -319,6 +319,12 @@ A change's mergeability can be requested separately by calling the
 link:#get-mergeable[get-mergeable] endpoint.
 --
 
+[[skip_diffstat]]
+--
+* `SKIP_DIFFSTAT`: skips the computation in `ChangeData` which ends up in `ChangeInfo`, since
+  it is not always necessary to compute the diffstat.
+--
+
 [[submittable]]
 --
 * `SUBMITTABLE`: include the `submittable` field in link:#change-info[ChangeInfo],

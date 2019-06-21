@@ -258,6 +258,23 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void skipDiffstat() throws Exception {
+    String fileName = "a_new_file.txt";
+    String fileContent = "First line\nSecond line\n";
+    PushOneCommit.Result r = createChange("Add a file", fileName, fileContent);
+    String triplet = project.get() + "~master~" + r.getChangeId();
+    ChangeInfo c =
+        gApi.changes().id(triplet).get(ImmutableList.of(ListChangesOption.SKIP_DIFFSTAT));
+    assertThat(c.insertions).isNull();
+    assertThat(c.deletions).isNull();
+
+    c = gApi.changes().id(triplet).get();
+    assertThat(c.insertions).isNotNull();
+    assertThat(c.deletions).isNotNull();
+  }
+
+
+  @Test
   public void skipMergeable() throws Exception {
     PushOneCommit.Result r = createChange();
     String triplet = project.get() + "~master~" + r.getChangeId();
@@ -4418,7 +4435,8 @@ public class ChangeIT extends AbstractDaemonTest {
             ListChangesOption.MESSAGES,
             ListChangesOption.SUBMITTABLE,
             ListChangesOption.WEB_LINKS,
-            ListChangesOption.SKIP_MERGEABLE);
+            ListChangesOption.SKIP_MERGEABLE,
+            ListChangesOption.SKIP_DIFFSTAT);
 
     PushOneCommit.Result change = createChange();
     int number = gApi.changes().id(change.getChangeId()).get(options)._number;

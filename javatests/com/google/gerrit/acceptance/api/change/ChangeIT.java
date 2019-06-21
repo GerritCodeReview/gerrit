@@ -55,12 +55,15 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static com.google.gerrit.truth.CacheStatsSubject.assertThat;
+import static com.google.gerrit.truth.CacheStatsSubject.cloneStats;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.cache.CacheStats;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -156,6 +159,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
+import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeOperatorFactory;
@@ -206,6 +210,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Inject private IndexConfig indexConfig;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private PatchListCache patchListCache;
 
   private ChangeIndexedCounter changeIndexedCounter;
   private RegistrationHandle changeIndexedCounterHandle;
@@ -255,6 +260,48 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(c.owner.email).isNull();
     assertThat(c.owner.username).isNull();
     assertThat(c.owner.avatars).isNull();
+  }
+
+  @Test
+  public void diffStatShouldComputeInsertionsAndDeletions() throws Exception {
+    String fileName = "a_new_file.txt";
+    String fileContent = "First line\nSecond line\n";
+    PushOneCommit.Result result = createChange("Add a file", fileName, fileContent);
+    String triplet = project.get() + "~master~" + result.getChangeId();
+    ChangeInfo change = gApi.changes().id(triplet).get();
+    assertThat(change.insertions).isNotNull();
+    assertThat(change.deletions).isNotNull();
+  }
+
+  @Test
+  public void diffStatShouldSkipInsertionsAndDeletions() throws Exception {
+    String fileName = "a_new_file.txt";
+    String fileContent = "First line\nSecond line\n";
+    PushOneCommit.Result result = createChange("Add a file", fileName, fileContent);
+    String triplet = project.get() + "~master~" + result.getChangeId();
+    ChangeInfo change =
+        gApi.changes().id(triplet).get(ImmutableList.of(ListChangesOption.SKIP_DIFFSTAT));
+    assertThat(change.insertions).isNull();
+    assertThat(change.deletions).isNull();
+  }
+
+  @Test
+  public void skipDiffstatOptionAvoidsAllDiffComputations() throws Exception {
+    String fileName = "a_new_file.txt";
+    String fileContent = "First line\nSecond line\n";
+    PushOneCommit.Result result = createChange("Add a file", fileName, fileContent);
+    String triplet = project.get() + "~master~" + result.getChangeId();
+    CacheStats startPatch = cloneStats(patchListCache.getPatchListStats());
+    CacheStats startIntra = cloneStats(patchListCache.getIntraLineDiffStats());
+    CacheStats startSummary = cloneStats(patchListCache.getDiffSummaryStats());
+    gApi.changes().id(triplet).get(ImmutableList.of(ListChangesOption.SKIP_DIFFSTAT));
+
+    assertThat(patchListCache.getPatchListStats()).since(startPatch).hasMissCount(0);
+    assertThat(patchListCache.getPatchListStats()).since(startPatch).hasHitCount(0);
+    assertThat(patchListCache.getIntraLineDiffStats()).since(startIntra).hasMissCount(0);
+    assertThat(patchListCache.getIntraLineDiffStats()).since(startIntra).hasHitCount(0);
+    assertThat(patchListCache.getDiffSummaryStats()).since(startSummary).hasMissCount(0);
+    assertThat(patchListCache.getDiffSummaryStats()).since(startSummary).hasHitCount(0);
   }
 
   @Test
@@ -4419,6 +4466,7 @@ public class ChangeIT extends AbstractDaemonTest {
             ListChangesOption.SUBMITTABLE,
             ListChangesOption.WEB_LINKS,
             ListChangesOption.SKIP_MERGEABLE);
+    // TODO when frontend is ready: ,ListChangesOption.SKIP_DIFFSTAT);
 
     PushOneCommit.Result change = createChange();
     int number = gApi.changes().id(change.getChangeId()).get(options)._number;

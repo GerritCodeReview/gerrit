@@ -28,6 +28,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWER_UPDATES;
+import static com.google.gerrit.extensions.client.ListChangesOption.SKIP_DIFFSTAT;
 import static com.google.gerrit.extensions.client.ListChangesOption.SKIP_MERGEABLE;
 import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
 import static com.google.gerrit.extensions.client.ListChangesOption.TRACKING_IDS;
@@ -516,10 +517,12 @@ public class ChangeJson {
         out.submittable = submittable(cd);
       }
     }
-    Optional<ChangedLines> changedLines = cd.changedLines();
-    if (changedLines.isPresent()) {
-      out.insertions = changedLines.get().insertions;
-      out.deletions = changedLines.get().deletions;
+    if (!has(SKIP_DIFFSTAT)) {
+      Optional<ChangedLines> changedLines = cd.changedLines();
+      if (changedLines.isPresent()) {
+        out.insertions = changedLines.get().insertions;
+        out.deletions = changedLines.get().deletions;
+      }
     }
     out.isPrivate = in.isPrivate() ? true : null;
     out.workInProgress = in.isWorkInProgress() ? true : null;

@@ -17,6 +17,7 @@ package com.google.gerrit.server.patch;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
+import com.google.common.cache.CacheStats;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.Change;
@@ -39,33 +40,6 @@ public class PatchListCacheImpl implements PatchListCache {
   static final String FILE_NAME = "diff";
   static final String INTRA_NAME = "diff_intraline";
   static final String DIFF_SUMMARY = "diff_summary";
-
-  public static Module module() {
-    return new CacheModule() {
-      @Override
-      protected void configure() {
-        factory(PatchListLoader.Factory.class);
-        persist(FILE_NAME, PatchListKey.class, PatchList.class)
-            .maximumWeight(10 << 20)
-            .weigher(PatchListWeigher.class);
-
-        factory(IntraLineLoader.Factory.class);
-        persist(INTRA_NAME, IntraLineDiffKey.class, IntraLineDiff.class)
-            .maximumWeight(10 << 20)
-            .weigher(IntraLineWeigher.class);
-
-        factory(DiffSummaryLoader.Factory.class);
-        persist(DIFF_SUMMARY, DiffSummaryKey.class, DiffSummary.class)
-            .maximumWeight(10 << 20)
-            .weigher(DiffSummaryWeigher.class)
-            .diskLimit(1 << 30);
-
-        bind(PatchListCacheImpl.class);
-        bind(PatchListCache.class).to(PatchListCacheImpl.class);
-      }
-    };
-  }
-
   private final Cache<PatchListKey, PatchList> fileCache;
   private final Cache<IntraLineDiffKey, IntraLineDiff> intraCache;
   private final Cache<DiffSummaryKey, DiffSummary> diffSummaryCache;
@@ -93,6 +67,32 @@ public class PatchListCacheImpl implements PatchListCache {
     this.computeIntraline =
         cfg.getBoolean(
             "cache", INTRA_NAME, "enabled", cfg.getBoolean("cache", "diff", "intraline", true));
+  }
+
+  public static Module module() {
+    return new CacheModule() {
+      @Override
+      protected void configure() {
+        factory(PatchListLoader.Factory.class);
+        persist(FILE_NAME, PatchListKey.class, PatchList.class)
+            .maximumWeight(10 << 20)
+            .weigher(PatchListWeigher.class);
+
+        factory(IntraLineLoader.Factory.class);
+        persist(INTRA_NAME, IntraLineDiffKey.class, IntraLineDiff.class)
+            .maximumWeight(10 << 20)
+            .weigher(IntraLineWeigher.class);
+
+        factory(DiffSummaryLoader.Factory.class);
+        persist(DIFF_SUMMARY, DiffSummaryKey.class, DiffSummary.class)
+            .maximumWeight(10 << 20)
+            .weigher(DiffSummaryWeigher.class)
+            .diskLimit(1 << 30);
+
+        bind(PatchListCacheImpl.class);
+        bind(PatchListCache.class).to(PatchListCacheImpl.class);
+      }
+    };
   }
 
   @Override
@@ -170,6 +170,21 @@ public class PatchListCacheImpl implements PatchListCache {
       }
       throw e;
     }
+  }
+
+  @Override
+  public CacheStats getPatchListStats() {
+    return fileCache.stats();
+  }
+
+  @Override
+  public CacheStats getIntraLineDiffStats() {
+    return intraCache.stats();
+  }
+
+  @Override
+  public CacheStats getDiffSummaryStats() {
+    return diffSummaryCache.stats();
   }
 
   /** Used to cache negative results in {@code fileCache}. */

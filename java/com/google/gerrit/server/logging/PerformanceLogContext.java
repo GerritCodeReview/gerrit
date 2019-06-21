@@ -19,6 +19,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.Extension;
+import org.eclipse.jgit.lib.Config;
 
 /**
  * Context for capturing performance log records. When the context is closed the performance log
@@ -43,7 +44,8 @@ public class PerformanceLogContext implements AutoCloseable {
   private final boolean oldPerformanceLogging;
   private final ImmutableList<PerformanceLogRecord> oldPerformanceLogRecords;
 
-  public PerformanceLogContext(DynamicSet<PerformanceLogger> performanceLoggers) {
+  public PerformanceLogContext(
+      Config gerritConfig, DynamicSet<PerformanceLogger> performanceLoggers) {
     this.performanceLoggers = performanceLoggers;
 
     // Just in case remember the old state and reset performance log entries.
@@ -51,9 +53,13 @@ public class PerformanceLogContext implements AutoCloseable {
     this.oldPerformanceLogRecords = LoggingContext.getInstance().getPerformanceLogRecords();
     LoggingContext.getInstance().clearPerformanceLogEntries();
 
-    // Do not create performance log entries if no PerformanceLogger is registered.
+    // Do not create performance log entries if performance logging is disabled or if no
+    // PerformanceLogger is registered.
+    boolean enablePerformanceLogging =
+        gerritConfig.getBoolean("tracing", "performanceLogging", true);
     LoggingContext.getInstance()
-        .performanceLogging(!Iterables.isEmpty(performanceLoggers.entries()));
+        .performanceLogging(
+            enablePerformanceLogging && !Iterables.isEmpty(performanceLoggers.entries()));
   }
 
   @Override

@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.truth.Expect;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
@@ -29,6 +30,7 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import org.eclipse.jgit.lib.Config;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -37,6 +39,7 @@ import org.junit.Test;
 public class LoggingContextAwareExecutorServiceTest {
   @Rule public final Expect expect = Expect.create();
 
+  @Inject @GerritServerConfig private Config config;
   @Inject private DynamicSet<PerformanceLogger> performanceLoggers;
 
   private PerformanceLogger testPerformanceLogger;
@@ -72,7 +75,7 @@ public class LoggingContextAwareExecutorServiceTest {
 
     try (TraceContext traceContext = TraceContext.open().forceLogging().addTag("foo", "bar");
         PerformanceLogContext performanceLogContext =
-            new PerformanceLogContext(performanceLoggers)) {
+            new PerformanceLogContext(config, performanceLoggers)) {
       // Create a performance log record.
       TraceContext.newTimer("test").close();
 

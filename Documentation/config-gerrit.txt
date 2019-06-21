@@ -4551,6 +4551,26 @@ used for suggesting accounts when adding members to a group.
 +
 By default 0.
 
+[[tracing]]
+=== Section tracing
+
+[[tracing.performanceLogging]]tracing.performanceLogging::
++
+Whether performance logging is enabled.
++
+When performance logging is enabled, performance events for some
+operations are collected in memory while a request is running. At the
+end of the request the performance events are handed over to the
+link:dev-plugins.html#performance-logger[PerformanceLogger] plugins.
+This means if performance logging is enabled, the memory footprint of
+requests is slightly increased.
++
+This setting has no effect if no
+link:dev-plugins.html#performance-logger[PerformanceLogger] plugins are
+installed, because then performance logging is always disabled.
++
+By default, true.
+
 [[trackingid]]
 === Section trackingid
 

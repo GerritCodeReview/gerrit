@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.common.cache.CacheStats;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -32,4 +33,10 @@ public interface PatchListCache {
 
   DiffSummary getDiffSummary(DiffSummaryKey key, Project.NameKey project)
       throws PatchListNotAvailableException;
+
+  CacheStats getPatchListStats();
+
+  CacheStats getIntraLineDiffStats();
+
+  CacheStats getDiffSummaryStats();
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42e47c67_5b35f61d",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-06-21T16:57:19Z",
+      "side": 1,
+      "message": "Should this one by\n\n{url: \u0027#/dashboard/self\u0027, external: true},\n\n?",
+      "revId": "b59c8237f8ba80bdedcef1f13d9e543e7ce91a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

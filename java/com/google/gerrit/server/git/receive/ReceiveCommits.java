@@ -3013,10 +3013,12 @@ class ReceiveCommits {
    */
   private void validateRegularPushCommits(Branch.NameKey branch, ReceiveCommand cmd)
       throws PermissionBackendException {
-    if (!RefNames.REFS_CONFIG.equals(cmd.getRefName())
-        && !(MagicBranch.isMagicBranch(cmd.getRefName())
-            || NEW_PATCHSET_PATTERN.matcher(cmd.getRefName()).matches())
-        && pushOptions.containsKey(PUSH_OPTION_SKIP_VALIDATION)) {
+    boolean skipValidation =
+        !RefNames.REFS_CONFIG.equals(cmd.getRefName())
+            && !(MagicBranch.isMagicBranch(cmd.getRefName())
+                || NEW_PATCHSET_PATTERN.matcher(cmd.getRefName()).matches())
+            && pushOptions.containsKey(PUSH_OPTION_SKIP_VALIDATION);
+    if (skipValidation) {
       if (projectState.is(BooleanProjectConfig.USE_SIGNED_OFF_BY)) {
         reject(cmd, "requireSignedOffBy prevents option " + PUSH_OPTION_SKIP_VALIDATION);
         return;
@@ -3031,11 +3033,8 @@ class ReceiveCommits {
       if (!Iterables.isEmpty(rejectCommits)) {
         reject(cmd, "reject-commits prevents " + PUSH_OPTION_SKIP_VALIDATION);
       }
-      logger.atFine().log("Short-circuiting new commit validation");
-      return;
     }
 
-    BranchCommitValidator validator = commitValidatorFactory.create(projectState, branch, user);
     RevWalk walk = receivePack.getRevWalk();
     walk.reset();
     walk.sort(RevSort.NONE);
@@ -3050,7 +3049,7 @@ class ReceiveCommits {
       int limit = receiveConfig.maxBatchCommits;
       int n = 0;
       for (RevCommit c; (c = walk.next()) != null; ) {
-        if (++n > limit) {
+        if (++n > limit && !skipValidation) {
           logger.atFine().log("Number of new commits exceeds limit of %d", limit);
           reject(
               cmd,
@@ -3062,8 +3061,9 @@ class ReceiveCommits {
           continue;
         }
 
+        BranchCommitValidator validator = commitValidatorFactory.create(projectState, branch, user);
         if (!validator.validCommit(
-            walk.getObjectReader(), cmd, c, false, messages, rejectCommits, null)) {
+            walk.getObjectReader(), cmd, c, false, messages, rejectCommits, null, skipValidation)) {
           break;
         }
       }

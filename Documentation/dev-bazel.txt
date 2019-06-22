@@ -17,17 +17,30 @@ To build Gerrit from source, you need:
 [[java]]
 === Java
 
-[[java-10]]
-==== Java 10 support
+==== MacOS
 
-Java 10 (and newer) is supported through vanilla java toolchain
+On MacOS, ensure that "Java for MacOS X 10.5 Update 4" (or higher) is installed
+and that `JAVA_HOME` is set to the
+link:install.html#Requirements[required Java version].
+
+Java installations can typically be found in
+"/System/Library/Frameworks/JavaVM.framework/Versions".
+
+To check the installed version of Java, open a terminal window and run:
+
+`java -version`
+
+[[java-12]]
+==== Java 12 support
+
+Java 12 (and newer) is supported through vanilla java toolchain
 link:https://docs.bazel.build/versions/master/toolchains.html[Bazel option].
-To build Gerrit with Java 10 and newer, specify vanilla java toolchain and
+To build Gerrit with Java 12 and newer, specify vanilla java toolchain and
 provide the path to JDK home:
 
 ```
   $ bazel build \
-    --define=ABSOLUTE_JAVABASE=<path-to-java-10> \
+    --define=ABSOLUTE_JAVABASE=<path-to-java-12> \
     --host_javabase=@bazel_tools//tools/jdk:absolute_javabase \
     --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla \
     --java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla \
@@ -39,7 +52,7 @@ bazel test runs the test using the target javabase:
 
 ```
   $ bazel test \
-    --define=ABSOLUTE_JAVABASE=<path-to-java-10> \
+    --define=ABSOLUTE_JAVABASE=<path-to-java-12> \
     --javabase=@bazel_tools//tools/jdk:absolute_javabase \
     --host_javabase=@bazel_tools//tools/jdk:absolute_javabase \
     --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla \
@@ -52,7 +65,7 @@ they could be added to ~/.bazelrc resource file:
 
 ```
 $ cat << EOF > ~/.bazelrc
-> build --define=ABSOLUTE_JAVABASE=<path-to-java-10>
+> build --define=ABSOLUTE_JAVABASE=<path-to-java-12>
 > build --javabase=@bazel_tools//tools/jdk:absolute_javabase
 > build --host_javabase=@bazel_tools//tools/jdk:absolute_javabase
 > build --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla
@@ -64,30 +77,31 @@ Now, invoking Bazel with just `bazel build :release` would include
 all those options.
 
 Note that the follow option must be added to `container.javaOptions`
-in `$gerrit_site/etc/gerrit.config` to run Gerrit with Java 10|11|...:
+in `$gerrit_site/etc/gerrit.config` to run Gerrit with Java 12:
 
 ```
 [container]
   javaOptions = --add-opens=jdk.management/com.sun.management.internal=ALL-UNNAMED
 ```
 
-[[java-9]]
-==== Java 9 support
+[[java-11]]
+==== Java 11 support
 
-Java 9 is supported through alternative java toolchain
+Java 11 is supported through alternative java toolchain
 link:https://docs.bazel.build/versions/master/toolchains.html[Bazel option].
-The Java 9 support is backwards compatible. Java 8 is still the default.
-To build Gerrit with Java 9, specify JDK 9 java toolchain:
+To build Gerrit with Java 11, specify JDK 11 java toolchain:
 
 ```
   $ bazel build \
-      --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_java9 \
-      --java_toolchain=@bazel_tools//tools/jdk:toolchain_java9 \
+      --host_javabase=@bazel_tools//tools/jdk:remote_jdk11 \
+      --javabase=@bazel_tools//tools/jdk:remote_jdk11
+      --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_java11 \
+      --java_toolchain=@bazel_tools//tools/jdk:toolchain_java11 \
       :release
 ```
 
 Note that the follow option must be added to `container.javaOptions`
-in `$gerrit_site/etc/gerrit.config` to run Gerrit with Java 9:
+in `$gerrit_site/etc/gerrit.config` to run Gerrit with Java 11:
 
 ```
 [container]

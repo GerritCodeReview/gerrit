@@ -15,7 +15,7 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     exports = ["@greenmail//jar"],
     runtime_deps = select({
-        "//:java9": POST_JDK8_DEPS,
+        "//:java11": POST_JDK8_DEPS,
         "//:java_next": POST_JDK8_DEPS,
         "//conditions:default": [],
     }),

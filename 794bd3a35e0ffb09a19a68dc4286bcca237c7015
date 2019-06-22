@@ -22,6 +22,30 @@
       "revId": "794bd3a35e0ffb09a19a68dc4286bcca237c7015",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "435de073_5b85ed1b",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticContainer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-22T05:24:34Z",
+      "side": 1,
+      "message": "https://github.com/blacktop/docker-elasticsearch-alpine/pull/8",
+      "parentUuid": "6231f923_a0d44ad0",
+      "range": {
+        "startLine": 40,
+        "startChar": 39,
+        "endLine": 40,
+        "endChar": 45
+      },
+      "revId": "794bd3a35e0ffb09a19a68dc4286bcca237c7015",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

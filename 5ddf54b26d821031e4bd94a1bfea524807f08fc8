@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8cbc4564_59e78375",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-23T16:03:35Z",
+      "side": 1,
+      "message": "\u003e Potential showstopper for some? Unless everybody that is not still based on java 8 is already passed java 9. -Hence already playing with 10 or about to require 11). Ericsson is still based on 8 btw.\n\nAbove: 11. (Extra parenthesis.)",
+      "parentUuid": "869e1d3a_8ebad651",
+      "range": {
+        "startLine": 9,
+        "startChar": 17,
+        "endLine": 9,
+        "endChar": 61
+      },
+      "revId": "5ddf54b26d821031e4bd94a1bfea524807f08fc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "167710a7_760e10f3",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 2

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cde38fad_189dc88b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-23T15:11:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa30bbde_8ee9ba8d",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "7cc4cb01087588f658fd231900c7b3fdc737e12f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48c0be3f_401271f1",
         "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticContainer.java",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "7cc4cb01087588f658fd231900c7b3fdc737e12f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93574e8d_8b8f3b24",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-23T15:11:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48c0be3f_401271f1",
+      "revId": "7cc4cb01087588f658fd231900c7b3fdc737e12f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

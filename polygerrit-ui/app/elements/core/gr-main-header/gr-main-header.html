@@ -181,7 +181,7 @@ limitations under the License.
       </a>
       <ul class="links">
         <template is="dom-repeat" items="[[_links]]" as="linkGroup">
-          <li class$="[[linkGroup.class]]">
+          <li class$="[[_computeLinkGroupClass(linkGroup)]]">
             <gr-dropdown
                 link
                 down-arrow

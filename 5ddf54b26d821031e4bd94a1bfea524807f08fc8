@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "bf036f21_45b507b0",
+        "filename": "BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-06-24T14:43:21Z",
+      "side": 1,
+      "message": "Ack\nI am all for that. That was just a suggestion for if there were some demands to keep java9, but we should definitely avoid maintaining to many versions.",
+      "parentUuid": "0319e01f_eeb0a132",
+      "revId": "5ddf54b26d821031e4bd94a1bfea524807f08fc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "167710a7_760e10f3",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 2

@@ -42,6 +42,48 @@
     },
     {
       "key": {
+        "uuid": "28682f18_4a9f0162",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-06-24T10:04:36Z",
+      "side": 1,
+      "message": "gr-dropdown.js has logic for dealing with the base URL, so I think we can leave as is here.",
+      "parentUuid": "a61e5430_244bec9b",
+      "revId": "b59c8237f8ba80bdedcef1f13d9e543e7ce91a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6d6b108_88c68cbd",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-06-24T10:04:36Z",
+      "side": 1,
+      "message": "And ideally there would be a test that catches that.",
+      "parentUuid": "96e29ddf_12f583c9",
+      "range": {
+        "startLine": 315,
+        "startChar": 26,
+        "endLine": 315,
+        "endChar": 30
+      },
+      "revId": "b59c8237f8ba80bdedcef1f13d9e543e7ce91a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "42e47c67_5b35f61d",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header_test.html",
         "patchSetId": 2
@@ -56,6 +98,24 @@
       "revId": "b59c8237f8ba80bdedcef1f13d9e543e7ce91a20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4500587_37570846",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-06-24T10:04:36Z",
+      "side": 1,
+      "message": "No, the # is stripped, and im both cases we don\u0027t want the link to be external.",
+      "parentUuid": "42e47c67_5b35f61d",
+      "revId": "b59c8237f8ba80bdedcef1f13d9e543e7ce91a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

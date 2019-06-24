@@ -70,8 +70,8 @@ public class PermissionRange implements Comparable<PermissionRange> {
       this.min = min;
       this.max = max;
     } else {
-      this.min = max;
-      this.max = min;
+      this.min = 0;
+      this.max = 0;
     }
   }
 

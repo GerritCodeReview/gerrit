@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "0319e01f_eeb0a132",
+        "filename": "BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-24T14:37:11Z",
+      "side": 1,
+      "message": "There is no such thing any more as Java 9 and Java 10. Luckily, we have never supported it properly, so that we could just drop it, source [1].\n\n* Java  9 (non-LTS): End of Life: March 2018\n* Java 10 (non-LTS): End of Life: September 2018\n\n* [1] https://www.oracle.com/technetwork/java/java-se-support-roadmap.html",
+      "parentUuid": "503c9eb9_5cda6d7e",
+      "revId": "5ddf54b26d821031e4bd94a1bfea524807f08fc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "167710a7_760e10f3",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 2

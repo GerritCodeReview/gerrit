@@ -139,6 +139,30 @@
       "revId": "c2c465713d0bd1bfbdb7333156ba323ab6a0fcf8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "668bece8_7e1bd5ca",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-24T08:08:23Z",
+      "side": 1,
+      "message": "It also wouldn\u0027t reliably help to avoid regressions as a diff computation could easily sneak into a totally unrelated field. I\u0027d rather thought of evaluating CacheStats before and after the call.",
+      "parentUuid": "4256f6f6_0568a9f6",
+      "range": {
+        "startLine": 260,
+        "startChar": 2,
+        "endLine": 260,
+        "endChar": 7
+      },
+      "revId": "c2c465713d0bd1bfbdb7333156ba323ab6a0fcf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

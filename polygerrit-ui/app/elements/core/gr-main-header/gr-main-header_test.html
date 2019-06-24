@@ -87,13 +87,9 @@ limitations under the License.
       assert.deepEqual([
         {url: 'https://awesometown.com/#hashyhash'},
         {url: 'url', target: '_blank'},
-        {url: '/dashboard/self'},
-        {url: '#/dashboard/self'},
       ].map(element._fixCustomMenuItem), [
         {url: 'https://awesometown.com/#hashyhash', external: true},
         {url: 'url', external: true},
-        {url: '/dashboard/self', external: false},
-        {url: '/dashboard/self', external: false},
       ]);
     });
 
@@ -222,7 +218,7 @@ limitations under the License.
         title: 'Projects',
         links: [{
           name: 'Project List',
-          external: false,
+          external: true,
           url: '/plugins/myplugin/index.html',
         }],
       }]);

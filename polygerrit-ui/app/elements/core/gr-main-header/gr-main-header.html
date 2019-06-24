@@ -182,15 +182,15 @@ limitations under the License.
       <ul class="links">
         <template is="dom-repeat" items="[[_links]]" as="linkGroup">
           <li class$="[[linkGroup.class]]">
-          <gr-dropdown
-              link
-              down-arrow
-              items = [[linkGroup.links]]
-              horizontal-align="left">
-            <span class="linksTitle" id="[[linkGroup.title]]">
-              [[linkGroup.title]]
-            </span>
-          </gr-dropdown>
+            <gr-dropdown
+                link
+                down-arrow
+                items = [[linkGroup.links]]
+                horizontal-align="left">
+              <span class="linksTitle" id="[[linkGroup.title]]">
+                [[linkGroup.title]]
+              </span>
+            </gr-dropdown>
           </li>
         </template>
       </ul>

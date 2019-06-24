@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8e48211_23dca3bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-06-24T14:35:21Z",
+      "side": 1,
+      "message": "doesn\u0027t the project get enforced here already?",
+      "range": {
+        "startLine": 88,
+        "startChar": 26,
+        "endLine": 88,
+        "endChar": 77
+      },
+      "revId": "c82c75dbcf64d6ca091076380b8328fe8e1b357a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

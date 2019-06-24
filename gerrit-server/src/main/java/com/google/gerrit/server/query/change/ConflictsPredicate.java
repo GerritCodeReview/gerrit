@@ -99,6 +99,10 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
               if (otherChange == null) {
                 return false;
               }
+              if (!otherChange.getProject().equals(c.getProject())) {
+                return false;
+              }
+
               if (!otherChange.getDest().equals(c.getDest())) {
                 return false;
               }

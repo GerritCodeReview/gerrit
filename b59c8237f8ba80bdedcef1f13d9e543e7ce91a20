@@ -84,6 +84,48 @@
     },
     {
       "key": {
+        "uuid": "2a8d33c4_ec85806e",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-06-24T10:17:23Z",
+      "side": 1,
+      "message": "Ok, Both Ben And paladox in different comment agrees that this is ok. I am resolving it",
+      "parentUuid": "a61e5430_244bec9b",
+      "revId": "b59c8237f8ba80bdedcef1f13d9e543e7ce91a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8de154e5_3b3373bf",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-06-24T10:17:23Z",
+      "side": 1,
+      "message": "Yes, actually test caught this error, I wasn\u0027t just running properly test in local.",
+      "parentUuid": "f6d6b108_88c68cbd",
+      "range": {
+        "startLine": 315,
+        "startChar": 26,
+        "endLine": 315,
+        "endChar": 30
+      },
+      "revId": "b59c8237f8ba80bdedcef1f13d9e543e7ce91a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42e47c67_5b35f61d",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header_test.html",
         "patchSetId": 2
@@ -112,6 +154,24 @@
       "writtenOn": "2019-06-24T10:04:36Z",
       "side": 1,
       "message": "No, the # is stripped, and im both cases we don\u0027t want the link to be external.",
+      "parentUuid": "42e47c67_5b35f61d",
+      "revId": "b59c8237f8ba80bdedcef1f13d9e543e7ce91a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "597825c3_b8b6f917",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-06-24T10:17:23Z",
+      "side": 1,
+      "message": "Server is by default sending these links with # (legacy from GWT App), the fixing method is first removing # from links and then once fixed they are check if they start with \u0027/\u0027.\n\nI think it\u0027s good example to have in test",
       "parentUuid": "42e47c67_5b35f61d",
       "revId": "b59c8237f8ba80bdedcef1f13d9e543e7ce91a20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

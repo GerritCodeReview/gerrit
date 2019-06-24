@@ -115,6 +115,30 @@
       "revId": "c2c465713d0bd1bfbdb7333156ba323ab6a0fcf8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4256f6f6_0568a9f6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-24T08:02:50Z",
+      "side": 1,
+      "message": "\u003e Maybe inside \"ChangeInfo\" class we can add a class that would for now contain\n\u003e insertions and deletions,\n\nThat might not be backwards compatible. Keep in mind that ChangeInfo describes the JSON for changes in our REST API and clients may rely on the existing fields. This means we can\u0027t easily move the fields for insertions and deletions into a another class as that would change the JSON structure.",
+      "parentUuid": "089853eb_080c7c0d",
+      "range": {
+        "startLine": 260,
+        "startChar": 2,
+        "endLine": 260,
+        "endChar": 7
+      },
+      "revId": "c2c465713d0bd1bfbdb7333156ba323ab6a0fcf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

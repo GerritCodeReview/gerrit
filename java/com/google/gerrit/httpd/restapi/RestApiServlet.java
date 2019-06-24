@@ -232,6 +232,7 @@ public class RestApiServlet extends HttpServlet {
     final RestApiMetrics metrics;
     final Pattern allowOrigin;
     final RestApiQuotaEnforcer quotaChecker;
+    final Config config;
     final DynamicSet<PerformanceLogger> performanceLoggers;
 
     @Inject
@@ -243,7 +244,7 @@ public class RestApiServlet extends HttpServlet {
         GroupAuditService auditService,
         RestApiMetrics metrics,
         RestApiQuotaEnforcer quotaChecker,
-        @GerritServerConfig Config cfg,
+        @GerritServerConfig Config config,
         DynamicSet<PerformanceLogger> performanceLoggers) {
       this.currentUser = currentUser;
       this.webSession = webSession;
@@ -252,8 +253,9 @@ public class RestApiServlet extends HttpServlet {
       this.auditService = auditService;
       this.metrics = metrics;
       this.quotaChecker = quotaChecker;
+      this.config = config;
       this.performanceLoggers = performanceLoggers;
-      allowOrigin = makeAllowOrigin(cfg);
+      allowOrigin = makeAllowOrigin(config);
     }
 
     private static Pattern makeAllowOrigin(Config cfg) {
@@ -306,7 +308,7 @@ public class RestApiServlet extends HttpServlet {
         // test performance logging from an acceptance test (see
         // TraceIT#performanceLoggingForRestCall()).
         try (PerformanceLogContext performanceLogContext =
-            new PerformanceLogContext(globals.performanceLoggers)) {
+            new PerformanceLogContext(globals.config, globals.performanceLoggers)) {
           logger.atFinest().log(
               "Received REST request: %s %s (parameters: %s)",
               req.getMethod(), req.getRequestURI(), getParameterNames(req));

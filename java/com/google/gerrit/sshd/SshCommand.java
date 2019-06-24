@@ -16,6 +16,7 @@ package com.google.gerrit.sshd;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.AccessPath;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.logging.PerformanceLogContext;
 import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.logging.TraceContext;
@@ -23,10 +24,12 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import org.apache.sshd.server.Environment;
+import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
 public abstract class SshCommand extends BaseCommand {
   @Inject private DynamicSet<PerformanceLogger> performanceLoggers;
+  @Inject @GerritServerConfig private Config config;
 
   @Option(name = "--trace", usage = "enable request tracing")
   private boolean trace;
@@ -46,7 +49,7 @@ public abstract class SshCommand extends BaseCommand {
           stderr = toPrintWriter(err);
           try (TraceContext traceContext = enableTracing();
               PerformanceLogContext performanceLogContext =
-                  new PerformanceLogContext(performanceLoggers)) {
+                  new PerformanceLogContext(config, performanceLoggers)) {
             SshCommand.this.run();
           } finally {
             stdout.flush();

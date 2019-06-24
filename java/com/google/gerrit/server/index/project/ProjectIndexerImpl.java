@@ -78,8 +78,11 @@ public class ProjectIndexerImpl implements ProjectIndexer {
       for (ProjectIndex i : getWriteIndexes()) {
         try (TraceTimer traceTimer =
             TraceContext.newTimer(
-                "Replacing project %s in index version %d",
-                nameKey.get(), i.getSchema().getVersion())) {
+                "Replacing project",
+                "projectName",
+                nameKey.get(),
+                "indexVersion",
+                i.getSchema().getVersion())) {
           i.replace(projectData);
         }
       }
@@ -89,8 +92,11 @@ public class ProjectIndexerImpl implements ProjectIndexer {
       for (ProjectIndex i : getWriteIndexes()) {
         try (TraceTimer traceTimer =
             TraceContext.newTimer(
-                "Deleting project %s in index version %d",
-                nameKey.get(), i.getSchema().getVersion())) {
+                "Deleting project",
+                "projectName",
+                nameKey.get(),
+                "indexVersion",
+                i.getSchema().getVersion())) {
           i.delete(nameKey);
         }
       }

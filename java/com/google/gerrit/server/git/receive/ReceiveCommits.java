@@ -312,6 +312,7 @@ class ReceiveCommits {
   private final CommentsUtil commentsUtil;
   private final PluginSetContext<CommentValidator> commentValidators;
   private final BranchCommitValidator.Factory commitValidatorFactory;
+  private final Config config;
   private final CreateGroupPermissionSyncer createGroupPermissionSyncer;
   private final CreateRefControl createRefControl;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
@@ -381,7 +382,7 @@ class ReceiveCommits {
       AllProjectsName allProjectsName,
       BatchUpdate.Factory batchUpdateFactory,
       ProjectConfig.Factory projectConfigFactory,
-      @GerritServerConfig Config cfg,
+      @GerritServerConfig Config config,
       ChangeEditUtil editUtil,
       ChangeIndexer indexer,
       ChangeInserter.Factory changeInserterFactory,
@@ -430,6 +431,7 @@ class ReceiveCommits {
     this.commentsUtil = commentsUtil;
     this.commentValidators = commentValidators;
     this.commitValidatorFactory = commitValidatorFactory;
+    this.config = config;
     this.createRefControl = createRefControl;
     this.createGroupPermissionSyncer = createGroupPermissionSyncer;
     this.editUtil = editUtil;
@@ -466,7 +468,7 @@ class ReceiveCommits {
     this.receivePack = rp;
 
     // Immutable fields derived from constructor arguments.
-    allowPushToRefsChanges = cfg.getBoolean("receive", "allowPushToRefsChanges", false);
+    allowPushToRefsChanges = config.getBoolean("receive", "allowPushToRefsChanges", false);
     repo = rp.getRepository();
     project = projectState.getProject();
     labelTypes = projectState.getLabelTypes();
@@ -481,7 +483,7 @@ class ReceiveCommits {
     updateGroups = new ArrayList<>();
 
     this.allowProjectOwnersToChangeParent =
-        cfg.getBoolean("receive", "allowProjectOwnersToChangeParent", false);
+        config.getBoolean("receive", "allowProjectOwnersToChangeParent", false);
 
     // Other settings populated during processing.
     newChangeForAllNotInTarget =
@@ -534,7 +536,7 @@ class ReceiveCommits {
                 (tagName, traceId) -> addMessage(tagName + ": " + traceId));
         TraceTimer traceTimer = newTimer("processCommands", "commandCount", commands.size());
         PerformanceLogContext performanceLogContext =
-            new PerformanceLogContext(performanceLoggers)) {
+            new PerformanceLogContext(config, performanceLoggers)) {
       traceContext.addTag(RequestId.Type.RECEIVE_ID, new RequestId(project.getNameKey().get()));
 
       // Log the push options here, rather than in parsePushOptions(), so that they are included
@@ -3440,7 +3442,7 @@ class ReceiveCommits {
   }
 
   private TraceTimer newTimer(Class<?> clazz, String name) {
-    return TraceContext.newTimer(clazz.getSimpleName() + "#" + name, "project", project);
+    return TraceContext.newTimer(clazz.getSimpleName() + "#" + name, "projectName", project);
   }
 
   private TraceTimer newTimer(String name, String key, @Nullable Object value) {
@@ -3449,7 +3451,7 @@ class ReceiveCommits {
 
   private TraceTimer newTimer(Class<?> clazz, String name, String key, @Nullable Object value) {
     return TraceContext.newTimer(
-        clazz.getSimpleName() + "#" + name, "project", project, key, value);
+        clazz.getSimpleName() + "#" + name, "projectName", project, key, value);
   }
 
   private static void reject(ReceiveCommand cmd, String why) {

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e5ede7ca_68fe53db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-06-24T11:21:15Z",
+      "side": 1,
+      "message": "Thanks for warning. I actually removed this description.",
+      "parentUuid": "62bd79dc_14da9973",
+      "revId": "b59c8237f8ba80bdedcef1f13d9e543e7ce91a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a61e5430_244bec9b",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
         "patchSetId": 2

@@ -41,73 +41,96 @@ public abstract class Timer3<F1, F2, F3> implements RegistrationHandle {
 
   public static class Context extends TimerContext {
     private final Timer3<Object, Object, Object> timer;
-    private final Object field1;
-    private final Object field2;
-    private final Object field3;
+    private final Object fieldValue1;
+    private final Object fieldValue2;
+    private final Object fieldValue3;
 
     @SuppressWarnings("unchecked")
     <F1, F2, F3> Context(Timer3<F1, F2, F3> timer, F1 f1, F2 f2, F3 f3) {
       this.timer = (Timer3<Object, Object, Object>) timer;
-      this.field1 = f1;
-      this.field2 = f2;
-      this.field3 = f3;
+      this.fieldValue1 = f1;
+      this.fieldValue2 = f2;
+      this.fieldValue3 = f3;
     }
 
     @Override
     public void record(long elapsed) {
-      timer.record(field1, field2, field3, elapsed, NANOSECONDS);
+      timer.record(fieldValue1, fieldValue2, fieldValue3, elapsed, NANOSECONDS);
     }
   }
 
   protected final String name;
+  protected final Field<F1> field1;
+  protected final Field<F2> field2;
+  protected final Field<F3> field3;
 
-  public Timer3(String name) {
+  public Timer3(String name, Field<F1> field1, Field<F2> field2, Field<F3> field3) {
     this.name = name;
+    this.field1 = field1;
+    this.field2 = field2;
+    this.field3 = field3;
   }
 
   /**
    * Begin a timer for the current block, value will be recorded when closed.
    *
-   * @param field1 bucket to record the timer
-   * @param field2 bucket to record the timer
-   * @param field3 bucket to record the timer
+   * @param fieldValue1 bucket to record the timer
+   * @param fieldValue2 bucket to record the timer
+   * @param fieldValue3 bucket to record the timer
    * @return timer context
    */
-  public Context start(F1 field1, F2 field2, F3 field3) {
-    return new Context(this, field1, field2, field3);
+  public Context start(F1 fieldValue1, F2 fieldValue2, F3 fieldValue3) {
+    return new Context(this, fieldValue1, fieldValue2, fieldValue3);
   }
 
   /**
    * Record a value in the distribution.
    *
-   * @param field1 bucket to record the timer
-   * @param field2 bucket to record the timer
-   * @param field3 bucket to record the timer
+   * @param fieldValue1 bucket to record the timer
+   * @param fieldValue2 bucket to record the timer
+   * @param fieldValue3 bucket to record the timer
    * @param value value to record
    * @param unit time unit of the value
    */
-  public final void record(F1 field1, F2 field2, F3 field3, long value, TimeUnit unit) {
+  public final void record(
+      F1 fieldValue1, F2 fieldValue2, F3 fieldValue3, long value, TimeUnit unit) {
     long durationMs = unit.toMillis(value);
 
-    // TODO(ekempin): We don't know the field names here. Check whether we can make them available.
     LoggingContext.getInstance()
         .addPerformanceLogRecord(
             () ->
                 PerformanceLogRecord.create(
-                    name, durationMs, "field1", field1, "field2", field2, "field3", field3));
+                    name,
+                    durationMs,
+                    field1.name(),
+                    fieldValue1,
+                    field2.name(),
+                    fieldValue2,
+                    field3.name(),
+                    fieldValue3));
 
-    logger.atFinest().log("%s (%s, %s, %s) took %dms", name, field1, field2, field3, durationMs);
-    doRecord(field1, field2, field3, value, unit);
+    logger.atFinest().log(
+        "%s (%s = %s, %s = %s, %s = %s) took %dms",
+        name,
+        field1.name(),
+        fieldValue1,
+        field2.name(),
+        fieldValue2,
+        field3.name(),
+        fieldValue3,
+        durationMs);
+    doRecord(fieldValue1, fieldValue2, fieldValue3, value, unit);
   }
 
   /**
    * Record a value in the distribution.
    *
-   * @param field1 bucket to record the timer
-   * @param field2 bucket to record the timer
-   * @param field3 bucket to record the timer
+   * @param fieldValue1 bucket to record the timer
+   * @param fieldValue2 bucket to record the timer
+   * @param fieldValue3 bucket to record the timer
    * @param value value to record
    * @param unit time unit of the value
    */
-  protected abstract void doRecord(F1 field1, F2 field2, F3 field3, long value, TimeUnit unit);
+  protected abstract void doRecord(
+      F1 fieldValue1, F2 fieldValue2, F3 fieldValue3, long value, TimeUnit unit);
 }

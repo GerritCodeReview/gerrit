@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "df55df0e_adf32e8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-06-24T09:44:43Z",
+      "side": 1,
+      "message": "git calls this diffstat. How about \n\n  SKIP_DIFFSTAT \n\n?",
+      "parentUuid": "c4d3b0dc_2a59b7df",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 92
+      },
+      "revId": "c2c465713d0bd1bfbdb7333156ba323ab6a0fcf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9a567a43_9d6839fd",
         "filename": "java/com/google/gerrit/extensions/client/ListChangesOption.java",
         "patchSetId": 1

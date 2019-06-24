@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "62bd79dc_14da9973",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-06-24T10:25:34Z",
+      "side": 1,
+      "message": "There should really be some automation in place for checking this, but Gerrit commit messages are supposed to be 72 chars only. Don\u0027t ask ...\n\nhttps://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html",
+      "revId": "b59c8237f8ba80bdedcef1f13d9e543e7ce91a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a61e5430_244bec9b",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
         "patchSetId": 2

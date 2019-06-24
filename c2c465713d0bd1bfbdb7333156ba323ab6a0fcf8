@@ -91,6 +91,30 @@
       "revId": "c2c465713d0bd1bfbdb7333156ba323ab6a0fcf8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "089853eb_080c7c0d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-06-24T07:52:07Z",
+      "side": 1,
+      "message": "Maybe inside \"ChangeInfo\" class we can add a class that would for now contain insertions and deletions, and later on we might add other fields there.\nWe could make the class\u0027 fields iterable (?) and in the test check c.new_class.all_fields.isNull()\nbut that only works if the test we need is \"isNull\"...",
+      "parentUuid": "3a0c47f9_b3fbd0d5",
+      "range": {
+        "startLine": 260,
+        "startChar": 2,
+        "endLine": 260,
+        "endChar": 7
+      },
+      "revId": "c2c465713d0bd1bfbdb7333156ba323ab6a0fcf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

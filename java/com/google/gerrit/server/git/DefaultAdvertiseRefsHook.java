@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import java.io.IOException;
@@ -32,6 +33,8 @@ import org.eclipse.jgit.transport.ServiceMayNotContinueException;
  * implements {@link org.eclipse.jgit.transport.AdvertiseRefsHook}.
  */
 public class DefaultAdvertiseRefsHook extends AbstractAdvertiseRefsHook {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final PermissionBackend.ForProject perm;
   private final PermissionBackend.RefFilterOptions opts;
 
@@ -44,6 +47,7 @@ public class DefaultAdvertiseRefsHook extends AbstractAdvertiseRefsHook {
   @Override
   protected Map<String, Ref> getAdvertisedRefs(Repository repo, RevWalk revWalk)
       throws ServiceMayNotContinueException {
+    logger.atFine().log("ref filter options = %s", opts);
     try {
       List<String> prefixes =
           !opts.prefixes().isEmpty() ? opts.prefixes() : ImmutableList.of(RefDatabase.ALL);

@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8843cfb_7a8bcc4f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7441,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-24T23:25:13Z",
+      "side": 1,
+      "message": "entries",
+      "range": {
+        "startLine": 7441,
+        "startChar": 15,
+        "endLine": 7441,
+        "endChar": 22
+      },
+      "revId": "7df311202cf9118ea4be535fdb5972f57b947c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4024a1f1_87681450",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7441,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-24T23:25:13Z",
+      "side": 1,
+      "message": "trailing white space",
+      "range": {
+        "startLine": 7441,
+        "startChar": 47,
+        "endLine": 7441,
+        "endChar": 48
+      },
+      "revId": "7df311202cf9118ea4be535fdb5972f57b947c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0c32854_a12ec927",
+        "filename": "java/com/google/gerrit/extensions/common/TreeEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-24T23:25:13Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "7df311202cf9118ea4be535fdb5972f57b947c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "065fb56e_18138d1d",
+        "filename": "java/com/google/gerrit/extensions/common/TreeEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-24T23:25:13Z",
+      "side": 1,
+      "message": "could this be under a more specific package?",
+      "range": {
+        "startLine": 15,
+        "startChar": 37,
+        "endLine": 15,
+        "endChar": 43
+      },
+      "revId": "7df311202cf9118ea4be535fdb5972f57b947c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c58024c_cd9602d3",
+        "filename": "java/com/google/gerrit/extensions/common/TreeInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-24T23:25:13Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "7df311202cf9118ea4be535fdb5972f57b947c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6971fbf2_b738415f",
+        "filename": "java/com/google/gerrit/extensions/common/TreeInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-24T23:25:13Z",
+      "side": 1,
+      "message": "could we name this something like \u0027hash\u0027?",
+      "range": {
+        "startLine": 21,
+        "startChar": 16,
+        "endLine": 21,
+        "endChar": 19
+      },
+      "revId": "7df311202cf9118ea4be535fdb5972f57b947c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f7d8fe7_3a010436",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetTree.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-24T23:25:13Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "7df311202cf9118ea4be535fdb5972f57b947c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa303f5c_16060a53",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetTree.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-24T23:25:13Z",
+      "side": 1,
+      "message": "boolean?",
+      "range": {
+        "startLine": 47,
+        "startChar": 10,
+        "endLine": 47,
+        "endChar": 13
+      },
+      "revId": "7df311202cf9118ea4be535fdb5972f57b947c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71a7a6db_b1a3ea5b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1612,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-24T23:25:13Z",
+      "side": 1,
+      "message": "Add a method on the change API?",
+      "range": {
+        "startLine": 1604,
+        "startChar": 2,
+        "endLine": 1612,
+        "endChar": 0
+      },
+      "revId": "7df311202cf9118ea4be535fdb5972f57b947c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

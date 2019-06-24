@@ -257,18 +257,18 @@ public class PerformanceLogContextTest {
         .containsExactly(
             PerformanceLogEntry.create("test1/latency", ImmutableMap.of()),
             PerformanceLogEntry.create(
-                "test2/latency", ImmutableMap.of("field1", Optional.of("value1"))),
+                "test2/latency", ImmutableMap.of("foo", Optional.of("value1"))),
             PerformanceLogEntry.create(
                 "test3/latency",
-                ImmutableMap.of("field1", Optional.of("value1"), "field2", Optional.of("value2"))),
+                ImmutableMap.of("foo", Optional.of("value1"), "bar", Optional.of("value2"))),
             PerformanceLogEntry.create(
                 "test4/latency",
                 ImmutableMap.of(
-                    "field1",
+                    "foo",
                     Optional.of("value1"),
-                    "field2",
+                    "bar",
                     Optional.of("value2"),
-                    "field3",
+                    "baz",
                     Optional.of("value3"))))
         .inOrder();
 
@@ -314,20 +314,13 @@ public class PerformanceLogContextTest {
 
     assertThat(testPerformanceLogger.logEntries())
         .containsExactly(
+            PerformanceLogEntry.create("test1/latency", ImmutableMap.of("foo", Optional.empty())),
             PerformanceLogEntry.create(
-                "test1/latency", ImmutableMap.of("field1", Optional.empty())),
-            PerformanceLogEntry.create(
-                "test2/latency",
-                ImmutableMap.of("field1", Optional.empty(), "field2", Optional.empty())),
+                "test2/latency", ImmutableMap.of("foo", Optional.empty(), "bar", Optional.empty())),
             PerformanceLogEntry.create(
                 "test3/latency",
                 ImmutableMap.of(
-                    "field1",
-                    Optional.empty(),
-                    "field2",
-                    Optional.empty(),
-                    "field3",
-                    Optional.empty())))
+                    "foo", Optional.empty(), "bar", Optional.empty(), "baz", Optional.empty())))
         .inOrder();
 
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();

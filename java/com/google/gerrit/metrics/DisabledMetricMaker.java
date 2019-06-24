@@ -79,7 +79,7 @@ public class DisabledMetricMaker extends MetricMaker {
 
   @Override
   public <F1> Timer1<F1> newTimer(String name, Description desc, Field<F1> field1) {
-    return new Timer1<F1>(name) {
+    return new Timer1<F1>(name, field1) {
       @Override
       protected void doRecord(F1 field1, long value, TimeUnit unit) {}
 
@@ -91,7 +91,7 @@ public class DisabledMetricMaker extends MetricMaker {
   @Override
   public <F1, F2> Timer2<F1, F2> newTimer(
       String name, Description desc, Field<F1> field1, Field<F2> field2) {
-    return new Timer2<F1, F2>(name) {
+    return new Timer2<F1, F2>(name, field1, field2) {
       @Override
       protected void doRecord(F1 field1, F2 field2, long value, TimeUnit unit) {}
 
@@ -103,7 +103,7 @@ public class DisabledMetricMaker extends MetricMaker {
   @Override
   public <F1, F2, F3> Timer3<F1, F2, F3> newTimer(
       String name, Description desc, Field<F1> field1, Field<F2> field2, Field<F3> field3) {
-    return new Timer3<F1, F2, F3>(name) {
+    return new Timer3<F1, F2, F3>(name, field1, field2, field3) {
       @Override
       protected void doRecord(F1 field1, F2 field2, F3 field3, long value, TimeUnit unit) {}
 

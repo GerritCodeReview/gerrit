@@ -585,6 +585,29 @@ public class RefControlTest {
   }
 
   @Test
+  public void blockPartialRangeLocally() {
+    block(local, LABEL + "Code-Review", +1, +2, DEVS, "refs/heads/master");
+
+    ProjectControl u = user(local, DEVS);
+
+    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    assertCannotVote(2, range);
+  }
+
+  @Test
+  public void blockPartialRangeLocally_allowedOutsideBlockedRange() {
+    allow(local, LABEL + "Code-Review", -2, 0, DEVS, "refs/heads/*");
+    block(local, LABEL + "Code-Review", +1, +2, DEVS, "refs/heads/master");
+
+    ProjectControl u = user(local, DEVS);
+
+    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    assertCanVote(-1, range);
+  }
+
+  @Test
   public void blockLabelRange_ParentBlocksChild() {
     allow(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
     block(parent, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");

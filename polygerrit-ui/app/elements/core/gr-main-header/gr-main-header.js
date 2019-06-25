@@ -207,10 +207,13 @@
       const topMenuLinks = [];
       links.forEach(link => { topMenuLinks[link.title] = link.links; });
       for (const m of topMenus) {
-        const items = m.items.map(this._fixCustomMenuItem).filter(link => {
-          // Ignore GWT project links
-          return !link.url.includes('${projectName}');
-        });
+        const items = m.items.map(
+            linkObj => this._fixCustomMenuItem(
+                Object.assign(linkObj, {external: true})))
+                .filter(link => {
+                  // Ignore GWT project links
+                  return !link.url.includes('${projectName}');
+                });
         if (m.name in topMenuLinks) {
           items.forEach(link => { topMenuLinks[m.name].push(link); });
         } else {
@@ -309,11 +312,6 @@
       // makes assumptions that work for the GWT UI, but not PolyGerrit,
       // so we'll just disable it altogether for now.
       delete linkObj.target;
-
-      // Because the user provided links may be arbitrary URLs, we don't know
-      // whether they correspond to any client routes. Mark all such links as
-      // external.
-      linkObj.external = true;
 
       return linkObj;
     },

@@ -88,9 +88,20 @@ limitations under the License.
         {url: 'https://awesometown.com/#hashyhash'},
         {url: 'url', target: '_blank'},
       ].map(element._fixCustomMenuItem), [
-        {url: 'https://awesometown.com/#hashyhash', external: true},
-        {url: 'url', external: true},
+        {url: 'https://awesometown.com/#hashyhash'},
+        {url: 'url'},
       ]);
+    });
+
+    test('fix plugin url to be external', () => {
+      assert.deepEqual([
+        {url: 'https://awesometown.com/monitoring'},
+        {url: 'url', target: '_blank'},
+      ].map(linkObj => element._fixCustomMenuItem(
+          Object.assign(linkObj, {external: true}))), [
+            {url: 'https://awesometown.com/monitoring', external: true},
+            {url: 'url', external: true},
+          ]);
     });
 
     test('filter unsupported urls', () => {

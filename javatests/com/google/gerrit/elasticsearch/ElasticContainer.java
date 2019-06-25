@@ -37,23 +37,23 @@ public class ElasticContainer extends ElasticsearchContainer {
   private static String getImageName(ElasticVersion version) {
     switch (version) {
       case V5_6:
-        return "docker.elastic.co/elasticsearch/elasticsearch:5.6.16";
+        return "blacktop/elasticsearch:5.6.16";
       case V6_2:
-        return "docker.elastic.co/elasticsearch/elasticsearch-oss:6.2.4";
+        return "blacktop/elasticsearch:6.2.4";
       case V6_3:
-        return "docker.elastic.co/elasticsearch/elasticsearch-oss:6.3.2";
+        return "blacktop/elasticsearch:6.3.2";
       case V6_4:
-        return "docker.elastic.co/elasticsearch/elasticsearch-oss:6.4.3";
+        return "blacktop/elasticsearch:6.4.3";
       case V6_5:
-        return "docker.elastic.co/elasticsearch/elasticsearch-oss:6.5.4";
+        return "blacktop/elasticsearch:6.5.4";
       case V6_6:
-        return "docker.elastic.co/elasticsearch/elasticsearch-oss:6.6.2";
+        return "blacktop/elasticsearch:6.6.2";
       case V6_7:
-        return "docker.elastic.co/elasticsearch/elasticsearch-oss:6.7.2";
+        return "blacktop/elasticsearch:6.7.2";
       case V7_0:
-        return "docker.elastic.co/elasticsearch/elasticsearch-oss:7.0.1";
+        return "blacktop/elasticsearch:7.0.1";
       case V7_1:
-        return "docker.elastic.co/elasticsearch/elasticsearch-oss:7.1.1";
+        return "blacktop/elasticsearch:7.1.1";
     }
     throw new IllegalStateException("No tests for version: " + version.name());
   }

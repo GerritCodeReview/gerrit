@@ -331,5 +331,13 @@
       e.preventDefault();
       this.fire('mobile-search', null, {bubbles: false});
     },
+
+    _computeLinkGroupClass(linkGroup) {
+      if (linkGroup && linkGroup.class) {
+        return linkGroup.class;
+      }
+
+      return '';
+    },
   });
 })();

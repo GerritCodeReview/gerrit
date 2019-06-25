@@ -212,6 +212,7 @@
         value: app,
       },
       _isRedirecting: Boolean,
+      _isInitialLoad: Boolean,
     },
 
     behaviors: [
@@ -222,6 +223,7 @@
 
     start() {
       if (!this._app) { return; }
+      this._isInitialLoad = true;
       this._startRouter();
     },
 
@@ -702,6 +704,7 @@
           this.$.reporting.beforeLocationChanged();
         }
         this._isRedirecting = false;
+        this._isInitialLoad = false;
         next();
       });
 
@@ -1471,7 +1474,11 @@
      * Catchall route for when no other route is matched.
      */
     _handleDefaultRoute() {
-      this._show404();
+      if(this._isInitialLoad) {
+        this._show404();
+      } else {
+        this._handlePassThroughRoute();
+      }
     },
 
     _show404() {

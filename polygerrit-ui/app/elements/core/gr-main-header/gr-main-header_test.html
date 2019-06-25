@@ -83,13 +83,23 @@ limitations under the License.
           'none');
     });
 
-    test('fix my menu item', () => {
+    test('fix my menu item external', () => {
       assert.deepEqual([
         {url: 'https://awesometown.com/#hashyhash'},
         {url: 'url', target: '_blank'},
-      ].map(element._fixCustomMenuItem), [
+      ].map(obj => { return element._fixCustomMenuItem(obj, true); }), [
         {url: 'https://awesometown.com/#hashyhash', external: true},
         {url: 'url', external: true},
+      ]);
+    });
+
+    test('fix my menu item non external', () => {
+      assert.deepEqual([
+        {url: 'https://awesometown.com/#hashyhash'},
+        {url: 'url', target: '_blank'},
+      ].map(obj => { return element._fixCustomMenuItem(obj, false); }), [
+        {url: 'https://awesometown.com/#hashyhash'},
+        {url: 'url'},
       ]);
     });
 

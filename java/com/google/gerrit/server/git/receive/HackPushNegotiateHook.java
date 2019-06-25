@@ -21,7 +21,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.git.ObjectIds;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
@@ -92,13 +91,8 @@ public class HackPushNegotiateHook implements AdvertiseRefsHook {
 
   private Set<ObjectId> history(Collection<Ref> refs, BaseReceivePack rp) {
     Set<ObjectId> alreadySending = rp.getAdvertisedObjects();
-    if (alreadySending.isEmpty()) {
-      alreadySending = idsOf(refs);
-    }
-
-    int max = MAX_HISTORY - Math.max(0, alreadySending.size() - refs.size());
-    if (max <= 0) {
-      return Collections.emptySet();
+    if (MAX_HISTORY <= alreadySending.size()) {
+      return alreadySending;
     }
 
     // Scan history until the advertisement is full.
@@ -115,12 +109,14 @@ public class HackPushNegotiateHook implements AdvertiseRefsHook {
         }
       }
 
-      Set<ObjectId> history = Sets.newHashSetWithExpectedSize(max);
+      Set<ObjectId> tips = idsOf(refs);
+      Set<ObjectId> history = Sets.newHashSetWithExpectedSize(MAX_HISTORY);
+      history.addAll(alreadySending);
       try {
         int stepCnt = 0;
-        for (RevCommit c; history.size() < max && (c = rw.next()) != null; ) {
+        for (RevCommit c; history.size() < MAX_HISTORY && (c = rw.next()) != null; ) {
           if (c.getParentCount() <= 1
-              && !alreadySending.contains(c)
+              && !tips.contains(c)
               && (history.size() < BASE_COMMITS || (++stepCnt % STEP_COMMITS) == 0)) {
             history.add(c);
           }

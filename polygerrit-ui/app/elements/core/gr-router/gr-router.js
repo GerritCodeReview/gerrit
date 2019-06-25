@@ -212,6 +212,12 @@
         value: app,
       },
       _isRedirecting: Boolean,
+      // This variable is to different between internal navigation (false)
+      // and for first navigation in app after loaded from server (true).
+      _isInitialLoad: {
+        type: Boolean,
+        value: true,
+      },
     },
 
     behaviors: [
@@ -702,6 +708,7 @@
           this.$.reporting.beforeLocationChanged();
         }
         this._isRedirecting = false;
+        this._isInitialLoad = false;
         next();
       });
 
@@ -1471,7 +1478,11 @@
      * Catchall route for when no other route is matched.
      */
     _handleDefaultRoute() {
-      this._show404();
+      if (this._isInitialLoad) {
+        this._show404();
+      } else {
+        this._handlePassThroughRoute();
+      }
     },
 
     _show404() {

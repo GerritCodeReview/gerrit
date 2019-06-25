@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "af5952d1_075cb486",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-06-25T14:37:54Z",
+      "side": 1,
+      "message": "Thanks, I used your text :)",
+      "parentUuid": "9b4186df_174721be",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 56
+      },
+      "revId": "9d0d7db4b629d175dbb0fe54bd8a1b7026bd78e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "415d247c_d889a296",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "9d0d7db4b629d175dbb0fe54bd8a1b7026bd78e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13c5ddf9_047b8a67",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-06-25T14:37:54Z",
+      "side": 1,
+      "message": "Added a comment in next patchset.",
+      "parentUuid": "415d247c_d889a296",
+      "revId": "9d0d7db4b629d175dbb0fe54bd8a1b7026bd78e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "cebe2581_1ec127c2",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-06-25T14:37:54Z",
+      "side": 1,
+      "message": "ok. makes sense. Done",
+      "parentUuid": "6e9390a7_3a413bf5",
+      "revId": "9d0d7db4b629d175dbb0fe54bd8a1b7026bd78e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c80357a_20e0567e",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 1
@@ -70,6 +130,24 @@
       "writtenOn": "2019-06-25T12:00:25Z",
       "side": 1,
       "message": "I am not 100% sure whether this is correct location for this line, because when your initial load passes through a login redirect, then this line might be executed before the actual routing happens. Maybe at least test that scenario. Happy to be proven wrong. :-)",
+      "revId": "9d0d7db4b629d175dbb0fe54bd8a1b7026bd78e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afea41ee_a35e3918",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-06-25T14:37:54Z",
+      "side": 1,
+      "message": "Actually on login - it redirect. I am testing it, but you\n1, go to url - download FE 1. time\n2, it needs login - it redirect to login (Login FE 1.time)\n2, it goes back and download FE 2.time",
+      "parentUuid": "0c80357a_20e0567e",
       "revId": "9d0d7db4b629d175dbb0fe54bd8a1b7026bd78e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

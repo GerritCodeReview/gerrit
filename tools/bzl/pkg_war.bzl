@@ -76,11 +76,11 @@ def _war_impl(ctx):
 
     # Add lib
     transitive_libs = []
-    for l in ctx.attr.libs:
-        if hasattr(l, "java"):
-            transitive_libs.append(l.java.transitive_runtime_deps)
-        elif hasattr(l, "files"):
-            transitive_libs.append(l.files)
+    for j in ctx.attr.libs:
+        if hasattr(j, "java"):
+            transitive_libs.append(j.java.transitive_runtime_deps)
+        elif hasattr(j, "files"):
+            transitive_libs.append(j.files)
 
     transitive_lib_deps = depset(transitive = transitive_libs)
     for dep in transitive_lib_deps.to_list():
@@ -89,8 +89,8 @@ def _war_impl(ctx):
 
     # Add pgm lib
     transitive_pgmlibs = []
-    for l in ctx.attr.pgmlibs:
-        transitive_pgmlibs.append(l.java.transitive_runtime_deps)
+    for j in ctx.attr.pgmlibs:
+        transitive_pgmlibs.append(j.java.transitive_runtime_deps)
 
     transitive_pgmlib_deps = depset(transitive = transitive_pgmlibs)
     for dep in transitive_pgmlib_deps.to_list():

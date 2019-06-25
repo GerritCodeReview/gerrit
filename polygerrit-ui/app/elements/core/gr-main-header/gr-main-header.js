@@ -207,10 +207,12 @@
       const topMenuLinks = [];
       links.forEach(link => { topMenuLinks[link.title] = link.links; });
       for (const m of topMenus) {
-        const items = m.items.map(this._fixCustomMenuItem).filter(link => {
-          // Ignore GWT project links
-          return !link.url.includes('${projectName}');
-        });
+        const items = m.items.map(
+            linkObj => { return this._fixCustomMenuItem(linkObj, true); })
+              .filter(link => {
+                // Ignore GWT project links
+                return !link.url.includes('${projectName}');
+              });
         if (m.name in topMenuLinks) {
           items.forEach(link => { topMenuLinks[m.name].push(link); });
         } else {
@@ -278,7 +280,9 @@
 
       this.$.restAPI.getPreferences().then(prefs => {
         this._userLinks =
-            prefs.my.map(this._fixCustomMenuItem).filter(this._isSupportedLink);
+            prefs.my.map(
+              linkObj => { return this._fixCustomMenuItem(linkObj, false); })
+              .filter(this._isSupportedLink);
       });
     },
 
@@ -295,7 +299,7 @@
       return registerURL ? '' : 'invisible';
     },
 
-    _fixCustomMenuItem(linkObj) {
+    _fixCustomMenuItem(linkObj, external) {
       // Normalize all urls to PolyGerrit style.
       if (linkObj.url.startsWith('#')) {
         linkObj.url = linkObj.url.slice(1);
@@ -310,10 +314,12 @@
       // so we'll just disable it altogether for now.
       delete linkObj.target;
 
-      // Because the user provided links may be arbitrary URLs, we don't know
-      // whether they correspond to any client routes. Mark all such links as
-      // external.
-      linkObj.external = true;
+      if (external) {
+        // Because the user provided links may be arbitrary URLs, we don't know
+        // whether they correspond to any client routes. Mark all such links as
+        // external.
+        linkObj.external = true;
+      }
 
       return linkObj;
     },

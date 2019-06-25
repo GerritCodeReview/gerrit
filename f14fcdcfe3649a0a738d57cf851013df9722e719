@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d509f1b_64175802",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-06-25T16:17:03Z",
+      "side": 1,
+      "message": "This is not very nice API. calls to this than looks like _fixCustomMenuItem(linkObj, false) or _fixCustomMenuItem(linkObj, true) \n\nBtw. I am changing way how gr-router do 404 (catchAll). If it will work, we don\u0027t need external links anymore. \n\nCheck this - it\u0027s just draft - https://gerrit-review.googlesource.com/c/gerrit/+/229073",
+      "range": {
+        "startLine": 302,
+        "startChar": 32,
+        "endLine": 302,
+        "endChar": 40
+      },
+      "revId": "f14fcdcfe3649a0a738d57cf851013df9722e719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

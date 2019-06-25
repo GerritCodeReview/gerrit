@@ -1249,11 +1249,8 @@ class ReceiveCommits {
   }
 
   private void parseRewind(ReceiveCommand cmd) throws PermissionBackendException {
-    RevCommit newObject;
     try {
-      newObject = receivePack.getRevWalk().parseCommit(cmd.getNewId());
-    } catch (IncorrectObjectTypeException notCommit) {
-      newObject = null;
+      receivePack.getRevWalk().parseCommit(cmd.getNewId());
     } catch (IOException err) {
       logger.atSevere().withCause(err).log(
           "Invalid object %s for %s forced update", cmd.getNewId().name(), cmd.getRefName());
@@ -1262,11 +1259,12 @@ class ReceiveCommits {
     }
     logger.atFine().log("Rewinding %s", cmd);
 
-    if (newObject != null) {
-      validateRegularPushCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
-      if (cmd.getResult() != NOT_ATTEMPTED) {
-        return;
-      }
+    if (!validRefOperation(cmd)) {
+      return;
+    }
+    validateRegularPushCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
+    if (cmd.getResult() != NOT_ATTEMPTED) {
+      return;
     }
 
     Optional<AuthException> err = checkRefPermission(cmd, RefPermission.FORCE_UPDATE);

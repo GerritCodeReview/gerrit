@@ -86,8 +86,8 @@ limitations under the License.
         {url: 'https://awesometown.com/#hashyhash'},
         {url: 'url', target: '_blank'},
       ].map(element._fixCustomMenuItem), [
-        {url: 'https://awesometown.com/#hashyhash', external: true},
-        {url: 'url', external: true},
+        {url: 'https://awesometown.com/#hashyhash'},
+        {url: 'url'},
       ]);
     });
 
@@ -185,7 +185,6 @@ limitations under the License.
         title: 'Plugins',
         links: [{
           name: 'Manage',
-          external: true,
           url: 'https://gerrit/plugins/plugin-manager/static/index.html',
         }],
       }]);
@@ -216,7 +215,6 @@ limitations under the License.
         title: 'Projects',
         links: [{
           name: 'Project List',
-          external: true,
           url: '/plugins/myplugin/index.html',
         }],
       }]);
@@ -249,11 +247,9 @@ limitations under the License.
         title: 'Plugins',
         links: [{
           name: 'Manage',
-          external: true,
           url: 'https://gerrit/plugins/plugin-manager/static/index.html',
         }, {
           name: 'Create',
-          external: true,
           url: 'https://gerrit/plugins/plugin-manager/static/create.html',
         }],
       }]);
@@ -279,7 +275,6 @@ limitations under the License.
         title: 'Faves',
         links: defaultLinks[0].links.concat([{
           name: 'Manage',
-          external: true,
           url: 'https://gerrit/plugins/plugin-manager/static/index.html',
         }]),
       }, {
@@ -305,7 +300,6 @@ limitations under the License.
         title: 'Your',
         links: userLinks.concat([{
           name: 'Manage',
-          external: true,
           url: 'https://gerrit/plugins/plugin-manager/static/index.html',
         }]),
       }, {
@@ -331,7 +325,6 @@ limitations under the License.
         title: 'Browse',
         links: adminLinks.concat([{
           name: 'Manage',
-          external: true,
           url: 'https://gerrit/plugins/plugin-manager/static/index.html',
         }]),
       }]);

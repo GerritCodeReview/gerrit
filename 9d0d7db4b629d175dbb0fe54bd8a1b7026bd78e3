@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b4186df_174721be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-06-25T12:00:25Z",
+      "side": 1,
+      "message": "Maybe expand a little more on the commit message, for example like this:\n\nFrontend decides on initial load only whether to render a 404\n\nAfter initial load, if the frontend router cannot match a URL, then it will let the URL pass through and be handled by the server.\n\nThis obsoletes the need for marking URLs on the same host as internal or external. They will always be handled appropriately, e.g. customized links can point to pages within the app without causing a full page reload.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 56
+      },
+      "revId": "9d0d7db4b629d175dbb0fe54bd8a1b7026bd78e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "415d247c_d889a296",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-06-25T12:00:25Z",
+      "side": 1,
+      "message": "Maybe add a comment explaining the variable and its purpose.",
+      "revId": "9d0d7db4b629d175dbb0fe54bd8a1b7026bd78e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e9390a7_3a413bf5",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-06-25T12:00:25Z",
+      "side": 1,
+      "message": "I think you can just set an initial value in the declaration like that:\n\n      _isInitialLoad: {\n        type: Boolean,\n        value: true,\n      },\n\nOr can it happen that start() is called twice?",
+      "revId": "9d0d7db4b629d175dbb0fe54bd8a1b7026bd78e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c80357a_20e0567e",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-06-25T12:00:25Z",
+      "side": 1,
+      "message": "I am not 100% sure whether this is correct location for this line, because when your initial load passes through a login redirect, then this line might be executed before the actual routing happens. Maybe at least test that scenario. Happy to be proven wrong. :-)",
+      "revId": "9d0d7db4b629d175dbb0fe54bd8a1b7026bd78e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

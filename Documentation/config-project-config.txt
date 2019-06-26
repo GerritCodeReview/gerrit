@@ -100,7 +100,7 @@ These are the keys:
 +
 A description for the project.
 
-[[state]]state:
+[[state]]state::
 +
 This setting defines the state of the project. A project can have the
 following states:

@@ -16,6 +16,24 @@
       "revId": "2dd3ab454d1f85642dbd8a78f9d8cb3e6f341b8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "541ec97f_3d7e7664",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-06-26T14:40:17Z",
+      "side": 1,
+      "message": "It\u0027s because if it\u0027s not set as external, it goes through gr-router, and the catchall throws a 404 because what ever the plugin configured is not in gr-router.",
+      "parentUuid": "a78d3c4d_fd0da925",
+      "revId": "2dd3ab454d1f85642dbd8a78f9d8cb3e6f341b8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

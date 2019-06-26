@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.db.Groups;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.query.group.InternalGroupQuery;
@@ -153,7 +154,8 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     @Override
     public ImmutableSet<AccountGroup.UUID> load(Account.Id memberId) {
       try (TraceTimer timer =
-          TraceContext.newTimer("Loading groups with member", "memberId", memberId)) {
+          TraceContext.newTimer(
+              "Loading groups with member", Metadata.builder().accountId(memberId.get()).build())) {
         return groupQueryProvider.get().byMember(memberId).stream()
             .map(InternalGroup::getGroupUUID)
             .collect(toImmutableSet());
@@ -172,7 +174,9 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
 
     @Override
     public ImmutableList<AccountGroup.UUID> load(AccountGroup.UUID key) {
-      try (TraceTimer timer = TraceContext.newTimer("Loading parent groups", "groupUuid", key)) {
+      try (TraceTimer timer =
+          TraceContext.newTimer(
+              "Loading parent groups", Metadata.builder().groupUuid(key.get()).build())) {
         return groupQueryProvider.get().bySubgroup(key).stream()
             .map(InternalGroup::getGroupUUID)
             .collect(toImmutableList());

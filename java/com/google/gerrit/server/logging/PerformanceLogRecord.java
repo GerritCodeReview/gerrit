@@ -35,8 +35,7 @@ public abstract class PerformanceLogRecord {
    * @return the performance log record
    */
   public static PerformanceLogRecord create(String operation, long durationMs) {
-    return new AutoValue_PerformanceLogRecord(
-        operation, durationMs, null, null, null, null, null, null, null, null);
+    return new AutoValue_PerformanceLogRecord(operation, durationMs, null);
   }
 
   /**
@@ -44,119 +43,11 @@ public abstract class PerformanceLogRecord {
    *
    * @param operation the name of operation the is was performed
    * @param durationMs the execution time in milliseconds
-   * @param key meta data key
-   * @param value meta data value
+   * @param metadata metadata
    * @return the performance log record
    */
-  public static PerformanceLogRecord create(
-      String operation, long durationMs, String key, @Nullable Object value) {
-    return new AutoValue_PerformanceLogRecord(
-        operation, durationMs, requireNonNull(key), value, null, null, null, null, null, null);
-  }
-
-  /**
-   * Creates a performance log record with meta data.
-   *
-   * @param operation the name of operation the is was performed
-   * @param durationMs the execution time in milliseconds
-   * @param key1 first meta data key
-   * @param value1 first meta data value
-   * @param key2 second meta data key
-   * @param value2 second meta data value
-   * @return the performance log record
-   */
-  public static PerformanceLogRecord create(
-      String operation,
-      long durationMs,
-      String key1,
-      @Nullable Object value1,
-      String key2,
-      @Nullable Object value2) {
-    return new AutoValue_PerformanceLogRecord(
-        operation,
-        durationMs,
-        requireNonNull(key1),
-        value1,
-        requireNonNull(key2),
-        value2,
-        null,
-        null,
-        null,
-        null);
-  }
-
-  /**
-   * Creates a performance log record with meta data.
-   *
-   * @param operation the name of operation the is was performed
-   * @param durationMs the execution time in milliseconds
-   * @param key1 first meta data key
-   * @param value1 first meta data value
-   * @param key2 second meta data key
-   * @param value2 second meta data value
-   * @param key3 third meta data key
-   * @param value3 third meta data value
-   * @return the performance log record
-   */
-  public static PerformanceLogRecord create(
-      String operation,
-      long durationMs,
-      String key1,
-      @Nullable Object value1,
-      String key2,
-      @Nullable Object value2,
-      String key3,
-      @Nullable Object value3) {
-    return new AutoValue_PerformanceLogRecord(
-        operation,
-        durationMs,
-        requireNonNull(key1),
-        value1,
-        requireNonNull(key2),
-        value2,
-        requireNonNull(key3),
-        value3,
-        null,
-        null);
-  }
-
-  /**
-   * Creates a performance log record with meta data.
-   *
-   * @param operation the name of operation the is was performed
-   * @param durationMs the execution time in milliseconds
-   * @param key1 first meta data key
-   * @param value1 first meta data value
-   * @param key2 second meta data key
-   * @param value2 second meta data value
-   * @param key3 third meta data key
-   * @param value3 third meta data value
-   * @param key4 forth meta data key
-   * @param value4 forth meta data value
-   * @return the performance log record
-   */
-  public static PerformanceLogRecord create(
-      String operation,
-      long durationMs,
-      String key1,
-      @Nullable Object value1,
-      String key2,
-      @Nullable Object value2,
-      String key3,
-      @Nullable Object value3,
-      String key4,
-      @Nullable Object value4) {
-    return new AutoValue_PerformanceLogRecord(
-        operation,
-        durationMs,
-        requireNonNull(key1),
-        value1,
-        requireNonNull(key2),
-        value2,
-        requireNonNull(key3),
-        value3,
-        requireNonNull(key4),
-        value4);
+  public static PerformanceLogRecord create(String operation, long durationMs, Metadata metadata) {
+    return new AutoValue_PerformanceLogRecord(operation, durationMs, requireNonNull(metadata));
   }
 
   public abstract String operation();
@@ -164,55 +55,11 @@ public abstract class PerformanceLogRecord {
   public abstract long durationMs();
 
   @Nullable
-  public abstract String key1();
-
-  @Nullable
-  public abstract Object value1();
-
-  @Nullable
-  public abstract String key2();
-
-  @Nullable
-  public abstract Object value2();
-
-  @Nullable
-  public abstract String key3();
-
-  @Nullable
-  public abstract Object value3();
-
-  @Nullable
-  public abstract String key4();
-
-  @Nullable
-  public abstract Object value4();
+  public abstract Metadata metadata();
 
   void writeTo(PerformanceLogger performanceLogger) {
-    if (key4() != null) {
-      requireNonNull(key1());
-      requireNonNull(key2());
-      requireNonNull(key3());
-      performanceLogger.log(
-          operation(),
-          durationMs(),
-          key1(),
-          value1(),
-          key2(),
-          value2(),
-          key3(),
-          value3(),
-          key4(),
-          value4());
-    } else if (key3() != null) {
-      requireNonNull(key1());
-      requireNonNull(key2());
-      performanceLogger.log(
-          operation(), durationMs(), key1(), value1(), key2(), value2(), key3(), value3());
-    } else if (key2() != null) {
-      requireNonNull(key1());
-      performanceLogger.log(operation(), durationMs(), key1(), value1(), key2(), value2());
-    } else if (key1() != null) {
-      performanceLogger.log(operation(), durationMs(), key1(), value1());
+    if (metadata() != null) {
+      performanceLogger.log(operation(), durationMs(), metadata());
     } else {
       performanceLogger.log(operation(), durationMs());
     }

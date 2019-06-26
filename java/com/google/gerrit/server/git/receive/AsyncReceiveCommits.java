@@ -194,7 +194,10 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     @Inject
     Metrics(MetricMaker metricMaker) {
       Field<PushType> pushTypeField =
-          Field.ofEnum(PushType.class, "type")
+          Field.ofEnum(
+                  PushType.class,
+                  "type",
+                  (metadataBuilder, fieldValue) -> metadataBuilder.pushType(fieldValue.name()))
               .description("type of push (create/replace, normal, autoclose)")
               .build();
 

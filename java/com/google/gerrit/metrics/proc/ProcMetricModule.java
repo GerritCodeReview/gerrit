@@ -149,7 +149,11 @@ public class ProcMetricModule extends MetricModule {
 
   private void procJvmGc(MetricMaker metrics) {
     Field<String> gcNameField =
-        Field.ofString("gc_name").description("The name of the garbage collector").build();
+        Field.ofString(
+                "gc_name",
+                (metadataBuilder, fieldValue) -> metadataBuilder.garbageCollectorName(fieldValue))
+            .description("The name of the garbage collector")
+            .build();
 
     CallbackMetric1<String, Long> gcCount =
         metrics.newCallbackMetric(

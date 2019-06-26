@@ -23,6 +23,7 @@ import com.google.gerrit.index.project.ProjectIndex;
 import com.google.gerrit.index.project.ProjectIndexCollection;
 import com.google.gerrit.index.project.ProjectIndexer;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
@@ -79,10 +80,10 @@ public class ProjectIndexerImpl implements ProjectIndexer {
         try (TraceTimer traceTimer =
             TraceContext.newTimer(
                 "Replacing project",
-                "projectName",
-                nameKey.get(),
-                "indexVersion",
-                i.getSchema().getVersion())) {
+                Metadata.builder()
+                    .projectName(nameKey.get())
+                    .indexVersion(i.getSchema().getVersion())
+                    .build())) {
           i.replace(projectData);
         }
       }
@@ -93,10 +94,10 @@ public class ProjectIndexerImpl implements ProjectIndexer {
         try (TraceTimer traceTimer =
             TraceContext.newTimer(
                 "Deleting project",
-                "projectName",
-                nameKey.get(),
-                "indexVersion",
-                i.getSchema().getVersion())) {
+                Metadata.builder()
+                    .projectName(nameKey.get())
+                    .indexVersion(i.getSchema().getVersion())
+                    .build())) {
           i.delete(nameKey);
         }
       }

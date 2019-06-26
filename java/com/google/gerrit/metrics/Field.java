@@ -17,6 +17,7 @@ package com.google.gerrit.metrics;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.server.logging.Metadata;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -27,20 +28,40 @@ import java.util.function.Function;
  */
 @AutoValue
 public abstract class Field<T> {
-  public static Field.Builder<Boolean> ofBoolean(String name) {
-    return new AutoValue_Field.Builder<Boolean>().valueType(Boolean.class).name(name);
+  @FunctionalInterface
+  public interface MetadataMapper<T> {
+    void map(Metadata.Builder metadataBuilder, T value);
   }
 
-  public static <E extends Enum<E>> Field.Builder<E> ofEnum(Class<E> enumType, String name) {
-    return new AutoValue_Field.Builder<E>().valueType(enumType).name(name);
+  public static Field.Builder<Boolean> ofBoolean(
+      String name, MetadataMapper<Boolean> metadataMapper) {
+    return new AutoValue_Field.Builder<Boolean>()
+        .valueType(Boolean.class)
+        .name(name)
+        .metadataMapper(metadataMapper);
   }
 
-  public static Field.Builder<Integer> ofInteger(String name) {
-    return new AutoValue_Field.Builder<Integer>().valueType(Integer.class).name(name);
+  public static <E extends Enum<E>> Field.Builder<E> ofEnum(
+      Class<E> enumType, String name, MetadataMapper<E> metadataMapper) {
+    return new AutoValue_Field.Builder<E>()
+        .valueType(enumType)
+        .name(name)
+        .metadataMapper(metadataMapper);
   }
 
-  public static Field.Builder<String> ofString(String name) {
-    return new AutoValue_Field.Builder<String>().valueType(String.class).name(name);
+  public static Field.Builder<Integer> ofInteger(
+      String name, MetadataMapper<Integer> metadataMapper) {
+    return new AutoValue_Field.Builder<Integer>()
+        .valueType(Integer.class)
+        .name(name)
+        .metadataMapper(metadataMapper);
+  }
+
+  public static Field.Builder<String> ofString(String name, MetadataMapper<String> metadataMapper) {
+    return new AutoValue_Field.Builder<String>()
+        .valueType(String.class)
+        .name(name)
+        .metadataMapper(metadataMapper);
   }
 
   private Function<T, String> formatter;
@@ -50,6 +71,8 @@ public abstract class Field<T> {
 
   /** @return type of value used within the field. */
   public abstract Class<T> valueType();
+
+  public abstract MetadataMapper<T> metadataMapper();
 
   /** @return description text for the field explaining its range of values. */
   public abstract Optional<String> description();
@@ -77,6 +100,8 @@ public abstract class Field<T> {
     abstract Builder<T> name(String name);
 
     abstract Builder<T> valueType(Class<T> type);
+
+    abstract Builder<T> metadataMapper(MetadataMapper<T> metadataMapper);
 
     public abstract Builder<T> description(String description);
 

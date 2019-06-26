@@ -148,12 +148,15 @@ public class ProcMetricModule extends MetricModule {
   }
 
   private void procJvmGc(MetricMaker metrics) {
+    Field<String> gcNameField =
+        Field.ofString().name("gc_name").description("The name of the garbage collector").build();
+
     CallbackMetric1<String, Long> gcCount =
         metrics.newCallbackMetric(
             "proc/jvm/gc/count",
             Long.class,
             new Description("Number of GCs").setCumulative(),
-            Field.ofString("gc_name", "The name of the garbage collector"));
+            gcNameField);
 
     CallbackMetric1<String, Long> gcTime =
         metrics.newCallbackMetric(
@@ -162,7 +165,7 @@ public class ProcMetricModule extends MetricModule {
             new Description("Approximate accumulated GC elapsed time")
                 .setCumulative()
                 .setUnit(Units.MILLISECONDS),
-            Field.ofString("gc_name", "The name of the garbage collector"));
+            gcNameField);
 
     metrics.newTrigger(
         gcCount,

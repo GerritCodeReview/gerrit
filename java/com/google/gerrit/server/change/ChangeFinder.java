@@ -98,7 +98,7 @@ public class ChangeFinder {
             new Description("Total number of API calls per identifier type.")
                 .setRate()
                 .setUnit("requests"),
-            Field.ofEnum(ChangeIdType.class, "change_id_type"));
+            Field.ofEnum(ChangeIdType.class).name("change_id_type").build());
     List<ChangeIdType> configuredChangeIdTypes =
         ConfigUtil.getEnumList(config, "change", "api", "allowedIdentifier", ChangeIdType.ALL);
     // Ensure that PROJECT_NUMERIC_ID can't be removed

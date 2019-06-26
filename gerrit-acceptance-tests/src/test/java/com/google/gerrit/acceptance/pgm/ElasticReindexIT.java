@@ -37,7 +37,7 @@ public class ElasticReindexIT extends AbstractReindexTests {
 
   @ConfigSuite.Config
   public static Config elasticsearchV7() {
-    return getConfig(ElasticVersion.V7_1);
+    return getConfig(ElasticVersion.V7_2);
   }
 
   @Override

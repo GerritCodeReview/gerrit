@@ -36,6 +36,7 @@ import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.inject.Inject;
@@ -294,7 +295,8 @@ public class ProjectCacheImpl implements ProjectCache {
     @Override
     public ProjectState load(String projectName) throws Exception {
       try (TraceTimer timer =
-          TraceContext.newTimer("Loading project", "projectName", projectName)) {
+          TraceContext.newTimer(
+              "Loading project", Metadata.builder().projectName(projectName).build())) {
         long now = clock.read();
         Project.NameKey key = Project.nameKey(projectName);
         try (Repository git = mgr.openRepository(key)) {

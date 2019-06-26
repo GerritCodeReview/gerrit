@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.db.Groups;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.query.group.InternalGroupQuery;
@@ -149,7 +150,9 @@ public class GroupCacheImpl implements GroupCache {
 
     @Override
     public Optional<InternalGroup> load(AccountGroup.Id key) throws Exception {
-      try (TraceTimer timer = TraceContext.newTimer("Loading group by ID", "groupId", key)) {
+      try (TraceTimer timer =
+          TraceContext.newTimer(
+              "Loading group by ID", Metadata.builder().groupId(key.get()).build())) {
         return groupQueryProvider.get().byId(key);
       }
     }
@@ -165,7 +168,9 @@ public class GroupCacheImpl implements GroupCache {
 
     @Override
     public Optional<InternalGroup> load(String name) throws Exception {
-      try (TraceTimer timer = TraceContext.newTimer("Loading group by name", "groupName", name)) {
+      try (TraceTimer timer =
+          TraceContext.newTimer(
+              "Loading group by name", Metadata.builder().groupName(name).build())) {
         return groupQueryProvider.get().byName(AccountGroup.nameKey(name));
       }
     }
@@ -181,7 +186,9 @@ public class GroupCacheImpl implements GroupCache {
 
     @Override
     public Optional<InternalGroup> load(String uuid) throws Exception {
-      try (TraceTimer timer = TraceContext.newTimer("Loading group by UUID", "groupUuid", uuid)) {
+      try (TraceTimer timer =
+          TraceContext.newTimer(
+              "Loading group by UUID", Metadata.builder().groupUuid(uuid).build())) {
         return groups.getGroup(AccountGroup.uuid(uuid));
       }
     }

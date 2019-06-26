@@ -18,6 +18,7 @@ import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -31,7 +32,7 @@ public class EventsMetrics implements EventListener {
         metricMaker.newCounter(
             "events",
             new Description("Triggered events").setRate().setUnit("triggered events"),
-            Field.ofString("type").build());
+            Field.ofString("type", Metadata.Builder::eventType).build());
   }
 
   @Override

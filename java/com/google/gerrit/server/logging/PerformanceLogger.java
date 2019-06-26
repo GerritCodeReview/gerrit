@@ -14,11 +14,7 @@
 
 package com.google.gerrit.server.logging;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import java.util.Map;
-import java.util.Optional;
 
 /**
  * Extension point for logging performance records.
@@ -29,7 +25,7 @@ import java.util.Optional;
  * performance log for further analysis.
  *
  * <p>For optimal performance implementors should overwrite the default <code>log</code> methods to
- * avoid unneeded instantiation of Map objects.
+ * avoid an unneeded instantiation of Metadata.
  */
 @ExtensionPoint
 public interface PerformanceLogger {
@@ -40,7 +36,7 @@ public interface PerformanceLogger {
    * @param durationMs time that the execution of the operation took (in milliseconds)
    */
   default void log(String operation, long durationMs) {
-    log(operation, durationMs, ImmutableMap.of());
+    log(operation, durationMs, Metadata.empty());
   }
 
   /**
@@ -48,117 +44,7 @@ public interface PerformanceLogger {
    *
    * @param operation operation that was performed
    * @param durationMs time that the execution of the operation took (in milliseconds)
-   * @param key meta data key
-   * @param value meta data value
+   * @param metadata metadata
    */
-  default void log(String operation, long durationMs, String key, @Nullable Object value) {
-    log(operation, durationMs, ImmutableMap.of(key, Optional.ofNullable(value)));
-  }
-
-  /**
-   * Record the execution time of an operation in a performance log.
-   *
-   * @param operation operation that was performed
-   * @param durationMs time that the execution of the operation took (in milliseconds)
-   * @param key1 first meta data key
-   * @param value1 first meta data value
-   * @param key2 second meta data key
-   * @param value2 second meta data value
-   */
-  default void log(
-      String operation,
-      long durationMs,
-      String key1,
-      @Nullable Object value1,
-      String key2,
-      @Nullable Object value2) {
-    log(
-        operation,
-        durationMs,
-        ImmutableMap.of(key1, Optional.ofNullable(value1), key2, Optional.ofNullable(value2)));
-  }
-
-  /**
-   * Record the execution time of an operation in a performance log.
-   *
-   * @param operation operation that was performed
-   * @param durationMs time that the execution of the operation took (in milliseconds)
-   * @param key1 first meta data key
-   * @param value1 first meta data value
-   * @param key2 second meta data key
-   * @param value2 second meta data value
-   * @param key3 third meta data key
-   * @param value3 third meta data value
-   */
-  default void log(
-      String operation,
-      long durationMs,
-      String key1,
-      @Nullable Object value1,
-      String key2,
-      @Nullable Object value2,
-      String key3,
-      @Nullable Object value3) {
-    log(
-        operation,
-        durationMs,
-        ImmutableMap.of(
-            key1,
-            Optional.ofNullable(value1),
-            key2,
-            Optional.ofNullable(value2),
-            key3,
-            Optional.ofNullable(value3)));
-  }
-
-  /**
-   * Record the execution time of an operation in a performance log.
-   *
-   * @param operation operation that was performed
-   * @param durationMs time that the execution of the operation took (in milliseconds)
-   * @param key1 first meta data key
-   * @param value1 first meta data value
-   * @param key2 second meta data key
-   * @param value2 second meta data value
-   * @param key3 third meta data key
-   * @param value3 third meta data value
-   * @param key4 fourth meta data key
-   * @param value4 fourth meta data value
-   */
-  default void log(
-      String operation,
-      long durationMs,
-      String key1,
-      @Nullable Object value1,
-      String key2,
-      @Nullable Object value2,
-      String key3,
-      @Nullable Object value3,
-      String key4,
-      @Nullable Object value4) {
-    log(
-        operation,
-        durationMs,
-        ImmutableMap.of(
-            key1,
-            Optional.ofNullable(value1),
-            key2,
-            Optional.ofNullable(value2),
-            key3,
-            Optional.ofNullable(value3),
-            key4,
-            Optional.ofNullable(value4)));
-  }
-
-  /**
-   * Record the execution time of an operation in a performance log.
-   *
-   * <p>For small numbers of meta data entries the instantiation of a map should avoided by using
-   * one of the <code>log</code> methods that allows to pass in meta data entries directly.
-   *
-   * @param operation operation that was performed
-   * @param durationMs time that the execution of the operation took (in milliseconds)
-   * @param metaData key-value map with meta data
-   */
-  void log(String operation, long durationMs, Map<String, Optional<Object>> metaData);
+  void log(String operation, long durationMs, Metadata metadata);
 }

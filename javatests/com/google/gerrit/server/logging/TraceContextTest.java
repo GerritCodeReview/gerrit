@@ -240,58 +240,17 @@ public class TraceContextTest {
   @Test
   public void operationForTraceTimerCannotBeNull() throws Exception {
     assertThrows(NullPointerException.class, () -> TraceContext.newTimer(null));
-    assertThrows(NullPointerException.class, () -> TraceContext.newTimer(null, "foo", "bar"));
-    assertThrows(
-        NullPointerException.class,
-        () -> TraceContext.newTimer(null, "foo1", "bar1", "foo2", "bar2"));
-    assertThrows(
-        NullPointerException.class,
-        () -> TraceContext.newTimer(null, "foo1", "bar1", "foo2", "bar2", "foo3", "bar3"));
+    assertThrows(NullPointerException.class, () -> TraceContext.newTimer(null, Metadata.empty()));
     assertThrows(
         NullPointerException.class,
         () ->
             TraceContext.newTimer(
-                null, "foo1", "bar1", "foo2", "bar2", "foo3", "bar3", "foo4", "bar4"));
+                null, Metadata.builder().accountId(1000000).changeId(123).build()));
   }
 
   @Test
-  public void keysForTraceTimerCannotBeNull() throws Exception {
-    assertThrows(NullPointerException.class, () -> TraceContext.newTimer("test", null, "bar"));
-    assertThrows(
-        NullPointerException.class,
-        () -> TraceContext.newTimer("test", null, "bar1", "foo2", "bar2"));
-    assertThrows(
-        NullPointerException.class,
-        () -> TraceContext.newTimer("test", "foo1", "bar1", null, "bar2"));
-    assertThrows(
-        NullPointerException.class,
-        () -> TraceContext.newTimer("test", null, "bar1", "foo2", "bar2", "foo3", "bar3"));
-    assertThrows(
-        NullPointerException.class,
-        () -> TraceContext.newTimer("test", "foo1", "bar1", null, "bar2", "foo3", "bar3"));
-    assertThrows(
-        NullPointerException.class,
-        () -> TraceContext.newTimer("test", "foo1", "bar1", "foo2", "bar2", null, "bar3"));
-    assertThrows(
-        NullPointerException.class,
-        () ->
-            TraceContext.newTimer(
-                "test", null, "bar1", "foo2", "bar2", "foo3", "bar3", "foo4", "bar4"));
-    assertThrows(
-        NullPointerException.class,
-        () ->
-            TraceContext.newTimer(
-                "test", "foo1", "bar1", null, "bar2", "foo3", "bar3", "foo4", "bar4"));
-    assertThrows(
-        NullPointerException.class,
-        () ->
-            TraceContext.newTimer(
-                "test", "foo1", "bar1", "foo2", "bar2", null, "bar3", "foo4", "bar4"));
-    assertThrows(
-        NullPointerException.class,
-        () ->
-            TraceContext.newTimer(
-                "test", "foo1", "bar1", "foo2", "bar2", "foo3", "bar3", null, "bar4"));
+  public void metadataForTraceTimerCannotBeNull() throws Exception {
+    assertThrows(NullPointerException.class, () -> TraceContext.newTimer("test", null));
   }
 
   private void assertTags(ImmutableMap<String, ImmutableSet<String>> expectedTagMap) {

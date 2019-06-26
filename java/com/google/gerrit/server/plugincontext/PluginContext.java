@@ -30,6 +30,7 @@ import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer3;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -118,9 +119,12 @@ public class PluginContext<T> {
 
     @Inject
     PluginMetrics(MetricMaker metricMaker) {
-      Field<String> pluginNameField = Field.ofString("plugin_name").build();
-      Field<String> classNameField = Field.ofString("class_name").build();
-      Field<String> exportNameField = Field.ofString("export_name").build();
+      Field<String> pluginNameField =
+          Field.ofString("plugin_name", Metadata.Builder::pluginName).build();
+      Field<String> classNameField =
+          Field.ofString("class_name", Metadata.Builder::className).build();
+      Field<String> exportValueField =
+          Field.ofString("export_value", Metadata.Builder::exportValue).build();
 
       this.latency =
           metricMaker.newTimer(
@@ -130,14 +134,14 @@ public class PluginContext<T> {
                   .setUnit(Units.MILLISECONDS),
               pluginNameField,
               classNameField,
-              exportNameField);
+              exportValueField);
       this.errorCount =
           metricMaker.newCounter(
               "plugin/error_count",
               new Description("Number of plugin errors").setCumulative().setUnit("errors"),
               pluginNameField,
               classNameField,
-              exportNameField);
+              exportValueField);
     }
 
     Timer3.Context<String, String, String> startLatency(Extension<?> extension) {

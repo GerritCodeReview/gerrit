@@ -42,6 +42,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -376,7 +377,9 @@ public class StarredChangesUtil {
   }
 
   public static StarRef readLabels(Repository repo, String refName) throws IOException {
-    try (TraceTimer traceTimer = TraceContext.newTimer("Read star labels", "ref", refName)) {
+    try (TraceTimer traceTimer =
+        TraceContext.newTimer(
+            "Read star labels", Metadata.builder().noteDbRefName(refName).build())) {
       Ref ref = repo.exactRef(refName);
       if (ref == null) {
         return StarRef.MISSING;
@@ -451,7 +454,8 @@ public class StarredChangesUtil {
       throws IOException, InvalidLabelsException {
     try (TraceTimer traceTimer =
             TraceContext.newTimer(
-                "Update star labels", "ref", refName, "labelCount", labels.size());
+                "Update star labels",
+                Metadata.builder().noteDbRefName(refName).resourceCount(labels.size()).build());
         RevWalk rw = new RevWalk(repo)) {
       RefUpdate u = repo.updateRef(refName);
       u.setExpectedOldObjectId(oldObjectId);
@@ -488,7 +492,9 @@ public class StarredChangesUtil {
       return;
     }
 
-    try (TraceTimer traceTimer = TraceContext.newTimer("Delete star labels", "ref", refName)) {
+    try (TraceTimer traceTimer =
+        TraceContext.newTimer(
+            "Delete star labels", Metadata.builder().noteDbRefName(refName).build())) {
       RefUpdate u = repo.updateRef(refName);
       u.setForceUpdate(true);
       u.setExpectedOldObjectId(oldObjectId);

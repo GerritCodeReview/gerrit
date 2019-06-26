@@ -199,12 +199,18 @@ public class AsyncReceiveCommits implements PreReceiveHook {
           metricMaker.newHistogram(
               "receivecommits/changes_per_push",
               new Description("number of changes uploaded in a single push.").setCumulative(),
-              Field.ofEnum(PushType.class, "type")
+              Field.ofEnum(
+                      PushType.class,
+                      "type",
+                      (metadataBuilder, fieldValue) -> metadataBuilder.pushType(fieldValue.name()))
                   .description("type of push (create/replace, autoclose)")
                   .build());
 
       Field<PushType> pushTypeField =
-          Field.ofEnum(PushType.class, "type")
+          Field.ofEnum(
+                  PushType.class,
+                  "type",
+                  (metadataBuilder, fieldValue) -> metadataBuilder.pushType(fieldValue.name()))
               .description("type of push (create/replace, autoclose, normal)")
               .build();
 

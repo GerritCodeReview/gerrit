@@ -25,6 +25,7 @@ import com.google.gerrit.metrics.CallbackMetric1;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Set;
@@ -33,7 +34,7 @@ import java.util.Set;
 public class CacheMetrics {
   @Inject
   public CacheMetrics(MetricMaker metrics, DynamicMap<Cache<?, ?>> cacheMap) {
-    Field<String> F_NAME = Field.ofString("cache_name").build();
+    Field<String> F_NAME = Field.ofString("cache_name", Metadata.Builder::cacheName).build();
 
     CallbackMetric1<String, Long> memEnt =
         metrics.newCallbackMetric(

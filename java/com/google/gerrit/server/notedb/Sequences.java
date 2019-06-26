@@ -25,6 +25,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
@@ -95,8 +96,13 @@ public class Sequences {
             new Description("Latency of requesting IDs from repo sequences")
                 .setCumulative()
                 .setUnit(Units.MILLISECONDS),
-            Field.ofEnum(SequenceType.class, "sequence").build(),
-            Field.ofBoolean("multiple").build());
+            Field.ofEnum(
+                    SequenceType.class,
+                    "sequence",
+                    (metadataBuilder, fieldValue) ->
+                        metadataBuilder.noteDbSequenceType(fieldValue.name()))
+                .build(),
+            Field.ofBoolean("multiple", Metadata.Builder::multiple).build());
   }
 
   public int nextAccountId() {

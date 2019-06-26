@@ -18,13 +18,13 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.server.logging.LoggingContext;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.project.CreateProjectArgs;
@@ -33,8 +33,6 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -129,8 +127,8 @@ public class SshTraceIT extends AbstractDaemonTest {
     private List<PerformanceLogEntry> logEntries = new ArrayList<>();
 
     @Override
-    public void log(String operation, long durationMs, Map<String, Optional<Object>> metaData) {
-      logEntries.add(PerformanceLogEntry.create(operation, metaData));
+    public void log(String operation, long durationMs, Metadata metadata) {
+      logEntries.add(PerformanceLogEntry.create(operation, metadata));
     }
 
     ImmutableList<PerformanceLogEntry> logEntries() {
@@ -140,12 +138,12 @@ public class SshTraceIT extends AbstractDaemonTest {
 
   @AutoValue
   abstract static class PerformanceLogEntry {
-    static PerformanceLogEntry create(String operation, Map<String, Optional<Object>> metaData) {
-      return new AutoValue_SshTraceIT_PerformanceLogEntry(operation, ImmutableMap.copyOf(metaData));
+    static PerformanceLogEntry create(String operation, Metadata metadata) {
+      return new AutoValue_SshTraceIT_PerformanceLogEntry(operation, metadata);
     }
 
     abstract String operation();
 
-    abstract ImmutableMap<String, Object> metaData();
+    abstract Metadata metadata();
   }
 }

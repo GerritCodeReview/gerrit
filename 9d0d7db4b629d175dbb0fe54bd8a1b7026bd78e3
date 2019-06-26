@@ -151,6 +151,41 @@
       "revId": "9d0d7db4b629d175dbb0fe54bd8a1b7026bd78e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "881e1456_ba11f1fc",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-06-26T07:06:38Z",
+      "side": 1,
+      "message": "Ok, sounds good. Let\u0027s leave it here then.",
+      "parentUuid": "afea41ee_a35e3918",
+      "revId": "9d0d7db4b629d175dbb0fe54bd8a1b7026bd78e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c833f8e8_74ece2ec",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1477,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-06-26T07:06:38Z",
+      "side": 1,
+      "message": "Maybe add a comment here explaining why the if and else clauses are different and why each of them is important.",
+      "revId": "9d0d7db4b629d175dbb0fe54bd8a1b7026bd78e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

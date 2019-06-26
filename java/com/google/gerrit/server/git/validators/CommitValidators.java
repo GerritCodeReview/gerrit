@@ -132,7 +132,8 @@ public class CommitValidators {
         SshInfo sshInfo,
         NoteMap rejectCommits,
         RevWalk rw,
-        @Nullable Change change)
+        @Nullable Change change,
+        boolean skipValidation)
         throws IOException {
       PermissionBackend.ForRef perm = forProject.ref(branch.get());
       ProjectState projectState = projectCache.checkedGet(branch.getParentKey());
@@ -153,7 +154,7 @@ public class CommitValidators {
                   change),
               new ConfigValidator(projectConfigFactory, branch, user, rw, allUsers, allProjects),
               new BannedCommitsValidator(rejectCommits),
-              new PluginCommitValidationListener(pluginValidators),
+              new PluginCommitValidationListener(pluginValidators, skipValidation),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
               new AccountCommitValidator(repoManager, allUsers, accountValidator),
               new GroupCommitValidator(allUsers)));
@@ -476,11 +477,30 @@ public class CommitValidators {
 
   /** Execute commit validation plug-ins */
   public static class PluginCommitValidationListener implements CommitValidationListener {
+    private boolean skipValidation;
     private final PluginSetContext<CommitValidationListener> commitValidationListeners;
 
     public PluginCommitValidationListener(
         final PluginSetContext<CommitValidationListener> commitValidationListeners) {
+      this(commitValidationListeners, false);
+    }
+
+    public PluginCommitValidationListener(
+        final PluginSetContext<CommitValidationListener> commitValidationListeners,
+        boolean skipValidation) {
+      this.skipValidation = skipValidation;
       this.commitValidationListeners = commitValidationListeners;
+    }
+
+    private void runValidator(
+        CommitValidationListener validator,
+        List<CommitValidationMessage> messages,
+        CommitReceivedEvent receiveEvent)
+        throws CommitValidationException {
+      if (skipValidation && !validator.shouldValidateAllCommits()) {
+        return;
+      }
+      messages.addAll(validator.onCommitReceived(receiveEvent));
     }
 
     @Override
@@ -489,13 +509,17 @@ public class CommitValidators {
       List<CommitValidationMessage> messages = new ArrayList<>();
       try {
         commitValidationListeners.runEach(
-            l -> messages.addAll(l.onCommitReceived(receiveEvent)),
-            CommitValidationException.class);
+            l -> runValidator(l, messages, receiveEvent), CommitValidationException.class);
       } catch (CommitValidationException e) {
         messages.addAll(e.getMessages());
         throw new CommitValidationException(e.getMessage(), messages);
       }
       return messages;
+    }
+
+    @Override
+    public boolean shouldValidateAllCommits() {
+      return commitValidationListeners.stream().anyMatch(v -> v.shouldValidateAllCommits());
     }
   }
 

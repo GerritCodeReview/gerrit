@@ -35,4 +35,14 @@ public interface CommitValidationListener {
    */
   List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
       throws CommitValidationException;
+
+  /**
+   * Whether this validator should validate all commits.
+   *
+   * @return {@code true} if this validator should validate all commits, even when the {@code
+   *     skip-validation} push option was specified.
+   */
+  default boolean shouldValidateAllCommits() {
+    return false;
+  }
 }

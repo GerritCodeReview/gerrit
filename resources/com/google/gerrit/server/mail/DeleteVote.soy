@@ -23,8 +23,9 @@
 {template .DeleteVote kind="text"}
   {@param change: ?}
   {@param coverLetter: ?}
+  {@param email: ?}
   {@param fromName: ?}
-  {$fromName} has removed a vote on this change.{\n}
+  {$fromName} has removed a vote from this change.{if $email.changeUrl} ( {$email.changeUrl} ){/if}{\n}{\n}
   {\n}
   Change subject: {$change.subject}{\n}
   ......................................................................{\n}

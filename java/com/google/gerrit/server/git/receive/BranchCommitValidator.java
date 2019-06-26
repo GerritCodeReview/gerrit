@@ -90,6 +90,29 @@ public class BranchCommitValidator {
       NoteMap rejectCommits,
       @Nullable Change change)
       throws IOException {
+    return validCommit(objectReader, cmd, commit, isMerged, messages, rejectCommits, change, false);
+  }
+
+  /**
+   * Validates a single commit. If the commit does not validate, the command is rejected.
+   *
+   * @param objectReader the object reader to use.
+   * @param cmd the ReceiveCommand executing the push.
+   * @param commit the commit being validated.
+   * @param isMerged whether this is a merge commit created by magicBranch --merge option
+   * @param change the change for which this is a new patchset.
+   * @param skipValidation whether 'skip-validation' was requested.
+   */
+  public boolean validCommit(
+      ObjectReader objectReader,
+      ReceiveCommand cmd,
+      RevCommit commit,
+      boolean isMerged,
+      List<ValidationMessage> messages,
+      NoteMap rejectCommits,
+      @Nullable Change change,
+      boolean skipValidation)
+      throws IOException {
     try (CommitReceivedEvent receiveEvent =
         new CommitReceivedEvent(cmd, project, branch.get(), objectReader, commit, user)) {
       CommitValidators validators;
@@ -105,7 +128,8 @@ public class BranchCommitValidator {
                 sshInfo,
                 rejectCommits,
                 receiveEvent.revWalk,
-                change);
+                change,
+                skipValidation);
       }
 
       for (CommitValidationMessage m : validators.validate(receiveEvent)) {

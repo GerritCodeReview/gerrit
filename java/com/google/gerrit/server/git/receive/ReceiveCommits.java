@@ -3087,6 +3087,7 @@ class ReceiveCommits {
                 ObjectInserter ins = repo.newObjectInserter();
                 ObjectReader reader = ins.newReader();
                 RevWalk rw = new RevWalk(reader)) {
+              rw.sort(RevSort.REVERSE);
               bu.setRepository(repo, rw, ins).updateChangesInParallel();
               // TODO(dborowitz): Teach BatchUpdate to ignore missing changes.
 

@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "a949f886_c69998ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-26T11:21:48Z",
+      "side": 1,
+      "message": "This change should actually be just a new patch set of I7b049a4dc. Please upload it as a new patch set and abandon this change. Otherwise, we\u0027ll all get confused.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "43fa276328e96d3a866d79e7f0c01eeb667ca645",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3480ee12_2a03c242",
         "filename": "java/com/google/gerrit/server/patch/PatchListCache.java",
         "patchSetId": 2

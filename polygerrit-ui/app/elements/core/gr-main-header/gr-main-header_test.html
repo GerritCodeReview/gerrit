@@ -93,17 +93,6 @@ limitations under the License.
       ]);
     });
 
-    test('filter unsupported urls', () => {
-      assert.deepEqual([
-        {url: '/c/331788/'},
-        {url: '/groups/self'},
-        {url: 'https://awesometown.com/#hashyhash'},
-      ].filter(element._isSupportedLink), [
-        {url: '/c/331788/'},
-        {url: 'https://awesometown.com/#hashyhash'},
-      ]);
-    });
-
     test('user links', () => {
       const defaultLinks = [{
         title: 'Faves',

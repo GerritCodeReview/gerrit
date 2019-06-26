@@ -22,6 +22,30 @@
       "revId": "1d60f56ccc183eea4d3f0046dbbe8e1720f78842",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efb95832_2dc7eb1b",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-26T17:30:00Z",
+      "side": 1,
+      "message": "Setting this to WIP until [1] contains an initial 7.2 directory (whole structure).\n\n[1] https://github.com/blacktop/docker-elasticsearch-alpine",
+      "parentUuid": "45f32afb_fe2b70a0",
+      "range": {
+        "startLine": 58,
+        "startChar": 16,
+        "endLine": 58,
+        "endChar": 45
+      },
+      "revId": "1d60f56ccc183eea4d3f0046dbbe8e1720f78842",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

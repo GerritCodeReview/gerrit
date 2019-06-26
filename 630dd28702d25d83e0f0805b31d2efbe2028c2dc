@@ -22,6 +22,30 @@
       "revId": "630dd28702d25d83e0f0805b31d2efbe2028c2dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1acd3744_91c82375",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-06-26T13:21:47Z",
+      "side": 1,
+      "message": "That feature (...) is only supported on \"ECMASCRIPT_2018\" per this error message i get when building \"This language feature is only supported for ECMASCRIPT_2018 mode or better: object literals with spread.\"",
+      "parentUuid": "e0e9c0cc_2135aef9",
+      "range": {
+        "startLine": 210,
+        "startChar": 6,
+        "endLine": 214,
+        "endChar": 15
+      },
+      "revId": "630dd28702d25d83e0f0805b31d2efbe2028c2dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

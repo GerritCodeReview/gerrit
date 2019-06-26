@@ -1,0 +1,4 @@
+gerrit: 2.16.9
+plugins:
+  - readonly
+  - owner

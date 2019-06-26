@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexExecutor;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
@@ -187,10 +188,10 @@ public class ChangeIndexer {
       try (TraceTimer traceTimer =
           TraceContext.newTimer(
               "Replacing change in index",
-              "changeId",
-              cd.getId().get(),
-              "indexVersion",
-              i.getSchema().getVersion())) {
+              Metadata.builder()
+                  .changeId(cd.getId().get())
+                  .indexVersion(i.getSchema().getVersion())
+                  .build())) {
         i.replace(cd);
       }
     }
@@ -378,10 +379,10 @@ public class ChangeIndexer {
         try (TraceTimer traceTimer =
             TraceContext.newTimer(
                 "Deleting change in index",
-                "changeId",
-                id.get(),
-                "indexVersion",
-                i.getSchema().getVersion())) {
+                Metadata.builder()
+                    .changeId(id.get())
+                    .indexVersion(i.getSchema().getVersion())
+                    .build())) {
           i.delete(id);
         }
       }

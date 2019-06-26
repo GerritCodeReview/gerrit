@@ -23,6 +23,7 @@ import com.google.gerrit.index.Index;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
@@ -91,20 +92,20 @@ public class GroupIndexerImpl implements GroupIndexer {
         try (TraceTimer traceTimer =
             TraceContext.newTimer(
                 "Replacing group",
-                "groupUuid",
-                uuid.get(),
-                "indexVersion",
-                i.getSchema().getVersion())) {
+                Metadata.builder()
+                    .groupUuid(uuid.get())
+                    .indexVersion(i.getSchema().getVersion())
+                    .build())) {
           i.replace(internalGroup.get());
         }
       } else {
         try (TraceTimer traceTimer =
             TraceContext.newTimer(
                 "Deleting group",
-                "groupUuid",
-                uuid.get(),
-                "indexVersion",
-                i.getSchema().getVersion())) {
+                Metadata.builder()
+                    .groupUuid(uuid.get())
+                    .indexVersion(i.getSchema().getVersion())
+                    .build())) {
           i.delete(uuid);
         }
       }

@@ -48,6 +48,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -135,7 +136,7 @@ public class ProjectState {
             new Description("Latency for access computations in ProjectState")
                 .setCumulative()
                 .setUnit(Units.NANOSECONDS),
-            Field.ofString("method").build());
+            Field.ofString("method", Metadata.Builder::methodName).build());
 
     if (isAllProjects && !Permission.canBeOnAllProjects(AccessSection.ALL, Permission.OWNER)) {
       localOwners = Collections.emptySet();

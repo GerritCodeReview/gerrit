@@ -25,6 +25,7 @@ import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.Histogram1;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer1;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -42,7 +43,9 @@ public class RestApiMetrics {
   @Inject
   RestApiMetrics(MetricMaker metrics) {
     Field<String> viewField =
-        Field.ofString("view").description("view implementation class").build();
+        Field.ofString("view", Metadata.Builder::className)
+            .description("view implementation class")
+            .build();
     count =
         metrics.newCounter(
             "http/server/rest_api/count",
@@ -54,7 +57,9 @@ public class RestApiMetrics {
             "http/server/rest_api/error_count",
             new Description("REST API errors by view").setRate(),
             viewField,
-            Field.ofInteger("error_code").description("HTTP status code").build());
+            Field.ofInteger("error_code", Metadata.Builder::httpStatus)
+                .description("HTTP status code")
+                .build());
 
     serverLatency =
         metrics.newTimer(

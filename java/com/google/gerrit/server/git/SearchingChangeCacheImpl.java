@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -153,7 +154,8 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
     @Override
     public List<CachedChange> load(Project.NameKey key) throws Exception {
       try (TraceTimer timer =
-              TraceContext.newTimer("Loading changes of project", "projectName", key);
+              TraceContext.newTimer(
+                  "Loading changes of project", Metadata.builder().projectName(key.get()).build());
           ManualRequestContext ctx = requestContext.open()) {
         List<ChangeData> cds =
             queryProvider

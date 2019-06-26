@@ -38,6 +38,7 @@ import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.server.logging.CallerFinder;
+import com.google.gerrit.server.logging.Metadata;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -66,7 +67,9 @@ public abstract class QueryProcessor<T> {
               new Description("Successful query latency, accumulated over the life of the process")
                   .setCumulative()
                   .setUnit(Description.Units.MILLISECONDS),
-              Field.ofString("index").description("index name").build());
+              Field.ofString("index", Metadata.Builder::indexName)
+                  .description("index name")
+                  .build());
     }
   }
 

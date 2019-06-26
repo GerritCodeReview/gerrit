@@ -27,6 +27,7 @@ import com.google.gerrit.server.cache.proto.Cache.PureRevertKeyProto;
 import com.google.gerrit.server.cache.serialize.BooleanCacheSerializer;
 import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.gerrit.server.cache.serialize.ProtobufSerializer;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectCache;
@@ -151,7 +152,9 @@ public class PureRevertCache {
     @Override
     public Boolean load(PureRevertKeyProto key) throws BadRequestException, IOException {
       try (TraceContext.TraceTimer ignored =
-          TraceContext.newTimer("Loading pure revert", "key", key)) {
+          TraceContext.newTimer(
+              "Loading pure revert",
+              Metadata.builder().cacheKey(key.toString()).projectName(key.getProject()).build())) {
         ObjectId original = ObjectIdConverter.create().fromByteString(key.getClaimedOriginal());
         ObjectId revert = ObjectIdConverter.create().fromByteString(key.getClaimedRevert());
         Project.NameKey project = Project.nameKey(key.getProject());

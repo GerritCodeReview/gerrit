@@ -66,7 +66,11 @@ public abstract class QueryProcessor<T> {
               new Description("Successful query latency, accumulated over the life of the process")
                   .setCumulative()
                   .setUnit(Description.Units.MILLISECONDS),
-              Field.ofString("index").description("index name").build());
+              Field.ofString(
+                      "index",
+                      (metadataBuilder, fieldValue) -> metadataBuilder.indexName(fieldValue))
+                  .description("index name")
+                  .build());
     }
   }
 

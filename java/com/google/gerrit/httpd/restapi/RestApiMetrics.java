@@ -42,7 +42,10 @@ public class RestApiMetrics {
   @Inject
   RestApiMetrics(MetricMaker metrics) {
     Field<String> viewField =
-        Field.ofString("view").description("view implementation class").build();
+        Field.ofString(
+                "view", (metadataBuilder, fieldValue) -> metadataBuilder.className(fieldValue))
+            .description("view implementation class")
+            .build();
     count =
         metrics.newCounter(
             "http/server/rest_api/count",
@@ -54,7 +57,11 @@ public class RestApiMetrics {
             "http/server/rest_api/error_count",
             new Description("REST API errors by view").setRate(),
             viewField,
-            Field.ofInteger("error_code").description("HTTP status code").build());
+            Field.ofInteger(
+                    "error_code",
+                    (metadataBuilder, fieldValue) -> metadataBuilder.httpStatus(fieldValue))
+                .description("HTTP status code")
+                .build());
 
     serverLatency =
         metrics.newTimer(

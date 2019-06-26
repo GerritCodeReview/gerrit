@@ -16,6 +16,8 @@ package com.google.gerrit.metrics;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.auto.value.AutoValue;
+import java.util.Optional;
 import java.util.function.Function;
 
 /**
@@ -23,146 +25,67 @@ import java.util.function.Function;
  *
  * @param <T> type of field
  */
-public class Field<T> {
-  /**
-   * Break down metrics by boolean true/false.
-   *
-   * @param name field name
-   * @return boolean field
-   */
-  public static Field<Boolean> ofBoolean(String name) {
-    return ofBoolean(name, null);
+@AutoValue
+public abstract class Field<T> {
+  public static Field.Builder<Boolean> ofBoolean(String name) {
+    return new AutoValue_Field.Builder<Boolean>().valueType(Boolean.class).name(name);
   }
 
-  /**
-   * Break down metrics by boolean true/false.
-   *
-   * @param name field name
-   * @param description field description
-   * @return boolean field
-   */
-  public static Field<Boolean> ofBoolean(String name, String description) {
-    return new Field<>(name, Boolean.class, description);
+  public static <E extends Enum<E>> Field.Builder<E> ofEnum(Class<E> enumType, String name) {
+    return new AutoValue_Field.Builder<E>().valueType(enumType).name(name);
   }
 
-  /**
-   * Break down metrics by cases of an enum.
-   *
-   * @param enumType type of enum
-   * @param name field name
-   * @return enum field
-   */
-  public static <E extends Enum<E>> Field<E> ofEnum(Class<E> enumType, String name) {
-    return ofEnum(enumType, name, null);
+  public static Field.Builder<Integer> ofInteger(String name) {
+    return new AutoValue_Field.Builder<Integer>().valueType(Integer.class).name(name);
   }
 
-  /**
-   * Break down metrics by cases of an enum.
-   *
-   * @param enumType type of enum
-   * @param name field name
-   * @param description field description
-   * @return enum field
-   */
-  public static <E extends Enum<E>> Field<E> ofEnum(
-      Class<E> enumType, String name, String description) {
-    return new Field<>(name, enumType, description);
+  public static Field.Builder<String> ofString(String name) {
+    return new AutoValue_Field.Builder<String>().valueType(String.class).name(name);
   }
 
-  /**
-   * Break down metrics by string.
-   *
-   * <p>Each unique string will allocate a new submetric. <b>Do not use user content as a field
-   * value</b> as field values are never reclaimed.
-   *
-   * @param name field name
-   * @return string field
-   */
-  public static Field<String> ofString(String name) {
-    return ofString(name, null);
-  }
-
-  /**
-   * Break down metrics by string.
-   *
-   * <p>Each unique string will allocate a new submetric. <b>Do not use user content as a field
-   * value</b> as field values are never reclaimed.
-   *
-   * @param name field name
-   * @param description field description
-   * @return string field
-   */
-  public static Field<String> ofString(String name, String description) {
-    return new Field<>(name, String.class, description);
-  }
-
-  /**
-   * Break down metrics by integer.
-   *
-   * <p>Each unique integer will allocate a new submetric. <b>Do not use user content as a field
-   * value</b> as field values are never reclaimed.
-   *
-   * @param name field name
-   * @return integer field
-   */
-  public static Field<Integer> ofInteger(String name) {
-    return ofInteger(name, null);
-  }
-
-  /**
-   * Break down metrics by integer.
-   *
-   * <p>Each unique integer will allocate a new submetric. <b>Do not use user content as a field
-   * value</b> as field values are never reclaimed.
-   *
-   * @param name field name
-   * @param description field description
-   * @return integer field
-   */
-  public static Field<Integer> ofInteger(String name, String description) {
-    return new Field<>(name, Integer.class, description);
-  }
-
-  private final String name;
-  private final Class<T> keyType;
-  private final Function<T, String> formatter;
-  private final String description;
-
-  private Field(String name, Class<T> keyType, String description) {
-    checkArgument(name.matches("^[a-z_]+$"), "name must match [a-z_]");
-    this.name = name;
-    this.keyType = keyType;
-    this.formatter = initFormatter(keyType);
-    this.description = description;
-  }
+  private Function<T, String> formatter;
 
   /** @return name of this field within the metric. */
-  public String getName() {
-    return name;
-  }
+  public abstract String name();
 
   /** @return type of value used within the field. */
-  public Class<T> getType() {
-    return keyType;
-  }
+  public abstract Class<T> valueType();
 
   /** @return description text for the field explaining its range of values. */
-  public String getDescription() {
-    return description;
-  }
+  public abstract Optional<String> description();
 
   public Function<T, String> formatter() {
+    if (formatter == null) {
+      formatter = initFormatter(valueType());
+    }
     return formatter;
   }
 
-  private static <T> Function<T, String> initFormatter(Class<T> keyType) {
-    if (keyType == String.class) {
+  private static <T> Function<T, String> initFormatter(Class<T> valueType) {
+    if (valueType == String.class) {
       return s -> (String) s;
-    } else if (keyType == Integer.class || keyType == Boolean.class) {
+    } else if (valueType == Integer.class || valueType == Boolean.class) {
       return Object::toString;
-    } else if (Enum.class.isAssignableFrom(keyType)) {
+    } else if (Enum.class.isAssignableFrom(valueType)) {
       return in -> ((Enum<?>) in).name();
     }
-    throw new IllegalStateException("unsupported type " + keyType.getName());
+    throw new IllegalStateException("unsupported type " + valueType.getName());
+  }
+
+  @AutoValue.Builder
+  public abstract static class Builder<T> {
+    abstract Builder<T> name(String name);
+
+    abstract Builder<T> valueType(Class<T> type);
+
+    public abstract Builder<T> description(String description);
+
+    abstract Field<T> autoBuild();
+
+    public Field<T> build() {
+      Field<T> field = autoBuild();
+      checkArgument(field.name().matches("^[a-z_]+$"), "name must match [a-z_]");
+      return field;
+    }
   }
 }

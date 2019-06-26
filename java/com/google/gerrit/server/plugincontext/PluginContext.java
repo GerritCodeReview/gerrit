@@ -118,22 +118,26 @@ public class PluginContext<T> {
 
     @Inject
     PluginMetrics(MetricMaker metricMaker) {
+      Field<String> pluginNameField = Field.ofString().name("plugin_name").build();
+      Field<String> classNameField = Field.ofString().name("class_name").build();
+      Field<String> exportNameField = Field.ofString().name("export_name").build();
+
       this.latency =
           metricMaker.newTimer(
               "plugin/latency",
               new Description("Latency for plugin invocation")
                   .setCumulative()
                   .setUnit(Units.MILLISECONDS),
-              Field.ofString("plugin_name"),
-              Field.ofString("class_name"),
-              Field.ofString("export_name"));
+              pluginNameField,
+              classNameField,
+              exportNameField);
       this.errorCount =
           metricMaker.newCounter(
               "plugin/error_count",
               new Description("Number of plugin errors").setCumulative().setUnit("errors"),
-              Field.ofString("plugin_name"),
-              Field.ofString("class_name"),
-              Field.ofString("export_name"));
+              pluginNameField,
+              classNameField,
+              exportNameField);
     }
 
     Timer3.Context startLatency(Extension<?> extension) {

@@ -111,7 +111,8 @@ public class RetryHelper {
 
     @Inject
     Metrics(MetricMaker metricMaker) {
-      Field<ActionType> view = Field.ofEnum(ActionType.class, "action_type");
+      Field<ActionType> actionTypeField =
+          Field.ofEnum(ActionType.class).name("action_type").build();
       attemptCounts =
           metricMaker.newCounter(
               "action/retry_attempt_count",
@@ -120,7 +121,7 @@ public class RetryHelper {
                           + " (0 == single attempt, no retry)")
                   .setCumulative()
                   .setUnit("attempts"),
-              view);
+              actionTypeField);
       timeoutCount =
           metricMaker.newCounter(
               "action/retry_timeout_count",
@@ -128,7 +129,7 @@ public class RetryHelper {
                       "Number of action executions of RetryHelper that ultimately timed out")
                   .setCumulative()
                   .setUnit("timeouts"),
-              view);
+              actionTypeField);
     }
   }
 

@@ -45,7 +45,7 @@ class NoteDbMetrics {
 
   @Inject
   NoteDbMetrics(MetricMaker metrics) {
-    Field<NoteDbTable> view = Field.ofEnum(NoteDbTable.class, "table");
+    Field<NoteDbTable> tableField = Field.ofEnum(NoteDbTable.class).name("table").build();
 
     updateLatency =
         metrics.newTimer(
@@ -53,7 +53,7 @@ class NoteDbMetrics {
             new Description("NoteDb update latency by table")
                 .setCumulative()
                 .setUnit(Units.MILLISECONDS),
-            view);
+            tableField);
 
     stageUpdateLatency =
         metrics.newTimer(
@@ -61,7 +61,7 @@ class NoteDbMetrics {
             new Description("Latency for staging updates to NoteDb by table")
                 .setCumulative()
                 .setUnit(Units.MICROSECONDS),
-            view);
+            tableField);
 
     readLatency =
         metrics.newTimer(
@@ -69,7 +69,7 @@ class NoteDbMetrics {
             new Description("NoteDb read latency by table")
                 .setCumulative()
                 .setUnit(Units.MILLISECONDS),
-            view);
+            tableField);
 
     parseLatency =
         metrics.newTimer(
@@ -77,6 +77,6 @@ class NoteDbMetrics {
             new Description("NoteDb parse latency by table")
                 .setCumulative()
                 .setUnit(Units.MICROSECONDS),
-            view);
+            tableField);
   }
 }

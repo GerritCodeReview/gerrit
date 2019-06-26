@@ -189,10 +189,10 @@ class MetricJson {
     String description;
 
     FieldJson(Field<?> field) {
-      this.name = field.getName();
-      this.description = field.getDescription();
+      this.name = field.name();
+      this.description = field.description().orElse(null);
       this.type =
-          Enum.class.isAssignableFrom(field.getType()) ? field.getType().getSimpleName() : null;
+          Enum.class.isAssignableFrom(field.valueType()) ? field.valueType().getSimpleName() : null;
     }
   }
 }

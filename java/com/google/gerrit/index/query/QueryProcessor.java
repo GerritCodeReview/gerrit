@@ -60,14 +60,13 @@ public abstract class QueryProcessor<T> {
     final Timer1<String> executionTime;
 
     Metrics(MetricMaker metricMaker) {
-      Field<String> index = Field.ofString("index", "index name");
       executionTime =
           metricMaker.newTimer(
               "query/query_latency",
               new Description("Successful query latency, accumulated over the life of the process")
                   .setCumulative()
                   .setUnit(Description.Units.MILLISECONDS),
-              index);
+              Field.ofString().name("index").description("index name").build());
     }
   }
 

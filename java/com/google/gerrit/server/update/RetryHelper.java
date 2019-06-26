@@ -39,6 +39,7 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.time.Duration;
@@ -111,7 +112,8 @@ public class RetryHelper {
 
     @Inject
     Metrics(MetricMaker metricMaker) {
-      Field<ActionType> actionTypeField = Field.ofEnum(ActionType.class, "action_type").build();
+      Field<ActionType> actionTypeField =
+          Field.ofEnum(ActionType.class, "action_type", Metadata.Builder::actionType).build();
       attemptCounts =
           metricMaker.newCounter(
               "action/retry_attempt_count",

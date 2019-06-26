@@ -3094,6 +3094,7 @@ class ReceiveCommits {
               Branch.NameKey branch = new Branch.NameKey(project.getNameKey(), refName);
 
               rw.reset();
+              rw.sort(RevSort.REVERSE);
               rw.markStart(newTip);
               if (!ObjectId.zeroId().equals(cmd.getOldId())) {
                 rw.markUninteresting(rw.parseCommit(cmd.getOldId()));

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86d7bdc0_9d837543",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-06-26T14:05:25Z",
+      "side": 1,
+      "message": "What if they take part in votes? Is there any difference between the vote of an active vs. inactive maintainer?",
+      "range": {
+        "startLine": 23,
+        "startChar": 17,
+        "endLine": 23,
+        "endChar": 49
+      },
+      "revId": "9842f5864f23c32b27460c5d1efbdf4e70623f79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d5e627a_db211ba9",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-06-26T14:05:25Z",
+      "side": 1,
+      "message": "Does this mean that there is no upper limit? Or as soon as the nomination receives 5 positive votes is automatically accepted?",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 8
+      },
+      "revId": "9842f5864f23c32b27460c5d1efbdf4e70623f79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

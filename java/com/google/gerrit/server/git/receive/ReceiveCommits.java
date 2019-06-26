@@ -167,10 +167,12 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -3105,8 +3107,12 @@ class ReceiveCommits {
 
               int existingPatchSets = 0;
               int newPatchSets = 0;
-              COMMIT:
+              Deque<RevCommit> reverse = new ArrayDeque<>();
               for (RevCommit c; (c = rw.next()) != null; ) {
+                reverse.push(c);
+              }
+              COMMIT:
+              for (RevCommit c : reverse) {
                 rw.parseBody(c);
 
                 for (Ref ref : byCommit.get(c.copy())) {

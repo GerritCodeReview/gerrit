@@ -48,6 +48,9 @@ public class ElasticVersionTest {
 
     assertThat(ElasticVersion.forVersion("7.0.0")).isEqualTo(ElasticVersion.V7_0);
     assertThat(ElasticVersion.forVersion("7.0.1")).isEqualTo(ElasticVersion.V7_0);
+
+    assertThat(ElasticVersion.forVersion("7.1.0")).isEqualTo(ElasticVersion.V7_1);
+    assertThat(ElasticVersion.forVersion("7.1.1")).isEqualTo(ElasticVersion.V7_1);
   }
 
   @Test
@@ -56,18 +59,6 @@ public class ElasticVersionTest {
     exception.expectMessage(
         "Unsupported version: [4.0.0]. Supported versions: " + ElasticVersion.supportedVersions());
     ElasticVersion.forVersion("4.0.0");
-  }
-
-  @Test
-  public void version6() throws Exception {
-    assertThat(ElasticVersion.V5_6.isV6OrLater()).isFalse();
-    assertThat(ElasticVersion.V6_2.isV6OrLater()).isTrue();
-    assertThat(ElasticVersion.V6_3.isV6OrLater()).isTrue();
-    assertThat(ElasticVersion.V6_4.isV6OrLater()).isTrue();
-    assertThat(ElasticVersion.V6_5.isV6OrLater()).isTrue();
-    assertThat(ElasticVersion.V6_6.isV6OrLater()).isTrue();
-    assertThat(ElasticVersion.V6_7.isV6OrLater()).isTrue();
-    assertThat(ElasticVersion.V7_0.isV6OrLater()).isTrue();
   }
 
   @Test
@@ -80,10 +71,24 @@ public class ElasticVersionTest {
     assertThat(ElasticVersion.V6_6.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
     assertThat(ElasticVersion.V6_7.isAtLeastMinorVersion(ElasticVersion.V6_7)).isTrue();
     assertThat(ElasticVersion.V7_0.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
+    assertThat(ElasticVersion.V7_1.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
   }
 
   @Test
-  public void version7() throws Exception {
+  public void version6OrLater() throws Exception {
+    assertThat(ElasticVersion.V5_6.isV6OrLater()).isFalse();
+    assertThat(ElasticVersion.V6_2.isV6OrLater()).isTrue();
+    assertThat(ElasticVersion.V6_3.isV6OrLater()).isTrue();
+    assertThat(ElasticVersion.V6_4.isV6OrLater()).isTrue();
+    assertThat(ElasticVersion.V6_5.isV6OrLater()).isTrue();
+    assertThat(ElasticVersion.V6_6.isV6OrLater()).isTrue();
+    assertThat(ElasticVersion.V6_7.isV6OrLater()).isTrue();
+    assertThat(ElasticVersion.V7_0.isV6OrLater()).isTrue();
+    assertThat(ElasticVersion.V7_1.isV6OrLater()).isTrue();
+  }
+
+  @Test
+  public void version7OrLater() throws Exception {
     assertThat(ElasticVersion.V5_6.isV7OrLater()).isFalse();
     assertThat(ElasticVersion.V6_2.isV7OrLater()).isFalse();
     assertThat(ElasticVersion.V6_3.isV7OrLater()).isFalse();
@@ -92,5 +97,6 @@ public class ElasticVersionTest {
     assertThat(ElasticVersion.V6_6.isV7OrLater()).isFalse();
     assertThat(ElasticVersion.V6_7.isV7OrLater()).isFalse();
     assertThat(ElasticVersion.V7_0.isV7OrLater()).isTrue();
+    assertThat(ElasticVersion.V7_1.isV7OrLater()).isTrue();
   }
 }

@@ -2850,11 +2850,11 @@ class ReceiveCommits {
       bu.setRepository(repo, rw, ins).updateChangesInParallel();
       bu.setRequestId(receiveId);
       // TODO(dborowitz): Teach BatchUpdate to ignore missing changes.
-
       RevCommit newTip = rw.parseCommit(cmd.getNewId());
       Branch.NameKey branch = new Branch.NameKey(project.getNameKey(), refName);
 
       rw.reset();
+      rw.sort(RevSort.REVERSE);
       rw.markStart(newTip);
       if (!ObjectId.zeroId().equals(cmd.getOldId())) {
         rw.markUninteresting(rw.parseCommit(cmd.getOldId()));

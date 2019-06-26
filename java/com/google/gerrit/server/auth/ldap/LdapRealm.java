@@ -37,6 +37,7 @@ import com.google.gerrit.server.auth.AuthenticationUnavailableException;
 import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.inject.Inject;
@@ -354,7 +355,8 @@ class LdapRealm extends AbstractRealm {
     @Override
     public Optional<Account.Id> load(String username) throws Exception {
       try (TraceTimer timer =
-          TraceContext.newTimer("Loading account for username", "username", username)) {
+          TraceContext.newTimer(
+              "Loading account for username", Metadata.builder().username(username).build())) {
         return externalIds
             .get(ExternalId.Key.create(SCHEME_GERRIT, username))
             .map(ExternalId::accountId);
@@ -373,7 +375,9 @@ class LdapRealm extends AbstractRealm {
     @Override
     public Set<AccountGroup.UUID> load(String username) throws Exception {
       try (TraceTimer timer =
-          TraceContext.newTimer("Loading group for member with username", "username", username)) {
+          TraceContext.newTimer(
+              "Loading group for member with username",
+              Metadata.builder().username(username).build())) {
         final DirContext ctx = helper.open();
         try {
           return helper.queryForGroups(ctx, username, null);
@@ -394,7 +398,9 @@ class LdapRealm extends AbstractRealm {
 
     @Override
     public Boolean load(String groupDn) throws Exception {
-      try (TraceTimer timer = TraceContext.newTimer("Loading groupDn", "groupDn", groupDn)) {
+      try (TraceTimer timer =
+          TraceContext.newTimer(
+              "Loading groupDn", Metadata.builder().ldapDomainName(groupDn).build())) {
         final DirContext ctx = helper.open();
         try {
           Name compositeGroupName = new CompositeName().add(groupDn);

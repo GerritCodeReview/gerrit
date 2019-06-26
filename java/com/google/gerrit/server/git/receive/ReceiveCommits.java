@@ -999,20 +999,19 @@ class ReceiveCommits {
   }
 
   private void parseDirectChangesPush(ReceiveCommand cmd) {
-    try (TraceTimer traceTimer =
-        newTimer("parseDirectChangesPush", "allowPushToRefsChanges", allowPushToRefsChanges)) {
-      Matcher m = NEW_PATCHSET_PATTERN.matcher(cmd.getRefName());
-      checkArgument(m.matches());
+    Matcher m = NEW_PATCHSET_PATTERN.matcher(cmd.getRefName());
+    checkArgument(m.matches());
 
-      if (allowPushToRefsChanges) {
+    if (allowPushToRefsChanges) {
+      try (TraceTimer traceTimer = newTimer("parseDirectChangesPush")) {
         // The referenced change must exist and must still be open.
         Change.Id changeId = Change.Id.parse(m.group(1));
         parseReplaceCommand(cmd, changeId);
         messages.add(
             new ValidationMessage("warning: pushes to refs/changes are deprecated", false));
-      } else {
-        reject(cmd, "upload to refs/changes not allowed");
       }
+    } else {
+      reject(cmd, "upload to refs/changes not allowed");
     }
   }
 

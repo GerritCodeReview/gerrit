@@ -112,7 +112,11 @@ public class RetryHelper {
     @Inject
     Metrics(MetricMaker metricMaker) {
       Field<ActionType> actionTypeField =
-          Field.ofEnum(ActionType.class).name("action_type").build();
+          Field.ofEnum(
+                  ActionType.class,
+                  (metadataBuilder, fieldValue) -> metadataBuilder.actionType(fieldValue.name()))
+              .name("action_type")
+              .build();
       attemptCounts =
           metricMaker.newCounter(
               "action/retry_attempt_count",

@@ -19,6 +19,7 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.server.logging.LoggingContext;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.PerformanceLogRecord;
 import java.util.concurrent.TimeUnit;
 
@@ -81,9 +82,12 @@ public abstract class Timer1<F1> implements RegistrationHandle {
   public final void record(F1 fieldValue, long value, TimeUnit unit) {
     long durationMs = unit.toMillis(value);
 
+    Metadata.Builder metadataBuilder = Metadata.builder();
+    field.metadataMapper().map(metadataBuilder, fieldValue);
+    Metadata metadata = metadataBuilder.build();
+
     LoggingContext.getInstance()
-        .addPerformanceLogRecord(
-            () -> PerformanceLogRecord.create(name, durationMs, field.name(), fieldValue));
+        .addPerformanceLogRecord(() -> PerformanceLogRecord.create(name, durationMs, metadata));
 
     logger.atFinest().log("%s (%s = %s) took %dms", name, field.name(), fieldValue, durationMs);
     doRecord(fieldValue, value, unit);

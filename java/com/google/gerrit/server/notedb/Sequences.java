@@ -95,8 +95,15 @@ public class Sequences {
             new Description("Latency of requesting IDs from repo sequences")
                 .setCumulative()
                 .setUnit(Units.MILLISECONDS),
-            Field.ofEnum(SequenceType.class).name("sequence").build(),
-            Field.ofBoolean().name("multiple").build());
+            Field.ofEnum(
+                    SequenceType.class,
+                    (metadataBuilder, fieldValue) ->
+                        metadataBuilder.noteDbSequenceType(fieldValue.name()))
+                .name("sequence")
+                .build(),
+            Field.ofBoolean((metadataBuilder, fieldValue) -> metadataBuilder.multiple(fieldValue))
+                .name("multiple")
+                .build());
   }
 
   public int nextAccountId() {

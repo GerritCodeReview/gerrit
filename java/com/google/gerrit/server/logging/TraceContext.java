@@ -166,105 +166,13 @@ public class TraceContext implements AutoCloseable {
    * Opens a new timer that logs the time for an operation if request tracing is enabled.
    *
    * @param operation the name of operation the is being performed
-   * @param key meta data key
-   * @param value meta data value
+   * @param metadata metadata
    * @return the trace timer
    */
-  public static TraceTimer newTimer(String operation, String key, @Nullable Object value) {
+  public static TraceTimer newTimer(String operation, Metadata metadata) {
     return new TraceTimer(
         requireNonNull(operation, "operation is required"),
-        requireNonNull(key, "key is required"),
-        value);
-  }
-
-  /**
-   * Opens a new timer that logs the time for an operation if request tracing is enabled.
-   *
-   * @param operation the name of operation the is being performed
-   * @param key1 first meta data key
-   * @param value1 first meta data value
-   * @param key2 second meta data key
-   * @param value2 second meta data value
-   * @return the trace timer
-   */
-  public static TraceTimer newTimer(
-      String operation,
-      String key1,
-      @Nullable Object value1,
-      String key2,
-      @Nullable Object value2) {
-    return new TraceTimer(
-        requireNonNull(operation, "operation is required"),
-        requireNonNull(key1, "key1 is required"),
-        value1,
-        requireNonNull(key2, "key2 is required"),
-        value2);
-  }
-
-  /**
-   * Opens a new timer that logs the time for an operation if request tracing is enabled.
-   *
-   * @param operation the name of operation the is being performed
-   * @param key1 first meta data key
-   * @param value1 first meta data value
-   * @param key2 second meta data key
-   * @param value2 second meta data value
-   * @param key3 third meta data key
-   * @param value3 third meta data value
-   * @return the trace timer
-   */
-  public static TraceTimer newTimer(
-      String operation,
-      String key1,
-      @Nullable Object value1,
-      String key2,
-      @Nullable Object value2,
-      String key3,
-      @Nullable Object value3) {
-    return new TraceTimer(
-        requireNonNull(operation, "operation is required"),
-        requireNonNull(key1, "key1 is required"),
-        value1,
-        requireNonNull(key2, "key2 is required"),
-        value2,
-        requireNonNull(key3, "key3 is required"),
-        value3);
-  }
-
-  /**
-   * Opens a new timer that logs the time for an operation if request tracing is enabled.
-   *
-   * @param operation the name of operation the is being performed
-   * @param key1 first meta data key
-   * @param value1 first meta data value
-   * @param key2 second meta data key
-   * @param value2 second meta data value
-   * @param key3 third meta data key
-   * @param value3 third meta data value
-   * @param key4 fourth meta data key
-   * @param value4 fourth meta data value
-   * @return the trace timer
-   */
-  public static TraceTimer newTimer(
-      String operation,
-      String key1,
-      @Nullable Object value1,
-      String key2,
-      @Nullable Object value2,
-      String key3,
-      @Nullable Object value3,
-      String key4,
-      @Nullable Object value4) {
-    return new TraceTimer(
-        requireNonNull(operation, "operation is required"),
-        requireNonNull(key1, "key1 is required"),
-        value1,
-        requireNonNull(key2, "key2 is required"),
-        value2,
-        requireNonNull(key3, "key3 is required"),
-        value3,
-        requireNonNull(key4, "key4 is required"),
-        value4);
+        requireNonNull(metadata, "metadata is required"));
   }
 
   public static class TraceTimer implements AutoCloseable {
@@ -282,76 +190,13 @@ public class TraceContext implements AutoCloseable {
           });
     }
 
-    private TraceTimer(String operation, String key, @Nullable Object value) {
+    private TraceTimer(String operation, Metadata metadata) {
       this(
           elapsedMs -> {
             LoggingContext.getInstance()
                 .addPerformanceLogRecord(
-                    () -> PerformanceLogRecord.create(operation, elapsedMs, key, value));
-            logger.atFine().log("%s (%s=%s) (%d ms)", operation, key, value, elapsedMs);
-          });
-    }
-
-    private TraceTimer(
-        String operation,
-        String key1,
-        @Nullable Object value1,
-        String key2,
-        @Nullable Object value2) {
-      this(
-          elapsedMs -> {
-            LoggingContext.getInstance()
-                .addPerformanceLogRecord(
-                    () ->
-                        PerformanceLogRecord.create(
-                            operation, elapsedMs, key1, value1, key2, value2));
-            logger.atFine().log(
-                "%s (%s=%s, %s=%s) (%d ms)", operation, key1, value1, key2, value2, elapsedMs);
-          });
-    }
-
-    private TraceTimer(
-        String operation,
-        String key1,
-        @Nullable Object value1,
-        String key2,
-        @Nullable Object value2,
-        String key3,
-        @Nullable Object value3) {
-      this(
-          elapsedMs -> {
-            LoggingContext.getInstance()
-                .addPerformanceLogRecord(
-                    () ->
-                        PerformanceLogRecord.create(
-                            operation, elapsedMs, key1, value1, key2, value2, key3, value3));
-            logger.atFine().log(
-                "%s (%s=%s, %s=%s, %s=%s) (%d ms)",
-                operation, key1, value1, key2, value2, key3, value3, elapsedMs);
-          });
-    }
-
-    private TraceTimer(
-        String operation,
-        String key1,
-        @Nullable Object value1,
-        String key2,
-        @Nullable Object value2,
-        String key3,
-        @Nullable Object value3,
-        String key4,
-        @Nullable Object value4) {
-      this(
-          elapsedMs -> {
-            LoggingContext.getInstance()
-                .addPerformanceLogRecord(
-                    () ->
-                        PerformanceLogRecord.create(
-                            operation, elapsedMs, key1, value1, key2, value2, key3, value3, key4,
-                            value4));
-            logger.atFine().log(
-                "%s (%s=%s, %s=%s, %s=%s, %s=%s) (%d ms)",
-                operation, key1, value1, key2, value2, key3, value3, key4, value4, elapsedMs);
+                    () -> PerformanceLogRecord.create(operation, elapsedMs, metadata));
+            logger.atFine().log("%s (%s) (%d ms)", operation, metadata, elapsedMs);
           });
     }
 

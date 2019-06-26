@@ -24,8 +24,6 @@ import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import java.util.Map;
-import java.util.Optional;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.concurrent.ExecutorService;
@@ -53,8 +51,7 @@ public class LoggingContextAwareExecutorServiceTest {
     testPerformanceLogger =
         new PerformanceLogger() {
           @Override
-          public void log(
-              String operation, long durationMs, Map<String, Optional<Object>> metaData) {
+          public void log(String operation, long durationMs, Metadata metadata) {
             // do nothing
           }
         };

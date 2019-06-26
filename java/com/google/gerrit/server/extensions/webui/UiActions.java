@@ -71,7 +71,10 @@ public class UiActions {
             new com.google.gerrit.metrics.Description("Latency for RestView#getDescription calls")
                 .setCumulative()
                 .setUnit(Units.MILLISECONDS),
-            Field.ofString().name("view").build());
+            Field.ofString(
+                    (metadataBuilder, fieldValue) -> metadataBuilder.restViewName(fieldValue))
+                .name("view")
+                .build());
   }
 
   public <R extends RestResource> Iterable<UiAction.Description> from(

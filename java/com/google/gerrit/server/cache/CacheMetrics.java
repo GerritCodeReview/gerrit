@@ -33,7 +33,10 @@ import java.util.Set;
 public class CacheMetrics {
   @Inject
   public CacheMetrics(MetricMaker metrics, DynamicMap<Cache<?, ?>> cacheMap) {
-    Field<String> F_NAME = Field.ofString().name("cache_name").build();
+    Field<String> F_NAME =
+        Field.ofString((metadataBuilder, fieldValue) -> metadataBuilder.cacheName(fieldValue))
+            .name("cache_name")
+            .build();
 
     CallbackMetric1<String, Long> memEnt =
         metrics.newCallbackMetric(

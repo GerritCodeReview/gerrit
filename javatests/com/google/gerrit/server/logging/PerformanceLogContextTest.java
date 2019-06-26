@@ -230,24 +230,24 @@ public class PerformanceLogContextTest {
           metricMaker.newTimer(
               "test2/latency",
               new Description("Latency metric for testing"),
-              Field.ofString("foo"));
+              Field.ofString().name("foo").build());
       timer1.start("value1").close();
 
       Timer2<String, String> timer2 =
           metricMaker.newTimer(
               "test3/latency",
               new Description("Latency metric for testing"),
-              Field.ofString("foo"),
-              Field.ofString("bar"));
+              Field.ofString().name("foo").build(),
+              Field.ofString().name("bar").build());
       timer2.start("value1", "value2").close();
 
       Timer3<String, String, String> timer3 =
           metricMaker.newTimer(
               "test4/latency",
               new Description("Latency metric for testing"),
-              Field.ofString("foo"),
-              Field.ofString("bar"),
-              Field.ofString("baz"));
+              Field.ofString().name("foo").build(),
+              Field.ofString().name("bar").build(),
+              Field.ofString().name("baz").build());
       timer3.start("value1", "value2", "value3").close();
 
       assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).hasSize(4);
@@ -289,24 +289,24 @@ public class PerformanceLogContextTest {
           metricMaker.newTimer(
               "test1/latency",
               new Description("Latency metric for testing"),
-              Field.ofString("foo"));
+              Field.ofString().name("foo").build());
       timer1.start(null).close();
 
       Timer2<String, String> timer2 =
           metricMaker.newTimer(
               "test2/latency",
               new Description("Latency metric for testing"),
-              Field.ofString("foo"),
-              Field.ofString("bar"));
+              Field.ofString().name("foo").build(),
+              Field.ofString().name("bar").build());
       timer2.start(null, null).close();
 
       Timer3<String, String, String> timer3 =
           metricMaker.newTimer(
               "test3/latency",
               new Description("Latency metric for testing"),
-              Field.ofString("foo"),
-              Field.ofString("bar"),
-              Field.ofString("baz"));
+              Field.ofString().name("foo").build(),
+              Field.ofString().name("bar").build(),
+              Field.ofString().name("baz").build());
       timer3.start(null, null, null).close();
 
       assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).hasSize(3);
@@ -345,24 +345,26 @@ public class PerformanceLogContextTest {
 
     Timer1<String> timer1 =
         metricMaker.newTimer(
-            "test2/latency", new Description("Latency metric for testing"), Field.ofString("foo"));
+            "test2/latency",
+            new Description("Latency metric for testing"),
+            Field.ofString().name("foo").build());
     timer1.start("value1").close();
 
     Timer2<String, String> timer2 =
         metricMaker.newTimer(
             "test3/latency",
             new Description("Latency metric for testing"),
-            Field.ofString("foo"),
-            Field.ofString("bar"));
+            Field.ofString().name("foo").build(),
+            Field.ofString().name("bar").build());
     timer2.start("value1", "value2").close();
 
     Timer3<String, String, String> timer3 =
         metricMaker.newTimer(
             "test4/latency",
             new Description("Latency metric for testing"),
-            Field.ofString("foo"),
-            Field.ofString("bar"),
-            Field.ofString("baz"));
+            Field.ofString().name("foo").build(),
+            Field.ofString().name("bar").build(),
+            Field.ofString().name("baz").build());
     timer3.start("value1", "value2", "value3").close();
 
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
@@ -391,24 +393,24 @@ public class PerformanceLogContextTest {
           metricMaker.newTimer(
               "test2/latency",
               new Description("Latency metric for testing"),
-              Field.ofString("foo"));
+              Field.ofString().name("foo").build());
       timer1.start("value1").close();
 
       Timer2<String, String> timer2 =
           metricMaker.newTimer(
               "test3/latency",
               new Description("Latency metric for testing"),
-              Field.ofString("foo"),
-              Field.ofString("bar"));
+              Field.ofString().name("foo").build(),
+              Field.ofString().name("bar").build());
       timer2.start("value1", "value2").close();
 
       Timer3<String, String, String> timer3 =
           metricMaker.newTimer(
               "test4/latency",
               new Description("Latency metric for testing"),
-              Field.ofString("foo"),
-              Field.ofString("bar"),
-              Field.ofString("baz"));
+              Field.ofString().name("foo").build(),
+              Field.ofString().name("bar").build(),
+              Field.ofString().name("baz").build());
       timer3.start("value1", "value2", "value3").close();
 
       assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();

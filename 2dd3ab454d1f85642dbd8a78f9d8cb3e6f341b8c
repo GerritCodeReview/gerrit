@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a78d3c4d_fd0da925",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-06-26T14:19:52Z",
+      "side": 1,
+      "message": "The gr-router is now smart enough to not handle links, if it cannot match the route. So I would recommend dropping external:true even here. Is there a reason why custom menu items *must* be external?\n\nMy proposal would be to just deleted lines 313-317 as suggested but don\u0027t change anything here.",
+      "revId": "2dd3ab454d1f85642dbd8a78f9d8cb3e6f341b8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

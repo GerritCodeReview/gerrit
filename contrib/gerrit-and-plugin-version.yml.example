@@ -1,0 +1,8 @@
+gerrit: 2.16.9
+plugins:
+  - owners:
+  - owners-autoassign:
+      override_artifact_url: /plugin-owners-bazel-stable-2.16/lastSuccessfulBuild/artifact/bazel-bin/plugins/owners/owners-autoassign.jar
+  - javamelody:
+  - javamelody-deps_deploy:
+      override_artifact_url: /plugin-javamelody-bazel-stable-2.16/lastSuccessfulBuild/artifact/bazel-bin/plugins/javamelody/javamelody-deps_deploy.jar

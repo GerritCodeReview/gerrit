@@ -46,3 +46,4 @@
 !/plugins/webhooks
 /test_site
 /tools/format
+/contrib/gerrit-and-plugin-version.yml

@@ -277,8 +277,7 @@
       if (!account) { return; }
 
       this.$.restAPI.getPreferences().then(prefs => {
-        this._userLinks =
-            prefs.my.map(this._fixCustomMenuItem).filter(this._isSupportedLink);
+        this._userLinks = prefs.my.map(this._fixCustomMenuItem);
       });
     },
 
@@ -311,11 +310,6 @@
       delete linkObj.target;
 
       return linkObj;
-    },
-
-    _isSupportedLink(linkObj) {
-      // Groups are not yet supported.
-      return !linkObj.url.startsWith('/groups');
     },
 
     _generateSettingsLink() {

@@ -196,7 +196,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       Field<PushType> pushTypeField =
           Field.ofEnum(PushType.class)
               .name("type")
-              .description("type of push (create/replace, autoclose)")
+              .description("type of push (create/replace, normal, autoclose)")
               .build();
 
       changes =

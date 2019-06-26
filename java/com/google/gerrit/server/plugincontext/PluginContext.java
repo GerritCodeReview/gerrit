@@ -118,9 +118,21 @@ public class PluginContext<T> {
 
     @Inject
     PluginMetrics(MetricMaker metricMaker) {
-      Field<String> pluginNameField = Field.ofString("plugin_name").build();
-      Field<String> classNameField = Field.ofString("class_name").build();
-      Field<String> exportNameField = Field.ofString("export_name").build();
+      Field<String> pluginNameField =
+          Field.ofString(
+                  "plugin_name",
+                  (metadataBuilder, fieldValue) -> metadataBuilder.pluginName(fieldValue))
+              .build();
+      Field<String> classNameField =
+          Field.ofString(
+                  "class_name",
+                  (metadataBuilder, fieldValue) -> metadataBuilder.className(fieldValue))
+              .build();
+      Field<String> exportNameField =
+          Field.ofString(
+                  "export_name",
+                  (metadataBuilder, fieldValue) -> metadataBuilder.exportName(fieldValue))
+              .build();
 
       this.latency =
           metricMaker.newTimer(

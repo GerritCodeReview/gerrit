@@ -82,7 +82,7 @@ public class ProcMetricModuleTest {
         metrics.newCounter(
             "test/count",
             new Description("simple test").setCumulative(),
-            Field.ofString("action").build());
+            Field.ofString("action", (metadataBuilder, fieldValue) -> {}).build());
 
     Counter total = get("test/count_total", Counter.class);
     assertThat(total.getCount()).isEqualTo(0);
@@ -107,7 +107,7 @@ public class ProcMetricModuleTest {
             new Description("simple test")
                 .setCumulative()
                 .setFieldOrdering(FieldOrdering.PREFIX_FIELDS_BASENAME),
-            Field.ofString("action").build());
+            Field.ofString("action", (metadataBuilder, fieldValue) -> {}).build());
 
     Counter total = get("test/count_total", Counter.class);
     assertThat(total.getCount()).isEqualTo(0);

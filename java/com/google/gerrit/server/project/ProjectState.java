@@ -135,7 +135,10 @@ public class ProjectState {
             new Description("Latency for access computations in ProjectState")
                 .setCumulative()
                 .setUnit(Units.NANOSECONDS),
-            Field.ofString("method").build());
+            Field.ofString(
+                    "method",
+                    (metadataBuilder, fieldValue) -> metadataBuilder.methodName(fieldValue))
+                .build());
 
     if (isAllProjects && !Permission.canBeOnAllProjects(AccessSection.ALL, Permission.OWNER)) {
       localOwners = Collections.emptySet();

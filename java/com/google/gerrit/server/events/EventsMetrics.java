@@ -31,7 +31,9 @@ public class EventsMetrics implements EventListener {
         metricMaker.newCounter(
             "events",
             new Description("Triggered events").setRate().setUnit("triggered events"),
-            Field.ofString("type").build());
+            Field.ofString(
+                    "type", (metadataBuilder, fieldValue) -> metadataBuilder.eventType(fieldValue))
+                .build());
   }
 
   @Override

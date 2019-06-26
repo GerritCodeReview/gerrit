@@ -29,7 +29,10 @@ public class RequestMetrics {
   @Inject
   public RequestMetrics(MetricMaker metricMaker) {
     Field<Integer> statusCodeField =
-        Field.ofInteger("status").description("HTTP status code").build();
+        Field.ofInteger(
+                "status", (metadataBuilder, fieldValue) -> metadataBuilder.httpStatus(fieldValue))
+            .description("HTTP status code")
+            .build();
 
     errors =
         metricMaker.newCounter(

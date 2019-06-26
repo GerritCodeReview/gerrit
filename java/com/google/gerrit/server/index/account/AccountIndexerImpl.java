@@ -23,6 +23,7 @@ import com.google.gerrit.index.Index;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
@@ -91,20 +92,20 @@ public class AccountIndexerImpl implements AccountIndexer {
         try (TraceTimer traceTimer =
             TraceContext.newTimer(
                 "Replacing account in index",
-                "accountId",
-                id.get(),
-                "indexVersion",
-                i.getSchema().getVersion())) {
+                Metadata.builder()
+                    .accountId(id.get())
+                    .indexVersion(i.getSchema().getVersion())
+                    .build())) {
           i.replace(accountState.get());
         }
       } else {
         try (TraceTimer traceTimer =
             TraceContext.newTimer(
                 "Deleting account in index",
-                "accountId",
-                id.get(),
-                "indexVersion",
-                i.getSchema().getVersion())) {
+                Metadata.builder()
+                    .accountId(id.get())
+                    .indexVersion(i.getSchema().getVersion())
+                    .build())) {
           i.delete(id);
         }
       }

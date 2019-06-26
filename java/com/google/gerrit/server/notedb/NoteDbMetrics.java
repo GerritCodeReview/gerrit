@@ -45,7 +45,12 @@ class NoteDbMetrics {
 
   @Inject
   NoteDbMetrics(MetricMaker metrics) {
-    Field<NoteDbTable> tableField = Field.ofEnum(NoteDbTable.class, "table").build();
+    Field<NoteDbTable> tableField =
+        Field.ofEnum(
+                NoteDbTable.class,
+                "table",
+                (metadataBuilder, fieldValue) -> metadataBuilder.noteDbTable(fieldValue.name()))
+            .build();
 
     updateLatency =
         metrics.newTimer(

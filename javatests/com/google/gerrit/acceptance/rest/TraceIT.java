@@ -19,7 +19,6 @@ import static org.apache.http.HttpStatus.SC_CREATED;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.truth.Expect;
@@ -37,6 +36,7 @@ import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.logging.LoggingContext;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.project.CreateProjectArgs;
@@ -45,8 +45,6 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import org.apache.http.message.BasicHeader;
@@ -346,8 +344,8 @@ public class TraceIT extends AbstractDaemonTest {
     private List<PerformanceLogEntry> logEntries = new ArrayList<>();
 
     @Override
-    public void log(String operation, long durationMs, Map<String, Optional<Object>> metaData) {
-      logEntries.add(PerformanceLogEntry.create(operation, metaData));
+    public void log(String operation, long durationMs, Metadata metadata) {
+      logEntries.add(PerformanceLogEntry.create(operation, metadata));
     }
 
     ImmutableList<PerformanceLogEntry> logEntries() {
@@ -357,12 +355,12 @@ public class TraceIT extends AbstractDaemonTest {
 
   @AutoValue
   abstract static class PerformanceLogEntry {
-    static PerformanceLogEntry create(String operation, Map<String, Optional<Object>> metaData) {
-      return new AutoValue_TraceIT_PerformanceLogEntry(operation, ImmutableMap.copyOf(metaData));
+    static PerformanceLogEntry create(String operation, Metadata metadata) {
+      return new AutoValue_TraceIT_PerformanceLogEntry(operation, metadata);
     }
 
     abstract String operation();
 
-    abstract ImmutableMap<String, Object> metaData();
+    abstract Metadata metadata();
   }
 }

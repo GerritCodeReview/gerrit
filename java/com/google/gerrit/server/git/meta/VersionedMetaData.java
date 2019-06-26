@@ -21,6 +21,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import java.io.BufferedReader;
@@ -500,14 +501,12 @@ public abstract class VersionedMetaData {
     try (TraceTimer timer =
             TraceContext.newTimer(
                 "Read file",
-                "fileName",
-                fileName,
-                "ref",
-                getRefName(),
-                "projectName",
-                projectName,
-                "revision",
-                revision.name());
+                Metadata.builder()
+                    .projectName(projectName.get())
+                    .noteDbRefName(getRefName())
+                    .revision(revision.name())
+                    .noteDbFileName(fileName)
+                    .build());
         TreeWalk tw = TreeWalk.forPath(reader, fileName, revision.getTree())) {
       if (tw != null) {
         ObjectLoader obj = reader.open(tw.getObjectId(0), Constants.OBJ_BLOB);
@@ -582,7 +581,12 @@ public abstract class VersionedMetaData {
   protected void saveFile(String fileName, byte[] raw) throws IOException {
     try (TraceTimer timer =
         TraceContext.newTimer(
-            "Save file", "fileName", fileName, "ref", getRefName(), "projectName", projectName)) {
+            "Save file",
+            Metadata.builder()
+                .projectName(projectName.get())
+                .noteDbRefName(getRefName())
+                .noteDbFileName(fileName)
+                .build())) {
       DirCacheEditor editor = newTree.editor();
       if (raw != null && 0 < raw.length) {
         final ObjectId blobId = inserter.insert(Constants.OBJ_BLOB, raw);

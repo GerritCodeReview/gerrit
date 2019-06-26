@@ -126,6 +126,7 @@ import com.google.gerrit.server.git.validators.RefOperationValidationException;
 import com.google.gerrit.server.git.validators.RefOperationValidators;
 import com.google.gerrit.server.git.validators.ValidationMessage;
 import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.PerformanceLogContext;
 import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.logging.RequestId;
@@ -195,6 +196,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -529,12 +531,15 @@ class ReceiveCommits {
 
   void processCommands(Collection<ReceiveCommand> commands, MultiProgressMonitor progress) {
     parsePushOptions();
+    int commandCount = commands.size();
     try (TraceContext traceContext =
             TraceContext.newTrace(
                 tracePushOption.isPresent(),
                 tracePushOption.orElse(null),
                 (tagName, traceId) -> addMessage(tagName + ": " + traceId));
-        TraceTimer traceTimer = newTimer("processCommands", "commandCount", commands.size());
+        TraceTimer traceTimer =
+            newTimer(
+                "processCommands", metadataBuilder -> metadataBuilder.resourceCount(commandCount));
         PerformanceLogContext performanceLogContext =
             new PerformanceLogContext(config, performanceLoggers)) {
       traceContext.addTag(RequestId.Type.RECEIVE_ID, new RequestId(project.getNameKey().get()));
@@ -656,7 +661,10 @@ class ReceiveCommits {
 
   private void handleRegularCommands(List<ReceiveCommand> cmds, MultiProgressMonitor progress)
       throws PermissionBackendException, IOException, NoSuchProjectException {
-    try (TraceTimer traceTimer = newTimer("handleRegularCommands", "commandCount", cmds.size())) {
+    try (TraceTimer traceTimer =
+        newTimer(
+            "handleRegularCommands",
+            metadataBuilder -> metadataBuilder.resourceCount(cmds.size()))) {
       resultChangeIds.setMagicPush(false);
       for (ReceiveCommand cmd : cmds) {
         parseRegularCommand(cmd);
@@ -840,7 +848,9 @@ class ReceiveCommits {
 
   private void insertChangesAndPatchSets(List<CreateRequest> newChanges, Task replaceProgress) {
     try (TraceTimer traceTimer =
-        newTimer("insertChangesAndPatchSets", "changeCount", newChanges.size())) {
+        newTimer(
+            "insertChangesAndPatchSets",
+            metadataBuilder -> metadataBuilder.resourceCount(newChanges.size()))) {
       ReceiveCommand magicBranchCmd = magicBranch != null ? magicBranch.cmd : null;
       if (magicBranchCmd != null && magicBranchCmd.getResult() != NOT_ATTEMPTED) {
         logger.atWarning().log(
@@ -991,7 +1001,9 @@ class ReceiveCommits {
 
   private void parseDirectChangesPushCommands(List<ReceiveCommand> cmds) {
     try (TraceTimer traceTimer =
-        newTimer("parseDirectChangesPushCommands", "commandCount", cmds.size())) {
+        newTimer(
+            "parseDirectChangesPushCommands",
+            metadataBuilder -> metadataBuilder.resourceCount(cmds.size()))) {
       for (ReceiveCommand cmd : cmds) {
         parseDirectChangesPush(cmd);
       }
@@ -1934,7 +1946,9 @@ class ReceiveCommits {
   // looking to see if we can compute a merge base between the new
   // commits and the target branch head.
   private boolean validateConnected(ReceiveCommand cmd, BranchNameKey dest, RevCommit tip) {
-    try (TraceTimer traceTimer = newTimer("validateConnected", "branch", dest.branch())) {
+    try (TraceTimer traceTimer =
+        newTimer(
+            "validateConnected", metadataBuilder -> metadataBuilder.branchName(dest.branch()))) {
       RevWalk walk = receivePack.getRevWalk();
       try {
         Ref targetRef = receivePack.getAdvertisedRefs().get(dest.branch());
@@ -2484,7 +2498,9 @@ class ReceiveCommits {
   // Mark all branch tips as uninteresting in the given revwalk,
   // so we get only the new commits when walking rw.
   private void markHeadsAsUninteresting(RevWalk rw, @Nullable String forRef) {
-    try (TraceTimer traceTimer = newTimer("markHeadsAsUninteresting", "forRef", forRef)) {
+    try (TraceTimer traceTimer =
+        newTimer(
+            "markHeadsAsUninteresting", metadataBuilder -> metadataBuilder.branchName(forRef))) {
       int i = 0;
       for (Ref ref : allRefs().values()) {
         if ((ref.getName().startsWith(R_HEADS) || ref.getName().equals(forRef))
@@ -2686,7 +2702,9 @@ class ReceiveCommits {
 
   private void preparePatchSetsForReplace(List<CreateRequest> newChanges) {
     try (TraceTimer traceTimer =
-        newTimer("preparePatchSetsForReplace", "changeCount", newChanges.size())) {
+        newTimer(
+            "preparePatchSetsForReplace",
+            metadataBuilder -> metadataBuilder.resourceCount(newChanges.size()))) {
       try {
         readChangesForReplace();
         for (ReplaceRequest req : replaceByChange.values()) {
@@ -3210,7 +3228,9 @@ class ReceiveCommits {
   private void validateRegularPushCommits(BranchNameKey branch, ReceiveCommand cmd)
       throws PermissionBackendException {
     try (TraceTimer traceTimer =
-        newTimer("validateRegularPushCommits", "branch", branch.branch())) {
+        newTimer(
+            "validateRegularPushCommits",
+            metadataBuilder -> metadataBuilder.branchName(branch.branch()))) {
       boolean skipValidation =
           !RefNames.REFS_CONFIG.equals(cmd.getRefName())
               && !(MagicBranch.isMagicBranch(cmd.getRefName())
@@ -3411,7 +3431,10 @@ class ReceiveCommits {
   }
 
   private Map<Change.Key, ChangeNotes> openChangesByKeyByBranch(BranchNameKey branch) {
-    try (TraceTimer traceTimer = newTimer("openChangesByKeyByBranch", "branch", branch.branch())) {
+    try (TraceTimer traceTimer =
+        newTimer(
+            "openChangesByKeyByBranch",
+            metadataBuilder -> metadataBuilder.branchName(branch.branch()))) {
       Map<Change.Key, ChangeNotes> r = new HashMap<>();
       for (ChangeData cd : queryProvider.get().byBranchOpen(branch)) {
         try {
@@ -3436,16 +3459,18 @@ class ReceiveCommits {
   }
 
   private TraceTimer newTimer(Class<?> clazz, String name) {
-    return TraceContext.newTimer(clazz.getSimpleName() + "#" + name, "projectName", project);
+    return newTimer(clazz, name, metadataBuilder -> {});
   }
 
-  private TraceTimer newTimer(String name, String key, @Nullable Object value) {
-    return newTimer(getClass(), name, key, value);
+  private TraceTimer newTimer(String name, Consumer<Metadata.Builder> metadataInit) {
+    return newTimer(getClass(), name, metadataInit);
   }
 
-  private TraceTimer newTimer(Class<?> clazz, String name, String key, @Nullable Object value) {
-    return TraceContext.newTimer(
-        clazz.getSimpleName() + "#" + name, "projectName", project, key, value);
+  private TraceTimer newTimer(
+      Class<?> clazz, String name, Consumer<Metadata.Builder> metadataInit) {
+    Metadata.Builder metadataBuilder = Metadata.builder().projectName(project.getName());
+    metadataInit.accept(metadataBuilder);
+    return TraceContext.newTimer(clazz.getSimpleName() + "#" + name, metadataBuilder.build());
   }
 
   private static void reject(ReceiveCommand cmd, String why) {

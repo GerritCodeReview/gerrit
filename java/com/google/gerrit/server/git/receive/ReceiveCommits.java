@@ -1003,20 +1003,17 @@ class ReceiveCommits {
     try (TraceTimer traceTimer =
         newTimer("parseDirectChangesPushCommands", Metadata.builder().resourceCount(cmds.size()))) {
       for (ReceiveCommand cmd : cmds) {
-        parseDirectChangesPush(cmd);
+        try (TraceTimer traceTimer2 = newTimer("parseDirectChangesPush")) {
+          Matcher m = NEW_PATCHSET_PATTERN.matcher(cmd.getRefName());
+          checkArgument(m.matches());
+
+          // The referenced change must exist and must still be open.
+          Change.Id changeId = Change.Id.parse(m.group(1));
+          parseReplaceCommand(cmd, changeId);
+          messages.add(
+              new ValidationMessage("warning: pushes to refs/changes are deprecated", false));
+        }
       }
-    }
-  }
-
-  private void parseDirectChangesPush(ReceiveCommand cmd) {
-    Matcher m = NEW_PATCHSET_PATTERN.matcher(cmd.getRefName());
-    checkArgument(m.matches());
-
-    try (TraceTimer traceTimer = newTimer("parseDirectChangesPush")) {
-      // The referenced change must exist and must still be open.
-      Change.Id changeId = Change.Id.parse(m.group(1));
-      parseReplaceCommand(cmd, changeId);
-      messages.add(new ValidationMessage("warning: pushes to refs/changes are deprecated", false));
     }
   }
 

@@ -882,30 +882,30 @@ maven_jar(
     sha1 = "42a25dc3219429f0e5d060061f71acb49bf010a0",
 )
 
-TRUTH_VERS = "0.45"
+TRUTH_VERS = "0.46"
 
 maven_jar(
     name = "truth",
     artifact = "com.google.truth:truth:" + TRUTH_VERS,
-    sha1 = "e16683346f6a6887b1f140a2984e60c73c66c40a",
+    sha1 = "5907b14d1af802644e7f4fb7230419b709e06c6b",
 )
 
 maven_jar(
     name = "truth-java8-extension",
     artifact = "com.google.truth.extensions:truth-java8-extension:" + TRUTH_VERS,
-    sha1 = "f43262ad81c8df9a7f148659ff34de28b952754f",
+    sha1 = "e5ef57a6d1ab57695d373754df1efdddffc8484c",
 )
 
 maven_jar(
     name = "truth-liteproto-extension",
     artifact = "com.google.truth.extensions:truth-liteproto-extension:" + TRUTH_VERS,
-    sha1 = "67017d3aaec607c4a181ac95e9be0dc14e6c3fb2",
+    sha1 = "c624d921293426bac9e5c9780b01eaef914c1a22",
 )
 
 maven_jar(
     name = "truth-proto-extension",
     artifact = "com.google.truth.extensions:truth-proto-extension:" + TRUTH_VERS,
-    sha1 = "f69edef92d9aceb82c6353e425328712ce1a25e7",
+    sha1 = "585a0cedb3dac53ad3349826f163b28e59000d39",
 )
 
 maven_jar(

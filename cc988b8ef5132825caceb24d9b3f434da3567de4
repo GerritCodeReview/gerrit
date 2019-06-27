@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8257bf73_13b3d7e2",
+        "filename": "java/com/google/gerrit/server/git/TracingHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-27T08:34:34Z",
+      "side": 1,
+      "message": "2018 is actually correct, since this file was written 2018, see patch set 1.\nBack then I just couldn\u0027t proceed with this change because Gerrit was still using a Jgit version that didn\u0027t support server options and then the whole v2 support in Gerrit was reverted.",
+      "parentUuid": "6a4f7289_54e475ad",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "cc988b8ef5132825caceb24d9b3f434da3567de4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33c7807c_88f3d066",
         "filename": "java/com/google/gerrit/server/git/TracingHook.java",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "cc988b8ef5132825caceb24d9b3f434da3567de4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ef5affa_872dbec0",
+        "filename": "java/com/google/gerrit/server/git/TracingHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-27T08:34:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33c7807c_88f3d066",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 67
+      },
+      "revId": "cc988b8ef5132825caceb24d9b3f434da3567de4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

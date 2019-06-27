@@ -2818,6 +2818,7 @@ class ReceiveCommits {
                   projectState,
                   notes.getChange().getDest(),
                   checkMergedInto,
+                  checkMergedInto ? inputCommand.getNewId().name() : null,
                   priorPatchSet,
                   priorCommit,
                   psId,
@@ -3116,7 +3117,8 @@ class ReceiveCommits {
                     existingPatchSets++;
                     bu.addOp(
                         psId.getParentKey(),
-                        mergedByPushOpFactory.create(requestScopePropagator, psId, refName));
+                        mergedByPushOpFactory.create(
+                            requestScopePropagator, psId, refName, newTip.getId().getName()));
                     continue COMMIT;
                   }
                 }
@@ -3149,7 +3151,7 @@ class ReceiveCommits {
                 bu.addOp(
                     id,
                     mergedByPushOpFactory
-                        .create(requestScopePropagator, req.psId, refName)
+                        .create(requestScopePropagator, req.psId, refName, newTip.getId().getName())
                         .setPatchSetProvider(req.replaceOp::getPatchSet));
                 bu.addOp(id, new ChangeProgressOp(progress));
                 ids.add(id);

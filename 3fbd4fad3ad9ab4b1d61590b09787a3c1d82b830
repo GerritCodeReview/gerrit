@@ -34,6 +34,24 @@
       "revId": "3fbd4fad3ad9ab4b1d61590b09787a3c1d82b830",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be72d56f_d940a10e",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-06-27T15:18:30Z",
+      "side": 1,
+      "message": "Noting that /groups/self dosen\u0027t work under PolyGerrit as PolyGerrit strips the # prefix which is making it act like a rest api.",
+      "parentUuid": "bf4648c8_3c5e2003",
+      "revId": "3fbd4fad3ad9ab4b1d61590b09787a3c1d82b830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

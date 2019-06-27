@@ -46,6 +46,30 @@
       "revId": "17015903e31485a7f036defd3aecb5bc44793e17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a5e37b3_a4916ddd",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1006,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-27T08:27:51Z",
+      "side": 1,
+      "message": "Done in [1,2].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/229339\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/229340",
+      "parentUuid": "8420e44c_b2130054",
+      "range": {
+        "startLine": 1006,
+        "startChar": 4,
+        "endLine": 1006,
+        "endChar": 33
+      },
+      "revId": "17015903e31485a7f036defd3aecb5bc44793e17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

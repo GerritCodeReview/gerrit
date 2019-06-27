@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad137ebf_16d8a504",
+        "filename": "java/com/google/gerrit/metrics/Field.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-27T16:54:12Z",
+      "side": 0,
+      "message": "Here and above/below: I didn\u0027t see those details and warnings in the new code. Don\u0027t we need them anymore?",
+      "range": {
+        "startLine": 73,
+        "startChar": 3,
+        "endLine": 76,
+        "endChar": 51
+      },
+      "revId": "7a2af094917f88137b8ad793e1aa5825a261aad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "494e375a_f08e4e6d",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-27T16:54:12Z",
+      "side": 0,
+      "message": "This entry actually had a different text here than the other fields. Was it intended to be unified?",
+      "range": {
+        "startLine": 219,
+        "startChar": 73,
+        "endLine": 219,
+        "endChar": 90
+      },
+      "revId": "7a2af094917f88137b8ad793e1aa5825a261aad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

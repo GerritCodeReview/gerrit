@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d067242d_bae4f6e2",
+        "filename": "java/com/google/gerrit/metrics/Field.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-27T16:54:12Z",
+      "side": 1,
+      "message": "Can we use @Memoized instead? (See https://github.com/google/auto/blob/master/value/userguide/howto.md#memoize)",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 60,
+        "endChar": 5
+      },
+      "revId": "d4318a0e57a3dafe487e6b98f5d3e99346cbca1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62ec83e1_ea7a0d35",
+        "filename": "java/com/google/gerrit/metrics/Field.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-27T16:54:12Z",
+      "side": 1,
+      "message": "While I was looking at AutoValue\u0027s user guide, I noticed that there\u0027s actually an entry [1] for a similar use case. Can you please have a look and see whether switching to one of mentioned recommendations makes sense?\n\n[1] https://github.com/google/auto/blob/master/value/userguide/howto.md#-make-a-class-where-only-one-of-its-properties-is-ever-set",
+      "range": {
+        "startLine": 64,
+        "startChar": 41,
+        "endLine": 64,
+        "endChar": 54
+      },
+      "revId": "d4318a0e57a3dafe487e6b98f5d3e99346cbca1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

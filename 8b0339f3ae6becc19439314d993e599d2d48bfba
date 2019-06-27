@@ -22,6 +22,30 @@
       "revId": "8b0339f3ae6becc19439314d993e599d2d48bfba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7134007_b37476ed",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3064,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-27T14:08:12Z",
+      "side": 1,
+      "message": "\u003e This didn\u0027t need to be moved down here.  The validator is now created repeatedly for each RevCommit.\n\nAnd I missed that during my review of this change.",
+      "parentUuid": "5cc6b0e8_2776d343",
+      "range": {
+        "startLine": 3064,
+        "startChar": 8,
+        "endLine": 3064,
+        "endChar": 100
+      },
+      "revId": "8b0339f3ae6becc19439314d993e599d2d48bfba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

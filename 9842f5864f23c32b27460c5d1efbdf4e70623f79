@@ -45,6 +45,30 @@
       "revId": "9842f5864f23c32b27460c5d1efbdf4e70623f79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3845d762_f719b925",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-06-27T22:03:59Z",
+      "side": 1,
+      "message": "I think it should stay open at least 14 days since someone may want to veto and if he is not available or busy with other matters for a couple of days he should still have a chance to veto. It may make sense to keep it open a bit longer during main holiday seasons.",
+      "parentUuid": "5d5e627a_db211ba9",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 8
+      },
+      "revId": "9842f5864f23c32b27460c5d1efbdf4e70623f79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

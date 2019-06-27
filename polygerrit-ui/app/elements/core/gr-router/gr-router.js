@@ -38,6 +38,9 @@
     // Matches /admin/groups/[uuid-]<group>
     GROUP: /^\/admin\/groups\/(?:uuid-)?([^,]+)$/,
 
+    // Redirects /groups/self to /settings/#Groups
+    GROUP_SELF: /^\/groups\/self/,
+
     // Matches /admin/groups/[uuid-]<group>,info (backwords compat with gwtui)
     // Redirects to /admin/groups/[uuid-]<group>
     GROUP_INFO: /^\/admin\/groups\/(?:uuid-)?(.+),info$/,
@@ -762,6 +765,9 @@
       this._mapRoute(RoutePattern.GROUP_LIST_FILTER,
           '_handleGroupListFilterRoute', true);
 
+      this._mapRoute(RoutePattern.GROUP_SELF, '_handleGroupSelfRedirectRoute',
+          true);
+
       this._mapRoute(RoutePattern.GROUP, '_handleGroupRoute', true);
 
       this._mapRoute(RoutePattern.PROJECT_OLD,
@@ -1053,6 +1059,10 @@
 
     _handleGroupInfoRoute(data) {
       this._redirect('/admin/groups/' + encodeURIComponent(data.params[0]));
+    },
+
+    _handleGroupSelfRedirectRoute(data) {
+      this._redirect('/settings/#Groups');
     },
 
     _handleGroupRoute(data) {

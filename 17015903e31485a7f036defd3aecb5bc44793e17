@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1147c82e_85af1482",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1006,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-27T01:31:27Z",
+      "side": 1,
+      "message": "Unrelated to this change, but should this check be moved up to before this method is called?\n\nActually, it looks like this whole method could be inlined since it\u0027s only called from L997?",
+      "range": {
+        "startLine": 1006,
+        "startChar": 4,
+        "endLine": 1006,
+        "endChar": 33
+      },
+      "revId": "17015903e31485a7f036defd3aecb5bc44793e17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

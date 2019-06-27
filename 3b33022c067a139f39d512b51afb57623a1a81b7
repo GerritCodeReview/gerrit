@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec9ddc71_3723cd7c",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1358,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-27T16:18:38Z",
+      "side": 1,
+      "message": "I think this should not have been inserted here.",
+      "range": {
+        "startLine": 1358,
+        "startChar": 0,
+        "endLine": 1358,
+        "endChar": 29
+      },
+      "revId": "3b33022c067a139f39d512b51afb57623a1a81b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c6659fe_1fd99631",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1368,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-06-27T16:18:38Z",
+      "side": 1,
+      "message": "Missing the check for validRefOperation inserted (here) in stable branches.",
+      "revId": "3b33022c067a139f39d512b51afb57623a1a81b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

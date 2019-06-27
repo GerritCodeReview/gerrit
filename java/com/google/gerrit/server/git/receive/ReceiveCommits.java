@@ -995,6 +995,11 @@ class ReceiveCommits {
   }
 
   private void parseDirectChangesPushCommands(List<ReceiveCommand> cmds) {
+    if (!allowPushToRefsChanges) {
+      cmds.forEach(cmd -> reject(cmd, "upload to refs/changes not allowed"));
+      return;
+    }
+
     try (TraceTimer traceTimer =
         newTimer("parseDirectChangesPushCommands", Metadata.builder().resourceCount(cmds.size()))) {
       for (ReceiveCommand cmd : cmds) {
@@ -1005,18 +1010,13 @@ class ReceiveCommits {
 
   private void parseDirectChangesPush(ReceiveCommand cmd) {
     try (TraceTimer traceTimer = newTimer("parseDirectChangesPush")) {
-      if (allowPushToRefsChanges) {
-        Matcher m = NEW_PATCHSET_PATTERN.matcher(cmd.getRefName());
-        checkArgument(m.matches());
+      Matcher m = NEW_PATCHSET_PATTERN.matcher(cmd.getRefName());
+      checkArgument(m.matches());
 
-        // The referenced change must exist and must still be open.
-        Change.Id changeId = Change.Id.parse(m.group(1));
-        parseReplaceCommand(cmd, changeId);
-        messages.add(
-            new ValidationMessage("warning: pushes to refs/changes are deprecated", false));
-      } else {
-        reject(cmd, "upload to refs/changes not allowed");
-      }
+      // The referenced change must exist and must still be open.
+      Change.Id changeId = Change.Id.parse(m.group(1));
+      parseReplaceCommand(cmd, changeId);
+      messages.add(new ValidationMessage("warning: pushes to refs/changes are deprecated", false));
     }
   }
 

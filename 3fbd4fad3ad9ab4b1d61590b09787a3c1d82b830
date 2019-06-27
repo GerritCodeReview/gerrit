@@ -16,6 +16,24 @@
       "revId": "3fbd4fad3ad9ab4b1d61590b09787a3c1d82b830",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf4648c8_3c5e2003",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-06-27T15:16:55Z",
+      "side": 1,
+      "message": "it seems that after https://gerrit-review.googlesource.com/c/gerrit/+/229172 was merged, i discovered GWTUI hosted ui over /#/groups/self (not a rest api even though /groups/* is) (notice the # infront).\n\n/#/groups/self was a duplicate of #/settings/group-memberships anyways in GWTUI.\n\nAnyways /groups/self is exactly what /settings/#Groups does, so no need to duplicate things for /groups/self.",
+      "parentUuid": "63670ab1_10894198",
+      "revId": "3fbd4fad3ad9ab4b1d61590b09787a3c1d82b830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

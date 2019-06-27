@@ -81,6 +81,30 @@
       "revId": "9e6813a3de663c0077723bba08bd188d8b79605e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19cb5cac_88fe1c5e",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3110,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-06-27T08:15:47Z",
+      "side": 1,
+      "message": "In the (possibly rare) case that many commits are closed by push, this will result in higher memory usage than previously since it now allocates an entry in the Deque for each commit.",
+      "parentUuid": "f894d9a8_e940402c",
+      "range": {
+        "startLine": 3110,
+        "startChar": 14,
+        "endLine": 3110,
+        "endChar": 60
+      },
+      "revId": "9e6813a3de663c0077723bba08bd188d8b79605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

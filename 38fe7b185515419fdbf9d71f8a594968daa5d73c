@@ -22,6 +22,30 @@
       "revId": "38fe7b185515419fdbf9d71f8a594968daa5d73c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b339e0b1_c7919f15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-06-27T13:26:25Z",
+      "side": 1,
+      "message": "it was part of :wq in vim :). Cleaning it up",
+      "parentUuid": "ee8042d3_759a33a6",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 1
+      },
+      "revId": "38fe7b185515419fdbf9d71f8a594968daa5d73c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

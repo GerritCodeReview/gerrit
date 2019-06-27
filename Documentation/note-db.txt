@@ -118,8 +118,8 @@ tool as well.
 *Disadvantages*
 
 * May require substantial downtime; takes about twice as long as an
-  link:#pgm-reindex[offline reindex]. (In fact, one of the migration steps is a
-  full reindex, so it can't possibly take less time.)
+  link:pgm-reindex.html[offline reindex]. (In fact, one of the migration steps
+  is a full reindex, so it can't possibly take less time.)
 
 [[trial-migration]]
 ==== Trial mode

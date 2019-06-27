@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c35c6644_3140c24e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-06-27T08:10:51Z",
+      "side": 1,
+      "message": "We have plugins and services that rely on events being fired oldest first. I just discovered that closing changes by push is what causes unwanted behavior.\nConceptually you cannot submit changes until their parent changes are submitted, so intuitively the events would be fired in that order.\n\nI should have marked the subject RFC.",
+      "parentUuid": "7161e2fa_eea3c1dd",
+      "revId": "9e6813a3de663c0077723bba08bd188d8b79605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "50dc0aa9_6714bfd7",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2019-06-27T03:11:50Z",
       "side": 1,
       "message": "What is the memory impact of allocating this?",
+      "range": {
+        "startLine": 3110,
+        "startChar": 14,
+        "endLine": 3110,
+        "endChar": 60
+      },
+      "revId": "9e6813a3de663c0077723bba08bd188d8b79605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f894d9a8_e940402c",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3110,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-06-27T08:10:51Z",
+      "side": 1,
+      "message": "Not quite sure what you are after but initial size is 16 which is about as good of a guess as I could make myself.\nIIUC it\u0027s not a very common use-case to close changes by push.",
+      "parentUuid": "50dc0aa9_6714bfd7",
       "range": {
         "startLine": 3110,
         "startChar": 14,

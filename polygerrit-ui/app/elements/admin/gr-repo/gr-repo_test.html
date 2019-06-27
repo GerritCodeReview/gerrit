@@ -316,17 +316,6 @@ limitations under the License.
       });
 
       test('fields update and save correctly', () => {
-        // test notedb
-        element._noteDbEnabled = false;
-
-        assert.equal(
-            element._computeRepositoriesClass(element._noteDbEnabled), '');
-
-        element._noteDbEnabled = true;
-
-        assert.equal(element._computeRepositoriesClass(
-            element._noteDbEnabled), 'showConfig');
-
         const configInputObj = {
           description: 'new description',
           use_contributor_agreements: 'TRUE',

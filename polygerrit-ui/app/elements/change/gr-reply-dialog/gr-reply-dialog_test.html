@@ -99,7 +99,6 @@ limitations under the License.
           '+1',
         ],
       };
-      element.serverConfig = {};
 
       getDraftCommentStub = sandbox.stub(element.$.storage, 'getDraftComment');
       setDraftCommentStub = sandbox.stub(element.$.storage, 'setDraftComment');
@@ -298,7 +297,6 @@ limitations under the License.
       const noButton =
           element.$$('.reviewerConfirmationButtons gr-button:last-child');
 
-      element.serverConfig = {note_db_enabled: true};
       element._ccPendingConfirmation = null;
       element._reviewerPendingConfirmation = null;
       flushAsynchronousOperations();
@@ -411,7 +409,6 @@ limitations under the License.
     });
 
     test('_reviewersMutated when account-text-change is fired from ccs', () => {
-      element.serverConfig = {note_db_enabled: true};
       flushAsynchronousOperations();
       assert.isFalse(element._reviewersMutated);
       assert.isTrue(element.$$('#ccs').allowAnyInput);
@@ -498,19 +495,6 @@ limitations under the License.
       flush(() => { element.send(); });
     });
 
-    test('ccs are displayed if NoteDb is enabled', () => {
-      function hasCc() {
-        flushAsynchronousOperations();
-        return !!element.$$('#ccs');
-      }
-
-      element.serverConfig = {};
-      assert.isFalse(hasCc());
-
-      element.serverConfig = {note_db_enabled: true};
-      assert.isTrue(hasCc());
-    });
-
     test('filterReviewerSuggestion', () => {
       const owner = makeAccount();
       const reviewer1 = makeAccount();
@@ -542,7 +526,6 @@ limitations under the License.
 
     test('_focusOn', () => {
       sandbox.spy(element, '_chooseFocusTarget');
-      element.serverConfig = {note_db_enabled: true};
       flushAsynchronousOperations();
       const textareaStub = sandbox.stub(element.$.textarea, 'async');
       const reviewerEntryStub = sandbox.stub(element.$.reviewers.focusStart,
@@ -682,7 +665,6 @@ limitations under the License.
     });
 
     test('moving from cc to reviewer', () => {
-      element.serverConfig = {note_db_enabled: true};
       element._reviewersPendingRemove = {
         CC: [],
         REVIEWER: [],
@@ -716,7 +698,6 @@ limitations under the License.
     });
 
     test('migrate reviewers between states', done => {
-      element.serverConfig = {note_db_enabled: true};
       element._reviewersPendingRemove = {
         CC: [],
         REVIEWER: [],

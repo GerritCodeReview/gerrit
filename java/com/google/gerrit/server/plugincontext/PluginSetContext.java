@@ -23,6 +23,7 @@ import com.google.gerrit.server.plugincontext.PluginContext.PluginMetrics;
 import com.google.inject.Inject;
 import java.util.Iterator;
 import java.util.SortedSet;
+import java.util.stream.Stream;
 
 /**
  * Context to invoke extensions from a {@link DynamicSet}.
@@ -145,6 +146,10 @@ public class PluginSetContext<T> implements Iterable<PluginSetEntryContext<T>> {
     dynamicSet
         .entries()
         .forEach(p -> PluginContext.runLogExceptions(pluginMetrics, p, extensionImplConsumer));
+  }
+
+  public Stream<T> stream() {
+    return dynamicSet.stream();
   }
 
   /**

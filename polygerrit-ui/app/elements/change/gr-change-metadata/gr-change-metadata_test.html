@@ -119,18 +119,6 @@ limitations under the License.
       assert.isTrue(element.$$('.strategy').hasAttribute('hidden'));
     });
 
-    test('show CC section when NoteDb enabled', () => {
-      function hasCc() {
-        return element._showReviewersByState;
-      }
-
-      element.serverConfig = {};
-      assert.isFalse(hasCc());
-
-      element.serverConfig = {note_db_enabled: true};
-      assert.isTrue(hasCc());
-    });
-
     test('weblinks use Gerrit.Nav interface', () => {
       const weblinksStub = sandbox.stub(Gerrit.Nav, '_generateWeblinks')
           .returns([{name: 'stubb', url: '#s'}]);
@@ -552,9 +540,6 @@ limitations under the License.
       });
 
       test('_computeHashtagReadOnly', () => {
-        element.serverConfig = {
-          note_db_enabled: true,
-        };
         flushAsynchronousOperations();
         let mutable = false;
         assert.isTrue(element._computeHashtagReadOnly(mutable, change));
@@ -567,9 +552,6 @@ limitations under the License.
       });
 
       test('hashtag read only hides delete button', () => {
-        element.serverConfig = {
-          note_db_enabled: true,
-        };
         flushAsynchronousOperations();
         element.account = {};
         element.change = change;
@@ -579,9 +561,6 @@ limitations under the License.
       });
 
       test('hashtag not read only does not hide delete button', () => {
-        element.serverConfig = {
-          note_db_enabled: true,
-        };
         flushAsynchronousOperations();
         element.account = {test: true};
         change.actions.hashtags.enabled = true;
@@ -703,9 +682,6 @@ limitations under the License.
       });
 
       test('changing hashtag', () => {
-        element.serverConfig = {
-          note_db_enabled: true,
-        };
         flushAsynchronousOperations();
         element._newHashtag = 'new hashtag';
         const newHashtag = ['new hashtag'];

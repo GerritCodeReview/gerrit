@@ -15,6 +15,8 @@
 package com.google.gerrit.server.mail.send;
 
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -44,8 +46,6 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.template.soy.data.SoyListData;
-import com.google.template.soy.data.SoyMapData;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
@@ -556,15 +556,15 @@ public abstract class ChangeEmail extends NotificationEmail {
   }
 
   /**
-   * Generate a Soy list of maps representing each line of the unified diff. The line maps will have
-   * a 'type' key which maps to one of 'common', 'add' or 'remove' and a 'text' key which maps to
-   * the line's content.
+   * Generate a list of maps representing each line of the unified diff. The line maps will have a
+   * 'type' key which maps to one of 'common', 'add' or 'remove' and a 'text' key which maps to the
+   * line's content.
    */
-  private SoyListData getDiffTemplateData() {
-    SoyListData result = new SoyListData();
+  private ImmutableList<ImmutableMap<String, String>> getDiffTemplateData() {
+    ImmutableList.Builder<ImmutableMap<String, String>> result = ImmutableList.builder();
     Splitter lineSplitter = Splitter.on(System.getProperty("line.separator"));
     for (String diffLine : lineSplitter.split(getUnifiedDiff())) {
-      SoyMapData lineData = new SoyMapData();
+      ImmutableMap.Builder<String, String> lineData = ImmutableMap.builder();
       lineData.put("text", diffLine);
 
       // Skip empty lines and lines that look like diff headers.
@@ -583,8 +583,8 @@ public abstract class ChangeEmail extends NotificationEmail {
             break;
         }
       }
-      result.add(lineData);
+      result.add(lineData.build());
     }
-    return result;
+    return result.build();
   }
 }

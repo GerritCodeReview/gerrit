@@ -3084,6 +3084,7 @@ class ReceiveCommits {
       }
     }
 
+    BranchCommitValidator validator = commitValidatorFactory.create(projectState, branch, user);
     RevWalk walk = receivePack.getRevWalk();
     walk.reset();
     walk.sort(RevSort.NONE);
@@ -3110,7 +3111,6 @@ class ReceiveCommits {
           continue;
         }
 
-        BranchCommitValidator validator = commitValidatorFactory.create(projectState, branch, user);
         if (!validator.validCommit(
             walk.getObjectReader(), cmd, c, false, messages, rejectCommits, null, skipValidation)) {
           break;

@@ -967,7 +967,7 @@ class ReceiveCommits {
     if (!noteDbValues.isEmpty()) {
       // These semantics for duplicates/errors are somewhat arbitrary and may not match e.g. the
       // CmdLineParser behavior used by MagicBranchInput.
-      String value = noteDbValues.get(noteDbValues.size() - 1);
+      String value = Iterables.getLast(noteDbValues);
       noteDbPushOption = NoteDbPushOption.parse(value);
       if (!noteDbPushOption.isPresent()) {
         addError("Invalid value in -o " + NoteDbPushOption.OPTION_NAME + "=" + value);
@@ -978,8 +978,7 @@ class ReceiveCommits {
 
     List<String> traceValues = pushOptions.get("trace");
     if (!traceValues.isEmpty()) {
-      String value = traceValues.get(traceValues.size() - 1);
-      tracePushOption = Optional.of(value);
+      tracePushOption = Optional.of(Iterables.getLast(traceValues));
     } else {
       tracePushOption = Optional.empty();
     }

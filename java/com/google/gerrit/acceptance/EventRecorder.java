@@ -109,7 +109,7 @@ public class EventRecorder {
     return events;
   }
 
-  private ImmutableList<ChangeMergedEvent> getChangeMergedEvents(
+  public ImmutableList<ChangeMergedEvent> getChangeMergedEvents(
       String project, String branch, int expectedSize) {
     String key = refEventKey(ChangeMergedEvent.TYPE, project, branch);
     if (expectedSize == 0) {

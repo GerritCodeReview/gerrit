@@ -46,10 +46,10 @@ limitations under the License.
       #loading:not(.loading) {
         display: none;
       }
-      .repositorySettings {
+      #options .repositorySettings {
         display: none;
       }
-      .repositorySettings.showConfig {
+      #options .repositorySettings.showConfig {
         display: block;
       }
     </style>
@@ -219,7 +219,7 @@ limitations under the License.
                   </gr-select>
                 </span>
               </section>
-              <section id="noteDbSettings" class$="repositorySettings [[_computeRepositoriesClass(_noteDbEnabled)]]">
+              <section>
                 <span class="title">
                   Enable adding unregistered users as reviewers and CCs on changes</span>
                 <span class="value">

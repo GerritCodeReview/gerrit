@@ -28,8 +28,8 @@ public class %s {}
 
 _PREFIXES = ("org", "com", "edu")
 
-def _SafeIndex(l, val):
-    for i, v in enumerate(l):
+def _SafeIndex(j, val):
+    for i, v in enumerate(j):
         if val == v:
             return i
     return -1

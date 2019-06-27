@@ -75,6 +75,7 @@ public class StaticModule extends ServletModule {
           "/x/*",
           "/admin/*",
           "/dashboard/*",
+          "/groups/self",
           "/settings/*",
           "/Documentation/q/*");
   // TODO(dborowitz): These fragments conflict with the REST API

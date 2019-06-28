@@ -22,3 +22,5 @@ workspace_type: java
 
 build_flags:
   --javacopt=-g
+  # Temporarily add an option to work around an error in the Bazel IntelliJ plugin.
+  --incompatible_depset_is_not_iterable=false

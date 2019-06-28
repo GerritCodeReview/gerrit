@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee05419a_1648e35f",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1003,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-28T13:27:01Z",
+      "side": 1,
+      "message": "If we want to be accurate, shouldn\u0027t this computation be also part of the trace? If so, I suggest to move this code into the if-statement as it seems to be only relevant for the first code path.",
+      "range": {
+        "startLine": 1002,
+        "startChar": 4,
+        "endLine": 1003,
+        "endChar": 31
+      },
+      "revId": "2b24d9084fa58387d61142b51e33f9f7c0ea1b04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

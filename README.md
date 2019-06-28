@@ -39,9 +39,6 @@ Note that we do not accept Pull Requests via the Github mirror.
 
 ## Getting in contact
 
-The IRC channel on freenode is #gerrit. An archive is available at:
-[echelog.com](https://echelog.com/logs/browse/gerrit).
-
 The Developer Mailing list is [repo-discuss on Google Groups](https://groups.google.com/forum/#!forum/repo-discuss).
 
 ## License

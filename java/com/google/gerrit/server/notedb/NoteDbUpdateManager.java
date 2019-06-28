@@ -267,7 +267,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
    * @throws IOException if a storage layer error occurs.
    */
   private void stage() throws IOException {
-    try (Timer1.Context timer = metrics.stageUpdateLatency.start(CHANGES)) {
+    try (Timer1.Context<NoteDbTable> timer = metrics.stageUpdateLatency.start(CHANGES)) {
       if (isEmpty()) {
         return;
       }
@@ -302,7 +302,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
       executed = true;
       return null;
     }
-    try (Timer1.Context timer = metrics.updateLatency.start(CHANGES)) {
+    try (Timer1.Context<NoteDbTable> timer = metrics.updateLatency.start(CHANGES)) {
       stage();
       // ChangeUpdates must execute before ChangeDraftUpdates.
       //

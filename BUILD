@@ -42,12 +42,12 @@ java_runtime(
 # TODO(davido): Switch to consuming it from @bazel_tool//tools/jdk:toolchain_vanilla
 # when my change is included in released Bazel version:
 # https://github.com/bazelbuild/bazel/commit/0bef68e054eccecd690e5d9f46db8a0c4b2d887a
-default_java_toolchain(
-    name = "toolchain_vanilla",
-    forcibly_disable_header_compilation = True,
-    javabuilder = ["@bazel_tools//tools/jdk:VanillaJavaBuilder_deploy.jar"],
-    jvm_opts = [],
-)
+#default_java_toolchain(
+#    name = "toolchain_vanilla",
+#    forcibly_disable_header_compilation = True,
+#    javabuilder = ["@bazel_tools//tools/jdk:VanillaJavaBuilder_deploy.jar"],
+#    jvm_opts = [],
+#)
 
 package(default_visibility = ["//visibility:public"])
 

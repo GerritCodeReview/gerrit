@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "88c946d3_e659a762",
+        "filename": "java/com/google/gerrit/metrics/Timer1.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-28T14:29:58Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/229478",
+      "parentUuid": "8cb1bc9e_12a280ef",
+      "range": {
+        "startLine": 40,
+        "startChar": 22,
+        "endLine": 40,
+        "endChar": 29
+      },
+      "revId": "460f5884ee5b0c59d13ed54deaf17a034dd308e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ea61239_c6c6260d",
         "filename": "java/com/google/gerrit/metrics/Timer1.java",
         "patchSetId": 6

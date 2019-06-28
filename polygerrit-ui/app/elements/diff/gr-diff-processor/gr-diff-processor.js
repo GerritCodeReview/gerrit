@@ -235,7 +235,7 @@
     },
 
     _isCommonSection(section) {
-      return section.ab || section.common;
+      return (section.ab || section.common) && !section.keyLocation;
     },
 
     /**
@@ -302,6 +302,7 @@
       const type = section.ab ? GrDiffGroup.Type.BOTH : GrDiffGroup.Type.DELTA;
       const lines = this._linesFromSection(section, offsetLeft, offsetRight);
       const group = new GrDiffGroup(type, lines);
+      group.keyLocation = section.keyLocation;
       group.dueToRebase = section.due_to_rebase;
       group.ignoredWhitespaceOnly = section.common;
       return group;
@@ -450,18 +451,24 @@
 
         if (chunk.ab) {
           result.push(...this._splitAtChunkEnds(chunk.ab, chunkEnds)
-              .map(lines => Object.assign({}, chunk, {ab: lines})));
+              .map(({lines, keyLocation}) =>
+                  Object.assign({}, chunk, {ab: lines, keyLocation})));
         } else if (chunk.common) {
           const aChunks = this._splitAtChunkEnds(chunk.a, chunkEnds);
           const bChunks = this._splitAtChunkEnds(chunk.b, chunkEnds);
-          result.push(...aChunks.map((lines, i) =>
-              Object.assign({}, chunk, {a: lines, b: bChunks[i]})));
+          result.push(...aChunks.map(({lines, keyLocation}, i) =>
+            Object.assign(
+                {}, chunk, {a: lines, b: bChunks[i], keyLocation})));
         }
       }
 
       return result;
     },
 
+    /**
+     * @return {!Array<{offset: number, keyLocation: boolean}>} Offsets of the
+     *   new chunk ends, including whether it's a key location.
+     */
     _findChunkEndsAtKeyLocations(numLines, leftOffset, rightOffset) {
       const result = [];
       let lastChunkEnd = 0;
@@ -473,17 +480,17 @@
           // this non-collapse line, then add them as a chunk and start a new
           // one.
           if (i > lastChunkEnd) {
-            result.push(i);
+            result.push({offset: i, keyLocation: false});
             lastChunkEnd = i;
           }
 
           // Add the non-collapse line as its own chunk.
-          result.push(i + 1);
+          result.push({offset: i + 1, keyLocation: true});
         }
       }
 
       if (numLines > lastChunkEnd) {
-        result.push(numLines);
+        result.push({offset: numLines, keyLocation: false});
       }
 
       return result;
@@ -491,10 +498,10 @@
 
     _splitAtChunkEnds(lines, chunkEnds) {
       const result = [];
-      let lastChunkEnd = 0;
-      for (const chunkEnd of chunkEnds) {
-        result.push(lines.slice(lastChunkEnd, chunkEnd));
-        lastChunkEnd = chunkEnd;
+      let lastChunkEndOffset = 0;
+      for (const {offset, keyLocation} of chunkEnds) {
+        result.push({lines: lines.slice(lastChunkEndOffset, offset), keyLocation});
+        lastChunkEndOffset = offset;
       }
       return result;
     },

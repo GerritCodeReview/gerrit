@@ -40,6 +40,12 @@
      */
     this.ignoredWhitespaceOnly = false;
 
+    /**
+     * True means it should not be collapsed (because it was in the URL, or
+     * there is a comment on that line)
+     */
+    this.keyLocation = false;
+
     /** @type {?HTMLElement} */
     this.element = null;
 

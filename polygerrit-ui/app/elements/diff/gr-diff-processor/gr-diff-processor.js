@@ -146,7 +146,7 @@
             };
 
             content = this._splitLargeChunks(content);
-            content = this._splitUnchangedChunksWithComments(content);
+            content = this._splitUnchangedChunksWithKeyLocations(content);
 
             let currentBatch = 0;
             const nextStep = () => {
@@ -200,15 +200,15 @@
     },
 
     /**
-     * Process the next uncommon section, or the next common sections.
+     * Process the next uncollapsible section, or the next collapsible sections.
      *
      * @param {!Object} state
      * @param {!Array<!Object>} sections
      */
     _processNext(state, sections) {
-      const firstUncommonSectionIndex = this._firstUncommonSectionIndex(
-          sections, state.sectionIndex);
-      if (firstUncommonSectionIndex === state.sectionIndex) {
+      const firstUncollapsibleSectionIndex =
+          this._firstUncollapsibleSectionIndex(sections, state.sectionIndex);
+      if (firstUncollapsibleSectionIndex === state.sectionIndex) {
         const section = sections[state.sectionIndex];
         return {
           lineDelta: {
@@ -221,25 +221,25 @@
         };
       }
 
-      return this._processCommonSections(
-          state, sections, firstUncommonSectionIndex);
+      return this._processCollapsibleSections(
+          state, sections, firstUncollapsibleSectionIndex);
     },
 
-    _firstUncommonSectionIndex(sections, offset) {
+    _firstUncollapsibleSectionIndex(sections, offset) {
       let sectionIndex = offset;
       while (sectionIndex < sections.length &&
-          this._isCommonSection(sections[sectionIndex])) {
+          this._isCollapsibleSection(sections[sectionIndex])) {
         sectionIndex++;
       }
       return sectionIndex;
     },
 
-    _isCommonSection(section) {
-      return section.ab || section.common;
+    _isCollapsibleSection(section) {
+      return (section.ab || section.common) && !section.keyLocation;
     },
 
     /**
-     * Process a stretch of common sections.
+     * Process a stretch of collapsible sections.
      *
      * Outputs up to three groups:
      *  1) Visible context before the hidden common code, unless it's the
@@ -250,22 +250,25 @@
      *
      * @param {!Object} state
      * @param {!Array<Object>} sections
-     * @param {number} firstUncommonSectionIndex
+     * @param {number} firstUncollapsibleSectionIndex
      * @return {!Object}
      */
-    _processCommonSections(state, sections, firstUncommonSectionIndex) {
-      const commonSections = sections.slice(
-          state.sectionIndex, firstUncommonSectionIndex);
-      const lineCount = commonSections.reduce(
+    _processCollapsibleSections(
+        state, sections, firstUncollapsibleSectionIndex) {
+      const collapsibleSections = sections.slice(
+          state.sectionIndex, firstUncollapsibleSectionIndex);
+      const lineCount = collapsibleSections.reduce(
           (sum, section) => sum + this._commonSectionLength(section), 0);
 
       let groups = this._sectionsToGroups(
-          commonSections, state.lineNums.left + 1, state.lineNums.right + 1);
+          collapsibleSections,
+          state.lineNums.left + 1,
+          state.lineNums.right + 1);
 
       if (this.context !== WHOLE_FILE) {
         const hiddenStart = state.sectionIndex === 0 ? 0 : this.context;
         const hiddenEnd = lineCount - (
-            firstUncommonSectionIndex === sections.length ?
+            firstUncollapsibleSectionIndex === sections.length ?
             0 : this.context);
         groups = GrDiffGroup.hideInContextControl(
             groups, hiddenStart, hiddenEnd);
@@ -277,14 +280,15 @@
           right: lineCount,
         },
         groups,
-        newSectionIndex: firstUncommonSectionIndex,
+        newSectionIndex: firstUncollapsibleSectionIndex,
       };
     },
 
     _commonSectionLength(section) {
       console.assert(section.ab || section.common);
       console.assert(
-          !section.a || (section.b && section.a.length === section.b.length));
+          !section.a || (section.b && section.a.length === section.b.length),
+          `common section needs same number of a and b lines: `, section);
       return (section.ab || section.a).length;
     },
 
@@ -302,6 +306,7 @@
       const type = section.ab ? GrDiffGroup.Type.BOTH : GrDiffGroup.Type.DELTA;
       const lines = this._linesFromSection(section, offsetLeft, offsetRight);
       const group = new GrDiffGroup(type, lines);
+      group.keyLocation = section.keyLocation;
       group.dueToRebase = section.due_to_rebase;
       group.ignoredWhitespaceOnly = section.common;
       return group;
@@ -414,13 +419,13 @@
     },
 
     /**
-     * In order to show comments out of the bounds of the selected context,
-     * treat them as separate chunks within the model so that the content (and
-     * context surrounding it) renders correctly.
+     * In order to show key locations, such as comments, out of the bounds of
+     * the selected context, treat them as separate chunks within the model so
+     * that the content (and context surrounding it) renders correctly.
      * @param {!Array<!Object>} chunks DiffContents as returned from server.
      * @return {!Array<!Object>} Finer grained DiffContents.
      */
-    _splitUnchangedChunksWithComments(chunks) {
+    _splitUnchangedChunksWithKeyLocations(chunks) {
       const result = [];
       let leftLineNum = 1;
       let rightLineNum = 1;
@@ -450,18 +455,24 @@
 
         if (chunk.ab) {
           result.push(...this._splitAtChunkEnds(chunk.ab, chunkEnds)
-              .map(lines => Object.assign({}, chunk, {ab: lines})));
+              .map(({lines, keyLocation}) =>
+                  Object.assign({}, chunk, {ab: lines, keyLocation})));
         } else if (chunk.common) {
           const aChunks = this._splitAtChunkEnds(chunk.a, chunkEnds);
           const bChunks = this._splitAtChunkEnds(chunk.b, chunkEnds);
-          result.push(...aChunks.map((lines, i) =>
-              Object.assign({}, chunk, {a: lines, b: bChunks[i]})));
+          result.push(...aChunks.map(({lines, keyLocation}, i) =>
+            Object.assign(
+                {}, chunk, {a: lines, b: bChunks[i].lines, keyLocation})));
         }
       }
 
       return result;
     },
 
+    /**
+     * @return {!Array<{offset: number, keyLocation: boolean}>} Offsets of the
+     *   new chunk ends, including whether it's a key location.
+     */
     _findChunkEndsAtKeyLocations(numLines, leftOffset, rightOffset) {
       const result = [];
       let lastChunkEnd = 0;
@@ -473,17 +484,17 @@
           // this non-collapse line, then add them as a chunk and start a new
           // one.
           if (i > lastChunkEnd) {
-            result.push(i);
+            result.push({offset: i, keyLocation: false});
             lastChunkEnd = i;
           }
 
           // Add the non-collapse line as its own chunk.
-          result.push(i + 1);
+          result.push({offset: i + 1, keyLocation: true});
         }
       }
 
       if (numLines > lastChunkEnd) {
-        result.push(numLines);
+        result.push({offset: numLines, keyLocation: false});
       }
 
       return result;
@@ -491,10 +502,11 @@
 
     _splitAtChunkEnds(lines, chunkEnds) {
       const result = [];
-      let lastChunkEnd = 0;
-      for (const chunkEnd of chunkEnds) {
-        result.push(lines.slice(lastChunkEnd, chunkEnd));
-        lastChunkEnd = chunkEnd;
+      let lastChunkEndOffset = 0;
+      for (const {offset, keyLocation} of chunkEnds) {
+        result.push(
+            {lines: lines.slice(lastChunkEndOffset, offset), keyLocation});
+        lastChunkEndOffset = offset;
       }
       return result;
     },

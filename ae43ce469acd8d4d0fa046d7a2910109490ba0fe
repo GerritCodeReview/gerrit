@@ -1,0 +1,366 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4e5bf4c_3e773d5e",
+        "filename": "java/com/google/gerrit/httpd/RequestMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-28T16:21:37Z",
+      "side": 1,
+      "message": "Here and similar other usages: This could be a method reference, which is much shorter/simpler code.",
+      "range": {
+        "startLine": 33,
+        "startChar": 26,
+        "endLine": 33,
+        "endChar": 97
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a102b650_197a2ce1",
+        "filename": "java/com/google/gerrit/metrics/Field.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-28T16:21:37Z",
+      "side": 1,
+      "message": "Was it a deliberate choice to go for a new functional interface instead of a BiConsumer to have a nicer method (map()) for interactions?",
+      "range": {
+        "startLine": 32,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 3
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03701362_6e797e3e",
+        "filename": "java/com/google/gerrit/metrics/Field.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-28T16:21:37Z",
+      "side": 1,
+      "message": "Considering that all of the other methods have Javadoc descriptions, could you add one here too?",
+      "range": {
+        "startLine": 109,
+        "startChar": 36,
+        "endLine": 109,
+        "endChar": 50
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0cfa473_18613a24",
+        "filename": "java/com/google/gerrit/server/git/PureRevertCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-28T16:21:37Z",
+      "side": 1,
+      "message": "Was this addition deliberate?",
+      "range": {
+        "startLine": 157,
+        "startChar": 57,
+        "endLine": 157,
+        "endChar": 87
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e59e8962_ba398d08",
+        "filename": "java/com/google/gerrit/server/git/UploadPackMetricsHook.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-28T16:21:37Z",
+      "side": 1,
+      "message": "Optional: If we want to switch to a method reference, it might be better to just rely on the toString() method, which for enums delegates to the name.",
+      "range": {
+        "startLine": 50,
+        "startChar": 16,
+        "endLine": 50,
+        "endChar": 96
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b37f9774_06dcffdb",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 3470,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-28T16:21:37Z",
+      "side": 1,
+      "message": "I think the code would be a bit easier if we passed a Metadata.Builder here and simply added the the projectName() as below.",
+      "range": {
+        "startLine": 3470,
+        "startChar": 35,
+        "endLine": 3470,
+        "endChar": 74
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18beda7b_11b6a194",
+        "filename": "java/com/google/gerrit/server/logging/Metadata.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-28T16:21:37Z",
+      "side": 1,
+      "message": "Why do we need the type if the above field changeId() is an Integer and hence the numeric ID?",
+      "range": {
+        "startLine": 47,
+        "startChar": 9,
+        "endLine": 47,
+        "endChar": 26
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84d1800e_81b3fe19",
+        "filename": "java/com/google/gerrit/server/logging/Metadata.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-28T16:21:37Z",
+      "side": 1,
+      "message": "Reading this and also having seen the pluginName() field, I don\u0027t understand what this is for. Is this a distinction between plugin and extension names? If so, could we find another name for this field?",
+      "range": {
+        "startLine": 53,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 48
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "850f5309_6b3216a9",
+        "filename": "java/com/google/gerrit/server/logging/Metadata.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-28T16:21:37Z",
+      "side": 1,
+      "message": "Would it maybe make sense to rather call this authDomainName (or authenticationDomainName) so that it is re-usable for other authentication types?",
+      "range": {
+        "startLine": 81,
+        "startChar": 35,
+        "endLine": 81,
+        "endChar": 49
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b705ab7_e0ceaeb4",
+        "filename": "java/com/google/gerrit/server/logging/Metadata.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-28T16:21:37Z",
+      "side": 1,
+      "message": "Here and below: Do we have calling code where we don\u0027t know whether the passed String is null or not?",
+      "range": {
+        "startLine": 137,
+        "startChar": 39,
+        "endLine": 137,
+        "endChar": 48
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e67350bc_821b5528",
+        "filename": "java/com/google/gerrit/server/logging/PerformanceLogRecord.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-28T16:21:37Z",
+      "side": 1,
+      "message": "This is not accurate anymore.",
+      "range": {
+        "startLine": 25,
+        "startChar": 3,
+        "endLine": 26,
+        "endChar": 11
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2990af3c_ce2a7b4e",
+        "filename": "java/com/google/gerrit/server/logging/PerformanceLogRecord.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-28T16:21:37Z",
+      "side": 1,
+      "message": "Could we use Optional instead?",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 11
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "723686a2_a859403c",
+        "filename": "java/com/google/gerrit/server/logging/PerformanceLogger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-28T16:21:37Z",
+      "side": 1,
+      "message": "Unrelated: Do you know where this recommendation is coming from? I\u0027m a bit surprised that we explicitly call this out as the creation of such objects should be negligible.",
+      "range": {
+        "startLine": 27,
+        "startChar": 3,
+        "endLine": 28,
+        "endChar": 47
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59013c94_23f6ef81",
+        "filename": "java/com/google/gerrit/server/logging/PerformanceLogger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-28T16:21:37Z",
+      "side": 1,
+      "message": "Here and below: As the method signature is changed, could we use the opportunity to change this to Duration instead?",
+      "range": {
+        "startLine": 49,
+        "startChar": 29,
+        "endLine": 49,
+        "endChar": 44
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f32075b0_438e6331",
+        "filename": "java/com/google/gerrit/server/logging/PluginMetadata.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-28T16:21:37Z",
+      "side": 1,
+      "message": "Javadoc descriptions would be nice.",
+      "range": {
+        "startLine": 22,
+        "startChar": 22,
+        "endLine": 22,
+        "endChar": 36
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05271dc2_190e3edd",
+        "filename": "java/com/google/gerrit/server/logging/TraceContext.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-28T16:21:37Z",
+      "side": 1,
+      "message": "Optional: This log entry might be a bit harder to read now considering that the whole Metadata object is logged even if its entries are empty. On the other hand, I don\u0027t have an idea how to improve it and the general use of the Metadata object is much better (e.g. It\u0027s amazing how much simpler this class got).",
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

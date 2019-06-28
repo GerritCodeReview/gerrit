@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7d6853b1_86e2f650",
+        "filename": "java/com/google/gerrit/metrics/Field.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-28T08:48:53Z",
+      "side": 1,
+      "message": "Sure, that\u0027s better, but now I made formatter a normal field (see comment below).",
+      "parentUuid": "d067242d_bae4f6e2",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 60,
+        "endChar": 5
+      },
+      "revId": "d4318a0e57a3dafe487e6b98f5d3e99346cbca1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62ec83e1_ea7a0d35",
         "filename": "java/com/google/gerrit/metrics/Field.java",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "d4318a0e57a3dafe487e6b98f5d3e99346cbca1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fec3c3a8_257a79e4",
+        "filename": "java/com/google/gerrit/metrics/Field.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-28T08:48:53Z",
+      "side": 1,
+      "message": "Thanks, that looks interesting. But I couldn\u0027t find a nice way to apply it here:\n\n- we can\u0027t use @AutoOneOf on the Field class because it has also other properties\n- we could have a Formatter class with @AutoOneOf, but since the types on which we want to differentiate are Class\u003cBoolean\u003e, Class\u003cString\u003e etc. each static create method must have a different name (due to type erasure), but then we would need the same if-else as today to call the corresponding static create method\n\nIf we want to avoid the if-else, we can just make the formatter a normal field and set it in the static create methods.\nDone.",
+      "parentUuid": "62ec83e1_ea7a0d35",
+      "range": {
+        "startLine": 64,
+        "startChar": 41,
+        "endLine": 64,
+        "endChar": 54
+      },
+      "revId": "d4318a0e57a3dafe487e6b98f5d3e99346cbca1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

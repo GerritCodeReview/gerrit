@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8cb1bc9e_12a280ef",
+        "filename": "java/com/google/gerrit/metrics/Timer1.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-28T14:07:13Z",
+      "side": 1,
+      "message": "No, at least I don\u0027t see a reason why we couldn\u0027t use generic types here. Will make a separate change for this.",
+      "parentUuid": "650286f7_74002372",
+      "range": {
+        "startLine": 40,
+        "startChar": 22,
+        "endLine": 40,
+        "endChar": 29
+      },
+      "revId": "460f5884ee5b0c59d13ed54deaf17a034dd308e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4ea61239_c6c6260d",
         "filename": "java/com/google/gerrit/metrics/Timer1.java",
         "patchSetId": 6
@@ -45,6 +69,30 @@
       "revId": "460f5884ee5b0c59d13ed54deaf17a034dd308e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c617321a_ecf5c7ce",
+        "filename": "java/com/google/gerrit/metrics/Timer1.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-28T14:07:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ea61239_c6c6260d",
+      "range": {
+        "startLine": 70,
+        "startChar": 26,
+        "endLine": 70,
+        "endChar": 32
+      },
+      "revId": "460f5884ee5b0c59d13ed54deaf17a034dd308e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

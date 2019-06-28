@@ -310,11 +310,6 @@
       // so we'll just disable it altogether for now.
       delete linkObj.target;
 
-      // Because the user provided links may be arbitrary URLs, we don't know
-      // whether they correspond to any client routes. Mark all such links as
-      // external.
-      linkObj.external = true;
-
       return linkObj;
     },
 

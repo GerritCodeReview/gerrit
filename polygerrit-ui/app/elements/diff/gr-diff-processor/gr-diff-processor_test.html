@@ -460,10 +460,11 @@ limitations under the License.
           },
         ];
         const result =
-            element._splitUnchangedChunksWithComments(content);
+            element._splitUnchangedChunksWithKeyLocations(content);
         assert.deepEqual(result, [
           {
             ab: ['Copyright (C) 2015 The Android Open Source Project'],
+            keyLocation: true,
           },
           {
             ab: [
@@ -477,10 +478,12 @@ limitations under the License.
               '',
               'Unless required by applicable law or agreed to in writing, ',
             ],
+            keyLocation: false,
           },
           {
             ab: [
               'software distributed under the License is distributed on an '],
+            keyLocation: true,
           },
           {
             ab: [
@@ -489,6 +492,7 @@ limitations under the License.
               'language governing permissions and limitations under the ' +
                   'License.',
             ],
+            keyLocation: false,
           },
         ]);
       });
@@ -505,14 +509,16 @@ limitations under the License.
         assert.deepEqual(result[1].ab, content[0].ab.slice(120));
       });
 
-      test('does not break-down shared chunks w/ context', () => {
+      test('does not break-down common chunks w/ context', () => {
         const content = [{
           ab: _.times(75, () => { return `${Math.random()}`; }),
         }];
         element.context = 4;
         const result =
-            element._splitUnchangedChunksWithComments(content);
-        assert.deepEqual(result, content);
+            element._splitUnchangedChunksWithKeyLocations(content);
+        assert.equal(result.length, 1);
+        assert.deepEqual(result[0].ab, content[0].ab);
+        assert.isFalse(result[0].keyLocation);
       });
 
       test('intraline normalization', () => {
@@ -763,6 +769,32 @@ limitations under the License.
           // Results in one uncollapsed group with all rows.
           assert.equal(result.groups.length, 1, 'Results in one group');
           assert.equal(result.groups[0].lines.length, rows.length);
+        });
+
+        test('with key location', () => {
+          element.context = 10;
+          const state = {
+            lineNums: {left: 10, right: 100},
+            sectionIndex: 0,
+          };
+          const sections = [
+            {ab: rows},
+            {ab: ['foo'], keyLocation: true},
+            {ab: rows},
+          ];
+          const result = element._processNext(state, sections);
+
+          assert.equal(result.groups.length, 2);
+
+          // The first section has a single context-control line, the second
+          // section is the context before the key location not processed in
+          // this step
+          assert.equal(result.groups[0].lines.length, 1);
+          assert.equal(result.groups[1].lines.length, element.context);
+
+          // The collapsed group has the hidden lines as its context group.
+          assert.equal(result.groups[0].lines[0].contextGroups[0].lines.length,
+              rows.length - element.context);
         });
       });
 

@@ -22,6 +22,30 @@
       "revId": "94f6ae38f226b320d276d12eda41dd9721739af9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9ea74fa_1674d219",
+        "filename": "java/com/google/gerrit/metrics/Field.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-06-28T09:24:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1a2a371_49b0a7b2",
+      "range": {
+        "startLine": 53,
+        "startChar": 19,
+        "endLine": 53,
+        "endChar": 50
+      },
+      "revId": "94f6ae38f226b320d276d12eda41dd9721739af9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

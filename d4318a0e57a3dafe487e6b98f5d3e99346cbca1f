@@ -93,6 +93,30 @@
       "revId": "d4318a0e57a3dafe487e6b98f5d3e99346cbca1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c247e62_6045a8e0",
+        "filename": "java/com/google/gerrit/metrics/Field.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-28T09:17:00Z",
+      "side": 1,
+      "message": "Using inheritance (first example) would have been possible but I like your solution much more. :-)",
+      "parentUuid": "fec3c3a8_257a79e4",
+      "range": {
+        "startLine": 64,
+        "startChar": 41,
+        "endLine": 64,
+        "endChar": 54
+      },
+      "revId": "d4318a0e57a3dafe487e6b98f5d3e99346cbca1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

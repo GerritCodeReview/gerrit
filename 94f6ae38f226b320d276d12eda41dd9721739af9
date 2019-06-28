@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1a2a371_49b0a7b2",
+        "filename": "java/com/google/gerrit/metrics/Field.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-06-28T09:17:00Z",
+      "side": 1,
+      "message": "Optional: Could be a method reference (Enum::name).",
+      "range": {
+        "startLine": 53,
+        "startChar": 19,
+        "endLine": 53,
+        "endChar": 50
+      },
+      "revId": "94f6ae38f226b320d276d12eda41dd9721739af9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

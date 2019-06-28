@@ -32,6 +32,7 @@ EXPORTS = [
     "//lib/jgit/org.eclipse.jgit.http.server:jgit-servlet",
     "//lib/jgit/org.eclipse.jgit:jgit",
     "//lib/joda:joda-time",
+    "//lib:jsr305",
     "//lib/log:api",
     "//lib/log:log4j",
     "//lib/mina:sshd",

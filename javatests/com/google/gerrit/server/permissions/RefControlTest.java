@@ -616,6 +616,20 @@ public class RefControlTest {
   }
 
   @Test
+  public void blockPartialRangeLocally() throws Exception {
+    projectOperations
+        .project(localKey)
+        .forUpdate()
+        .add(blockLabel("Code-Review").ref("refs/heads/master").group(DEVS).range(+1, +2))
+        .update();
+
+    ProjectControl u = user(localKey, DEVS);
+
+    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    assertCannotVote(2, range);
+  }
+
+  @Test
   public void blockLabelRange_ParentBlocksChild() throws Exception {
     projectOperations
         .project(localKey)

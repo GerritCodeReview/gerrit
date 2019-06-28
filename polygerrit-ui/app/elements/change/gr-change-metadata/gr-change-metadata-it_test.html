@@ -85,9 +85,6 @@ limitations under the License.
         getLoggedIn() { return Promise.resolve(false); },
         deleteVote() { return Promise.resolve({ok: true}); },
       });
-      stub('gr-change-metadata', {
-        _computeShowReviewersByState() { return true; },
-      });
     });
 
     teardown(() => {

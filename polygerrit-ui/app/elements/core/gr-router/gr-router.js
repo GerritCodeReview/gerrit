@@ -1423,7 +1423,10 @@
     },
 
     _handleSettingsRoute(data) {
-      this._setParams({view: Gerrit.Nav.View.SETTINGS});
+      this._setParams({
+        view: Gerrit.Nav.View.SETTINGS,
+        hash: data.hash,
+      });
     },
 
     _handleRegisterRoute(ctx) {

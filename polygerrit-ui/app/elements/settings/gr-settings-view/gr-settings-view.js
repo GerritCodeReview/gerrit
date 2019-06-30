@@ -69,6 +69,7 @@
       params: {
         type: Object,
         value() { return {}; },
+        observer: '_hashChanged',
       },
       _accountNameMutable: Boolean,
       _accountInfoChanged: Boolean,
@@ -144,6 +145,10 @@
         type: Boolean,
         value: false,
       },
+      /*hash: {
+        type: String,
+        observer: '_hashChanged',
+      },*/
     },
 
     behaviors: [
@@ -155,6 +160,7 @@
       '_handlePrefsChanged(_localPrefs.*)',
       '_handleMenuChanged(_localMenu.splices)',
       '_handleChangeTableChanged(_localChangeTableColumns, _showNumber)',
+      //'_hashChanged(hash.*)',
     ],
 
     attached() {
@@ -428,6 +434,18 @@
       }
 
       return false;
+    },
+
+    // This scrolls the sections (Fixes support for safari)
+    _hashChanged(val) {
+      if (val && val.hash) {
+        this.async(() => {
+          const anchor = this.$$('#' + val.hash);
+          if (anchor) {
+            anchor.scrollIntoView();
+          }
+        }, 1);
+      }
     },
   });
 })();

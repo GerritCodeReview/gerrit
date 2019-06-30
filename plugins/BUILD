@@ -68,6 +68,7 @@ EXPORTS = [
     "//lib/jackson:jackson-core",
     "//lib/jgit/org.eclipse.jgit.http.server:jgit-servlet",
     "//lib/jgit/org.eclipse.jgit:jgit",
+    "//lib:jsr305",
     "//lib/log:api",
     "//lib/log:log4j",
     "//lib/mina:sshd",

@@ -35,6 +35,7 @@ import com.google.gerrit.pgm.init.index.elasticsearch.ElasticIndexModuleOnInit;
 import com.google.gerrit.pgm.init.index.lucene.LuceneIndexModuleOnInit;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
@@ -57,6 +58,7 @@ import com.google.inject.CreationException;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
@@ -76,6 +78,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.sql.DataSource;
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -89,6 +92,7 @@ public class BaseInit extends SiteProgram {
   private final List<String> pluginsToInstall;
 
   private Injector sysInjector;
+  private Config config;
 
   protected BaseInit(PluginsDistribution pluginsDistribution, List<String> pluginsToInstall) {
     this.standalone = true;
@@ -143,7 +147,16 @@ public class BaseInit extends SiteProgram {
       try {
         indexManager.start();
         run = createSiteRun(init);
-        run.upgradeSchema();
+        try {
+          run.upgradeSchema();
+        } catch (OrmException e) {
+          if (config.getBoolean("container", "slave", false)) {
+            throw e;
+          }
+          String msg = "Couldn't upgrade schema. Expected if slave and read-only database";
+          System.err.println(msg);
+          log.warn(msg, e);
+        }
 
         init.initializer.postRun(sysInjector);
       } finally {
@@ -467,6 +480,8 @@ public class BaseInit extends SiteProgram {
             }
           });
       Injector dbInjector = createDbInjector(SINGLE_USER);
+      config = dbInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
+
       switch (IndexModule.getIndexType(dbInjector)) {
         case LUCENE:
           modules.add(new LuceneIndexModuleOnInit());

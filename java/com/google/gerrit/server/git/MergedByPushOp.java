@@ -136,6 +136,9 @@ public class MergedByPushOp implements BatchUpdateOp {
     // submitted, this is why we must fix the status
     update.fixStatus(Change.Status.MERGED);
     update.setCurrentPatchSet();
+    if (change.isWorkInProgress()) {
+      update.setWorkInProgress(false);
+    }
     StringBuilder msgBuf = new StringBuilder();
     msgBuf.append("Change has been successfully pushed");
     if (!refName.equals(change.getDest().get())) {

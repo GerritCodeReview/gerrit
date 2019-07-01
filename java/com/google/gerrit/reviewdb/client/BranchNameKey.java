@@ -36,14 +36,14 @@ public abstract class BranchNameKey implements Comparable<BranchNameKey> {
   }
 
   @Override
-  public int compareTo(BranchNameKey o) {
+  public final int compareTo(BranchNameKey o) {
     // TODO(dborowitz): Only compares branch name in order to match old StringKey behavior.
     // Consider comparing project name first.
     return branch().compareTo(o.branch());
   }
 
   @Override
-  public String toString() {
+  public final String toString() {
     return project() + "," + KeyUtil.encode(branch());
   }
 }

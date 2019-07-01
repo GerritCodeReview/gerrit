@@ -65,7 +65,7 @@ public abstract class ChangeTriplet {
   public abstract Change.Key id();
 
   @Override
-  public String toString() {
+  public final String toString() {
     return format(branch(), id());
   }
 }

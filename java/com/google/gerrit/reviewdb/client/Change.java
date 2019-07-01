@@ -243,7 +243,7 @@ public final class Change {
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
       return Integer.toString(get());
     }
   }
@@ -285,7 +285,7 @@ public final class Change {
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
       return get();
     }
   }

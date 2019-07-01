@@ -85,7 +85,7 @@ public abstract class LabelVote {
   }
 
   @Override
-  public String toString() {
+  public final String toString() {
     return format();
   }
 }

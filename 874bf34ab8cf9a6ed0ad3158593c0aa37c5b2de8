@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c10ff66_6f9fd9ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-01T23:59:25Z",
+      "side": 1,
+      "message": "better to use the abbreviated sha1 or the abbreviated change Id, which will get hyperlinked.",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 9,
+        "endChar": 34
+      },
+      "revId": "874bf34ab8cf9a6ed0ad3158593c0aa37c5b2de8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5d7a48c_a9729a48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-01T23:59:25Z",
+      "side": 1,
+      "message": "Remove this blank line",
+      "revId": "874bf34ab8cf9a6ed0ad3158593c0aa37c5b2de8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

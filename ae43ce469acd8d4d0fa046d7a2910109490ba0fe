@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "72485617_5faa1539",
+        "filename": "java/com/google/gerrit/httpd/RequestMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-01T10:49:17Z",
+      "side": 1,
+      "message": "Yes, much nicer.\n\nDone.",
+      "parentUuid": "e4e5bf4c_3e773d5e",
+      "range": {
+        "startLine": 33,
+        "startChar": 26,
+        "endLine": 33,
+        "endChar": 97
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a102b650_197a2ce1",
         "filename": "java/com/google/gerrit/metrics/Field.java",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a5abf3e_a0146d7e",
+        "filename": "java/com/google/gerrit/metrics/Field.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-01T10:49:17Z",
+      "side": 1,
+      "message": "No, I just wasn\u0027t aware of BiConsumer.\n\nDone",
+      "parentUuid": "a102b650_197a2ce1",
+      "range": {
+        "startLine": 32,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 3
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "6903d93f_bf17a230",
+        "filename": "java/com/google/gerrit/metrics/Field.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-01T10:49:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03701362_6e797e3e",
+      "range": {
+        "startLine": 109,
+        "startChar": 36,
+        "endLine": 109,
+        "endChar": 50
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0cfa473_18613a24",
         "filename": "java/com/google/gerrit/server/git/PureRevertCache.java",
         "patchSetId": 5
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "7fdad99e_eb43ac65",
+        "filename": "java/com/google/gerrit/server/git/PureRevertCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-01T10:49:17Z",
+      "side": 1,
+      "message": "Yes, since we have the project name available, we should set the project field in the metadata too.",
+      "parentUuid": "b0cfa473_18613a24",
+      "range": {
+        "startLine": 157,
+        "startChar": 57,
+        "endLine": 157,
+        "endChar": 87
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e59e8962_ba398d08",
         "filename": "java/com/google/gerrit/server/git/UploadPackMetricsHook.java",
         "patchSetId": 5
@@ -105,6 +201,30 @@
       "writtenOn": "2019-06-28T16:21:37Z",
       "side": 1,
       "message": "Optional: If we want to switch to a method reference, it might be better to just rely on the toString() method, which for enums delegates to the name.",
+      "range": {
+        "startLine": 50,
+        "startChar": 16,
+        "endLine": 50,
+        "endChar": 96
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8342928f_cfeddafb",
+        "filename": "java/com/google/gerrit/server/git/UploadPackMetricsHook.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-01T10:49:17Z",
+      "side": 1,
+      "message": "\u003e Optional: If we want to switch to a method reference\n\nYes, I think we want this.\n\n\u003e it might be better to just rely on the toString() method, which for enums delegates to the name.\n\nHow would we do this without changing the type of the field?",
+      "parentUuid": "e59e8962_ba398d08",
       "range": {
         "startLine": 50,
         "startChar": 16,
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "b3e0937f_8a0c9d89",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 3470,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-01T10:49:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b37f9774_06dcffdb",
+      "range": {
+        "startLine": 3470,
+        "startChar": 35,
+        "endLine": 3470,
+        "endChar": 74
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18beda7b_11b6a194",
         "filename": "java/com/google/gerrit/server/logging/Metadata.java",
         "patchSetId": 5
@@ -160,6 +304,30 @@
       "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58bb10ae_339b8cd4",
+        "filename": "java/com/google/gerrit/server/logging/Metadata.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-01T10:49:17Z",
+      "side": 1,
+      "message": "changeIdType is the format that the user used to identify a change, changeId is the ID of a change (independent of which format the user used to identify it).\n\nIn practice we either have the change number or the change ID type (or none). The change ID type is only used by the metric which counts how often which change identifier is used.\n\nTried to make this clearer in the comment.",
+      "parentUuid": "18beda7b_11b6a194",
+      "range": {
+        "startLine": 47,
+        "startChar": 9,
+        "endLine": 47,
+        "endChar": 26
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -186,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "eac3a8b9_9eb290af",
+        "filename": "java/com/google/gerrit/server/logging/Metadata.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-01T10:49:17Z",
+      "side": 1,
+      "message": "I tried to clarify this comment. It relates to the value of the @Export annotation, hence naming this \u0027exportValue\u0027 makes sense. Reading the JavaDoc of @Export this is not necessarily a name, but the meaning depends on the extension on which it is used (e.g. for HTTP servlets it can be a URL).\n\nRenamed to \u0027exportValue\u0027.",
+      "parentUuid": "84d1800e_81b3fe19",
+      "range": {
+        "startLine": 53,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 48
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "850f5309_6b3216a9",
         "filename": "java/com/google/gerrit/server/logging/Metadata.java",
         "patchSetId": 5
@@ -206,6 +398,30 @@
       "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d34f143_c1bf7695",
+        "filename": "java/com/google/gerrit/server/logging/Metadata.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-01T10:49:17Z",
+      "side": 1,
+      "message": "Good idea, done.",
+      "parentUuid": "850f5309_6b3216a9",
+      "range": {
+        "startLine": 81,
+        "startChar": 35,
+        "endLine": 81,
+        "endChar": 49
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -232,6 +448,30 @@
     },
     {
       "key": {
+        "uuid": "c5db1284_b93f3743",
+        "filename": "java/com/google/gerrit/server/logging/Metadata.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-01T10:49:17Z",
+      "side": 1,
+      "message": "Yes, I think there are a few places where the metadata value could be null, e.g. at https://gerrit.googlesource.com/gerrit/+/refs/changes/98/229198/5/java/com/google/gerrit/server/git/receive/ReceiveCommits.java#2503\n\nI think there are only few places like this, but since all metadata is optional, I think it\u0027s generally safer to allow null values for the setters.",
+      "parentUuid": "4b705ab7_e0ceaeb4",
+      "range": {
+        "startLine": 137,
+        "startChar": 39,
+        "endLine": 137,
+        "endChar": 48
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e67350bc_821b5528",
         "filename": "java/com/google/gerrit/server/logging/PerformanceLogRecord.java",
         "patchSetId": 5
@@ -252,6 +492,30 @@
       "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "753752ff_f9cf92f3",
+        "filename": "java/com/google/gerrit/server/logging/PerformanceLogRecord.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-01T10:49:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e67350bc_821b5528",
+      "range": {
+        "startLine": 25,
+        "startChar": 3,
+        "endLine": 26,
+        "endChar": 11
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -278,6 +542,30 @@
     },
     {
       "key": {
+        "uuid": "54dfd5d6_e971f519",
+        "filename": "java/com/google/gerrit/server/logging/PerformanceLogRecord.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-01T10:49:17Z",
+      "side": 1,
+      "message": "Sure, if we are not concerned with creating unneeded objects just for logging.\n\nDone.",
+      "parentUuid": "2990af3c_ce2a7b4e",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 11
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "723686a2_a859403c",
         "filename": "java/com/google/gerrit/server/logging/PerformanceLogger.java",
         "patchSetId": 5
@@ -289,6 +577,30 @@
       "writtenOn": "2019-06-28T16:21:37Z",
       "side": 1,
       "message": "Unrelated: Do you know where this recommendation is coming from? I\u0027m a bit surprised that we explicitly call this out as the creation of such objects should be negligible.",
+      "range": {
+        "startLine": 27,
+        "startChar": 3,
+        "endLine": 28,
+        "endChar": 47
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35c9296a_47e3a9ca",
+        "filename": "java/com/google/gerrit/server/logging/PerformanceLogger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-01T10:49:17Z",
+      "side": 1,
+      "message": "Yes, when I wrote this API initially I tried to avoid the usage of varargs, following the example of Flogger, see [1,2]. So the idea is to avoid object instantiation for logs as much as possible (since logging may be disabled). With the new approach of having a unified Metadata object, the overhead may be less bad. Do you think we should drop that statement now? If yes, we can also just drop the log(String, long) method and require the 1 caller to always provide a Metadata instance.\n\n[1] https://g3doc.corp.google.com/third_party/java_src/flogger/g3doc/benefits.md#cheap-disabled-logging\n[2] https://g3doc.corp.google.com/third_party/java_src/flogger/g3doc/anatomy.md#avoiding-varargs",
+      "parentUuid": "723686a2_a859403c",
       "range": {
         "startLine": 27,
         "startChar": 3,
@@ -324,6 +636,30 @@
     },
     {
       "key": {
+        "uuid": "0baef794_9ecb45b4",
+        "filename": "java/com/google/gerrit/server/logging/PerformanceLogger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-01T10:49:17Z",
+      "side": 1,
+      "message": "The reason to use long here, was also to avoid unneeded Object instantiation during logging (see other comment above). If you think the overhead of having Duration here is fine, I can easily change this in a follow-up change.",
+      "parentUuid": "59013c94_23f6ef81",
+      "range": {
+        "startLine": 49,
+        "startChar": 29,
+        "endLine": 49,
+        "endChar": 44
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f32075b0_438e6331",
         "filename": "java/com/google/gerrit/server/logging/PluginMetadata.java",
         "patchSetId": 5
@@ -347,6 +683,30 @@
     },
     {
       "key": {
+        "uuid": "c90aa6cd_9b45f069",
+        "filename": "java/com/google/gerrit/server/logging/PluginMetadata.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-01T10:49:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f32075b0_438e6331",
+      "range": {
+        "startLine": 22,
+        "startChar": 22,
+        "endLine": 22,
+        "endChar": 36
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "05271dc2_190e3edd",
         "filename": "java/com/google/gerrit/server/logging/TraceContext.java",
         "patchSetId": 5
@@ -361,6 +721,24 @@
       "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2388b106_1f341e02",
+        "filename": "java/com/google/gerrit/server/logging/TraceContext.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-01T10:49:17Z",
+      "side": 1,
+      "message": "I think this is fine. Most cases where there is no metadata are handled by TraceTimer(operation) where the logging doesn\u0027t include any metadata. If we are here and the provided Metadata instance is empty it means that a piece of metadata that we usually provide was not available. Having this logged differently from the case where metadata is never provided may actually be nice.\n\n\u003e It\u0027s amazing how much simpler this class got\n\nI agree :)",
+      "parentUuid": "05271dc2_190e3edd",
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

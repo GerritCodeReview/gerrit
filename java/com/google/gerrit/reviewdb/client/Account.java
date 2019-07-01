@@ -108,12 +108,12 @@ public final class Account {
     }
 
     @Override
-    public int compareTo(Id o) {
+    public final int compareTo(Id o) {
       return Integer.compare(id(), o.id());
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
       return Integer.toString(get());
     }
   }

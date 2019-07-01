@@ -129,7 +129,7 @@ public abstract class PatchSet {
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
       return changeId().toString() + ',' + id();
     }
   }

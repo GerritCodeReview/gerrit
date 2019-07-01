@@ -46,12 +46,12 @@ public final class AccountGroup {
     }
 
     @Override
-    public int compareTo(NameKey o) {
+    public final int compareTo(NameKey o) {
       return name().compareTo(o.name());
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
       return KeyUtil.encode(get());
     }
   }
@@ -97,12 +97,12 @@ public final class AccountGroup {
     }
 
     @Override
-    public int compareTo(UUID o) {
+    public final int compareTo(UUID o) {
       return uuid().compareTo(o.uuid());
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
       return KeyUtil.encode(get());
     }
   }
@@ -131,7 +131,7 @@ public final class AccountGroup {
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
       return Integer.toString(get());
     }
   }

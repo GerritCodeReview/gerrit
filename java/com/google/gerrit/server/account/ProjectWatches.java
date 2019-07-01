@@ -263,7 +263,7 @@ public class ProjectWatches {
     public abstract ImmutableSet<NotifyType> notifyTypes();
 
     @Override
-    public String toString() {
+    public final String toString() {
       List<NotifyType> notifyTypes = new ArrayList<>(notifyTypes());
       StringBuilder notifyValue = new StringBuilder();
       notifyValue.append(firstNonNull(filter(), FILTER_ALL)).append(" [");

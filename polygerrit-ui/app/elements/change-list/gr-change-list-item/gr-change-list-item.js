@@ -79,7 +79,7 @@
     },
 
     _computeItemNeedsReview(reviewed) {
-      return !reviewed;
+      return reviewed === false;
     },
 
     _computeChangeURL(change) {

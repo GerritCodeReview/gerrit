@@ -168,7 +168,7 @@ func setJsonPropByPath(json map[string]interface{}, path []string, value interfa
 func patchResponse(req *http.Request, res *http.Response) io.Reader {
 	switch req.URL.EscapedPath() {
 	case "/":
-		return replaceCdn(res.Body)
+		return rewriteHostPage(res.Body)
 	case "/config/server/info":
 		return injectLocalPlugins(res.Body)
 	default:
@@ -176,12 +176,35 @@ func patchResponse(req *http.Request, res *http.Response) io.Reader {
 	}
 }
 
-func replaceCdn(reader io.Reader) io.Reader {
+func rewriteHostPage(reader io.Reader) io.Reader {
 	buf := new(bytes.Buffer)
 	buf.ReadFrom(reader)
 	original := buf.String()
 
+	// Simply remove all CDN references, so files are loaded from the local file system  or the proxy
+	// server instead.
 	replaced := cdnPattern.ReplaceAllString(original, "")
+
+
+  // Modify window.INITIAL_DATA so that it has the same effect as injectLocalPlugins. To achieve
+  // this let's add JavaScript lines at the end of the <script>...</script> snippet that also
+  // contains window.INITIAL_DATA=...
+  // Here we rely on the fact that the <script> snippet that we want to append to is the first one.
+	if len(*plugins) > 0 {
+    insertionPoint := strings.Index(replaced, "</script>")
+    pluginScriptBuffer := new(bytes.Buffer)
+    for _, p := range strings.Split(*plugins, ",") {
+      if strings.HasSuffix(p, ".html") {
+        pluginScriptBuffer.WriteString(
+          "window.INITIAL_DATA['/config/server/info'].plugin.html_resource_paths.push(" + p + "); ");
+      }
+      if strings.HasSuffix(p, ".js") {
+        pluginScriptBuffer.WriteString(
+          "window.INITIAL_DATA['/config/server/info'].plugin.js_resource_paths.push(" + p + "); ");
+      }
+    }
+    replaced = replaced[:insertionPoint] + pluginScriptBuffer.String() + replaced[insertionPoint:];
+	}
 
 	return strings.NewReader(replaced)
 }

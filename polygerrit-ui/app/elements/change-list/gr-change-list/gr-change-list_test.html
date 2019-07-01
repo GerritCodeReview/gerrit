@@ -42,6 +42,7 @@ limitations under the License.
   </template>
 </test-fixture>
 
+
 <script>
   suite('gr-change-list basic tests', () => {
     // Define keybindings before attaching other fixtures.
@@ -113,25 +114,25 @@ limitations under the License.
 
     test('computed fields', () => {
       assert.equal(element._computeLabelNames(
-            [{results: [{_number: 0, labels: {}}]}]).length, 0);
+          [{results: [{_number: 0, labels: {}}]}]).length, 0);
       assert.equal(element._computeLabelNames([
         {results: [
-          {_number: 0, labels: {Verified: {approved: {}}}},
-          {
-            _number: 1,
-            labels: {
-              'Verified': {approved: {}},
-              'Code-Review': {approved: {}},
+            {_number: 0, labels: {Verified: {approved: {}}}},
+            {
+              _number: 1,
+              labels: {
+                'Verified': {approved: {}},
+                'Code-Review': {approved: {}},
+              },
             },
-          },
-          {
-            _number: 2,
-            labels: {
-              'Verified': {approved: {}},
-              'Library-Compliance': {approved: {}},
+            {
+              _number: 2,
+              labels: {
+                'Verified': {approved: {}},
+                'Library-Compliance': {approved: {}},
+              },
             },
-          },
-        ]},
+          ]},
       ]).length, 3);
 
       assert.equal(element._computeLabelShortcut('Code-Review'), 'CR');
@@ -221,29 +222,38 @@ limitations under the License.
         {
           _number: 1,
           status: 'NEW',
+          reviewed: false,
           owner: {_account_id: 0},
         },
         {
           _number: 2,
           status: 'MERGED',
+          reviewed: false,
           owner: {_account_id: 0},
         },
         {
           _number: 3,
           status: 'ABANDONED',
+          reviewed: false,
           owner: {_account_id: 0},
         },
         {
           _number: 4,
           status: 'NEW',
+          reviewed: false,
           work_in_progress: true,
+          owner: {_account_id: 0},
+        },
+        {
+          _number: 5,
+          status: 'NEW',
           owner: {_account_id: 0},
         },
       ];
       flushAsynchronousOperations();
       let elementItems = Polymer.dom(element.root).querySelectorAll(
           'gr-change-list-item');
-      assert.equal(elementItems.length, 5);
+      assert.equal(elementItems.length, 6);
       for (let i = 0; i < elementItems.length; i++) {
         assert.isFalse(elementItems[i].hasAttribute('needs-review'));
       }
@@ -251,22 +261,24 @@ limitations under the License.
       element.showReviewedState = true;
       elementItems = Polymer.dom(element.root).querySelectorAll(
           'gr-change-list-item');
-      assert.equal(elementItems.length, 5);
+      assert.equal(elementItems.length, 6);
       assert.isFalse(elementItems[0].hasAttribute('needs-review'));
       assert.isTrue(elementItems[1].hasAttribute('needs-review'));
       assert.isFalse(elementItems[2].hasAttribute('needs-review'));
       assert.isFalse(elementItems[3].hasAttribute('needs-review'));
       assert.isFalse(elementItems[4].hasAttribute('needs-review'));
+      assert.isFalse(elementItems[5].hasAttribute('needs-review'));
 
       element.account = {_account_id: 42};
       elementItems = Polymer.dom(element.root).querySelectorAll(
           'gr-change-list-item');
-      assert.equal(elementItems.length, 5);
+      assert.equal(elementItems.length, 6);
       assert.isFalse(elementItems[0].hasAttribute('needs-review'));
       assert.isTrue(elementItems[1].hasAttribute('needs-review'));
       assert.isFalse(elementItems[2].hasAttribute('needs-review'));
       assert.isFalse(elementItems[3].hasAttribute('needs-review'));
       assert.isFalse(elementItems[4].hasAttribute('needs-review'));
+      assert.isFalse(elementItems[5].hasAttribute('needs-review'));
     });
 
     test('no changes', () => {
@@ -306,7 +318,7 @@ limitations under the License.
 
       test('not shown on non-empty outgoing sections', () => {
         const section = {isOutgoing: true, results: [
-          {_number: 0, labels: {Verified: {approved: {}}}}]};
+            {_number: 0, labels: {Verified: {approved: {}}}}]};
         assert.isFalse(element._isEmpty(section));
         assert.isTrue(element._isOutgoing(section));
       });

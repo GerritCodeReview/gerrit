@@ -277,8 +277,7 @@
       if (!account) { return; }
 
       this.$.restAPI.getPreferences().then(prefs => {
-        this._userLinks =
-            prefs.my.map(this._fixCustomMenuItem).filter(this._isSupportedLink);
+        this._userLinks = prefs.my.map(this._fixCustomMenuItem);
       });
     },
 
@@ -310,17 +309,7 @@
       // so we'll just disable it altogether for now.
       delete linkObj.target;
 
-      // Because the user provided links may be arbitrary URLs, we don't know
-      // whether they correspond to any client routes. Mark all such links as
-      // external.
-      linkObj.external = true;
-
       return linkObj;
-    },
-
-    _isSupportedLink(linkObj) {
-      // Groups are not yet supported.
-      return !linkObj.url.startsWith('/groups');
     },
 
     _generateSettingsLink() {
@@ -330,6 +319,14 @@
     _onMobileSearchTap(e) {
       e.preventDefault();
       this.fire('mobile-search', null, {bubbles: false});
+    },
+
+    _computeLinkGroupClass(linkGroup) {
+      if (linkGroup && linkGroup.class) {
+        return linkGroup.class;
+      }
+
+      return '';
     },
   });
 })();

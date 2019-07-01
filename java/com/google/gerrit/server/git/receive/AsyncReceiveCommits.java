@@ -193,11 +193,20 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
     @Inject
     Metrics(MetricMaker metricMaker) {
+      // For the changes metric the push type field is never set to PushType.NORMAL, hence it is not
+      // mentioned in the field description.
       changes =
           metricMaker.newHistogram(
               "receivecommits/changes_per_push",
               new Description("number of changes uploaded in a single push.").setCumulative(),
-              Field.ofEnum(PushType.class, "type", "type of push (create/replace, autoclose)"));
+              Field.ofEnum(PushType.class, "type")
+                  .description("type of push (create/replace, autoclose)")
+                  .build());
+
+      Field<PushType> pushTypeField =
+          Field.ofEnum(PushType.class, "type")
+              .description("type of push (create/replace, autoclose, normal)")
+              .build();
 
       latencyPerChange =
           metricMaker.newTimer(
@@ -207,7 +216,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
                           + "(Only includes pushes which contain changes.)")
                   .setUnit(Units.MILLISECONDS)
                   .setCumulative(),
-              Field.ofEnum(PushType.class, "type", "type of push (create/replace, autoclose)"));
+              pushTypeField);
 
       latencyPerPush =
           metricMaker.newTimer(
@@ -215,8 +224,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
               new Description("processing delay for a processing single push")
                   .setUnit(Units.MILLISECONDS)
                   .setCumulative(),
-              Field.ofEnum(
-                  PushType.class, "type", "type of push (create/replace, autoclose, normal)"));
+              pushTypeField);
 
       timeouts =
           metricMaker.newCounter(

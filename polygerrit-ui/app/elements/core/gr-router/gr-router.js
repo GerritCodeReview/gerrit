@@ -38,6 +38,9 @@
     // Matches /admin/groups/[uuid-]<group>
     GROUP: /^\/admin\/groups\/(?:uuid-)?([^,]+)$/,
 
+    // Redirects /groups/self to /settings/#Groups for GWT compatibility
+    GROUP_SELF: /^\/groups\/self/,
+
     // Matches /admin/groups/[uuid-]<group>,info (backwords compat with gwtui)
     // Redirects to /admin/groups/[uuid-]<group>
     GROUP_INFO: /^\/admin\/groups\/(?:uuid-)?(.+),info$/,
@@ -212,6 +215,12 @@
         value: app,
       },
       _isRedirecting: Boolean,
+      // This variable is to differentiate between internal navigation (false)
+      // and for first navigation in app after loaded from server (true).
+      _isInitialLoad: {
+        type: Boolean,
+        value: true,
+      },
     },
 
     behaviors: [
@@ -702,6 +711,7 @@
           this.$.reporting.beforeLocationChanged();
         }
         this._isRedirecting = false;
+        this._isInitialLoad = false;
         next();
       });
 
@@ -754,6 +764,9 @@
 
       this._mapRoute(RoutePattern.GROUP_LIST_FILTER,
           '_handleGroupListFilterRoute', true);
+
+      this._mapRoute(RoutePattern.GROUP_SELF, '_handleGroupSelfRedirectRoute',
+          true);
 
       this._mapRoute(RoutePattern.GROUP, '_handleGroupRoute', true);
 
@@ -1046,6 +1059,10 @@
 
     _handleGroupInfoRoute(data) {
       this._redirect('/admin/groups/' + encodeURIComponent(data.params[0]));
+    },
+
+    _handleGroupSelfRedirectRoute(data) {
+      this._redirect('/settings/#Groups');
     },
 
     _handleGroupRoute(data) {
@@ -1471,7 +1488,13 @@
      * Catchall route for when no other route is matched.
      */
     _handleDefaultRoute() {
-      this._show404();
+      if (this._isInitialLoad) {
+        // Server recognized this route as polygerrit, so we show 404.
+        this._show404();
+      } else {
+        // Route can be recognized by server, so we pass it to server.
+        this._handlePassThroughRoute();
+      }
     },
 
     _show404() {

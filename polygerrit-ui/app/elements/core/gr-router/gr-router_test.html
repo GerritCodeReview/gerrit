@@ -181,6 +181,7 @@ limitations under the License.
         '_handleGroupListOffsetRoute',
         '_handleGroupMembersRoute',
         '_handleGroupRoute',
+        '_handleGroupSelfRedirectRoute',
         '_handleNewAgreementsRoute',
         '_handlePluginListFilterOffsetRoute',
         '_handlePluginListFilterRoute',
@@ -633,6 +634,7 @@ limitations under the License.
     suite('route handlers', () => {
       let redirectStub;
       let setParamsStub;
+      let handlePassThroughRoute;
 
       // Simple route handlers are direct mappings from parsed route data to a
       // new set of app.params. This test helper asserts that passing `data`
@@ -645,6 +647,7 @@ limitations under the License.
       setup(() => {
         redirectStub = sandbox.stub(element, '_redirect');
         setParamsStub = sandbox.stub(element, '_setParams');
+        handlePassThroughRoute = sandbox.stub(element, '_handlePassThroughRoute');
       });
 
       test('_handleAgreementsRoute', () => {
@@ -676,7 +679,7 @@ limitations under the License.
         });
       });
 
-      test('_handleDefaultRoute', () => {
+      test('_handleDefaultRoute on first load', () => {
         const appElementStub = {dispatchEvent: sinon.stub()};
         element._appElement = () => appElementStub;
         element._handleDefaultRoute();
@@ -684,6 +687,28 @@ limitations under the License.
         assert.equal(
             appElementStub.dispatchEvent.lastCall.args[0].detail.response.status,
             404);
+      });
+
+      test('_handleDefaultRoute after internal navigation', () => {
+        let onExit = null;
+        const onRegisteringExit = (match, _onExit) => {
+          onExit = _onExit;
+        };
+        sandbox.stub(window.page, 'exit', onRegisteringExit);
+        sandbox.stub(Gerrit.Nav, 'setup');
+        sandbox.stub(window.page, 'start');
+        sandbox.stub(window.page, 'base');
+        sandbox.stub(window, 'page');
+        element._startRouter();
+
+        const appElementStub = {dispatchEvent: sinon.stub()};
+        element._appElement = () => appElementStub;
+        element._handleDefaultRoute();
+
+        onExit('', () => {}); // we left page;
+
+        element._handleDefaultRoute();
+        assert.isTrue(handlePassThroughRoute.calledOnce);
       });
 
       test('_handleImproperlyEncodedPlusRoute', () => {

@@ -28,6 +28,7 @@ import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.metrics.Timer2;
 import com.google.gerrit.metrics.Timer3;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
@@ -36,11 +37,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.eclipse.jgit.lib.Config;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class PerformanceLogContextTest {
+  @Inject @GerritServerConfig private Config config;
   @Inject private DynamicSet<PerformanceLogger> performanceLoggers;
 
   // In this test setup this gets the DisabledMetricMaker injected. This means it doesn't record any
@@ -72,7 +75,8 @@ public class PerformanceLogContextTest {
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
     assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
 
-    try (PerformanceLogContext traceContext = new PerformanceLogContext(performanceLoggers)) {
+    try (PerformanceLogContext traceContext =
+        new PerformanceLogContext(config, performanceLoggers)) {
       assertThat(LoggingContext.getInstance().isPerformanceLogging()).isTrue();
 
       TraceContext.newTimer("test1").close();
@@ -122,7 +126,8 @@ public class PerformanceLogContextTest {
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
     assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
 
-    try (PerformanceLogContext traceContext = new PerformanceLogContext(performanceLoggers)) {
+    try (PerformanceLogContext traceContext =
+        new PerformanceLogContext(config, performanceLoggers)) {
       assertThat(LoggingContext.getInstance().isPerformanceLogging()).isTrue();
 
       TraceContext.newTimer("test1").close();
@@ -188,7 +193,8 @@ public class PerformanceLogContextTest {
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
     assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
 
-    try (PerformanceLogContext traceContext = new PerformanceLogContext(performanceLoggers)) {
+    try (PerformanceLogContext traceContext =
+        new PerformanceLogContext(config, performanceLoggers)) {
       assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
 
       TraceContext.newTimer("test1").close();
@@ -212,7 +218,8 @@ public class PerformanceLogContextTest {
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
     assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
 
-    try (PerformanceLogContext traceContext = new PerformanceLogContext(performanceLoggers)) {
+    try (PerformanceLogContext traceContext =
+        new PerformanceLogContext(config, performanceLoggers)) {
       assertThat(LoggingContext.getInstance().isPerformanceLogging()).isTrue();
 
       Timer0 timer0 =
@@ -223,24 +230,24 @@ public class PerformanceLogContextTest {
           metricMaker.newTimer(
               "test2/latency",
               new Description("Latency metric for testing"),
-              Field.ofString("foo"));
+              Field.ofString("foo").build());
       timer1.start("value1").close();
 
       Timer2<String, String> timer2 =
           metricMaker.newTimer(
               "test3/latency",
               new Description("Latency metric for testing"),
-              Field.ofString("foo"),
-              Field.ofString("bar"));
+              Field.ofString("foo").build(),
+              Field.ofString("bar").build());
       timer2.start("value1", "value2").close();
 
       Timer3<String, String, String> timer3 =
           metricMaker.newTimer(
               "test4/latency",
               new Description("Latency metric for testing"),
-              Field.ofString("foo"),
-              Field.ofString("bar"),
-              Field.ofString("baz"));
+              Field.ofString("foo").build(),
+              Field.ofString("bar").build(),
+              Field.ofString("baz").build());
       timer3.start("value1", "value2", "value3").close();
 
       assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).hasSize(4);
@@ -250,18 +257,18 @@ public class PerformanceLogContextTest {
         .containsExactly(
             PerformanceLogEntry.create("test1/latency", ImmutableMap.of()),
             PerformanceLogEntry.create(
-                "test2/latency", ImmutableMap.of("field1", Optional.of("value1"))),
+                "test2/latency", ImmutableMap.of("foo", Optional.of("value1"))),
             PerformanceLogEntry.create(
                 "test3/latency",
-                ImmutableMap.of("field1", Optional.of("value1"), "field2", Optional.of("value2"))),
+                ImmutableMap.of("foo", Optional.of("value1"), "bar", Optional.of("value2"))),
             PerformanceLogEntry.create(
                 "test4/latency",
                 ImmutableMap.of(
-                    "field1",
+                    "foo",
                     Optional.of("value1"),
-                    "field2",
+                    "bar",
                     Optional.of("value2"),
-                    "field3",
+                    "baz",
                     Optional.of("value3"))))
         .inOrder();
 
@@ -274,31 +281,32 @@ public class PerformanceLogContextTest {
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
     assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
 
-    try (PerformanceLogContext traceContext = new PerformanceLogContext(performanceLoggers)) {
+    try (PerformanceLogContext traceContext =
+        new PerformanceLogContext(config, performanceLoggers)) {
       assertThat(LoggingContext.getInstance().isPerformanceLogging()).isTrue();
 
       Timer1<String> timer1 =
           metricMaker.newTimer(
               "test1/latency",
               new Description("Latency metric for testing"),
-              Field.ofString("foo"));
+              Field.ofString("foo").build());
       timer1.start(null).close();
 
       Timer2<String, String> timer2 =
           metricMaker.newTimer(
               "test2/latency",
               new Description("Latency metric for testing"),
-              Field.ofString("foo"),
-              Field.ofString("bar"));
+              Field.ofString("foo").build(),
+              Field.ofString("bar").build());
       timer2.start(null, null).close();
 
       Timer3<String, String, String> timer3 =
           metricMaker.newTimer(
               "test3/latency",
               new Description("Latency metric for testing"),
-              Field.ofString("foo"),
-              Field.ofString("bar"),
-              Field.ofString("baz"));
+              Field.ofString("foo").build(),
+              Field.ofString("bar").build(),
+              Field.ofString("baz").build());
       timer3.start(null, null, null).close();
 
       assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).hasSize(3);
@@ -306,20 +314,13 @@ public class PerformanceLogContextTest {
 
     assertThat(testPerformanceLogger.logEntries())
         .containsExactly(
+            PerformanceLogEntry.create("test1/latency", ImmutableMap.of("foo", Optional.empty())),
             PerformanceLogEntry.create(
-                "test1/latency", ImmutableMap.of("field1", Optional.empty())),
-            PerformanceLogEntry.create(
-                "test2/latency",
-                ImmutableMap.of("field1", Optional.empty(), "field2", Optional.empty())),
+                "test2/latency", ImmutableMap.of("foo", Optional.empty(), "bar", Optional.empty())),
             PerformanceLogEntry.create(
                 "test3/latency",
                 ImmutableMap.of(
-                    "field1",
-                    Optional.empty(),
-                    "field2",
-                    Optional.empty(),
-                    "field3",
-                    Optional.empty())))
+                    "foo", Optional.empty(), "bar", Optional.empty(), "baz", Optional.empty())))
         .inOrder();
 
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
@@ -337,24 +338,26 @@ public class PerformanceLogContextTest {
 
     Timer1<String> timer1 =
         metricMaker.newTimer(
-            "test2/latency", new Description("Latency metric for testing"), Field.ofString("foo"));
+            "test2/latency",
+            new Description("Latency metric for testing"),
+            Field.ofString("foo").build());
     timer1.start("value1").close();
 
     Timer2<String, String> timer2 =
         metricMaker.newTimer(
             "test3/latency",
             new Description("Latency metric for testing"),
-            Field.ofString("foo"),
-            Field.ofString("bar"));
+            Field.ofString("foo").build(),
+            Field.ofString("bar").build());
     timer2.start("value1", "value2").close();
 
     Timer3<String, String, String> timer3 =
         metricMaker.newTimer(
             "test4/latency",
             new Description("Latency metric for testing"),
-            Field.ofString("foo"),
-            Field.ofString("bar"),
-            Field.ofString("baz"));
+            Field.ofString("foo").build(),
+            Field.ofString("bar").build(),
+            Field.ofString("baz").build());
     timer3.start("value1", "value2", "value3").close();
 
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
@@ -371,7 +374,8 @@ public class PerformanceLogContextTest {
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
     assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
 
-    try (PerformanceLogContext traceContext = new PerformanceLogContext(performanceLoggers)) {
+    try (PerformanceLogContext traceContext =
+        new PerformanceLogContext(config, performanceLoggers)) {
       assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
 
       Timer0 timer0 =
@@ -382,24 +386,24 @@ public class PerformanceLogContextTest {
           metricMaker.newTimer(
               "test2/latency",
               new Description("Latency metric for testing"),
-              Field.ofString("foo"));
+              Field.ofString("foo").build());
       timer1.start("value1").close();
 
       Timer2<String, String> timer2 =
           metricMaker.newTimer(
               "test3/latency",
               new Description("Latency metric for testing"),
-              Field.ofString("foo"),
-              Field.ofString("bar"));
+              Field.ofString("foo").build(),
+              Field.ofString("bar").build());
       timer2.start("value1", "value2").close();
 
       Timer3<String, String, String> timer3 =
           metricMaker.newTimer(
               "test4/latency",
               new Description("Latency metric for testing"),
-              Field.ofString("foo"),
-              Field.ofString("bar"),
-              Field.ofString("baz"));
+              Field.ofString("foo").build(),
+              Field.ofString("bar").build(),
+              Field.ofString("baz").build());
       timer3.start("value1", "value2", "value3").close();
 
       assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
@@ -416,14 +420,16 @@ public class PerformanceLogContextTest {
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
     assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
 
-    try (PerformanceLogContext traceContext1 = new PerformanceLogContext(performanceLoggers)) {
+    try (PerformanceLogContext traceContext1 =
+        new PerformanceLogContext(config, performanceLoggers)) {
       assertThat(LoggingContext.getInstance().isPerformanceLogging()).isTrue();
 
       TraceContext.newTimer("test1").close();
 
       assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).hasSize(1);
 
-      try (PerformanceLogContext traceContext2 = new PerformanceLogContext(performanceLoggers)) {
+      try (PerformanceLogContext traceContext2 =
+          new PerformanceLogContext(config, performanceLoggers)) {
         assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
         assertThat(LoggingContext.getInstance().isPerformanceLogging()).isTrue();
 

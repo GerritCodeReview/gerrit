@@ -39,61 +39,62 @@ public abstract class Timer1<F1> implements RegistrationHandle {
 
   public static class Context extends TimerContext {
     private final Timer1<Object> timer;
-    private final Object field1;
+    private final Object fieldValue;
 
     @SuppressWarnings("unchecked")
-    <F1> Context(Timer1<F1> timer, F1 field1) {
+    <F1> Context(Timer1<F1> timer, F1 fieldValue) {
       this.timer = (Timer1<Object>) timer;
-      this.field1 = field1;
+      this.fieldValue = fieldValue;
     }
 
     @Override
     public void record(long elapsed) {
-      timer.record(field1, elapsed, NANOSECONDS);
+      timer.record(fieldValue, elapsed, NANOSECONDS);
     }
   }
 
   protected final String name;
+  protected final Field<F1> field;
 
-  public Timer1(String name) {
+  public Timer1(String name, Field<F1> field) {
     this.name = name;
+    this.field = field;
   }
 
   /**
    * Begin a timer for the current block, value will be recorded when closed.
    *
-   * @param field1 bucket to record the timer
+   * @param fieldValue bucket to record the timer
    * @return timer context
    */
-  public Context start(F1 field1) {
-    return new Context(this, field1);
+  public Context start(F1 fieldValue) {
+    return new Context(this, fieldValue);
   }
 
   /**
    * Record a value in the distribution.
    *
-   * @param field1 bucket to record the timer
+   * @param fieldValue bucket to record the timer
    * @param value value to record
    * @param unit time unit of the value
    */
-  public final void record(F1 field1, long value, TimeUnit unit) {
+  public final void record(F1 fieldValue, long value, TimeUnit unit) {
     long durationMs = unit.toMillis(value);
 
-    // TODO(ekempin): We don't know the field name here. Check whether we can make it available.
     LoggingContext.getInstance()
         .addPerformanceLogRecord(
-            () -> PerformanceLogRecord.create(name, durationMs, "field1", field1));
+            () -> PerformanceLogRecord.create(name, durationMs, field.name(), fieldValue));
 
-    logger.atFinest().log("%s (%s) took %dms", name, field1, durationMs);
-    doRecord(field1, value, unit);
+    logger.atFinest().log("%s (%s = %s) took %dms", name, field.name(), fieldValue, durationMs);
+    doRecord(fieldValue, value, unit);
   }
 
   /**
    * Record a value in the distribution.
    *
-   * @param field1 bucket to record the timer
+   * @param fieldValue bucket to record the timer
    * @param value value to record
    * @param unit time unit of the value
    */
-  protected abstract void doRecord(F1 field1, long value, TimeUnit unit);
+  protected abstract void doRecord(F1 fieldValue, long value, TimeUnit unit);
 }

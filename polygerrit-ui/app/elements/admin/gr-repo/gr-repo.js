@@ -107,10 +107,6 @@
       },
       _selectedScheme: String,
       _schemesObj: Object,
-      _noteDbEnabled: {
-        type: Boolean,
-        value: false,
-      },
     },
 
     observers: [
@@ -177,7 +173,6 @@
         if (!config) { return Promise.resolve(); }
 
         this._schemesObj = config.download.schemes;
-        this._noteDbEnabled = !!config.note_db_enabled;
       }));
 
       return Promise.all(promises);

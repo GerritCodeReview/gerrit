@@ -41,19 +41,20 @@ public class RestApiMetrics {
 
   @Inject
   RestApiMetrics(MetricMaker metrics) {
-    Field<String> view = Field.ofString("view", "view implementation class");
+    Field<String> viewField =
+        Field.ofString("view").description("view implementation class").build();
     count =
         metrics.newCounter(
             "http/server/rest_api/count",
             new Description("REST API calls by view").setRate(),
-            view);
+            viewField);
 
     errorCount =
         metrics.newCounter(
             "http/server/rest_api/error_count",
             new Description("REST API errors by view").setRate(),
-            view,
-            Field.ofInteger("error_code", "HTTP status code"));
+            viewField,
+            Field.ofInteger("error_code").description("HTTP status code").build());
 
     serverLatency =
         metrics.newTimer(
@@ -61,7 +62,7 @@ public class RestApiMetrics {
             new Description("REST API call latency by view")
                 .setCumulative()
                 .setUnit(Units.MILLISECONDS),
-            view);
+            viewField);
 
     responseBytes =
         metrics.newHistogram(
@@ -69,7 +70,7 @@ public class RestApiMetrics {
             new Description("Size of response on network (may be gzip compressed)")
                 .setCumulative()
                 .setUnit(Units.BYTES),
-            view);
+            viewField);
   }
 
   String view(ViewData viewData) {

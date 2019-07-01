@@ -312,6 +312,7 @@ class ReceiveCommits {
   private final CommentsUtil commentsUtil;
   private final PluginSetContext<CommentValidator> commentValidators;
   private final BranchCommitValidator.Factory commitValidatorFactory;
+  private final Config config;
   private final CreateGroupPermissionSyncer createGroupPermissionSyncer;
   private final CreateRefControl createRefControl;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
@@ -381,7 +382,7 @@ class ReceiveCommits {
       AllProjectsName allProjectsName,
       BatchUpdate.Factory batchUpdateFactory,
       ProjectConfig.Factory projectConfigFactory,
-      @GerritServerConfig Config cfg,
+      @GerritServerConfig Config config,
       ChangeEditUtil editUtil,
       ChangeIndexer indexer,
       ChangeInserter.Factory changeInserterFactory,
@@ -430,6 +431,7 @@ class ReceiveCommits {
     this.commentsUtil = commentsUtil;
     this.commentValidators = commentValidators;
     this.commitValidatorFactory = commitValidatorFactory;
+    this.config = config;
     this.createRefControl = createRefControl;
     this.createGroupPermissionSyncer = createGroupPermissionSyncer;
     this.editUtil = editUtil;
@@ -466,7 +468,7 @@ class ReceiveCommits {
     this.receivePack = rp;
 
     // Immutable fields derived from constructor arguments.
-    allowPushToRefsChanges = cfg.getBoolean("receive", "allowPushToRefsChanges", false);
+    allowPushToRefsChanges = config.getBoolean("receive", "allowPushToRefsChanges", false);
     repo = rp.getRepository();
     project = projectState.getProject();
     labelTypes = projectState.getLabelTypes();
@@ -481,7 +483,7 @@ class ReceiveCommits {
     updateGroups = new ArrayList<>();
 
     this.allowProjectOwnersToChangeParent =
-        cfg.getBoolean("receive", "allowProjectOwnersToChangeParent", false);
+        config.getBoolean("receive", "allowProjectOwnersToChangeParent", false);
 
     // Other settings populated during processing.
     newChangeForAllNotInTarget =
@@ -534,7 +536,7 @@ class ReceiveCommits {
                 (tagName, traceId) -> addMessage(tagName + ": " + traceId));
         TraceTimer traceTimer = newTimer("processCommands", "commandCount", commands.size());
         PerformanceLogContext performanceLogContext =
-            new PerformanceLogContext(performanceLoggers)) {
+            new PerformanceLogContext(config, performanceLoggers)) {
       traceContext.addTag(RequestId.Type.RECEIVE_ID, new RequestId(project.getNameKey().get()));
 
       // Log the push options here, rather than in parsePushOptions(), so that they are included
@@ -965,7 +967,7 @@ class ReceiveCommits {
     if (!noteDbValues.isEmpty()) {
       // These semantics for duplicates/errors are somewhat arbitrary and may not match e.g. the
       // CmdLineParser behavior used by MagicBranchInput.
-      String value = noteDbValues.get(noteDbValues.size() - 1);
+      String value = Iterables.getLast(noteDbValues);
       noteDbPushOption = NoteDbPushOption.parse(value);
       if (!noteDbPushOption.isPresent()) {
         addError("Invalid value in -o " + NoteDbPushOption.OPTION_NAME + "=" + value);
@@ -976,8 +978,7 @@ class ReceiveCommits {
 
     List<String> traceValues = pushOptions.get("trace");
     if (!traceValues.isEmpty()) {
-      String value = traceValues.get(traceValues.size() - 1);
-      tracePushOption = Optional.of(value);
+      tracePushOption = Optional.of(Iterables.getLast(traceValues));
     } else {
       tracePushOption = Optional.empty();
     }
@@ -1353,11 +1354,8 @@ class ReceiveCommits {
 
   private void parseRewind(ReceiveCommand cmd) throws PermissionBackendException {
     try (TraceTimer traceTimer = newTimer("parseRewind")) {
-      RevCommit newObject;
       try {
-        newObject = receivePack.getRevWalk().parseCommit(cmd.getNewId());
-      } catch (IncorrectObjectTypeException notCommit) {
-        newObject = null;
+        receivePack.getRevWalk().parseCommit(cmd.getNewId());
       } catch (IOException err) {
         logger.atSevere().withCause(err).log(
             "Invalid object %s for %s forced update", cmd.getNewId().name(), cmd.getRefName());
@@ -1366,18 +1364,16 @@ class ReceiveCommits {
       }
       logger.atFine().log("Rewinding %s", cmd);
 
-      if (newObject != null) {
-        validateRegularPushCommits(
-            BranchNameKey.create(project.getNameKey(), cmd.getRefName()), cmd);
-        if (cmd.getResult() != NOT_ATTEMPTED) {
-          return;
-        }
+      if (!validRefOperation(cmd)) {
+        return;
+      }
+      validateRegularPushCommits(BranchNameKey.create(project.getNameKey(), cmd.getRefName()), cmd);
+      if (cmd.getResult() != NOT_ATTEMPTED) {
+        return;
       }
 
       Optional<AuthException> err = checkRefPermission(cmd, RefPermission.FORCE_UPDATE);
-      if (!err.isPresent()) {
-        validRefOperation(cmd);
-      } else {
+      if (err.isPresent()) {
         rejectProhibited(cmd, err.get());
       }
     }
@@ -3216,10 +3212,12 @@ class ReceiveCommits {
       throws PermissionBackendException {
     try (TraceTimer traceTimer =
         newTimer("validateRegularPushCommits", "branch", branch.branch())) {
-      if (!RefNames.REFS_CONFIG.equals(cmd.getRefName())
-          && !(MagicBranch.isMagicBranch(cmd.getRefName())
-              || NEW_PATCHSET_PATTERN.matcher(cmd.getRefName()).matches())
-          && pushOptions.containsKey(PUSH_OPTION_SKIP_VALIDATION)) {
+      boolean skipValidation =
+          !RefNames.REFS_CONFIG.equals(cmd.getRefName())
+              && !(MagicBranch.isMagicBranch(cmd.getRefName())
+                  || NEW_PATCHSET_PATTERN.matcher(cmd.getRefName()).matches())
+              && pushOptions.containsKey(PUSH_OPTION_SKIP_VALIDATION);
+      if (skipValidation) {
         if (projectState.is(BooleanProjectConfig.USE_SIGNED_OFF_BY)) {
           reject(cmd, "requireSignedOffBy prevents option " + PUSH_OPTION_SKIP_VALIDATION);
           return;
@@ -3234,8 +3232,6 @@ class ReceiveCommits {
         if (!Iterables.isEmpty(rejectCommits)) {
           reject(cmd, "reject-commits prevents " + PUSH_OPTION_SKIP_VALIDATION);
         }
-        logger.atFine().log("Short-circuiting new commit validation");
-        return;
       }
 
       BranchCommitValidator validator = commitValidatorFactory.create(projectState, branch, user);
@@ -3253,7 +3249,7 @@ class ReceiveCommits {
         int limit = receiveConfig.maxBatchCommits;
         int n = 0;
         for (RevCommit c; (c = walk.next()) != null; ) {
-          if (++n > limit) {
+          if (++n > limit && !skipValidation) {
             logger.atFine().log("Number of new commits exceeds limit of %d", limit);
             reject(
                 cmd,
@@ -3266,7 +3262,8 @@ class ReceiveCommits {
           }
 
           BranchCommitValidator.Result validationResult =
-              validator.validateCommit(walk.getObjectReader(), cmd, c, false, rejectCommits, null);
+              validator.validateCommit(
+                  walk.getObjectReader(), cmd, c, false, rejectCommits, null, skipValidation);
           messages.addAll(validationResult.messages());
           if (!validationResult.isValid()) {
             break;
@@ -3304,6 +3301,7 @@ class ReceiveCommits {
                 BranchNameKey branch = BranchNameKey.create(project.getNameKey(), refName);
 
                 rw.reset();
+                rw.sort(RevSort.REVERSE);
                 rw.markStart(newTip);
                 if (!ObjectId.zeroId().equals(cmd.getOldId())) {
                   rw.markUninteresting(rw.parseCommit(cmd.getOldId()));
@@ -3440,7 +3438,7 @@ class ReceiveCommits {
   }
 
   private TraceTimer newTimer(Class<?> clazz, String name) {
-    return TraceContext.newTimer(clazz.getSimpleName() + "#" + name, "project", project);
+    return TraceContext.newTimer(clazz.getSimpleName() + "#" + name, "projectName", project);
   }
 
   private TraceTimer newTimer(String name, String key, @Nullable Object value) {
@@ -3449,7 +3447,7 @@ class ReceiveCommits {
 
   private TraceTimer newTimer(Class<?> clazz, String name, String key, @Nullable Object value) {
     return TraceContext.newTimer(
-        clazz.getSimpleName() + "#" + name, "project", project, key, value);
+        clazz.getSimpleName() + "#" + name, "projectName", project, key, value);
   }
 
   private static void reject(ReceiveCommand cmd, String why) {

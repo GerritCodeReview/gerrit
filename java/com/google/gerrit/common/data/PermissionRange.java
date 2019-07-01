@@ -17,6 +17,10 @@ package com.google.gerrit.common.data;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a closed interval [min, max] with a name. The special value [0, 0] is understood to be
+ * the empty range.
+ */
 public class PermissionRange implements Comparable<PermissionRange> {
   public static class WithDefaults extends PermissionRange {
     protected int defaultMin;
@@ -70,8 +74,8 @@ public class PermissionRange implements Comparable<PermissionRange> {
       this.min = min;
       this.max = max;
     } else {
-      this.min = max;
-      this.max = min;
+      this.min = 0;
+      this.max = 0;
     }
   }
 

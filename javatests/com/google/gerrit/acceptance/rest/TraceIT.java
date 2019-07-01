@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.truth.Expect;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -292,6 +293,19 @@ public class TraceIT extends AbstractDaemonTest {
     PushOneCommit.Result r = push.to("refs/heads/master");
     r.assertOkStatus();
     assertThat(testPerformanceLogger.logEntries()).isNotEmpty();
+  }
+
+  @Test
+  @GerritConfig(name = "tracing.performanceLogging", value = "false")
+  public void noPerformanceLoggingIfDisabled() throws Exception {
+    RestResponse response = adminRestSession.put("/projects/new11");
+    assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
+
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    PushOneCommit.Result r = push.to("refs/heads/master");
+    r.assertOkStatus();
+
+    assertThat(testPerformanceLogger.logEntries()).isEmpty();
   }
 
   private void assertForceLogging(boolean expected) {

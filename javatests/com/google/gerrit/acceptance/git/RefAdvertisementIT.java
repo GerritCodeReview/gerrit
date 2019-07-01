@@ -92,8 +92,10 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   private AccountGroup.UUID admins;
   private AccountGroup.UUID nonInteractiveUsers;
 
+  private RevCommit rcMaster;
+  private RevCommit rcBranch;
+
   private ChangeData cd1;
-  private RevCommit rc1;
   private String psRef1;
   private String metaRef1;
 
@@ -147,6 +149,11 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     }
   }
 
+  // Building the following:
+  //   rcMaster (c1 master master-tag) <-- rcBranch (c2 branch branch-tag)
+  //      \                                    \
+  //    (c3_open)                            (c4_open)
+  //
   private void setUpChanges() throws Exception {
     gApi.projects().name(project.get()).branch("branch").create(new BranchInput());
 
@@ -157,26 +164,39 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         .forUpdate()
         .add(allow(Permission.SUBMIT).ref("refs/for/refs/heads/*").group(admins))
         .update();
+
+    //   rcMaster (c1 master)
     PushOneCommit.Result mr =
         pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master%submit");
     mr.assertOkStatus();
     cd1 = mr.getChange();
-    rc1 = mr.getCommit();
+    rcMaster = mr.getCommit();
     psRef1 = cd1.currentPatchSet().id().toRefName();
     metaRef1 = RefNames.changeMetaRef(cd1.getId());
+
+    //   rcMaster (c1 master) <-- rcBranch (c2 branch)
     PushOneCommit.Result br =
         pushFactory.create(admin.newIdent(), testRepo).to("refs/for/branch%submit");
     br.assertOkStatus();
     cd2 = br.getChange();
+    rcBranch = br.getCommit();
     psRef2 = cd2.currentPatchSet().id().toRefName();
     metaRef2 = RefNames.changeMetaRef(cd2.getId());
 
     // Second 2 changes are unmerged.
+    //   rcMaster (c1 master) <-- rcBranch (c2 branch)
+    //      \
+    //    (c3_open)
+    //
     mr = pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master");
     mr.assertOkStatus();
     cd3 = mr.getChange();
     psRef3 = cd3.currentPatchSet().id().toRefName();
     metaRef3 = RefNames.changeMetaRef(cd3.getId());
+
+    //   rcMaster (c1 master) <-- rcBranch (c2 branch)
+    //      \                        \
+    //     (c3_open)                (c4_open)
     br = pushFactory.create(admin.newIdent(), testRepo).to("refs/for/branch");
     br.assertOkStatus();
     cd4 = br.getChange();
@@ -184,13 +204,17 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     metaRef4 = RefNames.changeMetaRef(cd4.getId());
 
     try (Repository repo = repoManager.openRepository(project)) {
-      // master-tag -> master
+      //   rcMaster (c1 master master-tag) <-- rcBranch (c2 branch)
+      //       \                                  \
+      //     (c3_open)                          (c4_open)
       RefUpdate mtu = repo.updateRef("refs/tags/master-tag");
       mtu.setExpectedOldObjectId(ObjectId.zeroId());
       mtu.setNewObjectId(repo.exactRef("refs/heads/master").getObjectId());
       assertThat(mtu.update()).isEqualTo(RefUpdate.Result.NEW);
 
-      // branch-tag -> branch
+      //   rcMaster (c1 master master-tag) <-- rcBranch (c2 branch branch-tag)
+      //       \                                  \
+      //     (c3_open)                          (c4_open)
       RefUpdate btu = repo.updateRef("refs/tags/branch-tag");
       btu.setExpectedOldObjectId(ObjectId.zeroId());
       btu.setNewObjectId(repo.exactRef("refs/heads/branch").getObjectId());
@@ -200,7 +224,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       // tree-tag -> master.tree
       RefUpdate ttu = repo.updateRef("refs/tags/tree-tag");
       ttu.setExpectedOldObjectId(ObjectId.zeroId());
-      ttu.setNewObjectId(rc1.getTree().toObjectId());
+      ttu.setNewObjectId(rcMaster.getTree().toObjectId());
       assertThat(ttu.update()).isEqualTo(RefUpdate.Result.NEW);
     }
   }
@@ -542,6 +566,466 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         "refs/heads/branch",
         "refs/tags/branch-tag",
         // See comment in subsetOfBranchesVisibleNotIncludingHead.
+        "refs/tags/master-tag");
+  }
+
+  // first  ls-remote: rcMaster (c1 master)
+  // second ls-remote: rcMaster (c1 master) <- newchange1 (master-newtag)
+  @Test
+  public void uploadPackNewCommitOrphanTagInvisible() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/heads/branch").group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    // rcMaster (c1 master)
+    assertUploadPackRefs(
+        psRef2,
+        metaRef2,
+        psRef4,
+        metaRef4,
+        "refs/heads/branch",
+        "refs/tags/branch-tag",
+        // See comment in subsetOfBranchesVisibleNotIncludingHead.
+        "refs/tags/master-tag");
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      PushOneCommit.Result r =
+          pushFactory.create(admin.newIdent(), testRepo).setParent(rcMaster).to("refs/for/master");
+      r.assertOkStatus();
+
+      // rcMaster (c1 master) <- newchange1 (master-newtag)
+      RefUpdate btu = repo.updateRef("refs/tags/master-newtag");
+      btu.setExpectedOldObjectId(ObjectId.zeroId());
+      btu.setNewObjectId(r.getCommit());
+      assertThat(btu.update()).isEqualTo(RefUpdate.Result.NEW);
+    }
+
+    assertUploadPackRefs(
+        psRef2,
+        metaRef2,
+        psRef4,
+        metaRef4,
+        "refs/heads/branch",
+        "refs/tags/branch-tag",
+        // See comment in subsetOfBranchesVisibleNotIncludingHead.
+        "refs/tags/master-tag");
+  }
+
+  // first  ls-remote: rcBranch (c2) <- newcommit1                 <- newcommit2 (branch)
+  // second ls-remote: rcBranch (c2) <- newcommit1 (branch-newtag) <- newcommit2 (branch)
+  @Test
+  public void uploadPackNewReachableTagVisible() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/heads/branch").group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      // c2 <- newcommit1 (branch)
+      PushOneCommit.Result r =
+          r =
+              pushFactory
+                  .create(admin.newIdent(), testRepo)
+                  .setParent(rcBranch)
+                  .to("refs/heads/branch");
+      r.assertOkStatus();
+      RevCommit tagRc = r.getCommit();
+
+      // c2 <- newcommit1 <- newcommit2 (branch)
+      r = pushFactory.create(admin.newIdent(), testRepo).setParent(tagRc).to("refs/heads/branch");
+      r.assertOkStatus();
+
+      assertUploadPackRefs(
+          psRef2,
+          metaRef2,
+          psRef4,
+          metaRef4,
+          "refs/heads/branch",
+          "refs/tags/branch-tag",
+          // See comment in subsetOfBranchesVisibleNotIncludingHead.
+          "refs/tags/master-tag");
+
+      // c2 <- newcommit1 (branch-newtag) <- newcommit2 (branch)
+      RefUpdate btu = repo.updateRef("refs/tags/branch-newtag");
+      btu.setExpectedOldObjectId(ObjectId.zeroId());
+      btu.setNewObjectId(tagRc);
+      assertThat(btu.update()).isEqualTo(RefUpdate.Result.NEW);
+    }
+
+    assertUploadPackRefs(
+        psRef2,
+        metaRef2,
+        psRef4,
+        metaRef4,
+        "refs/heads/branch",
+        "refs/tags/branch-tag",
+        "refs/tags/branch-newtag",
+        // See comment in subsetOfBranchesVisibleNotIncludingHead.
+        "refs/tags/master-tag");
+  }
+
+  // first  ls-remote: rcBranch (c2) <- newcommit1 (branch)
+  // second ls-remote: rcBranch (c2) <- newcommit1                 <- newcommit2 (branch)
+  // third  ls-remote: rcBranch (c2) <- newcommit1 (branch-newtag) <- newcommit2 (branch)
+  @Test
+  public void uploadPackBranchFFNewTagOldBranchVisible() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/heads/branch").group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      // rcBranch (c2) <- newcommit1 (branch)
+      PushOneCommit.Result r =
+          r =
+              pushFactory
+                  .create(admin.newIdent(), testRepo)
+                  .setParent(rcBranch)
+                  .to("refs/heads/branch");
+      r.assertOkStatus();
+      RevCommit tagRc = r.getCommit();
+
+      assertUploadPackRefs(
+          psRef2,
+          metaRef2,
+          psRef4,
+          metaRef4,
+          "refs/heads/branch",
+          "refs/tags/branch-tag",
+          // See comment in subsetOfBranchesVisibleNotIncludingHead.
+          "refs/tags/master-tag");
+
+      // rcBranch (c2) <- newcommit1 <- newcommit2 (branch)
+      r = pushFactory.create(admin.newIdent(), testRepo).setParent(tagRc).to("refs/heads/branch");
+      r.assertOkStatus();
+
+      // rcBranch (c2) <- newcommit1 (branch-newtag) <- newcommit2 (branch)
+      RefUpdate btu = repo.updateRef("refs/tags/branch-newtag");
+      btu.setExpectedOldObjectId(ObjectId.zeroId());
+      btu.setNewObjectId(tagRc);
+      assertThat(btu.update()).isEqualTo(RefUpdate.Result.NEW);
+    }
+
+    assertUploadPackRefs(
+        psRef2,
+        metaRef2,
+        psRef4,
+        metaRef4,
+        "refs/heads/branch",
+        "refs/tags/branch-tag",
+        "refs/tags/branch-newtag",
+        // See comment in subsetOfBranchesVisibleNotIncludingHead.
+        "refs/tags/master-tag");
+  }
+
+  // first  ls-remote: rcBranch (c2)        <- newcommit1 (branch-oldtag) <- newcommit2 (branch)
+  // second ls-remote: rcBranch (c2 branch) <- newcommit1 (branch-oldtag)
+  @Test
+  public void uploadPackBranchRewindMakeTagUnreachableInVisible() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/heads/branch").group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      // rcBranch (c2) <- newcommit1 (branch)
+      PushOneCommit.Result r =
+          r =
+              pushFactory
+                  .create(admin.newIdent(), testRepo)
+                  .setParent(rcBranch)
+                  .to("refs/heads/branch");
+      r.assertOkStatus();
+      RevCommit tagRc = r.getCommit();
+
+      // rcBranch (c2) <- newcommit1 <- newcommit2 (branch)
+      r = pushFactory.create(admin.newIdent(), testRepo).setParent(tagRc).to("refs/heads/branch");
+      r.assertOkStatus();
+      RevCommit bRc = r.getCommit();
+
+      // rcBranch (c2) <- newcommit1 (branch-oldtag) <- newcommit2 (branch)
+      RefUpdate btu = repo.updateRef("refs/tags/branch-oldtag");
+      btu.setExpectedOldObjectId(ObjectId.zeroId());
+      btu.setNewObjectId(tagRc);
+      assertThat(btu.update()).isEqualTo(RefUpdate.Result.NEW);
+
+      assertUploadPackRefs(
+          psRef2,
+          metaRef2,
+          psRef4,
+          metaRef4,
+          "refs/heads/branch",
+          "refs/tags/branch-tag",
+          "refs/tags/branch-oldtag",
+          // See comment in subsetOfBranchesVisibleNotIncludingHead.
+          "refs/tags/master-tag");
+
+      // rcBranch (c2 branch) <- newcommit1 (branch-oldtag) <- newcommit2
+      btu = repo.updateRef("refs/heads/branch");
+      btu.setExpectedOldObjectId(bRc);
+      btu.setNewObjectId(rcBranch);
+      btu.setForceUpdate(true);
+      assertThat(btu.update()).isEqualTo(RefUpdate.Result.FORCED);
+    }
+
+    assertUploadPackRefs(
+        psRef2,
+        metaRef2,
+        psRef4,
+        metaRef4,
+        "refs/heads/branch",
+        "refs/tags/branch-tag",
+        // See comment in subsetOfBranchesVisibleNotIncludingHead.
+        "refs/tags/master-tag");
+  }
+
+  // first  ls-remote: rcBranch (c2 branch) <- newcommit1 (new-tag)
+  // second ls-remote: rcBranch (c2 branch) <- newcommit1 (new-tag) <- newcommit2 (new-branch)
+  @Test
+  public void uploadPackCreateBranchTagReachableVisible() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/heads/new-branch").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref("refs/tags/*").group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      // rcBranch (c2 branch) <- newcommit1 (branch-newtag)
+      PushOneCommit.Result r =
+          pushFactory
+              .create(admin.newIdent(), testRepo)
+              .setParent(rcBranch)
+              .to("refs/tags/new-tag");
+      r.assertOkStatus();
+      RevCommit tagRc = r.getCommit();
+
+      assertUploadPackRefs();
+
+      // rcBranch (c2) <- newcommit1 (branch-newtag) <- newcommit2 (branch)
+      r =
+          pushFactory
+              .create(admin.newIdent(), testRepo)
+              .setParent(tagRc)
+              .to("refs/heads/new-branch");
+      r.assertOkStatus();
+    }
+
+    assertUploadPackRefs(
+        "refs/heads/new-branch",
+        "refs/tags/branch-tag",
+        "refs/tags/master-tag",
+        "refs/tags/new-tag");
+  }
+
+  // first  ls-remote: rcBranch (c2 branch)               <- newcommit1 (updated-tag)
+  // second ls-remote: rcBranch (c2 branch updated-tag)
+  @Test
+  public void uploadPackTagUpdatedReachableVisible() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/heads/branch").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref("refs/tags/*").group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      // rcBranch (c2 branch) <- newcommit1 (updated-tag)
+      PushOneCommit.Result r =
+          pushFactory
+              .create(admin.newIdent(), testRepo)
+              .setParent(rcBranch)
+              .to("refs/tags/updated-tag");
+      r.assertOkStatus();
+      RevCommit tagRc = r.getCommit();
+
+      assertUploadPackRefs(
+          psRef2,
+          metaRef2,
+          psRef4,
+          metaRef4,
+          "refs/heads/branch",
+          "refs/tags/branch-tag",
+          "refs/tags/master-tag");
+
+      // rcBranch (c2 branch updated-tag)
+      RefUpdate btu = repo.updateRef("refs/tags/updated-tag");
+      btu.setExpectedOldObjectId(tagRc);
+      btu.setNewObjectId(rcBranch);
+      btu.setForceUpdate(true);
+      assertThat(btu.update()).isEqualTo(RefUpdate.Result.FORCED);
+    }
+
+    assertUploadPackRefs(
+        psRef2,
+        metaRef2,
+        psRef4,
+        metaRef4,
+        "refs/heads/branch",
+        "refs/tags/branch-tag",
+        "refs/tags/master-tag",
+        "refs/tags/updated-tag");
+  }
+
+  // first  ls-remote: rcBranch (c2 branch updated-tag)
+  // second ls-remote: rcBranch (c2 branch)             <- newcommit1 (updated-tag)
+  @Test
+  public void uploadPackTagUpdatedUnreachableInvisible() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/heads/branch").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref("refs/tags/*").group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      // rcBranch (c2 branch updated-tag)
+      RefUpdate btu = repo.updateRef("refs/tags/updated-tag");
+      btu.setExpectedOldObjectId(ObjectId.zeroId());
+      btu.setNewObjectId(rcBranch);
+      assertThat(btu.update()).isEqualTo(RefUpdate.Result.NEW);
+
+      assertUploadPackRefs(
+          psRef2,
+          metaRef2,
+          psRef4,
+          metaRef4,
+          "refs/heads/branch",
+          "refs/tags/branch-tag",
+          "refs/tags/master-tag",
+          "refs/tags/updated-tag");
+
+      // rcBranch (c2 branch) <- newcommit1 (updated-tag)
+      PushOneCommit.Result r =
+          pushFactory
+              .create(admin.newIdent(), testRepo)
+              .setParent(rcBranch)
+              .to("refs/tags/updated-tag");
+      r.assertOkStatus();
+      RevCommit tagRc = r.getCommit();
+    }
+
+    assertUploadPackRefs(
+        psRef2,
+        metaRef2,
+        psRef4,
+        metaRef4,
+        "refs/heads/branch",
+        "refs/tags/branch-tag",
+        "refs/tags/master-tag");
+  }
+
+  // first  ls-remote: rcBranch (c2 branch branch-tag)
+  // second ls-remote: rcBranch (c2 branch)
+  @Test
+  public void uploadPackTagDeleted() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/heads/branch").group(REGISTERED_USERS))
+        .add(allow(Permission.DELETE).ref("refs/tags/branch-tag").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref("refs/tags/branch-tag").group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    // rcBranch (c2 branch branch-tag)
+    assertUploadPackRefs(
+        psRef2,
+        metaRef2,
+        psRef4,
+        metaRef4,
+        "refs/heads/branch",
+        "refs/tags/branch-tag",
+        "refs/tags/master-tag");
+
+    // rcBranch (c2 branch)
+    try (Repository repo = repoManager.openRepository(project)) {
+      RefUpdate btu = repo.updateRef("refs/tags/branch-tag");
+      btu.setExpectedOldObjectId(rcBranch);
+      btu.setNewObjectId(ObjectId.zeroId());
+      btu.setForceUpdate(true);
+      assertThat(btu.delete()).isEqualTo(RefUpdate.Result.FORCED);
+    }
+
+    assertUploadPackRefs(
+        psRef2, metaRef2, psRef4, metaRef4, "refs/heads/branch", "refs/tags/master-tag");
+  }
+
+  // first  ls-remote: rcBranch (c2 branch) <- newcommit1 (new-tag) <- newcommit2 (new-branch)
+  // second ls-remote: rcBranch (c2 branch) <- newcommit1 (new-tag)
+  @Test
+  public void uploadPackBranchDeleteTagUnreachableInvisible() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/heads/branch").group(REGISTERED_USERS))
+        .add(allow(Permission.READ).ref("refs/heads/new-branch").group(REGISTERED_USERS))
+        .add(allow(Permission.DELETE).ref("refs/heads/new-branch").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref("refs/tags/*").group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      // rcBranch (branch) <- newcommit1 (new-tag)
+      PushOneCommit.Result r =
+          pushFactory
+              .create(admin.newIdent(), testRepo)
+              .setParent(rcBranch)
+              .to("refs/tags/new-tag");
+      r.assertOkStatus();
+      RevCommit tagRc = r.getCommit();
+
+      // rcBranch (c2 branch) <- newcommit1 (new-tag) <- newcommit2 (new-branch)
+      r =
+          pushFactory
+              .create(admin.newIdent(), testRepo)
+              .setParent(tagRc)
+              .to("refs/heads/new-branch");
+      r.assertOkStatus();
+    }
+
+    assertUploadPackRefs(
+        psRef2,
+        metaRef2,
+        psRef4,
+        metaRef4,
+        "refs/heads/branch",
+        "refs/tags/branch-tag",
+        "refs/heads/new-branch",
+        "refs/tags/new-tag",
+        "refs/tags/master-tag");
+
+    // rcBranch (c2 branch) <- newcommit1 (new-tag)
+    gApi.projects().name(project.get()).branch("refs/heads/new-branch").delete();
+
+    assertUploadPackRefs(
+        psRef2,
+        metaRef2,
+        psRef4,
+        metaRef4,
+        "refs/heads/branch",
+        "refs/tags/branch-tag",
         "refs/tags/master-tag");
   }
 

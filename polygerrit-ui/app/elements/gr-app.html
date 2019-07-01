@@ -20,10 +20,12 @@ limitations under the License.
     window.Polymer = {
       dom: 'shadow',
       passiveTouchGestures: true,
+      lazyRegister: true,
     };
   } else if (!window.Polymer) {
     window.Polymer = {
       passiveTouchGestures: true,
+      lazyRegister: true,
     };
   }
   window.Gerrit = window.Gerrit || {};

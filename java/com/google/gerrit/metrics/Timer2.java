@@ -40,67 +40,73 @@ public abstract class Timer2<F1, F2> implements RegistrationHandle {
 
   public static class Context extends TimerContext {
     private final Timer2<Object, Object> timer;
-    private final Object field1;
-    private final Object field2;
+    private final Object fieldValue1;
+    private final Object fieldValue2;
 
     @SuppressWarnings("unchecked")
-    <F1, F2> Context(Timer2<F1, F2> timer, F1 field1, F2 field2) {
+    <F1, F2> Context(Timer2<F1, F2> timer, F1 fieldValue1, F2 fieldValue2) {
       this.timer = (Timer2<Object, Object>) timer;
-      this.field1 = field1;
-      this.field2 = field2;
+      this.fieldValue1 = fieldValue1;
+      this.fieldValue2 = fieldValue2;
     }
 
     @Override
     public void record(long elapsed) {
-      timer.record(field1, field2, elapsed, NANOSECONDS);
+      timer.record(fieldValue1, fieldValue2, elapsed, NANOSECONDS);
     }
   }
 
   protected final String name;
+  protected final Field<F1> field1;
+  protected final Field<F2> field2;
 
-  public Timer2(String name) {
+  public Timer2(String name, Field<F1> field1, Field<F2> field2) {
     this.name = name;
+    this.field1 = field1;
+    this.field2 = field2;
   }
 
   /**
    * Begin a timer for the current block, value will be recorded when closed.
    *
-   * @param field1 bucket to record the timer
-   * @param field2 bucket to record the timer
+   * @param fieldValue1 bucket to record the timer
+   * @param fieldValue2 bucket to record the timer
    * @return timer context
    */
-  public Context start(F1 field1, F2 field2) {
-    return new Context(this, field1, field2);
+  public Context start(F1 fieldValue1, F2 fieldValue2) {
+    return new Context(this, fieldValue1, fieldValue2);
   }
 
   /**
    * Record a value in the distribution.
    *
-   * @param field1 bucket to record the timer
-   * @param field2 bucket to record the timer
+   * @param fieldValue1 bucket to record the timer
+   * @param fieldValue2 bucket to record the timer
    * @param value value to record
    * @param unit time unit of the value
    */
-  public final void record(F1 field1, F2 field2, long value, TimeUnit unit) {
+  public final void record(F1 fieldValue1, F2 fieldValue2, long value, TimeUnit unit) {
     long durationMs = unit.toMillis(value);
 
-    // TODO(ekempin): We don't know the field names here. Check whether we can make them available.
     LoggingContext.getInstance()
         .addPerformanceLogRecord(
             () ->
-                PerformanceLogRecord.create(name, durationMs, "field1", field1, "field2", field2));
+                PerformanceLogRecord.create(
+                    name, durationMs, field1.name(), fieldValue1, field2.name(), fieldValue2));
 
-    logger.atFinest().log("%s (%s, %s) took %dms", name, field1, field2, durationMs);
-    doRecord(field1, field2, value, unit);
+    logger.atFinest().log(
+        "%s (%s = %s, %s = %s) took %dms",
+        name, field1.name(), fieldValue1, field2.name(), fieldValue2, durationMs);
+    doRecord(fieldValue1, fieldValue2, value, unit);
   }
 
   /**
    * Record a value in the distribution.
    *
-   * @param field1 bucket to record the timer
-   * @param field2 bucket to record the timer
+   * @param fieldValue1 bucket to record the timer
+   * @param fieldValue2 bucket to record the timer
    * @param value value to record
    * @param unit time unit of the value
    */
-  protected abstract void doRecord(F1 field1, F2 field2, long value, TimeUnit unit);
+  protected abstract void doRecord(F1 fieldValue1, F2 fieldValue2, long value, TimeUnit unit);
 }

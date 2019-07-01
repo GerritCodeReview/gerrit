@@ -274,5 +274,11 @@ limitations under the License.
       assert.equal(element._computeRepoDisplay(change, true),
           '…/test/repo');
     });
+
+    test('_computeItemNeedsReview', () => {
+      assert.isFalse(element._computeItemNeedsReview(undefined));
+      assert.isFalse(element._computeItemNeedsReview(true));
+      assert.isTrue(element._computeItemNeedsReview(false));
+    });
   });
 </script>

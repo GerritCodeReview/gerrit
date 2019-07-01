@@ -34,7 +34,7 @@ public abstract class ConfigKey {
   }
 
   @Override
-  public String toString() {
+  public final String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append(section()).append(".");
     if (subsection() != null) {

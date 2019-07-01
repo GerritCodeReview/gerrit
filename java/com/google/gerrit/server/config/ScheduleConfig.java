@@ -194,7 +194,7 @@ public abstract class ScheduleConfig {
   }
 
   @Override
-  public String toString() {
+  public final String toString() {
     StringBuilder b = new StringBuilder();
     b.append(formatValue(keyInterval()));
     b.append(", ");

@@ -196,7 +196,7 @@ public abstract class ExternalId implements Serializable {
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
       return get();
     }
 
@@ -445,7 +445,7 @@ public abstract class ExternalId implements Serializable {
    * that was loaded from Git can be equal with an external ID that was created from code.
    */
   @Override
-  public boolean equals(Object obj) {
+  public final boolean equals(Object obj) {
     if (!(obj instanceof ExternalId)) {
       return false;
     }
@@ -457,7 +457,7 @@ public abstract class ExternalId implements Serializable {
   }
 
   @Override
-  public int hashCode() {
+  public final int hashCode() {
     return Objects.hash(key(), accountId(), email(), password());
   }
 
@@ -475,7 +475,7 @@ public abstract class ExternalId implements Serializable {
    * </pre>
    */
   @Override
-  public String toString() {
+  public final String toString() {
     Config c = new Config();
     writeToConfig(c);
     return c.toText();

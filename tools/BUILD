@@ -26,6 +26,7 @@ java_package_configuration(
     javacopts = [
         "-XepDisableWarningsInGeneratedCode",
         "-Xep:AmbiguousMethodReference:WARN",
+        "-Xep:AutoValueFinalMethods:ERROR",
         "-Xep:BadAnnotationImplementation:WARN",
         "-Xep:BadComparable:WARN",
         "-Xep:BoxedPrimitiveConstructor:ERROR",

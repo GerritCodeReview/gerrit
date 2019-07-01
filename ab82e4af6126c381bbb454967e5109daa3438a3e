@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7602fd7_13718c3d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-01T10:26:30Z",
+      "side": 1,
+      "message": "Can you explain this a bit more? What is the type of change.review? What does it mean for it to be undefined? What\u0027s the rationale for not bolding the username in this case?",
+      "revId": "ab82e4af6126c381bbb454967e5109daa3438a3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96cd92f5_6457bef5",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-01T10:26:30Z",
+      "side": 1,
+      "message": "Similar here - it would be good to explain why undefined should be treated as \"reviewed\"",
+      "revId": "ab82e4af6126c381bbb454967e5109daa3438a3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

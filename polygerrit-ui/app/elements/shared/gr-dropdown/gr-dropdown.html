@@ -98,9 +98,10 @@ limitations under the License.
       }
     </style>
     <gr-button
-        link="[[link]]"
-        class="dropdown-trigger" id="trigger"
-        down-arrow="[[downArrow]]"
+        link$="[[link]]"
+        class="dropdown-trigger"
+        id="trigger"
+        down-arrow$="[[downArrow]]"
         on-tap="_dropdownTriggerTapHandler">
       <slot></slot>
     </gr-button>
@@ -134,7 +135,7 @@ limitations under the License.
               initial-count="75">
             <li tabindex="-1">
               <gr-tooltip-content
-                  has-tooltip="[[_computeHasTooltip(link.tooltip)]]"
+                  has-tooltip$="[[_computeHasTooltip(link.tooltip)]]"
                   title$="[[link.tooltip]]">
                 <span
                     class$="itemAction [[_computeDisabledClass(link.id, disabledIds.*)]]"

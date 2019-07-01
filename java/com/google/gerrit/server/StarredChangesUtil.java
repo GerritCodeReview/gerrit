@@ -106,7 +106,7 @@ public class StarredChangesUtil {
     public abstract String label();
 
     @Override
-    public String toString() {
+    public final String toString() {
       return accountId() + SEPARATOR + label();
     }
   }

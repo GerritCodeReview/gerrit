@@ -143,7 +143,7 @@ public class NoteDbChangeState {
     abstract ImmutableMap<Account.Id, ObjectId> draftIds();
 
     @Override
-    public String toString() {
+    public final String toString() {
       return appendTo(new StringBuilder()).toString();
     }
 

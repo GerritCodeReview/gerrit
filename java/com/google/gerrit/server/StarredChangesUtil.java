@@ -450,7 +450,8 @@ public class StarredChangesUtil {
       Repository repo, String refName, ObjectId oldObjectId, Collection<String> labels)
       throws IOException, InvalidLabelsException {
     try (TraceTimer traceTimer =
-            TraceContext.newTimer("Update star labels", "ref", refName, "labels", labels);
+            TraceContext.newTimer(
+                "Update star labels", "ref", refName, "labelCount", labels.size());
         RevWalk rw = new RevWalk(repo)) {
       RefUpdate u = repo.updateRef(refName);
       u.setExpectedOldObjectId(oldObjectId);

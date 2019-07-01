@@ -187,7 +187,7 @@ class ChangeNotesParser {
     walk.reset();
     walk.markStart(walk.parseCommit(tip));
 
-    try (Timer1.Context timer = metrics.parseLatency.start(CHANGES)) {
+    try (Timer1.Context<NoteDbTable> timer = metrics.parseLatency.start(CHANGES)) {
       ChangeNotesCommit commit;
       while ((commit = walk.next()) != null) {
         parse(commit);

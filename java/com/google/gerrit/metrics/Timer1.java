@@ -37,13 +37,12 @@ import java.util.concurrent.TimeUnit;
 public abstract class Timer1<F1> implements RegistrationHandle {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public static class Context extends TimerContext {
-    private final Timer1<Object> timer;
-    private final Object fieldValue;
+  public static class Context<F1> extends TimerContext {
+    private final Timer1<F1> timer;
+    private final F1 fieldValue;
 
-    @SuppressWarnings("unchecked")
-    <F1> Context(Timer1<F1> timer, F1 fieldValue) {
-      this.timer = (Timer1<Object>) timer;
+    Context(Timer1<F1> timer, F1 fieldValue) {
+      this.timer = timer;
       this.fieldValue = fieldValue;
     }
 
@@ -67,8 +66,8 @@ public abstract class Timer1<F1> implements RegistrationHandle {
    * @param fieldValue bucket to record the timer
    * @return timer context
    */
-  public Context start(F1 fieldValue) {
-    return new Context(this, fieldValue);
+  public Context<F1> start(F1 fieldValue) {
+    return new Context<>(this, fieldValue);
   }
 
   /**

@@ -139,7 +139,7 @@ public abstract class AbstractChangeNotes<T> {
     if (args.failOnLoadForTest.get()) {
       throw new StorageException("Reading from NoteDb is disabled");
     }
-    try (Timer1.Context timer = args.metrics.readLatency.start(CHANGES);
+    try (Timer1.Context<NoteDbTable> timer = args.metrics.readLatency.start(CHANGES);
         Repository repo = args.repoManager.openRepository(getProjectName());
         // Call openHandle even if reading is disabled, to trigger
         // auto-rebuilding before this object may get passed to a ChangeUpdate.

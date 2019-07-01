@@ -100,25 +100,29 @@ public class Sequences {
   }
 
   public int nextAccountId() {
-    try (Timer2.Context timer = nextIdLatency.start(SequenceType.ACCOUNTS, false)) {
+    try (Timer2.Context<SequenceType, Boolean> timer =
+        nextIdLatency.start(SequenceType.ACCOUNTS, false)) {
       return accountSeq.next();
     }
   }
 
   public int nextChangeId() {
-    try (Timer2.Context timer = nextIdLatency.start(SequenceType.CHANGES, false)) {
+    try (Timer2.Context<SequenceType, Boolean> timer =
+        nextIdLatency.start(SequenceType.CHANGES, false)) {
       return changeSeq.next();
     }
   }
 
   public ImmutableList<Integer> nextChangeIds(int count) {
-    try (Timer2.Context timer = nextIdLatency.start(SequenceType.CHANGES, count > 1)) {
+    try (Timer2.Context<SequenceType, Boolean> timer =
+        nextIdLatency.start(SequenceType.CHANGES, count > 1)) {
       return changeSeq.next(count);
     }
   }
 
   public int nextGroupId() {
-    try (Timer2.Context timer = nextIdLatency.start(SequenceType.GROUPS, false)) {
+    try (Timer2.Context<SequenceType, Boolean> timer =
+        nextIdLatency.start(SequenceType.GROUPS, false)) {
       return groupSeq.next();
     }
   }

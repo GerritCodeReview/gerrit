@@ -354,14 +354,15 @@ public class ProjectState {
    * cached. Callers should try to cache this result per-request as much as possible.
    */
   public List<SectionMatcher> getAllSections() {
-    try (Timer1.Context ignored = computationLatency.start("getAllSections")) {
+    try (Timer1.Context<String> ignored = computationLatency.start("getAllSections")) {
       if (isAllProjects) {
         return getLocalAccessSections();
       }
 
       List<SectionMatcher> all = new ArrayList<>();
       Iterable<ProjectState> tree = tree();
-      try (Timer1.Context ignored2 = computationLatency.start("getAllSections-parsing-only")) {
+      try (Timer1.Context<String> ignored2 =
+          computationLatency.start("getAllSections-parsing-only")) {
         for (ProjectState s : tree) {
           all.addAll(s.getLocalAccessSections());
         }

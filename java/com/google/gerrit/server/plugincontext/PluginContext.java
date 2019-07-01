@@ -140,7 +140,7 @@ public class PluginContext<T> {
               exportNameField);
     }
 
-    Timer3.Context startLatency(Extension<?> extension) {
+    Timer3.Context<String, String, String> startLatency(Extension<?> extension) {
       return latency.start(
           extension.getPluginName(),
           extension.get().getClass().getName(),
@@ -198,7 +198,7 @@ public class PluginContext<T> {
       return;
     }
     try (TraceContext traceContext = newTrace(extension);
-        Timer3.Context ctx = pluginMetrics.startLatency(extension)) {
+        Timer3.Context<String, String, String> ctx = pluginMetrics.startLatency(extension)) {
       extensionImplConsumer.run(extensionImpl);
     } catch (Throwable e) {
       pluginMetrics.incrementErrorCount(extension);
@@ -227,7 +227,7 @@ public class PluginContext<T> {
     }
 
     try (TraceContext traceContext = newTrace(extension);
-        Timer3.Context ctx = pluginMetrics.startLatency(extension)) {
+        Timer3.Context<String, String, String> ctx = pluginMetrics.startLatency(extension)) {
       extensionConsumer.run(extension);
     } catch (Throwable e) {
       pluginMetrics.incrementErrorCount(extension);
@@ -261,7 +261,7 @@ public class PluginContext<T> {
     }
 
     try (TraceContext traceContext = newTrace(extension);
-        Timer3.Context ctx = pluginMetrics.startLatency(extension)) {
+        Timer3.Context<String, String, String> ctx = pluginMetrics.startLatency(extension)) {
       extensionImplConsumer.run(extensionImpl);
     } catch (Throwable e) {
       Throwables.throwIfInstanceOf(e, exceptionClass);
@@ -298,7 +298,7 @@ public class PluginContext<T> {
     }
 
     try (TraceContext traceContext = newTrace(extension);
-        Timer3.Context ctx = pluginMetrics.startLatency(extension)) {
+        Timer3.Context<String, String, String> ctx = pluginMetrics.startLatency(extension)) {
       extensionConsumer.run(extension);
     } catch (Throwable e) {
       Throwables.throwIfInstanceOf(e, exceptionClass);
@@ -324,7 +324,7 @@ public class PluginContext<T> {
       Extension<T> extension,
       ExtensionImplFunction<T, R> extensionImplFunction) {
     try (TraceContext traceContext = newTrace(extension);
-        Timer3.Context ctx = pluginMetrics.startLatency(extension)) {
+        Timer3.Context<String, String, String> ctx = pluginMetrics.startLatency(extension)) {
       return extensionImplFunction.call(extension.get());
     }
   }
@@ -349,7 +349,7 @@ public class PluginContext<T> {
       Class<X> exceptionClass)
       throws X {
     try (TraceContext traceContext = newTrace(extension);
-        Timer3.Context ctx = pluginMetrics.startLatency(extension)) {
+        Timer3.Context<String, String, String> ctx = pluginMetrics.startLatency(extension)) {
       try {
         return checkedExtensionImplFunction.call(extension.get());
       } catch (Exception e) {
@@ -378,7 +378,7 @@ public class PluginContext<T> {
       Extension<T> extension,
       ExtensionFunction<Extension<T>, R> extensionFunction) {
     try (TraceContext traceContext = newTrace(extension);
-        Timer3.Context ctx = pluginMetrics.startLatency(extension)) {
+        Timer3.Context<String, String, String> ctx = pluginMetrics.startLatency(extension)) {
       return extensionFunction.call(extension);
     }
   }
@@ -404,7 +404,7 @@ public class PluginContext<T> {
       Class<X> exceptionClass)
       throws X {
     try (TraceContext traceContext = newTrace(extension);
-        Timer3.Context ctx = pluginMetrics.startLatency(extension)) {
+        Timer3.Context<String, String, String> ctx = pluginMetrics.startLatency(extension)) {
       try {
         return checkedExtensionFunction.call(extension);
       } catch (Exception e) {

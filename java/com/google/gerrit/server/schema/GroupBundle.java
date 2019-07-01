@@ -694,13 +694,13 @@ abstract class GroupBundle {
   }
 
   @Override
-  public int hashCode() {
+  public final int hashCode() {
     throw new UnsupportedOperationException(
         "hashCode is not supported because equals is not supported");
   }
 
   @Override
-  public boolean equals(Object o) {
+  public final boolean equals(Object o) {
     throw new UnsupportedOperationException("Use GroupBundle.compare(a, b) instead of equals");
   }
 

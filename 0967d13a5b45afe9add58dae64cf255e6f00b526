@@ -22,6 +22,30 @@
       "revId": "0967d13a5b45afe9add58dae64cf255e6f00b526",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a572b432_372d41fa",
+        "filename": "java/com/google/gerrit/server/git/MergedByPushOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-01T11:58:03Z",
+      "side": 1,
+      "message": "I would say no.  There\u0027s no such message when the WIP flag is unset on pushing a new patch set with the %ready option.\n\nIs it necessary to call setWorkInProgress on both the change and the update?  Isn\u0027t it enough to call it on the update?",
+      "parentUuid": "08737b2f_e781eab5",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 38
+      },
+      "revId": "0967d13a5b45afe9add58dae64cf255e6f00b526",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

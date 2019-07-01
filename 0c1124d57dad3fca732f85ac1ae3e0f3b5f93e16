@@ -22,6 +22,30 @@
       "revId": "0c1124d57dad3fca732f85ac1ae3e0f3b5f93e16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3de2122e_a0fb1c5f",
+        "filename": "java/com/google/gerrit/metrics/Timer1.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-01T08:04:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c1659a5_8a9caa04",
+      "range": {
+        "startLine": 69,
+        "startChar": 9,
+        "endLine": 69,
+        "endChar": 26
+      },
+      "revId": "0c1124d57dad3fca732f85ac1ae3e0f3b5f93e16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

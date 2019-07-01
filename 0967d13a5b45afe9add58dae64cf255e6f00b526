@@ -46,6 +46,30 @@
       "revId": "0967d13a5b45afe9add58dae64cf255e6f00b526",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5eb1072_81183e17",
+        "filename": "java/com/google/gerrit/server/git/MergedByPushOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-07-01T12:20:09Z",
+      "side": 1,
+      "message": "I assumed that was necessary for the ChangeMerged#fire on l 199 but that wasn\u0027t the case.\n\nPerhaps setting current patch set and status on the change (l 133,134) is redundant as well.",
+      "parentUuid": "a572b432_372d41fa",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 38
+      },
+      "revId": "0967d13a5b45afe9add58dae64cf255e6f00b526",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

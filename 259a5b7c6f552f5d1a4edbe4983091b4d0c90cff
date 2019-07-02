@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "532a8a13_5a380d96",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1446,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-02T23:57:27Z",
+      "side": 1,
+      "message": "I find this usage of the ternary operator a bit difficult to read.  How about doing something like:\n\n Logger l \u003d err \u003d\u003d null ? logger.atFinest() : logger.atWarning().withCause(err);\n l.log(\"REST call failed: %d\", statusCode);\n\n?",
+      "range": {
+        "startLine": 1445,
+        "startChar": 4,
+        "endLine": 1446,
+        "endChar": 49
+      },
+      "revId": "259a5b7c6f552f5d1a4edbe4983091b4d0c90cff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

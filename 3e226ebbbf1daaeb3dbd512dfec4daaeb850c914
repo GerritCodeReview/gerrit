@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "34abcbf7_43f14215",
+        "filename": "java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-02T11:59:51Z",
+      "side": 1,
+      "message": "This is just reformating done by Google Java Format. I believe I wouldn\u0027t pass his test otherwise.",
+      "parentUuid": "3215dbf0_e92ef560",
+      "range": {
+        "startLine": 72,
+        "startChar": 9,
+        "endLine": 72,
+        "endChar": 15
+      },
+      "revId": "3e226ebbbf1daaeb3dbd512dfec4daaeb850c914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6458b1f9_c30dea70",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 3

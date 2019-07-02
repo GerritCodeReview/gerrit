@@ -235,6 +235,7 @@
      * User-perceived app start time, should be reported when the app is ready.
      */
     appStarted(hidden) {
+      window.performance.measure(TIMING.APP_STARTED);
       this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
           TIMING.APP_STARTED, this.now());
       if (hidden) {
@@ -334,6 +335,7 @@
      */
     time(name) {
       this._baselines[name] = this.now();
+      window.performance.mark(`${name}-start`);
     },
 
     /**
@@ -344,6 +346,7 @@
       const baseTime = this._baselines[name];
       this._reportTiming(name, this.now() - baseTime);
       delete this._baselines[name];
+      window.performance.measure(name, baseTime === 0 ? undefined : `${name}-start`);
     },
 
     /**

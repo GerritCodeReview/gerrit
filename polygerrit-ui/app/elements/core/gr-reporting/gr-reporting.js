@@ -96,6 +96,7 @@
   STARTUP_TIMERS[TIMER.STARTUP_DASHBOARD_DISPLAYED] = 0;
   STARTUP_TIMERS[TIMER.STARTUP_DIFF_VIEW_DISPLAYED] = 0;
   STARTUP_TIMERS[TIMER.STARTUP_FILE_LIST_DISPLAYED] = 0;
+  STARTUP_TIMERS[TIMING.APP_STARTED] = 0;
   // WebComponentsReady timer is triggered from gr-router.
   STARTUP_TIMERS[TIMER.WEB_COMPONENTS_READY] = 0;
 
@@ -235,8 +236,7 @@
      * User-perceived app start time, should be reported when the app is ready.
      */
     appStarted(hidden) {
-      this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
-          TIMING.APP_STARTED, this.now());
+      this.timeEnd(TIMING.APP_STARTED);
       if (hidden) {
         this.reporter(PAGE_VISIBILITY.TYPE, PAGE_VISIBILITY.CATEGORY,
             PAGE_VISIBILITY.STARTED_HIDDEN);
@@ -334,6 +334,7 @@
      */
     time(name) {
       this._baselines[name] = this.now();
+      window.performance.mark(`${name}-start`);
     },
 
     /**
@@ -344,6 +345,11 @@
       const baseTime = this._baselines[name];
       this._reportTiming(name, this.now() - baseTime);
       delete this._baselines[name];
+      
+      // Finalize the interval. Either from a registered start mark or 
+      // the navigation start time (if baseTime is 0).
+      const startMark = baseTime === 0 ? undefined : `${name}-start`;
+      window.performance.measure(name, startMark);
     },
 
     /**

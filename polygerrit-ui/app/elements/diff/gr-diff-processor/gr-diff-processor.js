@@ -204,6 +204,7 @@
      *
      * @param {!Object} state
      * @param {!Array<!Object>} sections
+     * @return {{lineDelta: {left: number, right: number}, groups: !Array<!GrDiffGroup>, newSectionIndex: number}}
      */
     _processNext(state, sections) {
       const firstUncollapsibleSectionIndex =
@@ -259,7 +260,7 @@
      * @param {!Object} state
      * @param {!Array<Object>} sections
      * @param {number} firstUncollapsibleSectionIndex
-     * @return {!Object}
+     * @return {{lineDelta: {left: number, right: number}, groups: !Array<!GrDiffGroup>, newSectionIndex: number}}
      */
     _processCollapsibleSections(
         state, sections, firstUncollapsibleSectionIndex) {
@@ -300,6 +301,12 @@
       return this._linesLeft(section).length;
     },
 
+    /**
+     * @param {!Array<!Object>} sections
+     * @param {number} offsetLeft
+     * @param {number} offsetRight
+     * @return {!Array<!GrDiffGroup>}
+     */
     _sectionsToGroups(sections, offsetLeft, offsetRight) {
       return sections.map(section => {
         const group = this._sectionToGroup(section, offsetLeft, offsetRight);
@@ -310,6 +317,12 @@
       });
     },
 
+    /**
+     * @param {!Object} section
+     * @param {number} offsetLeft
+     * @param {number} offsetRight
+     * @return {!GrDiffGroup}
+     */
     _sectionToGroup(section, offsetLeft, offsetRight) {
       const type = section.ab ? GrDiffGroup.Type.BOTH : GrDiffGroup.Type.DELTA;
       const lines = this._linesFromSection(section, offsetLeft, offsetRight);

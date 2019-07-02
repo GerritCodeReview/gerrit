@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "660579fa_c50230d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-02T07:19:59Z",
+      "side": 1,
+      "message": "FYI: Thanks for mentioning this explicitly. I think it\u0027s a current \u0027feature\u0027 of the JSON framework we\u0027re using to distinguish between empty lists and null. There might be some other frameworks which automatically map an empty list to not being set.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 57
+      },
+      "revId": "b93bfb131394f08f37d84d8d0193b4712321a06a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ecf1abb_9c198196",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-02T07:19:59Z",
+      "side": 1,
+      "message": "There seems to be a word missing here.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 12
+      },
+      "revId": "b93bfb131394f08f37d84d8d0193b4712321a06a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5711d092_8409eb97",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6256,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-02T07:19:59Z",
+      "side": 1,
+      "message": "Optional: If we wanted to be very clear in the documentation, we could mention here that those values are only set if intraline diffs are requested (there\u0027s a parameter for it) and if intraline edits considering other factors like whitespace settings have been found.",
+      "range": {
+        "startLine": 6251,
+        "startChar": 0,
+        "endLine": 6256,
+        "endChar": 52
+      },
+      "revId": "b93bfb131394f08f37d84d8d0193b4712321a06a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5aea075e_0b5113b7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6322,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-02T07:19:59Z",
+      "side": 1,
+      "message": "Thanks for adding this. There might just be one small possible interpretation which I hope readers don\u0027t have: The entire DiffContent shouldn\u0027t be considered as being an intraline edit. In Gerrit, we typically have the distinction between a line is edited (similar to Git which is only working on whole lines) and a section inside of the line is edited (which we have on top and are the intraline edits). If no intraline edits are available, the whole line can still be considered as being edited (and hence marked only with the color for whole line edits). Do you think you could make this a bit clearer?",
+      "range": {
+        "startLine": 6321,
+        "startChar": 0,
+        "endLine": 6322,
+        "endChar": 25
+      },
+      "revId": "b93bfb131394f08f37d84d8d0193b4712321a06a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c14d4c9_37f4b2d7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6322,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-02T07:19:59Z",
+      "side": 1,
+      "message": "I\u0027m not sure why the word \u0027marked\u0027 is included here and it\u0027s a bit confusing to me. Does it come from thinking of marked lines/sections on the UI? If so, I think we should rather stick to only \u0027edited\u0027 as the documentation for the REST API is actually written in terms of domain knowledge and not from the viewpoint of a UI.",
+      "range": {
+        "startLine": 6322,
+        "startChar": 11,
+        "endLine": 6322,
+        "endChar": 17
+      },
+      "revId": "b93bfb131394f08f37d84d8d0193b4712321a06a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -153,6 +153,21 @@ limitations under the License.
             </span>
           </section>
           <section>
+              <span class="title">Show Reviewer In Changes Table</span>
+              <span class="value">
+                <gr-select
+                    bind-value="{{_localPrefs.review_category_strategy}}">
+                  <select>
+                    <option value="NONE">None</option>
+                    <option value="NAME">Name</option>
+                    <option value="EMAIL">Email</option>
+                    <option value="USERNAME">Username</option>
+                    <option value="ABBREV">Abbreviated Name</option>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+          <section>
             <span class="title">Date/time format</span>
             <span class="value">
               <gr-select

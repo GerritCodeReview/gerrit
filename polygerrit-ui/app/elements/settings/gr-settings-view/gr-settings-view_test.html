@@ -84,6 +84,7 @@ limitations under the License.
       };
       preferences = {
         changes_per_page: 25,
+        review_category_strategy: 'NAME',
         date_format: 'UK',
         time_format: 'HHMM_12',
         diff_view: 'UNIFIED_DIFF',
@@ -144,6 +145,8 @@ limitations under the License.
       // Rendered with the expected preferences selected.
       assert.equal(valueOf('Changes per page', 'preferences')
           .firstElementChild.bindValue, preferences.changes_per_page);
+      assert.equal(valueOf('Show Reviewer In Changes Table', 'preferences')
+          .firstElementChild.bindValue, preferences.review_category_strategy);
       assert.equal(valueOf('Date/time format', 'preferences')
           .firstElementChild.bindValue, preferences.date_format);
       assert.equal(valueOf('Date/time format', 'preferences')

@@ -19,6 +19,7 @@
 
   const PREFS_SECTION_FIELDS = [
     'changes_per_page',
+    'review_category_strategy',
     'date_format',
     'time_format',
     'email_strategy',

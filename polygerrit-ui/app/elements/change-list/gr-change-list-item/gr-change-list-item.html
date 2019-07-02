@@ -107,6 +107,12 @@ limitations under the License.
       .label.u-red:not(.u-monospace) {
         font-size: 1.2rem;
       }
+      .label .addition {
+        color: var(--primary-text-color);
+        font-family: var(--font-family);
+
+        font-size: 1rem;
+      }
       .u-gray-background {
         background-color: var(--table-header-background-color);
       }
@@ -218,8 +224,11 @@ limitations under the License.
     </td>
     <template is="dom-repeat" items="[[labelNames]]" as="labelName">
       <td title$="[[_computeLabelTitle(change, labelName)]]"
-          class$="[[_computeLabelClass(change, labelName)]]">
-        [[_computeLabelValue(change, labelName)]]
+        class="cell label">
+        <span class$="[[_computeLabelClass(change, labelName)]]">[[_computeLabelValue(change, labelName)]]</span>
+        <template is="dom-if" if="[[_shouldShowLabelAddition()]]">
+          <span class="addition">[[_computeLabelAddition(change, labelName, "name")]]</span>
+        </template>
       </td>
     </template>
     <template is="dom-repeat" items="[[_dynamicCellEndpoints]]"

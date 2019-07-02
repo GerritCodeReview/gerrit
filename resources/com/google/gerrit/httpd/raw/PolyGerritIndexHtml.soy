@@ -25,6 +25,9 @@
   {@param? faviconPath: ?}
   {@param? versionInfo: ?}
   {@param? polymer2: ?}
+  {@param? $polyfillCE: ?}
+  {@param? $polyfillSD: ?}
+  {@param? $polyfillSC: ?}
   <!DOCTYPE html>{\n}
   <html lang="en">{\n}
   <meta charset="utf-8">{\n}
@@ -42,14 +45,10 @@
     {if $versionInfo}window.VERSION_INFO = '{$versionInfo}';{/if}
     {if $staticResourcePath != ''}window.STATIC_RESOURCE_PATH = '{$staticResourcePath}';{/if}
     {if $assetsPath}window.ASSETS_PATH = '{$assetsPath}';{/if}
-    {if $polymer2}
-      {literal}
-        window.POLYMER2 = true;
-        if (window.customElements) window.customElements.forcePolyfill = true;
-        ShadyDOM = { force: true };
-        ShadyCSS = { shimcssproperties: true};
-      {/literal}
-    {/if}
+    {if $polymer2}window.POLYMER2 = true;{/if}
+    {if $polyfillCE}if (window.customElements) window.customElements.forcePolyfill = true;{/if}
+    {if $polyfillSD}{literal}ShadyDOM = { force: true };{/literal}{/if}
+    {if $polyfillSC}{literal}ShadyCSS = { shimcssproperties: true};{/literal}{/if}
     {if $gerritInitialData}
       // INITIAL_DATA is a string that represents a JSON map. It's inlined here so that we can
       // spare calls to the API when starting up the app.

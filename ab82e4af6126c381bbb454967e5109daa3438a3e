@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5bd2a1fd_f75286d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-07-02T19:53:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7602fd7_13718c3d",
+      "revId": "ab82e4af6126c381bbb454967e5109daa3438a3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96cd92f5_6457bef5",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "ab82e4af6126c381bbb454967e5109daa3438a3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04567383_d545ef1d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-07-02T19:53:46Z",
+      "side": 1,
+      "message": "Done in the commit message.",
+      "parentUuid": "96cd92f5_6457bef5",
+      "revId": "ab82e4af6126c381bbb454967e5109daa3438a3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

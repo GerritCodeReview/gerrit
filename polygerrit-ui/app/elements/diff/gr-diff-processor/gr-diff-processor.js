@@ -212,8 +212,8 @@
         const section = sections[state.sectionIndex];
         return {
           lineDelta: {
-            left: section.a ? section.a.length : 0,
-            right: section.b ? section.b.length : 0,
+            left: this._linesLeft(section).length,
+            right: this._linesRight(section).length,
           },
           groups: [this._sectionToGroup(
               section, state.lineNums.left + 1, state.lineNums.right + 1)],
@@ -223,6 +223,14 @@
 
       return this._processCollapsibleSections(
           state, sections, firstUncollapsibleSectionIndex);
+    },
+
+    _linesLeft(section) {
+      return section.ab || section.a || [];
+    },
+
+    _linesRight(section) {
+      return section.ab || section.b || [];
     },
 
     _firstUncollapsibleSectionIndex(sections, offset) {
@@ -289,7 +297,7 @@
       console.assert(
           !section.a || (section.b && section.a.length === section.b.length),
           `common section needs same number of a and b lines: `, section);
-      return (section.ab || section.a).length;
+      return this._linesLeft(section).length;
     },
 
     _sectionsToGroups(sections, offsetLeft, offsetRight) {
@@ -447,7 +455,7 @@
           throw new Error(
             'DiffContent with common=true must always have equal length');
         }
-        const numLines = chunk.ab ? chunk.ab.length : chunk.a.length;
+        const numLines = this._commonSectionLength(chunk);
         const chunkEnds = this._findChunkEndsAtKeyLocations(
             numLines, leftLineNum, rightLineNum);
         leftLineNum += numLines;

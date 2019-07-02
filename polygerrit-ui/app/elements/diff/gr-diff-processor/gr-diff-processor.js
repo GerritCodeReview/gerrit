@@ -174,7 +174,7 @@
      * will splice groups into the `groups` property of the component.
      * @param {!Array<!Defs.Chunk>} chunks
      * @param {boolean} isBinary
-     * @return {!Promise<!Array<!GrDiffGroup>>} A promise that resolves with an
+     * @return {!Promise<!Array<!Object>>} A promise that resolves with an
      *     array of GrDiffGroups when the diff is completely processed.
      */
     process(chunks, isBinary) {
@@ -409,11 +409,11 @@
     },
 
     /**
-     * @param {!GrDiffLine.Type} lineType
+     * @param {string} lineType (GrDiffLine.Type)
      * @param {!Array<string>} rows
      * @param {number} offset
      * @param {?Array<!Defs.IntralineInfo>=} opt_intralineInfos
-     * @return {!Array<!GrDiffLine>}
+     * @return {!Array<!Object>} (GrDiffLine)
      */
     _linesFromRows(lineType, rows, offset, opt_intralineInfos) {
       const grDiffHighlights = opt_intralineInfos ?
@@ -462,8 +462,8 @@
      * into 2 chunks, one max sized one and the rest (for reasons that are
      * unclear to me).
      *
-     * @param {!Array<!Object>} chunks Chunks as returned from the server
-     * @return {!Array<!Object>} Finer grained chunks.
+     * @param {!Array<!Defs.Chunk>} chunks Chunks as returned from the server
+     * @return {!Array<!Defs.Chunk>} Finer grained chunks.
      */
     _splitLargeChunks(chunks) {
       const newChunks = [];
@@ -591,7 +591,7 @@
      *
      * @param {!Array<string>} rows
      * @param {!Array<!Defs.IntralineInfo>} intralineInfos
-     * @return {!Array<!GrDiffLine.Highlight>}
+     * @return {!Array<!Object>} (GrDiffLine.Highlight)
      */
     _convertIntralineInfos(rows, intralineInfos) {
       let rowIndex = 0;

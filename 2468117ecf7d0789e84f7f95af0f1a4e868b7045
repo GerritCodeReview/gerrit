@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a0cf5dac_ff730450",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-02T11:29:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa9e8fa6_e1a37a59",
+      "revId": "2468117ecf7d0789e84f7f95af0f1a4e868b7045",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "441c1c5b_540af09a",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "2468117ecf7d0789e84f7f95af0f1a4e868b7045",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e483947d_deb85d77",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-02T11:29:22Z",
+      "side": 1,
+      "message": "This should probably actually be commonSectionLength, because this is for unchanged groups, so we may as well assert that.",
+      "parentUuid": "441c1c5b_540af09a",
+      "revId": "2468117ecf7d0789e84f7f95af0f1a4e868b7045",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

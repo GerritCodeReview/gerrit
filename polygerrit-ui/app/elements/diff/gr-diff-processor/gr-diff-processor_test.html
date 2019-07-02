@@ -771,30 +771,66 @@ limitations under the License.
           assert.equal(result.groups[0].lines.length, rows.length);
         });
 
-        test('with key location', () => {
-          element.context = 10;
-          const state = {
-            lineNums: {left: 10, right: 100},
-            sectionIndex: 0,
-          };
-          const sections = [
-            {ab: rows},
-            {ab: ['foo'], keyLocation: true},
-            {ab: rows},
-          ];
-          const result = element._processNext(state, sections);
+        suite('with key location', () => {
+          let state;
+          let sections;
 
-          assert.equal(result.groups.length, 2);
+          setup(() => {
+            state = {
+              lineNums: {left: 10, right: 100},
+            };
+            element.context = 10;
+            sections = [
+              {ab: rows},
+              {ab: ['foo'], keyLocation: true},
+              {ab: rows},
+            ];
+          });
 
-          // The first section has a single context-control line, the second
-          // section is the context before the key location not processed in
-          // this step
-          assert.equal(result.groups[0].lines.length, 1);
-          assert.equal(result.groups[1].lines.length, element.context);
+          test('context before', () => {
+            state.sectionIndex = 0;
+            const result = element._processNext(state, sections);
 
-          // The collapsed group has the hidden lines as its context group.
-          assert.equal(result.groups[0].lines[0].contextGroups[0].lines.length,
-              rows.length - element.context);
+            // The first section is split into two groups:
+            // 1) A context-control, hiding everything but the context before
+            //    the key location.
+            // 2) The context before the key location.
+            // The key location is not processed in this call to _processNext
+            assert.equal(result.groups.length, 2);
+            assert.equal(result.groups[0].lines.length, 1);
+            // The collapsed group has the hidden lines as its context group.
+            assert.equal(result.groups[0].lines[0].contextGroups[0].lines.length,
+                rows.length - element.context);
+            assert.equal(result.groups[1].lines.length, element.context);
+          });
+
+          test('key location itself', () => {
+            state.sectionIndex = 1;
+            const result = element._processNext(state, sections);
+
+            // The second section results in a single group, that is just the
+            // line with the key location
+            assert.equal(result.groups.length, 1);
+            assert.equal(result.groups[0].lines.length, 1);
+            assert.equal(result.lineDelta.left, 1);
+            assert.equal(result.lineDelta.right, 1);
+          });
+
+          test('context after', () => {
+            state.sectionIndex = 2;
+            const result = element._processNext(state, sections);
+
+            // The last section is split into two groups:
+            // 1) The context after the key location.
+            // 1) A context-control, hiding everything but the context after the
+            //    key location.
+            assert.equal(result.groups.length, 2);
+            assert.equal(result.groups[0].lines.length, element.context);
+            assert.equal(result.groups[1].lines.length, 1);
+            // The collapsed group has the hidden lines as its context group.
+            assert.equal(result.groups[1].lines[0].contextGroups[0].lines.length,
+                rows.length - element.context);
+          });
         });
       });
 

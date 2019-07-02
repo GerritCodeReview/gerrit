@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa9e8fa6_e1a37a59",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-07-02T11:19:35Z",
+      "side": 1,
+      "message": "Want to use the new _linesLeft() method here?",
+      "revId": "2468117ecf7d0789e84f7f95af0f1a4e868b7045",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "441c1c5b_540af09a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-07-02T11:19:35Z",
+      "side": 1,
+      "message": "Want to use the new _linesLeft() method here?",
+      "revId": "2468117ecf7d0789e84f7f95af0f1a4e868b7045",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

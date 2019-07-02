@@ -94,6 +94,30 @@
       "revId": "0967d13a5b45afe9add58dae64cf255e6f00b526",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f859b01_8fd27e09",
+        "filename": "java/com/google/gerrit/server/git/MergedByPushOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-07-02T07:03:59Z",
+      "side": 1,
+      "message": "That\u0027s strange. The change in the change-merged event fired by the postUpdate (l 199) did not have WIP set so I (then) assumed that\u0027s because the Context, that holds a reference to the change, updated it upon commit. Should have investigated that more closely.\nStill strange that the change in the change-merged didn\u0027t have WIP set when the WIP wasn\u0027t null when getting the change from REST.\nThanks for the fixes.",
+      "parentUuid": "7efb3716_5a41cb86",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 38
+      },
+      "revId": "0967d13a5b45afe9add58dae64cf255e6f00b526",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

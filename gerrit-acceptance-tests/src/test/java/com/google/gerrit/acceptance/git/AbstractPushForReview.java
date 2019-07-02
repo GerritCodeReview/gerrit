@@ -582,36 +582,44 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertUploadTag(r.getChange(), ChangeMessagesUtil.TAG_UPLOADED_WIP_PATCH_SET);
 
     // Pushing a new patch set without --wip doesn't remove the wip flag from the change.
-    r = amendChange(r.getChangeId(), "refs/for/master");
+    String changeId = r.getChangeId();
+    r = amendChange(changeId, "refs/for/master");
     r.assertOkStatus();
     r.assertMessage(" [WIP]");
     assertThat(r.getChange().change().isWorkInProgress()).isTrue();
     assertUploadTag(r.getChange(), ChangeMessagesUtil.TAG_UPLOADED_WIP_PATCH_SET);
 
     // Remove the wip flag from the change.
-    r = amendChange(r.getChangeId(), "refs/for/master%ready");
+    r = amendChange(changeId, "refs/for/master%ready");
     r.assertOkStatus();
     r.assertNotMessage(" [WIP]");
     assertThat(r.getChange().change().isWorkInProgress()).isFalse();
     assertUploadTag(r.getChange(), ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
 
     // Normal push: wip flag is not added back.
-    r = amendChange(r.getChangeId(), "refs/for/master");
+    r = amendChange(changeId, "refs/for/master");
     r.assertOkStatus();
     r.assertNotMessage(" [WIP]");
     assertThat(r.getChange().change().isWorkInProgress()).isFalse();
     assertUploadTag(r.getChange(), ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
 
     // Make the change work-in-progress again.
-    r = amendChange(r.getChangeId(), "refs/for/master%wip");
+    r = amendChange(changeId, "refs/for/master%wip");
     r.assertOkStatus();
     r.assertMessage(" [WIP]");
     assertThat(r.getChange().change().isWorkInProgress()).isTrue();
     assertUploadTag(r.getChange(), ChangeMessagesUtil.TAG_UPLOADED_WIP_PATCH_SET);
 
     // Can't use --wip and --ready together.
-    r = amendChange(r.getChangeId(), "refs/for/master%wip,ready");
+    r = amendChange(changeId, "refs/for/master%wip,ready");
     r.assertErrorStatus();
+
+    // Pushing directly to the branch removes the work-in-progress flag
+    String master = "refs/heads/master";
+    assertPushOk(pushHead(testRepo, master, false), master);
+    ChangeInfo result = Iterables.getOnlyElement(gApi.changes().query(changeId).get());
+    assertThat(result.status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(result.workInProgress).isNull();
   }
 
   private void assertUploadTag(ChangeData cd, String expectedTag) throws Exception {

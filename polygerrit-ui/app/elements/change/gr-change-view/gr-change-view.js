@@ -417,6 +417,14 @@
           this._dynamicTabContentEndpoints[selectedIndex - 1];
     },
 
+    _handleStateChipClicked() {
+      const idx = this._dynamicTabContentEndpoints.indexOf("change-view-tab-content-checks");
+      if (idx === -1) return;
+      this.$$('#primaryTabs').selected = idx + 1;
+      this.$$('#primaryTabs').scrollIntoView();
+      this._handleFileTabChange();
+    },
+
     _handleEditCommitMessage(e) {
       this._editingCommitMessage = true;
       this.$.commitMessageEditor.focusTextarea();
@@ -1757,7 +1765,7 @@
     _handleStopEditTap() {
       Gerrit.Nav.navigateToChange(this._change, this._patchRange.patchNum);
     },
-
+    
     _resetReplyOverlayFocusStops() {
       this.$.replyOverlay.setFocusStops(this.$.replyDialog.getFocusStops());
     },

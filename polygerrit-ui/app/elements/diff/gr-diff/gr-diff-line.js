@@ -41,7 +41,6 @@
     this.text = '';
   }
 
-
   GrDiffLine.Type = {
     ADD: 'add',
     BOTH: 'both',
@@ -49,6 +48,23 @@
     CONTEXT_CONTROL: 'contextControl',
     REMOVE: 'remove',
   };
+
+  /**
+   * A line highlight object consists of three fields:
+   * - contentIndex: The index of the chunk `content` field (the line
+   *   being referred to).
+   * - startIndex: Index of the character where the highlight should begin.
+   * - endIndex: (optional) Index of the character where the highlight should
+   *   end. If omitted, the highlight is meant to be a continuation onto the
+   *   next line.
+   *
+   * @typedef {{
+   *  contentIndex: number,
+   *  startIndex: number,
+   *  endIndex: number
+   * }}
+   */
+  GrDiffLine.Highlights;
 
   GrDiffLine.FILE = 'FILE';
 

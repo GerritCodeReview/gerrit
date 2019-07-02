@@ -6248,10 +6248,12 @@ in a file.
 |`a`            |optional|Content only in the file on side A (deleted in B).
 |`b`            |optional|Content only in the file on side B (added in B).
 |`ab`           |optional|Content in the file on both sides (unchanged).
-|`edit_a`       |only present during a replace, i.e. both `a` and `b` are present|
+|`edit_a`       |only present when the `intraline` parameter is set and the
+DiffContent is a replace, i.e. both `a` and `b` are present|
 Text sections deleted from side A as a
 link:#diff-intraline-info[DiffIntralineInfo] entity.
-|`edit_b`       |only present during a replace, i.e. both `a` and `b` are present|
+|`edit_b`       |only present when the `intraline` parameter is set and the
+DiffContent is a replace, i.e. both `a` and `b` are present|
 Text sections inserted in side B as a
 link:#diff-intraline-info[DiffIntralineInfo] entity.
 |`due_to_rebase`|not set if `false`|Indicates whether this entry was introduced by a
@@ -6318,7 +6320,8 @@ The information consists of a list of `<skip length, mark length>` pairs, where
 the skip length is the number of characters between the end of the previous edit
 and the start of this edit, and the mark length is the number of edited characters
 following the skip. The start of the edits is from the beginning of the related
-diff content lines.
+diff content lines. If the list is empty, the entire DiffContent should be
+considered marked/edited.
 
 Note that the implied newline character at the end of each line is included in
 the length calculation, and thus it is possible for the edits to span newlines.

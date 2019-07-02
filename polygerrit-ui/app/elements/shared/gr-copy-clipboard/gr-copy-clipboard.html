@@ -49,13 +49,14 @@ limitations under the License.
     </style>
     <div class="text">
       <iron-input
-          class$="copyText"
+          class="copyText"
           type="text"
           bind-value="[[text]]"
           on-tap="_handleInputTap"
           readonly>
         <input
             id="input"
+            class="copyText"
             is="iron-input"
             class$="[[_computeInputClass(hideInput)]]"
             type="text"

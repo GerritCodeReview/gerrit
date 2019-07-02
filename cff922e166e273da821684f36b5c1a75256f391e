@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5938754c_77b18b76",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1047383
+      },
+      "writtenOn": "2019-07-02T13:49:30Z",
+      "side": 1,
+      "message": "I\u0027m not sure why \"App Started\" is separate from the others which call `timeEnd`. From the PoV of this limited code extract, it looks like this would \"work\" if it called `timeEnd(TIMING.APP_STARTED)`.",
+      "range": {
+        "startLine": 238,
+        "startChar": 6,
+        "endLine": 238,
+        "endChar": 53
+      },
+      "revId": "cff922e166e273da821684f36b5c1a75256f391e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14c87c77_ca2f9e99",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1047383
+      },
+      "writtenOn": "2019-07-02T13:49:30Z",
+      "side": 1,
+      "message": "I guess we wouldn\u0027t be able to detect \"overlapping\" start/end calls if this happened, would we?",
+      "range": {
+        "startLine": 338,
+        "startChar": 6,
+        "endLine": 338,
+        "endChar": 47
+      },
+      "revId": "cff922e166e273da821684f36b5c1a75256f391e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed6a4698_0d92edca",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1047383
+      },
+      "writtenOn": "2019-07-02T13:49:30Z",
+      "side": 1,
+      "message": "While anyone can read MDN, I think it\u0027s useful to comment:\n\n  // Finalize the interval. Either from a registered start mark or the navigation start time (if baseTime is 0).",
+      "range": {
+        "startLine": 349,
+        "startChar": 6,
+        "endLine": 349,
+        "endChar": 85
+      },
+      "revId": "cff922e166e273da821684f36b5c1a75256f391e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

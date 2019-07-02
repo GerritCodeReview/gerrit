@@ -1215,7 +1215,7 @@
     _handleCreateProjectRoute(data) {
       // Redirects the legacy route to the new route, which displays the project
       // list with a hash 'create'.
-      this._redirect('/admin/projects#create');
+      this._redirect('/admin/repos#create');
     },
 
     _handleCreateGroupRoute(data) {

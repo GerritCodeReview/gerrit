@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0bbc333d_edb4991f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-07-02T14:48:52Z",
+      "side": 1,
+      "message": "Replace \"Checks table\" with \"tab \" + e.detail.tab",
+      "range": {
+        "startLine": 423,
+        "startChar": 22,
+        "endLine": 423,
+        "endChar": 35
+      },
+      "revId": "57f96c3bb68de9bb6eafefe37c6fc2d3cd227848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

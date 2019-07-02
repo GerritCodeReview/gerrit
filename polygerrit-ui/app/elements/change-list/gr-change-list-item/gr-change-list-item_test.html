@@ -48,30 +48,31 @@ limitations under the License.
         getLoggedIn() { return Promise.resolve(false); },
       });
       element = fixture('basic');
+      element.preferences = null;
     });
 
     teardown(() => { sandbox.restore(); });
 
     test('computed fields', () => {
       assert.equal(element._computeLabelClass({labels: {}}),
-          'cell label u-gray-background');
+          'u-gray-background');
       assert.equal(element._computeLabelClass(
-          {labels: {}}, 'Verified'), 'cell label u-gray-background');
+          {labels: {}}, 'Verified'), 'u-gray-background');
       assert.equal(element._computeLabelClass(
           {labels: {Verified: {approved: true, value: 1}}}, 'Verified'),
-          'cell label u-green u-monospace');
+          'u-green u-monospace');
       assert.equal(element._computeLabelClass(
           {labels: {Verified: {rejected: true, value: -1}}}, 'Verified'),
-          'cell label u-monospace u-red');
+          'u-monospace u-red');
       assert.equal(element._computeLabelClass(
           {labels: {'Code-Review': {value: 1}}}, 'Code-Review'),
-          'cell label u-green u-monospace');
+          'u-green u-monospace');
       assert.equal(element._computeLabelClass(
           {labels: {'Code-Review': {value: -1}}}, 'Code-Review'),
-          'cell label u-monospace u-red');
+          'u-monospace u-red');
       assert.equal(element._computeLabelClass(
           {labels: {'Code-Review': {value: -1}}}, 'Verified'),
-          'cell label u-gray-background');
+          'u-gray-background');
 
       assert.equal(element._computeLabelTitle({labels: {}}, 'Verified'),
           'Label not applicable');
@@ -120,6 +121,66 @@ limitations under the License.
       assert.equal(element._computeLabelValue(
           {labels: {Verified: {rejected: true}}}, 'Verified'), '✕');
     });
+
+    test('label addition without preference', () => {
+      assert.equal(element._shouldShowLabelAddition(), false)
+    });
+
+    suite('with review_category_strategy NAME', () => {
+      setup(() => {
+        element = fixture('basic');
+        element.preferences = {review_category_strategy: 'NAME'};
+      });
+
+      test('label addition', () => {
+        assert.equal(element._shouldShowLabelAddition(), true)
+        assert.equal(element._computeLabelAddition(
+            {labels: {Verified: {approved: {name: 'Diffy'}}}}, 'Verified'),
+            'Diffy');
+        assert.equal(element._computeLabelAddition(
+            {labels: {Verified: {rejected: {name: 'Diffy'}}}}, 'Verified'),
+            'Diffy');
+        assert.equal(element._computeLabelAddition(
+            {labels: {'Code-Review': {disliked: {name: 'Diffy'}, value: -1}}},
+            'Code-Review'), 'Diffy');
+        assert.equal(element._computeLabelAddition(
+            {labels: {'Code-Review': {recommended: {name: 'Diffy'}, value: 1}}},
+            'Code-Review'), 'Diffy');
+        assert.equal(element._computeLabelAddition(
+            {labels: {'Code-Review': {recommended: {name: 'Diffy'},
+              rejected: {name: 'Admin'}}}}, 'Code-Review'),
+            'Admin');
+        assert.equal(element._computeLabelAddition(
+            {labels: {'Code-Review': {approved: {name: 'Diffy'},
+              rejected: {name: 'Admin'}}}}, 'Code-Review'),
+            'Admin');
+        assert.equal(element._computeLabelAddition(
+            {labels: {'Code-Review': {recommended: {name: 'Diffy'},
+              disliked: {name: 'Admin'}, value: -1}}}, 'Code-Review'),
+            'Admin');
+        assert.equal(element._computeLabelAddition(
+            {labels: {'Code-Review': {approved: {name: 'Diffy'},
+              disliked: {name: 'Admin'}, value: -1}}}, 'Code-Review'),
+            'Diffy');
+      })
+    })
+
+    suite('with review_category_strategy ABBREV', () => {
+      setup(() => {
+        element = fixture('basic');
+        element.preferences = {review_category_strategy: 'ABBREV'};
+      });
+
+      test('label addition', () => {
+        assert.equal(element._shouldShowLabelAddition(), true)
+        assert.equal(element._computeLabelAddition(
+            {labels: {Verified: {approved: {name: 'Diffy'}}}}, 'Verified'),
+            'D');
+        assert.equal(element._computeLabelAddition(
+            {labels: {Verified: {approved: {name: 'Diffy Admin'}}}}, 'Verified'),
+            'DA');
+      })
+    })
 
     test('no hidden columns', () => {
       element.visibleChangeTableColumns = [

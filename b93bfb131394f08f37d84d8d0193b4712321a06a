@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "cde09ea4_a743eb63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-02T07:44:27Z",
+      "side": 1,
+      "message": "Actually a word too much. Good catch.",
+      "parentUuid": "6ecf1abb_9c198196",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 12
+      },
+      "revId": "b93bfb131394f08f37d84d8d0193b4712321a06a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5711d092_8409eb97",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3
@@ -68,6 +92,30 @@
       "revId": "b93bfb131394f08f37d84d8d0193b4712321a06a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6488d839_a8ac958e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6256,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-02T07:44:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5711d092_8409eb97",
+      "range": {
+        "startLine": 6251,
+        "startChar": 0,
+        "endLine": 6256,
+        "endChar": 52
+      },
+      "revId": "b93bfb131394f08f37d84d8d0193b4712321a06a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +153,54 @@
       "writtenOn": "2019-07-02T07:19:59Z",
       "side": 1,
       "message": "I\u0027m not sure why the word \u0027marked\u0027 is included here and it\u0027s a bit confusing to me. Does it come from thinking of marked lines/sections on the UI? If so, I think we should rather stick to only \u0027edited\u0027 as the documentation for the REST API is actually written in terms of domain knowledge and not from the viewpoint of a UI.",
+      "range": {
+        "startLine": 6322,
+        "startChar": 11,
+        "endLine": 6322,
+        "endChar": 17
+      },
+      "revId": "b93bfb131394f08f37d84d8d0193b4712321a06a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45758fed_1064dc12",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6322,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-02T07:44:27Z",
+      "side": 1,
+      "message": "Do you have a suggestion what would make this clearer?\n\nAs I see it, we have the following cases:\na) a/b set, but edit_a/b not set: The entire line should be displayed in dark color, all of it has changed.\nb) a/b set, edit_a/b are non-empty lists: The line should be displayed in light color, the portions \"marked\" in edit_a/b have actually changed, and should be marked in dark color.\nc) a/b set, edit_a/b are empty lists\n\nc) is the case I would like to document/define here. I think if this happens it should mean: Nothing to skip \u003d mark everything is changed and thus make the entire line dark (treat this basically the same as case a)). It\u0027s not clear to me what the danger is of people calling this an intraline edit, but I also do not use that language here I think.\n\nAnyways, very open to suggestions for how to make this clearer. Thanks!",
+      "parentUuid": "5aea075e_0b5113b7",
+      "range": {
+        "startLine": 6321,
+        "startChar": 0,
+        "endLine": 6322,
+        "endChar": 25
+      },
+      "revId": "b93bfb131394f08f37d84d8d0193b4712321a06a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f814b9da_3df93fdd",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6322,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-02T07:44:27Z",
+      "side": 1,
+      "message": "This comes from the paragraph before, where DiffIntralineInfo is defined as list of `\u003cskip length, mark length\u003e` pairs. I also find edited more understandable, that\u0027s why I added that here. Should I replace \"mark length\" with \"edited length\" above instead?",
+      "parentUuid": "6c14d4c9_37f4b2d7",
       "range": {
         "startLine": 6322,
         "startChar": 11,

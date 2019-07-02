@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "4f7db685_c7f95508",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-02T11:49:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df55df0e_adf32e8f",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 92
+      },
+      "revId": "c2c465713d0bd1bfbdb7333156ba323ab6a0fcf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a567a43_9d6839fd",
         "filename": "java/com/google/gerrit/extensions/client/ListChangesOption.java",
         "patchSetId": 1
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "6136c568_ed4dc345",
+        "filename": "java/com/google/gerrit/extensions/client/ListChangesOption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-02T11:49:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a567a43_9d6839fd",
+      "range": {
+        "startLine": 80,
+        "startChar": 2,
+        "endLine": 81,
+        "endChar": 25
+      },
+      "revId": "c2c465713d0bd1bfbdb7333156ba323ab6a0fcf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30b975b5_329f96dd",
         "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1
@@ -92,6 +140,30 @@
       "revId": "c2c465713d0bd1bfbdb7333156ba323ab6a0fcf8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82d3e222_97775b5f",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-02T11:49:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30b975b5_329f96dd",
+      "range": {
+        "startLine": 520,
+        "startChar": 4,
+        "endLine": 520,
+        "endChar": 34
+      },
+      "revId": "c2c465713d0bd1bfbdb7333156ba323ab6a0fcf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

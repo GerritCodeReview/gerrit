@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "18c28a58_c7d597e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-02T11:49:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "010bec3c_4fb20cb7",
+      "range": {
+        "startLine": 7,
+        "startChar": 40,
+        "endLine": 7,
+        "endChar": 100
+      },
+      "revId": "3e226ebbbf1daaeb3dbd512dfec4daaeb850c914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14e024d5_a6841541",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "3e226ebbbf1daaeb3dbd512dfec4daaeb850c914",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c18907a0_40de9bf5",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-02T11:49:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14e024d5_a6841541",
+      "range": {
+        "startLine": 325,
+        "startChar": 2,
+        "endLine": 325,
+        "endChar": 52
+      },
+      "revId": "3e226ebbbf1daaeb3dbd512dfec4daaeb850c914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "a5df049e_2d9f4530",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-02T11:49:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e61aa3a4_20b1535b",
+      "range": {
+        "startLine": 251,
+        "startChar": 47,
+        "endLine": 251,
+        "endChar": 53
+      },
+      "revId": "3e226ebbbf1daaeb3dbd512dfec4daaeb850c914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "89d541d5_20f18648",
         "filename": "java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
         "patchSetId": 3
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "3215dbf0_e92ef560",
+        "filename": "java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-02T11:49:42Z",
+      "side": 1,
+      "message": "Comment removed by: Gal Paikin",
+      "parentUuid": "89d541d5_20f18648",
+      "range": {
+        "startLine": 72,
+        "startChar": 9,
+        "endLine": 72,
+        "endChar": 15
+      },
+      "revId": "3e226ebbbf1daaeb3dbd512dfec4daaeb850c914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6458b1f9_c30dea70",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 3
@@ -105,6 +201,30 @@
       "writtenOn": "2019-07-01T15:22:48Z",
       "side": 1,
       "message": "shouldn\u0027t you check what the value of insertions is ?",
+      "range": {
+        "startLine": 276,
+        "startChar": 34,
+        "endLine": 276,
+        "endChar": 43
+      },
+      "revId": "3e226ebbbf1daaeb3dbd512dfec4daaeb850c914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6109172_18d86949",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-02T11:49:42Z",
+      "side": 1,
+      "message": "I don\u0027t think that is necessary. I believe we just need to make sure they are being computed (or not being computed) as in not Null or Null.\nAlso, the values of insertions may change in later unrelated changes.",
+      "parentUuid": "6458b1f9_c30dea70",
       "range": {
         "startLine": 276,
         "startChar": 34,

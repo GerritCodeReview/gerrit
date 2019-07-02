@@ -61,6 +61,7 @@
       _dynamicCellEndpoints: {
         type: Array,
       },
+      preferences: Object,
     },
 
     behaviors: [
@@ -100,10 +101,7 @@
     _computeLabelClass(change, labelName) {
       const label = change.labels[labelName];
       // Mimic a Set.
-      const classes = {
-        cell: true,
-        label: true,
-      };
+      const classes = {};
       if (label) {
         if (label.approved) {
           classes['u-green'] = true;
@@ -138,6 +136,35 @@
       }
       if (label.value < 0) {
         return label.value;
+      }
+      return '';
+    },
+
+    _shouldShowLabelAddition() {
+      return this.preferences.review_category_strategy !== 'NONE';
+    },
+
+    _computeLabelAddition(change, labelName) {
+      const label = change.labels[labelName];
+      if (!label || !label.recommended) { return ''; }
+      const strategy = this.preferences.review_category_strategy;
+      if (strategy === 'NAME') {
+        return label.recommended.name;
+      }
+      if (strategy === 'EMAIL') {
+        return label.recommended.email;
+      }
+      if (strategy === 'USERNAME') {
+        return label.recommended.username;
+      }
+      if (strategy === 'ABBREV') {
+        if (!label.recommended.name) {
+          return '';
+        }
+        return label.recommended.name.split(' ')
+            .map(part => part.substring(0, 1))
+            .join()
+            .toUpperCase();
       }
       return '';
     },

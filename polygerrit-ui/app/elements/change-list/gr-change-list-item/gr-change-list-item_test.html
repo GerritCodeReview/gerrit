@@ -54,24 +54,24 @@ limitations under the License.
 
     test('computed fields', () => {
       assert.equal(element._computeLabelClass({labels: {}}),
-          'cell label u-gray-background');
+          'u-gray-background');
       assert.equal(element._computeLabelClass(
-          {labels: {}}, 'Verified'), 'cell label u-gray-background');
+          {labels: {}}, 'Verified'), 'u-gray-background');
       assert.equal(element._computeLabelClass(
           {labels: {Verified: {approved: true, value: 1}}}, 'Verified'),
-          'cell label u-green u-monospace');
+          'u-green u-monospace');
       assert.equal(element._computeLabelClass(
           {labels: {Verified: {rejected: true, value: -1}}}, 'Verified'),
-          'cell label u-monospace u-red');
+          'u-monospace u-red');
       assert.equal(element._computeLabelClass(
           {labels: {'Code-Review': {value: 1}}}, 'Code-Review'),
-          'cell label u-green u-monospace');
+          'u-green u-monospace');
       assert.equal(element._computeLabelClass(
           {labels: {'Code-Review': {value: -1}}}, 'Code-Review'),
-          'cell label u-monospace u-red');
+          'u-monospace u-red');
       assert.equal(element._computeLabelClass(
           {labels: {'Code-Review': {value: -1}}}, 'Verified'),
-          'cell label u-gray-background');
+          'u-gray-background');
 
       assert.equal(element._computeLabelTitle({labels: {}}, 'Verified'),
           'Label not applicable');

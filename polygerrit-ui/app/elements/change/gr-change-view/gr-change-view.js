@@ -417,6 +417,17 @@
           this._dynamicTabContentEndpoints[selectedIndex - 1];
     },
 
+    _handleShowChecksTable(e) {
+      const idx = this._dynamicTabContentEndpoints.indexOf(e.detail.tab);
+      if (idx === -1) {
+        console.warn('Checks table not found');
+        return;
+      }
+      this.$$('#primaryTabs').selected = idx + 1;
+      this.$$('#primaryTabs').scrollIntoView();
+      this._handleFileTabChange();
+    },
+
     _handleEditCommitMessage(e) {
       this._editingCommitMessage = true;
       this.$.commitMessageEditor.focusTextarea();

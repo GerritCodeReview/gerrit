@@ -218,7 +218,7 @@
     },
 
     /**
-     * Start processing symtax for the loaded diff and notify layer listeners
+     * Start processing syntax for the loaded diff and notify layer listeners
      * as syntax info comes online.
      * @return {Promise}
      */

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3df1816_b1a29331",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-07-02T11:34:47Z",
+      "side": 1,
+      "message": "Would be great to have @typdef for state and section (er, chunk).",
+      "revId": "1fd7b8108d9af98b0a0ef4bd106931fd45079842",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

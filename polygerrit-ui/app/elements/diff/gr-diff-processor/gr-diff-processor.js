@@ -19,6 +19,44 @@
 
   const WHOLE_FILE = -1;
 
+  const Defs = {};
+
+  /**
+   * The DiffIntralineInfo entity contains information about intraline edits in a
+   * file.
+   *
+   * The information consists of a list of <skip length, mark length> pairs, where
+   * the skip length is the number of characters between the end of the previous
+   * edit and the start of this edit, and the mark length is the number of edited
+   * characters following the skip. The start of the edits is from the beginning
+   * of the related diff content lines.
+   *
+   * Note that the implied newline character at the end of each line is included
+   * in the length calculation, and thus it is possible for the edits to span
+   * newlines.
+   * @typedef {!Array<number>}
+   */
+  Defs.IntralineInfo;
+
+  /**
+   * A portion of the diff that is treated the same.
+   *
+   * Called `DiffContent` in the API, see
+   * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#diff-content
+   *
+   * @typedef {{
+   *  ab: ?Array<!string>,
+   *  a: ?Array<!string>,
+   *  b: ?Array<!string>,
+   *  skip: ?number,
+   *  edit_a: ?Array<!Defs.IntralineInfo>,
+   *  edit_b: ?Array<!Defs.IntralineInfo>,
+   *  due_to_rebase: ?boolean,
+   *  common: ?boolean
+   * }}
+   */
+  Defs.Chunk;
+
   const DiffSide = {
     LEFT: 'left',
     RIGHT: 'right',
@@ -42,15 +80,27 @@
   /**
    * Converts the API's `DiffContent`s  to `GrDiffGroup`s for rendering.
    *
-   * This includes a number of tasks:
+   * Glossary:
+   * - "chunk": A single `DiffContent` as returned by the API.
+   * - "group": A single `GrDiffGroup` as used for rendering.
+   * - "common" chunk/group: A chunk/group that should be considered unchanged
+   *   for diffing purposes. This can mean its either actually unchanged, or it
+   *   has only whitespace changes.
+   * - "key location": A line number and side of the diff that should not be
+   *   collapsed e.g. because a comment is attached to it, or because it was
+   *   provided in the URL and thus should be visible
+   * - "uncollapsible" chunk/group: A chunk/group that is either not "common",
+   *   or cannot be collapsed because it contains a key location
+   *
+   * Here a a number of tasks this processor performs:
+   *  - splitting large chunks to allow more granular async rendering
    *  - adding a group for the "File" pseudo line that file-level comments can
    *    be attached to
-   *  - replacing unchanged parts of the diff that are outside the user's
+   *  - replacing common parts of the diff that are outside the user's
    *    context setting and do not have comments with a group representing the
-   *    "expand context" widget. This may require splitting a `DiffContent` so
+   *    "expand context" widget. This may require splitting a chunk/group so
    *    that the part that is within the context or has comments is shown, while
    *    the rest is not.
-   *  - splitting large `DiffContent`s to allow more granular async rendering
    */
   Polymer({
     is: 'gr-diff-processor',
@@ -120,12 +170,14 @@
     },
 
     /**
-     * Asynchronously process the diff object into groups. As it processes, it
+     * Asynchronously process the diff chunks into groups. As it processes, it
      * will splice groups into the `groups` property of the component.
-     * @return {Promise} A promise that resolves when the diff is completely
-     *     processed.
+     * @param {!Array<!Defs.Chunk>} chunks
+     * @param {boolean} isBinary
+     * @return {!Promise<!Array<!Object>>} A promise that resolves with an
+     *     array of GrDiffGroups when the diff is completely processed.
      */
-    process(content, isBinary) {
+    process(chunks, isBinary) {
       // Cancel any still running process() calls, because they append to the
       // same groups field.
       this.cancel();
@@ -142,11 +194,11 @@
           new Promise(resolve => {
             const state = {
               lineNums: {left: 0, right: 0},
-              sectionIndex: 0,
+              chunkIndex: 0,
             };
 
-            content = this._splitLargeChunks(content);
-            content = this._splitCommonChunksWithKeyLocations(content);
+            chunks = this._splitLargeChunks(chunks);
+            chunks = this._splitCommonChunksWithKeyLocations(chunks);
 
             let currentBatch = 0;
             const nextStep = () => {
@@ -155,23 +207,23 @@
                 return;
               }
               // If we are done, resolve the promise.
-              if (state.sectionIndex >= content.length) {
+              if (state.chunkIndex >= chunks.length) {
                 resolve(this.groups);
                 this._nextStepHandle = null;
                 return;
               }
 
-              // Process the next section and incorporate the result.
-              const result = this._processNext(state, content);
-              for (const group of result.groups) {
+              // Process the next chunk and incorporate the result.
+              const stateUpdate = this._processNext(state, chunks);
+              for (const group of stateUpdate.groups) {
                 this.push('groups', group);
                 currentBatch += group.lines.length;
               }
-              state.lineNums.left += result.lineDelta.left;
-              state.lineNums.right += result.lineDelta.right;
+              state.lineNums.left += stateUpdate.lineDelta.left;
+              state.lineNums.right += stateUpdate.lineDelta.right;
 
               // Increment the index and recurse.
-              state.sectionIndex = result.newSectionIndex;
+              state.chunkIndex = stateUpdate.newChunkIndex;
               if (currentBatch >= this._asyncThreshold) {
                 currentBatch = 0;
                 this._nextStepHandle = this.async(nextStep, 1);
@@ -200,55 +252,55 @@
     },
 
     /**
-     * Process the next uncollapsible section, or the next collapsible sections.
+     * Process the next uncollapsible chunk, or the next collapsible chunks.
      *
      * @param {!Object} state
-     * @param {!Array<!Object>} sections
-     * @return {{lineDelta: {left: number, right: number}, groups: !Array<!Object>, newSectionIndex: number}}
+     * @param {!Array<!Object>} chunks
+     * @return {{lineDelta: {left: number, right: number}, groups: !Array<!Object>, newChunkIndex: number}}
      */
-    _processNext(state, sections) {
-      const firstUncollapsibleSectionIndex =
-          this._firstUncollapsibleSectionIndex(sections, state.sectionIndex);
-      if (firstUncollapsibleSectionIndex === state.sectionIndex) {
-        const section = sections[state.sectionIndex];
+    _processNext(state, chunks) {
+      const firstUncollapsibleChunkIndex =
+          this._firstUncollapsibleChunkIndex(chunks, state.chunkIndex);
+      if (firstUncollapsibleChunkIndex === state.chunkIndex) {
+        const chunk = chunks[state.chunkIndex];
         return {
           lineDelta: {
-            left: this._linesLeft(section).length,
-            right: this._linesRight(section).length,
+            left: this._linesLeft(chunk).length,
+            right: this._linesRight(chunk).length,
           },
-          groups: [this._sectionToGroup(
-              section, state.lineNums.left + 1, state.lineNums.right + 1)],
-          newSectionIndex: state.sectionIndex + 1,
+          groups: [this._chunkToGroup(
+              chunk, state.lineNums.left + 1, state.lineNums.right + 1)],
+          newChunkIndex: state.chunkIndex + 1,
         };
       }
 
-      return this._processCollapsibleSections(
-          state, sections, firstUncollapsibleSectionIndex);
+      return this._processCollapsibleChunks(
+          state, chunks, firstUncollapsibleChunkIndex);
     },
 
-    _linesLeft(section) {
-      return section.ab || section.a || [];
+    _linesLeft(chunk) {
+      return chunk.ab || chunk.a || [];
     },
 
-    _linesRight(section) {
-      return section.ab || section.b || [];
+    _linesRight(chunk) {
+      return chunk.ab || chunk.b || [];
     },
 
-    _firstUncollapsibleSectionIndex(sections, offset) {
-      let sectionIndex = offset;
-      while (sectionIndex < sections.length &&
-          this._isCollapsibleSection(sections[sectionIndex])) {
-        sectionIndex++;
+    _firstUncollapsibleChunkIndex(chunks, offset) {
+      let chunkIndex = offset;
+      while (chunkIndex < chunks.length &&
+          this._isCollapsibleChunk(chunks[chunkIndex])) {
+        chunkIndex++;
       }
-      return sectionIndex;
+      return chunkIndex;
     },
 
-    _isCollapsibleSection(section) {
-      return (section.ab || section.common) && !section.keyLocation;
+    _isCollapsibleChunk(chunk) {
+      return (chunk.ab || chunk.common) && !chunk.keyLocation;
     },
 
     /**
-     * Process a stretch of collapsible sections.
+     * Process a stretch of collapsible chunks.
      *
      * Outputs up to three groups:
      *  1) Visible context before the hidden common code, unless it's the
@@ -258,26 +310,26 @@
      *     end of the file.
      *
      * @param {!Object} state
-     * @param {!Array<Object>} sections
-     * @param {number} firstUncollapsibleSectionIndex
-     * @return {{lineDelta: {left: number, right: number}, groups: !Array<!Object>, newSectionIndex: number}}
+     * @param {!Array<Object>} chunks
+     * @param {number} firstUncollapsibleChunkIndex
+     * @return {{lineDelta: {left: number, right: number}, groups: !Array<!Object>, newChunkIndex: number}}
      */
-    _processCollapsibleSections(
-        state, sections, firstUncollapsibleSectionIndex) {
-      const collapsibleSections = sections.slice(
-          state.sectionIndex, firstUncollapsibleSectionIndex);
-      const lineCount = collapsibleSections.reduce(
-          (sum, section) => sum + this._commonSectionLength(section), 0);
+    _processCollapsibleChunks(
+        state, chunks, firstUncollapsibleChunkIndex) {
+      const collapsibleChunks = chunks.slice(
+          state.chunkIndex, firstUncollapsibleChunkIndex);
+      const lineCount = collapsibleChunks.reduce(
+          (sum, chunk) => sum + this._commonChunkLength(chunk), 0);
 
-      let groups = this._sectionsToGroups(
-          collapsibleSections,
+      let groups = this._chunksToGroups(
+          collapsibleChunks,
           state.lineNums.left + 1,
           state.lineNums.right + 1);
 
       if (this.context !== WHOLE_FILE) {
-        const hiddenStart = state.sectionIndex === 0 ? 0 : this.context;
+        const hiddenStart = state.chunkIndex === 0 ? 0 : this.context;
         const hiddenEnd = lineCount - (
-            firstUncollapsibleSectionIndex === sections.length ?
+            firstUncollapsibleChunkIndex === chunks.length ?
             0 : this.context);
         groups = GrDiffGroup.hideInContextControl(
             groups, hiddenStart, hiddenEnd);
@@ -289,84 +341,85 @@
           right: lineCount,
         },
         groups,
-        newSectionIndex: firstUncollapsibleSectionIndex,
+        newChunkIndex: firstUncollapsibleChunkIndex,
       };
     },
 
-    _commonSectionLength(section) {
-      console.assert(section.ab || section.common);
+    _commonChunkLength(chunk) {
+      console.assert(chunk.ab || chunk.common);
       console.assert(
-          !section.a || (section.b && section.a.length === section.b.length),
-          `common section needs same number of a and b lines: `, section);
-      return this._linesLeft(section).length;
+          !chunk.a || (chunk.b && chunk.a.length === chunk.b.length),
+          `common chunk needs same number of a and b lines: `, chunk);
+      return this._linesLeft(chunk).length;
     },
 
     /**
-     * @param {!Array<!Object>} sections
+     * @param {!Array<!Object>} chunks
      * @param {number} offsetLeft
      * @param {number} offsetRight
      * @return {!Array<!Object>} (GrDiffGroup)
      */
-    _sectionsToGroups(sections, offsetLeft, offsetRight) {
-      return sections.map(section => {
-        const group = this._sectionToGroup(section, offsetLeft, offsetRight);
-        const sectionLength = this._commonSectionLength(section);
-        offsetLeft += sectionLength;
-        offsetRight += sectionLength;
+    _chunksToGroups(chunks, offsetLeft, offsetRight) {
+      return chunks.map(chunk => {
+        const group = this._chunkToGroup(chunk, offsetLeft, offsetRight);
+        const chunkLength = this._commonChunkLength(chunk);
+        offsetLeft += chunkLength;
+        offsetRight += chunkLength;
         return group;
       });
     },
 
     /**
-     * @param {!Object} section
+     * @param {!Object} chunk
      * @param {number} offsetLeft
      * @param {number} offsetRight
      * @return {!Object} (GrDiffGroup)
      */
-    _sectionToGroup(section, offsetLeft, offsetRight) {
-      const type = section.ab ? GrDiffGroup.Type.BOTH : GrDiffGroup.Type.DELTA;
-      const lines = this._linesFromSection(section, offsetLeft, offsetRight);
+    _chunkToGroup(chunk, offsetLeft, offsetRight) {
+      const type = chunk.ab ? GrDiffGroup.Type.BOTH : GrDiffGroup.Type.DELTA;
+      const lines = this._linesFromChunk(chunk, offsetLeft, offsetRight);
       const group = new GrDiffGroup(type, lines);
-      group.keyLocation = section.keyLocation;
-      group.dueToRebase = section.due_to_rebase;
-      group.ignoredWhitespaceOnly = section.common;
+      group.keyLocation = chunk.keyLocation;
+      group.dueToRebase = chunk.due_to_rebase;
+      group.ignoredWhitespaceOnly = chunk.common;
       return group;
     },
 
-    _linesFromSection(section, offsetLeft, offsetRight) {
-      if (section.ab) {
-        return section.ab.map((row, i) => this._lineFromRow(
+    _linesFromChunk(chunk, offsetLeft, offsetRight) {
+      if (chunk.ab) {
+        return chunk.ab.map((row, i) => this._lineFromRow(
             GrDiffLine.Type.BOTH, offsetLeft, offsetRight, row, i));
       }
       let lines = [];
-      if (section.a) {
+      if (chunk.a) {
         // Avoiding a.push(...b) because that causes callstack overflows for
         // large b, which can occur when large files are added removed.
         lines = lines.concat(this._linesFromRows(
-            GrDiffLine.Type.REMOVE, section.a, offsetLeft,
-            section[DiffHighlights.REMOVED]));
+            GrDiffLine.Type.REMOVE, chunk.a, offsetLeft,
+            chunk[DiffHighlights.REMOVED]));
       }
-      if (section.b) {
+      if (chunk.b) {
         // Avoiding a.push(...b) because that causes callstack overflows for
         // large b, which can occur when large files are added removed.
         lines = lines.concat(this._linesFromRows(
-            GrDiffLine.Type.ADD, section.b, offsetRight,
-            section[DiffHighlights.ADDED]));
+            GrDiffLine.Type.ADD, chunk.b, offsetRight,
+            chunk[DiffHighlights.ADDED]));
       }
       return lines;
     },
 
     /**
-     * @return {!Array<!Object>} Array of GrDiffLines
+     * @param {string} lineType (GrDiffLine.Type)
+     * @param {!Array<string>} rows
+     * @param {number} offset
+     * @param {?Array<!Defs.IntralineInfo>=} opt_intralineInfos
+     * @return {!Array<!Object>} (GrDiffLine)
      */
-    _linesFromRows(lineType, rows, offset, opt_highlights) {
-      // Normalize highlights if they have been passed.
-      if (opt_highlights) {
-        opt_highlights = this._normalizeIntralineHighlights(rows,
-            opt_highlights);
-      }
-      return rows.map((row, i) =>
-          this._lineFromRow(lineType, offset, offset, row, i, opt_highlights));
+    _linesFromRows(lineType, rows, offset, opt_intralineInfos) {
+      const grDiffHighlights = opt_intralineInfos ?
+        this._convertIntralineInfos(rows, opt_intralineInfos) : undefined;
+      return rows.map((row, i) => this._lineFromRow(
+          lineType, offset, offset, row, i, grDiffHighlights));
     },
 
     /**
@@ -409,16 +462,16 @@
      * into 2 chunks, one max sized one and the rest (for reasons that are
      * unclear to me).
      *
-     * @param {!Array<!Object>} chunks Chunks as returned from the server
-     * @return {!Array<!Object>} Finer grained chunks.
+     * @param {!Array<!Defs.Chunk>} chunks Chunks as returned from the server
+     * @return {!Array<!Defs.Chunk>} Finer grained chunks.
      */
     _splitLargeChunks(chunks) {
       const newChunks = [];
 
       for (const chunk of chunks) {
         if (!chunk.ab) {
-          for (const group of this._breakdownGroup(chunk)) {
-            newChunks.push(group);
+          for (const subChunk of this._breakdownChunk(chunk)) {
+            newChunks.push(subChunk);
           }
           continue;
         }
@@ -428,7 +481,7 @@
         // enabled for any other context preference because manipulating the
         // chunks in this way violates assumptions by the context grouper logic.
         if (this.context === -1 && chunk.ab.length > MAX_GROUP_SIZE * 2) {
-          // Split large shared groups in two, where the first is the maximum
+          // Split large shared chunks in two, where the first is the maximum
           // group size.
           newChunks.push({ab: chunk.ab.slice(0, MAX_GROUP_SIZE)});
           newChunks.push({ab: chunk.ab.slice(MAX_GROUP_SIZE)});
@@ -468,7 +521,7 @@
           throw new Error(
             'DiffContent with common=true must always have equal length');
         }
-        const numLines = this._commonSectionLength(chunk);
+        const numLines = this._commonChunkLength(chunk);
         const chunkEnds = this._findChunkEndsAtKeyLocations(
             numLines, leftLineNum, rightLineNum);
         leftLineNum += numLines;
@@ -533,52 +586,42 @@
     },
 
     /**
-     * The `highlights` array consists of a list of <skip length, mark length>
-     * pairs, where the skip length is the number of characters between the
-     * end of the previous edit and the start of this edit, and the mark
-     * length is the number of edited characters following the skip. The start
-     * of the edits is from the beginning of the related diff content lines.
+     * Converts `IntralineInfo`s return by the API to `GrLineHighlights` used
+     * for rendering.
      *
-     * Note that the implied newline character at the end of each line is
-     * included in the length calculation, and thus it is possible for the
-     * edits to span newlines.
-     *
-     * A line highlight object consists of three fields:
-     * - contentIndex: The index of the diffChunk `content` field (the line
-     *   being referred to).
-     * - startIndex: Where the highlight should begin.
-     * - endIndex: (optional) Where the highlight should end. If omitted, the
-     *   highlight is meant to be a continuation onto the next line.
+     * @param {!Array<string>} rows
+     * @param {!Array<!Defs.IntralineInfo>} intralineInfos
+     * @return {!Array<!Object>} (GrDiffLine.Highlight)
      */
-    _normalizeIntralineHighlights(content, highlights) {
-      let contentIndex = 0;
+    _convertIntralineInfos(rows, intralineInfos) {
+      let rowIndex = 0;
       let idx = 0;
       const normalized = [];
-      for (const hl of highlights) {
-        let line = content[contentIndex] + '\n';
+      for (const [skipLength, markLength] of intralineInfos) {
+        let line = rows[rowIndex] + '\n';
         let j = 0;
-        while (j < hl[0]) {
+        while (j < skipLength) {
           if (idx === line.length) {
             idx = 0;
-            line = content[++contentIndex] + '\n';
+            line = rows[++rowIndex] + '\n';
             continue;
           }
           idx++;
           j++;
         }
         let lineHighlight = {
-          contentIndex,
+          contentIndex: rowIndex,
           startIndex: idx,
         };
 
         j = 0;
-        while (line && j < hl[1]) {
+        while (line && j < markLength) {
           if (idx === line.length) {
             idx = 0;
-            line = content[++contentIndex] + '\n';
+            line = rows[++rowIndex] + '\n';
             normalized.push(lineHighlight);
             lineHighlight = {
-              contentIndex,
+              contentIndex: rowIndex,
               startIndex: idx,
             };
             continue;
@@ -594,31 +637,31 @@
 
     /**
      * If a group is an addition or a removal, break it down into smaller groups
-     * of that type using the MAX_GROUP_SIZE. If the group is a shared section
+     * of that type using the MAX_GROUP_SIZE. If the group is a shared chunk
      * or a delta it is returned as the single element of the result array.
-     * @param {!Object} group A raw chunk from a diff response.
+     * @param {!Defs.Chunk} chunk A raw chunk from a diff response.
      * @return {!Array<!Array<!Object>>}
      */
-    _breakdownGroup(group) {
+    _breakdownChunk(chunk) {
       let key = null;
-      if (group.a && !group.b) {
+      if (chunk.a && !chunk.b) {
         key = 'a';
-      } else if (group.b && !group.a) {
+      } else if (chunk.b && !chunk.a) {
         key = 'b';
-      } else if (group.ab) {
+      } else if (chunk.ab) {
         key = 'ab';
       }
 
-      if (!key) { return [group]; }
+      if (!key) { return [chunk]; }
 
-      return this._breakdown(group[key], MAX_GROUP_SIZE)
-          .map(subgroupLines => {
-            const subGroup = {};
-            subGroup[key] = subgroupLines;
-            if (group.due_to_rebase) {
-              subGroup.due_to_rebase = true;
+      return this._breakdown(chunk[key], MAX_GROUP_SIZE)
+          .map(subChunkLines => {
+            const subChunk = {};
+            subChunk[key] = subChunkLines;
+            if (chunk.due_to_rebase) {
+              subChunk.due_to_rebase = true;
             }
-            return subGroup;
+            return subChunk;
           });
     },
 

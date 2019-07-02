@@ -534,7 +534,7 @@ limitations under the License.
           [31, 34], [42, 26],
         ];
 
-        let results = element._normalizeIntralineHighlights(content,
+        let results = element._convertIntralineInfos(content,
             highlights);
         assert.deepEqual(results, [
           {
@@ -575,7 +575,7 @@ limitations under the License.
           [12, 67],
           [14, 29],
         ];
-        results = element._normalizeIntralineHighlights(content, highlights);
+        results = element._convertIntralineInfos(content, highlights);
         assert.deepEqual(results, [
           {
             contentIndex: 0,
@@ -652,14 +652,14 @@ limitations under the License.
           element.context = WHOLE_FILE;
           const state = {
             lineNums: {left: 10, right: 100},
-            sectionIndex: 1,
+            chunkIndex: 1,
           };
-          const sections = [
+          const chunks = [
             {a: ['foo']},
             {ab: rows},
             {a: ['bar']},
           ];
-          const result = element._processNext(state, sections);
+          const result = element._processNext(state, chunks);
 
           // Results in one, uncollapsed group with all rows.
           assert.equal(result.groups.length, 1);
@@ -684,14 +684,14 @@ limitations under the License.
           element.context = 10;
           const state = {
             lineNums: {left: 10, right: 100},
-            sectionIndex: 1,
+            chunkIndex: 1,
           };
-          const sections = [
+          const chunks = [
             {a: ['foo']},
             {ab: rows},
             {a: ['bar']},
           ];
-          const result = element._processNext(state, sections);
+          const result = element._processNext(state, chunks);
           const expectedCollapseSize = rows.length - 2 * element.context;
 
           assert.equal(result.groups.length, 3, 'Results in three groups');
@@ -711,14 +711,14 @@ limitations under the License.
           element.context = 10;
           const state = {
             lineNums: {left: 10, right: 100},
-            sectionIndex: 0,
+            chunkIndex: 0,
           };
-          const sections = [
+          const chunks = [
             {ab: rows},
             {a: ['foo']},
             {a: ['bar']},
           ];
-          const result = element._processNext(state, sections);
+          const result = element._processNext(state, chunks);
           const expectedCollapseSize = rows.length - element.context;
 
           assert.equal(result.groups.length, 2, 'Results in two groups');
@@ -738,14 +738,14 @@ limitations under the License.
           element.context = 10;
           const state = {
             lineNums: {left: 10, right: 100},
-            sectionIndex: 0,
+            chunkIndex: 0,
           };
-          const sections = [
+          const chunks = [
             {ab: rows},
             {a: ['foo']},
             {a: ['bar']},
           ];
-          const result = element._processNext(state, sections);
+          const result = element._processNext(state, chunks);
 
           // Results in one uncollapsed group with all rows.
           assert.equal(result.groups.length, 1, 'Results in one group');
@@ -757,14 +757,14 @@ limitations under the License.
           element.context = 3;
           const state = {
             lineNums: {left: 10, right: 100},
-            sectionIndex: 1,
+            chunkIndex: 1,
           };
-          const sections = [
+          const chunks = [
             {a: ['foo']},
             {ab: rows},
             {a: ['bar']},
           ];
-          const result = element._processNext(state, sections);
+          const result = element._processNext(state, chunks);
 
           // Results in one uncollapsed group with all rows.
           assert.equal(result.groups.length, 1, 'Results in one group');
@@ -773,14 +773,14 @@ limitations under the License.
 
         suite('with key location', () => {
           let state;
-          let sections;
+          let chunks;
 
           setup(() => {
             state = {
               lineNums: {left: 10, right: 100},
             };
             element.context = 10;
-            sections = [
+            chunks = [
               {ab: rows},
               {ab: ['foo'], keyLocation: true},
               {ab: rows},
@@ -788,10 +788,10 @@ limitations under the License.
           });
 
           test('context before', () => {
-            state.sectionIndex = 0;
-            const result = element._processNext(state, sections);
+            state.chunkIndex = 0;
+            const result = element._processNext(state, chunks);
 
-            // The first section is split into two groups:
+            // The first chunk is split into two groups:
             // 1) A context-control, hiding everything but the context before
             //    the key location.
             // 2) The context before the key location.
@@ -805,10 +805,10 @@ limitations under the License.
           });
 
           test('key location itself', () => {
-            state.sectionIndex = 1;
-            const result = element._processNext(state, sections);
+            state.chunkIndex = 1;
+            const result = element._processNext(state, chunks);
 
-            // The second section results in a single group, that is just the
+            // The second chunk results in a single group, that is just the
             // line with the key location
             assert.equal(result.groups.length, 1);
             assert.equal(result.groups[0].lines.length, 1);
@@ -817,10 +817,10 @@ limitations under the License.
           });
 
           test('context after', () => {
-            state.sectionIndex = 2;
-            const result = element._processNext(state, sections);
+            state.chunkIndex = 2;
+            const result = element._processNext(state, chunks);
 
-            // The last section is split into two groups:
+            // The last chunk is split into two groups:
             // 1) The context after the key location.
             // 1) A context-control, hiding everything but the context after the
             //    key location.
@@ -868,19 +868,19 @@ limitations under the License.
       });
 
       suite('_breakdown*', () => {
-        test('_breakdownGroup breaks down additions', () => {
+        test('_breakdownChunk breaks down additions', () => {
           sandbox.spy(element, '_breakdown');
           const chunk = {b: ['blah', 'blah', 'blah']};
-          const result = element._breakdownGroup(chunk);
+          const result = element._breakdownChunk(chunk);
           assert.deepEqual(result, [chunk]);
           assert.isTrue(element._breakdown.called);
         });
 
-        test('_breakdownGroup keeps due_to_rebase for broken down additions',
+        test('_breakdownChunk keeps due_to_rebase for broken down additions',
             () => {
               sandbox.spy(element, '_breakdown');
               const chunk = {b: ['blah', 'blah', 'blah'], due_to_rebase: true};
-              const result = element._breakdownGroup(chunk);
+              const result = element._breakdownChunk(chunk);
               for (const subResult of result) {
                 assert.isTrue(subResult.due_to_rebase);
               }

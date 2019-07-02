@@ -16,6 +16,24 @@
       "revId": "1fd7b8108d9af98b0a0ef4bd106931fd45079842",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c87da6b4_6eab4174",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-02T14:56:48Z",
+      "side": 1,
+      "message": "Yep, coming to you in a future CL.",
+      "parentUuid": "f3df1816_b1a29331",
+      "revId": "1fd7b8108d9af98b0a0ef4bd106931fd45079842",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

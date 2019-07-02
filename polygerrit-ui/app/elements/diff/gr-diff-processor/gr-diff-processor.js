@@ -146,7 +146,7 @@
             };
 
             content = this._splitLargeChunks(content);
-            content = this._splitUnchangedChunksWithKeyLocations(content);
+            content = this._splitCommonChunksWithKeyLocations(content);
 
             let currentBatch = 0;
             const nextStep = () => {
@@ -446,7 +446,7 @@
      * @param {!Array<!Object>} chunks DiffContents as returned from server.
      * @return {!Array<!Object>} Finer grained DiffContents.
      */
-    _splitUnchangedChunksWithKeyLocations(chunks) {
+    _splitCommonChunksWithKeyLocations(chunks) {
       const result = [];
       let leftLineNum = 1;
       let rightLineNum = 1;

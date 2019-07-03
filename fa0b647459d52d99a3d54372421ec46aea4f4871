@@ -22,6 +22,30 @@
       "revId": "fa0b647459d52d99a3d54372421ec46aea4f4871",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2d10c0a_8c6bd0a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-07-03T10:06:06Z",
+      "side": 1,
+      "message": "\u003e Can we make clearer that this is about user errors, not server errors?\n\nIt\u0027s about both: when there was a server error, nothing was logged either :-(\nI\u0027ll make then a follow-up change where I raise the level to warning in case of server errors.",
+      "parentUuid": "7c0c6ea2_c24afe8e",
+      "range": {
+        "startLine": 7,
+        "startChar": 36,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "fa0b647459d52d99a3d54372421ec46aea4f4871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

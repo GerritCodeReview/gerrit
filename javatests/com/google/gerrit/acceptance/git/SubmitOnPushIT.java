@@ -24,8 +24,10 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -356,6 +358,70 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     assertThat(psId1_2.get()).isEqualTo(2);
     assertThat(cd1.patchSet(psId1_1).commitId()).isEqualTo(c1_1);
     assertThat(cd1.patchSet(psId1_2).commitId()).isEqualTo(c1_2);
+  }
+
+  @Test
+  public void submitNoReviewNotifications() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.SUBMIT).ref("refs/for/refs/heads/master").group(adminGroupUuid()))
+        .update();
+
+    TestAccount user = accountCreator.user();
+    String pushSpec = "refs/for/master%reviewer=" + user.email() + ",cc=" + user.email();
+    sender.clear();
+
+    PushOneCommit.Result result = pushTo(pushSpec + ",submit,notify=" + NotifyHandling.NONE);
+    result.assertOkStatus();
+    assertThat(sender.getMessages()).isEmpty();
+
+    sender.clear();
+    result = pushTo(pushSpec + ",submit,notify=" + NotifyHandling.OWNER);
+    result.assertOkStatus();
+    assertThat(sender.getMessages()).isEmpty();
+
+    sender.clear();
+    result = pushTo(pushSpec + ",submit,notify=" + NotifyHandling.OWNER_REVIEWERS);
+    result.assertOkStatus();
+    assertThat(sender.getMessages()).hasSize(2);
+
+    sender.clear();
+    result = pushTo(pushSpec + ",submit,notify=" + NotifyHandling.ALL);
+    result.assertOkStatus();
+    assertThat(sender.getMessages()).hasSize(2);
+  }
+
+  @Test
+  public void submitNoReviewNotificationsToCcBcc() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.SUBMIT).ref("refs/for/refs/heads/master").group(adminGroupUuid()))
+        .update();
+
+    TestAccount user = accountCreator.user();
+    String pushSpec = "refs/for/master%reviewer=" + user.email() + ",cc=" + user.email();g
+
+    TestAccount user2 = accountCreator.user2();
+
+    sender.clear();
+    PushOneCommit.Result result =
+        pushTo(pushSpec + ",submit,notify=" + NotifyHandling.NONE + ",notify-to=" + user2.email());
+    result.assertOkStatus();
+    assertNotifyTo(user2);
+
+    sender.clear();
+    result =
+        pushTo(pushSpec + ",submit,notify=" + NotifyHandling.NONE + ",notify-cc=" + user2.email());
+    result.assertOkStatus();
+    assertNotifyCc(user2);
+
+    sender.clear();
+    result =
+        pushTo(pushSpec + ",submit,notify=" + NotifyHandling.NONE + ",notify-bcc=" + user2.email());
+    result.assertOkStatus();
+    assertNotifyBcc(user2);
   }
 
   private PatchSetApproval getSubmitter(PatchSet.Id patchSetId) throws Exception {

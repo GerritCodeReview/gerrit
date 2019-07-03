@@ -571,31 +571,31 @@
       //
       this.disabled = false;
 
-      if (response.status !== 400) {
-        // This is all restAPI does when there is no custom error handling.
-        this.fire('server-error', {response});
-        return response;
-      }
-
-      // Process the response body, format a better error message, and fire
-      // an event for gr-event-manager to display.
-      const jsonPromise = this.$.restAPI.getResponseObject(response);
+      // Using response.clone() here, because getResponseObject() and
+      // potentially the generic error handler will want to call text() on the
+      // response object, which can only be done once per object.
+      const jsonPromise = this.$.restAPI.getResponseObject(response.clone());
       return jsonPromise.then(result => {
-        const errors = [];
-        for (const state of ['reviewers', 'ccs']) {
-          if (!result.hasOwnProperty(state)) { continue; }
-          for (const reviewer of Object.values(result[state])) {
-            if (reviewer.error) {
-              errors.push(reviewer.error);
+        // Only perform custom error handling for 400s and a parseable
+        // ReviewResult response.
+        if (response.status === 400 && result) {
+          const errors = [];
+          for (const state of ['reviewers', 'ccs']) {
+            if (!result.hasOwnProperty(state)) { continue; }
+            for (const reviewer of Object.values(result[state])) {
+              if (reviewer.error) {
+                errors.push(reviewer.error);
+              }
             }
           }
+          response = {
+            ok: false,
+            status: response.status,
+            text() { return Promise.resolve(errors.join(', ')); },
+          };
         }
-        response = {
-          ok: false,
-          status: response.status,
-          text() { return Promise.resolve(errors.join(', ')); },
-        };
         this.fire('server-error', {response});
+        return null; // Means that the error has been handled.
       });
     },
 

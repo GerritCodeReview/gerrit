@@ -35,6 +35,25 @@ limitations under the License.
 </test-fixture>
 
 <script>
+  function cloneableResponse(status, text) {
+    return {
+      ok: false,
+      status,
+      text() {
+        return Promise.resolve(text);
+      },
+      clone() {
+        return {
+          ok: false,
+          status,
+          text() {
+            return Promise.resolve(text);
+          },
+        }
+      },
+    };
+  }
+
   suite('gr-reply-dialog tests', () => {
     let element;
     let changeNum;
@@ -473,11 +492,7 @@ limitations under the License.
       sandbox.stub(window, 'fetch', () => {
         const text = '....{"reviewers":{"id1":{"error":"first error"}},' +
           '"ccs":{"id2":{"error":"second error"}}}';
-        return Promise.resolve({
-          ok: false,
-          status: 400,
-          text() { return Promise.resolve(text); },
-        });
+        return Promise.resolve(cloneableResponse(400, text));
       });
 
       element.addEventListener('server-error', event => {
@@ -486,6 +501,27 @@ limitations under the License.
         }
         event.detail.response.text().then(body => {
           assert.equal(body, 'first error, second error');
+          done();
+        });
+      });
+
+      // Async tick is needed because iron-selector content is distributed and
+      // distributed content requires an observer to be set up.
+      flush(() => { element.send(); });
+    });
+
+    test('non-json 400 is treated as a normal server-error', done => {
+      sandbox.stub(window, 'fetch', () => {
+        const text = 'Comment validation error!';
+        return Promise.resolve(cloneableResponse(400, text));
+      });
+
+      element.addEventListener('server-error', event => {
+        if (event.target !== element) {
+          return;
+        }
+        event.detail.response.text().then(body => {
+          assert.equal(body, 'Comment validation error!');
           done();
         });
       });
@@ -803,60 +839,50 @@ limitations under the License.
       const error1 = 'error 1';
       const error2 = 'error 2';
       const error3 = 'error 3';
-      const response = {
-        status: 400,
-        text() {
-          return Promise.resolve(')]}\'' + JSON.stringify({
-            reviewers: {
-              username1: {
-                input: 'user 1',
-                error: error1,
-              },
-              username2: {
-                input: 'user 2',
-                error: error2,
-              },
-            },
-            ccs: {
-              username3: {
-                input: 'user 3',
-                error: error3,
-              },
-            },
-          }));
+      const text = ')]}\'' + JSON.stringify({
+        reviewers: {
+          username1: {
+            input: 'user 1',
+            error: error1,
+          },
+          username2: {
+            input: 'user 2',
+            error: error2,
+          },
         },
-      };
+        ccs: {
+          username3: {
+            input: 'user 3',
+            error: error3,
+          },
+        },
+      });
       element.addEventListener('server-error', e => {
         e.detail.response.text().then(text => {
           assert.equal(text, [error1, error2, error3].join(', '));
           done();
         });
       });
-      element._handle400Error(response);
+      element._handle400Error(cloneableResponse(400, text));
     });
 
     test('_handle400Error CCs only', done => {
       const error1 = 'error 1';
-      const response = {
-        status: 400,
-        text() {
-          return Promise.resolve(')]}\'' + JSON.stringify({
-            ccs: {
-              username1: {
-                input: 'user 1',
-                error: error1,
-              },
-            },
-          }));
+      const text = ')]}\'' + JSON.stringify({
+        ccs: {
+          username1: {
+            input: 'user 1',
+            error: error1,
+          },
         },
-      };
+      });
       element.addEventListener('server-error', e => {
         e.detail.response.text().then(text => {
           assert.equal(text, error1);
           done();
         });
       });
-      element._handle400Error(response);
+      element._handle400Error(cloneableResponse(400, text));
     });
 
     test('fires height change when the drafts load', done => {

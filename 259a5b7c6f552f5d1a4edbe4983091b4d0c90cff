@@ -70,6 +70,30 @@
       "revId": "259a5b7c6f552f5d1a4edbe4983091b4d0c90cff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "912010a3_605beb7b",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1446,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-03T00:31:33Z",
+      "side": 1,
+      "message": "\u003e This is a ternary operator as well: why should this be more readable than the above?\n\nI found it confusing to have a statement beginning with an opening brace.  The alternative that I proposed makes it clearer that the ternary is for the initialization of the logger.  Note that in both versions we end up with a logger instance; only in your version it\u0027s implicit rather than explicit.\n\n\u003e Possibly a traditional if/then/else would be more readable?\n\nYes, I think that\u0027s better.",
+      "parentUuid": "8071ea72_32867e49",
+      "range": {
+        "startLine": 1445,
+        "startChar": 4,
+        "endLine": 1446,
+        "endChar": 49
+      },
+      "revId": "259a5b7c6f552f5d1a4edbe4983091b4d0c90cff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

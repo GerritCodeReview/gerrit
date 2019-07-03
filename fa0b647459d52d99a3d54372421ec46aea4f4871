@@ -262,6 +262,30 @@
       "revId": "fa0b647459d52d99a3d54372421ec46aea4f4871",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae89fecb_01ff9508",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-03T11:24:44Z",
+      "side": 1,
+      "message": "If you really need to log the stacks for all 400s as warnings, can you do this as a custom patch that is rolled back once you have understood the issue?",
+      "parentUuid": "e8fc43bd_ea396280",
+      "range": {
+        "startLine": 7,
+        "startChar": 36,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "fa0b647459d52d99a3d54372421ec46aea4f4871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

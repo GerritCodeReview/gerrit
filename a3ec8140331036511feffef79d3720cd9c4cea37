@@ -34,6 +34,24 @@
       "revId": "a3ec8140331036511feffef79d3720cd9c4cea37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fefaf5a7_ffde4a4b",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1448,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-03T08:28:18Z",
+      "side": 1,
+      "message": "My understanding is:\n* For errors (aka 500s) we do log exceptions.\n* For user errors (aka 400s) the response should contain enough information for the user to understand what\u0027s wrong. Admins shouldn\u0027t be bothered with these.\n\n\u003e My use-case is: during traffic hours some REST-API calls to get a temporary 409 but there is no clue in the logs what\u0027s going on. How would you approach the problem?\n\nAsk a user to reproduce this with tracing [1].\n\n[1] https://gerrit-review.googlesource.com/Documentation/user-request-tracing.html",
+      "parentUuid": "6c8abb55_c6ff4333",
+      "revId": "a3ec8140331036511feffef79d3720cd9c4cea37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -286,6 +286,30 @@
       "revId": "fa0b647459d52d99a3d54372421ec46aea4f4871",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92dcd6e2_ca5162b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-07-03T11:30:31Z",
+      "side": 1,
+      "message": "\u003e For this concrete case I would do:\n\u003e change the code to log the stacktrace on fine level\n\nThat wouldn\u0027t work because we just swallow the exception and you won\u0027t have any stacktrace in the logs.\n\n\u003e set the logging for this class temporarily to FINE, e.g. at the moment when you see this happening, or for an hour where the issue is likely to happen\n\nYou would need *a lot* of disk space though because the issue happens randomly during the week, that means for 7 days x 20M \u003d 140M calls.\n\n\u003e If you really need to log the stacks for all 400s as warnings\n\nNot the purpose of this change, we still log them as FINER at the moment.\n\n\u003e can you do this as a custom patch that is rolled back once you have understood the issue?\n\nOf course, I can fork :-) but I typically think about that other people may have the same problem and may benefit from my work. That\u0027s the karma and business model of our Company and that\u0027s why we share everything for discussion and review.\n\nHowever, the scope of this change is just to log the exception without changing it to WARN.",
+      "parentUuid": "ae89fecb_01ff9508",
+      "range": {
+        "startLine": 7,
+        "startChar": 36,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "fa0b647459d52d99a3d54372421ec46aea4f4871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

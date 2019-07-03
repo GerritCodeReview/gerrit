@@ -46,6 +46,30 @@
       "revId": "259a5b7c6f552f5d1a4edbe4983091b4d0c90cff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8071ea72_32867e49",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1446,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-07-03T00:13:34Z",
+      "side": 1,
+      "message": "Possibly a traditional if/then/else would be more readable?\n\n   if(err \u003d\u003d null) {\n     logger.atFinest().log(..)\n   } else {\n     logger.atWarning().withCause(err).log(...)\n   }\n\n@David WDYT?",
+      "parentUuid": "fcc740aa_f6445c4c",
+      "range": {
+        "startLine": 1445,
+        "startChar": 4,
+        "endLine": 1446,
+        "endChar": 49
+      },
+      "revId": "259a5b7c6f552f5d1a4edbe4983091b4d0c90cff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

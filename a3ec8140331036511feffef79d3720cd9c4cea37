@@ -124,6 +124,24 @@
       "revId": "a3ec8140331036511feffef79d3720cd9c4cea37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d628d297_51e05b0b",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1448,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-07-03T09:32:55Z",
+      "side": 1,
+      "message": "\u003e \u003e Returning 500 instead of 409 is an interface change though, which I\u0027m not so confortable doing\n\u003e \u003e in a stable release.\n\u003e \u003e\n\u003e \u003e WDYT?\n\u003e \n\u003e We don\u0027t need to fix this on the stable branch, but can do it in master.\n\u003e It also depends on what\u0027s the cause here. If the 409 is justified, we should improve its error message. If the 409 is the wrong response code, it\u0027s a bug that should be fixed. This should be discussed once the problem is understood.\n\nI\u0027ll post a follow-up change where the warning level from finer is set to warn if the status code is a 5xx.\n\nFor the 40x, agreed to be fixed on master, not on stable-2.16.",
+      "parentUuid": "5134f083_c8280acc",
+      "revId": "a3ec8140331036511feffef79d3720cd9c4cea37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -258,6 +258,53 @@
       "revId": "3e226ebbbf1daaeb3dbd512dfec4daaeb850c914",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d63d7c5e_67e4a276",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-07-03T13:17:27Z",
+      "side": 1,
+      "message": "the test state is reset for each test method, so the value should stay fixed. I think we test it anywhere else, so it wouldn\u0027t hurt.\n\nCan you fold this and next method together? They appear to be cut \u0026 pasted, so you could just do \n\n assertThat(change.insertions).isNull();\n assertThat(change.deletions).isNull();\n\n(you had that in an earlier PS, apologies if I overlooked some other reviewers\u0027 request to change)",
+      "parentUuid": "a6109172_18d86949",
+      "range": {
+        "startLine": 276,
+        "startChar": 34,
+        "endLine": 276,
+        "endChar": 43
+      },
+      "revId": "3e226ebbbf1daaeb3dbd512dfec4daaeb850c914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c739665b_b3f0ec3f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-07-03T13:17:27Z",
+      "side": 1,
+      "message": "Can you import this directly, so you say\n\n  assertThat(xx) \n\nhere?",
+      "range": {
+        "startLine": 304,
+        "startChar": 4,
+        "endLine": 304,
+        "endChar": 32
+      },
+      "revId": "3e226ebbbf1daaeb3dbd512dfec4daaeb850c914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

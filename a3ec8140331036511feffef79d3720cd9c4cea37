@@ -70,6 +70,24 @@
       "revId": "a3ec8140331036511feffef79d3720cd9c4cea37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e704ad7a_571c9223",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1448,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-03T08:41:44Z",
+      "side": 1,
+      "message": "\u003e I already thought about that option, which isn\u0027t feasible for two reasons:\n\u003e\n\u003e a) The problem happens randomly during peak hours and to random users across thousands across the \n\u003e globe\n\nThen just set the log level for this class temporarily to FINE/DEBUG in your log config?\n\n\u003e b) If the exception is swallowed and not traced with Flogger, there is no way to have it traced in \n\u003e log even with [1]\n\nI\u0027m fine with logging it on FINE level (but not as WARNING).\n\n\u003e We need to detect the \"unexpected\" errors (not permission denied) and trace the relevant\n\u003e exception automatically, without human intervention or adding any trace header.\n\nAll 400s are *expected* errors, if something is *unexpected* it should be a 500. Once you found out what it is, you can either improve the error message that is returned with the 409 or make it a 500 if it\u0027s something unexpected.",
+      "parentUuid": "7903ac75_8b335777",
+      "revId": "a3ec8140331036511feffef79d3720cd9c4cea37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5788fc7_1107a2c9",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1448,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-03T07:24:38Z",
+      "side": 1,
+      "message": "Does this mean we get an exceptions logged also for non-errors, such as a user trying to call a REST endpoint with insufficient permissions? I\u0027m concerned that this spams the log too much.",
+      "revId": "a3ec8140331036511feffef79d3720cd9c4cea37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

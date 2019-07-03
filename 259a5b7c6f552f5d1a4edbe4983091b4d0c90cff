@@ -22,6 +22,30 @@
       "revId": "259a5b7c6f552f5d1a4edbe4983091b4d0c90cff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcc740aa_f6445c4c",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1446,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-07-03T00:02:41Z",
+      "side": 1,
+      "message": "\u003e I find this usage of the ternary operator a bit difficult to read.  How about doing something like:\n\u003e \n\u003e  Logger l \u003d err \u003d\u003d null ? logger.atFinest() : logger.atWarning().withCause(err);\n\nThis is a ternary operator as well: why should this be more readable than the above?\n\n\u003e  l.log(\"REST call failed: %d\", statusCode);\n\nNo need to use the Logger l variable, as it is used only once.",
+      "parentUuid": "532a8a13_5a380d96",
+      "range": {
+        "startLine": 1445,
+        "startChar": 4,
+        "endLine": 1446,
+        "endChar": 49
+      },
+      "revId": "259a5b7c6f552f5d1a4edbe4983091b4d0c90cff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

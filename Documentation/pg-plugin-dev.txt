@@ -30,13 +30,15 @@ Here's a recommended starter `myplugin.html`:
 
 ``` html
 <dom-module id="my-plugin">
-  <script>
-    Gerrit.install(plugin => {
-      'use strict';
+  <template>
+    <script>
+      Gerrit.install(plugin => {
+        'use strict';
 
-      // Your code here.
-    });
-  </script>
+        // Your code here.
+      });
+    </script>
+  </template>
 </dom-module>
 ```
 

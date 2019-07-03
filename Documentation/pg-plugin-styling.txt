@@ -23,13 +23,15 @@ Plugins should provide Style Module, for example:
 
 ``` html
   <dom-module id="some-style">
-    <style>
-      :root {
-        --css-mixin-name: {
-          property: value;
+    <template>
+      <style>
+        :root {
+          --css-mixin-name: {
+            property: value;
+          }
         }
-      }
-    </style>
+      </style>
+    </template>
   </dom-module>
 ```
 

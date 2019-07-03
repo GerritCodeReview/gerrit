@@ -70,6 +70,30 @@
       "revId": "fa0b647459d52d99a3d54372421ec46aea4f4871",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d704b225_668925ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-07-03T10:16:30Z",
+      "side": 1,
+      "message": "On [1] at the same corresponding line I see:\n\n  logger.atFinest().log(\"REST call failed: %d\", statusCode);\n\nLooks like the error is there on master also: we don\u0027t trace the exception.",
+      "parentUuid": "7511ddde_1bc78caa",
+      "range": {
+        "startLine": 7,
+        "startChar": 36,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "fa0b647459d52d99a3d54372421ec46aea4f4871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

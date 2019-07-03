@@ -52,6 +52,24 @@
       "revId": "a3ec8140331036511feffef79d3720cd9c4cea37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7903ac75_8b335777",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1448,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-07-03T08:34:39Z",
+      "side": 1,
+      "message": "\u003e My understanding is:\n\u003e * For errors (aka 500s) we do log exceptions.\n\u003e * For user errors (aka 400s) the response should contain enough information for the user to understand what\u0027s wrong. Admins shouldn\u0027t be bothered with these.\n\u003e \n\u003e \u003e My use-case is: during traffic hours some REST-API calls to get a temporary 409 but there is no clue in the logs what\u0027s going on. How would you approach the problem?\n\u003e \n\u003e Ask a user to reproduce this with tracing [1].\n\u003e \n\u003e [1] https://gerrit-review.googlesource.com/Documentation/user-request-tracing.html\n\nI already thought about that option, which isn\u0027t feasible for two reasons:\n\na) The problem happens randomly during peak hours and to random users across thousands across the globe\nb) If the exception is swallowed and not traced with Flogger, there is no way to have it traced in log even with [1]\n\nWe need to detect the \"unexpected\" errors (not permission denied) and trace the relevant exception automatically, without human intervention or adding any trace header.",
+      "parentUuid": "fefaf5a7_ffde4a4b",
+      "revId": "a3ec8140331036511feffef79d3720cd9c4cea37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.git.receive;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
@@ -195,7 +194,6 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -576,23 +574,17 @@ class ReceiveCommits {
     logger.atFine().log("Parsing %d commands", commands.size());
 
     List<ReceiveCommand> magicCommands = new ArrayList<>();
-    List<ReceiveCommand> directPatchSetPushCommands = new ArrayList<>();
     List<ReceiveCommand> regularCommands = new ArrayList<>();
 
     for (ReceiveCommand cmd : commands) {
       if (MagicBranch.isMagicBranch(cmd.getRefName())) {
         magicCommands.add(cmd);
-      } else if (isDirectChangesPush(cmd.getRefName())) {
-        directPatchSetPushCommands.add(cmd);
       } else {
         regularCommands.add(cmd);
       }
     }
 
-    int commandTypes =
-        (magicCommands.isEmpty() ? 0 : 1)
-            + (directPatchSetPushCommands.isEmpty() ? 0 : 1)
-            + (regularCommands.isEmpty() ? 0 : 1);
+    int commandTypes = (magicCommands.isEmpty() ? 0 : 1) + (regularCommands.isEmpty() ? 0 : 1);
 
     if (commandTypes > 1) {
       rejectRemaining(commands, "cannot combine normal pushes and magic pushes");
@@ -604,8 +596,6 @@ class ReceiveCommits {
         handleRegularCommands(regularCommands, progress);
         return;
       }
-
-      parseDirectChangesPushCommands(directPatchSetPushCommands);
 
       boolean first = true;
       for (ReceiveCommand cmd : magicCommands) {
@@ -981,37 +971,6 @@ class ReceiveCommits {
       tracePushOption = Optional.of(Iterables.getLast(traceValues));
     } else {
       tracePushOption = Optional.empty();
-    }
-  }
-
-  private static boolean isDirectChangesPush(String refname) {
-    Matcher m = NEW_PATCHSET_PATTERN.matcher(refname);
-    return m.matches();
-  }
-
-  private void parseDirectChangesPushCommands(List<ReceiveCommand> cmds) {
-    try (TraceTimer traceTimer =
-        newTimer("parseDirectChangesPushCommands", "commandCount", cmds.size())) {
-      for (ReceiveCommand cmd : cmds) {
-        parseDirectChangesPush(cmd);
-      }
-    }
-  }
-
-  private void parseDirectChangesPush(ReceiveCommand cmd) {
-    if (allowPushToRefsChanges) {
-      try (TraceTimer traceTimer = newTimer("parseDirectChangesPush")) {
-        Matcher m = NEW_PATCHSET_PATTERN.matcher(cmd.getRefName());
-        checkArgument(m.matches());
-
-        // The referenced change must exist and must still be open.
-        Change.Id changeId = Change.Id.parse(m.group(1));
-        parseReplaceCommand(cmd, changeId);
-        messages.add(
-            new ValidationMessage("warning: pushes to refs/changes are deprecated", false));
-      }
-    } else {
-      reject(cmd, "upload to refs/changes not allowed");
     }
   }
 

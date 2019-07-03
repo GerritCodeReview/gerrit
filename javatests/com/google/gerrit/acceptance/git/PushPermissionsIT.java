@@ -97,17 +97,6 @@ public class PushPermissionsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void mixingDirectChangesAndRegularPush() throws Exception {
-    testRepo.branch("HEAD").commit().create();
-    PushResult r = push("HEAD:refs/heads/master", "HEAD:refs/changes/01/101");
-
-    String msg = "cannot combine normal pushes and magic pushes";
-    assertThat(r.getRemoteUpdate("refs/heads/master")).isNotEqualTo(Status.OK);
-    assertThat(r.getRemoteUpdate("refs/changes/01/101")).isNotEqualTo(Status.OK);
-    assertThat(r.getRemoteUpdate("refs/heads/master").getMessage()).isEqualTo(msg);
-  }
-
-  @Test
   public void fastForwardUpdateDenied() throws Exception {
     testRepo.branch("HEAD").commit().create();
     PushResult r = push("HEAD:refs/heads/master");

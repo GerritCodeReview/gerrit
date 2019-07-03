@@ -118,6 +118,30 @@
       "revId": "fa0b647459d52d99a3d54372421ec46aea4f4871",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "118ca2aa_d88e9b4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-07-03T10:25:54Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not following, handleExceptions already logs the exception for 500s, why would it need to be logged here again if it\u0027s a 500?\n\nBecause not all internal errors are resulting in a 5xx and by swallowing what caused the non-5xx error you would never realize what\u0027s going on and fixing it.",
+      "parentUuid": "92b010ef_bd7c94cd",
+      "range": {
+        "startLine": 7,
+        "startChar": 36,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "fa0b647459d52d99a3d54372421ec46aea4f4871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

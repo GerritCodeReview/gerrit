@@ -292,6 +292,16 @@ Tasks:
 * watch out for community issues and address them proactively
 * serve as contact person for community issues
 
+Community members may submit new items under the
+link:https://bugs.chromium.org/p/gerrit/issues/list?q=component:Community[Community component]
+backlog, for community managers to refine. Only public topics should be
+issued through that backlog.
+
+Sensitive topics are to be privately discussed using
+mailto:gerritcodereview-community-managers@googlegroups.com[this mailing list].
+This is a group that remains private between the individual community
+member and community managers.
+
 The community managers should be a pair or trio that shares the work:
 
 * One Googler that is appointed by Google.

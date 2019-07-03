@@ -16,6 +16,24 @@
       "revId": "b1b48c2f79e8438796646fd63f082bebf6b196d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1329d870_fb983ca6",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-07-03T12:16:37Z",
+      "side": 1,
+      "message": "Ok, after Nicolas suggestion for using timeEnd for App Started as well  I think we don\u0027t need separate function",
+      "parentUuid": "139ee496_3537944b",
+      "revId": "b1b48c2f79e8438796646fd63f082bebf6b196d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

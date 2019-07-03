@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "66d70701_2974a872",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-07-03T12:16:37Z",
+      "side": 1,
+      "message": "Nice catch, yes, it works.",
+      "parentUuid": "5938754c_77b18b76",
+      "range": {
+        "startLine": 238,
+        "startChar": 6,
+        "endLine": 238,
+        "endChar": 53
+      },
+      "revId": "cff922e166e273da821684f36b5c1a75256f391e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14c87c77_ca2f9e99",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2019-07-02T13:49:30Z",
       "side": 1,
       "message": "I guess we wouldn\u0027t be able to detect \"overlapping\" start/end calls if this happened, would we?",
+      "range": {
+        "startLine": 338,
+        "startChar": 6,
+        "endLine": 338,
+        "endChar": 47
+      },
+      "revId": "cff922e166e273da821684f36b5c1a75256f391e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "769d7516_a1f4b97b",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-07-03T12:16:37Z",
+      "side": 1,
+      "message": "I don\u0027t understand what you mean. Can you clarify your question, pls?",
+      "parentUuid": "14c87c77_ca2f9e99",
       "range": {
         "startLine": 338,
         "startChar": 6,
@@ -68,6 +116,30 @@
       "revId": "cff922e166e273da821684f36b5c1a75256f391e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d6e8c55_27602e00",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-07-03T12:16:37Z",
+      "side": 1,
+      "message": "Added. Thx",
+      "parentUuid": "ed6a4698_0d92edca",
+      "range": {
+        "startLine": 349,
+        "startChar": 6,
+        "endLine": 349,
+        "endChar": 85
+      },
+      "revId": "cff922e166e273da821684f36b5c1a75256f391e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "a6f36273a88cb4d32712f2f1be9b90bb40c7dbfe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6633ce66_2ac065cf",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1446,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-07-03T00:12:06Z",
+      "side": 1,
+      "message": "\u003e I think it is always useful to surface the API error, so why not always logging at warning? i.e:\n\u003e \n\u003e logger.atWarning().withCause(err).log(\"REST call failed: %d\", statusCode);\n\u003e \n\u003e Flogger’s API accepts “no-op” parameters, hence you don\u0027t need to care about checking if \"err\" is null.\n\nYes, but we don\u0027t want to SPAM the Gerrit error_log with all the REST-API that are not returning a 20x status code.\n\nThe point here is to surface only the ones that are failing because of a Gerrit exception, rather than a normal cause.",
+      "parentUuid": "f2a37c44_bf7ca00f",
+      "range": {
+        "startLine": 1445,
+        "startChar": 4,
+        "endLine": 1446,
+        "endChar": 49
+      },
+      "revId": "a6f36273a88cb4d32712f2f1be9b90bb40c7dbfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -88,6 +88,24 @@
       "revId": "a3ec8140331036511feffef79d3720cd9c4cea37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44615385_ef99b169",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1448,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-07-03T08:45:27Z",
+      "side": 1,
+      "message": "\u003e \u003e I already thought about that option, which isn\u0027t feasible for two reasons:\n\u003e \u003e\n\u003e \u003e a) The problem happens randomly during peak hours and to random users across thousands across the \n\u003e \u003e globe\n\u003e \n\u003e Then just set the log level for this class temporarily to FINE/DEBUG in your log config?\n\nThat wouldn\u0027t work either because the exception is swallowed and not traced.\nThis class serves *ALL* the REST-API activity, if I enabled at FINE level the production would just go down and I\u0027ll fill up the disk space in minutes.\n\nGenerally speaking, we should never swallow exceptions unless they are *really* managed in the code.\n\n\u003e \u003e b) If the exception is swallowed and not traced with Flogger, there is no way to have it traced in \n\u003e \u003e log even with [1]\n\u003e \n\u003e I\u0027m fine with logging it on FINE level (but not as WARNING).\n\nOK, will start with that change first.\n\n\u003e \u003e We need to detect the \"unexpected\" errors (not permission denied) and trace the relevant\n\u003e \u003e exception automatically, without human intervention or adding any trace header.\n\u003e \n\u003e All 400s are *expected* errors, if something is *unexpected* it should be a 500. Once you found out what it is, you can either improve the error message that is returned with the 409 or make it a 500 if it\u0027s something unexpected.\n\nReturning 500 instead of 409 is an interface change though, which I\u0027m not so confortable doing in a stable release.\n\nWDYT?",
+      "parentUuid": "e704ad7a_571c9223",
+      "revId": "a3ec8140331036511feffef79d3720cd9c4cea37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

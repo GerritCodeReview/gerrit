@@ -16,6 +16,24 @@
       "revId": "a3ec8140331036511feffef79d3720cd9c4cea37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c8abb55_c6ff4333",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1448,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-07-03T08:19:31Z",
+      "side": 1,
+      "message": "True, but that\u0027s the tricky thing: how can you make sure that the Gerrit admins can troubleshoot problems if we swallow the exception?\n\nMy use-case is: during traffic hours some REST-API calls to get a temporary 409 but there is no clue in the logs what\u0027s going on. How would you approach the problem?",
+      "parentUuid": "a5788fc7_1107a2c9",
+      "revId": "a3ec8140331036511feffef79d3720cd9c4cea37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

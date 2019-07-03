@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2a37c44_bf7ca00f",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1446,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-07-03T00:08:57Z",
+      "side": 1,
+      "message": "I think it is always useful to surface the API error, so why not always logging at warning? i.e:\n\nlogger.atWarning().withCause(err).log(\"REST call failed: %d\", statusCode);\n\nFlogger’s API accepts “no-op” parameters, hence you don\u0027t need to care about checking if \"err\" is null.",
+      "range": {
+        "startLine": 1445,
+        "startChar": 4,
+        "endLine": 1446,
+        "endChar": 49
+      },
+      "revId": "a6f36273a88cb4d32712f2f1be9b90bb40c7dbfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

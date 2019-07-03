@@ -166,6 +166,30 @@
       "revId": "fa0b647459d52d99a3d54372421ec46aea4f4871",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "232af81f_f473ec6f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-07-03T11:04:23Z",
+      "side": 1,
+      "message": "\u003e Internal server error \u003d 500\n\u003e 400s mean that the server behaved correctly, but the user request couldn\u0027t be fulfilled due to some preconditions or user errors. It\u0027s intended to not log stacktraces in this case.\n\nYes, however, if you get random 4xx because there is an error in Gerrit that you need to investigate and, eventually, fix to make it a 5xx ... you need to know what\u0027s going on and *thus* you need to know what was the exception that caused the (unexpected) 4xx, correct?\n\nIf we just swallow completely the exception, we will never have any way to understand or troubleshoot what\u0027s going on.\n\nExample: user X call the same API 100 times, 2% of the times he gets a 4xx without any clue on why that happened.\n\nHope the (real-life) use case of the change makes sense.",
+      "parentUuid": "8bdd838e_60f9419c",
+      "range": {
+        "startLine": 7,
+        "startChar": 36,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "fa0b647459d52d99a3d54372421ec46aea4f4871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

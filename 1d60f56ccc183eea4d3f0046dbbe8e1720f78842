@@ -70,6 +70,30 @@
       "revId": "1d60f56ccc183eea4d3f0046dbbe8e1720f78842",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35595891_8a871db4",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-07-03T12:55:27Z",
+      "side": 1,
+      "message": "Thanks for the PR. -Subscribed to it, not sure if I can do anything more(?)",
+      "parentUuid": "0e20ede4_421b149f",
+      "range": {
+        "startLine": 58,
+        "startChar": 16,
+        "endLine": 58,
+        "endChar": 45
+      },
+      "revId": "1d60f56ccc183eea4d3f0046dbbe8e1720f78842",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

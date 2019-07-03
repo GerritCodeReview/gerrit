@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d32e60e3_e78dabff",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-07-03T12:28:34Z",
+      "side": 1,
+      "message": "I am not what this change was for.\n\nI have submitted https://gerrit-review.googlesource.com/c/gerrit/+/230063 instead with just the change above.",
+      "revId": "f8d6b64f1fb355bd6846b74ca00fc316c7a3b350",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

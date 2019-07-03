@@ -190,6 +190,30 @@
       "revId": "fa0b647459d52d99a3d54372421ec46aea4f4871",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acca0b74_062556cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-03T11:14:34Z",
+      "side": 1,
+      "message": "\u003e Yes, however, if you get random 4xx because there is an error in Gerrit that you need\n\u003e to investigate and, eventually, fix to make it a 5xx ... you need to know what\u0027s going on\n\u003e and *thus* you need to know what was the exception that caused the (unexpected) 4xx, correct?\n\nFor me this is no different than any other bug that we might have. You can use tracing, debugging and increasing of log levels and so on to understand it. In my opinion it is wrong to permanently log stacks for all 400s, just to catch one bug such a bug. This means 99.9% of the logs are false positives and just spam the log. With the same reason you could switch one tracing for all requests, saying that we need to have them just in case one of them fails due to a bug.\n\n\u003e Example: user X call the same API 100 times, 2% of the times he gets a 4xx without any\n\u003e clue on why that happened.\n\nTracing 100 requests for this seems totally feasible.\n\nWe could also implement advanced tracing, e.g. allow to configure a set of users for which requests should be always traced. I had plans about this, but don\u0027t have time to implement them.",
+      "parentUuid": "232af81f_f473ec6f",
+      "range": {
+        "startLine": 7,
+        "startChar": 36,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "fa0b647459d52d99a3d54372421ec46aea4f4871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

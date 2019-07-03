@@ -334,6 +334,30 @@
       "revId": "fa0b647459d52d99a3d54372421ec46aea4f4871",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85a5070d_4216c1ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-07-03T11:47:28Z",
+      "side": 1,
+      "message": "\u003e \u003e\u003e For this concrete case I would do:\n\u003e \u003e\u003e change the code to log the stacktrace on fine level\n\u003e \u003e\n\u003e \u003e That wouldn\u0027t work because we just swallow the exception and you won\u0027t have any stacktrace\n\u003e \u003e in the logs.\n\u003e \n\u003e I don\u0027t understand. Isn\u0027t this exactly what PS7 of this change implements? Why is it not possible?\n\nYes, with *this* change it is possible, but *without it* it isn\u0027t :-)\nThat\u0027s why we are discussing the usefulness of this change after all.\n\n\u003e \n\u003e \u003e You would need *a lot* of disk space though because the issue happens randomly during the\n\u003e \u003e week, that means for 7 days x 20M \u003d 140M calls.\n\u003e \n\u003e ...and we would also need a lot of log space for logging unneeded stacktraces for 4XXs, if you turn this on permanently.\n\nSure, that\u0027s why the follow-up change I am planning to upload will have to be \"clever\" to trace only when there is a real clue that the exception isn\u0027t a generic \"permission denied\".\n\n\u003e What about this:\n\u003e Log the stacktrace on INFO level and then set your log level for this class to INFO?\n\u003e Then you get the logs you want and it doesn\u0027t effect everyone else.\n\nINFO sounds good to me. However, I\u0027d do in a follow-up change, the scope of this is just to include also the stack-trace.",
+      "parentUuid": "64404ed0_e8de8899",
+      "range": {
+        "startLine": 7,
+        "startChar": 36,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "fa0b647459d52d99a3d54372421ec46aea4f4871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -470,69 +470,6 @@ manual mapping technique described below.
 
 For more about Change-Ids, see link:user-changeid.html[Change-Id Lines].
 
-[[manual_replacement_mapping]]
-==== Manual Replacement Mapping
-
-[NOTE]
---
-The remainder of this section describes a manual method of replacing
-changes by matching each commit name to an existing change number.
-End-users should instead prefer to use Change-Id lines in their
-commit messages, as the process is then fully automated by Gerrit
-during normal uploads.
-
-See above for the preferred technique of replacing changes.
-
-Pushing directly to `refs/changes/` is deprecated. If you see the error
-message 'upload to refs/changes not allowed', it means that pushing directly
-to `refs/changes` is disabled on the Gerrit server and the below section does
-not apply to you.
---
-
-To add an additional patch set to a change, replacing it with an
-updated version of the same logical modification, send the new
-commit to the change's ref.  For example, to add the commit whose
-SHA-1 starts with `c0ffee` as a new patch set for change number
-`1979`, use the push refspec `c0ffee:refs/changes/1979` as below:
-
-----
-  git push ssh://sshusername@hostname:29418/projectname c0ffee:refs/changes/1979
-----
-
-This form can be combined together with `refs/for/'branchname'`
-(above) to simultaneously create new changes and replace changes
-during one network transaction.
-
-For example, consider the following sequence of events:
-
-----
-  $ git commit -m A                    ; # create 3 commits
-  $ git commit -m B
-  $ git commit -m C
-
-  $ git push ... HEAD:refs/for/master  ; # upload for review
-  ... A is 1500 ...
-  ... B is 1501 ...
-  ... C is 1502 ...
-
-  $ git rebase -i HEAD~3               ; # edit "A", insert D before B
-                                       ; # now series is A'-D-B'-C'
-  $ git push ...
-      HEAD:refs/for/master
-      HEAD~3:refs/changes/1500
-      HEAD~1:refs/changes/1501
-      HEAD~0:refs/changes/1502         ; # upload replacements
-----
-
-At the final step during the push Gerrit will attach A' as a new
-patch set on change 1500; B' as a new patch set on change 1501; C'
-as a new patch set on 1502; and D will be created as a new change.
-
-Ensuring D is created as a new change requires passing the refspec
-`HEAD:refs/for/branchname`, otherwise Gerrit will ignore D and
-won't do anything with it.  For this reason it is a good idea to
-always include the create change refspec when uploading replacements.
-
 
 [[bypass_review]]
 === Bypass Review

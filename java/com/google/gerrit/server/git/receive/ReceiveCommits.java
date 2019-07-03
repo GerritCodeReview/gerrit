@@ -2249,6 +2249,7 @@ class ReceiveCommits {
           tipChange.getId(), magicBranch.cmd.getNewId());
       try (MergeOp op = mergeOpProvider.get()) {
         SubmitInput submitInput = new SubmitInput();
+        submitInput.notify = magicBranch.notifyHandling;
         op.merge(tipChange, user, false, submitInput, false);
       }
     }

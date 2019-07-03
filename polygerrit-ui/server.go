@@ -74,6 +74,7 @@ func main() {
 	http.HandleFunc("/accounts/", handleProxy)
 	http.HandleFunc("/config/", handleProxy)
 	http.HandleFunc("/projects/", handleProxy)
+	http.HandleFunc("/static/", handleProxy)
 	http.HandleFunc("/accounts/self/detail", handleAccountDetail)
 
 	if len(*plugins) > 0 {
@@ -103,6 +104,7 @@ func handleIndex(writer http.ResponseWriter, originalRequest *http.Request) {
 	fakeRequest := &http.Request{
 		URL: &url.URL{
 			Path: "/",
+			RawQuery: originalRequest.URL.RawQuery,
 		},
 	}
 	handleProxy(writer, fakeRequest)

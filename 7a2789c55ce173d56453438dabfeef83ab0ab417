@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8133d383_5335c957",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-07-04T12:18:23Z",
+      "side": 1,
+      "message": "nits: it looks strange to start sentence with\"e.g.\" - also, the scenario only speeds up things if the frontend actually does this.\n\nHow about\n\n\"This enables the change screen to be loaded without waiting for diffstats, yielding a speed up if the diff computation is slow.\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 2,
+        "endLine": 9,
+        "endChar": 3
+      },
+      "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

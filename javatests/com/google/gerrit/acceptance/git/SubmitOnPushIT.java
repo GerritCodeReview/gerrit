@@ -28,6 +28,9 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.mail.Address;
+import com.google.gerrit.mail.EmailHeader;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -36,6 +39,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
@@ -360,8 +364,46 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     assertThat(cd1.patchSet(psId1_2).commitId()).isEqualTo(c1_2);
   }
 
+  /**
+   * Makes sure that two emails are sent: one for the push, and one of the submit.
+   *
+   * @param expected The account expected to receive message.
+   * @param receiverType The account's type: To/Cc/Bcc.
+   */
+  private void assertChangeAndSubmitWithNotify(TestAccount expected, RecipientType receiverType) {
+    assertChangeAndSubmitWithNotify(expected.email(), expected.fullName(), receiverType);
+  }
+
+  private void assertChangeAndSubmitWithNotify(
+      String expectedEmail, String expectedFullname, RecipientType receiverType) {
+    Address expectedAddress = new Address(expectedFullname, expectedEmail);
+    assertThat(sender.getMessages()).hasSize(2);
+    Message message = sender.getMessages().get(0);
+    assertThat(message.body().contains("review")).isTrue();
+    checkAddress(message, expectedAddress, receiverType);
+    message = sender.getMessages().get(1);
+    assertThat(message.rcpt()).containsExactly(expectedAddress);
+    checkAddress(message, expectedAddress, receiverType);
+    assertThat(message.body().contains("submitted")).isTrue();
+  }
+
+  private void checkAddress(Message message, Address expectedAddress, RecipientType receiverType) {
+    assertThat(message.rcpt()).containsExactly(expectedAddress);
+    if (receiverType != null
+        && receiverType != RecipientType.BCC) { // When Bcc, it does not appear in the header.
+      String receiverTypeString = "To";
+      if (receiverType == RecipientType.CC) {
+        receiverTypeString = "Cc";
+      }
+      assertThat(
+              ((EmailHeader.AddressList) message.headers().get(receiverTypeString))
+                  .getAddressList())
+          .containsExactly(expectedAddress);
+    }
+  }
+
   @Test
-  public void submitNoReviewNotifications() throws Exception {
+  public void changeAndSubmitWithNotifyOption() throws Exception {
     projectOperations
         .project(project)
         .forUpdate()
@@ -369,7 +411,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
         .update();
 
     TestAccount user = accountCreator.user();
-    String pushSpec = "refs/for/master%reviewer=" + user.email() + ",cc=" + user.email();
+    String pushSpec = "refs/for/master%reviewer=" + user.email();
     sender.clear();
 
     PushOneCommit.Result result = pushTo(pushSpec + ",submit,notify=" + NotifyHandling.NONE);
@@ -384,16 +426,21 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     sender.clear();
     result = pushTo(pushSpec + ",submit,notify=" + NotifyHandling.OWNER_REVIEWERS);
     result.assertOkStatus();
-    assertThat(sender.getMessages()).hasSize(2);
+    assertChangeAndSubmitWithNotify(user, null);
 
     sender.clear();
     result = pushTo(pushSpec + ",submit,notify=" + NotifyHandling.ALL);
     result.assertOkStatus();
-    assertThat(sender.getMessages()).hasSize(2);
+    assertChangeAndSubmitWithNotify(user, null);
+
+    sender.clear();
+    result = pushTo(pushSpec + ",submit"); // default is notify = ALL
+    result.assertOkStatus();
+    assertChangeAndSubmitWithNotify(user, null);
   }
 
   @Test
-  public void submitNoReviewNotificationsToCcBcc() throws Exception {
+  public void changeAndSubmitWithNotifyingUsersExplicitly() throws Exception {
     projectOperations
         .project(project)
         .forUpdate()
@@ -409,19 +456,19 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     PushOneCommit.Result result =
         pushTo(pushSpec + ",submit,notify=" + NotifyHandling.NONE + ",notify-to=" + user2.email());
     result.assertOkStatus();
-    assertNotifyTo(user2);
+    assertChangeAndSubmitWithNotify(user2, RecipientType.TO);
 
     sender.clear();
     result =
         pushTo(pushSpec + ",submit,notify=" + NotifyHandling.NONE + ",notify-cc=" + user2.email());
     result.assertOkStatus();
-    assertNotifyCc(user2);
+    assertChangeAndSubmitWithNotify(user2, RecipientType.CC);
 
     sender.clear();
     result =
         pushTo(pushSpec + ",submit,notify=" + NotifyHandling.NONE + ",notify-bcc=" + user2.email());
     result.assertOkStatus();
-    assertNotifyBcc(user2);
+    assertChangeAndSubmitWithNotify(user2, RecipientType.BCC);
   }
 
   private PatchSetApproval getSubmitter(PatchSet.Id patchSetId) throws Exception {

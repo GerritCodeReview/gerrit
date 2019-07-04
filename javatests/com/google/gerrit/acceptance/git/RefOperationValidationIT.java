@@ -15,10 +15,10 @@
 package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.transport.ReceiveCommand.Type.CREATE;
 import static org.eclipse.jgit.transport.ReceiveCommand.Type.DELETE;
@@ -83,9 +83,10 @@ public class RefOperationValidationIT extends AbstractDaemonTest {
   @Test
   public void rejectRefCreation() throws Exception {
     try (TestRefValidator validator = new TestRefValidator(CREATE)) {
-      gApi.projects().name(project.get()).branch(TEST_REF).create(new BranchInput());
-      assert_().fail("expected exception");
-    } catch (RestApiException expected) {
+      RestApiException expected =
+          assertThrows(
+              RestApiException.class,
+              () -> gApi.projects().name(project.get()).branch(TEST_REF).create(new BranchInput()));
       assertThat(expected).hasMessageThat().contains(CREATE.name());
     }
   }
@@ -115,9 +116,10 @@ public class RefOperationValidationIT extends AbstractDaemonTest {
   public void rejectRefDeletion() throws Exception {
     gApi.projects().name(project.get()).branch(TEST_REF).create(new BranchInput());
     try (TestRefValidator validator = new TestRefValidator(DELETE)) {
-      gApi.projects().name(project.get()).branch(TEST_REF).delete();
-      assert_().fail("expected exception");
-    } catch (RestApiException expected) {
+      RestApiException expected =
+          assertThrows(
+              RestApiException.class,
+              () -> gApi.projects().name(project.get()).branch(TEST_REF).delete());
       assertThat(expected).hasMessageThat().contains(DELETE.name());
     }
   }

@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.git.testing.PushResultSubject.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -430,7 +429,7 @@ public class PushPermissionsIT extends AbstractDaemonTest {
       case REJECTED_OTHER_REASON:
       case RENAMED:
       default:
-        assert_().fail("fetch failed to update local %s: %s", ref, u.getResult());
+        assertWithMessage("fetch failed to update local %s: %s", ref, u.getResult()).fail();
         break;
     }
     return u.getNewObjectId();

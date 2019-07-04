@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.util;
 
 import static com.google.common.truth.Truth.assertWithMessage;
-import static com.google.common.truth.Truth.assert_;
 import static org.apache.http.HttpStatus.SC_FORBIDDEN;
 import static org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR;
 import static org.apache.http.HttpStatus.SC_METHOD_NOT_ALLOWED;
@@ -76,7 +75,8 @@ public class RestApiCallHelper {
         response = restSession.delete(uri);
         break;
       default:
-        assert_().fail(String.format("unsupported method: %s", restCall.httpMethod().name()));
+        assertWithMessage(String.format("unsupported method: %s", restCall.httpMethod().name()))
+            .fail();
         throw new IllegalStateException();
     }
 

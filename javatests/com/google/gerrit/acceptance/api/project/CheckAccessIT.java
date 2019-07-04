@@ -15,7 +15,7 @@
 package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
@@ -247,15 +247,16 @@ public class CheckAccessIT extends AbstractDaemonTest {
       try {
         info = gApi.projects().name(tc.project).checkAccess(tc.input);
       } catch (RestApiException e) {
-        assert_().fail(String.format("check.access(%s, %s): exception %s", tc.project, in, e));
+        assertWithMessage(String.format("check.access(%s, %s): exception %s", tc.project, in, e))
+            .fail();
       }
 
       int want = tc.want;
       if (want != info.status) {
-        assert_()
-            .fail(
+        assertWithMessage(
                 String.format(
-                    "check.access(%s, %s) = %d, want %d", tc.project, in, info.status, want));
+                    "check.access(%s, %s) = %d, want %d", tc.project, in, info.status, want))
+            .fail();
       }
 
       switch (want) {
@@ -271,7 +272,7 @@ public class CheckAccessIT extends AbstractDaemonTest {
           assertThat(info.message).isNull();
           break;
         default:
-          assert_().fail(String.format("unknown code %d", want));
+          assertWithMessage(String.format("unknown code %d", want)).fail();
       }
     }
   }

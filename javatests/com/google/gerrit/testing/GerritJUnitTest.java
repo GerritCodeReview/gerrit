@@ -15,7 +15,7 @@
 package com.google.gerrit.testing;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import org.junit.Test;
@@ -68,7 +68,7 @@ public class GerritJUnitTest {
           () -> {
             throw new MyException("foo");
           });
-      assert_().fail("expected AssertionError");
+      assertWithMessage("expected AssertionError").fail();
     } catch (AssertionError e) {
       assertThat(e).hasMessageThat().contains(IllegalStateException.class.getSimpleName());
       assertThat(e).hasMessageThat().contains(MyException.class.getSimpleName());
@@ -81,7 +81,7 @@ public class GerritJUnitTest {
   public void assertThrowsThrowsAssertionErrorWhenNothingThrown() {
     try {
       assertThrows(MyException.class, () -> {});
-      assert_().fail("expected AssertionError");
+      assertWithMessage("expected AssertionError").fail();
     } catch (AssertionError e) {
       assertThat(e).hasMessageThat().contains(MyException.class.getSimpleName());
       assertThat(e).hasCauseThat().isNull();

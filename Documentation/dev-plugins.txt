@@ -2810,6 +2810,12 @@ invocation of the extension point does not happen immediately, but only at the
 end of a request (REST call, SSH call, git push). Implementors can write the
 execution times into a performance log for further analysis.
 
+[[request-listener]]
+== Request Listener
+
+`com.google.gerrit.server.RequestListener` is an extension point that is
+invoked each time the server executes a request from a user.
+
 [[plugins_hosting]]
 == Plugins source code hosting
 

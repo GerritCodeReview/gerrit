@@ -101,6 +101,8 @@ import com.google.gerrit.server.CreateGroupPermissionSyncer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
+import com.google.gerrit.server.RequestInfo;
+import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.NotifyResolver;
@@ -329,6 +331,7 @@ class ReceiveCommits {
   private final ReceiveConfig receiveConfig;
   private final RefOperationValidators.Factory refValidatorsFactory;
   private final ReplaceOp.Factory replaceOpFactory;
+  private final PluginSetContext<RequestListener> requestListeners;
   private final RetryHelper retryHelper;
   private final RequestScopePropagator requestScopePropagator;
   private final Sequences seq;
@@ -408,6 +411,7 @@ class ReceiveCommits {
       ReceiveConfig receiveConfig,
       RefOperationValidators.Factory refValidatorsFactory,
       ReplaceOp.Factory replaceOpFactory,
+      PluginSetContext<RequestListener> requestListeners,
       RetryHelper retryHelper,
       RequestScopePropagator requestScopePropagator,
       Sequences seq,
@@ -453,6 +457,7 @@ class ReceiveCommits {
     this.receiveConfig = receiveConfig;
     this.refValidatorsFactory = refValidatorsFactory;
     this.replaceOpFactory = replaceOpFactory;
+    this.requestListeners = requestListeners;
     this.retryHelper = retryHelper;
     this.requestScopePropagator = requestScopePropagator;
     this.seq = seq;
@@ -537,6 +542,11 @@ class ReceiveCommits {
         TraceTimer traceTimer = newTimer("processCommands", "commandCount", commands.size());
         PerformanceLogContext performanceLogContext =
             new PerformanceLogContext(config, performanceLoggers)) {
+      RequestInfo requestInfo =
+          RequestInfo.builder(RequestInfo.RequestType.GIT_RECEIVE, user, traceContext)
+              .project(project.getNameKey())
+              .build();
+      requestListeners.runEach(l -> l.onRequest(requestInfo));
       traceContext.addTag(RequestId.Type.RECEIVE_ID, new RequestId(project.getNameKey().get()));
 
       // Log the push options here, rather than in parsePushOptions(), so that they are included

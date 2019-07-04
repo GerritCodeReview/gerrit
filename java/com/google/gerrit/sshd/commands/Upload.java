@@ -17,15 +17,19 @@ package com.google.gerrit.sshd.commands;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.server.RequestInfo;
+import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.UploadPackInitializer;
 import com.google.gerrit.server.git.validators.UploadValidationException;
 import com.google.gerrit.server.git.validators.UploadValidators;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.gerrit.sshd.SshSession;
 import com.google.inject.Inject;
@@ -43,6 +47,7 @@ final class Upload extends AbstractGitCommand {
   @Inject private DynamicSet<PreUploadHook> preUploadHooks;
   @Inject private DynamicSet<PostUploadHook> postUploadHooks;
   @Inject private DynamicSet<UploadPackInitializer> uploadPackInitializers;
+  @Inject private PluginSetContext<RequestListener> requestListeners;
   @Inject private UploadValidators.Factory uploadValidatorsFactory;
   @Inject private SshSession session;
   @Inject private PermissionBackend permissionBackend;
@@ -73,7 +78,13 @@ final class Upload extends AbstractGitCommand {
     for (UploadPackInitializer initializer : uploadPackInitializers) {
       initializer.init(projectState.getNameKey(), up);
     }
-    try {
+    try (TraceContext traceContext = TraceContext.open()) {
+      RequestInfo requestInfo =
+          RequestInfo.builder(RequestInfo.RequestType.GIT_UPLOAD, user, traceContext)
+              .project(projectState.getNameKey())
+              .build();
+      requestListeners.runEach(l -> l.onRequest(requestInfo));
+
       up.upload(in, out, err);
       session.setPeerAgent(up.getPeerUserAgent());
     } catch (UploadValidationException e) {

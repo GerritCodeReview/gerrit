@@ -11,6 +11,12 @@
       "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/69023/consoleText",
       "created": "2019-07-04T07:39:08Z",
       "updated": "2019-07-04T07:39:08Z"
+    },
+    "gerritforge:reviewdb-a6a0e4682515f3521897c5f950d1394f4619d928": {
+      "state": "SUCCESSFUL",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/69024/consoleText",
+      "created": "2019-07-04T07:39:09Z",
+      "updated": "2019-07-04T07:39:09Z"
     }
   }
 }

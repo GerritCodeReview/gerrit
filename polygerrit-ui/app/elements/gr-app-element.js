@@ -122,6 +122,7 @@
     },
 
     ready() {
+      this.$.reporting.appStarted(document.visibilityState === 'hidden');
       this._isShadowDom = Polymer.Settings.useShadow;
       this.$.router.start();
 
@@ -149,8 +150,6 @@
       // Note: this is evaluated here to ensure that it only happens after the
       // router has been initialized. @see Issue 7837
       this._settingsUrl = Gerrit.Nav.getUrlForSettings();
-
-      this.$.reporting.appStarted(document.visibilityState === 'hidden');
 
       this._viewState = {
         changeView: {

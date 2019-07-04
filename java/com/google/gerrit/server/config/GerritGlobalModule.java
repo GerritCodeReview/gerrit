@@ -80,6 +80,7 @@ import com.google.gerrit.server.CreateGroupPermissionSyncer;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestListener;
+import com.google.gerrit.server.TraceRequestListener;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountDeactivator;
@@ -386,6 +387,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), QuotaEnforcer.class);
     DynamicSet.setOf(binder(), PerformanceLogger.class);
     DynamicSet.setOf(binder(), RequestListener.class);
+    DynamicSet.bind(binder(), RequestListener.class).to(TraceRequestListener.class);
 
     DynamicMap.mapOf(binder(), MailFilter.class);
     bind(MailFilter.class).annotatedWith(Exports.named("ListMailFilter")).to(ListMailFilter.class);

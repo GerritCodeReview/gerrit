@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a895b188_93138e47",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2683,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-04T07:24:41Z",
+      "side": 1,
+      "message": "We should also set submitInput.notifyDetails here.",
+      "range": {
+        "startLine": 2683,
+        "startChar": 8,
+        "endLine": 2683,
+        "endChar": 56
+      },
+      "revId": "f0301a92aad61b59df5b310eeb4983f9ae385757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03e5ff34_6a6fbf2c",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-04T07:24:41Z",
+      "side": 1,
+      "message": "Can you find better names for the new tests? \u0027submitNoReviewNotifications\u0027 sounds like you want to verify that submit doesn\u0027t send any notifications, but the test actually checks that notifications *are* sent.",
+      "range": {
+        "startLine": 364,
+        "startChar": 14,
+        "endLine": 364,
+        "endChar": 41
+      },
+      "revId": "f0301a92aad61b59df5b310eeb4983f9ae385757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7b29a02_d4c996a7",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-04T07:24:41Z",
+      "side": 1,
+      "message": "A user cannot be reviewer and cc at the same time, I guess these should be different users? Or you want to set either reviewer or cc?",
+      "range": {
+        "startLine": 372,
+        "startChar": 39,
+        "endLine": 372,
+        "endChar": 88
+      },
+      "revId": "f0301a92aad61b59df5b310eeb4983f9ae385757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37c51b17_8682b515",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-04T07:24:41Z",
+      "side": 1,
+      "message": "Here and below, it would be better to check the actual emails, instead of just the number of emails. E.g. looking at this test it\u0027s not very clear why we expect 2 emails in this case. It\u0027s 2 emails for the reviewer, one to inform about the push, and one to inform about the submit. We should verify that both emails are for the reviewer and that they are for the 2 events (push and submit).",
+      "range": {
+        "startLine": 387,
+        "startChar": 4,
+        "endLine": 387,
+        "endChar": 48
+      },
+      "revId": "f0301a92aad61b59df5b310eeb4983f9ae385757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f594a4e7_1c55a1af",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-04T07:24:41Z",
+      "side": 1,
+      "message": "Do we also want to test the case when the notify option is not set?",
+      "range": {
+        "startLine": 375,
+        "startChar": 4,
+        "endLine": 392,
+        "endChar": 48
+      },
+      "revId": "f0301a92aad61b59df5b310eeb4983f9ae385757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b175e523_c5c933ad",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-04T07:24:41Z",
+      "side": 1,
+      "message": "Here and below, this assertion is not sufficient. If the notify-to option is set we expect that this user gets 2 emails, one for the push and one for the submit. Currently only the email for the push event is sent and the email for the submit event is missing and the test is not capturing this (the email for submit is missing because we are not setting submitInput.notifyDetails, see comment in ReceiveCommits). I think we want to assert the content of the emails to ensure that we get one for the push and one for the submit.",
+      "revId": "f0301a92aad61b59df5b310eeb4983f9ae385757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

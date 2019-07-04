@@ -68,6 +68,7 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
@@ -86,6 +87,7 @@ import com.google.gerrit.extensions.validators.CommentForValidation.CommentType;
 import com.google.gerrit.extensions.validators.CommentValidationFailure;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
@@ -2655,6 +2657,14 @@ class ReceiveCommits {
     }
   }
 
+  private static List<String> toStringList(List<Id> idList){
+    List<String> stringList = new ArrayList<>();
+    for(Id id : idList){
+      stringList.add(id.toString());
+    }
+    return stringList;
+  }
+
   private void submit(Collection<CreateRequest> create, Collection<ReplaceRequest> replace)
       throws RestApiException, UpdateException, IOException, ConfigInvalidException,
           PermissionBackendException {
@@ -2681,6 +2691,13 @@ class ReceiveCommits {
       try (MergeOp op = mergeOpProvider.get()) {
         SubmitInput submitInput = new SubmitInput();
         submitInput.notify = magicBranch.notifyHandling;
+        submitInput.notifyDetails = new HashMap<>();
+        submitInput.notifyDetails.put(
+            RecipientType.TO, new NotifyInfo(toStringList(magicBranch.notifyTo)));
+        submitInput.notifyDetails.put(
+            RecipientType.CC, new NotifyInfo(toStringList(magicBranch.notifyCc)));
+        submitInput.notifyDetails.put(
+            RecipientType.BCC, new NotifyInfo(toStringList(magicBranch.notifyBcc)));
         op.merge(tipChange, user, false, submitInput, false);
       }
     }

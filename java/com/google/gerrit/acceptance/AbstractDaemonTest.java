@@ -1231,6 +1231,38 @@ public abstract class AbstractDaemonTest {
     assertThat(m.headers().get("Cc").isEmpty()).isTrue();
   }
 
+  /**
+   * makes sure that two emails are sent: one for the push, and one of the submit.
+   *
+   * @param expected - the account expected to receive message.
+   * @param receiverType - the account's type: To/Cc/Bcc.
+   */
+  protected void assertWithSubmitNotify(TestAccount expected, String receiverType) {
+    assertWithSubmitNotify(expected.email(), expected.fullName(), receiverType);
+  }
+
+  protected void assertWithSubmitNotify(
+      String expectedEmail, String expectedFullname, String receiverType) {
+    Address expectedAddress = new Address(expectedFullname, expectedEmail);
+    assertThat(sender.getMessages()).hasSize(2);
+    Message message = sender.getMessages().get(0);
+    assertThat(message.rcpt()).containsExactly(expectedAddress);
+    if (receiverType != null
+        && receiverType.compareTo("Bcc") != 0) { // When Bcc, it does not appear in the header.
+      assertThat(((EmailHeader.AddressList) message.headers().get(receiverType)).getAddressList())
+          .containsExactly(expectedAddress);
+    }
+    assertThat(message.body().contains("review")).isTrue();
+    message = sender.getMessages().get(1);
+    assertThat(message.rcpt()).containsExactly(expectedAddress);
+    if (receiverType != null
+        && receiverType.compareTo("Bcc") != 0) { // When Bcc, it does not appear in the header.
+      assertThat(((EmailHeader.AddressList) message.headers().get(receiverType)).getAddressList())
+          .containsExactly(expectedAddress);
+    }
+    assertThat(message.body().contains("submitted")).isTrue();
+  }
+
   protected interface ProjectWatchInfoConfiguration {
     void configure(ProjectWatchInfo pwi);
   }

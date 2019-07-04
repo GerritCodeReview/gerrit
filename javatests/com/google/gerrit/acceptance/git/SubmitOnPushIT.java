@@ -361,7 +361,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitNoReviewNotifications() throws Exception {
+  public void submitNoReviewSendNotifications() throws Exception {
     projectOperations
         .project(project)
         .forUpdate()
@@ -369,7 +369,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
         .update();
 
     TestAccount user = accountCreator.user();
-    String pushSpec = "refs/for/master%reviewer=" + user.email() + ",cc=" + user.email();
+    String pushSpec = "refs/for/master%reviewer=" + user.email();
     sender.clear();
 
     PushOneCommit.Result result = pushTo(pushSpec + ",submit,notify=" + NotifyHandling.NONE);
@@ -384,16 +384,21 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     sender.clear();
     result = pushTo(pushSpec + ",submit,notify=" + NotifyHandling.OWNER_REVIEWERS);
     result.assertOkStatus();
-    assertThat(sender.getMessages()).hasSize(2);
+    assertWithSubmitNotify(user, null); // makes sure messages of review + submit sent.
 
     sender.clear();
     result = pushTo(pushSpec + ",submit,notify=" + NotifyHandling.ALL);
     result.assertOkStatus();
-    assertThat(sender.getMessages()).hasSize(2);
+    assertWithSubmitNotify(user, null); // makes sure messages of review + submit sent.
+
+    sender.clear();
+    result = pushTo(pushSpec + ",submit"); // default is notify = ALL
+    result.assertOkStatus();
+    assertWithSubmitNotify(user, null); // makes sure messages of review + submit sent.
   }
 
   @Test
-  public void submitNoReviewNotificationsToCcBcc() throws Exception {
+  public void submitNoReviewSendNotificationsToCcBcc() throws Exception {
     projectOperations
         .project(project)
         .forUpdate()
@@ -409,19 +414,19 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     PushOneCommit.Result result =
         pushTo(pushSpec + ",submit,notify=" + NotifyHandling.NONE + ",notify-to=" + user2.email());
     result.assertOkStatus();
-    assertNotifyTo(user2);
+    assertWithSubmitNotify(user2, "To");
 
     sender.clear();
     result =
         pushTo(pushSpec + ",submit,notify=" + NotifyHandling.NONE + ",notify-cc=" + user2.email());
     result.assertOkStatus();
-    assertNotifyCc(user2);
+    assertWithSubmitNotify(user2, "Cc");
 
     sender.clear();
     result =
         pushTo(pushSpec + ",submit,notify=" + NotifyHandling.NONE + ",notify-bcc=" + user2.email());
     result.assertOkStatus();
-    assertNotifyBcc(user2);
+    assertWithSubmitNotify(user2, "Bcc");
   }
 
   private PatchSetApproval getSubmitter(PatchSet.Id patchSetId) throws Exception {

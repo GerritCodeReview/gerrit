@@ -1467,7 +1467,7 @@ public class RestApiServlet extends HttpServlet {
     configureCaching(req, res, null, null, c);
     checkArgument(statusCode >= 400, "non-error status: %s", statusCode);
     res.setStatus(statusCode);
-    logger.atFinest().log("REST call failed: %d", statusCode);
+    logger.atFinest().withCause(err).log("REST call failed: %d", statusCode);
     return replyText(req, res, true, msg);
   }
 

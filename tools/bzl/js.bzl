@@ -80,7 +80,7 @@ def _bower_archive(ctx):
 
     out = ctx.execute(cmd)
     if out.return_code:
-        fail("failed %s: %s" % (" ".join(cmd), out.stderr))
+        fail("failed %s: %s" % (cmd, out.stderr))
 
     _bash(ctx, " && ".join([
         "TMP=$(mktemp -d || mktemp -d -t bazel-tmp)",
@@ -116,7 +116,7 @@ def _bash(ctx, cmd):
     cmd_list = ["bash", "-c", cmd]
     out = ctx.execute(cmd_list)
     if out.return_code:
-        fail("failed %s: %s" % (" ".join(cmd_list), out.stderr))
+        fail("failed %s: %s" % (cmd_list, out.stderr))
 
 bower_archive = repository_rule(
     _bower_archive,

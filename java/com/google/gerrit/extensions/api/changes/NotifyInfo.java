@@ -20,6 +20,10 @@ import java.util.List;
 public class NotifyInfo {
   public List<String> accounts;
 
+  /**
+   * @param accounts may be either just a list of: account IDs, Full names, usernames, or emails.
+   *     Also could be a list of those: "Full name <email@example.com>" or "Full name (<ID>)"
+   */
   public NotifyInfo(List<String> accounts) {
     this.accounts = accounts;
   }

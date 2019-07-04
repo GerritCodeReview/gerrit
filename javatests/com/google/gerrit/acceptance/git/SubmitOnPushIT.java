@@ -26,8 +26,12 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.mail.Address;
+import com.google.gerrit.mail.EmailHeader;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -36,6 +40,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
@@ -361,7 +366,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitNoReviewNotifications() throws Exception {
+  public void pushForSubmitWithNotifyOption() throws Exception {
     projectOperations
         .project(project)
         .forUpdate()
@@ -369,7 +374,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
         .update();
 
     TestAccount user = accountCreator.user();
-    String pushSpec = "refs/for/master%reviewer=" + user.email() + ",cc=" + user.email();
+    String pushSpec = "refs/for/master%reviewer=" + user.email();
     sender.clear();
 
     PushOneCommit.Result result = pushTo(pushSpec + ",submit,notify=" + NotifyHandling.NONE);
@@ -384,16 +389,21 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     sender.clear();
     result = pushTo(pushSpec + ",submit,notify=" + NotifyHandling.OWNER_REVIEWERS);
     result.assertOkStatus();
-    assertThat(sender.getMessages()).hasSize(2);
+    assertChangeAndSubmitWithNotify(user, null);
 
     sender.clear();
     result = pushTo(pushSpec + ",submit,notify=" + NotifyHandling.ALL);
     result.assertOkStatus();
-    assertThat(sender.getMessages()).hasSize(2);
+    assertChangeAndSubmitWithNotify(user, null);
+
+    sender.clear();
+    result = pushTo(pushSpec + ",submit"); // default is notify = ALL
+    result.assertOkStatus();
+    assertChangeAndSubmitWithNotify(user, null);
   }
 
   @Test
-  public void submitNoReviewNotificationsToCcBcc() throws Exception {
+  public void pushForSubmitWithNotifyingUsersExplicitly() throws Exception {
     projectOperations
         .project(project)
         .forUpdate()
@@ -409,19 +419,19 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     PushOneCommit.Result result =
         pushTo(pushSpec + ",submit,notify=" + NotifyHandling.NONE + ",notify-to=" + user2.email());
     result.assertOkStatus();
-    assertNotifyTo(user2);
+    assertChangeAndSubmitWithNotify(user2, RecipientType.TO);
 
     sender.clear();
     result =
         pushTo(pushSpec + ",submit,notify=" + NotifyHandling.NONE + ",notify-cc=" + user2.email());
     result.assertOkStatus();
-    assertNotifyCc(user2);
+    assertChangeAndSubmitWithNotify(user2, RecipientType.CC);
 
     sender.clear();
     result =
         pushTo(pushSpec + ",submit,notify=" + NotifyHandling.NONE + ",notify-bcc=" + user2.email());
     result.assertOkStatus();
-    assertNotifyBcc(user2);
+    assertChangeAndSubmitWithNotify(user2, RecipientType.BCC);
   }
 
   private PatchSetApproval getSubmitter(PatchSet.Id patchSetId) throws Exception {
@@ -470,5 +480,51 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     PushOneCommit push =
         pushFactory.create(admin.newIdent(), testRepo, subject, fileName, content, changeId);
     return push.to(ref);
+  }
+
+  /**
+   * Makes sure that two emails are sent: one for the change creation, and one of the submit.
+   *
+   * @param expected The account expected to receive message.
+   * @param expectedRecipientType The account's type: To/Cc/Bcc. if {@code null} then it is not
+   *     needed to check the recipientType. It is meant for -notify without other flags like
+   *     notify-cc, notify-to, and notify-bcc. With the -notify flag, the message can sometimes be
+   *     sent as "To" and sometimes can be sent as "Cc".
+   */
+  private void assertChangeAndSubmitWithNotify(
+      TestAccount expected, @Nullable RecipientType expectedRecipientType) {
+    assertChangeAndSubmitWithNotify(expected.email(), expected.fullName(), expectedRecipientType);
+  }
+
+  private void assertChangeAndSubmitWithNotify(
+      String expectedEmail,
+      String expectedFullname,
+      @Nullable RecipientType expectedRecipientType) {
+    Address expectedAddress = new Address(expectedFullname, expectedEmail);
+    assertThat(sender.getMessages()).hasSize(2);
+    Message message = sender.getMessages().get(0);
+    assertThat(message.body().contains("review")).isTrue();
+    assertAddress(message, expectedAddress, expectedRecipientType);
+    message = sender.getMessages().get(1);
+    assertThat(message.rcpt()).containsExactly(expectedAddress);
+    assertAddress(message, expectedAddress, expectedRecipientType);
+    assertThat(message.body().contains("submitted")).isTrue();
+  }
+
+  private void assertAddress(
+      Message message, Address expectedAddress, @Nullable RecipientType expectedRecipientType) {
+    assertThat(message.rcpt()).containsExactly(expectedAddress);
+    if (expectedRecipientType != null
+        && expectedRecipientType
+            != RecipientType.BCC) { // When Bcc, it does not appear in the header.
+      String expectedRecipientTypeString = "To";
+      if (expectedRecipientType == RecipientType.CC) {
+        expectedRecipientTypeString = "Cc";
+      }
+      assertThat(
+              ((EmailHeader.AddressList) message.headers().get(expectedRecipientTypeString))
+                  .getAddressList())
+          .containsExactly(expectedAddress);
+    }
   }
 }

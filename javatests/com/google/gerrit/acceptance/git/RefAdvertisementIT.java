@@ -630,11 +630,10 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(project)) {
       // c2 <- newcommit1 (branch)
       PushOneCommit.Result r =
-          r =
-              pushFactory
-                  .create(admin.newIdent(), testRepo)
-                  .setParent(rcBranch)
-                  .to("refs/heads/branch");
+          pushFactory
+              .create(admin.newIdent(), testRepo)
+              .setParent(rcBranch)
+              .to("refs/heads/branch");
       r.assertOkStatus();
       RevCommit tagRc = r.getCommit();
 
@@ -687,11 +686,10 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(project)) {
       // rcBranch (c2) <- newcommit1 (branch)
       PushOneCommit.Result r =
-          r =
-              pushFactory
-                  .create(admin.newIdent(), testRepo)
-                  .setParent(rcBranch)
-                  .to("refs/heads/branch");
+          pushFactory
+              .create(admin.newIdent(), testRepo)
+              .setParent(rcBranch)
+              .to("refs/heads/branch");
       r.assertOkStatus();
       RevCommit tagRc = r.getCommit();
 
@@ -743,11 +741,10 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(project)) {
       // rcBranch (c2) <- newcommit1 (branch)
       PushOneCommit.Result r =
-          r =
-              pushFactory
-                  .create(admin.newIdent(), testRepo)
-                  .setParent(rcBranch)
-                  .to("refs/heads/branch");
+          pushFactory
+              .create(admin.newIdent(), testRepo)
+              .setParent(rcBranch)
+              .to("refs/heads/branch");
       r.assertOkStatus();
       RevCommit tagRc = r.getCommit();
 
@@ -921,7 +918,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
               .setParent(rcBranch)
               .to("refs/tags/updated-tag");
       r.assertOkStatus();
-      RevCommit tagRc = r.getCommit();
     }
 
     assertUploadPackRefs(

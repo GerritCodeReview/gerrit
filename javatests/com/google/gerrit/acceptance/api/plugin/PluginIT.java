@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.api.plugin;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
@@ -104,13 +103,7 @@ public class PluginIT extends AbstractDaemonTest {
 
     // Disable mandatory
     mandatoryPluginsCollection.add("plugin_e");
-    api = gApi.plugins().name("plugin_e");
-    try {
-      api.disable();
-      assert_().fail("Disabling mandatory plugin should have failed");
-    } catch (MethodNotAllowedException e) {
-      // expected
-    }
+    assertThrows(MethodNotAllowedException.class, () -> gApi.plugins().name("plugin_e").disable());
     api = gApi.plugins().name("plugin_e");
     assertThat(api.get().disabled).isNull();
 

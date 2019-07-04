@@ -102,22 +102,30 @@ import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.restapi.ParameterParser.QueryParams;
 import com.google.gerrit.json.OutputFormat;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OptionUtil;
+import com.google.gerrit.server.RequestInfo;
+import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.audit.ExtendedHttpAuditEvent;
 import com.google.gerrit.server.cache.PerThreadCache;
+import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.GroupAuditService;
 import com.google.gerrit.server.logging.PerformanceLogContext;
 import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.quota.QuotaException;
+import com.google.gerrit.server.restapi.change.ChangesCollection;
+import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.util.http.CacheHeaders;
@@ -227,6 +235,7 @@ public class RestApiServlet extends HttpServlet {
     final Provider<CurrentUser> currentUser;
     final DynamicItem<WebSession> webSession;
     final Provider<ParameterParser> paramParser;
+    final PluginSetContext<RequestListener> requestListeners;
     final PermissionBackend permissionBackend;
     final GroupAuditService auditService;
     final RestApiMetrics metrics;
@@ -234,27 +243,32 @@ public class RestApiServlet extends HttpServlet {
     final RestApiQuotaEnforcer quotaChecker;
     final Config config;
     final DynamicSet<PerformanceLogger> performanceLoggers;
+    final ChangeFinder changeFinder;
 
     @Inject
     Globals(
         Provider<CurrentUser> currentUser,
         DynamicItem<WebSession> webSession,
         Provider<ParameterParser> paramParser,
+        PluginSetContext<RequestListener> requestListeners,
         PermissionBackend permissionBackend,
         GroupAuditService auditService,
         RestApiMetrics metrics,
         RestApiQuotaEnforcer quotaChecker,
         @GerritServerConfig Config config,
-        DynamicSet<PerformanceLogger> performanceLoggers) {
+        DynamicSet<PerformanceLogger> performanceLoggers,
+        ChangeFinder changeFinder) {
       this.currentUser = currentUser;
       this.webSession = webSession;
       this.paramParser = paramParser;
+      this.requestListeners = requestListeners;
       this.permissionBackend = permissionBackend;
       this.auditService = auditService;
       this.metrics = metrics;
       this.quotaChecker = quotaChecker;
       this.config = config;
       this.performanceLoggers = performanceLoggers;
+      this.changeFinder = changeFinder;
       allowOrigin = makeAllowOrigin(config);
     }
 
@@ -301,6 +315,11 @@ public class RestApiServlet extends HttpServlet {
     ViewData viewData = null;
 
     try (TraceContext traceContext = enableTracing(req, res)) {
+      List<IdString> path = splitPath(req);
+
+      RequestInfo requestInfo = createRequestInfo(traceContext, path);
+      globals.requestListeners.runEach(l -> l.onRequest(requestInfo));
+
       try (PerThreadCache ignored = PerThreadCache.create()) {
         // It's important that the PerformanceLogContext is closed before the response is sent to
         // the client. Only this way it is ensured that the invocation of the PerformanceLogger
@@ -329,7 +348,6 @@ public class RestApiServlet extends HttpServlet {
           }
           checkUserSession(req);
 
-          List<IdString> path = splitPath(req);
           RestCollection<RestResource, RestResource> rc = members.get();
           globals
               .permissionBackend
@@ -1404,6 +1422,27 @@ public class RestApiServlet extends HttpServlet {
       res.addHeader(X_GERRIT_TRACE, traceId2);
     }
     return traceContext;
+  }
+
+  private RequestInfo createRequestInfo(TraceContext traceContext, List<IdString> path) {
+    RequestInfo.Builder requestInfo =
+        RequestInfo.builder(RequestInfo.RequestType.REST, globals.currentUser.get(), traceContext);
+
+    if (path.size() < 1) {
+      return requestInfo.build();
+    }
+
+    RestCollection<?, ?> rootCollection = members.get();
+    String resourceId = path.get(0).get();
+    if (rootCollection instanceof ProjectsCollection) {
+      requestInfo.project(Project.nameKey(resourceId));
+    } else if (rootCollection instanceof ChangesCollection) {
+      ChangeNotes changeNotes = globals.changeFinder.findOne(resourceId);
+      if (changeNotes != null) {
+        requestInfo.project(changeNotes.getProjectName());
+      }
+    }
+    return requestInfo.build();
   }
 
   private boolean isDelete(HttpServletRequest req) {

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70bcd1a6_52c708e4",
+        "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-04T23:52:45Z",
+      "side": 1,
+      "message": "Is it intentional that this is only invoked for successful requests?  I.e. it\u0027s not invoked if the request failed due to upload-pack not permitted, or a permission backend exception.",
+      "revId": "9928ce6ba051aba3817ac974d06ca8f0a943ab72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a17b585c_9e6b2351",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1479,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-04T23:52:45Z",
+      "side": 1,
+      "message": "Why set the limit to 2 but then expect only 1 result?  Can\u0027t we set the limit to 1, and then check if changeData.isEmpty()?",
+      "range": {
+        "startLine": 1477,
+        "startChar": 14,
+        "endLine": 1479,
+        "endChar": 35
+      },
+      "revId": "9928ce6ba051aba3817ac974d06ca8f0a943ab72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2445fd74_d6de76af",
+        "filename": "java/com/google/gerrit/server/RequestInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-04T23:52:45Z",
+      "side": 1,
+      "message": "refer to the enum instead?  Then if more types are added later, this doesn\u0027t need to be updated too.",
+      "range": {
+        "startLine": 33,
+        "startChar": 82,
+        "endLine": 34,
+        "endChar": 30
+      },
+      "revId": "9928ce6ba051aba3817ac974d06ca8f0a943ab72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

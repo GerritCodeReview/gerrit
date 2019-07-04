@@ -101,15 +101,20 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.restapi.ParameterParser.QueryParams;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.json.OutputFormat;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OptionUtil;
+import com.google.gerrit.server.RequestInfo;
+import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.audit.ExtendedHttpAuditEvent;
 import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.GroupAuditService;
+import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.logging.PerformanceLogContext;
 import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.logging.RequestId;
@@ -117,6 +122,10 @@ import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.quota.QuotaException;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -161,9 +170,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.zip.GZIPOutputStream;
@@ -188,6 +199,9 @@ public class RestApiServlet extends HttpServlet {
   private static final String FORM_TYPE = "application/x-www-form-urlencoded";
 
   @VisibleForTesting public static final String X_GERRIT_TRACE = "X-Gerrit-Trace";
+
+  private static final Pattern CHANGES_URL_PATTERN = Pattern.compile("^/changes/([^/]+)(/.*)?");
+  private static final Pattern PROJECTS_URL_PATTERN = Pattern.compile("^/projects/([^/]+)(/.*)?");
 
   // HTTP 422 Unprocessable Entity.
   // TODO: Remove when HttpServletResponse.SC_UNPROCESSABLE_ENTITY is available
@@ -227,6 +241,7 @@ public class RestApiServlet extends HttpServlet {
     final Provider<CurrentUser> currentUser;
     final DynamicItem<WebSession> webSession;
     final Provider<ParameterParser> paramParser;
+    final PluginSetContext<RequestListener> requestListeners;
     final PermissionBackend permissionBackend;
     final GroupAuditService auditService;
     final RestApiMetrics metrics;
@@ -234,27 +249,35 @@ public class RestApiServlet extends HttpServlet {
     final RestApiQuotaEnforcer quotaChecker;
     final Config config;
     final DynamicSet<PerformanceLogger> performanceLoggers;
+    final ChangeQueryBuilder changeQueryBuilder;
+    final Provider<InternalChangeQuery> queryProvider;
 
     @Inject
     Globals(
         Provider<CurrentUser> currentUser,
         DynamicItem<WebSession> webSession,
         Provider<ParameterParser> paramParser,
+        PluginSetContext<RequestListener> requestListeners,
         PermissionBackend permissionBackend,
         GroupAuditService auditService,
         RestApiMetrics metrics,
         RestApiQuotaEnforcer quotaChecker,
         @GerritServerConfig Config config,
-        DynamicSet<PerformanceLogger> performanceLoggers) {
+        DynamicSet<PerformanceLogger> performanceLoggers,
+        ChangeQueryBuilder changeQueryBuilder,
+        Provider<InternalChangeQuery> queryProvider) {
       this.currentUser = currentUser;
       this.webSession = webSession;
       this.paramParser = paramParser;
+      this.requestListeners = requestListeners;
       this.permissionBackend = permissionBackend;
       this.auditService = auditService;
       this.metrics = metrics;
       this.quotaChecker = quotaChecker;
       this.config = config;
       this.performanceLoggers = performanceLoggers;
+      this.changeQueryBuilder = changeQueryBuilder;
+      this.queryProvider = queryProvider;
       allowOrigin = makeAllowOrigin(config);
     }
 
@@ -301,6 +324,9 @@ public class RestApiServlet extends HttpServlet {
     ViewData viewData = null;
 
     try (TraceContext traceContext = enableTracing(req, res)) {
+      RequestInfo requestInfo = createRequestInfo(req, traceContext);
+      globals.requestListeners.runEach(l -> l.onRequest(requestInfo));
+
       try (PerThreadCache ignored = PerThreadCache.create()) {
         // It's important that the PerformanceLogContext is closed before the response is sent to
         // the client. Only this way it is ensured that the invocation of the PerformanceLogger
@@ -1406,6 +1432,67 @@ public class RestApiServlet extends HttpServlet {
       res.addHeader(X_GERRIT_TRACE, traceId2);
     }
     return traceContext;
+  }
+
+  private RequestInfo createRequestInfo(HttpServletRequest req, TraceContext traceContext) {
+    String requestUri = requestUri(req);
+    RequestInfo.Builder requestInfo =
+        RequestInfo.builder(RequestInfo.RequestType.REST, globals.currentUser.get(), traceContext);
+    parseProjectName(requestUri).ifPresent(requestInfo::project);
+    parseChangeId(requestUri)
+        .flatMap(this::getProjectNameForChangeId)
+        .ifPresent(requestInfo::project);
+    return requestInfo.build();
+  }
+
+  @VisibleForTesting
+  static Optional<String> parseChangeId(String requestUri) {
+    return parseId(CHANGES_URL_PATTERN, 1, requestUri);
+  }
+
+  @VisibleForTesting
+  static Optional<Project.NameKey> parseProjectName(String requestUri) {
+    return parseId(PROJECTS_URL_PATTERN, 1, requestUri).map(Project::nameKey);
+  }
+
+  private static Optional<String> parseId(Pattern pattern, int idGroup, String requestUri) {
+    Matcher matcher = pattern.matcher(requestUri);
+    if (matcher.find()) {
+      return Optional.of(IdString.fromUrl(matcher.group(idGroup)).get());
+    }
+    return Optional.empty();
+  }
+
+  private Optional<Project.NameKey> getProjectNameForChangeId(String changeId) {
+    Optional<Project.NameKey> projectName = extractProjectNameFromChangeId(changeId);
+    if (projectName.isPresent()) {
+      return projectName;
+    }
+    try {
+      List<ChangeData> changeData =
+          globals
+              .queryProvider
+              .get()
+              .setRequestedFields(ChangeField.PROJECT)
+              .setLimit(2)
+              .query(globals.changeQueryBuilder.change(changeId));
+      if (changeData.size() != 1) {
+        return Optional.empty();
+      }
+      return Optional.of(changeData.get(0).project());
+    } catch (QueryParseException e) {
+      return Optional.empty();
+    }
+  }
+
+  @VisibleForTesting
+  static Optional<Project.NameKey> extractProjectNameFromChangeId(String changeId) {
+    int projectEndPosition = changeId.indexOf('~');
+    if (projectEndPosition <= 0) {
+      return Optional.empty();
+    }
+    return Optional.of(
+        Project.nameKey(IdString.fromUrl(changeId.substring(0, projectEndPosition)).get()));
   }
 
   private boolean isDelete(HttpServletRequest req) {

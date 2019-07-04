@@ -47,12 +47,18 @@ limitations under the License.
       stub('gr-account-dropdown', {
         _getTopContent: sinon.stub(),
       });
+      stub('gr-router', {
+        start: sandbox.stub(),
+      });
       stub('gr-rest-api-interface', {
         getAccount() { return Promise.resolve({}); },
         getAccountCapabilities() { return Promise.resolve({}); },
         getConfig() {
           return Promise.resolve({
             plugin: {},
+            auth: {
+              auth_type: undefined,
+            },
           });
         },
         getPreferences() { return Promise.resolve({my: []}); },
@@ -76,6 +82,13 @@ limitations under the License.
 
     test('reporting', () => {
       assert.isTrue(appElement().$.reporting.appStarted.calledOnce);
+    });
+
+    test('reporting called before router start', () => {
+      const element = appElement();
+      const appStartedStub = element.$.reporting.appStarted;
+      const routerStartStub = element.$.router.start;
+      sinon.assert.callOrder(appStartedStub, routerStartStub);
     });
 
     test('passes config to gr-plugin-host', () => {

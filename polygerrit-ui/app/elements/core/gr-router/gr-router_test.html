@@ -1100,6 +1100,28 @@ limitations under the License.
       });
 
       suite('repo routes', () => {
+        test('_handleProjectsOldRoute', () => {
+          const data = {params: {}};
+          element._handleProjectsOldRoute(data);
+          assert.isTrue(redirectStub.calledOnce);
+          assert.equal(redirectStub.lastCall.args[0], '/admin/repos/');
+        });
+
+        test('_handleProjectsOldRoute test', () => {
+          const data = {params: {1: 'test'}};
+          element._handleProjectsOldRoute(data);
+          assert.isTrue(redirectStub.calledOnce);
+          assert.equal(redirectStub.lastCall.args[0], '/admin/repos/test');
+        });
+
+        test('_handleProjectsOldRoute test,branches', () => {
+          const data = {params: {1: 'test,branches'}};
+          element._handleProjectsOldRoute(data);
+          assert.isTrue(redirectStub.calledOnce);
+          assert.equal(
+              redirectStub.lastCall.args[0], '/admin/repos/test,branches');
+        });
+
         test('_handleRepoRoute', () => {
           const data = {params: {0: 4321}};
           assertDataToParams(data, '_handleRepoRoute', {

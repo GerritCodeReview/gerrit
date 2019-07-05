@@ -4,7 +4,6 @@ build --experimental_strict_action_env
 build --action_env=PATH
 build --disk_cache=~/.gerritcodereview/bazel-cache/cas
 build --java_toolchain //tools:error_prone_warnings_toolchain
-build --incompatible_disallow_load_labels_to_cross_package_boundaries=false
 
 test --build_tests_only
 test --test_output=errors

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b250fc2c_0a299d4e",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-07-05T14:02:44Z",
+      "side": 1,
+      "message": "This is changing the logic: before it was not doing anything if data.params[1] was null, but now it redirects to \u0027/admin/repos\u0027.",
+      "revId": "2153e6cbdb329808debdfa8e4f11814fb52b4fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -258,6 +258,54 @@
       "revId": "b93bfb131394f08f37d84d8d0193b4712321a06a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24257aaa_e1578345",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6322,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-05T11:11:07Z",
+      "side": 1,
+      "message": "Yes, the light color is the current behavior - except that this case never happens in Gerrit: When you request intraline (which we always do), and the whole line has changed, Gerrit will return a/b set and edit_a/b will be set to the entire line (only the portion that actually has content, not the full width):\nhttps://gerrit-review.googlesource.com/c/gerrit/+/220974/4..5/test_intraline\n\nWhat is not defined in the documentation yet is what happens when the line is empty (and this case never occurs in Gerrit, but it can occur for other usages of gr-diff).\nIn my opinion, the dark color is the \"normal\" diff color: For example, when you just add/remove some lines, they are completely dark:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/220974/7..8/test_add_remove_lines\n\nThe API returns:\n\n  \"intraline_status\": \"OK\",\n\nBut does not return either edit_a nor edit_b. Still the UI renders it dark. Light color means: This is part of a changed line, but technically these chars have not changed.\n\n\"An empty list of edits signifies the same as if no DiffIntralineInfo is available\" - I agree. To be consistent with the example of completely added/removed lines for which the API also does not return edit_a/edit_b, I think these lines should be dark.\n\nWas I able to convince you? If not let\u0027s talk about it in person when you are back.",
+      "parentUuid": "6cb7ad25_7f477323",
+      "range": {
+        "startLine": 6321,
+        "startChar": 0,
+        "endLine": 6322,
+        "endChar": 25
+      },
+      "revId": "b93bfb131394f08f37d84d8d0193b4712321a06a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f1e3d58_f08fbe1b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6322,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-05T11:11:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "811e6706_803a9c01",
+      "range": {
+        "startLine": 6322,
+        "startChar": 11,
+        "endLine": 6322,
+        "endChar": 17
+      },
+      "revId": "b93bfb131394f08f37d84d8d0193b4712321a06a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

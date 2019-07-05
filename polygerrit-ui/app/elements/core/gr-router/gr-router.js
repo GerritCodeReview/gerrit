@@ -1092,11 +1092,16 @@
     },
 
     _handleProjectsOldRoute(data) {
+      let params = '';
       if (data.params[1]) {
-        this._redirect('/admin/repos/' + encodeURIComponent(data.params[1]));
-      } else {
-        this._redirect('/admin/repos');
+        params = encodeURIComponent(data.params[1]);
+        if (data.params[1].includes(',')) {
+          params =
+              encodeURIComponent(data.params[1]).replace('%2C', ',');
+        }
       }
+
+      this._redirect(`/admin/repos/${params}`);
     },
 
     _handleRepoCommandsRoute(data) {

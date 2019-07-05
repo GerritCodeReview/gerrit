@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c9f70d3_a606c0c5",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-07-05T18:32:58Z",
+      "side": 1,
+      "message": "Remove(d).",
+      "range": {
+        "startLine": 533,
+        "startChar": 16,
+        "endLine": 533,
+        "endChar": 20
+      },
+      "revId": "68d969ac26e3ba13660d92cab611be2075123818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

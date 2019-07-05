@@ -1,0 +1,314 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3729e320_cd3eb5dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-05T12:20:58Z",
+      "side": 1,
+      "message": "Maybe better name this something like:\n\n  \"Fixed bug: push that skipped code review ignored notify option (Part 2).\"\n\nand then refer to change 230070 below (but use the first 10 digits of the Change-Id to refer to the change because this gets linkified in the UI).",
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46902cff_518b9cd8",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1235,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-05T12:20:58Z",
+      "side": 1,
+      "message": "nit: Start sentences with capital letter.",
+      "range": {
+        "startLine": 1235,
+        "startChar": 5,
+        "endLine": 1235,
+        "endChar": 6
+      },
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8902e00_ac073fbb",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1237,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-05T12:20:58Z",
+      "side": 1,
+      "message": "nit: remove the \u0027-\u0027 between parameter name and description, it\u0027s not needed for JavaDoc",
+      "range": {
+        "startLine": 1237,
+        "startChar": 21,
+        "endLine": 1237,
+        "endChar": 22
+      },
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67182ff4_cbb974b3",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1240,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-05T12:20:58Z",
+      "side": 1,
+      "message": "Can you use the RecipientType enum here?",
+      "range": {
+        "startLine": 1240,
+        "startChar": 62,
+        "endLine": 1240,
+        "endChar": 68
+      },
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5924596e_e95769ee",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1240,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-05T12:20:58Z",
+      "side": 1,
+      "message": "Please find a better name for this method. This methods checks for 2 emails, one for the change creation, one for the submit. From the method name one would expect that it checks only for the submit email.",
+      "range": {
+        "startLine": 1240,
+        "startChar": 17,
+        "endLine": 1240,
+        "endChar": 39
+      },
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "933f6b8f_12a87dae",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1255,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-05T12:20:58Z",
+      "side": 1,
+      "message": "Looks like this code block appears twice. Can it be factored out as a method?",
+      "range": {
+        "startLine": 1249,
+        "startChar": 4,
+        "endLine": 1255,
+        "endChar": 59
+      },
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "559ab330_fa65eb93",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1264,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-05T12:20:58Z",
+      "side": 1,
+      "message": "Please move these methods into SubmitOnPushIT.java where they are used. AbstractDaemonTest should have only methods which are used by multiple tests and even this we are trying to avoid nowadays as much as possible, since this class grew much too wild over time.",
+      "range": {
+        "startLine": 1234,
+        "startChar": 1,
+        "endLine": 1264,
+        "endChar": 3
+      },
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51d2e5c8_44d841f4",
+        "filename": "java/com/google/gerrit/extensions/api/changes/NotifyInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-05T12:20:58Z",
+      "side": 1,
+      "message": "also mention emails here?",
+      "range": {
+        "startLine": 24,
+        "startChar": 51,
+        "endLine": 24,
+        "endChar": 88
+      },
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcd3deb8_acd6cdf3",
+        "filename": "java/com/google/gerrit/extensions/api/changes/NotifyInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-05T12:20:58Z",
+      "side": 1,
+      "message": "nit: a list",
+      "range": {
+        "startLine": 25,
+        "startChar": 12,
+        "endLine": 25,
+        "endChar": 16
+      },
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5247d617_96f433d2",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-05T12:20:58Z",
+      "side": 1,
+      "message": "nit: it\u0027s our team convention that Id classes should not be imported directly, instead you should import the Account class and then use Account.Id as type below",
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "737848c0_c00d9ff9",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2660,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-05T12:20:58Z",
+      "side": 1,
+      "message": "Can you find a less-generic method name that describes better what this method is doing?",
+      "range": {
+        "startLine": 2660,
+        "startChar": 30,
+        "endLine": 2660,
+        "endChar": 42
+      },
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98f6fe61_f79a25e9",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2665,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-05T12:20:58Z",
+      "side": 1,
+      "message": "I would suggest using a stream here so that this becomes a one-liner:\n\n  return idList.stream().map(Object::toString).collect(toList());",
+      "range": {
+        "startLine": 2661,
+        "startChar": 4,
+        "endLine": 2665,
+        "endChar": 22
+      },
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b39b23b4_7d75b44d",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-05T12:20:58Z",
+      "side": 1,
+      "message": "I\u0027m still not happy with the test names. Just looking at the test class and test name I wouldn\u0027t understand what this is testing. Maybe name it something like \"submitWithNotifyOption\", and the test below \"submitWithNotifyingUsersExplicitly\"?",
+      "range": {
+        "startLine": 364,
+        "startChar": 14,
+        "endLine": 364,
+        "endChar": 45
+      },
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe9e75e7_68c93488",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-05T12:20:58Z",
+      "side": 1,
+      "message": "The message is for a change creation (change has been uploaded and reviewer is asked to review it), not for a change review (reviewer commented and people are informed about the review comments). Can you make these comment less ambiguous?\n\nI think having a need for this comment also indicates the the method should have a better name.",
+      "range": {
+        "startLine": 387,
+        "startChar": 66,
+        "endLine": 387,
+        "endChar": 72
+      },
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

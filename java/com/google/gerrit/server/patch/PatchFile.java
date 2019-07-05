@@ -123,33 +123,6 @@ public class PatchFile {
     }
   }
 
-  /**
-   * Return number of lines in file.
-   *
-   * @param file the file index to extract.
-   * @return number of lines in file.
-   * @throws IOException the patch or complete file content cannot be read.
-   * @throws NoSuchEntityException the file is not exist.
-   */
-  public int getLineCount(int file) throws IOException, NoSuchEntityException {
-    switch (file) {
-      case 0:
-        if (a == null) {
-          a = load(aTree, getOldName());
-        }
-        return a.size();
-
-      case 1:
-        if (b == null) {
-          b = load(bTree, entry.getNewName());
-        }
-        return b.size();
-
-      default:
-        throw new NoSuchEntityException();
-    }
-  }
-
   private Text load(ObjectId tree, String path)
       throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException,
           IOException {

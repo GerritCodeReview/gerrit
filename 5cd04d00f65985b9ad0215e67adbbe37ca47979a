@@ -23,6 +23,30 @@
       "revId": "5cd04d00f65985b9ad0215e67adbbe37ca47979a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc6b20b4_2d11c925",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-07-05T18:46:17Z",
+      "side": 1,
+      "message": "Done, as well as that method renaming right beside.\n\nSorry for the noise with this prematurely stacked merge-up.",
+      "parentUuid": "3456288f_418e9366",
+      "range": {
+        "startLine": 564,
+        "startChar": 16,
+        "endLine": 564,
+        "endChar": 20
+      },
+      "revId": "5cd04d00f65985b9ad0215e67adbbe37ca47979a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

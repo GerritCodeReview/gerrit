@@ -87,6 +87,14 @@ public class PatchFile {
     }
   }
 
+  private String getOldName() {
+    String name = entry.getOldName();
+    if (name != null) {
+      return name;
+    }
+    return entry.getNewName();
+  }
+
   /**
    * Extract a line from the file, as a string.
    *
@@ -100,7 +108,7 @@ public class PatchFile {
     switch (file) {
       case 0:
         if (a == null) {
-          a = load(aTree, entry.getOldName());
+          a = load(aTree, getOldName());
         }
         return a.getString(line - 1);
 
@@ -127,7 +135,7 @@ public class PatchFile {
     switch (file) {
       case 0:
         if (a == null) {
-          a = load(aTree, entry.getOldName());
+          a = load(aTree, getOldName());
         }
         return a.size();
 

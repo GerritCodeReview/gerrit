@@ -285,6 +285,30 @@
     },
     {
       "key": {
+        "uuid": "b84657c5_c747dd60",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-05T07:36:28Z",
+      "side": 1,
+      "message": "It was in fact Alice\u0027s suggestion to split them :)\nI agreed with her mostly, while I also think it really doesn\u0027t matter and it\u0027s subjective what is more readable (I think the current way is more readable but a little bit too long). Since it\u0027s just subjective, I opt for no change here.",
+      "parentUuid": "d63d7c5e_67e4a276",
+      "range": {
+        "startLine": 276,
+        "startChar": 34,
+        "endLine": 276,
+        "endChar": 43
+      },
+      "revId": "3e226ebbbf1daaeb3dbd512dfec4daaeb850c914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c739665b_b3f0ec3f",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 3
@@ -296,6 +320,30 @@
       "writtenOn": "2019-07-03T13:17:27Z",
       "side": 1,
       "message": "Can you import this directly, so you say\n\n  assertThat(xx) \n\nhere?",
+      "range": {
+        "startLine": 304,
+        "startChar": 4,
+        "endLine": 304,
+        "endChar": 32
+      },
+      "revId": "3e226ebbbf1daaeb3dbd512dfec4daaeb850c914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d453caed_374b6941",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-05T07:36:28Z",
+      "side": 1,
+      "message": "assertThat(xx) and CacheStatsSubject.assertThat(xx) are two different functions. One is Java.Truth, and other is a CacheStatsSubject function.\nI can import CacheStatsSubject.assertThat, but I feel like it just makes the code way more confusing. Don\u0027t you agree?",
+      "parentUuid": "c739665b_b3f0ec3f",
       "range": {
         "startLine": 304,
         "startChar": 4,

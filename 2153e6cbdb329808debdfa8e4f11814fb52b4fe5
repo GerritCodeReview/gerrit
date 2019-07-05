@@ -34,6 +34,24 @@
       "revId": "2153e6cbdb329808debdfa8e4f11814fb52b4fe5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1740f8f1_5d13d438",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-07-05T14:59:09Z",
+      "side": 1,
+      "message": "\u003e It was, if data.params[1]  was null/undefined then it would redirect to /admin/repos (see the left side diff).\n\u003e \n\u003e This is just reducing duplication.\n\nOh apologies, I misread. However, your refactoring would add an extra \u0027/\u0027 that wasn\u0027t there in the else clause.",
+      "parentUuid": "a06536fc_768ea6d4",
+      "revId": "2153e6cbdb329808debdfa8e4f11814fb52b4fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

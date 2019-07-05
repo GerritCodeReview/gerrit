@@ -624,7 +624,7 @@ public class CommentSender extends ReplyToChangeSender {
     } catch (IndexOutOfBoundsException err) {
       // Default to the empty string if the given line number does not appear
       // in the file.
-      log.debug("Failed to get line number of file on side {}", side, err);
+      log.debug("Failed to get line number {} of file on side {}", lineNbr, side, err);
       return "";
     } catch (NoSuchEntityException err) {
       // Default to the empty string if the side cannot be found.

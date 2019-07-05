@@ -4552,6 +4552,42 @@ installed, because then performance logging is always disabled.
 +
 By default, true.
 
+[[tracing.traceid]]
+==== Subsection tracing.<trace-id>
+
+There can be multiple `tracing.<trace-id>` subsections to configure
+automatic tracing of requests. To be traced a request must match all
+conditions of one `tracing.<trace-id>` subsection. The subsection name
+is used as trace ID. Using this trace ID administrators can find
+matching log entries.
+
+[[tracing.traceid.requestType]]tracing.<trace-id>.requestType::
++
+Type of request for which request tracing should be always enabled (can
+be `GIT_RECEIVE`, `GIT_UPLOAD`, `REST` and `SSH`).
++
+May be specified multiple times.
++
+By default, unset (all request types are matched).
+
+[[tracing.traceid.account]]tracing.<trace-id>.account::
++
+Account ID of an account for which request tracing should be always
+enabled.
++
+May be specified multiple times.
++
+By default, unset (all accounts are matched).
+
+[[tracing.traceid.projectPattern]]tracing.<trace-id>.projectPattern::
++
+Regular expression to match project names for which request tracing
+should be always enabled.
++
+May be specified multiple times.
++
+By default, unset (all projects are matched).
+
 [[trackingid]]
 === Section trackingid
 

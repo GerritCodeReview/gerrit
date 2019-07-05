@@ -47,8 +47,10 @@
     _applyStyle(name) {
       if (this._stylesApplied.includes(name)) { return; }
       this._stylesApplied.push(name);
+      const c = document.createElement('custom-style');
       const s = document.createElement('style', 'custom-style');
       s.setAttribute('include', name);
+      c.appendChild(s);
       Polymer.dom(this.root).appendChild(s);
     },
 

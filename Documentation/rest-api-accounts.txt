@@ -1257,7 +1257,6 @@ any account.
     "time_format": "HHMM_12",
     "diff_view": "SIDE_BY_SIDE",
     "size_bar_in_change_table": true,
-    "review_category_strategy": "ABBREV",
     "mute_common_path_prefixes": true,
     "publish_comments_on_push": true,
     "work_in_progress_by_default": true,
@@ -1313,7 +1312,6 @@ link:#preferences-input[PreferencesInput] entity.
     "date_format": "STD",
     "time_format": "HHMM_12",
     "size_bar_in_change_table": true,
-    "review_category_strategy": "NAME",
     "diff_view": "SIDE_BY_SIDE",
     "mute_common_path_prefixes": true,
     "my": [
@@ -1364,7 +1362,6 @@ link:#preferences-info[PreferencesInfo] entity.
     "date_format": "STD",
     "time_format": "HHMM_12",
     "size_bar_in_change_table": true,
-    "review_category_strategy": "NAME",
     "diff_view": "SIDE_BY_SIDE",
     "publish_comments_on_push": true,
     "work_in_progress_by_default": true,
@@ -2750,9 +2747,6 @@ Allowed values are `SIDE_BY_SIDE`, `UNIFIED_DIFF`.
 Whether to show the change sizes as colored bars in the change table.
 |`legacycid_in_change_table`    |not set if `false`|
 Whether to show change number in the change table.
-|`review_category_strategy`     ||
-The strategy used to displayed info in the review category column.
-Allowed values are `NONE`, `NAME`, `EMAIL`, `USERNAME`, `ABBREV`.
 |`mute_common_path_prefixes`    |not set if `false`|
 Whether to mute common path prefixes in file names in the file table.
 |`signed_off_by`                |not set if `false`|
@@ -2822,9 +2816,6 @@ Allowed values are `SIDE_BY_SIDE`, `UNIFIED_DIFF`.
 Whether to show the change sizes as colored bars in the change table.
 |`legacycid_in_change_table`    |optional|
 Whether to show change number in the change table.
-|`review_category_strategy`     |optional|
-The strategy used to displayed info in the review category column.
-Allowed values are `NONE`, `NAME`, `EMAIL`, `USERNAME`, `ABBREV`.
 |`mute_common_path_prefixes`    |optional|
 Whether to mute common path prefixes in file names in the file table.
 |`signed_off_by`                |optional|

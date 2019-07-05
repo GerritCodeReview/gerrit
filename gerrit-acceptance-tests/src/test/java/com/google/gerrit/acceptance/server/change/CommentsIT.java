@@ -536,8 +536,14 @@ public class CommentsIT extends AbstractDaemonTest {
 
   @Test
   public void publishCommentsAllRevisions() throws Exception {
-    PushOneCommit.Result r1 = createChange();
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
 
+    pushFactory
+        .create(db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "old\ncontent\n", changeId)
+        .to("refs/heads/master");
+
+    PushOneCommit.Result r1 = createChange();
     PushOneCommit.Result r2 =
         pushFactory
             .create(
@@ -546,18 +552,18 @@ public class CommentsIT extends AbstractDaemonTest {
                 testRepo,
                 SUBJECT,
                 FILE_NAME,
-                "new\ncntent\n",
+                "new \ncntent\n",
                 r1.getChangeId())
             .to("refs/for/master");
 
     addDraft(
         r1.getChangeId(),
         r1.getCommit().getName(),
-        newDraft(FILE_NAME, Side.REVISION, 1, "nit: trailing whitespace"));
+        newDraft(FILE_NAME, Side.REVISION, range(1, 0, 4), "nit: trailing whitespace"));
     addDraft(
         r1.getChangeId(),
         r1.getCommit().getName(),
-        newDraft(FILE_NAME, Side.PARENT, 2, "what happened to this?"));
+        newDraft(FILE_NAME, Side.PARENT, range(1, 0, 3), "why is this removed?"));
     addDraft(
         r2.getChangeId(),
         r2.getCommit().getName(),
@@ -565,15 +571,15 @@ public class CommentsIT extends AbstractDaemonTest {
     addDraft(
         r2.getChangeId(),
         r2.getCommit().getName(),
-        newDraft(FILE_NAME, Side.REVISION, 2, "typo: content"));
+        newDraft(FILE_NAME, Side.REVISION, range(2, 0, 6), "typo: content"));
     addDraft(
         r2.getChangeId(),
         r2.getCommit().getName(),
-        newDraft(FILE_NAME, Side.PARENT, 1, "comment 1 on base"));
+        newDraft(FILE_NAME, Side.PARENT, 1, "line comment 1 on base"));
     addDraft(
         r2.getChangeId(),
         r2.getCommit().getName(),
-        newDraft(FILE_NAME, Side.PARENT, 2, "comment 2 on base"));
+        newDraft(FILE_NAME, Side.PARENT, 2, "line comment 2 on base"));
 
     PushOneCommit.Result other = createChange();
     // Drafts on other changes aren't returned.
@@ -600,7 +606,7 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(ps1Map.keySet()).containsExactly(FILE_NAME);
     List<CommentInfo> ps1List = ps1Map.get(FILE_NAME);
     assertThat(ps1List).hasSize(2);
-    assertThat(ps1List.get(0).message).isEqualTo("what happened to this?");
+    assertThat(ps1List.get(0).message).isEqualTo("why is this removed?");
     assertThat(ps1List.get(0).side).isEqualTo(Side.PARENT);
     assertThat(ps1List.get(1).message).isEqualTo("nit: trailing whitespace");
     assertThat(ps1List.get(1).side).isNull();
@@ -612,8 +618,8 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(ps2Map.keySet()).containsExactly(FILE_NAME);
     List<CommentInfo> ps2List = ps2Map.get(FILE_NAME);
     assertThat(ps2List).hasSize(4);
-    assertThat(ps2List.get(0).message).isEqualTo("comment 1 on base");
-    assertThat(ps2List.get(1).message).isEqualTo("comment 2 on base");
+    assertThat(ps2List.get(0).message).isEqualTo("line comment 1 on base");
+    assertThat(ps2List.get(1).message).isEqualTo("line comment 2 on base");
     assertThat(ps2List.get(2).message).isEqualTo("join lines");
     assertThat(ps2List.get(3).message).isEqualTo("typo: content");
 
@@ -638,16 +644,16 @@ public class CommentsIT extends AbstractDaemonTest {
                 + url
                 + "#/c/"
                 + c
-                + "/1/a.txt@a2\n"
-                + "PS1, Line 2: \n"
-                + "what happened to this?\n"
+                + "/1/a.txt@a1\n"
+                + "PS1, Line 1: old\n"
+                + "why is this removed?\n"
                 + "\n"
                 + "\n"
                 + url
                 + "#/c/"
                 + c
                 + "/1/a.txt@1\n"
-                + "PS1, Line 1: ew\n"
+                + "PS1, Line 1: new \n"
                 + "nit: trailing whitespace\n"
                 + "\n"
                 + "\n"
@@ -661,23 +667,23 @@ public class CommentsIT extends AbstractDaemonTest {
                 + "#/c/"
                 + c
                 + "/2/a.txt@a1\n"
-                + "PS2, Line 1: \n"
-                + "comment 1 on base\n"
+                + "PS2, Line 1: old\n"
+                + "line comment 1 on base\n"
                 + "\n"
                 + "\n"
                 + url
                 + "#/c/"
                 + c
                 + "/2/a.txt@a2\n"
-                + "PS2, Line 2: \n"
-                + "comment 2 on base\n"
+                + "PS2, Line 2: content\n"
+                + "line comment 2 on base\n"
                 + "\n"
                 + "\n"
                 + url
                 + "#/c/"
                 + c
                 + "/2/a.txt@1\n"
-                + "PS2, Line 1: ew\n"
+                + "PS2, Line 1: new \n"
                 + "join lines\n"
                 + "\n"
                 + "\n"
@@ -685,7 +691,7 @@ public class CommentsIT extends AbstractDaemonTest {
                 + "#/c/"
                 + c
                 + "/2/a.txt@2\n"
-                + "PS2, Line 2: nten\n"
+                + "PS2, Line 2: cntent\n"
                 + "typo: content\n"
                 + "\n"
                 + "\n");
@@ -1129,25 +1135,46 @@ public class CommentsIT extends AbstractDaemonTest {
     return populate(d, path, side, null, line, message, false);
   }
 
+  private DraftInput newDraft(String path, Side side, Comment.Range range, String message) {
+    DraftInput d = new DraftInput();
+    return populate(d, path, side, null, range.startLine, range, message, false);
+  }
+
   private DraftInput newDraftOnParent(String path, int parent, int line, String message) {
     DraftInput d = new DraftInput();
     return populate(d, path, Side.PARENT, Integer.valueOf(parent), line, message, false);
   }
 
+  private static Comment.Range range(int line, int startCharacter, int endCharacter) {
+    Comment.Range range = new Comment.Range();
+    range.startLine = line;
+    range.startCharacter = startCharacter;
+    range.endLine = line;
+    range.endCharacter = endCharacter;
+    return range;
+  }
+
   private static <C extends Comment> C populate(
       C c, String path, Side side, Integer parent, int line, String message, Boolean unresolved) {
+    return populate(c, path, side, parent, line, null, message, unresolved);
+  }
+
+  private static <C extends Comment> C populate(
+      C c,
+      String path,
+      Side side,
+      Integer parent,
+      int line,
+      Comment.Range range,
+      String message,
+      Boolean unresolved) {
     c.path = path;
     c.side = side;
     c.parent = parent;
     c.line = line != 0 ? line : null;
     c.message = message;
     c.unresolved = unresolved;
-    if (line != 0) {
-      Comment.Range range = new Comment.Range();
-      range.startLine = line;
-      range.startCharacter = 1;
-      range.endLine = line;
-      range.endCharacter = 5;
+    if (range != null) {
       c.range = range;
     }
     return c;

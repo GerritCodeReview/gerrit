@@ -715,10 +715,6 @@ public class ProjectIT extends AbstractDaemonTest {
       countsByProject.clear();
     }
 
-    long getCount(String projectName) {
-      return countsByProject.get(projectName);
-    }
-
     void assertReindexOf(String projectName) {
       assertReindexOf(projectName, 1);
     }

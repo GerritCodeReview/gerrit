@@ -48,6 +48,9 @@ public class ElasticVersionTest {
 
     assertThat(ElasticVersion.forVersion("7.1.0")).isEqualTo(ElasticVersion.V7_1);
     assertThat(ElasticVersion.forVersion("7.1.1")).isEqualTo(ElasticVersion.V7_1);
+
+    assertThat(ElasticVersion.forVersion("7.2.0")).isEqualTo(ElasticVersion.V7_2);
+    assertThat(ElasticVersion.forVersion("7.2.1")).isEqualTo(ElasticVersion.V7_2);
   }
 
   @Test
@@ -73,6 +76,7 @@ public class ElasticVersionTest {
     assertThat(ElasticVersion.V6_7.isAtLeastMinorVersion(ElasticVersion.V6_7)).isTrue();
     assertThat(ElasticVersion.V7_0.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
     assertThat(ElasticVersion.V7_1.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
+    assertThat(ElasticVersion.V7_2.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
   }
 
   @Test
@@ -86,6 +90,7 @@ public class ElasticVersionTest {
     assertThat(ElasticVersion.V6_7.isV6OrLater()).isTrue();
     assertThat(ElasticVersion.V7_0.isV6OrLater()).isTrue();
     assertThat(ElasticVersion.V7_1.isV6OrLater()).isTrue();
+    assertThat(ElasticVersion.V7_2.isV6OrLater()).isTrue();
   }
 
   @Test
@@ -99,5 +104,6 @@ public class ElasticVersionTest {
     assertThat(ElasticVersion.V6_7.isV7OrLater()).isFalse();
     assertThat(ElasticVersion.V7_0.isV7OrLater()).isTrue();
     assertThat(ElasticVersion.V7_1.isV7OrLater()).isTrue();
+    assertThat(ElasticVersion.V7_2.isV7OrLater()).isTrue();
   }
 }

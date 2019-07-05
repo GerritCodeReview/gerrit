@@ -68,14 +68,6 @@ public class GeneralPreferencesInfo {
     }
   }
 
-  public enum ReviewCategoryStrategy {
-    NONE,
-    NAME,
-    EMAIL,
-    USERNAME,
-    ABBREV
-  }
-
   public enum DiffView {
     SIDE_BY_SIDE,
     UNIFIED_DIFF
@@ -144,7 +136,6 @@ public class GeneralPreferencesInfo {
   public DiffView diffView;
   public Boolean sizeBarInChangeTable;
   public Boolean legacycidInChangeTable;
-  public ReviewCategoryStrategy reviewCategoryStrategy;
   public Boolean muteCommonPathPrefixes;
   public Boolean signedOffBy;
   public EmailStrategy emailStrategy;
@@ -155,10 +146,6 @@ public class GeneralPreferencesInfo {
   public List<MenuItem> my;
   public List<String> changeTable;
   public Map<String, String> urlAliases;
-
-  public boolean isShowInfoInReviewCategory() {
-    return getReviewCategoryStrategy() != ReviewCategoryStrategy.NONE;
-  }
 
   public DateFormat getDateFormat() {
     if (dateFormat == null) {
@@ -172,13 +159,6 @@ public class GeneralPreferencesInfo {
       return TimeFormat.HHMM_12;
     }
     return timeFormat;
-  }
-
-  public ReviewCategoryStrategy getReviewCategoryStrategy() {
-    if (reviewCategoryStrategy == null) {
-      return ReviewCategoryStrategy.NONE;
-    }
-    return reviewCategoryStrategy;
   }
 
   public DiffView getDiffView() {
@@ -215,7 +195,6 @@ public class GeneralPreferencesInfo {
     p.diffView = DiffView.SIDE_BY_SIDE;
     p.sizeBarInChangeTable = true;
     p.legacycidInChangeTable = false;
-    p.reviewCategoryStrategy = ReviewCategoryStrategy.NONE;
     p.muteCommonPathPrefixes = true;
     p.signedOffBy = false;
     p.emailStrategy = EmailStrategy.ENABLED;

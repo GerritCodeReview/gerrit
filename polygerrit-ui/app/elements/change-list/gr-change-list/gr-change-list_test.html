@@ -221,38 +221,29 @@ limitations under the License.
         {
           _number: 1,
           status: 'NEW',
-          reviewed: false,
           owner: {_account_id: 0},
         },
         {
           _number: 2,
           status: 'MERGED',
-          reviewed: false,
           owner: {_account_id: 0},
         },
         {
           _number: 3,
           status: 'ABANDONED',
-          reviewed: false,
           owner: {_account_id: 0},
         },
         {
           _number: 4,
           status: 'NEW',
-          reviewed: false,
           work_in_progress: true,
-          owner: {_account_id: 0},
-        },
-        {
-          _number: 5,
-          status: 'NEW',
           owner: {_account_id: 0},
         },
       ];
       flushAsynchronousOperations();
       let elementItems = Polymer.dom(element.root).querySelectorAll(
           'gr-change-list-item');
-      assert.equal(elementItems.length, 6);
+      assert.equal(elementItems.length, 5);
       for (let i = 0; i < elementItems.length; i++) {
         assert.isFalse(elementItems[i].hasAttribute('needs-review'));
       }
@@ -260,24 +251,22 @@ limitations under the License.
       element.showReviewedState = true;
       elementItems = Polymer.dom(element.root).querySelectorAll(
           'gr-change-list-item');
-      assert.equal(elementItems.length, 6);
+      assert.equal(elementItems.length, 5);
       assert.isFalse(elementItems[0].hasAttribute('needs-review'));
       assert.isTrue(elementItems[1].hasAttribute('needs-review'));
       assert.isFalse(elementItems[2].hasAttribute('needs-review'));
       assert.isFalse(elementItems[3].hasAttribute('needs-review'));
       assert.isFalse(elementItems[4].hasAttribute('needs-review'));
-      assert.isFalse(elementItems[5].hasAttribute('needs-review'));
 
       element.account = {_account_id: 42};
       elementItems = Polymer.dom(element.root).querySelectorAll(
           'gr-change-list-item');
-      assert.equal(elementItems.length, 6);
+      assert.equal(elementItems.length, 5);
       assert.isFalse(elementItems[0].hasAttribute('needs-review'));
       assert.isTrue(elementItems[1].hasAttribute('needs-review'));
       assert.isFalse(elementItems[2].hasAttribute('needs-review'));
       assert.isFalse(elementItems[3].hasAttribute('needs-review'));
       assert.isFalse(elementItems[4].hasAttribute('needs-review'));
-      assert.isFalse(elementItems[5].hasAttribute('needs-review'));
     });
 
     test('no changes', () => {

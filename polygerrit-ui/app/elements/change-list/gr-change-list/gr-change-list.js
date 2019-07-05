@@ -236,7 +236,7 @@
     },
 
     _computeItemNeedsReview(account, change, showReviewedState) {
-      return showReviewedState && change.reviewed === false &&
+      return showReviewedState && !change.reviewed &&
           !change.work_in_progress &&
           this.changeIsOpen(change.status) &&
           (!account || account._account_id != change.owner._account_id);

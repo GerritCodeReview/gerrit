@@ -350,6 +350,118 @@ public class TraceIT extends AbstractDaemonTest {
     assertThat(testPerformanceLogger.logEntries()).isEmpty();
   }
 
+  @Test
+  @GerritConfig(name = "tracing.issue123.projectPattern", value = "new12")
+  public void traceProject() throws Exception {
+    RestResponse response = adminRestSession.put("/projects/new12");
+    assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
+    assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+    assertThat(projectCreationListener.traceId).isEqualTo("issue123");
+    assertThat(projectCreationListener.isLoggingForced).isTrue();
+    assertThat(projectCreationListener.tags.get("project")).containsExactly("new12");
+  }
+
+  @Test
+  @GerritConfig(name = "tracing.issue123.projectPattern", value = "new.*")
+  public void traceProjectMatchRegEx() throws Exception {
+    RestResponse response = adminRestSession.put("/projects/new13");
+    assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
+    assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+    assertThat(projectCreationListener.traceId).isEqualTo("issue123");
+    assertThat(projectCreationListener.isLoggingForced).isTrue();
+    assertThat(projectCreationListener.tags.get("project")).containsExactly("new13");
+  }
+
+  @Test
+  @GerritConfig(name = "tracing.issue123.projectPattern", value = "foo.*")
+  public void traceProjectNoMatch() throws Exception {
+    RestResponse response = adminRestSession.put("/projects/new13");
+    assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
+    assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+    assertThat(projectCreationListener.traceId).isNull();
+    assertThat(projectCreationListener.isLoggingForced).isFalse();
+
+    // The logging tag with the project name is also set if tracing is off.
+    assertThat(projectCreationListener.tags.get("project")).containsExactly("new13");
+  }
+
+  @Test
+  @GerritConfig(name = "tracing.issue123.projectPattern", value = "][")
+  public void traceProjectNoInvalidRegEx() throws Exception {
+    RestResponse response = adminRestSession.put("/projects/new14");
+    assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
+    assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+    assertThat(projectCreationListener.traceId).isNull();
+    assertThat(projectCreationListener.isLoggingForced).isFalse();
+
+    // The logging tag with the project name is also set if tracing is off.
+    assertThat(projectCreationListener.tags.get("project")).containsExactly("new14");
+  }
+
+  @Test
+  @GerritConfig(name = "tracing.issue123.user", value = "admin")
+  public void traceUser() throws Exception {
+    RestResponse response = adminRestSession.put("/projects/new15");
+    assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
+    assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+    assertThat(projectCreationListener.traceId).isEqualTo("issue123");
+    assertThat(projectCreationListener.isLoggingForced).isTrue();
+    assertThat(projectCreationListener.tags.get("project")).containsExactly("new15");
+  }
+
+  @Test
+  @GerritConfig(name = "tracing.issue123.user", value = "user")
+  public void traceUserNoMatch() throws Exception {
+    RestResponse response = adminRestSession.put("/projects/new16");
+    assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
+    assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+    assertThat(projectCreationListener.traceId).isNull();
+    assertThat(projectCreationListener.isLoggingForced).isFalse();
+
+    // The logging tag with the project name is also set if tracing is off.
+    assertThat(projectCreationListener.tags.get("project")).containsExactly("new16");
+  }
+
+  @Test
+  @GerritConfig(name = "tracing.issue123.user", value = "admin")
+  @GerritConfig(name = "tracing.issue123.projectPattern", value = "new.*")
+  public void traceProjectForUser() throws Exception {
+    RestResponse response = adminRestSession.put("/projects/new17");
+    assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
+    assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+    assertThat(projectCreationListener.traceId).isEqualTo("issue123");
+    assertThat(projectCreationListener.isLoggingForced).isTrue();
+    assertThat(projectCreationListener.tags.get("project")).containsExactly("new17");
+  }
+
+  @Test
+  @GerritConfig(name = "tracing.issue123.user", value = "admin")
+  @GerritConfig(name = "tracing.issue123.projectPattern", value = "foo.*")
+  public void traceProjectForUserNoProjectMatch() throws Exception {
+    RestResponse response = adminRestSession.put("/projects/new18");
+    assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
+    assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+    assertThat(projectCreationListener.traceId).isNull();
+    assertThat(projectCreationListener.isLoggingForced).isFalse();
+
+    // The logging tag with the project name is also set if tracing is off.
+    assertThat(projectCreationListener.tags.get("project")).containsExactly("new18");
+  }
+
+  @Test
+  @GerritConfig(name = "tracing.issue123.user", value = "user")
+  @GerritConfig(name = "tracing.issue123.projectPattern", value = "new.*")
+  public void traceProjectForUserNoUserMatch() throws Exception {
+    RestResponse response = adminRestSession.put("/projects/new19");
+    assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
+    assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+    assertThat(projectCreationListener.traceId).isNull();
+    assertThat(projectCreationListener.isLoggingForced).isFalse();
+
+    // The logging tag with the project name is also set if tracing is off.
+    assertThat(projectCreationListener.tags.get("project")).containsExactly("new19");
+  }
+
   private void assertForceLogging(boolean expected) {
     assertThat(LoggingContext.getInstance().shouldForceLogging(null, null, false))
         .isEqualTo(expected);

@@ -42,6 +42,48 @@
     },
     {
       "key": {
+        "uuid": "ca47af59_d8e8de02",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-07-05T12:32:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42676c21_c149035b",
+      "range": {
+        "startLine": 574,
+        "startChar": 65,
+        "endLine": 574,
+        "endChar": 70
+      },
+      "revId": "aab4ef72e7143d15bee32a607cb9482fdd0e0620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67709dec_c7850bf2",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-07-05T12:32:16Z",
+      "side": 1,
+      "message": "We don\u0027t have a bug about that AFAIK. I am not sure whether this is really crazy.\n\nNot being able to call text() twice on the response object is a browser API.\n\nAnd there is certainly some awkwardness in this method, because we are passing in an error handler into rest-api.js, which is not really made for that and assumes that it would always do response parsing and error handling by itself. Changing that is at least a bigger change than I am willing to do at the moment.",
+      "parentUuid": "c1a81cab_d3f9d195",
+      "revId": "aab4ef72e7143d15bee32a607cb9482fdd0e0620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82c9f3ab_e7a1a6d4",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 2
@@ -53,6 +95,24 @@
       "writtenOn": "2019-07-05T12:14:14Z",
       "side": 1,
       "message": "Potentially cleaner: Turn this if around and keep the shared lines for firing the error and returning null for both cases. Matter of taste.",
+      "revId": "aab4ef72e7143d15bee32a607cb9482fdd0e0620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4ae1644_a4a3d5b5",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-07-05T12:32:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82c9f3ab_e7a1a6d4",
       "revId": "aab4ef72e7143d15bee32a607cb9482fdd0e0620",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "28ead838_ba824cc3",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-07-05T12:32:16Z",
+      "side": 1,
+      "message": "I don\u0027t think that every emitter of this event should add a comment about it. That comment would rather belong into gr-error-manager where the event should be defined in an enum and explained.\n\nMaybe \"server-error\" should be renamed to \"rest-api-error\". It just means that an error occurred while calling the server and that such an error has a HTTP response code.",
+      "parentUuid": "5d9180d6_b7c6cd24",
+      "range": {
+        "startLine": 582,
+        "startChar": 21,
+        "endLine": 582,
+        "endChar": 33
+      },
+      "revId": "aab4ef72e7143d15bee32a607cb9482fdd0e0620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23919447_a688b60b",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 2
@@ -96,6 +180,24 @@
       "revId": "aab4ef72e7143d15bee32a607cb9482fdd0e0620",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "699301a4_8f65059c",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-07-05T12:32:16Z",
+      "side": 1,
+      "message": "Yeah, that is why the method is called _handle400Error(). We already know that it definitely is an error. If the response code is 200, then getResponseObject will be called somewhere else.",
+      "parentUuid": "23919447_a688b60b",
+      "revId": "aab4ef72e7143d15bee32a607cb9482fdd0e0620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

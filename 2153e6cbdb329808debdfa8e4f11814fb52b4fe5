@@ -16,6 +16,24 @@
       "revId": "2153e6cbdb329808debdfa8e4f11814fb52b4fe5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a06536fc_768ea6d4",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-05T14:28:41Z",
+      "side": 1,
+      "message": "It was, if data.params[1]  was null/undefined then it would redirect to /admin/repos (see the left side diff).\n\nThis is just reducing duplication.",
+      "parentUuid": "b250fc2c_0a299d4e",
+      "revId": "2153e6cbdb329808debdfa8e4f11814fb52b4fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

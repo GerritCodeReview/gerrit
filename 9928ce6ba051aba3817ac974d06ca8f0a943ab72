@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cd133a07_ba45dc92",
+        "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-05T07:18:33Z",
+      "side": 1,
+      "message": "You are right that we should open the trace context before the permission check is done.\n\nDone.",
+      "parentUuid": "70bcd1a6_52c708e4",
+      "revId": "9928ce6ba051aba3817ac974d06ca8f0a943ab72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a17b585c_9e6b2351",
         "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "064874c0_22b2d11a",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1479,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-05T07:18:33Z",
+      "side": 1,
+      "message": "We want to be sure here that the changeId unambiguously identifies 1 change. If we set limit to 1 there could be a second match which we are not told about.\n\nAdded some comments to make this clearer.",
+      "parentUuid": "a17b585c_9e6b2351",
+      "range": {
+        "startLine": 1477,
+        "startChar": 14,
+        "endLine": 1479,
+        "endChar": 35
+      },
+      "revId": "9928ce6ba051aba3817ac974d06ca8f0a943ab72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2445fd74_d6de76af",
         "filename": "java/com/google/gerrit/server/RequestInfo.java",
         "patchSetId": 1
@@ -62,6 +104,30 @@
       "revId": "9928ce6ba051aba3817ac974d06ca8f0a943ab72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "497952ca_29065c6b",
+        "filename": "java/com/google/gerrit/server/RequestInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-05T07:18:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2445fd74_d6de76af",
+      "range": {
+        "startLine": 33,
+        "startChar": 82,
+        "endLine": 34,
+        "endChar": 30
+      },
+      "revId": "9928ce6ba051aba3817ac974d06ca8f0a943ab72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

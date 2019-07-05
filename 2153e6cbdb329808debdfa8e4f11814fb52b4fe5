@@ -52,6 +52,24 @@
       "revId": "2153e6cbdb329808debdfa8e4f11814fb52b4fe5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71533fa8_3ad44fae",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-05T15:08:35Z",
+      "side": 1,
+      "message": "Yup, though it\u0027s perfectly save as the repo list is served on both /repos and /repos/ (so the additional / will not cause a regression based on testing)",
+      "parentUuid": "1740f8f1_5d13d438",
+      "revId": "2153e6cbdb329808debdfa8e4f11814fb52b4fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

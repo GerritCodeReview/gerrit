@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e5dc9f9_4495302b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-05T03:26:52Z",
+      "side": 1,
+      "message": "This is no longer used. Removed in https://gerrit-review.googlesource.com/c/gerrit/+/230320",
+      "range": {
+        "startLine": 718,
+        "startChar": 4,
+        "endLine": 720,
+        "endChar": 5
+      },
+      "revId": "2100adc5b3eb91dcec544b45324950d0b5e7f4d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

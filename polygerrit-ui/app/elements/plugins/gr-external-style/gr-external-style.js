@@ -47,9 +47,13 @@
     _applyStyle(name) {
       if (this._stylesApplied.includes(name)) { return; }
       this._stylesApplied.push(name);
+      // Hybrid custom-style syntax:
+      // https://polymer-library.polymer-project.org/2.0/docs/devguide/style-shadow-dom
       const s = document.createElement('style', 'custom-style');
       s.setAttribute('include', name);
-      Polymer.dom(this.root).appendChild(s);
+      const cs = document.createElement('custom-style');
+      cs.appendChild(s);
+      Polymer.dom(this.root).appendChild(cs);
     },
 
     _importAndApply() {

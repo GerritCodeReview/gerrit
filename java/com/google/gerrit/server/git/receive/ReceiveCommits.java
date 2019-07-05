@@ -344,7 +344,6 @@ class ReceiveCommits {
 
   // Immutable fields derived from constructor arguments.
   private final boolean allowProjectOwnersToChangeParent;
-  private final boolean allowPushToRefsChanges;
   private final LabelTypes labelTypes;
   private final NoteMap rejectCommits;
   private final PermissionBackend.ForProject permissions;
@@ -466,7 +465,6 @@ class ReceiveCommits {
     this.receivePack = rp;
 
     // Immutable fields derived from constructor arguments.
-    allowPushToRefsChanges = config.getBoolean("receive", "allowPushToRefsChanges", false);
     repo = rp.getRepository();
     project = projectState.getProject();
     labelTypes = projectState.getLabelTypes();
@@ -1949,64 +1947,6 @@ class ReceiveCommits {
       return null;
     }
     return receivePack.getRevWalk().parseCommit(r.getObjectId());
-  }
-
-  // Handle an upload to refs/changes/XX/CHANGED-NUMBER.
-  private void parseReplaceCommand(ReceiveCommand cmd, Change.Id changeId) {
-    try (TraceTimer traceTimer = newTimer("parseReplaceCommand")) {
-      logger.atFine().log("Parsing replace command");
-      if (cmd.getType() != ReceiveCommand.Type.CREATE) {
-        reject(cmd, "invalid usage");
-        return;
-      }
-
-      RevCommit newCommit;
-      try {
-        newCommit = receivePack.getRevWalk().parseCommit(cmd.getNewId());
-        logger.atFine().log("Replacing with %s", newCommit);
-      } catch (IOException e) {
-        logger.atSevere().withCause(e).log("Cannot parse %s as commit", cmd.getNewId().name());
-        reject(cmd, "invalid commit");
-        return;
-      }
-
-      Change changeEnt;
-      try {
-        changeEnt = notesFactory.createChecked(project.getNameKey(), changeId).getChange();
-      } catch (NoSuchChangeException e) {
-        logger.atSevere().withCause(e).log("Change not found %s", changeId);
-        reject(cmd, "change " + changeId + " not found");
-        return;
-      } catch (StorageException e) {
-        logger.atSevere().withCause(e).log("Cannot lookup existing change %s", changeId);
-        reject(cmd, "database error");
-        return;
-      }
-      if (!project.getNameKey().equals(changeEnt.getProject())) {
-        reject(cmd, "change " + changeId + " does not belong to project " + project.getName());
-        return;
-      }
-
-      BranchCommitValidator validator =
-          commitValidatorFactory.create(projectState, changeEnt.getDest(), user);
-      try {
-        BranchCommitValidator.Result validationResult =
-            validator.validateCommit(
-                receivePack.getRevWalk().getObjectReader(),
-                cmd,
-                newCommit,
-                false,
-                rejectCommits,
-                changeEnt);
-        messages.addAll(validationResult.messages());
-        if (validationResult.isValid()) {
-          logger.atFine().log("Replacing change %s", changeEnt.getId());
-          requestReplaceAndValidateComments(cmd, true, changeEnt, newCommit);
-        }
-      } catch (IOException e) {
-        reject(cmd, "I/O exception validating commit");
-      }
-    }
   }
 
   /**

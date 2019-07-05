@@ -166,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "6d4cd117_08942ed1",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-05T13:14:26Z",
+      "side": 1,
+      "message": "Fair enough.",
+      "parentUuid": "28ead838_ba824cc3",
+      "range": {
+        "startLine": 582,
+        "startChar": 21,
+        "endLine": 582,
+        "endChar": 33
+      },
+      "revId": "aab4ef72e7143d15bee32a607cb9482fdd0e0620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23919447_a688b60b",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 2
@@ -195,6 +219,24 @@
       "side": 1,
       "message": "Yeah, that is why the method is called _handle400Error(). We already know that it definitely is an error. If the response code is 200, then getResponseObject will be called somewhere else.",
       "parentUuid": "23919447_a688b60b",
+      "revId": "aab4ef72e7143d15bee32a607cb9482fdd0e0620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d37e0c1_e3069b93",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-05T13:14:26Z",
+      "side": 1,
+      "message": "Sorry, overlooked the method name. Now I wonder why it\u0027s called handle 400 error when it also handles other errors... :)",
+      "parentUuid": "699301a4_8f65059c",
       "revId": "aab4ef72e7143d15bee32a607cb9482fdd0e0620",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

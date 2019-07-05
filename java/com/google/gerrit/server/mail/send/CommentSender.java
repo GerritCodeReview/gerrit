@@ -535,7 +535,8 @@ public class CommentSender extends ReplyToChangeSender {
     } catch (IndexOutOfBoundsException err) {
       // Default to the empty string if the given line number does not appear
       // in the file.
-      logger.atFine().withCause(err).log("Failed to get line number of file on side %d", side);
+      logger.atFine().withCause(err).log(
+          "Failed to get line number %d of file on side %d", lineNbr, side);
       return "";
     } catch (NoSuchEntityException err) {
       // Default to the empty string if the side cannot be found.

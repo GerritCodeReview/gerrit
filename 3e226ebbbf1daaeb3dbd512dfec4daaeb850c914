@@ -214,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "4c4a5847_992865ee",
+        "filename": "java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-05T12:29:36Z",
+      "side": 1,
+      "message": "If we need to adjust existing code due to a new version of google-java-format, we do this in separate changes. The current version we use (which is 1.7; see https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#style), doesn\u0027t change this code. Please make sure to use this version until we switch to a newer one. Also please revert this unrelated modification.",
+      "parentUuid": "34abcbf7_43f14215",
+      "range": {
+        "startLine": 72,
+        "startChar": 9,
+        "endLine": 72,
+        "endChar": 15
+      },
+      "revId": "3e226ebbbf1daaeb3dbd512dfec4daaeb850c914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6458b1f9_c30dea70",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 3
@@ -309,6 +333,30 @@
     },
     {
       "key": {
+        "uuid": "8d3115b4_f3c45f40",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-05T12:29:36Z",
+      "side": 1,
+      "message": "Yes, I suggested to split the test method. There might not be a comment for this as I think I did it in person. Next time, I\u0027ll try to find the time to write the comment as I think my original suggestion was misunderstood a bit.\n\nTests should ideally test one behavior. This might involve more than one assertion if the behavior spans multiple fields/aspects.\n\nApplied to the specific code at hand, one behavior for me is that diffstat fields are not filled if SKIP_DIFFSTAT is specified. That they are filled if the option is not present is another behavior for me. Hence, I would split the original test but in another way. ;-)\n\nRegarding checking isNotNull() or the exact amount of changed lines: I agree with Gal that it\u0027s much more robust if we exclude the exact numbers. I would also have used isNotNull(). That \"we test it anywhere else\" is not the intended state we should have and should also not be a reason not to do better in the future.",
+      "parentUuid": "b84657c5_c747dd60",
+      "range": {
+        "startLine": 276,
+        "startChar": 34,
+        "endLine": 276,
+        "endChar": 43
+      },
+      "revId": "3e226ebbbf1daaeb3dbd512dfec4daaeb850c914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c739665b_b3f0ec3f",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 3
@@ -344,6 +392,30 @@
       "side": 1,
       "message": "assertThat(xx) and CacheStatsSubject.assertThat(xx) are two different functions. One is Java.Truth, and other is a CacheStatsSubject function.\nI can import CacheStatsSubject.assertThat, but I feel like it just makes the code way more confusing. Don\u0027t you agree?",
       "parentUuid": "c739665b_b3f0ec3f",
+      "range": {
+        "startLine": 304,
+        "startChar": 4,
+        "endLine": 304,
+        "endChar": 32
+      },
+      "revId": "3e226ebbbf1daaeb3dbd512dfec4daaeb850c914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "798c692d_55391cfc",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-05T12:29:36Z",
+      "side": 1,
+      "message": "As Han-Wen was suggesting, it\u0027s better to import this directly. Truth itself offers several overloads for asserThat(), which are also just used without additional notice. There\u0027s no reason that we explicitly need to differentiate between overloads coming from Truth itself and those coming from our custom subjects.",
+      "parentUuid": "d453caed_374b6941",
       "range": {
         "startLine": 304,
         "startChar": 4,

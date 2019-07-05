@@ -259,6 +259,30 @@
       "revId": "c2c465713d0bd1bfbdb7333156ba323ab6a0fcf8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "474fe2c4_c40ab129",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-05T12:29:36Z",
+      "side": 1,
+      "message": "Thanks for adding a test for it.",
+      "parentUuid": "668bece8_7e1bd5ca",
+      "range": {
+        "startLine": 260,
+        "startChar": 2,
+        "endLine": 260,
+        "endChar": 7
+      },
+      "revId": "c2c465713d0bd1bfbdb7333156ba323ab6a0fcf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

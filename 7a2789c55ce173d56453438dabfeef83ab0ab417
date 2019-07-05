@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "43792d0b_07a9e33f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-05T12:29:36Z",
+      "side": 1,
+      "message": "The summary line (\u003d first line in a commit message) should ideally be concise but still contain enough details so that others know what the commit is about. What I\u0027m missing in this summary line is the context of the option. We have many APIs and the option could be for any of them. In addition, it could also mean a user setting.\nI also wouldn\u0027t emphasize the term \u0027diffstat\u0027 too much. I don\u0027t remember seeing it in Gerrit before and a Google search for it in the context of Git is also not very enlightening. I agreed that we could use it as a name for the ListChangesOption as it concisely describes the fields which aren\u0027t filled. However, the fields themselves are not the actual focus of this effort but rather the diff computation which is behind them. Hence, I would rather mention the latter but that\u0027s just my person opinion.\n\nMy suggestion for a summary line would be:\nAllow to skip diff computations when requesting change details\n\nIf you rather want to stick with mentioning the option, I would maybe use:\nAdd option to skip diff computations when requesting change details",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8133d383_5335c957",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -18,6 +41,191 @@
         "startChar": 2,
         "endLine": 9,
         "endChar": 3
+      },
+      "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72371ec6_2aad1ede",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-05T12:29:36Z",
+      "side": 1,
+      "message": "I agree with Han-Wen.\n\nThanks for already adding some details as requested. I would still like to see even more details but I understand that you might not be aware of all of them and hence let me provide my own suggestion. Feel free to re-word and adjust it as you like.\n\n\"When requesting change details, an internal diff request is executed to fill the two fields \u0027insertions\u0027 and \u0027deletions\u0027 of ChangeInfo. Most of the time, this request is fast as the result of the underlying diff computation is already stored in the DiffSummary or PatchList cache due previous diff requests (e.g. part of the automatic indexing after change upload). In some cases (e.g. a very slow diff computation, flushed caches), a cached result is not available and hence the change detail request will be delayed until the underlying diff computation finishes.\n\nInterestingly, though, our frontend doesn\u0027t even use the two fields \u0027insertions\u0027 and \u0027deletions\u0027 on the change screen. Hence, introduce an option which allows to skip those two fields and hence the underlying diff computation. When used on the frontend (adjusted in a separate change), this will allow change screens to show more details beyond just \"Loading ...\" when the result of the diff computation is not available yet.\"",
+      "parentUuid": "8133d383_5335c957",
+      "range": {
+        "startLine": 9,
+        "startChar": 2,
+        "endLine": 9,
+        "endChar": 3
+      },
+      "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a253360d_eaf53b2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-05T12:29:36Z",
+      "side": 1,
+      "message": "This line is 80 characters long. Please stick to our style guide regarding commit messages and hence use at most 72 characters per line (see https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#commit-message). This also applies to other aspects like using present tense (instead of past tense) to describe what this commit does and past tense to refer to the behavior before this commit.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 79
+      },
+      "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99360089_062b04c7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-05T12:29:36Z",
+      "side": 1,
+      "message": "Internal details like \"ChangeData\" are not relevant for users of this documentation and might even be confusing for them. In addition, if we refactor some of our internal code (without changing the behavior), we would need to update this documentation, which is undesired (and we would very likely forget it). As example, see the above documentation on the SKIP_MERGEABLE field. It doesn\u0027t mention any implementation details.\n\nWhat I would include, though, is the exact fields which are omitted. As written in another comment, \"diffstat\" is a term which not everybody might be familiar with. For documentations, it\u0027s also recommended to be very clear. We should also include a link to the definition of ChangeInfo. Hence, I would rather write:\n\"skip the \u0027insertions\u0027 and \u0027deletions\u0027 field in link:#change-info[ChangeInfo]. For large trees, their computation may be expensive.\"",
+      "range": {
+        "startLine": 323,
+        "startChar": 19,
+        "endLine": 324,
+        "endChar": 56
+      },
+      "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2774af46_09bd8b82",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-05T12:29:36Z",
+      "side": 1,
+      "message": "If the SKIP_DIFFSTAT option is omitted, the diffstat calculations are not skipped. ;-)",
+      "range": {
+        "startLine": 251,
+        "startChar": 33,
+        "endLine": 251,
+        "endChar": 74
+      },
+      "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b6d7f7a_325e620c",
+        "filename": "java/com/google/gerrit/extensions/client/ListChangesOption.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-05T12:29:36Z",
+      "side": 1,
+      "message": "You could provide more details here:\n\"(total number of inserted/deleted lines of the latest patch set)\"",
+      "range": {
+        "startLine": 80,
+        "startChar": 31,
+        "endLine": 80,
+        "endChar": 32
+      },
+      "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "556bda24_8ec30d02",
+        "filename": "java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-05T12:29:36Z",
+      "side": 1,
+      "message": "Did you try the other variant I told you about (see below) for injecting the caches directly into the test? If possible, I would rather try to avoid making details such as these publicly available without the need for it.\n\nPatchListCacheIT contains an example for injecting one of the caches directly.",
+      "range": {
+        "startLine": 175,
+        "startChar": 2,
+        "endLine": 188,
+        "endChar": 3
+      },
+      "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57d1aaa7_274606b9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-05T12:29:36Z",
+      "side": 1,
+      "message": "What about \"skipDiffstatOptionAvoidsAllDiffComputations\"? I know it\u0027s longer but it better describes this test and its intention. I know that a lot of the existing test names are not good but I hope that we can do better with the code we add or modify. I found some recommendations for test names which I\u0027m quoting below:\n\n\"Test names should include the condition being tested and the expected outcome.\n\nA test\u0027s name should fully describe what a test does, including not only the state and details of the method being tested but also its expected outcome. For example, a method to transfer money probably contains several interesting behaviors, each of which should be tested individually. Each test should explicitly name not only the method being tested, but also the expected outcome and sometimes specific details of the state or input being tested.\n\nExamples:\ntransferMoney_deductsFromSource\ntransferMoney_addsToDestination\ntransferMoney_insufficientFunds_throwsException\nmultiply_twoNegativeValues_returnsPositiveValue\nmultiply_anythingWithNan_returnsNan\n\nAnother popular strategy is to name tests like English sentences containing the word \"should\", such as transferMoneyShouldAddFundsToDestination.\"",
+      "range": {
+        "startLine": 294,
+        "startChar": 14,
+        "endLine": 294,
+        "endChar": 40
+      },
+      "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "784aee28_1fe8f87e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 4473,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-05T12:29:36Z",
+      "side": 1,
+      "message": "This comment explicitly says that we need to keep the lists in sync. As gr-rest-api-interface.js is not touched in this change, I don\u0027t think we should add the option here. We\u0027ll likely need to do so when the new option is used on the frontend.",
+      "range": {
+        "startLine": 4473,
+        "startChar": 7,
+        "endLine": 4473,
+        "endChar": 77
       },
       "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

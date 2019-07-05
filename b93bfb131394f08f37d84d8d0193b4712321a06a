@@ -306,6 +306,30 @@
       "revId": "b93bfb131394f08f37d84d8d0193b4712321a06a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22ca2315_93ee0d7c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6322,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-05T12:41:03Z",
+      "side": 1,
+      "message": "\u003e Yes, the light color is the current behavior - except that this case never happens in Gerrit: When you request intraline (which we always do), and the whole line has changed, Gerrit will return a/b set and edit_a/b will be set to the entire line (only the portion that actually has content, not the full width):\n\u003e https://gerrit-review.googlesource.com/c/gerrit/+/220974/4..5/test_intraline\n\nI think that there are some corner cases for this. Timeouts for intraline diff computations could be one of them. Another one is if whitespace settings are such that a specific line is not considered as changed but another line has some real changes. Isn\u0027t the one with whitespace-only changes marked in light color?\n\n\u003e \n\u003e What is not defined in the documentation yet is what happens when the line is empty (and this case never occurs in Gerrit, but it can occur for other usages of gr-diff).\n\u003e In my opinion, the dark color is the \"normal\" diff color: For example, when you just add/remove some lines, they are completely dark:\n\u003e https://gerrit-review.googlesource.com/c/gerrit/+/220974/7..8/test_add_remove_lines\n\nI totally agree with dark colors if the whole line is removed or added. What we are currently discussing is different, though, in my opinion.\n\n\u003e \n\u003e The API returns:\n\u003e \n\u003e   \"intraline_status\": \"OK\",\n\u003e \n\u003e But does not return either edit_a nor edit_b. Still the UI renders it dark. Light color means: This is part of a changed line, but technically these chars have not changed.\n\u003e \n\u003e \"An empty list of edits signifies the same as if no DiffIntralineInfo is available\" - I agree. To be consistent with the example of completely added/removed lines for which the API also does not return edit_a/edit_b, I think these lines should be dark.\n\u003e \n\u003e Was I able to convince you? If not let\u0027s talk about it in person when you are back.\n\nI\u0027m not convinced. Let\u0027s talk in person next week.",
+      "parentUuid": "24257aaa_e1578345",
+      "range": {
+        "startLine": 6321,
+        "startChar": 0,
+        "endLine": 6322,
+        "endChar": 25
+      },
+      "revId": "b93bfb131394f08f37d84d8d0193b4712321a06a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

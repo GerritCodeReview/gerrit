@@ -1061,7 +1061,6 @@ PreferencesInfo] is returned.
     "time_format": "HHMM_12",
     "diff_view": "SIDE_BY_SIDE",
     "size_bar_in_change_table": true,
-    "review_category_strategy": "NONE",
     "mute_common_path_prefixes": true,
     "publish_comments_on_push": true,
     "my": [
@@ -1140,7 +1139,6 @@ PreferencesInfo] is returned.
     "time_format": "HHMM_12",
     "diff_view": "SIDE_BY_SIDE",
     "size_bar_in_change_table": true,
-    "review_category_strategy": "NONE",
     "mute_common_path_prefixes": true,
     "publish_comments_on_push": true,
     "my": [

@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DownloadCommand;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailFormat;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo.ReviewCategoryStrategy;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.TimeFormat;
 import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.extensions.config.DownloadScheme;
@@ -88,7 +87,6 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     i.legacycidInChangeTable ^= true;
     i.muteCommonPathPrefixes ^= true;
     i.signedOffBy ^= true;
-    i.reviewCategoryStrategy = ReviewCategoryStrategy.ABBREV;
     i.diffView = DiffView.UNIFIED_DIFF;
     i.my = new ArrayList<>();
     i.my.add(new MenuItem("name", "url"));

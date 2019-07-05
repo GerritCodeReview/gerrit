@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42676c21_c149035b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-05T12:14:14Z",
+      "side": 1,
+      "message": "Drop?",
+      "range": {
+        "startLine": 574,
+        "startChar": 65,
+        "endLine": 574,
+        "endChar": 70
+      },
+      "revId": "aab4ef72e7143d15bee32a607cb9482fdd0e0620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1a81cab_d3f9d195",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-05T12:14:14Z",
+      "side": 1,
+      "message": "Sounds like a crazy API. Do we have a bug about that?",
+      "revId": "aab4ef72e7143d15bee32a607cb9482fdd0e0620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82c9f3ab_e7a1a6d4",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-05T12:14:14Z",
+      "side": 1,
+      "message": "Potentially cleaner: Turn this if around and keep the shared lines for firing the error and returning null for both cases. Matter of taste.",
+      "revId": "aab4ef72e7143d15bee32a607cb9482fdd0e0620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d9180d6_b7c6cd24",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-05T12:14:14Z",
+      "side": 1,
+      "message": "I am confused. HTTP 4xx means client error - but somehow we fire server-error here? Maybe add a comment?",
+      "range": {
+        "startLine": 582,
+        "startChar": 21,
+        "endLine": 582,
+        "endChar": 33
+      },
+      "revId": "aab4ef72e7143d15bee32a607cb9482fdd0e0620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23919447_a688b60b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-05T12:14:14Z",
+      "side": 1,
+      "message": "I don\u0027t get it - when we land in this \"then\", it\u0027s always an error? getResponseObject never returns a successful response?",
+      "revId": "aab4ef72e7143d15bee32a607cb9482fdd0e0620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

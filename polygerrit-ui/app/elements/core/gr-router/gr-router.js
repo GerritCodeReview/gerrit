@@ -1,4 +1,4 @@
-/**
+con/**
  * @license
  * Copyright (C) 2016 The Android Open Source Project
  *
@@ -1093,7 +1093,12 @@
 
     _handleProjectsOldRoute(data) {
       if (data.params[1]) {
-        this._redirect('/admin/repos/' + encodeURIComponent(data.params[1]));
+        let params = encodeURIComponent(data.params[1]);
+        if (data.params[1].contains(',')) {
+          params =
+              encodeURIComponent(data.params[1])).replace('%2C', ',');
+        }
+        this._redirect(`/admin/repos/${params}`);
       } else {
         this._redirect('/admin/repos');
       }

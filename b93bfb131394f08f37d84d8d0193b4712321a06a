@@ -210,6 +210,54 @@
       "revId": "b93bfb131394f08f37d84d8d0193b4712321a06a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cb7ad25_7f477323",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6322,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-05T09:55:39Z",
+      "side": 1,
+      "message": "For a), I think the whole line should only be displayed in *light* color as no intraline edits were found (or requested). The latter case (\u003d not requested) can be disregarded for the UI as PolyGerrit always requests intraline edits. (I remember that there was a diff setting in PolyGerrit for this at some point in time but it seems to be gone now.)\n\nI agree with you that the handling of c) should be the same as a).\n\nSo, we only have different opinions on whether the whole line should be displayed in dark or light color for a) and c). I would have guessed that the light color is the current behavior of Gerrit for a). If helpful for you, I can also explain in more detail why I think that light color would be the better choice.\n\nRegarding a formulation for the documentation, what about:\nAn empty list of edits signifies the same as if no DiffIntralineInfo is available. This means that no intraline edits are available or have been found. Hence, only the basic information that the line was modified without indicating where within it will be available to users.",
+      "parentUuid": "45758fed_1064dc12",
+      "range": {
+        "startLine": 6321,
+        "startChar": 0,
+        "endLine": 6322,
+        "endChar": 25
+      },
+      "revId": "b93bfb131394f08f37d84d8d0193b4712321a06a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "811e6706_803a9c01",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6322,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-05T09:55:39Z",
+      "side": 1,
+      "message": "I would use \"edit length\".",
+      "parentUuid": "f814b9da_3df93fdd",
+      "range": {
+        "startLine": 6322,
+        "startChar": 11,
+        "endLine": 6322,
+        "endChar": 17
+      },
+      "revId": "b93bfb131394f08f37d84d8d0193b4712321a06a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

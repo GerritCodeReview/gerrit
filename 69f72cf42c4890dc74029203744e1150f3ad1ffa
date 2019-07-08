@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "617bb8c6_646d6f53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-08T11:46:47Z",
+      "side": 1,
+      "message": "Any docs you can point to *why* you made this change? I assume this is Polymer 2 related, but it\u0027s always nice to be able to find what triggered this, in case this breaks something else...",
+      "revId": "69f72cf42c4890dc74029203744e1150f3ad1ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -26,6 +26,7 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.extensions.api.accounts.ActiveInput;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -177,7 +178,7 @@ public class AccountManager {
       if (!extId.isPresent()) {
         return;
       }
-      setInactiveFlag.deactivate(extId.get().accountId());
+      setInactiveFlag.deactivate(extId.get().accountId(), new ActiveInput());
     } catch (Exception e) {
       logger.atSevere().withCause(e).log(
           "Unable to deactivate account %s",
@@ -195,13 +196,13 @@ public class AccountManager {
 
     if (authRequest.isActive()) {
       try {
-        setInactiveFlag.activate(account.getId());
+        setInactiveFlag.activate(account.getId(), new ActiveInput());
       } catch (Exception e) {
         throw new AccountException("Unable to activate account " + account.getId(), e);
       }
     } else {
       try {
-        setInactiveFlag.deactivate(account.getId());
+        setInactiveFlag.deactivate(account.getId(), new ActiveInput());
       } catch (Exception e) {
         throw new AccountException("Unable to deactivate account " + account.getId(), e);
       }

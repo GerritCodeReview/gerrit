@@ -34,6 +34,24 @@
       "revId": "633ee2f5207ff7b4ea87a4b521c34985c85a37a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fec77f3e_bb4331a1",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-07-08T09:27:56Z",
+      "side": 1,
+      "message": "Currently preload doesn\u0027t work. We get error:\n\nThe resource https://cdn.googlesource.com/polygerrit_ui/583.2/elements/gr-app.js was preloaded using link preload but not used within a few seconds from the window\u0027s load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.\n\nIt\u0027s not easy to fix - it looks like issue with Content Security Policy",
+      "parentUuid": "807018b4_cdca3239",
+      "revId": "633ee2f5207ff7b4ea87a4b521c34985c85a37a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

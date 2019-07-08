@@ -16,12 +16,14 @@ package com.google.gerrit.reviewdb.client;
 
 import static java.util.Objects.requireNonNull;
 
+import com.google.gerrit.extensions.api.projects.NotifyConfigTemp;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /** Projects match a source code repository managed by Gerrit */
 public final class Project {
@@ -109,6 +111,8 @@ public final class Project {
   protected String localDefaultDashboardId;
 
   protected String configRefState;
+
+  protected Set<NotifyConfigTemp> notifyIds;
 
   protected Project() {}
 
@@ -243,5 +247,15 @@ public final class Project {
   /** Sets the {@code ObjectId} as 40 digit hex of {@code refs/meta/config}'s HEAD. */
   public void setConfigRefState(String state) {
     configRefState = state;
+  }
+
+  public Set<NotifyConfigTemp> getNotifyIds() {
+    return notifyIds;
+  }
+
+  public void setNotifyIds(Set<NotifyConfigTemp> notifyIds) {
+    if (notifyIds != null) {
+      this.notifyIds = notifyIds;
+    }
   }
 }

@@ -53,9 +53,9 @@
       s.setAttribute('include', name);
       const cs = document.createElement('custom-style');
       cs.appendChild(s);
-      // When using Shadow DOM <custom-style> must be added to the <body>.
+      // When using Shadow DOM <custom-style> must be added to the parent element.
       // Within <gr-external-style> itself the styles would have no effect.
-      const topEl = document.getElementsByTagName('body')[0];
+      const topEl = Polymer.dom(this.root).node.host;
       topEl.insertBefore(cs, topEl.firstChild);
     },
 

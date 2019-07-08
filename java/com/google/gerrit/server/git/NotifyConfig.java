@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.extensions.api.projects.NotifyConfigInfo.Header;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import java.util.EnumSet;
@@ -24,11 +25,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class NotifyConfig implements Comparable<NotifyConfig> {
-  public enum Header {
-    TO,
-    CC,
-    BCC
-  }
 
   private String name;
   private EnumSet<NotifyType> types = EnumSet.of(NotifyType.ALL);

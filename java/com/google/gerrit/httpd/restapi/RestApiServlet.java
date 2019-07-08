@@ -317,7 +317,7 @@ public class RestApiServlet extends HttpServlet {
     try (TraceContext traceContext = enableTracing(req, res)) {
       List<IdString> path = splitPath(req);
 
-      RequestInfo requestInfo = createRequestInfo(traceContext, path);
+      RequestInfo requestInfo = createRequestInfo(traceContext, requestUri(req), path);
       globals.requestListeners.runEach(l -> l.onRequest(requestInfo));
 
       try (PerThreadCache ignored = PerThreadCache.create()) {
@@ -1424,9 +1424,11 @@ public class RestApiServlet extends HttpServlet {
     return traceContext;
   }
 
-  private RequestInfo createRequestInfo(TraceContext traceContext, List<IdString> path) {
+  private RequestInfo createRequestInfo(
+      TraceContext traceContext, String requestUri, List<IdString> path) {
     RequestInfo.Builder requestInfo =
-        RequestInfo.builder(RequestInfo.RequestType.REST, globals.currentUser.get(), traceContext);
+        RequestInfo.builder(RequestInfo.RequestType.REST, globals.currentUser.get(), traceContext)
+            .requestUri(requestUri);
 
     if (path.size() < 1) {
       return requestInfo.build();

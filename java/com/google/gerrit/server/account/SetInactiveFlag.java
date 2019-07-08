@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.extensions.common.ActiveInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -47,14 +48,18 @@ public class SetInactiveFlag {
     this.accountsUpdateProvider = accountsUpdateProvider;
   }
 
-  public Response<?> deactivate(Account.Id accountId)
+  public Response<?> deactivate(Account.Id accountId, ActiveInput input)
       throws RestApiException, IOException, ConfigInvalidException, OrmException {
     AtomicBoolean alreadyInactive = new AtomicBoolean(false);
     AtomicReference<Optional<RestApiException>> exception = new AtomicReference<>(Optional.empty());
+    String msg = "Deactivate Account via API";
+    if (input.reason != null) {
+      msg += "\n\n" + input.reason;
+    }
     accountsUpdateProvider
         .get()
         .update(
-            "Deactivate Account via API",
+            msg,
             accountId,
             (a, u) -> {
               if (!a.getAccount().isActive()) {
@@ -80,14 +85,18 @@ public class SetInactiveFlag {
     return Response.none();
   }
 
-  public Response<String> activate(Account.Id accountId)
+  public Response<String> activate(Account.Id accountId, ActiveInput input)
       throws RestApiException, IOException, ConfigInvalidException, OrmException {
     AtomicBoolean alreadyActive = new AtomicBoolean(false);
     AtomicReference<Optional<RestApiException>> exception = new AtomicReference<>(Optional.empty());
+    String msg = "Activate Account via API";
+    if (input.reason != null) {
+      msg += "\n\n" + input.reason;
+    }
     accountsUpdateProvider
         .get()
         .update(
-            "Activate Account via API",
+            msg,
             accountId,
             (a, u) -> {
               if (a.getAccount().isActive()) {

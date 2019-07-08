@@ -28,11 +28,12 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
+import com.google.gerrit.extensions.api.projects.NotifyConfigTemp.Header;
+import com.google.gerrit.extensions.api.projects.NotifyConfigTemp.NotifyType;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.git.NotifyConfig;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
@@ -53,7 +54,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     NotifyConfig nc = new NotifyConfig();
     nc.addEmail(addr);
     nc.setName("new-patch-set");
-    nc.setHeader(NotifyConfig.Header.CC);
+    nc.setHeader(Header.CC);
     nc.setTypes(EnumSet.of(NotifyType.NEW_PATCHSETS));
     nc.setFilter("message:sekret");
 
@@ -94,7 +95,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     NotifyConfig nc = new NotifyConfig();
     nc.addEmail(addr);
     nc.setName("team");
-    nc.setHeader(NotifyConfig.Header.TO);
+    nc.setHeader(Header.TO);
     nc.setTypes(EnumSet.of(NotifyType.NEW_CHANGES, NotifyType.ALL_COMMENTS));
 
     try (ProjectConfigUpdate u = updateProject(project)) {
@@ -126,7 +127,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     NotifyConfig nc = new NotifyConfig();
     nc.addEmail(addr);
     nc.setName("team");
-    nc.setHeader(NotifyConfig.Header.TO);
+    nc.setHeader(Header.TO);
     nc.setTypes(EnumSet.of(NotifyType.NEW_PATCHSETS));
 
     try (ProjectConfigUpdate u = updateProject(project)) {
@@ -155,7 +156,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     NotifyConfig nc = new NotifyConfig();
     nc.addEmail(addr);
     nc.setName("team");
-    nc.setHeader(NotifyConfig.Header.TO);
+    nc.setHeader(Header.TO);
     nc.setTypes(EnumSet.of(NotifyType.NEW_CHANGES, NotifyType.ALL_COMMENTS));
 
     try (ProjectConfigUpdate u = updateProject(project)) {
@@ -186,7 +187,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     NotifyConfig nc = new NotifyConfig();
     nc.addEmail(addr);
     nc.setName("team");
-    nc.setHeader(NotifyConfig.Header.TO);
+    nc.setHeader(Header.TO);
     nc.setTypes(EnumSet.of(NotifyType.NEW_PATCHSETS));
 
     try (ProjectConfigUpdate u = updateProject(project)) {

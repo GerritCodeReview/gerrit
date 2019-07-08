@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ConfigInfo {
   public String description;
@@ -50,6 +51,8 @@ public class ConfigInfo {
   public Map<String, CommentLinkInfo> commentlinks;
 
   public Map<String, List<String>> extensionPanelNames;
+
+  public Set<NotifyConfigTemp> notifyIds;
 
   public static class InheritedBooleanInfo {
     public Boolean value;

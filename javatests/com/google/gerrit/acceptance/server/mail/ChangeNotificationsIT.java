@@ -23,11 +23,6 @@ import static com.google.gerrit.extensions.api.changes.NotifyHandling.OWNER;
 import static com.google.gerrit.extensions.api.changes.NotifyHandling.OWNER_REVIEWERS;
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.CC_ON_OWN_COMMENTS;
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.ENABLED;
-import static com.google.gerrit.server.account.ProjectWatches.NotifyType.ABANDONED_CHANGES;
-import static com.google.gerrit.server.account.ProjectWatches.NotifyType.ALL_COMMENTS;
-import static com.google.gerrit.server.account.ProjectWatches.NotifyType.NEW_CHANGES;
-import static com.google.gerrit.server.account.ProjectWatches.NotifyType.NEW_PATCHSETS;
-import static com.google.gerrit.server.account.ProjectWatches.NotifyType.SUBMITTED_CHANGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.common.collect.ImmutableList;
@@ -47,6 +42,7 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
+import com.google.gerrit.extensions.api.projects.NotifyConfigTemp.NotifyType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -106,7 +102,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ABANDONED_CHANGES)
+        .bcc(NotifyType.ABANDONED_CHANGES)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -121,7 +117,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ABANDONED_CHANGES)
+        .bcc(NotifyType.ABANDONED_CHANGES)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -137,7 +133,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ABANDONED_CHANGES)
+        .bcc(NotifyType.ABANDONED_CHANGES)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -153,7 +149,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer, other)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ABANDONED_CHANGES)
+        .bcc(NotifyType.ABANDONED_CHANGES)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -219,7 +215,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ABANDONED_CHANGES)
+        .bcc(NotifyType.ABANDONED_CHANGES)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -240,7 +236,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ABANDONED_CHANGES)
+        .bcc(NotifyType.ABANDONED_CHANGES)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -643,7 +639,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -658,7 +654,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -673,7 +669,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -688,7 +684,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -704,7 +700,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -720,7 +716,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer, other)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -804,7 +800,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -838,7 +834,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -852,7 +848,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -875,7 +871,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -890,7 +886,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -905,7 +901,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer, other)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     // TODO(logan): Should CCs be included?
     assertThat(sender)
@@ -966,7 +962,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("newchange", spc)
         .to(spc.watchingProjectOwner)
-        .bcc(NEW_CHANGES, NEW_PATCHSETS)
+        .bcc(NotifyType.NEW_CHANGES, NotifyType.NEW_PATCHSETS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1033,7 +1029,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("newchange", spc)
         .to(spc.watchingProjectOwner)
-        .bcc(NEW_CHANGES, NEW_PATCHSETS)
+        .bcc(NotifyType.NEW_CHANGES, NotifyType.NEW_PATCHSETS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1048,7 +1044,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     FakeEmailSenderSubject subject =
         assertThat(sender).sent("newchange", spc).to(spc.reviewer, spc.watchingProjectOwner);
     subject.cc(spc.ccer);
-    subject.bcc(NEW_CHANGES, NEW_PATCHSETS).noOneElse();
+    subject.bcc(NotifyType.NEW_CHANGES, NotifyType.NEW_PATCHSETS).noOneElse();
     assertThat(sender).didNotSend();
   }
 
@@ -1064,7 +1060,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .to("nobody1@example.com")
         .to(spc.watchingProjectOwner)
         .cc("nobody2@example.com")
-        .bcc(NEW_CHANGES, NEW_PATCHSETS)
+        .bcc(NotifyType.NEW_CHANGES, NotifyType.NEW_PATCHSETS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1084,7 +1080,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(extraCcer, sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1100,7 +1096,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(extraCcer, sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1116,7 +1112,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(extraCcer, sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1133,7 +1129,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(admin, extraCcer, sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1149,7 +1145,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer, extraReviewer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1224,7 +1220,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(extraCcer, sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1319,7 +1315,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer, extraReviewer, extraCcer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1337,7 +1333,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer, extraReviewer, extraCcer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1354,7 +1350,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer, extraReviewer, extraCcer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1372,7 +1368,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer, admin, extraReviewer, extraCcer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1447,7 +1443,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer, extraReviewer, extraCcer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1463,7 +1459,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer, extraReviewer, extraCcer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1526,7 +1522,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
           .cc(sc.reviewer, sc.ccer)
           .cc(sc.reviewerByEmail, sc.ccerByEmail)
           .bcc(sc.starrer)
-          .bcc(ALL_COMMENTS, SUBMITTED_CHANGES)
+          .bcc(NotifyType.ALL_COMMENTS, NotifyType.SUBMITTED_CHANGES)
           .noOneElse();
       assertWithMessage(name).about(fakeEmailSenders()).that(sender).didNotSend();
     }
@@ -1542,7 +1538,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS, SUBMITTED_CHANGES)
+        .bcc(NotifyType.ALL_COMMENTS, NotifyType.SUBMITTED_CHANGES)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1557,7 +1553,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS, SUBMITTED_CHANGES)
+        .bcc(NotifyType.ALL_COMMENTS, NotifyType.SUBMITTED_CHANGES)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1572,7 +1568,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS, SUBMITTED_CHANGES)
+        .bcc(NotifyType.ALL_COMMENTS, NotifyType.SUBMITTED_CHANGES)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1669,7 +1665,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS)
+        .bcc(NotifyType.NEW_PATCHSETS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1685,7 +1681,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS)
+        .bcc(NotifyType.NEW_PATCHSETS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1701,7 +1697,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS)
+        .bcc(NotifyType.NEW_PATCHSETS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1793,7 +1789,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS)
+        .bcc(NotifyType.NEW_PATCHSETS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1808,7 +1804,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS)
+        .bcc(NotifyType.NEW_PATCHSETS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1831,7 +1827,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS)
+        .bcc(NotifyType.NEW_PATCHSETS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1855,7 +1851,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS)
+        .bcc(NotifyType.NEW_PATCHSETS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1870,7 +1866,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS)
+        .bcc(NotifyType.NEW_PATCHSETS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1895,7 +1891,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS)
+        .bcc(NotifyType.NEW_PATCHSETS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1910,7 +1906,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS)
+        .bcc(NotifyType.NEW_PATCHSETS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1925,7 +1921,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS)
+        .bcc(NotifyType.NEW_PATCHSETS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -2020,7 +2016,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(NEW_PATCHSETS)
+        .bcc(NotifyType.NEW_PATCHSETS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -2063,7 +2059,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -2077,7 +2073,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -2091,7 +2087,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -2106,7 +2102,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -2121,7 +2117,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -2136,7 +2132,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer, admin)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -2166,7 +2162,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .sent("newchange", sc)
         .to(sc.reviewer, sc.watchingProjectOwner, admin)
         .cc(sc.ccer)
-        .bcc(NEW_CHANGES, NEW_PATCHSETS)
+        .bcc(NotifyType.NEW_CHANGES, NotifyType.NEW_PATCHSETS)
         .noOneElse();
 
     // email for the change that is reverted
@@ -2175,7 +2171,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer, admin)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -2190,7 +2186,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .sent("newchange", sc)
         .to(sc.reviewer, sc.watchingProjectOwner, admin)
         .cc(sc.owner, sc.ccer)
-        .bcc(NEW_CHANGES, NEW_PATCHSETS)
+        .bcc(NotifyType.NEW_CHANGES, NotifyType.NEW_PATCHSETS)
         .noOneElse();
 
     // email for the change that is reverted
@@ -2200,7 +2196,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer, admin)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -2215,7 +2211,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .sent("newchange", sc)
         .to(sc.owner, sc.reviewer, sc.watchingProjectOwner, admin)
         .cc(sc.ccer)
-        .bcc(NEW_CHANGES, NEW_PATCHSETS)
+        .bcc(NotifyType.NEW_CHANGES, NotifyType.NEW_PATCHSETS)
         .noOneElse();
 
     // email for the change that is reverted
@@ -2225,7 +2221,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer, admin)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -2240,7 +2236,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .sent("newchange", sc)
         .to(sc.owner, sc.reviewer, sc.watchingProjectOwner, admin)
         .cc(sc.ccer, other)
-        .bcc(NEW_CHANGES, NEW_PATCHSETS)
+        .bcc(NotifyType.NEW_CHANGES, NotifyType.NEW_PATCHSETS)
         .noOneElse();
 
     // email for the change that is reverted
@@ -2250,7 +2246,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(other, sc.reviewer, sc.ccer, admin)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -2418,7 +2414,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -2434,7 +2430,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewer, sc.ccer)
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
-        .bcc(ALL_COMMENTS)
+        .bcc(NotifyType.ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
   }

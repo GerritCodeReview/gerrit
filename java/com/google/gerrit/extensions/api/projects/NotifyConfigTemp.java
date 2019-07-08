@@ -12,26 +12,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.extensions.api.projects;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.extensions.api.projects.NotifyConfigTemp.Header;
-import com.google.gerrit.extensions.api.projects.NotifyConfigTemp.NotifyType;
-import com.google.gerrit.mail.Address;
+import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
-public class NotifyConfig implements Comparable<NotifyConfig> {
+public class NotifyConfigTemp implements Comparable<NotifyConfigTemp> {
+  public enum Header {
+    TO,
+    CC,
+    BCC
+  }
+
+  public enum NotifyType {
+    // sort by name, except 'ALL' which should stay last
+    ABANDONED_CHANGES,
+    ALL_COMMENTS,
+    NEW_CHANGES,
+    NEW_PATCHSETS,
+    SUBMITTED_CHANGES,
+
+    ALL
+  }
 
   private String name;
   private EnumSet<NotifyType> types = EnumSet.of(NotifyType.ALL);
   private String filter;
 
-  private Header header;
-  private Set<GroupReference> groups = new HashSet<>();
-  private Set<Address> addresses = new HashSet<>();
+  private Header header = Header.BCC;
+  private List<String> addresses = new ArrayList<>();
 
   public String getName() {
     return name;
@@ -73,24 +84,16 @@ public class NotifyConfig implements Comparable<NotifyConfig> {
     header = hdr;
   }
 
-  public Set<GroupReference> getGroups() {
-    return groups;
-  }
-
-  public Set<Address> getAddresses() {
+  public List<String> getAddresses() {
     return addresses;
   }
 
-  public void addEmail(GroupReference group) {
-    groups.add(group);
-  }
-
-  public void addEmail(Address address) {
+  public void addEmail(String address) {
     addresses.add(address);
   }
 
   @Override
-  public int compareTo(NotifyConfig o) {
+  public int compareTo(NotifyConfigTemp o) {
     return name.compareTo(o.name);
   }
 
@@ -101,14 +104,14 @@ public class NotifyConfig implements Comparable<NotifyConfig> {
 
   @Override
   public boolean equals(Object obj) {
-    if (obj instanceof NotifyConfig) {
-      return compareTo((NotifyConfig) obj) == 0;
+    if (obj instanceof NotifyConfigTemp) {
+      return compareTo((NotifyConfigTemp) obj) == 0;
     }
     return false;
   }
 
   @Override
   public String toString() {
-    return "NotifyConfig[" + name + " = " + addresses + " + " + groups + "]";
+    return "NotifyConfigTemp[" + name + " = " + addresses + " + " + addresses + "]";
   }
 }

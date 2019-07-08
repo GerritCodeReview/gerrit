@@ -16,7 +16,7 @@ package com.google.gerrit.server.restapi.account;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.extensions.common.Input;
+import com.google.gerrit.extensions.api.accounts.ActiveInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -33,7 +33,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @RequiresCapability(GlobalCapability.MODIFY_ACCOUNT)
 @Singleton
-public class DeleteActive implements RestModifyView<AccountResource, Input> {
+public class DeleteActive implements RestModifyView<AccountResource, ActiveInput> {
 
   private final Provider<IdentifiedUser> self;
   private final SetInactiveFlag setInactiveFlag;
@@ -45,11 +45,14 @@ public class DeleteActive implements RestModifyView<AccountResource, Input> {
   }
 
   @Override
-  public Response<?> apply(AccountResource rsrc, Input input)
+  public Response<?> apply(AccountResource rsrc, ActiveInput input)
       throws RestApiException, OrmException, IOException, ConfigInvalidException {
+    if (input == null) {
+      input = new ActiveInput();
+    }
     if (self.get().hasSameAccountId(rsrc.getUser())) {
       throw new ResourceConflictException("cannot deactivate own account");
     }
-    return setInactiveFlag.deactivate(rsrc.getUser().getAccountId());
+    return setInactiveFlag.deactivate(rsrc.getUser().getAccountId(), input);
   }
 }

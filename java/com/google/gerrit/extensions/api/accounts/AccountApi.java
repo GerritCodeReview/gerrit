@@ -41,7 +41,7 @@ public interface AccountApi {
 
   boolean getActive() throws RestApiException;
 
-  void setActive(boolean active) throws RestApiException;
+  void setActive(boolean active, String reason) throws RestApiException;
 
   String getAvatarUrl(int size) throws RestApiException;
 
@@ -152,7 +152,7 @@ public interface AccountApi {
     }
 
     @Override
-    public void setActive(boolean active) throws RestApiException {
+    public void setActive(boolean active, String reason) throws RestApiException {
       throw new NotImplementedException();
     }
 

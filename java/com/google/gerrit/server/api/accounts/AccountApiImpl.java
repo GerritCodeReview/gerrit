@@ -19,6 +19,7 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
+import com.google.gerrit.extensions.api.accounts.ActiveInput;
 import com.google.gerrit.extensions.api.accounts.AgreementInput;
 import com.google.gerrit.extensions.api.accounts.DeleteDraftCommentsInput;
 import com.google.gerrit.extensions.api.accounts.DeletedDraftCommentInfo;
@@ -253,12 +254,16 @@ public class AccountApiImpl implements AccountApi {
   }
 
   @Override
-  public void setActive(boolean active) throws RestApiException {
+  public void setActive(boolean active, String reason) throws RestApiException {
+    ActiveInput input = new ActiveInput();
+    if (reason != null) {
+      input.reason = reason;
+    }
     try {
       if (active) {
-        putActive.apply(account, new Input());
+        putActive.apply(account, input);
       } else {
-        deleteActive.apply(account, new Input());
+        deleteActive.apply(account, input);
       }
     } catch (Exception e) {
       throw asRestApiException("Cannot set active", e);

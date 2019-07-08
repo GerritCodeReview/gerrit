@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "807018b4_cdca3239",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-07-08T09:16:12Z",
+      "side": 1,
+      "message": "If it is not used, I would remove it entirely.\n\nIsn\u0027t preload what we actually want because it is faster?",
+      "revId": "633ee2f5207ff7b4ea87a4b521c34985c85a37a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

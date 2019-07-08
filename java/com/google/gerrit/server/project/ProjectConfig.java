@@ -44,6 +44,7 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.exceptions.InvalidNameException;
+import com.google.gerrit.extensions.api.projects.NotifyConfigInfo.Header;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.mail.Address;
@@ -174,7 +175,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private static final String KEY_PANEL = "panel";
 
   private static final Pattern EXCLUSIVE_PERMISSIONS_SPLIT_PATTERN = Pattern.compile("[, \t]{1,}");
-
   // Don't use an assisted factory, since instances created by an assisted factory retain references
   // to their enclosing injector. Instances of ProjectConfig are cached for a long time in the
   // ProjectCache, so this would retain lots more memory.
@@ -452,8 +452,16 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return notifySections.values();
   }
 
+  public Collection<String> getNotifyConfigNames() {
+    return notifySections.keySet();
+  }
+
   public void putNotifyConfig(String name, NotifyConfig nc) {
     notifySections.put(name, nc);
+  }
+
+  public void removeNotifyConfig(String name) {
+    notifySections.remove(name);
   }
 
   public Map<String, LabelType> getLabelSections() {
@@ -707,7 +715,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       EnumSet<NotifyType> types = EnumSet.noneOf(NotifyType.class);
       types.addAll(ConfigUtil.getEnumList(rc, NOTIFY, sectionName, KEY_TYPE, NotifyType.ALL));
       n.setTypes(types);
-      n.setHeader(rc.getEnum(NOTIFY, sectionName, KEY_HEADER, NotifyConfig.Header.BCC));
+      n.setHeader(rc.getEnum(NOTIFY, sectionName, KEY_HEADER, Header.BCC));
 
       for (String dst : rc.getStringList(NOTIFY, sectionName, KEY_EMAIL)) {
         String groupName = GroupReference.extractGroupName(dst);
@@ -1256,6 +1264,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private void saveNotifySections(Config rc, Set<AccountGroup.UUID> keepGroups) {
     unsetSection(rc, NOTIFY);
     for (NotifyConfig nc : sort(notifySections.values())) {
+      for (GroupReference groupReference : nc.getGroups()) {
+        groupList.put(groupReference.getUUID(), groupReference);
+      }
       nc.getGroups().stream()
           .map(GroupReference::getUUID)
           .filter(Objects::nonNull)
@@ -1269,7 +1280,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       // Separate stream operation so that emails list contains 2 sorted sub-lists.
       nc.getAddresses().stream().map(Address::toString).sorted().forEach(email::add);
 
-      set(rc, NOTIFY, nc.getName(), KEY_HEADER, nc.getHeader(), NotifyConfig.Header.BCC);
+      set(rc, NOTIFY, nc.getName(), KEY_HEADER, nc.getHeader(), Header.BCC);
       if (email.isEmpty()) {
         rc.unset(NOTIFY, nc.getName(), KEY_EMAIL);
       } else {

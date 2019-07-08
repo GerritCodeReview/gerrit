@@ -20,11 +20,13 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.EnableSignedPush;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.restapi.group.GroupJson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -36,6 +38,8 @@ public class GetConfig implements RestReadView<ProjectResource> {
   private final AllProjectsName allProjects;
   private final UiActions uiActions;
   private final DynamicMap<RestView<ProjectResource>> views;
+  private final GroupBackend groupBackend;
+  private final GroupJson groupJson;
 
   @Inject
   public GetConfig(
@@ -44,13 +48,17 @@ public class GetConfig implements RestReadView<ProjectResource> {
       PluginConfigFactory cfgFactory,
       AllProjectsName allProjects,
       UiActions uiActions,
-      DynamicMap<RestView<ProjectResource>> views) {
+      DynamicMap<RestView<ProjectResource>> views,
+      GroupBackend groupBackend,
+      GroupJson groupJson) {
     this.serverEnableSignedPush = serverEnableSignedPush;
     this.pluginConfigEntries = pluginConfigEntries;
     this.allProjects = allProjects;
     this.cfgFactory = cfgFactory;
     this.uiActions = uiActions;
     this.views = views;
+    this.groupBackend = groupBackend;
+    this.groupJson = groupJson;
   }
 
   @Override
@@ -64,6 +72,8 @@ public class GetConfig implements RestReadView<ProjectResource> {
             cfgFactory,
             allProjects,
             uiActions,
-            views));
+            views,
+            groupBackend,
+            groupJson));
   }
 }

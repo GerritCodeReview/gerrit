@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.accounts;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
@@ -41,7 +42,11 @@ public interface AccountApi {
 
   boolean getActive() throws RestApiException;
 
-  void setActive(boolean active) throws RestApiException;
+  default void setActive(boolean active) throws RestApiException {
+    setActive(active, null);
+  }
+
+  void setActive(boolean active, @Nullable ActiveInput input) throws RestApiException;
 
   String getAvatarUrl(int size) throws RestApiException;
 
@@ -152,7 +157,7 @@ public interface AccountApi {
     }
 
     @Override
-    public void setActive(boolean active) throws RestApiException {
+    public void setActive(boolean active, @Nullable ActiveInput input) throws RestApiException {
       throw new NotImplementedException();
     }
 

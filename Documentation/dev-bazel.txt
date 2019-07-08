@@ -26,11 +26,11 @@ To build Gerrit with Java 10 and newer, specify vanilla java toolchain and
 provide the path to JDK home:
 
 ```
-  $ bazel build --host_javabase=:absolute_javabase \
+  $ bazel build \
     --define=ABSOLUTE_JAVABASE=<path-to-java-10> \
-    --define=USE_ABSOLUTE_JAVABASE=true \
-    --host_java_toolchain=//:toolchain_vanilla \
-    --java_toolchain=//:toolchain_vanilla \
+    --host_javabase=@bazel_tools//tools/jdk:absolute_javabase \
+    --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla \
+    --java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla \
     :release
 ```
 
@@ -38,12 +38,12 @@ To run the tests, `--javabase` option must be passed as well, because
 bazel test runs the test using the target javabase:
 
 ```
-  $ bazel test --host_javabase=:absolute_javabase \
-    --javabase=:absolute_javabase \
+  $ bazel test \
     --define=ABSOLUTE_JAVABASE=<path-to-java-10> \
-    --define=USE_ABSOLUTE_JAVABASE=true \
-    --host_java_toolchain=//:toolchain_vanilla \
-    --java_toolchain=//:toolchain_vanilla \
+    --javabase=@bazel_tools//tools/jdk:absolute_javabase \
+    --host_javabase=@bazel_tools//tools/jdk:absolute_javabase \
+    --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla \
+    --java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla \
     //...
 ```
 
@@ -53,10 +53,10 @@ they could be added to ~/.bazelrc resource file:
 ```
 $ cat << EOF > ~/.bazelrc
 > build --define=ABSOLUTE_JAVABASE=<path-to-java-10>
-> build --javabase=:absolute_javabase
-> build --host_javabase=:absolute_javabase
-> build --host_java_toolchain=//:toolchain_vanilla
-> build --java_toolchain=//:toolchain_vanilla
+> build --javabase=@bazel_tools//tools/jdk:absolute_javabase
+> build --host_javabase=@bazel_tools//tools/jdk:absolute_javabase
+> build --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla
+> build --java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla
 > EOF
 ```
 

@@ -121,7 +121,6 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.account.ProjectWatches;
-import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;

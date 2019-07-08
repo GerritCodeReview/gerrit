@@ -858,8 +858,21 @@ read access to `refs/meta/config`.
         "title": "Say hello in different languages",
         "enabled": true
       }
-    }
-  }
+    },
+    "notify_ids": [
+      {
+        "name": "example_name",
+        "emails": [
+          "team.mailinglist@example.com",
+          "paranoid.manager@example.com"
+        ],
+        "type:" [
+          "all"
+        ],
+        "header": "TO",
+        "filter": "visibleto:example_name"
+      }
+    ]
 ----
 
 [[set-config]]
@@ -890,7 +903,21 @@ link:#config-input[ConfigInput] entity.
     "require_change_id": "TRUE",
     "max_object_size_limit": "10m",
     "submit_type": "REBASE_IF_NECESSARY",
-    "state": "ACTIVE"
+    "state": "ACTIVE",
+    "notify_ids": [
+      {
+        "name": "example_name",
+        "emails": [
+          "team.mailinglist@example.com",
+          "paranoid.manager@example.com"
+        ],
+        "type:" [
+          "all"
+        ],
+        "header": "TO",
+        "filter": "visibleto:example_name"
+      }
+    ]
   }
 ----
 
@@ -957,7 +984,21 @@ ConfigInfo] entity.
       "inherited_value": "REBASE_IF_NECESSARY"
     },
     "state": "ACTIVE",
-    "commentlinks": {}
+    "commentlinks": {},
+    "notify_ids": [
+      {
+        "name": "example_name",
+        "emails": [
+          "team.mailinglist@example.com",
+          "paranoid.manager@example.com"
+        ],
+        "type:" [
+          "all"
+        ],
+        "header": "TO",
+        "filter": "visibleto:example_name"
+      }
+    ]
   }
 ----
 
@@ -3146,6 +3187,8 @@ information is a map of view names to
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
 empty commits should be rejected when a change is merged.
 link:rest-api-changes.html#action-info[ActionInfo] entities.
+|`notify_ids`                              |optional|
+List of NotifyConfigTemp.
 |=======================================================
 
 [[config-input]]
@@ -3215,6 +3258,42 @@ of parameter names to values.
 Whether empty commits should be rejected when a change is merged.
 Can be `TRUE`, `FALSE` or `INHERIT`. +
 If not set, this setting is not updated.
+|`notify_ids`                              |optional|
+List of NotifyConfigTemp. +
+If not set, this setting is not updated.
+|======================================================
+
+[[notify-config-temp]]
+=== NotifyConfigTemp
+The 'NotifyConfigTemp' entity describes a new entity that receives notifications. +
+This entity is only used for propagating data into the configuration. +
+Once set, this object is not used.
+
+[options="header",cols="1,^2,4"]
+|======================================================
+|Field Name                               ||Description
+|`name`
+Name of the entity, e.g developers.
+|`emails`
+List of emails that receive the notifications.
+|`type`                                   |optional|
+List of types of notifications that are sent. +
+Possible types are: +
+'new_changes' (only newly created changes), +
+'new_patchsets' (only newly created patch sets), +
+'all_comments' (only comments on existing changes), +
+'submitted_changes' (only changes that have been submitted), +
+'abandoned_changes' (only changes that have been abandoned), +
+'all' (all notifications). +
+If not specified, all is used.
+|`header`                                 |optional|
+Email header used to list the destination.
+Possible headers are: 'to', 'CC', 'BCC'.
+|`filter`                                 |optional|
+When sending email to a bare email address in a notify block, Gerrit Code Review +
+ignores read access controls and assumes the administrator has set the filtering +
+options correctly. Project owners can implement security filtering by adding the +
+'visibleto:groupname' predicate to the filter expression.
 |======================================================
 
 [[config-parameter-info]]

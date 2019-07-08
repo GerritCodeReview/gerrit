@@ -523,11 +523,11 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void active() throws Exception {
     assertThat(gApi.accounts().id("user").getActive()).isTrue();
-    gApi.accounts().id("user").setActive(false);
+    gApi.accounts().id("user").setActive(false, null);
     assertThat(gApi.accounts().id("user").getActive()).isFalse();
     accountIndexedCounter.assertReindexOf(user);
 
-    gApi.accounts().id("user").setActive(true);
+    gApi.accounts().id("user").setActive(true, null);
     assertThat(gApi.accounts().id("user").getActive()).isTrue();
     accountIndexedCounter.assertReindexOf(user);
   }
@@ -562,7 +562,7 @@ public class AccountIT extends AbstractDaemonTest {
       /* Test account that can be activated, but not deactivated */
       // Deactivate account that is already inactive
       try {
-        gApi.accounts().id(activatableAccountId.get()).setActive(false);
+        gApi.accounts().id(activatableAccountId.get()).setActive(false, null);
         fail("Expected exception");
       } catch (ResourceConflictException e) {
         assertThat(e.getMessage()).isEqualTo("account not active");
@@ -570,16 +570,16 @@ public class AccountIT extends AbstractDaemonTest {
       assertThat(accountOperations.account(activatableAccountId).get().active()).isFalse();
 
       // Activate account that can be activated
-      gApi.accounts().id(activatableAccountId.get()).setActive(true);
+      gApi.accounts().id(activatableAccountId.get()).setActive(true, null);
       assertThat(accountOperations.account(activatableAccountId).get().active()).isTrue();
 
       // Activate account that is already active
-      gApi.accounts().id(activatableAccountId.get()).setActive(true);
+      gApi.accounts().id(activatableAccountId.get()).setActive(true, null);
       assertThat(accountOperations.account(activatableAccountId).get().active()).isTrue();
 
       // Try deactivating account that cannot be deactivated
       try {
-        gApi.accounts().id(activatableAccountId.get()).setActive(false);
+        gApi.accounts().id(activatableAccountId.get()).setActive(false, null);
         fail("Expected exception");
       } catch (ResourceConflictException e) {
         assertThat(e.getMessage()).isEqualTo("not allowed to deactive account");
@@ -588,16 +588,16 @@ public class AccountIT extends AbstractDaemonTest {
 
       /* Test account that can be deactivated, but not activated */
       // Activate account that is already inactive
-      gApi.accounts().id(deactivatableAccountId.get()).setActive(true);
+      gApi.accounts().id(deactivatableAccountId.get()).setActive(true, null);
       assertThat(accountOperations.account(deactivatableAccountId).get().active()).isTrue();
 
       // Deactivate account that can be deactivated
-      gApi.accounts().id(deactivatableAccountId.get()).setActive(false);
+      gApi.accounts().id(deactivatableAccountId.get()).setActive(false, null);
       assertThat(accountOperations.account(deactivatableAccountId).get().active()).isFalse();
 
       // Deactivate account that is already inactive
       try {
-        gApi.accounts().id(deactivatableAccountId.get()).setActive(false);
+        gApi.accounts().id(deactivatableAccountId.get()).setActive(false, null);
         fail("Expected exception");
       } catch (ResourceConflictException e) {
         assertThat(e.getMessage()).isEqualTo("account not active");
@@ -606,7 +606,7 @@ public class AccountIT extends AbstractDaemonTest {
 
       // Try activating account that cannot be activated
       try {
-        gApi.accounts().id(deactivatableAccountId.get()).setActive(true);
+        gApi.accounts().id(deactivatableAccountId.get()).setActive(true, null);
         fail("Expected exception");
       } catch (ResourceConflictException e) {
         assertThat(e.getMessage()).isEqualTo("not allowed to active account");
@@ -621,21 +621,21 @@ public class AccountIT extends AbstractDaemonTest {
   public void deactivateSelf() throws Exception {
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("cannot deactivate own account");
-    gApi.accounts().self().setActive(false);
+    gApi.accounts().self().setActive(false, null);
   }
 
   @Test
   public void deactivateNotActive() throws Exception {
     assertThat(gApi.accounts().id("user").getActive()).isTrue();
-    gApi.accounts().id("user").setActive(false);
+    gApi.accounts().id("user").setActive(false, null);
     assertThat(gApi.accounts().id("user").getActive()).isFalse();
     try {
-      gApi.accounts().id("user").setActive(false);
+      gApi.accounts().id("user").setActive(false, null);
       fail("Expected exception");
     } catch (ResourceConflictException e) {
       assertThat(e.getMessage()).isEqualTo("account not active");
     }
-    gApi.accounts().id("user").setActive(true);
+    gApi.accounts().id("user").setActive(true, null);
   }
 
   @Test
@@ -2297,7 +2297,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(gApi.accounts().id(foo1.username).getActive()).isTrue();
 
     TestAccount foo2 = accountCreator.create(name + "-2");
-    gApi.accounts().id(foo2.username).setActive(false);
+    gApi.accounts().id(foo2.username).setActive(false, null);
     assertThat(gApi.accounts().id(foo2.username).getActive()).isFalse();
 
     assertThat(accountQueryProvider.get().byDefault(name)).hasSize(2);

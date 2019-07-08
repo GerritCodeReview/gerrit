@@ -19,6 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.extensions.api.accounts.ActiveInput;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.accounts.SshKeyInput;
 import com.google.gerrit.extensions.common.EmailInfo;
@@ -86,6 +87,12 @@ final class SetAccountCommand extends SshCommand {
 
   @Option(name = "--inactive", usage = "set account's state to inactive")
   private boolean inactive;
+
+  @Option(
+      name = "--reason",
+      metaVar = "REASON",
+      usage = "reason for setting the account active/inactive")
+  private String reason;
 
   @Option(name = "--add-email", metaVar = "EMAIL", usage = "email addresses to add to the account")
   private List<String> addEmails = new ArrayList<>();
@@ -249,10 +256,14 @@ final class SetAccountCommand extends SshCommand {
       }
 
       if (active) {
-        putActive.apply(rsrc, null);
+        ActiveInput in = new ActiveInput();
+        in.reason = reason;
+        putActive.apply(rsrc, in);
       } else if (inactive) {
         try {
-          deleteActive.apply(rsrc, null);
+          ActiveInput in = new ActiveInput();
+          in.reason = reason;
+          deleteActive.apply(rsrc, in);
         } catch (ResourceNotFoundException e) {
           // user is already inactive
         }

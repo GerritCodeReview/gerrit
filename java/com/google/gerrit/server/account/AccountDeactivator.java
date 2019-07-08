@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.extensions.api.accounts.ActiveInput;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -108,7 +109,7 @@ public class AccountDeactivator implements Runnable {
     logger.atFine().log("processing account %s", userName);
     try {
       if (realm.accountBelongsToRealm(accountState.getExternalIds()) && !realm.isActive(userName)) {
-        sif.deactivate(accountState.getAccount().getId());
+        sif.deactivate(accountState.getAccount().getId(), new ActiveInput());
         logger.atInfo().log("deactivated account %s", userName);
         return true;
       }

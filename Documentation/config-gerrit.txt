@@ -4570,6 +4570,16 @@ May be specified multiple times.
 +
 By default, unset (all request types are matched).
 
+[[tracing.traceid.requestUriPattern]]tracing.<trace-id>.requestUriPattern::
++
+Regular expression to match request URIs for which request tracing
+should be always enabled. Request URIs are only available for REST
+requests. Request URIs never include the '/a' prefix.
++
+May be specified multiple times.
++
+By default, unset (all request URIs are matched).
+
 [[tracing.traceid.account]]tracing.<trace-id>.account::
 +
 Account ID of an account for which request tracing should be always

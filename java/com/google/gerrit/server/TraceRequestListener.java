@@ -68,6 +68,7 @@ public class TraceRequestListener implements RequestListener {
         TraceConfig.Builder traceConfig = TraceConfig.builder();
         traceConfig.traceId(traceId);
         traceConfig.requestTypes(parseRequestTypes(traceId));
+        traceConfig.requestUriPatterns(parseRequestUriPatterns(traceId));
         traceConfig.accountIds(parseAccounts(traceId));
         traceConfig.projectPatterns(parseProjectPatterns(traceId));
         traceConfigs.add(traceConfig.build());
@@ -81,6 +82,11 @@ public class TraceRequestListener implements RequestListener {
 
   private ImmutableSet<String> parseRequestTypes(String traceId) {
     return ImmutableSet.copyOf(cfg.getStringList("tracing", traceId, "requestType"));
+  }
+
+  private ImmutableSet<Pattern> parseRequestUriPatterns(String traceId)
+      throws ConfigInvalidException {
+    return parsePatterns(traceId, "requestUriPattern");
   }
 
   private ImmutableSet<Account.Id> parseAccounts(String traceId) throws ConfigInvalidException {
@@ -100,19 +106,24 @@ public class TraceRequestListener implements RequestListener {
   }
 
   private ImmutableSet<Pattern> parseProjectPatterns(String traceId) throws ConfigInvalidException {
-    ImmutableSet.Builder<Pattern> projectPatterns = ImmutableSet.builder();
-    String[] projectPatternRegExs = cfg.getStringList("tracing", traceId, "projectPattern");
-    for (String projectPatternRegEx : projectPatternRegExs) {
+    return parsePatterns(traceId, "projectPattern");
+  }
+
+  private ImmutableSet<Pattern> parsePatterns(String traceId, String name)
+      throws ConfigInvalidException {
+    ImmutableSet.Builder<Pattern> patterns = ImmutableSet.builder();
+    String[] patternRegExs = cfg.getStringList("tracing", traceId, name);
+    for (String patternRegEx : patternRegExs) {
       try {
-        projectPatterns.add(Pattern.compile(projectPatternRegEx));
+        patterns.add(Pattern.compile(patternRegEx));
       } catch (PatternSyntaxException e) {
         throw new ConfigInvalidException(
             String.format(
-                "Invalid tracing config ('tracing.%s.projectPattern = %s'): %s",
-                traceId, projectPatternRegEx, e.getMessage()));
+                "Invalid tracing config ('tracing.%s.%s = %s'): %s",
+                traceId, name, patternRegEx, e.getMessage()));
       }
     }
-    return projectPatterns.build();
+    return patterns.build();
   }
 
   @AutoValue
@@ -122,6 +133,9 @@ public class TraceRequestListener implements RequestListener {
 
     /** request types that should be traced */
     abstract ImmutableSet<String> requestTypes();
+
+    /** pattern matching request URIs */
+    abstract ImmutableSet<Pattern> requestUriPatterns();
 
     /** accounts IDs matching calling user */
     abstract ImmutableSet<Account.Id> accountIds();
@@ -146,6 +160,20 @@ public class TraceRequestListener implements RequestListener {
           && requestTypes().stream()
               .noneMatch(type -> type.equalsIgnoreCase(requestInfo.requestType()))) {
         return false;
+      }
+
+      // If in the trace config request URI patterns are set and none of them matches, then the
+      // request is not matched.
+      if (!requestUriPatterns().isEmpty()) {
+        if (!requestInfo.requestUri().isPresent()) {
+          // The request has no request URI, hence it cannot match a request URI pattern.
+          return false;
+        }
+
+        if (requestUriPatterns().stream()
+            .noneMatch(p -> p.matcher(requestInfo.requestUri().get()).matches())) {
+          return false;
+        }
       }
 
       // If in the trace config accounts are set and none of them matches, then the request is not
@@ -176,8 +204,9 @@ public class TraceRequestListener implements RequestListener {
         }
       }
 
-      // For any match criteria (request type, account, project pattern) that was specified in the
-      // trace config, at least one of the configured value matched the request.
+      // For any match criteria (request type, request URI pattern, account, project pattern) that
+      // was specified in the trace config, at least one of the configured value matched the
+      // request.
       return true;
     }
 
@@ -186,6 +215,8 @@ public class TraceRequestListener implements RequestListener {
       abstract Builder traceId(String traceId);
 
       abstract Builder requestTypes(ImmutableSet<String> requestTypes);
+
+      abstract Builder requestUriPatterns(ImmutableSet<Pattern> requestUriPatterns);
 
       abstract Builder accountIds(ImmutableSet<Account.Id> accountIds);
 

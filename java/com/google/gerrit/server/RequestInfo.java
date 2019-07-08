@@ -45,6 +45,15 @@ public abstract class RequestInfo {
    */
   public abstract String requestType();
 
+  /**
+   * Request URI.
+   *
+   * <p>Only set if request type is {@link RequestType#REST}.
+   *
+   * <p>Never includes the "/a" prefix.
+   */
+  public abstract Optional<String> requestUri();
+
   /** The user that has sent the request. */
   public abstract CurrentUser callingUser();
 
@@ -73,6 +82,8 @@ public abstract class RequestInfo {
     public Builder requestType(RequestType requestType) {
       return requestType(requestType.name());
     }
+
+    public abstract Builder requestUri(String requestUri);
 
     public abstract Builder callingUser(CurrentUser callingUser);
 

@@ -118,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "fb05c092_6d9187a3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-08T13:14:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99360089_062b04c7",
+      "range": {
+        "startLine": 323,
+        "startChar": 19,
+        "endLine": 324,
+        "endChar": 56
+      },
+      "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2774af46_09bd8b82",
         "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
         "patchSetId": 7
@@ -138,6 +162,30 @@
       "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b4eed90_70ff6b3e",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-08T13:14:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2774af46_09bd8b82",
+      "range": {
+        "startLine": 251,
+        "startChar": 33,
+        "endLine": 251,
+        "endChar": 74
+      },
+      "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -164,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "f7700c83_1824d28a",
+        "filename": "java/com/google/gerrit/extensions/client/ListChangesOption.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-08T13:14:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b6d7f7a_325e620c",
+      "range": {
+        "startLine": 80,
+        "startChar": 31,
+        "endLine": 80,
+        "endChar": 32
+      },
+      "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "556bda24_8ec30d02",
         "filename": "java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
         "patchSetId": 7
@@ -175,6 +247,30 @@
       "writtenOn": "2019-07-05T12:29:36Z",
       "side": 1,
       "message": "Did you try the other variant I told you about (see below) for injecting the caches directly into the test? If possible, I would rather try to avoid making details such as these publicly available without the need for it.\n\nPatchListCacheIT contains an example for injecting one of the caches directly.",
+      "range": {
+        "startLine": 175,
+        "startChar": 2,
+        "endLine": 188,
+        "endChar": 3
+      },
+      "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4db96e7f_1abe0325",
+        "filename": "java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-08T13:14:40Z",
+      "side": 1,
+      "message": "I am pretty sure that we tried that at first and then agreed that this way it works the best. Isn\u0027t that right?",
+      "parentUuid": "556bda24_8ec30d02",
       "range": {
         "startLine": 175,
         "startChar": 2,
@@ -210,6 +306,30 @@
     },
     {
       "key": {
+        "uuid": "0d8e564e_38ea6da8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-08T13:14:40Z",
+      "side": 1,
+      "message": "I like the \"should\" system :)",
+      "parentUuid": "57d1aaa7_274606b9",
+      "range": {
+        "startLine": 294,
+        "startChar": 14,
+        "endLine": 294,
+        "endChar": 40
+      },
+      "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "784aee28_1fe8f87e",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 7
@@ -230,6 +350,30 @@
       "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83a13999_b2bb6d3c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 4473,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-08T13:14:40Z",
+      "side": 1,
+      "message": "I think it\u0027s best I just comment it out to help the frontend",
+      "parentUuid": "784aee28_1fe8f87e",
+      "range": {
+        "startLine": 4473,
+        "startChar": 7,
+        "endLine": 4473,
+        "endChar": 77
+      },
+      "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

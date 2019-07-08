@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c55bb8b_c9c92f26",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3232,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-08T11:57:18Z",
+      "side": 1,
+      "message": "Can you make this a bit more generic?\nInstead of only supporting CCing a mailing list, can we allow callers to set all the fields mentioned in [1]? E.g. name of the config, email, type, header and filter?\nCCing a mailing list is just one of the use cases that we want to support with the new API.\n\nPlease also adapt the documentation at [1] so that readers can find out that there is a REST API for this.\n\n[1] https://gerrit-review.googlesource.com/Documentation/user-notify.html#project",
+      "range": {
+        "startLine": 3232,
+        "startChar": 0,
+        "endLine": 3232,
+        "endChar": 53
+      },
+      "revId": "6e39b93eb365a77414a6243e08159e81686fa693",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "008a001c_97fd3354",
+        "filename": "java/com/google/gerrit/reviewdb/client/Project.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-08T11:57:18Z",
+      "side": 1,
+      "message": "Please don\u0027t make unrelated formatting changes. If formatting needs to be changed, please do this in a separate change.",
+      "revId": "6e39b93eb365a77414a6243e08159e81686fa693",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

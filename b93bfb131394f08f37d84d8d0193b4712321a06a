@@ -330,6 +330,30 @@
       "revId": "b93bfb131394f08f37d84d8d0193b4712321a06a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40e8505d_a9caf4a4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6322,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-08T15:28:10Z",
+      "side": 1,
+      "message": "Alice and I talked about this in person, and decided (together with our UX designer Alberto) that the desirable behavior is to render \"missing intraline diffs\", for whatever reason, in dark (the rationale is that if we do not know what changed within a line, it\u0027s better to err on the side of saying \"the entire line has changed\" than on the side of saying \"nothing has changed in this line\").\n\nI added screenshots in the change description demonstrating the previous and new behavior. Note that the only case that has changed does not usually occur in Gerrit - I forced it by throwing away intraline diffs the backend returned to simulate the case where it would not, e.g. because of a timeout.\n\nWe also said that:\na) It would be nice if Gerrit could show some sort of error message (a toast?) when intraline diffs failed to load. I have not tested if it does, and I would implement this separately anyways.\nb) Gerrit should render a completely changed line (when the intraline covers all characters of a line) completely in dark, including the space right of the last character of the line. The rationale is that this will lead to less jagged edges and is more consistent with completely added and removed lines (a completely changed line should be the same as one line completely removed, another one completely added). This change does not yet adopt that behavior, because it is a little tricky and I\u0027d like to decouple it.\n\nPlease have another look if I captured everything correctly and you think this change is a step in the right direction.",
+      "parentUuid": "22ca2315_93ee0d7c",
+      "range": {
+        "startLine": 6321,
+        "startChar": 0,
+        "endLine": 6322,
+        "endChar": 25
+      },
+      "revId": "b93bfb131394f08f37d84d8d0193b4712321a06a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

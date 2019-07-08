@@ -858,8 +858,38 @@ read access to `refs/meta/config`.
         "title": "Say hello in different languages",
         "enabled": true
       }
+    },
+    "notify_configs": {
+      "example_name":
+      {
+        "name": "example_name",
+        "emails": [
+          "team.mailinglist@example.com",
+          "paranoid.manager@example.com"
+        ],
+        "groups": [
+          {
+            "url": "#/admin/groups/uuid-c2ce4749a32ceb82cd6adcce65b8216e12afb41c",
+            "options": {},
+            "description": "Users who perform batch actions on Gerrit",
+            "group_id": 1,
+            "owner": "Administrators",
+            "owner_id": "d5b7124af4de52924ed397913e2c3b37bf186948",
+            "created_on": "2009-06-08 23:31:00.000000000",
+            "name": "Non-Interactive Users"
+          },
+          {
+           "options": {},
+           "name": "Anonymous Users"
+          }
+        ],
+        "type:" [
+          "all"
+        ],
+        "header": "TO",
+        "filter": "visibleto:example_name"
+     }
     }
-  }
 ----
 
 [[set-config]]
@@ -890,7 +920,29 @@ link:#config-input[ConfigInput] entity.
     "require_change_id": "TRUE",
     "max_object_size_limit": "10m",
     "submit_type": "REBASE_IF_NECESSARY",
-    "state": "ACTIVE"
+    "state": "ACTIVE",
+    "notify_configs_removals" : [
+      "example_name",
+      "another_name"
+    ],
+    "notify_configs_additions": [
+      {
+        "name": "notify_add_name",
+        "emails": [
+          "team.mailinglist@example.com",
+          "paranoid.manager@example.com"
+        ],
+        "groupIds": [
+          "name",
+          "1"
+        ],
+        "type:" [
+          "all"
+        ],
+        "header": "TO",
+        "filter": "visibleto:example_name"
+      }
+    ]
   }
 ----
 
@@ -957,7 +1009,38 @@ ConfigInfo] entity.
       "inherited_value": "REBASE_IF_NECESSARY"
     },
     "state": "ACTIVE",
-    "commentlinks": {}
+    "commentlinks": {},
+    "notify_configs": {
+      "example_name": {
+        {
+          "name": "example_name"
+          "emails": [
+            "team.mailinglist@example.com",
+            "paranoid.manager@example.com"
+          ],
+          "groups": [
+            {
+              "url": "#/admin/groups/uuid-c2ce4749a32ceb82cd6adcce65b8216e12afb41c",
+              "options": {},
+              "description": "Users who perform batch actions on Gerrit",
+              "group_id": 1,
+              "owner": "Administrators",
+              "owner_id": "d5b7124af4de52924ed397913e2c3b37bf186948",
+              "created_on": "2009-06-08 23:31:00.000000000",
+              "name": "Non-Interactive Users"
+            },
+            {
+             "options": {},
+             "name": "Anonymous Users"
+            }
+          ],
+          "type:" [
+            "all"
+          ],
+          "header": "TO",
+          "filter": "visibleto:example_name"
+        }
+    }
   }
 ----
 
@@ -3203,6 +3286,8 @@ information is a map of view names to
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
 empty commits should be rejected when a change is merged.
 link:rest-api-changes.html#action-info[ActionInfo] entities.
+|`notify_configs`                              |optional|
+Map of `NotifyConfigInfo name` to link:#notify-config-info[NotifyConfigInfo].
 |=======================================================
 
 [[config-input]]
@@ -3272,6 +3357,91 @@ of parameter names to values.
 Whether empty commits should be rejected when a change is merged.
 Can be `TRUE`, `FALSE` or `INHERIT`. +
 If not set, this setting is not updated.
+|`notify_configs_removals`                 |optional|
+List of notify config names to remove.
+|`notify_configs_additions`                |optional|
+List of link:#notify-config-input[NotifyConfigInput] to add.
+|======================================================
+
+[[notify-config-info]]
+=== NotifyConfigInfo
+The `NotifyConfigInfo` entity describes a notify configuration.
+[options="header",cols="1,^2,4"]
+|======================================================
+|Field Name                               ||Description
+|`name`                                   ||
+Name of the entity, e.g developers.
+|`emails`                                 ||
+List of emails that receive the notifications.
+|`groups`                                 ||
+List of groups that receive the notifications. Represented by link:#rest-api-groups.html#group-info[GroupInfo]
+|`notify_new_changes`                     |optional|
+Boolean stating whether to notify on new changes. +
+`false` if not set.
+|`notify_new_patch_sets`                  |optional|
+Boolean stating whether to notify on new patch sets. +
+`false` if not set.
+|`notify_all_comments`                    |optional|
+Boolean stating whether to notify on comments on existing changes. +
+`false` if not set.
+|`notify_submitted_changes`               |optional|
+Boolean stating whether to notify on submitted changes. +
+`false` if not set.
+|`notify_abandoned_changes`               |optional|
+Boolean stating whether to notify on abandoned changes. +
+`false` if not set.
+|`header`                                 ||
+Email header that is used to send notifications. +
+Possible headers are: `TO`, `CC`, `BCC`. +
+Default header is `BCC`.
+|`filter`                                 |optional|
+When sending emails to a bare email address in a notify block, Gerrit Code Review +
+ignores read access controls and assumes the project owner has set the filtering +
+options correctly. Project owners can implement security filtering by adding the +
+link:user-search.html#_magical_operators[`visibleto:groupname`] predicate to the filter expression. +
+If set to `*` or if not set, all changes of the project are matched.
+
+|======================================================
+
+[[notify-config-input]]
+=== NotifyConfigInput
+The `NotifyConfigInput` entity describes a new notify configuration.
+[options="header",cols="1,^2,4"]
+|======================================================
+|Field Name                               ||Description
+|`name`                                   ||
+Name of the entity, e.g developers.
+|`emails`                                 ||
+List of emails that receive the notifications.
+|`group_ids`                             ||
+List of link:rest-api-groups.html#group-id[group IDs] that receive the notifications. +
+Groups ids can be a group UUID, a group name or a legacy group ID.
+|`notify_new_changes`                     |optional|
+Boolean stating whether to notify on new changes. +
+If not specified, set to false.
+|`notify_new_patch_sets`                  |optional|
+Boolean stating whether to notify on new patch sets. +
+If not specified, set to false.
+|`notify_all_comments`                    |optional|
+Boolean stating whether to notify on comments on existing changes. +
+If not specified, set to false.
+|`notify_submitted_changes`               |optional|
+Boolean stating whether to notify on submitted changes. +
+If not specified, set to false.
+|`notify_abandoned_changes`               |optional|
+Boolean stating whether to notify on abandoned changes. +
+If not specified, set to false.
+|`header`                                 |optional|
+Email header that is used to send notifications. +
+Possible headers are: `TO`, `CC`, `BCC`. +
+If not specified, set to `BCC`.
+|`filter`                                 |optional|
+When sending emails to a bare email address in a notify block, Gerrit Code Review +
+ignores read access controls and assumes the project owner has set the filtering +
+options correctly. Project owners can implement security filtering by adding the +
+link:user-search.html#_magical_operators[`visibleto:groupname`] predicate to the filter expression. +
+If set to `*` or if not set, all changes of the project are matched.
+
 |======================================================
 
 [[config-parameter-info]]

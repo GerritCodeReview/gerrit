@@ -19,6 +19,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.extensions.api.projects.NotifyConfigInfo.Header;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.mail.Address;
@@ -133,7 +134,7 @@ public class ProjectWatch {
       return List.union(to, cc, bcc);
     }
 
-    List list(NotifyConfig.Header header) {
+    List list(Header header) {
       switch (header) {
         case TO:
           return to;

@@ -47,14 +47,18 @@ public class SetInactiveFlag {
     this.accountsUpdateProvider = accountsUpdateProvider;
   }
 
-  public Response<?> deactivate(Account.Id accountId)
+  public Response<?> deactivate(Account.Id accountId, String reason)
       throws RestApiException, IOException, ConfigInvalidException, OrmException {
     AtomicBoolean alreadyInactive = new AtomicBoolean(false);
     AtomicReference<Optional<RestApiException>> exception = new AtomicReference<>(Optional.empty());
+    String msg = "Deactivate Account via API";
+    if (reason != null) {
+      msg += "\n\n" + reason;
+    }
     accountsUpdateProvider
         .get()
         .update(
-            "Deactivate Account via API",
+            msg,
             accountId,
             (a, u) -> {
               if (!a.getAccount().isActive()) {
@@ -80,14 +84,18 @@ public class SetInactiveFlag {
     return Response.none();
   }
 
-  public Response<String> activate(Account.Id accountId)
+  public Response<String> activate(Account.Id accountId, String reason)
       throws RestApiException, IOException, ConfigInvalidException, OrmException {
     AtomicBoolean alreadyActive = new AtomicBoolean(false);
     AtomicReference<Optional<RestApiException>> exception = new AtomicReference<>(Optional.empty());
+    String msg = "Activate Account via API";
+    if (reason != null) {
+      msg += "\n\n" + reason;
+    }
     accountsUpdateProvider
         .get()
         .update(
-            "Activate Account via API",
+            msg,
             accountId,
             (a, u) -> {
               if (a.getAccount().isActive()) {

@@ -28,6 +28,9 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.projects.ConfigInfo;
+import com.google.gerrit.extensions.api.projects.ConfigInput;
+import com.google.gerrit.extensions.api.projects.NotifyConfigTemp;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -35,6 +38,8 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.inject.Inject;
+import java.util.HashSet;
+import java.util.Set;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -114,7 +119,6 @@ public class ConfigChangeIT extends AbstractDaemonTest {
     Config cfg = projectOperations.project(project).getConfig();
     assertThat(cfg).stringValue("access", null, "inheritFrom").isAnyOf(null, allProjects.get());
     cfg.setString("access", null, "inheritFrom", parent.name);
-
     PushOneCommit.Result r = createConfigChange(cfg);
     String id = r.getChangeId();
 
@@ -176,6 +180,29 @@ public class ConfigChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result res = push.to(RefNames.REFS_CONFIG);
     res.assertErrorStatus();
     res.assertMessage("cannot inherit from multiple projects");
+  }
+
+  @Test
+  public void notifySectionsShouldUpdateWithProjectChanges() throws Exception {
+    ConfigInput input = new ConfigInput();
+    input.notifyIds = new HashSet<>();
+    NotifyConfigTemp notifyConfigTemp = new NotifyConfigTemp();
+    notifyConfigTemp.setName("example1");
+    notifyConfigTemp.addEmail("example@example.com");
+    input.notifyIds.add(notifyConfigTemp);
+    ConfigInfo info = gApi.projects().name(project.get()).config(input);
+    Config cfg = projectOperations.project(project).getConfig();
+    Set<String> notifySections = cfg.getSubsections("notify");
+    assertThat(notifySections).hasSize(1);
+    assertThat(notifySections.contains("example1")).isTrue();
+    notifyConfigTemp.setName("example2");
+    input.notifyIds.add(notifyConfigTemp);
+    gApi.projects().name(project.get()).config(input);
+    cfg = projectOperations.project(project).getConfig();
+    notifySections = cfg.getSubsections("notify");
+    assertThat(notifySections).hasSize(2);
+    assertThat(notifySections.contains("example1")).isTrue();
+    assertThat(notifySections.contains("example2")).isTrue();
   }
 
   private void fetchRefsMetaConfig() throws Exception {

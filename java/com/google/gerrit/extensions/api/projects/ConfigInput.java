@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
 import java.util.Map;
+import java.util.Set;
 
 public class ConfigInput {
   public String description;
@@ -38,4 +39,5 @@ public class ConfigInput {
   public SubmitType submitType;
   public ProjectState state;
   public Map<String, Map<String, ConfigValue>> pluginConfigValues;
+  public Set<NotifyConfigTemp> notifyIds;
 }

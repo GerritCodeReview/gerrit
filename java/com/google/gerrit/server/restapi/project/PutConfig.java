@@ -152,6 +152,9 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       if (input.pluginConfigValues != null) {
         setPluginConfigValues(projectState, projectConfig, input.pluginConfigValues);
       }
+      if (input.notifyIds != null) {
+        p.setNotifyIds(input.notifyIds);
+      }
 
       md.setMessage("Modified project settings\n");
       try {
@@ -166,7 +169,6 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
         logger.atWarning().withCause(e).log("Failed to update config of project %s.", projectName);
         throw new ResourceConflictException("Cannot update " + projectName);
       }
-
       ProjectState state = projectStateFactory.create(projectConfigFactory.read(md));
       return new ConfigInfoImpl(
           serverEnableSignedPush,

@@ -30,6 +30,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.api.projects.NotifyConfigTemp.NotifyType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.ValidationError;
@@ -86,17 +87,6 @@ public class ProjectWatches {
     public abstract Project.NameKey project();
 
     public abstract @Nullable String filter();
-  }
-
-  public enum NotifyType {
-    // sort by name, except 'ALL' which should stay last
-    ABANDONED_CHANGES,
-    ALL_COMMENTS,
-    NEW_CHANGES,
-    NEW_PATCHSETS,
-    SUBMITTED_CHANGES,
-
-    ALL
   }
 
   public static final String FILTER_ALL = "*";

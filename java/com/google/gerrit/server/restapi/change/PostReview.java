@@ -65,7 +65,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.extensions.validators.CommentForValidation;
-import com.google.gerrit.extensions.validators.CommentForValidation.CommentType;
 import com.google.gerrit.extensions.validators.CommentValidationFailure;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.json.OutputFormat;
@@ -992,7 +991,7 @@ public class PostReview
                       CommentForValidation.create(
                           comment.lineNbr > 0
                               ? CommentForValidation.CommentType.INLINE_COMMENT
-                              : CommentType.FILE_COMMENT,
+                              : CommentForValidation.CommentType.FILE_COMMENT,
                           comment.message))
               .collect(toImmutableList());
       ImmutableList<CommentValidationFailure> draftValidationFailures =

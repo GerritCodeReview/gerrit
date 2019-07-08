@@ -16,6 +16,24 @@
       "revId": "633ee2f5207ff7b4ea87a4b521c34985c85a37a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56f88fee_ca2d06d2",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-07-08T09:20:44Z",
+      "side": 1,
+      "message": "Yes, let\u0027s remove completely.",
+      "parentUuid": "807018b4_cdca3239",
+      "revId": "633ee2f5207ff7b4ea87a4b521c34985c85a37a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

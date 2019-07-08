@@ -14,9 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+@SuppressWarnings("serial")
 public class RuleEvalException extends Exception {
-  private static final long serialVersionUID = 1L;
-
   public RuleEvalException(String message) {
     super(message);
   }

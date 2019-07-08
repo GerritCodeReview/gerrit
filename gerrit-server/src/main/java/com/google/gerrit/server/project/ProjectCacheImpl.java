@@ -16,7 +16,6 @@ package com.google.gerrit.server.project;
 
 import static java.util.stream.Collectors.toSet;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Throwables;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -126,7 +125,7 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   @Override
-  public ProjectState get(Project.NameKey projectName) {
+  public ProjectState get(final Project.NameKey projectName) {
     try {
       return checkedGet(projectName);
     } catch (IOException e) {
@@ -140,34 +139,24 @@ public class ProjectCacheImpl implements ProjectCache {
       return null;
     }
     try {
-      return strictCheckedGet(projectName);
-    } catch (Exception e) {
+      ProjectState state = byName.get(projectName.get());
+      if (state != null && state.needsRefresh(clock.read())) {
+        byName.invalidate(projectName.get());
+        state = byName.get(projectName.get());
+      }
+      return state;
+    } catch (ExecutionException e) {
       if (!(e.getCause() instanceof RepositoryNotFoundException)) {
         log.warn("Cannot read project {}", projectName.get(), e);
         Throwables.throwIfInstanceOf(e.getCause(), IOException.class);
         throw new IOException(e);
       }
-      log.debug("Cannot find project {}", projectName.get(), e);
       return null;
     }
   }
 
   @Override
-  public ProjectState checkedGet(Project.NameKey projectName, boolean strict) throws Exception {
-    return strict ? strictCheckedGet(projectName) : checkedGet(projectName);
-  }
-
-  private ProjectState strictCheckedGet(Project.NameKey projectName) throws Exception {
-    ProjectState state = byName.get(projectName.get());
-    if (state != null && state.needsRefresh(clock.read())) {
-      byName.invalidate(projectName.get());
-      state = byName.get(projectName.get());
-    }
-    return state;
-  }
-
-  @Override
-  public void evict(Project p) {
+  public void evict(final Project p) {
     if (p != null) {
       byName.invalidate(p.getNameKey().get());
     }
@@ -175,14 +164,14 @@ public class ProjectCacheImpl implements ProjectCache {
 
   /** Invalidate the cached information about the given project. */
   @Override
-  public void evict(Project.NameKey p) {
+  public void evict(final Project.NameKey p) {
     if (p != null) {
       byName.invalidate(p.get());
     }
   }
 
   @Override
-  public void remove(Project p) {
+  public void remove(final Project p) {
     remove(p.getNameKey());
   }
 
@@ -238,7 +227,7 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   @Override
-  public Iterable<Project.NameKey> byName(String pfx) {
+  public Iterable<Project.NameKey> byName(final String pfx) {
     final Iterable<Project.NameKey> src;
     try {
       src = list.get(ListKey.ALL).tailSet(new Project.NameKey(pfx));
@@ -336,15 +325,5 @@ public class ProjectCacheImpl implements ProjectCache {
     public SortedSet<Project.NameKey> load(ListKey key) throws Exception {
       return mgr.list();
     }
-  }
-
-  @VisibleForTesting
-  public void evictAllByName() {
-    byName.invalidateAll();
-  }
-
-  @VisibleForTesting
-  public long sizeAllByName() {
-    return byName.size();
   }
 }

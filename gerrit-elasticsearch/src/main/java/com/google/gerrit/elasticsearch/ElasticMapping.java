@@ -15,9 +15,9 @@
 package com.google.gerrit.elasticsearch;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.index.FieldDef;
-import com.google.gerrit.index.FieldType;
-import com.google.gerrit.index.Schema;
+import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.FieldType;
+import com.google.gerrit.server.index.Schema;
 import java.util.Map;
 
 class ElasticMapping {

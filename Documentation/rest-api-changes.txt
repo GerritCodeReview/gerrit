@@ -26,7 +26,7 @@ request body.
     "subject" : "Let's support 100% Gerrit workflow direct in browser",
     "branch" : "master",
     "topic" : "create-change-in-browser",
-    "status" : "NEW"
+    "status" : "DRAFT"
   }
 ----
 
@@ -47,7 +47,7 @@ the resulting change.
     "topic": "create-change-in-browser",
     "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9941",
     "subject": "Let's support 100% Gerrit workflow direct in browser",
-    "status": "NEW",
+    "status": "DRAFT",
     "created": "2014-05-05 07:15:44.639000000",
     "updated": "2014-05-05 07:15:44.639000000",
     "mergeable": true,
@@ -334,12 +334,6 @@ default. Optional fields are:
   server.
 --
 
-[[tracking-ids]]
---
-* `TRACKING_IDS`: include references to external tracking systems
-  as link:#tracking-id-info[TrackingIdInfo].
---
-
 .Request
 ----
   GET /changes/?q=97&o=CURRENT_REVISION&o=CURRENT_COMMIT&o=CURRENT_FILES&o=DOWNLOAD_COMMANDS HTTP/1.0
@@ -520,6 +514,64 @@ describes the change.
     "owner": {
       "name": "John Doe"
     }
+  }
+----
+
+[[create-merge-patch-set-for-change]]
+=== Create Merge Patch Set For Change
+--
+'POST /changes/link:#change-id[\{change-id\}]/merge'
+--
+
+Update an existing change by using a
+link:#merge-patch-set-input[MergePatchSetInput] entity.
+
+Gerrit will create a merge commit based on the information of
+MergePatchSetInput and add a new patch set to the change corresponding
+to the new merge commit.
+
+.Request
+----
+  POST /changes/test~master~Ic5466d107c5294414710935a8ef3b0180fb848dc/merge  HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "subject": "Merge dev_branch into master",
+    "merge": {
+      "source": "refs/changes/34/1234/1"
+    }
+  }
+----
+
+As response a link:#change-info[ChangeInfo] entity with current revision is
+returned that describes the resulting change.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "test~master~Ic5466d107c5294414710935a8ef3b0180fb848dc",
+    "project": "test",
+    "branch": "master",
+    "hashtags": [],
+    "change_id": "Ic5466d107c5294414710935a8ef3b0180fb848dc",
+    "subject": "Merge dev_branch into master",
+    "status": "NEW",
+    "created": "2016-09-23 18:08:53.238000000",
+    "updated": "2016-09-23 18:09:25.934000000",
+    "submit_type": "MERGE_IF_NECESSARY",
+    "mergeable": true,
+    "insertions": 5,
+    "deletions": 0,
+    "_number": 72,
+    "owner": {
+      "_account_id": 1000000
+    },
+    "current_revision": "27cc4558b5a3d3387dd11ee2df7a117e7e581822"
   }
 ----
 
@@ -734,9 +786,9 @@ REJECTED > APPROVED > DISLIKED > RECOMMENDED.
           "email": "john.doe@example.com",
           "username": "jdoe"
         },
-        "date": "2013-03-23 21:34:02.419000000",
+        "updated": "2013-03-23 21:34:02.419000000",
         "message": "Patch Set 1:\n\nThis is the first message.",
-        "_revision_number": 1
+        "revision_number": 1
       },
       {
         "id": "WEEdhU",
@@ -746,104 +798,13 @@ REJECTED > APPROVED > DISLIKED > RECOMMENDED.
           "email": "jane.roe@example.com",
           "username": "jroe"
         },
-        "date": "2013-03-23 21:36:52.332000000",
+        "updated": "2013-03-23 21:36:52.332000000",
         "message": "Patch Set 1:\n\nThis is the second message.\n\nWith a line break.",
-        "_revision_number": 1
+        "revision_number": 1
       }
     ]
   }
 ----
-
-[[create-merge-patch-set-for-change]]
-=== Create Merge Patch Set For Change
---
-'POST /changes/link:#change-id[\{change-id\}]/merge'
---
-
-Update an existing change by using a
-link:#merge-patch-set-input[MergePatchSetInput] entity.
-
-Gerrit will create a merge commit based on the information of
-MergePatchSetInput and add a new patch set to the change corresponding
-to the new merge commit.
-
-.Request
-----
-  POST /changes/test~master~Ic5466d107c5294414710935a8ef3b0180fb848dc/merge  HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
-
-  {
-    "subject": "Merge dev_branch into master",
-    "merge": {
-      "source": "refs/changes/34/1234/1"
-    }
-  }
-----
-
-As response a link:#change-info[ChangeInfo] entity with current revision is
-returned that describes the resulting change.
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  {
-    "id": "test~master~Ic5466d107c5294414710935a8ef3b0180fb848dc",
-    "project": "test",
-    "branch": "master",
-    "hashtags": [],
-    "change_id": "Ic5466d107c5294414710935a8ef3b0180fb848dc",
-    "subject": "Merge dev_branch into master",
-    "status": "NEW",
-    "created": "2016-09-23 18:08:53.238000000",
-    "updated": "2016-09-23 18:09:25.934000000",
-    "submit_type": "MERGE_IF_NECESSARY",
-    "mergeable": true,
-    "insertions": 5,
-    "deletions": 0,
-    "_number": 72,
-    "owner": {
-      "_account_id": 1000000
-    },
-    "current_revision": "27cc4558b5a3d3387dd11ee2df7a117e7e581822"
-  }
-----
-
-[[set-message]]
-=== Set Commit Message
---
-'PUT /changes/link:#change-id[\{change-id\}]/message'
---
-
-Creates a new patch set with a new commit message.
-
-The new commit message must be provided in the request body inside a
-link:#commit-message-input[CommitMessageInput] entity and contain the change ID footer if
-link:project-configuration.html#require-change-id[Require Change-Id] was specified.
-
-.Request
-----
-  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/message HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
-
-  {
-    "message": "New Commit message \n\nChange-Id: I10394472cbd17dd12454f229e4f6de00b143a444\n"
-  }
-----
-
-.Notifications
-
-An email will be sent using the "newpatchset" template.
-
-[options="header",cols="1,1"]
-|=============================
-|WIP State       |Default
-|Ready for review|owner, reviewers, CCs, stars, NEW_PATCHSETS watchers
-|Work in progress|owner
-|=============================
 
 [[get-topic]]
 === Get Topic
@@ -1077,36 +1038,6 @@ describing the account of the deleted assignee is returned.
 
 If the change had no assignee the response is "`204 No Content`".
 
-[[get-pure-revert]]
-=== Get Pure Revert
---
-'GET /changes/link:#change-id[\{change-id\}]/pure_revert'
---
-
-Check if the given change is a pure revert of the change it references in `revertOf`.
-Optionally, the query parameter `o` can be passed in to specify a commit (SHA1 in
-40 digit hex representation) to check against. It takes precedence over `revertOf`.
-If the change has no reference in `revertOf`, the parameter is mandatory.
-
-As response a link:#pure-revert-info[PureRevertInfo] entity is returned.
-
-.Request
-----
-  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/pure_revert?o=247bccf56ae47634650bcc08b8aa784c3580ccas HTTP/1.0
-----
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  {
-    "is_pure_revert" : false
-  }
-----
-
 [[abandon-change]]
 === Abandon Change
 --
@@ -1164,19 +1095,6 @@ the error message is contained in the response body.
 
   change is merged
 ----
-
-.Notifications
-
-An email will be sent using the "abandon" template. The notify handling is ALL.
-Notifications are suppressed on WIP changes that have never started review.
-
-[options="header",cols="1,2"]
-|=============================
-|WIP State       |notify=ALL
-|Ready for review|owner, reviewers, CCs, stars, ABANDONED_CHANGES watchers
-|Work in progress|not sent
-|Reviewable WIP  |owner, reviewers, CCs, stars, ABANDONED_CHANGES watchers
-|=============================
 
 [[restore-change]]
 === Restore Change
@@ -1385,9 +1303,6 @@ describes the moved change.
     }
   }
 ----
-
-Note that this endpoint will not update the change's parents, which is
-different from the link:#cherry-pick[cherry-pick] endpoint.
 
 If the change cannot be moved because the change state doesn't
 allow moving the change, the response is "`409 Conflict`" and
@@ -1838,6 +1753,25 @@ message if the set of changes to be submitted with this change
 includes changes the caller cannot read.
 
 
+[[publish-draft-change]]
+=== Publish Draft Change
+--
+'POST /changes/link:#change-id[\{change-id\}]/publish'
+--
+
+Publishes a draft change.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/publish HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[delete-change]]
 === Delete Change
 --
@@ -1849,6 +1783,10 @@ Deletes a change.
 New or abandoned changes can be deleted by their owner if the user is granted
 the link:access-control.html#category_delete_own_changes[Delete Own Changes] permission,
 otherwise only by administrators.
+
+Draft changes can only be deleted by their owner or other users who have the
+permissions to view and delete drafts. If the draft workflow is disabled, only
+administrators with those permissions may delete draft changes.
 
 .Request
 ----
@@ -2174,201 +2112,6 @@ Only the change owner, a project owner, or an administrator may fix changes.
   }
 ----
 
-[[set-work-in-pogress]]
-=== Set Work-In-Progress
---
-'POST /changes/link:#change-id[\{change-id\}]/wip'
---
-
-Marks the change as not ready for review yet. Changes may only be marked not
-ready by the owner, project owners or site administrators.
-
-The request body does not need to include a
-link:#work-in-progress-input[WorkInProgressInput] entity if no review comment
-is added. Actions that create a new patch set in a WIP change default to
-notifying *OWNER* instead of *ALL*.
-
-.Request
-----
-  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/wip HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
-
-  {
-    "message": "Refactoring needs to be done before we can proceed here."
-  }
-----
-
-.Response
-----
-  HTTP/1.1 200 OK
-----
-
-[[set-ready-for-review]]
-=== Set Ready-For-Review
---
-'POST /changes/link:#change-id[\{change-id\}]/ready'
---
-
-Marks the change as ready for review (set WIP property to false). Changes may
-only be marked ready by the owner, project owners or site administrators.
-
-Activates notifications of reviewer. The request body does not need
-to include a link:#work-in-progress-input[WorkInProgressInput] entity
-if no review comment is added.
-
-.Request
-----
-  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/ready HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
-
-  {
-    "message": "Refactoring is done."
-  }
-
-----
-
-.Response
-----
-  HTTP/1.1 200 OK
-----
-
-[[mark-private]]
-=== Mark Private
---
-'POST /changes/link:#change-id[\{change-id\}]/private'
---
-
-Marks the change to be private. Changes may only be marked private by the
-owner or site administrators.
-
-A message can be specified in the request body inside a
-link:#private-input[PrivateInput] entity.
-
-.Request
-----
-  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/private HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
-
-  {
-    "message": "After this security fix has been released we can make it public now."
-  }
-----
-
-.Response
-----
-  HTTP/1.1 201 Created
-----
-
-If the change was already private the response is "`200 OK`".
-
-[[unmark-private]]
-=== Unmark Private
---
-'DELETE /changes/link:#change-id[\{change-id\}]/private'
---
-
-Marks the change to be non-private. Note users can only unmark own private
-changes.
-
-A message can be specified in the request body inside a
-link:#private-input[PrivateInput] entity.
-
-.Request
-----
-  DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/private HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
-
-  {
-    "message": "This is a security fix that must not be public."
-  }
-----
-
-.Response
-----
-  HTTP/1.1 204 No Content
-----
-
-If the change was already not private, the response is "`409 Conflict`".
-
-Please note that some proxies prohibit request bodies for DELETE
-requests. In this case, if you want to set a message options, use a
-POST request:
-
-.Request
-----
-  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/private.delete HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
-
-  {
-    "message": "This is a security fix that must not be public."
-  }
-----
-
-[[ignore]]
-=== Ignore
---
-'PUT /changes/link:#change-id[\{change-id\}]/ignore'
---
-
-Marks a change as ignored. The change will not be shown in the incoming
-reviews dashboard, and email notifications will be suppressed. Ignoring
-a change does not cause the change's "updated" timestamp to be modified,
-and the owner is not notified.
-
-.Request
-----
-  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/ignore HTTP/1.0
-----
-
-[[unignore]]
-=== Unignore
---
-'PUT /changes/link:#change-id[\{change-id\}]/unignore'
---
-
-Un-marks a change as ignored.
-
-.Request
-----
-  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/unignore HTTP/1.0
-----
-
-[[mark-as-reviewed]]
-=== Mark as Reviewed
---
-'PUT /changes/link:#change-id[\{change-id\}]/reviewed'
---
-
-Marks a change as reviewed.
-
-This allows users to "de-highlight" changes in their dashboard until a new
-patch set is uploaded.
-
-This differs from the link:#ignore[ignore] endpoint, which will mute
-emails and hide the change from dashboard completely until it is
-link:#unignore[unignored] again.
-
-
-.Request
-----
-  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewed HTTP/1.0
-----
-
-[[mark-as-unreviewed]]
-=== Mark as Unreviewed
---
-'PUT /changes/link:#change-id[\{change-id\}]/unreviewed'
---
-
-Marks a change as unreviewed.
-
-This allows users to "highlight" changes in their dashboard
-
-.Request
-----
-  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/unreviewed HTTP/1.0
-----
-
 [[get-hashtags]]
 === Get Hashtags
 --
@@ -2442,7 +2185,6 @@ As response the change's hashtags are returned as a list of strings.
   ]
 ----
 
-
 [[edit-endpoints]]
 == Change Edit Endpoints
 
@@ -2497,9 +2239,7 @@ provided fetch info map is also included.
        "subject":"Use an EventBus to manage star icons",
        "message":"Use an EventBus to manage star icons\n\nImage widgets that need to ..."
     },
-    "base_patch_set_number":1,
-    "base_revision":"c35558e0925e6985c91f3a16921537d5e572b7a3",
-    "ref":"refs/users/01/1000001/edit-76482/1"
+    "base_revision":"c35558e0925e6985c91f3a16921537d5e572b7a3"
   }
 ----
 
@@ -2814,7 +2554,6 @@ As response "`204 No Content`" is returned.
   HTTP/1.1 204 No Content
 ----
 
-
 [[reviewer-endpoints]]
 == Reviewer Endpoints
 
@@ -2870,8 +2609,6 @@ As result a list of link:#reviewer-info[ReviewerInfo] entries is returned.
 
 Suggest the reviewers for a given query `q` and result limit `n`. If result
 limit is not passed, then the default 10 is used.
-
-Groups can be excluded from the results by specifying 'e=f'.
 
 As result a list of link:#suggested-reviewer-info[SuggestedReviewerInfo] entries is returned.
 
@@ -2972,16 +2709,16 @@ returned that describes the newly added reviewers.
 
   )]}'
   {
-    "input": "john.doe@example.com",
     "reviewers": [
       {
-        "_account_id": 1000096,
-        "name": "John Doe",
-        "email": "john.doe@example.com"
+        "input": "john.doe@example.com",
         "approvals": {
           "Verified": " 0",
           "Code-Review": " 0"
         },
+        "_account_id": 1000096,
+        "name": "John Doe",
+        "email": "john.doe@example.com"
       }
     ]
   }
@@ -3032,52 +2769,6 @@ To confirm the addition of the reviewers, resend the request with the
   }
 ----
 
-If link:config-project-config.html#reviewer.enableByEmail[reviewer.enableByEmail] is set
-for the project, reviewers and CCs are not required to have a Gerrit account. If you POST
-an email address of a reviewer or CC then, they will be added to the change even if they
-don't have a Gerrit account.
-
-If this option is disabled, the request would fail with `400 Bad Request` if the email
-address can't be resolved to an active Gerrit account.
-
-Note that the name is optional so both "un.registered@reviewer.com" and
-"John Doe <un.registered@reviewer.com>" are valid inputs.
-
-Reviewers without Gerrit accounts can only be added on changes visible to anonymous users.
-
-.Request
-----
-  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
-
-  {
-    "reviewer": "John Doe <un.registered@reviewer.com>"
-  }
-----
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  {
-    "input": "John Doe <un.registered@reviewer.com>"
-  }
-----
-
-.Notifications
-
-An email will be sent using the "newchange" template.
-
-[options="header",cols="1,1,1"]
-|=============================
-|WIP State       |Default|notify=ALL
-|Ready for review|owner, reviewers, CCs|owner, reviewers, CCs
-|Work in progress|not sent|owner, reviewers, CCs
-|=============================
-
 [[delete-reviewer]]
 === Delete Reviewer
 --
@@ -3114,19 +2805,6 @@ request:
 ----
   HTTP/1.1 204 No Content
 ----
-
-.Notifications
-
-An email will be sent using the "deleteReviewer" template. If deleting the
-reviewer resulted in one or more approvals being removed, then the deleted
-reviewer will also receive a notification (unless notify=NONE).
-
-[options="header",cols="1,5"]
-|=============================
-|WIP State       |Default Recipients
-|Ready for review|notify=ALL: deleted reviewer (if voted), owner, reviewers, CCs, stars, ALL_COMMENTS watchers
-|Work in progress|notify=NONE: deleted reviewer (if voted)
-|=============================
 
 [[list-votes]]
 === List Votes
@@ -3195,7 +2873,6 @@ request:
 ----
   HTTP/1.1 204 No Content
 ----
-
 
 [[revision-endpoints]]
 == Revision Endpoints
@@ -3580,7 +3257,6 @@ describing the related changes.
   {
     "changes": [
       {
-        "project": "gerrit",
         "change_id": "Ic62ae3103fca2214904dbf2faf4c861b5f0ae9b5",
         "commit": {
           "commit": "78847477532e386f5a2185a4e8c90b2509e354e3",
@@ -3603,7 +3279,6 @@ describing the related changes.
         "status": "NEW"
       },
       {
-        "project": "gerrit",
         "change_id": "I5e4fc08ce34d33c090c9e0bf320de1b17309f774",
         "commit": {
           "commit": "b1cb4caa6be46d12b94c25aa68aebabcbb3f53fe",
@@ -3636,16 +3311,10 @@ describing the related changes.
 'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/review'
 --
 
-Sets a review on a revision, optionally also publishing draft comments, setting
-labels, adding reviewers or CCs, and modifying the work in progress property.
+Sets a review on a revision.
 
 The review must be provided in the request body as a
 link:#review-input[ReviewInput] entity.
-
-A review cannot be set on a change edit. Trying to post a review for a
-change edit fails with `409 Conflict`.
-
-Here is an example of using this method to set labels:
 
 .Request
 ----
@@ -3682,9 +3351,8 @@ Here is an example of using this method to set labels:
   }
 ----
 
-As response a link:#review-result[ReviewResult] entity is returned that
-describes the applied labels and any added reviewers (e.g. yourself,
-if you set a label but weren't previously a reviewer on this CL).
+As response a link:#review-info[ReviewInfo] entity is returned that
+describes the applied labels.
 
 .Response
 ----
@@ -3700,8 +3368,11 @@ if you set a label but weren't previously a reviewer on this CL).
   }
 ----
 
-It is also possible to add one or more reviewers or CCs
-to a change simultaneously with a review:
+A review cannot be set on a change edit. Trying to post a review for a
+change edit fails with `409 Conflict`.
+
+It is also possible to add one or more reviewers to a change simultaneously
+with a review.
 
 .Request
 ----
@@ -3709,17 +3380,16 @@ to a change simultaneously with a review:
   Content-Type: application/json; charset=UTF-8
 
   {
-    "message": "I don't have context here. Jane and maybe John and the project leads should take a look.",
+    "message": "Looks good to me, but Jane and John should also take a look.",
+    "labels": {
+      "Code-Review": 1
+    },
     "reviewers": [
       {
         "reviewer": "jane.roe@example.com"
       },
       {
-        "reviewer": "john.doe@example.com",
-        "state": "CC"
-      }
-      {
-        "reviewer": "MyProjectVerifiers",
+        "reviewer": "john.doe@example.com"
       }
     ]
   }
@@ -3727,8 +3397,8 @@ to a change simultaneously with a review:
 
 Each element of the `reviewers` list is an instance of
 link:#reviewer-input[ReviewerInput]. The corresponding result of
-adding each reviewer will be returned in a map of inputs to
-link:#add-reviewer-result[AddReviewerResult]s.
+adding each reviewer will be returned in a list of
+link:#add-reviewer-result[AddReviewerResult].
 
 .Response
 ----
@@ -3738,66 +3408,36 @@ link:#add-reviewer-result[AddReviewerResult]s.
 
   )]}'
   {
-    "reviewers": {
-      "jane.roe@example.com": {
+    "labels": {
+      "Code-Review": 1
+    },
+    "reviewers": [
+      {
         "input": "jane.roe@example.com",
-        "reviewers": [
-          {
-            "_account_id": 1000097,
-            "name": "Jane Roe",
-            "email": "jane.roe@example.com"
-            "approvals": {
-              "Verified": " 0",
-              "Code-Review": " 0"
-            },
-          },
-        ]
+        "approvals": {
+          "Verified": " 0",
+          "Code-Review": " 0"
+        },
+        "_account_id": 1000097,
+        "name": "Jane Roe",
+        "email": "jane.roe@example.com"
       },
-      "john.doe@example.com": {
+      {
         "input": "john.doe@example.com",
-        "ccs": [
-          {
-            "_account_id": 1000096,
-            "name": "John Doe",
-            "email": "john.doe@example.com"
-            "approvals": {
-              "Verified": " 0",
-              "Code-Review": " 0"
-            },
-          }
-        ]
-      },
-      "MyProjectVerifiers": {
-        "input": "MyProjectVerifiers",
-        "reviewers": [
-          {
-            "_account_id": 1000098,
-            "name": "Alice Ansel",
-            "email": "alice.ansel@example.com"
-            "approvals": {
-              "Verified": " 0",
-              "Code-Review": " 0"
-            },
-          },
-          {
-            "_account_id": 1000099,
-            "name": "Bob Bollard",
-            "email": "bob.bollard@example.com"
-            "approvals": {
-              "Verified": " 0",
-              "Code-Review": " 0"
-            },
-          },
-        ]
+        "approvals": {
+          "Verified": " 0",
+          "Code-Review": " 0"
+        },
+        "_account_id": 1000096,
+        "name": "John Doe",
+        "email": "john.doe@example.com"
       }
-    }
+    ]
   }
 ----
 
 If there are any errors returned for reviewers, the entire review request will
-be rejected with `400 Bad Request`. None of the entries will have the
-`reviewers` or `ccs` field set, and those which specifically failed will have
-the `errors` field set containing details of why they failed.
+be rejected with `400 Bad Request`.
 
 .Error Response
 ----
@@ -3808,13 +3448,6 @@ the `errors` field set containing details of why they failed.
   )]}'
   {
     "reviewers": {
-      "jane.roe@example.com": {
-        "input": "jane.roe@example.com",
-        "error": "Account of jane.roe@example.com is inactive."
-      },
-      "john.doe@example.com": {
-        "input": "john.doe@example.com"
-      },
       "MyProjectVerifiers": {
         "input": "MyProjectVerifiers",
         "error": "The group My Group has 15 members. Do you want to add them all as reviewers?",
@@ -3823,44 +3456,6 @@ the `errors` field set containing details of why they failed.
     }
   }
 ----
-
-[[set-review-notifications]]
-.Notifications
-
-An email will be sent using the "comment" template.
-
-If the top-level notify property is null or not set, then notification behavior
-depends on whether the change is WIP, whether it has started review, and whether
-the tag property is null.
-
-NOTE: If adding reviewers, the notify property of each ReviewerInput is *ignored*.
-Use the notify property of the top-level link:#review-input[ReviewInput] instead.
-
-For the purposes of this table, *everyone* means *owner, reviewers, CCs, stars, and ALL_COMMENTS
-watchers*.
-
-[options="header",cols="2,1,1,2,2"]
-|=============================
-|WIP State       |Review Started|Tag Given|Default |notify=ALL
-|Ready for review|N/A           |N/A      |everyone|everyone
-|Work in progress|no            |no       |not sent|everyone
-|Work in progress|no            |yes      |owner   |everyone
-|Work in progress|yes           |no       |everyone|everyone
-|Work in progress|yes           |yes      |owner   |everyone
-
-|=============================
-
-If reviewers are added, then a second email will be sent using the "newchange"
-template. The notification logic for this email is the same as for
-link:#add-reviewer[Add Reviewer].
-
-[options="header",cols="1,1,1"]
-|=============================
-|WIP State       |Default              |notify=ALL
-|Ready for review|owner, reviewers, CCs|owner, reviewers, CCs
-|Work in progress|not sent             |owner, reviewers, CCs
-|=============================
-
 
 [[rebase-revision]]
 === Rebase Revision
@@ -4001,6 +3596,44 @@ message is contained in the response body.
   Content-Type: text/plain; charset=UTF-8
 
   "revision 674ac754f91e64a0efb8087e59a176484bd534d1 is not current revision"
+----
+
+[[publish-draft-revision]]
+=== Publish Draft Revision
+--
+'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/publish'
+--
+
+Publishes a draft revision.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/current/publish HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+[[delete-draft-revision]]
+=== Delete Draft Revision
+--
+'DELETE /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]'
+--
+
+Deletes a draft revision.
+
+.Request
+----
+  DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1 HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
 ----
 
 [[get-patch]]
@@ -4532,62 +4165,6 @@ describes the published comment.
   }
 ----
 
-[[delete-comment]]
-=== Delete Comment
---
-'DELETE /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/comments/link:#comment-id[\{comment-id\}]' +
-'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/comments/link:#comment-id[\{comment-id\}]/delete'
---
-
-Deletes a published comment of a revision. Instead of deleting the
-whole comment, this endpoint just replaces the comment's message
-with a new message, which contains the name of the user who deletes
-the comment and the reason why it's deleted. The reason can be
-provided in the request body as a
-link:#delete-comment-input[DeleteCommentInput] entity.
-
-Note that only users with the
-link:access-control.html#capability_administrateServer[Administrate Server]
-global capability are permitted to delete a comment.
-
-Please note that some proxies prohibit request bodies for DELETE
-requests. In this case, if you want to specify options, use a
-POST request:
-
-.Request
-----
-  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/comments/TvcXrmjM/delete HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
-
-  {
-    "reason": "contains confidential information"
-  }
-----
-
-As response a link:#comment-info[CommentInfo] entity is returned that
-describes the updated comment.
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  {
-    "id": "TvcXrmjM",
-    "path": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
-    "line": 23,
-    "message": "Comment removed by: Administrator; Reason: contains confidential information",
-    "updated": "2013-02-26 15:40:43.986000000",
-    "author": {
-      "_account_id": 1000096,
-      "name": "John Doe",
-      "email": "john.doe@example.com"
-    }
-  }
-----
-
 [[list-robot-comments]]
 === List Robot Comments
 --
@@ -4684,74 +4261,6 @@ returned that describes the robot comment.
   }
 ----
 
-[[apply-fix]]
-=== Apply Fix
---
-'POST /changes/<<change-id,\{change-id\}>>/revisions/<<revision-id,\{revision-id\}>>/fixes/<<fix-id,\{fix-id\}>>/apply'
---
-
-Applies a suggested fix by creating a change edit which includes the
-modifications indicated by the fix suggestion. If a change edit already exists,
-it will be updated accordingly. A fix can only be applied if no change edit
-exists and the fix refers to the current patch set, or the fix refers to the
-patch set on which the change edit is based.
-
-.Request
-----
-  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/fixes/8f605a55_f6aa4ecc/apply HTTP/1.0
-----
-
-If the fix was successfully applied, an <<edit-info,EditInfo>> describing the
-resulting change edit is returned.
-
-.Response
-----
-  HTTP/1.1 200 OK
-    Content-Disposition: attachment
-    Content-Type: application/json; charset=UTF-8
-
-    )]}'
-    {
-      "commit":{
-        "parents":[
-          {
-            "commit":"1eee2c9d8f352483781e772f35dc586a69ff5646",
-          }
-        ],
-        "author":{
-          "name":"John Doe",
-          "email":"john.doe@example.com",
-          "date":"2013-05-07 15:21:27.000000000",
-          "tz":120
-         },
-         "committer":{
-           "name":"Jane Doe",
-           "email":"jane.doe@example.com",
-           "date":"2013-05-07 15:35:43.000000000",
-           "tz":120
-         },
-         "subject":"Implement feature X",
-         "message":"Implement feature X\n\nWith this feature ..."
-      },
-      "base_patch_set_number":1,
-      "base_revision":"674ac754f91e64a0efb8087e59a176484bd534d1"
-      "ref":"refs/users/01/1000001/edit-42622/1"
-    }
-----
-
-If the application failed e.g. due to conflicts with an existing change edit,
-the response "`409 Conflict`" including an error message in the response body
-is returned.
-
-.Response
-----
-  HTTP/1.1 409 Conflict
-  Content-Disposition: attachment
-  Content-Type: text/plain; charset=UTF-8
-
-  The existing change edit could not be merged with another tree.
-----
-
 [[list-files]]
 === List Files
 --
@@ -4831,11 +4340,6 @@ is the 1-based index of the parent's position in the commit object.
 --
 
 Gets the content of a file from a certain revision.
-
-The optional, integer-valued `parent` parameter can be specified to request
-the named file from a parent commit of the specified revision. The value is
-the 1-based index of the parent's position in the commit object. If the
-parameter is omitted or the value is non-positive, the patch set is referenced.
 
 .Request
 ----
@@ -5211,8 +4715,7 @@ Deletes the reviewed flag of the calling user from a file of a revision.
 Cherry picks a revision to a destination branch.
 
 The commit message and destination branch must be provided in the request body inside a
-link:#cherrypick-input[CherryPickInput] entity.  If the commit message
-does not specify a Change-Id, a new one is picked for the destination change.
+link:#cherrypick-input[CherryPickInput] entity.
 
 .Request
 ----
@@ -5389,18 +4892,16 @@ request:
 
 [[change-id]]
 === \{change-id\}
-Identifier that uniquely identifies one change. It contains the URL-encoded
-project name as well as the change number: "'$$<project>~<numericId>$$'"
+Identifier that uniquely identifies one change.
 
-Gerrit still supports the following deprecated identifiers. These will be
-removed in a future release:
+This can be:
 
 * an ID of the change in the format "'$$<project>~<branch>~<Change-Id>$$'",
   where for the branch the `refs/heads/` prefix can be omitted
   ("$$myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940$$")
 * a Change-Id if it uniquely identifies one change
   ("I8473b95934b5732ac55d26311a706c9c2bde9940")
-* a numeric change ID ("4247")
+* a legacy numeric change ID ("4247")
 
 [[comment-id]]
 === \{comment-id\}
@@ -5548,9 +5049,8 @@ on that label.
 The time and date describing when the approval was made.
 |`tag`                    |optional|
 Value of the `tag` field from link:#review-input[ReviewInput] set
-while posting the review. Votes/comments that contain `tag` with
-'autogenerated:' prefix can be filtered out in the web UI.
-NOTE: To apply different tags on different votes/comments multiple
+while posting the review.
+NOTE: To apply different tags on on different votes/comments multiple
 invocations of the REST call are required.
 |`post_submit` |not set if `false`|
 If true, this vote was made after the change was submitted.
@@ -5624,17 +5124,11 @@ where 'project', 'branch' and 'Change-Id' are URL encoded. For 'branch' the
 The name of the target branch. +
 The `refs/heads/` prefix is omitted.
 |`topic`              |optional|The topic to which this change belongs.
-|`assignee`           |optional|
-The assignee of the change as an link:rest-api-accounts.html#account-info[
-AccountInfo] entity.
-|`hashtags`           |optional|
-List of hashtags that are set on the change (only populated when NoteDb
-is enabled).
 |`change_id`          ||The Change-Id of the change.
 |`subject`            ||
 The subject of the change (header line of the commit message).
 |`status`             ||
-The status of the change (`NEW`, `MERGED`, `ABANDONED`).
+The status of the change (`NEW`, `MERGED`, `ABANDONED`, `DRAFT`).
 |`created`            ||
 The link:rest-api.html#timestamp[timestamp] of when the change was
 created.
@@ -5644,9 +5138,6 @@ updated.
 |`submitted`          |only set for merged changes|
 The link:rest-api.html#timestamp[timestamp] of when the change was
 submitted.
-|`submitter`          |only set for merged changes|
-The user who submitted the change, as an
-link:rest-api-accounts.html#account-info[ AccountInfo] entity.
 |`starred`            |not set if `false`|
 Whether the calling user has starred this change with the default label.
 |`stars`              |optional|
@@ -5691,7 +5182,7 @@ Only set if link:#detailed-labels[detailed labels] are requested.
 The reviewers that can be removed by the calling user as a list of
 link:rest-api-accounts.html#account-info[AccountInfo] entities. +
 Only set if link:#detailed-labels[detailed labels] are requested.
-|`reviewers`          |optional|
+|`reviewers`          ||
 The reviewers as a map that maps a reviewer state to a list of
 link:rest-api-accounts.html#account-info[AccountInfo] entities.
 Possible reviewer states are `REVIEWER`, `CC` and `REMOVED`. +
@@ -5699,12 +5190,6 @@ Possible reviewer states are `REVIEWER`, `CC` and `REMOVED`. +
 `CC`: Users that were added to the change, but have not voted. +
 `REMOVED`: Users that were previously reviewers on the change, but have
 been removed. +
-Only set if link:#detailed-labels[detailed labels] are requested.
-|`pending_reviewers`  |optional|
-Updates to `reviewers` that have been made while the change was in the
-WIP state. Only present on WIP changes and only if there are pending
-reviewer updates to report. These are reviewers who have not yet been
-notified about being added to or removed from the change. +
 Only set if link:#detailed-labels[detailed labels] are requested.
 |`reviewer_updates`|optional|
 Updates to reviewers set for the change as
@@ -5725,24 +5210,12 @@ patch set to a link:#revision-info[RevisionInfo] entity. +
 Only set if link:#current-revision[the current revision] is requested
 (in which case it will only contain a key for the current revision) or
 if link:#all-revisions[all revisions] are requested.
-|`tracking_ids`       |optional|
-A list of link:#tracking-id-info[TrackingIdInfo] entities describing
-references to external tracking systems. Only set if
-link:#tracking-ids[tracking ids] are requested.
 |`_more_changes`      |optional, not set if `false`|
 Whether the query would deliver more results if not limited. +
 Only set on the last change that is returned.
 |`problems`           |optional|
 A list of link:#problem-info[ProblemInfo] entities describing potential
 problems with this change. Only set if link:#check[CHECK] is set.
-|`is_private`         |optional, not set if `false`|
-When present, change is marked as private.
-|`work_in_progress`   |optional, not set if `false`|
-When present, change is marked as Work In Progress.
-|`has_review_started` |optional, not set if `false`|
-When present, change has been marked Ready at some point in time.
-|`revert_of`          |optional|
-The numeric Change-Id of the change that this change reverts.
 |==================================
 
 [[change-input]]
@@ -5761,11 +5234,7 @@ The commit message of the change. Comment lines (beginning with `#`) will
 be removed.
 |`topic`              |optional|The topic to which this change belongs.
 |`status`             |optional, default to `NEW`|
-The status of the change (only `NEW` accepted here).
-|`is_private`         |optional, default to `false`|
-Whether the new change should be marked as private.
-|`work_in_progress`   |optional, default to `false`|
-Whether the new change should be set to work in progress.
+The status of the change (only `NEW` and `DRAFT` accepted here).
 |`base_change`        |optional|
 A link:#change-id[\{change-id\}] that identifies the base change for a create
 change operation.
@@ -5796,18 +5265,13 @@ attached to a change.
 Author of the message as an
 link:rest-api-accounts.html#account-info[AccountInfo] entity. +
 Unset if written by the Gerrit system.
-|`real_author`         |optional|
-Real author of the message as an
-link:rest-api-accounts.html#account-info[AccountInfo] entity. +
-Set if the message was posted on behalf of another user.
 |`date`            ||
 The link:rest-api.html#timestamp[timestamp] this message was posted.
 |`message`            ||The text left by the user.
 |`tag`                 |optional|
 Value of the `tag` field from link:#review-input[ReviewInput] set
-while posting the review. Votes/comments that contain `tag` with
-'autogenerated:' prefix can be filtered out in the web UI.
-NOTE: To apply different tags on different votes/comments multiple
+while posting the review.
+NOTE: To apply different tags on on different votes/comments multiple
 invocations of the REST call are required.
 |`_revision_number`    |optional|
 Which patchset (if any) generated this message.
@@ -5822,21 +5286,8 @@ The `CherryPickInput` entity contains information for cherry-picking a change to
 |Field Name         ||Description
 |`message`          ||Commit message for the cherry-picked change
 |`destination`      ||Destination branch
-|`base`             |optional|
-40-hex digit SHA-1 of the commit which will be the parent commit of the newly created change.
-If set, it must be a merged commit or a change revision on the destination branch.
 |`parent`           |optional, defaults to 1|
 Number of the parent relative to which the cherry-pick should be considered.
-|`notify`           |optional|
-Notify handling that defines to whom email notifications should be sent
-after the cherry-pick. +
-Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
-If not set, the default is `NONE`.
-|`notify_details`   |optional|
-Additional information about whom to notify about the update as a map
-of recipient type to link:#notify-info[NotifyInfo] entity.
-|`keep_reviewers`   |optional, defaults to false|
-If true, carries reviewers and ccs over from original change to newly created one.
 |===========================
 
 [[comment-info]]
@@ -5880,7 +5331,7 @@ Unset for draft comments, assumed to be the calling user.
 |`tag`                 |optional|
 Value of the `tag` field from link:#review-input[ReviewInput] set
 while posting the review.
-NOTE: To apply different tags on different votes/comments multiple
+NOTE: To apply different tags on on different votes/comments multiple
 invocations of the REST call are required.
 |`unresolved`        |optional|
 Whether or not the comment must be addressed by the user. The state of
@@ -5927,8 +5378,7 @@ comment is deleted.
 |`tag`         |optional, drafts only|
 Value of the `tag` field. Only allowed on link:#create-draft[draft comment] +
 inputs; for published comments, use the `tag` field in +
-link#review-input[ReviewInput]. Votes/comments that contain `tag` with
-'autogenerated:' prefix can be filtered out in the web UI.
+link#review-input[ReviewInput]
 |`unresolved`        |optional|
 Whether or not the comment must be addressed by the user. This value will
 default to false if the comment is an orphan, or the value of the `in_reply_to`
@@ -5974,39 +5424,6 @@ The subject of the commit (header line of the commit message).
 Links to the commit in external sites as a list of
 link:#web-link-info[WebLinkInfo] entities.
 |===========================
-
-[[commit-message-input]]
-=== CommitMessageInput
-The `CommitMessageInput` entity contains information for changing
-the commit message of a change.
-
-[options="header",cols="1,^1,5"]
-|=============================
-|Field Name      ||Description
-|`message`       ||New commit message.
-|`notify`        |optional|
-Notify handling that defines to whom email notifications should be sent
-after the commit message was updated. +
-Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
-If not set, the default is `OWNER` for WIP changes and `ALL` otherwise.
-|`notify_details`|optional|
-Additional information about whom to notify about the update as a map
-of recipient type to link:#notify-info[NotifyInfo] entity.
-|=============================
-
-[[delete-comment-input]]
-=== DeleteCommentInput
-The `DeleteCommentInput` entity contains the option for deleting a comment.
-
-[options="header",cols="1,^1,5"]
-|=============================
-|Field Name               ||Description
-|`reason`                 |optional|
-The reason why the comment should be deleted. +
-If set, the comment's message will be replaced with
-"Comment removed by: `name`; Reason: `reason`",
-or just "Comment removed by: `name`." if not set.
-|=============================
 
 [[delete-reviewer-input]]
 === DeleteReviewerInput
@@ -6064,21 +5481,19 @@ in a file.
 
 [options="header",cols="1,^1,5"]
 |==========================
-|Field Name     ||Description
-|`a`            |optional|Content only in the file on side A (deleted in B).
-|`b`            |optional|Content only in the file on side B (added in B).
-|`ab`           |optional|Content in the file on both sides (unchanged).
-|`edit_a`       |only present during a replace, i.e. both `a` and `b` are present|
+|Field Name ||Description
+|`a`        |optional|Content only in the file on side A (deleted in B).
+|`b`        |optional|Content only in the file on side B (added in B).
+|`ab`       |optional|Content in the file on both sides (unchanged).
+|`edit_a`   |only present during a replace, i.e. both `a` and `b` are present|
 Text sections deleted from side A as a
 link:#diff-intraline-info[DiffIntralineInfo] entity.
-|`edit_b`       |only present during a replace, i.e. both `a` and `b` are present|
+|`edit_b`   |only present during a replace, i.e. both `a` and `b` are present|
 Text sections inserted in side B as a
 link:#diff-intraline-info[DiffIntralineInfo] entity.
-|`due_to_rebase`|not set if `false`|Indicates whether this entry was introduced by a
-rebase.
-|`skip`         |optional|count of lines skipped on both sides when the file is
+|`skip`     |optional|count of lines skipped on both sides when the file is
 too large to include all common lines.
-|`common`       |optional|Set to `true` if the region is common according
+|`common`   |optional|Set to `true` if the region is common according
 to the requested ignore-whitespace parameter, but a and b contain
 differing amounts of whitespace. When present and true a and b are
 used instead of ab.
@@ -6179,17 +5594,15 @@ The `EditInfo` entity contains information about a change edit.
 
 [options="header",cols="1,^1,5"]
 |===========================
-|Field Name             ||Description
-|`commit`               ||The commit of change edit as
+|Field Name     ||Description
+|`commit`       ||The commit of change edit as
 link:#commit-info[CommitInfo] entity.
-|`base_patch_set_number`||The patch set number of the patch set the change edit is based on.
-|`base_revision`        ||The revision of the patch set the change edit is based on.
-|`ref`                  ||The ref of the change edit.
-|`fetch`                |optional|
+|`base_revision`||The revision of the patch set the change edit is based on.
+|`fetch`        ||
 Information about how to fetch this patch set. The fetch information is
 provided as a map that maps the protocol name ("`git`", "`http`",
 "`ssh`") to link:#fetch-info[FetchInfo] entities.
-|`files`                |optional|
+|`files`        |optional|
 The files of the change edit as a map that maps the file names to
 link:#file-info[FileInfo] entities.
 |===========================
@@ -6264,8 +5677,8 @@ fix. It will be generated automatically and hence will be ignored if it's set
 for input objects.
 |`description`      ||A description of the suggested fix.
 |`replacements`     ||A list of <<fix-replacement-info,FixReplacementInfo>>
-entities indicating how the content of one or several files should be modified.
-Within a file, they should refer to non-overlapping regions.
+entities indicating how the content of the file on which the comment was placed
+should be modified. They should refer to non-overlapping regions.
 |==========================
 
 [[fix-replacement-info]]
@@ -6276,13 +5689,10 @@ replaced by another content.
 [options="header",cols="1,6"]
 |==========================
 |Field Name      |Description
-|`path`          |The path of the file which should be modified. Any file in
-the repository may be modified.
+|`path`          |The path of the file which should be modified. Modifications
+are only allowed for the file on which the corresponding comment was placed.
 |`range`         |A <<comment-range,CommentRange>> indicating which content
-of the file should be replaced. Lines in the file are assumed to be separated
-by the line feed character, the carriage return character, the carriage return
-followed by the line feed character, or one of the other Unicode linebreak
-sequences supported by Java.
+of the file should be replaced.
 |`replacement`   |The content which should be used instead of the current one.
 |==========================
 
@@ -6395,9 +5805,7 @@ This value may be outside the range specified in permitted_labels.
 |===========================
 |Field Name    ||Description
 |`all`         |optional|List of all approvals for this label as a list
-of link:#approval-info[ApprovalInfo] entities. Items in this list may
-not represent actual votes cast by users; if a user votes on any label,
-a corresponding ApprovalInfo will appear in this list for all labels.
+of link:#approval-info[ApprovalInfo] entities.
 |`values`      |optional|A map of all values that are allowed for this
 label. The map maps the values ("`-2`", "`-1`", " `0`", "`+1`", "`+2`")
 to the value descriptions.
@@ -6494,17 +5902,6 @@ A list of link:rest-api-accounts.html#account-id[account IDs] that
 identify the accounts that should be should be notified.
 |=======================
 
-[[private-input]]
-=== PrivateInput
-The `PrivateInput` entity contains information for changing the private
-flag on a change.
-
-[options="header",cols="1,^1,5"]
-|=======================
-|Field Name||Description
-|`message` |optional|Message describing why the private flag was changed.
-|=======================
-
 [[problem-info]]
 === ProblemInfo
 The `ProblemInfo` entity contains a description of a potential consistency problem
@@ -6541,16 +5938,6 @@ If not set, the default is `ALL`.
 Additional information about whom to notify about the update as a map
 of recipient type to link:#notify-info[NotifyInfo] entity.
 |=============================
-
-[[pure-revert-info]]
-=== PureRevertInfo
-The `PureRevertInfo` entity describes the result of a pure revert check.
-
-[options="header",cols="1,6"]
-|======================
-|Field Name      |Description
-|`is_pure_revert`  |Outcome of the check as boolean.
-|======================
 
 [[push-certificate-info]]
 === PushCertificateInfo
@@ -6604,7 +5991,6 @@ a related change and commit.
 [options="header",cols="1,^1,5"]
 |===========================
 |Field Name                ||Description
-|`project`                 ||The project of the change or commit.
 |`change_id`               |optional|The Change-Id of the change.
 |`commit`                  ||The commit as a
 link:#commit-info[CommitInfo] entity.
@@ -6612,7 +5998,7 @@ link:#commit-info[CommitInfo] entity.
 |`_revision_number`        |optional|The revision number.
 |`_current_revision_number`|optional|The current revision number.
 |`status`                  |optional|The status of the change. The status of
-the change is one of (`NEW`, `MERGED`, `ABANDONED`).
+the change is one of (`NEW`, `MERGED`, `ABANDONED`, `DRAFT`).
 |===========================
 
 [[related-changes-info]]
@@ -6698,8 +6084,8 @@ The message to be added as review comment.
 |`tag`                    |optional|
 Apply this tag to the review comment message, votes, and inline
 comments. Tags may be used by CI or other automated systems to
-distinguish them from human reviews. Votes/comments that contain `tag` with
-'autogenerated:' prefix can be filtered out in the web UI.
+distinguish them from human reviews. Comments with specific tag
+values can be filtered out in the web UI.
 |`labels`                 |optional|
 The votes that should be added to the revision as a map that maps the
 label names to the voting values.
@@ -6709,6 +6095,13 @@ list of link:#comment-input[CommentInput] entities.
 |`robot_comments`         |optional|
 The robot comments that should be added as a map that maps a file path
 to a list of link:#robot-comment-input[RobotCommentInput] entities.
+|`strict_labels`          |`true` if not set|
+Whether all labels are required to be within the user's permitted ranges
+based on access controls. +
+If `true`, attempting to use a label not granted to the user will fail
+the entire modify operation early. +
+If `false`, the operation will execute anyway, but the proposed labels
+will be modified to be the "best" value allowed by the access controls.
 |`drafts`                 |optional|
 Draft handling that defines how draft comments are handled that are
 already in the database but that were not also described in this
@@ -6733,36 +6126,6 @@ If `true`, comments with the same content at the same place will be omitted.
 link:rest-api-accounts.html#account-id[\{account-id\}] the review
 should be posted on behalf of. To use this option the caller must
 have been granted `labelAs-NAME` permission for all keys of labels.
-|`reviewers`              |optional|
-A list of link:rest-api-changes.html#reviewer-input[ReviewerInput]
-representing reviewers that should be added to the change.
-|`ready`                  |optional|
-If true, and if the change is work in progress, then start review.
-It is an error for both `ready` and `work_in_progress` to be true.
-|`work_in_progress`         |optional|
-If true, mark the change as work in progress. It is an error for both
-`ready` and `work_in_progress` to be true.
-|============================
-
-[[review-result]]
-=== ReviewResult
-The `ReviewResult` entity contains information regarding the updates
-that were made to a review.
-
-[options="header",cols="1,^1,5"]
-|============================
-|Field Name               ||Description
-|`labels`                 |optional|
-Map of labels to values after the review was posted. Null if any reviewer
-additions were rejected.
-|`reviewers`              |optional|
-Map of account or group identifier to
-link:rest-api-changes.html#add-reviewer-result[AddReviewerResult]
-representing the outcome of adding as a reviewer.
-Absent if no reviewer additions were requested.
-|`ready`                  |optional|
-If true, the change was moved from WIP to ready for review as a result of this
-action. Not set if false.
 |============================
 
 [[reviewer-info]]
@@ -6781,10 +6144,6 @@ In addition `ReviewerInfo` has the following fields:
 |`approvals`   |
 The approvals of the reviewer as a map that maps the label names to the
 approval values ("`-2`", "`-1`", "`0`", "`+1`", "`+2`").
-|`_account_id`   |
-This field is inherited from `AccountInfo` but is optional here if an
-unregistered reviewer was added by email. See
-link:rest-api-changes.html#add-reviewer[add-reviewer] for details.
 |==========================
 
 [[reviewer-input]]
@@ -6829,6 +6188,7 @@ link:#list-changes[Query Changes].
 [options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
+|`draft`       |not set if `false`|Whether the patch set is a draft.
 |`kind`        ||The change kind. Valid values are `REWORK`, `TRIVIAL_REBASE`,
 `MERGE_FIRST_PARENT_UPDATE`, `NO_CODE_CHANGE`, and `NO_CHANGE`.
 |`_number`     ||The patch set number.
@@ -6872,9 +6232,6 @@ contains the push certificate provided by the user when uploading this
 patch set as a link:#push-certificate-info[PushCertificateInfo] entity.
 This field is always set if the option is requested; if no push
 certificate was provided, it is set to an empty object.
-|`description` |optional|
-The description of this patchset, as displayed in the patchset
-selector menu. May be null if no description is set.
 |===========================
 
 [[robot-comment-info]]
@@ -7060,17 +6417,6 @@ The `TopicInput` entity contains information for setting a topic.
 The topic will be deleted if not set.
 |===========================
 
-[[tracking-id-info]]
-=== TrackingIdInfo
-The `TrackingIdInfo` entity describes a reference to an external tracking system.
-
-[options="header",cols="1,6"]
-|======================
-|Field Name|Description
-|`system`  |The name of the external tracking system.
-|`id`      |The tracking id.
-|======================
-
 [[voting-range-info]]
 === VotingRangeInfo
 The `VotingRangeInfo` entity describes the continuous voting range from min
@@ -7094,18 +6440,6 @@ The `WebLinkInfo` entity describes a link to an external site.
 |`url`     |The link URL.
 |`image_url`|URL to the icon of the link.
 |======================
-
-[[work-in-progress-input]]
-=== WorkInProgressInput
-The `WorkInProgressInput` entity contains additional information for a change
-set to WorkInProgress/ReadyForReview.
-
-[options="header",cols="1,^1,5"]
-|=============================
-|Field Name      ||Description
-|`message`       |optional|
-Message to be added as a review comment to the change being set WorkInProgress/ReadyForReview.
-|=============================
 
 GERRIT
 ------

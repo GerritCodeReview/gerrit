@@ -31,7 +31,6 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.RemoteSuggestBox;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
@@ -79,7 +78,6 @@ public class Reviewers extends Composite {
 
   private ReviewerSuggestOracle reviewerSuggestOracle;
   private Change.Id changeId;
-  private Project.NameKey project;
 
   Reviewers() {
     reviewerSuggestOracle = new ReviewerSuggestOracle();
@@ -120,9 +118,8 @@ public class Reviewers extends Composite {
 
   void set(ChangeInfo info) {
     this.changeId = info.legacyId();
-    this.project = info.projectNameKey();
     display(info);
-    reviewerSuggestOracle.setChange(project, changeId);
+    reviewerSuggestOracle.setChange(changeId);
     addReviewerIcon.setVisible(Gerrit.isSignedIn());
   }
 
@@ -154,12 +151,12 @@ public class Reviewers extends Composite {
     suggestBox.setServeSuggestionsOnOracle(false);
   }
 
-  private void addReviewer(String reviewer, boolean confirmed) {
+  private void addReviewer(final String reviewer, boolean confirmed) {
     if (reviewer.isEmpty()) {
       return;
     }
 
-    ChangeApi.reviewers(project.get(), changeId.get())
+    ChangeApi.reviewers(changeId.get())
         .post(
             PostInput.create(reviewer, confirmed),
             new GerritCallback<PostResult>() {
@@ -211,7 +208,6 @@ public class Reviewers extends Composite {
 
   void updateReviewerList() {
     ChangeApi.detail(
-        project.get(),
         changeId.get(),
         new GerritCallback<ChangeInfo>() {
           @Override

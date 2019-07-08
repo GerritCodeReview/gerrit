@@ -29,14 +29,13 @@
       Gerrit.BaseUrlBehavior,
     ],
 
-    _computeOwnerLink(account) {
+    _computeOwnerLink: function(account) {
       if (!account) { return; }
-      return Gerrit.Nav.getUrlForOwner(
-          account.email || account.username || account.name ||
-          account._account_id);
+      var accountID = account.email || account._account_id;
+      return this.getBaseUrl() + '/q/owner:' + encodeURIComponent(accountID);
     },
 
-    _computeShowEmail(account) {
+    _computeShowEmail: function(account) {
       return !!(account && !account.name);
     },
   });

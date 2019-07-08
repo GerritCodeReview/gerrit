@@ -24,7 +24,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.fail;
@@ -55,7 +54,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ChangeUtil;
@@ -75,8 +73,6 @@ import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.TestChangeRebuilderWrapper;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder.NoPatchSetsException;
-import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.Util;
@@ -101,7 +97,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Stream;
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 import org.eclipse.jgit.junit.TestRepository;
@@ -127,10 +122,6 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     // want precise control over when auto-rebuilding happens.
     cfg.setBoolean("index", null, "autoReindexIfStale", false);
 
-    // setNotesMigration tries to keep IDs in sync between ReviewDb and NoteDb, which is behavior
-    // unique to this test. This gets prohibitively slow if we use the default sequence gap.
-    cfg.setInt("noteDb", "changes", "initialSequenceGap", 0);
-
     return cfg;
   }
 
@@ -148,17 +139,17 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
   @Inject private TestChangeRebuilderWrapper rebuilderWrapper;
 
+  @Inject private BatchUpdate.Factory batchUpdateFactory;
+
   @Inject private Sequences seq;
 
   @Inject private ChangeBundleReader bundleReader;
 
   @Inject private PatchSetInfoFactory patchSetInfoFactory;
 
-  @Inject private PatchListCache patchListCache;
-
   @Before
   public void setUp() throws Exception {
-    assume().that(NoteDbMode.get()).isEqualTo(NoteDbMode.OFF);
+    assume().that(NoteDbMode.readWrite()).isFalse();
     TestTimeUtil.resetWithClockStep(1, SECONDS);
     setNotesMigration(false, false);
   }
@@ -224,7 +215,6 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     Change c = TestChanges.newChange(project, user.getId(), seq.nextChangeId());
     c.setCreatedOn(ts);
     c.setLastUpdatedOn(ts);
-    c.setReviewStarted(true);
     PatchSet ps =
         TestChanges.newPatchSet(
             c.currentPatchSetId(), "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef", user.getId());
@@ -492,13 +482,13 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     // TODO(dborowitz): Re-enable these assertions once we fix auto-rebuilding
     // in the BatchUpdate path.
-    // As an implementation detail, change wasn't actually rebuilt inside the
-    // BatchUpdate transaction, but it was rebuilt during read for the
-    // subsequent reindex. Thus it's impossible to actually observe an
-    // out-of-date state in the caller.
+    //// As an implementation detail, change wasn't actually rebuilt inside the
+    //// BatchUpdate transaction, but it was rebuilt during read for the
+    //// subsequent reindex. Thus it's impossible to actually observe an
+    //// out-of-date state in the caller.
     // assertChangeUpToDate(true, id);
 
-    // Check that the bundles are equal.
+    //// Check that the bundles are equal.
     // ChangeNotes notes = notesFactory.create(dbProvider.get(), project, id);
     // ChangeBundle actual = ChangeBundle.fromNotes(commentsUtil, notes);
     // ChangeBundle expected = bundleReader.fromReviewDb(getUnwrappedDb(), id);
@@ -764,7 +754,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     assertThat(ts).isGreaterThan(c.getCreatedOn());
     assertThat(ts).isLessThan(db.patchSets().get(psId).getCreatedOn());
     RevisionResource revRsrc = parseCurrentRevisionResource(r.getChangeId());
-    postReview.get().apply(batchUpdateFactory, revRsrc, rin, ts);
+    postReview.get().apply(revRsrc, rin, ts);
 
     checker.rebuildAndCheckChanges(id);
   }
@@ -782,7 +772,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     Timestamp ts = new Timestamp(c.getCreatedOn().getTime() - 10000);
     RevisionResource revRsrc = parseCurrentRevisionResource(r.getChangeId());
     setApiUser(user);
-    postReview.get().apply(batchUpdateFactory, revRsrc, rin, ts);
+    postReview.get().apply(revRsrc, rin, ts);
 
     checker.rebuildAndCheckChanges(id);
   }
@@ -820,6 +810,32 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     assertThat(nc.getSubject()).isEqualTo(orig + " v2");
     assertThat(nc.getOriginalSubject()).isNotEqualTo(c.getOriginalSubject());
     assertThat(nc.getOriginalSubject()).isEqualTo(orig);
+  }
+
+  @Test
+  public void deleteDraftPS1WithNoOtherEntities() throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
+    PushOneCommit.Result r = push.to("refs/drafts/master");
+    push =
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            PushOneCommit.SUBJECT,
+            "b.txt",
+            "4711",
+            r.getChangeId());
+    r = push.to("refs/drafts/master");
+    PatchSet.Id psId = r.getPatchSetId();
+    Change.Id id = psId.getParentKey();
+
+    gApi.changes().id(r.getChangeId()).revision(1).delete();
+
+    checker.rebuildAndCheckChanges(id);
+
+    setNotesMigration(true, true);
+    ChangeNotes notes = notesFactory.create(db, project, id);
+    assertThat(notes.getPatchSets().keySet()).containsExactly(psId);
   }
 
   @Test
@@ -872,45 +888,6 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     ChangeNotes notes = notesFactory.create(db, project, id);
     assertThat(notes.getChange().getSubject()).isNotEqualTo(subj);
     assertThat(notes.getChange().getSubject()).isEqualTo(PushOneCommit.SUBJECT);
-  }
-
-  @Test
-  public void allTimestampsExceptUpdatedAreEqualDueToBadMigration() throws Exception {
-    // https://bugs.chromium.org/p/gerrit/issues/detail?id=7397
-    PushOneCommit.Result r = createChange();
-    Change c = r.getChange().change();
-    Change.Id id = c.getId();
-    Timestamp ts = TimeUtil.nowTs();
-    Timestamp origUpdated = c.getLastUpdatedOn();
-
-    c.setCreatedOn(ts);
-    assertThat(c.getCreatedOn()).isGreaterThan(c.getLastUpdatedOn());
-    db.changes().update(Collections.singleton(c));
-
-    List<ChangeMessage> cm = db.changeMessages().byChange(id).toList();
-    cm.forEach(m -> m.setWrittenOn(ts));
-    db.changeMessages().update(cm);
-
-    List<PatchSet> ps = db.patchSets().byChange(id).toList();
-    ps.forEach(p -> p.setCreatedOn(ts));
-    db.patchSets().update(ps);
-
-    List<PatchSetApproval> psa = db.patchSetApprovals().byChange(id).toList();
-    psa.forEach(p -> p.setGranted(ts));
-    db.patchSetApprovals().update(psa);
-
-    List<PatchLineComment> plc = db.patchComments().byChange(id).toList();
-    plc.forEach(p -> p.setWrittenOn(ts));
-    db.patchComments().update(plc);
-
-    checker.rebuildAndCheckChanges(id);
-
-    setNotesMigration(true, true);
-    ChangeNotes notes = notesFactory.create(db, project, id);
-    assertThat(notes.getChange().getCreatedOn()).isEqualTo(origUpdated);
-    assertThat(notes.getChange().getLastUpdatedOn()).isAtLeast(origUpdated);
-    assertThat(notes.getPatchSets().get(new PatchSet.Id(id, 1)).getCreatedOn())
-        .isEqualTo(origUpdated);
   }
 
   @Test
@@ -1028,43 +1005,8 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
       db.rollback();
     }
 
-    try {
-      checker.rebuildAndCheckChanges(id);
-      assert_().fail("expected NoPatchSetsException");
-    } catch (NoPatchSetsException e) {
-      // Expected.
-    }
-
-    Change c = db.changes().get(id);
-    assertThat(c.getNoteDbState()).isNull();
-    checker.assertNoChangeRef(project, id);
-  }
-
-  @Test
-  public void rebuildChangeWithNoEntitiesOtherThanChange() throws Exception {
-    PushOneCommit.Result r = createChange();
-    Change.Id id = r.getPatchSetId().getParentKey();
-    db.changes().beginTransaction(id);
-    try {
-      db.changeMessages().delete(db.changeMessages().byChange(id));
-      db.patchSets().delete(db.patchSets().byChange(id));
-      db.patchSetApprovals().delete(db.patchSetApprovals().byChange(id));
-      db.patchComments().delete(db.patchComments().byChange(id));
-      db.commit();
-    } finally {
-      db.rollback();
-    }
-
-    try {
-      checker.rebuildAndCheckChanges(id);
-      assert_().fail("expected NoPatchSetsException");
-    } catch (NoPatchSetsException e) {
-      // Expected.
-    }
-
-    Change c = db.changes().get(id);
-    assertThat(c.getNoteDbState()).isNull();
-    checker.assertNoChangeRef(project, id);
+    exception.expect(NoPatchSetsException.class);
+    checker.rebuildAndCheckChanges(id);
   }
 
   @Test
@@ -1355,93 +1297,6 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     assertThat(getMetaRef(project, refName)).isNull();
   }
 
-  @Test
-  public void autoRebuildMissingRefWriteOnly() throws Exception {
-    setNotesMigration(true, false);
-    testAutoRebuildMissingRef();
-  }
-
-  @Test
-  public void autoRebuildMissingRefReadWrite() throws Exception {
-    setNotesMigration(true, true);
-    testAutoRebuildMissingRef();
-  }
-
-  private void testAutoRebuildMissingRef() throws Exception {
-    PushOneCommit.Result r = createChange();
-    Change.Id id = r.getChange().getId();
-
-    assertChangeUpToDate(true, id);
-    notesFactory.createChecked(db, project, id);
-
-    try (Repository repo = repoManager.openRepository(project)) {
-      RefUpdate ru = repo.updateRef(RefNames.changeMetaRef(id));
-      ru.setForceUpdate(true);
-      assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED);
-    }
-    assertChangeUpToDate(false, id);
-
-    notesFactory.createChecked(db, project, id);
-    assertChangeUpToDate(true, id);
-  }
-
-  @Test
-  public void missingPatchSetCommitOkForCommentsNotOnParentSide() throws Exception {
-    PushOneCommit.Result r = createChange();
-    Change.Id id = r.getChange().getId();
-
-    putDraft(user, id, 1, "draft comment", null, Side.REVISION);
-    putComment(user, id, 1, "published comment", null, Side.REVISION);
-
-    ReviewDb db = getUnwrappedDb();
-    PatchSet ps = db.patchSets().get(new PatchSet.Id(id, 1));
-    ps.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
-    db.patchSets().update(Collections.singleton(ps));
-
-    try {
-      patchListCache.getOldId(db.changes().get(id), ps, null);
-      assert_().fail("Expected PatchListNotAvailableException");
-    } catch (PatchListNotAvailableException e) {
-      // Expected.
-    }
-
-    checker.rebuildAndCheckChanges(id);
-  }
-
-  @Test
-  public void missingPatchSetCommitOmitsCommentsOnParentSide() throws Exception {
-    PushOneCommit.Result r = createChange();
-    Change.Id id = r.getChange().getId();
-
-    CommentInfo draftInfo = putDraft(user, id, 1, "draft comment", null, Side.PARENT);
-    putComment(user, id, 1, "published comment", null, Side.PARENT);
-    CommentInfo commentInfo =
-        gApi.changes().id(id.get()).comments().values().stream()
-            .flatMap(List::stream)
-            .findFirst()
-            .get();
-
-    ReviewDb db = getUnwrappedDb();
-    PatchSet ps = db.patchSets().get(new PatchSet.Id(id, 1));
-    ps.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
-    db.patchSets().update(Collections.singleton(ps));
-
-    try {
-      patchListCache.getOldId(db.changes().get(id), ps, null);
-      assert_().fail("Expected PatchListNotAvailableException");
-    } catch (PatchListNotAvailableException e) {
-      // Expected.
-    }
-
-    checker.rebuildAndCheckChange(
-        id,
-        Stream.of(draftInfo.id, commentInfo.id)
-            .sorted()
-            .map(c -> id + ",1," + PushOneCommit.FILE_NAME + "," + c)
-            .collect(
-                joining(", ", "PatchLineComment.Key sets differ: [", "] only in A; [] only in B")));
-  }
-
   private void assertChangesReadOnly(RestApiException e) throws Exception {
     Throwable cause = e.getCause();
     assertThat(cause).isInstanceOf(UpdateException.class);
@@ -1465,10 +1320,8 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
       Change c = getUnwrappedDb().changes().get(id);
       assertThat(c).isNotNull();
       assertThat(c.getNoteDbState()).isNotNull();
-      NoteDbChangeState state = NoteDbChangeState.parse(c);
-      assertThat(state).isNotNull();
-      assertThat(state.getPrimaryStorage()).isEqualTo(PrimaryStorage.REVIEW_DB);
-      assertThat(state.isChangeUpToDate(new RepoRefCache(repo))).isEqualTo(expected);
+      assertThat(NoteDbChangeState.parse(c).isChangeUpToDate(new RepoRefCache(repo)))
+          .isEqualTo(expected);
     }
   }
 
@@ -1491,24 +1344,16 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     }
   }
 
-  private CommentInfo putDraft(
-      TestAccount account, Change.Id id, int line, String msg, Boolean unresolved)
-      throws Exception {
-    return putDraft(account, id, line, msg, unresolved, Side.REVISION);
-  }
-
-  private CommentInfo putDraft(
-      TestAccount account, Change.Id id, int line, String msg, Boolean unresolved, Side side)
+  private void putDraft(TestAccount account, Change.Id id, int line, String msg, Boolean unresolved)
       throws Exception {
     DraftInput in = new DraftInput();
-    in.side = side;
     in.line = line;
     in.message = msg;
     in.path = PushOneCommit.FILE_NAME;
     in.unresolved = unresolved;
     AcceptanceTestRequestScope.Context old = setApiUser(account);
     try {
-      return gApi.changes().id(id.get()).current().createDraft(in).get();
+      gApi.changes().id(id.get()).current().createDraft(in);
     } finally {
       atrScope.set(old);
     }
@@ -1516,14 +1361,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
   private void putComment(TestAccount account, Change.Id id, int line, String msg, String inReplyTo)
       throws Exception {
-    putComment(account, id, line, msg, inReplyTo, Side.REVISION);
-  }
-
-  private void putComment(
-      TestAccount account, Change.Id id, int line, String msg, String inReplyTo, Side side)
-      throws Exception {
     CommentInput in = new CommentInput();
-    in.side = side;
     in.line = line;
     in.message = msg;
     in.inReplyTo = inReplyTo;

@@ -34,9 +34,9 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.concurrent.ExecutorService;
@@ -74,7 +74,7 @@ public class MergedByPushOp implements BatchUpdateOp {
   private PatchSet patchSet;
   private PatchSetInfo info;
 
-  @Inject
+  @AssistedInject
   MergedByPushOp(
       PatchSetInfoFactory patchSetInfoFactory,
       ChangeMessagesUtil cmUtil,
@@ -135,10 +135,6 @@ public class MergedByPushOp implements BatchUpdateOp {
     // submitted, this is why we must fix the status
     update.fixStatus(Change.Status.MERGED);
     update.setCurrentPatchSet();
-    if (change.isWorkInProgress()) {
-      change.setWorkInProgress(false);
-      update.setWorkInProgress(false);
-    }
     StringBuilder msgBuf = new StringBuilder();
     msgBuf.append("Change has been successfully pushed");
     if (!refName.equals(change.getDest().get())) {
@@ -166,7 +162,7 @@ public class MergedByPushOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public void postUpdate(final Context ctx) {
     if (!correctBranch) {
       return;
     }
@@ -198,7 +194,7 @@ public class MergedByPushOp implements BatchUpdateOp {
         change, patchSet, ctx.getAccount(), patchSet.getRevision().get(), ctx.getWhen());
   }
 
-  private PatchSetInfo getPatchSetInfo(ChangeContext ctx) throws IOException, OrmException {
+  private PatchSetInfo getPatchSetInfo(ChangeContext ctx) throws IOException {
     RevWalk rw = ctx.getRevWalk();
     RevCommit commit =
         rw.parseCommit(ObjectId.fromString(checkNotNull(patchSet).getRevision().get()));

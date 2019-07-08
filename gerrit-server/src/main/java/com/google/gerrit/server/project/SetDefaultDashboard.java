@@ -16,20 +16,18 @@ package com.google.gerrit.server.project;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
-import com.google.gerrit.extensions.api.projects.DashboardInfo;
-import com.google.gerrit.extensions.common.SetDashboardInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.DashboardsCollection.DashboardInfo;
+import com.google.gerrit.server.project.SetDashboard.Input;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -37,7 +35,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.kohsuke.args4j.Option;
 
-class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashboardInput> {
+class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
   private final ProjectCache cache;
   private final MetaDataUpdate.Server updateFactory;
   private final DashboardsCollection dashboards;
@@ -59,10 +57,11 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
   }
 
   @Override
-  public Response<DashboardInfo> apply(DashboardResource resource, SetDashboardInput input)
-      throws RestApiException, IOException, PermissionBackendException {
+  public Response<DashboardInfo> apply(DashboardResource resource, Input input)
+      throws AuthException, BadRequestException, ResourceConflictException,
+          ResourceNotFoundException, IOException {
     if (input == null) {
-      input = new SetDashboardInput(); // Delete would set input to null.
+      input = new Input(); // Delete would set input to null.
     }
     input.id = Strings.emptyToNull(input.id);
 
@@ -119,7 +118,7 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
     }
   }
 
-  static class CreateDefault implements RestModifyView<ProjectResource, SetDashboardInput> {
+  static class CreateDefault implements RestModifyView<ProjectResource, SetDashboard.Input> {
     private final Provider<SetDefaultDashboard> setDefault;
 
     @Option(name = "--inherited", usage = "set dashboard inherited by children")
@@ -131,8 +130,9 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
     }
 
     @Override
-    public Response<DashboardInfo> apply(ProjectResource resource, SetDashboardInput input)
-        throws RestApiException, IOException, PermissionBackendException {
+    public Response<DashboardInfo> apply(ProjectResource resource, Input input)
+        throws AuthException, BadRequestException, ResourceConflictException,
+            ResourceNotFoundException, IOException {
       SetDefaultDashboard set = setDefault.get();
       set.inherited = inherited;
       return set.apply(DashboardResource.projectDefault(resource.getControl()), input);

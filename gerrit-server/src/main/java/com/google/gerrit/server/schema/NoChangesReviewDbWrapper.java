@@ -74,11 +74,6 @@ class NoChangesReviewDbWrapper extends ReviewDbWrapper {
   }
 
   @Override
-  public boolean changesTablesEnabled() {
-    return false;
-  }
-
-  @Override
   public ChangeAccess changes() {
     return changes;
   }

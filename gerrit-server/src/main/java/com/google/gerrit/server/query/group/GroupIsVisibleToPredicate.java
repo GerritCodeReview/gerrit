@@ -15,27 +15,25 @@
 package com.google.gerrit.server.query.group;
 
 import com.google.gerrit.common.errors.NoSuchGroupException;
-import com.google.gerrit.index.query.IsVisibleToPredicate;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupControl;
-import com.google.gerrit.server.group.InternalGroup;
-import com.google.gerrit.server.index.IndexUtils;
+import com.google.gerrit.server.query.IsVisibleToPredicate;
 import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gwtorm.server.OrmException;
 
-public class GroupIsVisibleToPredicate extends IsVisibleToPredicate<InternalGroup> {
-  protected final GroupControl.GenericFactory groupControlFactory;
-  protected final CurrentUser user;
+public class GroupIsVisibleToPredicate extends IsVisibleToPredicate<AccountGroup> {
+  private final GroupControl.GenericFactory groupControlFactory;
+  private final CurrentUser user;
 
-  public GroupIsVisibleToPredicate(
-      GroupControl.GenericFactory groupControlFactory, CurrentUser user) {
-    super(AccountQueryBuilder.FIELD_VISIBLETO, IndexUtils.describe(user));
+  GroupIsVisibleToPredicate(GroupControl.GenericFactory groupControlFactory, CurrentUser user) {
+    super(AccountQueryBuilder.FIELD_VISIBLETO, describe(user));
     this.groupControlFactory = groupControlFactory;
     this.user = user;
   }
 
   @Override
-  public boolean match(InternalGroup group) throws OrmException {
+  public boolean match(AccountGroup group) throws OrmException {
     try {
       return groupControlFactory.controlFor(user, group.getGroupUUID()).isVisible();
     } catch (NoSuchGroupException e) {

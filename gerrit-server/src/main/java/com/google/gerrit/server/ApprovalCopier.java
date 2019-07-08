@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Table;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.reviewdb.client.Account;
@@ -28,9 +27,9 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeKindCache;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LabelNormalizer;
-import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -42,9 +41,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.TreeMap;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.lib.Repository;
 
 /**
  * Copies approvals between patch sets.
@@ -54,6 +52,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
  */
 @Singleton
 public class ApprovalCopier {
+  private final GitRepositoryManager repoManager;
   private final ProjectCache projectCache;
   private final ChangeKindCache changeKindCache;
   private final LabelNormalizer labelNormalizer;
@@ -62,11 +61,13 @@ public class ApprovalCopier {
 
   @Inject
   ApprovalCopier(
+      GitRepositoryManager repoManager,
       ProjectCache projectCache,
       ChangeKindCache changeKindCache,
       LabelNormalizer labelNormalizer,
       ChangeData.Factory changeDataFactory,
       PatchSetUtil psUtil) {
+    this.repoManager = repoManager;
     this.projectCache = projectCache;
     this.changeKindCache = changeKindCache;
     this.labelNormalizer = labelNormalizer;
@@ -78,89 +79,48 @@ public class ApprovalCopier {
    * Apply approval copy settings from prior PatchSets to a new PatchSet.
    *
    * @param db review database.
-   * @param notes change notes for user uploading PatchSet
-   * @param user user uploading PatchSet
+   * @param ctl change control for user uploading PatchSet
    * @param ps new PatchSet
-   * @param rw open walk that can read the patch set commit; null to open the repo on demand.
-   * @param repoConfig repo config used for change kind detection; null to read from repo on demand.
    * @throws OrmException
    */
-  public void copyInReviewDb(
-      ReviewDb db,
-      ChangeNotes notes,
-      CurrentUser user,
-      PatchSet ps,
-      @Nullable RevWalk rw,
-      @Nullable Config repoConfig)
-      throws OrmException {
-    copyInReviewDb(db, notes, user, ps, rw, repoConfig, Collections.emptyList());
+  public void copy(ReviewDb db, ChangeControl ctl, PatchSet ps) throws OrmException {
+    copy(db, ctl, ps, Collections.<PatchSetApproval>emptyList());
   }
 
   /**
    * Apply approval copy settings from prior PatchSets to a new PatchSet.
    *
    * @param db review database.
-   * @param notes change notes for user uploading PatchSet
-   * @param user user uploading PatchSet
+   * @param ctl change control for user uploading PatchSet
    * @param ps new PatchSet
-   * @param rw open walk that can read the patch set commit; null to open the repo on demand.
-   * @param repoConfig repo config used for change kind detection; null to read from repo on demand.
    * @param dontCopy PatchSetApprovals indicating which (account, label) pairs should not be copied
    * @throws OrmException
    */
-  public void copyInReviewDb(
-      ReviewDb db,
-      ChangeNotes notes,
-      CurrentUser user,
-      PatchSet ps,
-      @Nullable RevWalk rw,
-      @Nullable Config repoConfig,
-      Iterable<PatchSetApproval> dontCopy)
+  public void copy(ReviewDb db, ChangeControl ctl, PatchSet ps, Iterable<PatchSetApproval> dontCopy)
       throws OrmException {
-    if (PrimaryStorage.of(notes.getChange()) == PrimaryStorage.REVIEW_DB) {
-      db.patchSetApprovals().insert(getForPatchSet(db, notes, user, ps, rw, repoConfig, dontCopy));
-    }
+    db.patchSetApprovals().insert(getForPatchSet(db, ctl, ps, dontCopy));
+  }
+
+  Iterable<PatchSetApproval> getForPatchSet(ReviewDb db, ChangeControl ctl, PatchSet.Id psId)
+      throws OrmException {
+    return getForPatchSet(db, ctl, psId, Collections.<PatchSetApproval>emptyList());
   }
 
   Iterable<PatchSetApproval> getForPatchSet(
-      ReviewDb db,
-      ChangeNotes notes,
-      CurrentUser user,
-      PatchSet.Id psId,
-      @Nullable RevWalk rw,
-      @Nullable Config repoConfig)
+      ReviewDb db, ChangeControl ctl, PatchSet.Id psId, Iterable<PatchSetApproval> dontCopy)
       throws OrmException {
-    return getForPatchSet(
-        db, notes, user, psId, rw, repoConfig, Collections.<PatchSetApproval>emptyList());
-  }
-
-  Iterable<PatchSetApproval> getForPatchSet(
-      ReviewDb db,
-      ChangeNotes notes,
-      CurrentUser user,
-      PatchSet.Id psId,
-      @Nullable RevWalk rw,
-      @Nullable Config repoConfig,
-      Iterable<PatchSetApproval> dontCopy)
-      throws OrmException {
-    PatchSet ps = psUtil.get(db, notes, psId);
+    PatchSet ps = psUtil.get(db, ctl.getNotes(), psId);
     if (ps == null) {
       return Collections.emptyList();
     }
-    return getForPatchSet(db, notes, user, ps, rw, repoConfig, dontCopy);
+    return getForPatchSet(db, ctl, ps, dontCopy);
   }
 
   private Iterable<PatchSetApproval> getForPatchSet(
-      ReviewDb db,
-      ChangeNotes notes,
-      CurrentUser user,
-      PatchSet ps,
-      @Nullable RevWalk rw,
-      @Nullable Config repoConfig,
-      Iterable<PatchSetApproval> dontCopy)
+      ReviewDb db, ChangeControl ctl, PatchSet ps, Iterable<PatchSetApproval> dontCopy)
       throws OrmException {
     checkNotNull(ps, "ps should not be null");
-    ChangeData cd = changeDataFactory.create(db, notes);
+    ChangeData cd = changeDataFactory.create(db, ctl);
     try {
       ProjectState project = projectCache.checkedGet(cd.change().getDest().getParentKey());
       ListMultimap<PatchSet.Id, PatchSetApproval> all = cd.approvals();
@@ -180,38 +140,39 @@ public class ApprovalCopier {
 
       TreeMap<Integer, PatchSet> patchSets = getPatchSets(cd);
 
-      // Walk patch sets strictly less than current in descending order.
-      Collection<PatchSet> allPrior =
-          patchSets.descendingMap().tailMap(ps.getId().get(), false).values();
-      for (PatchSet priorPs : allPrior) {
-        List<PatchSetApproval> priorApprovals = all.get(priorPs.getId());
-        if (priorApprovals.isEmpty()) {
-          continue;
-        }
+      try (Repository repo = repoManager.openRepository(project.getProject().getNameKey())) {
+        // Walk patch sets strictly less than current in descending order.
+        Collection<PatchSet> allPrior =
+            patchSets.descendingMap().tailMap(ps.getId().get(), false).values();
+        for (PatchSet priorPs : allPrior) {
+          List<PatchSetApproval> priorApprovals = all.get(priorPs.getId());
+          if (priorApprovals.isEmpty()) {
+            continue;
+          }
 
-        ChangeKind kind =
-            changeKindCache.getChangeKind(
-                project.getNameKey(),
-                rw,
-                repoConfig,
-                ObjectId.fromString(priorPs.getRevision().get()),
-                ObjectId.fromString(ps.getRevision().get()));
+          ChangeKind kind =
+              changeKindCache.getChangeKind(
+                  project.getProject().getNameKey(),
+                  repo,
+                  ObjectId.fromString(priorPs.getRevision().get()),
+                  ObjectId.fromString(ps.getRevision().get()));
 
-        for (PatchSetApproval psa : priorApprovals) {
-          if (wontCopy.contains(psa.getLabel(), psa.getAccountId())) {
-            continue;
+          for (PatchSetApproval psa : priorApprovals) {
+            if (wontCopy.contains(psa.getLabel(), psa.getAccountId())) {
+              continue;
+            }
+            if (byUser.contains(psa.getLabel(), psa.getAccountId())) {
+              continue;
+            }
+            if (!canCopy(project, psa, ps.getId(), kind)) {
+              wontCopy.put(psa.getLabel(), psa.getAccountId(), psa);
+              continue;
+            }
+            byUser.put(psa.getLabel(), psa.getAccountId(), copy(psa, ps.getId()));
           }
-          if (byUser.contains(psa.getLabel(), psa.getAccountId())) {
-            continue;
-          }
-          if (!canCopy(project, psa, ps.getId(), kind)) {
-            wontCopy.put(psa.getLabel(), psa.getAccountId(), psa);
-            continue;
-          }
-          byUser.put(psa.getLabel(), psa.getAccountId(), copy(psa, ps.getId()));
         }
+        return labelNormalizer.normalize(ctl, byUser.values()).getNormalized();
       }
-      return labelNormalizer.normalize(notes, user, byUser.values()).getNormalized();
     } catch (IOException e) {
       throw new OrmException(e);
     }

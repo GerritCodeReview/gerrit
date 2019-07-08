@@ -20,10 +20,8 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -32,11 +30,8 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StarredChangesUtil;
-import com.google.gerrit.server.StarredChangesUtil.IllegalLabelException;
-import com.google.gerrit.server.StarredChangesUtil.MutuallyExclusiveLabelsException;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.QueryChanges;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
@@ -72,7 +67,7 @@ public class StarredChanges
 
   @Override
   public AccountResource.StarredChange parse(AccountResource parent, IdString id)
-      throws ResourceNotFoundException, OrmException, PermissionBackendException {
+      throws ResourceNotFoundException, OrmException {
     IdentifiedUser user = parent.getUser();
     ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
     if (starredChangesUtil
@@ -101,6 +96,7 @@ public class StarredChanges
     };
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public RestModifyView<AccountResource, EmptyInput> create(AccountResource parent, IdString id)
       throws UnprocessableEntityException {
@@ -108,7 +104,7 @@ public class StarredChanges
       return createProvider.get().setChange(changes.parse(TopLevelResource.INSTANCE, id));
     } catch (ResourceNotFoundException e) {
       throw new UnprocessableEntityException(String.format("change %s not found", id.get()));
-    } catch (OrmException | PermissionBackendException e) {
+    } catch (OrmException e) {
       log.error("cannot resolve change", e);
       throw new UnprocessableEntityException("internal server error");
     }
@@ -133,7 +129,7 @@ public class StarredChanges
 
     @Override
     public Response<?> apply(AccountResource rsrc, EmptyInput in)
-        throws RestApiException, OrmException, IOException {
+        throws AuthException, OrmException, IOException {
       if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed to add starred change");
       }
@@ -144,10 +140,6 @@ public class StarredChanges
             change.getId(),
             StarredChangesUtil.DEFAULT_LABELS,
             null);
-      } catch (MutuallyExclusiveLabelsException e) {
-        throw new ResourceConflictException(e.getMessage());
-      } catch (IllegalLabelException e) {
-        throw new BadRequestException(e.getMessage());
       } catch (OrmDuplicateKeyException e) {
         return Response.none();
       }
@@ -187,7 +179,7 @@ public class StarredChanges
 
     @Override
     public Response<?> apply(AccountResource.StarredChange rsrc, EmptyInput in)
-        throws AuthException, OrmException, IOException, IllegalLabelException {
+        throws AuthException, OrmException, IOException {
       if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed remove starred change");
       }

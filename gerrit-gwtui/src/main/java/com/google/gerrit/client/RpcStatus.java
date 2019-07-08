@@ -28,7 +28,7 @@ public class RpcStatus implements RpcStartHandler, RpcCompleteHandler {
   private static int hideDepth;
 
   /** Execute code, hiding the RPCs they execute from being shown visually. */
-  public static void hide(Runnable run) {
+  public static void hide(final Runnable run) {
     try {
       hideDepth++;
       run.run();
@@ -49,7 +49,7 @@ public class RpcStatus implements RpcStartHandler, RpcCompleteHandler {
   }
 
   @Override
-  public void onRpcStart(RpcStartEvent event) {
+  public void onRpcStart(final RpcStartEvent event) {
     onRpcStart();
   }
 
@@ -62,7 +62,7 @@ public class RpcStatus implements RpcStartHandler, RpcCompleteHandler {
   }
 
   @Override
-  public void onRpcComplete(RpcCompleteEvent event) {
+  public void onRpcComplete(final RpcCompleteEvent event) {
     onRpcComplete();
   }
 

@@ -35,13 +35,7 @@ public class DashboardInfo extends JavaScriptObject {
 
   public final native String url() /*-{ return this.url; }-*/;
 
-  private final native boolean isDefaultLegacy() /*-{ return this['default'] ? true : false; }-*/;
-
-  private final native boolean isDefaultNew() /*-{ return this.is_default ? true : false; }-*/;
-
-  public final boolean isDefault() {
-    return isDefaultLegacy() || isDefaultNew();
-  }
+  public final native boolean isDefault() /*-{ return this['default'] ? true : false; }-*/;
 
   protected DashboardInfo() {}
 }

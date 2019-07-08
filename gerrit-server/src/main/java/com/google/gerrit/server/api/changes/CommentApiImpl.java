@@ -14,15 +14,12 @@
 
 package com.google.gerrit.server.api.changes;
 
-import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
-
 import com.google.gerrit.extensions.api.changes.CommentApi;
-import com.google.gerrit.extensions.api.changes.DeleteCommentInput;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.CommentResource;
-import com.google.gerrit.server.change.DeleteComment;
 import com.google.gerrit.server.change.GetComment;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -32,14 +29,11 @@ class CommentApiImpl implements CommentApi {
   }
 
   private final GetComment getComment;
-  private final DeleteComment deleteComment;
   private final CommentResource comment;
 
   @Inject
-  CommentApiImpl(
-      GetComment getComment, DeleteComment deleteComment, @Assisted CommentResource comment) {
+  CommentApiImpl(GetComment getComment, @Assisted CommentResource comment) {
     this.getComment = getComment;
-    this.deleteComment = deleteComment;
     this.comment = comment;
   }
 
@@ -47,17 +41,8 @@ class CommentApiImpl implements CommentApi {
   public CommentInfo get() throws RestApiException {
     try {
       return getComment.apply(comment);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot retrieve comment", e);
-    }
-  }
-
-  @Override
-  public CommentInfo delete(DeleteCommentInput input) throws RestApiException {
-    try {
-      return deleteComment.apply(comment, input);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot delete comment", e);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot retrieve comment", e);
     }
   }
 }

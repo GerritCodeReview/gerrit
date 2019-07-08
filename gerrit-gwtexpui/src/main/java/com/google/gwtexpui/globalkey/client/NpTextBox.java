@@ -22,7 +22,7 @@ public class NpTextBox extends TextBox {
     addKeyPressHandler(GlobalKey.STOP_PROPAGATION);
   }
 
-  public NpTextBox(Element element) {
+  public NpTextBox(final Element element) {
     super(element);
     addKeyPressHandler(GlobalKey.STOP_PROPAGATION);
   }

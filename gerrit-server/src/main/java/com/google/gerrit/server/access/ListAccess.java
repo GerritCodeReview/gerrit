@@ -20,9 +20,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.GetAccess;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,11 +47,11 @@ public class ListAccess implements RestReadView<TopLevelResource> {
 
   @Override
   public Map<String, ProjectAccessInfo> apply(TopLevelResource resource)
-      throws ResourceNotFoundException, ResourceConflictException, IOException,
-          PermissionBackendException, OrmException {
+      throws ResourceNotFoundException, ResourceConflictException, IOException {
     Map<String, ProjectAccessInfo> access = new TreeMap<>();
     for (String p : projects) {
-      access.put(p, getAccess.apply(new Project.NameKey(p)));
+      Project.NameKey projectName = new Project.NameKey(p);
+      access.put(p, getAccess.apply(projectName));
     }
     return access;
   }

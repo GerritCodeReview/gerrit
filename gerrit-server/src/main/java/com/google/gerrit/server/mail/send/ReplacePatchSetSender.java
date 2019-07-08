@@ -15,7 +15,6 @@
 package com.google.gerrit.server.mail.send;
 
 import com.google.gerrit.common.errors.EmailException;
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -46,11 +45,11 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
     super(ea, "newpatchset", newChangeData(ea, project, id));
   }
 
-  public void addReviewers(Collection<Account.Id> cc) {
+  public void addReviewers(final Collection<Account.Id> cc) {
     reviewers.addAll(cc);
   }
 
-  public void addExtraCC(Collection<Account.Id> cc) {
+  public void addExtraCC(final Collection<Account.Id> cc) {
     extraCC.addAll(cc);
   }
 
@@ -63,13 +62,11 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
       //
       reviewers.remove(fromId);
     }
-    if (notify == NotifyHandling.ALL || notify == NotifyHandling.OWNER_REVIEWERS) {
-      add(RecipientType.TO, reviewers);
-      add(RecipientType.CC, extraCC);
-    }
+    add(RecipientType.TO, reviewers);
+    add(RecipientType.CC, extraCC);
     rcptToAuthors(RecipientType.CC);
     bccStarredBy();
-    includeWatchers(NotifyType.NEW_PATCHSETS, !change.isWorkInProgress() && !change.isPrivate());
+    includeWatchers(NotifyType.NEW_PATCHSETS, !patchSet.isDraft());
     removeUsersThatIgnoredTheChange();
   }
 

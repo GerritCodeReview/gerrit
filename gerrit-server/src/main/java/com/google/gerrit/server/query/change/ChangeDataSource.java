@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.index.query.DataSource;
+import com.google.gerrit.server.query.DataSource;
 
 public interface ChangeDataSource extends DataSource<ChangeData> {
   /** @return true if all returned ChangeData.hasChange() will be true. */

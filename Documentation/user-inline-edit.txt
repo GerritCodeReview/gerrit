@@ -10,8 +10,9 @@ browser.
 A new change can be created directly in the browser, meaning it is not necessary
 to clone the whole repository to make trivial changes.
 
-The new change is created as a public
-link:user-upload.html#wip[work-in-progress change].
+The new change is created as a draft change, unless
+link:config-gerrit.html#change.allowDrafts[change.allowDrafts] is set to false,
+in which case the change is created as a normal new change.
 
 There are two different ways to create a new change:
 

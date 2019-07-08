@@ -91,7 +91,7 @@ public class ProjectAccessScreen extends ProjectScreen {
 
   private NativeMap<CapabilityInfo> capabilityMap;
 
-  public ProjectAccessScreen(Project.NameKey toShow) {
+  public ProjectAccessScreen(final Project.NameKey toShow) {
     super(toShow);
   }
 
@@ -211,7 +211,7 @@ public class ProjectAccessScreen extends ProjectScreen {
               displayReadOnly(newAccess);
             } else {
               error.add(new Label(Gerrit.C.projectAccessError()));
-              for (String diff : diffs) {
+              for (final String diff : diffs) {
                 error.add(new Label(diff));
               }
               if (access.canUpload()) {
@@ -287,7 +287,7 @@ public class ProjectAccessScreen extends ProjectScreen {
             commitMessage.setText("");
             error.clear();
             if (changeId != null) {
-              Gerrit.display(PageLinks.toChange(getProjectKey(), changeId));
+              Gerrit.display(PageLinks.toChange(changeId));
             } else {
               displayReadOnly(access);
             }

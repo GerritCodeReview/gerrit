@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.CurrentUser;
 import com.google.inject.TypeLiteral;
 
 public class ProjectResource implements RestResource {
@@ -42,12 +42,8 @@ public class ProjectResource implements RestResource {
     return control.getProject().getNameKey();
   }
 
-  public ProjectState getProjectState() {
-    return control.getProjectState();
-  }
-
-  public CurrentUser getUser() {
-    return getControl().getUser();
+  public ProjectState getState() {
+    return control.getProject().getState();
   }
 
   public ProjectControl getControl() {

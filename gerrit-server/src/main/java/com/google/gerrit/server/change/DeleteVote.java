@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -40,24 +41,17 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.extensions.events.VoteDeleted;
 import com.google.gerrit.server.mail.send.DeleteVoteSender;
 import com.google.gerrit.server.mail.send.ReplyToChangeSender;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.project.RemoveReviewerControl;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -65,10 +59,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteInput, Response<?>> {
+public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput> {
   private static final Logger log = LoggerFactory.getLogger(DeleteVote.class);
 
   private final Provider<ReviewDb> db;
+  private final BatchUpdate.Factory batchUpdateFactory;
   private final ApprovalsUtil approvalsUtil;
   private final PatchSetUtil psUtil;
   private final ChangeMessagesUtil cmUtil;
@@ -76,24 +71,20 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
   private final VoteDeleted voteDeleted;
   private final DeleteVoteSender.Factory deleteVoteSenderFactory;
   private final NotifyUtil notifyUtil;
-  private final RemoveReviewerControl removeReviewerControl;
-  private final ProjectCache projectCache;
 
   @Inject
   DeleteVote(
       Provider<ReviewDb> db,
-      RetryHelper retryHelper,
+      BatchUpdate.Factory batchUpdateFactory,
       ApprovalsUtil approvalsUtil,
       PatchSetUtil psUtil,
       ChangeMessagesUtil cmUtil,
       IdentifiedUser.GenericFactory userFactory,
       VoteDeleted voteDeleted,
       DeleteVoteSender.Factory deleteVoteSenderFactory,
-      NotifyUtil notifyUtil,
-      RemoveReviewerControl removeReviewerControl,
-      ProjectCache projectCache) {
-    super(retryHelper);
+      NotifyUtil notifyUtil) {
     this.db = db;
+    this.batchUpdateFactory = batchUpdateFactory;
     this.approvalsUtil = approvalsUtil;
     this.psUtil = psUtil;
     this.cmUtil = cmUtil;
@@ -101,14 +92,11 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
     this.voteDeleted = voteDeleted;
     this.deleteVoteSenderFactory = deleteVoteSenderFactory;
     this.notifyUtil = notifyUtil;
-    this.removeReviewerControl = removeReviewerControl;
-    this.projectCache = projectCache;
   }
 
   @Override
-  protected Response<?> applyImpl(
-      BatchUpdate.Factory updateFactory, VoteResource rsrc, DeleteVoteInput input)
-      throws RestApiException, UpdateException, IOException {
+  public Response<?> apply(VoteResource rsrc, DeleteVoteInput input)
+      throws RestApiException, UpdateException {
     if (input == null) {
       input = new DeleteVoteInput();
     }
@@ -126,15 +114,9 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
     }
 
     try (BatchUpdate bu =
-        updateFactory.create(
-            db.get(), change.getProject(), r.getChangeResource().getUser(), TimeUtil.nowTs())) {
-      bu.addOp(
-          change.getId(),
-          new Op(
-              projectCache.checkedGet(r.getChange().getProject()),
-              r.getReviewerUser().getAccount(),
-              rsrc.getLabel(),
-              input));
+        batchUpdateFactory.create(
+            db.get(), change.getProject(), r.getControl().getUser(), TimeUtil.nowTs())) {
+      bu.addOp(change.getId(), new Op(r.getReviewerUser().getAccount(), rsrc.getLabel(), input));
       bu.execute();
     }
 
@@ -142,19 +124,16 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
   }
 
   private class Op implements BatchUpdateOp {
-    private final ProjectState projectState;
     private final Account account;
     private final String label;
     private final DeleteVoteInput input;
-
     private ChangeMessage changeMessage;
     private Change change;
     private PatchSet ps;
     private Map<String, Short> newApprovals = new HashMap<>();
     private Map<String, Short> oldApprovals = new HashMap<>();
 
-    private Op(ProjectState projectState, Account account, String label, DeleteVoteInput input) {
-      this.projectState = projectState;
+    private Op(Account account, String label, DeleteVoteInput input) {
       this.account = account;
       this.label = label;
       this.input = input;
@@ -162,36 +141,25 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws OrmException, AuthException, ResourceNotFoundException, IOException,
-            PermissionBackendException, NoSuchProjectException {
-      change = ctx.getChange();
+        throws OrmException, AuthException, ResourceNotFoundException {
+      ChangeControl ctl = ctx.getControl();
+      change = ctl.getChange();
       PatchSet.Id psId = change.currentPatchSetId();
-      ps = psUtil.current(db.get(), ctx.getNotes());
+      ps = psUtil.current(db.get(), ctl.getNotes());
 
       boolean found = false;
-      LabelTypes labelTypes = projectState.getLabelTypes(ctx.getNotes(), ctx.getUser());
+      LabelTypes labelTypes = ctx.getControl().getLabelTypes();
 
       for (PatchSetApproval a :
-          approvalsUtil.byPatchSetUser(
-              ctx.getDb(),
-              ctx.getNotes(),
-              ctx.getUser(),
-              psId,
-              account.getId(),
-              ctx.getRevWalk(),
-              ctx.getRepoView().getConfig())) {
+          approvalsUtil.byPatchSetUser(ctx.getDb(), ctl, psId, account.getId())) {
         if (labelTypes.byLabel(a.getLabelId()) == null) {
           continue; // Ignore undefined labels.
         } else if (!a.getLabel().equals(label)) {
           // Populate map for non-matching labels, needed by VoteDeleted.
           newApprovals.put(a.getLabel(), a.getValue());
           continue;
-        } else {
-          try {
-            removeReviewerControl.checkRemoveReviewer(ctx.getNotes(), ctx.getUser(), a);
-          } catch (AuthException e) {
-            throw new AuthException("delete vote not permitted", e);
-          }
+        } else if (!ctl.canRemoveReviewer(a)) {
+          throw new AuthException("delete vote not permitted");
         }
         // Set the approval to 0 if vote is being removed.
         newApprovals.put(a.getLabel(), (short) 0);

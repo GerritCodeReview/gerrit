@@ -21,29 +21,16 @@
       _groups: Array,
     },
 
-    behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.URLEncodingBehavior,
-    ],
-
-    loadData() {
-      return this.$.restAPI.getAccountGroups().then(groups => {
-        this._groups = groups.sort((a, b) => {
+    loadData: function() {
+      return this.$.restAPI.getAccountGroups().then(function(groups) {
+        this._groups = groups.sort(function(a, b) {
           return a.name.localeCompare(b.name);
         });
-      });
+      }.bind(this));
     },
 
-    _computeVisibleToAll(group) {
+    _computeVisibleToAll: function(group) {
       return group.options.visible_to_all ? 'Yes' : 'No';
-    },
-
-    _computeGroupPath(group) {
-      if (!group || !group.id) { return; }
-
-      const encodeGroup = this.encodeURL(group.id, true);
-
-      return `${this.getBaseUrl()}/admin/groups/${encodeGroup}`;
     },
   });
 })();

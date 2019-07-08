@@ -15,33 +15,26 @@ limitations under the License.
 -->
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../behaviors/gr-change-table-behavior/gr-change-table-behavior.html">
-<link rel="import" href="../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.html">
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../styles/gr-change-list-styles.html">
-<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
 <link rel="import" href="../../shared/gr-change-star/gr-change-star.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
-<link rel="import" href="../../shared/gr-limited-text/gr-limited-text.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-change-list-item">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         display: table-row;
         border-bottom: 1px solid #eee;
-      }
-      :host(:hover) {
-        background-color: #f5fafd;
       }
       :host([selected]) {
         background-color: #ebf5fb;
       }
       :host([needs-review]) {
-        font-family: var(--font-family-bold);
+        font-weight: bold;
       }
       :host([assigned]) {
         background-color: #fcfad6;
@@ -75,8 +68,7 @@ limitations under the License.
       }
       a {
         color: var(--default-text-color);
-        cursor: pointer;
-        display: inline-block;
+        display: block;
         text-decoration: none;
       }
       a:hover {
@@ -138,32 +130,15 @@ limitations under the License.
         hidden$="[[isColumnHidden('Owner', visibleChangeTableColumns)]]">
       <gr-account-link account="[[change.owner]]"></gr-account-link>
     </td>
-    <td class="cell assignee"
-        hidden$="[[isColumnHidden('Assignee', visibleChangeTableColumns)]]">
-      <template is="dom-if" if="[[change.assignee]]">
-        <gr-account-link account="[[change.assignee]]"></gr-account-link>
-      </template>
-    </td>
     <td class="cell project"
         hidden$="[[isColumnHidden('Project', visibleChangeTableColumns)]]">
-      <a class="fullProject" href$="[[_computeProjectURL(change.project)]]">
-        [[change.project]]
-      </a>
-      <a class="truncatedProject" href$="[[_computeProjectURL(change.project)]]">
-        [[_computeTruncatedProject(change.project)]]
-      </a>
+      <a href$="[[_computeProjectURL(change.project)]]">[[change.project]]</a>
     </td>
     <td class="cell branch"
         hidden$="[[isColumnHidden('Branch', visibleChangeTableColumns)]]">
-      <a href$="[[_computeProjectBranchURL(change)]]">
+      <a href$="[[_computeProjectBranchURL(change.project, change.branch)]]">
         [[change.branch]]
       </a>
-      <template is="dom-if" if="[[change.topic]]">
-        (<a href$="[[_computeTopicURL(change)]]"><!--
-       --><gr-limited-text limit="50" text="[[change.topic]]">
-          </gr-limited-text><!--
-     --></a>)
-      </template>
     </td>
     <td class="cell updated"
         hidden$="[[isColumnHidden('Updated', visibleChangeTableColumns)]]">

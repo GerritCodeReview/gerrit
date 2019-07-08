@@ -32,7 +32,7 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
-import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.auth.oauth.OAuthTokenCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -46,7 +46,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.binary.Base64;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -194,7 +193,7 @@ class OAuthSession {
       log.info("OAuth2: linking claimed identity to {}", claimedId.get().toString());
       try {
         accountManager.link(claimedId.get(), req);
-      } catch (OrmException | ConfigInvalidException e) {
+      } catch (OrmException e) {
         log.error(
             "Cannot link: "
                 + user.getExternalId()
@@ -214,7 +213,7 @@ class OAuthSession {
       throws AccountException, IOException {
     try {
       accountManager.link(identifiedUser.get().getAccountId(), areq);
-    } catch (OrmException | ConfigInvalidException e) {
+    } catch (OrmException e) {
       log.error(
           "Cannot link: "
               + user.getExternalId()

@@ -33,18 +33,13 @@ public class GetCommit implements RestReadView<RevisionResource> {
   private final GitRepositoryManager repoManager;
   private final ChangeJson.Factory json;
 
+  @Option(name = "--links", usage = "Include weblinks")
   private boolean addLinks;
 
   @Inject
   GetCommit(GitRepositoryManager repoManager, ChangeJson.Factory json) {
     this.repoManager = repoManager;
     this.json = json;
-  }
-
-  @Option(name = "--links", usage = "Include weblinks")
-  public GetCommit setAddLinks(boolean addLinks) {
-    this.addLinks = addLinks;
-    return this;
   }
 
   @Override
@@ -55,7 +50,7 @@ public class GetCommit implements RestReadView<RevisionResource> {
       String rev = rsrc.getPatchSet().getRevision().get();
       RevCommit commit = rw.parseCommit(ObjectId.fromString(rev));
       rw.parseBody(commit);
-      CommitInfo info = json.noOptions().toCommit(rsrc.getProject(), rw, commit, addLinks, true);
+      CommitInfo info = json.noOptions().toCommit(rsrc.getControl(), rw, commit, addLinks, true);
       Response<CommitInfo> r = Response.ok(info);
       if (rsrc.isCacheable()) {
         r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));

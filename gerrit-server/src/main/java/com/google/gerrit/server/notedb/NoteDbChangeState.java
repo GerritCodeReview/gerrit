@@ -78,11 +78,11 @@ public class NoteDbChangeState {
       this.code = code;
     }
 
-    public static PrimaryStorage of(@Nullable Change c) {
+    public static PrimaryStorage of(Change c) {
       return of(NoteDbChangeState.parse(c));
     }
 
-    public static PrimaryStorage of(@Nullable NoteDbChangeState s) {
+    public static PrimaryStorage of(NoteDbChangeState s) {
       return s != null ? s.getPrimaryStorage() : REVIEW_DB;
     }
   }
@@ -150,12 +150,12 @@ public class NoteDbChangeState {
     }
   }
 
-  public static NoteDbChangeState parse(@Nullable Change c) {
+  public static NoteDbChangeState parse(Change c) {
     return c != null ? parse(c.getId(), c.getNoteDbState()) : null;
   }
 
   @VisibleForTesting
-  public static NoteDbChangeState parse(Change.Id id, @Nullable String str) {
+  public static NoteDbChangeState parse(Change.Id id, String str) {
     if (Strings.isNullOrEmpty(str)) {
       // Return null rather than Optional as this is what goes in the field in
       // ReviewDb.

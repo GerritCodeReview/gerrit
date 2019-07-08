@@ -20,7 +20,8 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-cursor-manager.html">
 
 <script>void(0);</script>
@@ -38,23 +39,23 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-cursor-manager tests', () => {
-    let sandbox;
-    let element;
-    let list;
+  suite('gr-cursor-manager tests', function() {
+    var sandbox;
+    var element;
+    var list;
 
-    setup(() => {
+    setup(function() {
       sandbox = sinon.sandbox.create();
-      const fixtureElements = fixture('basic');
+      var fixtureElements = fixture('basic');
       element = fixtureElements[0];
       list = fixtureElements[1];
     });
 
-    teardown(() => {
+    teardown(function() {
       sandbox.restore();
     });
 
-    test('core cursor functionality', () => {
+    test('core cursor functionality', function() {
       // The element is initialized into the proper state.
       assert.isArray(element.stops);
       assert.equal(element.stops.length, 0);
@@ -110,7 +111,7 @@ limitations under the License.
       assert.isTrue(element.isAtStart());
       assert.isTrue(list.children[0].classList.contains('targeted'));
 
-      const newLi = document.createElement('li');
+      var newLi = document.createElement('li');
       newLi.textContent = 'Z';
       list.insertBefore(newLi, list.children[0]);
       element.stops = list.querySelectorAll('li');
@@ -127,12 +128,12 @@ limitations under the License.
     });
 
 
-    test('_moveCursor', () => {
+    test('_moveCursor', function() {
       // Initialize the cursor with its stops.
       element.stops = list.querySelectorAll('li');
       // Select the first stop.
       element.setCursor(list.children[0]);
-      const getTargetHeight = sinon.stub();
+      var getTargetHeight = sinon.stub();
 
       // Move the cursor without an optional get target height function.
       element._moveCursor(1);
@@ -143,16 +144,9 @@ limitations under the License.
       assert.isTrue(getTargetHeight.called);
     });
 
-    test('_moveCursor from -1 does not check height', () => {
-      element.stops = list.querySelectorAll('li');
-      const getTargetHeight = sinon.stub();
-      element._moveCursor(1, () => false, getTargetHeight);
-      assert.isFalse(getTargetHeight.called);
-    });
-
-    test('opt_noScroll', () => {
-      sandbox.stub(element, '_targetIsVisible', () => false);
-      const scrollStub = sandbox.stub(window, 'scrollTo');
+    test('opt_noScroll', function() {
+      sandbox.stub(element, '_targetIsVisible', function() { return false; });
+      var scrollStub = sandbox.stub(window, 'scrollTo');
       element.stops = list.querySelectorAll('li');
       element.scrollBehavior = 'keep-visible';
 
@@ -163,8 +157,8 @@ limitations under the License.
       assert.isTrue(scrollStub.called);
     });
 
-    test('_getNextindex', () => {
-      const isLetterB = function(row) {
+    test('_getNextindex', function() {
+      var isLetterB = function(row) {
         return row.textContent === 'B';
       };
       element.stops = list.querySelectorAll('li');
@@ -191,9 +185,9 @@ limitations under the License.
       assert.equal(element._getNextindex(-1, isLetterB), 0);
     });
 
-    test('focusOnMove prop', () => {
-      const listEls = list.querySelectorAll('li');
-      for (let i = 0; i < listEls.length; i++) {
+    test('focusOnMove prop', function() {
+      var listEls = list.querySelectorAll('li');
+      for (var i = 0; i < listEls.length; i++) {
         sandbox.spy(listEls[i], 'focus');
       }
       element.stops = listEls;
@@ -208,9 +202,9 @@ limitations under the License.
       assert.isTrue(element.target.focus.called);
     });
 
-    suite('_scrollToTarget', () => {
-      let scrollStub;
-      setup(() => {
+    suite('_scrollToTarget', function() {
+      var scrollStub;
+      setup(function() {
         element.stops = list.querySelectorAll('li');
         element.scrollBehavior = 'keep-visible';
 
@@ -221,27 +215,29 @@ limitations under the License.
         window.innerHeight = 60;
       });
 
-      test('Called when top and bottom not visible', () => {
-        sandbox.stub(element, '_targetIsVisible', () => {
+      test('Called when top and bottom not visible', function() {
+        sandbox.stub(element, '_targetIsVisible', function() {
           return false;
         });
         element._scrollToTarget();
         assert.isTrue(scrollStub.called);
       });
 
-      test('Not called when top and bottom visible', () => {
-        sandbox.stub(element, '_targetIsVisible', () => {
+      test('Not called when top and bottom visible', function() {
+        sandbox.stub(element, '_targetIsVisible', function() {
           return true;
         });
         element._scrollToTarget();
         assert.isFalse(scrollStub.called);
       });
 
-      test('Called when top is visible, bottom is not, scroll is lower', () => {
-        const visibleStub = sandbox.stub(element, '_targetIsVisible',
-            () => visibleStub.callCount === 2);
+      test('Called when top is visible, bottom is not, and scroll is lower',
+          function() {
+        var visibleStub = sandbox.stub(element, '_targetIsVisible', function() {
+          return visibleStub.callCount == 2;
+        });
         window.scrollY = 15;
-        sandbox.stub(element, '_calculateScrollToValue', () => {
+        sandbox.stub(element, '_calculateScrollToValue', function() {
           return 20;
         });
         element._scrollToTarget();
@@ -249,11 +245,13 @@ limitations under the License.
         assert.equal(visibleStub.callCount, 2);
       });
 
-      test('Called when top is visible, bottom not, scroll is higher', () => {
-        const visibleStub = sandbox.stub(element, '_targetIsVisible',
-            () => visibleStub.callCount === 2);
+      test('Called when top is visible, bottom is not, and scroll is higher',
+          function() {
+        var visibleStub = sandbox.stub(element, '_targetIsVisible', function() {
+          return visibleStub.callCount == 2;
+        });
         window.scrollY = 25;
-        sandbox.stub(element, '_calculateScrollToValue', () => {
+        sandbox.stub(element, '_calculateScrollToValue', function() {
           return 20;
         });
         element._scrollToTarget();

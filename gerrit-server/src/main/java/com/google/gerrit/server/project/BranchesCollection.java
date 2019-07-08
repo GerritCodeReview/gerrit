@@ -14,51 +14,36 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
-import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.RefPermission;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
+import java.util.List;
+import org.eclipse.jgit.lib.Constants;
 
 @Singleton
 public class BranchesCollection
     implements ChildCollection<ProjectResource, BranchResource>, AcceptsCreate<ProjectResource> {
   private final DynamicMap<RestView<BranchResource>> views;
   private final Provider<ListBranches> list;
-  private final PermissionBackend permissionBackend;
-  private final Provider<CurrentUser> user;
-  private final GitRepositoryManager repoManager;
   private final CreateBranch.Factory createBranchFactory;
 
   @Inject
   BranchesCollection(
       DynamicMap<RestView<BranchResource>> views,
       Provider<ListBranches> list,
-      PermissionBackend permissionBackend,
-      Provider<CurrentUser> user,
-      GitRepositoryManager repoManager,
       CreateBranch.Factory createBranchFactory) {
     this.views = views;
     this.list = list;
-    this.permissionBackend = permissionBackend;
-    this.user = user;
-    this.repoManager = repoManager;
     this.createBranchFactory = createBranchFactory;
   }
 
@@ -69,28 +54,18 @@ public class BranchesCollection
 
   @Override
   public BranchResource parse(ProjectResource parent, IdString id)
-      throws ResourceNotFoundException, IOException, PermissionBackendException {
-    Project.NameKey project = parent.getNameKey();
-    try (Repository repo = repoManager.openRepository(project)) {
-      Ref ref = repo.exactRef(RefNames.fullName(id.get()));
-      if (ref == null) {
-        throw new ResourceNotFoundException(id);
-      }
-
-      // ListBranches checks the target of a symbolic reference to determine access
-      // rights on the symbolic reference itself. This check prevents seeing a hidden
-      // branch simply because the symbolic reference name was visible.
-      permissionBackend
-          .user(user)
-          .project(project)
-          .ref(ref.isSymbolic() ? ref.getTarget().getName() : ref.getName())
-          .check(RefPermission.READ);
-      return new BranchResource(parent.getControl(), ref);
-    } catch (AuthException notAllowed) {
-      throw new ResourceNotFoundException(id);
-    } catch (RepositoryNotFoundException noRepo) {
-      throw new ResourceNotFoundException();
+      throws ResourceNotFoundException, IOException, BadRequestException {
+    String branchName = id.get();
+    if (!branchName.equals(Constants.HEAD)) {
+      branchName = RefNames.fullName(branchName);
     }
+    List<BranchInfo> branches = list.get().apply(parent);
+    for (BranchInfo b : branches) {
+      if (branchName.equals(b.ref)) {
+        return new BranchResource(parent.getControl(), b);
+      }
+    }
+    throw new ResourceNotFoundException();
   }
 
   @Override
@@ -98,6 +73,7 @@ public class BranchesCollection
     return views;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public CreateBranch create(ProjectResource parent, IdString name) {
     return createBranchFactory.create(name.get());

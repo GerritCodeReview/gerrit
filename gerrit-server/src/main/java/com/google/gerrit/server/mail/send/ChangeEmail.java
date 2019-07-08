@@ -14,12 +14,10 @@
 
 package com.google.gerrit.server.mail.send;
 
-import com.google.common.base.Splitter;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
@@ -37,16 +35,10 @@ import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
-import com.google.gerrit.server.permissions.ChangePermission;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
-import com.google.template.soy.data.SoyListData;
-import com.google.template.soy.data.SoyMapData;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
@@ -95,29 +87,25 @@ public abstract class ChangeEmail extends NotificationEmail {
   }
 
   @Override
-  public void setFrom(Account.Id id) {
+  public void setFrom(final Account.Id id) {
     super.setFrom(id);
 
     /** Is the from user in an email squelching group? */
-    try {
-      IdentifiedUser user = args.identifiedUserFactory.create(id);
-      args.permissionBackend.user(user).check(GlobalPermission.EMAIL_REVIEWERS);
-    } catch (AuthException | PermissionBackendException e) {
-      emailOnlyAuthors = true;
-    }
+    final IdentifiedUser user = args.identifiedUserFactory.create(id);
+    emailOnlyAuthors = !user.getCapabilities().canEmailReviewers();
   }
 
-  public void setPatchSet(PatchSet ps) {
+  public void setPatchSet(final PatchSet ps) {
     patchSet = ps;
   }
 
-  public void setPatchSet(PatchSet ps, PatchSetInfo psi) {
+  public void setPatchSet(final PatchSet ps, final PatchSetInfo psi) {
     patchSet = ps;
     patchSetInfo = psi;
   }
 
   @Deprecated
-  public void setChangeMessage(ChangeMessage cm) {
+  public void setChangeMessage(final ChangeMessage cm) {
     setChangeMessage(cm.getMessage(), cm.getWrittenOn());
   }
 
@@ -178,7 +166,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     authors = getAuthors();
 
     try {
-      stars = changeData.stars();
+      stars = args.starredChangesUtil.byChangeFromIndex(change.getId());
     } catch (OrmException e) {
       throw new EmailException("Failed to load stars for change " + change.getChangeId(), e);
     }
@@ -192,18 +180,6 @@ public abstract class ChangeEmail extends NotificationEmail {
     setHeader("X-Gerrit-Change-Number", "" + change.getChangeId());
     setChangeUrlHeader();
     setCommitIdHeader();
-
-    if (notify.ordinal() >= NotifyHandling.OWNER_REVIEWERS.ordinal()) {
-      try {
-        addByEmail(
-            RecipientType.CC, changeData.reviewersByEmail().byState(ReviewerStateInternal.CC));
-        addByEmail(
-            RecipientType.CC,
-            changeData.reviewersByEmail().byState(ReviewerStateInternal.REVIEWER));
-      } catch (OrmException e) {
-        throw new EmailException("Failed to add unregistered CCs " + change.getChangeId(), e);
-      }
-    }
   }
 
   private void setChangeUrlHeader() {
@@ -328,8 +304,8 @@ public abstract class ChangeEmail extends NotificationEmail {
   }
 
   /** TO or CC all vested parties (change owner, patch set uploader, author). */
-  protected void rcptToAuthors(RecipientType rt) {
-    for (Account.Id id : authors) {
+  protected void rcptToAuthors(final RecipientType rt) {
+    for (final Account.Id id : authors) {
       add(rt, id);
     }
   }
@@ -400,19 +376,19 @@ public abstract class ChangeEmail extends NotificationEmail {
   }
 
   @Override
-  protected void add(RecipientType rt, Account.Id to) {
+  protected void add(final RecipientType rt, final Account.Id to) {
     if (!emailOnlyAuthors || authors.contains(to)) {
       super.add(rt, to);
     }
   }
 
   @Override
-  protected boolean isVisibleTo(Account.Id to) throws OrmException, PermissionBackendException {
-    return args.permissionBackend
-        .user(args.identifiedUserFactory.create(to))
-        .change(changeData)
-        .database(args.db.get())
-        .test(ChangePermission.READ);
+  protected boolean isVisibleTo(final Account.Id to) throws OrmException {
+    return projectState == null
+        || projectState
+            .controlFor(args.identifiedUserFactory.create(to))
+            .controlFor(args.db.get(), change)
+            .isVisible(args.db.get());
   }
 
   /** Find all users who are authors of any part of this change. */
@@ -464,7 +440,6 @@ public abstract class ChangeEmail extends NotificationEmail {
     soyContext.put("coverLetter", getCoverLetter());
     soyContext.put("fromName", getNameFor(fromId));
     soyContext.put("fromEmail", getNameEmailFor(fromId));
-    soyContext.put("diffLines", getDiffTemplateData());
 
     soyContextEmailData.put("unifiedDiff", getUnifiedDiff());
     soyContextEmailData.put("changeDetail", getChangeDetail());
@@ -501,9 +476,6 @@ public abstract class ChangeEmail extends NotificationEmail {
     footers.add("Gerrit-Change-Number: " + Integer.toString(change.getChangeId()));
     footers.add("Gerrit-PatchSet: " + patchSet.getPatchSetId());
     footers.add("Gerrit-Owner: " + getNameEmailFor(change.getOwner()));
-    if (change.getAssignee() != null) {
-      footers.add("Gerrit-Assignee: " + getNameEmailFor(change.getAssignee()));
-    }
     for (String reviewer : getEmailsByState(ReviewerStateInternal.REVIEWER)) {
       footers.add("Gerrit-Reviewer: " + reviewer);
     }
@@ -540,9 +512,6 @@ public abstract class ChangeEmail extends NotificationEmail {
         // Currently these always have a null oldId in the PatchList.
         return "[Octopus merge; cannot be formatted as a diff.]\n";
       }
-    } catch (PatchListObjectTooLargeException e) {
-      log.warn("Cannot format patch " + e.getMessage());
-      return "";
     } catch (PatchListNotAvailableException e) {
       log.error("Cannot format patch", e);
       return "";
@@ -569,38 +538,5 @@ public abstract class ChangeEmail extends NotificationEmail {
         return "";
       }
     }
-  }
-
-  /**
-   * Generate a Soy list of maps representing each line of the unified diff. The line maps will have
-   * a 'type' key which maps to one of 'common', 'add' or 'remove' and a 'text' key which maps to
-   * the line's content.
-   */
-  private SoyListData getDiffTemplateData() {
-    SoyListData result = new SoyListData();
-    Splitter lineSplitter = Splitter.on(System.getProperty("line.separator"));
-    for (String diffLine : lineSplitter.split(getUnifiedDiff())) {
-      SoyMapData lineData = new SoyMapData();
-      lineData.put("text", diffLine);
-
-      // Skip empty lines and lines that look like diff headers.
-      if (diffLine.isEmpty() || diffLine.startsWith("---") || diffLine.startsWith("+++")) {
-        lineData.put("type", "common");
-      } else {
-        switch (diffLine.charAt(0)) {
-          case '+':
-            lineData.put("type", "add");
-            break;
-          case '-':
-            lineData.put("type", "remove");
-            break;
-          default:
-            lineData.put("type", "common");
-            break;
-        }
-      }
-      result.add(lineData);
-    }
-    return result;
   }
 }

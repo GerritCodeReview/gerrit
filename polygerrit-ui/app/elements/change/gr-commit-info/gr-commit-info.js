@@ -31,13 +31,13 @@
       },
     },
 
-    _isWebLink(link) {
+    _isWebLink: function(link) {
       // This is a whitelist of web link types that provide direct links to
       // the commit in the url property.
       return link.name === 'gitiles' || link.name === 'gitweb';
     },
 
-    _computeShowWebLink(change, commitInfo, serverConfig) {
+    _computeShowWebLink: function(change, commitInfo, serverConfig) {
       if (serverConfig.gitweb && serverConfig.gitweb.url &&
           serverConfig.gitweb.type && serverConfig.gitweb.type.revision) {
         return true;
@@ -47,8 +47,8 @@
         return false;
       }
 
-      for (const link of commitInfo.web_links) {
-        if (this._isWebLink(link)) {
+      for (var i = 0; i < commitInfo.web_links.length; i++) {
+        if (this._isWebLink(commitInfo.web_links[i])) {
           return true;
         }
       }
@@ -56,7 +56,7 @@
       return false;
     },
 
-    _computeWebLink(change, commitInfo, serverConfig) {
+    _computeWebLink: function(change, commitInfo, serverConfig) {
       if (!this._computeShowWebLink(change, commitInfo, serverConfig)) {
         return;
       }
@@ -69,10 +69,10 @@
                 .replace('${commit}', commitInfo.commit);
       }
 
-      let webLink = null;
-      for (const link of commitInfo.web_links) {
-        if (this._isWebLink(link)) {
-          webLink = link.url;
+      var webLink = null;
+      for (var i = 0; i < commitInfo.web_links.length; i++) {
+        if (this._isWebLink(commitInfo.web_links[i])) {
+          webLink = commitInfo.web_links[i].url;
           break;
         }
       }
@@ -84,7 +84,7 @@
       return webLink;
     },
 
-    _computeShortHash(commitInfo) {
+    _computeShortHash: function(commitInfo) {
       if (!commitInfo || !commitInfo.commit) {
         return;
       }

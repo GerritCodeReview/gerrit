@@ -14,14 +14,7 @@
 
 package com.google.gerrit.extensions.common;
 
-import com.google.common.base.MoreObjects;
-
 public class GroupBaseInfo {
   public String id;
   public String name;
-
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this).add("name", name).add("id", id).toString();
-  }
 }

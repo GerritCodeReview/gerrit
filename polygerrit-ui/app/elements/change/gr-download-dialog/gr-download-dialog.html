@@ -14,31 +14,77 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="../../../bower_components/polymer/polymer.html">
-
-<link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
-<link rel="import" href="../../shared/gr-download-commands/gr-download-commands.html">
-<link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-download-dialog">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         display: block;
         padding: 1em;
       }
+      ul {
+        list-style: none;
+        margin-bottom: .5em;
+      }
+      li {
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+      }
+      li gr-button {
+        margin-right: 1em;
+      }
+      label,
+      input {
+        display: block;
+      }
+      label {
+        font-weight: bold;
+      }
+      input {
+        font-family: var(--monospace-font-family);
+        font-size: inherit;
+      }
+      li[selected] gr-button {
+        color: #000;
+        font-weight: bold;
+        text-decoration: none;
+      }
       header {
         display: flex;
+        justify-content: space-between;
+      }
+      main {
+        border-bottom: 1px solid #ddd;
+        border-top: 1px solid #ddd;
+        padding: .5em;
       }
       footer {
         display: flex;
         justify-content: space-between;
         padding-top: .75em;
       }
+      .command {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: .5em;
+        width: 60em;
+      }
+      .command label {
+        flex: 0 0 100%;
+      }
+      .copyCommand {
+        flex-grow: 1;
+        margin-right: .3em;
+      }
       .closeButtonContainer {
         display: flex;
-        flex: 0;
+        flex: 1;
         justify-content: flex-end;
       }
       .patchFiles {
@@ -53,39 +99,49 @@ limitations under the License.
       .archives a:last-of-type {
         margin-right: 0;
       }
-      .title {
-        text-align: center;
-        flex: 1;
-      }
     </style>
     <header>
-      <span class="title">
-        Patch set [[patchNum]] of [[_computePatchSetQuantity(change.revisions)]]
-      </span>
+      <ul hidden$="[[!_schemes.length]]" hidden>
+        <template is="dom-repeat" items="[[_schemes]]" as="scheme">
+          <li selected$="[[_computeSchemeSelected(scheme, _selectedScheme)]]">
+            <gr-button link data-scheme$="[[scheme]]" on-tap="_handleSchemeTap">
+              [[scheme]]
+            </gr-button>
+          </li>
+        </template>
+      </ul>
       <span class="closeButtonContainer">
         <gr-button id="closeButton"
             link
             on-tap="_handleCloseTap">Close</gr-button>
       </span>
     </header>
-     <gr-download-commands
-          id="downloadCommands"
-          commands="[[_computeDownloadCommands(change, patchNum, _selectedScheme)]]"
-          schemes="[[_schemes]]"
-          selected-scheme="{{_selectedScheme}}"></gr-download-commands>
+    <main hidden$="[[!_schemes.length]]" hidden>
+      <template is="dom-repeat"
+          items="[[_computeDownloadCommands(change, patchNum, _selectedScheme)]]"
+          as="command">
+        <div class="command">
+          <label>[[command.title]]</label>
+          <input is="iron-input"
+              class="copyCommand"
+              type="text"
+              bind-value="[[command.command]]"
+              on-tap="_handleInputTap"
+              readonly>
+          <gr-button class="copyToClipboard" on-tap="_copyToClipboard">
+            copy
+          </gr-button>
+        </div>
+      </template>
+    </main>
     <footer>
       <div class="patchFiles">
         <label>Patch file</label>
         <div>
-          <a
-              id="download"
-              href$="[[_computeDownloadLink(change, patchNum)]]"
-              download>
+          <a id="download" href$="[[_computeDownloadLink(change, patchNum)]]">
             [[_computeDownloadFilename(change, patchNum)]]
           </a>
-          <a
-              href$="[[_computeZipDownloadLink(change, patchNum)]]"
-              download>
+          <a href$="[[_computeZipDownloadLink(change, patchNum)]]">
             [[_computeZipDownloadFilename(change, patchNum)]]
           </a>
         </div>
@@ -94,15 +150,14 @@ limitations under the License.
         <label>Archive</label>
         <div id="archives" class="archives">
           <template is="dom-repeat" items="[[config.archives]]" as="format">
-            <a
-                href$="[[_computeArchiveDownloadLink(change, patchNum, format)]]"
-                download>
+            <a href$="[[_computeArchiveDownloadLink(change, patchNum, format)]]">
               [[format]]
             </a>
           </template>
         </div>
       </div>
     </footer>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-download-dialog.js"></script>
 </dom-module>

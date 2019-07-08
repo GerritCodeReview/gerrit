@@ -22,33 +22,33 @@ class ElasticSetting {
   private static final ImmutableMap<String, String> CUSTOM_CHAR_MAPPING =
       ImmutableMap.of("\\u002E", "\\u0020", "\\u005F", "\\u0020");
 
-  static SettingProperties createSetting(ElasticConfiguration config, ElasticQueryAdapter adapter) {
-    return new ElasticSetting.Builder().addCharFilter().addAnalyzer().build(config, adapter);
+  static SettingProperties createSetting() {
+    ElasticSetting.Builder settings = new ElasticSetting.Builder();
+    settings.addCharFilter();
+    settings.addAnalyzer();
+    return settings.build();
   }
 
   static class Builder {
     private final ImmutableMap.Builder<String, FieldProperties> fields =
         new ImmutableMap.Builder<>();
 
-    SettingProperties build(ElasticConfiguration config, ElasticQueryAdapter adapter) {
+    SettingProperties build() {
       SettingProperties properties = new SettingProperties();
       properties.analysis = fields.build();
-      properties.numberOfShards = config.getNumberOfShards(adapter);
-      properties.numberOfReplicas = config.numberOfReplicas;
       return properties;
     }
 
-    Builder addCharFilter() {
+    void addCharFilter() {
       FieldProperties charMapping = new FieldProperties("mapping");
       charMapping.mappings = getCustomCharMappings(CUSTOM_CHAR_MAPPING);
 
       FieldProperties charFilter = new FieldProperties();
       charFilter.customMapping = charMapping;
       fields.put("char_filter", charFilter);
-      return this;
     }
 
-    Builder addAnalyzer() {
+    void addAnalyzer() {
       FieldProperties customAnalyzer = new FieldProperties("custom");
       customAnalyzer.tokenizer = "standard";
       customAnalyzer.charFilter = new String[] {"custom_mapping"};
@@ -57,7 +57,6 @@ class ElasticSetting {
       FieldProperties analyzer = new FieldProperties();
       analyzer.customWithCharFilter = customAnalyzer;
       fields.put("analyzer", analyzer);
-      return this;
     }
 
     private static String[] getCustomCharMappings(ImmutableMap<String, String> map) {
@@ -73,8 +72,6 @@ class ElasticSetting {
 
   static class SettingProperties {
     Map<String, FieldProperties> analysis;
-    Integer numberOfShards;
-    Integer numberOfReplicas;
   }
 
   static class FieldProperties {

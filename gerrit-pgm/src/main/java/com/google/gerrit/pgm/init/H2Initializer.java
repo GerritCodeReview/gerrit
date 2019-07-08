@@ -27,7 +27,7 @@ class H2Initializer implements DatabaseConfigInitializer {
   private final SitePaths site;
 
   @Inject
-  H2Initializer(SitePaths site) {
+  H2Initializer(final SitePaths site) {
     this.site = site;
   }
 

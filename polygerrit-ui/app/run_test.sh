@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
-npm_bin=$(which npm)
-if [[ -z "$npm_bin" ]]; then
-    echo "NPM must be on the path. (https://www.npmjs.com/)"
+wct_bin=$(which wct)
+if [[ -z "$wct_bin" ]]; then
+    echo "WCT must be on the path."
     exit 1
 fi
 
-wct_bin=$(which wct)
-if [[ -z "$wct_bin" ]]; then
-    echo "WCT must be on the path. (https://github.com/Polymer/web-component-tester)"
+npm_bin=$(which npm)
+if [[ -z "$npm_bin" ]]; then
+    echo "NPM must be on the path."
     exit 1
 fi
 
@@ -22,5 +22,4 @@ bazel test \
       --test_env="DISPLAY=${DISPLAY}" \
       --test_env="WCT_HEADLESS_MODE=${WCT_HEADLESS_MODE}" \
       "$@" \
-      //polygerrit-ui/app:embed_test \
       //polygerrit-ui/app:wct_test

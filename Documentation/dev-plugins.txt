@@ -3,9 +3,6 @@
 The Gerrit server functionality can be extended by installing plugins.
 This page describes how plugins for Gerrit can be developed.
 
-For PolyGerrit-specific plugin development, consult with
-link:pg-plugin-dev.html[PolyGerrit Plugin Development] guide.
-
 Depending on how tightly the extension code is coupled with the Gerrit
 server code, there is a distinction between `plugins` and `extensions`.
 
@@ -15,11 +12,6 @@ JVM as Gerrit. It has full access to all server internals. Plugins
 are tightly coupled to a specific major.minor server version and
 may require source code changes to compile against a different
 server version.
-
-Plugins may require a specific major.minor.patch server version
-and may need rebuild and revalidation across different
-patch levels. A different patch level may only add new
-API interfaces and never change or extend existing ones.
 
 [[extension]]
 An `extension` in Gerrit runs inside of the same JVM as Gerrit
@@ -33,9 +25,12 @@ Most of this documentation refers to either type as a plugin.
 [[getting-started]]
 == Getting started
 
-To get started with the development of a plugin, take a look at
-the samples in the
-link:https://gerrit.googlesource.com/plugins/examples[examples plugin project].
+To get started with the development of a plugin clone the sample
+plugin:
+
+----
+$ git clone https://gerrit.googlesource.com/plugins/cookbook-plugin
+----
 
 This is a project that demonstrates the various features of the
 plugin API. It can be taken as an example to develop an own plugin.
@@ -482,15 +477,10 @@ change being queried with COMMIT_FOOTERS option.
 [[receive-pack]]
 == Receive Pack Initializers
 
-Plugins may provide ReceivePackInitializer instances, which will be
-invoked by Gerrit just before a ReceivePack instance will be used.
-Usually, plugins will make use of the setXXX methods on the ReceivePack
-to set additional properties on it.
-
-The interactions with the core Gerrit ReceivePack initialization and
-between ReceivePackInitializers can be complex. Please read the
-ReceivePack Javadoc and Gerrit AsyncReceiveCommits implementation
-carefully.
+Plugins may provide ReceivePack initializers which will be invoked
+by Gerrit just before a ReceivePack instance will be used. Usually,
+plugins will make use of the setXXX methods on the ReceivePack to
+set additional properties on it.
 
 [[post-receive-hook]]
 == Post Receive-Pack Hooks
@@ -499,19 +489,6 @@ Plugins may register PostReceiveHook instances in order to get
 notified when JGit successfully receives a pack. This may be useful
 for those plugins which would like to monitor changes in Git
 repositories.
-
-[[upload-pack]]
-== Upload Pack Initializers
-
-Plugins may provide UploadPackInitializer instances, which will be
-invoked by Gerrit just before a UploadPack instance will be used.
-Usually, plugins will make use of the setXXX methods on the UploadPack
-to set additional properties on it.
-
-The interactions with the core Gerrit UploadPack initialization and
-between UploadPackInitializers can be complex. Please read the
-UploadPack Javadoc and Gerrit Upload/UploadFactory implementations
-carefully.
 
 [[pre-upload-hook]]
 == Pre Upload-Pack Hooks
@@ -735,99 +712,6 @@ new `has:sample_pluginName` operand is shown below:
     }
 ====
 
-[[command_options]]
-=== Command Options ===
-
-Plugins can provide additional options for each of the gerrit ssh and the
-REST API commands by implementing the DynamicBean interface and registering
-it to a command class name in the plugin module's `configure()` method. The
-plugin's name will be prepended to the name of each @Option annotation found
-on the DynamicBean object provided by the plugin. The example below shows a
-plugin that adds an option to log a value from the gerrit 'ban-commits'
-ssh command.
-
-[source, java]
-----
-public class SshModule extends AbstractModule {
-  private static final Logger log = LoggerFactory.getLogger(SshModule.class);
-
-  @Override
-  protected void configure() {
-    bind(DynamicOptions.DynamicBean.class)
-        .annotatedWith(Exports.named(
-        com.google.gerrit.sshd.commands.BanCommitCommand.class))
-        .to(BanOptions.class);
-  }
-
-  public static class BanOptions implements DynamicOptions.DynamicBean {
-    @Option(name = "--log", aliases = { "-l" }, usage = "Say Hello in the Log")
-    private void parse(String arg) {
-      log.error("Say Hello in the Log " + arg);
-    }
-  }
-----
-
-[[query_attributes]]
-=== Query Attributes ===
-
-Plugins can provide additional attributes to be returned in Gerrit queries by
-implementing the ChangeAttributeFactory interface and registering it to the
-ChangeQueryProcessor.ChangeAttributeFactory class in the plugin module's
-'configure()' method. The new attribute(s) will be output under a "plugin"
-attribute in the change query output.
-
-The example below shows a plugin that adds two attributes ('exampleName' and
-'changeValue'), to the change query output.
-
-[source, java]
-----
-public class Module extends AbstractModule {
-  @Override
-  protected void configure() {
-    bind(ChangeAttributeFactory.class)
-        .annotatedWith(Exports.named("example"))
-        .to(AttributeFactory.class);
-  }
-}
-
-public class AttributeFactory implements ChangeAttributeFactory {
-
-  public class PluginAttribute extends PluginDefinedInfo {
-    public String exampleName;
-    public String changeValue;
-
-    public PluginAttribute(ChangeData c) {
-      this.exampleName = "Attribute Example";
-      this.changeValue = Integer.toString(c.getId().get());
-    }
-  }
-
-  @Override
-  public PluginDefinedInfo create(ChangeData c, ChangeQueryProcessor qp, String plugin) {
-    return new PluginAttribute(c);
-  }
-}
-----
-
-Example
-----
-
-ssh -p 29418 localhost gerrit query "change:1" --format json
-
-Output:
-
-{
-   "url" : "http://localhost:8080/1",
-   "plugins" : [
-      {
-         "name" : "myplugin-name",
-         "exampleName" : "Attribute Example",
-         "changeValue" : "1"
-      }
-   ],
-    ...
-}
-----
 
 [[simple-configuration]]
 == Simple Configuration in `gerrit.config`
@@ -1336,7 +1220,6 @@ public class MyPlugin extends PluginEntryPoint {
   @Override
   public void onPluginLoad() {
     Plugin.get().panel(GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK,
-        "my_panel_name",
         new Panel.EntryPoint() {
           @Override
           public void onLoad(Panel panel) {
@@ -1347,23 +1230,6 @@ public class MyPlugin extends PluginEntryPoint {
   }
 }
 ----
-
-Change Screen panel ordering may be specified in the
-project config. Values may be either "plugin name" or
-"plugin name"."panel name".
-Panels not specified in the config will be added
-to the end in load order. Panels specified in the config that
-are not found will be ignored.
-
-Example config:
-----
-[extension-panels "CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK"]
-        panel = helloworld.change_id
-        panel = myotherplugin
-        panel = myplugin.my_panel_name
-----
-
-
 
 [[actions]]
 === Actions
@@ -2342,10 +2208,6 @@ FileHistoryWebLinks will appear on the access rights screen.
 
 TagWebLinks will appear in the tag list in the last column.
 
-If a `get*WebLink` implementation returns `null`, the link will be omitted. This
-allows the plugin to selectively "enable" itself on a per-project/branch/file
-basis.
-
 [[lfs-extension]]
 == LFS Storage Plugins
 
@@ -2584,26 +2446,14 @@ displayed as part of the index page, if present in the manifest:
 Compiled plugins and extensions can be deployed to a running Gerrit
 server using the link:cmd-plugin-install.html[plugin install] command.
 
-Web UI plugins distributed as a single `.js` file (or `.html` file for
-Polygerrit) can be deployed without the overhead of JAR packaging. For
-more information refer to link:cmd-plugin-install.html[plugin install]
-command.
+Web UI plugins distributed as  single `.js` file can be deployed
+without the overhead of JAR packaging, for more information refer to
+link:cmd-plugin-install.html[plugin install] command.
 
-Plugins can also be copied directly into the server's directory at
-`$site_path/plugins/$name.(jar|js|html)`. For Web UI plugins, the name
-of the file, minus the `.js` or `.html` extension, will be used as the
-plugin name. For JAR plugins, the value of the `Gerrit-PluginName`
-manifest attribute will be used, if provided, otherwise the name of
-the file, minus the `.jar` extension, will be used.
-
-For Web UI plugins, the plugin version is derived from the filename.
-If the filename contains one or more hyphens, the version is taken
-from the portion following the last hyphen. For example if the plugin
-filename is `my-plugin-1.0.js` the version will be `1.0`. For JAR
-plugins, the version is taken from the `Version` attribute in the
-manifest.
-
-Unless disabled, servers periodically scan the `$site_path/plugins`
+Plugins can also be copied directly into the server's
+directory at `$site_path/plugins/$name.(jar|js)`.  The name of
+the JAR file, minus the `.jar` or `.js` extension, will be used as the
+plugin name. Unless disabled, servers periodically scan this
 directory for updated plugins. The time can be adjusted by
 link:config-gerrit.html#plugins.checkFrequency[plugins.checkFrequency].
 
@@ -2710,8 +2560,8 @@ public class MyPlugin implements MailFilter {
 }
 ----
 
-[[ssh-command-creation-interception]]
-== SSH Command Creation Interception
+[[ssh-command-interception]]
+== SSH Command Interception
 
 Gerrit provides an extension point that allows a plugin to intercept
 creation of SSH commands and override the functionality with its own
@@ -2727,40 +2577,6 @@ class MyCommandInterceptor implements SshCreateCommandInterceptor {
     return pluginName + " mycommand";
   }
 }
-----
-
-[[ssh-command-execution-interception]]
-== SSH Command Execution Interception
-Gerrit provides an extension point that enables plugins to check and
-prevent an SSH command from being run.
-
-[source, java]
-----
-import com.google.gerrit.sshd.SshExecuteCommandInterceptor;
-
-@Singleton
-public class SshExecuteCommandInterceptorImpl implements SshExecuteCommandInterceptor {
-  private final Provider<SshSession> sessionProvider;
-
-  @Inject
-  SshExecuteCommandInterceptorImpl(Provider<SshSession> sessionProvider) {
-    this.sessionProvider = sessionProvider;
-  }
-
-  @Override
-  public boolean accept(String command, List<String> arguments) {
-    if (command.startsWith("gerrit") && !"10.1.2.3".equals(sessionProvider.get().getRemoteAddressAsString())) {
-      return false;
-    }
-    return true;
-  }
-}
-----
-
-And then declare it in your SSH module:
-[source, java]
-----
-  DynamicSet.bind(binder(), SshExecuteCommandInterceptor.class).to(SshExecuteCommandInterceptorImpl.class);
 ----
 
 

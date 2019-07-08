@@ -21,21 +21,17 @@ import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 import static java.util.Comparator.comparing;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
-import com.google.common.collect.Iterators;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.Ordering;
-import com.google.common.collect.Sets;
-import com.google.common.collect.Sets.SetView;
-import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.metrics.Timer1;
@@ -52,7 +48,6 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
-import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.git.RefCache;
@@ -71,14 +66,12 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -101,7 +94,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return new ConfigInvalidException("Change " + changeId + ": " + String.format(fmt, args));
   }
 
-  @Nullable
   public static Change readOneReviewDbChange(ReviewDb db, Change.Id id) throws OrmException {
     return ReviewDbUtil.unwrapDb(db).changes().get(id);
   }
@@ -228,7 +220,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     public List<ChangeNotes> create(ReviewDb db, Collection<Change.Id> changeIds)
         throws OrmException {
       List<ChangeNotes> notes = new ArrayList<>();
-      if (args.migration.readChanges()) {
+      if (args.migration.enabled()) {
         for (Change.Id changeId : changeIds) {
           try {
             notes.add(createChecked(changeId));
@@ -252,17 +244,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         Predicate<ChangeNotes> predicate)
         throws OrmException {
       List<ChangeNotes> notes = new ArrayList<>();
-      if (args.migration.readChanges()) {
+      if (args.migration.enabled()) {
         for (Change.Id cid : changeIds) {
-          try {
-            ChangeNotes cn = create(db, project, cid);
-            if (cn.getChange() != null && predicate.test(cn)) {
-              notes.add(cn);
-            }
-          } catch (NoSuchChangeException e) {
-            // Match ReviewDb behavior, returning not found; maybe the caller learned about it from
-            // a dangling patch set ref or something.
-            continue;
+          ChangeNotes cn = create(db, project, cid);
+          if (cn.getChange() != null && predicate.test(cn)) {
+            notes.add(cn);
           }
         }
         return notes;
@@ -286,11 +272,12 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       if (args.migration.readChanges()) {
         for (Project.NameKey project : projectCache.all()) {
           try (Repository repo = args.repoManager.openRepository(project)) {
-            scanNoteDb(repo, db, project)
-                .filter(r -> !r.error().isPresent())
-                .map(ChangeNotesResult::notes)
-                .filter(predicate)
-                .forEach(n -> m.put(n.getProjectName(), n));
+            List<ChangeNotes> changes = scanNoteDb(repo, db, project);
+            for (ChangeNotes cn : changes) {
+              if (predicate.test(cn)) {
+                m.put(project, cn);
+              }
+            }
           }
         }
       } else {
@@ -304,149 +291,67 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return ImmutableListMultimap.copyOf(m);
     }
 
-    public Stream<ChangeNotesResult> scan(Repository repo, ReviewDb db, Project.NameKey project)
-        throws IOException {
-      return args.migration.readChanges() ? scanNoteDb(repo, db, project) : scanReviewDb(repo, db);
+    public List<ChangeNotes> scan(Repository repo, ReviewDb db, Project.NameKey project)
+        throws OrmException, IOException {
+      if (!args.migration.readChanges()) {
+        return scanDb(repo, db);
+      }
+
+      return scanNoteDb(repo, db, project);
     }
 
-    private Stream<ChangeNotesResult> scanReviewDb(Repository repo, ReviewDb db)
-        throws IOException {
-      // Scan IDs that might exist in ReviewDb, assuming that each change has at least one patch set
-      // ref. Not all changes might exist: some patch set refs might have been written where the
-      // corresponding ReviewDb write failed. These will be silently filtered out by the batch get
-      // call below, which is intended.
-      Set<Change.Id> ids = scanChangeIds(repo).fromPatchSetRefs();
-
-      // A batch size of N may overload get(Iterable), so use something smaller, but still >1.
-      return Streams.stream(Iterators.partition(ids.iterator(), 30))
-          .flatMap(
-              batch -> {
-                try {
-                  return Streams.stream(ReviewDbUtil.unwrapDb(db).changes().get(batch))
-                      .map(this::toResult)
-                      .filter(Objects::nonNull);
-                } catch (OrmException e) {
-                  // Return this error for each Id in the input batch.
-                  return batch.stream().map(id -> ChangeNotesResult.error(id, e));
-                }
-              });
+    private List<ChangeNotes> scanDb(Repository repo, ReviewDb db)
+        throws OrmException, IOException {
+      Set<Change.Id> ids = scan(repo);
+      List<ChangeNotes> notes = new ArrayList<>(ids.size());
+      // A batch size of N may overload get(Iterable), so use something smaller,
+      // but still >1.
+      for (List<Change.Id> batch : Iterables.partition(ids, 30)) {
+        for (Change change : ReviewDbUtil.unwrapDb(db).changes().get(batch)) {
+          notes.add(createFromChangeOnlyWhenNoteDbDisabled(change));
+        }
+      }
+      return notes;
     }
 
-    private Stream<ChangeNotesResult> scanNoteDb(
-        Repository repo, ReviewDb db, Project.NameKey project) throws IOException {
-      ScanResult sr = scanChangeIds(repo);
+    private List<ChangeNotes> scanNoteDb(Repository repo, ReviewDb db, Project.NameKey project)
+        throws OrmException, IOException {
+      Set<Change.Id> ids = scan(repo);
+      List<ChangeNotes> changeNotes = new ArrayList<>(ids.size());
       PrimaryStorage defaultStorage = args.migration.changePrimaryStorage();
-
-      return sr.all().stream()
-          .map(id -> scanOneNoteDbChange(db, project, sr, defaultStorage, id))
-          .filter(Objects::nonNull);
-    }
-
-    private ChangeNotesResult scanOneNoteDbChange(
-        ReviewDb db,
-        Project.NameKey project,
-        ScanResult sr,
-        PrimaryStorage defaultStorage,
-        Change.Id id) {
-      Change change;
-      try {
-        change = readOneReviewDbChange(db, id);
-      } catch (OrmException e) {
-        return ChangeNotesResult.error(id, e);
-      }
-
-      if (change == null) {
-        if (!sr.fromMetaRefs().contains(id)) {
-          // Stray patch set refs can happen due to normal error conditions, e.g. failed
-          // push processing, so aren't worth even a warning.
-          return null;
+      for (Change.Id id : ids) {
+        Change change = readOneReviewDbChange(db, id);
+        if (change == null) {
+          if (defaultStorage == PrimaryStorage.REVIEW_DB) {
+            log.warn("skipping change {} found in project {} but not in ReviewDb", id, project);
+            continue;
+          }
+          // TODO(dborowitz): See discussion in BatchUpdate#newChangeContext.
+          change = newNoteDbOnlyChange(project, id);
+        } else if (!change.getProject().equals(project)) {
+          log.error(
+              "skipping change {} found in project {} because ReviewDb change has project {}",
+              id,
+              project,
+              change.getProject());
+          continue;
         }
-        if (defaultStorage == PrimaryStorage.REVIEW_DB) {
-          // If changes should exist in ReviewDb, it's worth warning about a meta ref with
-          // no corresponding ReviewDb data.
-          log.warn("skipping change {} found in project {} but not in ReviewDb", id, project);
-          return null;
-        }
-        // TODO(dborowitz): See discussion in NoteDbBatchUpdate#newChangeContext.
-        change = ChangeNotes.Factory.newNoteDbOnlyChange(project, id);
-      } else if (!change.getProject().equals(project)) {
-        log.error(
-            "skipping change {} found in project {} because ReviewDb change has" + " project {}",
-            id,
-            project,
-            change.getProject());
-        return null;
+        log.debug("adding change {} found in project {}", id, project);
+        changeNotes.add(new ChangeNotes(args, change).load());
       }
-      log.debug("adding change {} found in project {}", id, project);
-      return toResult(change);
+      return changeNotes;
     }
 
-    @Nullable
-    private ChangeNotesResult toResult(Change rawChangeFromReviewDbOrNoteDb) {
-      ChangeNotes n = new ChangeNotes(args, rawChangeFromReviewDbOrNoteDb);
-      try {
-        n.load();
-      } catch (OrmException e) {
-        return ChangeNotesResult.error(n.getChangeId(), e);
-      }
-      return ChangeNotesResult.notes(n);
-    }
-
-    /** Result of {@link #scan(Repository, ReviewDb, Project.NameKey)}. */
-    @AutoValue
-    public abstract static class ChangeNotesResult {
-      static ChangeNotesResult error(Change.Id id, OrmException e) {
-        return new AutoValue_ChangeNotes_Factory_ChangeNotesResult(id, Optional.of(e), null);
-      }
-
-      static ChangeNotesResult notes(ChangeNotes notes) {
-        return new AutoValue_ChangeNotes_Factory_ChangeNotesResult(
-            notes.getChangeId(), Optional.empty(), notes);
-      }
-
-      /** Change ID that was scanned. */
-      public abstract Change.Id id();
-
-      /** Error encountered while loading this change, if any. */
-      public abstract Optional<OrmException> error();
-
-      /**
-       * Notes loaded for this change.
-       *
-       * @return notes.
-       * @throws IllegalStateException if there was an error loading the change; callers must check
-       *     that {@link #error()} is absent before attempting to look up the notes.
-       */
-      public ChangeNotes notes() {
-        checkState(maybeNotes() != null, "no ChangeNotes loaded; check error().isPresent() first");
-        return maybeNotes();
-      }
-
-      @Nullable
-      abstract ChangeNotes maybeNotes();
-    }
-
-    @AutoValue
-    abstract static class ScanResult {
-      abstract ImmutableSet<Change.Id> fromPatchSetRefs();
-
-      abstract ImmutableSet<Change.Id> fromMetaRefs();
-
-      SetView<Change.Id> all() {
-        return Sets.union(fromPatchSetRefs(), fromMetaRefs());
-      }
-    }
-
-    private static ScanResult scanChangeIds(Repository repo) throws IOException {
-      ImmutableSet.Builder<Change.Id> fromPs = ImmutableSet.builder();
-      ImmutableSet.Builder<Change.Id> fromMeta = ImmutableSet.builder();
-      for (Ref r : repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES).values()) {
+    public static Set<Change.Id> scan(Repository repo) throws IOException {
+      Map<String, Ref> refs = repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES);
+      Set<Change.Id> ids = new HashSet<>(refs.size());
+      for (Ref r : refs.values()) {
         Change.Id id = Change.Id.fromRef(r.getName());
         if (id != null) {
-          (r.getName().endsWith(RefNames.META_SUFFIX) ? fromMeta : fromPs).add(id);
+          ids.add(id);
         }
       }
-      return new AutoValue_ChangeNotes_Factory_ScanResult(fromPs.build(), fromMeta.build());
+      return ids;
     }
   }
 
@@ -517,21 +422,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   public ReviewerSet getReviewers() {
     return state.reviewers();
-  }
-
-  /** @return reviewers that do not currently have a Gerrit account and were added by email. */
-  public ReviewerByEmailSet getReviewersByEmail() {
-    return state.reviewersByEmail();
-  }
-
-  /** @return reviewers that were modified during this change's current WIP phase. */
-  public ReviewerSet getPendingReviewers() {
-    return state.pendingReviewers();
-  }
-
-  /** @return reviewers by email that were modified during this change's current WIP phase. */
-  public ReviewerByEmailSet getPendingReviewersByEmail() {
-    return state.pendingReviewersByEmail();
   }
 
   public ImmutableList<ReviewerStatusUpdate> getReviewerUpdates() {
@@ -669,28 +559,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return state.readOnlyUntil();
   }
 
-  public boolean isPrivate() {
-    if (state.isPrivate() == null) {
-      return false;
-    }
-    return state.isPrivate();
-  }
-
-  public boolean isWorkInProgress() {
-    if (state.isWorkInProgress() == null) {
-      return false;
-    }
-    return state.isWorkInProgress();
-  }
-
-  public Change.Id getRevertOf() {
-    return state.revertOf();
-  }
-
-  public boolean hasReviewStarted() {
-    return state.hasReviewStarted();
-  }
-
   @Override
   protected void onLoad(LoadHandle handle)
       throws NoSuchChangeException, IOException, ConfigInvalidException {
@@ -731,27 +599,16 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   protected LoadHandle openHandle(Repository repo) throws NoSuchChangeException, IOException {
     if (autoRebuild) {
       NoteDbChangeState state = NoteDbChangeState.parse(change);
-      if (args.migration.disableChangeReviewDb()) {
-        checkState(
-            state != null,
-            "shouldn't have null NoteDbChangeState when ReviewDb disabled: %s",
-            change);
-      }
       ObjectId id = readRef(repo);
       if (id == null) {
-        // Meta ref doesn't exist in NoteDb.
-
         if (state == null) {
-          // Either ReviewDb change is being newly created, or it exists in ReviewDb but has not yet
-          // been rebuilt for the first time, e.g. because we just turned on write-only mode. In
-          // both cases, we don't want to auto-rebuild, just proceed with an empty ChangeNotes.
           return super.openHandle(repo, id);
-        } else if (shouldExist && state.getPrimaryStorage() == PrimaryStorage.NOTE_DB) {
+        } else if (shouldExist) {
+          // TODO(dborowitz): This means we have a state recorded in noteDbState but the ref doesn't
+          // exist for whatever reason. Doesn't this mean we should trigger an auto-rebuild, rather
+          // than throwing?
           throw new NoSuchChangeException(getChangeId());
         }
-
-        // ReviewDb claims NoteDb state exists, but meta ref isn't present: fall through and
-        // auto-rebuild if necessary.
       }
       RefCache refs = this.refs != null ? this.refs : new RepoRefCache(repo);
       if (!NoteDbChangeState.isChangeUpToDate(state, refs, getChangeId())) {
@@ -792,7 +649,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
           rebuildResult = checkNotNull(r);
           checkNotNull(r.newState());
           checkNotNull(r.staged());
-          checkNotNull(r.staged().changeObjects());
           return LoadHandle.create(
               ChangeNotesCommit.newStagedRevWalk(repo, r.staged().changeObjects()),
               r.newState().getChangeMetaId());

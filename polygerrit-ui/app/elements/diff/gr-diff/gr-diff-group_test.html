@@ -19,17 +19,17 @@ limitations under the License.
 <title>gr-diff-group</title>
 
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
 <script src="gr-diff-line.js"></script>
 <script src="gr-diff-group.js"></script>
 
 <script>
-  suite('gr-diff-group tests', () => {
-    test('delta line pairs', () => {
-      let group = new GrDiffGroup(GrDiffGroup.Type.DELTA);
-      const l1 = new GrDiffLine(GrDiffLine.Type.ADD);
-      const l2 = new GrDiffLine(GrDiffLine.Type.ADD);
-      const l3 = new GrDiffLine(GrDiffLine.Type.REMOVE);
+  suite('gr-diff-group tests', function() {
+
+    test('delta line pairs', function() {
+      var group = new GrDiffGroup(GrDiffGroup.Type.DELTA);
+      var l1 = new GrDiffLine(GrDiffLine.Type.ADD);
+      var l2 = new GrDiffLine(GrDiffLine.Type.ADD);
+      var l3 = new GrDiffLine(GrDiffLine.Type.REMOVE);
       l1.afterNumber = 128;
       l2.afterNumber = 129;
       l3.beforeNumber = 64;
@@ -44,7 +44,7 @@ limitations under the License.
         right: {start: 128, end: 129},
       });
 
-      let pairs = group.getSideBySidePairs();
+      var pairs = group.getSideBySidePairs();
       assert.deepEqual(pairs, [
         {left: l3, right: l1},
         {left: GrDiffLine.BLANK_LINE, right: l2},
@@ -62,20 +62,20 @@ limitations under the License.
       ]);
     });
 
-    test('group/header line pairs', () => {
-      const l1 = new GrDiffLine(GrDiffLine.Type.BOTH);
+    test('group/header line pairs', function() {
+      var l1 = new GrDiffLine(GrDiffLine.Type.BOTH);
       l1.beforeNumber = 64;
       l1.afterNumber = 128;
 
-      const l2 = new GrDiffLine(GrDiffLine.Type.BOTH);
+      var l2 = new GrDiffLine(GrDiffLine.Type.BOTH);
       l2.beforeNumber = 65;
       l2.afterNumber = 129;
 
-      const l3 = new GrDiffLine(GrDiffLine.Type.BOTH);
+      var l3 = new GrDiffLine(GrDiffLine.Type.BOTH);
       l3.beforeNumber = 66;
       l3.afterNumber = 130;
 
-      let group = new GrDiffGroup(GrDiffGroup.Type.BOTH, [l1, l2, l3]);
+      var group = new GrDiffGroup(GrDiffGroup.Type.BOTH, [l1, l2, l3]);
 
       assert.deepEqual(group.lines, [l1, l2, l3]);
       assert.deepEqual(group.adds, []);
@@ -86,7 +86,7 @@ limitations under the License.
         right: {start: 128, end: 130},
       });
 
-      let pairs = group.getSideBySidePairs();
+      var pairs = group.getSideBySidePairs();
       assert.deepEqual(pairs, [
         {left: l1, right: l1},
         {left: l2, right: l2},
@@ -106,12 +106,12 @@ limitations under the License.
       ]);
     });
 
-    test('adding delta lines to non-delta group', () => {
-      const l1 = new GrDiffLine(GrDiffLine.Type.ADD);
-      const l2 = new GrDiffLine(GrDiffLine.Type.REMOVE);
-      const l3 = new GrDiffLine(GrDiffLine.Type.BOTH);
+    test('adding delta lines to non-delta group', function() {
+      var l1 = new GrDiffLine(GrDiffLine.Type.ADD);
+      var l2 = new GrDiffLine(GrDiffLine.Type.REMOVE);
+      var l3 = new GrDiffLine(GrDiffLine.Type.BOTH);
 
-      let group = new GrDiffGroup(GrDiffGroup.Type.BOTH);
+      var group = new GrDiffGroup(GrDiffGroup.Type.BOTH);
       assert.throws(group.addLine.bind(group, l1));
       assert.throws(group.addLine.bind(group, l2));
       assert.doesNotThrow(group.addLine.bind(group, l3));

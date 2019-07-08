@@ -14,13 +14,27 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.gerrit.common.data.GlobalCapability.ACCESS_DATABASE;
+import static com.google.gerrit.common.data.GlobalCapability.CREATE_ACCOUNT;
+import static com.google.gerrit.common.data.GlobalCapability.CREATE_GROUP;
+import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
+import static com.google.gerrit.common.data.GlobalCapability.EMAIL_REVIEWERS;
+import static com.google.gerrit.common.data.GlobalCapability.FLUSH_CACHES;
+import static com.google.gerrit.common.data.GlobalCapability.KILL_TASK;
+import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
+import static com.google.gerrit.common.data.GlobalCapability.MODIFY_ACCOUNT;
 import static com.google.gerrit.common.data.GlobalCapability.PRIORITY;
+import static com.google.gerrit.common.data.GlobalCapability.RUN_GC;
+import static com.google.gerrit.common.data.GlobalCapability.STREAM_EVENTS;
+import static com.google.gerrit.common.data.GlobalCapability.VIEW_ALL_ACCOUNTS;
+import static com.google.gerrit.common.data.GlobalCapability.VIEW_CACHES;
+import static com.google.gerrit.common.data.GlobalCapability.VIEW_CONNECTIONS;
+import static com.google.gerrit.common.data.GlobalCapability.VIEW_PLUGINS;
+import static com.google.gerrit.common.data.GlobalCapability.VIEW_QUEUE;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.PermissionRange;
-import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
-import com.google.gerrit.extensions.api.access.PluginPermission;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -31,14 +45,12 @@ import com.google.gerrit.server.OptionUtil;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.account.AccountResource.Capability;
 import com.google.gerrit.server.git.QueueProvider;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -55,82 +67,82 @@ class GetCapabilities implements RestReadView<AccountResource> {
 
   private Set<String> query;
 
-  private final PermissionBackend permissionBackend;
-  private final AccountLimits.Factory limitsFactory;
   private final Provider<CurrentUser> self;
   private final DynamicMap<CapabilityDefinition> pluginCapabilities;
 
   @Inject
-  GetCapabilities(
-      PermissionBackend permissionBackend,
-      AccountLimits.Factory limitsFactory,
-      Provider<CurrentUser> self,
-      DynamicMap<CapabilityDefinition> pluginCapabilities) {
-    this.permissionBackend = permissionBackend;
-    this.limitsFactory = limitsFactory;
+  GetCapabilities(Provider<CurrentUser> self, DynamicMap<CapabilityDefinition> pluginCapabilities) {
     this.self = self;
     this.pluginCapabilities = pluginCapabilities;
   }
 
   @Override
-  public Object apply(AccountResource resource) throws AuthException, PermissionBackendException {
-    PermissionBackend.WithUser perm = permissionBackend.user(self);
-    if (!self.get().hasSameAccountId(resource.getUser())) {
-      perm.check(GlobalPermission.ADMINISTRATE_SERVER);
-      perm = permissionBackend.user(resource.getUser());
+  public Object apply(AccountResource resource) throws AuthException {
+    if (!self.get().hasSameAccountId(resource.getUser())
+        && !self.get().getCapabilities().canAdministrateServer()) {
+      throw new AuthException("restricted to administrator");
     }
 
+    CapabilityControl cc = resource.getUser().getCapabilities();
     Map<String, Object> have = new LinkedHashMap<>();
-    for (GlobalOrPluginPermission p : perm.test(permissionsToTest())) {
-      have.put(p.permissionName(), true);
+    for (String name : GlobalCapability.getAllNames()) {
+      if (!name.equals(PRIORITY) && want(name) && cc.canPerform(name)) {
+        if (GlobalCapability.hasRange(name)) {
+          have.put(name, new Range(cc.getRange(name)));
+        } else {
+          have.put(name, true);
+        }
+      }
+    }
+    for (String pluginName : pluginCapabilities.plugins()) {
+      for (String capability : pluginCapabilities.byPlugin(pluginName).keySet()) {
+        String name = String.format("%s-%s", pluginName, capability);
+        if (want(name) && cc.canPerform(name)) {
+          have.put(name, true);
+        }
+      }
     }
 
-    AccountLimits limits = limitsFactory.create(resource.getUser());
-    addRanges(have, limits);
-    addPriority(have, limits);
+    have.put(ACCESS_DATABASE, cc.canAccessDatabase());
+    have.put(CREATE_ACCOUNT, cc.canCreateAccount());
+    have.put(CREATE_GROUP, cc.canCreateGroup());
+    have.put(CREATE_PROJECT, cc.canCreateProject());
+    have.put(EMAIL_REVIEWERS, cc.canEmailReviewers());
+    have.put(FLUSH_CACHES, cc.canFlushCaches());
+    have.put(KILL_TASK, cc.canKillTask());
+    have.put(MAINTAIN_SERVER, cc.canMaintainServer());
+    have.put(MODIFY_ACCOUNT, cc.canModifyAccount());
+    have.put(RUN_GC, cc.canRunGC());
+    have.put(STREAM_EVENTS, cc.canStreamEvents());
+    have.put(VIEW_ALL_ACCOUNTS, cc.canViewAllAccounts());
+    have.put(VIEW_CACHES, cc.canViewCaches());
+    have.put(VIEW_CONNECTIONS, cc.canViewConnections());
+    have.put(VIEW_PLUGINS, cc.canViewPlugins());
+    have.put(VIEW_QUEUE, cc.canViewQueue());
+
+    QueueProvider.QueueType queue = cc.getQueueType();
+    if (queue != QueueProvider.QueueType.INTERACTIVE
+        || (query != null && query.contains(PRIORITY))) {
+      have.put(PRIORITY, queue);
+    }
+
+    Iterator<Map.Entry<String, Object>> itr = have.entrySet().iterator();
+    while (itr.hasNext()) {
+      Map.Entry<String, Object> e = itr.next();
+      if (!want(e.getKey())) {
+        itr.remove();
+      } else if (e.getValue() instanceof Boolean && !((Boolean) e.getValue())) {
+        itr.remove();
+      }
+    }
 
     return OutputFormat.JSON
         .newGson()
         .toJsonTree(have, new TypeToken<Map<String, Object>>() {}.getType());
   }
 
-  private Set<GlobalOrPluginPermission> permissionsToTest() {
-    Set<GlobalOrPluginPermission> toTest = new HashSet<>();
-    for (GlobalPermission p : GlobalPermission.values()) {
-      if (want(p.permissionName())) {
-        toTest.add(p);
-      }
-    }
-
-    for (String pluginName : pluginCapabilities.plugins()) {
-      for (String capability : pluginCapabilities.byPlugin(pluginName).keySet()) {
-        PluginPermission p = new PluginPermission(pluginName, capability);
-        if (want(p.permissionName())) {
-          toTest.add(p);
-        }
-      }
-    }
-    return toTest;
-  }
-
   private boolean want(String name) {
     return query == null || query.contains(name.toLowerCase());
-  }
-
-  private void addRanges(Map<String, Object> have, AccountLimits limits) {
-    for (String name : GlobalCapability.getRangeNames()) {
-      if (want(name) && limits.hasExplicitRange(name)) {
-        have.put(name, new Range(limits.getRange(name)));
-      }
-    }
-  }
-
-  private void addPriority(Map<String, Object> have, AccountLimits limits) {
-    QueueProvider.QueueType queue = limits.getQueueType();
-    if (queue != QueueProvider.QueueType.INTERACTIVE
-        || (query != null && query.contains(PRIORITY))) {
-      have.put(PRIORITY, queue);
-    }
   }
 
   private static class Range {

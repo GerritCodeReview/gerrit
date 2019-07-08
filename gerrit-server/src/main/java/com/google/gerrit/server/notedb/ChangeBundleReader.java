@@ -14,12 +14,10 @@
 
 package com.google.gerrit.server.notedb;
 
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.OrmException;
 
 public interface ChangeBundleReader {
-  @Nullable
   ChangeBundle fromReviewDb(ReviewDb db, Change.Id id) throws OrmException;
 }

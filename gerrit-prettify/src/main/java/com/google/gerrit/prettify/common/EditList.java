@@ -24,7 +24,8 @@ public class EditList {
   private final int aSize;
   private final int bSize;
 
-  public EditList(final List<Edit> edits, int contextLines, int aSize, int bSize) {
+  public EditList(
+      final List<Edit> edits, final int contextLines, final int aSize, final int bSize) {
     this.edits = edits;
     this.context = contextLines;
     this.aSize = aSize;
@@ -64,7 +65,7 @@ public class EditList {
     };
   }
 
-  private int findCombinedEnd(int i) {
+  private int findCombinedEnd(final int i) {
     int end = i + 1;
     while (end < edits.size() && (combineA(end) || combineB(end))) {
       end++;
@@ -72,14 +73,14 @@ public class EditList {
     return end - 1;
   }
 
-  private boolean combineA(int i) {
+  private boolean combineA(final int i) {
     final Edit s = edits.get(i);
     final Edit e = edits.get(i - 1);
     // + 1 to prevent '... skipping 1 common line ...' messages.
     return s.getBeginA() - e.getEndA() <= 2 * context + 1;
   }
 
-  private boolean combineB(int i) {
+  private boolean combineB(final int i) {
     final int s = edits.get(i).getBeginB();
     final int e = edits.get(i - 1).getEndB();
     // + 1 to prevent '... skipping 1 common line ...' messages.
@@ -97,7 +98,7 @@ public class EditList {
     private final int aEnd;
     private final int bEnd;
 
-    private Hunk(int ci, int ei) {
+    private Hunk(final int ci, final int ei) {
       curIdx = ci;
       endIdx = ei;
       curEdit = edits.get(curIdx);
@@ -171,7 +172,7 @@ public class EditList {
       return aCur < aEnd || bCur < bEnd;
     }
 
-    private boolean in(Edit edit) {
+    private boolean in(final Edit edit) {
       return aCur < edit.getEndA() || bCur < edit.getEndB();
     }
   }

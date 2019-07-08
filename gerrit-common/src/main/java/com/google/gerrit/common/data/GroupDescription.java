@@ -16,7 +16,6 @@ package com.google.gerrit.common.data;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import java.sql.Timestamp;
 
 /** Group methods exposed by the GroupBackend. */
 public class GroupDescription {
@@ -43,19 +42,10 @@ public class GroupDescription {
     String getUrl();
   }
 
-  /** The extended information exposed by internal groups. */
+  /** The extended information exposed by internal groups backed by an AccountGroup. */
   public interface Internal extends Basic {
-
-    AccountGroup.Id getId();
-
-    @Nullable
-    String getDescription();
-
-    AccountGroup.UUID getOwnerGroupUUID();
-
-    boolean isVisibleToAll();
-
-    Timestamp getCreatedOn();
+    /** @return the backing AccountGroup. */
+    AccountGroup getAccountGroup();
   }
 
   private GroupDescription() {}

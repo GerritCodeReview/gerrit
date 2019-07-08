@@ -288,7 +288,7 @@ public abstract class ResourceServlet extends HttpServlet {
         || name.contains("//"); // windows UNC path can be "//..."
   }
 
-  private Callable<Resource> newLoader(Path p) {
+  private Callable<Resource> newLoader(final Path p) {
     return () -> {
       try {
         return new Resource(
@@ -307,11 +307,12 @@ public abstract class ResourceServlet extends HttpServlet {
     final String etag;
     final byte[] raw;
 
+    @SuppressWarnings("deprecation") // Use Hashing.md5 for compatibility.
     Resource(FileTime lastModified, String contentType, byte[] raw) {
       this.lastModified = checkNotNull(lastModified, "lastModified");
       this.contentType = checkNotNull(contentType, "contentType");
       this.raw = checkNotNull(raw, "raw");
-      this.etag = Hashing.murmur3_128().hashBytes(raw).toString();
+      this.etag = Hashing.md5().hashBytes(raw).toString();
     }
 
     boolean isStale(Path p, ResourceServlet rs) throws IOException {

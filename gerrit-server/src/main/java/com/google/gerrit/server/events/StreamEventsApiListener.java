@@ -30,16 +30,15 @@ import com.google.gerrit.extensions.events.ChangeDeletedListener;
 import com.google.gerrit.extensions.events.ChangeMergedListener;
 import com.google.gerrit.extensions.events.ChangeRestoredListener;
 import com.google.gerrit.extensions.events.CommentAddedListener;
+import com.google.gerrit.extensions.events.DraftPublishedListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.HashtagsEditedListener;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
-import com.google.gerrit.extensions.events.PrivateStateChangedListener;
 import com.google.gerrit.extensions.events.ReviewerAddedListener;
 import com.google.gerrit.extensions.events.ReviewerDeletedListener;
 import com.google.gerrit.extensions.events.RevisionCreatedListener;
 import com.google.gerrit.extensions.events.TopicEditedListener;
 import com.google.gerrit.extensions.events.VoteDeletedListener;
-import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
@@ -55,7 +54,6 @@ import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
@@ -81,9 +79,8 @@ public class StreamEventsApiListener
         ChangeDeletedListener,
         ChangeMergedListener,
         ChangeRestoredListener,
-        WorkInProgressStateChangedListener,
-        PrivateStateChangedListener,
         CommentAddedListener,
+        DraftPublishedListener,
         GitReferenceUpdatedListener,
         HashtagsEditedListener,
         NewProjectCreatedListener,
@@ -103,19 +100,16 @@ public class StreamEventsApiListener
       DynamicSet.bind(binder(), ChangeMergedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), ChangeRestoredListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), CommentAddedListener.class).to(StreamEventsApiListener.class);
+      DynamicSet.bind(binder(), DraftPublishedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
           .to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), HashtagsEditedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), NewProjectCreatedListener.class).to(StreamEventsApiListener.class);
-      DynamicSet.bind(binder(), PrivateStateChangedListener.class)
-          .to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), ReviewerAddedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), ReviewerDeletedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), RevisionCreatedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), TopicEditedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), VoteDeletedListener.class).to(StreamEventsApiListener.class);
-      DynamicSet.bind(binder(), WorkInProgressStateChangedListener.class)
-          .to(StreamEventsApiListener.class);
     }
   }
 
@@ -161,7 +155,7 @@ public class StreamEventsApiListener
     return psUtil.get(db.get(), notes, PatchSet.Id.fromRef(info.ref));
   }
 
-  private Supplier<ChangeAttribute> changeAttributeSupplier(Change change) {
+  private Supplier<ChangeAttribute> changeAttributeSupplier(final Change change) {
     return Suppliers.memoize(
         new Supplier<ChangeAttribute>() {
           @Override
@@ -171,7 +165,7 @@ public class StreamEventsApiListener
         });
   }
 
-  private Supplier<AccountAttribute> accountAttributeSupplier(AccountInfo account) {
+  private Supplier<AccountAttribute> accountAttributeSupplier(final AccountInfo account) {
     return Suppliers.memoize(
         new Supplier<AccountAttribute>() {
           @Override
@@ -184,7 +178,7 @@ public class StreamEventsApiListener
   }
 
   private Supplier<PatchSetAttribute> patchSetAttributeSupplier(
-      final Change change, PatchSet patchSet) {
+      final Change change, final PatchSet patchSet) {
     return Suppliers.memoize(
         new Supplier<PatchSetAttribute>() {
           @Override
@@ -270,7 +264,7 @@ public class StreamEventsApiListener
       event.oldAssignee = accountAttributeSupplier(ev.getOldAssignee());
 
       dispatcher.get().postEvent(change, event);
-    } catch (OrmException | PermissionBackendException e) {
+    } catch (OrmException e) {
       log.error("Failed to dispatch event", e);
     }
   }
@@ -286,7 +280,7 @@ public class StreamEventsApiListener
       event.oldTopic = ev.getOldTopic();
 
       dispatcher.get().postEvent(change, event);
-    } catch (OrmException | PermissionBackendException e) {
+    } catch (OrmException e) {
       log.error("Failed to dispatch event", e);
     }
   }
@@ -304,13 +298,13 @@ public class StreamEventsApiListener
       event.uploader = accountAttributeSupplier(ev.getWho());
 
       dispatcher.get().postEvent(change, event);
-    } catch (OrmException | PermissionBackendException e) {
+    } catch (OrmException e) {
       log.error("Failed to dispatch event", e);
     }
   }
 
   @Override
-  public void onReviewerDeleted(ReviewerDeletedListener.Event ev) {
+  public void onReviewerDeleted(final ReviewerDeletedListener.Event ev) {
     try {
       ChangeNotes notes = getNotes(ev.getChange());
       Change change = notes.getChange();
@@ -324,7 +318,7 @@ public class StreamEventsApiListener
           approvalsAttributeSupplier(change, ev.getNewApprovals(), ev.getOldApprovals());
 
       dispatcher.get().postEvent(change, event);
-    } catch (OrmException | PermissionBackendException e) {
+    } catch (OrmException e) {
       log.error("Failed to dispatch event", e);
     }
   }
@@ -342,7 +336,7 @@ public class StreamEventsApiListener
         event.reviewer = accountAttributeSupplier(reviewer);
         dispatcher.get().postEvent(change, event);
       }
-    } catch (OrmException | PermissionBackendException e) {
+    } catch (OrmException e) {
       log.error("Failed to dispatch event", e);
     }
   }
@@ -369,13 +363,13 @@ public class StreamEventsApiListener
       event.removed = hashtagArray(ev.getRemovedHashtags());
 
       dispatcher.get().postEvent(change, event);
-    } catch (OrmException | PermissionBackendException e) {
+    } catch (OrmException e) {
       log.error("Failed to dispatch event", e);
     }
   }
 
   @Override
-  public void onGitReferenceUpdated(GitReferenceUpdatedListener.Event ev) {
+  public void onGitReferenceUpdated(final GitReferenceUpdatedListener.Event ev) {
     RefUpdatedEvent event = new RefUpdatedEvent();
     if (ev.getUpdater() != null) {
       event.submitter = accountAttributeSupplier(ev.getUpdater());
@@ -392,10 +386,24 @@ public class StreamEventsApiListener
                     refName);
               }
             });
+    dispatcher.get().postEvent(refName, event);
+  }
+
+  @Override
+  public void onDraftPublished(DraftPublishedListener.Event ev) {
     try {
-      dispatcher.get().postEvent(refName, event);
-    } catch (PermissionBackendException e) {
-      log.error("error while posting event", e);
+      ChangeNotes notes = getNotes(ev.getChange());
+      Change change = notes.getChange();
+      PatchSet ps = getPatchSet(notes, ev.getRevision());
+      DraftPublishedEvent event = new DraftPublishedEvent(change);
+
+      event.change = changeAttributeSupplier(change);
+      event.patchSet = patchSetAttributeSupplier(change, ps);
+      event.uploader = accountAttributeSupplier(ev.getWho());
+
+      dispatcher.get().postEvent(change, event);
+    } catch (OrmException e) {
+      log.error("Failed to dispatch event", e);
     }
   }
 
@@ -414,7 +422,7 @@ public class StreamEventsApiListener
       event.approvals = approvalsAttributeSupplier(change, ev.getApprovals(), ev.getOldApprovals());
 
       dispatcher.get().postEvent(change, event);
-    } catch (OrmException | PermissionBackendException e) {
+    } catch (OrmException e) {
       log.error("Failed to dispatch event", e);
     }
   }
@@ -432,7 +440,7 @@ public class StreamEventsApiListener
       event.reason = ev.getReason();
 
       dispatcher.get().postEvent(change, event);
-    } catch (OrmException | PermissionBackendException e) {
+    } catch (OrmException e) {
       log.error("Failed to dispatch event", e);
     }
   }
@@ -450,7 +458,7 @@ public class StreamEventsApiListener
       event.newRev = ev.getNewRevisionId();
 
       dispatcher.get().postEvent(change, event);
-    } catch (OrmException | PermissionBackendException e) {
+    } catch (OrmException e) {
       log.error("Failed to dispatch event", e);
     }
   }
@@ -468,43 +476,7 @@ public class StreamEventsApiListener
       event.reason = ev.getReason();
 
       dispatcher.get().postEvent(change, event);
-    } catch (OrmException | PermissionBackendException e) {
-      log.error("Failed to dispatch event", e);
-    }
-  }
-
-  @Override
-  public void onWorkInProgressStateChanged(WorkInProgressStateChangedListener.Event ev) {
-    try {
-      ChangeNotes notes = getNotes(ev.getChange());
-      Change change = notes.getChange();
-      PatchSet patchSet = getPatchSet(notes, ev.getRevision());
-      WorkInProgressStateChangedEvent event = new WorkInProgressStateChangedEvent(change);
-
-      event.change = changeAttributeSupplier(change);
-      event.changer = accountAttributeSupplier(ev.getWho());
-      event.patchSet = patchSetAttributeSupplier(change, patchSet);
-
-      dispatcher.get().postEvent(change, event);
-    } catch (OrmException | PermissionBackendException e) {
-      log.error("Failed to dispatch event", e);
-    }
-  }
-
-  @Override
-  public void onPrivateStateChanged(PrivateStateChangedListener.Event ev) {
-    try {
-      ChangeNotes notes = getNotes(ev.getChange());
-      Change change = notes.getChange();
-      PatchSet patchSet = getPatchSet(notes, ev.getRevision());
-      PrivateStateChangedEvent event = new PrivateStateChangedEvent(change);
-
-      event.change = changeAttributeSupplier(change);
-      event.changer = accountAttributeSupplier(ev.getWho());
-      event.patchSet = patchSetAttributeSupplier(change, patchSet);
-
-      dispatcher.get().postEvent(change, event);
-    } catch (OrmException | PermissionBackendException e) {
+    } catch (OrmException e) {
       log.error("Failed to dispatch event", e);
     }
   }
@@ -524,7 +496,7 @@ public class StreamEventsApiListener
       event.approvals = approvalsAttributeSupplier(change, ev.getApprovals(), ev.getOldApprovals());
 
       dispatcher.get().postEvent(change, event);
-    } catch (OrmException | PermissionBackendException e) {
+    } catch (OrmException e) {
       log.error("Failed to dispatch event", e);
     }
   }
@@ -540,7 +512,7 @@ public class StreamEventsApiListener
       event.deleter = accountAttributeSupplier(ev.getWho());
 
       dispatcher.get().postEvent(change, event);
-    } catch (OrmException | PermissionBackendException e) {
+    } catch (OrmException e) {
       log.error("Failed to dispatch event", e);
     }
   }

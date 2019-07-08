@@ -17,42 +17,27 @@ package com.google.gerrit.server.change;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.collect.ImmutableList;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestResource.HasETag;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StarredChangesUtil;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.Assisted;
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import com.google.inject.assistedinject.AssistedInject;
 import org.eclipse.jgit.lib.ObjectId;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ChangeResource implements RestResource, HasETag {
-  private static final Logger log = LoggerFactory.getLogger(ChangeResource.class);
-
   /**
    * JSON format version number for ETag computations.
    *
@@ -65,63 +50,32 @@ public class ChangeResource implements RestResource, HasETag {
       new TypeLiteral<RestView<ChangeResource>>() {};
 
   public interface Factory {
-    ChangeResource create(ChangeNotes notes, CurrentUser user);
+    ChangeResource create(ChangeControl ctl);
   }
 
-  private static final String ZERO_ID_STRING = ObjectId.zeroId().name();
-
-  private final Provider<ReviewDb> db;
-  private final AccountCache accountCache;
-  private final ApprovalsUtil approvalUtil;
-  private final PatchSetUtil patchSetUtil;
-  private final PermissionBackend permissionBackend;
   private final StarredChangesUtil starredChangesUtil;
-  private final ProjectCache projectCache;
-  private final ChangeNotes notes;
-  private final CurrentUser user;
+  private final ChangeControl control;
 
-  @Inject
-  ChangeResource(
-      Provider<ReviewDb> db,
-      AccountCache accountCache,
-      ApprovalsUtil approvalUtil,
-      PatchSetUtil patchSetUtil,
-      PermissionBackend permissionBackend,
-      StarredChangesUtil starredChangesUtil,
-      ProjectCache projectCache,
-      @Assisted ChangeNotes notes,
-      @Assisted CurrentUser user) {
-    this.db = db;
-    this.accountCache = accountCache;
-    this.approvalUtil = approvalUtil;
-    this.patchSetUtil = patchSetUtil;
-    this.permissionBackend = permissionBackend;
+  @AssistedInject
+  ChangeResource(StarredChangesUtil starredChangesUtil, @Assisted ChangeControl control) {
     this.starredChangesUtil = starredChangesUtil;
-    this.projectCache = projectCache;
-    this.notes = notes;
-    this.user = user;
+    this.control = control;
   }
 
-  public PermissionBackend.ForChange permissions() {
-    return permissionBackend.user(user).change(notes);
+  public ChangeControl getControl() {
+    return control;
   }
 
-  public CurrentUser getUser() {
-    return user;
+  public IdentifiedUser getUser() {
+    return getControl().getUser().asIdentifiedUser();
   }
 
   public Change.Id getId() {
-    return notes.getChangeId();
-  }
-
-  /** @return true if {@link #getUser()} is the change's owner. */
-  public boolean isUserOwner() {
-    Account.Id owner = getChange().getOwner();
-    return user.isIdentifiedUser() && user.asIdentifiedUser().getAccountId().equals(owner);
+    return getControl().getId();
   }
 
   public Change getChange() {
-    return notes.getChange();
+    return getControl().getChange();
   }
 
   public Project.NameKey getProject() {
@@ -129,7 +83,7 @@ public class ChangeResource implements RestResource, HasETag {
   }
 
   public ChangeNotes getNotes() {
-    return notes;
+    return getControl().getNotes();
   }
 
   // This includes all information relevant for ETag computation
@@ -147,32 +101,9 @@ public class ChangeResource implements RestResource, HasETag {
     }
 
     byte[] buf = new byte[20];
-    Set<Account.Id> accounts = new HashSet<>();
-    accounts.add(getChange().getOwner());
-    if (getChange().getAssignee() != null) {
-      accounts.add(getChange().getAssignee());
-    }
-    try {
-      patchSetUtil.byChange(db.get(), notes).stream()
-          .map(ps -> ps.getUploader())
-          .forEach(accounts::add);
-
-      // It's intentional to include the states for *all* reviewers into the ETag computation.
-      // We need the states of all current reviewers and CCs because they are part of ChangeInfo.
-      // Including removed reviewers is a cheap way of making sure that the states of accounts that
-      // posted a message on the change are included. Loading all change messages to find the exact
-      // set of accounts that posted a message is too expensive. However everyone who posts a
-      // message is automatically added as reviewer. Hence if we include removed reviewers we can
-      // be sure that we have all accounts that posted messages on the change.
-      accounts.addAll(approvalUtil.getReviewers(db.get(), notes).all());
-    } catch (OrmException e) {
-      // This ETag will be invalidated if it loads next time.
-    }
-    accounts.stream().forEach(a -> hashAccount(h, accountCache.get(a), buf));
-
     ObjectId noteId;
     try {
-      noteId = notes.loadRevision();
+      noteId = getNotes().loadRevision();
     } catch (OrmException e) {
       noteId = null; // This ETag will be invalidated if it loads next time.
     }
@@ -180,22 +111,16 @@ public class ChangeResource implements RestResource, HasETag {
     // TODO(dborowitz): Include more NoteDb and other related refs, e.g. drafts
     // and edits.
 
-    Iterable<ProjectState> projectStateTree;
-    try {
-      projectStateTree = projectCache.checkedGet(getProject()).tree();
-    } catch (IOException e) {
-      log.error("could not load project {} while computing etag", getProject());
-      projectStateTree = ImmutableList.of();
-    }
-
-    for (ProjectState p : projectStateTree) {
+    for (ProjectState p : control.getProjectControl().getProjectState().tree()) {
       hashObjectId(h, p.getConfig().getRevision(), buf);
     }
   }
 
   @Override
+  @SuppressWarnings("deprecation") // Use Hashing.md5 for compatibility.
   public String getETag() {
-    Hasher h = Hashing.murmur3_128().newHasher();
+    CurrentUser user = control.getUser();
+    Hasher h = Hashing.md5().newHasher();
     if (user.isIdentifiedUser()) {
       h.putString(starredChangesUtil.getObjectId(user.getAccountId(), getId()).name(), UTF_8);
     }
@@ -206,11 +131,5 @@ public class ChangeResource implements RestResource, HasETag {
   private void hashObjectId(Hasher h, ObjectId id, byte[] buf) {
     MoreObjects.firstNonNull(id, ObjectId.zeroId()).copyRawTo(buf, 0);
     h.putBytes(buf);
-  }
-
-  private void hashAccount(Hasher h, AccountState accountState, byte[] buf) {
-    h.putString(
-        MoreObjects.firstNonNull(accountState.getAccount().getMetaId(), ZERO_ID_STRING), UTF_8);
-    accountState.getExternalIds().stream().forEach(e -> hashObjectId(h, e.blobId(), buf));
   }
 }

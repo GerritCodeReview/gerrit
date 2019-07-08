@@ -18,20 +18,17 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.errors.NotSignedInException;
-import com.google.gerrit.index.query.LimitPredicate;
-import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.index.query.QueryBuilder;
-import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeFinder;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.permissions.ChangePermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.query.LimitPredicate;
+import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.QueryBuilder;
+import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -43,8 +40,6 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   public static final String FIELD_EMAIL = "email";
   public static final String FIELD_LIMIT = "limit";
   public static final String FIELD_NAME = "name";
-  public static final String FIELD_PREFERRED_EMAIL = "preferredemail";
-  public static final String FIELD_PREFERRED_EMAIL_EXACT = "preferredemail_exact";
   public static final String FIELD_USERNAME = "username";
   public static final String FIELD_VISIBLETO = "visibleto";
 
@@ -54,8 +49,8 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   public static class Arguments {
     final Provider<ReviewDb> db;
     final ChangeFinder changeFinder;
+    final ChangeControl.GenericFactory changeControlFactory;
     final IdentifiedUser.GenericFactory userFactory;
-    final PermissionBackend permissionBackend;
 
     private final Provider<CurrentUser> self;
 
@@ -64,13 +59,13 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
         Provider<CurrentUser> self,
         Provider<ReviewDb> db,
         ChangeFinder changeFinder,
-        IdentifiedUser.GenericFactory userFactory,
-        PermissionBackend permissionBackend) {
+        ChangeControl.GenericFactory changeControlFactory,
+        IdentifiedUser.GenericFactory userFactory) {
       this.self = self;
       this.db = db;
       this.changeFinder = changeFinder;
+      this.changeControlFactory = changeControlFactory;
       this.userFactory = userFactory;
-      this.permissionBackend = permissionBackend;
     }
 
     IdentifiedUser getIdentifiedUser() throws QueryParseException {
@@ -103,19 +98,13 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   }
 
   @Operator
-  public Predicate<AccountState> cansee(String change)
-      throws QueryParseException, OrmException, PermissionBackendException {
-    ChangeNotes changeNotes = args.changeFinder.findOne(change);
-    if (changeNotes == null
-        || !args.permissionBackend
-            .user(args.getUser())
-            .database(args.db)
-            .change(changeNotes)
-            .test(ChangePermission.READ)) {
+  public Predicate<AccountState> cansee(String change) throws QueryParseException, OrmException {
+    ChangeControl changeControl = args.changeFinder.findOne(change, args.getUser());
+    if (changeControl == null || !changeControl.isVisible(args.db.get())) {
       throw error(String.format("change %s not found", change));
     }
 
-    return AccountPredicates.cansee(args, changeNotes);
+    return AccountPredicates.cansee(args, changeControl.getNotes());
   }
 
   @Operator
@@ -129,7 +118,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
       return AccountPredicates.isActive();
     }
     if ("inactive".equalsIgnoreCase(value)) {
-      return AccountPredicates.isNotActive();
+      return AccountPredicates.isInactive();
     }
     throw error("Invalid query");
   }
@@ -161,16 +150,15 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
 
   @Override
   protected Predicate<AccountState> defaultField(String query) {
-    Predicate<AccountState> defaultPredicate = AccountPredicates.defaultPredicate(query);
     if (query.startsWith("cansee:")) {
       try {
         return cansee(query.substring(7));
-      } catch (OrmException | QueryParseException | PermissionBackendException e) {
+      } catch (OrmException | QueryParseException e) {
         // Ignore, fall back to default query
       }
     }
-
-    if ("self".equalsIgnoreCase(query) || "me".equalsIgnoreCase(query)) {
+    Predicate<AccountState> defaultPredicate = AccountPredicates.defaultPredicate(query);
+    if ("self".equalsIgnoreCase(query)) {
       try {
         return Predicate.or(defaultPredicate, AccountPredicates.id(self()));
       } catch (QueryParseException e) {

@@ -16,14 +16,12 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
-import static com.google.gerrit.common.data.Permission.READ;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
-import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
@@ -32,29 +30,24 @@ import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
-import com.google.gerrit.extensions.common.ChangeMessageInfo;
-import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.MergeInput;
-import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.ChangeAlreadyMergedException;
+import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.TestTimeUtil;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -66,6 +59,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class CreateChangeIT extends AbstractDaemonTest {
+  @ConfigSuite.Config
+  public static Config allowDraftsDisabled() {
+    return allowDraftsDisabledConfig();
+  }
+
   @BeforeClass
   public static void setTimeForTesting() {
     TestTimeUtil.resetWithClockStep(1, SECONDS);
@@ -102,7 +100,9 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ChangeInput ci = newChangeInput(ChangeStatus.NEW);
     ci.subject = "Subject\n\nChange-Id: I0000000000000000000000000000000000000000";
     assertCreateFails(
-        ci, ResourceConflictException.class, "invalid Change-Id line format in message footer");
+        ci,
+        ResourceConflictException.class,
+        "invalid Change-Id line format in commit message footer");
   }
 
   @Test
@@ -112,7 +112,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertCreateFails(
         ci,
         ResourceConflictException.class,
-        "missing subject; Change-Id must be in message footer");
+        "missing subject; Change-Id must be in commit message footer");
   }
 
   @Test
@@ -152,7 +152,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
   @Test
   public void notificationsOnChangeCreation() throws Exception {
     setApiUser(user);
-    watch(project.get());
+    watch(project.get(), null);
 
     // check that watcher is notified
     setApiUser(admin);
@@ -209,40 +209,16 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createNewPrivateChange() throws Exception {
-    ChangeInput input = newChangeInput(ChangeStatus.NEW);
-    input.isPrivate = true;
-    assertCreateSucceeds(input);
+  public void createNewDraftChange() throws Exception {
+    assume().that(isAllowDrafts()).isTrue();
+    assertCreateSucceeds(newChangeInput(ChangeStatus.DRAFT));
   }
 
   @Test
-  public void createNewWorkInProgressChange() throws Exception {
-    ChangeInput input = newChangeInput(ChangeStatus.NEW);
-    input.workInProgress = true;
-    assertCreateSucceeds(input);
-  }
-
-  @Test
-  public void createChangeWithoutAccessToParentCommitFails() throws Exception {
-    Map<String, PushOneCommit.Result> results =
-        changeInTwoBranches("invisible-branch", "a.txt", "visible-branch", "b.txt");
-    block(project, "refs/heads/invisible-branch", READ, REGISTERED_USERS);
-
-    ChangeInput in = newChangeInput(ChangeStatus.NEW);
-    in.branch = "visible-branch";
-    in.baseChange = results.get("invisible-branch").getChangeId();
-    assertCreateFails(
-        in, UnprocessableEntityException.class, "Base change not found: " + in.baseChange);
-  }
-
-  @Test
-  public void createChangeOnInvisibleBranchFails() throws Exception {
-    changeInTwoBranches("invisible-branch", "a.txt", "branchB", "b.txt");
-    block(project, "refs/heads/invisible-branch", READ, REGISTERED_USERS);
-
-    ChangeInput in = newChangeInput(ChangeStatus.NEW);
-    in.branch = "invisible-branch";
-    assertCreateFails(in, ResourceNotFoundException.class, "");
+  public void createNewDraftChangeNotAllowed() throws Exception {
+    assume().that(isAllowDrafts()).isFalse();
+    ChangeInput ci = newChangeInput(ChangeStatus.DRAFT);
+    assertCreateFails(ci, MethodNotAllowedException.class, "draft workflow is disabled");
   }
 
   @Test
@@ -376,60 +352,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertCreateSucceeds(in);
   }
 
-  @Test
-  public void cherryPickCommitWithoutChangeId() throws Exception {
-    // This test is a little superfluous, since the current cherry-pick code ignores
-    // the commit message of the to-be-cherry-picked change, using the one in
-    // CherryPickInput instead.
-    CherryPickInput input = new CherryPickInput();
-    input.destination = "foo";
-    input.message = "it goes to foo branch";
-    gApi.projects().name(project.get()).branch(input.destination).create(new BranchInput());
-
-    RevCommit revCommit = createNewCommitWithoutChangeId("refs/heads/master", "a.txt", "content");
-    ChangeInfo changeInfo =
-        gApi.projects().name(project.get()).commit(revCommit.getName()).cherryPick(input).get();
-
-    assertThat(changeInfo.messages).hasSize(1);
-    Iterator<ChangeMessageInfo> messageIterator = changeInfo.messages.iterator();
-    String expectedMessage =
-        String.format("Patch Set 1: Cherry Picked from commit %s.", revCommit.getName());
-    assertThat(messageIterator.next().message).isEqualTo(expectedMessage);
-
-    RevisionInfo revInfo = changeInfo.revisions.get(changeInfo.currentRevision);
-    assertThat(revInfo).isNotNull();
-    CommitInfo commitInfo = revInfo.commit;
-    assertThat(commitInfo.message)
-        .isEqualTo(input.message + "\n\nChange-Id: " + changeInfo.changeId + "\n");
-  }
-
-  @Test
-  public void cherryPickCommitWithChangeId() throws Exception {
-    CherryPickInput input = new CherryPickInput();
-    input.destination = "foo";
-
-    RevCommit revCommit = createChange().getCommit();
-    List<String> footers = revCommit.getFooterLines("Change-Id");
-    assertThat(footers).hasSize(1);
-    String changeId = footers.get(0);
-
-    input.message = "it goes to foo branch\n\nChange-Id: " + changeId;
-    gApi.projects().name(project.get()).branch(input.destination).create(new BranchInput());
-
-    ChangeInfo changeInfo =
-        gApi.projects().name(project.get()).commit(revCommit.getName()).cherryPick(input).get();
-
-    assertThat(changeInfo.messages).hasSize(1);
-    Iterator<ChangeMessageInfo> messageIterator = changeInfo.messages.iterator();
-    String expectedMessage =
-        String.format("Patch Set 1: Cherry Picked from commit %s.", revCommit.getName());
-    assertThat(messageIterator.next().message).isEqualTo(expectedMessage);
-
-    RevisionInfo revInfo = changeInfo.revisions.get(changeInfo.currentRevision);
-    assertThat(revInfo).isNotNull();
-    assertThat(revInfo.commit.message).isEqualTo(input.message + "\n");
-  }
-
   private ChangeInput newChangeInput(ChangeStatus status) {
     ChangeInput in = new ChangeInput();
     in.project = project.get();
@@ -447,11 +369,10 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(out.subject).isEqualTo(in.subject.split("\n")[0]);
     assertThat(out.topic).isEqualTo(in.topic);
     assertThat(out.status).isEqualTo(in.status);
-    assertThat(out.isPrivate).isEqualTo(in.isPrivate);
-    assertThat(out.workInProgress).isEqualTo(in.workInProgress);
     assertThat(out.revisions).hasSize(1);
     assertThat(out.submitted).isNull();
-    assertThat(in.status).isEqualTo(ChangeStatus.NEW);
+    Boolean draft = Iterables.getOnlyElement(out.revisions.values()).draft;
+    assertThat(booleanToDraftStatus(draft)).isEqualTo(in.status);
     return out;
   }
 
@@ -461,6 +382,13 @@ public class CreateChangeIT extends AbstractDaemonTest {
     exception.expect(errType);
     exception.expectMessage(errSubstring);
     gApi.changes().create(in);
+  }
+
+  private ChangeStatus booleanToDraftStatus(Boolean draft) {
+    if (draft == null) {
+      return ChangeStatus.NEW;
+    }
+    return draft ? ChangeStatus.DRAFT : ChangeStatus.NEW;
   }
 
   // TODO(davido): Expose setting of account preferences in the API
@@ -497,18 +425,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
     return in;
   }
 
-  /**
-   * Create an empty commit in master, two new branches with one commit each.
-   *
-   * @param branchA name of first branch to create
-   * @param fileA name of file to commit to branchA
-   * @param branchB name of second branch to create
-   * @param fileB name of file to commit to branchB
-   * @return A {@code Map} of branchName => commit result.
-   * @throws Exception
-   */
-  private Map<String, Result> changeInTwoBranches(
-      String branchA, String fileA, String branchB, String fileB) throws Exception {
+  private void changeInTwoBranches(String branchA, String fileA, String branchB, String fileB)
+      throws Exception {
     // create a initial commit in master
     Result initialCommit =
         pushFactory
@@ -533,7 +451,5 @@ public class CreateChangeIT extends AbstractDaemonTest {
     commitB.setParent(initialCommit.getCommit());
     Result changeB = commitB.to("refs/heads/" + branchB);
     changeB.assertOkStatus();
-
-    return ImmutableMap.of("master", initialCommit, branchA, changeA, branchB, changeB);
   }
 }

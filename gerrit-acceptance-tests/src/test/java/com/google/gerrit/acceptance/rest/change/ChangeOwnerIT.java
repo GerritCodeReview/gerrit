@@ -36,7 +36,7 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     setApiUser(user);
-    user2 = accountCreator.user2();
+    user2 = accounts.user2();
   }
 
   @Test

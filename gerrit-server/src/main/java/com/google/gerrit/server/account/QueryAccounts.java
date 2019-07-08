@@ -18,19 +18,17 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.client.ListAccountsOption;
 import com.google.gerrit.extensions.common.AccountInfo;
-import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.api.accounts.AccountInfoComparator;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.query.account.AccountPredicates;
+import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.QueryResult;
 import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gerrit.server.query.account.AccountQueryProcessor;
 import com.google.gwtorm.server.OrmException;
@@ -71,7 +69,7 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       metaVar = "CNT",
       usage = "maximum number of users to return")
   public void setLimit(int n) {
-    queryProcessor.setUserProvidedLimit(n);
+    queryProcessor.setLimit(n);
 
     if (n < 0) {
       suggestLimit = 10;
@@ -175,14 +173,9 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       Predicate<AccountState> queryPred;
       if (suggest) {
         queryPred = queryBuilder.defaultQuery(query);
-        queryProcessor.setUserProvidedLimit(suggestLimit);
+        queryProcessor.setLimit(suggestLimit);
       } else {
         queryPred = queryBuilder.parse(query);
-      }
-      if (!AccountPredicates.hasActive(queryPred)) {
-        // if neither 'is:active' nor 'is:inactive' appears in the query only
-        // active accounts should be queried
-        queryPred = AccountPredicates.andActive(queryPred);
       }
       QueryResult<AccountState> result = queryProcessor.query(queryPred);
       for (AccountState accountState : result.entities()) {

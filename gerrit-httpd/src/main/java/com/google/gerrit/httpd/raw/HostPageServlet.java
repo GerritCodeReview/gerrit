@@ -37,7 +37,6 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
@@ -67,10 +66,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /** Sends the Gerrit host page to clients. */
+@SuppressWarnings("serial")
 @Singleton
 public class HostPageServlet extends HttpServlet {
-  private static final long serialVersionUID = 1L;
-
   private static final Logger log = LoggerFactory.getLogger(HostPageServlet.class);
 
   private static final String HPD_ID = "gerrit_hostpagedata";
@@ -93,6 +91,7 @@ public class HostPageServlet extends HttpServlet {
   private volatile Page page;
 
   @Inject
+  @SuppressWarnings("deprecation") // Use Hashing.md5 for compatibility.
   HostPageServlet(
       Provider<CurrentUser> cu,
       SitePaths sp,
@@ -134,7 +133,7 @@ public class HostPageServlet extends HttpServlet {
     String src = "gerrit_ui/gerrit_ui.nocache.js";
     try (InputStream in = servletContext.getResourceAsStream("/" + src)) {
       if (in != null) {
-        Hasher md = Hashing.murmur3_128().newHasher();
+        Hasher md = Hashing.md5().newHasher();
         byte[] buf = new byte[1024];
         int n;
         while ((n = in.read(buf)) > 0) {
@@ -222,7 +221,7 @@ public class HostPageServlet extends HttpServlet {
   private DiffPreferencesInfo getDiffPreferences(IdentifiedUser user) {
     try {
       return getDiff.apply(new AccountResource(user));
-    } catch (AuthException | ConfigInvalidException | IOException | PermissionBackendException e) {
+    } catch (AuthException | ConfigInvalidException | IOException e) {
       log.warn("Cannot query account diff preferences", e);
     }
     return DiffPreferencesInfo.defaults();

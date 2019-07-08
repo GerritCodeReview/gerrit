@@ -14,15 +14,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="../../../behaviors/gr-anonymous-name-behavior/gr-anonymous-name-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-account-entry">
   <template>
-    <style include="shared-styles">
+    <style>
       gr-autocomplete {
         display: inline-block;
         flex: 1;
@@ -36,8 +34,7 @@ limitations under the License.
         threshold="[[suggestFrom]]"
         query="[[query]]"
         on-commit="_handleInputCommit"
-        clear-on-commit
-        warn-uncommitted>
+        clear-on-commit>
     </gr-autocomplete>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

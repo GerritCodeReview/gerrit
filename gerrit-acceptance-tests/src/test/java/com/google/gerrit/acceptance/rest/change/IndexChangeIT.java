@@ -48,7 +48,7 @@ public class IndexChangeIT extends AbstractDaemonTest {
   @Test
   public void indexChangeAfterOwnerLosesVisibility() throws Exception {
     // Create a test group with 2 users as members
-    TestAccount user2 = accountCreator.user2();
+    TestAccount user2 = accounts.user2();
     String group = createGroup("test");
     gApi.groups().id(group).addMembers("admin", "user", user2.username);
 
@@ -58,7 +58,7 @@ public class IndexChangeIT extends AbstractDaemonTest {
     Util.allow(
         cfg,
         Permission.READ,
-        groupCache.get(new AccountGroup.NameKey(group)).get().getGroupUUID(),
+        groupCache.get(new AccountGroup.NameKey(group)).getGroupUUID(),
         "refs/*");
     Util.block(cfg, Permission.READ, REGISTERED_USERS, "refs/*");
     saveProjectConfig(p, cfg);

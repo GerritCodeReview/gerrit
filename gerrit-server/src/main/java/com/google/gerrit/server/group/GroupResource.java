@@ -15,11 +15,12 @@
 package com.google.gerrit.server.group;
 
 import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.inject.TypeLiteral;
-import java.util.Optional;
 
 public class GroupResource implements RestResource {
   public static final TypeLiteral<RestView<GroupResource>> GROUP_KIND =
@@ -43,17 +44,12 @@ public class GroupResource implements RestResource {
     return getGroup().getName();
   }
 
-  public boolean isInternalGroup() {
-    GroupDescription.Basic group = getGroup();
-    return group instanceof GroupDescription.Internal;
+  public AccountGroup.UUID getGroupUUID() {
+    return getGroup().getGroupUUID();
   }
 
-  public Optional<GroupDescription.Internal> asInternalGroup() {
-    GroupDescription.Basic group = getGroup();
-    if (group instanceof GroupDescription.Internal) {
-      return Optional.of((GroupDescription.Internal) group);
-    }
-    return Optional.empty();
+  public AccountGroup toAccountGroup() {
+    return GroupDescriptions.toAccountGroup(getGroup());
   }
 
   public GroupControl getControl() {

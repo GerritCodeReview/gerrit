@@ -14,7 +14,7 @@
 (function() {
   'use strict';
 
-  const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
+  var TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
 
   Polymer({
     is: 'gr-autocomplete',
@@ -48,11 +48,11 @@
        * suggestion entry. The "value" property will be emitted if that
        * suggestion is selected.
        *
-       * @type {function(string): Promise<?>}
+       * @type {function(String): Promise<Array<Object>>}
        */
       query: {
         type: Function,
-        value() {
+        value: function() {
           return function() {
             return Promise.resolve([]);
           };
@@ -61,26 +61,15 @@
 
       /**
        * The number of characters that must be typed before suggestions are
-       * made. If threshold is zero, default suggestions are enabled.
+       * made.
        */
       threshold: {
         type: Number,
         value: 1,
       },
 
-      allowNonSuggestedValues: Boolean,
       borderless: Boolean,
       disabled: Boolean,
-      showSearchIcon: {
-        type: Boolean,
-        value: false,
-      },
-      // Vertical offset needed for a 1em font-size with no vertical padding.
-      // Inputs with additional padding will need to increase vertical offset.
-      verticalOffset: {
-        type: Number,
-        value: 20,
-      },
 
       text: {
         type: String,
@@ -98,18 +87,14 @@
 
       /**
        * When true, tab key autocompletes but does not fire the commit event.
-       * When false, tab key not caught, and focus is removed from the element.
-       * See Issue 4556, Issue 6645.
+       * See Issue 4556.
        */
-      tabComplete: {
+      tabCompleteWithoutCommit: {
         type: Boolean,
         value: false,
       },
 
-      value: {
-        type: String,
-        notify: true,
-      },
+      value: Object,
 
       /**
        * Multi mode appends autocompleted entries to the value.
@@ -120,49 +105,30 @@
         value: false,
       },
 
-      /**
-       * When true and uncommitted text is left in the autocomplete input after
-       * blurring, the text will appear red.
-       */
-      warnUncommitted: {
-        type: Boolean,
-        value: false,
-      },
-
-      /** @type {?} */
       _suggestions: {
         type: Array,
-        value() { return []; },
-      },
-
-      _suggestionEls: {
-        type: Array,
-        value() { return []; },
+        value: function() { return []; },
       },
 
       _index: Number,
+
       _disableSuggestions: {
         type: Boolean,
         value: false,
       },
+
       _focused: {
         type: Boolean,
         value: false,
       },
 
-      /** The DOM element of the selected suggestion. */
-      _selected: Object,
     },
 
-    observers: [
-      '_maybeOpenDropdown(_suggestions, _focused)',
-    ],
-
-    attached() {
+    attached: function() {
       this.listen(document.body, 'tap', '_handleBodyTap');
     },
 
-    detached() {
+    detached: function() {
       this.unlisten(document.body, 'tap', '_handleBodyTap');
     },
 
@@ -170,165 +136,117 @@
       return this.$.input;
     },
 
-    focus() {
+    focus: function() {
       this.$.input.focus();
     },
 
-    selectAll() {
-      const nativeInputElement = this.$.input.inputElement;
-      if (!this.$.input.value) { return; }
-      nativeInputElement.setSelectionRange(0, this.$.input.value.length);
+    selectAll: function() {
+      this.$.input.setSelectionRange(0, this.$.input.value.length);
     },
 
-    clear() {
+    clear: function() {
       this.text = '';
-    },
-
-    _handleItemSelect(e) {
-      // Let _handleKeydown deal with keyboard interaction.
-      if (e.detail.trigger !== 'tap') { return; }
-      this._selected = e.detail.selected;
-      this._commit();
-    },
-
-    get _inputElement() {
-      return this.$.input;
     },
 
     /**
      * Set the text of the input without triggering the suggestion dropdown.
-     * @param {string} text The new text for the input.
+     * @param {String} text The new text for the input.
      */
-    setText(text) {
+    setText: function(text) {
       this._disableSuggestions = true;
       this.text = text;
       this._disableSuggestions = false;
     },
 
-    _onInputFocus() {
+    _onInputFocus: function() {
       this._focused = true;
       this._updateSuggestions();
-      this.$.input.classList.remove('warnUncommitted');
-      // Needed so that --paper-input-container-input updated style is applied.
-      this.updateStyles();
     },
 
-    _onInputBlur() {
-      this.$.input.classList.toggle('warnUncommitted',
-          this.warnUncommitted && this.text.length && !this._focused);
-      // Needed so that --paper-input-container-input updated style is applied.
-      this.updateStyles();
-    },
-
-    _updateSuggestions() {
-      if (this._disableSuggestions) { return; }
-      if (this.text === undefined || this.text.length < this.threshold) {
+    _updateSuggestions: function() {
+      if (!this.text || this._disableSuggestions) { return; }
+      if (this.text.length < this.threshold) {
         this._suggestions = [];
-        this.value = '';
+        this.value = null;
         return;
       }
-      const text = this.text;
+      var text = this.text;
 
-      this.query(text).then(suggestions => {
+      this.query(text).then(function(suggestions) {
         if (text !== this.text) {
           // Late response.
           return;
         }
-        for (const suggestion of suggestions) {
-          suggestion.text = suggestion.name;
-        }
         this._suggestions = suggestions;
-        Polymer.dom.flush();
+        this.$.cursor.moveToStart();
         if (this._index === -1) {
-          this.value = '';
+          this.value = null;
         }
-      });
+      }.bind(this));
     },
 
-    _maybeOpenDropdown(suggestions, focused) {
-      if (suggestions.length > 0 && focused) {
-        return this.$.suggestions.open();
-      }
-      return this.$.suggestions.close();
+    _computeSuggestionsHidden: function(suggestions, focused) {
+      return !(suggestions.length && focused);
     },
 
-    _computeClass(borderless) {
+    _computeClass: function(borderless) {
       return borderless ? 'borderless' : '';
+    },
+
+    _getSuggestionElems: function() {
+      Polymer.dom.flush();
+      return this.$.suggestions.querySelectorAll('li');
     },
 
     /**
      * _handleKeydown used for key handling in the this.$.input AND all child
      * autocomplete options.
      */
-    _handleKeydown(e) {
+    _handleKeydown: function(e) {
       this._focused = true;
       switch (e.keyCode) {
         case 38: // Up
           e.preventDefault();
-          this.$.suggestions.cursorUp();
+          this.$.cursor.previous();
           break;
         case 40: // Down
           e.preventDefault();
-          this.$.suggestions.cursorDown();
+          this.$.cursor.next();
           break;
         case 27: // Escape
           e.preventDefault();
           this._cancel();
           break;
         case 9: // Tab
-          if (this._suggestions.length > 0 && this.tabComplete) {
+          if (this._suggestions.length > 0) {
             e.preventDefault();
-            this._handleInputCommit(true);
-            this.focus();
-          } else {
-            this._focused = false;
+            this._commit(this.tabCompleteWithoutCommit);
           }
           break;
         case 13: // Enter
           e.preventDefault();
-          this._handleInputCommit();
+          this._commit();
           break;
         default:
           // For any normal keypress, return focus to the input to allow for
           // unbroken user input.
-          this.$.input.inputElement.focus();
-
-          // Since this has been a normal keypress, the suggestions will have
-          // been based on a previous input. Clear them. This prevents an
-          // outdated suggestion from being used if the input keystroke is
-          // immediately followed by a commit keystroke. @see Issue 8655
-          this._suggestions = [];
+          this.$.input.focus();
       }
       this.fire('input-keydown', {keyCode: e.keyCode, input: this.$.input});
     },
 
-    _cancel() {
-      if (this._suggestions.length) {
-        this.set('_suggestions', []);
-      } else {
-        this.fire('cancel');
-      }
+    _cancel: function() {
+      this._suggestions = [];
+      this.fire('cancel');
     },
 
-    /**
-     * @param {boolean=} opt_tabComplete
-     */
-    _handleInputCommit(opt_tabComplete) {
-      // Nothing to do if the dropdown is not open.
-      if (!this.allowNonSuggestedValues
-          && this.$.suggestions.isHidden) { return; }
-
-      this._selected = this.$.suggestions.getCursorTarget();
-      this._commit(opt_tabComplete);
-    },
-
-    _updateValue(suggestion, suggestions) {
-      if (!suggestion) { return; }
-      const completed = suggestions[suggestion.dataset.index].value;
+    _updateValue: function(suggestions, index) {
+      if (!suggestions.length || index === -1) { return; }
+      var completed = suggestions[index].value;
       if (this.multi) {
         // Append the completed text to the end of the string.
         // Allow spaces within quoted terms.
-        const tokens = this.text.match(TOKENIZE_REGEX);
+        var tokens = this.text.match(TOKENIZE_REGEX);
         tokens[tokens.length - 1] = completed;
         this.value = tokens.join(' ');
       } else {
@@ -336,9 +254,9 @@
       }
     },
 
-    _handleBodyTap(e) {
-      const eventPath = Polymer.dom(e).path;
-      for (let i = 0; i < eventPath.length; i++) {
+    _handleBodyTap: function(e) {
+      var eventPath = Polymer.dom(e).path;
+      for (var i = 0; i < eventPath.length; i++) {
         if (eventPath[i] === this) {
           return;
         }
@@ -346,50 +264,45 @@
       this._focused = false;
     },
 
-    _handleSuggestionTap(e) {
+    _handleSuggestionTap: function(e) {
       e.stopPropagation();
       this.$.cursor.setCursor(e.target);
       this._commit();
+      this.focus();
     },
 
     /**
      * Commits the suggestion, optionally firing the commit event.
      *
-     * @param {boolean=} opt_silent Allows for silent committing of an
-     *     autocomplete suggestion in order to handle cases like tab-to-complete
-     *     without firing the commit event.
+     * @param {Boolean} silent Allows for silent committing of an autocomplete
+     *     suggestion in order to handle cases like tab-to-complete without
+     *     firing the commit event.
      */
-    _commit(opt_silent) {
+    _commit: function(silent) {
       // Allow values that are not in suggestion list iff suggestions are empty.
       if (this._suggestions.length > 0) {
-        this._updateValue(this._selected, this._suggestions);
+        this._updateValue(this._suggestions, this._index);
       } else {
         this.value = this.text || '';
       }
 
-      const value = this.value;
+      var value = this.value;
 
       // Value and text are mirrors of each other in multi mode.
       if (this.multi) {
         this.setText(this.value);
       } else {
-        if (!this.clearOnCommit && this._selected) {
-          this.setText(this._suggestions[this._selected.dataset.index].name);
+        if (!this.clearOnCommit && this._suggestions[this._index]) {
+          this.setText(this._suggestions[this._index].name);
         } else {
           this.clear();
         }
       }
 
       this._suggestions = [];
-      if (!opt_silent) {
-        this.fire('commit', {value});
+      if (!silent) {
+        this.fire('commit', {value: value});
       }
-
-      this._textChangedSinceCommit = false;
-    },
-
-    _computeShowSearchIconClass(showSearchIcon) {
-      return showSearchIcon ? 'showSearchIcon' : '';
     },
   });
 })();

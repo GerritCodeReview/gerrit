@@ -15,7 +15,6 @@
 package com.google.gerrit.extensions.client;
 
 import java.sql.Timestamp;
-import java.util.Comparator;
 import java.util.Objects;
 
 public abstract class Comment {
@@ -37,13 +36,7 @@ public abstract class Comment {
   public String message;
   public Boolean unresolved;
 
-  public static class Range implements Comparable<Range> {
-    private static final Comparator<Range> RANGE_COMPARATOR =
-        Comparator.<Range>comparingInt(range -> range.startLine)
-            .thenComparingInt(range -> range.startCharacter)
-            .thenComparingInt(range -> range.endLine)
-            .thenComparingInt(range -> range.endCharacter);
-
+  public static class Range {
     public int startLine; // 1-based, inclusive
     public int startCharacter; // 0-based, inclusive
     public int endLine; // 1-based, exclusive
@@ -87,11 +80,6 @@ public abstract class Comment {
           + ", endCharacter="
           + endCharacter
           + '}';
-    }
-
-    @Override
-    public int compareTo(Range otherRange) {
-      return RANGE_COMPARATOR.compare(this, otherRange);
     }
   }
 

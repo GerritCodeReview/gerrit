@@ -33,17 +33,11 @@ public interface ChangeConstants extends Constants {
 
   String notCurrent();
 
-  String isPrivate();
-
-  String isWorkInProgress();
-
   String changeEdit();
 
   String myDashboardTitle();
 
   String unknownDashboardTitle();
-
-  String workInProgress();
 
   String incomingReviews();
 
@@ -146,14 +140,6 @@ public interface ChangeConstants extends Constants {
   String cherryPickCommitMessage();
 
   String cherryPickTitle();
-
-  String moveChangeSend();
-
-  String headingMoveBranch();
-
-  String moveChangeMessage();
-
-  String moveTitle();
 
   String buttonRebaseChangeSend();
 

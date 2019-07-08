@@ -31,7 +31,7 @@ class HostKeyProvider implements Provider<KeyPairProvider> {
   private final SitePaths site;
 
   @Inject
-  HostKeyProvider(SitePaths site) {
+  HostKeyProvider(final SitePaths site) {
     this.site = site;
   }
 

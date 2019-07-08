@@ -474,10 +474,6 @@ push], either by appending `%topic=...` to the ref name or through
 the use of the command line flag `--push-option`, aliased to `-o`,
 followed by `topic=...`.
 
-Gerrit may be link:config-gerrit.html#change.submitWholeTopic[configured] to
-submit all changes in a topic together with a single click, even when topics
-span multiple projects.
-
 .Set Topic on Push
 ----
   $ git push origin HEAD:refs/for/master%topic=multi-master
@@ -486,137 +482,39 @@ span multiple projects.
   $ git push origin HEAD:refs/heads/master -o topic=multi-master
 ----
 
-[[hashtags]]
-== Using Hashtags
+[[drafts]]
+== Working with Drafts
 
-Hashtags are freeform strings associated with a change, like on social media
-platforms. In Gerrit, you explicitly associate hashtags with changes using a
-dedicated area of the UI; they are not parsed from commit messages or comments.
+Changes can be uploaded as drafts. By default draft changes are only
+visible to the change owner. This gives you the possibility to have
+some staging before making your changes visible to the reviewers. Draft
+changes can also be used to backup unfinished changes.
 
-Similar to topics, hashtags can be used to group related changes together, and
-to search using the link:user-search.html#hashtag[`hashtag:`] operator. Unlike
-topics, a change can have multiple hashtags, and they are only used for
-informational grouping; changes with the same hashtags are not necessarily
-submitted together.
+A draft change is created by pushing to the magic
+`refs/drafts/<target-branch>` ref, or by pushing with the 'draft'
+option to `refs/for/<target-branch>%draft`.
 
-The hashtag feature is only available when running under
-link:note-db.html[NoteDb].
-
-.Set Hashtag on Push
-----
-  $ git push origin HEAD:refs/for/master%t=stable-bugfix
-
-  // this is the same as:
-  $ git push origin HEAD:refs/heads/master -o t=stable-bugfix
-----
-
-[[wip]]
-== Work-in-Progress Changes
-
-Work-in-Progress (WIP) changes are visible to anyone, but do not notify or
-require an action from a reviewer.
-
-Specifically, when you mark a change as Work-in-Progress:
-
-* Reviewers are not notified for most operations, such as adding or removing,
-  posting comments, and so on. See the REST API documentation
-  link:rest-api-changes.html#set-review-notifications[tables] for more
-  information.
-* The change does not show in reviewers' dashboards.
-
-WIP changes are useful when:
-
-* You have implemented only part of a change, but want to push your change
-  to the server to run tests or perform other actions before requesting
-  reviewer feedback.
-* During a review, you realize you need to rework your change, and you
-  want to stop notifying reviewers of the change until you finish your
-  update.
-
-To set the status of a change to Work-in-Progress, you can use either
-the command line or the user interface. To use the command line, append
-`%wip` to your push request.
-
-----
-  $ git push origin HEAD:refs/for/master%wip
-----
-Alternatively, click *WIP* from the Change screen.
-
-To mark the change as ready for review, append `%ready` to your push
-request.
-
-----
-  $ git push origin HEAD:refs/for/master%ready
-----
-Alternatively, click *Ready* from the Change screen.
-
-Only change owners, project owners and site administrators can mark changes as
-`work-in-progress` and `ready`.
-
-[[wip-polygerrit]]
-In the new PolyGerrit UI, you can mark a change as WIP, by selecting *WIP* from
-the *More* menu. The Change screen updates with a yellow header, indicating that
-the change is in a Work-in-Progress state. To mark a change as ready for review,
-click *Start Review*.
-
-[[private-changes]]
-== Private Changes
-
-Private changes are changes that are only visible to their owners and
-reviewers. Private changes are useful in a number of cases:
-
-* You want a set of collaborators to review the change before formal review
-  starts. By creating a Private change and adding only a selected few as
-  reviewers you can control who can see the change and get a first opinion
-  before opening up for all reviewers.
-
-* You want to check what the change looks like before formal review starts.
-  By marking the change private without reviewers, nobody can
-  prematurely comment on your changes.
-
-* You want to use Gerrit to sync data between different devices. By
-  creating a private throwaway change without reviewers, you can push
-  from one device, and fetch to another device.
-
-* You want to do code review on a change that has sensitive
-  aspects. By reviewing a security fix in a private change,
-  outsiders can't discover the fix before it is pushed out. Even after
-  merging the change, the review can be kept private.
-
-To create a private change, you push it with the `private` option.
-
-.Push a private change
+.Push a Draft Change
 ----
   $ git commit
-  $ git push origin HEAD:refs/for/master%private
+  $ git push origin HEAD:refs/drafts/master
+  # or
+  $ git push origin HEAD:refs/for/master%draft
 ----
 
-The change will remain private on subsequent pushes until you specify
-the `remove-private` option. Alternatively, the web UI provides buttons
-to mark a change private and non-private again.
+Draft changes have the state link:user-review-ui.html#draft[Draft] and
+can be link:user-review-ui.html#publish[published] or
+link:user-review-ui.html#delete[deleted] from the change screen.
 
-When pushing a private change with a commit that is authored by another
-user, the other user will not be automatically added as a reviewer and
-must be explicitly added.
+By link:user-review-ui.html#reviewers[adding reviewers] to a draft
+change the change is made visible to these users. This way you can
+collaborate with other users in privacy.
 
-For CI systems that must verify private changes, a special permission
-can be granted
-(link:access-control.html#category_view_private_changes[View Private Changes]).
-In that case, care should be taken to prevent the CI system from
-exposing secret details.
-
-[[ignore]]
-== Ignoring Or Marking Changes As 'Reviewed'
-
-Changes can be ignored, which means they will not appear in the 'Incoming
-Reviews' dashboard and any related email notifications will be suppressed.
-This can be useful when you are added as a reviewer to a change on which
-you do not actively participate in the review, but do not want to completely
-remove yourself.
-
-Alternatively, rather than completely ignoring the change, it can be marked
-as 'Reviewed'. Marking a change as 'Reviewed' means it will not be highlighted
-in the dashboard, until a new patch set is uploaded.
+By pushing to `refs/drafts/<target-branch>` you can also upload draft
+patch sets to non-draft changes. Draft patch sets are immediately
+visible to all reviewers of the change, but other users cannot see the
+draft patch set. A draft patch set can be published and deleted in the
+same way as a draft change.
 
 [[inline-edit]]
 == Inline Edit
@@ -740,7 +638,7 @@ This setting controls the email notifications.
 +
 Email notifications are enabled.
 +
-** [[cc-me]]`Every comment`:
+** [[cc-me]]`CC Me On Comments I Write`:
 +
 Email notifications are enabled and you get notified by email as CC
 on comments that you write yourself.
@@ -818,12 +716,6 @@ changes that are created from the web UI (e.g. by the `Create Change`
 and `Edit Config` buttons on the project screen, and the `Follow-Up`
 button on the change screen).
 
-- [[publish-comments-on-push]]`Publish Draft Comments When a Change Is Updated by Push`:
-+
-Whether to publish any outstanding draft comments by default when pushing
-updates to open changes. This preference just sets the default; the behavior can
-still be overridden using a link:user-upload.html#publish-comments[push option].
-
 - [[use-flash]]`Use Flash Clipboard Widget`:
 +
 Whether the Flash clipboard widget should be used. If enabled and the Flash
@@ -831,12 +723,6 @@ plugin is available, Gerrit offers a copy-to-clipboard icon next to IDs and
 commands that need to be copied frequently, such as the Change-Ids, commit IDs
 and download commands. Note that this option is only shown if the Flash plugin
 is available and the JavaScript Clipboard API is unavailable.
-
-- [[work-in-progress-by-default]]`Set new changes work-in-progress`:
-+
-Whether new changes are uploaded as work-in-progress per default. This
-preference just sets the default; the behavior can still be overridden using a
-link:user-upload.html#wip[push option].
 
 [[my-menu]]
 In addition it is possible to customize the menu entries of the `My`

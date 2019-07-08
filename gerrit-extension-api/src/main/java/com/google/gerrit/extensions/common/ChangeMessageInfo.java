@@ -20,7 +20,6 @@ public class ChangeMessageInfo {
   public String id;
   public String tag;
   public AccountInfo author;
-  public AccountInfo realAuthor;
   public Timestamp date;
   public String message;
   public Integer _revisionNumber;

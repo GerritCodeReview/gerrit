@@ -15,7 +15,6 @@
 package com.google.gerrit.server.config;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -148,7 +147,7 @@ public class RepositoryConfigTest {
 
   @Test
   public void basePathWhenNotConfigured() {
-    assertThat(repoCfg.getBasePath(new NameKey("someProject"))).isNull();
+    assertThat((Object) repoCfg.getBasePath(new NameKey("someProject"))).isNull();
   }
 
   @Test
@@ -162,7 +161,7 @@ public class RepositoryConfigTest {
   public void basePathForSpecificFilter() {
     String basePath = "/someAbsolutePath/someDirectory";
     configureBasePath("someProject", basePath);
-    assertThat(repoCfg.getBasePath(new NameKey("someOtherProject"))).isNull();
+    assertThat((Object) repoCfg.getBasePath(new NameKey("someOtherProject"))).isNull();
     assertThat(repoCfg.getBasePath(new NameKey("someProject")).toString()).isEqualTo(basePath);
   }
 

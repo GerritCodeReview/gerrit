@@ -23,8 +23,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -37,14 +35,15 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -61,7 +60,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 import org.apache.commons.lang.mutable.MutableDouble;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,7 +78,7 @@ public class ReviewerRecommender {
   private final ChangeQueryBuilder changeQueryBuilder;
   private final Config config;
   private final DynamicMap<ReviewerSuggestion> reviewerSuggestionPluginMap;
-  private final Provider<InternalChangeQuery> queryProvider;
+  private final InternalChangeQuery internalChangeQuery;
   private final WorkQueue workQueue;
   private final Provider<ReviewDb> dbProvider;
   private final ApprovalsUtil approvalsUtil;
@@ -89,7 +87,7 @@ public class ReviewerRecommender {
   ReviewerRecommender(
       ChangeQueryBuilder changeQueryBuilder,
       DynamicMap<ReviewerSuggestion> reviewerSuggestionPluginMap,
-      Provider<InternalChangeQuery> queryProvider,
+      InternalChangeQuery internalChangeQuery,
       WorkQueue workQueue,
       Provider<ReviewDb> dbProvider,
       ApprovalsUtil approvalsUtil,
@@ -98,7 +96,7 @@ public class ReviewerRecommender {
     fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
     this.changeQueryBuilder = changeQueryBuilder;
     this.config = config;
-    this.queryProvider = queryProvider;
+    this.internalChangeQuery = internalChangeQuery;
     this.reviewerSuggestionPluginMap = reviewerSuggestionPluginMap;
     this.workQueue = workQueue;
     this.dbProvider = dbProvider;
@@ -108,9 +106,9 @@ public class ReviewerRecommender {
   public List<Account.Id> suggestReviewers(
       ChangeNotes changeNotes,
       SuggestReviewers suggestReviewers,
-      ProjectState projectState,
+      ProjectControl projectControl,
       List<Account.Id> candidateList)
-      throws OrmException, IOException, ConfigInvalidException {
+      throws OrmException {
     String query = suggestReviewers.getQuery();
     double baseWeight = config.getInt("addReviewer", "baseWeight", 1);
 
@@ -118,7 +116,7 @@ public class ReviewerRecommender {
     if (Strings.isNullOrEmpty(query)) {
       reviewerScores = baseRankingForEmptyQuery(baseWeight);
     } else {
-      reviewerScores = baseRankingForCandidateList(candidateList, projectState, baseWeight);
+      reviewerScores = baseRankingForCandidateList(candidateList, projectControl, baseWeight);
     }
 
     // Send the query along with a candidate list to all plugins and merge the
@@ -135,7 +133,7 @@ public class ReviewerRecommender {
                   .getProvider()
                   .get()
                   .suggestReviewers(
-                      projectState.getNameKey(),
+                      projectControl.getProject().getNameKey(),
                       changeNotes != null ? changeNotes.getChangeId() : null,
                       query,
                       reviewerScores.keySet()));
@@ -191,14 +189,13 @@ public class ReviewerRecommender {
   }
 
   private Map<Account.Id, MutableDouble> baseRankingForEmptyQuery(double baseWeight)
-      throws OrmException, IOException, ConfigInvalidException {
+      throws OrmException {
     // Get the user's last 25 changes, check approvals
     try {
       List<ChangeData> result =
-          queryProvider
-              .get()
+          internalChangeQuery
               .setLimit(25)
-              .setRequestedFields(ImmutableSet.of(ChangeField.APPROVAL.getName()))
+              .setRequestedFields(ImmutableSet.of(ChangeField.REVIEWER.getName()))
               .query(changeQueryBuilder.owner("self"));
       Map<Account.Id, MutableDouble> suggestions = new HashMap<>();
       for (ChangeData cd : result) {
@@ -220,8 +217,8 @@ public class ReviewerRecommender {
   }
 
   private Map<Account.Id, MutableDouble> baseRankingForCandidateList(
-      List<Account.Id> candidates, ProjectState projectState, double baseWeight)
-      throws OrmException, IOException, ConfigInvalidException {
+      List<Account.Id> candidates, ProjectControl projectControl, double baseWeight)
+      throws OrmException {
     // Get each reviewer's activity based on number of applied labels
     // (weighted 10d), number of comments (weighted 0.5d) and number of owned
     // changes (weighted 1d).
@@ -232,11 +229,12 @@ public class ReviewerRecommender {
     List<Predicate<ChangeData>> predicates = new ArrayList<>();
     for (Account.Id id : candidates) {
       try {
-        Predicate<ChangeData> projectQuery = changeQueryBuilder.project(projectState.getName());
+        Predicate<ChangeData> projectQuery =
+            changeQueryBuilder.project(projectControl.getProject().getName());
 
         // Get all labels for this project and create a compound OR query to
         // fetch all changes where users have applied one of these labels
-        List<LabelType> labelTypes = projectState.getLabelTypes().getLabelTypes();
+        List<LabelType> labelTypes = projectControl.getLabelTypes().getLabelTypes();
         List<Predicate<ChangeData>> labelPredicates = new ArrayList<>(labelTypes.size());
         for (LabelType type : labelTypes) {
           labelPredicates.add(changeQueryBuilder.label(type.getName() + ",user=" + id));
@@ -261,7 +259,7 @@ public class ReviewerRecommender {
     }
 
     List<List<ChangeData>> result =
-        queryProvider.get().setLimit(25).setRequestedFields(ImmutableSet.of()).query(predicates);
+        internalChangeQuery.setLimit(25).setRequestedFields(ImmutableSet.of()).query(predicates);
 
     Iterator<List<ChangeData>> queryResultIterator = result.iterator();
     Iterator<Account.Id> reviewersIterator = reviewers.keySet().iterator();

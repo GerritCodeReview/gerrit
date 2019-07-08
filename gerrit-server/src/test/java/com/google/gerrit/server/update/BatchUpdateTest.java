@@ -1,17 +1,3 @@
-// Copyright (C) 2017 The Android Open Source Project
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package com.google.gerrit.server.update;
 
 import static org.junit.Assert.assertEquals;
@@ -31,7 +17,6 @@ import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryModule;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -40,21 +25,25 @@ import com.google.inject.util.Providers;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class BatchUpdateTest {
   @Inject private AccountManager accountManager;
-  @Inject private IdentifiedUser.GenericFactory userFactory;
-  @Inject private SchemaFactory<ReviewDb> schemaFactory;
-  @Inject private InMemoryRepositoryManager repoManager;
-  @Inject private SchemaCreator schemaCreator;
-  @Inject private ThreadLocalRequestContext requestContext;
-  @Inject private BatchUpdate.Factory batchUpdateFactory;
 
-  // Only for use in setting up/tearing down injector; other users should use schemaFactory.
-  @Inject private InMemoryDatabase inMemoryDatabase;
+  @Inject private IdentifiedUser.GenericFactory userFactory;
+
+  @Inject private InMemoryDatabase schemaFactory;
+
+  @Inject private InMemoryRepositoryManager repoManager;
+
+  @Inject private SchemaCreator schemaCreator;
+
+  @Inject private ThreadLocalRequestContext requestContext;
+
+  @Inject private BatchUpdate.Factory batchUpdateFactory;
 
   private LifecycleManager lifecycle;
   private ReviewDb db;
@@ -70,10 +59,8 @@ public class BatchUpdateTest {
     lifecycle.add(injector);
     lifecycle.start();
 
-    try (ReviewDb underlyingDb = inMemoryDatabase.getDatabase().open()) {
-      schemaCreator.create(underlyingDb);
-    }
     db = schemaFactory.open();
+    schemaCreator.create(db);
     Account.Id userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
     user = userFactory.create(userId);
 
@@ -108,7 +95,7 @@ public class BatchUpdateTest {
     if (db != null) {
       db.close();
     }
-    InMemoryDatabase.drop(inMemoryDatabase);
+    InMemoryDatabase.drop(schemaFactory);
   }
 
   @Test
@@ -121,7 +108,9 @@ public class BatchUpdateTest {
           new RepoOnlyOp() {
             @Override
             public void updateRepo(RepoContext ctx) throws Exception {
-              ctx.addRefUpdate(masterCommit.getId(), branchCommit.getId(), "refs/heads/master");
+              ctx.addRefUpdate(
+                  new ReceiveCommand(
+                      masterCommit.getId(), branchCommit.getId(), "refs/heads/master"));
             }
           });
       bu.execute();

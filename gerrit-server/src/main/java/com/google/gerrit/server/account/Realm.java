@@ -17,12 +17,7 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.externalids.ExternalId;
-import java.io.IOException;
-import java.util.Collection;
 import java.util.Set;
-import javax.naming.NamingException;
-import javax.security.auth.login.LoginException;
 
 public interface Realm {
   /** Can the end-user modify this field of their own account? */
@@ -48,22 +43,5 @@ public interface Realm {
    * where there is an {@link EmailExpander} configured that knows how to convert the accountName
    * into an email address, and then locate the user by that email address.
    */
-  Account.Id lookup(String accountName) throws IOException;
-
-  /**
-   * @return true if the account is active.
-   * @throws NamingException
-   * @throws LoginException
-   * @throws AccountException
-   */
-  default boolean isActive(@SuppressWarnings("unused") String username)
-      throws LoginException, NamingException, AccountException {
-    return true;
-  }
-
-  /** @return true if the account is backed by the realm, false otherwise. */
-  default boolean accountBelongsToRealm(
-      @SuppressWarnings("unused") Collection<ExternalId> externalIds) {
-    return false;
-  }
+  Account.Id lookup(String accountName);
 }

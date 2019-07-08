@@ -21,8 +21,8 @@ import com.google.gerrit.gpg.server.DeleteGpgKey;
 import com.google.gerrit.gpg.server.GpgKey;
 import com.google.gerrit.gpg.server.GpgKeys;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import org.bouncycastle.openpgp.PGPException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -36,7 +36,7 @@ public class GpgKeyApiImpl implements GpgKeyApi {
   private final DeleteGpgKey delete;
   private final GpgKey rsrc;
 
-  @Inject
+  @AssistedInject
   GpgKeyApiImpl(GpgKeys.Get get, DeleteGpgKey delete, @Assisted GpgKey rsrc) {
     this.get = get;
     this.delete = delete;

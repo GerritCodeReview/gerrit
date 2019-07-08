@@ -1,14 +1,15 @@
+load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_binary", "closure_js_library")
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load(
     "//tools/bzl:js.bzl",
     "bower_component_bundle",
+    "vulcanize",
 )
-load(":rules.bzl", "polygerrit_bundle")
 
 package(default_visibility = ["//visibility:public"])
 
-polygerrit_bundle(
-    name = "polygerrit_ui",
+vulcanize(
+    name = "gr-app",
     srcs = glob(
         [
             "**/*.html",
@@ -21,8 +22,87 @@ polygerrit_bundle(
             "**/*_test.html",
         ],
     ),
-    outs = ["polygerrit_ui.zip"],
     app = "elements/gr-app.html",
+    deps = ["//polygerrit-ui:polygerrit_components.bower_components"],
+)
+
+closure_js_library(
+    name = "closure_lib",
+    srcs = ["gr-app.js"],
+    convention = "GOOGLE",
+    # TODO(davido): Clean up these issues: http://paste.openstack.org/show/608548
+    # and remove this supression
+    suppress = [
+        "JSC_JSDOC_MISSING_TYPE_WARNING",
+        "JSC_UNNECESSARY_ESCAPE",
+        "JSC_UNUSED_LOCAL_ASSIGNMENT",
+    ],
+    deps = [
+        "//lib/polymer_externs:polymer_closure",
+        "@io_bazel_rules_closure//closure/library",
+    ],
+)
+
+closure_js_binary(
+    name = "closure_bin",
+    # Known issue: Closure compilation not compatible with Polymer behaviors.
+    # See: https://github.com/google/closure-compiler/issues/2042
+    compilation_level = "WHITESPACE_ONLY",
+    defs = [
+        "--polymer_pass",
+        "--jscomp_off=duplicate",
+        "--force_inject_library=es6_runtime",
+    ],
+    language = "ECMASCRIPT5",
+    deps = [":closure_lib"],
+)
+
+filegroup(
+    name = "top_sources",
+    srcs = [
+        "favicon.ico",
+        "index.html",
+    ],
+)
+
+filegroup(
+    name = "css_sources",
+    srcs = glob(["styles/**/*.css"]),
+)
+
+filegroup(
+    name = "app_sources",
+    srcs = [
+        "closure_bin.js",
+        "gr-app.html",
+    ],
+)
+
+genrule2(
+    name = "polygerrit_ui",
+    srcs = [
+        "//lib/fonts:sourcecodepro",
+        "//lib/js:highlightjs_files",
+        ":top_sources",
+        ":css_sources",
+        ":app_sources",
+        # we extract from the zip, but depend on the component for license checking.
+        "@webcomponentsjs//:zipfile",
+        "//lib/js:webcomponentsjs",
+    ],
+    outs = ["polygerrit_ui.zip"],
+    cmd = " && ".join([
+        "mkdir -p $$TMP/polygerrit_ui/{styles,fonts,bower_components/{highlightjs,webcomponentsjs},elements}",
+        "for f in $(locations :app_sources); do ext=$${f##*.}; cp -p $$f $$TMP/polygerrit_ui/elements/gr-app.$$ext; done",
+        "cp $(locations //lib/fonts:sourcecodepro) $$TMP/polygerrit_ui/fonts/",
+        "for f in $(locations :top_sources); do cp $$f $$TMP/polygerrit_ui/; done",
+        "for f in $(locations :css_sources); do cp $$f $$TMP/polygerrit_ui/styles; done",
+        "for f in $(locations //lib/js:highlightjs_files); do cp $$f $$TMP/polygerrit_ui/bower_components/highlightjs/ ; done",
+        "unzip -qd $$TMP/polygerrit_ui/bower_components $(location @webcomponentsjs//:zipfile) webcomponentsjs/webcomponents-lite.js",
+        "cd $$TMP",
+        "find . -exec touch -t 198001010000 '{}' ';'",
+        "zip -qr $$ROOT/$@ *",
+    ]),
 )
 
 bower_component_bundle(
@@ -49,16 +129,6 @@ filegroup(
     ),
 )
 
-filegroup(
-    name = "bower_components",
-    srcs = glob(
-        [
-            "bower_components/**/*.html",
-            "bower_components/**/*.js",
-        ],
-    ),
-)
-
 genrule2(
     name = "pg_code_zip",
     srcs = [":pg_code"],
@@ -76,125 +146,11 @@ genrule2(
 
 sh_test(
     name = "wct_test",
-    size = "enormous",
+    size = "large",
     srcs = ["wct_test.sh"],
     data = [
-        "test/common-test-setup.html",
         "test/index.html",
         ":pg_code.zip",
-        ":test_components.zip",
-    ],
-    # Should not run sandboxed.
-    tags = [
-        "local",
-        "manual",
-    ],
-)
-
-sh_test(
-    name = "lint_test",
-    size = "large",
-    srcs = ["lint_test.sh"],
-    data = [
-        ".eslintrc.json",
-        ":pg_code",
-    ],
-    # Should not run sandboxed.
-    tags = [
-        "local",
-        "manual",
-    ],
-)
-
-sh_test(
-    name = "polylint_test",
-    size = "large",
-    srcs = ["polylint_test.sh"],
-    data = [
-        ":pg_code",
-        "//polygerrit-ui:polygerrit_components.bower_components.zip",
-    ],
-    # Should not run sandboxed.
-    tags = [
-        "local",
-        "manual",
-    ],
-)
-
-DIRECTORIES = [
-    "admin",
-    "change",
-    "change-list",
-    "core",
-    "diff",
-    "plugins",
-    "settings",
-    "shared",
-    "gr-app",
-]
-
-[sh_test(
-    name = "template_test_" + directory,
-    size = "enormous",
-    srcs = ["template_test.sh"],
-    args = [directory],
-    data = [
-        ":pg_code",
-        ":template_test_srcs",
-        "//polygerrit-ui:polygerrit_components.bower_components.zip",
-    ],
-    tags = [
-        # Should not run sandboxed.
-        "local",
-        "template",
-    ],
-) for directory in DIRECTORIES]
-
-# Embed bundle
-polygerrit_bundle(
-    name = "polygerrit_embed_ui",
-    srcs = glob(
-        [
-            "**/*.html",
-            "**/*.js",
-        ],
-        exclude = [
-            "bower_components/**",
-            "index.html",
-            "test/**",
-            "**/*_test.html",
-        ],
-    ),
-    outs = ["polygerrit_embed_ui.zip"],
-    app = "embed/change-diff-views.html",
-)
-
-filegroup(
-    name = "embed_test_files",
-    srcs = glob(
-        [
-            "embed/**/*_test.html",
-        ],
-    ),
-)
-
-filegroup(
-    name = "template_test_srcs",
-    srcs = [
-        "template_test_srcs/convert_for_template_tests.py",
-        "template_test_srcs/template_test.js",
-    ],
-)
-
-sh_test(
-    name = "embed_test",
-    size = "small",
-    srcs = ["embed_test.sh"],
-    data = [
-        "embed/test.html",
-        "test/common-test-setup.html",
-        ":embed_test_files",
-        ":polygerrit_embed_ui.zip",
         ":test_components.zip",
     ],
     # Should not run sandboxed.

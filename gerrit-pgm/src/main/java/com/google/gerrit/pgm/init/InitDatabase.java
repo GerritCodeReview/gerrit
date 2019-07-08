@@ -14,19 +14,15 @@
 
 package com.google.gerrit.pgm.init;
 
-import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
-import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
-import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.GerritServerIdProvider;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.notedb.NotesMigrationState;
 import com.google.inject.Binding;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
@@ -39,7 +35,6 @@ import com.google.inject.name.Names;
 import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Set;
-import org.eclipse.jgit.lib.Config;
 
 /** Initialize the {@code database} configuration section. */
 @Singleton
@@ -47,36 +42,24 @@ class InitDatabase implements InitStep {
   private final ConsoleUI ui;
   private final SitePaths site;
   private final Libraries libraries;
-  private final InitFlags flags;
   private final Section database;
   private final Section idSection;
-  private final Section noteDbChanges;
 
   @Inject
   InitDatabase(
-      ConsoleUI ui,
-      SitePaths site,
-      Libraries libraries,
-      InitFlags flags,
-      Section.Factory sections) {
+      final ConsoleUI ui,
+      final SitePaths site,
+      final Libraries libraries,
+      final Section.Factory sections) {
     this.ui = ui;
     this.site = site;
     this.libraries = libraries;
-    this.flags = flags; // Don't grab any flags yet; they aren't initialized until BaseInit#run.
     this.database = sections.get("database", null);
     this.idSection = sections.get(GerritServerIdProvider.SECTION, null);
-    this.noteDbChanges = sections.get(SECTION_NOTE_DB, CHANGES.key());
   }
 
   @Override
   public void run() {
-    initSqlDb();
-    if (flags.isNew) {
-      initNoteDb();
-    }
-  }
-
-  private void initSqlDb() {
     ui.header("SQL Database");
 
     Set<String> allowedValues = Sets.newTreeSet();
@@ -118,23 +101,6 @@ class InitDatabase implements InitStep {
     String id = idSection.get(GerritServerIdProvider.KEY);
     if (Strings.isNullOrEmpty(id)) {
       idSection.set(GerritServerIdProvider.KEY, GerritServerIdProvider.generate());
-    }
-  }
-
-  private void initNoteDb() {
-    ui.header("NoteDb Database");
-    ui.message(
-        "Use NoteDb for change metadata?\n"
-            + "  See documentation:\n"
-            + "  https://gerrit-review.googlesource.com/Documentation/note-db.html\n");
-    if (!ui.yesno(true, "Enable")) {
-      return;
-    }
-
-    Config defaultConfig = new Config();
-    NotesMigrationState.FINAL.setConfigValues(defaultConfig);
-    for (String name : defaultConfig.getNames(SECTION_NOTE_DB, CHANGES.key())) {
-      noteDbChanges.set(name, defaultConfig.getString(SECTION_NOTE_DB, CHANGES.key(), name));
     }
   }
 }

@@ -24,13 +24,9 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.notedb.ChangeDraftUpdate;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.google.gwtorm.server.OrmException;
 
 class DraftCommentEvent extends Event {
-  private static final Logger log = LoggerFactory.getLogger(DraftCommentEvent.class);
-
   public final Comment c;
   private final Change change;
   private final PatchSet ps;
@@ -60,18 +56,9 @@ class DraftCommentEvent extends Event {
     throw new UnsupportedOperationException();
   }
 
-  void applyDraft(ChangeDraftUpdate draftUpdate) {
+  void applyDraft(ChangeDraftUpdate draftUpdate) throws OrmException {
     if (c.revId == null) {
-      try {
-        setCommentRevId(c, cache, change, ps);
-      } catch (PatchListNotAvailableException e) {
-        log.warn(
-            "Unable to determine parent commit of patch set {} ({}); omitting draft inline comment",
-            ps.getId(),
-            ps.getRevision(),
-            c);
-        return;
-      }
+      setCommentRevId(c, cache, change, ps);
     }
     draftUpdate.putComment(c);
   }

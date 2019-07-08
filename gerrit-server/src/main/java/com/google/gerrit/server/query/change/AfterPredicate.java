@@ -14,15 +14,15 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 import java.util.Date;
 
 public class AfterPredicate extends TimestampRangeChangePredicate {
-  protected final Date cut;
+  private final Date cut;
 
-  public AfterPredicate(String value) throws QueryParseException {
+  AfterPredicate(String value) throws QueryParseException {
     super(ChangeField.UPDATED, ChangeQueryBuilder.FIELD_BEFORE, value);
     cut = parse(value);
   }

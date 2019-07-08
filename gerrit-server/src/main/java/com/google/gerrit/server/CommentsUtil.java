@@ -16,9 +16,7 @@ package com.google.gerrit.server;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.reviewdb.client.PatchLineComment.Status.PUBLISHED;
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.FluentIterable;
@@ -26,7 +24,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
-import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -41,17 +38,14 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import com.google.gerrit.server.update.BatchUpdateReviewDb;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
@@ -62,8 +56,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.StreamSupport;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -130,8 +125,6 @@ public class CommentsUtil {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
   private final NotesMigration migration;
-  private final PatchListCache patchListCache;
-  private final PatchSetUtil psUtil;
   private final String serverId;
 
   @Inject
@@ -139,14 +132,10 @@ public class CommentsUtil {
       GitRepositoryManager repoManager,
       AllUsersName allUsers,
       NotesMigration migration,
-      PatchListCache patchListCache,
-      PatchSetUtil psUtil,
       @GerritServerId String serverId) {
     this.repoManager = repoManager;
     this.allUsers = allUsers;
     this.migration = migration;
-    this.patchListCache = patchListCache;
-    this.psUtil = psUtil;
     this.serverId = serverId;
   }
 
@@ -166,7 +155,7 @@ public class CommentsUtil {
       } else {
         // Inherit unresolved value from inReplyTo comment if not specified.
         Comment.Key key = new Comment.Key(parentUuid, path, psId.patchSetId);
-        Optional<Comment> parent = getPublished(ctx.getDb(), ctx.getNotes(), key);
+        Optional<Comment> parent = get(ctx.getDb(), ctx.getNotes(), key);
         if (!parent.isPresent()) {
           throw new UnprocessableEntityException("Invalid parentUuid supplied for comment");
         }
@@ -209,41 +198,25 @@ public class CommentsUtil {
     return c;
   }
 
-  public Optional<Comment> getPublished(ReviewDb db, ChangeNotes notes, Comment.Key key)
+  public Optional<Comment> get(ReviewDb db, ChangeNotes notes, Comment.Key key)
       throws OrmException {
     if (!migration.readChanges()) {
-      return getReviewDb(db, notes, key);
+      return Optional.ofNullable(
+              db.patchComments().get(PatchLineComment.Key.from(notes.getChangeId(), key)))
+          .map(plc -> plc.asComment(serverId));
     }
-    return publishedByChange(db, notes).stream().filter(c -> key.equals(c.key)).findFirst();
-  }
-
-  public Optional<Comment> getDraft(
-      ReviewDb db, ChangeNotes notes, IdentifiedUser user, Comment.Key key) throws OrmException {
-    if (!migration.readChanges()) {
-      Optional<Comment> c = getReviewDb(db, notes, key);
-      if (c.isPresent() && !c.get().author.getId().equals(user.getAccountId())) {
-        throw new OrmException(
-            String.format(
-                "Expected draft %s to belong to account %s, but it belongs to %s",
-                key, user.getAccountId(), c.get().author.getId()));
-      }
+    Predicate<Comment> p = c -> key.equals(c.key);
+    Optional<Comment> c = publishedByChange(db, notes).stream().filter(p).findFirst();
+    if (c.isPresent()) {
       return c;
     }
-    return draftByChangeAuthor(db, notes, user.getAccountId()).stream()
-        .filter(c -> key.equals(c.key))
-        .findFirst();
-  }
-
-  private Optional<Comment> getReviewDb(ReviewDb db, ChangeNotes notes, Comment.Key key)
-      throws OrmException {
-    return Optional.ofNullable(
-            db.patchComments().get(PatchLineComment.Key.from(notes.getChangeId(), key)))
-        .map(plc -> plc.asComment(serverId));
+    return draftByChange(db, notes).stream().filter(p).findFirst();
   }
 
   public List<Comment> publishedByChange(ReviewDb db, ChangeNotes notes) throws OrmException {
     if (!migration.readChanges()) {
-      return sort(byCommentStatus(db.patchComments().byChange(notes.getChangeId()), PUBLISHED));
+      return sort(
+          byCommentStatus(db.patchComments().byChange(notes.getChangeId()), Status.PUBLISHED));
     }
 
     notes.load();
@@ -275,7 +248,7 @@ public class CommentsUtil {
   }
 
   private List<Comment> byCommentStatus(
-      ResultSet<PatchLineComment> comments, PatchLineComment.Status status) {
+      ResultSet<PatchLineComment> comments, final PatchLineComment.Status status) {
     return toComments(
         serverId, Lists.newArrayList(Iterables.filter(comments, c -> c.getStatus() == status)));
   }
@@ -362,7 +335,7 @@ public class CommentsUtil {
   public List<Comment> draftByChangeAuthor(ReviewDb db, ChangeNotes notes, Account.Id author)
       throws OrmException {
     if (!migration.readChanges()) {
-      return Streams.stream(db.patchComments().draftByAuthor(author))
+      return StreamSupport.stream(db.patchComments().draftByAuthor(author).spliterator(), false)
           .filter(c -> c.getPatchSetId().getParentKey().equals(notes.getChangeId()))
           .map(plc -> plc.asComment(serverId))
           .sorted(COMMENT_ORDER)
@@ -422,31 +395,6 @@ public class CommentsUtil {
         .delete(toPatchLineComments(update.getId(), PatchLineComment.Status.DRAFT, comments));
   }
 
-  public void deleteCommentByRewritingHistory(
-      ReviewDb db, ChangeUpdate update, Comment.Key commentKey, PatchSet.Id psId, String newMessage)
-      throws OrmException {
-    if (PrimaryStorage.of(update.getChange()).equals(PrimaryStorage.REVIEW_DB)) {
-      PatchLineComment.Key key =
-          new PatchLineComment.Key(new Patch.Key(psId, commentKey.filename), commentKey.uuid);
-
-      if (db instanceof BatchUpdateReviewDb) {
-        db = ((BatchUpdateReviewDb) db).unsafeGetDelegate();
-      }
-      db = ReviewDbUtil.unwrapDb(db);
-
-      PatchLineComment patchLineComment = db.patchComments().get(key);
-
-      if (!patchLineComment.getStatus().equals(PUBLISHED)) {
-        throw new OrmException(String.format("comment %s is not published", key));
-      }
-
-      patchLineComment.setMessage(newMessage);
-      db.patchComments().upsert(Collections.singleton(patchLineComment));
-    }
-
-    update.deleteCommentByRewritingHistory(commentKey.uuid, newMessage);
-  }
-
   public void deleteAllDraftsFromAllUsers(Change.Id changeId) throws IOException {
     try (Repository repo = repoManager.openRepository(allUsers);
         RevWalk rw = new RevWalk(repo)) {
@@ -490,21 +438,25 @@ public class CommentsUtil {
   }
 
   public static void setCommentRevId(Comment c, PatchListCache cache, Change change, PatchSet ps)
-      throws PatchListNotAvailableException {
+      throws OrmException {
     checkArgument(
         c.key.patchSetId == ps.getId().get(),
         "cannot set RevId for patch set %s on comment %s",
         ps.getId(),
         c);
     if (c.revId == null) {
-      if (Side.fromShort(c.side) == Side.PARENT) {
-        if (c.side < 0) {
-          c.revId = ObjectId.toString(cache.getOldId(change, ps, -c.side));
+      try {
+        if (Side.fromShort(c.side) == Side.PARENT) {
+          if (c.side < 0) {
+            c.revId = ObjectId.toString(cache.getOldId(change, ps, -c.side));
+          } else {
+            c.revId = ObjectId.toString(cache.getOldId(change, ps, null));
+          }
         } else {
-          c.revId = ObjectId.toString(cache.getOldId(change, ps, null));
+          c.revId = ps.getRevision().get();
         }
-      } else {
-        c.revId = ps.getRevision().get();
+      } catch (PatchListNotAvailableException e) {
+        throw new OrmException(e);
       }
     }
   }
@@ -547,40 +499,5 @@ public class CommentsUtil {
       final String serverId, Iterable<PatchLineComment> comments) {
     return COMMENT_ORDER.sortedCopy(
         FluentIterable.from(comments).transform(plc -> plc.asComment(serverId)));
-  }
-
-  public void publish(
-      ChangeContext ctx, PatchSet.Id psId, Collection<Comment> drafts, @Nullable String tag)
-      throws OrmException {
-    ChangeNotes notes = ctx.getNotes();
-    checkArgument(notes != null);
-    if (drafts.isEmpty()) {
-      return;
-    }
-
-    Map<PatchSet.Id, PatchSet> patchSets =
-        psUtil.getAsMap(
-            ctx.getDb(), notes, drafts.stream().map(d -> psId(notes, d)).collect(toSet()));
-    for (Comment d : drafts) {
-      PatchSet ps = patchSets.get(psId(notes, d));
-      if (ps == null) {
-        throw new OrmException("patch set " + ps + " not found");
-      }
-      d.writtenOn = ctx.getWhen();
-      d.tag = tag;
-      // Draft may have been created by a different real user; copy the current real user. (Only
-      // applies to X-Gerrit-RunAs, since modifying drafts via on_behalf_of is not allowed.)
-      ctx.getUser().updateRealAccountId(d::setRealAuthor);
-      try {
-        setCommentRevId(d, patchListCache, notes.getChange(), ps);
-      } catch (PatchListNotAvailableException e) {
-        throw new OrmException(e);
-      }
-    }
-    putComments(ctx.getDb(), ctx.getUpdate(psId), PUBLISHED, drafts);
-  }
-
-  private static PatchSet.Id psId(ChangeNotes notes, Comment c) {
-    return new PatchSet.Id(notes.getChangeId(), c.key.patchSetId);
   }
 }

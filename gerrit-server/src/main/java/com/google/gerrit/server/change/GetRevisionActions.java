@@ -24,7 +24,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.ChangeSet;
 import com.google.gerrit.server.git.MergeSuperSet;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
@@ -63,19 +62,20 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
   }
 
   @Override
+  @SuppressWarnings("deprecation") // Use Hashing.md5 for compatibility.
   public String getETag(RevisionResource rsrc) {
-    Hasher h = Hashing.murmur3_128().newHasher();
-    CurrentUser user = rsrc.getUser();
+    Hasher h = Hashing.md5().newHasher();
+    CurrentUser user = rsrc.getControl().getUser();
     try {
       rsrc.getChangeResource().prepareETag(h, user);
       h.putBoolean(Submit.wholeTopicEnabled(config));
       ReviewDb db = dbProvider.get();
       ChangeSet cs = mergeSuperSet.get().completeChangeSet(db, rsrc.getChange(), user);
       for (ChangeData cd : cs.changes()) {
-        changeResourceFactory.create(cd.notes(), user).prepareETag(h, user);
+        changeResourceFactory.create(cd.changeControl()).prepareETag(h, user);
       }
       h.putBoolean(cs.furtherHiddenChanges());
-    } catch (IOException | OrmException | PermissionBackendException e) {
+    } catch (IOException | OrmException e) {
       throw new OrmRuntimeException(e);
     }
     return h.hash().toString();

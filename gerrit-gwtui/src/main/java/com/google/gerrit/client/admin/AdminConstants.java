@@ -77,14 +77,6 @@ public interface AdminConstants extends Constants {
 
   String rejectImplicitMerges();
 
-  String privateByDefault();
-
-  String workInProgressByDefault();
-
-  String enableReviewerByEmail();
-
-  String matchAuthorToCommitterDate();
-
   String headingMaxObjectSizeLimit();
 
   String headingGroupOptions();

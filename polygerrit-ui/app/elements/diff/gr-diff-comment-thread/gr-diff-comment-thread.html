@@ -18,26 +18,17 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-storage/gr-storage.html">
 <link rel="import" href="../gr-diff-comment/gr-diff-comment.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-diff-comment-thread">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         border: 1px solid #bbb;
         display: block;
         margin-bottom: 1px;
         white-space: normal;
       }
-      gr-button {
-        margin-left: .5em;
-        --gr-button: {
-          color: #212121;
-        }
-        --gr-button-hover-color: rgba(33, 33, 33, .75);
-      }
       #actions {
-        margin-left: auto;
         padding: .5em .7em;
       }
       #container {
@@ -49,10 +40,11 @@ limitations under the License.
       #commentInfoContainer {
         border-top: 1px dotted #bbb;
         display: flex;
+        justify-content: space-between;
       }
       #unresolvedLabel {
         font-family: var(--font-family);
-        margin: auto 0;
+        margin: auto 0 auto auto;
         padding: .5em .7em;
       }
     </style>
@@ -64,39 +56,27 @@ limitations under the License.
             robot-button-disabled="[[_hideActions(_showActions, _lastComment)]]"
             change-num="[[changeNum]]"
             patch-num="[[patchNum]]"
-            draft="[[_isDraft(comment)]]"
+            draft="[[comment.__draft]]"
             show-actions="[[_showActions]]"
             comment-side="[[comment.__commentSide]]"
             side="[[comment.side]]"
-            project-config="[[_projectConfig]]"
+            project-config="[[projectConfig]]"
             on-create-fix-comment="_handleCommentFix"
             on-comment-discard="_handleCommentDiscard"></gr-diff-comment>
       </template>
       <div id="commentInfoContainer"
           hidden$="[[_hideActions(_showActions, _lastComment)]]">
-        <span id="unresolvedLabel" hidden$="[[!_unresolved]]">Unresolved</span>
         <div id="actions">
-          <gr-button
-              id="replyBtn"
-              link
-              class="action reply"
+          <gr-button id="replyBtn" class="action reply"
               on-tap="_handleCommentReply">Reply</gr-button>
-          <gr-button
-              id="quoteBtn"
-              link
-              class="action quote"
+          <gr-button id="quoteBtn" class="action quote"
               on-tap="_handleCommentQuote">Quote</gr-button>
-          <gr-button
-              id="ackBtn"
-              link
-              class="action ack"
-              on-tap="_handleCommentAck">Ack</gr-button>
-          <gr-button
-              id="doneBtn"
-              link
-              class="action done"
-              on-tap="_handleCommentDone">Done</gr-button>
+          <gr-button id="ackBtn" class="action ack" on-tap="_handleCommentAck">
+            Ack</gr-button>
+          <gr-button id="doneBtn" class="action done" on-tap="_handleCommentDone">
+            Done</gr-button>
         </div>
+        <span id="unresolvedLabel" hidden$="[[!_unresolved]]">Unresolved</span>
       </div>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

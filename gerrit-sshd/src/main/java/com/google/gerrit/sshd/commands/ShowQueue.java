@@ -27,9 +27,6 @@ import com.google.gerrit.server.config.ListTasks;
 import com.google.gerrit.server.config.ListTasks.TaskInfo;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.Task;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.sshd.AdminHighPriorityCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -38,7 +35,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Option;
 
@@ -61,9 +57,10 @@ final class ShowQueue extends SshCommand {
       usage = "group tasks by queue and print queue info")
   private boolean groupByQueue;
 
-  @Inject private PermissionBackend permissionBackend;
   @Inject private ListTasks listTasks;
+
   @Inject private IdentifiedUser currentUser;
+
   @Inject private WorkQueue workQueue;
 
   private int columns = 80;
@@ -83,7 +80,7 @@ final class ShowQueue extends SshCommand {
   }
 
   @Override
-  protected void run() throws Failure {
+  protected void run() throws UnloggedFailure {
     maxCommandWidth = wide ? Integer.MAX_VALUE : columns - 8 - 12 - 12 - 4 - 4;
     stdout.print(
         String.format(
@@ -97,16 +94,14 @@ final class ShowQueue extends SshCommand {
       tasks = listTasks.apply(new ConfigResource());
     } catch (AuthException e) {
       throw die(e);
-    } catch (PermissionBackendException e) {
-      throw new Failure(1, "permission backend unavailable", e);
     }
-
-    boolean viewAll = permissionBackend.user(currentUser).testOrFalse(GlobalPermission.VIEW_QUEUE);
+    boolean viewAll = currentUser.getCapabilities().canViewQueue();
     long now = TimeUtil.nowMs();
+
     if (groupByQueue) {
       ListMultimap<String, TaskInfo> byQueue = byQueue(tasks);
       for (String queueName : byQueue.keySet()) {
-        ScheduledThreadPoolExecutor e = workQueue.getExecutor(queueName);
+        WorkQueue.Executor e = workQueue.getExecutor(queueName);
         stdout.print(String.format("Queue: %s\n", queueName));
         print(byQueue.get(queueName), now, viewAll, e.getCorePoolSize());
       }
@@ -178,7 +173,7 @@ final class ShowQueue extends SshCommand {
     return format(when, delay);
   }
 
-  private static String startTime(Date when) {
+  private static String startTime(final Date when) {
     return format(when, TimeUtil.nowMs() - when.getTime());
   }
 

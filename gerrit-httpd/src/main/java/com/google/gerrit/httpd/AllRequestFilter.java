@@ -97,7 +97,7 @@ public abstract class AllRequestFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain last)
+    public void doFilter(ServletRequest req, ServletResponse res, final FilterChain last)
         throws IOException, ServletException {
       final Iterator<AllRequestFilter> itr = filters.iterator();
       new FilterChain() {

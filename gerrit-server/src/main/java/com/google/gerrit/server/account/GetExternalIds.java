@@ -14,56 +14,48 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.common.AccountExternalIdInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 @Singleton
 public class GetExternalIds implements RestReadView<AccountResource> {
-  private final PermissionBackend permissionBackend;
-  private final ExternalIds externalIds;
+  private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> self;
   private final AuthConfig authConfig;
 
   @Inject
-  GetExternalIds(
-      PermissionBackend permissionBackend,
-      ExternalIds externalIds,
-      Provider<CurrentUser> self,
-      AuthConfig authConfig) {
-    this.permissionBackend = permissionBackend;
-    this.externalIds = externalIds;
+  GetExternalIds(Provider<ReviewDb> db, Provider<CurrentUser> self, AuthConfig authConfig) {
+    this.db = db;
     this.self = self;
     this.authConfig = authConfig;
   }
 
   @Override
   public List<AccountExternalIdInfo> apply(AccountResource resource)
-      throws RestApiException, IOException, OrmException, PermissionBackendException {
+      throws RestApiException, OrmException {
     if (!self.get().hasSameAccountId(resource.getUser())) {
-      permissionBackend.user(self).check(GlobalPermission.ACCESS_DATABASE);
+      throw new AuthException("not allowed to get external IDs");
     }
 
-    Collection<ExternalId> ids = externalIds.byAccount(resource.getUser().getAccountId());
+    Collection<ExternalId> ids =
+        ExternalId.from(
+            db.get().accountExternalIds().byAccount(resource.getUser().getAccountId()).toList());
     if (ids.isEmpty()) {
       return ImmutableList.of();
     }

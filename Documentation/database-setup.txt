@@ -16,8 +16,7 @@ corporate installations. This is because there is no easy way to interact
 with the database while Gerrit is offline, it's not easy to backup the data,
 and it's not possible to set up H2 in a load balanced/hotswap configuration.
 
-If this option interests you, you might want to consider
-link:linux-quickstart.html[the quick guide].
+If this option interests you, you might want to consider link:install-quick.html[the quick guide].
 
 [[createdb_derby]]
 === Apache Derby
@@ -46,8 +45,8 @@ password, create a database to store the metadata, and grant the user
 full rights on the newly created database:
 
 ----
-  $ createuser --username=postgres -RDIElPS gerrit
-  $ createdb --username=postgres -E UTF-8 -O gerrit reviewdb
+  $ createuser --username=postgres -RDIElPS gerrit2
+  $ createdb --username=postgres -E UTF-8 -O gerrit2 reviewdb
 ----
 
 Visit PostgreSQL's link:http://www.postgresql.org/docs/9.1/interactive/index.html[documentation] for further information regarding
@@ -68,9 +67,9 @@ rights on it:
 ----
   mysql
 
-  CREATE USER 'gerrit'@'localhost' IDENTIFIED BY 'secret';
+  CREATE USER 'gerrit2'@'localhost' IDENTIFIED BY 'secret';
   CREATE DATABASE reviewdb DEFAULT CHARACTER SET 'utf8';
-  GRANT ALL ON reviewdb.* TO 'gerrit'@'localhost';
+  GRANT ALL ON reviewdb.* TO 'gerrit2'@'localhost';
   FLUSH PRIVILEGES;
 ----
 
@@ -98,8 +97,8 @@ Create a user for the web application within sqlplus, assign it a
 password, and grant the user full rights on the newly created database:
 
 ----
-  SQL> create user gerrit identified by secret_password default tablespace users;
-  SQL> grant connect, resources to gerrit;
+  SQL> create user gerrit2 identified by secret_password default tablespace users;
+  SQL> grant connect, resources to gerrit2;
 ----
 
 JDBC driver ojdbc6.jar must be obtained from your Oracle distribution. Gerrit
@@ -120,7 +119,7 @@ $site_path/etc/gerrit.config:
         type = oracle
         instance = xe
         hostname = localhost
-        username = gerrit
+        username = gerrit2
         port = 1521
 ----
 
@@ -139,7 +138,7 @@ recommended only for environments where you intend to run Gerrit on an existing
 MaxDB installation to reduce administrative overhead.
 
 In the MaxDB studio or using the SQLCLI command line interface create a user
-'gerrit' with the user class 'RESOURCE' and a password <secret password>. This
+'gerrit2' with the user class 'RESOURCE' and a password <secret password>. This
 will also create an associated schema on the database.
 
 To run Gerrit on MaxDB, you need to obtain the MaxDB JDBC driver. It can be
@@ -160,7 +159,7 @@ In $site_path/etc/gerrit.config:
         type = maxdb
         database = reviewdb
         hostname = localhost
-        username = gerrit
+        username = gerrit2
 
 ----
 
@@ -187,7 +186,7 @@ full rights on the newly created database:
 ----
   db2 => create database gerrit
   db2 => connect to gerrit
-  db2 => grant connect,accessctrl,dataaccess,dbadm,secadm on database to gerrit;
+  db2 => grant connect,accessctrl,dataaccess,dbadm,secadm on database to gerrit2;
 ----
 
 JDBC driver db2jcc4.jar and db2jcc_license_cu.jar must be obtained
@@ -209,7 +208,7 @@ Sample database section in $site_path/etc/gerrit.config:
         type = db2
         database = gerrit
         hostname = localhost
-        username = gerrit
+        username = gerrit2
         port = 50001
 ----
 
@@ -240,7 +239,7 @@ link:http://help.sap.com/saphelp_hanaplatform/helpdata/en/ff/15928cf5594d78b841f
 It needs to be stored in the 'lib' folder of the review site.
 
 In the following sample database section it is assumed that HANA is running on
-the host 'hana.host' and listening on port '4242' where a schema/user GERRIT2
+the host 'hana.host' with the instance number 00 where a schema/user GERRIT2
 was created:
 
 In $site_path/etc/gerrit.config:
@@ -248,23 +247,8 @@ In $site_path/etc/gerrit.config:
 ----
 [database]
         type = hana
+        instance = 00
         hostname = hana.host
-        port = 4242
-        username = GERRIT2
-
-----
-
-In order to configure a specific database in a multi-database environment (MDC)
-the database name has to be specified additionally:
-
-In $site_path/etc/gerrit.config:
-
-----
-[database]
-        type = hana
-        hostname = hana.host
-        database = tdb1
-        port = 4242
         username = GERRIT2
 
 ----

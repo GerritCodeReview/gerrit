@@ -21,12 +21,9 @@ import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import com.google.gerrit.index.QueryOptions;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.group.GroupField;
-import com.google.gerrit.server.query.change.SingleGroupUser;
 import java.io.IOException;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -82,16 +79,6 @@ public final class IndexUtils {
     return fs.contains(GroupField.UUID.getName())
         ? fs
         : Sets.union(fs, ImmutableSet.of(GroupField.UUID.getName()));
-  }
-
-  public static String describe(CurrentUser user) {
-    if (user.isIdentifiedUser()) {
-      return user.getAccountId().toString();
-    }
-    if (user instanceof SingleGroupUser) {
-      return "group:" + user.getEffectiveGroups().getKnownGroups().iterator().next().toString();
-    }
-    return user.toString();
   }
 
   private IndexUtils() {

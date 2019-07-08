@@ -33,11 +33,6 @@
 
     properties: {
       account: Object,
-      disabled: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-      },
       removable: {
         type: Boolean,
         value: false,
@@ -52,23 +47,23 @@
       },
     },
 
-    ready() {
-      this._getHasAvatars().then(hasAvatars => {
+    ready: function() {
+      this._getHasAvatars().then(function(hasAvatars) {
         this.showAvatar = hasAvatars;
-      });
+      }.bind(this));
     },
 
-    _getBackgroundClass(transparent) {
+    _getBackgroundClass: function(transparent) {
       return transparent ? 'transparentBackground' : '';
     },
 
-    _handleRemoveTap(e) {
+    _handleRemoveTap: function(e) {
       e.preventDefault();
       this.fire('remove', {account: this.account});
     },
 
-    _getHasAvatars() {
-      return this.$.restAPI.getConfig().then(cfg => {
+    _getHasAvatars: function() {
+      return this.$.restAPI.getConfig().then(function(cfg) {
         return Promise.resolve(!!(cfg && cfg.plugin && cfg.plugin.has_avatars));
       });
     },

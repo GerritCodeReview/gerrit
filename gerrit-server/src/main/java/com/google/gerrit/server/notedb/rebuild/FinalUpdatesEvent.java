@@ -57,12 +57,6 @@ class FinalUpdatesEvent extends Event {
       // TODO(dborowitz): Stamp approximate approvals at this time.
       update.fixStatus(change.getStatus());
     }
-    if (change.isPrivate() != noteDbChange.isPrivate()) {
-      update.setPrivate(change.isPrivate());
-    }
-    if (change.isWorkInProgress() != noteDbChange.isWorkInProgress()) {
-      update.setWorkInProgress(change.isWorkInProgress());
-    }
     if (change.getSubmissionId() != null && noteDbChange.getSubmissionId() == null) {
       update.setSubmissionId(change.getSubmissionId());
     }

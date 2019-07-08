@@ -21,10 +21,10 @@ import com.google.gwtorm.server.OrmException;
 import dk.brics.automaton.RegExp;
 import dk.brics.automaton.RunAutomaton;
 
-public class RegexTopicPredicate extends ChangeRegexPredicate {
-  protected final RunAutomaton pattern;
+class RegexTopicPredicate extends ChangeRegexPredicate {
+  private final RunAutomaton pattern;
 
-  public RegexTopicPredicate(String re) {
+  RegexTopicPredicate(String re) {
     super(EXACT_TOPIC, re);
 
     if (re.startsWith("^")) {
@@ -39,7 +39,7 @@ public class RegexTopicPredicate extends ChangeRegexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
+  public boolean match(final ChangeData object) throws OrmException {
     Change change = object.change();
     if (change == null || change.getTopic() == null) {
       return false;

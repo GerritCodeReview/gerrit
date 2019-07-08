@@ -14,21 +14,21 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 
 public class IsUnresolvedPredicate extends IntegerRangeChangePredicate {
-  public IsUnresolvedPredicate() throws QueryParseException {
+  IsUnresolvedPredicate() throws QueryParseException {
     this(">0");
   }
 
-  public IsUnresolvedPredicate(String value) throws QueryParseException {
+  IsUnresolvedPredicate(String value) throws QueryParseException {
     super(ChangeField.UNRESOLVED_COMMENT_COUNT, value);
   }
 
   @Override
   protected Integer getValueInt(ChangeData changeData) throws OrmException {
-    return ChangeField.UNRESOLVED_COMMENT_COUNT.get(changeData);
+    return ChangeField.UNRESOLVED_COMMENT_COUNT.get(changeData, null);
   }
 }

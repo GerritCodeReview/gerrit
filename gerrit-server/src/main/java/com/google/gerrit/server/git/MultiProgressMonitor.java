@@ -63,7 +63,7 @@ public class MultiProgressMonitor {
     private int count;
     private int lastPercent;
 
-    Task(String subTaskName, int totalWork) {
+    Task(final String subTaskName, final int totalWork) {
       this.name = subTaskName;
       this.total = totalWork;
     }
@@ -76,7 +76,7 @@ public class MultiProgressMonitor {
      * @param completed number of work units completed.
      */
     @Override
-    public void update(int completed) {
+    public void update(final int completed) {
       boolean w = false;
       synchronized (MultiProgressMonitor.this) {
         count += completed;
@@ -141,7 +141,7 @@ public class MultiProgressMonitor {
    * @param out stream for writing progress messages.
    * @param taskName name of the overall task.
    */
-  public MultiProgressMonitor(OutputStream out, String taskName) {
+  public MultiProgressMonitor(final OutputStream out, final String taskName) {
     this(out, taskName, 500, TimeUnit.MILLISECONDS);
   }
 
@@ -154,7 +154,10 @@ public class MultiProgressMonitor {
    * @param maxIntervalUnit time unit for progress interval.
    */
   public MultiProgressMonitor(
-      OutputStream out, String taskName, long maxIntervalTime, TimeUnit maxIntervalUnit) {
+      final OutputStream out,
+      final String taskName,
+      long maxIntervalTime,
+      TimeUnit maxIntervalUnit) {
     this.out = out;
     this.taskName = taskName;
     maxIntervalNanos = NANOSECONDS.convert(maxIntervalTime, maxIntervalUnit);
@@ -165,7 +168,7 @@ public class MultiProgressMonitor {
    *
    * @see #waitFor(Future, long, TimeUnit)
    */
-  public void waitFor(Future<?> workerFuture) throws ExecutionException {
+  public void waitFor(final Future<?> workerFuture) throws ExecutionException {
     waitFor(workerFuture, 0, null);
   }
 
@@ -183,7 +186,8 @@ public class MultiProgressMonitor {
    * @throws ExecutionException if this thread or a worker thread was interrupted, the worker was
    *     cancelled, or timed out waiting for a worker to call {@link #end()}.
    */
-  public void waitFor(Future<?> workerFuture, long timeoutTime, TimeUnit timeoutUnit)
+  public void waitFor(
+      final Future<?> workerFuture, final long timeoutTime, final TimeUnit timeoutUnit)
       throws ExecutionException {
     long overallStart = System.nanoTime();
     long deadline;
@@ -264,7 +268,7 @@ public class MultiProgressMonitor {
    * @param subTaskWork total work units in sub-task, or {@link #UNKNOWN}.
    * @return sub-task handle.
    */
-  public Task beginSubTask(String subTask, int subTaskWork) {
+  public Task beginSubTask(final String subTask, final int subTaskWork) {
     Task task = new Task(subTask, subTaskWork);
     tasks.add(task);
     return task;

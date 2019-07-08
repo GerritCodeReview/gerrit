@@ -28,6 +28,7 @@ public class Permission implements Comparable<Permission> {
   public static final String CREATE_TAG = "createTag";
   public static final String CREATE_SIGNED_TAG = "createSignedTag";
   public static final String DELETE_CHANGES = "deleteChanges";
+  public static final String DELETE_DRAFTS = "deleteDrafts";
   public static final String DELETE_OWN_CHANGES = "deleteOwnChanges";
   public static final String EDIT_HASHTAGS = "editHashtags";
   public static final String EDIT_ASSIGNEE = "editAssignee";
@@ -38,6 +39,7 @@ public class Permission implements Comparable<Permission> {
   public static final String LABEL = "label-";
   public static final String LABEL_AS = "labelAs-";
   public static final String OWNER = "owner";
+  public static final String PUBLISH_DRAFTS = "publishDrafts";
   public static final String PUSH = "push";
   public static final String PUSH_MERGE = "pushMerge";
   public static final String READ = "read";
@@ -45,7 +47,7 @@ public class Permission implements Comparable<Permission> {
   public static final String REMOVE_REVIEWER = "removeReviewer";
   public static final String SUBMIT = "submit";
   public static final String SUBMIT_AS = "submitAs";
-  public static final String VIEW_PRIVATE_CHANGES = "viewPrivateChanges";
+  public static final String VIEW_DRAFTS = "viewDrafts";
 
   private static final List<String> NAMES_LC;
   private static final int LABEL_INDEX;
@@ -72,12 +74,14 @@ public class Permission implements Comparable<Permission> {
     NAMES_LC.add(REMOVE_REVIEWER.toLowerCase());
     NAMES_LC.add(SUBMIT.toLowerCase());
     NAMES_LC.add(SUBMIT_AS.toLowerCase());
-    NAMES_LC.add(VIEW_PRIVATE_CHANGES.toLowerCase());
+    NAMES_LC.add(VIEW_DRAFTS.toLowerCase());
     NAMES_LC.add(EDIT_TOPIC_NAME.toLowerCase());
     NAMES_LC.add(EDIT_HASHTAGS.toLowerCase());
     NAMES_LC.add(EDIT_ASSIGNEE.toLowerCase());
+    NAMES_LC.add(DELETE_DRAFTS.toLowerCase());
     NAMES_LC.add(DELETE_OWN_CHANGES.toLowerCase());
     NAMES_LC.add(DELETE_CHANGES.toLowerCase());
+    NAMES_LC.add(PUBLISH_DRAFTS.toLowerCase());
 
     LABEL_INDEX = NAMES_LC.indexOf(Permission.LABEL);
     LABEL_AS_INDEX = NAMES_LC.indexOf(Permission.LABEL_AS.toLowerCase());
@@ -258,7 +262,7 @@ public class Permission implements Comparable<Permission> {
   }
 
   @Override
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (!(obj instanceof Permission)) {
       return false;
     }

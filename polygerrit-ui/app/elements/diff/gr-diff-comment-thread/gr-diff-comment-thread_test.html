@@ -20,9 +20,9 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
 <script src="../../../scripts/util.js"></script>
 
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-diff-comment-thread.html">
 
 <script>void(0);</script>
@@ -40,25 +40,25 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-diff-comment-thread tests', () => {
-    let element;
-    let sandbox;
+  suite('gr-diff-comment-thread tests', function() {
+    var element;
+    var sandbox;
 
-    setup(() => {
+    setup(function() {
       sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(false); },
+        getLoggedIn: function() { return Promise.resolve(false); },
       });
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
     });
 
-    teardown(() => {
+    teardown(function() {
       sandbox.restore();
     });
 
-    test('comments are sorted correctly', () => {
-      const comments = [
+    test('comments are sorted correctly', function() {
+      var comments = [
         {
           id: 'jacks_reply',
           message: 'i like you, too',
@@ -86,9 +86,9 @@ limitations under the License.
           id: 'sallys_mission',
           message: 'i have to find santa',
           updated: '2015-12-24 15:00:20.396000000',
-        },
+        }
       ];
-      const results = element._sortedComments(comments);
+      var results = element._sortedComments(comments);
       assert.deepEqual(results, [
         {
           id: 'sally_to_dr_finklestein',
@@ -117,11 +117,11 @@ limitations under the License.
           message: 'i like you, too',
           in_reply_to: 'sallys_confession',
           updated: '2015-12-25 15:00:20.396000000',
-        },
+        }
       ]);
     });
 
-    test('addOrEditDraft w/ edit draft', () => {
+    test('addOrEditDraft w/ edit draft', function() {
       element.comments = [{
         id: 'jacks_reply',
         message: 'i like you, too',
@@ -129,9 +129,9 @@ limitations under the License.
         updated: '2015-12-25 15:00:20.396000000',
         __draft: true,
       }];
-      const commentElStub = sandbox.stub(element, '_commentElWithDraftID',
-          () => { return {}; });
-      const addDraftStub = sandbox.stub(element, 'addDraft');
+      var commentElStub = sandbox.stub(element, '_commentElWithDraftID',
+          function() { return {}; });
+      var addDraftStub = sandbox.stub(element, 'addDraft');
 
       element.addOrEditDraft(123);
 
@@ -139,11 +139,11 @@ limitations under the License.
       assert.isFalse(addDraftStub.called);
     });
 
-    test('addOrEditDraft w/o edit draft', () => {
+    test('addOrEditDraft w/o edit draft', function() {
       element.comments = [];
-      const commentElStub = sandbox.stub(element, '_commentElWithDraftID',
-          () => { return {}; });
-      const addDraftStub = sandbox.stub(element, 'addDraft');
+      var commentElStub = sandbox.stub(element, '_commentElWithDraftID',
+          function() { return {}; });
+      var addDraftStub = sandbox.stub(element, 'addDraft');
 
       element.addOrEditDraft(123);
 
@@ -151,52 +151,40 @@ limitations under the License.
       assert.isTrue(addDraftStub.called);
     });
 
-    test('_hideActions', () => {
-      let showActions = true;
-      const lastComment = {};
+    test('_hideActions', function() {
+      var showActions = true;
+      var lastComment = {};
       assert.equal(element._hideActions(showActions, lastComment), false);
       showActions = false;
       assert.equal(element._hideActions(showActions, lastComment), true);
-      showActions = true;
+      var showActions = true;
       lastComment.__draft = true;
       assert.equal(element._hideActions(showActions, lastComment), true);
     });
-
-    test('setting project name loads the project config', done => {
-      const projectName = 'foo/bar/baz';
-      const getProjectStub = sandbox.stub(element.$.restAPI, 'getProjectConfig')
-          .returns(Promise.resolve({}));
-      element.projectName = projectName;
-      flush(() => {
-        assert.isTrue(getProjectStub.calledWithExactly(projectName));
-        done();
-      });
-    });
   });
 
-  suite('comment action tests', () => {
-    let element;
+  suite('comment action tests', function() {
+    var element;
 
-    setup(() => {
+    setup(function() {
       stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(false); },
-        saveDiffDraft() {
+        getLoggedIn: function() { return Promise.resolve(false); },
+        saveDiffDraft: function() {
           return Promise.resolve({
             ok: true,
-            text() {
-              return Promise.resolve(')]}\'\n' +
-                  JSON.stringify({
-                    id: '7afa4931_de3d65bd',
-                    path: '/path/to/file.txt',
-                    line: 5,
-                    in_reply_to: 'baf0414d_60047215',
-                    updated: '2015-12-21 02:01:10.850000000',
-                    message: 'Done',
-                  }));
+            text: function() { return Promise.resolve(')]}\'\n' +
+                JSON.stringify({
+                  id: '7afa4931_de3d65bd',
+                  path: '/path/to/file.txt',
+                  line: 5,
+                  in_reply_to: 'baf0414d_60047215',
+                  updated: '2015-12-21 02:01:10.850000000',
+                  message: 'Done',
+                }));
             },
           });
         },
-        deleteDiffDraft() { return Promise.resolve({ok: true}); },
+        deleteDiffDraft: function() { return Promise.resolve({ok: true}); },
       });
       element = fixture('withComment');
       element.comments = [{
@@ -212,15 +200,15 @@ limitations under the License.
       flushAsynchronousOperations();
     });
 
-    test('reply', done => {
-      const commentEl = element.$$('gr-diff-comment');
+    test('reply', function(done) {
+      var commentEl = element.$$('gr-diff-comment');
       assert.ok(commentEl);
 
-      const replyBtn = element.$.replyBtn;
+      var replyBtn = element.$.replyBtn;
       MockInteractions.tap(replyBtn);
       flushAsynchronousOperations();
 
-      const drafts = element._orderedComments.filter(c => {
+      var drafts = element._orderedComments.filter(function(c) {
         return c.__draft == true;
       });
       assert.equal(drafts.length, 1);
@@ -229,16 +217,16 @@ limitations under the License.
       done();
     });
 
-    test('quote reply', done => {
-      const commentEl = element.$$('gr-diff-comment');
+    test('quote reply', function(done) {
+      var commentEl = element.$$('gr-diff-comment');
       assert.ok(commentEl);
 
-      const quoteBtn = element.$.quoteBtn;
+      var quoteBtn = element.$.quoteBtn;
       MockInteractions.tap(quoteBtn);
       flushAsynchronousOperations();
 
-      const drafts = element._orderedComments.filter(c => {
-        return c.__draft == true;
+      var drafts = element._orderedComments.filter(function(c) {
+          return c.__draft == true;
       });
       assert.equal(drafts.length, 1);
       assert.equal(drafts[0].message, '> is this a crossover episode!?\n\n');
@@ -246,7 +234,7 @@ limitations under the License.
       done();
     });
 
-    test('quote reply multiline', done => {
+    test('quote reply multiline', function(done) {
       element.comments = [{
         author: {
           name: 'Mr. Peanutbutter',
@@ -259,14 +247,14 @@ limitations under the License.
       }];
       flushAsynchronousOperations();
 
-      const commentEl = element.$$('gr-diff-comment');
+      var commentEl = element.$$('gr-diff-comment');
       assert.ok(commentEl);
 
-      const quoteBtn = element.$.quoteBtn;
+      var quoteBtn = element.$.quoteBtn;
       MockInteractions.tap(quoteBtn);
       flushAsynchronousOperations();
 
-      const drafts = element._orderedComments.filter(c => {
+      var drafts = element._orderedComments.filter(function(c) {
         return c.__draft == true;
       });
       assert.equal(drafts.length, 1);
@@ -276,17 +264,17 @@ limitations under the License.
       done();
     });
 
-    test('ack', done => {
+    test('ack', function(done) {
       element.changeNum = '42';
       element.patchNum = '1';
 
-      const commentEl = element.$$('gr-diff-comment');
+      var commentEl = element.$$('gr-diff-comment');
       assert.ok(commentEl);
 
-      const ackBtn = element.$.ackBtn;
+      var ackBtn = element.$.ackBtn;
       MockInteractions.tap(ackBtn);
-      flush(() => {
-        const drafts = element.comments.filter(c => {
+      flush(function() {
+        var drafts = element.comments.filter(function(c) {
           return c.__draft == true;
         });
         assert.equal(drafts.length, 1);
@@ -297,16 +285,16 @@ limitations under the License.
       });
     });
 
-    test('done', done => {
+    test('done', function(done) {
       element.changeNum = '42';
       element.patchNum = '1';
-      const commentEl = element.$$('gr-diff-comment');
+      var commentEl = element.$$('gr-diff-comment');
       assert.ok(commentEl);
 
-      const doneBtn = element.$.doneBtn;
+      var doneBtn = element.$.doneBtn;
       MockInteractions.tap(doneBtn);
-      flush(() => {
-        const drafts = element.comments.filter(c => {
+      flush(function() {
+        var drafts = element.comments.filter(function(c) {
           return c.__draft == true;
         });
         assert.equal(drafts.length, 1);
@@ -317,13 +305,13 @@ limitations under the License.
       });
     });
 
-    test('please fix', done => {
+    test('please fix', function(done) {
       element.changeNum = '42';
       element.patchNum = '1';
-      const commentEl = element.$$('gr-diff-comment');
+      var commentEl = element.$$('gr-diff-comment');
       assert.ok(commentEl);
-      commentEl.addEventListener('create-fix-comment', () => {
-        const drafts = element._orderedComments.filter(c => {
+      commentEl.addEventListener('create-fix-comment', function() {
+        var drafts = element._orderedComments.filter(function(c) {
           return c.__draft == true;
         });
         assert.equal(drafts.length, 1);
@@ -337,21 +325,21 @@ limitations under the License.
           {bubbles: false});
     });
 
-    test('discard', done => {
+    test('discard', function(done) {
       element.changeNum = '42';
       element.patchNum = '1';
       element.push('comments', element._newReply(
-          element.comments[0].id,
-          element.comments[0].line,
-          element.comments[0].path,
-          'it’s pronouced jiff, not giff'));
+        element.comments[0].id,
+        element.comments[0].line,
+        element.comments[0].path,
+        'it’s pronouced jiff, not giff'));
       flushAsynchronousOperations();
 
-      const draftEl =
+      var draftEl =
           Polymer.dom(element.root).querySelectorAll('gr-diff-comment')[1];
       assert.ok(draftEl);
-      draftEl.addEventListener('comment-discard', () => {
-        const drafts = element.comments.filter(c => {
+      draftEl.addEventListener('comment-discard', function() {
+        var drafts = element.comments.filter(function(c) {
           return c.__draft == true;
         });
         assert.equal(drafts.length, 0);
@@ -360,7 +348,9 @@ limitations under the License.
       draftEl.fire('comment-discard', null, {bubbles: false});
     });
 
-    test('first editing comment does not add __otherEditing attribute', () => {
+    test('first editing comment does not add __otherEditing attribute',
+        function() {
+      var commentEl = element.$$('gr-diff-comment');
       element.comments = [{
         author: {
           name: 'Mr. Peanutbutter',
@@ -373,19 +363,19 @@ limitations under the License.
         __draft: true,
       }];
 
-      const replyBtn = element.$.replyBtn;
+      var replyBtn = element.$.replyBtn;
       MockInteractions.tap(replyBtn);
       flushAsynchronousOperations();
 
-      const editing = element._orderedComments.filter(c => {
+      var editing = element._orderedComments.filter(function(c) {
         return c.__editing == true;
       });
       assert.equal(editing.length, 1);
       assert.equal(!!editing[0].__otherEditing, false);
     });
 
-    test('When not editing other comments, local storage not set' +
-        ' after discard', done => {
+    test('When not editing other comments, local storage not set after discard',
+        function(done) {
       element.changeNum = '42';
       element.patchNum = '1';
       element.comments = [{
@@ -423,13 +413,13 @@ limitations under the License.
         updated: '2015-12-08 19:48:33.843000000',
         __draft: true,
       }];
-      const storageStub = sinon.stub(element.$.storage, 'setDraftComment');
+      var storageStub = sinon.stub(element.$.storage, 'setDraftComment');
       flushAsynchronousOperations();
 
-      const draftEl =
-      Polymer.dom(element.root).querySelectorAll('gr-diff-comment')[1];
+      var draftEl =
+          Polymer.dom(element.root).querySelectorAll('gr-diff-comment')[1];
       assert.ok(draftEl);
-      draftEl.addEventListener('comment-discard', () => {
+      draftEl.addEventListener('comment-discard', function() {
         assert.isFalse(storageStub.called);
         storageStub.restore();
         done();
@@ -437,9 +427,9 @@ limitations under the License.
       draftEl.fire('comment-discard', null, {bubbles: false});
     });
 
-    test('comment-update', () => {
-      const commentEl = element.$$('gr-diff-comment');
-      const updatedComment = {
+    test('comment-update', function() {
+      var commentEl = element.$$('gr-diff-comment');
+      var updatedComment = {
         id: element.comments[0].id,
         foo: 'bar',
       };
@@ -447,81 +437,88 @@ limitations under the License.
       assert.strictEqual(element.comments[0], updatedComment);
     });
 
-    suite('jack and sally comment data test consolidation', () => {
-      setup(() => {
+    suite('jack and sally comment data test consolidation', function() {
+      var getComments = function() {
+        return Polymer.dom(element.root).querySelectorAll('gr-diff-comment');
+      };
+
+      setup(function() {
         element.comments = [
-          {
-            id: 'jacks_reply',
-            message: 'i like you, too',
-            in_reply_to: 'sallys_confession',
-            updated: '2015-12-25 15:00:20.396000000',
-            unresolved: false,
-          }, {
-            id: 'sallys_confession',
-            in_reply_to: 'nonexistent_comment',
-            message: 'i like you, jack',
-            updated: '2015-12-24 15:00:20.396000000',
-          }, {
-            id: 'sally_to_dr_finklestein',
-            in_reply_to: 'nonexistent_comment',
-            message: 'i’m running away',
-            updated: '2015-10-31 09:00:20.396000000',
-          }, {
-            id: 'sallys_defiance',
-            message: 'i will poison you so i can get away',
-            updated: '2015-10-31 15:00:20.396000000',
-          }];
+        {
+          id: 'jacks_reply',
+          message: 'i like you, too',
+          in_reply_to: 'sallys_confession',
+          updated: '2015-12-25 15:00:20.396000000',
+          unresolved: false,
+        }, {
+          id: 'sallys_confession',
+          in_reply_to: 'nonexistent_comment',
+          message: 'i like you, jack',
+          updated: '2015-12-24 15:00:20.396000000',
+        }, {
+          id: 'sally_to_dr_finklestein',
+          in_reply_to: 'nonexistent_comment',
+          message: 'i’m running away',
+          updated: '2015-10-31 09:00:20.396000000',
+        }, {
+          id: 'sallys_defiance',
+          message: 'i will poison you so i can get away',
+          updated: '2015-10-31 15:00:20.396000000',
+        }];
       });
 
-      test('orphan replies', () => {
+      test('orphan replies', function() {
         assert.equal(4, element._orderedComments.length);
       });
 
-      test('keyboard shortcuts', () => {
-        const expandCollapseStub =
-            sinon.stub(element, '_expandCollapseComments');
+      test('keyboard shortcuts', function() {
+        var expandCollapseStub = sinon.stub(element, '_expandCollapseComments');
         MockInteractions.pressAndReleaseKeyOn(element, 69, null, 'e');
         assert.isTrue(expandCollapseStub.lastCall.calledWith(false));
 
         MockInteractions.pressAndReleaseKeyOn(element, 69, 'shift', 'e');
         assert.isTrue(expandCollapseStub.lastCall.calledWith(true));
+        expandCollapseStub.restore();
       });
 
-      test('comment in_reply_to is either null or most recent comment', () => {
+      test('comment in_reply_to is either null or most recent comment id',
+          function() {
         element._createReplyComment(element.comments[3], 'dummy', true);
         flushAsynchronousOperations();
         assert.equal(element._orderedComments.length, 5);
         assert.equal(element._orderedComments[4].in_reply_to, 'jacks_reply');
       });
 
-      test('resolvable comments', () => {
+      test('resolvable comments', function() {
         assert.isFalse(element._unresolved);
         element._createReplyComment(element.comments[3], 'dummy', true, true);
         flushAsynchronousOperations();
         assert.isTrue(element._unresolved);
       });
 
-      test('_setInitialExpandedState', () => {
+      test('_setInitialExpandedState', function() {
         element._unresolved = true;
         element._setInitialExpandedState();
-        for (let i = 0; i < element.comments.length; i++) {
+        var comments = getComments();
+        for (var i = 0; i < element.comments.length; i++) {
           assert.isFalse(element.comments[i].collapsed);
         }
         element._unresolved = false;
         element._setInitialExpandedState();
-        for (let i = 0; i < element.comments.length; i++) {
+        var comments = getComments();
+        for (var i = 0; i < element.comments.length; i++) {
           assert.isTrue(element.comments[i].collapsed);
         }
       });
     });
 
-    test('_computeHostClass', () => {
+    test('_computeHostClass', function() {
       assert.equal(element._computeHostClass(true), 'unresolved');
       assert.equal(element._computeHostClass(false), '');
     });
 
-    test('addDraft sets unresolved state correctly', () => {
-      let unresolved = true;
+    test('addDraft sets unresolved state correctly', function() {
+      var unresolved = true;
       element.comments = [];
       element.addDraft(null, null, unresolved);
       assert.equal(element.comments[0].unresolved, true);
@@ -536,15 +533,15 @@ limitations under the License.
       assert.equal(element.comments[0].unresolved, true);
     });
 
-    test('_newDraft', () => {
+    test('_newDraft', function() {
       element.commentSide = 'left';
       element.patchNum = 3;
-      const draft = element._newDraft();
+      var draft = element._newDraft();
       assert.equal(draft.__commentSide, 'left');
       assert.equal(draft.patchNum, 3);
     });
 
-    test('new comment gets created', () => {
+    test('new comment gets created', function() {
       element.comments = [];
       element.addOrEditDraft(1);
       assert.equal(element.comments.length, 1);
@@ -555,7 +552,7 @@ limitations under the License.
       assert.equal(element.comments.length, 2);
     });
 
-    test('unresolved label', () => {
+    test('unresolved label', function() {
       element._unresolved = false;
       assert.isTrue(element.$.unresolvedLabel.hasAttribute('hidden'));
       element._unresolved = true;

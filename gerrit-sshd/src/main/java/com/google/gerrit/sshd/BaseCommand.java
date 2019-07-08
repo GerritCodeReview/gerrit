@@ -21,26 +21,20 @@ import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.annotations.PluginName;
-import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.git.ProjectRunnable;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gerrit.util.cli.EndOfOptionsHandler;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -51,7 +45,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.util.concurrent.Future;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicReference;
 import org.apache.sshd.common.SshException;
 import org.apache.sshd.server.Command;
@@ -87,9 +80,8 @@ public abstract class BaseCommand implements Command {
 
   @Inject private RequestCleanup cleanup;
 
-  @Inject @CommandExecutor private ScheduledThreadPoolExecutor executor;
+  @Inject @CommandExecutor private WorkQueue.Executor executor;
 
-  @Inject private PermissionBackend permissionBackend;
   @Inject private CurrentUser user;
 
   @Inject private SshScope.Context context;
@@ -98,10 +90,6 @@ public abstract class BaseCommand implements Command {
   @Inject(optional = true)
   @PluginName
   private String pluginName;
-
-  @Inject private Injector injector;
-
-  @Inject private DynamicMap<DynamicOptions.DynamicBean> dynamicBeans = null;
 
   /** The task, as scheduled on a worker thread. */
   private final AtomicReference<Future<?>> task;
@@ -120,22 +108,22 @@ public abstract class BaseCommand implements Command {
   }
 
   @Override
-  public void setInputStream(InputStream in) {
+  public void setInputStream(final InputStream in) {
     this.in = in;
   }
 
   @Override
-  public void setOutputStream(OutputStream out) {
+  public void setOutputStream(final OutputStream out) {
     this.out = out;
   }
 
   @Override
-  public void setErrorStream(OutputStream err) {
+  public void setErrorStream(final OutputStream err) {
     this.err = err;
   }
 
   @Override
-  public void setExitCallback(ExitCallback callback) {
+  public void setExitCallback(final ExitCallback callback) {
     this.exit = callback;
   }
 
@@ -148,7 +136,7 @@ public abstract class BaseCommand implements Command {
     return commandName;
   }
 
-  void setName(String prefix) {
+  void setName(final String prefix) {
     this.commandName = prefix;
   }
 
@@ -156,7 +144,7 @@ public abstract class BaseCommand implements Command {
     return argv;
   }
 
-  public void setArguments(String[] argv) {
+  public void setArguments(final String[] argv) {
     this.argv = argv;
   }
 
@@ -197,7 +185,7 @@ public abstract class BaseCommand implements Command {
    *
    * @param cmd the command that will receive the current state.
    */
-  protected void provideStateTo(Command cmd) {
+  protected void provideStateTo(final Command cmd) {
     cmd.setInputStream(in);
     cmd.setOutputStream(out);
     cmd.setErrorStream(err);
@@ -230,10 +218,6 @@ public abstract class BaseCommand implements Command {
    */
   protected void parseCommandLine(Object options) throws UnloggedFailure {
     final CmdLineParser clp = newCmdLineParser(options);
-    DynamicOptions pluginOptions = new DynamicOptions(options, injector, dynamicBeans);
-    pluginOptions.parseDynamicBeans(clp);
-    pluginOptions.setDynamicBeans();
-    pluginOptions.onBeanParseStart();
     try {
       clp.parseArgument(argv);
     } catch (IllegalArgumentException | CmdLineException err) {
@@ -248,7 +232,6 @@ public abstract class BaseCommand implements Command {
       msg.write(usage());
       throw new UnloggedFailure(1, msg.toString());
     }
-    pluginOptions.onBeanParseEnd();
   }
 
   protected String usage() {
@@ -266,12 +249,38 @@ public abstract class BaseCommand implements Command {
    * <p>Typically this should be invoked within {@link Command#start(Environment)}, such as:
    *
    * <pre>
+   * startThread(new Runnable() {
+   *   public void run() {
+   *     runImp();
+   *   }
+   * });
+   * </pre>
+   *
+   * @param thunk the runnable to execute on the thread, performing the command's logic.
+   * @param accessPath the path used by the end user for running the SSH command
+   */
+  protected void startThread(final Runnable thunk, AccessPath accessPath) {
+    startThread(
+        new CommandRunnable() {
+          @Override
+          public void run() throws Exception {
+            thunk.run();
+          }
+        },
+        accessPath);
+  }
+
+  /**
+   * Spawn a function into its own thread.
+   *
+   * <p>Typically this should be invoked within {@link Command#start(Environment)}, such as:
+   *
+   * <pre>
    * startThread(new CommandRunnable() {
    *   public void run() throws Exception {
    *     runImp();
    *   }
-   * },
-   * accessPath);
+   * });
    * </pre>
    *
    * <p>If the function throws an exception, it is translated to a simple message for the client, a
@@ -283,7 +292,7 @@ public abstract class BaseCommand implements Command {
   protected void startThread(final CommandRunnable thunk, AccessPath accessPath) {
     final TaskThunk tt = new TaskThunk(thunk, accessPath);
 
-    if (isAdminHighPriorityCommand()) {
+    if (isAdminHighPriorityCommand() && user.getCapabilities().canAdministrateServer()) {
       // Admin commands should not block the main work threads (there
       // might be an interactive shell there), nor should they wait
       // for the main work threads.
@@ -295,15 +304,7 @@ public abstract class BaseCommand implements Command {
   }
 
   private boolean isAdminHighPriorityCommand() {
-    if (getClass().getAnnotation(AdminHighPriorityCommand.class) != null) {
-      try {
-        permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
-        return true;
-      } catch (AuthException | PermissionBackendException e) {
-        return false;
-      }
-    }
-    return false;
+    return getClass().getAnnotation(AdminHighPriorityCommand.class) != null;
   }
 
   /**
@@ -315,7 +316,7 @@ public abstract class BaseCommand implements Command {
    *
    * @param rc exit code for the remote client.
    */
-  protected void onExit(int rc) {
+  protected void onExit(final int rc) {
     exit.onExit(rc);
     if (cleanup != null) {
       cleanup.run();
@@ -323,11 +324,11 @@ public abstract class BaseCommand implements Command {
   }
 
   /** Wrap the supplied output stream in a UTF-8 encoded PrintWriter. */
-  protected static PrintWriter toPrintWriter(OutputStream o) {
+  protected static PrintWriter toPrintWriter(final OutputStream o) {
     return new PrintWriter(new BufferedWriter(new OutputStreamWriter(o, ENC)));
   }
 
-  private int handleError(Throwable e) {
+  private int handleError(final Throwable e) {
     if ((e.getClass() == IOException.class && "Pipe closed".equals(e.getMessage()))
         || //
         (e.getClass() == SshException.class && "Already closed".equals(e.getMessage()))
@@ -510,7 +511,6 @@ public abstract class BaseCommand implements Command {
   }
 
   /** Runnable function which can throw an exception. */
-  @FunctionalInterface
   public interface CommandRunnable {
     void run() throws Exception;
   }
@@ -537,7 +537,7 @@ public abstract class BaseCommand implements Command {
      *     command. Should be between 1 and 255, inclusive.
      * @param msg message to also send to the client's stderr.
      */
-    public Failure(int exitCode, String msg) {
+    public Failure(final int exitCode, final String msg) {
       this(exitCode, msg, null);
     }
 
@@ -550,7 +550,7 @@ public abstract class BaseCommand implements Command {
      * @param why stack trace to include in the server's log, but is not sent to the client's
      *     stderr.
      */
-    public Failure(int exitCode, String msg, Throwable why) {
+    public Failure(final int exitCode, final String msg, final Throwable why) {
       super(msg, why);
       this.exitCode = exitCode;
     }
@@ -565,7 +565,7 @@ public abstract class BaseCommand implements Command {
      *
      * @param msg message to also send to the client's stderr.
      */
-    public UnloggedFailure(String msg) {
+    public UnloggedFailure(final String msg) {
       this(1, msg);
     }
 
@@ -576,7 +576,7 @@ public abstract class BaseCommand implements Command {
      *     command. Should be between 1 and 255, inclusive.
      * @param msg message to also send to the client's stderr.
      */
-    public UnloggedFailure(int exitCode, String msg) {
+    public UnloggedFailure(final int exitCode, final String msg) {
       this(exitCode, msg, null);
     }
 
@@ -589,7 +589,7 @@ public abstract class BaseCommand implements Command {
      * @param why stack trace to include in the server's log, but is not sent to the client's
      *     stderr.
      */
-    public UnloggedFailure(int exitCode, String msg, Throwable why) {
+    public UnloggedFailure(final int exitCode, final String msg, final Throwable why) {
       super(exitCode, msg, why);
     }
   }

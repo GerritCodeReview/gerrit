@@ -15,19 +15,23 @@
 package com.google.gerrit.server.index.group;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.index.IndexDefinition;
 import com.google.inject.Inject;
+import com.google.inject.util.Providers;
 
 public class GroupIndexDefinition
-    extends IndexDefinition<AccountGroup.UUID, InternalGroup, GroupIndex> {
+    extends IndexDefinition<AccountGroup.UUID, AccountGroup, GroupIndex> {
 
   @Inject
   GroupIndexDefinition(
       GroupIndexCollection indexCollection,
       GroupIndex.Factory indexFactory,
       @Nullable AllGroupsIndexer allGroupsIndexer) {
-    super(GroupSchemaDefinitions.INSTANCE, indexCollection, indexFactory, allGroupsIndexer);
+    super(
+        GroupSchemaDefinitions.INSTANCE,
+        indexCollection,
+        indexFactory,
+        Providers.of(allGroupsIndexer));
   }
 }

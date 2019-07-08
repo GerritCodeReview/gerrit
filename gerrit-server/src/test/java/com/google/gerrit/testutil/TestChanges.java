@@ -15,6 +15,7 @@
 package com.google.gerrit.testutil;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static org.easymock.EasyMock.expect;
 
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.TimeUtil;
@@ -32,9 +33,12 @@ import com.google.gerrit.server.notedb.AbstractChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Injector;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.easymock.EasyMock;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -77,7 +81,7 @@ public class TestChanges {
     return ps;
   }
 
-  public static ChangeUpdate newUpdate(Injector injector, Change c, CurrentUser user)
+  public static ChangeUpdate newUpdate(Injector injector, Change c, final CurrentUser user)
       throws Exception {
     injector =
         injector.createChildInjector(
@@ -91,8 +95,7 @@ public class TestChanges {
         injector
             .getInstance(ChangeUpdate.Factory.class)
             .create(
-                new ChangeNotes(injector.getInstance(AbstractChangeNotes.Args.class), c).load(),
-                user,
+                stubChangeControl(injector.getInstance(AbstractChangeNotes.Args.class), c, user),
                 TimeUtil.nowTs(),
                 Ordering.<String>natural());
 
@@ -124,6 +127,19 @@ public class TestChanges {
       update.setCommit(tr.getRevWalk(), cb.create());
       return update;
     }
+  }
+
+  private static ChangeControl stubChangeControl(
+      AbstractChangeNotes.Args args, Change c, CurrentUser user) throws OrmException {
+    ChangeControl ctl = EasyMock.createMock(ChangeControl.class);
+    expect(ctl.getChange()).andStubReturn(c);
+    expect(ctl.getProject()).andStubReturn(new Project(c.getProject()));
+    expect(ctl.getUser()).andStubReturn(user);
+    ChangeNotes notes = new ChangeNotes(args, c).load();
+    expect(ctl.getNotes()).andStubReturn(notes);
+    expect(ctl.getId()).andStubReturn(c.getId());
+    EasyMock.replay(ctl);
+    return ctl;
   }
 
   public static void incrementPatchSet(Change change) {

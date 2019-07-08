@@ -16,16 +16,14 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
 <link rel="import" href="../../shared/gr-confirm-dialog/gr-confirm-dialog.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-confirm-cherrypick-dialog">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         display: block;
+        width: 30em;
       }
       :host([disabled]) {
         opacity: .5;
@@ -33,6 +31,9 @@ limitations under the License.
       }
       label {
         cursor: pointer;
+      }
+      iron-autogrow-textarea {
+        padding: 0;
       }
       .main {
         display: flex;
@@ -49,14 +50,6 @@ limitations under the License.
         border: groove;
         width: 100%;
       }
-      iron-autogrow-textarea {
-        padding: 0;
-
-        --iron-autogrow-textarea: {
-          font-family: var(--monospace-font-family);
-          width: 72ch;
-        };
-      }
     </style>
     <gr-confirm-dialog
         confirm-label="Cherry Pick"
@@ -67,12 +60,11 @@ limitations under the License.
         <label for="branchInput">
           Cherry Pick to branch
         </label>
-        <gr-autocomplete
+        <input is="iron-input"
+            type="text"
             id="branchInput"
-            text="{{branch}}"
-            query="[[_query]]"
+            bind-value="{{branch}}"
             placeholder="Destination branch">
-        </gr-autocomplete>
         <label for="messageInput">
           Cherry Pick Commit Message
         </label>
@@ -85,7 +77,6 @@ limitations under the License.
             bind-value="{{message}}"></iron-autogrow-textarea>
       </div>
     </gr-confirm-dialog>
-    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-confirm-cherrypick-dialog.js"></script>
 </dom-module>

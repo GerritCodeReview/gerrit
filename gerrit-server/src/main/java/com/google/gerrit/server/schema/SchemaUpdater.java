@@ -52,17 +52,14 @@ public class SchemaUpdater {
 
   @Inject
   SchemaUpdater(
-      @ReviewDbFactory SchemaFactory<ReviewDb> schema,
-      SitePaths site,
-      SchemaCreator creator,
-      Injector parent) {
+      SchemaFactory<ReviewDb> schema, SitePaths site, SchemaCreator creator, Injector parent) {
     this.schema = schema;
     this.site = site;
     this.creator = creator;
     this.updater = buildInjector(parent).getProvider(SchemaVersion.class);
   }
 
-  private static Injector buildInjector(Injector parent) {
+  private static Injector buildInjector(final Injector parent) {
     // Use DEVELOPMENT mode to allow lazy initialization of the
     // graph. This avoids touching ancient schema versions that
     // are behind this installation's current version.
@@ -101,7 +98,7 @@ public class SchemaUpdater {
         });
   }
 
-  public void update(UpdateUI ui) throws OrmException {
+  public void update(final UpdateUI ui) throws OrmException {
     try (ReviewDb db = ReviewDbUtil.unwrapDb(schema.open())) {
 
       final SchemaVersion u = updater.get();
@@ -130,7 +127,7 @@ public class SchemaUpdater {
     return updater.get();
   }
 
-  private CurrentSchemaVersion getSchemaVersion(ReviewDb db) {
+  private CurrentSchemaVersion getSchemaVersion(final ReviewDb db) {
     try {
       return db.schemaVersion().get(new CurrentSchemaVersion.Key());
     } catch (OrmException e) {
@@ -138,7 +135,7 @@ public class SchemaUpdater {
     }
   }
 
-  private void updateSystemConfig(ReviewDb db) throws OrmException {
+  private void updateSystemConfig(final ReviewDb db) throws OrmException {
     final SystemConfig sc = db.systemConfig().get(new SystemConfig.Key());
     if (sc == null) {
       throw new OrmException("No record in system_config table");

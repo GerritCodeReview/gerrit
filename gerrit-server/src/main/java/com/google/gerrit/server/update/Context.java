@@ -24,6 +24,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.TimeZone;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
@@ -32,22 +33,19 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * <p>A single update may span multiple changes, but they all belong to a single repo.
  */
 public interface Context {
-  /**
-   * Get the project name this update operates on.
-   *
-   * @return project.
-   */
+  /** @return the project name this update operates on. */
   Project.NameKey getProject();
 
   /**
-   * Get a read-only view of the open repository for this project.
+   * Get an open repository instance for this project.
    *
-   * <p>Will be opened lazily if necessary.
+   * <p>Will be opened lazily if necessary; callers should not close the repo. In some phases of the
+   * update, the repository might be read-only; see {@link BatchUpdateOp} for details.
    *
    * @return repository instance.
    * @throws IOException if an error occurred opening the repo.
    */
-  RepoView getRepoView() throws IOException;
+  Repository getRepository() throws IOException;
 
   /**
    * Get a walk for this project.
@@ -59,80 +57,50 @@ public interface Context {
    */
   RevWalk getRevWalk() throws IOException;
 
-  /**
-   * Get the timestamp at which this update takes place.
-   *
-   * @return timestamp.
-   */
+  /** @return the timestamp at which this update takes place. */
   Timestamp getWhen();
 
   /**
-   * Get the time zone in which this update takes place.
-   *
-   * <p>In the current implementation, this is always the time zone of the server.
-   *
-   * @return time zone.
+   * @return the time zone in which this update takes place. In the current implementation, this is
+   *     always the time zone of the server.
    */
   TimeZone getTimeZone();
 
   /**
-   * Get the ReviewDb database.
-   *
-   * <p>Callers should not manage transactions or call mutating methods on the Changes table.
-   * Mutations on other tables (including other entities in the change entity group) are fine.
-   *
-   * @return open database instance.
+   * @return an open ReviewDb database. Callers should not manage transactions or call mutating
+   *     methods on the Changes table. Mutations on other tables (including other entities in the
+   *     change entity group) are fine.
    */
   ReviewDb getDb();
 
   /**
-   * Get the user performing the update.
-   *
-   * <p>In the current implementation, this is always an {@link IdentifiedUser} or {@link
-   * com.google.gerrit.server.InternalUser}.
-   *
-   * @return user.
+   * @return user performing the update. In the current implementation, this is always an {@link
+   *     IdentifiedUser} or {@link com.google.gerrit.server.InternalUser}.
    */
   CurrentUser getUser();
 
-  /**
-   * Get the order in which operations are executed in this update.
-   *
-   * @return order of operations.
-   */
+  /** @return order in which operations are executed in this update. */
   Order getOrder();
 
   /**
-   * Get the identified user performing the update.
-   *
-   * <p>Convenience method for {@code getUser().asIdentifiedUser()}.
-   *
-   * @see CurrentUser#asIdentifiedUser()
-   * @return user.
+   * @return identified user performing the update; throws an unchecked exception if the user is not
+   *     an {@link IdentifiedUser}
    */
   default IdentifiedUser getIdentifiedUser() {
     return checkNotNull(getUser()).asIdentifiedUser();
   }
 
   /**
-   * Get the account of the user performing the update.
-   *
-   * <p>Convenience method for {@code getIdentifiedUser().getAccount()}.
-   *
-   * @see CurrentUser#asIdentifiedUser()
-   * @return account.
+   * @return account of the user performing the update; throws if the user is not an {@link
+   *     IdentifiedUser}
    */
   default Account getAccount() {
     return getIdentifiedUser().getAccount();
   }
 
   /**
-   * Get the account ID of the user performing the update.
-   *
-   * <p>Convenience method for {@code getUser().getAccountId()}
-   *
-   * @see CurrentUser#getAccountId()
-   * @return account ID.
+   * @return account ID of the user performing the update; throws if the user is not an {@link
+   *     IdentifiedUser}
    */
   default Account.Id getAccountId() {
     return getIdentifiedUser().getAccountId();

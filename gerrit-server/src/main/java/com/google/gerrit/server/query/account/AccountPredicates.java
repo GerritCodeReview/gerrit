@@ -16,16 +16,16 @@ package com.google.gerrit.server.query.account;
 
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
-import com.google.gerrit.index.FieldDef;
-import com.google.gerrit.index.query.IndexPredicate;
-import com.google.gerrit.index.query.Matchable;
-import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.query.Matchable;
+import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.QueryBuilder;
 import com.google.gwtorm.server.OrmException;
 import java.util.List;
 
@@ -34,11 +34,7 @@ public class AccountPredicates {
     return QueryBuilder.find(p, AccountPredicate.class, AccountField.ACTIVE.getName()) != null;
   }
 
-  public static Predicate<AccountState> andActive(Predicate<AccountState> p) {
-    return Predicate.and(p, isActive());
-  }
-
-  public static Predicate<AccountState> defaultPredicate(String query) {
+  static Predicate<AccountState> defaultPredicate(String query) {
     // Adapt the capacity of this list when adding more default predicates.
     List<Predicate<AccountState>> preds = Lists.newArrayListWithCapacity(3);
     Integer id = Ints.tryParse(query);
@@ -57,33 +53,21 @@ public class AccountPredicates {
         AccountField.ID, AccountQueryBuilder.FIELD_ACCOUNT, accountId.toString());
   }
 
-  public static Predicate<AccountState> email(String email) {
+  static Predicate<AccountState> email(String email) {
     return new AccountPredicate(
         AccountField.EMAIL, AccountQueryBuilder.FIELD_EMAIL, email.toLowerCase());
   }
 
-  public static Predicate<AccountState> preferredEmail(String email) {
-    return new AccountPredicate(
-        AccountField.PREFERRED_EMAIL,
-        AccountQueryBuilder.FIELD_PREFERRED_EMAIL,
-        email.toLowerCase());
-  }
-
-  public static Predicate<AccountState> preferredEmailExact(String email) {
-    return new AccountPredicate(
-        AccountField.PREFERRED_EMAIL_EXACT, AccountQueryBuilder.FIELD_PREFERRED_EMAIL_EXACT, email);
-  }
-
-  public static Predicate<AccountState> equalsName(String name) {
+  static Predicate<AccountState> equalsName(String name) {
     return new AccountPredicate(
         AccountField.NAME_PART, AccountQueryBuilder.FIELD_NAME, name.toLowerCase());
   }
 
-  public static Predicate<AccountState> externalId(String externalId) {
+  static Predicate<AccountState> externalId(String externalId) {
     return new AccountPredicate(AccountField.EXTERNAL_ID, externalId);
   }
 
-  public static Predicate<AccountState> fullName(String fullName) {
+  static Predicate<AccountState> fullName(String fullName) {
     return new AccountPredicate(AccountField.FULL_NAME, fullName);
   }
 
@@ -91,23 +75,23 @@ public class AccountPredicates {
     return new AccountPredicate(AccountField.ACTIVE, "1");
   }
 
-  public static Predicate<AccountState> isNotActive() {
+  static Predicate<AccountState> isInactive() {
     return new AccountPredicate(AccountField.ACTIVE, "0");
   }
 
-  public static Predicate<AccountState> username(String username) {
+  static Predicate<AccountState> username(String username) {
     return new AccountPredicate(
         AccountField.USERNAME, AccountQueryBuilder.FIELD_USERNAME, username.toLowerCase());
   }
 
-  public static Predicate<AccountState> watchedProject(Project.NameKey project) {
+  static Predicate<AccountState> watchedProject(Project.NameKey project) {
     return new AccountPredicate(AccountField.WATCHED_PROJECT, project.get());
   }
 
-  public static Predicate<AccountState> cansee(
+  static Predicate<AccountState> cansee(
       AccountQueryBuilder.Arguments args, ChangeNotes changeNotes) {
     return new CanSeeChangePredicate(
-        args.db, args.permissionBackend, args.userFactory, changeNotes);
+        args.db, args.changeControlFactory, args.userFactory, changeNotes);
   }
 
   static class AccountPredicate extends IndexPredicate<AccountState>

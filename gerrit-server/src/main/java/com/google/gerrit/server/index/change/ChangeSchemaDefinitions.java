@@ -14,87 +14,83 @@
 
 package com.google.gerrit.server.index.change;
 
-import static com.google.gerrit.index.SchemaUtil.schema;
+import static com.google.gerrit.server.index.SchemaUtil.schema;
 
-import com.google.gerrit.index.Schema;
-import com.google.gerrit.index.SchemaDefinitions;
+import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.SchemaDefinitions;
 import com.google.gerrit.server.query.change.ChangeData;
 
 public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   @Deprecated
-  static final Schema<ChangeData> V39 =
+  static final Schema<ChangeData> V32 =
       schema(
-          ChangeField.ADDED,
-          ChangeField.APPROVAL,
-          ChangeField.ASSIGNEE,
-          ChangeField.AUTHOR,
-          ChangeField.CHANGE,
-          ChangeField.COMMENT,
-          ChangeField.COMMENTBY,
-          ChangeField.COMMIT,
-          ChangeField.COMMITTER,
-          ChangeField.COMMIT_MESSAGE,
-          ChangeField.DELETED,
-          ChangeField.DELTA,
-          ChangeField.DRAFTBY,
-          ChangeField.EDITBY,
-          ChangeField.EXACT_COMMIT,
-          ChangeField.EXACT_TOPIC,
-          ChangeField.FILE_PART,
-          ChangeField.FUZZY_TOPIC,
-          ChangeField.GROUP,
-          ChangeField.HASHTAG,
-          ChangeField.HASHTAG_CASE_AWARE,
-          ChangeField.ID,
-          ChangeField.LABEL,
           ChangeField.LEGACY_ID,
-          ChangeField.MERGEABLE,
-          ChangeField.OWNER,
-          ChangeField.PATCH_SET,
-          ChangeField.PATH,
+          ChangeField.ID,
+          ChangeField.STATUS,
           ChangeField.PROJECT,
           ChangeField.PROJECTS,
           ChangeField.REF,
-          ChangeField.REF_STATE,
-          ChangeField.REF_STATE_PATTERN,
+          ChangeField.EXACT_TOPIC,
+          ChangeField.FUZZY_TOPIC,
+          ChangeField.UPDATED,
+          ChangeField.FILE_PART,
+          ChangeField.PATH,
+          ChangeField.OWNER,
+          ChangeField.COMMIT,
+          ChangeField.TR,
+          ChangeField.LABEL,
+          ChangeField.COMMIT_MESSAGE,
+          ChangeField.COMMENT,
+          ChangeField.CHANGE,
+          ChangeField.APPROVAL,
+          ChangeField.MERGEABLE,
+          ChangeField.ADDED,
+          ChangeField.DELETED,
+          ChangeField.DELTA,
+          ChangeField.HASHTAG,
+          ChangeField.COMMENTBY,
+          ChangeField.PATCH_SET,
+          ChangeField.GROUP,
+          ChangeField.SUBMISSIONID,
+          ChangeField.EDITBY,
           ChangeField.REVIEWEDBY,
-          ChangeField.REVIEWER,
+          ChangeField.EXACT_COMMIT,
+          ChangeField.AUTHOR,
+          ChangeField.COMMITTER,
+          ChangeField.DRAFTBY,
+          ChangeField.HASHTAG_CASE_AWARE,
           ChangeField.STAR,
           ChangeField.STARBY,
-          ChangeField.STATUS,
-          ChangeField.STORED_SUBMIT_RECORD_LENIENT,
-          ChangeField.STORED_SUBMIT_RECORD_STRICT,
-          ChangeField.SUBMISSIONID,
-          ChangeField.SUBMIT_RECORD,
-          ChangeField.TR,
-          ChangeField.UNRESOLVED_COMMENT_COUNT,
-          ChangeField.UPDATED);
+          ChangeField.REVIEWER);
 
-  @Deprecated static final Schema<ChangeData> V40 = schema(V39, ChangeField.PRIVATE);
-  @Deprecated static final Schema<ChangeData> V41 = schema(V40, ChangeField.REVIEWER_BY_EMAIL);
-  @Deprecated static final Schema<ChangeData> V42 = schema(V41, ChangeField.WIP);
+  @Deprecated static final Schema<ChangeData> V33 = schema(V32, ChangeField.ASSIGNEE);
 
   @Deprecated
-  static final Schema<ChangeData> V43 =
-      schema(V42, ChangeField.EXACT_AUTHOR, ChangeField.EXACT_COMMITTER);
+  static final Schema<ChangeData> V34 =
+      new Schema.Builder<ChangeData>()
+          .add(V33)
+          .remove(ChangeField.LABEL)
+          .add(ChangeField.LABEL2)
+          .build();
 
   @Deprecated
-  static final Schema<ChangeData> V44 =
+  static final Schema<ChangeData> V35 =
       schema(
-          V43,
-          ChangeField.STARTED,
-          ChangeField.PENDING_REVIEWER,
-          ChangeField.PENDING_REVIEWER_BY_EMAIL);
+          V34,
+          ChangeField.SUBMIT_RECORD,
+          ChangeField.STORED_SUBMIT_RECORD_LENIENT,
+          ChangeField.STORED_SUBMIT_RECORD_STRICT);
 
-  @Deprecated static final Schema<ChangeData> V45 = schema(V44, ChangeField.REVERT_OF);
+  @Deprecated
+  static final Schema<ChangeData> V36 =
+      schema(V35, ChangeField.REF_STATE, ChangeField.REF_STATE_PATTERN);
 
-  @Deprecated static final Schema<ChangeData> V46 = schema(V45);
+  @Deprecated static final Schema<ChangeData> V37 = schema(V36);
 
-  // Removal of draft change workflow requires reindexing
-  @Deprecated static final Schema<ChangeData> V47 = schema(V46);
+  @Deprecated
+  static final Schema<ChangeData> V38 = schema(V37, ChangeField.UNRESOLVED_COMMENT_COUNT);
 
-  // Rename of star label 'mute' to 'reviewed' requires reindexing
-  static final Schema<ChangeData> V48 = schema(V47);
+  static final Schema<ChangeData> V39 = schema(V38);
 
   public static final String NAME = "changes";
   public static final ChangeSchemaDefinitions INSTANCE = new ChangeSchemaDefinitions();

@@ -71,7 +71,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentMap;
@@ -679,11 +678,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
     Path path = plugin.getSrcFile();
     if (req.getRequestURI().endsWith(getJsPluginPath(plugin)) && Files.exists(path)) {
       res.setHeader("Content-Length", Long.toString(Files.size(path)));
-      if (path.toString().toLowerCase(Locale.US).endsWith(".html")) {
-        res.setContentType("text/html");
-      } else {
-        res.setContentType("application/javascript");
-      }
+      res.setContentType("application/javascript");
       writeToResponse(res, Files.newInputStream(path));
     } else {
       resourceCache.put(key, Resource.NOT_FOUND);

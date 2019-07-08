@@ -18,13 +18,13 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
-public class RefPredicate extends ChangeIndexPredicate {
-  public RefPredicate(String ref) {
+class RefPredicate extends ChangeIndexPredicate {
+  RefPredicate(String ref) {
     super(ChangeField.REF, ref);
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
+  public boolean match(final ChangeData object) throws OrmException {
     Change change = object.change();
     if (change == null) {
       return false;

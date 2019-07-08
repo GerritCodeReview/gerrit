@@ -412,10 +412,7 @@ If the account is active the string `ok` is returned.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json; charset=UTF-8
 
-  )]}'
   ok
 ----
 
@@ -472,8 +469,6 @@ Sets/Generates the HTTP password of an account.
 The options for setting/generating the HTTP password must be provided
 in the request body inside a link:#http-password-input[
 HttpPasswordInput] entity.
-
-The account must have a username.
 
 .Request
 ----
@@ -1253,13 +1248,15 @@ any account.
     "size_bar_in_change_table": true,
     "review_category_strategy": "ABBREV",
     "mute_common_path_prefixes": true,
-    "publish_comments_on_push": true,
-    "work_in_progress_by_default": true,
     "default_base_for_merges": "FIRST_PARENT",
     "my": [
       {
         "url": "#/dashboard/self",
         "name": "Changes"
+      },
+      {
+        "url": "#/q/owner:self+is:draft",
+        "name": "Drafts"
       },
       {
         "url": "#/q/has:draft",
@@ -1316,6 +1313,10 @@ link:#preferences-input[PreferencesInput] entity.
         "name": "Changes"
       },
       {
+        "url": "#/q/owner:self+is:draft",
+        "name": "Drafts"
+      },
+      {
         "url": "#/q/has:draft",
         "name": "Draft Comments"
       },
@@ -1360,13 +1361,15 @@ link:#preferences-info[PreferencesInfo] entity.
     "size_bar_in_change_table": true,
     "review_category_strategy": "NAME",
     "diff_view": "SIDE_BY_SIDE",
-    "publish_comments_on_push": true,
-    "work_in_progress_by_default": true,
     "mute_common_path_prefixes": true,
     "my": [
       {
         "url": "#/dashboard/self",
         "name": "Changes"
+      },
+      {
+        "url": "#/q/owner:self+is:draft",
+        "name": "Drafts"
       },
       {
         "url": "#/q/has:draft",
@@ -1756,9 +1759,9 @@ Only external ids belonging to the caller may be deleted.
   POST /a/accounts/self/external.ids:delete HTTP/1.0
   Content-Type: application/json;charset=UTF-8
 
-  [
+  {
     "mailto:john.doe@example.com"
-  ]
+  }
 ----
 
 .Response
@@ -2123,8 +2126,6 @@ AccountInfo]. In addition `AccountDetailInfo` has the following fields:
 |`registered_on`     ||
 The link:rest-api.html#timestamp[timestamp] of when the account was
 registered.
-|`inactive`          |not set if `false`|
-Whether the account is inactive.
 |=================================
 
 [[account-external-id-info]]
@@ -2649,12 +2650,6 @@ Allowed values are `ENABLED`, `CC_ON_OWN_COMMENTS`, `DISABLED`.
 The base which should be pre-selected in the 'Diff Against' drop-down
 list when the change screen is opened for a merge commit.
 Allowed values are `AUTO_MERGE` and `FIRST_PARENT`.
-|`publish_comments_on_push`     |not set if `false`|
-Whether to link:user-upload.html#publish-comments[publish draft comments] on
-push by default.
-|`work_in_progress_by_default`  |not set if `false`|
-Whether to link:user-upload.html#wip[set work-in-progress] on
-push or on create changes online by default.
 |============================================
 
 [[preferences-input]]

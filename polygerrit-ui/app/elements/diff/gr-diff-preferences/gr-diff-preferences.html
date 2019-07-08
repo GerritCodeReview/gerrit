@@ -17,18 +17,15 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-storage/gr-storage.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-diff-preferences">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         display: block;
       }
-      :host([disabled]) {
+      :host[disabled] {
         opacity: .5;
         pointer-events: none;
       }
@@ -45,7 +42,7 @@ limitations under the License.
       }
       .header {
         border-bottom: 1px solid #ddd;
-        font-family: var(--font-family-bold);
+        font-weight: bold;
       }
       .mainContainer {
         padding: 1em 0;
@@ -66,91 +63,78 @@ limitations under the License.
       .actions {
         border-top: 1px solid #ddd;
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
       }
       .beta {
-        font-family: var(--font-family-bold);
+        font-weight: bold;
         color: #888;
       }
-      gr-button {
-        margin-left: 1em;
-      }
     </style>
-
-    <gr-overlay id="prefsOverlay" with-backdrop>
-      <div class="header">
-        Diff View Preferences
+    <div class="header">
+      Diff View Preferences
+    </div>
+    <div class="mainContainer">
+      <div class="pref">
+        <label for="contextSelect">Context</label>
+        <select id="contextSelect" on-change="_handleContextSelectChange">
+          <option value="3">3 lines</option>
+          <option value="10">10 lines</option>
+          <option value="25">25 lines</option>
+          <option value="50">50 lines</option>
+          <option value="75">75 lines</option>
+          <option value="100">100 lines</option>
+          <option value="-1">Whole file</option>
+        </select>
       </div>
-      <div class="mainContainer">
-        <div class="pref">
-          <label for="contextSelect">Context</label>
-          <select id="contextSelect" on-change="_handleContextSelectChange">
-            <option value="3">3 lines</option>
-            <option value="10">10 lines</option>
-            <option value="25">25 lines</option>
-            <option value="50">50 lines</option>
-            <option value="75">75 lines</option>
-            <option value="100">100 lines</option>
-            <option value="-1">Whole file</option>
-          </select>
-        </div>
-        <div class="pref">
-          <label for="lineWrappingInput">Fit to screen</label>
-          <input
-              is="iron-input"
-              type="checkbox"
-              id="lineWrappingInput"
-              on-tap="_handlelineWrappingTap">
-        </div>
-        <div class="pref" id="columnsPref"
-            hidden$="[[_newPrefs.line_wrapping]]">
-          <label for="columnsInput">Diff width</label>
-          <input is="iron-input" type="number" id="columnsInput"
-              prevent-invalid-input
-              allowed-pattern="[0-9]"
-              bind-value="{{_newPrefs.line_length}}">
-        </div>
-        <div class="pref">
-          <label for="tabSizeInput">Tab width</label>
-          <input is="iron-input" type="number" id="tabSizeInput"
-              prevent-invalid-input
-              allowed-pattern="[0-9]"
-              bind-value="{{_newPrefs.tab_size}}">
-        </div>
-        <div class="pref" hidden$="[[!_newPrefs.font_size]]">
-          <label for="fontSizeInput">Font size</label>
-          <input is="iron-input" type="number" id="fontSizeInput"
-                prevent-invalid-input
-                allowed-pattern="[0-9]"
-                bind-value="{{_newPrefs.font_size}}">
-        </div>
-        <div class="pref">
-          <label for="showTabsInput">Show tabs</label>
-          <input is="iron-input" type="checkbox" id="showTabsInput"
-              on-tap="_handleShowTabsTap">
-        </div>
-        <div class="pref">
-          <label for="showTrailingWhitespaceInput">
-            Show trailing whitespace</label>
-          <input is="iron-input" type="checkbox"
-              id="showTrailingWhitespaceInput"
-              on-tap="_handleShowTrailingWhitespaceTap">
-        </div>
-        <div class="pref">
-          <label for="syntaxHighlightInput">Syntax highlighting</label>
-          <input is="iron-input" type="checkbox" id="syntaxHighlightInput"
-              on-tap="_handleSyntaxHighlightTap">
-        </div>
+      <div class="pref">
+        <label for="lineWrappingInput">Fit to screen</label>
+        <input
+            is="iron-input"
+            type="checkbox"
+            id="lineWrappingInput"
+            on-tap="_handlelineWrappingTap">
       </div>
-      <div class="actions">
-        <gr-button id="cancelButton" link on-tap="_handleCancel">
-            Cancel</gr-button>
-        <gr-button id="saveButton" link primary on-tap="_handleSave">
-            Save</gr-button>
+      <div class="pref" id="columnsPref" hidden$="[[_newPrefs.line_wrapping]]">
+        <label for="columnsInput">Diff width</label>
+        <input is="iron-input" type="number" id="columnsInput"
+            prevent-invalid-input
+            allowed-pattern="[0-9]"
+            bind-value="{{_newPrefs.line_length}}">
       </div>
-    </overlay>
-    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-    <gr-storage id="storage"></gr-storage>
+      <div class="pref">
+        <label for="tabSizeInput">Tab width</label>
+        <input is="iron-input" type="number" id="tabSizeInput"
+            prevent-invalid-input
+            allowed-pattern="[0-9]"
+            bind-value="{{_newPrefs.tab_size}}">
+      </div>
+      <div class="pref" hidden$="[[!_newPrefs.font_size]]">
+        <label for="fontSizeInput">Font size</label>
+        <input is="iron-input" type="number" id="fontSizeInput"
+               prevent-invalid-input
+               allowed-pattern="[0-9]"
+               bind-value="{{_newPrefs.font_size}}">
+      </div>
+      <div class="pref">
+        <label for="showTabsInput">Show tabs</label>
+        <input is="iron-input" type="checkbox" id="showTabsInput"
+            on-tap="_handleShowTabsTap">
+      </div>
+      <div class="pref">
+        <label for="showTrailingWhitespaceInput">Show trailing whitespace</label>
+        <input is="iron-input" type="checkbox" id="showTrailingWhitespaceInput"
+            on-tap="_handleShowTrailingWhitespaceTap">
+      </div>
+      <div class="pref">
+        <label for="syntaxHighlightInput">Syntax highlighting</label>
+        <input is="iron-input" type="checkbox" id="syntaxHighlightInput"
+            on-tap="_handleSyntaxHighlightTap">
+      </div>
+    </div>
+    <div class="actions">
+      <gr-button id="saveButton" primary on-tap="_handleSave">Save</gr-button>
+      <gr-button id="cancelButton" on-tap="_handleCancel">Cancel</gr-button>
+    </div>
   </template>
   <script src="gr-diff-preferences.js"></script>
 </dom-module>

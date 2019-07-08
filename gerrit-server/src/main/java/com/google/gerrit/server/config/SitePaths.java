@@ -29,7 +29,6 @@ public final class SitePaths {
   public static final String CSS_FILENAME = "GerritSite.css";
   public static final String HEADER_FILENAME = "GerritSiteHeader.html";
   public static final String FOOTER_FILENAME = "GerritSiteFooter.html";
-  public static final String THEME_FILENAME = "gerrit-theme.html";
 
   public final Path site_path;
   public final Path bin_dir;
@@ -53,7 +52,6 @@ public final class SitePaths {
 
   public final Path gerrit_config;
   public final Path secure_config;
-  public final Path notedb_config;
 
   public final Path ssl_keystore;
   public final Path ssh_key;
@@ -68,8 +66,6 @@ public final class SitePaths {
   public final Path site_css;
   public final Path site_header;
   public final Path site_footer;
-  // For PolyGerrit UI only.
-  public final Path site_theme;
   public final Path site_gitweb;
 
   /** {@code true} if {@link #site_path} has not been initialized. */
@@ -101,7 +97,6 @@ public final class SitePaths {
 
     gerrit_config = etc_dir.resolve("gerrit.config");
     secure_config = etc_dir.resolve("secure.config");
-    notedb_config = etc_dir.resolve("notedb.config");
 
     ssl_keystore = etc_dir.resolve("keystore");
     ssh_key = etc_dir.resolve("ssh_host_key");
@@ -117,9 +112,6 @@ public final class SitePaths {
     site_header = etc_dir.resolve(HEADER_FILENAME);
     site_footer = etc_dir.resolve(FOOTER_FILENAME);
     site_gitweb = etc_dir.resolve("gitweb_config.perl");
-
-    // For PolyGerrit UI.
-    site_theme = static_dir.resolve(THEME_FILENAME);
 
     boolean isNew;
     try (DirectoryStream<Path> files = Files.newDirectoryStream(site_path)) {

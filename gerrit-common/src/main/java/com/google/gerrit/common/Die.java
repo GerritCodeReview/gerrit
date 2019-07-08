@@ -17,11 +17,11 @@ package com.google.gerrit.common;
 public class Die extends RuntimeException {
   private static final long serialVersionUID = 1L;
 
-  public Die(String why) {
+  public Die(final String why) {
     super(why);
   }
 
-  public Die(String why, Throwable cause) {
+  public Die(final String why, final Throwable cause) {
     super(why, cause);
   }
 }

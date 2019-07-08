@@ -14,12 +14,7 @@
 
 package com.google.gerrit.extensions.common;
 
-import static java.util.stream.Collectors.joining;
-
-import com.google.common.base.MoreObjects;
-import com.google.common.base.MoreObjects.ToStringHelper;
 import java.util.List;
-import java.util.Objects;
 
 public class CommitInfo {
   public String commit;
@@ -29,41 +24,4 @@ public class CommitInfo {
   public String subject;
   public String message;
   public List<WebLinkInfo> webLinks;
-
-  @Override
-  public boolean equals(Object o) {
-    if (!(o instanceof CommitInfo)) {
-      return false;
-    }
-    CommitInfo c = (CommitInfo) o;
-    return Objects.equals(commit, c.commit)
-        && Objects.equals(parents, c.parents)
-        && Objects.equals(author, c.author)
-        && Objects.equals(committer, c.committer)
-        && Objects.equals(subject, c.subject)
-        && Objects.equals(message, c.message)
-        && Objects.equals(webLinks, c.webLinks);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(commit, parents, author, committer, subject, message, webLinks);
-  }
-
-  @Override
-  public String toString() {
-    ToStringHelper helper = MoreObjects.toStringHelper(this).addValue(commit);
-    if (parents != null) {
-      helper.add("parents", parents.stream().map(p -> p.commit).collect(joining(", ")));
-    }
-    helper
-        .add("author", author)
-        .add("committer", committer)
-        .add("subject", subject)
-        .add("message", message);
-    if (webLinks != null) {
-      helper.add("webLinks", webLinks);
-    }
-    return helper.toString();
-  }
 }

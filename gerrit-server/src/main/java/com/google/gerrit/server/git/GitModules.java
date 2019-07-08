@@ -23,8 +23,8 @@ import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.util.RequestId;
 import com.google.gerrit.server.util.SubmoduleSectionParser;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -55,7 +55,7 @@ public class GitModules {
   private final RequestId submissionId;
   Set<SubmoduleSubscription> subscriptions;
 
-  @Inject
+  @AssistedInject
   GitModules(
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
       @Assisted Branch.NameKey branch,

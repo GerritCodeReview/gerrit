@@ -22,11 +22,8 @@ package com.google.gerrit.server.update;
  * BatchUpdate#addOp(com.google.gerrit.reviewdb.client.Change.Id, BatchUpdateOp)}.
  *
  * <p>Usually, a single {@code BatchUpdateOp} instance is only associated with a single change, i.e.
- * {@code addOp} is only called once with that instance. Additionally, each method in {@code
- * BatchUpdateOp} is called at most once per {@link BatchUpdate} execution.
- *
- * <p>Taken together, these two properties mean an instance may communicate between phases by
- * storing data in private fields, and a single instance must not be reused.
+ * {@code addOp} is only called once with that instance. This allows an instance to communicate
+ * between phases by storing data in private fields.
  */
 public interface BatchUpdateOp extends RepoOnlyOp {
   /**

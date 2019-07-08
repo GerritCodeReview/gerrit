@@ -15,7 +15,6 @@
 package com.google.gerrit.server.avatar;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.server.IdentifiedUser;
 
 /**
@@ -25,7 +24,6 @@ import com.google.gerrit.server.IdentifiedUser;
  */
 @ExtensionPoint
 public interface AvatarProvider {
-
   /**
    * Get avatar URL.
    *
@@ -48,36 +46,4 @@ public interface AvatarProvider {
    *     possible.
    */
   String getChangeAvatarUrl(IdentifiedUser forUser);
-
-  /**
-   * Set the avatar image URL for specified user and specified size.
-   *
-   * <p>It is the default method (not interface method declaration) for back compatibility with old
-   * code.
-   *
-   * @param forUser The user for which need to change the avatar image.
-   * @param url The avatar image URL for the specified user.
-   * @param imageSize The avatar image size in pixels. If imageSize have a zero value this indicates
-   *     to set URL for default size that provider determines.
-   * @throws Exception if an error occurred.
-   */
-  default void setUrl(IdentifiedUser forUser, String url, int imageSize) throws Exception {
-    throw new NotImplementedException();
-  }
-
-  /**
-   * Indicates whether or not the provider allows to set the image URL.
-   *
-   * <p>It is the default method (not interface method declaration) for back compatibility with old
-   * code.
-   *
-   * @return
-   *     <ul>
-   *       <li>true - avatar image URL could be set.
-   *       <li>false - avatar image URL could not be set (for example not Implemented).
-   *     </ul>
-   */
-  default boolean canSetUrl() {
-    return false;
-  }
 }

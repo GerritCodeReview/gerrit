@@ -667,39 +667,6 @@ public class ChangeBundleTest extends GerritBaseTests {
   }
 
   @Test
-  public void diffChangesAllowsCreatedToMatchLastUpdated() throws Exception {
-    Change c1 = TestChanges.newChange(new Project.NameKey("project"), new Account.Id(100));
-    c1.setCreatedOn(TimeUtil.nowTs());
-    assertThat(c1.getCreatedOn()).isGreaterThan(c1.getLastUpdatedOn());
-    Change c2 = clone(c1);
-    c2.setCreatedOn(c2.getLastUpdatedOn());
-
-    // Both ReviewDb.
-    ChangeBundle b1 =
-        new ChangeBundle(
-            c1, messages(), patchSets(), approvals(), comments(), reviewers(), REVIEW_DB);
-    ChangeBundle b2 =
-        new ChangeBundle(
-            c2, messages(), patchSets(), approvals(), comments(), reviewers(), REVIEW_DB);
-    assertDiffs(
-        b1,
-        b2,
-        "createdOn differs for Change.Id "
-            + c1.getId()
-            + ": {2009-09-30 17:00:06.0} != {2009-09-30 17:00:00.0}");
-
-    // One NoteDb.
-    b1 =
-        new ChangeBundle(
-            c1, messages(), patchSets(), approvals(), comments(), reviewers(), REVIEW_DB);
-    b2 =
-        new ChangeBundle(
-            c2, messages(), patchSets(), approvals(), comments(), reviewers(), NOTE_DB);
-    assertNoDiffs(b1, b2);
-    assertNoDiffs(b2, b1);
-  }
-
-  @Test
   public void diffChangeMessageKeySets() throws Exception {
     Change c = TestChanges.newChange(project, accountId);
     int id = c.getId().get();
@@ -1423,90 +1390,6 @@ public class ChangeBundleTest extends GerritBaseTests {
             + badPs2.getId()
             + " in NoteDb vs. ReviewDb:"
             + " {2009-09-30 17:00:06.0} != {2009-09-30 17:00:18.0}");
-  }
-
-  @Test
-  public void diffPatchSetsAllowsFirstPatchSetCreatedOnToMatchChangeCreatedOn() {
-    Change c = TestChanges.newChange(project, accountId);
-    c.setLastUpdatedOn(TimeUtil.nowTs());
-
-    PatchSet goodPs1 = new PatchSet(new PatchSet.Id(c.getId(), 1));
-    goodPs1.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
-    goodPs1.setUploader(accountId);
-    goodPs1.setCreatedOn(TimeUtil.nowTs());
-    assertThat(goodPs1.getCreatedOn()).isGreaterThan(c.getCreatedOn());
-
-    PatchSet ps1AtCreatedOn = clone(goodPs1);
-    ps1AtCreatedOn.setCreatedOn(c.getCreatedOn());
-
-    PatchSet goodPs2 = new PatchSet(new PatchSet.Id(c.getId(), 2));
-    goodPs2.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
-    goodPs2.setUploader(accountId);
-    goodPs2.setCreatedOn(TimeUtil.nowTs());
-
-    PatchSet ps2AtCreatedOn = clone(goodPs2);
-    ps2AtCreatedOn.setCreatedOn(c.getCreatedOn());
-
-    // Both ReviewDb, exact match required.
-    ChangeBundle b1 =
-        new ChangeBundle(
-            c,
-            messages(),
-            patchSets(goodPs1, goodPs2),
-            approvals(),
-            comments(),
-            reviewers(),
-            REVIEW_DB);
-    ChangeBundle b2 =
-        new ChangeBundle(
-            c,
-            messages(),
-            patchSets(ps1AtCreatedOn, ps2AtCreatedOn),
-            approvals(),
-            comments(),
-            reviewers(),
-            REVIEW_DB);
-    assertDiffs(
-        b1,
-        b2,
-        "createdOn differs for PatchSet.Id "
-            + c.getId()
-            + ",1: {2009-09-30 17:00:12.0} != {2009-09-30 17:00:00.0}",
-        "createdOn differs for PatchSet.Id "
-            + c.getId()
-            + ",2: {2009-09-30 17:00:18.0} != {2009-09-30 17:00:00.0}");
-
-    // One ReviewDb, PS1 is allowed to match change createdOn, but PS2 isn't.
-    b1 =
-        new ChangeBundle(
-            c,
-            messages(),
-            patchSets(goodPs1, goodPs2),
-            approvals(),
-            comments(),
-            reviewers(),
-            REVIEW_DB);
-    b2 =
-        new ChangeBundle(
-            c,
-            messages(),
-            patchSets(ps1AtCreatedOn, ps2AtCreatedOn),
-            approvals(),
-            comments(),
-            reviewers(),
-            NOTE_DB);
-    assertDiffs(
-        b1,
-        b2,
-        "createdOn differs for PatchSet.Id "
-            + c.getId()
-            + ",2 in NoteDb vs. ReviewDb: {2009-09-30 17:00:00.0} != {2009-09-30 17:00:18.0}");
-    assertDiffs(
-        b2,
-        b1,
-        "createdOn differs for PatchSet.Id "
-            + c.getId()
-            + ",2 in NoteDb vs. ReviewDb: {2009-09-30 17:00:00.0} != {2009-09-30 17:00:18.0}");
   }
 
   @Test

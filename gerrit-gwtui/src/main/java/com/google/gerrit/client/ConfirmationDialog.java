@@ -29,7 +29,7 @@ public class ConfirmationDialog extends AutoCenterDialogBox {
   private Button okButton;
 
   public ConfirmationDialog(
-      final String dialogTitle, SafeHtml message, ConfirmationCallback callback) {
+      final String dialogTitle, final SafeHtml message, final ConfirmationCallback callback) {
     super(/* auto hide */ false, /* modal */ true);
     setGlassEnabled(true);
     setText(dialogTitle);

@@ -14,23 +14,29 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.common.base.Strings;
-import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
-import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.ProjectResource;
-import com.google.gerrit.server.project.PutConfig;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
+import java.io.IOException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @CommandMetaData(name = "set-project", description = "Change a project's settings")
 final class SetProjectCommand extends SshCommand {
+  private static final Logger log = LoggerFactory.getLogger(SetProjectCommand.class);
+
   @Argument(index = 0, required = true, metaVar = "NAME", usage = "name of the project")
   private ProjectControl projectControl;
 
@@ -128,30 +134,64 @@ final class SetProjectCommand extends SshCommand {
   @Option(name = "--max-object-size-limit", usage = "max Git object size for this project")
   private String maxObjectSizeLimit;
 
-  @Inject private PutConfig putConfig;
+  @Inject private MetaDataUpdate.User metaDataUpdateFactory;
+
+  @Inject private ProjectCache projectCache;
 
   @Override
   protected void run() throws Failure {
-    ConfigInput configInput = new ConfigInput();
-    configInput.requireChangeId = requireChangeID;
-    configInput.submitType = submitType;
-    configInput.useContentMerge = contentMerge;
-    configInput.useContributorAgreements = contributorAgreements;
-    configInput.useSignedOffBy = signedOffBy;
-    configInput.state = state;
-    configInput.maxObjectSizeLimit = maxObjectSizeLimit;
-    // Description is different to other parameters, null won't result in
-    // keeping the existing description, it would delete it.
-    if (Strings.emptyToNull(projectDescription) != null) {
-      configInput.description = projectDescription;
-    } else {
-      configInput.description = projectControl.getProject().getDescription();
+    if (!projectControl.isOwner()) {
+      throw new UnloggedFailure(1, "restricted to project owner");
     }
+    Project ctlProject = projectControl.getProject();
+    Project.NameKey nameKey = ctlProject.getNameKey();
+    String name = ctlProject.getName();
+    final StringBuilder err = new StringBuilder();
 
-    try {
-      putConfig.apply(new ProjectResource(projectControl), configInput);
-    } catch (RestApiException e) {
-      throw die(e);
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(nameKey)) {
+      ProjectConfig config = ProjectConfig.read(md);
+      Project project = config.getProject();
+
+      if (requireChangeID != null) {
+        project.setRequireChangeID(requireChangeID);
+      }
+      if (submitType != null) {
+        project.setSubmitType(submitType);
+      }
+      if (contentMerge != null) {
+        project.setUseContentMerge(contentMerge);
+      }
+      if (contributorAgreements != null) {
+        project.setUseContributorAgreements(contributorAgreements);
+      }
+      if (signedOffBy != null) {
+        project.setUseSignedOffBy(signedOffBy);
+      }
+      if (projectDescription != null) {
+        project.setDescription(projectDescription);
+      }
+      if (state != null) {
+        project.setState(state);
+      }
+      if (maxObjectSizeLimit != null) {
+        project.setMaxObjectSizeLimit(maxObjectSizeLimit);
+      }
+      md.setMessage("Project settings updated");
+      config.commit(md);
+    } catch (RepositoryNotFoundException notFound) {
+      err.append("Project ").append(name).append(" not found\n");
+    } catch (IOException | ConfigInvalidException e) {
+      final String msg = "Cannot update project " + name;
+      log.error(msg, e);
+      err.append("error: ").append(msg).append("\n");
+    }
+    projectCache.evict(ctlProject);
+
+    if (err.length() > 0) {
+      while (err.charAt(err.length() - 1) == '\n') {
+        err.setLength(err.length() - 1);
+      }
+      throw die(err.toString());
     }
   }
 }

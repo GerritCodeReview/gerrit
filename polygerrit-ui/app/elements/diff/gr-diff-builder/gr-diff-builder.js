@@ -14,8 +14,8 @@
 (function(window, GrDiffGroup, GrDiffLine) {
   'use strict';
 
-  const HTML_ENTITY_PATTERN = /[&<>"'`\/]/g;
-  const HTML_ENTITY_MAP = {
+  var HTML_ENTITY_PATTERN = /[&<>"'`\/]/g;
+  var HTML_ENTITY_MAP = {
     '&': '&amp;',
     '<': '&lt;',
     '>': '&gt;',
@@ -28,24 +28,22 @@
   // Prevent redefinition.
   if (window.GrDiffBuilder) { return; }
 
-  const REGEX_ASTRAL_SYMBOL = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
+  var REGEX_ASTRAL_SYMBOL = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
-  function GrDiffBuilder(diff, comments, prefs, projectName, outputEl, layers) {
+  function GrDiffBuilder(diff, comments, prefs, outputEl, layers) {
     this._diff = diff;
     this._comments = comments;
     this._prefs = prefs;
-    this._projectName = projectName;
     this._outputEl = outputEl;
     this.groups = [];
-    this._blameInfo = null;
 
     this.layers = layers || [];
 
-    for (const layer of this.layers) {
+    this.layers.forEach(function(layer) {
       if (layer.addListener) {
         layer.addListener(this._handleLayerUpdate.bind(this));
       }
-    }
+    }.bind(this));
   }
 
   GrDiffBuilder.LESS_THAN_CODE = '<'.charCodeAt(0);
@@ -78,7 +76,7 @@
     ALL: 'all',
   };
 
-  const PARTIAL_CONTEXT_AMOUNT = 10;
+  var PARTIAL_CONTEXT_AMOUNT = 10;
 
   /**
    * Abstract method
@@ -98,16 +96,16 @@
   };
 
   GrDiffBuilder.prototype.emitGroup = function(group, opt_beforeSection) {
-    const element = this.buildSectionElement(group);
+    var element = this.buildSectionElement(group);
     this._outputEl.insertBefore(element, opt_beforeSection);
     group.element = element;
   };
 
   GrDiffBuilder.prototype.renderSection = function(element) {
-    for (let i = 0; i < this.groups.length; i++) {
-      const group = this.groups[i];
+    for (var i = 0; i < this.groups.length; i++) {
+      var group = this.groups[i];
       if (group.element === element) {
-        const newElement = this.buildSectionElement(group);
+        var newElement = this.buildSectionElement(group);
         group.element.parentElement.replaceChild(newElement, group.element);
         group.element = newElement;
         break;
@@ -117,14 +115,14 @@
 
   GrDiffBuilder.prototype.getGroupsByLineRange = function(
       startLine, endLine, opt_side) {
-    const groups = [];
-    for (let i = 0; i < this.groups.length; i++) {
-      const group = this.groups[i];
+    var groups = [];
+    for (var i = 0; i < this.groups.length; i++) {
+      var group = this.groups[i];
       if (group.lines.length === 0) {
         continue;
       }
-      let groupStartLine = 0;
-      let groupEndLine = 0;
+      var groupStartLine = 0;
+      var groupEndLine = 0;
       if (opt_side) {
         groupStartLine = group.lineRange[opt_side].start;
         groupEndLine = group.lineRange[opt_side].end;
@@ -133,7 +131,7 @@
       if (groupStartLine === 0) { // Line was removed or added.
         groupStartLine = groupEndLine;
       }
-      if (groupEndLine === 0) { // Line was removed or added.
+      if (groupEndLine === 0) {  // Line was removed or added.
         groupEndLine = groupStartLine;
       }
       if (startLine <= groupEndLine && endLine >= groupStartLine) {
@@ -145,8 +143,8 @@
 
   GrDiffBuilder.prototype.getContentByLine = function(lineNumber, opt_side,
       opt_root) {
-    const root = Polymer.dom(opt_root || this._outputEl);
-    const sideSelector = opt_side ? ('.' + opt_side) : '';
+    var root = Polymer.dom(opt_root || this._outputEl);
+    var sideSelector = !!opt_side ? ('.' + opt_side) : '';
     return root.querySelector('td.lineNum[data-value="' + lineNumber +
         '"]' + sideSelector + ' ~ td.content .contentText');
   };
@@ -154,27 +152,27 @@
   /**
    * Find line elements or line objects by a range of line numbers and a side.
    *
-   * @param {number} start The first line number
-   * @param {number} end The last line number
-   * @param {string} opt_side The side of the range. Either 'left' or 'right'.
-   * @param {!Array<GrDiffLine>} out_lines The output list of line objects. Use
+   * @param {Number} start The first line number
+   * @param {Number} end The last line number
+   * @param {String} opt_side The side of the range. Either 'left' or 'right'.
+   * @param {Array<GrDiffLine>} out_lines The output list of line objects. Use
    *     null if not desired.
-   * @param  {!Array<HTMLElement>} out_elements The output list of line elements.
+   * @param  {Array<HTMLElement>} out_elements The output list of line elements.
    *     Use null if not desired.
    */
   GrDiffBuilder.prototype.findLinesByRange = function(start, end, opt_side,
       out_lines, out_elements) {
-    const groups = this.getGroupsByLineRange(start, end, opt_side);
-    for (const group of groups) {
-      let content = null;
-      for (const line of group.lines) {
+    var groups = this.getGroupsByLineRange(start, end, opt_side);
+    groups.forEach(function(group) {
+      var content = null;
+      group.lines.forEach(function(line) {
         if ((opt_side === 'left' && line.type === GrDiffLine.Type.ADD) ||
             (opt_side === 'right' && line.type === GrDiffLine.Type.REMOVE)) {
-          continue;
+          return;
         }
-        const lineNumber = opt_side === 'left' ?
+        var lineNumber = opt_side === 'left' ?
             line.beforeNumber : line.afterNumber;
-        if (lineNumber < start || lineNumber > end) { continue; }
+        if (lineNumber < start || lineNumber > end) { return; }
 
         if (out_lines) { out_lines.push(line); }
         if (out_elements) {
@@ -186,8 +184,8 @@
           }
           if (content) { out_elements.push(content); }
         }
-      }
-    }
+      }.bind(this));
+    }.bind(this));
   };
 
   /**
@@ -195,12 +193,12 @@
    * diff content.
    */
   GrDiffBuilder.prototype._renderContentByRange = function(start, end, side) {
-    const lines = [];
-    const elements = [];
-    let line;
-    let el;
+    var lines = [];
+    var elements = [];
+    var line;
+    var el;
     this.findLinesByRange(start, end, side, lines, elements);
-    for (let i = 0; i < lines.length; i++) {
+    for (var i = 0; i < lines.length; i++) {
       line = lines[i];
       el = elements[i];
       el.parentElement.replaceChild(this._createTextEl(line, side).firstChild,
@@ -211,7 +209,7 @@
   GrDiffBuilder.prototype.getSectionsByLineRange = function(
       startLine, endLine, opt_side) {
     return this.getGroupsByLineRange(startLine, endLine, opt_side).map(
-        group => { return group.element; });
+        function(group) { return group.element; });
   };
 
   GrDiffBuilder.prototype._commentIsAtLineNum = function(side, lineNum) {
@@ -221,15 +219,15 @@
   // TODO(wyatta): Move this completely into the processor.
   GrDiffBuilder.prototype._insertContextGroups = function(groups, lines,
       hiddenRange) {
-    const linesBeforeCtx = lines.slice(0, hiddenRange[0]);
-    const hiddenLines = lines.slice(hiddenRange[0], hiddenRange[1]);
-    const linesAfterCtx = lines.slice(hiddenRange[1]);
+    var linesBeforeCtx = lines.slice(0, hiddenRange[0]);
+    var hiddenLines = lines.slice(hiddenRange[0], hiddenRange[1]);
+    var linesAfterCtx = lines.slice(hiddenRange[1]);
 
     if (linesBeforeCtx.length > 0) {
       groups.push(new GrDiffGroup(GrDiffGroup.Type.BOTH, linesBeforeCtx));
     }
 
-    const ctxLine = new GrDiffLine(GrDiffLine.Type.CONTEXT_CONTROL);
+    var ctxLine = new GrDiffLine(GrDiffLine.Type.CONTEXT_CONTROL);
     ctxLine.contextGroup =
         new GrDiffGroup(GrDiffGroup.Type.BOTH, hiddenLines);
     groups.push(new GrDiffGroup(GrDiffGroup.Type.CONTEXT_CONTROL,
@@ -245,8 +243,8 @@
       return null;
     }
 
-    const td = this._createElement('td');
-    const showPartialLinks =
+    var td = this._createElement('td');
+    var showPartialLinks =
         line.contextGroup.lines.length > PARTIAL_CONTEXT_AMOUNT;
 
     if (showPartialLinks) {
@@ -268,14 +266,14 @@
   };
 
   GrDiffBuilder.prototype._createContextButton = function(type, section, line) {
-    const contextLines = line.contextGroup.lines;
-    const context = PARTIAL_CONTEXT_AMOUNT;
+    var contextLines = line.contextGroup.lines;
+    var context = PARTIAL_CONTEXT_AMOUNT;
 
-    const button = this._createElement('gr-button', 'showContext');
+    var button = this._createElement('gr-button', 'showContext');
     button.setAttribute('link', true);
 
-    let text;
-    const groups = []; // The groups that replace this one if tapped.
+    var text;
+    var groups = []; // The groups that replace this one if tapped.
 
     if (type === GrDiffBuilder.ContextButtonType.ALL) {
       text = 'Show ' + contextLines.length + ' common line';
@@ -293,10 +291,10 @@
 
     button.textContent = text;
 
-    button.addEventListener('tap', e => {
+    button.addEventListener('tap', function(e) {
       e.detail = {
-        groups,
-        section,
+        groups: groups,
+        section: section,
       };
       // Let it bubble up the DOM tree.
     });
@@ -312,15 +310,15 @@
                (c.line === undefined && lineNum === GrDiffLine.FILE);
       };
     }
-    const leftComments =
+    var leftComments =
         comments[GrDiffBuilder.Side.LEFT].filter(byLineNum(line.beforeNumber));
-    const rightComments =
+    var rightComments =
         comments[GrDiffBuilder.Side.RIGHT].filter(byLineNum(line.afterNumber));
 
-    leftComments.forEach(c => { c.__commentSide = 'left'; });
-    rightComments.forEach(c => { c.__commentSide = 'right'; });
+    leftComments.forEach(function(c) { c.__commentSide = 'left'; });
+    rightComments.forEach(function(c) { c.__commentSide = 'right'; });
 
-    let result;
+    var result;
 
     switch (opt_side) {
       case GrDiffBuilder.Side.LEFT:
@@ -338,41 +336,41 @@
   };
 
   GrDiffBuilder.prototype.createCommentThreadGroup = function(changeNum,
-      patchNum, path, isOnParent, range) {
-    const threadGroupEl =
+      patchNum, path, isOnParent, projectConfig, range) {
+    var threadGroupEl =
         document.createElement('gr-diff-comment-thread-group');
     threadGroupEl.changeNum = changeNum;
     threadGroupEl.patchForNewThreads = patchNum;
     threadGroupEl.path = path;
     threadGroupEl.isOnParent = isOnParent;
-    threadGroupEl.projectName = this._projectName;
+    threadGroupEl.projectConfig = projectConfig;
     threadGroupEl.range = range;
     return threadGroupEl;
   };
 
-  GrDiffBuilder.prototype._commentThreadGroupForLine = function(line,
-      opt_side) {
-    const comments =
-        this._getCommentsForLine(this._comments, line, opt_side);
+  GrDiffBuilder.prototype._commentThreadGroupForLine =
+      function(line, opt_side) {
+    var comments = this._getCommentsForLine(this._comments, line, opt_side);
     if (!comments || comments.length === 0) {
       return null;
     }
 
-    let patchNum = this._comments.meta.patchRange.patchNum;
-    let isOnParent = comments[0].side === 'PARENT' || false;
+    var patchNum = this._comments.meta.patchRange.patchNum;
+    var isOnParent = comments[0].side === 'PARENT' || false;
     if (line.type === GrDiffLine.Type.REMOVE ||
-    opt_side === GrDiffBuilder.Side.LEFT) {
+        opt_side === GrDiffBuilder.Side.LEFT) {
       if (this._comments.meta.patchRange.basePatchNum === 'PARENT') {
         isOnParent = true;
       } else {
         patchNum = this._comments.meta.patchRange.basePatchNum;
       }
     }
-    const threadGroupEl = this.createCommentThreadGroup(
+    var threadGroupEl = this.createCommentThreadGroup(
         this._comments.meta.changeNum,
         patchNum,
         this._comments.meta.path,
-        isOnParent);
+        isOnParent,
+        this._comments.meta.projectConfig);
     threadGroupEl.comments = comments;
     if (opt_side) {
       threadGroupEl.setAttribute('data-side', opt_side);
@@ -382,17 +380,10 @@
 
   GrDiffBuilder.prototype._createLineEl = function(line, number, type,
       opt_class) {
-    const td = this._createElement('td');
+    var td = this._createElement('td');
     if (opt_class) {
       td.classList.add(opt_class);
     }
-
-    if (line.type === GrDiffLine.Type.REMOVE) {
-      td.setAttribute('aria-label', `${number} removed`);
-    } else if (line.type === GrDiffLine.Type.ADD) {
-      td.setAttribute('aria-label', `${number} added`);
-    }
-
     if (line.type === GrDiffLine.Type.BLANK) {
       return td;
     } else if (line.type === GrDiffLine.Type.CONTEXT_CONTROL) {
@@ -406,21 +397,22 @@
   };
 
   GrDiffBuilder.prototype._createTextEl = function(line, opt_side) {
-    const td = this._createElement('td');
-    const text = line.text;
+    var td = this._createElement('td');
+    var text = line.text;
     if (line.type !== GrDiffLine.Type.BLANK) {
       td.classList.add('content');
     }
     td.classList.add(line.type);
-    let html = this._escapeHTML(text);
+    var html = this._escapeHTML(text);
     html = this._addTabWrappers(html, this._prefs.tab_size);
+
     if (!this._prefs.line_wrapping &&
         this._textLength(text, this._prefs.tab_size) >
         this._prefs.line_length) {
       html = this._addNewlines(text, html);
     }
 
-    const contentText = this._createElement('div', 'contentText');
+    var contentText = this._createElement('div', 'contentText');
     if (opt_side) {
       contentText.setAttribute('data-side', opt_side);
     }
@@ -433,9 +425,9 @@
       contentText.innerHTML = html;
     }
 
-    for (const layer of this.layers) {
+    this.layers.forEach(function(layer) {
       layer.annotate(contentText, line);
-    }
+    });
 
     td.appendChild(contentText);
 
@@ -444,12 +436,12 @@
 
   /**
    * Returns the text length after normalizing unicode and tabs.
-   * @return {number} The normalized length of the text.
+   * @return {Number} The normalized length of the text.
    */
   GrDiffBuilder.prototype._textLength = function(text, tabSize) {
     text = text.replace(REGEX_ASTRAL_SYMBOL, '_');
-    let numChars = 0;
-    for (let i = 0; i < text.length; i++) {
+    var numChars = 0;
+    for (var i = 0; i < text.length; i++) {
       if (text[i] === '\t') {
         numChars += tabSize - (numChars % tabSize);
       } else {
@@ -475,7 +467,7 @@
              html.charCodeAt(index) !== GrDiffBuilder.GREATER_THAN_CODE) {
         index++;
       }
-      index++; // skip the ">" itself
+      index++;  // skip the ">" itself
     }
     // An HTML entity (e.g., &lt;) counts as one character.
     if (index < html.length &&
@@ -497,11 +489,11 @@
   };
 
   GrDiffBuilder.prototype._addNewlines = function(text, html) {
-    let htmlIndex = 0;
-    const indices = [];
-    let numChars = 0;
-    let prevHtmlIndex = 0;
-    for (let i = 0; i < text.length; i++) {
+    var htmlIndex = 0;
+    var indices = [];
+    var numChars = 0;
+    var prevHtmlIndex = 0;
+    for (var i = 0; i < text.length; i++) {
       if (numChars > 0 && numChars % this._prefs.line_length === 0) {
         indices.push(htmlIndex);
       }
@@ -521,11 +513,11 @@
       }
       prevHtmlIndex = htmlIndex;
     }
-    let result = html;
+    var result = html;
     // Since the result string is being altered in place, start from the end
     // of the string so that the insertion indices are not affected as the
     // result string changes.
-    for (let i = indices.length - 1; i >= 0; i--) {
+    for (var i = indices.length - 1; i >= 0; i--) {
       result = result.slice(0, indices[i]) + GrDiffBuilder.LINE_FEED_HTML +
           result.slice(indices[i]);
     }
@@ -537,19 +529,19 @@
    * elements in place of tab characters. In each case tab elements are given
    * the width needed to reach the next tab-stop.
    *
-   * @param {string} A line of text potentially containing tab characters.
-   * @param {number} The width for tabs.
-   * @return {string} An HTML string potentially containing tab elements.
+   * @param {String} A line of text potentially containing tab characters.
+   * @param {Number} The width for tabs.
+   * @return {String} An HTML string potentially containing tab elements.
    */
   GrDiffBuilder.prototype._addTabWrappers = function(line, tabSize) {
     if (!line.length) { return ''; }
 
-    let result = '';
-    let offset = 0;
-    const split = line.split('\t');
-    let width;
+    var result = '';
+    var offset = 0;
+    var split = line.split('\t');
+    var width;
 
-    for (let i = 0; i < split.length - 1; i++) {
+    for (var i = 0; i < split.length - 1; i++) {
       offset += split[i].length;
       width = tabSize - (offset % tabSize);
       result += split[i] + this._getTabWrapper(width);
@@ -569,7 +561,7 @@
       throw Error('Invalid tab size from preferences.');
     }
 
-    let str = '<span class="style-scope gr-diff tab ';
+    var str = '<span class="style-scope gr-diff tab ';
     str += '" style="';
     // TODO(andybons): CSS tab-size is not supported in IE.
     str += 'tab-size:' + tabSize + ';';
@@ -579,7 +571,7 @@
   };
 
   GrDiffBuilder.prototype._createElement = function(tagName, className) {
-    const el = document.createElement(tagName);
+    var el = document.createElement(tagName);
     // When Shady DOM is being used, these classes are added to account for
     // Polymer's polyfill behavior. In order to guarantee sufficient
     // specificity within the CSS rules, these are added to every element.
@@ -587,7 +579,7 @@
     // automatically) are not being used for performance reasons, this is
     // done manually.
     el.classList.add('style-scope', 'gr-diff');
-    if (className) {
+    if (!!className) {
       el.classList.add(className);
     }
     return el;
@@ -601,7 +593,7 @@
    * Finds the next DIV.contentText element following the given element, and on
    * the same side. Will only search within a group.
    * @param {HTMLElement} content
-   * @param {string} side Either 'left' or 'right'
+   * @param {String} side Either 'left' or 'right'
    * @return {HTMLElement}
    */
   GrDiffBuilder.prototype._getNextContentOnSide = function(content, side) {
@@ -611,8 +603,8 @@
   /**
    * Determines whether the given group is either totally an addition or totally
    * a removal.
-   * @param {!Object} group (GrDiffGroup)
-   * @return {boolean}
+   * @param {GrDiffGroup} group
+   * @return {Boolean}
    */
   GrDiffBuilder.prototype._isTotal = function(group) {
     return group.type === GrDiffGroup.Type.DELTA &&
@@ -621,109 +613,9 @@
   };
 
   GrDiffBuilder.prototype._escapeHTML = function(str) {
-    return str.replace(HTML_ENTITY_PATTERN, s => {
+    return str.replace(HTML_ENTITY_PATTERN, function(s) {
       return HTML_ENTITY_MAP[s];
     });
-  };
-
-  /**
-   * Set the blame information for the diff. For any already-rednered line,
-   * re-render its blame cell content.
-   * @param {Object} blame
-   */
-  GrDiffBuilder.prototype.setBlame = function(blame) {
-    this._blameInfo = blame;
-
-    // TODO(wyatta): make this loop asynchronous.
-    for (const commit of blame) {
-      for (const range of commit.ranges) {
-        for (let i = range.start; i <= range.end; i++) {
-          // TODO(wyatta): this query is expensive, but, when traversing a
-          // range, the lines are consecutive, and given the previous blame
-          // cell, the next one can be reached cheaply.
-          const el = this._getBlameByLineNum(i);
-          if (!el) { continue; }
-          // Remove the element's children (if any).
-          while (el.hasChildNodes()) {
-            el.removeChild(el.lastChild);
-          }
-          const blame = this._getBlameForBaseLine(i, commit);
-          el.appendChild(blame);
-        }
-      }
-    }
-  };
-
-  /**
-   * Find the blame cell for a given line number.
-   * @param {number} lineNum
-   * @return {HTMLTableDataCellElement}
-   */
-  GrDiffBuilder.prototype._getBlameByLineNum = function(lineNum) {
-    const root = Polymer.dom(this._outputEl);
-    return root.querySelector(`td.blame[data-line-number="${lineNum}"]`);
-  };
-
-  /**
-   * Given a base line number, return the commit containing that line in the
-   * current set of blame information. If no blame information has been
-   * provided, null is returned.
-   * @param {number} lineNum
-   * @return {Object} The commit information.
-   */
-  GrDiffBuilder.prototype._getBlameCommitForBaseLine = function(lineNum) {
-    if (!this._blameInfo) { return null; }
-
-    for (const blameCommit of this._blameInfo) {
-      for (const range of blameCommit.ranges) {
-        if (range.start <= lineNum && range.end >= lineNum) {
-          return blameCommit;
-        }
-      }
-    }
-    return null;
-  };
-
-  /**
-   * Given the number of a base line, get the content for the blame cell of that
-   * line. If there is no blame information for that line, returns null.
-   * @param {number} lineNum
-   * @param {Object=} opt_commit Optionally provide the commit object, so that
-   *     it does not need to be searched.
-   * @return {HTMLSpanElement}
-   */
-  GrDiffBuilder.prototype._getBlameForBaseLine = function(lineNum, opt_commit) {
-    const commit = opt_commit || this._getBlameCommitForBaseLine(lineNum);
-    if (!commit) { return null; }
-
-    const isStartOfRange = commit.ranges.some(r => r.start === lineNum);
-
-    const date = (new Date(commit.time * 1000)).toLocaleDateString();
-    const blameNode = this._createElement('span',
-        isStartOfRange ? 'startOfRange' : '');
-    const shaNode = this._createElement('span', 'sha');
-    shaNode.innerText = commit.id.substr(0, 7);
-    blameNode.appendChild(shaNode);
-    blameNode.append(` on ${date} by ${commit.author}`);
-    return blameNode;
-  };
-
-  /**
-   * Create a blame cell for the given base line. Blame information will be
-   * included in the cell if available.
-   * @param {GrDiffLine} line
-   * @return {HTMLTableDataCellElement}
-   */
-  GrDiffBuilder.prototype._createBlameCell = function(line) {
-    const blameTd = this._createElement('td', 'blame');
-    blameTd.setAttribute('data-line-number', line.beforeNumber);
-    if (line.beforeNumber) {
-      const content = this._getBlameForBaseLine(line.beforeNumber);
-      if (content) {
-        blameTd.appendChild(content);
-      }
-    }
-    return blameTd;
   };
 
   window.GrDiffBuilder = GrDiffBuilder;

@@ -19,22 +19,22 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gwtorm.server.OrmException;
 
-public class OwnerinPredicate extends ChangeOperatorPredicate {
-  protected final IdentifiedUser.GenericFactory userFactory;
-  protected final AccountGroup.UUID uuid;
+class OwnerinPredicate extends ChangeOperatorPredicate {
+  private final IdentifiedUser.GenericFactory userFactory;
+  private final AccountGroup.UUID uuid;
 
-  public OwnerinPredicate(IdentifiedUser.GenericFactory userFactory, AccountGroup.UUID uuid) {
+  OwnerinPredicate(IdentifiedUser.GenericFactory userFactory, AccountGroup.UUID uuid) {
     super(ChangeQueryBuilder.FIELD_OWNERIN, uuid.toString());
     this.userFactory = userFactory;
     this.uuid = uuid;
   }
 
-  protected AccountGroup.UUID getAccountGroupUUID() {
+  AccountGroup.UUID getAccountGroupUUID() {
     return uuid;
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
+  public boolean match(final ChangeData object) throws OrmException {
     final Change change = object.change();
     if (change == null) {
       return false;

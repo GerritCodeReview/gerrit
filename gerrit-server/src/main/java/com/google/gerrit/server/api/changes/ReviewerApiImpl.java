@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.api.changes;
 
-import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
-
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.ReviewerApi;
@@ -25,6 +23,8 @@ import com.google.gerrit.server.change.DeleteVote;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.change.VoteResource;
 import com.google.gerrit.server.change.Votes;
+import com.google.gerrit.server.update.UpdateException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Map;
@@ -55,8 +55,8 @@ public class ReviewerApiImpl implements ReviewerApi {
   public Map<String, Short> votes() throws RestApiException {
     try {
       return listVotes.apply(reviewer);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot list votes", e);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot list votes", e);
     }
   }
 
@@ -64,8 +64,8 @@ public class ReviewerApiImpl implements ReviewerApi {
   public void deleteVote(String label) throws RestApiException {
     try {
       deleteVote.apply(new VoteResource(reviewer, label), null);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot delete vote", e);
+    } catch (UpdateException e) {
+      throw new RestApiException("Cannot delete vote", e);
     }
   }
 
@@ -73,8 +73,8 @@ public class ReviewerApiImpl implements ReviewerApi {
   public void deleteVote(DeleteVoteInput input) throws RestApiException {
     try {
       deleteVote.apply(new VoteResource(reviewer, input.label), input);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot delete vote", e);
+    } catch (UpdateException e) {
+      throw new RestApiException("Cannot delete vote", e);
     }
   }
 
@@ -87,8 +87,8 @@ public class ReviewerApiImpl implements ReviewerApi {
   public void remove(DeleteReviewerInput input) throws RestApiException {
     try {
       deleteReviewer.apply(reviewer, input);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot remove reviewer", e);
+    } catch (UpdateException e) {
+      throw new RestApiException("Cannot remove reviewer", e);
     }
   }
 }

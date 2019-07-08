@@ -40,7 +40,6 @@ java_package_configuration(
         "-Xep:CannotMockFinalClass:WARN",
         "-Xep:ClassCanBeStatic:WARN",
         "-Xep:ClassNewInstance:WARN",
-        "-Xep:DateFormatConstant:ERROR",
         "-Xep:DefaultCharset:ERROR",
         "-Xep:DoubleCheckedLocking:WARN",
         "-Xep:ElementsCountedInLoop:WARN",

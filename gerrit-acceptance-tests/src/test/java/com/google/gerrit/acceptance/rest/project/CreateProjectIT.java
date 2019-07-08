@@ -15,11 +15,9 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectInfo;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectOwners;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.net.HttpHeaders;
@@ -43,7 +41,6 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectState;
 import java.util.Collections;
 import java.util.Set;
-import org.apache.http.HttpStatus;
 import org.apache.http.message.BasicHeader;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
@@ -60,11 +57,6 @@ public class CreateProjectIT extends AbstractDaemonTest {
     r.assertCreated();
     ProjectInfo p = newGson().fromJson(r.getReader(), ProjectInfo.class);
     assertThat(p.name).isEqualTo(newProjectName);
-
-    // Check that we populate the label data in the HTTP path. See GetProjectIT#getProject
-    // for more extensive coverage of the LabelTypeInfo.
-    assertThat(p.labels).hasSize(1);
-
     ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
     assertThat(projectState).isNotNull();
     assertProjectInfo(projectState.getProject(), p);
@@ -87,15 +79,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @Test
   @UseLocalDisk
   public void createProjectHttpWithUnreasonableName_BadRequest() throws Exception {
-    ImmutableList<String> forbiddenStrings =
-        ImmutableList.of(
-            "/../", "/./", "//", ".git/", "?", "%", "*", ":", "<", ">", "|", "$", "/+", "~");
-    for (String s : forbiddenStrings) {
-      String projectName = name("invalid" + s + "name");
-      assertWithMessage("Expected status code for " + projectName + " to be 400.")
-          .that(adminRestSession.put("/projects/" + Url.encode(projectName)).getStatusCode())
-          .isEqualTo(HttpStatus.SC_BAD_REQUEST);
-    }
+    adminRestSession.put("/projects/" + Url.encode(name("invalid/../name"))).assertBadRequest();
   }
 
   @Test
@@ -191,11 +175,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     in.owners.add(SystemGroupBackend.REGISTERED_USERS.get()); // by UUID
     in.owners.add(
         Integer.toString(
-            groupCache
-                .get(new AccountGroup.NameKey("Administrators"))
-                .orElse(null)
-                .getId()
-                .get())); // by ID
+            groupCache.get(new AccountGroup.NameKey("Administrators")).getId().get())); // by ID
     gApi.projects().create(in);
     ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
     Set<AccountGroup.UUID> expectedOwnerIds = Sets.newHashSetWithExpectedSize(3);
@@ -297,7 +277,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   private AccountGroup.UUID groupUuid(String groupName) {
-    return groupCache.get(new AccountGroup.NameKey(groupName)).orElse(null).getGroupUUID();
+    return groupCache.get(new AccountGroup.NameKey(groupName)).getGroupUUID();
   }
 
   private void assertHead(String projectName, String expectedRef) throws Exception {

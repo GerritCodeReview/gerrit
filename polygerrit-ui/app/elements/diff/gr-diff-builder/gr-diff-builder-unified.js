@@ -17,40 +17,31 @@
   // Prevent redefinition.
   if (window.GrDiffBuilderUnified) { return; }
 
-  function GrDiffBuilderUnified(
-      diff, comments, prefs, projectName, outputEl, layers) {
-    GrDiffBuilder.call(
-        this, diff, comments, prefs, projectName, outputEl, layers);
+  function GrDiffBuilderUnified(diff, comments, prefs, outputEl, layers) {
+    GrDiffBuilder.call(this, diff, comments, prefs, outputEl, layers);
   }
   GrDiffBuilderUnified.prototype = Object.create(GrDiffBuilder.prototype);
   GrDiffBuilderUnified.prototype.constructor = GrDiffBuilderUnified;
 
   GrDiffBuilderUnified.prototype.buildSectionElement = function(group) {
-    const sectionEl = this._createElement('tbody', 'section');
+    var sectionEl = this._createElement('tbody', 'section');
     sectionEl.classList.add(group.type);
     if (this._isTotal(group)) {
       sectionEl.classList.add('total');
     }
-    if (group.dueToRebase) {
-      sectionEl.classList.add('dueToRebase');
-    }
 
-    for (let i = 0; i < group.lines.length; ++i) {
+    for (var i = 0; i < group.lines.length; ++i) {
       sectionEl.appendChild(this._createRow(sectionEl, group.lines[i]));
     }
     return sectionEl;
   };
 
   GrDiffBuilderUnified.prototype.addColumns = function(outputEl, fontSize) {
-    const width = fontSize * 4;
-    const colgroup = document.createElement('colgroup');
-
-    // Add the blame column.
-    let col = this._createElement('col', 'blame');
-    colgroup.appendChild(col);
+    var width = fontSize * 4;
+    var colgroup = document.createElement('colgroup');
 
     // Add left-side line number.
-    col = document.createElement('col');
+    var col = document.createElement('col');
     col.setAttribute('width', width);
     colgroup.appendChild(col);
 
@@ -66,10 +57,8 @@
   };
 
   GrDiffBuilderUnified.prototype._createRow = function(section, line) {
-    const row = this._createElement('tr', line.type);
-    row.appendChild(this._createBlameCell(line));
-
-    let lineEl = this._createLineEl(line, line.beforeNumber,
+    var row = this._createElement('tr', line.type);
+    var lineEl = this._createLineEl(line, line.beforeNumber,
         GrDiffLine.Type.REMOVE);
     lineEl.classList.add('left');
     row.appendChild(lineEl);
@@ -78,14 +67,13 @@
     lineEl.classList.add('right');
     row.appendChild(lineEl);
     row.classList.add('diff-row', 'unified');
-    row.tabIndex = -1;
 
-    const action = this._createContextControl(section, line);
+    var action = this._createContextControl(section, line);
     if (action) {
       row.appendChild(action);
     } else {
-      const textEl = this._createTextEl(line);
-      const threadGroupEl = this._commentThreadGroupForLine(line);
+      var textEl = this._createTextEl(line);
+      var threadGroupEl = this._commentThreadGroupForLine(line);
       if (threadGroupEl) {
         textEl.appendChild(threadGroupEl);
       }
@@ -96,7 +84,7 @@
 
   GrDiffBuilderUnified.prototype._getNextContentOnSide = function(
       content, side) {
-    let tr = content.parentElement.parentElement;
+    var tr = content.parentElement.parentElement;
     while (tr = tr.nextSibling) {
       if (tr.classList.contains('both') || (
           (side === 'left' && tr.classList.contains('remove')) ||

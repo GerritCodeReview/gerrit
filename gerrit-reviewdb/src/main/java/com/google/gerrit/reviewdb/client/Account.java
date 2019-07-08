@@ -14,8 +14,6 @@
 
 package com.google.gerrit.reviewdb.client;
 
-import static com.google.gerrit.reviewdb.client.RefNames.REFS_DRAFT_COMMENTS;
-import static com.google.gerrit.reviewdb.client.RefNames.REFS_STARRED_CHANGES;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS;
 
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
@@ -82,10 +80,6 @@ public final class Account {
       }
       if (name.startsWith(REFS_USERS)) {
         return fromRefPart(name.substring(REFS_USERS.length()));
-      } else if (name.startsWith(REFS_DRAFT_COMMENTS)) {
-        return parseAfterShardedRefPart(name.substring(REFS_DRAFT_COMMENTS.length()));
-      } else if (name.startsWith(REFS_STARRED_CHANGES)) {
-        return parseAfterShardedRefPart(name.substring(REFS_STARRED_CHANGES.length()));
       }
       return null;
     }
@@ -98,11 +92,6 @@ public final class Account {
      */
     public static Id fromRefPart(String name) {
       Integer id = RefNames.parseShardedRefPart(name);
-      return id != null ? new Account.Id(id) : null;
-    }
-
-    public static Id parseAfterShardedRefPart(String name) {
-      Integer id = RefNames.parseAfterShardedRefPart(name);
       return id != null ? new Account.Id(id) : null;
     }
 
@@ -158,18 +147,12 @@ public final class Account {
   /** <i>stored in git, used for caching</i> the user's preferences. */
   private GeneralPreferencesInfo generalPreferences;
 
-  /**
-   * ID of the user branch from which the account was read, {@code null} if the account was read
-   * from ReviewDb.
-   */
-  private String metaId;
-
   protected Account() {}
 
   /**
    * Create a new account.
    *
-   * @param newId unique id, see {@link com.google.gerrit.server.Sequences#nextAccountId()}.
+   * @param newId unique id, see {@link com.google.gerrit.reviewdb.server.ReviewDb#nextAccountId()}.
    * @param registeredOn when the account was registered.
    */
   public Account(Account.Id newId, Timestamp registeredOn) {
@@ -261,14 +244,6 @@ public final class Account {
 
   public void setGeneralPreferences(GeneralPreferencesInfo p) {
     generalPreferences = p;
-  }
-
-  public String getMetaId() {
-    return metaId;
-  }
-
-  public void setMetaId(String metaId) {
-    this.metaId = metaId;
   }
 
   public boolean isActive() {

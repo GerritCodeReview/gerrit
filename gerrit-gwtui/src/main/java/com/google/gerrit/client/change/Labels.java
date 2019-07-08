@@ -72,13 +72,13 @@ class Labels extends Grid {
     if (user != null) {
       final ChangeScreen screen = ChangeScreen.get(event);
       final Change.Id changeId = screen.getPatchSetId().getParentKey();
-      ChangeApi.reviewer(screen.getProject().get(), changeId.get(), user)
+      ChangeApi.reviewer(changeId.get(), user)
           .delete(
               new GerritCallback<JavaScriptObject>() {
                 @Override
                 public void onSuccess(JavaScriptObject result) {
                   if (screen.isCurrentView()) {
-                    Gerrit.display(PageLinks.toChange(screen.getProject(), changeId));
+                    Gerrit.display(PageLinks.toChange(changeId));
                   }
                 }
               });
@@ -91,13 +91,13 @@ class Labels extends Grid {
     if (user != null && vote != null) {
       final ChangeScreen screen = ChangeScreen.get(event);
       final Change.Id changeId = screen.getPatchSetId().getParentKey();
-      ChangeApi.vote(screen.getProject().get(), changeId.get(), user, vote)
+      ChangeApi.vote(changeId.get(), user, vote)
           .delete(
               new GerritCallback<JavaScriptObject>() {
                 @Override
                 public void onSuccess(JavaScriptObject result) {
                   if (screen.isCurrentView()) {
-                    Gerrit.display(PageLinks.toChange(screen.getProject(), changeId));
+                    Gerrit.display(PageLinks.toChange(changeId));
                   }
                 }
               });

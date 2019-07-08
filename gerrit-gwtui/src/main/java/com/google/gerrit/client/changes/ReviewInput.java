@@ -60,6 +60,7 @@ public class ReviewInput extends JavaScriptObject {
 
   private native void init() /*-{
     this.labels = {};
+    this.strict_labels = true;
   }-*/;
 
   public final native void prePost() /*-{

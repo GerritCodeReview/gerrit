@@ -40,7 +40,7 @@ public class DownloadConfig {
   private final ImmutableSet<ArchiveFormat> archiveFormats;
 
   @Inject
-  DownloadConfig(@GerritServerConfig Config cfg) {
+  DownloadConfig(@GerritServerConfig final Config cfg) {
     String[] allSchemes = cfg.getStringList("download", null, "scheme");
     if (allSchemes.length == 0) {
       downloadSchemes =

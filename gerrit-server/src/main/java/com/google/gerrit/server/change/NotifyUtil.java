@@ -25,23 +25,25 @@ import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class NotifyUtil {
+  private final Provider<ReviewDb> dbProvider;
   private final AccountResolver accountResolver;
 
   @Inject
-  NotifyUtil(AccountResolver accountResolver) {
+  NotifyUtil(Provider<ReviewDb> dbProvider, AccountResolver accountResolver) {
+    this.dbProvider = dbProvider;
     this.accountResolver = accountResolver;
   }
 
@@ -74,7 +76,7 @@ public class NotifyUtil {
 
   public ListMultimap<RecipientType, Account.Id> resolveAccounts(
       @Nullable Map<RecipientType, NotifyInfo> notifyDetails)
-      throws OrmException, BadRequestException, IOException, ConfigInvalidException {
+      throws OrmException, BadRequestException {
     if (isNullOrEmpty(notifyDetails)) {
       return ImmutableListMultimap.of();
     }
@@ -86,19 +88,19 @@ public class NotifyUtil {
         if (m == null) {
           m = MultimapBuilder.hashKeys().arrayListValues().build();
         }
-        m.putAll(e.getKey(), find(accounts));
+        m.putAll(e.getKey(), find(dbProvider.get(), accounts));
       }
     }
 
     return m != null ? m : ImmutableListMultimap.of();
   }
 
-  private List<Account.Id> find(List<String> nameOrEmails)
-      throws OrmException, BadRequestException, IOException, ConfigInvalidException {
+  private List<Account.Id> find(ReviewDb db, List<String> nameOrEmails)
+      throws OrmException, BadRequestException {
     List<String> missing = new ArrayList<>(nameOrEmails.size());
     List<Account.Id> r = new ArrayList<>(nameOrEmails.size());
     for (String nameOrEmail : nameOrEmails) {
-      Account a = accountResolver.find(nameOrEmail);
+      Account a = accountResolver.find(db, nameOrEmail);
       if (a != null) {
         r.add(a.getId());
       } else {

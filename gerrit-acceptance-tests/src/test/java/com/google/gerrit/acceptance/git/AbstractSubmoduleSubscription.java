@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
-import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -26,9 +25,7 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.StreamSupport;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -90,8 +87,8 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
       SubmitType submitType)
       throws Exception {
     Project.NameKey project = createProject(name, parent, createEmptyCommit, submitType);
-    grant(project, "refs/heads/*", Permission.PUSH);
-    grant(project, "refs/for/refs/heads/*", Permission.SUBMIT);
+    grant(Permission.PUSH, project, "refs/heads/*");
+    grant(Permission.SUBMIT, project, "refs/for/refs/heads/*");
     return cloneProject(project);
   }
 
@@ -142,31 +139,6 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
 
   protected ObjectId pushChangeTo(TestRepository<?> repo, String branch) throws Exception {
     return pushChangeTo(repo, "refs/heads/" + branch, "some change", "");
-  }
-
-  protected ObjectId pushChangesTo(TestRepository<?> repo, String branch, int numChanges)
-      throws Exception {
-    for (int i = 0; i < numChanges; i++) {
-      repo.branch("HEAD")
-          .commit()
-          .insertChangeId()
-          .message("Message " + i)
-          .add(name("file"), "content" + i)
-          .create();
-    }
-    String remoteBranch = "refs/heads/" + branch;
-    Iterable<PushResult> res =
-        repo.git()
-            .push()
-            .setRemote("origin")
-            .setRefSpecs(new RefSpec("HEAD:" + remoteBranch))
-            .call();
-    List<Status> status =
-        StreamSupport.stream(res.spliterator(), false)
-            .map(r -> r.getRemoteUpdate(remoteBranch).getStatus())
-            .collect(toList());
-    assertThat(status).containsExactly(Status.OK);
-    return Iterables.getLast(res).getRemoteUpdate(remoteBranch).getNewObjectId();
   }
 
   protected void allowSubmoduleSubscription(

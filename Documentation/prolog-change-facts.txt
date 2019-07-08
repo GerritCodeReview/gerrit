@@ -58,10 +58,6 @@ of them we must use a qualified name like `gerrit:change_branch(X)`.
                       |`current_user(user(peer_daemon)).`
                       |`current_user(user(replication)).`
 
-|`pure_revert/1`     |`pure_revert(1).`
-    |link:rest-api-changes.html#get-pure-revert[Pure revert] as integer atom (1 if
-        the change is a pure revert, 0 otherwise)
-
 |`uploader/1`     |`uploader(user(1000000)).`
     |Uploader as `user(ID)` term. ID is the numeric account ID
 

@@ -19,13 +19,13 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.fail;
 
+import com.github.rholder.retry.BlockStrategy;
 import com.github.rholder.retry.Retryer;
 import com.github.rholder.retry.RetryerBuilder;
 import com.github.rholder.retry.StopStrategies;
 import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
@@ -45,9 +45,16 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 public class RepoSequenceTest {
-  // Don't sleep in tests.
   private static final Retryer<RefUpdate.Result> RETRYER =
-      RepoSequence.retryerBuilder().withBlockStrategy(t -> {}).build();
+      RepoSequence.retryerBuilder()
+          .withBlockStrategy(
+              new BlockStrategy() {
+                @Override
+                public void block(long sleepTime) {
+                  // Don't sleep in tests.
+                }
+              })
+          .build();
 
   @Rule public ExpectedException exception = ExpectedException.none();
 
@@ -152,11 +159,14 @@ public class RepoSequenceTest {
     // Seed existing ref value.
     writeBlob("id", "1");
 
-    AtomicBoolean doneBgUpdate = new AtomicBoolean(false);
+    final AtomicBoolean doneBgUpdate = new AtomicBoolean(false);
     Runnable bgUpdate =
-        () -> {
-          if (!doneBgUpdate.getAndSet(true)) {
-            writeBlob("id", "1234");
+        new Runnable() {
+          @Override
+          public void run() {
+            if (!doneBgUpdate.getAndSet(true)) {
+              writeBlob("id", "1234");
+            }
           }
         };
 
@@ -193,13 +203,20 @@ public class RepoSequenceTest {
 
   @Test
   public void failAfterRetryerGivesUp() throws Exception {
-    AtomicInteger bgCounter = new AtomicInteger(1234);
+    final AtomicInteger bgCounter = new AtomicInteger(1234);
+    Runnable bgUpdate =
+        new Runnable() {
+          @Override
+          public void run() {
+            writeBlob("id", Integer.toString(bgCounter.getAndAdd(1000)));
+          }
+        };
     RepoSequence s =
         newSequence(
             "id",
             1,
             10,
-            () -> writeBlob("id", Integer.toString(bgCounter.getAndAdd(1000))),
+            bgUpdate,
             RetryerBuilder.<RefUpdate.Result>newBuilder()
                 .withStopStrategy(StopStrategies.stopAfterAttempt(3))
                 .build());
@@ -266,10 +283,14 @@ public class RepoSequenceTest {
       Retryer<RefUpdate.Result> retryer) {
     return new RepoSequence(
         repoManager,
-        GitReferenceUpdated.DISABLED,
         project,
         name,
-        () -> start,
+        new RepoSequence.Seed() {
+          @Override
+          public int get() {
+            return start;
+          }
+        },
         batchSize,
         afterReadRef,
         retryer);

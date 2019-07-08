@@ -35,8 +35,8 @@ import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.data.AccountAttribute;
@@ -56,7 +56,6 @@ import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -84,9 +83,9 @@ public class EventFactory {
   private static final Logger log = LoggerFactory.getLogger(EventFactory.class);
 
   private final AccountCache accountCache;
-  private final Emails emails;
   private final Provider<String> urlProvider;
   private final PatchListCache patchListCache;
+  private final AccountByEmailCache byEmailCache;
   private final PersonIdent myIdent;
   private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
@@ -97,8 +96,8 @@ public class EventFactory {
   @Inject
   EventFactory(
       AccountCache accountCache,
-      Emails emails,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
+      AccountByEmailCache byEmailCache,
       PatchListCache patchListCache,
       @GerritPersonIdent PersonIdent myIdent,
       ChangeData.Factory changeDataFactory,
@@ -107,9 +106,9 @@ public class EventFactory {
       Provider<InternalChangeQuery> queryProvider,
       SchemaFactory<ReviewDb> schema) {
     this.accountCache = accountCache;
-    this.emails = emails;
     this.urlProvider = urlProvider;
     this.patchListCache = patchListCache;
+    this.byEmailCache = byEmailCache;
     this.myIdent = myIdent;
     this.changeDataFactory = changeDataFactory;
     this.approvalsUtil = approvalsUtil;
@@ -158,8 +157,6 @@ public class EventFactory {
     a.assignee = asAccountAttribute(change.getAssignee());
     a.status = change.getStatus();
     a.createdOn = change.getCreatedOn().getTime() / 1000L;
-    a.wip = change.isWorkInProgress() ? true : null;
-    a.isPrivate = change.isPrivate() ? true : null;
     return a;
   }
 
@@ -314,7 +311,7 @@ public class EventFactory {
     // set whose parent matches this patch set's revision.
     for (ChangeData cd :
         queryProvider.get().byProjectGroups(change.getProject(), currentPs.getGroups())) {
-      PATCH_SETS:
+      patchSets:
       for (PatchSet ps : cd.patchSets()) {
         RevCommit commit = rw.parseCommit(ObjectId.fromString(ps.getRevision().get()));
         for (RevCommit p : commit.getParents()) {
@@ -322,7 +319,7 @@ public class EventFactory {
             continue;
           }
           ca.neededBy.add(newNeededBy(checkNotNull(cd.change()), ps));
-          continue PATCH_SETS;
+          continue patchSets;
         }
       }
     }
@@ -428,8 +425,6 @@ public class EventFactory {
         p.insertions = patch.getInsertions();
         patchSetAttribute.files.add(p);
       }
-    } catch (PatchListObjectTooLargeException e) {
-      log.warn("Cannot get patch list: " + e.getMessage());
     } catch (PatchListNotAvailableException e) {
       log.error("Cannot get patch list", e);
     }
@@ -475,6 +470,7 @@ public class EventFactory {
     p.ref = patchSet.getRefName();
     p.uploader = asAccountAttribute(patchSet.getUploader());
     p.createdOn = patchSet.getCreatedOn().getTime() / 1000L;
+    p.isDraft = patchSet.isDraft();
     PatchSet.Id pId = patchSet.getId();
     try {
       p.parents = new ArrayList<>();
@@ -501,10 +497,8 @@ public class EventFactory {
         }
       }
       p.kind = changeKindCache.getChangeKind(db, change, patchSet);
-    } catch (IOException | OrmException e) {
+    } catch (IOException e) {
       log.error("Cannot load patch set data for {}", patchSet.getId(), e);
-    } catch (PatchListObjectTooLargeException e) {
-      log.warn("Cannot get size information for {}: {}", pId, e.getMessage());
     } catch (PatchListNotAvailableException e) {
       log.error("Cannot get size information for {}.", pId, e);
     }
@@ -513,7 +507,7 @@ public class EventFactory {
 
   // TODO: The same method exists in PatchSetInfoFactory, find a common place
   // for it
-  private UserIdentity toUserIdentity(PersonIdent who) throws IOException, OrmException {
+  private UserIdentity toUserIdentity(PersonIdent who) {
     UserIdentity u = new UserIdentity();
     u.setName(who.getName());
     u.setEmail(who.getEmailAddress());
@@ -523,7 +517,7 @@ public class EventFactory {
     // If only one account has access to this email address, select it
     // as the identity of the user.
     //
-    Set<Account.Id> a = emails.getAccountFor(u.getEmail());
+    Set<Account.Id> a = byEmailCache.get(u.getEmail());
     if (a.size() == 1) {
       u.setAccount(a.iterator().next());
     }

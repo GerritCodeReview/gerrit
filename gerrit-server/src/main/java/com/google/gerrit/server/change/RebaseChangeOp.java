@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -23,23 +24,20 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.RebaseUtil.Base;
 import com.google.gerrit.server.git.MergeUtil;
-import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
@@ -50,7 +48,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 public class RebaseChangeOp implements BatchUpdateOp {
   public interface Factory {
-    RebaseChangeOp create(ChangeNotes notes, PatchSet originalPatchSet, ObjectId baseCommitId);
+    RebaseChangeOp create(
+        ChangeControl ctl, PatchSet originalPatchSet, @Nullable String baseCommitish);
   }
 
   private final PatchSetInserter.Factory patchSetInserterFactory;
@@ -58,47 +57,40 @@ public class RebaseChangeOp implements BatchUpdateOp {
   private final RebaseUtil rebaseUtil;
   private final ChangeResource.Factory changeResourceFactory;
 
-  private final ChangeNotes notes;
+  private final ChangeControl ctl;
   private final PatchSet originalPatchSet;
-  private final IdentifiedUser.GenericFactory identifiedUserFactory;
-  private final ProjectCache projectCache;
 
-  private ObjectId baseCommitId;
+  private String baseCommitish;
   private PersonIdent committerIdent;
   private boolean fireRevisionCreated = true;
-  private boolean validate = true;
+  private CommitValidators.Policy validate;
   private boolean checkAddPatchSetPermission = true;
   private boolean forceContentMerge;
   private boolean copyApprovals = true;
   private boolean detailedCommitMessage;
   private boolean postMessage = true;
-  private boolean matchAuthorToCommitterDate = false;
 
   private RevCommit rebasedCommit;
   private PatchSet.Id rebasedPatchSetId;
   private PatchSetInserter patchSetInserter;
   private PatchSet rebasedPatchSet;
 
-  @Inject
+  @AssistedInject
   RebaseChangeOp(
       PatchSetInserter.Factory patchSetInserterFactory,
       MergeUtil.Factory mergeUtilFactory,
       RebaseUtil rebaseUtil,
       ChangeResource.Factory changeResourceFactory,
-      IdentifiedUser.GenericFactory identifiedUserFactory,
-      ProjectCache projectCache,
-      @Assisted ChangeNotes notes,
+      @Assisted ChangeControl ctl,
       @Assisted PatchSet originalPatchSet,
-      @Assisted ObjectId baseCommitId) {
+      @Assisted @Nullable String baseCommitish) {
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.mergeUtilFactory = mergeUtilFactory;
     this.rebaseUtil = rebaseUtil;
     this.changeResourceFactory = changeResourceFactory;
-    this.identifiedUserFactory = identifiedUserFactory;
-    this.projectCache = projectCache;
-    this.notes = notes;
+    this.ctl = ctl;
     this.originalPatchSet = originalPatchSet;
-    this.baseCommitId = baseCommitId;
+    this.baseCommitish = baseCommitish;
   }
 
   public RebaseChangeOp setCommitterIdent(PersonIdent committerIdent) {
@@ -106,7 +98,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
     return this;
   }
 
-  public RebaseChangeOp setValidate(boolean validate) {
+  public RebaseChangeOp setValidatePolicy(CommitValidators.Policy validate) {
     this.validate = validate;
     return this;
   }
@@ -141,15 +133,10 @@ public class RebaseChangeOp implements BatchUpdateOp {
     return this;
   }
 
-  public RebaseChangeOp setMatchAuthorToCommitterDate(boolean matchAuthorToCommitterDate) {
-    this.matchAuthorToCommitterDate = matchAuthorToCommitterDate;
-    return this;
-  }
-
   @Override
   public void updateRepo(RepoContext ctx)
       throws MergeConflictException, InvalidChangeOperationException, RestApiException, IOException,
-          OrmException, NoSuchChangeException, PermissionBackendException {
+          OrmException, NoSuchChangeException {
     // Ok that originalPatchSet was not read in a transaction, since we just
     // need its revision.
     RevId oldRev = originalPatchSet.getRevision();
@@ -157,40 +144,50 @@ public class RebaseChangeOp implements BatchUpdateOp {
     RevWalk rw = ctx.getRevWalk();
     RevCommit original = rw.parseCommit(ObjectId.fromString(oldRev.get()));
     rw.parseBody(original);
-    RevCommit baseCommit = rw.parseCommit(baseCommitId);
-    CurrentUser changeOwner = identifiedUserFactory.create(notes.getChange().getOwner());
+
+    RevCommit baseCommit;
+    if (baseCommitish != null) {
+      baseCommit = rw.parseCommit(ctx.getRepository().resolve(baseCommitish));
+    } else {
+      baseCommit =
+          rw.parseCommit(
+              rebaseUtil.findBaseRevision(
+                  originalPatchSet,
+                  ctl.getChange().getDest(),
+                  ctx.getRepository(),
+                  ctx.getRevWalk()));
+    }
 
     String newCommitMessage;
     if (detailedCommitMessage) {
       rw.parseBody(baseCommit);
       newCommitMessage =
           newMergeUtil()
-              .createCommitMessageOnSubmit(
-                  original, baseCommit, notes, changeOwner, originalPatchSet.getId());
+              .createCommitMessageOnSubmit(original, baseCommit, ctl, originalPatchSet.getId());
     } else {
       newCommitMessage = original.getFullMessage();
     }
 
     rebasedCommit = rebaseCommit(ctx, original, baseCommit, newCommitMessage);
+
+    RevId baseRevId =
+        new RevId((baseCommitish != null) ? baseCommitish : ObjectId.toString(baseCommit.getId()));
     Base base =
         rebaseUtil.parseBase(
-            new RevisionResource(
-                changeResourceFactory.create(notes, changeOwner), originalPatchSet),
-            baseCommitId.name());
+            new RevisionResource(changeResourceFactory.create(ctl), originalPatchSet),
+            baseRevId.get());
 
     rebasedPatchSetId =
-        ChangeUtil.nextPatchSetIdFromChangeRefsMap(
-            ctx.getRepoView().getRefs(originalPatchSet.getId().getParentKey().toRefPrefix()),
-            notes.getChange().currentPatchSetId());
+        ChangeUtil.nextPatchSetId(ctx.getRepository(), ctl.getChange().currentPatchSetId());
     patchSetInserter =
         patchSetInserterFactory
-            .create(notes, rebasedPatchSetId, rebasedCommit)
+            .create(ctl, rebasedPatchSetId, rebasedCommit)
             .setDescription("Rebase")
+            .setDraft(originalPatchSet.isDraft())
             .setNotify(NotifyHandling.NONE)
             .setFireRevisionCreated(fireRevisionCreated)
             .setCopyApprovals(copyApprovals)
-            .setCheckAddPatchSetPermission(checkAddPatchSetPermission)
-            .setValidate(validate);
+            .setCheckAddPatchSetPermission(checkAddPatchSetPermission);
     if (postMessage) {
       patchSetInserter.setMessage(
           "Patch Set "
@@ -202,6 +199,9 @@ public class RebaseChangeOp implements BatchUpdateOp {
 
     if (base != null) {
       patchSetInserter.setGroups(base.patchSet().getGroups());
+    }
+    if (validate != null) {
+      patchSetInserter.setValidatePolicy(validate);
     }
     patchSetInserter.updateRepo(ctx);
   }
@@ -234,8 +234,8 @@ public class RebaseChangeOp implements BatchUpdateOp {
     return rebasedPatchSet;
   }
 
-  private MergeUtil newMergeUtil() throws IOException {
-    ProjectState project = projectCache.checkedGet(notes.getProjectName());
+  private MergeUtil newMergeUtil() {
+    ProjectState project = ctl.getProjectControl().getProjectState();
     return forceContentMerge
         ? mergeUtilFactory.create(project, true)
         : mergeUtilFactory.create(project);
@@ -261,11 +261,11 @@ public class RebaseChangeOp implements BatchUpdateOp {
     }
 
     ThreeWayMerger merger =
-        newMergeUtil().newThreeWayMerger(ctx.getInserter(), ctx.getRepoView().getConfig());
+        newMergeUtil().newThreeWayMerger(ctx.getRepository(), ctx.getInserter());
     merger.setBase(parentCommit);
-    boolean success = merger.merge(original, base);
+    merger.merge(original, base);
 
-    if (!success || merger.getResultTreeId() == null) {
+    if (merger.getResultTreeId() == null) {
       throw new MergeConflictException(
           "The change could not be rebased due to a conflict during merge.");
     }
@@ -279,11 +279,6 @@ public class RebaseChangeOp implements BatchUpdateOp {
       cb.setCommitter(committerIdent);
     } else {
       cb.setCommitter(ctx.getIdentifiedUser().newCommitterIdent(ctx.getWhen(), ctx.getTimeZone()));
-    }
-    if (matchAuthorToCommitterDate) {
-      cb.setAuthor(
-          new PersonIdent(
-              cb.getAuthor(), cb.getCommitter().getWhen(), cb.getCommitter().getTimeZone()));
     }
     ObjectId objectId = ctx.getInserter().insert(cb);
     ctx.getInserter().flush();

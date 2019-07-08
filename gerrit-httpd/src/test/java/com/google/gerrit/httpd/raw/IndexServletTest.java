@@ -15,25 +15,12 @@
 package com.google.gerrit.httpd.raw;
 
 import static com.google.common.truth.Truth.assertThat;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.template.soy.data.SoyMapData;
 import java.net.URISyntaxException;
 import org.junit.Test;
 
 public class IndexServletTest {
-  static class TestIndexServlet extends IndexServlet {
-    private static final long serialVersionUID = 1L;
-
-    TestIndexServlet(String canonicalURL, String cdnPath) throws URISyntaxException {
-      super(canonicalURL, cdnPath);
-    }
-
-    String getIndexSource() {
-      return new String(indexSource, UTF_8);
-    }
-  }
-
   @Test
   public void noPathAndNoCDN() throws URISyntaxException {
     SoyMapData data = IndexServlet.getTemplateData("http://example.com/", null);
@@ -64,16 +51,5 @@ public class IndexServletTest {
     assertThat(data.getSingle("canonicalPath").stringValue()).isEqualTo("/gerrit");
     assertThat(data.getSingle("staticResourcePath").stringValue())
         .isEqualTo("http://my-cdn.com/foo/bar/");
-  }
-
-  @Test
-  public void renderTemplate() throws URISyntaxException {
-    String testCanonicalUrl = "foo-url";
-    String testCdnPath = "bar-cdn";
-    TestIndexServlet servlet = new TestIndexServlet(testCanonicalUrl, testCdnPath);
-    String output = servlet.getIndexSource();
-    assertThat(output).contains("<!DOCTYPE html>");
-    assertThat(output).contains("window.CANONICAL_PATH = '" + testCanonicalUrl);
-    assertThat(output).contains("<link rel=\"preload\" href=\"" + testCdnPath);
   }
 }

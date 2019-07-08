@@ -25,8 +25,6 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.GroupBaseInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.MetricMaker;
@@ -42,8 +40,9 @@ import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.SuggestReviewers;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.query.account.AccountPredicates;
+import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.QueryResult;
 import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gerrit.server.query.account.AccountQueryProcessor;
 import com.google.gwtorm.server.OrmException;
@@ -57,7 +56,6 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public class ReviewersUtil {
   @Singleton
@@ -109,7 +107,7 @@ public class ReviewersUtil {
 
   private final AccountLoader accountLoader;
   private final AccountQueryBuilder accountQueryBuilder;
-  private final Provider<AccountQueryProcessor> queryProvider;
+  private final AccountQueryProcessor accountQueryProcessor;
   private final GroupBackend groupBackend;
   private final GroupMembers.Factory groupMembersFactory;
   private final Provider<CurrentUser> currentUser;
@@ -120,7 +118,7 @@ public class ReviewersUtil {
   ReviewersUtil(
       AccountLoader.Factory accountLoaderFactory,
       AccountQueryBuilder accountQueryBuilder,
-      Provider<AccountQueryProcessor> queryProvider,
+      AccountQueryProcessor accountQueryProcessor,
       GroupBackend groupBackend,
       GroupMembers.Factory groupMembersFactory,
       Provider<CurrentUser> currentUser,
@@ -130,7 +128,7 @@ public class ReviewersUtil {
     fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
     this.accountLoader = accountLoaderFactory.create(fillOptions);
     this.accountQueryBuilder = accountQueryBuilder;
-    this.queryProvider = queryProvider;
+    this.accountQueryProcessor = accountQueryProcessor;
     this.currentUser = currentUser;
     this.groupBackend = groupBackend;
     this.groupMembersFactory = groupMembersFactory;
@@ -145,10 +143,10 @@ public class ReviewersUtil {
   public List<SuggestedReviewerInfo> suggestReviewers(
       ChangeNotes changeNotes,
       SuggestReviewers suggestReviewers,
-      ProjectState projectState,
+      ProjectControl projectControl,
       VisibilityControl visibilityControl,
       boolean excludeGroups)
-      throws IOException, OrmException, ConfigInvalidException {
+      throws IOException, OrmException {
     String query = suggestReviewers.getQuery();
     int limit = suggestReviewers.getLimit();
 
@@ -162,7 +160,7 @@ public class ReviewersUtil {
     }
 
     List<Account.Id> sortedRecommendations =
-        recommendAccounts(changeNotes, suggestReviewers, projectState, candidateList);
+        recommendAccounts(changeNotes, suggestReviewers, projectControl, candidateList);
 
     // Filter accounts by visibility and enforce limit
     List<Account.Id> filteredRecommendations = new ArrayList<>();
@@ -183,7 +181,10 @@ public class ReviewersUtil {
       // important.
       suggestedReviewer.addAll(
           suggestAccountGroups(
-              suggestReviewers, projectState, visibilityControl, limit - suggestedReviewer.size()));
+              suggestReviewers,
+              projectControl,
+              visibilityControl,
+              limit - suggestedReviewer.size()));
     }
 
     if (suggestedReviewer.size() <= limit) {
@@ -196,12 +197,9 @@ public class ReviewersUtil {
     try (Timer0.Context ctx = metrics.queryAccountsLatency.start()) {
       try {
         QueryResult<AccountState> result =
-            queryProvider
-                .get()
-                .setUserProvidedLimit(suggestReviewers.getLimit() * CANDIDATE_LIST_MULTIPLIER)
-                .query(
-                    AccountPredicates.andActive(
-                        accountQueryBuilder.defaultQuery(suggestReviewers.getQuery())));
+            accountQueryProcessor
+                .setLimit(suggestReviewers.getLimit() * CANDIDATE_LIST_MULTIPLIER)
+                .query(accountQueryBuilder.defaultQuery(suggestReviewers.getQuery()));
         return result.entities().stream().map(a -> a.getAccount().getId()).collect(toList());
       } catch (QueryParseException e) {
         return ImmutableList.of();
@@ -212,12 +210,12 @@ public class ReviewersUtil {
   private List<Account.Id> recommendAccounts(
       ChangeNotes changeNotes,
       SuggestReviewers suggestReviewers,
-      ProjectState projectState,
+      ProjectControl projectControl,
       List<Account.Id> candidateList)
-      throws OrmException, IOException, ConfigInvalidException {
+      throws OrmException {
     try (Timer0.Context ctx = metrics.recommendAccountsLatency.start()) {
       return reviewerRecommender.suggestReviewers(
-          changeNotes, suggestReviewers, projectState, candidateList);
+          changeNotes, suggestReviewers, projectControl, candidateList);
     }
   }
 
@@ -243,16 +241,16 @@ public class ReviewersUtil {
 
   private List<SuggestedReviewerInfo> suggestAccountGroups(
       SuggestReviewers suggestReviewers,
-      ProjectState projectState,
+      ProjectControl projectControl,
       VisibilityControl visibilityControl,
       int limit)
       throws OrmException, IOException {
     try (Timer0.Context ctx = metrics.queryGroupsLatency.start()) {
       List<SuggestedReviewerInfo> groups = new ArrayList<>();
-      for (GroupReference g : suggestAccountGroups(suggestReviewers, projectState)) {
+      for (GroupReference g : suggestAccountGroups(suggestReviewers, projectControl)) {
         GroupAsReviewer result =
             suggestGroupAsReviewer(
-                suggestReviewers, projectState.getProject(), g, visibilityControl);
+                suggestReviewers, projectControl.getProject(), g, visibilityControl);
         if (result.allowed || result.allowedWithConfirmation) {
           GroupBaseInfo info = new GroupBaseInfo();
           info.id = Url.encode(g.getUUID().get());
@@ -274,11 +272,10 @@ public class ReviewersUtil {
   }
 
   private List<GroupReference> suggestAccountGroups(
-      SuggestReviewers suggestReviewers, ProjectState projectState) {
+      SuggestReviewers suggestReviewers, ProjectControl ctl) {
     return Lists.newArrayList(
         Iterables.limit(
-            groupBackend.suggest(suggestReviewers.getQuery(), projectState),
-            suggestReviewers.getLimit()));
+            groupBackend.suggest(suggestReviewers.getQuery(), ctl), suggestReviewers.getLimit()));
   }
 
   private static class GroupAsReviewer {

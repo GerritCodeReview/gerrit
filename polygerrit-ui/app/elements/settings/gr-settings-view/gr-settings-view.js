@@ -14,28 +14,14 @@
 (function() {
   'use strict';
 
-  const PREFS_SECTION_FIELDS = [
+  var PREFS_SECTION_FIELDS = [
     'changes_per_page',
     'date_format',
     'time_format',
     'email_strategy',
     'diff_view',
     'expand_inline_diffs',
-    'publish_comments_on_push',
-    'work_in_progress_by_default',
-    'signed_off_by',
     'email_format',
-  ];
-
-  const GERRIT_DOCS_BASE_URL = 'https://gerrit-review.googlesource.com/' +
-      'Documentation';
-  const GERRIT_DOCS_FILTER_PATH = '/user-notify.html';
-  const ABSOLUTE_URL_PATTERN = /^https?:/;
-  const TRAILING_SLASH_PATTERN = /\/$/;
-
-  const HTTP_AUTH = [
-    'HTTP',
-    'HTTP_LDAP',
   ];
 
   Polymer({
@@ -56,29 +42,27 @@
     properties: {
       prefs: {
         type: Object,
-        value() { return {}; },
+        value: function() { return {}; },
       },
       params: {
         type: Object,
-        value() { return {}; },
+        value: function() { return {}; },
       },
       _accountNameMutable: Boolean,
       _accountInfoChanged: Boolean,
-      /** @type {?} */
       _diffPrefs: Object,
       _changeTableColumnsNotDisplayed: Array,
-      /** @type {?} */
       _localPrefs: {
         type: Object,
-        value() { return {}; },
+        value: function() { return {}; },
       },
       _localChangeTableColumns: {
         type: Array,
-        value() { return []; },
+        value: function() { return []; },
       },
       _localMenu: {
         type: Array,
-        value() { return []; },
+        value: function() { return []; },
       },
       _loading: {
         type: Boolean,
@@ -117,22 +101,16 @@
         type: String,
         value: null,
       },
-      /** @type {?} */
       _serverConfig: Object,
-      /** @type {?string} */
-      _docsBaseUrl: String,
-      _emailsChanged: Boolean,
+      _headerHeight: Number,
 
       /**
        * For testing purposes.
        */
       _loadingPromise: Object,
-
-      _showNumber: Boolean,
     },
 
     behaviors: [
-      Gerrit.DocsUrlBehavior,
       Gerrit.ChangeTableBehavior,
     ],
 
@@ -140,244 +118,234 @@
       '_handlePrefsChanged(_localPrefs.*)',
       '_handleDiffPrefsChanged(_diffPrefs.*)',
       '_handleMenuChanged(_localMenu.splices)',
-      '_handleChangeTableChanged(_localChangeTableColumns, _showNumber)',
+      '_handleChangeTableChanged(_localChangeTableColumns)',
     ],
 
-    attached() {
+    attached: function() {
       this.fire('title-change', {title: 'Settings'});
 
-      const promises = [
+      var promises = [
         this.$.accountInfo.loadData(),
         this.$.watchedProjectsEditor.loadData(),
         this.$.groupList.loadData(),
+        this.$.httpPass.loadData(),
       ];
 
-      promises.push(this.$.restAPI.getPreferences().then(prefs => {
+      promises.push(this.$.restAPI.getPreferences().then(function(prefs) {
         this.prefs = prefs;
-        this._showNumber = !!prefs.legacycid_in_change_table;
         this._copyPrefs('_localPrefs', 'prefs');
-        this._cloneMenu(prefs.my);
+        this._cloneMenu();
         this._cloneChangeTableColumns();
-      }));
+      }.bind(this)));
 
-      promises.push(this.$.restAPI.getDiffPreferences().then(prefs => {
+      promises.push(this.$.restAPI.getDiffPreferences().then(function(prefs) {
         this._diffPrefs = prefs;
-      }));
+      }.bind(this)));
 
-      promises.push(this.$.restAPI.getConfig().then(config => {
+      promises.push(this.$.restAPI.getConfig().then(function(config) {
         this._serverConfig = config;
-        const configPromises = [];
-
         if (this._serverConfig.sshd) {
-          configPromises.push(this.$.sshEditor.loadData());
+          return this.$.sshEditor.loadData();
         }
-
-        configPromises.push(
-            this.getDocsBaseUrl(config, this.$.restAPI)
-                .then(baseUrl => { this._docsBaseUrl = baseUrl; }));
-
-        return Promise.all(configPromises);
-      }));
+      }.bind(this)));
 
       if (this.params.emailToken) {
         promises.push(this.$.restAPI.confirmEmail(this.params.emailToken).then(
-            message => {
-              if (message) {
-                this.fire('show-alert', {message});
-              }
-              this.$.emailEditor.loadData();
-            }));
+          function(message) {
+            if (message) {
+              this.fire('show-alert', {message: message});
+            }
+            this.$.emailEditor.loadData();
+          }.bind(this)));
       } else {
         promises.push(this.$.emailEditor.loadData());
       }
 
-      this._loadingPromise = Promise.all(promises).then(() => {
+      this._loadingPromise = Promise.all(promises).then(function() {
         this._loading = false;
-      });
+      }.bind(this));
+
+      this.listen(window, 'scroll', '_handleBodyScroll');
     },
 
-    reloadAccountDetail() {
+    detached: function() {
+      this.unlisten(window, 'scroll', '_handleBodyScroll');
+    },
+
+    reloadAccountDetail: function() {
       Promise.all([
         this.$.accountInfo.loadData(),
         this.$.emailEditor.loadData(),
       ]);
     },
 
-    _isLoading() {
+    _handleBodyScroll: function(e) {
+      if (this._headerHeight === undefined) {
+        var top = this.$.settingsNav.offsetTop;
+        for (var offsetParent = this.$.settingsNav.offsetParent;
+           offsetParent;
+           offsetParent = offsetParent.offsetParent) {
+          top += offsetParent.offsetTop;
+        }
+        this._headerHeight = top;
+      }
+
+      this.$.settingsNav.classList.toggle('pinned',
+          window.scrollY >= this._headerHeight);
+    },
+
+    _isLoading: function() {
       return this._loading || this._loading === undefined;
     },
 
-    _copyPrefs(to, from) {
-      for (let i = 0; i < PREFS_SECTION_FIELDS.length; i++) {
+    _copyPrefs: function(to, from) {
+      for (var i = 0; i < PREFS_SECTION_FIELDS.length; i++) {
         this.set([to, PREFS_SECTION_FIELDS[i]],
             this[from][PREFS_SECTION_FIELDS[i]]);
       }
     },
 
-    _cloneMenu(prefs) {
-      const menu = [];
-      for (const item of prefs) {
+    _cloneMenu: function() {
+      var menu = [];
+      this.prefs.my.forEach(function(item) {
         menu.push({
           name: item.name,
           url: item.url,
           target: item.target,
         });
-      }
+      });
       this._localMenu = menu;
     },
 
-    _cloneChangeTableColumns() {
-      let columns = this.prefs.change_table;
+    _cloneChangeTableColumns: function() {
+      var columns = this.prefs.change_table;
 
       if (columns.length === 0) {
         columns = this.columnNames;
         this._changeTableColumnsNotDisplayed = [];
       } else {
         this._changeTableColumnsNotDisplayed = this.getComplementColumns(
-            this.prefs.change_table);
+          this.prefs.change_table);
       }
       this._localChangeTableColumns = columns;
     },
 
-    _formatChangeTableColumns(changeTableArray) {
-      return changeTableArray.map(item => {
+    _formatChangeTableColumns: function(changeTableArray) {
+      return changeTableArray.map(function(item) {
         return {column: item};
       });
     },
 
-    _handleChangeTableChanged() {
+    _handleChangeTableChanged: function() {
       if (this._isLoading()) { return; }
       this._changeTableChanged = true;
     },
 
-    _handlePrefsChanged(prefs) {
+    _handlePrefsChanged: function(prefs) {
       if (this._isLoading()) { return; }
       this._prefsChanged = true;
     },
 
-    _handleDiffPrefsChanged() {
+    _handleDiffPrefsChanged: function() {
       if (this._isLoading()) { return; }
       this._diffPrefsChanged = true;
     },
 
-    _handleExpandInlineDiffsChanged() {
+    _handleExpandInlineDiffsChanged: function() {
       this.set('_localPrefs.expand_inline_diffs',
           this.$.expandInlineDiffs.checked);
     },
 
-    _handlePublishCommentsOnPushChanged() {
-      this.set('_localPrefs.publish_comments_on_push',
-          this.$.publishCommentsOnPush.checked);
-    },
-
-    _handleWorkInProgressByDefault() {
-      this.set('_localPrefs.work_in_progress_by_default',
-          this.$.workInProgressByDefault.checked);
-    },
-
-    _handleInsertSignedOff() {
-      this.set('_localPrefs.signed_off_by', this.$.insertSignedOff.checked);
-    },
-
-    _handleMenuChanged() {
+    _handleMenuChanged: function() {
       if (this._isLoading()) { return; }
       this._menuChanged = true;
     },
 
-    _handleSaveAccountInfo() {
+    _handleSaveAccountInfo: function() {
       this.$.accountInfo.save();
     },
 
-    _handleSavePreferences() {
+    _handleSavePreferences: function() {
       this._copyPrefs('prefs', '_localPrefs');
 
-      return this.$.restAPI.savePreferences(this.prefs).then(() => {
+      return this.$.restAPI.savePreferences(this.prefs).then(function() {
         this._prefsChanged = false;
-      });
+      }.bind(this));
     },
 
-    _handleLineWrappingChanged() {
+    _handleLineWrappingChanged: function() {
       this.set('_diffPrefs.line_wrapping', this.$.lineWrapping.checked);
     },
 
-    _handleShowTabsChanged() {
+    _handleShowTabsChanged: function() {
       this.set('_diffPrefs.show_tabs', this.$.showTabs.checked);
     },
 
-    _handleShowTrailingWhitespaceChanged() {
+    _handleShowTrailingWhitespaceChanged: function() {
       this.set('_diffPrefs.show_whitespace_errors',
           this.$.showTrailingWhitespace.checked);
     },
 
-    _handleSyntaxHighlightingChanged() {
+    _handleSyntaxHighlightingChanged: function() {
       this.set('_diffPrefs.syntax_highlighting',
           this.$.syntaxHighlighting.checked);
     },
 
-    _handleSaveChangeTable() {
+    _handleSaveChangeTable: function() {
       this.set('prefs.change_table', this._localChangeTableColumns);
-      this.set('prefs.legacycid_in_change_table', this._showNumber);
       this._cloneChangeTableColumns();
-      return this.$.restAPI.savePreferences(this.prefs).then(() => {
+      return this.$.restAPI.savePreferences(this.prefs).then(function() {
         this._changeTableChanged = false;
-      });
+      }.bind(this));
     },
 
-    _handleSaveDiffPreferences() {
+    _handleSaveDiffPreferences: function() {
       return this.$.restAPI.saveDiffPreferences(this._diffPrefs)
-          .then(() => {
+          .then(function() {
             this._diffPrefsChanged = false;
-          });
+          }.bind(this));
     },
 
-    _handleSaveMenu() {
+    _handleSaveMenu: function() {
       this.set('prefs.my', this._localMenu);
-      this._cloneMenu(this.prefs.my);
-      return this.$.restAPI.savePreferences(this.prefs).then(() => {
+      this._cloneMenu();
+      return this.$.restAPI.savePreferences(this.prefs).then(function() {
         this._menuChanged = false;
-      });
+      }.bind(this));
     },
 
-    _handleResetMenuButton() {
-      return this.$.restAPI.getDefaultPreferences().then(data => {
-        if (data && data.my) {
-          this._cloneMenu(data.my);
-        }
-      });
-    },
-
-    _handleSaveWatchedProjects() {
+    _handleSaveWatchedProjects: function() {
       this.$.watchedProjectsEditor.save();
     },
 
-    _computeHeaderClass(changed) {
+    _computeHeaderClass: function(changed) {
       return changed ? 'edited' : '';
     },
 
-    _handleSaveEmails() {
+    _handleSaveEmails: function() {
       this.$.emailEditor.save();
     },
 
-    _handleNewEmailKeydown(e) {
+    _handleNewEmailKeydown: function(e) {
       if (e.keyCode === 13) { // Enter
         e.stopPropagation();
         this._handleAddEmailButton();
       }
     },
 
-    _isNewEmailValid(newEmail) {
-      return newEmail.includes('@');
+    _isNewEmailValid: function(newEmail) {
+      return newEmail.indexOf('@') !== -1;
     },
 
-    _computeAddEmailButtonEnabled(newEmail, addingEmail) {
+    _computeAddEmailButtonEnabled: function(newEmail, addingEmail) {
       return this._isNewEmailValid(newEmail) && !addingEmail;
     },
 
-    _handleAddEmailButton() {
+    _handleAddEmailButton: function() {
       if (!this._isNewEmailValid(this._newEmail)) { return; }
 
       this._addingEmail = true;
-      this.$.restAPI.addAccountEmail(this._newEmail).then(response => {
+      this.$.restAPI.addAccountEmail(this._newEmail).then(function(response) {
         this._addingEmail = false;
 
         // If it was unsuccessful.
@@ -385,29 +353,7 @@
 
         this._lastSentVerificationEmail = this._newEmail;
         this._newEmail = '';
-      });
-    },
-
-    _getFilterDocsLink(docsBaseUrl) {
-      let base = docsBaseUrl;
-      if (!base || !ABSOLUTE_URL_PATTERN.test(base)) {
-        base = GERRIT_DOCS_BASE_URL;
-      }
-
-      // Remove any trailing slash, since it is in the GERRIT_DOCS_FILTER_PATH.
-      base = base.replace(TRAILING_SLASH_PATTERN, '');
-
-      return base + GERRIT_DOCS_FILTER_PATH;
-    },
-
-    _showHttpAuth(config) {
-      if (config && config.auth &&
-          config.auth.git_basic_auth_policy) {
-        return HTTP_AUTH.includes(
-            config.auth.git_basic_auth_policy.toUpperCase());
-      }
-
-      return false;
+      }.bind(this));
     },
   });
 })();

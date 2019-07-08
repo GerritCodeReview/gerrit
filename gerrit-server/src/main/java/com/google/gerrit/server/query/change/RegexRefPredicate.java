@@ -20,10 +20,10 @@ import com.google.gwtorm.server.OrmException;
 import dk.brics.automaton.RegExp;
 import dk.brics.automaton.RunAutomaton;
 
-public class RegexRefPredicate extends ChangeRegexPredicate {
-  protected final RunAutomaton pattern;
+class RegexRefPredicate extends ChangeRegexPredicate {
+  private final RunAutomaton pattern;
 
-  public RegexRefPredicate(String re) {
+  RegexRefPredicate(String re) {
     super(ChangeField.REF, re);
 
     if (re.startsWith("^")) {
@@ -38,7 +38,7 @@ public class RegexRefPredicate extends ChangeRegexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
+  public boolean match(final ChangeData object) throws OrmException {
     Change change = object.change();
     if (change == null) {
       return false;

@@ -44,42 +44,6 @@ public class AccountTest {
   }
 
   @Test
-  public void parseDraftCommentsRefName() {
-    assertThat(fromRef("refs/draft-comments/35/135/1")).isEqualTo(id(1));
-    assertThat(fromRef("refs/draft-comments/35/135/1-foo/2")).isEqualTo(id(1));
-    assertThat(fromRef("refs/draft-comments/35/135/1/foo/2")).isEqualTo(id(1));
-
-    // Invalid characters.
-    assertThat(fromRef("refs/draft-comments/35a/135/1")).isNull();
-    assertThat(fromRef("refs/draft-comments/35/135a/1")).isNull();
-    assertThat(fromRef("refs/draft-comments/35/135/a1")).isNull();
-
-    // Mismatched shard.
-    assertThat(fromRef("refs/draft-comments/02/135/1")).isNull();
-
-    // Shard too short.
-    assertThat(fromRef("refs/draft-comments/2/2/1")).isNull();
-  }
-
-  @Test
-  public void parseStarredChangesRefName() {
-    assertThat(fromRef("refs/starred-changes/35/135/1")).isEqualTo(id(1));
-    assertThat(fromRef("refs/starred-changes/35/135/1-foo/2")).isEqualTo(id(1));
-    assertThat(fromRef("refs/starred-changes/35/135/1/foo/2")).isEqualTo(id(1));
-
-    // Invalid characters.
-    assertThat(fromRef("refs/starred-changes/35a/135/1")).isNull();
-    assertThat(fromRef("refs/starred-changes/35/135a/1")).isNull();
-    assertThat(fromRef("refs/starred-changes/35/135/a1")).isNull();
-
-    // Mismatched shard.
-    assertThat(fromRef("refs/starred-changes/02/135/1")).isNull();
-
-    // Shard too short.
-    assertThat(fromRef("refs/starred-changes/2/2/1")).isNull();
-  }
-
-  @Test
   public void parseRefNameParts() {
     assertThat(fromRefPart("01/1")).isEqualTo(id(1));
     assertThat(fromRefPart("ab/cd")).isNull();

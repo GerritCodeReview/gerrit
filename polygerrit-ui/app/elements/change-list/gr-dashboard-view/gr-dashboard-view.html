@@ -14,15 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../change-list/gr-change-list/gr-change-list.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-dashboard-view">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         background-color: var(--view-background-color);
         display: block;
@@ -47,7 +44,8 @@ limitations under the License.
           show-reviewed-state
           account="[[account]]"
           selected-index="{{viewState.selectedChangeIndex}}"
-          sections="[[_results]]"></gr-change-list>
+          groups="{{_results}}"
+          group-titles="[[_groupTitles]]"></gr-change-list>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

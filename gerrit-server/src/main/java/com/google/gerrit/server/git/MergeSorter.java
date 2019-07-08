@@ -29,20 +29,20 @@ public class MergeSorter {
   private final CodeReviewRevWalk rw;
   private final RevFlag canMergeFlag;
   private final Set<RevCommit> accepted;
-  private final Set<CodeReviewCommit> incoming;
 
-  public MergeSorter(
-      CodeReviewRevWalk rw,
-      Set<RevCommit> alreadyAccepted,
-      RevFlag canMergeFlag,
-      Set<CodeReviewCommit> incoming) {
+  public MergeSorter(CodeReviewRevWalk rw, Set<RevCommit> alreadyAccepted, RevFlag canMergeFlag) {
     this.rw = rw;
     this.canMergeFlag = canMergeFlag;
     this.accepted = alreadyAccepted;
-    this.incoming = incoming;
   }
 
-  Collection<CodeReviewCommit> sort(Collection<CodeReviewCommit> toMerge) throws IOException {
+  Collection<CodeReviewCommit> sort(final Collection<CodeReviewCommit> toMerge) throws IOException {
+    return sort(toMerge, toMerge);
+  }
+
+  Collection<CodeReviewCommit> sort(
+      final Collection<CodeReviewCommit> toMerge, final Collection<CodeReviewCommit> incoming)
+      throws IOException {
     final Set<CodeReviewCommit> heads = new HashSet<>();
     final Set<CodeReviewCommit> sort = new HashSet<>(toMerge);
     while (!sort.isEmpty()) {
@@ -82,7 +82,7 @@ public class MergeSorter {
     return heads;
   }
 
-  private static <T> T removeOne(Collection<T> c) {
+  private static <T> T removeOne(final Collection<T> c) {
     final Iterator<T> i = c.iterator();
     final T r = i.next();
     i.remove();

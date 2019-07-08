@@ -40,7 +40,7 @@ public class GroupSuggestOracle extends SuggestOracle {
   }
 
   @Override
-  public void requestSuggestions(Request req, Callback done) {
+  public void requestSuggestions(final Request req, final Callback done) {
     if (req.getQuery().length() < chars) {
       responseEmptySuggestion(req, done);
       return;

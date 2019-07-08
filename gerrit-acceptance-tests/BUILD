@@ -1,15 +1,14 @@
-RESOURCES = glob(["src/test/resources/**/*"])
-
 java_library(
     name = "lib",
     testonly = 1,
     srcs = ["src/test/java/com/google/gerrit/acceptance/Dummy.java"],
-    resources = RESOURCES,
     visibility = ["//visibility:public"],
     exports = [
         "//gerrit-acceptance-framework:lib",
         "//gerrit-common:annotations",
         "//gerrit-common:server",
+        "//gerrit-elasticsearch:elasticsearch",
+        "//gerrit-elasticsearch:elasticsearch_test_utils",
         "//gerrit-extension-api:api",
         "//gerrit-gpg:testutil",
         "//gerrit-httpd:httpd",
@@ -19,11 +18,9 @@ java_library(
         "//gerrit-pgm:pgm",
         "//gerrit-pgm:util",
         "//gerrit-reviewdb:server",
-        "//gerrit-server:metrics",
-        "//gerrit-server:prolog-common",
-        "//gerrit-server:receive",
         "//gerrit-server:server",
         "//gerrit-server:testutil",
+        "//gerrit-server/src/main/prolog:common",
         "//gerrit-sshd:sshd",
         "//gerrit-test-util:test_util",
         "//lib:args4j",

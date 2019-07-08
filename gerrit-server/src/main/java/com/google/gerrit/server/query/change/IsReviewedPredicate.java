@@ -16,23 +16,23 @@ package com.google.gerrit.server.query.change;
 
 import static com.google.gerrit.server.index.change.ChangeField.REVIEWEDBY;
 
-import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.query.Predicate;
 import com.google.gwtorm.server.OrmException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-public class IsReviewedPredicate extends ChangeIndexPredicate {
-  protected static final Account.Id NOT_REVIEWED = new Account.Id(ChangeField.NOT_REVIEWED);
+class IsReviewedPredicate extends ChangeIndexPredicate {
+  private static final Account.Id NOT_REVIEWED = new Account.Id(ChangeField.NOT_REVIEWED);
 
-  public static Predicate<ChangeData> create() {
+  static Predicate<ChangeData> create() {
     return Predicate.not(new IsReviewedPredicate(NOT_REVIEWED));
   }
 
-  public static Predicate<ChangeData> create(Collection<Account.Id> ids) {
+  static Predicate<ChangeData> create(Collection<Account.Id> ids) {
     List<Predicate<ChangeData>> predicates = new ArrayList<>(ids.size());
     for (Account.Id id : ids) {
       predicates.add(new IsReviewedPredicate(id));
@@ -40,7 +40,7 @@ public class IsReviewedPredicate extends ChangeIndexPredicate {
     return Predicate.or(predicates);
   }
 
-  protected final Account.Id id;
+  private final Account.Id id;
 
   private IsReviewedPredicate(Account.Id id) {
     super(REVIEWEDBY, Integer.toString(id.get()));

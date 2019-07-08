@@ -187,7 +187,7 @@ public class TagsIT extends AbstractDaemonTest {
 
     setApiUser(user);
     result = tag(input.ref).get();
-    assertThat(result.canDelete).isNull();
+    assertThat(result.canDelete).isFalse();
 
     eventRecorder.assertRefUpdatedEvents(project.get(), result.ref, null, result.revision);
   }
@@ -246,17 +246,17 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void createTagNotAllowed() throws Exception {
-    block(R_TAGS + "*", Permission.CREATE, REGISTERED_USERS);
+    block(Permission.CREATE, REGISTERED_USERS, R_TAGS + "*");
     TagInput input = new TagInput();
     input.ref = "test";
     exception.expect(AuthException.class);
-    exception.expectMessage("create not permitted");
+    exception.expectMessage("Cannot create tag \"" + R_TAGS + "test\"");
     tag(input.ref).create(input);
   }
 
   @Test
   public void createAnnotatedTagNotAllowed() throws Exception {
-    block(R_TAGS + "*", Permission.CREATE_TAG, REGISTERED_USERS);
+    block(Permission.CREATE_TAG, REGISTERED_USERS, R_TAGS + "*");
     TagInput input = new TagInput();
     input.ref = "test";
     input.message = "annotation";

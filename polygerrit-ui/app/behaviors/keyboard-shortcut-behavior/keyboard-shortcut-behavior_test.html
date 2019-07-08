@@ -20,7 +20,8 @@ limitations under the License.
 
 <script src="../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
 <script src="../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../test/common-test-setup.html"/>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="keyboard-shortcut-behavior.html">
 
 <test-fixture id="basic">
@@ -38,77 +39,77 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('keyboard-shortcut-behavior tests', () => {
-    let element;
-    let overlay;
-    let sandbox;
+  suite('keyboard-shortcut-behavior tests', function() {
+    var element;
+    var overlay;
+    var sandbox;
 
-    suiteSetup(() => {
+    suiteSetup(function() {
       // Define a Polymer element that uses this behavior.
       Polymer({
         is: 'test-element',
         behaviors: [Gerrit.KeyboardShortcutBehavior],
         keyBindings: {
-          k: '_handleKey',
+          'k': '_handleKey'
         },
-        _handleKey() {},
+        _handleKey: function() {},
       });
     });
 
-    setup(() => {
+    setup(function() {
       element = fixture('basic');
       overlay = fixture('within-overlay');
       sandbox = sinon.sandbox.create();
     });
 
-    teardown(() => {
+    teardown(function() {
       sandbox.restore();
     });
 
-    test('doesn’t block kb shortcuts for non-whitelisted els', done => {
-      const divEl = document.createElement('div');
+    test('doesn’t block kb shortcuts for non-whitelisted els', function(done) {
+      var divEl = document.createElement('div');
       element.appendChild(divEl);
-      element._handleKey = e => {
+      element._handleKey = function(e) {
         assert.isFalse(element.shouldSuppressKeyboardShortcut(e));
         done();
       };
       MockInteractions.keyDownOn(divEl, 75, null, 'k');
     });
 
-    test('blocks kb shortcuts for input els', done => {
-      const inputEl = document.createElement('input');
+    test('blocks kb shortcuts for input els', function(done) {
+      var inputEl = document.createElement('input');
       element.appendChild(inputEl);
-      element._handleKey = e => {
+      element._handleKey = function(e) {
         assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
         done();
       };
       MockInteractions.keyDownOn(inputEl, 75, null, 'k');
     });
 
-    test('blocks kb shortcuts for textarea els', done => {
-      const textareaEl = document.createElement('textarea');
+    test('blocks kb shortcuts for textarea els', function(done) {
+      var textareaEl = document.createElement('textarea');
       element.appendChild(textareaEl);
-      element._handleKey = e => {
+      element._handleKey = function(e) {
         assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
         done();
       };
       MockInteractions.keyDownOn(textareaEl, 75, null, 'k');
     });
 
-    test('blocks kb shortcuts for anything in a gr-overlay', done => {
-      const divEl = document.createElement('div');
-      const element = overlay.querySelector('test-element');
+    test('blocks kb shortcuts for anything in a gr-overlay', function(done) {
+      var divEl = document.createElement('div');
+      var element = overlay.querySelector('test-element');
       element.appendChild(divEl);
-      element._handleKey = e => {
+      element._handleKey = function(e) {
         assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
         done();
       };
       MockInteractions.keyDownOn(divEl, 75, null, 'k');
     });
 
-    test('modifierPressed returns accurate values', () => {
-      const spy = sandbox.spy(element, 'modifierPressed');
-      element._handleKey = e => {
+    test('modifierPressed returns accurate values', function() {
+      var spy = sandbox.spy(element, 'modifierPressed');
+      element._handleKey = function(e) {
         element.modifierPressed(e);
       };
       MockInteractions.keyDownOn(element, 75, 'shift', 'k');
@@ -125,27 +126,6 @@ limitations under the License.
       assert.isFalse(spy.lastCall.returnValue);
       MockInteractions.keyDownOn(element, 75, 'alt', 'k');
       assert.isTrue(spy.lastCall.returnValue);
-    });
-
-    test('isModifierPressed returns accurate value', () => {
-      const spy = sandbox.spy(element, 'isModifierPressed');
-      element._handleKey = e => {
-        element.isModifierPressed(e, 'shiftKey');
-      };
-      MockInteractions.keyDownOn(element, 75, 'shift', 'k');
-      assert.isTrue(spy.lastCall.returnValue);
-      MockInteractions.keyDownOn(element, 75, null, 'k');
-      assert.isFalse(spy.lastCall.returnValue);
-      MockInteractions.keyDownOn(element, 75, 'ctrl', 'k');
-      assert.isFalse(spy.lastCall.returnValue);
-      MockInteractions.keyDownOn(element, 75, null, 'k');
-      assert.isFalse(spy.lastCall.returnValue);
-      MockInteractions.keyDownOn(element, 75, 'meta', 'k');
-      assert.isFalse(spy.lastCall.returnValue);
-      MockInteractions.keyDownOn(element, 75, null, 'k');
-      assert.isFalse(spy.lastCall.returnValue);
-      MockInteractions.keyDownOn(element, 75, 'alt', 'k');
-      assert.isFalse(spy.lastCall.returnValue);
     });
   });
 </script>

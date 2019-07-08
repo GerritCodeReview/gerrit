@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.auth.oauth;
 
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_EXTERNAL;
-
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.auth.oauth.OAuthLoginProvider;
 import com.google.gerrit.extensions.auth.oauth.OAuthUserInfo;
@@ -26,12 +24,10 @@ import com.google.gerrit.server.account.AbstractRealm;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
-import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
@@ -118,15 +114,5 @@ public class OAuthRealm extends AbstractRealm {
   @Override
   public Account.Id lookup(String accountName) {
     return null;
-  }
-
-  @Override
-  public boolean accountBelongsToRealm(Collection<ExternalId> externalIds) {
-    for (ExternalId id : externalIds) {
-      if (id.toString().contains(SCHEME_EXTERNAL)) {
-        return true;
-      }
-    }
-    return false;
   }
 }

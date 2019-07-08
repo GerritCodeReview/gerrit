@@ -132,7 +132,7 @@ GrLinkTextParser.prototype.parseChunk = function(text, href) {
   // TODO(wyatta) switch linkify sequence, see issue 5526.
   if (this.removeZeroWidthSpace) {
     // Remove the zero-width space added in gr-change-view.
-    text = text.replace(/^(CC|R)=\u200B/gm, '$1=');
+    text = text.replace(/^R=\u200B/gm, 'R=');
   }
 
   if (href) {

@@ -35,11 +35,10 @@ public class RevisionInfoCache {
 
   private final LinkedHashMap<PatchSet.Id, String> psToCommit;
 
+  @SuppressWarnings("serial")
   private RevisionInfoCache() {
     psToCommit =
         new LinkedHashMap<PatchSet.Id, String>(LIMIT) {
-          private static final long serialVersionUID = 1L;
-
           @Override
           protected boolean removeEldestEntry(Map.Entry<PatchSet.Id, String> e) {
             return size() > LIMIT;

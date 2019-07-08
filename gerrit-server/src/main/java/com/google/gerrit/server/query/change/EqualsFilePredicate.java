@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.OrmException;
 
-public class EqualsFilePredicate extends ChangeIndexPredicate {
-  public static Predicate<ChangeData> create(Arguments args, String value) {
+class EqualsFilePredicate extends ChangeIndexPredicate {
+  static Predicate<ChangeData> create(Arguments args, String value) {
     Predicate<ChangeData> eqPath = new EqualsPathPredicate(ChangeQueryBuilder.FIELD_FILE, value);
     if (!args.getSchema().hasField(ChangeField.FILE_PART)) {
       return eqPath;
@@ -28,8 +28,11 @@ public class EqualsFilePredicate extends ChangeIndexPredicate {
     return Predicate.or(eqPath, new EqualsFilePredicate(value));
   }
 
+  private final String value;
+
   private EqualsFilePredicate(String value) {
     super(ChangeField.FILE_PART, ChangeQueryBuilder.FIELD_FILE, value);
+    this.value = value;
   }
 
   @Override

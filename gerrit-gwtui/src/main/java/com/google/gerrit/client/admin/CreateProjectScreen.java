@@ -111,14 +111,6 @@ public class CreateProjectScreen extends Screen {
     projectsPopup.initPopup(AdminConstants.I.projects(), PageLinks.ADMIN_PROJECTS);
   }
 
-  @Override
-  public void onShowView() {
-    super.onShowView();
-    if (project != null) {
-      project.setFocus(true);
-    }
-  }
-
   private void addCreateProjectPanel() {
     final VerticalPanel fp = new VerticalPanel();
     fp.setStyleName(Gerrit.RESOURCES.css().createProjectPanel());
@@ -130,7 +122,6 @@ public class CreateProjectScreen extends Screen {
     addGrid(fp);
 
     emptyCommit = new CheckBox(AdminConstants.I.checkBoxEmptyCommit());
-    emptyCommit.setValue(true);
     permissionsOnly = new CheckBox(AdminConstants.I.checkBoxPermissionsOnly());
     fp.add(emptyCommit);
     fp.add(permissionsOnly);
@@ -182,7 +173,7 @@ public class CreateProjectScreen extends Screen {
     create.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(ClickEvent event) {
+          public void onClick(final ClickEvent event) {
             doCreateProject();
           }
         });
@@ -191,7 +182,7 @@ public class CreateProjectScreen extends Screen {
     browse.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(ClickEvent event) {
+          public void onClick(final ClickEvent event) {
             int top = grid.getAbsoluteTop() - 50; // under page header
             // Try to place it to the right of everything else, but not
             // right justified
@@ -220,7 +211,7 @@ public class CreateProjectScreen extends Screen {
           }
 
           @Override
-          protected void populate(int row, ProjectInfo k) {
+          protected void populate(final int row, final ProjectInfo k) {
             populateState(row, k);
             final Anchor projectLink = new Anchor(k.name());
             projectLink.addClickHandler(
@@ -253,7 +244,7 @@ public class CreateProjectScreen extends Screen {
         });
   }
 
-  private void addGrid(VerticalPanel fp) {
+  private void addGrid(final VerticalPanel fp) {
     grid = new Grid(2, 3);
     grid.setStyleName(Gerrit.RESOURCES.css().infoBlock());
     grid.setText(0, 0, AdminConstants.I.columnProjectName() + ":");
@@ -296,7 +287,7 @@ public class CreateProjectScreen extends Screen {
         });
   }
 
-  private void enableForm(boolean enabled) {
+  private void enableForm(final boolean enabled) {
     project.setEnabled(enabled);
     create.setEnabled(enabled);
     parent.setEnabled(enabled);

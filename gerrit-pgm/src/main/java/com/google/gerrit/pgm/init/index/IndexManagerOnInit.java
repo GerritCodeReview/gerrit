@@ -15,7 +15,7 @@
 package com.google.gerrit.pgm.init.index;
 
 import com.google.gerrit.extensions.events.LifecycleListener;
-import com.google.gerrit.index.IndexDefinition;
+import com.google.gerrit.server.index.IndexDefinition;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import java.util.Collection;

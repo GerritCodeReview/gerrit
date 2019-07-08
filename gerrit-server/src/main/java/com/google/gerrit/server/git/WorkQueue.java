@@ -39,7 +39,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.RunnableScheduledFuture;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
@@ -57,7 +56,7 @@ public class WorkQueue {
     private final WorkQueue workQueue;
 
     @Inject
-    Lifecycle(WorkQueue workQeueue) {
+    Lifecycle(final WorkQueue workQeueue) {
       this.workQueue = workQeueue;
     }
 
@@ -87,7 +86,7 @@ public class WorkQueue {
         }
       };
 
-  private final ScheduledExecutorService defaultQueue;
+  private final Executor defaultQueue;
   private final IdGenerator idGenerator;
   private final MetricMaker metrics;
   private final CopyOnWriteArrayList<Executor> queues;
@@ -106,7 +105,7 @@ public class WorkQueue {
   }
 
   /** Get the default work queue, for miscellaneous tasks. */
-  public ScheduledExecutorService getDefaultQueue() {
+  public Executor getDefaultQueue() {
     return defaultQueue;
   }
 
@@ -116,28 +115,13 @@ public class WorkQueue {
    * <p>Creates a new executor queue without associated metrics. This method is suitable for use by
    * plugins.
    *
-   * <p>If metrics are needed, use {@link #createQueue(int, String, int, boolean)} instead.
+   * <p>If metrics are needed, use {@link #createQueue(int, String, boolean)} instead.
    *
    * @param poolsize the size of the pool.
    * @param queueName the name of the queue.
    */
-  public ScheduledExecutorService createQueue(int poolsize, String queueName) {
-    return createQueue(poolsize, queueName, Thread.NORM_PRIORITY, false);
-  }
-
-  /**
-   * Create a new executor queue, with default priority, optionally with metrics.
-   *
-   * <p>Creates a new executor queue, optionally with associated metrics. Metrics should not be
-   * requested for queues created by plugins.
-   *
-   * @param poolsize the size of the pool.
-   * @param queueName the name of the queue.
-   * @param withMetrics whether to create metrics.
-   */
-  public ScheduledThreadPoolExecutor createQueue(
-      int poolsize, String queueName, boolean withMetrics) {
-    return createQueue(poolsize, queueName, Thread.NORM_PRIORITY, withMetrics);
+  public Executor createQueue(int poolsize, String queueName) {
+    return createQueue(poolsize, queueName, false);
   }
 
   /**
@@ -148,36 +132,24 @@ public class WorkQueue {
    *
    * @param poolsize the size of the pool.
    * @param queueName the name of the queue.
-   * @param threadPriority thread priority.
    * @param withMetrics whether to create metrics.
    */
-  public ScheduledThreadPoolExecutor createQueue(
-      int poolsize, String queueName, int threadPriority, boolean withMetrics) {
-    Executor executor = new Executor(poolsize, queueName);
+  public Executor createQueue(int poolsize, String queueName, boolean withMetrics) {
+    final Executor r = new Executor(poolsize, queueName);
     if (withMetrics) {
       log.info("Adding metrics for '{}' queue", queueName);
-      executor.buildMetrics(queueName);
+      r.buildMetrics(queueName);
     }
-    executor.setContinueExistingPeriodicTasksAfterShutdownPolicy(false);
-    executor.setExecuteExistingDelayedTasksAfterShutdownPolicy(true);
-    queues.add(executor);
-    if (threadPriority != Thread.NORM_PRIORITY) {
-      ThreadFactory parent = executor.getThreadFactory();
-      executor.setThreadFactory(
-          task -> {
-            Thread t = parent.newThread(task);
-            t.setPriority(threadPriority);
-            return t;
-          });
-    }
-
-    return executor;
+    r.setContinueExistingPeriodicTasksAfterShutdownPolicy(false);
+    r.setExecuteExistingDelayedTasksAfterShutdownPolicy(true);
+    queues.add(r);
+    return r;
   }
 
   /** Get all of the tasks currently scheduled in any work queue. */
   public List<Task<?>> getTasks() {
     final List<Task<?>> r = new ArrayList<>();
-    for (Executor e : queues) {
+    for (final Executor e : queues) {
       e.addAllTo(r);
     }
     return r;
@@ -194,9 +166,9 @@ public class WorkQueue {
   }
 
   /** Locate a task by its unique id, null if no task matches. */
-  public Task<?> getTask(int id) {
+  public Task<?> getTask(final int id) {
     Task<?> result = null;
-    for (Executor e : queues) {
+    for (final Executor e : queues) {
       final Task<?> t = e.getTask(id);
       if (t != null) {
         if (result != null) {
@@ -209,7 +181,7 @@ public class WorkQueue {
     return result;
   }
 
-  public ScheduledThreadPoolExecutor getExecutor(String queueName) {
+  public Executor getExecutor(String queueName) {
     for (Executor e : queues) {
       if (e.queueName.equals(queueName)) {
         return e;
@@ -219,7 +191,7 @@ public class WorkQueue {
   }
 
   private void stop() {
-    for (Executor p : queues) {
+    for (final Executor p : queues) {
       p.shutdown();
       boolean isTerminated;
       do {
@@ -234,7 +206,7 @@ public class WorkQueue {
   }
 
   /** An isolated queue. */
-  private class Executor extends ScheduledThreadPoolExecutor {
+  public class Executor extends ScheduledThreadPoolExecutor {
     private final ConcurrentHashMap<Integer, Task<?>> all;
     private final String queueName;
 
@@ -246,7 +218,7 @@ public class WorkQueue {
             private final AtomicInteger tid = new AtomicInteger(1);
 
             @Override
-            public Thread newThread(Runnable task) {
+            public Thread newThread(final Runnable task) {
               final Thread t = parent.newThread(task);
               t.setName(queueName + "-" + tid.getAndIncrement());
               t.setUncaughtExceptionHandler(LOG_UNCAUGHT_EXCEPTION);
@@ -261,12 +233,6 @@ public class WorkQueue {
               corePoolSize + 4 // concurrency level
               );
       this.queueName = queueName;
-    }
-
-    @Override
-    protected void terminated() {
-      super.terminated();
-      queues.remove(this);
     }
 
     private void buildMetrics(String queueName) {
@@ -348,9 +314,13 @@ public class WorkQueue {
       return metrics.sanitizeMetricName(String.format("queue/%s/%s", name, metricName));
     }
 
+    public void unregisterWorkQueue() {
+      queues.remove(this);
+    }
+
     @Override
     protected <V> RunnableScheduledFuture<V> decorateTask(
-        Runnable runnable, RunnableScheduledFuture<V> r) {
+        final Runnable runnable, RunnableScheduledFuture<V> r) {
       r = super.decorateTask(runnable, r);
       for (; ; ) {
         final int id = idGenerator.next();
@@ -371,19 +341,19 @@ public class WorkQueue {
 
     @Override
     protected <V> RunnableScheduledFuture<V> decorateTask(
-        Callable<V> callable, RunnableScheduledFuture<V> task) {
+        final Callable<V> callable, final RunnableScheduledFuture<V> task) {
       throw new UnsupportedOperationException("Callable not implemented");
     }
 
-    void remove(Task<?> task) {
+    void remove(final Task<?> task) {
       all.remove(task.getTaskId(), task);
     }
 
-    Task<?> getTask(int id) {
+    Task<?> getTask(final int id) {
       return all.get(id);
     }
 
-    void addAllTo(List<Task<?>> list) {
+    void addAllTo(final List<Task<?>> list) {
       list.addAll(all.values()); // iterator is thread safe
     }
 

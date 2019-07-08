@@ -14,8 +14,6 @@
 
 package com.google.gerrit.extensions.client;
 
-import java.util.Objects;
-
 public class MenuItem {
   public final String url;
   public final String name;
@@ -40,41 +38,5 @@ public class MenuItem {
     this.name = name;
     this.target = target;
     this.id = id;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (obj instanceof MenuItem) {
-      MenuItem o = (MenuItem) obj;
-      return Objects.equals(url, o.url)
-          && Objects.equals(name, o.name)
-          && Objects.equals(target, o.target)
-          && Objects.equals(id, o.id);
-    }
-    return false;
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(url, name, target, id);
-  }
-
-  @Override
-  public String toString() {
-    return new StringBuilder()
-        .append("MenuItem{")
-        .append("url=")
-        .append(url)
-        .append(',')
-        .append("name=")
-        .append(name)
-        .append(',')
-        .append("target=")
-        .append(target)
-        .append(',')
-        .append("id=")
-        .append(id)
-        .append('}')
-        .toString();
   }
 }

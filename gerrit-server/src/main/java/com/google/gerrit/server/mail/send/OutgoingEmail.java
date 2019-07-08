@@ -32,7 +32,6 @@ import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.send.EmailHeader.AddressList;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
@@ -93,7 +92,7 @@ public abstract class OutgoingEmail {
     headers = new LinkedHashMap<>();
   }
 
-  public void setFrom(Account.Id id) {
+  public void setFrom(final Account.Id id) {
     fromId = id;
   }
 
@@ -311,26 +310,26 @@ public abstract class OutgoingEmail {
   }
 
   /** Set a header in the outgoing message using a template. */
-  protected void setVHeader(String name, String value) throws EmailException {
+  protected void setVHeader(final String name, final String value) throws EmailException {
     setHeader(name, velocify(value));
   }
 
   /** Set a header in the outgoing message. */
-  protected void setHeader(String name, String value) {
+  protected void setHeader(final String name, final String value) {
     headers.put(name, new EmailHeader.String(value));
   }
 
   /** Remove a header from the outgoing message. */
-  protected void removeHeader(String name) {
+  protected void removeHeader(final String name) {
     headers.remove(name);
   }
 
-  protected void setHeader(String name, Date date) {
+  protected void setHeader(final String name, final Date date) {
     headers.put(name, new EmailHeader.Date(date));
   }
 
   /** Append text to the outgoing email body. */
-  protected void appendText(String text) {
+  protected void appendText(final String text) {
     if (text != null) {
       textBody.append(text);
     }
@@ -428,51 +427,26 @@ public abstract class OutgoingEmail {
   }
 
   /** Schedule this message for delivery to the listed accounts. */
-  protected void add(RecipientType rt, Collection<Account.Id> list) {
-    add(rt, list, false);
-  }
-
-  /** Schedule this message for delivery to the listed accounts. */
-  protected void add(RecipientType rt, Collection<Account.Id> list, boolean override) {
+  protected void add(final RecipientType rt, final Collection<Account.Id> list) {
     for (final Account.Id id : list) {
-      add(rt, id, override);
+      add(rt, id);
     }
   }
 
-  /** Schedule this message for delivery to the listed address. */
-  protected void addByEmail(RecipientType rt, Collection<Address> list) {
-    addByEmail(rt, list, false);
-  }
-
-  /** Schedule this message for delivery to the listed address. */
-  protected void addByEmail(RecipientType rt, Collection<Address> list, boolean override) {
-    for (final Address id : list) {
-      add(rt, id, override);
-    }
-  }
-
-  protected void add(RecipientType rt, UserIdentity who) {
-    add(rt, who, false);
-  }
-
-  protected void add(RecipientType rt, UserIdentity who, boolean override) {
+  protected void add(final RecipientType rt, final UserIdentity who) {
     if (who != null && who.getAccount() != null) {
-      add(rt, who.getAccount(), override);
+      add(rt, who.getAccount());
     }
   }
 
   /** Schedule delivery of this message to the given account. */
-  protected void add(RecipientType rt, Account.Id to) {
-    add(rt, to, false);
-  }
-
-  protected void add(RecipientType rt, Account.Id to, boolean override) {
+  protected void add(final RecipientType rt, final Account.Id to) {
     try {
       if (!rcptTo.contains(to) && isVisibleTo(to)) {
         rcptTo.add(to);
-        add(rt, toAddress(to), override);
+        add(rt, toAddress(to));
       }
-    } catch (OrmException | PermissionBackendException e) {
+    } catch (OrmException e) {
       log.error("Error reading database for account: " + to, e);
     }
   }
@@ -480,32 +454,20 @@ public abstract class OutgoingEmail {
   /**
    * @param to account.
    * @throws OrmException
-   * @throws PermissionBackendException
    * @return whether this email is visible to the given account.
    */
-  protected boolean isVisibleTo(Account.Id to) throws OrmException, PermissionBackendException {
+  protected boolean isVisibleTo(final Account.Id to) throws OrmException {
     return true;
   }
 
   /** Schedule delivery of this message to the given account. */
-  protected void add(RecipientType rt, Address addr) {
-    add(rt, addr, false);
-  }
-
-  protected void add(RecipientType rt, Address addr, boolean override) {
+  protected void add(final RecipientType rt, final Address addr) {
     if (addr != null && addr.getEmail() != null && addr.getEmail().length() > 0) {
-      if (!args.validator.isValid(addr.getEmail())) {
+      if (!OutgoingEmailValidator.isValid(addr.getEmail())) {
         log.warn("Not emailing " + addr.getEmail() + " (invalid email address)");
       } else if (!args.emailSender.canEmail(addr.getEmail())) {
         log.warn("Not emailing " + addr.getEmail() + " (prohibited by allowrcpt)");
-      } else {
-        if (!smtpRcptTo.add(addr)) {
-          if (!override) {
-            return;
-          }
-          ((EmailHeader.AddressList) headers.get(HDR_TO)).remove(addr.getEmail());
-          ((EmailHeader.AddressList) headers.get(HDR_CC)).remove(addr.getEmail());
-        }
+      } else if (smtpRcptTo.add(addr)) {
         switch (rt) {
           case TO:
             ((EmailHeader.AddressList) headers.get(HDR_TO)).add(addr);
@@ -520,7 +482,7 @@ public abstract class OutgoingEmail {
     }
   }
 
-  private Address toAddress(Account.Id id) {
+  private Address toAddress(final Account.Id id) {
     final Account a = args.accountCache.get(id).getAccount();
     final String e = a.getPreferredEmail();
     if (!a.isActive() || e == null) {

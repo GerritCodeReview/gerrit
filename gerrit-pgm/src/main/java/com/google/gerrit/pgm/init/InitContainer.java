@@ -41,7 +41,7 @@ class InitContainer implements InitStep {
   private final Section container;
 
   @Inject
-  InitContainer(ConsoleUI ui, SitePaths site, Section.Factory sections) {
+  InitContainer(final ConsoleUI ui, final SitePaths site, final Section.Factory sections) {
     this.ui = ui;
     this.site = site;
     this.container = sections.get("container", null);

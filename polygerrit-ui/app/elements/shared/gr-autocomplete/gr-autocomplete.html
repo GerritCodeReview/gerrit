@@ -15,87 +15,75 @@ limitations under the License.
 -->
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
-<link rel="import" href="../../../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../../shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.html">
+<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../shared/gr-cursor-manager/gr-cursor-manager.html">
-<link rel="import" href="../../shared/gr-icons/gr-icons.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-autocomplete">
   <template>
-    <style include="shared-styles">
-      .searchIcon {
-        display: none;
-      }
-      .searchIcon.showSearchIcon {
-        display: initial;
-      }
-      iron-icon {
-        margin: 0 .25em;
-      }
-      paper-input:not(.borderless) {
-        border: 1px solid #ddd;
-      }
-      paper-input {
+    <style>
+      input {
+        font-size: 1em;
         height: 100%;
         width: 100%;
-        @apply --gr-autocomplete;
-        --paper-input-container: {
-          padding: 0;
-        }
-        --paper-input-container-input: {
-          font-size: 1em;
-        }
-        --paper-input-container-underline: {
-          display: none;
-        };
-        --paper-input-container-underline-focus: {
-          display: none;
-        };
-        --paper-input-container-underline-disabled: {
-          display: none;
-        };
       }
-      paper-input.warnUncommitted {
-        --paper-input-container-input: {
-          color: #ff0000;
-          font-size: 1em;
-        }
+      input.borderless,
+      input.borderless:focus {
+        border: none;
+        outline: none;
+      }
+      #suggestions {
+        background-color: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+        position: absolute;
+        z-index: 10;
+      }
+      ul {
+        list-style: none;
+      }
+      li {
+        cursor: pointer;
+        padding: .5em .75em;
+      }
+      li:focus {
+        outline: none;
+      }
+      li.selected {
+        background-color: #eee;
       }
     </style>
-    <paper-input
-        no-label-float
+    <input
         id="input"
         class$="[[_computeClass(borderless)]]"
         is="iron-input"
         disabled$="[[disabled]]"
-        value="{{text}}"
+        bind-value="{{text}}"
         placeholder="[[placeholder]]"
         on-keydown="_handleKeydown"
         on-focus="_onInputFocus"
-        on-blur="_onInputBlur"
-        autocomplete="off">
-      <!-- slot is for future use (2.x) while prefix attribute is for 1.x
-        (current) -->
-      <iron-icon
-          icon="gr-icons:search"
-          slot="prefix"
-          prefix
-          class$="searchIcon [[_computeShowSearchIconClass(showSearchIcon)]]">
-      </iron-icon>
-    </paper-input>
-    <gr-autocomplete-dropdown
-        vertical-align="top"
-        vertical-offset="[[verticalOffset]]"
-        horizontal-align="left"
+        autocomplete="off" />
+    <div
         id="suggestions"
-        on-item-selected="_handleItemSelect"
-        on-keydown="_handleKeydown"
-        suggestions="[[_suggestions]]"
         role="listbox"
-        index="[[_index]]"
-        position-target="[[_inputElement]]">
-    </gr-autocomplete-dropdown>
+        hidden$="[[_computeSuggestionsHidden(_suggestions, _focused)]]">
+      <ul>
+        <template is="dom-repeat" items="[[_suggestions]]">
+          <li
+              data-index$="[[index]]"
+              tabindex="-1"
+              aria-label$="[[item.name]]"
+              on-keydown="_handleKeydown"
+              role="option"
+              on-tap="_handleSuggestionTap">[[item.name]]</li>
+        </template>
+      </ul>
+    </div>
+    <gr-cursor-manager
+        id="cursor"
+        index="{{_index}}"
+        cursor-target-class="selected"
+        scroll-behavior="keep-visible"
+        focus-on-move
+        stops="[[_getSuggestionElems(_suggestions)]]"></gr-cursor-manager>
   </template>
   <script src="gr-autocomplete.js"></script>
 </dom-module>

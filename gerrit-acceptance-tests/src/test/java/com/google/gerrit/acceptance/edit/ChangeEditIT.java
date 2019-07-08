@@ -18,7 +18,6 @@ import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.extensions.common.EditInfoSubject.assertThat;
 import static com.google.gerrit.extensions.restapi.BinaryResultSubject.assertThat;
-import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -26,7 +25,6 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
@@ -38,7 +36,6 @@ import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.client.ChangeEditDetailOption;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -49,10 +46,10 @@ import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.change.ChangeEdits.EditMessage;
 import com.google.gerrit.server.change.ChangeEdits.Post;
 import com.google.gerrit.server.change.ChangeEdits.Put;
@@ -164,23 +161,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
             "Uploaded patch set 1.",
             "Uploaded patch set 2.",
             "Patch Set 3: Published edit on patch set 2."));
-
-    // The tag for the publish edit change message should vary according
-    // to whether the change was WIP at the time of publishing.
-    ChangeInfo info = get(changeId);
-    assertThat(info.messages).isNotEmpty();
-    assertThat(Iterables.getLast(info.messages).tag)
-        .isEqualTo(ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
-
-    // Move the change to WIP, repeat, and verify.
-    gApi.changes().id(changeId).setWorkInProgress();
-    createEmptyEditFor(changeId);
-    gApi.changes().id(changeId).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW2));
-    gApi.changes().id(changeId).edit().publish();
-    info = get(changeId);
-    assertThat(info.messages).isNotEmpty();
-    assertThat(Iterables.getLast(info.messages).tag)
-        .isEqualTo(ChangeMessagesUtil.TAG_UPLOADED_WIP_PATCH_SET);
   }
 
   @Test
@@ -415,9 +395,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   public void retrieveEdit() throws Exception {
     adminRestSession.get(urlEdit(changeId)).assertNoContent();
     createArbitraryEditFor(changeId);
-    Optional<EditInfo> maybeEditInfo = gApi.changes().id(changeId).edit().get();
-    assertThat(maybeEditInfo).isPresent();
-    EditInfo editInfo = maybeEditInfo.get();
+    EditInfo editInfo = getEditInfo(changeId, false);
     ChangeInfo changeInfo = get(changeId);
     assertThat(editInfo.commit.commit).isNotEqualTo(changeInfo.currentRevision);
     assertThat(editInfo).commit().parents().hasSize(1);
@@ -431,7 +409,11 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   public void retrieveFilesInEdit() throws Exception {
     createEmptyEditFor(changeId);
-    assertFiles(changeId, ImmutableList.of(COMMIT_MSG, FILE_NAME, FILE_NAME2));
+    gApi.changes().id(changeId).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
+
+    EditInfo info = getEditInfo(changeId, true);
+    assertThat(info.files).isNotNull();
+    assertThat(info.files.keySet()).containsExactly(Patch.COMMIT_MSG, FILE_NAME, FILE_NAME2);
   }
 
   @Test
@@ -572,10 +554,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   public void addNewFile() throws Exception {
     createEmptyEditFor(changeId);
-    assertFiles(changeId, ImmutableList.of(COMMIT_MSG, FILE_NAME, FILE_NAME2));
     gApi.changes().id(changeId).edit().modifyFile(FILE_NAME3, RawInputUtil.create(CONTENT_NEW));
     ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME3), CONTENT_NEW);
-    assertFiles(changeId, ImmutableList.of(COMMIT_MSG, FILE_NAME, FILE_NAME2, FILE_NAME3));
   }
 
   @Test
@@ -691,7 +671,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     TestRepository<InMemoryRepository> userTestRepo = cloneProject(p, user);
 
     // Block default permission
-    block(p, "refs/for/*", Permission.ADD_PATCH_SET, REGISTERED_USERS);
+    block(Permission.ADD_PATCH_SET, REGISTERED_USERS, "refs/for/*", p);
 
     // Create change as user
     PushOneCommit push = pushFactory.create(db, user.getIdent(), userTestRepo);
@@ -761,19 +741,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(fileContent).value().bytes().isEqualTo(expectedFileBytes);
   }
 
-  private void assertFiles(String changeId, List<String> expected) throws Exception {
-    Optional<EditInfo> info =
-        gApi.changes()
-            .id(changeId)
-            .edit()
-            .detail()
-            .withOption(ChangeEditDetailOption.LIST_FILES)
-            .get();
-    assertThat(info).isPresent();
-    assertThat(info.get().files).isNotNull();
-    assertThat(info.get().files.keySet()).containsExactlyElementsIn(expected);
-  }
-
   private String urlEdit(String changeId) {
     return "/changes/" + changeId + "/edit";
   }
@@ -788,6 +755,10 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   private String urlEditFile(String changeId, String fileName, boolean base) {
     return urlEdit(changeId) + "/" + fileName + (base ? "?base" : "");
+  }
+
+  private String urlGetFiles(String changeId) {
+    return urlEdit(changeId) + "?list";
   }
 
   private String urlRevisionFiles(String changeId, String revisionId) {
@@ -824,20 +795,23 @@ public class ChangeEditIT extends AbstractDaemonTest {
         + "/diff?context=ALL&intraline";
   }
 
+  private EditInfo getEditInfo(String changeId, boolean files) throws Exception {
+    RestResponse r = adminRestSession.get(files ? urlGetFiles(changeId) : urlEdit(changeId));
+    return readContentFromJson(r, EditInfo.class);
+  }
+
   private <T> T readContentFromJson(RestResponse r, Class<T> clazz) throws Exception {
     r.assertOK();
-    try (JsonReader jsonReader = new JsonReader(r.getReader())) {
-      jsonReader.setLenient(true);
-      return newGson().fromJson(jsonReader, clazz);
-    }
+    JsonReader jsonReader = new JsonReader(r.getReader());
+    jsonReader.setLenient(true);
+    return newGson().fromJson(jsonReader, clazz);
   }
 
   private <T> T readContentFromJson(RestResponse r, TypeToken<T> typeToken) throws Exception {
     r.assertOK();
-    try (JsonReader jsonReader = new JsonReader(r.getReader())) {
-      jsonReader.setLenient(true);
-      return newGson().fromJson(jsonReader, typeToken.getType());
-    }
+    JsonReader jsonReader = new JsonReader(r.getReader());
+    jsonReader.setLenient(true);
+    return newGson().fromJson(jsonReader, typeToken.getType());
   }
 
   private String readContentFromJson(RestResponse r) throws Exception {

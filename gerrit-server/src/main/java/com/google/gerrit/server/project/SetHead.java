@@ -65,7 +65,7 @@ public class SetHead implements RestModifyView<ProjectResource, Input> {
   }
 
   @Override
-  public String apply(ProjectResource rsrc, Input input)
+  public String apply(final ProjectResource rsrc, Input input)
       throws AuthException, ResourceNotFoundException, BadRequestException,
           UnprocessableEntityException, IOException {
     if (!rsrc.getControl().isOwner()) {
@@ -100,8 +100,6 @@ public class SetHead implements RestModifyView<ProjectResource, Input> {
           case NOT_ATTEMPTED:
           case REJECTED:
           case REJECTED_CURRENT_BRANCH:
-          case REJECTED_MISSING_OBJECT:
-          case REJECTED_OTHER_REASON:
           default:
             throw new IOException("Setting HEAD failed with " + res);
         }

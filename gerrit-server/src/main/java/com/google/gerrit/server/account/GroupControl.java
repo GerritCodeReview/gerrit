@@ -17,71 +17,56 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.errors.NoSuchGroupException;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.group.InternalGroup;
-import com.google.gerrit.server.group.InternalGroupDescription;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.util.Optional;
 
 /** Access control management for a group of accounts managed in Gerrit. */
 public class GroupControl {
 
   @Singleton
   public static class GenericFactory {
-    private final PermissionBackend permissionBackend;
     private final GroupBackend groupBackend;
 
     @Inject
-    GenericFactory(PermissionBackend permissionBackend, GroupBackend gb) {
-      this.permissionBackend = permissionBackend;
+    GenericFactory(final GroupBackend gb) {
       groupBackend = gb;
     }
 
-    public GroupControl controlFor(CurrentUser who, AccountGroup.UUID groupId)
+    public GroupControl controlFor(final CurrentUser who, final AccountGroup.UUID groupId)
         throws NoSuchGroupException {
-      GroupDescription.Basic group = groupBackend.get(groupId);
+      final GroupDescription.Basic group = groupBackend.get(groupId);
       if (group == null) {
         throw new NoSuchGroupException(groupId);
       }
-      return new GroupControl(who, group, permissionBackend, groupBackend);
+      return new GroupControl(who, group, groupBackend);
     }
   }
 
   public static class Factory {
-    private final PermissionBackend permissionBackend;
     private final GroupCache groupCache;
     private final Provider<CurrentUser> user;
     private final GroupBackend groupBackend;
 
     @Inject
-    Factory(
-        PermissionBackend permissionBackend,
-        GroupCache gc,
-        Provider<CurrentUser> cu,
-        GroupBackend gb) {
-      this.permissionBackend = permissionBackend;
+    Factory(final GroupCache gc, final Provider<CurrentUser> cu, final GroupBackend gb) {
       groupCache = gc;
       user = cu;
       groupBackend = gb;
     }
 
-    public GroupControl controlFor(AccountGroup.Id groupId) throws NoSuchGroupException {
-      Optional<InternalGroup> group = groupCache.get(groupId);
-      return group
-          .map(InternalGroupDescription::new)
-          .map(this::controlFor)
-          .orElseThrow(() -> new NoSuchGroupException(groupId));
+    public GroupControl controlFor(final AccountGroup.Id groupId) throws NoSuchGroupException {
+      final AccountGroup group = groupCache.get(groupId);
+      if (group == null) {
+        throw new NoSuchGroupException(groupId);
+      }
+      return controlFor(GroupDescriptions.forAccountGroup(group));
     }
 
-    public GroupControl controlFor(AccountGroup.UUID groupId) throws NoSuchGroupException {
+    public GroupControl controlFor(final AccountGroup.UUID groupId) throws NoSuchGroupException {
       final GroupDescription.Basic group = groupBackend.get(groupId);
       if (group == null) {
         throw new NoSuchGroupException(groupId);
@@ -94,10 +79,18 @@ public class GroupControl {
     }
 
     public GroupControl controlFor(GroupDescription.Basic group) {
-      return new GroupControl(user.get(), group, permissionBackend, groupBackend);
+      return new GroupControl(user.get(), group, groupBackend);
     }
 
-    public GroupControl validateFor(AccountGroup.UUID groupUUID) throws NoSuchGroupException {
+    public GroupControl validateFor(final AccountGroup.Id groupId) throws NoSuchGroupException {
+      final GroupControl c = controlFor(groupId);
+      if (!c.isVisible()) {
+        throw new NoSuchGroupException(groupId);
+      }
+      return c;
+    }
+
+    public GroupControl validateFor(final AccountGroup.UUID groupUUID) throws NoSuchGroupException {
       final GroupControl c = controlFor(groupUUID);
       if (!c.isVisible()) {
         throw new NoSuchGroupException(groupUUID);
@@ -109,17 +102,11 @@ public class GroupControl {
   private final CurrentUser user;
   private final GroupDescription.Basic group;
   private Boolean isOwner;
-  private final PermissionBackend.WithUser perm;
   private final GroupBackend groupBackend;
 
-  GroupControl(
-      CurrentUser who,
-      GroupDescription.Basic gd,
-      PermissionBackend permissionBackend,
-      GroupBackend gb) {
+  GroupControl(CurrentUser who, GroupDescription.Basic gd, GroupBackend gb) {
     user = who;
     group = gd;
-    this.perm = permissionBackend.user(user);
     groupBackend = gb;
   }
 
@@ -140,31 +127,21 @@ public class GroupControl {
     return user.isInternalUser()
         || groupBackend.isVisibleToAll(group.getGroupUUID())
         || user.getEffectiveGroups().contains(group.getGroupUUID())
-        || isOwner()
-        || canAdministrateServer();
+        || user.getCapabilities().canAdministrateServer()
+        || isOwner();
   }
 
   public boolean isOwner() {
-    if (isOwner != null) {
-      return isOwner;
-    }
-
-    if (group instanceof GroupDescription.Internal) {
-      AccountGroup.UUID ownerUUID = ((GroupDescription.Internal) group).getOwnerGroupUUID();
-      isOwner = getUser().getEffectiveGroups().contains(ownerUUID) || canAdministrateServer();
-    } else {
+    AccountGroup accountGroup = GroupDescriptions.toAccountGroup(group);
+    if (accountGroup == null) {
       isOwner = false;
+    } else if (isOwner == null) {
+      AccountGroup.UUID ownerUUID = accountGroup.getOwnerGroupUUID();
+      isOwner =
+          getUser().getEffectiveGroups().contains(ownerUUID)
+              || getUser().getCapabilities().canAdministrateServer();
     }
     return isOwner;
-  }
-
-  private boolean canAdministrateServer() {
-    try {
-      perm.check(GlobalPermission.ADMINISTRATE_SERVER);
-      return true;
-    } catch (AuthException | PermissionBackendException denied) {
-      return false;
-    }
   }
 
   public boolean canAddMember() {
@@ -195,9 +172,7 @@ public class GroupControl {
   }
 
   private boolean canSeeMembers() {
-    if (group instanceof GroupDescription.Internal) {
-      return ((GroupDescription.Internal) group).isVisibleToAll() || isOwner();
-    }
-    return false;
+    AccountGroup accountGroup = GroupDescriptions.toAccountGroup(group);
+    return (accountGroup != null && accountGroup.isVisibleToAll()) || isOwner();
   }
 }

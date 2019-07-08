@@ -243,11 +243,12 @@ change.
 [[topic]]
 ==== Topic
 
-To include a short link:intro-user.html#topics[topic] associated with all
-of the changes in the same group, such as the local topic branch name,
-append it after the destination branch name or add it with the command line
-flag `--push-option`, aliased to `-o`. In this example the short topic name
-'driver/i42' will be saved on each change this push creates or updates:
+To include a short tag associated with all of the changes in the
+same group, such as the local topic branch name, append it after
+the destination branch name or add it with the command line flag
+`--push-option`, aliased to `-o`. In this example the short topic
+tag 'driver/i42' will be saved on each change this push creates or
+updates:
 
 ----
   git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental%topic=driver/i42
@@ -256,64 +257,6 @@ flag `--push-option`, aliased to `-o`. In this example the short topic name
   git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental -o topic=driver/i42
 ----
 
-[[hashtag]]
-==== Hashtag
-
-To include a link:intro-user.html#hashtags[hashtag] associated with all of the
-changes in the same group, use the `hashtag` or `t` option:
-
-----
-  // these are all equivalent
-  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental%hashtag=stable-fix
-  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental%t=stable-fix
-  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental -o hashtag=stable-fix
-  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental -o t=stable-fix
-----
-
-[[private]]
-==== Private Changes
-
-To push a private change or to turn a change private on push the `private`
-option can be specified:
-
-----
-  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master%private
-----
-
-Omitting the `private` option when pushing updates to a private change
-doesn't make change non-private again. To remove the private
-flag from a change on push, explicitly specify the `remove-private` option:
-
-----
-  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master%remove-private
-----
-
-[[wip]]
-==== Work-In-Progress Changes
-
-To push a wip change or to turn a change to wip the `work-in-progress` (or `wip`)
-option can be specified:
-
-----
-  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master%wip
-----
-
-Omitting the `wip` option when pushing updates to a wip change
-doesn't make change ready again. To remove the `wip`
-flag from a change on push, explicitly specify the `ready` option:
-
-----
-  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master%ready
-----
-
-Only change owners, project owners and site administrators can specify
-`work-in-progress` and `ready` options on push.
-
-The default for this option can be set as a
-link:intro-user.html#work-in-progress-by-default[user preference]. If the
-preference is set so the default behavior is to create `work-in-progress`
-changes, this can be overridden with the `ready` option.
-
 [[message]]
 ==== Message
 
@@ -321,35 +264,12 @@ A comment message can be applied to the change by using the `message` (or `m`)
 option:
 
 ----
-  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental%m=This_is_a_rebase_on_master%21
+  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental%m=This_is_a_rebase_on_master
 ----
 
 [NOTE]
-git push refs parameter does not allow spaces. Use the '_' or '+' character
-to represent spaces, and percent-encoding to represent other special chars.
-The above example will thus be applied as "This is a rebase on master!"
-
-To avoid confusion in parsing the git ref, at least the following characters
-must be percent-encoded: " %^@.~-+_:/!". Note that some of the reserved
-characters (like tilde) are not escaped in the standard URL encoding rules,
-so a language-provided function (e.g. encodeURIComponent(), in javascript)
-might not suffice. To be safest, you might consider percent-encoding all
-non-alphanumeric characters (and all multibyte UTF-8 code points).
-
-[[publish-comments]]
-==== Publish Draft Comments
-
-If you have draft comments on the change(s) that are updated by the push, the
-`publish-comments` option will cause them to be published:
-
-----
-  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental%publish-comments
-----
-
-The default for this option can be set as a
-link:intro-user.html#publish-comments-on-push[user preference]. If the
-preference is set so the default behavior is to publish, this can be overridden
-with the `no-publish-comments` (or `np`) option.
+git push refs parameter does not allow spaces.  Use the '_' character instead,
+it will then be applied as "This is a rebase on master".
 
 [[review_labels]]
 ==== Review Labels
@@ -544,44 +464,6 @@ Project owners may wish to grant themselves `Create Annotated Tag`
 only at times when a new release is being prepared, and otherwise
 grant nothing at all.  This ensures that accidental pushes don't
 make undesired changes to the public repository.
-
-
-[[skip_validation]]
-=== Skip Validation
-
-Even when a user has permission to push directly to a branch
-link:#bypass_review[bypassing review], by default Gerrit will still validate any
-new commits, for example to check author/committer identities, and run
-link:config-validation.html#new-commit-validation[validation plugins]. This
-behavior can be bypassed with a push option:
-
-----
-git push -o skip-validation HEAD:master
-----
-
-Using the `skip-validation` option requires the user to have a specific set
-of permissions, *in addition* to those permissions already required to bypass
-review:
-
-* link:access-control.html#category_forge_author[Forge Author]
-* link:access-control.html#category_forge_committer[Forge Committer]
-* link:access-control.html#category_forge_server[Forge Server]
-* link:access-control.html#category_push_merge[Push Merge Commits]
-
-Plus these additional requirements on the project:
-
-* Project must not link:project-configuration.html#require-signed-off-by[require
-Signed-off-by].
-* Project must not have `refs/meta/reject-commits`.
-
-This option only applies when pushing directly to a branch bypassing review.
-Validation also occurs when pushing new changes for review, and that type of
-validation cannot be skipped.
-
-The `skip-validation` option is always required when pushing
-link:error-too-many-commits.html[more than a certain number of commits]. This is
-the recommended approach when pushing lots of old history, since some validators
-would require rewriting history in order to make them pass.
 
 
 [[auto_merge]]

@@ -14,8 +14,6 @@
 
 package com.google.gerrit.client.api;
 
-import static java.util.stream.Collectors.toList;
-
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.VoidResult;
@@ -40,15 +38,10 @@ public class PluginLoader extends DialogBox {
     if (plugins == null || plugins.isEmpty()) {
       callback.onSuccess(VoidResult.create());
     } else {
-      plugins = plugins.stream().filter(p -> p.endsWith(".js")).collect(toList());
-      if (plugins.isEmpty()) {
-        callback.onSuccess(VoidResult.create());
-      } else {
-        self = new PluginLoader(loadTimeout, callback);
-        self.load(plugins);
-        self.startTimers();
-        self.center();
-      }
+      self = new PluginLoader(loadTimeout, callback);
+      self.load(plugins);
+      self.startTimers();
+      self.center();
     }
   }
 

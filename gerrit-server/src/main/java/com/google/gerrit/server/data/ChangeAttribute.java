@@ -14,9 +14,7 @@
 
 package com.google.gerrit.server.data;
 
-import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class ChangeAttribute {
@@ -36,10 +34,6 @@ public class ChangeAttribute {
   public Boolean open;
   public Change.Status status;
   public List<MessageAttribute> comments;
-  public Boolean wip;
-
-  @SerializedName("private")
-  public Boolean isPrivate;
 
   public List<TrackingIdAttribute> trackingIds;
   public PatchSetAttribute currentPatchSet;
@@ -49,5 +43,4 @@ public class ChangeAttribute {
   public List<DependencyAttribute> neededBy;
   public List<SubmitRecordAttribute> submitRecords;
   public List<AccountAttribute> allReviewers;
-  public List<PluginDefinedInfo> plugins;
 }

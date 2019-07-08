@@ -27,7 +27,7 @@ class MySql extends BaseDataSourceType {
   private Config cfg;
 
   @Inject
-  MySql(@GerritServerConfig Config cfg) {
+  MySql(@GerritServerConfig final Config cfg) {
     super("com.mysql.jdbc.Driver");
     this.cfg = cfg;
   }
@@ -41,9 +41,6 @@ class MySql extends BaseDataSourceType {
     b.append(port(dbs.optional("port")));
     b.append("/");
     b.append(dbs.required("database"));
-    // See
-    // https://stackoverflow.com/questions/42084633/table-name-pattern-can-not-be-null-or-empty-in-java
-    b.append("?nullNamePatternMatchesAll=true");
     return b.toString();
   }
 

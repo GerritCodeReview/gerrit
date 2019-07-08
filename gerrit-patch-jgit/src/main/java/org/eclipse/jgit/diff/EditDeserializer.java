@@ -29,7 +29,8 @@ import java.util.List;
 
 public class EditDeserializer implements JsonDeserializer<Edit>, JsonSerializer<Edit> {
   @Override
-  public Edit deserialize(final JsonElement json, Type typeOfT, JsonDeserializationContext context)
+  public Edit deserialize(
+      final JsonElement json, final Type typeOfT, final JsonDeserializationContext context)
       throws JsonParseException {
     if (json.isJsonNull()) {
       return null;
@@ -59,7 +60,7 @@ public class EditDeserializer implements JsonDeserializer<Edit>, JsonSerializer<
     return new ReplaceEdit(get(o, 0), get(o, 1), get(o, 2), get(o, 3), l);
   }
 
-  private static int get(JsonArray a, int idx) throws JsonParseException {
+  private static int get(final JsonArray a, final int idx) throws JsonParseException {
     final JsonElement v = a.get(idx);
     if (!v.isJsonPrimitive()) {
       throw new JsonParseException("Expected array of 4 for Edit type");
@@ -72,7 +73,8 @@ public class EditDeserializer implements JsonDeserializer<Edit>, JsonSerializer<
   }
 
   @Override
-  public JsonElement serialize(final Edit src, Type typeOfSrc, JsonSerializationContext context) {
+  public JsonElement serialize(
+      final Edit src, final Type typeOfSrc, final JsonSerializationContext context) {
     if (src == null) {
       return JsonNull.INSTANCE;
     }
@@ -86,7 +88,7 @@ public class EditDeserializer implements JsonDeserializer<Edit>, JsonSerializer<
     return a;
   }
 
-  private void add(JsonArray a, Edit src) {
+  private void add(final JsonArray a, final Edit src) {
     a.add(new JsonPrimitive(src.getBeginA()));
     a.add(new JsonPrimitive(src.getEndA()));
     a.add(new JsonPrimitive(src.getBeginB()));

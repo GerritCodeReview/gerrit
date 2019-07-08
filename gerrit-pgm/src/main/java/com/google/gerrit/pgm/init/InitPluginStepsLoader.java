@@ -21,7 +21,7 @@ import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.plugins.JarPluginProvider;
-import com.google.gerrit.server.plugins.PluginUtil;
+import com.google.gerrit.server.plugins.PluginLoader;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -43,7 +43,8 @@ public class InitPluginStepsLoader {
   final ConsoleUI ui;
 
   @Inject
-  public InitPluginStepsLoader(final ConsoleUI ui, SitePaths sitePaths, Injector initInjector) {
+  public InitPluginStepsLoader(
+      final ConsoleUI ui, final SitePaths sitePaths, final Injector initInjector) {
     this.pluginsDir = sitePaths.plugins_dir;
     this.initInjector = initInjector;
     this.ui = ui;
@@ -100,7 +101,7 @@ public class InitPluginStepsLoader {
   private Injector getPluginInjector(Path jarPath) throws IOException {
     final String pluginName =
         MoreObjects.firstNonNull(
-            JarPluginProvider.getJarPluginName(jarPath), PluginUtil.nameOf(jarPath));
+            JarPluginProvider.getJarPluginName(jarPath), PluginLoader.nameOf(jarPath));
     return initInjector.createChildInjector(
         new AbstractModule() {
           @Override
@@ -112,7 +113,7 @@ public class InitPluginStepsLoader {
 
   private List<Path> scanJarsInPluginsDirectory() {
     try {
-      return PluginUtil.listPlugins(pluginsDir, ".jar");
+      return PluginLoader.listPlugins(pluginsDir, ".jar");
     } catch (IOException e) {
       ui.message("WARN: Cannot list %s: %s", pluginsDir.toAbsolutePath(), e.getMessage());
       return ImmutableList.of();

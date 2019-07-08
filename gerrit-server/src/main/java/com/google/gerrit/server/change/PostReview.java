@@ -18,9 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
-import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BEHALF_OF;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
@@ -29,6 +27,7 @@ import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -39,6 +38,8 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -49,8 +50,6 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
-import com.google.gerrit.extensions.client.Comment.Range;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -62,6 +61,7 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
@@ -81,47 +81,28 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CommentsUtil;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountsCollection;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.CommentAdded;
-import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.server.patch.DiffSummary;
-import com.google.gerrit.server.patch.DiffSummaryKey;
 import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListKey;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import com.google.gerrit.server.permissions.ChangePermission;
-import com.google.gerrit.server.permissions.LabelPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.LabelVote;
-import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -132,26 +113,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.OptionalInt;
 import java.util.Set;
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
-public class PostReview
-    extends RetryingRestModifyView<RevisionResource, ReviewInput, Response<ReviewResult>> {
-  public static final String ERROR_ADDING_REVIEWER = "error adding reviewer";
-  public static final String ERROR_WIP_READY_MUTUALLY_EXCLUSIVE =
-      "work_in_progress and ready are mutually exclusive";
-
-  public static final String START_REVIEW_MESSAGE = "This change is ready for review.";
-
-  private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
-  private static final int DEFAULT_ROBOT_COMMENT_SIZE_LIMIT_IN_BYTES = 1024 * 1024;
+public class PostReview implements RestModifyView<RevisionResource, ReviewInput> {
+  private static final Logger log = LoggerFactory.getLogger(PostReview.class);
 
   private final Provider<ReviewDb> db;
-  private final ChangeResource.Factory changeResourceFactory;
+  private final BatchUpdate.Factory batchUpdateFactory;
+  private final ChangesCollection changes;
   private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
@@ -164,18 +136,12 @@ public class PostReview
   private final PostReviewers postReviewers;
   private final NotesMigration migration;
   private final NotifyUtil notifyUtil;
-  private final Config gerritConfig;
-  private final WorkInProgressOp.Factory workInProgressOpFactory;
-  private final ProjectCache projectCache;
-  private final PermissionBackend permissionBackend;
-  private final ProjectControl.GenericFactory projectControlFactory;
-  private final boolean strictLabels;
 
   @Inject
   PostReview(
       Provider<ReviewDb> db,
-      RetryHelper retryHelper,
-      ChangeResource.Factory changeResourceFactory,
+      BatchUpdate.Factory batchUpdateFactory,
+      ChangesCollection changes,
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
@@ -187,15 +153,10 @@ public class PostReview
       CommentAdded commentAdded,
       PostReviewers postReviewers,
       NotesMigration migration,
-      NotifyUtil notifyUtil,
-      @GerritServerConfig Config gerritConfig,
-      WorkInProgressOp.Factory workInProgressOpFactory,
-      ProjectCache projectCache,
-      PermissionBackend permissionBackend,
-      ProjectControl.GenericFactory projectControlFactory) {
-    super(retryHelper);
+      NotifyUtil notifyUtil) {
     this.db = db;
-    this.changeResourceFactory = changeResourceFactory;
+    this.batchUpdateFactory = batchUpdateFactory;
+    this.changes = changes;
     this.changeDataFactory = changeDataFactory;
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
@@ -208,42 +169,28 @@ public class PostReview
     this.postReviewers = postReviewers;
     this.migration = migration;
     this.notifyUtil = notifyUtil;
-    this.gerritConfig = gerritConfig;
-    this.workInProgressOpFactory = workInProgressOpFactory;
-    this.projectCache = projectCache;
-    this.permissionBackend = permissionBackend;
-    this.projectControlFactory = projectControlFactory;
-    this.strictLabels = gerritConfig.getBoolean("change", "strictLabels", false);
   }
 
   @Override
-  protected Response<ReviewResult> applyImpl(
-      BatchUpdate.Factory updateFactory, RevisionResource revision, ReviewInput input)
-      throws RestApiException, UpdateException, OrmException, IOException,
-          PermissionBackendException, ConfigInvalidException, PatchListNotAvailableException,
-          NoSuchProjectException {
-    return apply(updateFactory, revision, input, TimeUtil.nowTs());
+  public Response<ReviewResult> apply(RevisionResource revision, ReviewInput input)
+      throws RestApiException, UpdateException, OrmException, IOException {
+    return apply(revision, input, TimeUtil.nowTs());
   }
 
-  public Response<ReviewResult> apply(
-      BatchUpdate.Factory updateFactory, RevisionResource revision, ReviewInput input, Timestamp ts)
-      throws RestApiException, UpdateException, OrmException, IOException,
-          PermissionBackendException, ConfigInvalidException, PatchListNotAvailableException,
-          NoSuchProjectException {
+  public Response<ReviewResult> apply(RevisionResource revision, ReviewInput input, Timestamp ts)
+      throws RestApiException, UpdateException, OrmException, IOException {
     // Respect timestamp, but truncate at change created-on time.
     ts = Ordering.natural().max(ts, revision.getChange().getCreatedOn());
     if (revision.getEdit().isPresent()) {
       throw new ResourceConflictException("cannot post review on edit");
     }
-    ProjectState projectState = projectCache.checkedGet(revision.getProject());
-    LabelTypes labelTypes = projectState.getLabelTypes(revision.getNotes(), revision.getUser());
     if (input.onBehalfOf != null) {
-      revision = onBehalfOf(revision, labelTypes, input);
+      revision = onBehalfOf(revision, input);
     } else if (input.drafts == null) {
       input.drafts = DraftHandling.DELETE;
     }
     if (input.labels != null) {
-      checkLabels(revision, labelTypes, input.labels);
+      checkLabels(revision, input.strictLabels, input.labels);
     }
     if (input.comments != null) {
       cleanUpComments(input.comments);
@@ -256,9 +203,9 @@ public class PostReview
       checkRobotComments(revision, input.robotComments);
     }
 
-    NotifyHandling reviewerNotify = input.notify;
     if (input.notify == null) {
-      input.notify = defaultNotify(revision.getChange(), input);
+      log.warn("notify = null; assuming notify = NONE");
+      input.notify = NotifyHandling.NONE;
     }
 
     ListMultimap<RecipientType, Account.Id> accountsToNotify =
@@ -292,13 +239,13 @@ public class PostReview
     ReviewResult output = new ReviewResult();
     output.reviewers = reviewerJsonResults;
     if (hasError || confirm) {
-      output.error = ERROR_ADDING_REVIEWER;
       return Response.withStatusCode(SC_BAD_REQUEST, output);
     }
     output.labels = input.labels;
 
     try (BatchUpdate bu =
-        updateFactory.create(db.get(), revision.getChange().getProject(), revision.getUser(), ts)) {
+        batchUpdateFactory.create(
+            db.get(), revision.getChange().getProject(), revision.getUser(), ts)) {
       Account.Id id = revision.getUser().getAccountId();
       boolean ccOrReviewer = false;
       if (input.labels != null && !input.labels.isEmpty()) {
@@ -344,101 +291,40 @@ public class PostReview
         bu.addOp(revision.getChange().getId(), selfAddition.op);
       }
 
-      // Add WorkInProgressOp if requested.
-      if (input.ready || input.workInProgress) {
-        if (input.ready && input.workInProgress) {
-          output.error = ERROR_WIP_READY_MUTUALLY_EXCLUSIVE;
-          return Response.withStatusCode(SC_BAD_REQUEST, output);
-        }
-
-        WorkInProgressOp.checkPermissions(
-            permissionBackend,
-            revision.getUser(),
-            revision.getChange(),
-            projectControlFactory.controlFor(revision.getProject(), revision.getUser()));
-
-        if (input.ready) {
-          output.ready = true;
-        }
-
-        // Suppress notifications in WorkInProgressOp, we'll take care of
-        // them in this endpoint.
-        WorkInProgressOp.Input wipIn = new WorkInProgressOp.Input();
-        wipIn.notify = NotifyHandling.NONE;
-        bu.addOp(
-            revision.getChange().getId(),
-            workInProgressOpFactory.create(input.workInProgress, wipIn));
-      }
-
-      // Add the review op.
       bu.addOp(
           revision.getChange().getId(),
-          new Op(projectState, revision.getPatchSet().getId(), input, accountsToNotify));
-
+          new Op(revision.getPatchSet().getId(), input, accountsToNotify, reviewerResults));
       bu.execute();
 
       for (PostReviewers.Addition reviewerResult : reviewerResults) {
         reviewerResult.gatherResults();
       }
 
-      emailReviewers(revision.getChange(), reviewerResults, reviewerNotify, accountsToNotify);
+      emailReviewers(revision.getChange(), reviewerResults, input.notify, accountsToNotify);
     }
 
     return Response.ok(output);
   }
 
-  private NotifyHandling defaultNotify(Change c, ReviewInput in) {
-    boolean workInProgress = c.isWorkInProgress();
-    if (in.workInProgress) {
-      workInProgress = true;
-    }
-    if (in.ready) {
-      workInProgress = false;
-    }
-
-    if (ChangeMessagesUtil.isAutogenerated(in.tag)) {
-      // Autogenerated comments default to lower notify levels.
-      return workInProgress ? NotifyHandling.OWNER : NotifyHandling.OWNER_REVIEWERS;
-    }
-
-    if (workInProgress && !c.hasReviewStarted()) {
-      // If review hasn't started we want to minimize recipients, no matter who
-      // the author is.
-      return NotifyHandling.OWNER;
-    }
-
-    return NotifyHandling.ALL;
-  }
-
   private void emailReviewers(
       Change change,
       List<PostReviewers.Addition> reviewerAdditions,
-      @Nullable NotifyHandling notify,
+      NotifyHandling notify,
       ListMultimap<RecipientType, Account.Id> accountsToNotify) {
     List<Account.Id> to = new ArrayList<>();
     List<Account.Id> cc = new ArrayList<>();
-    List<Address> toByEmail = new ArrayList<>();
-    List<Address> ccByEmail = new ArrayList<>();
     for (PostReviewers.Addition addition : reviewerAdditions) {
-      if (addition.state == ReviewerState.REVIEWER) {
-        to.addAll(addition.reviewers);
-        toByEmail.addAll(addition.reviewersByEmail);
-      } else if (addition.state == ReviewerState.CC) {
-        cc.addAll(addition.reviewers);
-        ccByEmail.addAll(addition.reviewersByEmail);
+      if (addition.op.state == ReviewerState.REVIEWER) {
+        to.addAll(addition.op.reviewers.keySet());
+      } else if (addition.op.state == ReviewerState.CC) {
+        cc.addAll(addition.op.reviewers.keySet());
       }
     }
-    if (reviewerAdditions.size() > 0) {
-      reviewerAdditions
-          .get(0)
-          .op
-          .emailReviewers(change, to, cc, toByEmail, ccByEmail, notify, accountsToNotify);
-    }
+    postReviewers.emailReviewers(change, to, cc, notify, accountsToNotify);
   }
 
-  private RevisionResource onBehalfOf(RevisionResource rev, LabelTypes labelTypes, ReviewInput in)
-      throws BadRequestException, AuthException, UnprocessableEntityException, OrmException,
-          PermissionBackendException, IOException, ConfigInvalidException {
+  private RevisionResource onBehalfOf(RevisionResource rev, ReviewInput in)
+      throws BadRequestException, AuthException, UnprocessableEntityException, OrmException {
     if (in.labels == null || in.labels.isEmpty()) {
       throw new AuthException(
           String.format("label required to post review on behalf of \"%s\"", in.onBehalfOf));
@@ -450,30 +336,29 @@ public class PostReview
       throw new AuthException("not allowed to modify other user's drafts");
     }
 
-    CurrentUser caller = rev.getUser();
-    PermissionBackend.ForChange perm = rev.permissions().database(db);
+    ChangeControl caller = rev.getControl();
     Iterator<Map.Entry<String, Short>> itr = in.labels.entrySet().iterator();
     while (itr.hasNext()) {
       Map.Entry<String, Short> ent = itr.next();
-      LabelType type = labelTypes.byLabel(ent.getKey());
-      if (type == null) {
-        if (strictLabels) {
-          throw new BadRequestException(
-              String.format("label \"%s\" is not a configured label", ent.getKey()));
-        }
+      LabelType type = caller.getLabelTypes().byLabel(ent.getKey());
+      if (type == null && in.strictLabels) {
+        throw new BadRequestException(
+            String.format("label \"%s\" is not a configured label", ent.getKey()));
+      } else if (type == null) {
         itr.remove();
         continue;
       }
 
-      if (!caller.isInternalUser()) {
-        try {
-          perm.check(new LabelPermission.WithValue(ON_BEHALF_OF, type, ent.getValue()));
-        } catch (AuthException e) {
-          throw new AuthException(
-              String.format(
-                  "not permitted to modify label \"%s\" on behalf of \"%s\"",
-                  type.getName(), in.onBehalfOf));
-        }
+      if (caller.getUser().isInternalUser()) {
+        continue;
+      }
+
+      PermissionRange r = caller.getRange(Permission.forLabelAs(type.getName()));
+      if (r == null || r.isEmpty() || !r.contains(ent.getValue())) {
+        throw new AuthException(
+            String.format(
+                "not permitted to modify label \"%s\" on behalf of \"%s\"",
+                ent.getKey(), in.onBehalfOf));
       }
     }
     if (in.labels.isEmpty()) {
@@ -481,27 +366,27 @@ public class PostReview
           String.format("label required to post review on behalf of \"%s\"", in.onBehalfOf));
     }
 
-    IdentifiedUser reviewer = accounts.parseOnBehalfOf(caller, in.onBehalfOf);
-    try {
-      perm.user(reviewer).check(ChangePermission.READ);
-    } catch (AuthException e) {
+    ChangeControl target =
+        caller.forUser(accounts.parseOnBehalfOf(caller.getUser(), in.onBehalfOf));
+    if (!target.getRefControl().isVisible()) {
       throw new UnprocessableEntityException(
-          String.format("on_behalf_of account %s cannot see change", reviewer.getAccountId()));
+          String.format(
+              "on_behalf_of account %s cannot see destination ref",
+              target.getUser().getAccountId()));
     }
-
-    return new RevisionResource(
-        changeResourceFactory.create(rev.getNotes(), reviewer), rev.getPatchSet());
+    return new RevisionResource(changes.parse(target), rev.getPatchSet());
   }
 
-  private void checkLabels(RevisionResource rsrc, LabelTypes labelTypes, Map<String, Short> labels)
-      throws BadRequestException, AuthException, PermissionBackendException {
-    PermissionBackend.ForChange perm = rsrc.permissions();
+  private void checkLabels(RevisionResource revision, boolean strict, Map<String, Short> labels)
+      throws BadRequestException, AuthException {
+    ChangeControl ctl = revision.getControl();
     Iterator<Map.Entry<String, Short>> itr = labels.entrySet().iterator();
     while (itr.hasNext()) {
       Map.Entry<String, Short> ent = itr.next();
-      LabelType lt = labelTypes.byLabel(ent.getKey());
+
+      LabelType lt = revision.getControl().getLabelTypes().byLabel(ent.getKey());
       if (lt == null) {
-        if (strictLabels) {
+        if (strict) {
           throw new BadRequestException(
               String.format("label \"%s\" is not a configured label", ent.getKey()));
         }
@@ -516,7 +401,7 @@ public class PostReview
       }
 
       if (lt.getValue(ent.getValue()) == null) {
-        if (strictLabels) {
+        if (strict) {
           throw new BadRequestException(
               String.format("label \"%s\": %d is not a valid value", ent.getKey(), ent.getValue()));
         }
@@ -524,18 +409,23 @@ public class PostReview
         continue;
       }
 
-      short val = ent.getValue();
-      try {
-        perm.check(new LabelPermission.WithValue(lt, val));
-      } catch (AuthException e) {
-        throw new AuthException(
-            String.format("Applying label \"%s\": %d is restricted", lt.getName(), val));
+      String name = lt.getName();
+      PermissionRange range = ctl.getRange(Permission.forLabel(name));
+      if (range == null || !range.contains(ent.getValue())) {
+        if (strict) {
+          throw new AuthException(
+              String.format(
+                  "Applying label \"%s\": %d is restricted", ent.getKey(), ent.getValue()));
+        } else if (range == null || range.isEmpty()) {
+          ent.setValue((short) 0);
+        } else {
+          ent.setValue((short) range.squash(ent.getValue()));
+        }
       }
     }
   }
 
-  private static <T extends CommentInput> void cleanUpComments(
-      Map<String, List<T>> commentsPerPath) {
+  private <T extends CommentInput> void cleanUpComments(Map<String, List<T>> commentsPerPath) {
     Iterator<List<T>> mapValueIterator = commentsPerPath.values().iterator();
     while (mapValueIterator.hasNext()) {
       List<T> comments = mapValueIterator.next();
@@ -551,7 +441,7 @@ public class PostReview
     }
   }
 
-  private static <T extends CommentInput> void cleanUpComments(List<T> comments) {
+  private <T extends CommentInput> void cleanUpComments(List<T> comments) {
     Iterator<T> commentsIterator = comments.iterator();
     while (commentsIterator.hasNext()) {
       T comment = commentsIterator.next();
@@ -569,11 +459,11 @@ public class PostReview
 
   private <T extends CommentInput> void checkComments(
       RevisionResource revision, Map<String, List<T>> commentsPerPath)
-      throws BadRequestException, PatchListNotAvailableException {
+      throws OrmException, BadRequestException {
     Set<String> revisionFilePaths = getAffectedFilePaths(revision);
     for (Map.Entry<String, List<T>> entry : commentsPerPath.entrySet()) {
       String path = entry.getKey();
-      PatchSet.Id patchSetId = revision.getPatchSet().getId();
+      PatchSet.Id patchSetId = revision.getChange().currentPatchSetId();
       ensurePathRefersToAvailableOrMagicFile(path, revisionFilePaths, patchSetId);
 
       List<T> comments = entry.getValue();
@@ -585,17 +475,12 @@ public class PostReview
     }
   }
 
-  private Set<String> getAffectedFilePaths(RevisionResource revision)
-      throws PatchListNotAvailableException {
-    ObjectId newId = ObjectId.fromString(revision.getPatchSet().getRevision().get());
-    DiffSummaryKey key =
-        DiffSummaryKey.fromPatchListKey(
-            PatchListKey.againstDefaultBase(newId, Whitespace.IGNORE_NONE));
-    DiffSummary ds = patchListCache.getDiffSummary(key, revision.getProject());
-    return new HashSet<>(ds.getPaths());
+  private Set<String> getAffectedFilePaths(RevisionResource revision) throws OrmException {
+    ChangeData changeData = changeDataFactory.create(db.get(), revision.getControl());
+    return new HashSet<>(changeData.filePaths(revision.getPatchSet()));
   }
 
-  private static void ensurePathRefersToAvailableOrMagicFile(
+  private void ensurePathRefersToAvailableOrMagicFile(
       String path, Set<String> availableFilePaths, PatchSet.Id patchSetId)
       throws BadRequestException {
     if (!availableFilePaths.contains(path) && !Patch.isMagic(path)) {
@@ -604,15 +489,14 @@ public class PostReview
     }
   }
 
-  private static void ensureLineIsNonNegative(Integer line, String path)
-      throws BadRequestException {
+  private void ensureLineIsNonNegative(Integer line, String path) throws BadRequestException {
     if (line != null && line < 0) {
       throw new BadRequestException(
           String.format("negative line number %d not allowed on %s", line, path));
     }
   }
 
-  private static <T extends CommentInput> void ensureCommentNotOnMagicFilesOfAutoMerge(
+  private <T extends CommentInput> void ensureCommentNotOnMagicFilesOfAutoMerge(
       String path, T comment) throws BadRequestException {
     if (Patch.isMagic(path) && comment.side == Side.PARENT && comment.parent == null) {
       throw new BadRequestException(String.format("cannot comment on %s on auto-merge", path));
@@ -621,12 +505,11 @@ public class PostReview
 
   private void checkRobotComments(
       RevisionResource revision, Map<String, List<RobotCommentInput>> in)
-      throws BadRequestException, PatchListNotAvailableException {
+      throws BadRequestException, OrmException {
     cleanUpComments(in);
     for (Map.Entry<String, List<RobotCommentInput>> e : in.entrySet()) {
       String commentPath = e.getKey();
       for (RobotCommentInput c : e.getValue()) {
-        ensureSizeOfJsonInputIsWithinBounds(c);
         ensureRobotIdIsSet(c.robotId, commentPath);
         ensureRobotRunIdIsSet(c.robotRunId, commentPath);
         ensureFixSuggestionsAreAddable(c.fixSuggestions, commentPath);
@@ -635,41 +518,14 @@ public class PostReview
     checkComments(revision, in);
   }
 
-  private void ensureSizeOfJsonInputIsWithinBounds(RobotCommentInput robotCommentInput)
-      throws BadRequestException {
-    OptionalInt robotCommentSizeLimit = getRobotCommentSizeLimit();
-    if (robotCommentSizeLimit.isPresent()) {
-      int sizeLimit = robotCommentSizeLimit.getAsInt();
-      byte[] robotCommentBytes = GSON.toJson(robotCommentInput).getBytes(StandardCharsets.UTF_8);
-      int robotCommentSize = robotCommentBytes.length;
-      if (robotCommentSize > sizeLimit) {
-        throw new BadRequestException(
-            String.format(
-                "Size %d (bytes) of robot comment is greater than limit %d (bytes)",
-                robotCommentSize, sizeLimit));
-      }
-    }
-  }
-
-  private OptionalInt getRobotCommentSizeLimit() {
-    int robotCommentSizeLimit =
-        gerritConfig.getInt(
-            "change", "robotCommentSizeLimit", DEFAULT_ROBOT_COMMENT_SIZE_LIMIT_IN_BYTES);
-    if (robotCommentSizeLimit <= 0) {
-      return OptionalInt.empty();
-    }
-    return OptionalInt.of(robotCommentSizeLimit);
-  }
-
-  private static void ensureRobotIdIsSet(String robotId, String commentPath)
-      throws BadRequestException {
+  private void ensureRobotIdIsSet(String robotId, String commentPath) throws BadRequestException {
     if (robotId == null) {
       throw new BadRequestException(
           String.format("robotId is missing for robot comment on %s", commentPath));
     }
   }
 
-  private static void ensureRobotRunIdIsSet(String robotRunId, String commentPath)
+  private void ensureRobotRunIdIsSet(String robotRunId, String commentPath)
       throws BadRequestException {
     if (robotRunId == null) {
       throw new BadRequestException(
@@ -677,7 +533,7 @@ public class PostReview
     }
   }
 
-  private static void ensureFixSuggestionsAreAddable(
+  private void ensureFixSuggestionsAreAddable(
       List<FixSuggestionInfo> fixSuggestionInfos, String commentPath) throws BadRequestException {
     if (fixSuggestionInfos == null) {
       return;
@@ -689,7 +545,7 @@ public class PostReview
     }
   }
 
-  private static void ensureDescriptionIsSet(String commentPath, String description)
+  private void ensureDescriptionIsSet(String commentPath, String description)
       throws BadRequestException {
     if (description == null) {
       throw new BadRequestException(
@@ -699,25 +555,20 @@ public class PostReview
     }
   }
 
-  private static void ensureFixReplacementsAreAddable(
+  private void ensureFixReplacementsAreAddable(
       String commentPath, List<FixReplacementInfo> fixReplacementInfos) throws BadRequestException {
     ensureReplacementsArePresent(commentPath, fixReplacementInfos);
 
     for (FixReplacementInfo fixReplacementInfo : fixReplacementInfos) {
       ensureReplacementPathIsSet(commentPath, fixReplacementInfo.path);
+      ensureReplacementPathRefersToFileOfComment(commentPath, fixReplacementInfo.path);
       ensureRangeIsSet(commentPath, fixReplacementInfo.range);
       ensureRangeIsValid(commentPath, fixReplacementInfo.range);
       ensureReplacementStringIsSet(commentPath, fixReplacementInfo.replacement);
     }
-
-    Map<String, List<FixReplacementInfo>> replacementsPerFilePath =
-        fixReplacementInfos.stream().collect(groupingBy(fixReplacement -> fixReplacement.path));
-    for (List<FixReplacementInfo> sameFileReplacements : replacementsPerFilePath.values()) {
-      ensureRangesDoNotOverlap(commentPath, sameFileReplacements);
-    }
   }
 
-  private static void ensureReplacementsArePresent(
+  private void ensureReplacementsArePresent(
       String commentPath, List<FixReplacementInfo> fixReplacementInfos) throws BadRequestException {
     if (fixReplacementInfos == null || fixReplacementInfos.isEmpty()) {
       throw new BadRequestException(
@@ -728,7 +579,7 @@ public class PostReview
     }
   }
 
-  private static void ensureReplacementPathIsSet(String commentPath, String replacementPath)
+  private void ensureReplacementPathIsSet(String commentPath, String replacementPath)
       throws BadRequestException {
     if (replacementPath == null) {
       throw new BadRequestException(
@@ -738,7 +589,20 @@ public class PostReview
     }
   }
 
-  private static void ensureRangeIsSet(String commentPath, Range range) throws BadRequestException {
+  private void ensureReplacementPathRefersToFileOfComment(
+      String commentPath, String replacementPath) throws BadRequestException {
+    if (!Objects.equals(commentPath, replacementPath)) {
+      throw new BadRequestException(
+          String.format(
+              "Replacements may only be "
+                  + "specified for the file %s on which the robot comment was added",
+              commentPath));
+    }
+  }
+
+  private void ensureRangeIsSet(
+      String commentPath, com.google.gerrit.extensions.client.Comment.Range range)
+      throws BadRequestException {
     if (range == null) {
       throw new BadRequestException(
           String.format(
@@ -746,7 +610,8 @@ public class PostReview
     }
   }
 
-  private static void ensureRangeIsValid(String commentPath, Range range)
+  private void ensureRangeIsValid(
+      String commentPath, com.google.gerrit.extensions.client.Comment.Range range)
       throws BadRequestException {
     if (range == null) {
       return;
@@ -763,7 +628,7 @@ public class PostReview
     }
   }
 
-  private static void ensureReplacementStringIsSet(String commentPath, String replacement)
+  private void ensureReplacementStringIsSet(String commentPath, String replacement)
       throws BadRequestException {
     if (replacement == null) {
       throw new BadRequestException(
@@ -771,27 +636,6 @@ public class PostReview
               "A content for replacement "
                   + "must be indicated for the replacement of the robot comment on %s",
               commentPath));
-    }
-  }
-
-  private static void ensureRangesDoNotOverlap(
-      String commentPath, List<FixReplacementInfo> fixReplacementInfos) throws BadRequestException {
-    List<Range> sortedRanges =
-        fixReplacementInfos.stream()
-            .map(fixReplacementInfo -> fixReplacementInfo.range)
-            .sorted()
-            .collect(toList());
-
-    int previousEndLine = 0;
-    int previousOffset = -1;
-    for (Range range : sortedRanges) {
-      if (range.startLine < previousEndLine
-          || (range.startLine == previousEndLine && range.startCharacter < previousOffset)) {
-        throw new BadRequestException(
-            String.format("Replacements overlap for the robot comment on %s", commentPath));
-      }
-      previousEndLine = range.endLine;
-      previousOffset = range.endCharacter;
     }
   }
 
@@ -809,13 +653,14 @@ public class PostReview
           filename, patchSetId, line, side, message, range);
     }
 
+    @SuppressWarnings("deprecation") // Use Hashing.sha1 for compatibility.
     public static CommentSetEntry create(Comment comment) {
       return create(
           comment.key.filename,
           comment.key.patchSetId,
           comment.lineNbr,
           Side.fromShort(comment.side),
-          Hashing.murmur3_128().hashString(comment.message, UTF_8),
+          Hashing.sha1().hashString(comment.message, UTF_8),
           comment.range);
     }
 
@@ -835,10 +680,10 @@ public class PostReview
   }
 
   private class Op implements BatchUpdateOp {
-    private final ProjectState projectState;
     private final PatchSet.Id psId;
     private final ReviewInput in;
     private final ListMultimap<RecipientType, Account.Id> accountsToNotify;
+    private final List<PostReviewers.Addition> reviewerResults;
 
     private IdentifiedUser user;
     private ChangeNotes notes;
@@ -850,27 +695,26 @@ public class PostReview
     private Map<String, Short> oldApprovals = new HashMap<>();
 
     private Op(
-        ProjectState projectState,
         PatchSet.Id psId,
         ReviewInput in,
-        ListMultimap<RecipientType, Account.Id> accountsToNotify) {
-      this.projectState = projectState;
+        ListMultimap<RecipientType, Account.Id> accountsToNotify,
+        List<PostReviewers.Addition> reviewerResults) {
       this.psId = psId;
       this.in = in;
       this.accountsToNotify = checkNotNull(accountsToNotify);
+      this.reviewerResults = reviewerResults;
     }
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws OrmException, ResourceConflictException, UnprocessableEntityException, IOException,
-            PatchListNotAvailableException {
+        throws OrmException, ResourceConflictException, UnprocessableEntityException {
       user = ctx.getIdentifiedUser();
       notes = ctx.getNotes();
       ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       boolean dirty = false;
       dirty |= insertComments(ctx);
       dirty |= insertRobotComments(ctx);
-      dirty |= updateLabels(projectState, ctx);
+      dirty |= updateLabels(ctx);
       dirty |= insertMessage(ctx);
       return dirty;
     }
@@ -905,7 +749,7 @@ public class PostReview
     }
 
     private boolean insertComments(ChangeContext ctx)
-        throws OrmException, UnprocessableEntityException, PatchListNotAvailableException {
+        throws OrmException, UnprocessableEntityException {
       Map<String, List<CommentInput>> map = in.comments;
       if (map == null) {
         map = Collections.emptyMap();
@@ -958,9 +802,12 @@ public class PostReview
           toDel.addAll(drafts.values());
           break;
         case PUBLISH:
+          for (Comment e : drafts.values()) {
+            toPublish.add(publishComment(ctx, e, ps));
+          }
+          break;
         case PUBLISH_ALL_REVISIONS:
-          commentsUtil.publish(ctx, psId, drafts.values(), in.tag);
-          comments.addAll(drafts.values());
+          publishAllRevisions(ctx, drafts, toPublish);
           break;
       }
       ChangeUpdate u = ctx.getUpdate(psId);
@@ -970,8 +817,7 @@ public class PostReview
       return !toDel.isEmpty() || !toPublish.isEmpty();
     }
 
-    private boolean insertRobotComments(ChangeContext ctx)
-        throws OrmException, PatchListNotAvailableException {
+    private boolean insertRobotComments(ChangeContext ctx) throws OrmException {
       if (in.robotComments == null) {
         return false;
       }
@@ -982,8 +828,7 @@ public class PostReview
       return !newRobotComments.isEmpty();
     }
 
-    private List<RobotComment> getNewRobotComments(ChangeContext ctx)
-        throws OrmException, PatchListNotAvailableException {
+    private List<RobotComment> getNewRobotComments(ChangeContext ctx) throws OrmException {
       List<RobotComment> toAdd = new ArrayList<>(in.robotComments.size());
 
       Set<CommentSetEntry> existingIds =
@@ -1003,8 +848,7 @@ public class PostReview
     }
 
     private RobotComment createRobotCommentFromInput(
-        ChangeContext ctx, String path, RobotCommentInput robotCommentInput)
-        throws PatchListNotAvailableException {
+        ChangeContext ctx, String path, RobotCommentInput robotCommentInput) throws OrmException {
       RobotComment robotComment =
           commentsUtil.newRobotComment(
               ctx,
@@ -1092,6 +936,37 @@ public class PostReview
       return labels;
     }
 
+    private Comment publishComment(ChangeContext ctx, Comment c, PatchSet ps) throws OrmException {
+      c.writtenOn = ctx.getWhen();
+      c.tag = in.tag;
+      // Draft may have been created by a different real user; copy the current
+      // real user. (Only applies to X-Gerrit-RunAs, since modifying drafts via
+      // on_behalf_of is not allowed.)
+      ctx.getUser().updateRealAccountId(c::setRealAuthor);
+      setCommentRevId(c, patchListCache, ctx.getChange(), checkNotNull(ps));
+      return c;
+    }
+
+    private void publishAllRevisions(
+        ChangeContext ctx, Map<String, Comment> drafts, List<Comment> ups) throws OrmException {
+      boolean needOtherPatchSets = false;
+      for (Comment c : drafts.values()) {
+        if (c.key.patchSetId != psId.get()) {
+          needOtherPatchSets = true;
+          break;
+        }
+      }
+      Map<PatchSet.Id, PatchSet> patchSets =
+          needOtherPatchSets
+              ? psUtil.byChangeAsMap(ctx.getDb(), ctx.getNotes())
+              : ImmutableMap.of(psId, ps);
+      for (Comment e : drafts.values()) {
+        ups.add(
+            publishComment(
+                ctx, e, patchSets.get(new PatchSet.Id(ctx.getChange().getId(), e.key.patchSetId))));
+      }
+    }
+
     private Map<String, Short> getAllApprovals(
         LabelTypes labelTypes, Map<String, Short> current, Map<String, Short> input) {
       Map<String, Short> allApprovals = new HashMap<>();
@@ -1127,7 +1002,17 @@ public class PostReview
       if (ctx.getAccountId().equals(ctx.getChange().getOwner())) {
         return true;
       }
-      ChangeData cd = changeDataFactory.create(db.get(), ctx.getNotes());
+      for (PostReviewers.Addition addition : reviewerResults) {
+        if (addition.op.addedReviewers == null) {
+          continue;
+        }
+        for (PatchSetApproval psa : addition.op.addedReviewers) {
+          if (psa.getAccountId().equals(ctx.getAccountId())) {
+            return true;
+          }
+        }
+      }
+      ChangeData cd = changeDataFactory.create(db.get(), ctx.getControl());
       ReviewerSet reviewers = cd.reviewers();
       if (reviewers.byState(REVIEWER).contains(ctx.getAccountId())) {
         return true;
@@ -1135,8 +1020,7 @@ public class PostReview
       return false;
     }
 
-    private boolean updateLabels(ProjectState projectState, ChangeContext ctx)
-        throws OrmException, ResourceConflictException, IOException {
+    private boolean updateLabels(ChangeContext ctx) throws OrmException, ResourceConflictException {
       Map<String, Short> inLabels =
           MoreObjects.firstNonNull(in.labels, Collections.<String, Short>emptyMap());
 
@@ -1149,8 +1033,8 @@ public class PostReview
 
       List<PatchSetApproval> del = new ArrayList<>();
       List<PatchSetApproval> ups = new ArrayList<>();
-      Map<String, PatchSetApproval> current = scanLabels(projectState, ctx, del);
-      LabelTypes labelTypes = projectState.getLabelTypes(ctx.getNotes(), ctx.getUser());
+      Map<String, PatchSetApproval> current = scanLabels(ctx, del);
+      LabelTypes labelTypes = ctx.getControl().getLabelTypes();
       Map<String, Short> allApprovals =
           getAllApprovals(labelTypes, approvalsByKey(current.values()), inLabels);
       Map<String, Short> previous =
@@ -1210,7 +1094,7 @@ public class PostReview
         return false;
       }
 
-      forceCallerAsReviewer(projectState, ctx, current, ups, del);
+      forceCallerAsReviewer(ctx, current, ups, del);
       ctx.getDb().patchSetApprovals().delete(del);
       ctx.getDb().patchSetApprovals().upsert(ups);
       return !del.isEmpty() || !ups.isEmpty();
@@ -1287,7 +1171,6 @@ public class PostReview
     }
 
     private void forceCallerAsReviewer(
-        ProjectState projectState,
         ChangeContext ctx,
         Map<String, PatchSetApproval> current,
         List<PatchSetApproval> ups,
@@ -1297,12 +1180,7 @@ public class PostReview
         if (del.isEmpty()) {
           // If no existing label is being set to 0, hack in the caller
           // as a reviewer by picking the first server-wide LabelType.
-          LabelId labelId =
-              projectState
-                  .getLabelTypes(ctx.getNotes(), ctx.getUser())
-                  .getLabelTypes()
-                  .get(0)
-                  .getLabelId();
+          LabelId labelId = ctx.getControl().getLabelTypes().getLabelTypes().get(0).getLabelId();
           PatchSetApproval c = ApprovalsUtil.newApproval(psId, user, labelId, 0, ctx.getWhen());
           c.setTag(in.tag);
           c.setGranted(ctx.getWhen());
@@ -1320,21 +1198,13 @@ public class PostReview
       ctx.getUpdate(ctx.getChange().currentPatchSetId()).putReviewer(user.getAccountId(), REVIEWER);
     }
 
-    private Map<String, PatchSetApproval> scanLabels(
-        ProjectState projectState, ChangeContext ctx, List<PatchSetApproval> del)
-        throws OrmException, IOException {
-      LabelTypes labelTypes = projectState.getLabelTypes(ctx.getNotes(), ctx.getUser());
+    private Map<String, PatchSetApproval> scanLabels(ChangeContext ctx, List<PatchSetApproval> del)
+        throws OrmException {
+      LabelTypes labelTypes = ctx.getControl().getLabelTypes();
       Map<String, PatchSetApproval> current = new HashMap<>();
 
       for (PatchSetApproval a :
-          approvalsUtil.byPatchSetUser(
-              ctx.getDb(),
-              ctx.getNotes(),
-              ctx.getUser(),
-              psId,
-              user.getAccountId(),
-              ctx.getRevWalk(),
-              ctx.getRepoView().getConfig())) {
+          approvalsUtil.byPatchSetUser(ctx.getDb(), ctx.getControl(), psId, user.getAccountId())) {
         if (a.isLegacySubmit()) {
           continue;
         }
@@ -1363,8 +1233,6 @@ public class PostReview
       }
       if (!msg.isEmpty()) {
         buf.append("\n\n").append(msg);
-      } else if (in.ready) {
-        buf.append("\n\n" + START_REVIEW_MESSAGE);
       }
       if (buf.length() == 0) {
         return false;

@@ -96,7 +96,7 @@ public final class HttpLogLayout extends Layout {
     }
   }
 
-  private void formatDate(long now, StringBuilder sbuf) {
+  private void formatDate(final long now, final StringBuilder sbuf) {
     final long rounded = now - (int) (now % 1000);
     if (rounded != lastTimeMillis) {
       synchronized (dateFormat) {

@@ -13,92 +13,62 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<script>
-  // This must be set prior to loading Polymer for the first time.
-  if (localStorage.getItem('USE_SHADOW_DOM') === 'true') {
-    window.Polymer = {
-      dom: 'shadow',
-    };
-  }
-</script>
-
-<link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/polymer-resin/standalone/polymer-resin.html">
-<link rel="import" href="../behaviors/safe-types-behavior/safe-types-behavior.html">
-<script>
-  security.polymer_resin.install({
-    allowedIdentifierPrefixes: [''],
-    reportHandler: security.polymer_resin.CONSOLE_LOGGING_REPORT_HANDLER,
-    safeTypesBridge: Gerrit.SafeTypes.safeTypesBridge,
-  });
-</script>
 
 <link rel="import" href="../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../styles/app-theme.html">
-<link rel="import" href="../styles/shared-styles.html">
+
 <link rel="import" href="./admin/gr-admin-view/gr-admin-view.html">
-<link rel="import" href="./change-list/gr-change-list-view/gr-change-list-view.html">
-<link rel="import" href="./change-list/gr-dashboard-view/gr-dashboard-view.html">
-<link rel="import" href="./change/gr-change-view/gr-change-view.html">
+
 <link rel="import" href="./core/gr-error-manager/gr-error-manager.html">
 <link rel="import" href="./core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.html">
 <link rel="import" href="./core/gr-main-header/gr-main-header.html">
-<link rel="import" href="./core/gr-navigation/gr-navigation.html">
-<link rel="import" href="./core/gr-reporting/gr-reporting.html">
 <link rel="import" href="./core/gr-router/gr-router.html">
+<link rel="import" href="./core/gr-reporting/gr-reporting.html">
+
+<link rel="import" href="./change-list/gr-change-list-view/gr-change-list-view.html">
+<link rel="import" href="./change-list/gr-dashboard-view/gr-dashboard-view.html">
+<link rel="import" href="./change/gr-change-view/gr-change-view.html">
 <link rel="import" href="./diff/gr-diff-view/gr-diff-view.html">
-<link rel="import" href="./plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
-<link rel="import" href="./plugins/gr-external-style/gr-external-style.html">
-<link rel="import" href="./plugins/gr-plugin-host/gr-plugin-host.html">
 <link rel="import" href="./settings/gr-cla-view/gr-cla-view.html">
 <link rel="import" href="./settings/gr-registration-dialog/gr-registration-dialog.html">
 <link rel="import" href="./settings/gr-settings-view/gr-settings-view.html">
+
+<link rel="import" href="./shared/gr-overlay/gr-overlay.html">
+<link rel="import" href="./shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <script src="../scripts/util.js"></script>
 
 <dom-module id="gr-app">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         display: flex;
-        min-height: 100%;
+        min-height: 100vh;
         flex-direction: column;
-      }
-      gr-fixed-panel {
-        /**
-         * This one should be greater that the z-index in gr-diff-view
-         * because gr-main-header contains overlay.
-         */
-        z-index: 10;
       }
       gr-main-header,
       footer {
         color: var(--primary-text-color);
       }
-      gr-main-header.shadow {
-        /* Make it obvious for shadow dom testing */
-        border-bottom: 1px solid pink;
-      }
       gr-main-header {
-        background-color: var(--header-background-color);
+        background-color: var(--header-background-color, #eee);
         padding: 0 var(--default-horizontal-margin);
       }
       footer {
-        background-color: var(--footer-background-color);
+        background-color: var(--footer-background-color, #eee);
         display: flex;
         justify-content: space-between;
         padding: .5rem var(--default-horizontal-margin);
-        z-index: 100;
       }
       main {
         flex: 1;
-        padding-bottom: 2em;
         position: relative;
       }
       .errorView {
         align-items: center;
-        display: none;
+        display: flex;
         flex-direction: column;
         justify-content: center;
         position: absolute;
@@ -106,9 +76,6 @@ limitations under the License.
         right: 0;
         bottom: 0;
         left: 0;
-      }
-      .errorView.show {
-        display: flex;
       }
       .errorEmoji {
         font-size: 2.6em;
@@ -127,14 +94,8 @@ limitations under the License.
         color: #b71c1c;
       }
     </style>
-    <gr-endpoint-decorator name="banner"></gr-endpoint-decorator>
-    <gr-fixed-panel id="header">
-      <gr-main-header
-          id="mainHeader"
-          search-query="{{params.query}}"
-          class$="[[_computeShadowClass(_isShadowDom)]]">
-      </gr-main-header>
-    </gr-fixed-panel>
+    <gr-main-header id="mainHeader" search-query="{{params.query}}">
+    </gr-main-header>
     <main>
       <template is="dom-if" if="[[_showChangeListView]]" restamp="true">
         <gr-change-list-view
@@ -151,6 +112,7 @@ limitations under the License.
       <template is="dom-if" if="[[_showChangeView]]" restamp="true">
         <gr-change-view
             params="[[params]]"
+            server-config="[[_serverConfig]]"
             view-state="{{_viewState.changeView}}"
             back-page="[[_lastSearchPage]]"></gr-change-view>
       </template>
@@ -166,24 +128,22 @@ limitations under the License.
         </gr-settings-view>
       </template>
       <template is="dom-if" if="[[_showAdminView]]" restamp="true">
-        <gr-admin-view path="[[_path]]"
-            params=[[params]]></gr-admin-view>
+        <gr-admin-view path="[[_path]]"></gr-admin-view>
       </template>
       <template is="dom-if" if="[[_showCLAView]]" restamp="true">
         <gr-cla-view path="[[_path]]"></gr-cla-view>
       </template>
-      <div id="errorView" class="errorView">
+      <div id="errorView" class="errorView" hidden>
         <div class="errorEmoji">[[_lastError.emoji]]</div>
         <div class="errorText">[[_lastError.text]]</div>
         <div class="errorMoreInfo">[[_lastError.moreInfo]]</div>
       </div>
     </main>
-    <footer r="contentinfo" class$="[[_computeShadowClass(_isShadowDom)]]">
+    <footer role="contentinfo">
       <div>
         Powered by <a href="https://www.gerritcodereview.com/" rel="noopener"
         target="_blank">Gerrit Code Review</a>
         ([[_version]])
-        <gr-endpoint-decorator name="footer-left"></gr-endpoint-decorator>
       </div>
       <div>
         <a class="feedback"
@@ -191,10 +151,9 @@ limitations under the License.
             rel="noopener" target="_blank">Send feedback</a>
         <template is="dom-if" if="[[_computeShowGwtUiLink(_serverConfig)]]">
           |
-          <a id="gwtLink" href$="[[computeGwtUrl(_path)]]" rel="external">Switch to Old UI</a>
+          <a id="gwtLink" href$="[[computeGwtUrl(_path)]]" rel="external">Old UI</a>
         </template>
         | Press &ldquo;?&rdquo; for keyboard shortcuts
-        <gr-endpoint-decorator name="footer-right"></gr-endpoint-decorator>
       </div>
     </footer>
     <gr-overlay id="keyboardShortcuts" with-backdrop>
@@ -208,15 +167,10 @@ limitations under the License.
           on-close="_handleRegistrationDialogClose">
       </gr-registration-dialog>
     </gr-overlay>
-    <gr-endpoint-decorator name="plugin-overlay"></gr-endpoint-decorator>
     <gr-error-manager id="errorManager"></gr-error-manager>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-reporting id="reporting"></gr-reporting>
     <gr-router id="router"></gr-router>
-    <gr-plugin-host id="plugins"
-        config="[[_serverConfig]]">
-    </gr-plugin-host>
-    <gr-external-style id="externalStyle" name="app-theme"></gr-external-style>
   </template>
   <script src="gr-app.js" crossorigin="anonymous"></script>
 </dom-module>

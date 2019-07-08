@@ -220,7 +220,6 @@ shortest possible pattern expansion must be a valid ref name:
 thus `^refs/heads/.*/name` will fail because `refs/heads//name`
 is not a valid reference, but `^refs/heads/.+/name` will work.
 
-[[sharded-user-id]]
 References can have the user name or the sharded account ID of the
 current user automatically included, creating dynamic access controls
 that change to match the currently logged in user.  For example to
@@ -405,11 +404,35 @@ Further documentation on how to push can be found on the
 link:user-upload.html#push_create[Upload changes] page.
 
 
+==== refs/publish/*
+
+`+refs/publish/*+` is an alternative name to `+refs/for/*+` when pushing new changes
+and patch sets.
+
+
+==== refs/drafts/*
+
+Push to `+refs/drafts/*+` creates a change like push to `+refs/for/*+`, except the
+resulting change remains hidden from public review.  You then have the option
+of adding individual reviewers before making the change public to all.  The
+change page will have a 'Publish' button which allows you to convert individual
+draft patch sets of a change into public patch sets for review.
+
+To block push permission to `+refs/drafts/*+` the following permission rule can
+be configured:
+
+----
+  [access "refs/drafts/*"]
+    push = block group Anonymous Users
+----
+
+
 [[access_categories]]
 == Access Categories
 
 Gerrit has several permission categories that can be granted to groups
 within projects, enabling functionality for that group's members.
+
 
 
 [[category_abandon]]
@@ -474,7 +497,7 @@ references.
 
 Deletion of references is also possible if `Push` with the force option
 is granted, however that includes the permission to fast-forward and
-force-update references to existing and new commits. Being able to push
+force-update references to exiting and new commits. Being able to push
 references for new commits is bad if bypassing of code review must be
 prevented.
 
@@ -536,6 +559,8 @@ The `Owner` category controls which groups can modify the project's
 configuration.  Users who are members of an owner group can:
 
 * Change the project description
+* Create a branch via the ssh command link:cmd-create-branch.html['create-branch']
+* Create/delete a branch through the web UI
 * Grant/revoke any access rights, including `Owner`
 
 To get SSH branch access project owners must grant an access right to a group
@@ -825,14 +850,35 @@ when link:rest-api-changes.html#submit-change[submitting using the REST API].
 Note that this permission is named `submitAs` in the `project.config`
 file.
 
-[[category_view_private_changes]]
-=== View Private Changes
+[[category_view_drafts]]
+=== View Drafts
 
-This category permits users to view all private changes.
+This category permits users to view draft changes uploaded by other
+users.
 
 The change owner and any explicitly added reviewers can always see
-private changes (even without having the `View Private Changes` access
-right assigned).
+draft changes (even without having the `View Drafts` access right
+assigned).
+
+
+[[category_publish_drafts]]
+=== Publish Drafts
+
+This category permits users to publish draft changes uploaded by other
+users.
+
+The change owner can always publish draft changes (even without having
+the `Publish Drafts` access right assigned).
+
+
+[[category_delete_drafts]]
+=== Delete Drafts
+
+This category permits users to delete draft changes uploaded by other
+users.
+
+The change owner can always delete draft changes (even without having
+the `Delete Drafts` access right assigned).
 
 
 [[category_delete_own_changes]]
@@ -870,8 +916,8 @@ edited on open changes.
 [[category_edit_hashtags]]
 === Edit Hashtags
 
-This category permits users to add or remove
-link:intro-user.html#hashtags[hashtags] on a change that is uploaded for review.
+This category permits users to add or remove hashtags on a change that
+is uploaded for review.
 
 The change owner, branch owners, project owners, and site administrators
 can always edit or remove hashtags (even without having the `Edit Hashtags`
@@ -912,7 +958,13 @@ Suggested access rights to grant:
 If it's desired to have the possibility to upload temporarily hidden
 changes there's a specific permission for that.  This enables someone
 to add specific reviewers for early feedback before making the change
-publicly visible.
+publicly visible.  If you want to allow others than the owners to
+publish a draft you also need to grant them `Publish Drafts`.
+
+Optional access rights to grant:
+
+* xref:category_push[`Push`] to 'refs/drafts/*'
+* xref:category_publish_drafts[`Publish Drafts`] to 'refs/heads/*'
 
 
 [[examples_developer]]

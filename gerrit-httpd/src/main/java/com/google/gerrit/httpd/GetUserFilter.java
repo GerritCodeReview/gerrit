@@ -14,7 +14,6 @@
 
 package com.google.gerrit.httpd;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -29,51 +28,35 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.lib.Config;
 
-/**
- * Stores user as a request attribute and/or response header, so servlets and reverse proxies can
- * access it outside of the request/response scope.
- */
+/** Stores user as a request attribute, so servlets can access it outside of the request scope. */
 @Singleton
 public class GetUserFilter implements Filter {
 
-  public static final String USER_ATTR_KEY = "User";
+  public static final String REQ_ATTR_KEY = "User";
 
   public static class Module extends ServletModule {
 
-    private final boolean reqEnabled;
-    private final boolean resEnabled;
+    private final boolean enabled;
 
     @Inject
-    Module(@GerritServerConfig Config cfg) {
-      reqEnabled = cfg.getBoolean("http", "addUserAsRequestAttribute", true);
-      resEnabled = cfg.getBoolean("http", "addUserAsResponseHeader", false);
+    Module(@GerritServerConfig final Config cfg) {
+      enabled = cfg.getBoolean("http", "addUserAsRequestAttribute", true);
     }
 
     @Override
     protected void configureServlets() {
-      if (resEnabled || reqEnabled) {
-        ImmutableMap.Builder<String, String> initParams = ImmutableMap.builder();
-        if (reqEnabled) {
-          initParams.put("reqEnabled", "");
-        }
-        if (resEnabled) {
-          initParams.put("resEnabled", "");
-        }
-        filter("/*").through(GetUserFilter.class, initParams.build());
+      if (enabled) {
+        filter("/*").through(GetUserFilter.class);
       }
     }
   }
 
   private final Provider<CurrentUser> userProvider;
 
-  private boolean reqEnabled;
-  private boolean resEnabled;
-
   @Inject
-  GetUserFilter(Provider<CurrentUser> userProvider) {
+  GetUserFilter(final Provider<CurrentUser> userProvider) {
     this.userProvider = userProvider;
   }
 
@@ -82,19 +65,11 @@ public class GetUserFilter implements Filter {
       throws IOException, ServletException {
     CurrentUser user = userProvider.get();
     if (user != null && user.isIdentifiedUser()) {
-
       IdentifiedUser who = user.asIdentifiedUser();
-      String loggableName;
       if (who.getUserName() != null && !who.getUserName().isEmpty()) {
-        loggableName = who.getUserName();
+        req.setAttribute(REQ_ATTR_KEY, who.getUserName());
       } else {
-        loggableName = "a/" + who.getAccountId();
-      }
-      if (reqEnabled) {
-        req.setAttribute(USER_ATTR_KEY, loggableName);
-      }
-      if (resEnabled && resp instanceof HttpServletResponse) {
-        ((HttpServletResponse) resp).addHeader(USER_ATTR_KEY, loggableName);
+        req.setAttribute(REQ_ATTR_KEY, "a/" + who.getAccountId());
       }
     }
     chain.doFilter(req, resp);
@@ -104,8 +79,5 @@ public class GetUserFilter implements Filter {
   public void destroy() {}
 
   @Override
-  public void init(FilterConfig arg0) {
-    reqEnabled = arg0.getInitParameter("reqEnabled") != null ? true : false;
-    resEnabled = arg0.getInitParameter("resEnabled") != null ? true : false;
-  }
+  public void init(FilterConfig arg0) {}
 }

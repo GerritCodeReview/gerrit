@@ -20,24 +20,25 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-alert.html">
 
 <script>
-  suite('gr-alert tests', () => {
-    let element;
+  suite('gr-alert tests', function() {
+    var element;
 
-    setup(() => {
+    setup(function() {
       element = document.createElement('gr-alert');
     });
 
-    teardown(() => {
+    teardown(function() {
       if (element.parentNode) {
         element.parentNode.removeChild(element);
       }
     });
 
-    test('show/hide', () => {
+    test('show/hide', function() {
       assert.isNull(element.parentNode);
       element.show();
       assert.equal(element.parentNode, document.body);
@@ -47,10 +48,13 @@ limitations under the License.
       assert.isNull(element.parentNode);
     });
 
-    test('action event', done => {
+    test('action event', function(done) {
       element.show();
-      element._actionCallback = done;
+      element.addEventListener('action', function() {
+        done();
+      });
       MockInteractions.tap(element.$$('.action'));
     });
+
   });
 </script>

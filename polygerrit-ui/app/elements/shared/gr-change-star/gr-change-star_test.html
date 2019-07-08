@@ -20,7 +20,8 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-change-star.html">
 
 <script>void(0);</script>
@@ -32,12 +33,12 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-change-star tests', () => {
-    let element;
+  suite('gr-change-star tests', function() {
+    var element;
 
-    setup(() => {
+    setup(function() {
       stub('gr-rest-api-interface', {
-        saveChangeStarred() { return Promise.resolve({ok: true}); },
+        saveChangeStarred: function() { return Promise.resolve({ok: true}); },
       });
       element = fixture('basic');
       element.change = {
@@ -46,7 +47,7 @@ limitations under the License.
       };
     });
 
-    test('star visibility states', () => {
+    test('star visibility states', function() {
       element.set('change.starred', true);
       assert.isTrue(element.$$('button').classList.contains('starButton'));
       assert.isTrue(
@@ -58,21 +59,21 @@ limitations under the License.
           element.$$('button').classList.contains('starButton-active'));
     });
 
-    test('starring', done => {
+    test('starring', function(done) {
       element.set('change.starred', false);
       MockInteractions.tap(element.$$('button'));
 
-      element._xhrPromise.then(req => {
+      element._xhrPromise.then(function(req) {
         assert.equal(element.change.starred, true);
         done();
       });
     });
 
-    test('unstarring', done => {
+    test('unstarring', function(done) {
       element.set('change.starred', true);
       MockInteractions.tap(element.$$('button'));
 
-      element._xhrPromise.then(req => {
+      element._xhrPromise.then(function(req) {
         assert.equal(element.change.starred, false);
         done();
       });

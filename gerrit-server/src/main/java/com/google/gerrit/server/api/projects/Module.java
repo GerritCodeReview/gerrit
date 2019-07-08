@@ -26,7 +26,5 @@ public class Module extends FactoryModule {
     factory(TagApiImpl.Factory.class);
     factory(ProjectApiImpl.Factory.class);
     factory(ChildProjectApiImpl.Factory.class);
-    factory(CommitApiImpl.Factory.class);
-    factory(DashboardApiImpl.Factory.class);
   }
 }

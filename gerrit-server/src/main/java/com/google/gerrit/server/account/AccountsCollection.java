@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -32,12 +33,11 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.IOException;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class AccountsCollection
     implements RestCollection<TopLevelResource, AccountResource>, AcceptsCreate<TopLevelResource> {
+  private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> self;
   private final AccountResolver resolver;
   private final AccountControl.Factory accountControlFactory;
@@ -48,6 +48,7 @@ public class AccountsCollection
 
   @Inject
   AccountsCollection(
+      Provider<ReviewDb> db,
       Provider<CurrentUser> self,
       AccountResolver resolver,
       AccountControl.Factory accountControlFactory,
@@ -55,6 +56,7 @@ public class AccountsCollection
       Provider<QueryAccounts> list,
       DynamicMap<RestView<AccountResource>> views,
       CreateAccount.Factory createAccountFactory) {
+    this.db = db;
     this.self = self;
     this.resolver = resolver;
     this.accountControlFactory = accountControlFactory;
@@ -66,8 +68,7 @@ public class AccountsCollection
 
   @Override
   public AccountResource parse(TopLevelResource root, IdString id)
-      throws ResourceNotFoundException, AuthException, OrmException, IOException,
-          ConfigInvalidException {
+      throws ResourceNotFoundException, AuthException, OrmException {
     IdentifiedUser user = parseId(id.get());
     if (user == null) {
       throw new ResourceNotFoundException(id);
@@ -88,8 +89,7 @@ public class AccountsCollection
    *     account is not visible to the calling user
    */
   public IdentifiedUser parse(String id)
-      throws AuthException, UnprocessableEntityException, OrmException, IOException,
-          ConfigInvalidException {
+      throws AuthException, UnprocessableEntityException, OrmException {
     return parseOnBehalfOf(null, id);
   }
 
@@ -104,11 +104,8 @@ public class AccountsCollection
    * @throws AuthException thrown if 'self' is used as account ID and the current user is not
    *     authenticated
    * @throws OrmException
-   * @throws ConfigInvalidException
-   * @throws IOException
    */
-  public IdentifiedUser parseId(String id)
-      throws AuthException, OrmException, IOException, ConfigInvalidException {
+  public IdentifiedUser parseId(String id) throws AuthException, OrmException {
     return parseIdOnBehalfOf(null, id);
   }
 
@@ -116,8 +113,7 @@ public class AccountsCollection
    * Like {@link #parse(String)}, but also sets the {@link CurrentUser#getRealUser()} on the result.
    */
   public IdentifiedUser parseOnBehalfOf(@Nullable CurrentUser caller, String id)
-      throws AuthException, UnprocessableEntityException, OrmException, IOException,
-          ConfigInvalidException {
+      throws AuthException, UnprocessableEntityException, OrmException {
     IdentifiedUser user = parseIdOnBehalfOf(caller, id);
     if (user == null) {
       throw new UnprocessableEntityException(String.format("Account Not Found: %s", id));
@@ -128,7 +124,7 @@ public class AccountsCollection
   }
 
   private IdentifiedUser parseIdOnBehalfOf(@Nullable CurrentUser caller, String id)
-      throws AuthException, OrmException, IOException, ConfigInvalidException {
+      throws AuthException, OrmException {
     if (id.equals("self")) {
       CurrentUser user = self.get();
       if (user.isIdentifiedUser()) {
@@ -140,7 +136,7 @@ public class AccountsCollection
       }
     }
 
-    Account match = resolver.find(id);
+    Account match = resolver.find(db.get(), id);
     if (match == null) {
       return null;
     }
@@ -158,6 +154,7 @@ public class AccountsCollection
     return views;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public CreateAccount create(TopLevelResource parent, IdString username) {
     return createAccountFactory.create(username.get());

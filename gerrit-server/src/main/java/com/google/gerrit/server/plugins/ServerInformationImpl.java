@@ -18,7 +18,7 @@ import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.inject.Singleton;
 
 @Singleton
-public class ServerInformationImpl implements ServerInformation {
+class ServerInformationImpl implements ServerInformation {
   volatile State state = State.STARTUP;
 
   @Override

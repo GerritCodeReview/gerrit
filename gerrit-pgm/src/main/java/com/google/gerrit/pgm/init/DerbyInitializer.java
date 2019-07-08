@@ -27,7 +27,7 @@ class DerbyInitializer implements DatabaseConfigInitializer {
   private final SitePaths site;
 
   @Inject
-  DerbyInitializer(SitePaths site) {
+  DerbyInitializer(final SitePaths site) {
     this.site = site;
   }
 

@@ -14,62 +14,42 @@
 
 package com.google.gerrit.server.index.group;
 
-import static com.google.common.collect.ImmutableList.toImmutableList;
-import static com.google.gerrit.index.FieldDef.exact;
-import static com.google.gerrit.index.FieldDef.fullText;
-import static com.google.gerrit.index.FieldDef.integer;
-import static com.google.gerrit.index.FieldDef.prefix;
-import static com.google.gerrit.index.FieldDef.timestamp;
+import static com.google.gerrit.server.index.FieldDef.exact;
+import static com.google.gerrit.server.index.FieldDef.fullText;
+import static com.google.gerrit.server.index.FieldDef.integer;
+import static com.google.gerrit.server.index.FieldDef.prefix;
 
-import com.google.gerrit.index.FieldDef;
-import com.google.gerrit.index.SchemaUtil;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.group.InternalGroup;
-import java.sql.Timestamp;
+import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.SchemaUtil;
 
 /** Secondary index schemas for groups. */
 public class GroupField {
   /** Legacy group ID. */
-  public static final FieldDef<InternalGroup, Integer> ID =
+  public static final FieldDef<AccountGroup, Integer> ID =
       integer("id").build(g -> g.getId().get());
 
   /** Group UUID. */
-  public static final FieldDef<InternalGroup, String> UUID =
+  public static final FieldDef<AccountGroup, String> UUID =
       exact("uuid").stored().build(g -> g.getGroupUUID().get());
 
   /** Group owner UUID. */
-  public static final FieldDef<InternalGroup, String> OWNER_UUID =
+  public static final FieldDef<AccountGroup, String> OWNER_UUID =
       exact("owner_uuid").build(g -> g.getOwnerGroupUUID().get());
 
-  /** Timestamp indicating when this group was created. */
-  public static final FieldDef<InternalGroup, Timestamp> CREATED_ON =
-      timestamp("created_on").build(InternalGroup::getCreatedOn);
-
   /** Group name. */
-  public static final FieldDef<InternalGroup, String> NAME =
-      exact("name").build(InternalGroup::getName);
+  public static final FieldDef<AccountGroup, String> NAME =
+      exact("name").build(AccountGroup::getName);
 
   /** Prefix match on group name parts. */
-  public static final FieldDef<InternalGroup, Iterable<String>> NAME_PART =
+  public static final FieldDef<AccountGroup, Iterable<String>> NAME_PART =
       prefix("name_part").buildRepeatable(g -> SchemaUtil.getNameParts(g.getName()));
 
   /** Group description. */
-  public static final FieldDef<InternalGroup, String> DESCRIPTION =
-      fullText("description").build(InternalGroup::getDescription);
+  public static final FieldDef<AccountGroup, String> DESCRIPTION =
+      fullText("description").build(AccountGroup::getDescription);
 
   /** Whether the group is visible to all users. */
-  public static final FieldDef<InternalGroup, String> IS_VISIBLE_TO_ALL =
+  public static final FieldDef<AccountGroup, String> IS_VISIBLE_TO_ALL =
       exact("is_visible_to_all").build(g -> g.isVisibleToAll() ? "1" : "0");
-
-  public static final FieldDef<InternalGroup, Iterable<Integer>> MEMBER =
-      integer("member")
-          .buildRepeatable(
-              g -> g.getMembers().stream().map(Account.Id::get).collect(toImmutableList()));
-
-  public static final FieldDef<InternalGroup, Iterable<String>> SUBGROUP =
-      exact("subgroup")
-          .buildRepeatable(
-              g ->
-                  g.getSubgroups().stream().map(AccountGroup.UUID::get).collect(toImmutableList()));
 }

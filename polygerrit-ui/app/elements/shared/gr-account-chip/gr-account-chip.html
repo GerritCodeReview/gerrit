@@ -18,11 +18,10 @@ limitations under the License.
 <link rel="import" href="../gr-account-link/gr-account-link.html">
 <link rel="import" href="../gr-button/gr-button.html">
 <link rel="import" href="../gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-account-chip">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         display: block;
         overflow: hidden;
@@ -37,31 +36,24 @@ limitations under the License.
       :host([show-avatar]) .container {
         padding-left: 0;
       }
+      gr-button.remove,
       gr-button.remove:hover,
       gr-button.remove:focus {
-        --gr-button: {
-          color: #333;
-        }
+        border-color: transparent;
+        color: #333;
       }
       gr-button.remove {
-        --gr-button: {
-          border: 0;
-          color: #666;
-          font-size: 1.7em;
-          font-weight: normal;
-          height: .6em;
-          line-height: .6em;
-          margin-left: .15em;
-          margin-top: -.05em;
-          padding: 0;
-          text-decoration: none;
-        }
-        --gr-button-hover-color: {
-          color: #333;
-        }
-        --gr-button-hover-background-color: {
-          color: #333;
-        }
+        background: #eee;
+        border: 0;
+        color: #666;
+        font-size: 1.7em;
+        font-weight: normal;
+        height: .6em;
+        line-height: .6em;
+        margin-left: .15em;
+        margin-top: -.05em;
+        padding: 0;
+        text-decoration: none;
       }
       :host:focus {
         border-color: transparent;
@@ -76,19 +68,13 @@ limitations under the License.
       gr-button.transparentBackground {
         background-color: transparent;
       }
-      :host([disabled]) {
-        opacity: .6;
-        pointer-events: none;
-      }
     </style>
     <div class$="container [[_getBackgroundClass(transparentBackground)]]">
       <gr-account-link account="[[account]]"></gr-account-link>
       <gr-button
           id="remove"
-          link
           hidden$="[[!removable]]"
           hidden
-          tabindex="-1"
           aria-label="Remove"
           class$="remove [[_getBackgroundClass(transparentBackground)]]"
           on-tap="_handleRemoveTap">×</gr-button>

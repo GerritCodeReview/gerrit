@@ -165,19 +165,6 @@ public class TextParserTest extends AbstractParserTest {
     assertInlineComment("Comment in reply to file comment", parsedComments.get(1), comments.get(0));
   }
 
-  @Test
-  public void squashComments() {
-    MailMessage.Builder b = newMailMessageBuilder();
-    b.textContent(
-        "Nice change\n> Some quoted content\nMy other comment on the same entity\n" + quotedFooter);
-
-    List<MailComment> parsedComments = TextParser.parse(b.build(), defaultComments(), CHANGE_URL);
-
-    assertThat(parsedComments).hasSize(1);
-    assertChangeMessage(
-        "Nice change\n\nMy other comment on the same entity", parsedComments.get(0));
-  }
-
   /**
    * Create a plaintext message body with the specified comments.
    *

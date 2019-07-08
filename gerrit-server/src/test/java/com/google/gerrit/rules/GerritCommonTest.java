@@ -17,8 +17,8 @@ package com.google.gerrit.rules;
 import static org.easymock.EasyMock.expect;
 
 import com.google.gerrit.common.data.LabelTypes;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.Util;
-import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.AbstractModule;
 import com.googlecode.prolog_cafe.exceptions.CompileException;
 import com.googlecode.prolog_cafe.exceptions.ReductionLimitException;
@@ -47,28 +47,27 @@ public class GerritCommonTest extends PrologTestCase {
             cfg.setInt("rules", null, "reductionLimit", 1300);
             cfg.setInt("rules", null, "compileReductionLimit", (int) 1e6);
             bind(PrologEnvironment.Args.class)
-                .toInstance(
-                    new PrologEnvironment.Args(null, null, null, null, null, null, null, cfg));
+                .toInstance(new PrologEnvironment.Args(null, null, null, null, null, null, cfg));
           }
         });
   }
 
   @Override
-  protected void setUpEnvironment(PrologEnvironment env) throws Exception {
+  protected void setUpEnvironment(PrologEnvironment env) {
     LabelTypes labelTypes = new LabelTypes(Arrays.asList(Util.codeReview(), Util.verified()));
-    ChangeData cd = EasyMock.createMock(ChangeData.class);
-    expect(cd.getLabelTypes()).andStubReturn(labelTypes);
-    EasyMock.replay(cd);
-    env.set(StoredValues.CHANGE_DATA, cd);
+    ChangeControl ctl = EasyMock.createMock(ChangeControl.class);
+    expect(ctl.getLabelTypes()).andStubReturn(labelTypes);
+    EasyMock.replay(ctl);
+    env.set(StoredValues.CHANGE_CONTROL, ctl);
   }
 
   @Test
-  public void gerritCommon() throws Exception {
+  public void gerritCommon() {
     runPrologBasedTests();
   }
 
   @Test
-  public void reductionLimit() throws Exception {
+  public void reductionLimit() throws CompileException {
     PrologEnvironment env = envFactory.create(machine);
     setUpEnvironment(env);
 

@@ -16,10 +16,13 @@ package com.google.gerrit.prettify.common;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.jgit.diff.Edit;
 
 public class SparseFileContent {
+  protected String path;
   protected List<Range> ranges;
   protected int size;
+  protected boolean missingNewlineAtEnd;
 
   private transient int currentRangeIdx;
 
@@ -31,11 +34,40 @@ public class SparseFileContent {
     return size;
   }
 
-  public void setSize(int s) {
+  public void setSize(final int s) {
     size = s;
   }
 
-  public String get(int idx) {
+  public boolean isMissingNewlineAtEnd() {
+    return missingNewlineAtEnd;
+  }
+
+  public void setMissingNewlineAtEnd(final boolean missing) {
+    missingNewlineAtEnd = missing;
+  }
+
+  public String getPath() {
+    return path;
+  }
+
+  public void setPath(String filePath) {
+    path = filePath;
+  }
+
+  public boolean isWholeFile() {
+    if (size == 0) {
+      return true;
+
+    } else if (1 == ranges.size()) {
+      Range r = ranges.get(0);
+      return r.base == 0 && r.end() == size;
+
+    } else {
+      return false;
+    }
+  }
+
+  public String get(final int idx) {
     final String line = getLine(idx);
     if (line == null) {
       throw new ArrayIndexOutOfBoundsException(idx);
@@ -43,7 +75,7 @@ public class SparseFileContent {
     return line;
   }
 
-  public boolean contains(int idx) {
+  public boolean contains(final int idx) {
     return getLine(idx) != null;
   }
 
@@ -51,7 +83,7 @@ public class SparseFileContent {
     return ranges.isEmpty() ? size() : ranges.get(0).base;
   }
 
-  public int next(int idx) {
+  public int next(final int idx) {
     // Most requests are sequential in nature, fetching the next
     // line from the current range, or the immediate next range.
     //
@@ -106,7 +138,18 @@ public class SparseFileContent {
     return size();
   }
 
-  private String getLine(int idx) {
+  public int mapIndexToLine(int arrayIndex) {
+    final int origIndex = arrayIndex;
+    for (Range r : ranges) {
+      if (arrayIndex < r.lines.size()) {
+        return r.base + arrayIndex;
+      }
+      arrayIndex -= r.lines.size();
+    }
+    throw new ArrayIndexOutOfBoundsException(origIndex);
+  }
+
+  private String getLine(final int idx) {
     // Most requests are sequential in nature, fetching the next
     // line from the current range, or the next range.
     //
@@ -148,7 +191,7 @@ public class SparseFileContent {
     return null;
   }
 
-  public void addLine(int i, String content) {
+  public void addLine(final int i, final String content) {
     final Range r;
     if (!ranges.isEmpty() && i == last().end()) {
       r = last();
@@ -161,6 +204,58 @@ public class SparseFileContent {
 
   private Range last() {
     return ranges.get(ranges.size() - 1);
+  }
+
+  public String asString() {
+    final StringBuilder b = new StringBuilder();
+    for (Range r : ranges) {
+      for (String l : r.lines) {
+        b.append(l);
+        b.append('\n');
+      }
+    }
+    if (0 < b.length() && isMissingNewlineAtEnd()) {
+      b.setLength(b.length() - 1);
+    }
+    return b.toString();
+  }
+
+  public SparseFileContent apply(SparseFileContent a, List<Edit> edits) {
+    EditList list = new EditList(edits, size, a.size(), size);
+    ArrayList<String> lines = new ArrayList<>(size);
+    for (final EditList.Hunk hunk : list.getHunks()) {
+      while (hunk.next()) {
+        if (hunk.isContextLine()) {
+          if (contains(hunk.getCurB())) {
+            lines.add(get(hunk.getCurB()));
+          } else {
+            lines.add(a.get(hunk.getCurA()));
+          }
+          hunk.incBoth();
+          continue;
+        }
+
+        if (hunk.isDeletedA()) {
+          hunk.incA();
+        }
+
+        if (hunk.isInsertedB()) {
+          lines.add(get(hunk.getCurB()));
+          hunk.incB();
+        }
+      }
+    }
+
+    Range range = new Range();
+    range.lines = lines;
+
+    SparseFileContent r = new SparseFileContent();
+    r.setSize(lines.size());
+    r.setMissingNewlineAtEnd(isMissingNewlineAtEnd());
+    r.setPath(getPath());
+    r.ranges.add(range);
+
+    return r;
   }
 
   @Override
@@ -180,14 +275,14 @@ public class SparseFileContent {
     protected int base;
     protected List<String> lines;
 
-    private Range(int b) {
+    private Range(final int b) {
       base = b;
       lines = new ArrayList<>();
     }
 
     protected Range() {}
 
-    private String get(int i) {
+    private String get(final int i) {
       return lines.get(i - base);
     }
 
@@ -195,7 +290,7 @@ public class SparseFileContent {
       return base + lines.size();
     }
 
-    private boolean contains(int i) {
+    private boolean contains(final int i) {
       return base <= i && i < end();
     }
 

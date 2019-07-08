@@ -19,20 +19,20 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
-public class OwnerPredicate extends ChangeIndexPredicate {
-  protected final Account.Id id;
+class OwnerPredicate extends ChangeIndexPredicate {
+  private final Account.Id id;
 
-  public OwnerPredicate(Account.Id id) {
+  OwnerPredicate(Account.Id id) {
     super(ChangeField.OWNER, id.toString());
     this.id = id;
   }
 
-  protected Account.Id getAccountId() {
+  Account.Id getAccountId() {
     return id;
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
+  public boolean match(final ChangeData object) throws OrmException {
     Change change = object.change();
     return change != null && id.equals(change.getOwner());
   }

@@ -18,9 +18,6 @@
     is: 'gr-account-label',
 
     properties: {
-      /**
-       * @type {{ name: string, status: string }}
-       */
       account: Object,
       avatarImageSize: {
         type: Number,
@@ -30,45 +27,13 @@
         type: Boolean,
         value: false,
       },
-      title: {
-        type: String,
-        reflectToAttribute: true,
-        computed: '_computeAccountTitle(account)',
-      },
-      hasTooltip: {
-        type: Boolean,
-        reflectToAttribute: true,
-        computed: '_computeHasTooltip(account)',
-      },
-      hideAvatar: {
-        type: Boolean,
-        value: false,
-      },
-      _serverConfig: {
-        type: Object,
-        value: null,
-      },
     },
 
-    behaviors: [
-      Gerrit.AnonymousNameBehavior,
-      Gerrit.TooltipBehavior,
-    ],
-
-    ready() {
-      this.$.restAPI.getConfig()
-          .then(config => { this._serverConfig = config; });
-    },
-
-    _computeName(account, config) {
-      return this.getUserName(config, account, false);
-    },
-
-    _computeAccountTitle(account) {
-      if (!account) { return; }
-      let result = '';
-      if (this._computeName(account, this._serverConfig)) {
-        result += this._computeName(account, this._serverConfig);
+    _computeAccountTitle: function(account) {
+      if (!account || (!account.name && !account.email)) { return; }
+      var result = '';
+      if (account.name) {
+        result += account.name;
       }
       if (account.email) {
         result += ' <' + account.email + '>';
@@ -76,11 +41,11 @@
       return result;
     },
 
-    _computeShowEmail(showEmail, account) {
+    _computeShowEmail: function(showEmail, account) {
       return !!(showEmail && account && account.email);
     },
 
-    _computeEmailStr(account) {
+    _computeEmailStr: function(account) {
       if (!account || !account.email) {
         return '';
       }
@@ -88,11 +53,6 @@
         return '(' + account.email + ')';
       }
       return account.email;
-    },
-
-    _computeHasTooltip(account) {
-      // If an account has loaded to fire this method, then set to true.
-      return !!account;
     },
   });
 })();

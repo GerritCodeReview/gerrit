@@ -34,9 +34,4 @@ public class DeleteFileModification implements TreeModification {
     DirCacheEditor.DeletePath deletePathEdit = new DirCacheEditor.DeletePath(filePath);
     return Collections.singletonList(deletePathEdit);
   }
-
-  @Override
-  public String getFilePath() {
-    return filePath;
-  }
 }

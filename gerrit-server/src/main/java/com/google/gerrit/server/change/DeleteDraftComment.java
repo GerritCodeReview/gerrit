@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -28,12 +29,9 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.DeleteDraftComment.Input;
 import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -43,13 +41,13 @@ import java.util.Collections;
 import java.util.Optional;
 
 @Singleton
-public class DeleteDraftComment
-    extends RetryingRestModifyView<DraftCommentResource, Input, Response<CommentInfo>> {
+public class DeleteDraftComment implements RestModifyView<DraftCommentResource, Input> {
   static class Input {}
 
   private final Provider<ReviewDb> db;
   private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
+  private final BatchUpdate.Factory updateFactory;
   private final PatchListCache patchListCache;
 
   @Inject
@@ -57,22 +55,24 @@ public class DeleteDraftComment
       Provider<ReviewDb> db,
       CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
-      RetryHelper retryHelper,
+      BatchUpdate.Factory updateFactory,
       PatchListCache patchListCache) {
-    super(retryHelper);
     this.db = db;
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
+    this.updateFactory = updateFactory;
     this.patchListCache = patchListCache;
   }
 
   @Override
-  protected Response<CommentInfo> applyImpl(
-      BatchUpdate.Factory updateFactory, DraftCommentResource rsrc, Input input)
+  public Response<CommentInfo> apply(DraftCommentResource rsrc, Input input)
       throws RestApiException, UpdateException {
     try (BatchUpdate bu =
         updateFactory.create(
-            db.get(), rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+            db.get(),
+            rsrc.getChange().getProject(),
+            rsrc.getControl().getUser(),
+            TimeUtil.nowTs())) {
       Op op = new Op(rsrc.getComment().key);
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();
@@ -88,10 +88,8 @@ public class DeleteDraftComment
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx)
-        throws ResourceNotFoundException, OrmException, PatchListNotAvailableException {
-      Optional<Comment> maybeComment =
-          commentsUtil.getDraft(ctx.getDb(), ctx.getNotes(), ctx.getIdentifiedUser(), key);
+    public boolean updateChange(ChangeContext ctx) throws ResourceNotFoundException, OrmException {
+      Optional<Comment> maybeComment = commentsUtil.get(ctx.getDb(), ctx.getNotes(), key);
       if (!maybeComment.isPresent()) {
         return false; // Nothing to do.
       }
@@ -103,7 +101,7 @@ public class DeleteDraftComment
       Comment c = maybeComment.get();
       setCommentRevId(c, patchListCache, ctx.getChange(), ps);
       commentsUtil.deleteComments(ctx.getDb(), ctx.getUpdate(psId), Collections.singleton(c));
-      ctx.dontBumpLastUpdatedOn();
+      ctx.bumpLastUpdatedOn(false);
       return true;
     }
   }

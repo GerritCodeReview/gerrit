@@ -14,7 +14,9 @@
 
 package com.google.gerrit.elasticsearch;
 
-import com.google.gerrit.elasticsearch.ElasticTestUtils.ElasticNodeInfo;
+import com.google.gerrit.elasticsearch.testing.ElasticContainer;
+import com.google.gerrit.elasticsearch.testing.ElasticTestUtils;
+import com.google.gerrit.elasticsearch.testing.ElasticTestUtils.ElasticNodeInfo;
 import com.google.gerrit.server.query.change.AbstractQueryChangesTest;
 import com.google.gerrit.testutil.InMemoryModule;
 import com.google.inject.Guice;
@@ -25,7 +27,7 @@ import org.junit.BeforeClass;
 
 public class ElasticV5QueryChangesTest extends AbstractQueryChangesTest {
   private static ElasticNodeInfo nodeInfo;
-  private static ElasticContainer container;
+  private static ElasticContainer<?> container;
 
   @BeforeClass
   public static void startIndexService() {
@@ -45,6 +47,10 @@ public class ElasticV5QueryChangesTest extends AbstractQueryChangesTest {
     }
   }
 
+  private String testName() {
+    return testName.getMethodName().toLowerCase() + "_";
+  }
+
   @Override
   protected void initAfterLifecycleStart() throws Exception {
     super.initAfterLifecycleStart();
@@ -55,7 +61,7 @@ public class ElasticV5QueryChangesTest extends AbstractQueryChangesTest {
   protected Injector createInjector() {
     Config elasticsearchConfig = new Config(config);
     InMemoryModule.setDefaults(elasticsearchConfig);
-    String indicesPrefix = getSanitizedMethodName();
+    String indicesPrefix = testName();
     ElasticTestUtils.configure(
         elasticsearchConfig, nodeInfo.port, indicesPrefix, ElasticVersion.V5_6);
     return Guice.createInjector(new InMemoryModule(elasticsearchConfig, notesMigration));

@@ -14,23 +14,15 @@
 (function() {
   'use strict';
 
-  const ERR_COMMENT_ON_EDIT = 'You cannot comment on an edit.';
-  const ERR_INVALID_LINE = 'Invalid line number: ';
-  const MSG_EMPTY_BLAME = 'No blame information for this diff.';
-
-  const DiffViewMode = {
+  var DiffViewMode = {
     SIDE_BY_SIDE: 'SIDE_BY_SIDE',
     UNIFIED: 'UNIFIED_DIFF',
   };
 
-  const DiffSide = {
+  var DiffSide = {
     LEFT: 'left',
     RIGHT: 'right',
   };
-
-  const LARGE_DIFF_THRESHOLD_LINES = 10000;
-  const FULL_CONTEXT = -1;
-  const LIMITED_CONTEXT = 10;
 
   Polymer({
     is: 'gr-diff',
@@ -38,12 +30,6 @@
     /**
      * Fired when the user selects a line.
      * @event line-selected
-     */
-
-    /**
-     * Fired if being logged in is required.
-     *
-     * @event show-auth-required
      */
 
     properties: {
@@ -62,7 +48,8 @@
         type: Object,
         observer: '_projectConfigChanged',
       },
-      projectName: String,
+      project: String,
+      commit: String,
       displayLine: {
         type: Boolean,
         value: false,
@@ -74,15 +61,17 @@
       },
       filesWeblinks: {
         type: Object,
-        value() { return {}; },
+        value: function() { return {}; },
         notify: true,
       },
       hidden: {
         type: Boolean,
         reflectToAttribute: true,
       },
-      noRenderOnPrefsChange: Boolean,
-      comments: Object,
+      _loggedIn: {
+        type: Boolean,
+        value: false,
+      },
       lineWrapping: {
         type: Boolean,
         value: false,
@@ -93,55 +82,15 @@
         value: DiffViewMode.SIDE_BY_SIDE,
         observer: '_viewModeObserver',
       },
-      _loggedIn: {
-        type: Boolean,
-        value: false,
-      },
       _diff: Object,
-      _diffHeaderItems: {
-        type: Array,
-        value: [],
-        computed: '_computeDiffHeaderItems(_diff.*)',
-      },
       _diffTableClass: {
         type: String,
         value: '',
       },
-      /** @type {?Object} */
+      _comments: Object,
       _baseImage: Object,
-      /** @type {?Object} */
       _revisionImage: Object,
-
-      /**
-       * Whether the safety check for large diffs when whole-file is set has
-       * been bypassed. If the value is null, then the safety has not been
-       * bypassed. If the value is a number, then that number represents the
-       * context preference to use when rendering the bypassed diff.
-       *
-       * @type (number|null)
-       */
-      _safetyBypass: {
-        type: Number,
-        value: null,
-      },
-
-      _showWarning: Boolean,
-
-      /** @type {?Object} */
-      _blame: {
-        type: Object,
-        value: null,
-      },
-      isBlameLoaded: {
-        type: Boolean,
-        notify: true,
-        computed: '_computeIsBlameLoaded(_blame)',
-      },
     },
-
-    behaviors: [
-      Gerrit.PatchSetBehavior,
-    ],
 
     listeners: {
       'thread-discard': '_handleThreadDiscard',
@@ -151,43 +100,42 @@
       'create-comment': '_handleCreateComment',
     },
 
-    attached() {
-      this._getLoggedIn().then(loggedIn => {
+    attached: function() {
+      this._getLoggedIn().then(function(loggedIn) {
         this._loggedIn = loggedIn;
-      });
+      }.bind(this));
+
     },
 
-    ready() {
+    ready: function() {
       if (this._canRender()) {
         this.reload();
       }
     },
 
-    /** @return {!Promise} */
-    reload() {
-      this.$.diffBuilder.cancel();
-      this.clearBlame();
-      this._safetyBypass = null;
-      this._showWarning = false;
+    reload: function() {
       this._clearDiffContent();
 
-      const promises = [];
+      var promises = [];
 
-      promises.push(this._getDiff().then(diff => {
+      promises.push(this._getDiff().then(function(diff) {
         this._diff = diff;
         return this._loadDiffAssets();
-      }));
+      }.bind(this)));
 
-      return Promise.all(promises).then(() => {
+      promises.push(this._getDiffCommentsAndDrafts().then(function(comments) {
+        this._comments = comments;
+      }.bind(this)));
+
+      return Promise.all(promises).then(function() {
         if (this.prefs) {
           return this._renderDiffTable();
         }
         return Promise.resolve();
-      });
+      }.bind(this));
     },
 
-    /** @return {!Array<!HTMLElement>} */
-    getCursorStops() {
+    getCursorStops: function() {
       if (this.hidden && this.noAutoRender) {
         return [];
       }
@@ -195,62 +143,43 @@
       return Polymer.dom(this.root).querySelectorAll('.diff-row');
     },
 
-    /** @return {boolean} */
-    isRangeSelected() {
+    addDraftAtLine: function(el) {
+      this._selectLine(el);
+      this._getLoggedIn().then(function(loggedIn) {
+        if (!loggedIn) { return; }
+
+        var value = el.getAttribute('data-value');
+        if (value === GrDiffLine.FILE) {
+          this._addDraft(el);
+          return;
+        }
+        var lineNum = parseInt(value, 10);
+        if (isNaN(lineNum)) {
+          throw Error('Invalid line number: ' + value);
+        }
+        this._addDraft(el, lineNum);
+      }.bind(this));
+    },
+
+    isRangeSelected: function() {
       return this.$.highlights.isRangeSelected();
     },
 
-    toggleLeftDiff() {
+    toggleLeftDiff: function() {
       this.toggleClass('no-left');
     },
 
-    /**
-     * Load and display blame information for the base of the diff.
-     * @return {Promise} A promise that resolves when blame finishes rendering.
-     */
-    loadBlame() {
-      return this.$.restAPI.getBlame(this.changeNum, this.patchRange.patchNum,
-          this.path, true)
-          .then(blame => {
-            if (!blame.length) {
-              this.fire('show-alert', {message: MSG_EMPTY_BLAME});
-              return Promise.reject(MSG_EMPTY_BLAME);
-            }
-
-            this._blame = blame;
-
-            this.$.diffBuilder.setBlame(blame);
-            this.classList.add('showBlame');
-          });
-    },
-
-    _computeIsBlameLoaded(blame) {
-      return !!blame;
-    },
-
-    /**
-     * Unload blame information for the diff.
-     */
-    clearBlame() {
-      this._blame = null;
-      this.$.diffBuilder.setBlame(null);
-      this.classList.remove('showBlame');
-    },
-
-    /** @return {boolean}} */
-    _canRender() {
-      return !!this.changeNum && !!this.patchRange && !!this.path &&
+    _canRender: function() {
+      return this.changeNum && this.patchRange && this.path &&
           !this.noAutoRender;
     },
 
-    /** @return {!Array<!HTMLElement>} */
-    _getCommentThreads() {
+    _getCommentThreads: function() {
       return Polymer.dom(this.root).querySelectorAll('gr-diff-comment-thread');
     },
 
-    /** @return {string} */
-    _computeContainerClass(loggedIn, viewMode, displayLine) {
-      const classes = ['diffContainer'];
+    _computeContainerClass: function(loggedIn, viewMode, displayLine) {
+      var classes = ['diffContainer'];
       switch (viewMode) {
         case DiffViewMode.UNIFIED:
           classes.push('unified');
@@ -261,9 +190,6 @@
         default:
           throw Error('Invalid view mode: ', viewMode);
       }
-      if (Gerrit.hiddenscroll) {
-        classes.push('hiddenscroll');
-      }
       if (loggedIn) {
         classes.push('canComment');
       }
@@ -273,8 +199,8 @@
       return classes.join(' ');
     },
 
-    _handleTap(e) {
-      const el = Polymer.dom(e).rootTarget;
+    _handleTap: function(e) {
+      var el = Polymer.dom(e).rootTarget;
 
       if (el.classList.contains('showContext')) {
         this.$.diffBuilder.showContext(e.detail.groups, e.detail.section);
@@ -283,128 +209,75 @@
       } else if (el.tagName === 'HL' ||
           el.classList.contains('content') ||
           el.classList.contains('contentText')) {
-        const target = this.$.diffBuilder.getLineElByChild(el);
+        var target = this.$.diffBuilder.getLineElByChild(el);
         if (target) { this._selectLine(target); }
       }
     },
 
-    _selectLine(el) {
+    _selectLine: function(el) {
       this.fire('line-selected', {
         side: el.classList.contains('left') ? DiffSide.LEFT : DiffSide.RIGHT,
         number: el.getAttribute('data-value'),
-        path: this.path,
       });
     },
 
-    addDraftAtLine(el) {
-      this._selectLine(el);
-      this._isValidElForComment(el).then(valid => {
-        if (!valid) { return; }
+    _handleCreateComment: function(e) {
+      var range = e.detail.range;
+      var diffSide = e.detail.side;
+      var line = range.endLine;
+      var lineEl = this.$.diffBuilder.getLineElByNumber(line, diffSide);
+      var contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
+      var contentEl = contentText.parentElement;
+      var patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
+      var isOnParent =
+          this._getIsParentCommentByLineAndContent(lineEl, contentEl);
+      var threadEl = this._getOrCreateThreadAtLineRange(contentEl, patchNum,
+          diffSide, isOnParent, range);
 
-        const value = el.getAttribute('data-value');
-        let lineNum;
-        if (value !== GrDiffLine.FILE) {
-          lineNum = parseInt(value, 10);
-          if (isNaN(lineNum)) {
-            this.fire('show-alert', {message: ERR_INVALID_LINE + value});
-            return;
-          }
-        }
-        this._createComment(el, lineNum);
-      });
+      threadEl.addOrEditDraft(line, range);
     },
 
-    _handleCreateComment(e) {
-      const range = e.detail.range;
-      const side = e.detail.side;
-      const lineNum = range.endLine;
-      const lineEl = this.$.diffBuilder.getLineElByNumber(lineNum, side);
-      this._isValidElForComment(lineEl).then(valid => {
-        if (!valid) { return; }
+    _addDraft: function(lineEl, opt_lineNum) {
+      var contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
+      var contentEl = contentText.parentElement;
+      var patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
+      var commentSide = this._getCommentSideByLineAndContent(lineEl, contentEl);
+      var isOnParent =
+          this._getIsParentCommentByLineAndContent(lineEl, contentEl);
+      var threadEl = this._getOrCreateThreadAtLineRange(contentEl, patchNum,
+          commentSide, isOnParent);
 
-        this._createComment(lineEl, lineNum, side, range);
-      });
+      threadEl.addOrEditDraft(opt_lineNum);
     },
 
-    _isValidElForComment(el) {
-      return this._getLoggedIn().then(loggedIn => {
-        if (!loggedIn) {
-          this.fire('show-auth-required');
-          return false;
-        }
-        const patchNum = el.classList.contains(DiffSide.LEFT) ?
-            this.patchRange.basePatchNum :
-            this.patchRange.patchNum;
-
-        if (this.patchNumEquals(patchNum, this.EDIT_NAME)) {
-          this.fire('show-alert', {message: ERR_COMMENT_ON_EDIT});
-          return false;
-        }
-        return true;
-      });
-    },
-
-    /**
-     * @param {!Object} lineEl
-     * @param {number=} opt_lineNum
-     * @param {string=} opt_side
-     * @param {!Object=} opt_range
-     */
-    _createComment(lineEl, opt_lineNum, opt_side, opt_range) {
-      const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
-      const contentEl = contentText.parentElement;
-      const side = opt_side ||
-          this._getCommentSideByLineAndContent(lineEl, contentEl);
-      const patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
-      const isOnParent =
-        this._getIsParentCommentByLineAndContent(lineEl, contentEl);
-      const threadEl = this._getOrCreateThreadAtLineRange(contentEl, patchNum,
-          side, isOnParent, opt_range);
-      threadEl.addOrEditDraft(opt_lineNum, opt_range);
-    },
-
-    _getThreadForRange(threadGroupEl, rangeToCheck) {
+    _getThreadForRange: function(threadGroupEl, rangeToCheck) {
       return threadGroupEl.getThreadForRange(rangeToCheck);
     },
 
-    _getThreadGroupForLine(contentEl) {
+    _getThreadGroupForLine: function(contentEl) {
       return contentEl.querySelector('gr-diff-comment-thread-group');
     },
 
-    /**
-     * @param {string} commentSide
-     * @param {!Object=} opt_range
-     */
-    _getRangeString(commentSide, opt_range) {
-      return opt_range ?
-        'range-' +
-        opt_range.startLine + '-' +
-        opt_range.startChar + '-' +
-        opt_range.endLine + '-' +
-        opt_range.endChar + '-' +
-        commentSide : 'line-' + commentSide;
-    },
-
-    /**
-     * @param {!Object} contentEl
-     * @param {number} patchNum
-     * @param {string} commentSide
-     * @param {boolean} isOnParent
-     * @param {!Object=} opt_range
-     */
-    _getOrCreateThreadAtLineRange(contentEl, patchNum, commentSide,
-        isOnParent, opt_range) {
-      const rangeToCheck = this._getRangeString(commentSide, opt_range);
+    _getOrCreateThreadAtLineRange:
+        function(contentEl, patchNum, commentSide, isOnParent, range) {
+      var rangeToCheck = range ?
+          'range-' +
+          range.startLine + '-' +
+          range.startChar + '-' +
+          range.endLine + '-' +
+          range.endChar + '-' +
+          commentSide : 'line-' + commentSide;
 
       // Check if thread group exists.
-      let threadGroupEl = this._getThreadGroupForLine(contentEl);
+      var threadGroupEl = this._getThreadGroupForLine(contentEl);
       if (!threadGroupEl) {
         threadGroupEl = this.$.diffBuilder.createCommentThreadGroup(
-            this.changeNum, patchNum, this.path, isOnParent);
+          this.changeNum, patchNum, this.path, isOnParent,
+          this.projectConfig);
         contentEl.appendChild(threadGroupEl);
       }
 
-      let threadEl = this._getThreadForRange(threadGroupEl, rangeToCheck);
+      var threadEl = this._getThreadForRange(threadGroupEl, rangeToCheck);
 
       if (!threadEl) {
         threadGroupEl.addNewThread(rangeToCheck, commentSide);
@@ -415,9 +288,8 @@
       return threadEl;
     },
 
-    /** @return {number} */
-    _getPatchNumByLineAndContent(lineEl, contentEl) {
-      let patchNum = this.patchRange.patchNum;
+    _getPatchNumByLineAndContent: function(lineEl, contentEl) {
+      var patchNum = this.patchRange.patchNum;
       if ((lineEl.classList.contains(DiffSide.LEFT) ||
           contentEl.classList.contains('remove')) &&
           this.patchRange.basePatchNum !== 'PARENT') {
@@ -426,9 +298,8 @@
       return patchNum;
     },
 
-    /** @return {boolean} */
-    _getIsParentCommentByLineAndContent(lineEl, contentEl) {
-      let isOnParent = false;
+    _getIsParentCommentByLineAndContent: function(lineEl, contentEl) {
+      var isOnParent = false;
       if ((lineEl.classList.contains(DiffSide.LEFT) ||
           contentEl.classList.contains('remove')) &&
           this.patchRange.basePatchNum === 'PARENT') {
@@ -437,9 +308,8 @@
       return isOnParent;
     },
 
-    /** @return {string} */
-    _getCommentSideByLineAndContent(lineEl, contentEl) {
-      let side = 'right';
+    _getCommentSideByLineAndContent: function(lineEl, contentEl) {
+      var side = 'right';
       if (lineEl.classList.contains(DiffSide.LEFT) ||
           contentEl.classList.contains('remove')) {
         side = 'left';
@@ -447,83 +317,75 @@
       return side;
     },
 
-    _handleThreadDiscard(e) {
-      const el = Polymer.dom(e).rootTarget;
+    _handleThreadDiscard: function(e) {
+      var el = Polymer.dom(e).rootTarget;
       el.parentNode.removeThread(el.locationRange);
     },
 
-    _handleCommentDiscard(e) {
-      const comment = e.detail.comment;
-      this._removeComment(comment);
+    _handleCommentDiscard: function(e) {
+      var comment = e.detail.comment;
+      this._removeComment(comment, e.detail.patchNum);
     },
 
-    _removeComment(comment) {
-      const side = comment.__commentSide;
+    _removeComment: function(comment, opt_patchNum) {
+      var side = comment.__commentSide;
       this._removeCommentFromSide(comment, side);
     },
 
-    _handleCommentSave(e) {
-      const comment = e.detail.comment;
-      const side = e.detail.comment.__commentSide;
-      const idx = this._findDraftIndex(comment, side);
-      this.set(['comments', side, idx], comment);
+    _handleCommentSave: function(e) {
+      var comment = e.detail.comment;
+      var side = e.detail.comment.__commentSide;
+      var idx = this._findDraftIndex(comment, side);
+      this.set(['_comments', side, idx], comment);
     },
 
-    /**
-     * Closure annotation for Polymer.prototype.push is off. Submitted PR:
-     * https://github.com/Polymer/polymer/pull/4776
-     * but for not supressing annotations.
-     *
-     * @suppress {checkTypes} */
-    _handleCommentUpdate(e) {
-      const comment = e.detail.comment;
-      const side = e.detail.comment.__commentSide;
-      let idx = this._findCommentIndex(comment, side);
+    _handleCommentUpdate: function(e) {
+      var comment = e.detail.comment;
+      var side = e.detail.comment.__commentSide;
+      var idx = this._findCommentIndex(comment, side);
       if (idx === -1) {
         idx = this._findDraftIndex(comment, side);
       }
       if (idx !== -1) { // Update draft or comment.
-        this.set(['comments', side, idx], comment);
+        this.set(['_comments', side, idx], comment);
       } else { // Create new draft.
-        this.push(['comments', side], comment);
+        this.push(['_comments', side], comment);
       }
     },
 
-    _removeCommentFromSide(comment, side) {
-      let idx = this._findCommentIndex(comment, side);
+    _removeCommentFromSide: function(comment, side) {
+      var idx = this._findCommentIndex(comment, side);
       if (idx === -1) {
         idx = this._findDraftIndex(comment, side);
       }
       if (idx !== -1) {
-        this.splice('comments.' + side, idx, 1);
+        this.splice('_comments.' + side, idx, 1);
       }
     },
 
-    /** @return {number} */
-    _findCommentIndex(comment, side) {
-      if (!comment.id || !this.comments[side]) {
+    _findCommentIndex: function(comment, side) {
+      if (!comment.id || !this._comments[side]) {
         return -1;
       }
-      return this.comments[side].findIndex(item => {
+      return this._comments[side].findIndex(function(item) {
         return item.id === comment.id;
       });
     },
 
-    /** @return {number} */
-    _findDraftIndex(comment, side) {
-      if (!comment.__draftID || !this.comments[side]) {
+    _findDraftIndex: function(comment, side) {
+      if (!comment.__draftID || !this._comments[side]) {
         return -1;
       }
-      return this.comments[side].findIndex(item => {
+      return this._comments[side].findIndex(function(item) {
         return item.__draftID === comment.__draftID;
       });
     },
 
-    _prefsObserver(newPrefs, oldPrefs) {
+    _prefsObserver: function(newPrefs, oldPrefs) {
       // Scan the preference objects one level deep to see if they differ.
-      let differ = !oldPrefs;
+      var differ = !oldPrefs;
       if (newPrefs && oldPrefs) {
-        for (const key in newPrefs) {
+        for (var key in newPrefs) {
           if (newPrefs[key] !== oldPrefs[key]) {
             differ = true;
           }
@@ -535,118 +397,158 @@
       }
     },
 
-    _viewModeObserver() {
+    _viewModeObserver: function() {
       this._prefsChanged(this.prefs);
     },
 
-    _lineWrappingObserver() {
+    _lineWrappingObserver: function() {
       this._prefsChanged(this.prefs);
     },
 
-    _prefsChanged(prefs) {
+    _prefsChanged: function(prefs) {
       if (!prefs) { return; }
-
-      this.clearBlame();
-
-      const stylesToUpdate = {};
-
       if (prefs.line_wrapping) {
         this._diffTableClass = 'full-width';
         if (this.viewMode === 'SIDE_BY_SIDE') {
-          stylesToUpdate['--content-width'] = 'none';
+          this.customStyle['--content-width'] = 'none';
         }
       } else {
         this._diffTableClass = '';
-        stylesToUpdate['--content-width'] = prefs.line_length + 'ch';
+        this.customStyle['--content-width'] = prefs.line_length + 'ch';
       }
 
-      if (prefs.font_size) {
-        stylesToUpdate['--font-size'] = prefs.font_size + 'px';
+      if (!!prefs.font_size) {
+        this.customStyle['--font-size'] = prefs.font_size + 'px';
       }
 
-      this.updateStyles(stylesToUpdate);
+      this.updateStyles();
 
-      if (this._diff && this.comments && !this.noRenderOnPrefsChange) {
+      if (this._diff && this._comments) {
         this._renderDiffTable();
       }
     },
 
-    _renderDiffTable() {
-      if (this.prefs.context === -1 &&
-          this._diffLength(this._diff) >= LARGE_DIFF_THRESHOLD_LINES &&
-          this._safetyBypass === null) {
-        this._showWarning = true;
-        return Promise.resolve();
-      }
-
-      this._showWarning = false;
-      return this.$.diffBuilder.render(this.comments, this._getBypassPrefs());
+    _renderDiffTable: function() {
+      return this.$.diffBuilder.render(this._comments, this.prefs);
     },
 
-    /**
-     * Get the preferences object including the safety bypass context (if any).
-     */
-    _getBypassPrefs() {
-      if (this._safetyBypass !== null) {
-        return Object.assign({}, this.prefs, {context: this._safetyBypass});
-      }
-      return this.prefs;
-    },
-
-    _clearDiffContent() {
+    _clearDiffContent: function() {
       this.$.diffTable.innerHTML = null;
     },
 
-    _handleGetDiffError(response) {
+    _handleGetDiffError: function(response) {
       // Loading the diff may respond with 409 if the file is too large. In this
       // case, use a toast error..
       if (response.status === 409) {
-        this.fire('server-error', {response});
+        this.fire('server-error', {response: response});
         return;
       }
-      this.fire('page-error', {response});
+      this.fire('page-error', {response: response});
     },
 
-    /** @return {!Promise<!Object>} */
-    _getDiff() {
+    _getDiff: function() {
       return this.$.restAPI.getDiff(
           this.changeNum,
           this.patchRange.basePatchNum,
           this.patchRange.patchNum,
           this.path,
-          this._handleGetDiffError.bind(this)).then(diff => {
+          this._handleGetDiffError.bind(this)).then(function(diff) {
             this.filesWeblinks = {
               meta_a: diff && diff.meta_a && diff.meta_a.web_links,
               meta_b: diff && diff.meta_b && diff.meta_b.web_links,
             };
             return diff;
-          });
+          }.bind(this));
     },
 
-    /** @return {!Promise} */
-    _getLoggedIn() {
+    _getDiffComments: function() {
+      return this.$.restAPI.getDiffComments(
+          this.changeNum,
+          this.patchRange.basePatchNum,
+          this.patchRange.patchNum,
+          this.path);
+    },
+
+    _getDiffDrafts: function() {
+      return this._getLoggedIn().then(function(loggedIn) {
+        if (!loggedIn) {
+          return Promise.resolve({baseComments: [], comments: []});
+        }
+        return this.$.restAPI.getDiffDrafts(
+            this.changeNum,
+            this.patchRange.basePatchNum,
+            this.patchRange.patchNum,
+            this.path);
+      }.bind(this));
+    },
+
+    _getDiffRobotComments: function() {
+      return this.$.restAPI.getDiffRobotComments(
+          this.changeNum,
+          this.patchRange.basePatchNum,
+          this.patchRange.patchNum,
+          this.path);
+    },
+
+    _getDiffCommentsAndDrafts: function() {
+      var promises = [];
+      promises.push(this._getDiffComments());
+      promises.push(this._getDiffDrafts());
+      promises.push(this._getDiffRobotComments());
+      return Promise.all(promises).then(function(results) {
+        return Promise.resolve({
+          comments: results[0],
+          drafts: results[1],
+          robotComments: results[2],
+        });
+      }).then(this._normalizeDiffCommentsAndDrafts.bind(this));
+    },
+
+    _normalizeDiffCommentsAndDrafts: function(results) {
+      function markAsDraft(d) {
+        d.__draft = true;
+        return d;
+      }
+      var baseDrafts = results.drafts.baseComments.map(markAsDraft);
+      var drafts = results.drafts.comments.map(markAsDraft);
+
+      var baseRobotComments = results.robotComments.baseComments;
+      var robotComments = results.robotComments.comments;
+      return Promise.resolve({
+        meta: {
+          path: this.path,
+          changeNum: this.changeNum,
+          patchRange: this.patchRange,
+          projectConfig: this.projectConfig,
+        },
+        left: results.comments.baseComments.concat(baseDrafts)
+            .concat(baseRobotComments),
+        right: results.comments.comments.concat(drafts)
+            .concat(robotComments),
+      });
+    },
+
+    _getLoggedIn: function() {
       return this.$.restAPI.getLoggedIn();
     },
 
-    /** @return {boolean} */
-    _computeIsImageDiff() {
+    _computeIsImageDiff: function() {
       if (!this._diff) { return false; }
 
-      const isA = this._diff.meta_a &&
-          this._diff.meta_a.content_type.startsWith('image/');
-      const isB = this._diff.meta_b &&
-          this._diff.meta_b.content_type.startsWith('image/');
+      var isA = this._diff.meta_a &&
+          this._diff.meta_a.content_type.indexOf('image/') === 0;
+      var isB = this._diff.meta_b &&
+          this._diff.meta_b.content_type.indexOf('image/') === 0;
 
-      return !!(this._diff.binary && (isA || isB));
+      return this._diff.binary && (isA || isB);
     },
 
-    /** @return {!Promise} */
-    _loadDiffAssets() {
+    _loadDiffAssets: function() {
       if (this.isImageDiff) {
-        return this._getImages().then(images => {
+        return this._getImages().then(function(images) {
           this._baseImage = images.baseImage;
           this._revisionImage = images.revisionImage;
-        });
+        }.bind(this));
       } else {
         this._baseImage = null;
         this._revisionImage = null;
@@ -654,68 +556,16 @@
       }
     },
 
-    /** @return {!Promise} */
-    _getImages() {
-      return this.$.restAPI.getImagesForDiff(this.changeNum, this._diff,
-          this.patchRange);
+    _getImages: function() {
+      return this.$.restAPI.getImagesForDiff(this.project, this.commit,
+          this.changeNum, this._diff, this.patchRange);
     },
 
-    _projectConfigChanged(projectConfig) {
-      const threadEls = this._getCommentThreads();
-      for (let i = 0; i < threadEls.length; i++) {
+    _projectConfigChanged: function(projectConfig) {
+      var threadEls = this._getCommentThreads();
+      for (var i = 0; i < threadEls.length; i++) {
         threadEls[i].projectConfig = projectConfig;
       }
-    },
-
-    /** @return {!Array} */
-    _computeDiffHeaderItems(diffInfoRecord) {
-      const diffInfo = diffInfoRecord.base;
-      if (!diffInfo || !diffInfo.diff_header || diffInfo.binary) { return []; }
-      return diffInfo.diff_header.filter(item => {
-        return !(item.startsWith('diff --git ') ||
-            item.startsWith('index ') ||
-            item.startsWith('+++ ') ||
-            item.startsWith('--- '));
-      });
-    },
-
-    /** @return {boolean} */
-    _computeDiffHeaderHidden(items) {
-      return items.length === 0;
-    },
-
-    /**
-     * The number of lines in the diff. For delta chunks that are different
-     * sizes on the left and the right, the longer side is used.
-     * @param {!Object} diff
-     * @return {number}
-     */
-    _diffLength(diff) {
-      return diff.content.reduce((sum, sec) => {
-        if (sec.hasOwnProperty('ab')) {
-          return sum + sec.ab.length;
-        } else {
-          return sum + Math.max(
-              sec.hasOwnProperty('a') ? sec.a.length : 0,
-              sec.hasOwnProperty('b') ? sec.b.length : 0
-          );
-        }
-      }, 0);
-    },
-
-    _handleFullBypass() {
-      this._safetyBypass = FULL_CONTEXT;
-      this._renderDiffTable();
-    },
-
-    _handleLimitedBypass() {
-      this._safetyBypass = LIMITED_CONTEXT;
-      this._renderDiffTable();
-    },
-
-    /** @return {string} */
-    _computeWarningClass(showWarning) {
-      return showWarning ? 'warn' : '';
     },
   });
 })();

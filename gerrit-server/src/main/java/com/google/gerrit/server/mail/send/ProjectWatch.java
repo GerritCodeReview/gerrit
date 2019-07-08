@@ -16,12 +16,11 @@ package com.google.gerrit.server.mail.send;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.common.errors.NoSuchGroupException;
-import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -32,6 +31,8 @@ import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gerrit.server.git.NotifyConfig;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.SingleGroupUser;
@@ -103,7 +104,7 @@ public class ProjectWatch {
           } catch (QueryParseException e) {
             log.warn(
                 "Project {} has invalid notify {} filter \"{}\": {}",
-                state.getName(),
+                state.getProject().getName(),
                 nc.getName(),
                 nc.getFilter(),
                 e.getMessage());
@@ -140,7 +141,7 @@ public class ProjectWatch {
 
   private void add(Watchers matching, NotifyConfig nc) throws OrmException, QueryParseException {
     for (GroupReference ref : nc.getGroups()) {
-      CurrentUser user = new SingleGroupUser(ref.getUUID());
+      CurrentUser user = new SingleGroupUser(args.capabilityControlFactory, ref.getUUID());
       if (filterMatch(user, nc.getFilter())) {
         deliverToMembers(matching.list(nc.getHeader()), ref.getUUID());
       }
@@ -165,25 +166,20 @@ public class ProjectWatch {
     while (!q.isEmpty()) {
       AccountGroup.UUID uuid = q.remove(q.size() - 1);
       GroupDescription.Basic group = args.groupBackend.get(uuid);
-      if (group == null) {
-        continue;
-      }
       if (!Strings.isNullOrEmpty(group.getEmailAddress())) {
         // If the group has an email address, do not expand membership.
         matching.emails.add(new Address(group.getEmailAddress()));
         continue;
       }
 
-      if (!(group instanceof GroupDescription.Internal)) {
+      AccountGroup ig = GroupDescriptions.toAccountGroup(group);
+      if (ig == null) {
         // Non-internal groups cannot be expanded by the server.
         continue;
       }
 
-      GroupDescription.Internal ig = (GroupDescription.Internal) group;
-      try {
-        args.groups.getMembers(db, ig.getGroupUUID()).forEach(matching.accounts::add);
-      } catch (NoSuchGroupException e) {
-        continue;
+      for (AccountGroupMember m : db.accountGroupMembers().byGroup(ig.getId())) {
+        matching.accounts.add(m.getAccountId());
       }
       for (AccountGroup.UUID m : args.groupIncludes.subgroupsOf(uuid)) {
         if (seen.add(m)) {

@@ -17,17 +17,15 @@ limitations under the License.
 (function(window) {
   'use strict';
 
-  window.Gerrit = window.Gerrit || {};
-
   /** @polymerBehavior Gerrit.URLEncodingBehavior */
-  Gerrit.URLEncodingBehavior = {
+  var URLEncodingBehavior = {
     /**
      * Pretty-encodes a URL. Double-encodes the string, and then replaces
      *   benevolent characters for legibility.
      */
-    encodeURL(url, replaceSlashes) {
+    encodeURL: function(url, replaceSlashes) {
       // @see Issue 4255 regarding double-encoding.
-      let output = encodeURIComponent(encodeURIComponent(url));
+      var output = encodeURIComponent(encodeURIComponent(url));
       // @see Issue 4577 regarding more readable URLs.
       output = output.replace(/%253A/g, ':');
       output = output.replace(/%2520/g, '+');
@@ -37,5 +35,8 @@ limitations under the License.
       return output;
     },
   };
+
+  window.Gerrit = window.Gerrit || {};
+  window.Gerrit.URLEncodingBehavior = URLEncodingBehavior;
 })(window);
 </script>

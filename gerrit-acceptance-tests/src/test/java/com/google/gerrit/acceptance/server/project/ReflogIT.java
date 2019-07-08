@@ -15,8 +15,6 @@
 package com.google.gerrit.acceptance.server.project;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
-import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -28,37 +26,12 @@ import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.ReflogEntryInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.Util;
-import java.io.File;
 import java.util.List;
-import org.eclipse.jgit.lib.ReflogEntry;
-import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
 
 public class ReflogIT extends AbstractDaemonTest {
-  @Test
-  @UseLocalDisk
-  public void guessRestApiInReflog() throws Exception {
-    assume().that(notesMigration.disableChangeReviewDb()).isTrue();
-    PushOneCommit.Result r = createChange();
-    Change.Id id = r.getChange().getId();
-
-    try (Repository repo = repoManager.openRepository(r.getChange().project())) {
-      File log = new File(repo.getDirectory(), "logs/" + changeMetaRef(id));
-      if (!log.exists()) {
-        log.getParentFile().mkdirs();
-        assertThat(log.createNewFile()).isTrue();
-      }
-
-      gApi.changes().id(id.get()).topic("foo");
-      ReflogEntry last = repo.getReflogReader(changeMetaRef(id)).getLastEntry();
-      assertThat(last).named("last RefLogEntry").isNotNull();
-      assertThat(last.getComment()).isEqualTo("change.PutTopic");
-    }
-  }
-
   @Test
   @UseLocalDisk
   public void reflogUpdatedBySubmittingChange() throws Exception {

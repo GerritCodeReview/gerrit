@@ -18,12 +18,10 @@ import com.google.gerrit.server.securestore.SecureStore;
 import org.eclipse.jgit.lib.Config;
 
 class GerritConfig extends Config {
-  private final Config gerritConfig;
   private final SecureStore secureStore;
 
-  GerritConfig(Config noteDbConfigOverGerritConfig, Config gerritConfig, SecureStore secureStore) {
-    super(noteDbConfigOverGerritConfig);
-    this.gerritConfig = gerritConfig;
+  GerritConfig(Config baseConfig, SecureStore secureStore) {
+    super(baseConfig);
     this.secureStore = secureStore;
   }
 
@@ -43,12 +41,5 @@ class GerritConfig extends Config {
       return secure;
     }
     return super.getStringList(section, subsection, name);
-  }
-
-  @Override
-  public String toText() {
-    // Only show the contents of gerrit.config, hiding the implementation detail that some values
-    // may come from secure.config (or another secure store) and notedb.config.
-    return gerritConfig.toText();
   }
 }

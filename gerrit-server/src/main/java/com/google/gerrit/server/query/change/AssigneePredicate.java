@@ -18,16 +18,16 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
-public class AssigneePredicate extends ChangeIndexPredicate {
-  protected final Account.Id id;
+class AssigneePredicate extends ChangeIndexPredicate {
+  private final Account.Id id;
 
-  public AssigneePredicate(Account.Id id) {
+  AssigneePredicate(Account.Id id) {
     super(ChangeField.ASSIGNEE, id.toString());
     this.id = id;
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
+  public boolean match(final ChangeData object) throws OrmException {
     if (id.get() == ChangeField.NO_ASSIGNEE) {
       Account.Id assignee = object.change().getAssignee();
       return assignee == null;

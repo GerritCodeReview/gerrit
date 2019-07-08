@@ -24,7 +24,7 @@ import javax.servlet.Filter;
 
 /** Configures filter for authenticating REST requests. */
 public class GerritAuthModule extends ServletModule {
-  static final String NOT_AUTHORIZED_LFS_URL_REGEX = "^(?:(?!/a/))" + LFS_URL_WO_AUTH_REGEX;
+  private static final String NOT_AUTHORIZED_LFS_URL_REGEX = "^(?:(?!/a/))" + LFS_URL_WO_AUTH_REGEX;
   private final AuthConfig authConfig;
 
   @Inject

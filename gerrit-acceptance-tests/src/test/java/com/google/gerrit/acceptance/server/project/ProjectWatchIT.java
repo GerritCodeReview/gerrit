@@ -23,6 +23,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
@@ -38,6 +39,7 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.inject.Inject;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
@@ -94,7 +96,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void noNotificationForPrivateChangesForWatchersInNotifyConfig() throws Exception {
+  public void noNotificationForDraftChangesForWatchersInNotifyConfig() throws Exception {
     Address addr = new Address("Watcher", "watcher@example.com");
     NotifyConfig nc = new NotifyConfig();
     nc.addEmail(addr);
@@ -106,11 +108,10 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     cfg.putNotifyConfig("team", nc);
     saveProjectConfig(project, cfg);
 
-    sender.clear();
     PushOneCommit.Result r =
         pushFactory
-            .create(db, admin.getIdent(), testRepo, "private change", "a", "a1")
-            .to("refs/for/master%private");
+            .create(db, admin.getIdent(), testRepo, "draft change", "a", "a1")
+            .to("refs/for/master%draft");
     r.assertOkStatus();
 
     assertThat(sender.getMessages()).isEmpty();
@@ -124,14 +125,13 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void noNotificationForChangeThatIsTurnedPrivateForWatchersInNotifyConfig()
-      throws Exception {
+  public void noNotificationForDraftPatchSetsForWatchersInNotifyConfig() throws Exception {
     Address addr = new Address("Watcher", "watcher@example.com");
     NotifyConfig nc = new NotifyConfig();
     nc.addEmail(addr);
     nc.setName("team");
     nc.setHeader(NotifyConfig.Header.TO);
-    nc.setTypes(EnumSet.of(NotifyType.NEW_PATCHSETS));
+    nc.setTypes(EnumSet.of(NotifyType.NEW_PATCHSETS, NotifyType.ALL_COMMENTS));
 
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     cfg.putNotifyConfig("team", nc);
@@ -148,30 +148,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     r =
         pushFactory
             .create(db, admin.getIdent(), testRepo, "subject", "a", "a2", r.getChangeId())
-            .to("refs/for/master%private");
-    r.assertOkStatus();
-
-    assertThat(sender.getMessages()).isEmpty();
-  }
-
-  @Test
-  public void noNotificationForWipChangesForWatchersInNotifyConfig() throws Exception {
-    Address addr = new Address("Watcher", "watcher@example.com");
-    NotifyConfig nc = new NotifyConfig();
-    nc.addEmail(addr);
-    nc.setName("team");
-    nc.setHeader(NotifyConfig.Header.TO);
-    nc.setTypes(EnumSet.of(NotifyType.NEW_CHANGES, NotifyType.ALL_COMMENTS));
-
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.putNotifyConfig("team", nc);
-    saveProjectConfig(project, cfg);
-
-    sender.clear();
-    PushOneCommit.Result r =
-        pushFactory
-            .create(db, admin.getIdent(), testRepo, "wip change", "a", "a1")
-            .to("refs/for/master%wip");
+            .to("refs/for/master%draft");
     r.assertOkStatus();
 
     assertThat(sender.getMessages()).isEmpty();
@@ -180,36 +157,6 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     ReviewInput in = new ReviewInput();
     in.message = "comment";
     gApi.changes().id(r.getChangeId()).current().review(in);
-
-    assertThat(sender.getMessages()).isEmpty();
-  }
-
-  @Test
-  public void noNotificationForChangeThatIsTurnedWipForWatchersInNotifyConfig() throws Exception {
-    Address addr = new Address("Watcher", "watcher@example.com");
-    NotifyConfig nc = new NotifyConfig();
-    nc.addEmail(addr);
-    nc.setName("team");
-    nc.setHeader(NotifyConfig.Header.TO);
-    nc.setTypes(EnumSet.of(NotifyType.NEW_PATCHSETS));
-
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.putNotifyConfig("team", nc);
-    saveProjectConfig(project, cfg);
-
-    PushOneCommit.Result r =
-        pushFactory
-            .create(db, admin.getIdent(), testRepo, "subject", "a", "a1")
-            .to("refs/for/master");
-    r.assertOkStatus();
-
-    sender.clear();
-
-    r =
-        pushFactory
-            .create(db, admin.getIdent(), testRepo, "subject", "a", "a2", r.getChangeId())
-            .to("refs/for/master%wip");
-    r.assertOkStatus();
 
     assertThat(sender.getMessages()).isEmpty();
   }
@@ -219,7 +166,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // watch project
     String watchedProject = createProject("watchedProject").get();
     setApiUser(user);
-    watch(watchedProject);
+    watch(watchedProject, null);
 
     // push a change to watched project -> should trigger email notification
     setApiUser(admin);
@@ -261,7 +208,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     watch(watchedProject, "file:a.txt");
 
     // watch other project as user
-    watch(otherWatchedProject);
+    watch(otherWatchedProject, null);
 
     // push a change to watched file -> should trigger email notification for
     // user
@@ -284,9 +231,9 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     sender.clear();
 
     // watch project as user2
-    TestAccount user2 = accountCreator.create("user2", "user2@test.com", "User2");
+    TestAccount user2 = accounts.create("user2", "user2@test.com", "User2");
     setApiUser(user2);
-    watch(watchedProject);
+    watch(watchedProject, null);
 
     // push a change to non-watched file -> should not trigger email
     // notification for user, only for user2
@@ -350,7 +297,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     setApiUser(user);
 
     // watch the All-Projects project to watch all projects
-    watch(allProjects.get());
+    watch(allProjects.get(), null);
 
     // push a change to any project -> should trigger email notification
     setApiUser(admin);
@@ -401,9 +348,9 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     sender.clear();
 
     // watch project as user2
-    TestAccount user2 = accountCreator.create("user2", "user2@test.com", "User2");
+    TestAccount user2 = accounts.create("user2", "user2@test.com", "User2");
     setApiUser(user2);
-    watch(anyProject);
+    watch(anyProject, null);
 
     // push a change to non-watched file in any project -> should not trigger
     // email notification for user, only for user2
@@ -463,11 +410,75 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void watchProjectNoNotificationForDraftChange() throws Exception {
+    // watch project
+    String watchedProject = createProject("watchedProject").get();
+    setApiUser(user);
+    watch(watchedProject, null);
+
+    // push a draft change to watched project -> should not trigger email notification
+    setApiUser(admin);
+    TestRepository<InMemoryRepository> watchedRepo =
+        cloneProject(new Project.NameKey(watchedProject), admin);
+    PushOneCommit.Result r =
+        pushFactory
+            .create(db, admin.getIdent(), watchedRepo, "draft change", "a", "a1")
+            .to("refs/for/master%draft");
+    r.assertOkStatus();
+
+    // assert email notification
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void watchProjectNotifyOnDraftChange() throws Exception {
+    String watchedProject = createProject("watchedProject").get();
+
+    // create group that can view all drafts
+    GroupInfo groupThatCanViewDrafts = gApi.groups().create("groupThatCanViewDrafts").get();
+    grant(
+        Permission.VIEW_DRAFTS,
+        new Project.NameKey(watchedProject),
+        "refs/*",
+        false,
+        new AccountGroup.UUID(groupThatCanViewDrafts.id));
+
+    // watch project as user that can't view drafts
+    setApiUser(user);
+    watch(watchedProject, null);
+
+    // watch project as user that can view all drafts
+    TestAccount userThatCanViewDrafts =
+        accounts.create("user2", "user2@test.com", "User2", groupThatCanViewDrafts.name);
+    setApiUser(userThatCanViewDrafts);
+    watch(watchedProject, null);
+
+    // push a draft change to watched project -> should trigger email notification for
+    // userThatCanViewDrafts, but not for user
+    setApiUser(admin);
+    TestRepository<InMemoryRepository> watchedRepo =
+        cloneProject(new Project.NameKey(watchedProject), admin);
+    PushOneCommit.Result r =
+        pushFactory
+            .create(db, admin.getIdent(), watchedRepo, "TRIGGER", "a", "a1")
+            .to("refs/for/master%draft");
+    r.assertOkStatus();
+
+    // assert email notification
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    Message m = messages.get(0);
+    assertThat(m.rcpt()).containsExactly(userThatCanViewDrafts.emailAddress);
+    assertThat(m.body()).contains("Change subject: TRIGGER\n");
+    assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
+  }
+
+  @Test
   public void watchProjectNoNotificationForIgnoredChange() throws Exception {
     // watch project
     String watchedProject = createProject("watchedProject").get();
     setApiUser(user);
-    watch(watchedProject);
+    watch(watchedProject, null);
 
     // push a change to watched project
     setApiUser(admin);
@@ -509,7 +520,9 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   @Test
   public void deleteAllProjectWatchesIfWatchConfigIsTheOnlyFileInUserBranch() throws Exception {
     // Create account that has no files in its refs/users/ branch.
-    Account.Id id = accountCreator.create().id;
+    Account.Id id = new Account.Id(db.nextAccountId());
+    Account a = new Account(id, TimeUtil.nowTs());
+    db.accounts().insert(Collections.singleton(a));
 
     // Add a project watch so that a watch.config file in the refs/users/ branch is created.
     Map<ProjectWatchKey, Set<NotifyType>> watches = new HashMap<>();
@@ -521,71 +534,5 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // deleted.
     watchConfig.deleteAllProjectWatches(id);
     assertThat(watchConfig.getProjectWatches(id)).isEmpty();
-  }
-
-  @Test
-  public void watchProjectNoNotificationForPrivateChange() throws Exception {
-    // watch project
-    String watchedProject = createProject("watchedProject").get();
-    setApiUser(user);
-    watch(watchedProject);
-
-    // push a private change to watched project -> should not trigger email notification
-    setApiUser(admin);
-    TestRepository<InMemoryRepository> watchedRepo =
-        cloneProject(new Project.NameKey(watchedProject), admin);
-    PushOneCommit.Result r =
-        pushFactory
-            .create(db, admin.getIdent(), watchedRepo, "private change", "a", "a1")
-            .to("refs/for/master%private");
-    r.assertOkStatus();
-
-    // assert email notification
-    assertThat(sender.getMessages()).isEmpty();
-  }
-
-  @Test
-  public void watchProjectNotifyOnPrivateChange() throws Exception {
-    String watchedProject = createProject("watchedProject").get();
-
-    // create group that can view all private changes
-    GroupInfo groupThatCanViewPrivateChanges =
-        gApi.groups().create("groupThatCanViewPrivateChanges").get();
-    grant(
-        new Project.NameKey(watchedProject),
-        "refs/*",
-        Permission.VIEW_PRIVATE_CHANGES,
-        false,
-        new AccountGroup.UUID(groupThatCanViewPrivateChanges.id));
-
-    // watch project as user that can't view private changes
-    setApiUser(user);
-    watch(watchedProject);
-
-    // watch project as user that can view all private change
-    TestAccount userThatCanViewPrivateChanges =
-        accountCreator.create(
-            "user2", "user2@test.com", "User2", groupThatCanViewPrivateChanges.name);
-    setApiUser(userThatCanViewPrivateChanges);
-    watch(watchedProject);
-
-    // push a private change to watched project -> should trigger email notification for
-    // userThatCanViewPrivateChanges, but not for user
-    setApiUser(admin);
-    TestRepository<InMemoryRepository> watchedRepo =
-        cloneProject(new Project.NameKey(watchedProject), admin);
-    PushOneCommit.Result r =
-        pushFactory
-            .create(db, admin.getIdent(), watchedRepo, "TRIGGER", "a", "a1")
-            .to("refs/for/master%private");
-    r.assertOkStatus();
-
-    // assert email notification
-    List<Message> messages = sender.getMessages();
-    assertThat(messages).hasSize(1);
-    Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(userThatCanViewPrivateChanges.emailAddress);
-    assertThat(m.body()).contains("Change subject: TRIGGER\n");
-    assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
   }
 }

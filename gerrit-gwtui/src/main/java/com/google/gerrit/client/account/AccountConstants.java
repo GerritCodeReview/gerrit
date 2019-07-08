@@ -67,10 +67,6 @@ public interface AccountConstants extends Constants {
 
   String signedOffBy();
 
-  String publishCommentsOnPush();
-
-  String workInProgressByDefault();
-
   String myMenu();
 
   String myMenuInfo();
@@ -242,10 +238,6 @@ public interface AccountConstants extends Constants {
   String descRegisterNewEmail();
 
   String errorDialogTitleRegisterNewEmail();
-
-  String emailFilterHelpTitle();
-
-  String emailFilterHelp();
 
   String newAgreement();
 

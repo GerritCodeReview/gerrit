@@ -44,15 +44,11 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.IllegalAnnotationError;
@@ -62,10 +58,8 @@ import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.spi.BooleanOptionHandler;
 import org.kohsuke.args4j.spi.EnumOptionHandler;
 import org.kohsuke.args4j.spi.FieldSetter;
-import org.kohsuke.args4j.spi.MethodSetter;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Setter;
-import org.kohsuke.args4j.spi.Setters;
 
 /**
  * Extended command line parser which handles --foo=value arguments.
@@ -197,7 +191,7 @@ public class CmdLineParser {
     return parser.help.value;
   }
 
-  public void parseArgument(String... args) throws CmdLineException {
+  public void parseArgument(final String... args) throws CmdLineException {
     List<String> tmp = Lists.newArrayListWithCapacity(args.length);
     for (int argi = 0; argi < args.length; argi++) {
       final String str = args[argi];
@@ -234,7 +228,7 @@ public class CmdLineParser {
 
   public void parseOptionMap(ListMultimap<String, String> params) throws CmdLineException {
     List<String> tmp = Lists.newArrayListWithCapacity(2 * params.size());
-    for (String key : params.keySet()) {
+    for (final String key : params.keySet()) {
       String name = makeOption(key);
 
       if (isBoolean(name)) {
@@ -257,10 +251,6 @@ public class CmdLineParser {
 
   public boolean isBoolean(String name) {
     return findHandler(makeOption(name)) instanceof BooleanOptionHandler;
-  }
-
-  public void parseWithPrefix(String prefix, Object bean) {
-    parser.parseWithPrefix(prefix, bean);
   }
 
   private String makeOption(String name) {
@@ -323,135 +313,20 @@ public class CmdLineParser {
     throw new CmdLineException(parser, String.format("invalid boolean \"%s=%s\"", name, value));
   }
 
-  private static class PrefixedOption implements Option {
-    String prefix;
-    Option o;
-
-    PrefixedOption(String prefix, Option o) {
-      this.prefix = prefix;
-      this.o = o;
-    }
-
-    @Override
-    public String name() {
-      return getPrefixedName(prefix, o.name());
-    }
-
-    @Override
-    public String[] aliases() {
-      String[] prefixedAliases = new String[o.aliases().length];
-      for (int i = 0; i < prefixedAliases.length; i++) {
-        prefixedAliases[i] = getPrefixedName(prefix, o.aliases()[i]);
-      }
-      return prefixedAliases;
-    }
-
-    @Override
-    public String usage() {
-      return o.usage();
-    }
-
-    @Override
-    public String metaVar() {
-      return o.metaVar();
-    }
-
-    @Override
-    public boolean required() {
-      return o.required();
-    }
-
-    @Override
-    public boolean hidden() {
-      return o.hidden();
-    }
-
-    @SuppressWarnings("rawtypes")
-    @Override
-    public Class<? extends OptionHandler> handler() {
-      return o.handler();
-    }
-
-    @Override
-    public String[] depends() {
-      return o.depends();
-    }
-
-    @Override
-    public Class<? extends Annotation> annotationType() {
-      return o.annotationType();
-    }
-
-    private static String getPrefixedName(String prefix, String name) {
-      return prefix + name;
-    }
-  }
-
   private class MyParser extends org.kohsuke.args4j.CmdLineParser {
     @SuppressWarnings("rawtypes")
     private List<OptionHandler> optionsList;
 
     private HelpOption help;
 
-    MyParser(Object bean) {
+    MyParser(final Object bean) {
       super(bean);
-      parseAdditionalOptions(bean, new HashSet<>());
       ensureOptionsInitialized();
-    }
-
-    // NOTE: Argument annotations on bean are ignored.
-    public void parseWithPrefix(String prefix, Object bean) {
-      parseWithPrefix(prefix, bean, new HashSet<>());
-    }
-
-    private void parseWithPrefix(String prefix, Object bean, Set<Object> parsedBeans) {
-      if (!parsedBeans.add(bean)) {
-        return;
-      }
-      // recursively process all the methods/fields.
-      for (Class<?> c = bean.getClass(); c != null; c = c.getSuperclass()) {
-        for (Method m : c.getDeclaredMethods()) {
-          Option o = m.getAnnotation(Option.class);
-          if (o != null) {
-            addOption(new MethodSetter(this, bean, m), new PrefixedOption(prefix, o));
-          }
-        }
-        for (Field f : c.getDeclaredFields()) {
-          Option o = f.getAnnotation(Option.class);
-          if (o != null) {
-            addOption(Setters.create(f, bean), new PrefixedOption(prefix, o));
-          }
-          if (f.isAnnotationPresent(Options.class)) {
-            try {
-              parseWithPrefix(
-                  prefix + f.getAnnotation(Options.class).prefix(), f.get(bean), parsedBeans);
-            } catch (IllegalAccessException e) {
-              throw new IllegalAnnotationError(e);
-            }
-          }
-        }
-      }
-    }
-
-    private void parseAdditionalOptions(Object bean, Set<Object> parsedBeans) {
-      for (Class<?> c = bean.getClass(); c != null; c = c.getSuperclass()) {
-        for (Field f : c.getDeclaredFields()) {
-          if (f.isAnnotationPresent(Options.class)) {
-            Object additionalBean = null;
-            try {
-              additionalBean = f.get(bean);
-            } catch (IllegalAccessException e) {
-              throw new IllegalAnnotationError(e);
-            }
-            parseWithPrefix(f.getAnnotation(Options.class).prefix(), additionalBean, parsedBeans);
-          }
-        }
-      }
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    protected OptionHandler createOptionHandler(OptionDef option, Setter setter) {
+    protected OptionHandler createOptionHandler(final OptionDef option, final Setter setter) {
       if (isHandlerSpecified(option) || isEnum(setter) || isPrimitive(setter)) {
         return add(super.createOptionHandler(option, setter));
       }
@@ -478,7 +353,7 @@ public class CmdLineParser {
       }
     }
 
-    private boolean isHandlerSpecified(OptionDef option) {
+    private boolean isHandlerSpecified(final OptionDef option) {
       return option.handler() != OptionHandler.class;
     }
 

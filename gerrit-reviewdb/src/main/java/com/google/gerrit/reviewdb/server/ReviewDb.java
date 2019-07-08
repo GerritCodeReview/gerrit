@@ -47,9 +47,11 @@ public interface ReviewDb extends Schema {
 
   // Deleted @Relation(id = 4)
 
-  // Deleted @Relation(id = 6)
+  @Relation(id = 6)
+  AccountAccess accounts();
 
-  // Deleted @Relation(id = 7)
+  @Relation(id = 7)
+  AccountExternalIdAccess accountExternalIds();
 
   // Deleted @Relation(id = 8)
 
@@ -98,15 +100,8 @@ public interface ReviewDb extends Schema {
   @Relation(id = 30)
   AccountGroupByIdAudAccess accountGroupByIdAud();
 
-  int FIRST_ACCOUNT_ID = 1000000;
-
-  /**
-   * Next unique id for a {@link Account}.
-   *
-   * @deprecated use {@link com.google.gerrit.server.Sequences#nextAccountId()}.
-   */
-  @Sequence(startWith = FIRST_ACCOUNT_ID)
-  @Deprecated
+  /** Create the next unique id for an {@link Account}. */
+  @Sequence(startWith = 1000000)
   int nextAccountId() throws OrmException;
 
   /** Next unique id for a {@link AccountGroup}. */
@@ -123,8 +118,4 @@ public interface ReviewDb extends Schema {
   @Sequence(startWith = FIRST_CHANGE_ID)
   @Deprecated
   int nextChangeId() throws OrmException;
-
-  default boolean changesTablesEnabled() {
-    return true;
-  }
 }

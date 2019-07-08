@@ -85,7 +85,7 @@ public class SchemaVersionCheck implements LifecycleListener {
   @Override
   public void stop() {}
 
-  private CurrentSchemaVersion getSchemaVersion(ReviewDb db) {
+  private CurrentSchemaVersion getSchemaVersion(final ReviewDb db) {
     try {
       return db.schemaVersion().get(new CurrentSchemaVersion.Key());
     } catch (OrmException e) {

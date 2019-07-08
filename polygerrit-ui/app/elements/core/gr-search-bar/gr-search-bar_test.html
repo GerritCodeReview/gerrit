@@ -20,9 +20,9 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
 <script src="../../../bower_components/page/page.js"></script>
 
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-search-bar.html">
 <script src="../../../scripts/util.js"></script>
 
@@ -35,32 +35,37 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-search-bar tests', () => {
-    let element;
-    let sandbox;
+  suite('gr-search-bar tests', function() {
+    var element;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
+    setup(function() {
       element = fixture('basic');
     });
 
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('value is propagated to _inputVal', () => {
+    test('value is propagated to _inputVal', function() {
       element.value = 'foo';
       assert.equal(element._inputVal, 'foo');
     });
 
-    getActiveElement = () => {
+    function getActiveElement() {
       return document.activeElement.shadowRoot ?
           document.activeElement.shadowRoot.activeElement :
           document.activeElement;
-    };
+    }
 
-    test('enter in search input triggers nav', done => {
-      sandbox.stub(page, 'show', () => {
+    test('tap on search button triggers nav', function(done) {
+      sinon.stub(page, 'show', function() {
+        page.show.restore();
+        assert.notEqual(getActiveElement(), element.$.searchInput);
+        assert.notEqual(getActiveElement(), element.$.searchButton);
+        done();
+      });
+      element.value = 'test';
+      MockInteractions.tap(element.$.searchButton);
+    });
+
+    test('enter in search input triggers nav', function(done) {
+      sinon.stub(page, 'show', function() {
         page.show.restore();
         assert.notEqual(getActiveElement(), element.$.searchInput);
         assert.notEqual(getActiveElement(), element.$.searchButton);
@@ -71,120 +76,106 @@ limitations under the License.
           null, 'enter');
     });
 
-    test('search query should be double-escaped', () => {
-      const showStub = sandbox.stub(page, 'show');
+    test('search query should be double-escaped', function() {
+      var showStub = sinon.stub(page, 'show');
       element.$.searchInput.text = 'fate/stay';
       MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
           null, 'enter');
       assert.equal(showStub.lastCall.args[0], '/q/fate%252Fstay');
+      showStub.restore();
     });
 
-    test('input blurred after commit', () => {
-      sandbox.stub(page, 'show');
-      const blurSpy = sandbox.spy(element.$.searchInput.$.input, 'blur');
+    test('input blurred after commit', function() {
+      var showStub = sinon.stub(page, 'show');
+      var blurSpy = sinon.spy(element.$.searchInput.$.input, 'blur');
       element.$.searchInput.text = 'fate/stay';
       MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
           null, 'enter');
       assert.isTrue(blurSpy.called);
+      showStub.restore();
+      blurSpy.restore();
     });
 
-    test('empty search query does not trigger nav', () => {
-      const showSpy = sandbox.spy(page, 'show');
+    test('empty search query does not trigger nav', function() {
+      var showSpy = sinon.spy(page, 'show');
       element.value = '';
       MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
           null, 'enter');
       assert.isFalse(showSpy.called);
     });
 
-    test('keyboard shortcuts', () => {
-      const focusSpy = sandbox.spy(element.$.searchInput, 'focus');
-      const selectAllSpy = sandbox.spy(element.$.searchInput, 'selectAll');
+    test('keyboard shortcuts', function() {
+      var focusSpy = sinon.spy(element.$.searchInput, 'focus');
+      var selectAllSpy = sinon.spy(element.$.searchInput, 'selectAll');
       MockInteractions.pressAndReleaseKeyOn(document.body, 191, null, '/');
       assert.isTrue(focusSpy.called);
       assert.isTrue(selectAllSpy.called);
     });
 
-    suite('_getSearchSuggestions', () => {
-      test('Autocompletes accounts', () => {
-        sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
-          Promise.resolve([
+    suite('_getSearchSuggestions', function() {
+      setup(function() {
+        sinon.stub(element.$.restAPI, 'getSuggestedAccounts', function() {
+          return Promise.resolve([
             {
               name: 'fred',
               email: 'fred@goog.co',
             },
-          ])
-        );
-        return element._getSearchSuggestions('owner:fr').then(s => {
-          assert.equal(s[0].value, 'owner:fred@goog.co');
+          ]);
+        });
+        sinon.stub(element.$.restAPI, 'getSuggestedGroups', function() {
+          return Promise.resolve({
+            Polygerrit: 0,
+            gerrit: 0,
+            gerrittest: 0,
+          });
+        });
+        sinon.stub(element.$.restAPI, 'getSuggestedProjects', function() {
+          return Promise.resolve({
+            Polygerrit: 0,
+          });
         });
       });
 
-      test('Inserts self as option when valid', done => {
-        sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
-          Promise.resolve([
-            {
-              name: 'fred',
-              email: 'fred@goog.co',
-            },
-          ])
-        );
-        element._getSearchSuggestions('owner:s').then(s => {
+      teardown(function() {
+        element.$.restAPI.getSuggestedAccounts.restore();
+        element.$.restAPI.getSuggestedGroups.restore();
+        element.$.restAPI.getSuggestedProjects.restore();
+      });
+
+      test('Autocompletes accounts', function(done) {
+        element._getSearchSuggestions('owner:fr').then(function(s) {
+          assert.equal(s[0].value, 'owner:"fred <fred@goog.co>"');
+          done();
+        });
+      });
+
+      test('Inserts self as option when valid', function(done) {
+        element._getSearchSuggestions('owner:s').then(function(s) {
           assert.equal(s[0].value, 'owner:self');
-        }).then(() => {
-          element._getSearchSuggestions('owner:selfs').then(s => {
+        }).then(function() {
+          element._getSearchSuggestions('owner:selfs').then(function(s) {
             assert.notEqual(s[0].value, 'owner:self');
             done();
           });
         });
       });
 
-      test('Inserts me as option when valid', done => {
-        sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
-          Promise.resolve([
-            {
-              name: 'fred',
-              email: 'fred@goog.co',
-            },
-          ])
-        );
-        element._getSearchSuggestions('owner:m').then(s => {
-          assert.equal(s[0].value, 'owner:me');
-        }).then(() => {
-          element._getSearchSuggestions('owner:meme').then(s => {
-            assert.notEqual(s[0].value, 'owner:me');
-            done();
-          });
-        });
-      });
-
-      test('Autocompletes groups', done => {
-        sandbox.stub(element.$.restAPI, 'getSuggestedGroups', () =>
-          Promise.resolve({
-            Polygerrit: 0,
-            gerrit: 0,
-            gerrittest: 0,
-          })
-        );
-        element._getSearchSuggestions('ownerin:pol').then(s => {
+      test('Autocompletes groups', function(done) {
+        element._getSearchSuggestions('ownerin:pol').then(function(s) {
           assert.equal(s[0].value, 'ownerin:Polygerrit');
           done();
         });
       });
 
-      test('Autocompletes projects', done => {
-        sandbox.stub(element.$.restAPI, 'getSuggestedProjects', () =>
-          Promise.resolve({
-            Polygerrit: 0,
-          })
-        );
-        element._getSearchSuggestions('project:pol').then(s => {
+      test('Autocompletes projects', function(done) {
+        element._getSearchSuggestions('project:pol').then(function(s) {
           assert.equal(s[0].value, 'project:Polygerrit');
           done();
         });
       });
 
-      test('Autocompletes simple searches', done => {
-        element._getSearchSuggestions('is:o').then(s => {
+      test('Autocompletes simple searches', function(done) {
+        element._getSearchSuggestions('is:o').then(function(s) {
           assert.equal(s[0].name, 'is:open');
           assert.equal(s[0].value, 'is:open');
           assert.equal(s[1].name, 'is:owner');
@@ -193,71 +184,29 @@ limitations under the License.
         });
       });
 
-      test('Does not autocomplete with no match', done => {
-        element._getSearchSuggestions('asdasdasdasd').then(s => {
+      test('Does not autocomplete with no match', function(done) {
+        element._getSearchSuggestions('asdasdasdasd').then(function(s) {
           assert.equal(s.length, 0);
           done();
         });
       });
 
-      test('Autocomplete doesnt override exact matches to input', done => {
-        sandbox.stub(element.$.restAPI, 'getSuggestedGroups', () =>
-          Promise.resolve({
-            Polygerrit: 0,
-            gerrit: 0,
-            gerrittest: 0,
-          })
-        );
-        element._getSearchSuggestions('ownerin:gerrit').then(s => {
+      test('Autocomplete doesnt override exact matches to input',
+          function(done) {
+        element._getSearchSuggestions('ownerin:gerrit').then(function(s) {
           assert.equal(s[0].value, 'ownerin:gerrit');
           done();
         });
       });
 
-      test('Autocomplete respects spaces', done => {
-        sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
-          Promise.resolve([
-            {
-              name: 'fred',
-              email: 'fred@goog.co',
-            },
-          ])
-        );
-        element._getSearchSuggestions('is:ope').then(s => {
+      test('Autocomplete respects spaces', function(done) {
+        element._getSearchSuggestions('is:ope').then(function(s) {
           assert.equal(s[0].name, 'is:open');
           assert.equal(s[0].value, 'is:open');
-          element._getSearchSuggestions('is:ope ').then(s => {
+          element._getSearchSuggestions('is:ope ').then(function(s) {
             assert.equal(s.length, 0);
             done();
           });
-        });
-      });
-
-      test('Autocompletes accounts with no email', done => {
-        sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
-          Promise.resolve([
-            {
-              name: 'fred',
-            },
-          ])
-        );
-        element._getSearchSuggestions('owner:fr').then(s => {
-          assert.equal(s[0].value, 'owner:"fred"');
-          done();
-        });
-      });
-
-      test('Autocompletes accounts with email', done => {
-        sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
-          Promise.resolve([
-            {
-              email: 'fred@goog.co',
-            },
-          ])
-        );
-        element._getSearchSuggestions('owner:fr').then(s => {
-          assert.equal(s[0].value, 'owner:fred@goog.co');
-          done();
         });
       });
     });

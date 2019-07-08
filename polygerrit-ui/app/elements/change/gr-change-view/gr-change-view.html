@@ -14,17 +14,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
+<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
-<link rel="import" href="../../diff/gr-diff-preferences/gr-diff-preferences.html">
 <link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
+<link rel="import" href="../../shared/gr-select/gr-select.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-change-star/gr-change-star.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-editable-content/gr-editable-content.html">
+<link rel="import" href="../../shared/gr-editable-label/gr-editable-label.html">
 <link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
 <link rel="import" href="../../shared/gr-linked-text/gr-linked-text.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
@@ -35,16 +36,13 @@ limitations under the License.
 <link rel="import" href="../gr-commit-info/gr-commit-info.html">
 <link rel="import" href="../gr-download-dialog/gr-download-dialog.html">
 <link rel="import" href="../gr-file-list/gr-file-list.html">
-<link rel="import" href="../gr-file-list-header/gr-file-list-header.html">
-<link rel="import" href="../gr-included-in-dialog/gr-included-in-dialog.html">
 <link rel="import" href="../gr-messages-list/gr-messages-list.html">
 <link rel="import" href="../gr-related-changes-list/gr-related-changes-list.html">
 <link rel="import" href="../gr-reply-dialog/gr-reply-dialog.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-change-view">
   <template>
-    <style include="shared-styles">
+    <style>
       .container:not(.loading) {
         background-color: var(--view-background-color);
       }
@@ -70,15 +68,10 @@ limitations under the License.
         transition: box-shadow 250ms linear;
         width: 100%;
       }
-      .header.wip {
-        background-color: #fcfad6;
-        border-bottom: 1px solid #ddd;
-        margin-bottom: .5em;
-      }
       .header-title {
         flex: 1;
         font-size: 1.2em;
-        font-family: var(--font-family-bold);
+        font-weight: bold;
       }
       gr-change-star {
         margin-right: .25em;
@@ -114,15 +107,13 @@ limitations under the License.
       }
       .commitMessage {
         font-family: var(--monospace-font-family);
+        max-width: 100ch;
         margin-right: 1em;
         margin-bottom: 1em;
-        max-width: var(--commit-message-max-width, 72ch);;
       }
       .commitMessage gr-linked-text {
+        overflow: auto;
         word-break: break-all;
-      }
-      #commitMessageEditor {
-        min-width: 72ch;
       }
       .editCommitMessage {
         margin-top: 1em;
@@ -143,15 +134,47 @@ limitations under the License.
         flex-direction: column;
         min-width: 0;
       }
-      #commitAndRelated {
+      .commitAndRelated {
         align-content: flex-start;
         display: flex;
         flex: 1;
         overflow-x: hidden;
       }
+      .collapseToggleButton {
+        text-decoration: none;
+      }
       .relatedChanges {
         flex: 1 1 auto;
         overflow: hidden;
+      }
+      .patchInfo {
+        border: 1px solid #ddd;
+        margin: 1em var(--default-horizontal-margin);
+      }
+      .patchInfo--oldPatchSet .patchInfo-header {
+        background-color: #fff9c4;
+      }
+      .patchInfo--oldPatchSet .latestPatchContainer {
+        display: initial;
+      }
+      .patchInfo-header,
+      gr-file-list {
+        padding: .5em calc(var(--default-horizontal-margin) / 2);
+      }
+      .patchInfo-header {
+        background-color: #f6f6f6;
+        border-bottom: 1px solid #ebebeb;
+        display: flex;
+        justify-content: space-between;
+      }
+      .latestPatchContainer {
+        display: none;
+      }
+      .patchSetSelect {
+        max-width: 8em;
+      }
+      gr-editable-label.descriptionLabel {
+        max-width: 100%;
       }
       .mobile {
         display: none;
@@ -164,6 +187,9 @@ limitations under the License.
         border-top: 1px solid #ddd;
         height: 0;
         margin-bottom: 1em;
+      }
+      .patchInfo-header-wrapper {
+        width: 100%;
       }
       #commitMessage.collapsed {
         max-height: 36em;
@@ -180,15 +206,8 @@ limitations under the License.
       .commitContainer {
         display: flex;
         flex-direction: column;
-        flex-shrink: 0;
       }
       .collapseToggleContainer {
-        display: flex;
-      }
-      #relatedChangesToggle {
-        display: none;
-      }
-      #relatedChangesToggle.showToggle {
         display: flex;
       }
       .collapseToggleContainer gr-button {
@@ -198,36 +217,6 @@ limitations under the License.
         margin-left: 1em;
         padding-top: var(--related-change-btn-top-padding, 0);
       }
-      .showOnEdit {
-        display: none;
-      }
-      .scrollable {
-        overflow: auto;
-      }
-      #includedInOverlay {
-        width: 65em;
-      }
-      @media screen and (min-width: 80em) {
-        .commitMessage {
-          max-width: var(--commit-message-max-width, 100ch);
-        }
-      }
-      /* NOTE: If you update this breakpoint, also update the
-      BREAKPOINT_RELATED_MED in the JS */
-      @media screen and (max-width: 60em) {
-        #commitAndRelated {
-          flex-direction: column;
-          flex-wrap: nowrap;
-        }
-        #commitMessageEditor {
-          min-width: 0;
-        }
-      }
-      .patchInfo {
-        margin-top: 1em;
-      }
-      /* NOTE: If you update this breakpoint, also update the
-      BREAKPOINT_RELATED_SMALL in the JS */
       @media screen and (max-width: 50em) {
         .mobile {
           display: block;
@@ -260,7 +249,7 @@ limitations under the License.
           padding-right: 0;
         }
         .changeInfo,
-        #commitAndRelated {
+        .commitAndRelated {
           flex-direction: column;
           flex-wrap: nowrap;
         }
@@ -281,26 +270,21 @@ limitations under the License.
           flex: initial;
           margin-right: 0;
         }
-        /* Change actions are the only thing thant need to remain visible due
-        to the fact that they may have the currently visible overlay open. */
-        #mainContent.overlayOpen .hideOnMobileOverlay {
-          display: none;
+        .scrollable {
+          @apply(--layout-scroll);
         }
       }
     </style>
     <div class="container loading" hidden$="[[!_loading]]">Loading...</div>
-    <div
-        id="mainContent"
-        class="container"
-        hidden$="{{_loading}}">
-      <div class$="hideOnMobileOverlay [[_computeHeaderClass(_change)]]">
+    <div class="container" hidden$="{{_loading}}">
+      <div class="header">
         <span class="header-title">
           <gr-change-star
               id="changeStar"
               change="{{_change}}" hidden$="[[!_loggedIn]]"></gr-change-star>
           <a
               aria-label$="[[_computeChangePermalinkAriaLabel(_change._number)]]"
-              href$="[[_computeChangeUrl(_change)]]">[[_change._number]]</a><!--
+              href$="[[_computeChangePermalink(_change._number)]]">[[_change._number]]</a><!--
        --><template is="dom-if" if="[[_changeStatus]]"><!--
          --> (<!--
          --><span
@@ -313,7 +297,7 @@ limitations under the License.
               <gr-commit-info
                   change="[[_change]]"
                   commit-info="[[_computeMergedCommitInfo(_change.current_revision, _change.revisions)]]"
-                  server-config="[[_serverConfig]]"></gr-commit-info><!--
+                  server-config="[[serverConfig]]"></gr-commit-info><!--
          --></template><!--
          -->)<!--
        --></template><!--
@@ -321,11 +305,11 @@ limitations under the License.
         </span>
       </div>
       <section class="changeInfo">
-        <div class="changeInfo-column changeMetadata hideOnMobileOverlay">
+        <div class="changeInfo-column changeMetadata">
           <gr-change-metadata
               change="{{_change}}"
               commit-info="[[_commitInfo]]"
-              server-config="[[_serverConfig]]"
+              server-config="[[serverConfig]]"
               mutable="[[_loggedIn]]"
               on-show-reply-dialog="_handleShowReplyDialog">
           </gr-change-metadata>
@@ -349,15 +333,12 @@ limitations under the License.
                 change-num="[[_changeNum]]"
                 change-status="[[_change.status]]"
                 commit-num="[[_commitInfo.commit]]"
-                patch-num="[[computeLatestPatchNum(_allPatchSets)]]"
+                patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"
                 commit-message="[[_latestCommitMessage]]"
-                edit-loaded="[[_editLoaded]]"
-                edit-based-on-current-patch-set="[[hasEditBasedOnCurrentPatchSet(_allPatchSets)]]"
-                on-reload-change="_handleReloadChange"
-                on-download-tap="_handleOpenDownloadDialog"></gr-change-actions>
+                on-reload-change="_handleReloadChange"></gr-change-actions>
           </div>
           <hr class="mobile">
-          <div id="commitAndRelated" class="hideOnMobileOverlay">
+          <div class="commitAndRelated">
             <div class="commitContainer">
               <div
                   id="commitMessage"
@@ -404,12 +385,12 @@ limitations under the License.
                   change="[[_change]]"
                   has-parent="{{hasParent}}"
                   loading="{{_relatedChangesLoading}}"
-                  on-update="_updateRelatedChangeMaxHeight"
-                  patch-num="[[computeLatestPatchNum(_allPatchSets)]]">
+                  patch-num="[[_computeLatestPatchNum(_allPatchSets)]]">
               </gr-related-changes-list>
               <div
                   id="relatedChangesToggle"
-                  class$="collapseToggleContainer [[_computeRelatedChangesToggleClass(_relatedChangesLoading)]]">
+                  class="collapseToggleContainer"
+                  hidden$="[[_computeRelatedChangesToggleHidden(_relatedChangesLoading)]]">
                 <gr-button
                     link
                     id="relatedChangesToggleButton"
@@ -422,54 +403,74 @@ limitations under the License.
           </div>
         </div>
       </section>
-      <section class="patchInfo hideOnMobileOverlay">
-        <gr-file-list-header
-            id="fileListHeader"
-            account="[[_account]]"
-            all-patch-sets="[[_allPatchSets]]"
-            change="[[_change]]"
-            change-num="[[_changeNum]]"
-            comments="[[_comments]]"
-            commit-info="[[_commitInfo]]"
-            change-url="[[_computeChangeUrl(_change)]]"
-            edit-loaded="[[_editLoaded]]"
-            logged-in="[[_loggedIn]]"
-            server-config="[[_serverConfig]]"
-            shown-file-count="[[_shownFileCount]]"
-            diff-prefs="[[_diffPrefs]]"
-            diff-view-mode="{{viewState.diffMode}}"
-            patch-num="{{_patchRange.patchNum}}"
-            base-patch-num="{{_patchRange.basePatchNum}}"
-            revisions="[[_sortedRevisions]]"
-            on-open-diff-prefs="_handleOpenDiffPrefs"
-            on-open-download-dialog="_handleOpenDownloadDialog"
-            on-open-included-in-dialog="_handleOpenIncludedInDialog"
-            on-expand-diffs="_expandAllDiffs"
-            on-collapse-diffs="_collapseAllDiffs">
-        </gr-file-list-header>
+      <section class$="patchInfo [[_computePatchInfoClass(_patchRange.patchNum,
+          _allPatchSets)]]">
+        <div class="patchInfo-header">
+          <div class="patchInfo-header-wrapper">
+            <label class="patchSelectLabel" for="patchSetSelect">
+              Patch set
+            </label>
+            <select
+                is="gr-select"
+                id="patchSetSelect"
+                bind-value="{{_selectedPatchSet}}"
+                class="patchSetSelect"
+                on-change="_handlePatchChange">
+              <template is="dom-repeat" items="[[_allPatchSets]]"
+                  as="patchNum">
+                <option value$="[[patchNum.num]]"
+                    disabled$="[[_computePatchSetDisabled(patchNum.num, _patchRange.basePatchNum)]]">
+                  [[patchNum.num]]
+                  /
+                  [[_computeLatestPatchNum(_allPatchSets)]]
+                  [[_computePatchSetDescription(_change, patchNum.num)]]
+                </option>
+              </template>
+            </select>
+            /
+            <gr-commit-info
+                change="[[_change]]"
+                server-config="[[serverConfig]]"
+                commit-info="[[_commitInfo]]"></gr-commit-info>
+            <span class="latestPatchContainer">
+              /
+              <a href$="[[getBaseUrl()]]/c/[[_change._number]]">Go to latest patch set</a>
+            </span>
+            <span class="downloadContainer desktop">
+              /
+              <gr-button link
+                  class="download"
+                  on-tap="_handleDownloadTap">Download</gr-button>
+            </span>
+            <span class="descriptionContainer">
+              /
+              <gr-editable-label
+                  id="descriptionLabel"
+                  class="descriptionLabel"
+                  value="[[_computePatchSetDescription(_change, _selectedPatchSet)]]"
+                  placeholder="[[_computeDescriptionPlaceholder(_descriptionReadOnly)]]"
+                  read-only="[[_descriptionReadOnly]]"
+                  on-changed="_handleDescriptionChanged"></gr-editable-label>
+            </span>
+          </div>
+        </div>
         <gr-file-list id="fileList"
-            diff-prefs="{{_diffPrefs}}"
             change="[[_change]]"
             change-num="[[_changeNum]]"
             patch-range="{{_patchRange}}"
             comments="[[_comments]]"
             drafts="[[_diffDrafts]]"
-            revisions="[[_sortedRevisions]]"
+            revisions="[[_change.revisions]]"
             project-config="[[_projectConfig]]"
             selected-index="{{viewState.selectedFileIndex}}"
-            diff-view-mode="[[viewState.diffMode]]"
-            edit-loaded="[[_editLoaded]]"
-            num-files-shown="{{_numFilesShown}}"
-            file-list-increment="{{_numFilesShown}}"
-            on-files-shown-changed="_setShownFiles"></gr-file-list>
+            diff-view-mode="{{viewState.diffMode}}"></gr-file-list>
       </section>
       <gr-messages-list id="messageList"
-          class="hideOnMobileOverlay"
           change-num="[[_changeNum]]"
           messages="[[_change.messages]]"
           reviewer-updates="[[_change.reviewer_updates]]"
           comments="[[_comments]]"
-          project-name="[[_change.project]]"
+          project-config="[[_projectConfig]]"
           show-reply-buttons="[[_loggedIn]]"
           on-reply="_handleMessageReply"></gr-messages-list>
     </div>
@@ -477,35 +478,27 @@ limitations under the License.
       <gr-download-dialog
           id="downloadDialog"
           change="[[_change]]"
+          logged-in="[[_loggedIn]]"
           patch-num="[[_patchRange.patchNum]]"
-          config="[[_serverConfig.download]]"
+          config="[[serverConfig.download]]"
           on-close="_handleDownloadDialogClose"></gr-download-dialog>
-    </gr-overlay>
-    <gr-overlay id="includedInOverlay" with-backdrop>
-      <gr-included-in-dialog
-          id="includedInDialog"
-          change-num="[[_changeNum]]"
-          on-close="_handleIncludedInDialogClose"></gr-included-in-dialog>
     </gr-overlay>
     <gr-overlay id="replyOverlay"
         class="scrollable"
         no-cancel-on-outside-click
-        no-cancel-on-esc-key
         on-iron-overlay-opened="_handleReplyOverlayOpen"
         with-backdrop>
       <gr-reply-dialog id="replyDialog"
           change="{{_change}}"
-          patch-num="[[computeLatestPatchNum(_allPatchSets)]]"
+          patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"
           permitted-labels="[[_change.permitted_labels]]"
           diff-drafts="[[_diffDrafts]]"
-          server-config="[[_serverConfig]]"
+          server-config="[[serverConfig]]"
           project-config="[[_projectConfig]]"
-          can-be-started="[[_canStartReview]]"
           on-send="_handleReplySent"
           on-cancel="_handleReplyCancel"
           on-autogrow="_handleReplyAutogrow"
-          hidden$="[[!_loggedIn]]">
-      </gr-reply-dialog>
+          hidden$="[[!_loggedIn]]">Reply</gr-reply-dialog>
     </gr-overlay>
     <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

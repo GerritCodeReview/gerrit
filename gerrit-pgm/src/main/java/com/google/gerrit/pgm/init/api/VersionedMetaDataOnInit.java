@@ -128,8 +128,6 @@ public abstract class VersionedMetaDataOnInit extends VersionedMetaData {
       case REJECTED:
       case REJECTED_CURRENT_BRANCH:
       case RENAMED:
-      case REJECTED_MISSING_OBJECT:
-      case REJECTED_OTHER_REASON:
       default:
         throw new IOException(
             "Failed to update " + getRefName() + " of " + project + ": " + r.name());

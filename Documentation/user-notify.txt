@@ -26,8 +26,8 @@ Notification mails for new changes and new patch sets are not sent to
 the change owner.
 
 Notification mails for comments added on changes are not sent to the user
-who added the comment unless the user has enabled the 'Every comment'
-option in the user preferences.
+who added the comment unless the user has enabled the 'CC Me On Comments I
+Write' option in the user preferences.
 
 
 [[project]]
@@ -141,108 +141,6 @@ the filter expression, for example:
 When sending email to an internal group, the internal group's read
 access is automatically checked by Gerrit and therefore does not
 need to use the `visibleto:` operator in the filter.
-
-[[footers]]
-== Email Footers
-
-Notification emails related to changes include metadata about the change
-to support writing mail filters. This metadata is included in the form
-of footers in the message content. For HTML emails, these footers are
-hidden, but they can be examined by viewing the HTML source of messages.
-
-In this way users may apply filters and rules to their incoming Gerrit
-notifications using the values of these footers. For example a Gmail
-filter to find emails regarding reviews that you are a reviewer of might
-take the following form.
-
-----
-  "Gerrit-Reviewer: Your Name <your.email@example.com>"
-----
-
-[[Gerrit-MessageType]]Gerrit-MessageType::
-
-The message type footer states the type of the message and will take one
-of the following values.
-
-* abandon
-* comment
-* deleteReviewer
-* deleteVote
-* merged
-* newchange
-* newpatchset
-* restore
-* revert
-* setassignee
-
-[[Gerrit-Change-Id]]Gerrit-Change-Id::
-
-The change ID footer states the ID of the change, such as
-`I3443af49fcdc16ca941ee7cf2b5e33c1106f3b1d`.
-
-[[Gerrit-Change-Number]]Gerrit-Change-Number::
-
-The change number footer states the numeric ID of the change, for
-example `92191`.
-
-[[Gerrit-PatchSet]]Gerrit-PatchSet::
-
-The patch set footer states the number of the patch set that the email
-relates to. For example, a notification email for a vote being set on
-the seventh patch set will take a value of `7`.
-
-[[Gerrit-Owner]]Gerrit-Owner::
-
-The owner footer states the name and email address of the change's
-owner. For example, `Owner Name <owner@example.com>`.
-
-[[Gerrit-Reviewer]]Gerrit-Reviewer::
-
-The reviewer footers list the names and email addresses of the change's
-reviewrs. One footer is included for each reviewer. For example, if a
-change has two reviewers, the footers might include:
-
-----
-  Gerrit-Reviewer: Reviewer One <one@example.com>
-  Gerrit-Reviewer: Reviewer Two <two@example.com>
-----
-
-[[Gerrit-CC]]Gerrit-CC::
-
-The CC footers list the names and email addresses of those who have been
-CC'd on the change. One footer is included for each reviewer. For
-example, if a change CCs two users, the footers might include:
-
-----
-  Gerrit-CC: User One <one@example.com>
-  Gerrit-CC: User Two <two@example.com>
-----
-
-[[Gerrit-Project]]Gerrit-Project::
-
-The project footer states the project to which the change belongs.
-
-[[Gerrit-Branch]]Gerrit-Branch::
-
-The branch footer states the abbreviated name of the branch that the
-change targets.
-
-[[Gerrit-Comment-Date]]Gerrit-Comment-Date::
-
-In comment emails, the comment date footer states the date that the
-comment was posted.
-
-[[Gerrit-HasComments]]Gerrit-HasComments::
-
-In comment emails, the has-comments footer states whether inline
-comments had been posted in that notification using "Yes" or "No", for
-example `Gerrit-HasComments: Yes`.
-
-[[Gerrit-HasLabels]]Gerrit-HasLabels::
-
-In comment emails, the has-labels footer states whether label votes had
-been posted in that notification using "Yes" or "No", for
-example `Gerrit-HasLabels: No`.
 
 GERRIT
 ------

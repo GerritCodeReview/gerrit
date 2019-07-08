@@ -24,7 +24,7 @@ public class ChangeIndexedCounter implements ChangeIndexedListener {
   private final AtomicLongMap<Integer> countsByChange = AtomicLongMap.create();
 
   @Override
-  public void onChangeIndexed(String projectName, int id) {
+  public void onChangeIndexed(int id) {
     countsByChange.incrementAndGet(id);
   }
 

@@ -23,5 +23,6 @@ public class AuditModule extends AbstractModule {
   protected void configure() {
     DynamicSet.setOf(binder(), AuditListener.class);
     DynamicSet.setOf(binder(), GroupMemberAuditListener.class);
+    bind(AuditService.class);
   }
 }

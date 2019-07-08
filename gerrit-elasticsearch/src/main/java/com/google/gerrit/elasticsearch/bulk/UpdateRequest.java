@@ -19,25 +19,32 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.google.gerrit.elasticsearch.builders.XContentBuilder;
-import com.google.gerrit.index.Schema;
-import com.google.gerrit.index.Schema.Values;
+import com.google.gerrit.server.index.FieldDef.FillArgs;
+import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.Schema.Values;
 import java.io.IOException;
 
 public class UpdateRequest<V> extends BulkRequest {
 
+  private final FillArgs fillArgs;
   private final Schema<V> schema;
   private final V v;
 
-  public UpdateRequest(Schema<V> schema, V v) {
+  public UpdateRequest(FillArgs fillArgs, Schema<V> schema, V v) {
+    this.fillArgs = fillArgs;
     this.schema = schema;
     this.v = v;
+  }
+
+  public UpdateRequest(Schema<V> schema, V v) {
+    this(null, schema, v);
   }
 
   @Override
   protected String getRequest() {
     try (XContentBuilder closeable = new XContentBuilder()) {
       XContentBuilder builder = closeable.startObject();
-      for (Values<V> values : schema.buildFields(v)) {
+      for (Values<V> values : schema.buildFields(v, fillArgs)) {
         String name = values.getField().getName();
         if (values.getField().isRepeatable()) {
           builder.field(

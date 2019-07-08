@@ -14,12 +14,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
-
-<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
@@ -29,14 +26,12 @@ limitations under the License.
 
 <link rel="import" href="../gr-confirm-abandon-dialog/gr-confirm-abandon-dialog.html">
 <link rel="import" href="../gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.html">
-<link rel="import" href="../gr-confirm-move-dialog/gr-confirm-move-dialog.html">
 <link rel="import" href="../gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.html">
 <link rel="import" href="../gr-confirm-revert-dialog/gr-confirm-revert-dialog.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-change-actions">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         display: inline-block;
         font-family: var(--font-family);
@@ -47,6 +42,9 @@ limitations under the License.
       gr-button,
       gr-dropdown {
         margin-left: .5em;
+      }
+      gr-button:before {
+        content: attr(data-label);
       }
       #actionLoadingMessage {
         color: #777;
@@ -71,23 +69,20 @@ limitations under the License.
           margin: .5em;
           text-align: center;
         }
-        #mainContent.mobileOverlayOpened {
-          display: none;
-        }
       }
     </style>
-    <div id="mainContent">
+    <div>
       <span
           id="actionLoadingMessage"
           hidden$="[[!_actionLoadingMessage]]">
         [[_actionLoadingMessage]]</span>
       <gr-dropdown
           id="moreActions"
-          tabindex="0"
           down-arrow
           vertical-offset="32"
           horizontal-align="right"
-          on-tap-item="_handleOveflowItemTap"
+          on-tap-item-cherrypick="_handleCherrypickTap"
+          on-tap-item-delete="_handleDeleteTap"
           hidden$="[[_shouldHideActions(_menuActions.*, _loading)]]"
           disabled-ids="[[_disabledMenuActions]]"
           items="[[_menuActions]]">More</gr-dropdown>
@@ -102,7 +97,7 @@ limitations under the License.
               data-action-type$="[[action.__type]]"
               data-label$="[[action.label]]"
               disabled$="[[_calculateDisabled(action, _hasKnownChainState)]]"
-              on-tap="_handleActionTap">[[action.label]]</gr-button>
+              on-tap="_handleActionTap"></gr-button>
         </template>
       </section>
       <gr-button hidden$="[[!_loading]]" disabled>Loading actions...</gr-button>
@@ -123,14 +118,7 @@ limitations under the License.
           commit-num="[[commitNum]]"
           on-confirm="_handleCherrypickConfirm"
           on-cancel="_handleConfirmDialogCancel"
-          project="[[change.project]]"
           hidden></gr-confirm-cherrypick-dialog>
-      <gr-confirm-move-dialog id="confirmMove"
-          class="confirmDialog"
-          on-confirm="_handleMoveConfirm"
-          on-cancel="_handleConfirmDialogCancel"
-          project="[[change.project]]"
-          hidden></gr-confirm-move-dialog>
       <gr-confirm-revert-dialog id="confirmRevertDialog"
           class="confirmDialog"
           on-confirm="_handleRevertDialogConfirm"
@@ -152,19 +140,6 @@ limitations under the License.
         </div>
         <div class="main">
           Do you really want to delete the change?
-        </div>
-      </gr-confirm-dialog>
-      <gr-confirm-dialog
-          id="confirmDeleteEditDialog"
-          class="confirmDialog"
-          confirm-label="Delete"
-          on-cancel="_handleConfirmDialogCancel"
-          on-confirm="_handleDeleteEditConfirm">
-        <div class="header">
-          Delete Change Edit
-        </div>
-        <div class="main">
-          Do you really want to delete the edit?
         </div>
       </gr-confirm-dialog>
     </gr-overlay>

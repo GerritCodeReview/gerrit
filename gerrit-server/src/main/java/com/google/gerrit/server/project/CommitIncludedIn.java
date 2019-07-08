@@ -26,7 +26,7 @@ import java.io.IOException;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 @Singleton
-public class CommitIncludedIn implements RestReadView<CommitResource> {
+class CommitIncludedIn implements RestReadView<CommitResource> {
   private IncludedIn includedIn;
 
   @Inject
@@ -38,7 +38,7 @@ public class CommitIncludedIn implements RestReadView<CommitResource> {
   public IncludedInInfo apply(CommitResource rsrc)
       throws RestApiException, OrmException, IOException {
     RevCommit commit = rsrc.getCommit();
-    Project.NameKey project = rsrc.getProjectState().getNameKey();
+    Project.NameKey project = rsrc.getProject().getProject().getNameKey();
     return includedIn.apply(project, commit.getId().getName());
   }
 }

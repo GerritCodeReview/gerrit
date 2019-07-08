@@ -25,7 +25,6 @@ import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.DeleteTask;
 import com.google.gerrit.server.config.TaskResource;
 import com.google.gerrit.server.config.TasksCollection;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.sshd.AdminHighPriorityCommand;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
@@ -51,7 +50,7 @@ final class KillCommand extends SshCommand {
       try {
         TaskResource taskRsrc = tasksCollection.parse(cfgRsrc, IdString.fromDecoded(id));
         deleteTask.apply(taskRsrc, null);
-      } catch (AuthException | ResourceNotFoundException | PermissionBackendException e) {
+      } catch (AuthException | ResourceNotFoundException e) {
         stderr.print("kill: " + id + ": No such task\n");
       }
     }

@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.index.FieldDef;
-import com.google.gerrit.index.query.IndexPredicate;
-import com.google.gerrit.index.query.Matchable;
+import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.query.Matchable;
 
 public abstract class ChangeIndexPredicate extends IndexPredicate<ChangeData>
     implements Matchable<ChangeData> {

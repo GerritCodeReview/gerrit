@@ -79,7 +79,6 @@ public interface Groups {
     private int start;
     private String substring;
     private String suggest;
-    private String regex;
 
     public List<GroupInfo> get() throws RestApiException {
       Map<String, GroupInfo> map = getAsMap();
@@ -150,11 +149,6 @@ public interface Groups {
       return this;
     }
 
-    public ListRequest withRegex(String regex) {
-      this.regex = regex;
-      return this;
-    }
-
     public ListRequest withSuggest(String suggest) {
       this.suggest = suggest;
       return this;
@@ -194,10 +188,6 @@ public interface Groups {
 
     public String getSubstring() {
       return substring;
-    }
-
-    public String getRegex() {
-      return regex;
     }
 
     public String getSuggest() {
@@ -243,19 +233,16 @@ public interface Groups {
       return this;
     }
 
-    /** Set an option on the request, appending to existing options. */
     public QueryRequest withOption(ListGroupsOption options) {
       this.options.add(options);
       return this;
     }
 
-    /** Set options on the request, appending to existing options. */
     public QueryRequest withOptions(ListGroupsOption... options) {
       this.options.addAll(Arrays.asList(options));
       return this;
     }
 
-    /** Set options on the request, replacing existing options. */
     public QueryRequest withOptions(EnumSet<ListGroupsOption> options) {
       this.options = options;
       return this;

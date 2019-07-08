@@ -21,7 +21,6 @@ import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
-import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.errors.EmailException;
@@ -92,7 +91,7 @@ class ContactPanelShort extends Composite {
     registerNewEmail.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(ClickEvent event) {
+          public void onClick(final ClickEvent event) {
             doRegisterNewEmail();
           }
         });
@@ -149,20 +148,15 @@ class ContactPanelShort extends Composite {
     save.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(ClickEvent event) {
+          public void onClick(final ClickEvent event) {
             doSave();
           }
         });
 
-    final ComplexDisclosurePanel mailFilterHelp =
-        new ComplexDisclosurePanel(Util.C.emailFilterHelpTitle(), false);
-    mailFilterHelp.setContent(new HTML(Util.C.emailFilterHelp()));
-    body.add(mailFilterHelp);
-
     emailPick.addChangeHandler(
         new ChangeHandler() {
           @Override
-          public void onChange(ChangeEvent event) {
+          public void onChange(final ChangeEvent event) {
             final int idx = emailPick.getSelectedIndex();
             final String v = 0 <= idx ? emailPick.getValue(idx) : null;
             if (Util.C.buttonOpenRegisterNewEmail().equals(v)) {
@@ -255,7 +249,7 @@ class ContactPanelShort extends Composite {
 
   void display() {}
 
-  protected void row(Grid info, int row, String name, Widget field) {
+  protected void row(final Grid info, final int row, final String name, final Widget field) {
     info.setText(row, labelIdx, name);
     info.setWidget(row, fieldIdx, field);
     info.getCellFormatter().addStyleName(row, 0, Gerrit.RESOURCES.css().header());
@@ -285,7 +279,7 @@ class ContactPanelShort extends Composite {
     form.addSubmitHandler(
         new FormPanel.SubmitHandler() {
           @Override
-          public void onSubmit(SubmitEvent event) {
+          public void onSubmit(final SubmitEvent event) {
             event.cancel();
             final String addr = inEmail.getText().trim();
             if (!addr.contains("@")) {
@@ -316,7 +310,7 @@ class ContactPanelShort extends Composite {
                   }
 
                   @Override
-                  public void onFailure(Throwable caught) {
+                  public void onFailure(final Throwable caught) {
                     inEmail.setEnabled(true);
                     register.setEnabled(true);
                     if (caught.getMessage().startsWith(EmailException.MESSAGE)) {
@@ -337,7 +331,7 @@ class ContactPanelShort extends Composite {
     register.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(ClickEvent event) {
+          public void onClick(final ClickEvent event) {
             form.submit();
           }
         });

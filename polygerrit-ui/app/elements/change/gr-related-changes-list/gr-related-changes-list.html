@@ -13,17 +13,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<link rel="import" href="../../../bower_components/polymer/polymer.html">
 
-<link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
+<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
-<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-related-changes-list">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         display: block;
       }
@@ -68,7 +66,7 @@ limitations under the License.
       }
       .status {
         color: #666;
-        font-family: var(--font-family-bold);
+        font-weight: bold;
         margin-left: .25em;
       }
       .notCurrent {
@@ -80,18 +78,11 @@ limitations under the License.
       .submittable {
         color: #1b5e20;
       }
-      .submittableCheck {
-        color: #388E3C;
-        display: none;
-      }
-      .submittableCheck.submittable {
-        display: inline;
-      }
       .hidden,
       .mobile {
         display: none;
       }
-       @media screen and (max-width: 60em) {
+       @media screen and (max-width: 50em) {
         .mobile {
           display: block;
         }
@@ -103,7 +94,8 @@ limitations under the License.
         }
       }
     </style>
-    <div>
+    <div hidden$="[[!loading]]">Loading...</div>
+    <div hidden$="[[loading]]">
       <hr class="mobile">
       <section class="relatedChanges" hidden$="[[!_relatedResponse.changes.length]]" hidden>
         <h4>Relation chain</h4>
@@ -112,9 +104,8 @@ limitations under the License.
             items="[[_relatedResponse.changes]]"
             as="related">
           <div class$="rightIndent [[_computeChangeContainerClass(change, related)]]">
-            <a href$="[[_computeChangeURL(related._change_number, related.project, related._revision_number)]]"
-                class$="[[_computeLinkClass(related)]]"
-                title$="[[related.commit.subject]]">
+            <a href$="[[_computeChangeURL(related._change_number, related._revision_number)]]"
+                class$="[[_computeLinkClass(related)]]">
               [[related.commit.subject]]
             </a>
             <span class$="[[_computeChangeStatusClass(related)]]">
@@ -127,15 +118,10 @@ limitations under the License.
         <h4>Submitted together</h4>
         <template is="dom-repeat" items="[[_submittedTogether]]" as="change">
           <div>
-            <a href$="[[_computeChangeURL(change._number, change.project)]]"
-                class$="[[_computeLinkClass(change)]]"
-                title$="[[change.project]]: [[change.branch]]: [[change.subject]]">
+            <a href$="[[_computeChangeURL(change._number)]]"
+                class$="[[_computeLinkClass(change)]]">
               [[change.project]]: [[change.branch]]: [[change.subject]]
             </a>
-            <span
-                tabindex="-1"
-                title="Submittable"
-                class$="submittableCheck [[_computeLinkClass(change)]]">✓</span>
           </div>
         </template>
       </section>
@@ -143,9 +129,8 @@ limitations under the License.
         <h4>Same topic</h4>
         <template is="dom-repeat" items="[[_sameTopic]]" as="change">
           <div>
-            <a href$="[[_computeChangeURL(change._number, change.project)]]"
-                class$="[[_computeLinkClass(change)]]"
-                title$="[[change.project]]: [[change.branch]]: [[change.subject]]">
+            <a href$="[[_computeChangeURL(change._number)]]"
+                class$="[[_computeLinkClass(change)]]">
               [[change.project]]: [[change.branch]]: [[change.subject]]
             </a>
           </div>
@@ -155,9 +140,8 @@ limitations under the License.
         <h4>Merge conflicts</h4>
         <template is="dom-repeat" items="[[_conflicts]]" as="change">
           <div>
-            <a href$="[[_computeChangeURL(change._number, change.project)]]"
-                class$="[[_computeLinkClass(change)]]"
-                title$="[[change.subject]]">
+            <a href$="[[_computeChangeURL(change._number)]]"
+                class$="[[_computeLinkClass(change)]]">
               [[change.subject]]
             </a>
           </div>
@@ -167,16 +151,14 @@ limitations under the License.
         <h4>Cherry picks</h4>
         <template is="dom-repeat" items="[[_cherryPicks]]" as="change">
           <div>
-            <a href$="[[_computeChangeURL(change._number, change.project)]]"
-                class$="[[_computeLinkClass(change)]]"
-                title$="[[change.branch]]: [[change.subject]]">
+            <a href$="[[_computeChangeURL(change._number)]]"
+                class$="[[_computeLinkClass(change)]]">
               [[change.branch]]: [[change.subject]]
             </a>
           </div>
         </template>
       </section>
     </div>
-    <div hidden$="[[!loading]]">Loading...</div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-related-changes-list.js"></script>

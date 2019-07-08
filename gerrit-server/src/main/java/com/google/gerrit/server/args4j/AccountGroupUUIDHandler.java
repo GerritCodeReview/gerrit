@@ -47,7 +47,7 @@ public class AccountGroupUUIDHandler extends OptionHandler<AccountGroup.UUID> {
   }
 
   @Override
-  public final int parseArguments(Parameters params) throws CmdLineException {
+  public final int parseArguments(final Parameters params) throws CmdLineException {
     final String n = params.getParameter(0);
     AccountGroup.UUID uuid = new AccountGroup.UUID(n);
     if (groupBackend.handles(uuid)) {

@@ -20,7 +20,8 @@ limitations under the License.
 
 <script src="../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
 <script src="../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../test/common-test-setup.html"/>
+
+<link rel="import" href="../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-change-table-behavior.html">
 
 <test-fixture id="basic">
@@ -38,12 +39,11 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-change-table-behavior tests', () => {
-    let element;
-    // eslint-disable-next-line no-unused-vars
-    let overlay;
+  suite('gr-change-table-behavior tests', function() {
+    var element;
+    var overlay;
 
-    suiteSetup(() => {
+    suiteSetup(function() {
       // Define a Polymer element that uses this behavior.
       Polymer({
         is: 'test-element',
@@ -51,17 +51,16 @@ limitations under the License.
       });
     });
 
-    setup(() => {
+    setup(function() {
       element = fixture('basic');
       overlay = fixture('within-overlay');
     });
 
-    test('getComplementColumns', () => {
-      let columns = [
+    test('getComplementColumns', function() {
+      var columns = [
         'Subject',
         'Status',
         'Owner',
-        'Assignee',
         'Project',
         'Branch',
         'Updated',
@@ -72,7 +71,6 @@ limitations under the License.
       columns = [
         'Subject',
         'Status',
-        'Assignee',
         'Project',
         'Branch',
         'Size',
@@ -81,13 +79,12 @@ limitations under the License.
           ['Owner', 'Updated']);
     });
 
-    test('isColumnHidden', () => {
-      const columnToCheck = 'Project';
-      let columnsToDisplay = [
+    test('isColumnHidden', function() {
+      var columnToCheck = 'Project';
+      var columnsToDisplay = [
         'Subject',
         'Status',
         'Owner',
-        'Assignee',
         'Project',
         'Branch',
         'Updated',
@@ -95,11 +92,10 @@ limitations under the License.
       ];
       assert.isFalse(element.isColumnHidden(columnToCheck, columnsToDisplay));
 
-      columnsToDisplay = [
+      var columnsToDisplay = [
         'Subject',
         'Status',
         'Owner',
-        'Assignee',
         'Branch',
         'Updated',
         'Size',

@@ -87,14 +87,6 @@ public class PatchFile {
     }
   }
 
-  private String getOldName() {
-    String name = entry.getOldName();
-    if (name != null) {
-      return name;
-    }
-    return entry.getNewName();
-  }
-
   /**
    * Extract a line from the file, as a string.
    *
@@ -104,11 +96,11 @@ public class PatchFile {
    * @throws IOException the patch or complete file content cannot be read.
    * @throws NoSuchEntityException
    */
-  public String getLine(int file, int line) throws IOException, NoSuchEntityException {
+  public String getLine(final int file, final int line) throws IOException, NoSuchEntityException {
     switch (file) {
       case 0:
         if (a == null) {
-          a = load(aTree, getOldName());
+          a = load(aTree, entry.getOldName());
         }
         return a.getString(line - 1);
 
@@ -131,11 +123,11 @@ public class PatchFile {
    * @throws IOException the patch or complete file content cannot be read.
    * @throws NoSuchEntityException the file is not exist.
    */
-  public int getLineCount(int file) throws IOException, NoSuchEntityException {
+  public int getLineCount(final int file) throws IOException, NoSuchEntityException {
     switch (file) {
       case 0:
         if (a == null) {
-          a = load(aTree, getOldName());
+          a = load(aTree, entry.getOldName());
         }
         return a.size();
 
@@ -150,7 +142,7 @@ public class PatchFile {
     }
   }
 
-  private Text load(ObjectId tree, String path)
+  private Text load(final ObjectId tree, final String path)
       throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException,
           IOException {
     if (path == null) {

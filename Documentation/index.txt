@@ -1,20 +1,11 @@
 = Gerrit Code Review for Git
 
-== Quickstarts
-
-. link:linux-quickstart.html[Quickstart for Installing Gerrit on Linux]
-
-== About Gerrit
-. link:intro-quick.html[Product Overview]
-. link:intro-how-gerrit-works.html[How Gerrit Works]
-. link:intro-gerrit-walkthrough.html[Basic Gerrit Walkthrough]
-
-== Guides
-. link:intro-user.html[User Guide]
-. link:intro-project-owner.html[Project Owner Guide]
-. link:https://source.android.com/source/developing[Default Android Workflow] (external)
-
-== Tutorials
+== Tutorial
+. Getting started
+.. link:intro-quick.html[A Quick Introduction to Gerrit]
+.. link:intro-user.html[User Guide]
+.. link:intro-project-owner.html[Project Owner Guide]
+.. link:http://source.android.com/source/life-of-a-patch[Default Android Workflow] (external)
 . Web
 .. link:user-review-ui.html[Reviewing Changes]
 .. link:user-search.html[Searching Changes]
@@ -66,8 +57,6 @@
 . link:config-reverseproxy.html[Reverse Proxy]
 . link:config-auto-site-initialization.html[Automatic Site Initialization on Startup]
 . link:pgm-index.html[Server Side Administrative Tools]
-. link:note-db.html[NoteDb]
-. link:config-accounts.html[Accounts]
 
 == Developer
 . Getting Started
@@ -84,18 +73,12 @@
 .. link:dev-stars.html[Starring Changes]
 . link:dev-design.html[System Design]
 . link:i18n-readme.html[i18n Support]
+. link:dev-note-db.html[NoteDb]
 
 == Maintainer
 . link:dev-release.html[Making a Gerrit Release]
 . link:dev-release-subproject.html[Making a Release of a Gerrit Subproject]
 . link:dev-release-jgit.html[Making a Release of JGit]
-
-== Concepts
-. link:config-labels.html[Review Labels]
-. link:access-control.html[Access Controls]
-. link:concept-changes.html[Changes]
-. link:concept-refs-for-namespace.html[The refs/for Namespace]
-. link:concept-patch-sets.html[Patch Sets]
 
 == Resources
 * link:licenses.html[Licenses and Notices]

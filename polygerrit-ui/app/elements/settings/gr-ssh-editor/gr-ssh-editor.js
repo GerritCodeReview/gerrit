@@ -24,7 +24,6 @@
         notify: true,
       },
       _keys: Array,
-      /** @type {?} */
       _keyToView: Object,
       _newKey: {
         type: String,
@@ -32,65 +31,64 @@
       },
       _keysToRemove: {
         type: Array,
-        value() { return []; },
+        value: function() { return []; },
       },
     },
 
-    loadData() {
-      return this.$.restAPI.getAccountSSHKeys().then(keys => {
+    loadData: function() {
+      return this.$.restAPI.getAccountSSHKeys().then(function(keys) {
         this._keys = keys;
-      });
+      }.bind(this));
     },
 
-    save() {
-      const promises = this._keysToRemove.map(key => {
+    save: function() {
+      var promises = this._keysToRemove.map(function(key) {
         this.$.restAPI.deleteAccountSSHKey(key.seq);
-      });
+      }.bind(this));
 
-      return Promise.all(promises).then(() => {
+      return Promise.all(promises).then(function() {
         this._keysToRemove = [];
         this.hasUnsavedChanges = false;
-      });
+      }.bind(this));
     },
 
-    _getStatusLabel(isValid) {
+    _getStatusLabel: function(isValid) {
       return isValid ? 'Valid' : 'Invalid';
     },
 
-    _showKey(e) {
-      const el = Polymer.dom(e).localTarget;
-      const index = parseInt(el.getAttribute('data-index'), 10);
+    _showKey: function(e) {
+      var index = parseInt(e.target.getAttribute('data-index'), 10);
       this._keyToView = this._keys[index];
       this.$.viewKeyOverlay.open();
     },
 
-    _closeOverlay() {
+    _closeOverlay: function() {
       this.$.viewKeyOverlay.close();
     },
 
-    _handleDeleteKey(e) {
-      const el = Polymer.dom(e).localTarget;
-      const index = parseInt(el.getAttribute('data-index'), 10);
+    _handleDeleteKey: function(e) {
+      var index = parseInt(e.target.getAttribute('data-index'), 10);
       this.push('_keysToRemove', this._keys[index]);
       this.splice('_keys', index, 1);
       this.hasUnsavedChanges = true;
     },
 
-    _handleAddKey() {
+    _handleAddKey: function() {
       this.$.addButton.disabled = true;
       this.$.newKey.disabled = true;
       return this.$.restAPI.addAccountSSHKey(this._newKey.trim())
-          .then(key => {
+          .then(function(key) {
             this.$.newKey.disabled = false;
             this._newKey = '';
             this.push('_keys', key);
-          }).catch(() => {
+          }.bind(this))
+          .catch(function() {
             this.$.addButton.disabled = false;
             this.$.newKey.disabled = false;
-          });
+          }.bind(this));
     },
 
-    _computeAddButtonDisabled(newKey) {
+    _computeAddButtonDisabled: function(newKey) {
       return !newKey.length;
     },
   });

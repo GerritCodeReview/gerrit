@@ -23,28 +23,28 @@
       _newUrl: String,
     },
 
-    _handleMoveUpButton(e) {
-      const index = Polymer.dom(e).localTarget.dataIndex;
+    _handleMoveUpButton: function(e) {
+      var index = e.target.dataIndex;
       if (index === 0) { return; }
-      const row = this.menuItems[index];
-      const prev = this.menuItems[index - 1];
+      var row = this.menuItems[index];
+      var prev = this.menuItems[index - 1];
       this.splice('menuItems', index - 1, 2, row, prev);
     },
 
-    _handleMoveDownButton(e) {
-      const index = Polymer.dom(e).localTarget.dataIndex;
+    _handleMoveDownButton: function(e) {
+      var index = e.target.dataIndex;
       if (index === this.menuItems.length - 1) { return; }
-      const row = this.menuItems[index];
-      const next = this.menuItems[index + 1];
+      var row = this.menuItems[index];
+      var next = this.menuItems[index + 1];
       this.splice('menuItems', index, 2, next, row);
     },
 
-    _handleDeleteButton(e) {
-      const index = Polymer.dom(e).localTarget.dataIndex;
+    _handleDeleteButton: function(e) {
+      var index = e.target.dataIndex;
       this.splice('menuItems', index, 1);
     },
 
-    _handleAddButton() {
+    _handleAddButton: function() {
       if (this._computeAddDisabled(this._newName, this._newUrl)) { return; }
 
       this.splice('menuItems', this.menuItems.length, 0, {
@@ -57,11 +57,11 @@
       this._newUrl = '';
     },
 
-    _computeAddDisabled(newName, newUrl) {
+    _computeAddDisabled: function(newName, newUrl) {
       return !newName.length || !newUrl.length;
     },
 
-    _handleInputKeydown(e) {
+    _handleInputKeydown: function(e) {
       if (e.keyCode === 13) {
         e.stopPropagation();
         this._handleAddButton();

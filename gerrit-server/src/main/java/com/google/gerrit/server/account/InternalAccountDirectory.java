@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.common.AvatarInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;

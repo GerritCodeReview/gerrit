@@ -14,19 +14,17 @@
 
 package com.google.gerrit.pgm;
 
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_GERRIT;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 
-import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.util.SiteProgram;
-import com.google.gerrit.server.account.externalids.DisabledExternalIdCache;
-import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.gerrit.server.account.externalids.ExternalIdsBatchUpdate;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.ExternalId;
+import com.google.gerrit.server.account.ExternalIdsBatchUpdate;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import java.util.Collection;
@@ -39,7 +37,7 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
   private final LifecycleManager manager = new LifecycleManager();
   private final TextProgressMonitor monitor = new TextProgressMonitor();
 
-  @Inject private ExternalIds externalIds;
+  @Inject private SchemaFactory<ReviewDb> database;
 
   @Inject private ExternalIdsBatchUpdate externalIdsBatchUpdate;
 
@@ -48,31 +46,19 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
     Injector dbInjector = createDbInjector(MULTI_USER);
     manager.add(dbInjector, dbInjector.createChildInjector(SchemaVersionCheck.module()));
     manager.start();
-    dbInjector
-        .createChildInjector(
-            new FactoryModule() {
-              @Override
-              protected void configure() {
-                bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
+    dbInjector.injectMembers(this);
 
-                // The LocalUsernamesToLowerCase program needs to access all external IDs only
-                // once to update them. After the update they are not accessed again. Hence the
-                // LocalUsernamesToLowerCase program doesn't benefit from caching external IDs and
-                // the external ID cache can be disabled.
-                install(DisabledExternalIdCache.module());
-              }
-            })
-        .injectMembers(this);
+    try (ReviewDb db = database.open()) {
+      Collection<ExternalId> todo = ExternalId.from(db.accountExternalIds().all().toList());
+      monitor.beginTask("Converting local usernames", todo.size());
 
-    Collection<ExternalId> todo = externalIds.all();
-    monitor.beginTask("Converting local usernames", todo.size());
+      for (ExternalId extId : todo) {
+        convertLocalUserToLowerCase(extId);
+        monitor.update(1);
+      }
 
-    for (ExternalId extId : todo) {
-      convertLocalUserToLowerCase(extId);
-      monitor.update(1);
+      externalIdsBatchUpdate.commit(db);
     }
-
-    externalIdsBatchUpdate.commit("Convert local usernames to lower case");
     monitor.endTask();
 
     int exitCode = reindexAccounts();

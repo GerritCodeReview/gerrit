@@ -25,13 +25,6 @@ public class ReviewerInfo extends AccountInfo {
    */
   @Nullable public Map<String, String> approvals;
 
-  public static ReviewerInfo byEmail(@Nullable String name, String email) {
-    ReviewerInfo info = new ReviewerInfo();
-    info.name = name;
-    info.email = email;
-    return info;
-  }
-
   public ReviewerInfo(Integer id) {
     super(id);
   }
@@ -40,6 +33,4 @@ public class ReviewerInfo extends AccountInfo {
   public String toString() {
     return username;
   }
-
-  private ReviewerInfo() {}
 }

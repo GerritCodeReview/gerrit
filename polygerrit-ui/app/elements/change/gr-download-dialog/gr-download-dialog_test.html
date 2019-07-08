@@ -20,7 +20,8 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-download-dialog.html">
 
 <script>void(0);</script>
@@ -47,8 +48,8 @@ limitations under the License.
           fetch: {
             repo: {
               commands: {
-                repo: 'repo download test-project 5/1',
-              },
+                repo: 'repo download test-project 5/1'
+              }
             },
             ssh: {
               commands: {
@@ -68,8 +69,8 @@ limitations under the License.
                 'Pull':
                   'git pull ' +
                   'ssh://andybons@localhost:29418/test-project ' +
-                  'refs/changes/05/5/1',
-              },
+                  'refs/changes/05/5/1'
+              }
             },
             http: {
               commands: {
@@ -89,12 +90,12 @@ limitations under the License.
                 'Pull':
                   'git pull ' +
                   'http://andybons@localhost:8080/a/test-project ' +
-                  'refs/changes/05/5/1',
-              },
-            },
-          },
-        },
-      },
+                  'refs/changes/05/5/1'
+              }
+            }
+          }
+        }
+      }
     };
   }
 
@@ -105,82 +106,193 @@ limitations under the License.
         '34685798fe548b6d17d1e8e5edc43a26d055cc72': {
           _number: 1,
           fetch: {},
-        },
-      },
+        }
+      }
     };
   }
 
-  suite('gr-download-dialog', () => {
-    let element;
-    let sandbox;
+  suite('gr-download-dialog tests with no fetch options', function() {
+    var element;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-
+    setup(function() {
       element = fixture('basic');
-      element.patchNum = '1';
+      element.change = getChangeObjectNoFetch();
+      element.patchNum = 1;
       element.config = {
         schemes: {
           'anonymous http': {},
-          'http': {},
-          'repo': {},
-          'ssh': {},
+          http: {},
+          repo: {},
+          ssh: {},
         },
         archives: ['tgz', 'tar', 'tbz2', 'txz'],
       };
+    });
 
+    test('focuses on first download link if no copy links', function() {
       flushAsynchronousOperations();
+      var focusStub = sinon.stub(element.$.download, 'focus');
+      element.focus();
+      assert.isTrue(focusStub.called);
+      focusStub.restore();
+    });
+  });
+
+  suite('gr-download-dialog tests', function() {
+    var element;
+
+    setup(function() {
+      element = fixture('basic');
+      element.change = getChangeObject();
+      element.patchNum = 1;
+      element.config = {
+        schemes: {
+          'anonymous http': {},
+          http: {},
+          repo: {},
+          ssh: {},
+        },
+        archives: ['tgz', 'tar', 'tbz2', 'txz'],
+      };
     });
 
-    teardown(() => {
-      sandbox.restore();
+    test('focuses on first copy link', function() {
+      flushAsynchronousOperations();
+      var focusStub = sinon.stub(element.$$('.copyToClipboard'), 'focus');
+      element.focus();
+      flushAsynchronousOperations();
+      assert.isTrue(focusStub.called);
+      focusStub.restore();
     });
 
-    test('anchors use download attribute', () => {
-      const anchors = Polymer.dom(element.root).querySelectorAll('a');
-      assert.isTrue(!anchors.some(a => !a.hasAttribute('download')));
+    test('copy to clipboard', function() {
+      flushAsynchronousOperations();
+      var clipboardSpy = sinon.spy(element, '_copyToClipboard');
+      var copyBtn = element.$$('.copyToClipboard');
+      MockInteractions.tap(copyBtn);
+      assert.isTrue(clipboardSpy.called);
     });
 
-    suite('gr-download-dialog tests with no fetch options', () => {
-      setup(() => {
-        element.change = getChangeObjectNoFetch();
-        flushAsynchronousOperations();
+    test('element visibility', function() {
+      assert.isFalse(element.$$('ul').hasAttribute('hidden'));
+      assert.isFalse(element.$$('main').hasAttribute('hidden'));
+      assert.isFalse(element.$$('.archivesContainer').hasAttribute('hidden'));
+
+      element.set('config.archives', []);
+      assert.isTrue(element.$$('.archivesContainer').hasAttribute('hidden'));
+    });
+
+    test('computed fields', function() {
+      assert.equal(element._computeArchiveDownloadLink(
+          {_number: 123}, 2, 'tgz'),
+          '/changes/123/revisions/2/archive?format=tgz');
+    });
+
+    test('close event', function(done) {
+      element.addEventListener('close', function() {
+        done();
+      });
+      MockInteractions.tap(element.$$('.closeButtonContainer gr-button'));
+    });
+
+    test('tab selection', function() {
+      flushAsynchronousOperations();
+      var el = element.$$('[data-scheme="http"]').parentElement;
+      assert.isTrue(el.hasAttribute('selected'));
+      ['repo', 'ssh'].forEach(function(scheme) {
+        var el = element.$$('[data-scheme="' + scheme + '"]').parentElement;
+        assert.isFalse(el.hasAttribute('selected'));
       });
 
-      test('focuses on first download link if no copy links', () => {
-        const focusStub = sandbox.stub(element.$.download, 'focus');
-        element.focus();
-        assert.isTrue(focusStub.called);
-        focusStub.restore();
+      MockInteractions.tap(element.$$('[data-scheme="ssh"]'));
+      el = element.$$('[data-scheme="ssh"]').parentElement;
+      assert.isTrue(el.hasAttribute('selected'));
+      ['http', 'repo'].forEach(function(scheme) {
+        var el = element.$$('[data-scheme="' + scheme + '"]').parentElement;
+        assert.isFalse(el.hasAttribute('selected'));
       });
     });
 
-    suite('gr-download-dialog with fetch options', () => {
-      setup(() => {
-        element.change = getChangeObject();
-        flushAsynchronousOperations();
+    test('loads scheme from preferences w/o initial login', function(done) {
+      stub('gr-rest-api-interface', {
+        getPreferences: function() {
+          return Promise.resolve({download_scheme: 'repo'});
+        },
       });
 
-      test('focuses on first copy link', () => {
-        const focusStub = sinon.stub(element.$.downloadCommands, 'focusOnCopy');
-        element.focus();
-        flushAsynchronousOperations();
-        assert.isTrue(focusStub.called);
-        focusStub.restore();
+      element.loggedIn = true;
+
+      assert.isTrue(element.$.restAPI.getPreferences.called);
+      element.$.restAPI.getPreferences.lastCall.returnValue.then(function() {
+        assert.equal(element._selectedScheme, 'repo');
+        done();
+      });
+    });
+  });
+
+  suite('gr-download-dialog tests', function() {
+    var element;
+
+    setup(function() {
+      stub('gr-rest-api-interface', {
+        getPreferences: function() {
+          return Promise.resolve({download_scheme: 'repo'});
+        },
       });
 
-      test('computed fields', () => {
-        assert.equal(element._computeArchiveDownloadLink(
-            {_number: 123}, 2, 'tgz'),
-            '/changes/123/revisions/2/archive?format=tgz');
-      });
+      element = fixture('loggedIn');
+      element.change = getChangeObject();
+      element.patchNum = 1;
+      element.config = {
+        schemes: {
+          'anonymous http': {},
+          http: {},
+          repo: {},
+          ssh: {},
+        },
+        archives: ['tgz', 'tar', 'tbz2', 'txz'],
+      };
+    });
 
-      test('close event', done => {
-        element.addEventListener('close', () => {
-          done();
-        });
-        MockInteractions.tap(element.$$('.closeButtonContainer gr-button'));
+    test('loads scheme from preferences', function(done) {
+      element.$.restAPI.getPreferences.lastCall.returnValue.then(function() {
+        assert.equal(element._selectedScheme, 'repo');
+        done();
       });
+    });
+
+    test('saves scheme to preferences', function() {
+      var savePrefsStub = sinon.stub(element.$.restAPI, 'savePreferences',
+          function() { return Promise.resolve(); });
+
+      Polymer.dom.flush();
+
+      var firstSchemeButton = element.$$('li gr-button[data-scheme]');
+
+      MockInteractions.tap(firstSchemeButton);
+
+      assert.isTrue(savePrefsStub.called);
+      assert.equal(savePrefsStub.lastCall.args[0].download_scheme,
+          firstSchemeButton.getAttribute('data-scheme'));
+    });
+  });
+
+  test('normalize scheme from preferences', function(done) {
+    stub('gr-rest-api-interface', {
+      getPreferences: function() {
+        return Promise.resolve({download_scheme: 'REPO'});
+      },
+    });
+    element = fixture('loggedIn');
+    element.change = getChangeObject();
+    element.patchNum = 1;
+    element.config = {
+      schemes: {'anonymous http': {}, http: {}, repo: {}, ssh: {}},
+      archives: ['tgz', 'tar', 'tbz2', 'txz'],
+    };
+    element.$.restAPI.getPreferences.lastCall.returnValue.then(function() {
+      assert.equal(element._selectedScheme, 'repo');
+      done();
     });
   });
 </script>

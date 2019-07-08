@@ -16,18 +16,18 @@ package com.google.gerrit.lucene;
 
 import static com.google.gerrit.server.index.account.AccountField.ID;
 
-import com.google.gerrit.index.QueryOptions;
-import com.google.gerrit.index.Schema;
-import com.google.gerrit.index.query.DataSource;
-import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
+import com.google.gerrit.server.index.QueryOptions;
+import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.account.AccountIndex;
+import com.google.gerrit.server.query.DataSource;
+import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
@@ -81,7 +81,7 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
     if (LuceneIndexModule.isInMemoryTest(cfg)) {
       return new RAMDirectory();
     }
-    Path indexDir = LuceneVersionManager.getDir(sitePaths, ACCOUNTS, schema);
+    Path indexDir = LuceneVersionManager.getDir(sitePaths, ACCOUNTS + "_", schema);
     return FSDirectory.open(indexDir);
   }
 
@@ -109,7 +109,8 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
   @Override
   public void replace(AccountState as) throws IOException {
     try {
-      replace(idTerm(as), toDocument(as)).get();
+      // No parts of FillArgs are currently required, just use null.
+      replace(idTerm(as), toDocument(as, null)).get();
     } catch (ExecutionException | InterruptedException e) {
       throw new IOException(e);
     }

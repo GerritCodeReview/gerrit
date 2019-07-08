@@ -16,17 +16,16 @@ package com.google.gerrit.server.change;
 
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
-import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.config.ChangeCleanupConfig;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryProcessor;
-import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,7 +39,7 @@ public class AbandonUtil {
   private static final Logger log = LoggerFactory.getLogger(AbandonUtil.class);
 
   private final ChangeCleanupConfig cfg;
-  private final Provider<ChangeQueryProcessor> queryProvider;
+  private final ChangeQueryProcessor queryProcessor;
   private final ChangeQueryBuilder queryBuilder;
   private final Abandon abandon;
   private final InternalUser internalUser;
@@ -49,17 +48,17 @@ public class AbandonUtil {
   AbandonUtil(
       ChangeCleanupConfig cfg,
       InternalUser.Factory internalUserFactory,
-      Provider<ChangeQueryProcessor> queryProvider,
+      ChangeQueryProcessor queryProcessor,
       ChangeQueryBuilder queryBuilder,
       Abandon abandon) {
     this.cfg = cfg;
-    this.queryProvider = queryProvider;
+    this.queryProcessor = queryProcessor;
     this.queryBuilder = queryBuilder;
     this.abandon = abandon;
     internalUser = internalUserFactory.create();
   }
 
-  public void abandonInactiveOpenChanges(BatchUpdate.Factory updateFactory) {
+  public void abandonInactiveOpenChanges() {
     if (cfg.getAbandonAfter() <= 0) {
       return;
     }
@@ -72,24 +71,29 @@ public class AbandonUtil {
       }
 
       List<ChangeData> changesToAbandon =
-          queryProvider.get().enforceVisibility(false).query(queryBuilder.parse(query)).entities();
-      ImmutableListMultimap.Builder<Project.NameKey, ChangeData> builder =
+          queryProcessor.enforceVisibility(false).query(queryBuilder.parse(query)).entities();
+      ImmutableListMultimap.Builder<Project.NameKey, ChangeControl> builder =
           ImmutableListMultimap.builder();
       for (ChangeData cd : changesToAbandon) {
-        builder.put(cd.project(), cd);
+        try {
+          ChangeControl control = cd.changeControl(internalUser);
+          builder.put(control.getProject().getNameKey(), control);
+        } catch (OrmException e) {
+          log.warn("Failed to query inactive open change for auto-abandoning.", e);
+        }
       }
 
       int count = 0;
-      ListMultimap<Project.NameKey, ChangeData> abandons = builder.build();
+      ListMultimap<Project.NameKey, ChangeControl> abandons = builder.build();
       String message = cfg.getAbandonMessage();
       for (Project.NameKey project : abandons.keySet()) {
-        Collection<ChangeData> changes = getValidChanges(abandons.get(project), query);
+        Collection<ChangeControl> changes = getValidChanges(abandons.get(project), query);
         try {
-          abandon.batchAbandon(updateFactory, project, internalUser, changes, message);
+          abandon.batchAbandon(project, internalUser, changes, message);
           count += changes.size();
         } catch (Throwable e) {
           StringBuilder msg = new StringBuilder("Failed to auto-abandon inactive change(s):");
-          for (ChangeData change : changes) {
+          for (ChangeControl change : changes) {
             msg.append(" ").append(change.getId().get());
           }
           msg.append(".");
@@ -102,24 +106,21 @@ public class AbandonUtil {
     }
   }
 
-  private Collection<ChangeData> getValidChanges(Collection<ChangeData> changes, String query)
+  private Collection<ChangeControl> getValidChanges(
+      Collection<ChangeControl> changeControls, String query)
       throws OrmException, QueryParseException {
-    Collection<ChangeData> validChanges = new ArrayList<>();
-    for (ChangeData cd : changes) {
-      String newQuery = query + " change:" + cd.getId();
+    Collection<ChangeControl> validChanges = new ArrayList<>();
+    for (ChangeControl cc : changeControls) {
+      String newQuery = query + " change:" + cc.getId();
       List<ChangeData> changesToAbandon =
-          queryProvider
-              .get()
-              .enforceVisibility(false)
-              .query(queryBuilder.parse(newQuery))
-              .entities();
+          queryProcessor.enforceVisibility(false).query(queryBuilder.parse(newQuery)).entities();
       if (!changesToAbandon.isEmpty()) {
-        validChanges.add(cd);
+        validChanges.add(cc);
       } else {
         log.debug(
             "Change data with id \"{}\" does not satisfy the query \"{}\""
                 + " any more, hence skipping it in clean up",
-            cd.getId(),
+            cc.getId(),
             query);
       }
     }

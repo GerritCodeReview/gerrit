@@ -19,32 +19,31 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../../styles/gr-form-styles.html">
+
+<link rel="import" href="../../../styles/gr-settings-styles.html">
 
 <dom-module id="gr-menu-editor">
   <template>
-    <style include="shared-styles">
-      .buttonColumn {
-        width: 2em;
+    <style>
+      th.nameHeader {
+        width: 11em;
       }
-      .moveUpButton,
-      .moveDownButton {
-        width: 100%
-      }
-      tbody tr:first-of-type td .moveUpButton,
-      tbody tr:last-of-type td .moveDownButton {
+      tbody tr:first-of-type td .move-up-button,
+      tbody tr:last-of-type td .move-down-button {
         display: none;
       }
       td.urlCell {
         word-break: break-word;
       }
+      .newTitleInput {
+        width: 10em;
+      }
       .newUrlInput {
-        min-width: 23em;
+        width: 23em;
       }
     </style>
-    <style include="gr-form-styles"></style>
-    <div class="gr-form-styles">
+    <style include="gr-settings-styles"></style>
+    <div class="gr-settings-styles">
       <table>
         <thead>
           <tr>
@@ -57,23 +56,20 @@ limitations under the License.
             <tr>
               <td>[[item.name]]</td>
               <td class="urlCell">[[item.url]]</td>
-              <td class="buttonColumn">
+              <td>
                 <gr-button
-                    link
                     data-index="[[index]]"
                     on-tap="_handleMoveUpButton"
-                    class="moveUpButton">↑</gr-button>
-              </td>
-              <td class="buttonColumn">
-                <gr-button
-                    link
-                    data-index="[[index]]"
-                    on-tap="_handleMoveDownButton"
-                    class="moveDownButton">↓</gr-button>
+                    class="move-up-button">↑</gr-button>
               </td>
               <td>
                 <gr-button
-                    link
+                    data-index="[[index]]"
+                    on-tap="_handleMoveDownButton"
+                    class="move-down-button">↓</gr-button>
+              </td>
+              <td>
+                <gr-button
                     data-index="[[index]]"
                     on-tap="_handleDeleteButton"
                     class="remove-button">Delete</gr-button>
@@ -85,6 +81,7 @@ limitations under the License.
           <tr>
             <th>
               <input
+                  class="newTitleInput"
                   is="iron-input"
                   placeholder="New Title"
                   on-keydown="_handleInputKeydown"
@@ -102,7 +99,6 @@ limitations under the License.
             <th></th>
             <th>
               <gr-button
-                  link
                   disabled$="[[_computeAddDisabled(_newName, _newUrl)]]"
                   on-tap="_handleAddButton">Add</gr-button>
             </th>

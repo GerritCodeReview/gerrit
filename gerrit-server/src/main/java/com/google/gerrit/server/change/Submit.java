@@ -40,7 +40,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
@@ -52,13 +51,10 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeSuperSet;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.permissions.ChangePermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.inject.Inject;
@@ -66,14 +62,11 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Set;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -100,7 +93,6 @@ public class Submit
       "This change depends on other changes which are not ready";
   private static final String BLOCKED_HIDDEN_SUBMIT_TOOLTIP =
       "This change depends on other hidden changes which are not ready";
-  private static final String BLOCKED_WORK_IN_PROGRESS = "This change is marked work in progress";
   private static final String CLICK_FAILURE_TOOLTIP = "Clicking the button would fail";
   private static final String CHANGE_UNMERGEABLE = "Problems with integrating this change";
   private static final String CHANGES_NOT_MERGEABLE = "Problems with change(s): ";
@@ -119,25 +111,24 @@ public class Submit
    */
   @VisibleForTesting
   public static class TestSubmitInput extends SubmitInput {
-    public boolean failAfterRefUpdates;
+    public final boolean failAfterRefUpdates;
 
-    /**
-     * For each change being submitted, an element is removed from this queue and, if the value is
-     * true, a bogus ref update is added to the batch, in order to generate a lock failure during
-     * execution.
-     */
-    public Queue<Boolean> generateLockFailures;
+    public TestSubmitInput(SubmitInput base, boolean failAfterRefUpdates) {
+      this.onBehalfOf = base.onBehalfOf;
+      this.notify = base.notify;
+      this.failAfterRefUpdates = failAfterRefUpdates;
+    }
   }
 
   private final Provider<ReviewDb> dbProvider;
   private final GitRepositoryManager repoManager;
-  private final PermissionBackend permissionBackend;
   private final ChangeData.Factory changeDataFactory;
   private final ChangeMessagesUtil cmUtil;
   private final ChangeNotes.Factory changeNotesFactory;
   private final Provider<MergeOp> mergeOpProvider;
   private final Provider<MergeSuperSet> mergeSuperSet;
   private final AccountsCollection accounts;
+  private final ChangesCollection changes;
   private final String label;
   private final String labelWithParents;
   private final ParameterizedString titlePattern;
@@ -152,25 +143,25 @@ public class Submit
   Submit(
       Provider<ReviewDb> dbProvider,
       GitRepositoryManager repoManager,
-      PermissionBackend permissionBackend,
       ChangeData.Factory changeDataFactory,
       ChangeMessagesUtil cmUtil,
       ChangeNotes.Factory changeNotesFactory,
       Provider<MergeOp> mergeOpProvider,
       Provider<MergeSuperSet> mergeSuperSet,
       AccountsCollection accounts,
+      ChangesCollection changes,
       @GerritServerConfig Config cfg,
       Provider<InternalChangeQuery> queryProvider,
       PatchSetUtil psUtil) {
     this.dbProvider = dbProvider;
     this.repoManager = repoManager;
-    this.permissionBackend = permissionBackend;
     this.changeDataFactory = changeDataFactory;
     this.cmUtil = cmUtil;
     this.changeNotesFactory = changeNotesFactory;
     this.mergeOpProvider = mergeOpProvider;
     this.mergeSuperSet = mergeSuperSet;
     this.accounts = accounts;
+    this.changes = changes;
     this.label =
         MoreObjects.firstNonNull(
             Strings.emptyToNull(cfg.getString("change", null, "submitLabel")), "Submit");
@@ -202,26 +193,18 @@ public class Submit
 
   @Override
   public Output apply(RevisionResource rsrc, SubmitInput input)
-      throws RestApiException, RepositoryNotFoundException, IOException, OrmException,
-          PermissionBackendException, UpdateException, ConfigInvalidException {
+      throws RestApiException, RepositoryNotFoundException, IOException, OrmException {
     input.onBehalfOf = Strings.emptyToNull(input.onBehalfOf);
-    IdentifiedUser submitter;
     if (input.onBehalfOf != null) {
-      submitter = onBehalfOf(rsrc, input);
-    } else {
-      rsrc.permissions().check(ChangePermission.SUBMIT);
-      submitter = rsrc.getUser().asIdentifiedUser();
+      rsrc = onBehalfOf(rsrc, input);
     }
-
-    return new Output(mergeChange(rsrc, submitter, input));
-  }
-
-  public Change mergeChange(RevisionResource rsrc, IdentifiedUser submitter, SubmitInput input)
-      throws OrmException, RestApiException, IOException, UpdateException, ConfigInvalidException,
-          PermissionBackendException {
+    ChangeControl control = rsrc.getControl();
+    IdentifiedUser caller = control.getUser().asIdentifiedUser();
     Change change = rsrc.getChange();
-    if (!change.getStatus().isOpen()) {
-      throw new ResourceConflictException("change is " + ChangeUtil.status(change));
+    if (input.onBehalfOf == null && !control.canSubmit()) {
+      throw new AuthException("submit not permitted");
+    } else if (!change.getStatus().isOpen()) {
+      throw new ResourceConflictException("change is " + status(change));
     } else if (!ProjectUtil.branchExists(repoManager, change.getDest())) {
       throw new ResourceConflictException(
           String.format("destination branch \"%s\" not found.", change.getDest().get()));
@@ -234,7 +217,7 @@ public class Submit
 
     try (MergeOp op = mergeOpProvider.get()) {
       ReviewDb db = dbProvider.get();
-      op.merge(db, change, submitter, true, input, false);
+      op.merge(db, change, caller, true, input, false);
       try {
         change =
             changeNotesFactory.createChecked(db, change.getProject(), change.getId()).getChange();
@@ -245,7 +228,7 @@ public class Submit
 
     switch (change.getStatus()) {
       case MERGED:
-        return change;
+        return new Output(change);
       case NEW:
         ChangeMessage msg = getConflictMessage(rsrc);
         if (msg != null) {
@@ -253,8 +236,9 @@ public class Submit
         }
         // $FALL-THROUGH$
       case ABANDONED:
+      case DRAFT:
       default:
-        throw new ResourceConflictException("change is " + ChangeUtil.status(change));
+        throw new ResourceConflictException("change is " + status(change));
     }
   }
 
@@ -266,26 +250,21 @@ public class Submit
    */
   private String problemsForSubmittingChangeset(ChangeData cd, ChangeSet cs, CurrentUser user) {
     try {
+      @SuppressWarnings("resource")
+      ReviewDb db = dbProvider.get();
       if (cs.furtherHiddenChanges()) {
         return BLOCKED_HIDDEN_SUBMIT_TOOLTIP;
       }
       for (ChangeData c : cs.changes()) {
-        Set<ChangePermission> can =
-            permissionBackend
-                .user(user)
-                .database(dbProvider)
-                .change(c)
-                .test(EnumSet.of(ChangePermission.READ, ChangePermission.SUBMIT));
-        if (!can.contains(ChangePermission.READ)) {
+        ChangeControl changeControl = c.changeControl(user);
+
+        if (!changeControl.isVisible(db)) {
           return BLOCKED_HIDDEN_SUBMIT_TOOLTIP;
         }
-        if (!can.contains(ChangePermission.SUBMIT)) {
+        if (!changeControl.canSubmit()) {
           return BLOCKED_SUBMIT_TOOLTIP;
         }
-        if (c.change().isWorkInProgress()) {
-          return BLOCKED_WORK_IN_PROGRESS;
-        }
-        MergeOp.checkSubmitRule(c, false);
+        MergeOp.checkSubmitRule(c);
       }
 
       Collection<ChangeData> unmergeable = unmergeableChanges(cs);
@@ -302,7 +281,7 @@ public class Submit
       }
     } catch (ResourceConflictException e) {
       return BLOCKED_SUBMIT_TOOLTIP;
-    } catch (PermissionBackendException | OrmException | IOException e) {
+    } catch (OrmException | IOException e) {
       log.error("Error checking if change is submittable", e);
       throw new OrmRuntimeException("Could not determine problems for the change", e);
     }
@@ -311,33 +290,37 @@ public class Submit
 
   @Override
   public UiAction.Description getDescription(RevisionResource resource) {
-    Change change = resource.getChange();
-    if (!change.getStatus().isOpen()
-        || !resource.isCurrent()
-        || !resource.permissions().testOrFalse(ChangePermission.SUBMIT)) {
-      return null; // submit not visible
-    }
-
+    PatchSet.Id current = resource.getChange().currentPatchSetId();
+    String topic = resource.getChange().getTopic();
+    boolean visible =
+        !resource.getPatchSet().isDraft()
+            && resource.getChange().getStatus().isOpen()
+            && resource.getPatchSet().getId().equals(current)
+            && resource.getControl().canSubmit();
     ReviewDb db = dbProvider.get();
-    ChangeData cd = changeDataFactory.create(db, resource.getNotes());
+    ChangeData cd = changeDataFactory.create(db, resource.getControl());
+
     try {
-      MergeOp.checkSubmitRule(cd, false);
+      MergeOp.checkSubmitRule(cd);
     } catch (ResourceConflictException e) {
-      return null; // submit not visible
+      visible = false;
     } catch (OrmException e) {
       log.error("Error checking if change is submittable", e);
       throw new OrmRuntimeException("Could not determine problems for the change", e);
     }
 
+    if (!visible) {
+      return new UiAction.Description().setLabel("").setTitle("").setVisible(false);
+    }
+
     ChangeSet cs;
     try {
-      cs = mergeSuperSet.get().completeChangeSet(db, cd.change(), resource.getUser());
-    } catch (OrmException | IOException | PermissionBackendException e) {
+      cs = mergeSuperSet.get().completeChangeSet(db, cd.change(), resource.getControl().getUser());
+    } catch (OrmException | IOException e) {
       throw new OrmRuntimeException(
           "Could not determine complete set of changes to be submitted", e);
     }
 
-    String topic = change.getTopic();
     int topicSize = 0;
     if (!Strings.isNullOrEmpty(topic)) {
       topicSize = getChangesByTopic(topic).size();
@@ -384,7 +367,7 @@ public class Submit
     Map<String, String> params =
         ImmutableMap.of(
             "patchSet", String.valueOf(resource.getPatchSet().getPatchSetId()),
-            "branch", change.getDest().getShortName(),
+            "branch", resource.getChange().getDest().getShortName(),
             "commit", ObjectId.fromString(revId.get()).abbreviate(7).name(),
             "submitSize", String.valueOf(cs.size()));
     ParameterizedString tp = cs.size() > 1 ? titlePatternWithAncestors : titlePattern;
@@ -405,6 +388,10 @@ public class Submit
         .filter(cm -> cm.getAuthor() == null)
         .last()
         .orNull();
+  }
+
+  static String status(Change change) {
+    return change != null ? change.getStatus().name().toLowerCase() : "deleted";
   }
 
   public Collection<ChangeData> unmergeableChanges(ChangeSet cs) throws OrmException, IOException {
@@ -471,22 +458,24 @@ public class Submit
     return commits;
   }
 
-  private IdentifiedUser onBehalfOf(RevisionResource rsrc, SubmitInput in)
-      throws AuthException, UnprocessableEntityException, OrmException, PermissionBackendException,
-          IOException, ConfigInvalidException {
-    PermissionBackend.ForChange perm = rsrc.permissions().database(dbProvider);
-    perm.check(ChangePermission.SUBMIT);
-    perm.check(ChangePermission.SUBMIT_AS);
-
-    CurrentUser caller = rsrc.getUser();
-    IdentifiedUser submitter = accounts.parseOnBehalfOf(caller, in.onBehalfOf);
-    try {
-      perm.user(submitter).check(ChangePermission.READ);
-    } catch (AuthException e) {
-      throw new UnprocessableEntityException(
-          String.format("on_behalf_of account %s cannot see change", submitter.getAccountId()));
+  private RevisionResource onBehalfOf(RevisionResource rsrc, SubmitInput in)
+      throws AuthException, UnprocessableEntityException, OrmException {
+    ChangeControl caller = rsrc.getControl();
+    if (!caller.canSubmit()) {
+      throw new AuthException("submit not permitted");
     }
-    return submitter;
+    if (!caller.canSubmitAs()) {
+      throw new AuthException("submit on behalf of not permitted");
+    }
+    ChangeControl target =
+        caller.forUser(accounts.parseOnBehalfOf(caller.getUser(), in.onBehalfOf));
+    if (!target.getRefControl().isVisible()) {
+      throw new UnprocessableEntityException(
+          String.format(
+              "on_behalf_of account %s cannot see destination ref",
+              target.getUser().getAccountId()));
+    }
+    return new RevisionResource(changes.parse(target), rsrc.getPatchSet());
   }
 
   public static boolean wholeTopicEnabled(Config config) {
@@ -521,11 +510,12 @@ public class Submit
 
     @Override
     public ChangeInfo apply(ChangeResource rsrc, SubmitInput input)
-        throws RestApiException, RepositoryNotFoundException, IOException, OrmException,
-            PermissionBackendException, UpdateException, ConfigInvalidException {
+        throws RestApiException, RepositoryNotFoundException, IOException, OrmException {
       PatchSet ps = psUtil.current(dbProvider.get(), rsrc.getNotes());
       if (ps == null) {
         throw new ResourceConflictException("current revision is missing");
+      } else if (!rsrc.getControl().isPatchVisible(ps, dbProvider.get())) {
+        throw new AuthException("current revision not accessible");
       }
 
       Output out = submit.apply(new RevisionResource(rsrc, ps), input);

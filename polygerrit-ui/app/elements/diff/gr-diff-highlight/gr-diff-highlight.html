@@ -16,12 +16,11 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../gr-selection-action-box/gr-selection-action-box.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-diff-highlight">
   <template>
-    <style include="shared-styles">
-      :host {
+    <style>
+      .contentWrapper ::content {
         position: relative;
       }
       .contentWrapper ::content .range {
@@ -31,13 +30,6 @@ limitations under the License.
       .contentWrapper ::content .rangeHighlight {
         background-color: rgba(255,255,0,0.5);
         display: inline;
-      }
-      gr-selection-action-box {
-        /**
-         * Needs z-index to apear above wrapped content, since it's inseted
-         * into DOM before it.
-         */
-        z-index: 10;
       }
     </style>
     <div class="contentWrapper">

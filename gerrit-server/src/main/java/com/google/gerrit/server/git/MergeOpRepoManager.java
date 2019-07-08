@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
@@ -95,7 +94,7 @@ public class MergeOpRepoManager implements AutoCloseable {
     }
 
     Project.NameKey getProjectName() {
-      return project.getNameKey();
+      return project.getProject().getNameKey();
     }
 
     public CodeReviewRevWalk getCodeReviewRevWalk() {
@@ -136,8 +135,7 @@ public class MergeOpRepoManager implements AutoCloseable {
         update = or.repo.updateRef(name.get());
         if (update.getOldObjectId() != null) {
           oldTip = or.rw.parseCommit(update.getOldObjectId());
-        } else if (Objects.equals(or.repo.getFullBranch(), name.get())
-            || Objects.equals(RefNames.REFS_CONFIG, name.get())) {
+        } else if (Objects.equals(or.repo.getFullBranch(), name.get())) {
           oldTip = null;
           update.setExpectedOldObjectId(ObjectId.zeroId());
         } else {
@@ -175,7 +173,7 @@ public class MergeOpRepoManager implements AutoCloseable {
     openRepos = new HashMap<>();
   }
 
-  public void setContext(ReviewDb db, Timestamp ts, IdentifiedUser caller, RequestId submissionId) {
+  void setContext(ReviewDb db, Timestamp ts, IdentifiedUser caller, RequestId submissionId) {
     this.db = db;
     this.ts = ts;
     this.caller = caller;

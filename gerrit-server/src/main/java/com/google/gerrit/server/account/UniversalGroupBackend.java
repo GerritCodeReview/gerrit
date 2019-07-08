@@ -31,7 +31,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StartupCheck;
 import com.google.gerrit.server.StartupException;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Collection;
@@ -87,7 +87,7 @@ public class UniversalGroupBackend implements GroupBackend {
   }
 
   @Override
-  public Collection<GroupReference> suggest(String name, ProjectState project) {
+  public Collection<GroupReference> suggest(String name, ProjectControl project) {
     Set<GroupReference> groups = Sets.newTreeSet(GROUP_REF_NAME_COMPARATOR);
     for (GroupBackend g : backends) {
       groups.addAll(g.suggest(name, project));

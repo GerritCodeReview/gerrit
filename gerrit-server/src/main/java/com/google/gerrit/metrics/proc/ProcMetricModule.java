@@ -103,7 +103,7 @@ public class ProcMetricModule extends MetricModule {
   }
 
   private void procJvmMemory(MetricMaker metrics) {
-    CallbackMetric0<Long> heapCommitted =
+    final CallbackMetric0<Long> heapCommitted =
         metrics.newCallbackMetric(
             "proc/jvm/memory/heap_committed",
             Long.class,
@@ -111,7 +111,7 @@ public class ProcMetricModule extends MetricModule {
                 .setGauge()
                 .setUnit(Units.BYTES));
 
-    CallbackMetric0<Long> heapUsed =
+    final CallbackMetric0<Long> heapUsed =
         metrics.newCallbackMetric(
             "proc/jvm/memory/heap_used",
             Long.class,
@@ -119,7 +119,7 @@ public class ProcMetricModule extends MetricModule {
                 .setGauge()
                 .setUnit(Units.BYTES));
 
-    CallbackMetric0<Long> nonHeapCommitted =
+    final CallbackMetric0<Long> nonHeapCommitted =
         metrics.newCallbackMetric(
             "proc/jvm/memory/non_heap_committed",
             Long.class,
@@ -127,7 +127,7 @@ public class ProcMetricModule extends MetricModule {
                 .setGauge()
                 .setUnit(Units.BYTES));
 
-    CallbackMetric0<Long> nonHeapUsed =
+    final CallbackMetric0<Long> nonHeapUsed =
         metrics.newCallbackMetric(
             "proc/jvm/memory/non_heap_used",
             Long.class,
@@ -135,7 +135,7 @@ public class ProcMetricModule extends MetricModule {
                 .setGauge()
                 .setUnit(Units.BYTES));
 
-    CallbackMetric0<Integer> objectPendingFinalizationCount =
+    final CallbackMetric0<Integer> objectPendingFinalizationCount =
         metrics.newCallbackMetric(
             "proc/jvm/memory/object_pending_finalization_count",
             Integer.class,
@@ -143,36 +143,39 @@ public class ProcMetricModule extends MetricModule {
                 .setGauge()
                 .setUnit("objects"));
 
-    MemoryMXBean memory = ManagementFactory.getMemoryMXBean();
+    final MemoryMXBean memory = ManagementFactory.getMemoryMXBean();
     metrics.newTrigger(
         ImmutableSet.<CallbackMetric<?>>of(
             heapCommitted, heapUsed, nonHeapCommitted, nonHeapUsed, objectPendingFinalizationCount),
-        () -> {
-          try {
-            MemoryUsage stats = memory.getHeapMemoryUsage();
-            heapCommitted.set(stats.getCommitted());
-            heapUsed.set(stats.getUsed());
-          } catch (IllegalArgumentException e) {
-            // MXBean may throw due to a bug in Java 7; ignore.
+        new Runnable() {
+          @Override
+          public void run() {
+            try {
+              MemoryUsage stats = memory.getHeapMemoryUsage();
+              heapCommitted.set(stats.getCommitted());
+              heapUsed.set(stats.getUsed());
+            } catch (IllegalArgumentException e) {
+              // MXBean may throw due to a bug in Java 7; ignore.
+            }
+
+            MemoryUsage stats = memory.getNonHeapMemoryUsage();
+            nonHeapCommitted.set(stats.getCommitted());
+            nonHeapUsed.set(stats.getUsed());
+
+            objectPendingFinalizationCount.set(memory.getObjectPendingFinalizationCount());
           }
-
-          MemoryUsage stats = memory.getNonHeapMemoryUsage();
-          nonHeapCommitted.set(stats.getCommitted());
-          nonHeapUsed.set(stats.getUsed());
-
-          objectPendingFinalizationCount.set(memory.getObjectPendingFinalizationCount());
         });
   }
 
   private void procJvmGc(MetricMaker metrics) {
-    CallbackMetric1<String, Long> gcCount =
+    final CallbackMetric1<String, Long> gcCount =
         metrics.newCallbackMetric(
             "proc/jvm/gc/count",
             Long.class,
             new Description("Number of GCs").setCumulative(),
             Field.ofString("gc_name", "The name of the garbage collector"));
 
-    CallbackMetric1<String, Long> gcTime =
+    final CallbackMetric1<String, Long> gcTime =
         metrics.newCallbackMetric(
             "proc/jvm/gc/time",
             Long.class,
@@ -184,26 +187,34 @@ public class ProcMetricModule extends MetricModule {
     metrics.newTrigger(
         gcCount,
         gcTime,
-        () -> {
-          for (GarbageCollectorMXBean gc : ManagementFactory.getGarbageCollectorMXBeans()) {
-            long count = gc.getCollectionCount();
-            if (count != -1) {
-              gcCount.set(gc.getName(), count);
-            }
-            long time = gc.getCollectionTime();
-            if (time != -1) {
-              gcTime.set(gc.getName(), time);
+        new Runnable() {
+          @Override
+          public void run() {
+            for (GarbageCollectorMXBean gc : ManagementFactory.getGarbageCollectorMXBeans()) {
+              long count = gc.getCollectionCount();
+              if (count != -1) {
+                gcCount.set(gc.getName(), count);
+              }
+              long time = gc.getCollectionTime();
+              if (time != -1) {
+                gcTime.set(gc.getName(), time);
+              }
             }
           }
         });
   }
 
   private void procJvmThread(MetricMaker metrics) {
-    ThreadMXBean thread = ManagementFactory.getThreadMXBean();
+    final ThreadMXBean thread = ManagementFactory.getThreadMXBean();
     metrics.newCallbackMetric(
         "proc/jvm/thread/num_live",
         Integer.class,
         new Description("Current live thread count").setGauge().setUnit("threads"),
-        () -> thread.getThreadCount());
+        new Supplier<Integer>() {
+          @Override
+          public Integer get() {
+            return thread.getThreadCount();
+          }
+        });
   }
 }

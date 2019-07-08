@@ -20,7 +20,7 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectControl;
 import java.util.Collection;
 
 /** Implementations of GroupBackend provide lookup and membership accessors to a group system. */
@@ -39,7 +39,7 @@ public interface GroupBackend {
   GroupDescription.Basic get(AccountGroup.UUID uuid);
 
   /** @return suggestions for the group name sorted by name. */
-  Collection<GroupReference> suggest(String name, @Nullable ProjectState project);
+  Collection<GroupReference> suggest(String name, @Nullable ProjectControl project);
 
   /** @return the group membership checker for the backend. */
   GroupMembership membershipsOf(IdentifiedUser user);

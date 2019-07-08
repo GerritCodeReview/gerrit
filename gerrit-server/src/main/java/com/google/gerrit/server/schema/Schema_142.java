@@ -14,24 +14,16 @@
 
 package com.google.gerrit.server.schema;
 
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
-
-import com.google.common.base.Strings;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.HashedPassword;
-import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.List;
 
 public class Schema_142 extends SchemaVersion {
-  private static final int MAX_BATCH_SIZE = 1000;
-
   @Inject
   Schema_142(Provider<Schema_141> prior) {
     super(prior);
@@ -39,39 +31,19 @@ public class Schema_142 extends SchemaVersion {
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
-    try (PreparedStatement updateStmt =
-        ((JdbcSchema) db)
-            .getConnection()
-            .prepareStatement(
-                "UPDATE account_external_ids " + "SET password = ? " + "WHERE external_id = ?")) {
-      int batchCount = 0;
-
-      try (Statement stmt = newStatement(db);
-          ResultSet rs =
-              stmt.executeQuery("SELECT external_id, password FROM account_external_ids")) {
-        while (rs.next()) {
-          String externalId = rs.getString("external_id");
-          String password = rs.getString("password");
-          if (!ExternalId.Key.parse(externalId).isScheme(SCHEME_USERNAME)
-              || Strings.isNullOrEmpty(password)) {
-            continue;
-          }
-
-          HashedPassword hashed = HashedPassword.fromPassword(password);
-          updateStmt.setString(1, hashed.encode());
-          updateStmt.setString(2, externalId);
-          updateStmt.addBatch();
-          batchCount++;
-          if (batchCount >= MAX_BATCH_SIZE) {
-            updateStmt.executeBatch();
-            batchCount = 0;
-          }
-        }
+    List<AccountExternalId> newIds = db.accountExternalIds().all().toList();
+    for (AccountExternalId id : newIds) {
+      if (!id.isScheme(AccountExternalId.SCHEME_USERNAME)) {
+        continue;
       }
 
-      if (batchCount > 0) {
-        updateStmt.executeBatch();
+      String password = id.getPassword();
+      if (password != null) {
+        HashedPassword hashed = HashedPassword.fromPassword(password);
+        id.setPassword(hashed.encode());
       }
     }
+
+    db.accountExternalIds().upsert(newIds);
   }
 }

@@ -16,6 +16,7 @@
 
   Polymer({
     is: 'gr-select',
+    extends: 'select',
     properties: {
       bindValue: {
         type: String,
@@ -25,34 +26,23 @@
     },
 
     listeners: {
-      'change': '_valueChanged',
+      change: '_valueChanged',
       'dom-change': '_updateValue',
     },
 
-    get nativeSelect() {
-      return this.$$('select');
-    },
-
-    _updateValue() {
+    _updateValue: function() {
       if (this.bindValue) {
-        // Set for chrome/safari so it happens instantly
-        this.nativeSelect.value = this.bindValue;
-        // Async needed for firefox to populate value. It was trying to do it
-        // before options from a dom-repeat were rendered previously.
-        // See https://bugs.chromium.org/p/gerrit/issues/detail?id=7735
-        this.async(() => {
-          this.nativeSelect.value = this.bindValue;
-        }, 1);
+        this.value = this.bindValue;
       }
     },
 
-    _valueChanged() {
-      this.bindValue = this.nativeSelect.value;
+    _valueChanged: function() {
+      this.bindValue = this.value;
     },
 
-    ready() {
+    ready: function() {
       // If not set via the property, set bind-value to the element value.
-      if (!this.bindValue) { this.bindValue = this.nativeSelect.value; }
+      if (!this.bindValue) { this.bindValue = this.value; }
     },
   });
 })();

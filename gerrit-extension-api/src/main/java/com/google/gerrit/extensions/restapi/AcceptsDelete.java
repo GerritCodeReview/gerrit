@@ -29,5 +29,5 @@ public interface AcceptsDelete<P extends RestResource> {
    * @return a view to perform the deletion.
    * @throws RestApiException the view cannot be constructed.
    */
-  RestModifyView<P, ?> delete(P parent, IdString id) throws RestApiException;
+  <I> RestModifyView<P, I> delete(P parent, IdString id) throws RestApiException;
 }

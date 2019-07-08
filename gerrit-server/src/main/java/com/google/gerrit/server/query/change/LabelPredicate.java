@@ -15,44 +15,49 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.collect.Lists;
-import com.google.gerrit.index.query.OrPredicate;
-import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.index.query.RangeUtil;
-import com.google.gerrit.index.query.RangeUtil.Range;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.OrPredicate;
+import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.util.LabelVote;
+import com.google.gerrit.server.util.RangeUtil;
+import com.google.gerrit.server.util.RangeUtil.Range;
 import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 public class LabelPredicate extends OrPredicate<ChangeData> {
-  protected static final int MAX_LABEL_VALUE = 4;
+  private static final int MAX_LABEL_VALUE = 4;
 
-  protected static class Args {
-    protected final ProjectCache projectCache;
-    protected final PermissionBackend permissionBackend;
-    protected final IdentifiedUser.GenericFactory userFactory;
-    protected final Provider<ReviewDb> dbProvider;
-    protected final String value;
-    protected final Set<Account.Id> accounts;
-    protected final AccountGroup.UUID group;
+  static class Args {
+    final FieldDef<ChangeData, ?> field;
+    final ProjectCache projectCache;
+    final ChangeControl.GenericFactory ccFactory;
+    final IdentifiedUser.GenericFactory userFactory;
+    final Provider<ReviewDb> dbProvider;
+    final String value;
+    final Set<Account.Id> accounts;
+    final AccountGroup.UUID group;
 
-    protected Args(
+    private Args(
+        FieldDef<ChangeData, ?> field,
         ProjectCache projectCache,
-        PermissionBackend permissionBackend,
+        ChangeControl.GenericFactory ccFactory,
         IdentifiedUser.GenericFactory userFactory,
         Provider<ReviewDb> dbProvider,
         String value,
         Set<Account.Id> accounts,
         AccountGroup.UUID group) {
+      this.field = field;
       this.projectCache = projectCache;
-      this.permissionBackend = permissionBackend;
+      this.ccFactory = ccFactory;
       this.userFactory = userFactory;
       this.dbProvider = dbProvider;
       this.value = value;
@@ -61,21 +66,22 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     }
   }
 
-  protected static class Parsed {
-    protected final String label;
-    protected final String test;
-    protected final int expVal;
+  private static class Parsed {
+    private final String label;
+    private final String test;
+    private final int expVal;
 
-    protected Parsed(String label, String test, int expVal) {
+    private Parsed(String label, String test, int expVal) {
       this.label = label;
       this.test = test;
       this.expVal = expVal;
     }
   }
 
-  protected final String value;
+  private final String value;
 
-  public LabelPredicate(
+  @SuppressWarnings("deprecation")
+  LabelPredicate(
       ChangeQueryBuilder.Arguments a,
       String value,
       Set<Account.Id> accounts,
@@ -83,11 +89,18 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     super(
         predicates(
             new Args(
-                a.projectCache, a.permissionBackend, a.userFactory, a.db, value, accounts, group)));
+                a.getSchema().getField(ChangeField.LABEL2, ChangeField.LABEL).get(),
+                a.projectCache,
+                a.changeControlGenericFactory,
+                a.userFactory,
+                a.db,
+                value,
+                accounts,
+                group)));
     this.value = value;
   }
 
-  protected static List<Predicate<ChangeData>> predicates(Args args) {
+  private static List<Predicate<ChangeData>> predicates(Args args) {
     String v = args.value;
     Parsed parsed = null;
 
@@ -127,14 +140,14 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     return r;
   }
 
-  protected static Predicate<ChangeData> onePredicate(Args args, String label, int expVal) {
+  private static Predicate<ChangeData> onePredicate(Args args, String label, int expVal) {
     if (expVal != 0) {
       return equalsLabelPredicate(args, label, expVal);
     }
     return noLabelQuery(args, label);
   }
 
-  protected static Predicate<ChangeData> noLabelQuery(Args args, String label) {
+  private static Predicate<ChangeData> noLabelQuery(Args args, String label) {
     List<Predicate<ChangeData>> r = Lists.newArrayListWithCapacity(2 * MAX_LABEL_VALUE);
     for (int i = 1; i <= MAX_LABEL_VALUE; i++) {
       r.add(equalsLabelPredicate(args, label, i));
@@ -143,7 +156,7 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     return not(or(r));
   }
 
-  protected static Predicate<ChangeData> equalsLabelPredicate(Args args, String label, int expVal) {
+  private static Predicate<ChangeData> equalsLabelPredicate(Args args, String label, int expVal) {
     if (args.accounts == null || args.accounts.isEmpty()) {
       return new EqualsLabelPredicate(args, label, expVal, null);
     }

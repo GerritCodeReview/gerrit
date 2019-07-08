@@ -112,7 +112,7 @@ public class GarbageCollection {
     return result;
   }
 
-  private void fire(Project.NameKey p, Properties statistics) {
+  private void fire(final Project.NameKey p, final Properties statistics) {
     if (!listeners.iterator().hasNext()) {
       return;
     }

@@ -25,9 +25,9 @@ import com.google.gwtorm.server.OrmException;
 import java.sql.Timestamp;
 
 public class AgePredicate extends TimestampRangeChangePredicate {
-  protected final long cut;
+  private final long cut;
 
-  public AgePredicate(String value) {
+  AgePredicate(String value) {
     super(ChangeField.UPDATED, ChangeQueryBuilder.FIELD_AGE, value);
 
     long s = ConfigUtil.getTimeUnit(getValue(), 0, SECONDS);
@@ -46,7 +46,7 @@ public class AgePredicate extends TimestampRangeChangePredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
+  public boolean match(final ChangeData object) throws OrmException {
     Change change = object.change();
     return change != null && change.getLastUpdatedOn().getTime() <= cut;
   }

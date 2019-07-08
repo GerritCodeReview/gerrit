@@ -21,73 +21,40 @@ limitations under the License.
 <script src="../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../bower_components/web-component-tester/browser.js"></script>
 <script>
-  const testFiles = [];
-  const elementsPath = '../elements/';
-  const behaviorsPath = '../behaviors/';
+  var testFiles = [];
+  var elementsPath = '../elements/';
+  var behaviorsPath = '../behaviors/';
 
   // Elements tests.
-  const elements = [
-    // This seemed to be flakey when it was farther down the list. Keep at the
-    // beginning.
-    'gr-app_test.html',
-    'admin/gr-access-section/gr-access-section_test.html',
-    'admin/gr-admin-group-list/gr-admin-group-list_test.html',
-    'admin/gr-admin-view/gr-admin-view_test.html',
-    'admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog_test.html',
-    'admin/gr-create-change-dialog/gr-create-change-dialog_test.html',
-    'admin/gr-create-group-dialog/gr-create-group-dialog_test.html',
-    'admin/gr-create-pointer-dialog/gr-create-pointer-dialog_test.html',
-    'admin/gr-create-project-dialog/gr-create-project-dialog_test.html',
-    'admin/gr-group-audit-log/gr-group-audit-log_test.html',
-    'admin/gr-group-members/gr-group-members_test.html',
-    'admin/gr-group/gr-group_test.html',
-    'admin/gr-permission/gr-permission_test.html',
-    'admin/gr-plugin-list/gr-plugin-list_test.html',
-    'admin/gr-project-access/gr-project-access_test.html',
-    'admin/gr-project-commands/gr-project-commands_test.html',
-    'admin/gr-project-detail-list/gr-project-detail-list_test.html',
-    'admin/gr-project-list/gr-project-list_test.html',
-    'admin/gr-project/gr-project_test.html',
-    'admin/gr-rule-editor/gr-rule-editor_test.html',
+  [
     'change-list/gr-change-list-item/gr-change-list-item_test.html',
     'change-list/gr-change-list-view/gr-change-list-view_test.html',
     'change-list/gr-change-list/gr-change-list_test.html',
-    'change-list/gr-user-header/gr-user-header_test.html',
     'change/gr-account-entry/gr-account-entry_test.html',
     'change/gr-account-list/gr-account-list_test.html',
     'change/gr-change-actions/gr-change-actions_test.html',
-    'change/gr-change-metadata/gr-change-metadata-it_test.html',
     'change/gr-change-metadata/gr-change-metadata_test.html',
     'change/gr-change-view/gr-change-view_test.html',
     'change/gr-comment-list/gr-comment-list_test.html',
     'change/gr-commit-info/gr-commit-info_test.html',
-    'change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_test.html',
-    'change/gr-confirm-move-dialog/gr-confirm-move-dialog_test.html',
     'change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog_test.html',
     'change/gr-confirm-revert-dialog/gr-confirm-revert-dialog_test.html',
+    'change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_test.html',
     'change/gr-download-dialog/gr-download-dialog_test.html',
-    'change/gr-file-list-header/gr-file-list-header_test.html',
     'change/gr-file-list/gr-file-list_test.html',
-    'change/gr-included-in-dialog/gr-included-in-dialog_test.html',
-    'change/gr-label-score-row/gr-label-score-row_test.html',
-    'change/gr-label-scores/gr-label-scores_test.html',
     'change/gr-message/gr-message_test.html',
     'change/gr-messages-list/gr-messages-list_test.html',
     'change/gr-related-changes-list/gr-related-changes-list_test.html',
-    'change/gr-reply-dialog/gr-reply-dialog-it_test.html',
     'change/gr-reply-dialog/gr-reply-dialog_test.html',
     'change/gr-reviewer-list/gr-reviewer-list_test.html',
     'core/gr-account-dropdown/gr-account-dropdown_test.html',
     'core/gr-error-manager/gr-error-manager_test.html',
     'core/gr-main-header/gr-main-header_test.html',
-    'core/gr-navigation/gr-navigation_test.html',
     'core/gr-reporting/gr-reporting_test.html',
-    'core/gr-router/gr-router_test.html',
     'core/gr-search-bar/gr-search-bar_test.html',
-    'diff/gr-comment-api/gr-comment-api_test.html',
     'diff/gr-diff-builder/gr-diff-builder_test.html',
-    'diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group_test.html',
     'diff/gr-diff-comment-thread/gr-diff-comment-thread_test.html',
+    'diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group_test.html',
     'diff/gr-diff-comment/gr-diff-comment_test.html',
     'diff/gr-diff-cursor/gr-diff-cursor_test.html',
     'diff/gr-diff-highlight/gr-annotation_test.html',
@@ -103,13 +70,7 @@ limitations under the License.
     'diff/gr-selection-action-box/gr-selection-action-box_test.html',
     'diff/gr-syntax-layer/gr-syntax-layer_test.html',
     'diff/gr-syntax-lib-loader/gr-syntax-lib-loader_test.html',
-    'plugins/gr-attribute-helper/gr-attribute-helper_test.html',
-    'plugins/gr-endpoint-decorator/gr-endpoint-decorator_test.html',
-    'plugins/gr-event-helper/gr-event-helper_test.html',
-    'plugins/gr-external-style/gr-external-style_test.html',
-    'plugins/gr-plugin-host/gr-plugin-host_test.html',
-    'plugins/gr-popup-interface/gr-plugin-popup_test.html',
-    'plugins/gr-popup-interface/gr-popup-interface_test.html',
+    'gr-app_test.html',
     'settings/gr-account-info/gr-account-info_test.html',
     'settings/gr-change-table-editor/gr-change-table-editor_test.html',
     'settings/gr-email-editor/gr-email-editor_test.html',
@@ -123,64 +84,46 @@ limitations under the License.
     'shared/gr-account-label/gr-account-label_test.html',
     'shared/gr-account-link/gr-account-link_test.html',
     'shared/gr-alert/gr-alert_test.html',
-    'shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown_test.html',
     'shared/gr-autocomplete/gr-autocomplete_test.html',
     'shared/gr-avatar/gr-avatar_test.html',
     'shared/gr-button/gr-button_test.html',
     'shared/gr-change-star/gr-change-star_test.html',
     'shared/gr-confirm-dialog/gr-confirm-dialog_test.html',
-    'shared/gr-copy-clipboard/gr-copy-clipboard_test.html',
     'shared/gr-cursor-manager/gr-cursor-manager_test.html',
     'shared/gr-date-formatter/gr-date-formatter_test.html',
-    'shared/gr-download-commands/gr-download-commands_test.html',
-    'shared/gr-dropdown-list/gr-dropdown-list_test.html',
     'shared/gr-editable-content/gr-editable-content_test.html',
     'shared/gr-editable-label/gr-editable-label_test.html',
     'shared/gr-formatted-text/gr-formatted-text_test.html',
     'shared/gr-js-api-interface/gr-change-actions-js-api_test.html',
     'shared/gr-js-api-interface/gr-change-reply-js-api_test.html',
     'shared/gr-js-api-interface/gr-js-api-interface_test.html',
-    'shared/gr-js-api-interface/gr-plugin-rest-api_test.html',
-    'shared/gr-limited-text/gr-limited-text_test.html',
     'shared/gr-linked-chip/gr-linked-chip_test.html',
     'shared/gr-linked-text/gr-linked-text_test.html',
-    'shared/gr-list-view/gr-list-view_test.html',
-    'shared/gr-page-nav/gr-page-nav_test.html',
-    'shared/gr-rest-api-interface/gr-auth_test.html',
     'shared/gr-rest-api-interface/gr-rest-api-interface_test.html',
     'shared/gr-rest-api-interface/gr-reviewer-updates-parser_test.html',
     'shared/gr-select/gr-select_test.html',
     'shared/gr-storage/gr-storage_test.html',
-    'shared/gr-textarea/gr-textarea_test.html',
-    'shared/gr-tooltip-content/gr-tooltip-content_test.html',
     'shared/gr-tooltip/gr-tooltip_test.html',
-  ];
-  for (let file of elements) {
+    'shared/gr-tooltip-content/gr-tooltip-content_test.html',
+  ].forEach(function(file) {
     file = elementsPath + file;
     testFiles.push(file);
     testFiles.push(file + '?dom=shadow');
-  }
+  });
 
   // Behaviors tests.
-  const behaviors = [
-    'async-foreach-behavior/async-foreach-behavior_test.html',
+  [
     'base-url-behavior/base-url-behavior_test.html',
-    'docs-url-behavior/docs-url-behavior_test.html',
-    'keyboard-shortcut-behavior/keyboard-shortcut-behavior_test.html',
     'rest-client-behavior/rest-client-behavior_test.html',
-    'gr-access-behavior/gr-access-behavior_test.html',
-    'gr-anonymous-name-behavior/gr-anonymous-name-behavior_test.html',
     'gr-change-table-behavior/gr-change-table-behavior_test.html',
     'gr-patch-set-behavior/gr-patch-set-behavior_test.html',
     'gr-path-list-behavior/gr-path-list-behavior_test.html',
     'gr-tooltip-behavior/gr-tooltip-behavior_test.html',
-    'safe-types-behavior/safe-types-behavior_test.html',
-  ];
-  for (let file of behaviors) {
+  ].forEach(function(file) {
     // Behaviors do not utilize the DOM, so no shadow DOM test is necessary.
     file = behaviorsPath + file;
     testFiles.push(file);
-  }
+  });
 
   WCT.loadSuites(testFiles);
 </script>

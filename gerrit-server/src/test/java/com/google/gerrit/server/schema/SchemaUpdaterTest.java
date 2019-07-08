@@ -30,21 +30,21 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.notedb.ConfigNotesMigration;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryH2Type;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
-import com.google.gerrit.testutil.TestUpdateUI;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
+import com.google.gwtorm.server.StatementExecutor;
 import com.google.inject.Guice;
-import com.google.inject.Key;
 import com.google.inject.ProvisionException;
 import com.google.inject.TypeLiteral;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -82,10 +82,7 @@ public class SchemaUpdaterTest {
                 new FactoryModule() {
                   @Override
                   protected void configure() {
-                    TypeLiteral<SchemaFactory<ReviewDb>> schemaFactory =
-                        new TypeLiteral<SchemaFactory<ReviewDb>>() {};
-                    bind(schemaFactory).to(NotesMigrationSchemaFactory.class);
-                    bind(Key.get(schemaFactory, ReviewDbFactory.class)).toInstance(db);
+                    bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {}).toInstance(db);
                     bind(SitePaths.class).toInstance(paths);
 
                     Config cfg = new Config();
@@ -112,7 +109,7 @@ public class SchemaUpdaterTest {
                     bind(DataSourceType.class).to(InMemoryH2Type.class);
 
                     bind(SystemGroupBackend.class);
-                    install(new NotesMigration.Module());
+                    install(new ConfigNotesMigration.Module());
                   }
                 })
             .getInstance(SchemaUpdater.class);
@@ -132,7 +129,28 @@ public class SchemaUpdaterTest {
       }
     }
 
-    u.update(new TestUpdateUI());
+    u.update(
+        new UpdateUI() {
+          @Override
+          public void message(String msg) {}
+
+          @Override
+          public boolean yesno(boolean def, String msg) {
+            return def;
+          }
+
+          @Override
+          public boolean isBatch() {
+            return true;
+          }
+
+          @Override
+          public void pruneSchema(StatementExecutor e, List<String> pruneList) throws OrmException {
+            for (String sql : pruneList) {
+              e.execute(sql);
+            }
+          }
+        });
 
     db.assertSchemaVersion();
     final SystemConfig sc = db.getSystemConfig();

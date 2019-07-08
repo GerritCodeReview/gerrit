@@ -14,7 +14,7 @@
 (function() {
   'use strict';
 
-  const NOTIFICATION_TYPES = [
+  var NOTIFICATION_TYPES = [
     {name: 'Changes', key: 'notify_new_changes'},
     {name: 'Patches', key: 'notify_new_patch_sets'},
     {name: 'Comments', key: 'notify_all_comments'},
@@ -35,24 +35,24 @@
       _projects: Array,
       _projectsToRemove: {
         type: Array,
-        value() { return []; },
+        value: function() { return []; },
       },
       _query: {
         type: Function,
-        value() {
+        value: function() {
           return this._getProjectSuggestions.bind(this);
         },
       },
     },
 
-    loadData() {
-      return this.$.restAPI.getWatchedProjects().then(projs => {
+    loadData: function() {
+      return this.$.restAPI.getWatchedProjects().then(function(projs) {
         this._projects = projs;
-      });
+      }.bind(this));
     },
 
-    save() {
-      let deletePromise;
+    save: function() {
+      var deletePromise;
       if (this._projectsToRemove.length) {
         deletePromise = this.$.restAPI.deleteWatchedProjects(
             this._projectsToRemove);
@@ -61,58 +61,56 @@
       }
 
       return deletePromise
-          .then(() => {
+          .then(function() {
             return this.$.restAPI.saveWatchedProjects(this._projects);
-          })
-          .then(projects => {
+          }.bind(this))
+          .then(function(projects) {
             this._projects = projects;
             this._projectsToRemove = [];
             this.hasUnsavedChanges = false;
-          });
+          }.bind(this));
     },
 
-    _getTypes() {
+    _getTypes: function() {
       return NOTIFICATION_TYPES;
     },
 
-    _getTypeCount() {
+    _getTypeCount: function() {
       return this._getTypes().length;
     },
 
-    _computeCheckboxChecked(project, key) {
+    _computeCheckboxChecked: function(project, key) {
       return project.hasOwnProperty(key);
     },
 
-    _getProjectSuggestions(input) {
+    _getProjectSuggestions: function(input) {
       return this.$.restAPI.getSuggestedProjects(input)
-          .then(response => {
-            const projects = [];
-            for (const key in response) {
-              if (!response.hasOwnProperty(key)) { continue; }
-              projects.push({
-                name: key,
-                value: response[key],
-              });
-            }
-            return projects;
-          });
+        .then(function(response) {
+          var projects = [];
+          for (var key in response) {
+            projects.push({
+              name: key,
+              value: response[key],
+            });
+          }
+          return projects;
+        });
     },
 
-    _handleRemoveProject(e) {
-      const el = Polymer.dom(e).localTarget;
-      const index = parseInt(el.getAttribute('data-index'), 10);
-      const project = this._projects[index];
+    _handleRemoveProject: function(e) {
+      var index = parseInt(e.target.getAttribute('data-index'), 10);
+      var project = this._projects[index];
       this.splice('_projects', index, 1);
       this.push('_projectsToRemove', project);
       this.hasUnsavedChanges = true;
     },
 
-    _canAddProject(project, filter) {
+    _canAddProject: function(project, filter) {
       if (!project || !project.id) { return false; }
 
       // Check if the project with filter is already in the list. Compare
       // filters using == to coalesce null and undefined.
-      for (let i = 0; i < this._projects.length; i++) {
+      for (var i = 0; i < this._projects.length; i++) {
         if (this._projects[i].project === project.id &&
             this._projects[i].filter == filter) {
           return false;
@@ -122,9 +120,8 @@
       return true;
     },
 
-    _getNewProjectIndex(name, filter) {
-      let i;
-      for (i = 0; i < this._projects.length; i++) {
+    _getNewProjectIndex: function(name, filter) {
+      for (var i = 0; i < this._projects.length; i++) {
         if (this._projects[i].project > name ||
             (this._projects[i].project === name &&
                 this._projects[i].filter > filter)) {
@@ -134,18 +131,18 @@
       return i;
     },
 
-    _handleAddProject() {
-      const newProject = this.$.newProject.value;
-      const newProjectName = this.$.newProject.text;
-      const filter = this.$.newFilter.value || null;
+    _handleAddProject: function() {
+      var newProject = this.$.newProject.value;
+      var newProjectName = this.$.newProject.text;
+      var filter = this.$.newFilter.value || null;
 
       if (!this._canAddProject(newProject, filter)) { return; }
 
-      const insertIndex = this._getNewProjectIndex(newProjectName, filter);
+      var insertIndex = this._getNewProjectIndex(newProjectName, filter);
 
       this.splice('_projects', insertIndex, 0, {
         project: newProjectName,
-        filter,
+        filter: filter,
         _is_local: true,
       });
 
@@ -154,17 +151,16 @@
       this.hasUnsavedChanges = true;
     },
 
-    _handleCheckboxChange(e) {
-      const el = Polymer.dom(e).localTarget;
-      const index = parseInt(el.getAttribute('data-index'), 10);
-      const key = el.getAttribute('data-key');
-      const checked = el.checked;
+    _handleCheckboxChange: function(e) {
+      var index = parseInt(e.target.getAttribute('data-index'), 10);
+      var key = e.target.getAttribute('data-key');
+      var checked = e.target.checked;
       this.set(['_projects', index, key], !!checked);
       this.hasUnsavedChanges = true;
     },
 
-    _handleNotifCellTap(e) {
-      const checkbox = Polymer.dom(e.target).querySelector('input');
+    _handleNotifCellTap: function(e) {
+      var checkbox = Polymer.dom(e.target).querySelector('input');
       if (checkbox) { checkbox.click(); }
     },
   });

@@ -32,7 +32,4 @@ public @interface RequiresCapability {
 
   /** Scope of the named capability. */
   CapabilityScope scope() default CapabilityScope.CONTEXT;
-
-  /** Fall back to admin credentials. Only applies to plugin capability check. */
-  boolean fallBackToAdmin() default true;
 }

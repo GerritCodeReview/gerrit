@@ -20,9 +20,9 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
 <script src="../../../bower_components/page/page.js"></script>
 
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-change-list.html">
 
 <script>void(0);</script>
@@ -40,20 +40,16 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-change-list basic tests', () => {
-    let element;
-    let sandbox;
+  suite('gr-change-list basic tests', function() {
+    var element;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
+    setup(function() {
       element = fixture('basic');
     });
 
-    teardown(() => { sandbox.restore(); });
-
     function stubRestAPI(preferences) {
-      const loggedInPromise = Promise.resolve(preferences !== null);
-      const preferencesPromise = Promise.resolve(preferences);
+      var loggedInPromise = Promise.resolve(preferences !== null);
+      var preferencesPromise = Promise.resolve(preferences);
       stub('gr-rest-api-interface', {
         getLoggedIn: sinon.stub().returns(loggedInPromise),
         getPreferences: sinon.stub().returns(preferencesPromise),
@@ -61,98 +57,79 @@ limitations under the License.
       return Promise.all([loggedInPromise, preferencesPromise]);
     }
 
-    suite('test show change number not logged in', () => {
-      setup(() => {
-        return stubRestAPI(null).then(() => {
+    suite('test show change number not logged in', function() {
+      setup(function() {
+        return stubRestAPI(null).then(function() {
           element = fixture('basic');
           return element._loadPreferences();
         });
       });
 
-      test('show number disabled', () => {
+      test('show number disabled', function() {
         assert.isFalse(element.showNumber);
       });
     });
 
-    suite('test show change number preference enabled', () => {
-      setup(() => {
+    suite('test show change number preference enabled', function() {
+      setup(function() {
         return stubRestAPI({legacycid_in_change_table: true,
-          time_format: 'HHMM_12',
-          change_table: [],
-        }).then(() => {
+           time_format: 'HHMM_12',
+           change_table: [],
+        }).then(function() {
           element = fixture('basic');
           return element._loadPreferences();
         });
       });
 
-      test('show number enabled', () => {
+      test('show number enabled', function() {
         assert.isTrue(element.showNumber);
       });
     });
 
-    suite('test show change number preference disabled', () => {
-      setup(() => {
+    suite('test show change number preference disabled', function() {
+      setup(function() {
         // legacycid_in_change_table is not set when false.
         return stubRestAPI({time_format: 'HHMM_12', change_table: []}).then(
-            () => {
-              element = fixture('basic');
-              return element._loadPreferences();
-            });
+            function() {
+          element = fixture('basic');
+          return element._loadPreferences();
+        });
       });
 
-      test('show number disabled', () => {
+      test('show number disabled', function() {
         assert.isFalse(element.showNumber);
       });
     });
 
-    test('computed fields', () => {
+    test('computed fields', function() {
       assert.equal(element._computeLabelNames(
-            [{results: [{_number: 0, labels: {}}]}]).length, 0);
-      assert.equal(element._computeLabelNames([
-        {results: [
-          {_number: 0, labels: {Verified: {approved: {}}}},
-          {
-            _number: 1,
-            labels: {
-              'Verified': {approved: {}},
-              'Code-Review': {approved: {}},
-            },
-          },
-          {
-            _number: 2,
-            labels: {
-              'Verified': {approved: {}},
-              'Library-Compliance': {approved: {}},
-            },
-          },
-        ]},
-      ]).length, 3);
+          [[{_number: 0, labels: {}}]]).length, 0);
+      assert.equal(element._computeLabelNames([[
+            {_number: 0, labels: {Verified: {approved: {}}}},
+            {_number: 1, labels: {
+              Verified: {approved: {}}, 'Code-Review': {approved: {}}}},
+            {_number: 2, labels: {
+              Verified: {approved: {}}, 'Library-Compliance': {approved: {}}}},
+          ]]).length, 3);
 
       assert.equal(element._computeLabelShortcut('Code-Review'), 'CR');
       assert.equal(element._computeLabelShortcut('Verified'), 'V');
       assert.equal(element._computeLabelShortcut('Library-Compliance'), 'LC');
-      assert.equal(element._computeLabelShortcut('PolyGerrit-Review'), 'PR');
-      assert.equal(element._computeLabelShortcut('polygerrit-review'), 'PR');
       assert.equal(element._computeLabelShortcut(
           'Some-Special-Label-7'), 'SSL7');
     });
 
-    test('colspans', () => {
-      const thItemCount = Polymer.dom(element.root).querySelectorAll(
+    test('colspans', function() {
+      var thItemCount = Polymer.dom(element.root).querySelectorAll(
           'th').length;
 
-      const changeTableColumns = [];
-      const labelNames = [];
+      var changeTableColumns = [];
+      var labelNames = [];
       assert.equal(thItemCount, element._computeColspan(
           changeTableColumns, labelNames));
     });
 
-    test('keyboard shortcuts', done => {
-      sandbox.stub(element, '_computeLabelNames');
-      element.sections = [
-        {results: new Array(1)},
-        {results: new Array(2)},
-      ];
+    test('keyboard shortcuts', function(done) {
       element.selectedIndex = 0;
       element.changes = [
         {_number: 0},
@@ -160,29 +137,26 @@ limitations under the License.
         {_number: 2},
       ];
       flushAsynchronousOperations();
-      const elementItems = Polymer.dom(element.root).querySelectorAll(
+      var elementItems = Polymer.dom(element.root).querySelectorAll(
           'gr-change-list-item');
       assert.equal(elementItems.length, 3);
 
-      flush(() => {
+      flush(function() {
         assert.isTrue(elementItems[0].hasAttribute('selected'));
         MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
         assert.equal(element.selectedIndex, 1);
-        assert.isTrue(elementItems[1].hasAttribute('selected'));
         MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
-        assert.equal(element.selectedIndex, 2);
-        assert.isTrue(elementItems[2].hasAttribute('selected'));
 
-        const navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+        var showStub = sinon.stub(page, 'show');
         assert.equal(element.selectedIndex, 2);
         MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
-        assert.deepEqual(navStub.lastCall.args[0], {_number: 2},
+        assert(showStub.lastCall.calledWithExactly('/c/2/'),
             'Should navigate to /c/2/');
 
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
         assert.equal(element.selectedIndex, 1);
         MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
-        assert.deepEqual(navStub.lastCall.args[0], {_number: 1},
+        assert(showStub.lastCall.calledWithExactly('/c/1/'),
             'Should navigate to /c/1/');
 
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
@@ -190,15 +164,12 @@ limitations under the License.
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
         assert.equal(element.selectedIndex, 0);
 
-        const reloadStub = sandbox.stub(element, '_reloadWindow');
-        MockInteractions.pressAndReleaseKeyOn(element, 82, 'shift', 'r');
-        assert.isTrue(reloadStub.called);
-
+        showStub.restore();
         done();
       });
     });
 
-    test('changes needing review', () => {
+    test('changes needing review', function() {
       element.changes = [
         {
           _number: 0,
@@ -218,243 +189,239 @@ limitations under the License.
         },
         {
           _number: 3,
+          status: 'DRAFT',
+          owner: {_account_id: 42},
+        },
+        {
+          _number: 4,
           status: 'ABANDONED',
           owner: {_account_id: 0},
-        },
+        }
       ];
       flushAsynchronousOperations();
-      let elementItems = Polymer.dom(element.root).querySelectorAll(
+      var elementItems = Polymer.dom(element.root).querySelectorAll(
           'gr-change-list-item');
-      assert.equal(elementItems.length, 4);
-      for (let i = 0; i < elementItems.length; i++) {
+      assert.equal(elementItems.length, 5);
+      for (var i = 0; i < elementItems.length; i++) {
         assert.isFalse(elementItems[i].hasAttribute('needs-review'));
       }
 
       element.showReviewedState = true;
       elementItems = Polymer.dom(element.root).querySelectorAll(
           'gr-change-list-item');
-      assert.equal(elementItems.length, 4);
+      assert.equal(elementItems.length, 5);
       assert.isFalse(elementItems[0].hasAttribute('needs-review'));
       assert.isTrue(elementItems[1].hasAttribute('needs-review'));
       assert.isFalse(elementItems[2].hasAttribute('needs-review'));
-      assert.isFalse(elementItems[3].hasAttribute('needs-review'));
+      assert.isTrue(elementItems[3].hasAttribute('needs-review'));
+      assert.isFalse(elementItems[4].hasAttribute('needs-review'));
 
       element.account = {_account_id: 42};
       elementItems = Polymer.dom(element.root).querySelectorAll(
           'gr-change-list-item');
-      assert.equal(elementItems.length, 4);
+      assert.equal(elementItems.length, 5);
       assert.isFalse(elementItems[0].hasAttribute('needs-review'));
       assert.isTrue(elementItems[1].hasAttribute('needs-review'));
       assert.isFalse(elementItems[2].hasAttribute('needs-review'));
       assert.isFalse(elementItems[3].hasAttribute('needs-review'));
+      assert.isFalse(elementItems[4].hasAttribute('needs-review'));
     });
 
-    test('no changes', () => {
+    test('no changes', function() {
       element.changes = [];
       flushAsynchronousOperations();
-      const listItems = Polymer.dom(element.root).querySelectorAll(
+      var listItems = Polymer.dom(element.root).querySelectorAll(
           'gr-change-list-item');
       assert.equal(listItems.length, 0);
-      const noChangesMsg =
-          Polymer.dom(element.root).querySelector('.noChanges');
+      var noChangesMsg = Polymer.dom(element.root).querySelector('.noChanges');
       assert.ok(noChangesMsg);
     });
 
-    test('empty sections', () => {
-      element.sections = [{results: []}, {results: []}];
+    test('empty groups', function() {
+      element.groups = [[], []];
       flushAsynchronousOperations();
-      const listItems = Polymer.dom(element.root).querySelectorAll(
+      var listItems = Polymer.dom(element.root).querySelectorAll(
           'gr-change-list-item');
       assert.equal(listItems.length, 0);
-      const noChangesMsg = Polymer.dom(element.root).querySelectorAll(
+      var noChangesMsg = Polymer.dom(element.root).querySelectorAll(
           '.noChanges');
       assert.equal(noChangesMsg.length, 2);
     });
 
-    suite('empty column preference', () => {
-      let element;
+    suite('empty column preference', function() {
+      var element;
 
-      setup(() =>
-        stubRestAPI({
+      setup(function() {
+        return stubRestAPI({
           legacycid_in_change_table: true,
-          time_format: 'HHMM_12',
-          change_table: [],
-        }).then(() => {
+            time_format: 'HHMM_12',
+            change_table: [],
+          }
+        ).then(function() {
           element = fixture('basic');
           return element._loadPreferences();
-        })
-      );
+        });
+      });
 
-      test('show number enabled', () => {
+      test('show number enabled', function() {
         assert.isTrue(element.showNumber);
       });
 
-      test('all columns visible', () => {
-        for (const column of element.columnNames) {
-          const elementClass = '.' + element._lowerCase(column);
+      test('all columns visible', function() {
+        element.columnNames.forEach(function(column) {
+          var elementClass = '.' + element._lowerCase(column);
           assert.isFalse(element.$$(elementClass).hidden);
-        }
+        });
       });
     });
 
-    suite('full column preference', () => {
-      let element;
+    suite('full column preference', function() {
+      var element;
 
-      setup(() => {
+      setup(function() {
         return stubRestAPI({
-          legacycid_in_change_table: true,
-          time_format: 'HHMM_12',
-          change_table: [
-            'Subject',
-            'Status',
-            'Owner',
-            'Assignee',
-            'Project',
-            'Branch',
-            'Updated',
-            'Size',
-          ],
-        }).then(() => {
+            legacycid_in_change_table: true,
+            time_format: 'HHMM_12',
+            change_table: [
+              'Subject',
+              'Status',
+              'Owner',
+              'Project',
+              'Branch',
+              'Updated',
+              'Size',
+            ],
+          }).then(function() {
           element = fixture('basic');
           return element._loadPreferences();
         });
       });
 
-      test('all columns visible', () => {
-        for (const column of element.changeTableColumns) {
-          const elementClass = '.' + element._lowerCase(column);
+      test('all columns visible', function() {
+        element.changeTableColumns.forEach(function(column) {
+          var elementClass = '.' + element._lowerCase(column);
           assert.isFalse(element.$$(elementClass).hidden);
-        }
+        });
       });
     });
 
-    suite('partial column preference', () => {
-      let element;
+    suite('partial column preference', function() {
+      var element;
 
-      setup(() => {
+      setup(function() {
         return stubRestAPI({
-          legacycid_in_change_table: true,
-          time_format: 'HHMM_12',
-          change_table: [
-            'Subject',
-            'Status',
-            'Owner',
-            'Assignee',
-            'Branch',
-            'Updated',
-            'Size',
-          ],
-        }).then(() => {
+            legacycid_in_change_table: true,
+            time_format: 'HHMM_12',
+            change_table: [
+              'Subject',
+              'Status',
+              'Owner',
+              'Branch',
+              'Updated',
+              'Size',
+            ],
+          }).then(function() {
           element = fixture('basic');
           return element._loadPreferences();
         });
       });
 
-      test('all columns except project visible', () => {
-        for (const column of element.changeTableColumns) {
-          const elementClass = '.' + column.toLowerCase();
+      test('all columns except project visible', function() {
+        element.changeTableColumns.forEach(function(column) {
+          var elementClass = '.' + column.toLowerCase();
           if (column === 'Project') {
             assert.isTrue(element.$$(elementClass).hidden);
           } else {
             assert.isFalse(element.$$(elementClass).hidden);
           }
-        }
+        });
       });
     });
 
-    suite('random column does not exist', () => {
-      let element;
+    suite('random column does not exist', function() {
+      var element;
 
       /* This would only exist if somebody manually updated the config
       file. */
-      setup(() => {
+      setup(function() {
         return stubRestAPI({
-          legacycid_in_change_table: true,
-          time_format: 'HHMM_12',
-          change_table: [
-            'Bad',
-          ],
-        }).then(() => {
+            legacycid_in_change_table: true,
+            time_format: 'HHMM_12',
+            change_table: [
+              'Bad',
+            ],
+          }).then(function() {
           element = fixture('basic');
           return element._loadPreferences();
         });
       });
 
-      test('bad column does not exist', () => {
-        const elementClass = '.bad';
+      test('bad column does not exist', function() {
+        var elementClass = '.bad';
         assert.isNotOk(element.$$(elementClass));
       });
     });
   });
 
-  suite('gr-change-list sections', () => {
-    let element;
-    let sandbox;
+  suite('gr-change-list groups', function() {
+    var element;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
+    setup(function() {
       element = fixture('basic');
     });
 
-    teardown(() => { sandbox.restore(); });
-
-    test('keyboard shortcuts', () => {
+    test('keyboard shortcuts', function() {
       element.selectedIndex = 0;
-      element.sections = [
-        {
-          results: [
-            {_number: 0},
-            {_number: 1},
-            {_number: 2},
-          ],
-        },
-        {
-          results: [
-            {_number: 3},
-            {_number: 4},
-            {_number: 5},
-          ],
-        },
-        {
-          results: [
-            {_number: 6},
-            {_number: 7},
-            {_number: 8},
-          ],
-        },
+      element.groups = [
+        [
+          {_number: 0},
+          {_number: 1},
+          {_number: 2},
+        ],
+        [
+          {_number: 3},
+          {_number: 4},
+          {_number: 5},
+        ],
+        [
+          {_number: 6},
+          {_number: 7},
+          {_number: 8},
+        ]
       ];
+      element.groupTitles = ['Group 1', 'Group 2', 'Group 3'];
       flushAsynchronousOperations();
-      const elementItems = Polymer.dom(element.root).querySelectorAll(
+      var elementItems = Polymer.dom(element.root).querySelectorAll(
           'gr-change-list-item');
       assert.equal(elementItems.length, 9);
 
-      MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
+      MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'j'
       assert.equal(element.selectedIndex, 1);
-      MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
+      MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'j'
 
-      const navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+      var showStub = sinon.stub(page, 'show');
       assert.equal(element.selectedIndex, 2);
-
-      MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
-      assert.deepEqual(navStub.lastCall.args[0], {_number: 2},
+      MockInteractions.pressAndReleaseKeyOn(element, 13);  // 'enter'
+      assert(showStub.lastCall.calledWithExactly('/c/2/'),
           'Should navigate to /c/2/');
 
-      MockInteractions.pressAndReleaseKeyOn(element, 75); // 'k'
+      MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'k'
       assert.equal(element.selectedIndex, 1);
-      MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
-      assert.deepEqual(navStub.lastCall.args[0], {_number: 1},
+      MockInteractions.pressAndReleaseKeyOn(element, 13);  // 'enter'
+      assert(showStub.lastCall.calledWithExactly('/c/1/'),
           'Should navigate to /c/1/');
 
-      MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
-      MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
-      MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
+      MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'j'
+      MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'j'
+      MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'j'
       assert.equal(element.selectedIndex, 4);
-      MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
-      assert.deepEqual(navStub.lastCall.args[0], {_number: 4},
+      MockInteractions.pressAndReleaseKeyOn(element, 13);  // 'enter'
+      assert(showStub.lastCall.calledWithExactly('/c/4/'),
           'Should navigate to /c/4/');
+      showStub.restore();
     });
 
-    test('assigned attribute set in each item', () => {
+    test('assigned attribute set in each item', function() {
       element.changes = [
         {
           _number: 0,
@@ -463,47 +430,23 @@ limitations under the License.
         },
         {
           _number: 1,
+          status: 'DRAFT',
+          owner: {_account_id: 42},
+        },
+        {
+          _number: 2,
           status: 'ABANDONED',
           owner: {_account_id: 0},
         },
       ];
       element.account = {_account_id: 42};
       flushAsynchronousOperations();
-      const items = element._getListItems();
-      assert.equal(items.length, 2);
-      for (let i = 0; i < items.length; i++) {
+      var items = element._getListItems();
+      assert.equal(items.length, 3);
+      for (var i = 0; i < items.length; i++) {
         assert.equal(items[i].hasAttribute('assigned'),
             items[i]._account_id === element.account._account_id);
       }
-    });
-
-    test('_sectionHref', () => {
-      assert.equal(
-          element._sectionHref('is:open owner:self'),
-          '/q/is:open+owner:self');
-      assert.equal(
-          element._sectionHref(
-              'is:open ((reviewer:self -is:ignored) OR assignee:self)'),
-          '/q/is:open+((reviewer:self+-is:ignored)+OR+assignee:self)');
-    });
-
-    test('_computeItemAbsoluteIndex', () => {
-      sandbox.stub(element, '_computeLabelNames');
-      element.sections = [
-        {results: new Array(1)},
-        {results: new Array(2)},
-        {results: new Array(3)},
-      ];
-
-      assert.equal(element._computeItemAbsoluteIndex(0, 0), 0);
-      // Out of range but no matter.
-      assert.equal(element._computeItemAbsoluteIndex(0, 1), 1);
-
-      assert.equal(element._computeItemAbsoluteIndex(1, 0), 1);
-      assert.equal(element._computeItemAbsoluteIndex(1, 1), 2);
-      assert.equal(element._computeItemAbsoluteIndex(1, 2), 3);
-      assert.equal(element._computeItemAbsoluteIndex(2, 0), 3);
-      assert.equal(element._computeItemAbsoluteIndex(3, 0), 6);
     });
   });
 </script>

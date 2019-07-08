@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertAbout;
 
 import com.google.common.truth.FailureStrategy;
 import com.google.common.truth.PrimitiveByteArraySubject;
-import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
 import com.google.common.truth.SubjectFactory;
 import com.google.common.truth.Truth;
@@ -50,15 +49,6 @@ public class BinaryResultSubject extends Subject<BinaryResultSubject, BinaryResu
 
   private BinaryResultSubject(FailureStrategy failureStrategy, BinaryResult binaryResult) {
     super(failureStrategy, binaryResult);
-  }
-
-  public StringSubject asString() throws IOException {
-    isNotNull();
-    // We shouldn't close the BinaryResult within this method as it might still
-    // be used afterwards. Besides, closing it doesn't have an effect for most
-    // implementations of a BinaryResult.
-    BinaryResult binaryResult = actual();
-    return Truth.assertThat(binaryResult.asString());
   }
 
   public PrimitiveByteArraySubject bytes() throws IOException {

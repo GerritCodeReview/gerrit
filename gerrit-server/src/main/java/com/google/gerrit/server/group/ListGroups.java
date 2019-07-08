@@ -14,13 +14,10 @@
 
 package com.google.gerrit.server.group;
 
-import static com.google.common.collect.ImmutableList.toImmutableList;
-
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Streams;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
@@ -33,37 +30,33 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.GetGroups;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupComparator;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
 import org.kohsuke.args4j.Option;
 
 /** List groups visible to the calling user. */
 public class ListGroups implements RestReadView<TopLevelResource> {
-  private static final Comparator<GroupDescription.Internal> GROUP_COMPARATOR =
-      Comparator.comparing(GroupDescription.Basic::getName);
 
   protected final GroupCache groupCache;
 
@@ -76,8 +69,6 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private final GetGroups accountGetGroups;
   private final GroupJson json;
   private final GroupBackend groupBackend;
-  private final Groups groups;
-  private final Provider<ReviewDb> db;
 
   private EnumSet<ListGroupsOption> options = EnumSet.noneOf(ListGroupsOption.class);
   private boolean visibleToAll;
@@ -86,7 +77,6 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private int limit;
   private int start;
   private String matchSubstring;
-  private String matchRegex;
   private String suggest;
 
   @Option(
@@ -172,15 +162,6 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   }
 
   @Option(
-      name = "--regex",
-      aliases = {"-r"},
-      metaVar = "REGEX",
-      usage = "match group regex")
-  public void setMatchRegex(String matchRegex) {
-    this.matchRegex = matchRegex;
-  }
-
-  @Option(
       name = "--suggest",
       aliases = {"-s"},
       usage = "to get a suggestion of groups")
@@ -207,9 +188,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       final IdentifiedUser.GenericFactory userFactory,
       final GetGroups accountGetGroups,
       GroupJson json,
-      GroupBackend groupBackend,
-      Groups groups,
-      Provider<ReviewDb> db) {
+      GroupBackend groupBackend) {
     this.groupCache = groupCache;
     this.groupControlFactory = groupControlFactory;
     this.genericGroupControlFactory = genericGroupControlFactory;
@@ -218,8 +197,6 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     this.accountGetGroups = accountGetGroups;
     this.json = json;
     this.groupBackend = groupBackend;
-    this.groups = groups;
-    this.db = db;
   }
 
   public void setOptions(EnumSet<ListGroupsOption> options) {
@@ -250,10 +227,6 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       return suggestGroups();
     }
 
-    if (!Strings.isNullOrEmpty(matchSubstring) && !Strings.isNullOrEmpty(matchRegex)) {
-      throw new BadRequestException("Specify one of m/r");
-    }
-
     if (owned) {
       return getGroupsOwnedBy(user != null ? userFactory.create(user) : identifiedUser.get());
     }
@@ -266,36 +239,36 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   }
 
   private List<GroupInfo> getAllGroups() throws OrmException {
-    Pattern pattern = getRegexPattern();
-    Stream<GroupDescription.Internal> existingGroups =
-        getAllExistingGroups()
-            .filter(group -> !isNotRelevant(pattern, group))
-            .sorted(GROUP_COMPARATOR)
-            .skip(start);
-    if (limit > 0) {
-      existingGroups = existingGroups.limit(limit);
+    List<GroupInfo> groupInfos;
+    List<AccountGroup> groupList;
+    if (!projects.isEmpty()) {
+      Map<AccountGroup.UUID, AccountGroup> groups = new HashMap<>();
+      for (final ProjectControl projectControl : projects) {
+        final Set<GroupReference> groupsRefs = projectControl.getAllGroups();
+        for (final GroupReference groupRef : groupsRefs) {
+          final AccountGroup group = groupCache.get(groupRef.getUUID());
+          if (group != null) {
+            groups.put(group.getGroupUUID(), group);
+          }
+        }
+      }
+      groupList = filterGroups(groups.values());
+    } else {
+      groupList = filterGroups(groupCache.all());
     }
-    List<GroupDescription.Internal> relevantGroups = existingGroups.collect(toImmutableList());
-    List<GroupInfo> groupInfos = Lists.newArrayListWithCapacity(relevantGroups.size());
-    for (GroupDescription.Internal group : relevantGroups) {
-      groupInfos.add(json.addOptions(options).format(group));
+    groupInfos = Lists.newArrayListWithCapacity(groupList.size());
+    int found = 0;
+    int foundIndex = 0;
+    for (AccountGroup group : groupList) {
+      if (foundIndex++ < start) {
+        continue;
+      }
+      if (limit > 0 && ++found > limit) {
+        break;
+      }
+      groupInfos.add(json.addOptions(options).format(GroupDescriptions.forAccountGroup(group)));
     }
     return groupInfos;
-  }
-
-  private Stream<GroupDescription.Internal> getAllExistingGroups() throws OrmException {
-    if (!projects.isEmpty()) {
-      return projects.stream()
-          .map(ProjectControl::getProjectState)
-          .map(ProjectState::getAllGroups)
-          .flatMap(Collection::stream)
-          .map(GroupReference::getUUID)
-          .distinct()
-          .map(groupCache::get)
-          .flatMap(Streams::stream)
-          .map(InternalGroupDescription::new);
-    }
-    return groups.getAll(db.get()).map(GroupDescriptions::forAccountGroup);
   }
 
   private List<GroupInfo> suggestGroups() throws OrmException, BadRequestException {
@@ -303,16 +276,15 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       throw new BadRequestException(
           "You should only have no more than one --project and -n with --suggest");
     }
+
     List<GroupReference> groupRefs =
         Lists.newArrayList(
             Iterables.limit(
-                groupBackend.suggest(
-                    suggest,
-                    projects.stream().findFirst().map(pc -> pc.getProjectState()).orElse(null)),
+                groupBackend.suggest(suggest, Iterables.getFirst(projects, null)),
                 limit <= 0 ? 10 : Math.min(limit, 10)));
 
     List<GroupInfo> groupInfos = Lists.newArrayListWithCapacity(groupRefs.size());
-    for (GroupReference ref : groupRefs) {
+    for (final GroupReference ref : groupRefs) {
       GroupDescription.Basic desc = groupBackend.get(ref.getUUID());
       if (desc != null) {
         groupInfos.add(json.addOptions(options).format(desc));
@@ -346,63 +318,59 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     if (!Strings.isNullOrEmpty(matchSubstring)) {
       return true;
     }
-    if (!Strings.isNullOrEmpty(matchRegex)) {
-      return true;
-    }
     return false;
   }
 
   private List<GroupInfo> getGroupsOwnedBy(IdentifiedUser user) throws OrmException {
-    Pattern pattern = getRegexPattern();
-    Stream<GroupDescription.Internal> foundGroups =
-        groups
-            .getAll(db.get())
-            .map(GroupDescriptions::forAccountGroup)
-            .filter(group -> !isNotRelevant(pattern, group))
-            .filter(group -> isOwner(user, group))
-            .sorted(GROUP_COMPARATOR)
-            .skip(start);
-    if (limit > 0) {
-      foundGroups = foundGroups.limit(limit);
-    }
-    List<GroupDescription.Internal> ownedGroups = foundGroups.collect(toImmutableList());
-    List<GroupInfo> groupInfos = new ArrayList<>(ownedGroups.size());
-    for (GroupDescription.Internal group : ownedGroups) {
-      groupInfos.add(json.addOptions(options).format(group));
-    }
-    return groupInfos;
-  }
-
-  private boolean isOwner(CurrentUser user, GroupDescription.Internal group) {
-    try {
-      return genericGroupControlFactory.controlFor(user, group.getGroupUUID()).isOwner();
-    } catch (NoSuchGroupException e) {
-      return false;
-    }
-  }
-
-  private Pattern getRegexPattern() {
-    return Strings.isNullOrEmpty(matchRegex) ? null : Pattern.compile(matchRegex);
-  }
-
-  private boolean isNotRelevant(Pattern pattern, GroupDescription.Internal group) {
-    if (!Strings.isNullOrEmpty(matchSubstring)) {
-      if (!group.getName().toLowerCase(Locale.US).contains(matchSubstring.toLowerCase(Locale.US))) {
-        return true;
-      }
-    } else if (pattern != null) {
-      if (!pattern.matcher(group.getName()).matches()) {
-        return true;
+    List<GroupInfo> groups = new ArrayList<>();
+    int found = 0;
+    int foundIndex = 0;
+    for (AccountGroup g : filterGroups(groupCache.all())) {
+      GroupControl ctl = groupControlFactory.controlFor(g);
+      try {
+        if (genericGroupControlFactory.controlFor(user, g.getGroupUUID()).isOwner()) {
+          if (foundIndex++ < start) {
+            continue;
+          }
+          if (limit > 0 && ++found > limit) {
+            break;
+          }
+          groups.add(json.addOptions(options).format(ctl.getGroup()));
+        }
+      } catch (NoSuchGroupException e) {
+        continue;
       }
     }
-    if (visibleToAll && !group.isVisibleToAll()) {
-      return true;
-    }
-    if (!groupsToInspect.isEmpty() && !groupsToInspect.contains(group.getGroupUUID())) {
-      return true;
-    }
+    return groups;
+  }
 
-    GroupControl c = groupControlFactory.controlFor(group);
-    return !c.isVisible();
+  private List<AccountGroup> filterGroups(Collection<AccountGroup> groups) {
+    List<AccountGroup> filteredGroups = new ArrayList<>(groups.size());
+    boolean isAdmin = identifiedUser.get().getCapabilities().canAdministrateServer();
+    for (AccountGroup group : groups) {
+      if (!Strings.isNullOrEmpty(matchSubstring)) {
+        if (!group
+            .getName()
+            .toLowerCase(Locale.US)
+            .contains(matchSubstring.toLowerCase(Locale.US))) {
+          continue;
+        }
+      }
+      if (visibleToAll && !group.isVisibleToAll()) {
+        continue;
+      }
+      if (!groupsToInspect.isEmpty() && !groupsToInspect.contains(group.getGroupUUID())) {
+        continue;
+      }
+      if (!isAdmin) {
+        GroupControl c = groupControlFactory.controlFor(group);
+        if (!c.isVisible()) {
+          continue;
+        }
+      }
+      filteredGroups.add(group);
+    }
+    Collections.sort(filteredGroups, new GroupComparator());
+    return filteredGroups;
   }
 }

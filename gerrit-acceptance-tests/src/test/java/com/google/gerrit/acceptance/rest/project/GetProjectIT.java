@@ -16,10 +16,8 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
-import com.google.gerrit.extensions.common.LabelTypeInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import org.junit.Test;
@@ -32,19 +30,6 @@ public class GetProjectIT extends AbstractDaemonTest {
     String name = project.get();
     ProjectInfo p = gApi.projects().name(name).get();
     assertThat(p.name).isEqualTo(name);
-
-    assertThat(p.labels).hasSize(1);
-    LabelTypeInfo l = p.labels.get("Code-Review");
-
-    ImmutableMap<String, String> want =
-        ImmutableMap.of(
-            " 0", "No score",
-            "-1", "I would prefer this is not merged as is",
-            "-2", "This shall not be merged",
-            "+1", "Looks good to me, but someone else must approve",
-            "+2", "Looks good to me, approved");
-    assertThat(l.values).isEqualTo(want);
-    assertThat(l.defaultValue).isEqualTo(0);
   }
 
   @Test

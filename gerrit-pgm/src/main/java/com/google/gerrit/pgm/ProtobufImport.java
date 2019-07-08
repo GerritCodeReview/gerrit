@@ -84,7 +84,13 @@ public class ProtobufImport extends SiteProgram {
     Injector dbInjector = createDbInjector(SINGLE_USER);
     manager.add(dbInjector);
     manager.start();
-    RuntimeShutdown.add(manager::stop);
+    RuntimeShutdown.add(
+        new Runnable() {
+          @Override
+          public void run() {
+            manager.stop();
+          }
+        });
     dbInjector.injectMembers(this);
 
     ProgressMonitor progress = new TextProgressMonitor();

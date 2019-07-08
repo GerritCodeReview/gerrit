@@ -35,9 +35,8 @@ import com.google.gerrit.server.update.BatchUpdateListener;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.update.RepoOnlyOp;
 import com.google.gerrit.server.update.UpdateException;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -46,12 +45,10 @@ import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEditor;
@@ -66,6 +63,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.RefSpec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,49 +82,14 @@ public class SubmoduleOp {
     public void updateRepo(RepoContext ctx) throws Exception {
       CodeReviewCommit c = composeGitlinksCommit(branch);
       if (c != null) {
-        ctx.addRefUpdate(c.getParent(0), c, branch.get());
+        ctx.addRefUpdate(new ReceiveCommand(c.getParent(0), c, branch.get()));
         addBranchTip(branch, c);
       }
     }
   }
 
-  @Singleton
-  public static class Factory {
-    private final GitModules.Factory gitmodulesFactory;
-    private final Provider<PersonIdent> serverIdent;
-    private final Config cfg;
-    private final ProjectCache projectCache;
-    private final ProjectState.Factory projectStateFactory;
-    private final BatchUpdate.Factory batchUpdateFactory;
-
-    @Inject
-    Factory(
-        GitModules.Factory gitmodulesFactory,
-        @GerritPersonIdent Provider<PersonIdent> serverIdent,
-        @GerritServerConfig Config cfg,
-        ProjectCache projectCache,
-        ProjectState.Factory projectStateFactory,
-        BatchUpdate.Factory batchUpdateFactory) {
-      this.gitmodulesFactory = gitmodulesFactory;
-      this.serverIdent = serverIdent;
-      this.cfg = cfg;
-      this.projectCache = projectCache;
-      this.projectStateFactory = projectStateFactory;
-      this.batchUpdateFactory = batchUpdateFactory;
-    }
-
-    public SubmoduleOp create(Set<Branch.NameKey> updatedBranches, MergeOpRepoManager orm)
-        throws SubmoduleException {
-      return new SubmoduleOp(
-          gitmodulesFactory,
-          serverIdent.get(),
-          cfg,
-          projectCache,
-          projectStateFactory,
-          batchUpdateFactory,
-          updatedBranches,
-          orm);
-    }
+  public interface Factory {
+    SubmoduleOp create(Set<Branch.NameKey> updatedBranches, MergeOpRepoManager orm);
   }
 
   private static final Logger log = LoggerFactory.getLogger(SubmoduleOp.class);
@@ -138,8 +101,6 @@ public class SubmoduleOp {
   private final BatchUpdate.Factory batchUpdateFactory;
   private final VerboseSuperprojectUpdate verboseSuperProject;
   private final boolean enableSuperProjectSubscriptions;
-  private final long maxCombinedCommitMessageSize;
-  private final long maxCommitMessages;
   private final MergeOpRepoManager orm;
   private final Map<Branch.NameKey, GitModules> branchGitModules;
 
@@ -156,15 +117,16 @@ public class SubmoduleOp {
   // map of superproject and its branches which has submodule subscriptions
   private final SetMultimap<Project.NameKey, Branch.NameKey> branchesByProject;
 
-  private SubmoduleOp(
+  @AssistedInject
+  public SubmoduleOp(
       GitModules.Factory gitmodulesFactory,
-      PersonIdent myIdent,
-      Config cfg,
+      @GerritPersonIdent PersonIdent myIdent,
+      @GerritServerConfig Config cfg,
       ProjectCache projectCache,
       ProjectState.Factory projectStateFactory,
       BatchUpdate.Factory batchUpdateFactory,
-      Set<Branch.NameKey> updatedBranches,
-      MergeOpRepoManager orm)
+      @Assisted Set<Branch.NameKey> updatedBranches,
+      @Assisted MergeOpRepoManager orm)
       throws SubmoduleException {
     this.gitmodulesFactory = gitmodulesFactory;
     this.myIdent = myIdent;
@@ -175,9 +137,6 @@ public class SubmoduleOp {
         cfg.getEnum("submodule", null, "verboseSuperprojectUpdate", VerboseSuperprojectUpdate.TRUE);
     this.enableSuperProjectSubscriptions =
         cfg.getBoolean("submodule", "enableSuperProjectSubscriptions", true);
-    this.maxCombinedCommitMessageSize =
-        cfg.getLong("submodule", "maxCombinedCommitMessageSize", 256 << 10);
-    this.maxCommitMessages = cfg.getLong("submodule", "maxCommitMessages", 1000);
     this.orm = orm;
     this.updatedBranches = updatedBranches;
     this.targets = MultimapBuilder.hashKeys().hashSetValues().build();
@@ -390,7 +349,7 @@ public class SubmoduleOp {
   }
 
   /** Create a separate gitlink commit */
-  public CodeReviewCommit composeGitlinksCommit(Branch.NameKey subscriber)
+  public CodeReviewCommit composeGitlinksCommit(final Branch.NameKey subscriber)
       throws IOException, SubmoduleException {
     OpenRepo or;
     try {
@@ -454,7 +413,7 @@ public class SubmoduleOp {
 
   /** Amend an existing commit with gitlink updates */
   public CodeReviewCommit composeGitlinksCommit(
-      Branch.NameKey subscriber, CodeReviewCommit currentCommit)
+      final Branch.NameKey subscriber, CodeReviewCommit currentCommit)
       throws IOException, SubmoduleException {
     OpenRepo or;
     try {
@@ -481,7 +440,7 @@ public class SubmoduleOp {
     commit.setTreeId(newTreeId);
     commit.setParentIds(currentCommit.getParents());
     if (verboseSuperProject != VerboseSuperprojectUpdate.FALSE) {
-      // TODO(czhen): handle cherrypick footer
+      // TODO:czhen handle cherrypick footer
       commit.setMessage(currentCommit.getFullMessage() + "\n\n* submodules:\n" + msgbuf.toString());
     } else {
       commit.setMessage(currentCommit.getFullMessage());
@@ -495,7 +454,7 @@ public class SubmoduleOp {
   }
 
   private RevCommit updateSubmodule(
-      DirCache dc, DirCacheEditor ed, StringBuilder msgbuf, SubmoduleSubscription s)
+      DirCache dc, DirCacheEditor ed, StringBuilder msgbuf, final SubmoduleSubscription s)
       throws SubmoduleException, IOException {
     OpenRepo subOr;
     try {
@@ -560,11 +519,8 @@ public class SubmoduleOp {
       RevCommit newCommit,
       RevCommit oldCommit)
       throws SubmoduleException {
-    msgbuf.append("* Update ");
-    msgbuf.append(s.getPath());
-    msgbuf.append(" from branch '");
-    msgbuf.append(s.getSubmodule().getShortName());
-    msgbuf.append("'");
+    msgbuf.append("* Update " + s.getPath());
+    msgbuf.append(" from branch '" + s.getSubmodule().getShortName() + "'");
     msgbuf.append("\n  to " + newCommit.getName());
 
     // newly created submodule gitlink, do not append whole history
@@ -576,27 +532,13 @@ public class SubmoduleOp {
       subOr.rw.resetRetain(subOr.canMergeFlag);
       subOr.rw.markStart(newCommit);
       subOr.rw.markUninteresting(oldCommit);
-      int numMessages = 0;
-      for (Iterator<RevCommit> iter = subOr.rw.iterator(); iter.hasNext(); ) {
-        RevCommit c = iter.next();
+      for (RevCommit c : subOr.rw) {
         subOr.rw.parseBody(c);
-
-        String message =
-            verboseSuperProject == VerboseSuperprojectUpdate.SUBJECT_ONLY
-                ? c.getShortMessage()
-                : StringUtils.replace(c.getFullMessage(), "\n", "\n    ");
-
-        String bullet = "\n  - ";
-        String ellipsis = "\n\n[...]";
-        int newSize = msgbuf.length() + bullet.length() + message.length();
-        if (++numMessages > maxCommitMessages
-            || newSize > maxCombinedCommitMessageSize
-            || iter.hasNext() && (newSize + ellipsis.length()) > maxCombinedCommitMessageSize) {
-          msgbuf.append(ellipsis);
-          break;
+        if (verboseSuperProject == VerboseSuperprojectUpdate.SUBJECT_ONLY) {
+          msgbuf.append("\n  - " + c.getShortMessage());
+        } else if (verboseSuperProject == VerboseSuperprojectUpdate.TRUE) {
+          msgbuf.append("\n  - " + c.getFullMessage().replace("\n", "\n    "));
         }
-        msgbuf.append(bullet);
-        msgbuf.append(message);
       }
     } catch (IOException e) {
       throw new SubmoduleException(

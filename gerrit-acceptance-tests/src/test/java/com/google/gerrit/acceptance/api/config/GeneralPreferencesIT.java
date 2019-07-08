@@ -41,7 +41,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
         assertThat(u.delete()).isEqualTo(RefUpdate.Result.FORCED);
       }
     }
-    accountCache.evictAllNoReindex();
+    accountCache.evictAll();
   }
 
   @Test

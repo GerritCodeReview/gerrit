@@ -27,13 +27,10 @@ public interface ChangeReportFormatter {
     public abstract String subject();
 
     @Nullable
+    public abstract Boolean isDraft();
+
+    @Nullable
     public abstract Boolean isEdit();
-
-    @Nullable
-    public abstract Boolean isPrivate();
-
-    @Nullable
-    public abstract Boolean isWorkInProgress();
 
     public static Builder builder() {
       return new AutoValue_ChangeReportFormatter_Input.Builder();
@@ -45,31 +42,25 @@ public interface ChangeReportFormatter {
 
       public abstract Builder setSubject(String val);
 
+      public abstract Builder setIsDraft(Boolean val);
+
       public abstract Builder setIsEdit(Boolean val);
-
-      public abstract Builder setIsPrivate(Boolean val);
-
-      public abstract Builder setIsWorkInProgress(Boolean val);
 
       abstract Change change();
 
       abstract String subject();
 
+      abstract Boolean isDraft();
+
       abstract Boolean isEdit();
-
-      abstract Boolean isPrivate();
-
-      abstract Boolean isWorkInProgress();
 
       abstract Input autoBuild();
 
       public Input build() {
         setChange(change());
         setSubject(subject() == null ? change().getSubject() : subject());
+        setIsDraft(isDraft() == null ? Change.Status.DRAFT == change().getStatus() : isDraft());
         setIsEdit(isEdit() == null ? false : isEdit());
-        setIsPrivate(isPrivate() == null ? change().isPrivate() : isPrivate());
-        setIsWorkInProgress(
-            isWorkInProgress() == null ? change().isWorkInProgress() : isWorkInProgress());
         return autoBuild();
       }
     }

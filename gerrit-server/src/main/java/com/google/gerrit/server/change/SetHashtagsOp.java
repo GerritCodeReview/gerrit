@@ -29,7 +29,6 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.change.HashtagsUtil.InvalidHashtagException;
 import com.google.gerrit.server.extensions.events.HashtagsEdited;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -40,8 +39,8 @@ import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.validators.HashtagValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
@@ -65,7 +64,7 @@ public class SetHashtagsOp implements BatchUpdateOp {
   private Set<String> toRemove;
   private ImmutableSortedSet<String> updatedHashtags;
 
-  @Inject
+  @AssistedInject
   SetHashtagsOp(
       NotesMigration notesMigration,
       ChangeMessagesUtil cmUtil,
@@ -95,36 +94,38 @@ public class SetHashtagsOp implements BatchUpdateOp {
       updatedHashtags = ImmutableSortedSet.of();
       return false;
     }
-
+    if (!ctx.getControl().canEditHashtags()) {
+      throw new AuthException("Editing hashtags not permitted");
+    }
     change = ctx.getChange();
     ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
     ChangeNotes notes = update.getNotes().load();
 
-    try {
-      Set<String> existingHashtags = notes.getHashtags();
-      Set<String> updated = new HashSet<>();
-      toAdd = new HashSet<>(extractTags(input.add));
-      toRemove = new HashSet<>(extractTags(input.remove));
+    Set<String> existingHashtags = notes.getHashtags();
+    Set<String> updated = new HashSet<>();
+    toAdd = new HashSet<>(extractTags(input.add));
+    toRemove = new HashSet<>(extractTags(input.remove));
 
+    try {
       for (HashtagValidationListener validator : validationListeners) {
         validator.validateHashtags(update.getChange(), toAdd, toRemove);
       }
-
-      updated.addAll(existingHashtags);
-      toAdd.removeAll(existingHashtags);
-      toRemove.retainAll(existingHashtags);
-      if (updated()) {
-        updated.addAll(toAdd);
-        updated.removeAll(toRemove);
-        update.setHashtags(updated);
-        addMessage(ctx, update);
-      }
-
-      updatedHashtags = ImmutableSortedSet.copyOf(updated);
-      return true;
-    } catch (ValidationException | InvalidHashtagException e) {
+    } catch (ValidationException e) {
       throw new BadRequestException(e.getMessage());
     }
+
+    updated.addAll(existingHashtags);
+    toAdd.removeAll(existingHashtags);
+    toRemove.retainAll(existingHashtags);
+    if (updated()) {
+      updated.addAll(toAdd);
+      updated.removeAll(toRemove);
+      update.setHashtags(updated);
+      addMessage(ctx, update);
+    }
+
+    updatedHashtags = ImmutableSortedSet.copyOf(updated);
+    return true;
   }
 
   private void addMessage(ChangeContext ctx, ChangeUpdate update) throws OrmException {

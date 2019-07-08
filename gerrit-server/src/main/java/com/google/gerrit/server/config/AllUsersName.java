@@ -17,9 +17,8 @@ package com.google.gerrit.server.config;
 import com.google.gerrit.reviewdb.client.Project;
 
 /** Special name of the project in which meta data for all users is stored. */
+@SuppressWarnings("serial")
 public class AllUsersName extends Project.NameKey {
-  private static final long serialVersionUID = 1L;
-
   public AllUsersName(String name) {
     super(name);
   }

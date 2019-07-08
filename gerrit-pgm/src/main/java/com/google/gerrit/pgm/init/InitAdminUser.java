@@ -17,26 +17,21 @@ package com.google.gerrit.pgm.init;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.client.AuthType;
-import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
-import com.google.gerrit.pgm.init.api.SequencesOnInit;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroupMember;
+import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
-import com.google.gerrit.server.index.group.GroupIndex;
-import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -44,41 +39,29 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import org.apache.commons.validator.routines.EmailValidator;
 
 public class InitAdminUser implements InitStep {
-  private final InitFlags flags;
   private final ConsoleUI ui;
-  private final AllUsersNameOnInitProvider allUsers;
-  private final AccountsOnInit accounts;
+  private final InitFlags flags;
   private final VersionedAuthorizedKeysOnInit.Factory authorizedKeysFactory;
   private final ExternalIdsOnInit externalIds;
-  private final SequencesOnInit sequencesOnInit;
-  private final GroupsOnInit groupsOnInit;
   private SchemaFactory<ReviewDb> dbFactory;
-  private AccountIndexCollection accountIndexCollection;
-  private GroupIndexCollection groupIndexCollection;
+  private AccountIndexCollection indexCollection;
 
   @Inject
   InitAdminUser(
       InitFlags flags,
       ConsoleUI ui,
-      AllUsersNameOnInitProvider allUsers,
-      AccountsOnInit accounts,
       VersionedAuthorizedKeysOnInit.Factory authorizedKeysFactory,
-      ExternalIdsOnInit externalIds,
-      SequencesOnInit sequencesOnInit,
-      GroupsOnInit groupsOnInit) {
+      ExternalIdsOnInit externalIds) {
     this.flags = flags;
     this.ui = ui;
-    this.allUsers = allUsers;
-    this.accounts = accounts;
     this.authorizedKeysFactory = authorizedKeysFactory;
     this.externalIds = externalIds;
-    this.sequencesOnInit = sequencesOnInit;
-    this.groupsOnInit = groupsOnInit;
   }
 
   @Override
@@ -90,13 +73,8 @@ public class InitAdminUser implements InitStep {
   }
 
   @Inject(optional = true)
-  void set(AccountIndexCollection accountIndexCollection) {
-    this.accountIndexCollection = accountIndexCollection;
-  }
-
-  @Inject(optional = true)
-  void set(GroupIndexCollection groupIndexCollection) {
-    this.groupIndexCollection = groupIndexCollection;
+  void set(AccountIndexCollection indexCollection) {
+    this.indexCollection = indexCollection;
   }
 
   @Override
@@ -107,10 +85,10 @@ public class InitAdminUser implements InitStep {
     }
 
     try (ReviewDb db = dbFactory.open()) {
-      if (!accounts.hasAnyAccount()) {
+      if (db.accounts().anyAccounts().toList().isEmpty()) {
         ui.header("Gerrit Administrator");
         if (ui.yesno(true, "Create administrator user")) {
-          Account.Id id = new Account.Id(sequencesOnInit.nextAccountId(db));
+          Account.Id id = new Account.Id(db.nextAccountId());
           String username = ui.readString("admin", "username");
           String name = ui.readString("Administrator", "name");
           String httpPassword = ui.readString("secret", "HTTP password");
@@ -123,16 +101,18 @@ public class InitAdminUser implements InitStep {
           if (email != null) {
             extIds.add(ExternalId.createEmail(id, email));
           }
-          externalIds.insert("Add external IDs for initial admin user", extIds);
+          externalIds.insert(db, extIds);
 
           Account a = new Account(id, TimeUtil.nowTs());
           a.setFullName(name);
           a.setPreferredEmail(email);
-          accounts.insert(a);
+          db.accounts().insert(Collections.singleton(a));
 
-          AccountGroup adminGroup =
-              groupsOnInit.getExistingGroup(db, new AccountGroup.NameKey("Administrators"));
-          groupsOnInit.addGroupMember(db, adminGroup.getGroupUUID(), id);
+          AccountGroupName adminGroupName =
+              db.accountGroupNames().get(new AccountGroup.NameKey("Administrators"));
+          AccountGroupMember m =
+              new AccountGroupMember(new AccountGroupMember.Key(id, adminGroupName.getId()));
+          db.accountGroupMembers().insert(Collections.singleton(m));
 
           if (sshKey != null) {
             VersionedAuthorizedKeysOnInit authorizedKeys = authorizedKeysFactory.create(id).load();
@@ -140,16 +120,12 @@ public class InitAdminUser implements InitStep {
             authorizedKeys.save("Add SSH key for initial admin user\n");
           }
 
+          AccountGroup adminGroup = db.accountGroups().get(adminGroupName.getId());
           AccountState as =
-              new AccountState(new AllUsersName(allUsers.get()), a, extIds, new HashMap<>());
-          for (AccountIndex accountIndex : accountIndexCollection.getWriteIndexes()) {
+              new AccountState(
+                  a, Collections.singleton(adminGroup.getGroupUUID()), extIds, new HashMap<>());
+          for (AccountIndex accountIndex : indexCollection.getWriteIndexes()) {
             accountIndex.replace(as);
-          }
-
-          InternalGroup adminInternalGroup =
-              InternalGroup.create(adminGroup, ImmutableSet.of(id), ImmutableSet.of());
-          for (GroupIndex groupIndex : groupIndexCollection.getWriteIndexes()) {
-            groupIndex.replace(adminInternalGroup);
           }
         }
       }

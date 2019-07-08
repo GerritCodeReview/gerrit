@@ -25,34 +25,25 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class DeleteWatchedProjects
     implements RestModifyView<AccountResource, List<ProjectWatchInfo>> {
   private final Provider<IdentifiedUser> self;
-  private final PermissionBackend permissionBackend;
   private final AccountCache accountCache;
   private final WatchConfig.Accessor watchConfig;
 
   @Inject
   DeleteWatchedProjects(
-      Provider<IdentifiedUser> self,
-      PermissionBackend permissionBackend,
-      AccountCache accountCache,
-      WatchConfig.Accessor watchConfig) {
+      Provider<IdentifiedUser> self, AccountCache accountCache, WatchConfig.Accessor watchConfig) {
     this.self = self;
-    this.permissionBackend = permissionBackend;
     this.accountCache = accountCache;
     this.watchConfig = watchConfig;
   }
@@ -60,9 +51,10 @@ public class DeleteWatchedProjects
   @Override
   public Response<?> apply(AccountResource rsrc, List<ProjectWatchInfo> input)
       throws AuthException, UnprocessableEntityException, OrmException, IOException,
-          ConfigInvalidException, PermissionBackendException {
-    if (!self.get().hasSameAccountId(rsrc.getUser())) {
-      permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
+          ConfigInvalidException {
+    if (!self.get().hasSameAccountId(rsrc.getUser())
+        && !self.get().getCapabilities().canAdministrateServer()) {
+      throw new AuthException("It is not allowed to edit project watches of other users");
     }
     if (input == null) {
       return Response.none();
@@ -72,7 +64,6 @@ public class DeleteWatchedProjects
     watchConfig.deleteProjectWatches(
         accountId,
         input.stream()
-            .filter(Objects::nonNull)
             .map(w -> ProjectWatchKey.create(new Project.NameKey(w.project), w.filter))
             .collect(toList()));
     accountCache.evict(accountId);

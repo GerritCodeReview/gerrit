@@ -14,8 +14,8 @@
 (function() {
   'use strict';
 
-  const UNRESOLVED_EXPAND_COUNT = 5;
-  const NEWLINE_PATTERN = /\n/g;
+  var UNRESOLVED_EXPAND_COUNT = 5;
+  var NEWLINE_PATTERN = /\n/g;
 
   Polymer({
     is: 'gr-diff-comment-thread',
@@ -30,20 +30,17 @@
       changeNum: String,
       comments: {
         type: Array,
-        value() { return []; },
+        value: function() { return []; },
       },
       locationRange: String,
       keyEventTarget: {
         type: Object,
-        value() { return document.body; },
+        value: function() { return document.body; },
       },
       commentSide: String,
       patchNum: String,
       path: String,
-      projectName: {
-        type: String,
-        observer: '_projectNameChanged',
-      },
+      projectConfig: Object,
       isOnParent: {
         type: Boolean,
         value: false,
@@ -56,7 +53,6 @@
         type: Boolean,
         notify: true,
       },
-      _projectConfig: Object,
     },
 
     behaviors: [
@@ -75,17 +71,17 @@
       'e shift+e': '_handleEKey',
     },
 
-    attached() {
-      this._getLoggedIn().then(loggedIn => {
+    attached: function() {
+      this._getLoggedIn().then(function(loggedIn) {
         this._showActions = loggedIn;
-      });
+      }.bind(this));
       this._setInitialExpandedState();
     },
 
-    addOrEditDraft(opt_lineNum, opt_range) {
-      const lastComment = this.comments[this.comments.length - 1] || {};
+    addOrEditDraft: function(opt_lineNum, opt_range) {
+      var lastComment = this.comments[this.comments.length - 1] || {};
       if (lastComment.__draft) {
-        const commentEl = this._commentElWithDraftID(
+        var commentEl = this._commentElWithDraftID(
             lastComment.id || lastComment.__draftID);
         commentEl.editing = true;
 
@@ -93,25 +89,25 @@
         // actions are available.
         commentEl.collapsed = false;
       } else {
-        const range = opt_range ? opt_range :
+        var range = opt_range ? opt_range :
             lastComment ? lastComment.range : undefined;
-        const unresolved = lastComment ? lastComment.unresolved : undefined;
+        var unresolved = lastComment ? lastComment.unresolved : undefined;
         this.addDraft(opt_lineNum, range, unresolved);
       }
     },
 
-    addDraft(opt_lineNum, opt_range, opt_unresolved) {
-      const draft = this._newDraft(opt_lineNum, opt_range);
+    addDraft: function(opt_lineNum, opt_range, opt_unresolved) {
+      var draft = this._newDraft(opt_lineNum, opt_range);
       draft.__editing = true;
       draft.unresolved = opt_unresolved === false ? opt_unresolved : true;
       this.push('comments', draft);
     },
 
-    _getLoggedIn() {
+    _getLoggedIn: function() {
       return this.$.restAPI.getLoggedIn();
     },
 
-    _commentsChanged(changeRecord) {
+    _commentsChanged: function(changeRecord) {
       this._orderedComments = this._sortedComments(this.comments);
       if (this._orderedComments.length) {
         this._lastComment = this._getLastComment();
@@ -119,15 +115,15 @@
       }
     },
 
-    _hideActions(_showActions, _lastComment) {
+    _hideActions: function(_showActions, _lastComment) {
       return !_showActions || !_lastComment || !!_lastComment.__draft;
     },
 
-    _getLastComment() {
+    _getLastComment: function() {
       return this._orderedComments[this._orderedComments.length - 1] || {};
     },
 
-    _handleEKey(e) {
+    _handleEKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       // Don’t preventDefault in this case because it will render the event
@@ -140,12 +136,12 @@
       }
     },
 
-    _expandCollapseComments(actionIsCollapse) {
-      const comments =
+    _expandCollapseComments: function(actionIsCollapse) {
+      var comments =
           Polymer.dom(this.root).querySelectorAll('gr-diff-comment');
-      for (const comment of comments) {
+      comments.forEach(function(comment) {
         comment.collapsed = actionIsCollapse;
-      }
+      });
     },
 
     /**
@@ -153,32 +149,33 @@
      * {UNRESOLVED_EXPAND_COUNT} comments expanded by default if the
      * thread is unresolved.
      */
-    _setInitialExpandedState() {
-      let comment;
+    _setInitialExpandedState: function() {
+      var comment;
       if (this._orderedComments) {
-        for (let i = 0; i < this._orderedComments.length; i++) {
+        for (var i = 0; i < this._orderedComments.length; i++) {
           comment = this._orderedComments[i];
           comment.collapsed =
               this._orderedComments.length - i - 1 >= UNRESOLVED_EXPAND_COUNT ||
               !this._unresolved;
         }
       }
+
     },
 
-    _sortedComments(comments) {
-      return comments.slice().sort((c1, c2) => {
-        const c1Date = c1.__date || util.parseDate(c1.updated);
-        const c2Date = c2.__date || util.parseDate(c2.updated);
-        const dateCompare = c1Date - c2Date;
+    _sortedComments: function(comments) {
+      return comments.slice().sort(function(c1, c2) {
+        var c1Date = c1.__date || util.parseDate(c1.updated);
+        var c2Date = c2.__date || util.parseDate(c2.updated);
+        var dateCompare = c1Date - c2Date;
         if (!c1.id || !c1.id.localeCompare) { return 0; }
         // If same date, fall back to sorting by id.
         return dateCompare ? dateCompare : c1.id.localeCompare(c2.id);
       });
     },
 
-    _createReplyComment(parent, content, opt_isEditing,
+    _createReplyComment: function(parent, content, opt_isEditing,
         opt_unresolved) {
-      const reply = this._newReply(
+      var reply = this._newReply(
           this._orderedComments[this._orderedComments.length - 1].id,
           parent.line,
           content,
@@ -187,7 +184,7 @@
 
       // If there is currently a comment in an editing state, add an attribute
       // so that the gr-diff-comment knows not to populate the draft text.
-      for (let i = 0; i < this.comments.length; i++) {
+      for (var i = 0; i < this.comments.length; i++) {
         if (this.comments[i].__editing) {
           reply.__otherEditing = true;
           break;
@@ -202,69 +199,62 @@
 
       if (!opt_isEditing) {
         // Allow the reply to render in the dom-repeat.
-        this.async(() => {
-          const commentEl = this._commentElWithDraftID(reply.__draftID);
+        this.async(function() {
+          var commentEl = this._commentElWithDraftID(reply.__draftID);
           commentEl.save();
         }, 1);
       }
     },
 
-    _isDraft(comment) {
-      return !!comment.__draft;
-    },
-
-    /**
-     * @param {boolean=} opt_quote
-     */
-    _processCommentReply(opt_quote) {
-      const comment = this._lastComment;
-      let quoteStr;
+    _processCommentReply: function(opt_quote) {
+      var comment = this._lastComment;
+      var quoteStr;
       if (opt_quote) {
-        const msg = comment.message;
+        var msg = comment.message;
         quoteStr = '> ' + msg.replace(NEWLINE_PATTERN, '\n> ') + '\n\n';
       }
       this._createReplyComment(comment, quoteStr, true, comment.unresolved);
     },
 
-    _handleCommentReply(e) {
+    _handleCommentReply: function(e) {
       this._processCommentReply();
     },
 
-    _handleCommentQuote(e) {
+    _handleCommentQuote: function(e) {
       this._processCommentReply(true);
     },
 
-    _handleCommentAck(e) {
-      const comment = this._lastComment;
+    _handleCommentAck: function(e) {
+      var comment = this._lastComment;
       this._createReplyComment(comment, 'Ack', false, false);
     },
 
-    _handleCommentDone(e) {
-      const comment = this._lastComment;
+    _handleCommentDone: function(e) {
+      var comment = this._lastComment;
       this._createReplyComment(comment, 'Done', false, false);
     },
 
-    _handleCommentFix(e) {
-      const comment = e.detail.comment;
-      const msg = comment.message;
-      const quoteStr = '> ' + msg.replace(NEWLINE_PATTERN, '\n> ') + '\n\n';
-      const response = quoteStr + 'Please Fix';
+    _handleCommentFix: function(e) {
+      var comment = e.detail.comment;
+      var msg = comment.message;
+      var quoteStr = '> ' + msg.replace(NEWLINE_PATTERN, '\n> ') + '\n\n';
+      var response = quoteStr + 'Please Fix';
       this._createReplyComment(comment, response, false, true);
     },
 
-    _commentElWithDraftID(id) {
-      const els = Polymer.dom(this.root).querySelectorAll('gr-diff-comment');
-      for (const el of els) {
-        if (el.comment.id === id || el.comment.__draftID === id) {
-          return el;
+    _commentElWithDraftID: function(id) {
+      var els = Polymer.dom(this.root).querySelectorAll('gr-diff-comment');
+      for (var i = 0; i < els.length; i++) {
+        if (els[i].comment.id === id || els[i].comment.__draftID === id) {
+          return els[i];
         }
       }
       return null;
     },
 
-    _newReply(inReplyTo, opt_lineNum, opt_message, opt_unresolved,
-        opt_range) {
-      const d = this._newDraft(opt_lineNum);
+    _newReply: function(inReplyTo, opt_lineNum, opt_message, opt_unresolved,
+          opt_range) {
+      var d = this._newDraft(opt_lineNum);
       d.in_reply_to = inReplyTo;
       d.range = opt_range;
       if (opt_message != null) {
@@ -276,12 +266,8 @@
       return d;
     },
 
-    /**
-     * @param {number=} opt_lineNum
-     * @param {!Object=} opt_range
-     */
-    _newDraft(opt_lineNum, opt_range) {
-      const d = {
+    _newDraft: function(opt_lineNum, opt_range) {
+      var d = {
         __draft: true,
         __draftID: Math.random().toString(36),
         __date: new Date(),
@@ -304,15 +290,15 @@
       return d;
     },
 
-    _getSide(isOnParent) {
+    _getSide: function(isOnParent) {
       if (isOnParent) { return 'PARENT'; }
       return 'REVISION';
     },
 
-    _handleCommentDiscard(e) {
-      const diffCommentEl = Polymer.dom(e).rootTarget;
-      const comment = diffCommentEl.comment;
-      const idx = this._indexOf(comment, this.comments);
+    _handleCommentDiscard: function(e) {
+      var diffCommentEl = Polymer.dom(e).rootTarget;
+      var comment = diffCommentEl.comment;
+      var idx = this._indexOf(comment, this.comments);
       if (idx == -1) {
         throw Error('Cannot find comment ' +
             JSON.stringify(diffCommentEl.comment));
@@ -324,23 +310,23 @@
 
       // Check to see if there are any other open comments getting edited and
       // set the local storage value to its message value.
-      for (const changeComment of this.comments) {
-        if (changeComment.__editing) {
-          const commentLocation = {
+      for (var i = 0; i < this.comments.length; i++) {
+        if (this.comments[i].__editing) {
+          var commentLocation = {
             changeNum: this.changeNum,
             patchNum: this.patchNum,
-            path: changeComment.path,
-            line: changeComment.line,
+            path: this.comments[i].path,
+            line: this.comments[i].line,
           };
           return this.$.storage.setDraftComment(commentLocation,
-              changeComment.message);
+              this.comments[i].message);
         }
       }
     },
 
-    _handleCommentUpdate(e) {
-      const comment = e.detail.comment;
-      const index = this._indexOf(comment, this.comments);
+    _handleCommentUpdate: function(e) {
+      var comment = e.detail.comment;
+      var index = this._indexOf(comment, this.comments);
       if (index === -1) {
         // This should never happen: comment belongs to another thread.
         console.warn('Comment update for another comment thread.');
@@ -349,9 +335,9 @@
       this.set(['comments', index], comment);
     },
 
-    _indexOf(comment, arr) {
-      for (let i = 0; i < arr.length; i++) {
-        const c = arr[i];
+    _indexOf: function(comment, arr) {
+      for (var i = 0; i < arr.length; i++) {
+        var c = arr[i];
         if ((c.__draftID != null && c.__draftID == comment.__draftID) ||
             (c.id != null && c.id == comment.id)) {
           return i;
@@ -360,19 +346,8 @@
       return -1;
     },
 
-    _computeHostClass(unresolved) {
+    _computeHostClass: function(unresolved) {
       return unresolved ? 'unresolved' : '';
-    },
-
-    /**
-     * Load the project config when a project name has been provided.
-     * @param {string} name The project name.
-     */
-    _projectNameChanged(name) {
-      if (!name) { return; }
-      this.$.restAPI.getProjectConfig(name).then(config => {
-        this._projectConfig = config;
-      });
     },
   });
 })();

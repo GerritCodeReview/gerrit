@@ -63,9 +63,6 @@ limitations under the License.
     <g:Button ui:field='cherrypick' styleName='' visible='false'>
       <div><ui:msg>Cherry Pick</ui:msg></div>
     </g:Button>
-    <g:Button ui:field='move' styleName='' visible='false'>
-      <div><ui:msg>Move Change</ui:msg></div>
-    </g:Button>
     <g:Button ui:field='rebase' styleName='' visible='false'>
       <div><ui:msg>Rebase</ui:msg></div>
     </g:Button>
@@ -83,12 +80,6 @@ limitations under the License.
     </g:Button>
     <g:Button ui:field='followUp' styleName='' visible='false'>
       <div><ui:msg>Follow-Up</ui:msg></div>
-    </g:Button>
-    <g:Button ui:field='markPrivate' styleName='' visible='false'>
-      <div><ui:msg>Mark Private</ui:msg></div>
-    </g:Button>
-    <g:Button ui:field='unmarkPrivate' styleName='' visible='false'>
-      <div><ui:msg>Unmark Private</ui:msg></div>
     </g:Button>
 
     <g:Button ui:field='submit' styleName='{style.submit}' visible='false'/>

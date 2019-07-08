@@ -31,6 +31,7 @@ import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.project.ProjectState.EffectiveMaxObjectSizeLimit;
+import com.google.inject.util.Providers;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -43,7 +44,6 @@ public class ConfigInfoImpl extends ConfigInfo {
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
       AllProjectsName allProjects,
-      UiActions uiActions,
       DynamicMap<RestView<ProjectResource>> views) {
     ProjectState projectState = control.getProjectState();
     Project p = control.getProject();
@@ -57,10 +57,6 @@ public class ConfigInfoImpl extends ConfigInfo {
     InheritedBooleanInfo enableSignedPush = new InheritedBooleanInfo();
     InheritedBooleanInfo requireSignedPush = new InheritedBooleanInfo();
     InheritedBooleanInfo rejectImplicitMerges = new InheritedBooleanInfo();
-    InheritedBooleanInfo privateByDefault = new InheritedBooleanInfo();
-    InheritedBooleanInfo workInProgressByDefault = new InheritedBooleanInfo();
-    InheritedBooleanInfo enableReviewerByEmail = new InheritedBooleanInfo();
-    InheritedBooleanInfo matchAuthorToCommitterDate = new InheritedBooleanInfo();
 
     useContributorAgreements.value = projectState.isUseContributorAgreements();
     useSignedOffBy.value = projectState.isUseSignedOffBy();
@@ -76,10 +72,6 @@ public class ConfigInfoImpl extends ConfigInfo {
     enableSignedPush.configuredValue = p.getEnableSignedPush();
     requireSignedPush.configuredValue = p.getRequireSignedPush();
     rejectImplicitMerges.configuredValue = p.getRejectImplicitMerges();
-    privateByDefault.configuredValue = p.getPrivateByDefault();
-    workInProgressByDefault.configuredValue = p.getWorkInProgressByDefault();
-    enableReviewerByEmail.configuredValue = p.getEnableReviewerByEmail();
-    matchAuthorToCommitterDate.configuredValue = p.getMatchAuthorToCommitterDate();
 
     ProjectState parentState = Iterables.getFirst(projectState.parents(), null);
     if (parentState != null) {
@@ -91,11 +83,7 @@ public class ConfigInfoImpl extends ConfigInfo {
           parentState.isCreateNewChangeForAllNotInTarget();
       enableSignedPush.inheritedValue = projectState.isEnableSignedPush();
       requireSignedPush.inheritedValue = projectState.isRequireSignedPush();
-      privateByDefault.inheritedValue = projectState.isPrivateByDefault();
-      workInProgressByDefault.inheritedValue = projectState.isWorkInProgressByDefault();
       rejectImplicitMerges.inheritedValue = projectState.isRejectImplicitMerges();
-      enableReviewerByEmail.inheritedValue = projectState.isEnableReviewerByEmail();
-      matchAuthorToCommitterDate.inheritedValue = projectState.isMatchAuthorToCommitterDate();
     }
 
     this.useContributorAgreements = useContributorAgreements;
@@ -104,14 +92,10 @@ public class ConfigInfoImpl extends ConfigInfo {
     this.requireChangeId = requireChangeId;
     this.rejectImplicitMerges = rejectImplicitMerges;
     this.createNewChangeForAllNotInTarget = createNewChangeForAllNotInTarget;
-    this.enableReviewerByEmail = enableReviewerByEmail;
-    this.matchAuthorToCommitterDate = matchAuthorToCommitterDate;
     if (serverEnableSignedPush) {
       this.enableSignedPush = enableSignedPush;
       this.requireSignedPush = requireSignedPush;
     }
-    this.privateByDefault = privateByDefault;
-    this.workInProgressByDefault = workInProgressByDefault;
 
     this.maxObjectSizeLimit = getMaxObjectSizeLimit(projectState, p);
 
@@ -130,12 +114,11 @@ public class ConfigInfoImpl extends ConfigInfo {
         getPluginConfig(control.getProjectState(), pluginConfigEntries, cfgFactory, allProjects);
 
     actions = new TreeMap<>();
-    for (UiAction.Description d : uiActions.from(views, new ProjectResource(control))) {
+    for (UiAction.Description d :
+        UiActions.from(views, new ProjectResource(control), Providers.of(control.getUser()))) {
       actions.put(d.getId(), new ActionInfo(d));
     }
     this.theme = projectState.getTheme();
-
-    this.extensionPanelNames = projectState.getConfig().getExtensionPanelSections();
   }
 
   private MaxObjectSizeLimitInfo getMaxObjectSizeLimit(ProjectState projectState, Project p) {
@@ -165,7 +148,7 @@ public class ConfigInfoImpl extends ConfigInfo {
       p.type = configEntry.getType();
       p.permittedValues = configEntry.getPermittedValues();
       p.editable = configEntry.isEditable(project) ? true : null;
-      if (configEntry.isInheritable() && !allProjects.equals(project.getNameKey())) {
+      if (configEntry.isInheritable() && !allProjects.equals(project.getProject().getNameKey())) {
         PluginConfig cfgWithInheritance =
             cfgFactory.getFromProjectConfigWithInheritance(project, e.getPluginName());
         p.inheritable = true;

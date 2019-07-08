@@ -70,8 +70,7 @@ tip of the destination branch at submit time.
 [[merge_if_necessary]]
 * Merge If Necessary
 +
-This is the default for new projects, unless overridden by a global
-link:config-gerrit.html#repository.name.defaultSubmitType[`defaultSubmitType` option].
+This is the default for a new project.
 +
 If the change being submitted is a strict superset of the destination
 branch, then the branch is fast-forwarded to the change.  If not,
@@ -131,8 +130,6 @@ Thus, Rebase Always can be considered similar to Cherry Pick, but with
 the important distinction that Rebase Always does not ignore dependencies.
 
 [[content_merge]]
-=== Allow content merges
-
 If `Allow content merges` is enabled, Gerrit will try
 to do a content merge when a path conflict occurs.
 
@@ -227,7 +224,6 @@ maximum Git object size limit that is actually used on the project.
 The defined maximum Git object size limit is inherited by any child
 project.
 
-[[require-signed-off-by]]
 === Require Signed-off-by
 
 The `Require Signed-off-by in commit message` option defines whether a

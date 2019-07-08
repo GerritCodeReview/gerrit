@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.index;
 
-import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.account.AccountIndex;
@@ -66,7 +65,7 @@ public abstract class AbstractIndexModule extends AbstractModule {
 
   protected abstract Class<? extends GroupIndex> getGroupIndex();
 
-  protected abstract Class<? extends VersionManager> getVersionManager();
+  protected abstract Class<? extends AbstractVersionManager> getVersionManager();
 
   @Provides
   @Singleton
@@ -75,14 +74,14 @@ public abstract class AbstractIndexModule extends AbstractModule {
   }
 
   protected IndexConfig getIndexConfig(@GerritServerConfig Config cfg) {
-    return IndexConfig.fromConfig(cfg).separateChangeSubIndexes(true).build();
+    return IndexConfig.fromConfig(cfg);
   }
 
   private class MultiVersionModule extends LifecycleModule {
     @Override
     public void configure() {
-      Class<? extends VersionManager> versionManagerClass = getVersionManager();
-      bind(VersionManager.class).to(versionManagerClass);
+      Class<? extends AbstractVersionManager> versionManagerClass = getVersionManager();
+      bind(AbstractVersionManager.class).to(versionManagerClass);
       listener().to(versionManagerClass);
     }
   }

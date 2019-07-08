@@ -14,20 +14,21 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.gerrit.extensions.api.projects.DashboardInfo;
-import com.google.gerrit.extensions.common.SetDashboardInput;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.DashboardsCollection.DashboardInfo;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 
 @Singleton
-class DeleteDashboard implements RestModifyView<DashboardResource, SetDashboardInput> {
+class DeleteDashboard implements RestModifyView<DashboardResource, SetDashboard.Input> {
   private final Provider<SetDefaultDashboard> defaultSetter;
 
   @Inject
@@ -36,10 +37,11 @@ class DeleteDashboard implements RestModifyView<DashboardResource, SetDashboardI
   }
 
   @Override
-  public Response<DashboardInfo> apply(DashboardResource resource, SetDashboardInput input)
-      throws RestApiException, IOException, PermissionBackendException {
+  public Response<DashboardInfo> apply(DashboardResource resource, SetDashboard.Input input)
+      throws AuthException, BadRequestException, ResourceConflictException,
+          ResourceNotFoundException, MethodNotAllowedException, IOException {
     if (resource.isProjectDefault()) {
-      SetDashboardInput in = new SetDashboardInput();
+      SetDashboard.Input in = new SetDashboard.Input();
       in.commitMessage = input != null ? input.commitMessage : null;
       return defaultSetter.get().apply(resource, in);
     }

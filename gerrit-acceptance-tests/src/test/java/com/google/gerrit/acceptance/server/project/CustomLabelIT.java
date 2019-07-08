@@ -15,10 +15,6 @@
 package com.google.gerrit.acceptance.server.project;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.common.data.LabelFunction.ANY_WITH_BLOCK;
-import static com.google.gerrit.common.data.LabelFunction.MAX_NO_BLOCK;
-import static com.google.gerrit.common.data.LabelFunction.NO_BLOCK;
-import static com.google.gerrit.common.data.LabelFunction.NO_OP;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
@@ -85,7 +81,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
 
   @Test
   public void customLabelNoOp_NegativeVoteNotBlock() throws Exception {
-    label.setFunction(NO_OP);
+    label.setFunctionName("NoOp");
     saveLabelConfig();
     PushOneCommit.Result r = createChange();
     revision(r).review(new ReviewInput().label(label.getName(), -1));
@@ -98,7 +94,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
 
   @Test
   public void customLabelNoBlock_NegativeVoteNotBlock() throws Exception {
-    label.setFunction(NO_BLOCK);
+    label.setFunctionName("NoBlock");
     saveLabelConfig();
     PushOneCommit.Result r = createChange();
     revision(r).review(new ReviewInput().label(label.getName(), -1));
@@ -111,7 +107,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
 
   @Test
   public void customLabelMaxNoBlock_NegativeVoteNotBlock() throws Exception {
-    label.setFunction(MAX_NO_BLOCK);
+    label.setFunctionName("MaxNoBlock");
     saveLabelConfig();
     PushOneCommit.Result r = createChange();
     revision(r).review(new ReviewInput().label(label.getName(), -1));
@@ -124,7 +120,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
 
   @Test
   public void customLabelAnyWithBlock_NegativeVoteBlock() throws Exception {
-    label.setFunction(ANY_WITH_BLOCK);
+    label.setFunctionName("AnyWithBlock");
     saveLabelConfig();
     PushOneCommit.Result r = createChange();
     revision(r).review(new ReviewInput().label(label.getName(), -1));
@@ -138,7 +134,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
 
   @Test
   public void customLabelAnyWithBlock_Addreviewer_ZeroVote() throws Exception {
-    P.setFunction(ANY_WITH_BLOCK);
+    P.setFunctionName("AnyWithBlock");
     saveLabelConfig();
     PushOneCommit.Result r = createChange();
     AddReviewerInput in = new AddReviewerInput();
@@ -173,9 +169,9 @@ public class CustomLabelIT extends AbstractDaemonTest {
 
   @Test
   public void customLabel_DisallowPostSubmit() throws Exception {
-    label.setFunction(NO_OP);
+    label.setFunctionName("NoOp");
     label.setAllowPostSubmit(false);
-    P.setFunction(NO_OP);
+    P.setFunctionName("NoOp");
     saveLabelConfig();
 
     PushOneCommit.Result r = createChange();

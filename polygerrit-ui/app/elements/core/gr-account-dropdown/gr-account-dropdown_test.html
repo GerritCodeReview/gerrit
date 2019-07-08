@@ -20,7 +20,8 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-account-dropdown.html">
 
 <script>void(0);</script>
@@ -32,87 +33,40 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-account-dropdown tests', () => {
-    let element;
+  suite('gr-account-dropdown tests', function() {
+    var element;
 
-    setup(() => {
+    setup(function() {
       stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
+        getConfig: function() { return Promise.resolve({}); },
       });
       element = fixture('basic');
     });
 
-    test('account information', () => {
+    test('account information', function() {
       element.account = {name: 'John Doe', email: 'john@doe.com'};
       assert.deepEqual(element.topContent,
           [{text: 'John Doe', bold: true}, {text: 'john@doe.com'}]);
     });
 
-    test('test for account without a name', () => {
+    test('test for account without a name', function() {
       element.account = {id: '0001'};
       assert.deepEqual(element.topContent,
           [{text: 'Anonymous', bold: true}, {text: ''}]);
     });
 
-    test('test for account without a name but using config', () => {
-      element.config = {
-        user: {
-          anonymous_coward_name: 'WikiGerrit',
-        },
-      };
+   test('test for account without a name but using config', function() {
+      element._anonymousName = 'WikiGerrit';
       element.account = {id: '0001'};
       assert.deepEqual(element.topContent,
           [{text: 'WikiGerrit', bold: true}, {text: ''}]);
     });
 
-    test('test for account name as an email', () => {
-      element.config = {
-        user: {
-          anonymous_coward_name: 'WikiGerrit',
-        },
-      };
+   test('test for account name as an email', function() {
+      element._anonymousName = 'WikiGerrit';
       element.account = {email: 'john@doe.com'};
       assert.deepEqual(element.topContent,
           [{text: 'john@doe.com', bold: true}, {text: 'john@doe.com'}]);
-    });
-
-    test('switch account', () => {
-      // No switch account link.
-      assert.equal(element._getLinks(null).length, 2);
-
-      // Unparameterized switch account link.
-      let links = element._getLinks('/switch-account');
-      assert.equal(links.length, 3);
-      assert.deepEqual(links[1], {
-        name: 'Switch account',
-        url: '/switch-account',
-        external: true,
-      });
-
-      // Parameterized switch account link.
-      links = element._getLinks('/switch-account${path}', '/c/123');
-      assert.equal(links.length, 3);
-      assert.deepEqual(links[1], {
-        name: 'Switch account',
-        url: '/switch-account/c/123',
-        external: true,
-      });
-    });
-
-    test('_interpolateUrl', () => {
-      const replacements = {
-        foo: 'bar',
-        test: 'TEST',
-      };
-      const interpolate = function(url) {
-        return element._interpolateUrl(url, replacements);
-      };
-
-      assert.equal(interpolate('test'), 'test');
-      assert.equal(interpolate('${test}'), 'TEST');
-      assert.equal(
-          interpolate('${}, ${test}, ${TEST}, ${foo}'),
-          '${}, TEST, , bar');
     });
   });
 </script>

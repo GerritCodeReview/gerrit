@@ -76,33 +76,33 @@ class NoShell implements Factory<Command> {
     }
 
     @Override
-    public void setInputStream(InputStream in) {
+    public void setInputStream(final InputStream in) {
       this.in = in;
     }
 
     @Override
-    public void setOutputStream(OutputStream out) {
+    public void setOutputStream(final OutputStream out) {
       this.out = out;
     }
 
     @Override
-    public void setErrorStream(OutputStream err) {
+    public void setErrorStream(final OutputStream err) {
       this.err = err;
     }
 
     @Override
-    public void setExitCallback(ExitCallback callback) {
+    public void setExitCallback(final ExitCallback callback) {
       this.exit = callback;
     }
 
     @Override
-    public void setSession(ServerSession session) {
+    public void setSession(final ServerSession session) {
       SshSession s = session.getAttribute(SshSession.KEY);
       this.context = sshScope.newContext(schemaFactory, s, "");
     }
 
     @Override
-    public void start(Environment env) throws IOException {
+    public void start(final Environment env) throws IOException {
       Context old = sshScope.set(context);
       String message;
       try {

@@ -14,20 +14,19 @@
 
 package com.google.gerrit.server.project;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.common.data.AccessSection.ALL;
-import static com.google.gerrit.common.data.RefConfigSection.REGEX_PREFIX;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_TAGS;
-import static com.google.gerrit.server.util.MagicBranch.NEW_CHANGE;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Capable;
+import com.google.gerrit.common.data.ContributorAgreement;
+import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
@@ -35,54 +34,54 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupMembership;
+import com.google.gerrit.server.change.IncludedInResolver;
+import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
+import com.google.gerrit.server.git.SearchingChangeCacheImpl;
+import com.google.gerrit.server.git.TagCache;
+import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.permissions.FailedPermissionBackend;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
-import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
-import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** Access control management for a user accessing a project's data. */
 public class ProjectControl {
+  public static final int VISIBLE = 1 << 0;
+  public static final int OWNER = 1 << 1;
+
   private static final Logger log = LoggerFactory.getLogger(ProjectControl.class);
 
   public static class GenericFactory {
     private final ProjectCache projectCache;
 
     @Inject
-    GenericFactory(ProjectCache pc) {
+    GenericFactory(final ProjectCache pc) {
       projectCache = pc;
     }
 
@@ -94,6 +93,18 @@ public class ProjectControl {
       }
       return p.controlFor(user);
     }
+
+    public ProjectControl validateFor(Project.NameKey nameKey, int need, CurrentUser user)
+        throws NoSuchProjectException, IOException {
+      final ProjectControl c = controlFor(nameKey, user);
+      if ((need & VISIBLE) == VISIBLE && c.isVisible()) {
+        return c;
+      }
+      if ((need & OWNER) == OWNER && c.isOwner()) {
+        return c;
+      }
+      throw new NoSuchProjectException(nameKey);
+    }
   }
 
   public static class Factory {
@@ -104,8 +115,28 @@ public class ProjectControl {
       userCache = uc;
     }
 
-    public ProjectControl controlFor(Project.NameKey nameKey) throws NoSuchProjectException {
+    public ProjectControl controlFor(final Project.NameKey nameKey) throws NoSuchProjectException {
       return userCache.get().get(nameKey);
+    }
+
+    public ProjectControl validateFor(final Project.NameKey nameKey) throws NoSuchProjectException {
+      return validateFor(nameKey, VISIBLE);
+    }
+
+    public ProjectControl ownerFor(final Project.NameKey nameKey) throws NoSuchProjectException {
+      return validateFor(nameKey, OWNER);
+    }
+
+    public ProjectControl validateFor(final Project.NameKey nameKey, final int need)
+        throws NoSuchProjectException {
+      final ProjectControl c = controlFor(nameKey);
+      if ((need & VISIBLE) == VISIBLE && c.isVisible()) {
+        return c;
+      }
+      if ((need & OWNER) == OWNER && c.isOwner()) {
+        return c;
+      }
+      throw new NoSuchProjectException(nameKey);
     }
   }
 
@@ -128,14 +159,22 @@ public class ProjectControl {
 
   private final Set<AccountGroup.UUID> uploadGroups;
   private final Set<AccountGroup.UUID> receiveGroups;
-  private final PermissionBackend.WithUser perm;
+
+  private final String canonicalWebUrl;
   private final CurrentUser user;
   private final ProjectState state;
-  private final CommitsCollection commits;
+  private final ChangeNotes.Factory changeNotesFactory;
   private final ChangeControl.Factory changeControlFactory;
   private final PermissionCollection.Factory permissionFilter;
+  private final Collection<ContributorAgreement> contributorAgreements;
+  private final TagCache tagCache;
+  @Nullable private final SearchingChangeCacheImpl changeCache;
+  private final Provider<InternalChangeQuery> queryProvider;
+  private final Metrics metrics;
 
   private List<SectionMatcher> allSections;
+  private List<SectionMatcher> localSections;
+  private LabelTypes labelTypes;
   private Map<String, RefControl> refControls;
   private Boolean declaredOwner;
 
@@ -143,18 +182,28 @@ public class ProjectControl {
   ProjectControl(
       @GitUploadPackGroups Set<AccountGroup.UUID> uploadGroups,
       @GitReceivePackGroups Set<AccountGroup.UUID> receiveGroups,
+      ProjectCache pc,
       PermissionCollection.Factory permissionFilter,
-      CommitsCollection commits,
+      ChangeNotes.Factory changeNotesFactory,
       ChangeControl.Factory changeControlFactory,
-      PermissionBackend permissionBackend,
+      TagCache tagCache,
+      Provider<InternalChangeQuery> queryProvider,
+      @Nullable SearchingChangeCacheImpl changeCache,
+      @CanonicalWebUrl @Nullable String canonicalWebUrl,
       @Assisted CurrentUser who,
-      @Assisted ProjectState ps) {
+      @Assisted ProjectState ps,
+      Metrics metrics) {
+    this.changeNotesFactory = changeNotesFactory;
     this.changeControlFactory = changeControlFactory;
+    this.tagCache = tagCache;
+    this.changeCache = changeCache;
     this.uploadGroups = uploadGroups;
     this.receiveGroups = receiveGroups;
     this.permissionFilter = permissionFilter;
-    this.commits = commits;
-    this.perm = permissionBackend.user(who);
+    this.contributorAgreements = pc.getAllProjects().getConfig().getContributorAgreements();
+    this.canonicalWebUrl = canonicalWebUrl;
+    this.queryProvider = queryProvider;
+    this.metrics = metrics;
     user = who;
     state = ps;
   }
@@ -169,6 +218,17 @@ public class ProjectControl {
   public ChangeControl controlFor(ReviewDb db, Change change) throws OrmException {
     return changeControlFactory.create(
         controlForRef(change.getDest()), db, change.getProject(), change.getId());
+  }
+
+  /**
+   * Create a change control for a change that was loaded from index. This method should only be
+   * used when database access is harmful and potentially stale data from the index is acceptable.
+   *
+   * @param change change loaded from secondary index
+   * @return change control
+   */
+  public ChangeControl controlForIndexedChange(Change change) {
+    return changeControlFactory.createForIndexedChange(controlForRef(change.getDest()), change);
   }
 
   public ChangeControl controlFor(ChangeNotes notes) {
@@ -204,66 +264,45 @@ public class ProjectControl {
     return state.getProject();
   }
 
-  /** Is this user a project owner? */
-  public boolean isOwner() {
-    return (isDeclaredOwner() && !controlForRef(ALL).isBlocked(Permission.OWNER)) || isAdmin();
-  }
-
-  /**
-   * @return {@code Capable.OK} if the user can upload to at least one reference. Does not check
-   *     Contributor Agreements.
-   */
-  public Capable canPushToAtLeastOneRef() {
-    if (!canPerformOnAnyRef(Permission.PUSH)
-        && !canPerformOnAnyRef(Permission.CREATE_TAG)
-        && !isOwner()) {
-      return new Capable("Upload denied for project '" + state.getName() + "'");
+  public LabelTypes getLabelTypes() {
+    if (labelTypes == null) {
+      labelTypes = state.getLabelTypes();
     }
-    return Capable.OK;
-  }
-
-  /** Can the user run upload pack? */
-  private boolean canRunUploadPack() {
-    for (AccountGroup.UUID group : uploadGroups) {
-      if (match(group)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  /** Can the user run receive pack? */
-  private boolean canRunReceivePack() {
-    for (AccountGroup.UUID group : receiveGroups) {
-      if (match(group)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  private boolean allRefsAreVisible(Set<String> ignore) {
-    return user.isInternalUser() || canPerformOnAllRefs(Permission.READ, ignore);
+    return labelTypes;
   }
 
   /** Returns whether the project is hidden. */
-  private boolean isHidden() {
+  public boolean isHidden() {
     return getProject().getState().equals(com.google.gerrit.extensions.client.ProjectState.HIDDEN);
   }
 
-  private boolean canAddRefs() {
-    return (canPerformOnAnyRef(Permission.CREATE) || isAdmin());
+  /**
+   * Returns whether the project is readable to the current user. Note that the project could still
+   * be hidden.
+   */
+  public boolean isReadable() {
+    return (user.isInternalUser() || canPerformOnAnyRef(Permission.READ));
   }
 
-  private boolean canAddTagRefs() {
-    return (canPerformOnTagRef(Permission.CREATE) || isAdmin());
+  /**
+   * Returns whether the project is accessible to the current user, i.e. readable and not hidden.
+   */
+  public boolean isVisible() {
+    return isReadable() && !isHidden();
   }
 
-  private boolean canCreateChanges() {
+  public boolean canAddRefs() {
+    return (canPerformOnAnyRef(Permission.CREATE) || isOwnerAnyRef());
+  }
+
+  public boolean canAddTagRefs() {
+    return (canPerformOnTagRef(Permission.CREATE) || isOwnerAnyRef());
+  }
+
+  public boolean canUpload() {
     for (SectionMatcher matcher : access()) {
       AccessSection section = matcher.section;
-      if (section.getName().startsWith(NEW_CHANGE)
-          || section.getName().startsWith(REGEX_PREFIX + NEW_CHANGE)) {
+      if (section.getName().startsWith("refs/for/")) {
         Permission permission = section.getPermission(Permission.PUSH);
         if (permission != null && controlForRef(section.getName()).canPerform(Permission.PUSH)) {
           return true;
@@ -273,13 +312,19 @@ public class ProjectControl {
     return false;
   }
 
-  boolean isAdmin() {
-    try {
-      perm.check(GlobalPermission.ADMINISTRATE_SERVER);
-      return true;
-    } catch (AuthException | PermissionBackendException e) {
-      return false;
-    }
+  /** Can this user see all the refs in this projects? */
+  public boolean allRefsAreVisible() {
+    return allRefsAreVisible(Collections.<String>emptySet());
+  }
+
+  public boolean allRefsAreVisible(Set<String> ignore) {
+    return user.isInternalUser() || canPerformOnAllRefs(Permission.READ, ignore);
+  }
+
+  /** Is this user a project owner? Ownership does not imply {@link #isVisible()} */
+  public boolean isOwner() {
+    return (isDeclaredOwner() && !controlForRef("refs/*").isBlocked(Permission.OWNER))
+        || user.getCapabilities().canAdministrateServer();
   }
 
   private boolean isDeclaredOwner() {
@@ -290,12 +335,91 @@ public class ProjectControl {
     return declaredOwner;
   }
 
+  /** Does this user have ownership on at least one reference name? */
+  public boolean isOwnerAnyRef() {
+    return canPerformOnAnyRef(Permission.OWNER) || user.getCapabilities().canAdministrateServer();
+  }
+
+  /** @return true if the user can upload to at least one reference */
+  public Capable canPushToAtLeastOneRef() {
+    if (!canPerformOnAnyRef(Permission.PUSH)
+        && !canPerformOnAnyRef(Permission.CREATE_TAG)
+        && !isOwner()) {
+      String pName = state.getProject().getName();
+      return new Capable("Upload denied for project '" + pName + "'");
+    }
+    if (state.isUseContributorAgreements()) {
+      return verifyActiveContributorAgreement();
+    }
+    return Capable.OK;
+  }
+
+  public Set<GroupReference> getAllGroups() {
+    return getGroups(access());
+  }
+
+  public Set<GroupReference> getLocalGroups() {
+    return getGroups(localAccess());
+  }
+
+  private static Set<GroupReference> getGroups(final List<SectionMatcher> sectionMatcherList) {
+    final Set<GroupReference> all = new HashSet<>();
+    for (final SectionMatcher matcher : sectionMatcherList) {
+      final AccessSection section = matcher.section;
+      for (final Permission permission : section.getPermissions()) {
+        for (final PermissionRule rule : permission.getRules()) {
+          all.add(rule.getGroup());
+        }
+      }
+    }
+    return all;
+  }
+
+  private Capable verifyActiveContributorAgreement() {
+    metrics.claCheckCount.increment();
+    if (!(user.isIdentifiedUser())) {
+      return new Capable("Must be logged in to verify Contributor Agreement");
+    }
+    final IdentifiedUser iUser = user.asIdentifiedUser();
+
+    List<AccountGroup.UUID> okGroupIds = new ArrayList<>();
+    for (ContributorAgreement ca : contributorAgreements) {
+      List<AccountGroup.UUID> groupIds;
+      groupIds = okGroupIds;
+
+      for (PermissionRule rule : ca.getAccepted()) {
+        if ((rule.getAction() == Action.ALLOW)
+            && (rule.getGroup() != null)
+            && (rule.getGroup().getUUID() != null)) {
+          groupIds.add(new AccountGroup.UUID(rule.getGroup().getUUID().get()));
+        }
+      }
+    }
+
+    if (iUser.getEffectiveGroups().containsAnyOf(okGroupIds)) {
+      return Capable.OK;
+    }
+
+    final StringBuilder msg = new StringBuilder();
+    msg.append("A Contributor Agreement must be completed before uploading");
+    if (canonicalWebUrl != null) {
+      msg.append(":\n\n  ");
+      msg.append(canonicalWebUrl);
+      msg.append("#");
+      msg.append(PageLinks.SETTINGS_AGREEMENTS);
+      msg.append("\n");
+    } else {
+      msg.append(".");
+    }
+    msg.append("\n");
+    return new Capable(msg.toString());
+  }
+
   private boolean canPerformOnTagRef(String permissionName) {
     for (SectionMatcher matcher : access()) {
       AccessSection section = matcher.section;
 
-      if (section.getName().startsWith(REFS_TAGS)
-          || section.getName().startsWith(REGEX_PREFIX + REFS_TAGS)) {
+      if (section.getName().startsWith(REFS_TAGS)) {
         Permission permission = section.getPermission(permissionName);
         if (permission == null) {
           continue;
@@ -349,12 +473,12 @@ public class ProjectControl {
   private boolean canPerformOnAllRefs(String permission, Set<String> ignore) {
     boolean canPerform = false;
     Set<String> patterns = allRefPatterns(permission);
-    if (patterns.contains(ALL)) {
+    if (patterns.contains(AccessSection.ALL)) {
       // Only possible if granted on the pattern that
       // matches every possible reference.  Check all
       // patterns also have the permission.
       //
-      for (String pattern : patterns) {
+      for (final String pattern : patterns) {
         if (controlForRef(pattern).canPerform(permission)) {
           canPerform = true;
         } else if (ignore.contains(pattern)) {
@@ -386,6 +510,13 @@ public class ProjectControl {
     return allSections;
   }
 
+  private List<SectionMatcher> localAccess() {
+    if (localSections == null) {
+      localSections = state.getLocalAccessSections();
+    }
+    return localSections;
+  }
+
   boolean match(PermissionRule rule) {
     return match(rule.getGroup().getUUID());
   }
@@ -408,110 +539,66 @@ public class ProjectControl {
     }
   }
 
-  boolean isReachableFromHeadsOrTags(Repository repo, RevCommit commit) {
-    try {
-      RefDatabase refdb = repo.getRefDatabase();
-      Collection<Ref> heads = refdb.getRefs(Constants.R_HEADS).values();
-      Collection<Ref> tags = refdb.getRefs(Constants.R_TAGS).values();
-      Map<String, Ref> refs = Maps.newHashMapWithExpectedSize(heads.size() + tags.size());
-      for (Ref r : Iterables.concat(heads, tags)) {
-        refs.put(r.getName(), r);
+  public boolean canRunUploadPack() {
+    for (AccountGroup.UUID group : uploadGroups) {
+      if (match(group)) {
+        return true;
       }
-      return commits.isReachableFrom(state, repo, commit, refs);
-    } catch (IOException e) {
+    }
+    return false;
+  }
+
+  public boolean canRunReceivePack() {
+    for (AccountGroup.UUID group : receiveGroups) {
+      if (match(group)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /** @return whether a commit is visible to user. */
+  public boolean canReadCommit(ReviewDb db, Repository repo, RevCommit commit) {
+    // Look for changes associated with the commit.
+    try {
+      List<ChangeData> changes =
+          queryProvider.get().byProjectCommit(getProject().getNameKey(), commit);
+      for (ChangeData change : changes) {
+        if (controlFor(db, change.change()).isVisible(db)) {
+          return true;
+        }
+      }
+    } catch (OrmException e) {
       log.error(
-          "Cannot verify permissions to commit object {} in repository {}",
-          commit.name(),
-          getProject().getNameKey(),
-          e);
+          "Cannot look up change for commit " + commit.name() + " in " + getProject().getName(), e);
+    }
+    // Scan all visible refs.
+    return canReadCommitFromVisibleRef(db, repo, commit);
+  }
+
+  private boolean canReadCommitFromVisibleRef(ReviewDb db, Repository repo, RevCommit commit) {
+    try (RevWalk rw = new RevWalk(repo)) {
+      return isMergedIntoVisibleRef(repo, db, rw, commit, repo.getAllRefs().values());
+    } catch (IOException e) {
+      String msg =
+          String.format(
+              "Cannot verify permissions to commit object %s in repository %s",
+              commit.name(), getProject().getNameKey());
+      log.error(msg, e);
       return false;
     }
   }
 
-  ForProject asForProject() {
-    return new ForProjectImpl();
-  }
-
-  private class ForProjectImpl extends ForProject {
-    @Override
-    public ForProject user(CurrentUser user) {
-      return forUser(user).asForProject().database(db);
+  boolean isMergedIntoVisibleRef(
+      Repository repo, ReviewDb db, RevWalk rw, RevCommit commit, Collection<Ref> unfilteredRefs)
+      throws IOException {
+    VisibleRefFilter filter =
+        new VisibleRefFilter(tagCache, changeNotesFactory, changeCache, repo, this, db, true);
+    Map<String, Ref> m = Maps.newHashMapWithExpectedSize(unfilteredRefs.size());
+    for (Ref r : unfilteredRefs) {
+      m.put(r.getName(), r);
     }
-
-    @Override
-    public ForRef ref(String ref) {
-      return controlForRef(ref).asForRef().database(db);
-    }
-
-    @Override
-    public ForChange change(ChangeData cd) {
-      try {
-        checkProject(cd.change());
-        return super.change(cd);
-      } catch (OrmException e) {
-        return FailedPermissionBackend.change("unavailable", e);
-      }
-    }
-
-    @Override
-    public ForChange change(ChangeNotes notes) {
-      checkProject(notes.getChange());
-      return super.change(notes);
-    }
-
-    private void checkProject(Change change) {
-      Project.NameKey project = getProject().getNameKey();
-      checkArgument(
-          project.equals(change.getProject()),
-          "expected change in project %s, not %s",
-          project,
-          change.getProject());
-    }
-
-    @Override
-    public void check(ProjectPermission perm) throws AuthException, PermissionBackendException {
-      if (!can(perm)) {
-        throw new AuthException(perm.describeForException() + " not permitted");
-      }
-    }
-
-    @Override
-    public Set<ProjectPermission> test(Collection<ProjectPermission> permSet)
-        throws PermissionBackendException {
-      EnumSet<ProjectPermission> ok = EnumSet.noneOf(ProjectPermission.class);
-      for (ProjectPermission perm : permSet) {
-        if (can(perm)) {
-          ok.add(perm);
-        }
-      }
-      return ok;
-    }
-
-    private boolean can(ProjectPermission perm) throws PermissionBackendException {
-      switch (perm) {
-        case ACCESS:
-          return (!isHidden() && (user.isInternalUser() || canPerformOnAnyRef(Permission.READ)))
-              || isOwner();
-
-        case READ:
-          return !isHidden() && allRefsAreVisible(Collections.emptySet());
-
-        case READ_NO_CONFIG:
-          return !isHidden() && allRefsAreVisible(ImmutableSet.of(RefNames.REFS_CONFIG));
-
-        case CREATE_REF:
-          return canAddRefs();
-        case CREATE_TAG_REF:
-          return canAddTagRefs();
-        case CREATE_CHANGE:
-          return canCreateChanges();
-
-        case RUN_RECEIVE_PACK:
-          return canRunReceivePack();
-        case RUN_UPLOAD_PACK:
-          return canRunUploadPack();
-      }
-      throw new PermissionBackendException(perm + " unsupported");
-    }
+    Map<String, Ref> refs = filter.filter(m, true);
+    return !refs.isEmpty() && IncludedInResolver.includedInOne(repo, rw, commit, refs.values());
   }
 }

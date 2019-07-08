@@ -18,8 +18,8 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.util.ServerRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 /**
  * Provider of the group(s) which should become owners of a newly created project. The only matching
@@ -40,7 +40,7 @@ public class ProjectOwnerGroupsProvider extends GroupSetProvider {
     ProjectOwnerGroupsProvider create(Project.NameKey project);
   }
 
-  @Inject
+  @AssistedInject
   public ProjectOwnerGroupsProvider(
       GroupBackend gb,
       ThreadLocalRequestContext context,

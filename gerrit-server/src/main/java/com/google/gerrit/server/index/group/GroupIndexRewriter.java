@@ -16,16 +16,16 @@ package com.google.gerrit.server.index.group;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.gerrit.index.IndexRewriter;
-import com.google.gerrit.index.QueryOptions;
-import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.index.IndexRewriter;
+import com.google.gerrit.server.index.QueryOptions;
+import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.QueryParseException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class GroupIndexRewriter implements IndexRewriter<InternalGroup> {
+public class GroupIndexRewriter implements IndexRewriter<AccountGroup> {
   private final GroupIndexCollection indexes;
 
   @Inject
@@ -34,7 +34,7 @@ public class GroupIndexRewriter implements IndexRewriter<InternalGroup> {
   }
 
   @Override
-  public Predicate<InternalGroup> rewrite(Predicate<InternalGroup> in, QueryOptions opts)
+  public Predicate<AccountGroup> rewrite(Predicate<AccountGroup> in, QueryOptions opts)
       throws QueryParseException {
     GroupIndex index = indexes.getSearchIndex();
     checkNotNull(index, "no active search index configured for groups");

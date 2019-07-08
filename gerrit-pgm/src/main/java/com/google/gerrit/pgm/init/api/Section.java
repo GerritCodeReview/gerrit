@@ -58,7 +58,7 @@ public class Section {
     return flags.cfg.getString(section, subsection, name);
   }
 
-  public void set(String name, String value) {
+  public void set(final String name, final String value) {
     final ArrayList<String> all = new ArrayList<>();
     all.addAll(Arrays.asList(flags.cfg.getStringList(section, subsection, name)));
 
@@ -78,7 +78,7 @@ public class Section {
     }
   }
 
-  public <T extends Enum<?>> void set(String name, T value) {
+  public <T extends Enum<?>> void set(final String name, final T value) {
     if (value != null) {
       set(name, value.name());
     } else {
@@ -90,11 +90,12 @@ public class Section {
     set(name, (String) null);
   }
 
-  public String string(String title, String name, String dv) {
+  public String string(final String title, final String name, final String dv) {
     return string(title, name, dv, false);
   }
 
-  public String string(final String title, String name, String dv, boolean nullIfDefault) {
+  public String string(
+      final String title, final String name, final String dv, final boolean nullIfDefault) {
     final String ov = get(name);
     String nv = ui.readString(ov != null ? ov : dv, "%s", title);
     if (nullIfDefault && nv.equals(dv)) {
@@ -106,7 +107,7 @@ public class Section {
     return nv;
   }
 
-  public Path path(String title, String name, String defValue) {
+  public Path path(final String title, final String name, final String defValue) {
     return site.resolve(string(title, name, defValue));
   }
 
@@ -128,7 +129,7 @@ public class Section {
   }
 
   public <T extends Enum<?>, A extends EnumSet<? extends T>> T select(
-      String title, String name, T defValue, A allowedValues, boolean nullIfDefault) {
+      String title, String name, T defValue, A allowedValues, final boolean nullIfDefault) {
     final boolean set = get(name) != null;
     T oldValue = flags.cfg.getEnum(section, subsection, name, defValue);
     T newValue = ui.readEnum(oldValue, allowedValues, "%s", title);
@@ -145,7 +146,8 @@ public class Section {
     return newValue;
   }
 
-  public String select(final String title, String name, String dv, Set<String> allowedValues) {
+  public String select(
+      final String title, final String name, final String dv, Set<String> allowedValues) {
     final String ov = get(name);
     String nv = ui.readString(ov != null ? ov : dv, allowedValues, "%s", title);
     if (!eq(ov, nv)) {
@@ -154,7 +156,7 @@ public class Section {
     return nv;
   }
 
-  public String password(String username, String password) {
+  public String password(final String username, final String password) {
     final String ov = getSecure(password);
 
     String user = flags.sec.get(section, subsection, username);
@@ -217,7 +219,7 @@ public class Section {
     return section;
   }
 
-  private static boolean eq(String a, String b) {
+  private static boolean eq(final String a, final String b) {
     if (a == null && b == null) {
       return true;
     }

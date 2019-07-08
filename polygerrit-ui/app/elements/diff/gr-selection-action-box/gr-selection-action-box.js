@@ -26,7 +26,7 @@
     properties: {
       keyEventTarget: {
         type: Object,
-        value() { return document.body; },
+        value: function() { return document.body; },
       },
       range: {
         type: Object,
@@ -48,28 +48,27 @@
     ],
 
     listeners: {
-      mousedown: '_handleMouseDown', // See https://crbug.com/gerrit/4767
+      'mousedown': '_handleMouseDown', // See https://crbug.com/gerrit/4767
     },
 
     keyBindings: {
-      c: '_handleCKey',
+      'c': '_handleCKey',
     },
 
-    placeAbove(el) {
-      Polymer.dom.flush();
-      const rect = this._getTargetBoundingRect(el);
-      const boxRect = this.getBoundingClientRect();
-      const parentRect = this.parentElement.getBoundingClientRect();
+    placeAbove: function(el) {
+      var rect = this._getTargetBoundingRect(el);
+      var boxRect = this.getBoundingClientRect();
+      var parentRect = this.parentElement.getBoundingClientRect();
       this.style.top =
-          rect.top - parentRect.top - boxRect.height - 6 + 'px';
+          rect.top - parentRect.top - boxRect.height - 4 + 'px';
       this.style.left =
           rect.left - parentRect.left + (rect.width - boxRect.width) / 2 + 'px';
     },
 
-    _getTargetBoundingRect(el) {
-      let rect;
+    _getTargetBoundingRect: function(el) {
+      var rect;
       if (el instanceof Text) {
-        const range = document.createRange();
+        var range = document.createRange();
         range.selectNode(el);
         rect = range.getBoundingClientRect();
         range.detach();
@@ -79,7 +78,7 @@
       return rect;
     },
 
-    _handleCKey(e) {
+    _handleCKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
@@ -87,14 +86,13 @@
       this._fireCreateComment();
     },
 
-    _handleMouseDown(e) {
-      if (e.button !== 0) { return; } // 0 = main button
+    _handleMouseDown: function(e) {
       e.preventDefault();
       e.stopPropagation();
       this._fireCreateComment();
     },
 
-    _fireCreateComment() {
+    _fireCreateComment: function() {
       this.fire('create-comment', {side: this.side, range: this.range});
     },
   });

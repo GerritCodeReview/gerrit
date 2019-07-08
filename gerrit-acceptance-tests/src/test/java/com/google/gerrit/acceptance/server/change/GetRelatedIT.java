@@ -23,16 +23,17 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
-import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.extensions.api.changes.RelatedChangeAndCommitInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.change.ChangesCollection;
+import com.google.gerrit.server.change.GetRelated.ChangeAndCommit;
+import com.google.gerrit.server.change.GetRelated.RelatedInfo;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -48,7 +49,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-@NoHttpd
 public class GetRelatedIT extends AbstractDaemonTest {
   private String systemTimeZone;
 
@@ -63,6 +63,8 @@ public class GetRelatedIT extends AbstractDaemonTest {
     TestTimeUtil.useSystemTime();
     System.setProperty("user.timezone", systemTimeZone);
   }
+
+  @Inject private BatchUpdate.Factory updateFactory;
 
   @Inject private ChangesCollection changes;
 
@@ -539,12 +541,15 @@ public class GetRelatedIT extends AbstractDaemonTest {
     assertRelated(psId2_2, changeAndCommit(psId2_2, c2_2, 2), changeAndCommit(psId1_1, c1_1, 1));
   }
 
-  private List<RelatedChangeAndCommitInfo> getRelated(PatchSet.Id ps) throws Exception {
+  private List<ChangeAndCommit> getRelated(PatchSet.Id ps) throws Exception {
     return getRelated(ps.getParentKey(), ps.get());
   }
 
-  private List<RelatedChangeAndCommitInfo> getRelated(Change.Id changeId, int ps) throws Exception {
-    return gApi.changes().id(changeId.get()).revision(ps).related().changes;
+  private List<ChangeAndCommit> getRelated(Change.Id changeId, int ps) throws Exception {
+    String url = String.format("/changes/%d/revisions/%d/related", changeId.get(), ps);
+    RestResponse r = adminRestSession.get(url);
+    r.assertOK();
+    return newGson().fromJson(r.getReader(), RelatedInfo.class).changes;
   }
 
   private RevCommit parseBody(RevCommit c) throws Exception {
@@ -560,10 +565,9 @@ public class GetRelatedIT extends AbstractDaemonTest {
     return Iterables.getOnlyElement(queryProvider.get().byCommit(c));
   }
 
-  private RelatedChangeAndCommitInfo changeAndCommit(
+  private static ChangeAndCommit changeAndCommit(
       PatchSet.Id psId, ObjectId commitId, int currentRevisionNum) {
-    RelatedChangeAndCommitInfo result = new RelatedChangeAndCommitInfo();
-    result.project = project.get();
+    ChangeAndCommit result = new ChangeAndCommit();
     result._changeNumber = psId.getParentKey().get();
     result.commit = new CommitInfo();
     result.commit.commit = commitId.name();
@@ -573,8 +577,8 @@ public class GetRelatedIT extends AbstractDaemonTest {
     return result;
   }
 
-  private void clearGroups(PatchSet.Id psId) throws Exception {
-    try (BatchUpdate bu = batchUpdateFactory.create(db, project, user(user), TimeUtil.nowTs())) {
+  private void clearGroups(final PatchSet.Id psId) throws Exception {
+    try (BatchUpdate bu = updateFactory.create(db, project, user(user), TimeUtil.nowTs())) {
       bu.addOp(
           psId.getParentKey(),
           new BatchUpdateOp() {
@@ -582,7 +586,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
             public boolean updateChange(ChangeContext ctx) throws OrmException {
               PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
               psUtil.setGroups(ctx.getDb(), ctx.getUpdate(psId), ps, ImmutableList.<String>of());
-              ctx.dontBumpLastUpdatedOn();
+              ctx.bumpLastUpdatedOn(false);
               return true;
             }
           });
@@ -590,15 +594,13 @@ public class GetRelatedIT extends AbstractDaemonTest {
     }
   }
 
-  private void assertRelated(PatchSet.Id psId, RelatedChangeAndCommitInfo... expected)
-      throws Exception {
-    List<RelatedChangeAndCommitInfo> actual = getRelated(psId);
+  private void assertRelated(PatchSet.Id psId, ChangeAndCommit... expected) throws Exception {
+    List<ChangeAndCommit> actual = getRelated(psId);
     assertThat(actual).named("related to " + psId).hasSize(expected.length);
     for (int i = 0; i < actual.size(); i++) {
       String name = "index " + i + " related to " + psId;
-      RelatedChangeAndCommitInfo a = actual.get(i);
-      RelatedChangeAndCommitInfo e = expected[i];
-      assertThat(a.project).named("project of " + name).isEqualTo(e.project);
+      ChangeAndCommit a = actual.get(i);
+      ChangeAndCommit e = expected[i];
       assertThat(a._changeNumber).named("change ID of " + name).isEqualTo(e._changeNumber);
       // Don't bother checking changeId; assume _changeNumber is sufficient.
       assertThat(a._revisionNumber).named("revision of " + name).isEqualTo(e._revisionNumber);

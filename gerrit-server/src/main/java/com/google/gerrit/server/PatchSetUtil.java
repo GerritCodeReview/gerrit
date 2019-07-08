@@ -16,16 +16,11 @@ package com.google.gerrit.server;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.collect.ImmutableMap.toImmutableMap;
-import static com.google.gerrit.server.ChangeUtil.PS_ID_ORDER;
+import static com.google.gerrit.server.notedb.PatchSetState.DRAFT;
 import static com.google.gerrit.server.notedb.PatchSetState.PUBLISHED;
-import static java.util.function.Function.identity;
 
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import com.google.common.collect.Streams;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
@@ -33,6 +28,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.notedb.PatchSetState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -40,7 +36,6 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -68,7 +63,8 @@ public class PatchSetUtil {
   public ImmutableCollection<PatchSet> byChange(ReviewDb db, ChangeNotes notes)
       throws OrmException {
     if (!migration.readChanges()) {
-      return PS_ID_ORDER.immutableSortedCopy(db.patchSets().byChange(notes.getChangeId()));
+      return ChangeUtil.PS_ID_ORDER.immutableSortedCopy(
+          db.patchSets().byChange(notes.getChangeId()));
     }
     return notes.load().getPatchSets().values();
   }
@@ -77,23 +73,13 @@ public class PatchSetUtil {
       throws OrmException {
     if (!migration.readChanges()) {
       ImmutableMap.Builder<PatchSet.Id, PatchSet> result = ImmutableMap.builder();
-      for (PatchSet ps : PS_ID_ORDER.sortedCopy(db.patchSets().byChange(notes.getChangeId()))) {
+      for (PatchSet ps :
+          ChangeUtil.PS_ID_ORDER.sortedCopy(db.patchSets().byChange(notes.getChangeId()))) {
         result.put(ps.getId(), ps);
       }
       return result.build();
     }
     return notes.load().getPatchSets();
-  }
-
-  public ImmutableMap<PatchSet.Id, PatchSet> getAsMap(
-      ReviewDb db, ChangeNotes notes, Set<PatchSet.Id> patchSetIds) throws OrmException {
-    if (!migration.readChanges()) {
-      patchSetIds = Sets.filter(patchSetIds, p -> p.getParentKey().equals(notes.getChangeId()));
-      return Streams.stream(db.patchSets().get(patchSetIds))
-          .sorted(PS_ID_ORDER)
-          .collect(toImmutableMap(PatchSet::getId, identity()));
-    }
-    return ImmutableMap.copyOf(Maps.filterKeys(notes.load().getPatchSets(), patchSetIds::contains));
   }
 
   public PatchSet insert(
@@ -102,6 +88,7 @@ public class PatchSetUtil {
       ChangeUpdate update,
       PatchSet.Id psId,
       ObjectId commit,
+      boolean draft,
       List<String> groups,
       String pushCertificate,
       String description)
@@ -113,6 +100,7 @@ public class PatchSetUtil {
     ps.setRevision(new RevId(commit.name()));
     ps.setUploader(update.getAccountId());
     ps.setCreatedOn(new Timestamp(update.getWhen().getTime()));
+    ps.setDraft(draft);
     ps.setGroups(groups);
     ps.setPushCertificate(pushCertificate);
     ps.setDescription(description);
@@ -121,14 +109,25 @@ public class PatchSetUtil {
     update.setCommit(rw, commit, pushCertificate);
     update.setPsDescription(description);
     update.setGroups(groups);
+    if (draft) {
+      update.setPatchSetState(DRAFT);
+    }
 
     return ps;
   }
 
   public void publish(ReviewDb db, ChangeUpdate update, PatchSet ps) throws OrmException {
     ensurePatchSetMatches(ps.getId(), update);
+    ps.setDraft(false);
     update.setPatchSetState(PUBLISHED);
     db.patchSets().update(Collections.singleton(ps));
+  }
+
+  public void delete(ReviewDb db, ChangeUpdate update, PatchSet ps) throws OrmException {
+    ensurePatchSetMatches(ps.getId(), update);
+    checkArgument(ps.isDraft(), "cannot delete non-draft patch set %s", ps.getId());
+    update.setPatchSetState(PatchSetState.DELETED);
+    db.patchSets().delete(Collections.singleton(ps));
   }
 
   private void ensurePatchSetMatches(PatchSet.Id psId, ChangeUpdate update) {

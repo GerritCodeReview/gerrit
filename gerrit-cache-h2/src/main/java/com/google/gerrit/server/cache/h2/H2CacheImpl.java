@@ -131,26 +131,11 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
   @Override
   public V get(K key, Callable<? extends V> valueLoader) throws ExecutionException {
-    return mem.get(
-            key,
-            () -> {
-              if (store.mightContain(key)) {
-                ValueHolder<V> h = store.getIfPresent(key);
-                if (h != null) {
-                  return h;
-                }
-              }
-
-              ValueHolder<V> h = new ValueHolder<>(valueLoader.call());
-              h.created = TimeUtil.nowMs();
-              executor.execute(() -> store.put(key, h));
-              return h;
-            })
-        .value;
+    return mem.get(key, new LoadingCallable(key, valueLoader)).value;
   }
 
   @Override
-  public void put(K key, V val) {
+  public void put(final K key, V val) {
     final ValueHolder<V> h = new ValueHolder<>(val);
     h.created = TimeUtil.nowMs();
     mem.put(key, h);
@@ -159,7 +144,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
   @SuppressWarnings("unchecked")
   @Override
-  public void invalidate(Object key) {
+  public void invalidate(final Object key) {
     if (keyType.getRawType().isInstance(key) && store.mightContain((K) key)) {
       executor.execute(() -> store.invalidate((K) key));
     }
@@ -201,7 +186,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     store.close();
   }
 
-  void prune(ScheduledExecutorService service) {
+  void prune(final ScheduledExecutorService service) {
     store.prune(mem);
 
     Calendar cal = Calendar.getInstance();
@@ -239,7 +224,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     @Override
-    public ValueHolder<V> load(K key) throws Exception {
+    public ValueHolder<V> load(final K key) throws Exception {
       if (store.mightContain(key)) {
         ValueHolder<V> h = store.getIfPresent(key);
         if (h != null) {
@@ -248,6 +233,31 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       }
 
       final ValueHolder<V> h = new ValueHolder<>(loader.load(key));
+      h.created = TimeUtil.nowMs();
+      executor.execute(() -> store.put(key, h));
+      return h;
+    }
+  }
+
+  private class LoadingCallable implements Callable<ValueHolder<V>> {
+    private final K key;
+    private final Callable<? extends V> loader;
+
+    LoadingCallable(K key, Callable<? extends V> loader) {
+      this.key = key;
+      this.loader = loader;
+    }
+
+    @Override
+    public ValueHolder<V> call() throws Exception {
+      if (store.mightContain(key)) {
+        ValueHolder<V> h = store.getIfPresent(key);
+        if (h != null) {
+          return h;
+        }
+      }
+
+      final ValueHolder<V> h = new ValueHolder<>(loader.call());
       h.created = TimeUtil.nowMs();
       executor.execute(() -> store.put(key, h));
       return h;

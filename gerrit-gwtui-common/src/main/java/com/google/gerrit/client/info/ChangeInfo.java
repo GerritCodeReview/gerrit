@@ -134,16 +134,9 @@ public class ChangeInfo extends JavaScriptObject {
 
   private native String submittedRaw() /*-{ return this.submitted; }-*/;
 
-  public final native AccountInfo submitter() /*-{ return this.submitter; }-*/;
-
   public final native boolean starred() /*-{ return this.starred ? true : false; }-*/;
 
   public final native boolean reviewed() /*-{ return this.reviewed ? true : false; }-*/;
-
-  public final native boolean isPrivate() /*-{ return this.is_private ? true : false; }-*/;
-
-  public final native boolean
-      isWorkInProgress() /*-{ return this.work_in_progress ? true : false; }-*/;
 
   public final native NativeMap<LabelInfo> allLabels() /*-{ return this.labels; }-*/;
 
@@ -416,6 +409,8 @@ public class ChangeInfo extends JavaScriptObject {
     public final native int _number() /*-{ return this._number; }-*/;
 
     public final native String name() /*-{ return this.name; }-*/;
+
+    public final native boolean draft() /*-{ return this.draft || false; }-*/;
 
     public final native AccountInfo uploader() /*-{ return this.uploader; }-*/;
 

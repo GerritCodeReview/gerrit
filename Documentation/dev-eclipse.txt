@@ -10,8 +10,8 @@ runtime debugging environment.
 [[setup]]
 == Project Setup
 
-In your Eclipse installation's link:https://wiki.eclipse.org/Eclipse.ini[`eclipse.ini`] file,
-add the following line in the `vmargs` section:
+In your Eclipse installation's `eclipse.ini` file, add the following line in
+the `vmargs` section:
 
 ----
   -DmaxCompiledUnitsAtOnce=10000
@@ -30,8 +30,7 @@ and
   AutoAnnotation_Commands_named cannot be resolved to a type
 ----
 
-First, generate the Eclipse project by running the `tools/eclipse/project.py` script.
-Then, in Eclipse, choose 'Import existing project' and select the `gerrit` project
+In Eclipse, choose 'Import existing project' and select the `gerrit` project
 from the current working directory.
 
 Expand the `gerrit` project, right-click on the `eclipse-out` folder, select
@@ -41,13 +40,6 @@ Note that if you make any changes in the project configuration
 that get saved to the `.project` file, for example adding Resource
 Filters on a folder, they will be overwritten the next time you run
 `tools/eclipse/project.py`.
-
-=== Eclipse project with custom plugins ===
-
-To add custom plugins to the eclipse project add them to `tools/bzl/plugins.bzl`
-the same way you would when
-link:dev-build-plugins.html#_bundle_custom_plugin_in_release_war[bundling in release.war]
-and run `tools/eclipse/project.py`.
 
 
 [[Formatting]]
@@ -134,17 +126,17 @@ in the SDM debug session.
 
 `codeserver` needs two additional inputs to expose the plugin module in the SDM
 debug session: the module name and the source folder location. For example the
-module name and source folder of any GWT plugin should be added in the local
+module name and source folder of `cookbook-plugin` should be added in the local
 copy of the `gerrit_gwt_debug` configuration:
 
 ----
-  com.googlesource.gerrit.plugins.myplugin.HelloForm \
-  -src ${resource_loc:/gerrit}/plugins/myplugin/src/main/java \
+  com.googlesource.gerrit.plugins.cookbook.HelloForm \
+  -src ${resource_loc:/gerrit}/plugins/cookbook-plugin/src/main/java \
   -- --console-log [...]
 ----
 
 After doing that, both the Gerrit core and plugin GWT modules can be activated
-during SDM (debug session).
+during SDM (debug session)[http://imgur.com/HFXZ5No].
 
 GERRIT
 ------

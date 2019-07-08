@@ -27,40 +27,40 @@ public class Commands {
   /** Magic value signaling the top level. */
   public static final CommandName CMD_ROOT = named(ROOT);
 
-  public static Key<Command> key(String name) {
+  public static Key<Command> key(final String name) {
     return key(named(name));
   }
 
-  public static Key<Command> key(CommandName name) {
+  public static Key<Command> key(final CommandName name) {
     return Key.get(Command.class, name);
   }
 
-  public static Key<Command> key(CommandName parent, String name) {
+  public static Key<Command> key(final CommandName parent, final String name) {
     return Key.get(Command.class, named(parent, name));
   }
 
-  public static Key<Command> key(CommandName parent, String name, String descr) {
+  public static Key<Command> key(final CommandName parent, final String name, final String descr) {
     return Key.get(Command.class, named(parent, name, descr));
   }
 
   /** Create a CommandName annotation for the supplied name. */
   @AutoAnnotation
-  public static CommandName named(String value) {
+  public static CommandName named(final String value) {
     return new AutoAnnotation_Commands_named(value);
   }
 
   /** Create a CommandName annotation for the supplied name. */
-  public static CommandName named(CommandName parent, String name) {
+  public static CommandName named(final CommandName parent, final String name) {
     return new NestedCommandNameImpl(parent, name);
   }
 
   /** Create a CommandName annotation for the supplied name and description. */
-  public static CommandName named(CommandName parent, String name, String descr) {
+  public static CommandName named(final CommandName parent, final String name, final String descr) {
     return new NestedCommandNameImpl(parent, name, descr);
   }
 
   /** Return the name of this command, possibly including any parents. */
-  public static String nameOf(CommandName name) {
+  public static String nameOf(final CommandName name) {
     if (name instanceof NestedCommandNameImpl) {
       return nameOf(((NestedCommandNameImpl) name).parent) + " " + name.value();
     }
@@ -68,7 +68,7 @@ public class Commands {
   }
 
   /** Is the second command a direct child of the first command? */
-  public static boolean isChild(CommandName parent, CommandName name) {
+  public static boolean isChild(final CommandName parent, final CommandName name) {
     if (name instanceof NestedCommandNameImpl) {
       return parent.equals(((NestedCommandNameImpl) name).parent);
     }
@@ -90,13 +90,13 @@ public class Commands {
     private final String name;
     private final String descr;
 
-    NestedCommandNameImpl(CommandName parent, String name) {
+    NestedCommandNameImpl(final CommandName parent, final String name) {
       this.parent = parent;
       this.name = name;
       this.descr = "";
     }
 
-    NestedCommandNameImpl(CommandName parent, String name, String descr) {
+    NestedCommandNameImpl(final CommandName parent, final String name, final String descr) {
       this.parent = parent;
       this.name = name;
       this.descr = descr;
@@ -122,7 +122,7 @@ public class Commands {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
       return obj instanceof NestedCommandNameImpl
           && parent.equals(((NestedCommandNameImpl) obj).parent)
           && value().equals(((NestedCommandNameImpl) obj).value());

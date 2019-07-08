@@ -19,28 +19,58 @@ import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.PutActive.Input;
+import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import org.eclipse.jgit.errors.ConfigInvalidException;
+import java.util.Collections;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @RequiresCapability(GlobalCapability.MODIFY_ACCOUNT)
 @Singleton
 public class PutActive implements RestModifyView<AccountResource, Input> {
   public static class Input {}
 
-  private final SetInactiveFlag setInactiveFlag;
+  private final Provider<ReviewDb> dbProvider;
+  private final AccountCache byIdCache;
 
   @Inject
-  PutActive(SetInactiveFlag setInactiveFlag) {
-    this.setInactiveFlag = setInactiveFlag;
+  PutActive(Provider<ReviewDb> dbProvider, AccountCache byIdCache) {
+    this.dbProvider = dbProvider;
+    this.byIdCache = byIdCache;
   }
 
   @Override
   public Response<String> apply(AccountResource rsrc, Input input)
-      throws ResourceNotFoundException, OrmException, IOException, ConfigInvalidException {
-    return setInactiveFlag.activate(rsrc.getUser().getAccountId());
+      throws ResourceNotFoundException, OrmException, IOException {
+    AtomicBoolean alreadyActive = new AtomicBoolean(false);
+    Account a =
+        dbProvider
+            .get()
+            .accounts()
+            .atomicUpdate(
+                rsrc.getUser().getAccountId(),
+                new AtomicUpdate<Account>() {
+                  @Override
+                  public Account update(Account a) {
+                    if (a.isActive()) {
+                      alreadyActive.set(true);
+                    } else {
+                      a.setActive(true);
+                    }
+                    return a;
+                  }
+                });
+    if (a == null) {
+      throw new ResourceNotFoundException("account not found");
+    }
+    dbProvider.get().accounts().update(Collections.singleton(a));
+    byIdCache.evict(a.getId());
+    return alreadyActive.get() ? Response.ok("") : Response.created("");
   }
 }

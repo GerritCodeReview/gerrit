@@ -51,7 +51,7 @@ public class Module extends RestApiModule {
     get(ACCOUNT_KIND, "active").to(GetActive.class);
     put(ACCOUNT_KIND, "active").to(PutActive.class);
     delete(ACCOUNT_KIND, "active").to(DeleteActive.class);
-    child(ACCOUNT_KIND, "emails").to(EmailsCollection.class);
+    child(ACCOUNT_KIND, "emails").to(Emails.class);
     get(EMAIL_KIND).to(GetEmail.class);
     put(EMAIL_KIND).to(PutEmail.class);
     delete(EMAIL_KIND).to(DeleteEmail.class);

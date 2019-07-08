@@ -14,12 +14,11 @@
 
 package com.google.gerrit.acceptance;
 
-import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.InProcessProtocol.Context;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -30,19 +29,17 @@ import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
+import com.google.gerrit.server.git.AsyncReceiveCommits;
+import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.ReceivePackInitializer;
+import com.google.gerrit.server.git.SearchingChangeCacheImpl;
+import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
-import com.google.gerrit.server.git.UploadPackInitializer;
 import com.google.gerrit.server.git.VisibleRefFilter;
-import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.git.validators.UploadValidators;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -98,7 +95,7 @@ class InProcessProtocol extends TestProtocol<Context> {
   private static final Scope REQUEST =
       new Scope() {
         @Override
-        public <T> Provider<T> scope(Key<T> key, Provider<T> creator) {
+        public <T> Provider<T> scope(final Key<T> key, final Provider<T> creator) {
           return new Provider<T>() {
             @Override
             public T get() {
@@ -209,78 +206,69 @@ class InProcessProtocol extends TestProtocol<Context> {
   }
 
   private static class Upload implements UploadPackFactory<Context> {
+    private final Provider<ReviewDb> dbProvider;
     private final Provider<CurrentUser> userProvider;
-    private final VisibleRefFilter.Factory refFilterFactory;
+    private final TagCache tagCache;
+    @Nullable private final SearchingChangeCacheImpl changeCache;
+    private final ProjectControl.GenericFactory projectControlFactory;
+    private final ChangeNotes.Factory changeNotesFactory;
     private final TransferConfig transferConfig;
-    private final DynamicSet<UploadPackInitializer> uploadPackInitializers;
     private final DynamicSet<PreUploadHook> preUploadHooks;
     private final UploadValidators.Factory uploadValidatorsFactory;
     private final ThreadLocalRequestContext threadContext;
-    private final ProjectCache projectCache;
-    private final PermissionBackend permissionBackend;
 
     @Inject
     Upload(
+        Provider<ReviewDb> dbProvider,
         Provider<CurrentUser> userProvider,
-        VisibleRefFilter.Factory refFilterFactory,
+        TagCache tagCache,
+        @Nullable SearchingChangeCacheImpl changeCache,
+        ProjectControl.GenericFactory projectControlFactory,
+        ChangeNotes.Factory changeNotesFactory,
         TransferConfig transferConfig,
-        DynamicSet<UploadPackInitializer> uploadPackInitializers,
         DynamicSet<PreUploadHook> preUploadHooks,
         UploadValidators.Factory uploadValidatorsFactory,
-        ThreadLocalRequestContext threadContext,
-        ProjectCache projectCache,
-        PermissionBackend permissionBackend) {
+        ThreadLocalRequestContext threadContext) {
+      this.dbProvider = dbProvider;
       this.userProvider = userProvider;
-      this.refFilterFactory = refFilterFactory;
+      this.tagCache = tagCache;
+      this.changeCache = changeCache;
+      this.projectControlFactory = projectControlFactory;
+      this.changeNotesFactory = changeNotesFactory;
       this.transferConfig = transferConfig;
-      this.uploadPackInitializers = uploadPackInitializers;
       this.preUploadHooks = preUploadHooks;
       this.uploadValidatorsFactory = uploadValidatorsFactory;
       this.threadContext = threadContext;
-      this.projectCache = projectCache;
-      this.permissionBackend = permissionBackend;
     }
 
     @Override
-    public UploadPack create(Context req, Repository repo) throws ServiceNotAuthorizedException {
+    public UploadPack create(Context req, final Repository repo)
+        throws ServiceNotAuthorizedException {
       // Set the request context, but don't bother unsetting, since we don't
       // have an easy way to run code when this instance is done being used.
       // Each operation is run in its own thread, so we don't need to recover
       // its original context anyway.
       threadContext.setContext(req);
       current.set(req);
-
       try {
-        permissionBackend
-            .user(userProvider)
-            .project(req.project)
-            .check(ProjectPermission.RUN_UPLOAD_PACK);
-      } catch (AuthException e) {
-        throw new ServiceNotAuthorizedException();
-      } catch (PermissionBackendException e) {
+        ProjectControl ctl = projectControlFactory.controlFor(req.project, userProvider.get());
+        if (!ctl.canRunUploadPack()) {
+          throw new ServiceNotAuthorizedException();
+        }
+
+        UploadPack up = new UploadPack(repo);
+        up.setPackConfig(transferConfig.getPackConfig());
+        up.setTimeout(transferConfig.getTimeout());
+        up.setAdvertiseRefsHook(
+            new VisibleRefFilter(
+                tagCache, changeNotesFactory, changeCache, repo, ctl, dbProvider.get(), true));
+        List<PreUploadHook> hooks = Lists.newArrayList(preUploadHooks);
+        hooks.add(uploadValidatorsFactory.create(ctl.getProject(), repo, "localhost-test"));
+        up.setPreUploadHook(PreUploadHookChain.newChain(hooks));
+        return up;
+      } catch (NoSuchProjectException | IOException e) {
         throw new RuntimeException(e);
       }
-
-      ProjectState projectState;
-      try {
-        projectState = projectCache.checkedGet(req.project);
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-      if (projectState == null) {
-        throw new RuntimeException("can't load project state for " + req.project.get());
-      }
-      UploadPack up = new UploadPack(repo);
-      up.setPackConfig(transferConfig.getPackConfig());
-      up.setTimeout(transferConfig.getTimeout());
-      up.setAdvertiseRefsHook(refFilterFactory.create(projectState, repo));
-      List<PreUploadHook> hooks = Lists.newArrayList(preUploadHooks);
-      hooks.add(uploadValidatorsFactory.create(projectState.getProject(), repo, "localhost-test"));
-      up.setPreUploadHook(PreUploadHookChain.newChain(hooks));
-      for (UploadPackInitializer initializer : uploadPackInitializers) {
-        initializer.init(req.project, up);
-      }
-      return up;
     }
   }
 
@@ -292,7 +280,6 @@ class InProcessProtocol extends TestProtocol<Context> {
     private final DynamicSet<ReceivePackInitializer> receivePackInitializers;
     private final DynamicSet<PostReceiveHook> postReceiveHooks;
     private final ThreadLocalRequestContext threadContext;
-    private final PermissionBackend permissionBackend;
 
     @Inject
     Receive(
@@ -302,8 +289,7 @@ class InProcessProtocol extends TestProtocol<Context> {
         TransferConfig config,
         DynamicSet<ReceivePackInitializer> receivePackInitializers,
         DynamicSet<PostReceiveHook> postReceiveHooks,
-        ThreadLocalRequestContext threadContext,
-        PermissionBackend permissionBackend) {
+        ThreadLocalRequestContext threadContext) {
       this.userProvider = userProvider;
       this.projectControlFactory = projectControlFactory;
       this.factory = factory;
@@ -311,11 +297,11 @@ class InProcessProtocol extends TestProtocol<Context> {
       this.receivePackInitializers = receivePackInitializers;
       this.postReceiveHooks = postReceiveHooks;
       this.threadContext = threadContext;
-      this.permissionBackend = permissionBackend;
     }
 
     @Override
-    public ReceivePack create(Context req, Repository db) throws ServiceNotAuthorizedException {
+    public ReceivePack create(final Context req, Repository db)
+        throws ServiceNotAuthorizedException {
       // Set the request context, but don't bother unsetting, since we don't
       // have an easy way to run code when this instance is done being used.
       // Each operation is run in its own thread, so we don't need to recover
@@ -323,21 +309,15 @@ class InProcessProtocol extends TestProtocol<Context> {
       threadContext.setContext(req);
       current.set(req);
       try {
-        permissionBackend
-            .user(userProvider)
-            .project(req.project)
-            .check(ProjectPermission.RUN_RECEIVE_PACK);
-      } catch (AuthException e) {
-        throw new ServiceNotAuthorizedException();
-      } catch (PermissionBackendException e) {
-        throw new RuntimeException(e);
-      }
-      try {
         ProjectControl ctl = projectControlFactory.controlFor(req.project, userProvider.get());
-        AsyncReceiveCommits arc = factory.create(ctl, db, null, ImmutableSetMultimap.of());
-        ReceivePack rp = arc.getReceivePack();
+        if (!ctl.canRunReceivePack()) {
+          throw new ServiceNotAuthorizedException();
+        }
 
-        Capable r = arc.canUpload();
+        ReceiveCommits rc = factory.create(ctl, db).getReceiveCommits();
+        ReceivePack rp = rc.getReceivePack();
+
+        Capable r = rc.canUpload();
         if (r != Capable.OK) {
           throw new ServiceNotAuthorizedException();
         }

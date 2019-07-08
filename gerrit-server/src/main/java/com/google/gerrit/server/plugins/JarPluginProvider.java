@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.plugins;
 
+import static com.google.gerrit.server.plugins.PluginLoader.asTemp;
+
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
@@ -60,7 +62,7 @@ public class JarPluginProvider implements ServerPluginProvider {
   @Override
   public String getPluginName(Path srcPath) {
     try {
-      return MoreObjects.firstNonNull(getJarPluginName(srcPath), PluginUtil.nameOf(srcPath));
+      return MoreObjects.firstNonNull(getJarPluginName(srcPath), PluginLoader.nameOf(srcPath));
     } catch (IOException e) {
       throw new IllegalArgumentException(
           "Invalid plugin file " + srcPath + ": cannot get plugin name", e);
@@ -80,7 +82,7 @@ public class JarPluginProvider implements ServerPluginProvider {
       String name = getPluginName(srcPath);
       String extension = getExtension(srcPath);
       try (InputStream in = Files.newInputStream(srcPath)) {
-        Path tmp = PluginUtil.asTemp(in, tempNameFor(name), extension, tmpDir);
+        Path tmp = asTemp(in, tempNameFor(name), extension, tmpDir);
         return loadJarPlugin(name, srcPath, snapshot, tmp, description);
       }
     } catch (IOException e) {
@@ -112,7 +114,7 @@ public class JarPluginProvider implements ServerPluginProvider {
     if (!Files.exists(sitePaths.tmp_dir)) {
       Files.createDirectories(sitePaths.tmp_dir);
     }
-    return PluginUtil.asTemp(in, tempNameFor(pluginName), ".jar", sitePaths.tmp_dir);
+    return asTemp(in, tempNameFor(pluginName), ".jar", sitePaths.tmp_dir);
   }
 
   private ServerPlugin loadJarPlugin(
@@ -136,7 +138,7 @@ public class JarPluginProvider implements ServerPluginProvider {
       urls.add(tmp.toUri().toURL());
 
       ClassLoader pluginLoader =
-          new URLClassLoader(urls.toArray(new URL[urls.size()]), PluginUtil.parentFor(type));
+          new URLClassLoader(urls.toArray(new URL[urls.size()]), PluginLoader.parentFor(type));
 
       JarScanner jarScanner = createJarScanner(tmp);
       PluginConfig pluginConfig = configFactory.getFromGerritConfig(name);

@@ -14,14 +14,14 @@
 
 package com.google.gerrit.server.plugins;
 
-import com.google.gerrit.extensions.common.PluginInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.plugins.ListPlugins.PluginInfo;
 import com.google.inject.Singleton;
 
 @Singleton
-public class GetStatus implements RestReadView<PluginResource> {
+class GetStatus implements RestReadView<PluginResource> {
   @Override
   public PluginInfo apply(PluginResource resource) {
-    return ListPlugins.toPluginInfo(resource.getPlugin());
+    return new PluginInfo(resource.getPlugin());
   }
 }

@@ -53,7 +53,7 @@ public class SshAddressesModule extends AbstractModule {
       return listen;
     }
 
-    for (String desc : want) {
+    for (final String desc : want) {
       try {
         listen.add(SocketUtil.resolve(desc, DEFAULT_PORT));
       } catch (IllegalArgumentException e) {

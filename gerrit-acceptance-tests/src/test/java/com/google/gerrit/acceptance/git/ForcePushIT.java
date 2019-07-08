@@ -57,7 +57,7 @@ public class ForcePushIT extends AbstractDaemonTest {
   @Test
   public void forcePushAllowed() throws Exception {
     ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
-    grant(project, "refs/*", Permission.PUSH, true);
+    grant(Permission.PUSH, project, "refs/*", true);
     PushOneCommit push1 =
         pushFactory.create(db, admin.getIdent(), testRepo, "change1", "a.txt", "content");
     PushOneCommit.Result r1 = push1.to("refs/heads/master");
@@ -82,19 +82,19 @@ public class ForcePushIT extends AbstractDaemonTest {
 
   @Test
   public void deleteNotAllowedWithOnlyPushPermission() throws Exception {
-    grant(project, "refs/*", Permission.PUSH, false);
+    grant(Permission.PUSH, project, "refs/*", false);
     assertDeleteRef(REJECTED_OTHER_REASON);
   }
 
   @Test
   public void deleteAllowedWithForcePushPermission() throws Exception {
-    grant(project, "refs/*", Permission.PUSH, true);
+    grant(Permission.PUSH, project, "refs/*", true);
     assertDeleteRef(OK);
   }
 
   @Test
   public void deleteAllowedWithDeletePermission() throws Exception {
-    grant(project, "refs/*", Permission.DELETE, true);
+    grant(Permission.DELETE, project, "refs/*", true);
     assertDeleteRef(OK);
   }
 

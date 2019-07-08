@@ -17,10 +17,10 @@ link:https://gerrit-review.googlesource.com/#/settings/agreements[Agreements]
 tab on the settings page
 * Click 'New Contributor Agreement' and follow the instructions
 
-For reference, the actual agreements are linked below:
+For reference, the actual agreements are linked below
 
-* link:https://cla.developers.google.com/about/google-individual[Individual Agreement]
-* link:https://cla.developers.google.com/about/google-corporate[Corporate Agreement]
+* link:https://cla.developers.google.com/about/android-individual[Individual Agreement]
+* link:https://source.android.com/source/cla-corporate.pdf[Corporate Agreement]
 
 == Code Review
 As Gerrit is a code review tool, naturally contributions will
@@ -146,17 +146,6 @@ Password tab of the user settings page].
 
 [[style]]
 === Style
-
-This project has a policy of Eclipse's warning free code. Eclipse
-configuration is added to git and we expect the changes to be
-warnings free.
-
-We do not ask you to use Eclipse for editing, obviously.  We do ask you
-to provide Eclipse's warning free patches only. If for some reasons, you
-are not able to set up Eclipse and verify, that your patch hasn't
-introduced any new Eclipse warnings, mention this in a comment to your
-change, so that reviewers will do it for you. Yes, the way to go is to
-extend gerrit CI to take care of this, but it's not yet implemented.
 
 Gerrit generally follows the
 link:https://google.github.io/styleguide/javaguide.html[Google Java Style
@@ -353,20 +342,7 @@ new version.
 We have created a
 link:https://bugs.chromium.org/p/gerrit/issues/list?can=2&q=label%3AStarterProject[StarterProject]
 category in the issue tracker and try to assign easy hack projects to it. If in
-doubt, do not hesitate to ask on the developer
-link:https://groups.google.com/forum/#!forum/repo-discuss[mailing list].
-
-=== Upgrading Libraries
-
-Gerrit's library dependencies should only be upgraded if the new version contains
-something we need in Gerrit. This includes new features, API changes as well as bug
-or security fixes.
-An exception to this rule is that right after a new Gerrit release was branched
-off, all libraries should be upgraded to the latest version to prevent Gerrit
-from falling behind. Doing those upgrades should conclude at the latest two
-months after the branch was cut. This should happen on the master branch to ensure
-that they are vetted long enough before they go into a release and we can be sure
-that the update doesn't introduce a regression.
+doubt, do not hesitate to ask on the developer mailing list.
 
 GERRIT
 ------

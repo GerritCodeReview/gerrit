@@ -20,9 +20,9 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
 <script src="../../../scripts/util.js"></script>
 
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-diff-comment-thread-group.html">
 
 <script>void(0);</script>
@@ -34,25 +34,25 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-diff-comment-thread-group tests', () => {
-    let element;
-    let sandbox;
+  suite('gr-diff-comment-thread-group tests', function() {
+    var element;
+    var sandbox;
 
-    setup(() => {
+    setup(function() {
       sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(false); },
+        getLoggedIn: function() { return Promise.resolve(false); },
       });
       element = fixture('basic');
     });
 
-    teardown(() => {
+    teardown(function() {
       sandbox.restore();
     });
 
-    test('_getThreadGroups', () => {
+    test('_getThreadGroups', function() {
       element.patchForNewThreads = 3;
-      const comments = [
+      var comments = [
         {
           id: 'sallys_confession',
           message: 'i like you, jack',
@@ -66,23 +66,23 @@ limitations under the License.
         },
       ];
 
-      let expectedThreadGroups = [
+      var expectedThreadGroups = [
         {
           start_datetime: '2015-12-23 15:00:20.396000000',
           commentSide: 'left',
           comments: [{
-            id: 'sallys_confession',
-            message: 'i like you, jack',
-            updated: '2015-12-23 15:00:20.396000000',
-            __commentSide: 'left',
-          }, {
-            id: 'jacks_reply',
-            message: 'i like you, too',
-            updated: '2015-12-24 15:00:20.396000000',
-            __commentSide: 'left',
-          }],
+              id: 'sallys_confession',
+              message: 'i like you, jack',
+              updated: '2015-12-23 15:00:20.396000000',
+              __commentSide: 'left',
+            }, {
+              id: 'jacks_reply',
+              message: 'i like you, too',
+              updated: '2015-12-24 15:00:20.396000000',
+              __commentSide: 'left',
+            }],
           locationRange: 'line-left',
-          patchNum: 3,
+          patchNum: 3
         },
       ];
 
@@ -91,33 +91,33 @@ limitations under the License.
 
       // Patch num should get inherited from comment rather
       comments.push({
-        id: 'betsys_confession',
-        message: 'i like you, jack',
-        updated: '2015-12-24 15:00:10.396000000',
-        range: {
-          start_line: 1,
-          start_character: 1,
-          end_line: 1,
-          end_character: 2,
-        },
-        __commentSide: 'left',
-      });
+          id: 'betsys_confession',
+          message: 'i like you, jack',
+          updated: '2015-12-24 15:00:10.396000000',
+          range: {
+            start_line: 1,
+            start_character: 1,
+            end_line: 1,
+            end_character: 2,
+          },
+          __commentSide: 'left',
+        });
 
       expectedThreadGroups = [
         {
           start_datetime: '2015-12-23 15:00:20.396000000',
           commentSide: 'left',
           comments: [{
-            id: 'sallys_confession',
-            message: 'i like you, jack',
-            updated: '2015-12-23 15:00:20.396000000',
-            __commentSide: 'left',
-          }, {
-            id: 'jacks_reply',
-            message: 'i like you, too',
-            updated: '2015-12-24 15:00:20.396000000',
-            __commentSide: 'left',
-          }],
+              id: 'sallys_confession',
+              message: 'i like you, jack',
+              updated: '2015-12-23 15:00:20.396000000',
+              __commentSide: 'left',
+            }, {
+              id: 'jacks_reply',
+              message: 'i like you, too',
+              updated: '2015-12-24 15:00:20.396000000',
+              __commentSide: 'left',
+            }],
           patchNum: 3,
           locationRange: 'line-left',
         },
@@ -145,8 +145,8 @@ limitations under the License.
           expectedThreadGroups);
     });
 
-    test('_sortByDate', () => {
-      let threadGroups = [
+    test('_sortByDate', function() {
+      var threadGroups = [
         {
           start_datetime: '2015-12-23 15:00:20.396000000',
           comments: [],
@@ -159,12 +159,12 @@ limitations under the License.
         },
       ];
 
-      let expectedResult = [
+      var expectedResult = [
         {
           start_datetime: '2015-12-22 15:00:10.396000000',
           comments: [],
           locationRange: 'range-1-1-1-2',
-        }, {
+        },{
           start_datetime: '2015-12-23 15:00:20.396000000',
           comments: [],
           locationRange: 'line',
@@ -175,7 +175,7 @@ limitations under the License.
 
       // When a comment doesn't have a date, the one without the date should be
       // last.
-      threadGroups = [
+      var threadGroups = [
         {
           start_datetime: '2015-12-23 15:00:20.396000000',
           comments: [],
@@ -187,7 +187,7 @@ limitations under the License.
         },
       ];
 
-      expectedResult = [
+      var expectedResult = [
         {
           start_datetime: '2015-12-23 15:00:20.396000000',
           comments: [],
@@ -198,25 +198,22 @@ limitations under the License.
           locationRange: 'range-1-1-1-2',
         },
       ];
-
-      assert.deepEqual(element._sortByDate(threadGroups), expectedResult);
     });
 
-    test('_calculateLocationRange', () => {
-      const comment = {__commentSide: 'left'};
-      const range = {
+    test('_calculateLocationRange', function() {
+      var comment = {__commentSide: 'left'};
+      var range = {
         start_line: 1,
         start_character: 2,
         end_line: 3,
         end_character: 4,
       };
       assert.equal(
-          element._calculateLocationRange(range, comment),
-          'range-1-2-3-4-left');
+        element._calculateLocationRange(range, comment), 'range-1-2-3-4-left');
     });
 
-    test('thread groups are updated when comments change', () => {
-      const commentsChangedStub = sandbox.stub(element, '_commentsChanged');
+    test('thread groups are updated when comments change', function() {
+      var commentsChangedStub = sandbox.stub(element, '_commentsChanged');
       element.comments = [];
       element.comments.push({
         id: 'sallys_confession',
@@ -226,16 +223,16 @@ limitations under the License.
       assert(commentsChangedStub.called);
     });
 
-    test('addNewThread', () => {
-      const locationRange = 'range-1-2-3-4';
+    test('addNewThread', function() {
+      var locationRange = 'range-1-2-3-4';
       element._threads = [{locationRange: 'line'}];
       element.addNewThread(locationRange);
       assert(element._threads.length, 2);
     });
 
-    test('_getPatchNum', () => {
+    test('_getPatchNum', function() {
       element.patchForNewThreads = 3;
-      const comment = {
+      var comment = {
         id: 'sallys_confession',
         message: 'i like you, jack',
         updated: '2015-12-23 15:00:20.396000000',
@@ -245,11 +242,11 @@ limitations under the License.
       assert.equal(element._getPatchNum(comment), 4);
     });
 
-    test('removeThread', () => {
-      const locationRange = 'range-1-2-3-4';
+    test('removeThread', function() {
+      var locationRange = 'range-1-2-3-4';
       element._threads = [
         {locationRange: 'range-1-2-3-4', comments: []},
-        {locationRange: 'line', comments: []},
+        {locationRange: 'line', comments: []}
       ];
       flushAsynchronousOperations();
       element.removeThread(locationRange);

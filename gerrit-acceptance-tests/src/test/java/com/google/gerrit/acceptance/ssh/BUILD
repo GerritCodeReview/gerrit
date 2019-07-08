@@ -31,8 +31,6 @@ acceptance_tests(
     ],
     deps = [
         ":util",
-        "//gerrit-elasticsearch:elasticsearch",
-        "//gerrit-elasticsearch:elasticsearch_test_utils",
         "//lib/commons:compress",
     ],
 )

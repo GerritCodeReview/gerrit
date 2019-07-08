@@ -44,9 +44,9 @@ public class ProjectMap extends NativeMap<ProjectInfo> {
         .get(NativeMap.copyKeysIntoChildren(callback));
   }
 
-  public static void suggest(String match, int limit, AsyncCallback<ProjectMap> cb) {
+  public static void suggest(String prefix, int limit, AsyncCallback<ProjectMap> cb) {
     new RestApi("/projects/")
-        .addParameter("m", match)
+        .addParameter("p", prefix)
         .addParameter("n", limit)
         .addParameterRaw("type", "ALL")
         .addParameterTrue("d") // description

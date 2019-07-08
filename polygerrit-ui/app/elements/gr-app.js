@@ -31,22 +31,16 @@
      */
 
     properties: {
-      /**
-       * @type {{ query: string, view: string }}
-       */
       params: Object,
       keyEventTarget: {
         type: Object,
-        value() { return document.body; },
+        value: function() { return document.body; },
       },
 
       _account: {
         type: Object,
         observer: '_accountChanged',
       },
-      /**
-       * @type {{ plugin: Object }}
-       */
       _serverConfig: Object,
       _version: String,
       _showChangeListView: Boolean,
@@ -54,15 +48,10 @@
       _showChangeView: Boolean,
       _showDiffView: Boolean,
       _showSettingsView: Boolean,
-      _showAdminView: Boolean,
-      _showCLAView: Boolean,
-      /** @type {?} */
       _viewState: Object,
-      /** @type {?} */
       _lastError: Object,
       _lastSearchPage: String,
       _path: String,
-      _isShadowDom: Boolean,
     },
 
     listeners: {
@@ -73,6 +62,7 @@
 
     observers: [
       '_viewChanged(params.view)',
+      '_loadPlugins(_serverConfig.plugin.js_resource_paths)',
     ],
 
     behaviors: [
@@ -84,19 +74,18 @@
       '?': '_showKeyboardShortcuts',
     },
 
-    ready() {
-      this._isShadowDom = Polymer.Settings.useShadow;
+    ready: function() {
       this.$.router.start();
 
-      this.$.restAPI.getAccount().then(account => {
+      this.$.restAPI.getAccount().then(function(account) {
         this._account = account;
-      });
-      this.$.restAPI.getConfig().then(config => {
+      }.bind(this));
+      this.$.restAPI.getConfig().then(function(config) {
         this._serverConfig = config;
-      });
-      this.$.restAPI.getVersion().then(version => {
+      }.bind(this));
+      this.$.restAPI.getVersion().then(function(version) {
         this._version = version;
-      });
+      }.bind(this));
 
       this.$.reporting.appStarted();
       this._viewState = {
@@ -106,8 +95,6 @@
           selectedFileIndex: 0,
           showReplyDialog: false,
           diffMode: null,
-          numFilesShown: null,
-          scrollTop: 0,
         },
         changeListView: {
           query: null,
@@ -120,88 +107,104 @@
       };
     },
 
-    _accountChanged(account) {
+    _accountChanged: function(account) {
       if (!account) { return; }
 
       // Preferences are cached when a user is logged in; warm them.
       this.$.restAPI.getPreferences();
       this.$.restAPI.getDiffPreferences();
       this.$.errorManager.knownAccountId =
-          this._account && this._account._account_id || null;
+        this._account && this._account._account_id || null;
     },
 
-    _viewChanged(view) {
-      this.$.errorView.classList.remove('show');
-      this.set('_showChangeListView', view === Gerrit.Nav.View.SEARCH);
-      this.set('_showDashboardView', view === Gerrit.Nav.View.DASHBOARD);
-      this.set('_showChangeView', view === Gerrit.Nav.View.CHANGE);
-      this.set('_showDiffView', view === Gerrit.Nav.View.DIFF);
-      this.set('_showSettingsView', view === Gerrit.Nav.View.SETTINGS);
-      this.set('_showAdminView', view === Gerrit.Nav.View.ADMIN);
-      this.set('_showCLAView', view === Gerrit.Nav.View.AGREEMENTS);
+    _viewChanged: function(view) {
+      this.$.errorView.hidden = true;
+      this.set('_showChangeListView', view === 'gr-change-list-view');
+      this.set('_showDashboardView', view === 'gr-dashboard-view');
+      this.set('_showChangeView', view === 'gr-change-view');
+      this.set('_showDiffView', view === 'gr-diff-view');
+      this.set('_showSettingsView', view === 'gr-settings-view');
+      this.set('_showAdminView', view === 'gr-admin-view');
+      this.set('_showCLAView', view === 'gr-cla-view');
       if (this.params.justRegistered) {
         this.$.registration.open();
       }
-      this.$.header.unfloat();
+    },
+
+    _loadPlugins: function(plugins) {
+      Gerrit._setPluginsCount(plugins.length);
+      for (var i = 0; i < plugins.length; i++) {
+        var scriptEl = document.createElement('script');
+        scriptEl.defer = true;
+        scriptEl.src = '/' + plugins[i];
+        scriptEl.onerror = Gerrit._pluginInstalled;
+        document.body.appendChild(scriptEl);
+      }
+    },
+
+    _loginTapHandler: function(e) {
+      e.preventDefault();
+      page.show('/login/' + encodeURIComponent(
+          window.location.pathname + window.location.hash));
     },
 
     // Argument used for binding update only.
-    _computeLoggedIn(account) {
+    _computeLoggedIn: function(account) {
       return !!(account && Object.keys(account).length > 0);
     },
 
-    _computeShowGwtUiLink(config) {
-      return config.gerrit.web_uis && config.gerrit.web_uis.includes('GWT');
+    _computeShowGwtUiLink: function(config) {
+      return config.gerrit.web_uis &&
+          config.gerrit.web_uis.indexOf('GWT') !== -1;
     },
 
-    _handlePageError(e) {
-      const props = [
+    _handlePageError: function(e) {
+      [
         '_showChangeListView',
         '_showDashboardView',
         '_showChangeView',
         '_showDiffView',
         '_showSettingsView',
-      ];
-      for (const showProp of props) {
+      ].forEach(function(showProp) {
         this.set(showProp, false);
-      }
+      }.bind(this));
 
-      this.$.errorView.classList.add('show');
-      const response = e.detail.response;
-      const err = {text: [response.status, response.statusText].join(' ')};
+      this.$.errorView.hidden = false;
+      var response = e.detail.response;
+      var err = {text: [response.status, response.statusText].join(' ')};
       if (response.status === 404) {
         err.emoji = '¯\\_(ツ)_/¯';
         this._lastError = err;
       } else {
         err.emoji = 'o_O';
-        response.text().then(text => {
+        response.text().then(function(text) {
           err.moreInfo = text;
           this._lastError = err;
-        });
+        }.bind(this));
       }
     },
 
-    _handleLocationChange(e) {
-      const hash = e.detail.hash.substring(1);
-      let pathname = e.detail.pathname;
-      if (pathname.startsWith('/c/') && parseInt(hash, 10) > 0) {
+    _handleLocationChange: function(e) {
+      var hash = e.detail.hash.substring(1);
+      var pathname = e.detail.pathname;
+      if (pathname.indexOf('/c/') === 0 && parseInt(hash, 10) > 0) {
         pathname += '@' + hash;
       }
       this.set('_path', pathname);
       this._handleSearchPageChange();
     },
 
-    _handleSearchPageChange() {
+    _handleSearchPageChange: function() {
       if (!this.params) {
         return;
       }
-      const viewsToCheck = [Gerrit.Nav.View.SEARCH, Gerrit.Nav.View.DASHBOARD];
-      if (viewsToCheck.includes(this.params.view)) {
+      var viewsToCheck = ['gr-change-list-view', 'gr-dashboard-view'];
+      if (viewsToCheck.indexOf(this.params.view) !== -1) {
         this.set('_lastSearchPage', location.pathname);
       }
     },
 
-    _handleTitleChange(e) {
+    _handleTitleChange: function(e) {
       if (e.detail.title) {
         document.title = e.detail.title + ' · Gerrit Code Review';
       } else {
@@ -209,29 +212,25 @@
       }
     },
 
-    _showKeyboardShortcuts(e) {
+    _showKeyboardShortcuts: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
       this.$.keyboardShortcuts.open();
     },
 
-    _handleKeyboardShortcutDialogClose() {
+    _handleKeyboardShortcutDialogClose: function() {
       this.$.keyboardShortcuts.close();
     },
 
-    _handleAccountDetailUpdate(e) {
+    _handleAccountDetailUpdate: function(e) {
       this.$.mainHeader.reload();
-      if (this.params.view === Gerrit.Nav.View.SETTINGS) {
+      if (this.params.view === 'gr-settings-view') {
         this.$$('gr-settings-view').reloadAccountDetail();
       }
     },
 
-    _handleRegistrationDialogClose(e) {
+    _handleRegistrationDialogClose: function(e) {
       this.params.justRegistered = false;
       this.$.registration.close();
-    },
-
-    _computeShadowClass(isShadowDom) {
-      return isShadowDom ? 'shadow' : '';
     },
   });
 })();

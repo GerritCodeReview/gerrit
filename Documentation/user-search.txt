@@ -12,6 +12,7 @@ query, execute it, and present the results.
 |All > Open           | status:open '(or is:open)'
 |All > Merged         | status:merged
 |All > Abandoned      | status:abandoned
+|My > Drafts          | owner:self is:draft
 |My > Watched Changes | is:watched is:open
 |My > Starred Changes | is:starred
 |My > Draft Comments  | has:draft
@@ -133,11 +134,6 @@ cc:'USER'::
 Changes that have the given user CC'ed on them. The special case of `cc:self`
 will find changes where the caller has been CC'ed.
 
-[[revertof]]
-revertof:'ID'::
-+
-Changes that revert the change specified by the numeric 'ID'.
-
 [[reviewerin]]
 reviewerin:'GROUP'::
 +
@@ -197,12 +193,6 @@ topic:'TOPIC'::
 Changes whose designated topic matches 'TOPIC' exactly.  This is
 often combined with 'branch:' and 'project:' operators to select
 all related changes in a series.
-
-[[hashtag]]
-hashtag:'HASHTAG'::
-+
-Changes whose link:intro-user.html#hashtags[hashtag] matches 'HASHTAG'.
-The match is case-insensitive.
 
 [[ref]]
 ref:'REF'::
@@ -354,6 +344,10 @@ is:open, is:pending::
 +
 True if the change is open.
 
+is:draft::
++
+True if the change is a draft.
+
 is:closed::
 +
 True if the change is either merged or abandoned.
@@ -384,22 +378,6 @@ destination branch.
 +
 Mergeability of abandoned changes is not computed. This operator will
 not find any abandoned but mergeable changes.
-
-[[ignored]]
-is:ignored::
-+
-True if the change is ignored. Same as `star:ignore`.
-
-[[private]]
-is:private::
-+
-True if the change is private, ie. only visible to owner and its
-reviewers.
-
-[[workInProgress]]
-is:wip::
-+
-True if the change is Work In Progress.
 
 [[status]]
 status:open, status:pending::
@@ -543,7 +521,7 @@ A label name is any of the following:
 
 A label name must be followed by either a score with optional operator,
 or a label status. The easiest way to explain this is by example.
-
++
 First, some examples of scores with operators:
 
 `label:Code-Review=2`::

@@ -20,7 +20,8 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-confirm-revert-dialog.html">
 
 <script>void(0);</script>
@@ -32,66 +33,62 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-confirm-revert-dialog tests', () => {
-    let element;
-    let sandbox;
+  suite('gr-confirm-revert-dialog tests', function() {
+    var element;
 
-    setup(() => {
+    setup(function() {
       element = fixture('basic');
-      sandbox =sinon.sandbox.create();
     });
 
-    teardown(() => sandbox.restore());
-
-    test('no match', () => {
+    test('no match', function() {
       assert.isNotOk(element.message);
-      const alertStub = sandbox.stub();
-      element.addEventListener('show-alert', alertStub);
+      var alertStub = sinon.stub(window, 'alert');
       element.populateRevertMessage('not a commitHash in sight', undefined);
       assert.isTrue(alertStub.calledOnce);
+      alertStub.restore();
     });
 
-    test('single line', () => {
+    test('single line', function() {
       assert.isNotOk(element.message);
       element.populateRevertMessage(
           'one line commit\n\nChange-Id: abcdefg\n',
           'abcd123');
-      const expected = 'Revert "one line commit"\n\n' +
-          'This reverts commit abcd123.\n\n' +
-          'Reason for revert: <INSERT REASONING HERE>\n';
+      var expected = 'Revert "one line commit"\n\n' +
+                     'This reverts commit abcd123.\n\n' +
+                     'Reason for revert: <INSERT REASONING HERE>\n';
       assert.equal(element.message, expected);
     });
 
-    test('multi line', () => {
+    test('multi line', function() {
       assert.isNotOk(element.message);
       element.populateRevertMessage(
           'many lines\ncommit\n\nmessage\n\nChange-Id: abcdefg\n',
           'abcd123');
-      const expected = 'Revert "many lines"\n\n' +
-          'This reverts commit abcd123.\n\n' +
-          'Reason for revert: <INSERT REASONING HERE>\n';
+      var expected = 'Revert "many lines"\n\n' +
+                     'This reverts commit abcd123.\n\n' +
+                     'Reason for revert: <INSERT REASONING HERE>\n';
       assert.equal(element.message, expected);
     });
 
-    test('issue above change id', () => {
+    test('issue above change id', function() {
       assert.isNotOk(element.message);
       element.populateRevertMessage(
           'much lines\nvery\n\ncommit\n\nBug: Issue 42\nChange-Id: abcdefg\n',
           'abcd123');
-      const expected = 'Revert "much lines"\n\n' +
-          'This reverts commit abcd123.\n\n' +
-          'Reason for revert: <INSERT REASONING HERE>\n';
+      var expected = 'Revert "much lines"\n\n' +
+                     'This reverts commit abcd123.\n\n' +
+                     'Reason for revert: <INSERT REASONING HERE>\n';
       assert.equal(element.message, expected);
     });
 
-    test('revert a revert', () => {
+    test('revert a revert', function() {
       assert.isNotOk(element.message);
       element.populateRevertMessage(
           'Revert "one line commit"\n\nChange-Id: abcdefg\n',
           'abcd123');
-      const expected = 'Revert "Revert "one line commit""\n\n' +
-          'This reverts commit abcd123.\n\n' +
-          'Reason for revert: <INSERT REASONING HERE>\n';
+      var expected = 'Revert "Revert "one line commit""\n\n' +
+                     'This reverts commit abcd123.\n\n' +
+                     'Reason for revert: <INSERT REASONING HERE>\n';
       assert.equal(element.message, expected);
     });
   });

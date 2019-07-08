@@ -21,26 +21,14 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
 
 <!--
-RobotoMono fonts are used in styles/fonts.css
+SourceCodePro fonts are used in styles/fonts.css
 @see https://github.com/w3c/preload/issues/32 regarding crossorigin
 -->
-<link rel="preload" href="/fonts/RobotoMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-<link rel="preload" href="/fonts/RobotoMono-Regular.woff" as="font" type="font/woff" crossorigin="anonymous">
-<link rel="preload" href="/fonts/Roboto-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-<link rel="preload" href="/fonts/Roboto-Regular.woff" as="font" type="font/woff" crossorigin="anonymous">
-<link rel="preload" href="/fonts/Roboto-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-<link rel="preload" href="/fonts/Roboto-Medium.woff" as="font" type="font/woff" crossorigin="anonymous">
+<link rel="preload" href="/fonts/SourceCodePro-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/SourceCodePro-Regular.woff" as="font" type="font/woff" crossorigin>
 <link rel="stylesheet" href="/styles/fonts.css">
 <link rel="stylesheet" href="/styles/main.css">
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<!--
-  - Content between webcomponents-lite and the load of the main app element
-  - run before polymer-resin is installed so may have security consequences.
-  - Contact your local security engineer if you have any questions, and
-  - CC them on any changes that load content before gr-app.html.
-  -
-  - github.com/Polymer/polymer-resin/blob/master/getting-started.md#integrating
-  -->
 <link rel="preload" href="/elements/gr-app.js" as="script" crossorigin="anonymous">
 <link rel="import" href="/elements/gr-app.html">
 

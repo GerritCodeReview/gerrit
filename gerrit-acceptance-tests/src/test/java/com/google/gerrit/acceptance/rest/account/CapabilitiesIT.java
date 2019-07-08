@@ -15,7 +15,7 @@
 package com.google.gerrit.acceptance.rest.account;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.common.data.GlobalCapability.ACCESS_DATABASE;
 import static com.google.gerrit.common.data.GlobalCapability.ADMINISTRATE_SERVER;
 import static com.google.gerrit.common.data.GlobalCapability.BATCH_CHANGES_LIMIT;
@@ -61,7 +61,8 @@ public class CapabilitiesIT extends AbstractDaemonTest {
           assertThat(info.queryLimit.min).isEqualTo((short) 0);
           assertThat(info.queryLimit.max).isEqualTo((short) DEFAULT_MAX_QUERY_LIMIT);
         } else {
-          assertWithMessage(String.format("capability %s was not granted", c))
+          assert_()
+              .withFailureMessage(String.format("capability %s was not granted", c))
               .that((Boolean) CapabilityInfo.class.getField(c).get(info))
               .isTrue();
         }
@@ -85,7 +86,7 @@ public class CapabilitiesIT extends AbstractDaemonTest {
       } else if (PRIORITY.equals(c)) {
         assertThat(info.priority).isFalse();
       } else if (QUERY_LIMIT.equals(c)) {
-        assertWithMessage("missing queryLimit").that(info.queryLimit).isNotNull();
+        assert_().withFailureMessage("missing queryLimit").that(info.queryLimit).isNotNull();
         assertThat(info.queryLimit.min).isEqualTo((short) 0);
         assertThat(info.queryLimit.max).isEqualTo((short) DEFAULT_MAX_QUERY_LIMIT);
       } else if (ACCESS_DATABASE.equals(c)) {
@@ -93,7 +94,8 @@ public class CapabilitiesIT extends AbstractDaemonTest {
       } else if (RUN_AS.equals(c)) {
         assertThat(info.runAs).isFalse();
       } else {
-        assertWithMessage(String.format("capability %s was not granted", c))
+        assert_()
+            .withFailureMessage(String.format("capability %s was not granted", c))
             .that((Boolean) CapabilityInfo.class.getField(c).get(info))
             .isTrue();
       }

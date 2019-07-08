@@ -25,10 +25,10 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.elasticsearch.builders.SearchSourceBuilder;
 import com.google.gerrit.elasticsearch.bulk.DeleteRequest;
-import com.google.gerrit.index.Index;
-import com.google.gerrit.index.Schema;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexUtils;
+import com.google.gerrit.server.index.Schema;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -82,7 +82,6 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     return content;
   }
 
-  private final ElasticConfiguration config;
   private final Schema<V> schema;
   private final SitePaths sitePaths;
   private final String indexNameRaw;
@@ -94,18 +93,17 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected final ElasticQueryBuilder queryBuilder;
 
   AbstractElasticIndex(
-      ElasticConfiguration config,
+      ElasticConfiguration cfg,
       SitePaths sitePaths,
       Schema<V> schema,
       ElasticRestClientProvider client,
       String indexName,
       String indexType) {
-    this.config = config;
     this.sitePaths = sitePaths;
     this.schema = schema;
     this.gson = new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
     this.queryBuilder = new ElasticQueryBuilder();
-    this.indexName = config.getIndexName(indexName, schema.getVersion());
+    this.indexName = cfg.getIndexName(indexName, schema.getVersion());
     this.indexNameRaw = indexName;
     this.client = client;
     this.type = client.adapter().getType(indexType);
@@ -149,7 +147,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   @Override
   public void deleteAll() throws IOException {
     // Delete the index, if it exists.
-    String endpoint = indexName + client.adapter().indicesExistParams();
+    String endpoint = indexName + client.adapter().indicesExistParam();
     Response response = performRequest("HEAD", endpoint);
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode == HttpStatus.SC_OK) {
@@ -162,10 +160,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     }
 
     // Recreate the index.
-    String indexCreationFields = concatJsonString(getSettings(client.adapter()), getMappings());
-    response =
-        performRequest(
-            "PUT", indexName + client.adapter().includeTypeNameParam(), indexCreationFields);
+    String indexCreationFields = concatJsonString(getSettings(), getMappings());
+    response = performRequest("PUT", indexName, indexCreationFields);
     statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
       String error = String.format("Failed to create index %s: %s", indexName, statusCode);
@@ -177,8 +173,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   protected abstract String getMappings();
 
-  private String getSettings(ElasticQueryAdapter adapter) {
-    return gson.toJson(ImmutableMap.of(SETTINGS, ElasticSetting.createSetting(config, adapter)));
+  private String getSettings() {
+    return gson.toJson(ImmutableMap.of(SETTINGS, ElasticSetting.createSetting()));
   }
 
   protected abstract String getId(V v);
@@ -188,15 +184,10 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   }
 
   protected String getMappingsFor(String type, MappingProperties properties) {
+    JsonObject mappingType = new JsonObject();
+    mappingType.add(type, gson.toJsonTree(properties));
     JsonObject mappings = new JsonObject();
-
-    if (client.adapter().omitType()) {
-      mappings.add(MAPPINGS, gson.toJsonTree(properties));
-    } else {
-      JsonObject mappingType = new JsonObject();
-      mappingType.add(type, gson.toJsonTree(properties));
-      mappings.add(MAPPINGS, gson.toJsonTree(mappingType));
-    }
+    mappings.add(MAPPINGS, gson.toJsonTree(mappingType));
     return gson.toJson(mappings);
   }
 
@@ -225,6 +216,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected JsonArray getSortArray(String idFieldName) {
     JsonObject properties = new JsonObject();
     properties.addProperty(ORDER, "asc");
+    client.adapter().setIgnoreUnmapped(properties);
 
     JsonArray sortArray = new JsonArray();
     addNamedElement(idFieldName, properties, sortArray);
@@ -232,13 +224,9 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   }
 
   protected String getURI(String type, String request) throws UnsupportedEncodingException {
+    String encodedType = URLEncoder.encode(type, UTF_8.toString());
     String encodedIndexName = URLEncoder.encode(indexName, UTF_8.toString());
-    if (SEARCH.equals(request) && client.adapter().omitType()) {
-      return encodedIndexName + "/" + request;
-    }
-    String encodedTypeIfAny =
-        client.adapter().omitType() ? "" : "/" + URLEncoder.encode(type, UTF_8.toString());
-    return encodedIndexName + encodedTypeIfAny + "/" + request;
+    return encodedIndexName + "/" + encodedType + "/" + request;
   }
 
   protected Response postRequest(String uri, Object payload) throws IOException {

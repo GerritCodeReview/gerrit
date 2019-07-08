@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -28,45 +27,39 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.ComparisonType;
 import com.google.gerrit.server.patch.Text;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.kohsuke.args4j.Option;
 
+@Singleton
 public class GetContent implements RestReadView<FileResource> {
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
   private final PatchSetUtil psUtil;
   private final FileContentUtil fileContentUtil;
-  private final ProjectCache projectCache;
-
-  @Option(name = "--parent")
-  private Integer parent;
 
   @Inject
   GetContent(
       Provider<ReviewDb> db,
       GitRepositoryManager gitManager,
       PatchSetUtil psUtil,
-      FileContentUtil fileContentUtil,
-      ProjectCache projectCache) {
+      FileContentUtil fileContentUtil) {
     this.db = db;
     this.gitManager = gitManager;
     this.psUtil = psUtil;
     this.fileContentUtil = fileContentUtil;
-    this.projectCache = projectCache;
   }
 
   @Override
   public BinaryResult apply(FileResource rsrc)
-      throws ResourceNotFoundException, IOException, BadRequestException, OrmException {
+      throws ResourceNotFoundException, IOException, NoSuchChangeException, OrmException {
     String path = rsrc.getPatchKey().get();
     if (Patch.COMMIT_MSG.equals(path)) {
       String msg = getMessage(rsrc.getRevision().getChangeResource().getNotes());
@@ -80,10 +73,9 @@ public class GetContent implements RestReadView<FileResource> {
           .base64();
     }
     return fileContentUtil.getContent(
-        projectCache.checkedGet(rsrc.getRevision().getProject()),
+        rsrc.getRevision().getControl().getProjectControl().getProjectState(),
         ObjectId.fromString(rsrc.getRevision().getPatchSet().getRevision().get()),
-        path,
-        parent);
+        path);
   }
 
   private String getMessage(ChangeNotes notes) throws OrmException, IOException {

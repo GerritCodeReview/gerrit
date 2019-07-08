@@ -15,7 +15,6 @@
 package com.google.gerrit.extensions.common;
 
 import java.util.List;
-import java.util.Objects;
 
 public class AccountInfo {
   public Integer _accountId;
@@ -30,34 +29,4 @@ public class AccountInfo {
   public AccountInfo(Integer id) {
     this._accountId = id;
   }
-
-  /** To be used ONLY in connection with unregistered reviewers and CCs. */
-  public AccountInfo(String name, String email) {
-    this.name = name;
-    this.email = email;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (o instanceof AccountInfo) {
-      AccountInfo accountInfo = (AccountInfo) o;
-      return Objects.equals(_accountId, accountInfo._accountId)
-          && Objects.equals(name, accountInfo.name)
-          && Objects.equals(email, accountInfo.email)
-          && Objects.equals(secondaryEmails, accountInfo.secondaryEmails)
-          && Objects.equals(username, accountInfo.username)
-          && Objects.equals(avatars, accountInfo.avatars)
-          && Objects.equals(_moreAccounts, accountInfo._moreAccounts)
-          && Objects.equals(status, accountInfo.status);
-    }
-    return false;
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(
-        _accountId, name, email, secondaryEmails, username, avatars, _moreAccounts, status);
-  }
-
-  protected AccountInfo() {}
 }

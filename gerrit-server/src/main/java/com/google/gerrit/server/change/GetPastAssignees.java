@@ -40,7 +40,7 @@ public class GetPastAssignees implements RestReadView<ChangeResource> {
   @Override
   public Response<List<AccountInfo>> apply(ChangeResource rsrc) throws OrmException {
 
-    Set<Account.Id> pastAssignees = rsrc.getNotes().load().getPastAssignees();
+    Set<Account.Id> pastAssignees = rsrc.getControl().getNotes().load().getPastAssignees();
     if (pastAssignees == null) {
       return Response.ok(Collections.emptyList());
     }

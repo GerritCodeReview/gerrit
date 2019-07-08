@@ -33,18 +33,13 @@ public class PluginsCollection
   private final DynamicMap<RestView<PluginResource>> views;
   private final PluginLoader loader;
   private final Provider<ListPlugins> list;
-  private final Provider<InstallPlugin> install;
 
   @Inject
   PluginsCollection(
-      DynamicMap<RestView<PluginResource>> views,
-      PluginLoader loader,
-      Provider<ListPlugins> list,
-      Provider<InstallPlugin> install) {
+      DynamicMap<RestView<PluginResource>> views, PluginLoader loader, Provider<ListPlugins> list) {
     this.views = views;
     this.loader = loader;
     this.list = list;
-    this.install = install;
   }
 
   @Override
@@ -55,24 +50,21 @@ public class PluginsCollection
   @Override
   public PluginResource parse(TopLevelResource parent, IdString id)
       throws ResourceNotFoundException {
-    return parse(id.get());
-  }
-
-  public PluginResource parse(String id) throws ResourceNotFoundException {
-    Plugin p = loader.get(id);
+    Plugin p = loader.get(id.get());
     if (p == null) {
       throw new ResourceNotFoundException(id);
     }
     return new PluginResource(p);
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public InstallPlugin create(TopLevelResource parent, IdString id)
       throws ResourceNotFoundException, MethodNotAllowedException {
     if (!loader.isRemoteAdminEnabled()) {
       throw new MethodNotAllowedException("remote installation is disabled");
     }
-    return install.get().setName(id.get()).setCreated(true);
+    return new InstallPlugin(loader, id.get(), true /* created */);
   }
 
   @Override

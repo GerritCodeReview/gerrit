@@ -20,7 +20,7 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
 <link rel="import" href="../../shared/gr-rest-api-interface/mock-diff-response_test.html">
 <link rel="import" href="gr-syntax-layer.html">
 
@@ -33,17 +33,17 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-syntax-layer tests', () => {
-    let sandbox;
-    let diff;
-    let element;
+  suite('gr-syntax-layer tests', function() {
+    var sandbox;
+    var diff;
+    var element;
 
     function getMockHLJS() {
-      const html = '<span class="gr-diff gr-syntax gr-syntax-string">' +
+      var html = '<span class="gr-diff gr-syntax gr-syntax-string">' +
           'ipsum</span>';
       return {
-        configure() {},
-        highlight(lang, line, ignore, state) {
+        configure: function() {},
+        highlight: function(lang, line, ignore, state) {
           return {
             value: line.replace(/ipsum/, html),
             top: state === undefined ? 1 : state + 1,
@@ -52,23 +52,23 @@ limitations under the License.
       };
     }
 
-    setup(() => {
+    setup(function() {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
-      const mock = document.createElement('mock-diff-response');
+      var mock = document.createElement('mock-diff-response');
       diff = mock.diffResponse;
       element.diff = diff;
     });
 
-    teardown(() => {
+    teardown(function() {
       sandbox.restore();
     });
 
-    test('annotate without range does nothing', () => {
-      const annotationSpy = sandbox.spy(GrAnnotation, 'annotateElement');
-      const el = document.createElement('div');
+    test('annotate without range does nothing', function() {
+      var annotationSpy = sandbox.spy(GrAnnotation, 'annotateElement');
+      var el = document.createElement('div');
       el.textContent = 'Etiam dui, blandit wisi.';
-      const line = new GrDiffLine(GrDiffLine.Type.REMOVE);
+      var line = new GrDiffLine(GrDiffLine.Type.REMOVE);
       line.beforeNumber = 12;
 
       element.annotate(el, line);
@@ -76,21 +76,21 @@ limitations under the License.
       assert.isFalse(annotationSpy.called);
     });
 
-    test('annotate with range applies it', () => {
-      const str = 'Etiam dui, blandit wisi.';
-      const start = 6;
-      const length = 3;
-      const className = 'foobar';
+    test('annotate with range applies it', function() {
+      var str = 'Etiam dui, blandit wisi.';
+      var start = 6;
+      var length = 3;
+      var className = 'foobar';
 
-      const annotationSpy = sandbox.spy(GrAnnotation, 'annotateElement');
-      const el = document.createElement('div');
+      var annotationSpy = sandbox.spy(GrAnnotation, 'annotateElement');
+      var el = document.createElement('div');
       el.textContent = str;
-      const line = new GrDiffLine(GrDiffLine.Type.REMOVE);
+      var line = new GrDiffLine(GrDiffLine.Type.REMOVE);
       line.beforeNumber = 12;
       element._baseRanges[11] = [{
-        start,
-        length,
-        className,
+        start: start,
+        length: length,
+        className: className,
       }];
 
       element.annotate(el, line);
@@ -103,21 +103,21 @@ limitations under the License.
       assert.isOk(el.querySelector('hl.' + className));
     });
 
-    test('annotate with range but disabled does nothing', () => {
-      const str = 'Etiam dui, blandit wisi.';
-      const start = 6;
-      const length = 3;
-      const className = 'foobar';
+    test('annotate with range but disabled does nothing', function() {
+      var str = 'Etiam dui, blandit wisi.';
+      var start = 6;
+      var length = 3;
+      var className = 'foobar';
 
-      const annotationSpy = sandbox.spy(GrAnnotation, 'annotateElement');
-      const el = document.createElement('div');
+      var annotationSpy = sandbox.spy(GrAnnotation, 'annotateElement');
+      var el = document.createElement('div');
       el.textContent = str;
-      const line = new GrDiffLine(GrDiffLine.Type.REMOVE);
+      var line = new GrDiffLine(GrDiffLine.Type.REMOVE);
       line.beforeNumber = 12;
       element._baseRanges[11] = [{
-        start,
-        length,
-        className,
+        start: start,
+        length: length,
+        className: className,
       }];
       element.enabled = false;
 
@@ -126,17 +126,17 @@ limitations under the License.
       assert.isFalse(annotationSpy.called);
     });
 
-    test('process on empty diff does nothing', done => {
+    test('process on empty diff does nothing', function(done) {
       element.diff = {
         meta_a: {content_type: 'application/json'},
         meta_b: {content_type: 'application/json'},
         content: [],
       };
-      const processNextSpy = sandbox.spy(element, '_processNextLine');
+      var processNextSpy = sandbox.spy(element, '_processNextLine');
 
-      const processPromise = element.process();
+      var processPromise = element.process();
 
-      processPromise.then(() => {
+      processPromise.then(function() {
         assert.isFalse(processNextSpy.called);
         assert.equal(element._baseRanges.length, 0);
         assert.equal(element._revisionRanges.length, 0);
@@ -144,17 +144,17 @@ limitations under the License.
       });
     });
 
-    test('process for unsupported languages does nothing', done => {
+    test('process for unsupported languages does nothing', function(done) {
       element.diff = {
         meta_a: {content_type: 'text/x+objective-cobol-plus-plus'},
         meta_b: {content_type: 'application/not-a-real-language'},
         content: [],
       };
-      const processNextSpy = sandbox.spy(element, '_processNextLine');
+      var processNextSpy = sandbox.spy(element, '_processNextLine');
 
-      const processPromise = element.process();
+      var processPromise = element.process();
 
-      processPromise.then(() => {
+      processPromise.then(function() {
         assert.isFalse(processNextSpy.called);
         assert.equal(element._baseRanges.length, 0);
         assert.equal(element._revisionRanges.length, 0);
@@ -162,14 +162,14 @@ limitations under the License.
       });
     });
 
-    test('process while disabled does nothing', done => {
-      const processNextSpy = sandbox.spy(element, '_processNextLine');
+    test('process while disabled does nothing', function(done) {
+      var processNextSpy = sandbox.spy(element, '_processNextLine');
       element.enabled = false;
-      const loadHLJSSpy = sandbox.spy(element, '_loadHLJS');
+      var loadHLJSSpy = sandbox.spy(element, '_loadHLJS');
 
-      const processPromise = element.process();
+      var processPromise = element.process();
 
-      processPromise.then(() => {
+      processPromise.then(function() {
         assert.isFalse(processNextSpy.called);
         assert.equal(element._baseRanges.length, 0);
         assert.equal(element._revisionRanges.length, 0);
@@ -178,20 +178,20 @@ limitations under the License.
       });
     });
 
-    test('process highlight ipsum', done => {
+    test('process highlight ipsum', function(done) {
       element.diff.meta_a.content_type = 'application/json';
       element.diff.meta_b.content_type = 'application/json';
 
-      const mockHLJS = getMockHLJS();
-      const highlightSpy = sinon.spy(mockHLJS, 'highlight');
+      var mockHLJS = getMockHLJS();
+      var highlightSpy = sinon.spy(mockHLJS, 'highlight');
       sandbox.stub(element.$.libLoader, 'get',
-          () => { return Promise.resolve(mockHLJS); });
-      const processNextSpy = sandbox.spy(element, '_processNextLine');
-      const processPromise = element.process();
+          function() { return Promise.resolve(mockHLJS); });
+      var processNextSpy = sandbox.spy(element, '_processNextLine');
+      var processPromise = element.process();
 
-      processPromise.then(() => {
-        const linesA = diff.meta_a.lines;
-        const linesB = diff.meta_b.lines;
+      processPromise.then(function() {
+        var linesA = diff.meta_a.lines;
+        var linesB = diff.meta_b.lines;
 
         assert.isTrue(processNextSpy.called);
         assert.equal(element._baseRanges.length, linesA);
@@ -200,39 +200,37 @@ limitations under the License.
         assert.equal(highlightSpy.callCount, linesA + linesB);
 
         // The first line of both sides have a range.
-        let ranges = [element._baseRanges[0], element._revisionRanges[0]];
-        for (const range of ranges) {
-          assert.equal(range.length, 1);
-          assert.equal(range[0].className,
-              'gr-diff gr-syntax gr-syntax-string');
-          assert.equal(range[0].start, 'lorem '.length);
-          assert.equal(range[0].length, 'ipsum'.length);
-        }
+        [element._baseRanges[0], element._revisionRanges[0]]
+            .forEach(function(range) {
+              assert.equal(range.length, 1);
+              assert.equal(range[0].className,
+                  'gr-diff gr-syntax gr-syntax-string');
+              assert.equal(range[0].start, 'lorem '.length);
+              assert.equal(range[0].length, 'ipsum'.length);
+            });
 
         // There are no ranges from ll.1-12 on the left and ll.1-11 on the
         // right.
-        ranges = element._baseRanges.slice(1, 12)
-            .concat(element._revisionRanges.slice(1, 11));
-
-        for (const range of ranges) {
-          assert.equal(range.length, 0);
-        }
+        element._baseRanges.slice(1, 12)
+            .concat(element._revisionRanges.slice(1, 11))
+            .forEach(function(range) {
+              assert.equal(range.length, 0);
+            });
 
         // There should be another pair of ranges on l.13 for the left and
         // l.12 for the right.
-        ranges = [element._baseRanges[13], element._revisionRanges[12]];
-
-        for (const range of ranges) {
-          assert.equal(range.length, 1);
-          assert.equal(range[0].className,
-              'gr-diff gr-syntax gr-syntax-string');
-          assert.equal(range[0].start, 32);
-          assert.equal(range[0].length, 'ipsum'.length);
-        }
+        [element._baseRanges[13], element._revisionRanges[12]]
+            .forEach(function(range) {
+              assert.equal(range.length, 1);
+              assert.equal(range[0].className,
+                  'gr-diff gr-syntax gr-syntax-string');
+              assert.equal(range[0].start, 32);
+              assert.equal(range[0].length, 'ipsum'.length);
+            });
 
         // The next group should have a similar instance on either side.
 
-        let range = element._baseRanges[15];
+        var range = element._baseRanges[15];
         assert.equal(range.length, 1);
         assert.equal(range[0].className, 'gr-diff gr-syntax gr-syntax-string');
         assert.equal(range[0].start, 34);
@@ -248,38 +246,38 @@ limitations under the License.
       });
     });
 
-    test('_diffChanged calls cancel', () => {
-      const cancelSpy = sandbox.spy(element, '_diffChanged');
+    test('_diffChanged calls cancel', function() {
+      var cancelSpy = sandbox.spy(element, '_diffChanged');
       element.diff = {content: []};
       assert.isTrue(cancelSpy.called);
     });
 
-    test('_rangesFromElement no ranges', () => {
-      const elem = document.createElement('span');
+    test('_rangesFromElement no ranges', function() {
+      var elem = document.createElement('span');
       elem.textContent = 'Etiam dui, blandit wisi.';
-      const offset = 100;
+      var offset = 100;
 
-      const result = element._rangesFromElement(elem, offset);
+      var result = element._rangesFromElement(elem, offset);
 
       assert.equal(result.length, 0);
     });
 
-    test('_rangesFromElement single range', () => {
-      const str0 = 'Etiam ';
-      const str1 = 'dui, blandit';
-      const str2 = ' wisi.';
-      const className = 'gr-diff gr-syntax gr-syntax-string';
-      const offset = 100;
+    test('_rangesFromElement single range', function() {
+      var str0 = 'Etiam ';
+      var str1 = 'dui, blandit';
+      var str2 = ' wisi.';
+      var className = 'gr-diff gr-syntax gr-syntax-string';
+      var offset = 100;
 
-      const elem = document.createElement('span');
+      var elem = document.createElement('span');
       elem.appendChild(document.createTextNode(str0));
-      const span = document.createElement('span');
+      var span = document.createElement('span');
       span.textContent = str1;
       span.className = className;
       elem.appendChild(span);
       elem.appendChild(document.createTextNode(str2));
 
-      const result = element._rangesFromElement(elem, offset);
+      var result = element._rangesFromElement(elem, offset);
 
       assert.equal(result.length, 1);
       assert.equal(result[0].start, str0.length + offset);
@@ -287,37 +285,37 @@ limitations under the License.
       assert.equal(result[0].className, className);
     });
 
-    test('_rangesFromElement non-whitelist', () => {
-      const str0 = 'Etiam ';
-      const str1 = 'dui, blandit';
-      const str2 = ' wisi.';
-      const className = 'not-in-the-whitelist';
-      const offset = 100;
+    test('_rangesFromElement non-whitelist', function() {
+      var str0 = 'Etiam ';
+      var str1 = 'dui, blandit';
+      var str2 = ' wisi.';
+      var className = 'not-in-the-whitelist';
+      var offset = 100;
 
-      const elem = document.createElement('span');
+      var elem = document.createElement('span');
       elem.appendChild(document.createTextNode(str0));
-      const span = document.createElement('span');
+      var span = document.createElement('span');
       span.textContent = str1;
       span.className = className;
       elem.appendChild(span);
       elem.appendChild(document.createTextNode(str2));
 
-      const result = element._rangesFromElement(elem, offset);
+      var result = element._rangesFromElement(elem, offset);
 
       assert.equal(result.length, 0);
     });
 
-    test('_rangesFromElement milti range', () => {
-      const str0 = 'Etiam ';
-      const str1 = 'dui,';
-      const str2 = ' blandit';
-      const str3 = ' wisi.';
-      const className = 'gr-diff gr-syntax gr-syntax-string';
-      const offset = 100;
+    test('_rangesFromElement milti range', function() {
+      var str0 = 'Etiam ';
+      var str1 = 'dui,';
+      var str2 = ' blandit';
+      var str3 = ' wisi.';
+      var className = 'gr-diff gr-syntax gr-syntax-string';
+      var offset = 100;
 
-      const elem = document.createElement('span');
+      var elem = document.createElement('span');
       elem.appendChild(document.createTextNode(str0));
-      let span = document.createElement('span');
+      var span = document.createElement('span');
       span.textContent = str1;
       span.className = className;
       elem.appendChild(span);
@@ -327,7 +325,7 @@ limitations under the License.
       span.className = className;
       elem.appendChild(span);
 
-      const result = element._rangesFromElement(elem, offset);
+      var result = element._rangesFromElement(elem, offset);
 
       assert.equal(result.length, 2);
 
@@ -341,27 +339,27 @@ limitations under the License.
       assert.equal(result[1].className, className);
     });
 
-    test('_rangesFromElement nested range', () => {
-      const str0 = 'Etiam ';
-      const str1 = 'dui,';
-      const str2 = ' blandit';
-      const str3 = ' wisi.';
-      const className = 'gr-diff gr-syntax gr-syntax-string';
-      const offset = 100;
+    test('_rangesFromElement nested range', function() {
+      var str0 = 'Etiam ';
+      var str1 = 'dui,';
+      var str2 = ' blandit';
+      var str3 = ' wisi.';
+      var className = 'gr-diff gr-syntax gr-syntax-string';
+      var offset = 100;
 
-      const elem = document.createElement('span');
+      var elem = document.createElement('span');
       elem.appendChild(document.createTextNode(str0));
-      const span1 = document.createElement('span');
+      var span1 = document.createElement('span');
       span1.textContent = str1;
       span1.className = className;
       elem.appendChild(span1);
-      const span2 = document.createElement('span');
+      var span2 = document.createElement('span');
       span2.textContent = str2;
       span2.className = className;
       span1.appendChild(span2);
       elem.appendChild(document.createTextNode(str3));
 
-      const result = element._rangesFromElement(elem, offset);
+      var result = element._rangesFromElement(elem, offset);
 
       assert.equal(result.length, 2);
 
@@ -374,17 +372,17 @@ limitations under the License.
       assert.equal(result[1].className, className);
     });
 
-    test('_rangesFromString whitelist allows recursion', () => {
-      const str = [
-        '<span class="non-whtelisted-class">',
-        '<span class="gr-diff gr-syntax gr-syntax-keyword">public</span>',
-        '</span>'].join('');
-      const result = element._rangesFromString(str);
+    test('_rangesFromString whitelist allows recursion', function() {
+      var str = [
+          '<span class="non-whtelisted-class">',
+            '<span class="gr-diff gr-syntax gr-syntax-keyword">public</span>',
+          '</span>'].join('');
+      var result = element._rangesFromString(str);
       assert.notEqual(result.length, 0);
     });
 
-    test('_isSectionDone', () => {
-      let state = {sectionIndex: 0, lineIndex: 0};
+    test('_isSectionDone', function() {
+      var state = {sectionIndex: 0, lineIndex: 0};
       assert.isFalse(element._isSectionDone(state));
 
       state = {sectionIndex: 0, lineIndex: 2};
@@ -409,9 +407,9 @@ limitations under the License.
       assert.isTrue(element._isSectionDone(state));
     });
 
-    test('workaround CPP LT directive', () => {
+    test('workaround CPP LT directive', function() {
       // Does nothing to regular line.
-      let line = 'int main(int argc, char** argv) { return 0; }';
+      var line = 'int main(int argc, char** argv) { return 0; }';
       assert.equal(element._workaround('cpp', line), line);
 
       // Does nothing to include directive.
@@ -420,7 +418,7 @@ limitations under the License.
 
       // Converts left-shift operator in #define.
       line = '#define GiB (1ull << 30)';
-      let expected = '#define GiB (1ull || 30)';
+      var expected = '#define GiB (1ull || 30)';
       assert.equal(element._workaround('cpp', line), expected);
 
       // Converts less-than operator in #if.
@@ -429,9 +427,9 @@ limitations under the License.
       assert.equal(element._workaround('cpp', line), expected);
     });
 
-    test('workaround Java param-annotation', () => {
+    test('workaround Java param-annotation', function() {
       // Does nothing to regular line.
-      let line = 'public static void foo(int bar) { }';
+      var line = 'public static void foo(int bar) { }';
       assert.equal(element._workaround('java', line), line);
 
       // Does nothing to regular annotation.
@@ -440,14 +438,14 @@ limitations under the License.
 
       // Converts parameterized annotation.
       line = 'public static void foo(@SuppressWarnings("unused") int bar) { }';
-      const expected = 'public static void foo(@SuppressWarnings "unused" ' +
+      var expected = 'public static void foo(@SuppressWarnings "unused" ' +
           ' int bar) { }';
       assert.equal(element._workaround('java', line), expected);
     });
 
-    test('workaround CPP whcar_t character literals', () => {
+    test('workaround CPP whcar_t character literals', function() {
       // Does nothing to regular line.
-      let line = 'int main(int argc, char** argv) { return 0; }';
+      var line = 'int main(int argc, char** argv) { return 0; }';
       assert.equal(element._workaround('cpp', line), line);
 
       // Does nothing to wchar_t string.
@@ -456,18 +454,13 @@ limitations under the License.
 
       // Converts wchar_t character literal to string.
       line = 'wchar_t myChar = L\'#\'';
-      let expected = 'wchar_t myChar = L"."';
-      assert.equal(element._workaround('cpp', line), expected);
-
-      // Converts wchar_t character literal with escape sequence to string.
-      line = 'wchar_t myChar = L\'\\"\'';
-      expected = 'wchar_t myChar = L"\\."';
+      var expected = 'wchar_t myChar = L"."';
       assert.equal(element._workaround('cpp', line), expected);
     });
 
-    test('workaround go backslash character literals', () => {
+    test('workaround go backslash character literals', function() {
       // Does nothing to regular line.
-      let line = 'func foo(in []byte) (lit []byte, n int, err error) {';
+      var line = 'func foo(in []byte) (lit []byte, n int, err error) {';
       assert.equal(element._workaround('go', line), line);
 
       // Does nothing to string with backslash literal
@@ -476,7 +469,7 @@ limitations under the License.
 
       // Converts backslash literal character to a string.
       line = 'c := \'\\\\\'';
-      const expected = 'c := "\\\\"';
+      var expected = 'c := "\\\\"';
       assert.equal(element._workaround('go', line), expected);
     });
   });

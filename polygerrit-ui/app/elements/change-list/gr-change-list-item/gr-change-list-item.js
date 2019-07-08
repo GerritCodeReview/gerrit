@@ -22,36 +22,33 @@
       labelNames: {
         type: Array,
       },
-
-      /** @type {?} */
       change: Object,
       changeURL: {
         type: String,
-        computed: '_computeChangeURL(change)',
+        computed: '_computeChangeURL(change._number)',
       },
       showStar: {
         type: Boolean,
         value: false,
       },
-      showNumber: Boolean,
     },
 
     behaviors: [
       Gerrit.BaseUrlBehavior,
       Gerrit.ChangeTableBehavior,
-      Gerrit.PathListBehavior,
       Gerrit.RESTClientBehavior,
       Gerrit.URLEncodingBehavior,
     ],
 
-    _computeChangeURL(change) {
-      return Gerrit.Nav.getUrlForChange(change);
+    _computeChangeURL: function(changeNum) {
+      if (!changeNum) { return ''; }
+      return this.getBaseUrl() + '/c/' + changeNum + '/';
     },
 
-    _computeLabelTitle(change, labelName) {
-      const label = change.labels[labelName];
+    _computeLabelTitle: function(change, labelName) {
+      var label = change.labels[labelName];
       if (!label) { return 'Label not applicable'; }
-      const significantLabel = label.rejected || label.approved ||
+      var significantLabel = label.rejected || label.approved ||
           label.disliked || label.recommended;
       if (significantLabel && significantLabel.name) {
         return labelName + '\nby ' + significantLabel.name;
@@ -59,12 +56,12 @@
       return labelName;
     },
 
-    _computeLabelClass(change, labelName) {
-      const label = change.labels[labelName];
+    _computeLabelClass: function(change, labelName) {
+      var label = change.labels[labelName];
       // Mimic a Set.
-      const classes = {
-        cell: true,
-        label: true,
+      var classes = {
+        'cell': true,
+        'label': true,
       };
       if (label) {
         if (label.approved) {
@@ -86,8 +83,8 @@
       return Object.keys(classes).sort().join(' ');
     },
 
-    _computeLabelValue(change, labelName) {
-      const label = change.labels[labelName];
+    _computeLabelValue: function(change, labelName) {
+      var label = change.labels[labelName];
       if (!label) { return ''; }
       if (label.approved) {
         return '✓';
@@ -104,22 +101,15 @@
       return '';
     },
 
-    _computeProjectURL(project) {
-      return Gerrit.Nav.getUrlForProject(project, true);
+    _computeProjectURL: function(project) {
+      return this.getBaseUrl() + '/q/status:open+project:' +
+          this.encodeURL(project, false);
     },
 
-    _computeProjectBranchURL(change) {
-      return Gerrit.Nav.getUrlForBranch(change.branch, change.project);
-    },
-
-    _computeTopicURL(change) {
-      if (!change.topic) { return ''; }
-      return Gerrit.Nav.getUrlForTopic(change.topic);
-    },
-
-    _computeTruncatedProject(project) {
-      if (!project) { return ''; }
-      return this.truncatePath(project, 2);
+    _computeProjectBranchURL: function(project, branch) {
+      // @see Issue 4255.
+      return this._computeProjectURL(project) +
+          '+branch:' + this.encodeURL(branch, false);
     },
   });
 })();

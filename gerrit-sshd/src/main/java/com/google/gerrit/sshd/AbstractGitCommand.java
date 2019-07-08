@@ -18,9 +18,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -46,12 +44,10 @@ public abstract class AbstractGitCommand extends BaseCommand {
   @Inject private IdentifiedUser.GenericFactory userFactory;
 
   protected Repository repo;
-  protected ProjectState state;
-  protected Project.NameKey projectName;
   protected Project project;
 
   @Override
-  public void start(Environment env) {
+  public void start(final Environment env) {
     Context ctx = context.subContext(newSession(), context.getCommandLine());
     final Context old = sshScope.set(ctx);
     try {
@@ -88,13 +84,11 @@ public abstract class AbstractGitCommand extends BaseCommand {
     return n;
   }
 
-  private void service() throws IOException, PermissionBackendException, Failure {
-    state = projectControl.getProjectState();
-    project = state.getProject();
-    projectName = project.getNameKey();
+  private void service() throws IOException, Failure {
+    project = projectControl.getProjectState().getProject();
 
     try {
-      repo = repoManager.openRepository(projectName);
+      repo = repoManager.openRepository(project.getNameKey());
     } catch (RepositoryNotFoundException e) {
       throw new Failure(1, "fatal: '" + project.getName() + "': not a git archive", e);
     }
@@ -106,5 +100,5 @@ public abstract class AbstractGitCommand extends BaseCommand {
     }
   }
 
-  protected abstract void runImpl() throws IOException, PermissionBackendException, Failure;
+  protected abstract void runImpl() throws IOException, Failure;
 }

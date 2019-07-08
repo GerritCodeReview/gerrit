@@ -20,7 +20,8 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-change-metadata.html">
 
 <script>void(0);</script>
@@ -32,50 +33,49 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-change-metadata tests', () => {
-    let element;
-    let sandbox;
+  suite('gr-change-metadata tests', function() {
+    var element;
+    var sandbox;
 
-    setup(() => {
+    setup(function() {
       sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
-        getLoggedIn() { return Promise.resolve(false); },
+        getConfig: function() { return Promise.resolve({}); },
+        getLoggedIn: function() { return Promise.resolve(false); },
       });
 
       element = fixture('basic');
     });
 
-    teardown(() => {
+    teardown(function() {
       sandbox.restore();
     });
 
-    test('computed fields', () => {
+    test('computed fields', function() {
       assert.isFalse(element._computeHideStrategy({status: 'NEW'}));
+      assert.isFalse(element._computeHideStrategy({status: 'DRAFT'}));
       assert.isTrue(element._computeHideStrategy({status: 'MERGED'}));
       assert.isTrue(element._computeHideStrategy({status: 'ABANDONED'}));
       assert.equal(element._computeStrategy({submit_type: 'CHERRY_PICK'}),
           'Cherry Pick');
-      assert.equal(element._computeStrategy({submit_type: 'REBASE_ALWAYS'}),
-          'Rebase Always');
     });
 
-    test('show strategy for open change', () => {
+    test('show strategy for open change', function() {
       element.change = {status: 'NEW', submit_type: 'CHERRY_PICK', labels: {}};
       flushAsynchronousOperations();
-      const strategy = element.$$('.strategy');
+      var strategy = element.$$('.strategy');
       assert.ok(strategy);
       assert.isFalse(strategy.hasAttribute('hidden'));
       assert.equal(strategy.children[1].innerHTML, 'Cherry Pick');
     });
 
-    test('hide strategy for closed change', () => {
+    test('hide strategy for closed change', function() {
       element.change = {status: 'MERGED', labels: {}};
       flushAsynchronousOperations();
       assert.isTrue(element.$$('.strategy').hasAttribute('hidden'));
     });
 
-    test('show CC section when NoteDb enabled', () => {
+    test('show CC section when NoteDb enabled', function() {
       function hasCc() {
         return element._showReviewersByState;
       }
@@ -87,54 +87,41 @@ limitations under the License.
       assert.isTrue(hasCc());
     });
 
-    test('computes submit status', () => {
-      let showMissingLabels = false;
-      sandbox.stub(element, '_showMissingLabels', () => {
-        return showMissingLabels;
-      });
-      assert.isFalse(element._showMissingRequirements(null, false));
-      assert.isTrue(element._showMissingRequirements(null, true));
-      showMissingLabels = true;
-      assert.isTrue(element._showMissingRequirements(null, false));
-    });
-
-    test('show missing labels', () => {
-      let labels = {};
-      assert.isFalse(element._showMissingLabels(labels));
+    test('computes submit status', function() {
+      var labels = {};
+      assert.equal(element._computeSubmitStatus(labels), 'Ready to submit');
       labels = {test: {}};
-      assert.isTrue(element._showMissingLabels(labels));
-      assert.deepEqual(element._computeMissingLabels(labels), ['test']);
+      assert.equal(element._computeSubmitStatus(labels), 'Needs test label');
       labels.test.approved = true;
-      assert.isFalse(element._showMissingLabels(labels));
+      assert.equal(element._computeSubmitStatus(labels), 'Ready to submit');
       labels.test.approved = false;
       labels.test.optional = true;
-      assert.isFalse(element._showMissingLabels(labels));
+      assert.equal(element._computeSubmitStatus(labels), 'Ready to submit');
       labels.test.optional = false;
       labels.test2 = {};
-      assert.isTrue(element._showMissingLabels(labels));
-      assert.deepEqual(element._computeMissingLabels(labels),
-          ['test', 'test2']);
+      assert.equal(element._computeSubmitStatus(labels),
+          'Needs test and test2 labels');
     });
 
-    test('weblinks hidden when no weblinks', () => {
+    test('weblinks hidden when no weblinks', function() {
       element.commitInfo = {};
       flushAsynchronousOperations();
-      const webLinks = element.$.webLinks;
+      var webLinks = element.$.webLinks;
       assert.isTrue(webLinks.hasAttribute('hidden'));
     });
 
-    test('weblinks hidden when only gitiles weblink', () => {
+    test('weblinks hidden when only gitiles weblink', function() {
       element.commitInfo = {web_links: [{name: 'gitiles', url: '#'}]};
       flushAsynchronousOperations();
-      const webLinks = element.$.webLinks;
+      var webLinks = element.$.webLinks;
       assert.isTrue(webLinks.hasAttribute('hidden'));
       assert.equal(element._computeWebLinks(element.commitInfo), null);
     });
 
-    test('weblinks are visible when other weblinks', () => {
+    test('weblinks are visible when other weblinks', function() {
       element.commitInfo = {web_links: [{name: 'test', url: '#'}]};
       flushAsynchronousOperations();
-      const webLinks = element.$.webLinks;
+      var webLinks = element.$.webLinks;
       assert.isFalse(webLinks.hasAttribute('hidden'));
       assert.equal(element._computeWebLinks(element.commitInfo).length, 1);
       // With two non-gitiles weblinks, there are two returned.
@@ -143,169 +130,19 @@ limitations under the License.
       assert.equal(element._computeWebLinks(element.commitInfo).length, 2);
     });
 
-    test('weblinks are visible when gitiles and other weblinks', () => {
+    test('weblinks are visible when gitiles and other weblinks', function() {
       element.commitInfo = {
         web_links: [{name: 'test', url: '#'}, {name: 'gitiles', url: '#'}]};
       flushAsynchronousOperations();
-      const webLinks = element.$.webLinks;
+      var webLinks = element.$.webLinks;
       assert.isFalse(webLinks.hasAttribute('hidden'));
       // Only the non-gitiles weblink is returned.
       assert.equal(element._computeWebLinks(element.commitInfo).length, 1);
     });
 
-    test('determines whether to show "Ready to Submit" label', () => {
-      const showMissingSpy = sandbox.spy(element, '_showMissingRequirements');
-      element.change = {status: 'NEW', submit_type: 'CHERRY_PICK', labels: {
-        test: {
-          all: [{_account_id: 1, name: 'bojack', value: 1}],
-          default_value: 0,
-          values: [],
-        },
-      }};
-      flushAsynchronousOperations();
-      assert.isTrue(showMissingSpy.called);
-    });
-
-    test('_computeShowUploader test for uploader', () => {
-      const change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        owner: {
-          _account_id: 1019328,
-        },
-        revisions: {
-          rev1: {
-            _number: 1,
-            uploader: {
-              _account_id: 1011123,
-            },
-          },
-        },
-        current_revision: 'rev1',
-        status: 'NEW',
-        labels: {},
-        mergeable: true,
-      };
-      assert.deepEqual(element._computeShowUploader(change),
-          {_account_id: 1011123});
-    });
-
-    test('_computeShowUploader test that it does not return uploader', () => {
-      const change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        owner: {
-          _account_id: 1011123,
-        },
-        revisions: {
-          rev1: {
-            _number: 1,
-            uploader: {
-              _account_id: 1011123,
-            },
-          },
-        },
-        current_revision: 'rev1',
-        status: 'NEW',
-        labels: {},
-        mergeable: true,
-      };
-      assert.isNotOk(element._computeShowUploader(change));
-    });
-
-    test('no current_revision makes _computeShowUploader return null', () => {
-      const change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        owner: {
-          _account_id: 1011123,
-        },
-        revisions: {
-          rev1: {
-            _number: 1,
-            uploader: {
-              _account_id: 1011123,
-            },
-          },
-        },
-        status: 'NEW',
-        labels: {},
-        mergeable: true,
-      };
-      assert.isNotOk(element._computeShowUploader(change));
-    });
-
-    test('_computeShowUploaderHide test for string which equals true', () => {
-      const change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        owner: {
-          _account_id: 1019328,
-        },
-        revisions: {
-          rev1: {
-            _number: 1,
-            uploader: {
-              _account_id: 1011123,
-            },
-          },
-        },
-        current_revision: 'rev1',
-        status: 'NEW',
-        labels: {},
-        mergeable: true,
-      };
-      assert.equal(element._computeShowUploaderHide(change), '');
-    });
-
-    test('_computeShowUploaderHide test for hideDisplay', () => {
-      const change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        owner: {
-          _account_id: 1011123,
-        },
-        revisions: {
-          rev1: {
-            _number: 1,
-            uploader: {
-              _account_id: 1011123,
-            },
-          },
-        },
-        current_revision: 'rev1',
-        status: 'NEW',
-        labels: {},
-        mergeable: true,
-      };
-      assert.equal(
-          element._computeShowUploaderHide(change), 'hideDisplay');
-    });
-
-    test('_computeValueTooltip', () => {
-      // Existing label.
-      const change = {labels: {'Foo-bar': {values: {0: 'Baz'}}}};
-      let score = '0';
-      let labelName = 'Foo-bar';
-      let actual = element._computeValueTooltip(change, score, labelName);
-      assert.equal(actual, 'Baz');
-
-      // Non-extsistent label.
-      labelName = 'xyz';
-      actual = element._computeValueTooltip(change, score, labelName);
-      assert.equal(actual, '');
-
-      // Non-extsistent score.
-      score = '2';
-      actual = element._computeValueTooltip(change, score, labelName);
-      assert.equal(actual, '');
-
-      // No values on label.
-      labelName = 'abcd';
-      score = '0';
-      change.labels.abcd = {};
-      actual = element._computeValueTooltip(change, score, labelName);
-      assert.equal(actual, '');
-    });
-
-    suite('Topic removal', () => {
-      let change;
-      setup(() => {
+    suite('Topic removal', function() {
+      var change;
+      setup(function() {
         change = {
           _number: 'the number',
           actions: {
@@ -326,8 +163,8 @@ limitations under the License.
         };
       });
 
-      test('_computeTopicReadOnly', () => {
-        let mutable = false;
+      test('_computeTopicReadOnly', function() {
+        var mutable = false;
         assert.isTrue(element._computeTopicReadOnly(mutable, change));
         mutable = true;
         assert.isTrue(element._computeTopicReadOnly(mutable, change));
@@ -337,96 +174,31 @@ limitations under the License.
         assert.isTrue(element._computeTopicReadOnly(mutable, change));
       });
 
-      test('topic read only hides delete button', () => {
+      test('topic read only hides delete button', function() {
         element.mutable = false;
         element.change = change;
         flushAsynchronousOperations();
-        const button = element.$$('gr-linked-chip').$$('gr-button');
+        var button = element.$$('gr-linked-chip').$$('gr-button');
         assert.isTrue(button.hasAttribute('hidden'));
       });
 
-      test('topic not read only does not hide delete button', () => {
+      test('topic not read only does not hide delete button', function() {
         element.mutable = true;
         change.actions.topic.enabled = true;
         element.change = change;
         flushAsynchronousOperations();
-        const button = element.$$('gr-linked-chip').$$('gr-button');
+        var button = element.$$('gr-linked-chip').$$('gr-button');
         assert.isFalse(button.hasAttribute('hidden'));
       });
     });
 
-    suite('Hashtag removal', () => {
-      let change;
-      setup(() => {
-        change = {
-          _number: 'the number',
-          actions: {
-            hashtags: {enabled: false},
-          },
-          change_id: 'the id',
-          hashtags: ['test-hashtag'],
-          status: 'NEW',
-          submit_type: 'CHERRY_PICK',
-          labels: {
-            test: {
-              all: [{_account_id: 1, name: 'bojack', value: 1}],
-              default_value: 0,
-              values: [],
-            },
-          },
-          removable_reviewers: [],
-        };
-      });
-
-      test('_computeHashtagReadOnly', () => {
-        element.serverConfig = {
-          note_db_enabled: true,
-        };
-        flushAsynchronousOperations();
-        let mutable = false;
-        assert.isTrue(element._computeHashtagReadOnly(mutable, change));
-        mutable = true;
-        assert.isTrue(element._computeHashtagReadOnly(mutable, change));
-        change.actions.hashtags.enabled = true;
-        assert.isFalse(element._computeHashtagReadOnly(mutable, change));
-        mutable = false;
-        assert.isTrue(element._computeHashtagReadOnly(mutable, change));
-      });
-
-      test('hashtag read only hides delete button', () => {
-        element.serverConfig = {
-          note_db_enabled: true,
-        };
-        flushAsynchronousOperations();
-        element.mutable = false;
-        element.change = change;
-        flushAsynchronousOperations();
-        const button = element.$$('gr-linked-chip').$$('gr-button');
-        assert.isTrue(button.hasAttribute('hidden'));
-      });
-
-      test('hashtag not read only does not hide delete button', () => {
-        element.serverConfig = {
-          note_db_enabled: true,
-        };
-        flushAsynchronousOperations();
-        element.mutable = true;
-        change.actions.hashtags.enabled = true;
-        element.change = change;
-        flushAsynchronousOperations();
-        const button = element.$$('gr-linked-chip').$$('gr-button');
-        assert.isFalse(button.hasAttribute('hidden'));
-      });
-    });
-
-    suite('remove reviewer votes', () => {
-      setup(() => {
+    suite('remove reviewer votes', function() {
+      setup(function() {
         sandbox.stub(element, '_computeValueTooltip').returns('');
         sandbox.stub(element, '_computeTopicReadOnly').returns(true);
         element.change = {
-          _number: 42,
+          _number: 'the number',
           change_id: 'the id',
-          actions: [],
           topic: 'the topic',
           status: 'NEW',
           submit_type: 'CHERRY_PICK',
@@ -439,141 +211,96 @@ limitations under the License.
           },
           removable_reviewers: [],
         };
-        flushAsynchronousOperations();
       });
 
-      test('_computeCanDeleteVote hides delete button', () => {
-        const button = element.$$('gr-account-chip').$$('gr-button');
+      test('_computeCanDeleteVote hides delete button', function() {
+        flushAsynchronousOperations();
+        var button = element.$$('gr-account-chip').$$('gr-button');
         assert.isTrue(button.hasAttribute('hidden'));
         element.mutable = true;
         assert.isTrue(button.hasAttribute('hidden'));
       });
 
-      test('_computeCanDeleteVote shows delete button', () => {
+      test('_computeCanDeleteVote shows delete button', function() {
         element.change.removable_reviewers = [
           {
             _account_id: 1,
             name: 'bojack',
-          },
+          }
         ];
         element.mutable = true;
-        const button = element.$$('gr-account-chip').$$('gr-button');
+        flushAsynchronousOperations();
+        var button = element.$$('gr-account-chip').$$('gr-button');
         assert.isFalse(button.hasAttribute('hidden'));
       });
 
-      test('deletes votes', done => {
-        const deleteStub = sandbox.stub(element.$.restAPI, 'deleteVote')
-            .returns(Promise.resolve({ok: true}));
-
+      test('deletes votes', function(done) {
+        sandbox.stub(element.$.restAPI, 'deleteVote')
+            .returns(Promise.resolve({'ok': true}));
         element.change.removable_reviewers = [
           {
             _account_id: 1,
             name: 'bojack',
-          },
+          }
         ];
-        element.change.labels.test.recommended = {_account_id: 1};
         element.mutable = true;
         flushAsynchronousOperations();
-        const chip = element.$$('gr-account-chip');
-        const button = chip.$$('gr-button');
-
-        const spliceStub = sandbox.stub(element, 'splice', (path, index,
-            length) => {
-          assert.isFalse(chip.disabled);
+        var button = element.$$('gr-account-chip').$$('gr-button');
+        MockInteractions.tap(button);
+        flushAsynchronousOperations();
+        var spliceStub = sinon.stub(element, 'splice',
+            function(path, index, length) {
           assert.deepEqual(path, ['change.labels', 'test', 'all']);
           assert.equal(index, 0);
           assert.equal(length, 1);
-          assert.notOk(element.change.labels.test.recommended);
-          assert.isTrue(deleteStub.calledWithExactly(42, 1, 'test'));
           spliceStub.restore();
           done();
         });
-
-        MockInteractions.tap(button);
-        assert.isTrue(chip.disabled);
       });
 
-      test('changing topic', () => {
-        const newTopic = 'the new topic';
-        sandbox.stub(element.$.restAPI, 'setChangeTopic').returns(
-            Promise.resolve(newTopic));
-        element._handleTopicChanged({}, newTopic);
-        const topicChangedSpy = sandbox.spy();
-        element.addEventListener('topic-changed', topicChangedSpy);
-        assert.isTrue(element.$.restAPI.setChangeTopic.calledWith(
-            42, newTopic));
-        return element.$.restAPI.setChangeTopic.lastCall.returnValue
-            .then(() => {
-              assert.equal(element.change.topic, newTopic);
-              assert.isTrue(topicChangedSpy.called);
-            });
+      test('changing topic calls setChangeTopic', function() {
+        var topicStub = sandbox.stub(element.$.restAPI, 'setChangeTopic',
+            function() {});
+        element._handleTopicChanged({}, 'the new topic');
+        assert.isTrue(topicStub.calledWith('the number', 'the new topic'));
       });
 
-      test('topic removal', () => {
-        sandbox.stub(element.$.restAPI, 'setChangeTopic').returns(
-            Promise.resolve());
-        const chip = element.$$('gr-linked-chip');
-        const remove = chip.$.remove;
-        const topicChangedSpy = sandbox.spy();
-        element.addEventListener('topic-changed', topicChangedSpy);
-        MockInteractions.tap(remove);
-        assert.isTrue(chip.disabled);
-        assert.isTrue(element.$.restAPI.setChangeTopic.calledWith(
-            42, null));
-        return element.$.restAPI.setChangeTopic.lastCall.returnValue
-            .then(() => {
-              assert.isFalse(chip.disabled);
-              assert.equal(element.change.topic, '');
-              assert.isTrue(topicChangedSpy.called);
-            });
+      test('topic href has quotes', function() {
+        var hrefArr = element._computeTopicHref('test')
+            .split('%2522'); // Double-escaped quote.
+        assert.equal(hrefArr[1], 'test');
       });
 
-      test('changing hashtag', () => {
-        element.serverConfig = {
-          note_db_enabled: true,
-        };
+      test('clicking x on topic chip removes topic', function() {
+        var topicStub = sandbox.stub(element.$.restAPI, 'setChangeTopic');
         flushAsynchronousOperations();
-        element._newHashtag = 'new hashtag';
-        const newHashtag = ['new hashtag'];
-        sandbox.stub(element.$.restAPI, 'setChangeHashtag').returns(
-            Promise.resolve(newHashtag));
-        element._handleHashtagChanged({}, 'new hashtag');
-        assert.isTrue(element.$.restAPI.setChangeHashtag.calledWith(
-            42, {add: ['new hashtag']}));
-        return element.$.restAPI.setChangeHashtag.lastCall.returnValue
-            .then(() => {
-              assert.equal(element.change.hashtags, newHashtag);
-            });
+        var remove = element.$$('gr-linked-chip').$.remove;
+        MockInteractions.tap(remove);
+        assert.equal(element.change.topic, '');
+        assert.isTrue(topicStub.called);
       });
 
-      suite('assignee field', () => {
-        const dummyAccount = {
+      suite('assignee field', function() {
+        var dummyAccount = {
           _account_id: 1,
           name: 'bojack',
         };
-        const change = {
-          actions: {
-            assignee: {enabled: false},
-          },
-          assignee: dummyAccount,
-        };
-        let deleteStub;
-        let setStub;
-
-        setup(() => {
+        var deleteStub;
+        var setStub;
+        setup(function() {
           deleteStub = sandbox.stub(element.$.restAPI, 'deleteAssignee');
           setStub = sandbox.stub(element.$.restAPI, 'setAssignee');
         });
 
-        test('changing change recomputes _assignee', () => {
+        test('changing change recomputes _assignee', function() {
           assert.isFalse(!!element._assignee.length);
-          const change = element.change;
+          var change = element.change;
           change.assignee = dummyAccount;
           element._changeChanged(change);
           assert.deepEqual(element._assignee[0], dummyAccount);
         });
 
-        test('modifying _assignee calls API', () => {
+        test('modifying _assignee calls API', function() {
           assert.isFalse(!!element._assignee.length);
           element.set('_assignee', [dummyAccount]);
           assert.isTrue(setStub.calledOnce);
@@ -585,17 +312,6 @@ limitations under the License.
           assert.equal(element.change.assignee, undefined);
           element.set('_assignee', []);
           assert.isTrue(deleteStub.calledOnce);
-        });
-
-        test('_computeAssigneeReadOnly', () => {
-          let mutable = false;
-          assert.isTrue(element._computeAssigneeReadOnly(mutable, change));
-          mutable = true;
-          assert.isTrue(element._computeAssigneeReadOnly(mutable, change));
-          change.actions.assignee.enabled = true;
-          assert.isFalse(element._computeAssigneeReadOnly(mutable, change));
-          mutable = false;
-          assert.isTrue(element._computeAssigneeReadOnly(mutable, change));
         });
       });
     });

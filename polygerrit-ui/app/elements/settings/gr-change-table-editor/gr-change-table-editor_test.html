@@ -20,7 +20,8 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-change-table-editor.html">
 
 <script>void(0);</script>
@@ -32,12 +33,12 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-change-table-editor tests', () => {
-    let element;
-    let columns;
-    let sandbox;
+  suite('gr-change-table-editor tests', function() {
+    var element;
+    var columns;
+    var sandbox;
 
-    setup(() => {
+    setup(function() {
       element = fixture('basic');
       sandbox = sinon.sandbox.create();
 
@@ -45,7 +46,6 @@ limitations under the License.
         'Subject',
         'Status',
         'Owner',
-        'Assignee',
         'Project',
         'Branch',
         'Updated',
@@ -55,48 +55,46 @@ limitations under the License.
       flushAsynchronousOperations();
     });
 
-    teardown(() => {
+    teardown(function() {
       sandbox.restore();
     });
 
-    test('renders', () => {
-      const rows = element.$$('tbody').querySelectorAll('tr');
-      let tds;
+    test('renders', function() {
+      var rows = element.$$('tbody').querySelectorAll('tr');
+      var tds;
 
-      // The `+ 1` is for the number column, which isn't included in the change
-      // table behavior's list.
-      assert.equal(rows.length, element.columnNames.length + 1);
-      for (let i = 0; i < columns.length; i++) {
-        tds = rows[i + 1].querySelectorAll('td');
+      assert.equal(rows.length, element.columnNames.length);
+      for (var i = 0; i < columns.length; i++) {
+        tds = rows[i].querySelectorAll('td');
         assert.equal(tds[0].textContent, columns[i]);
       }
     });
 
-    test('hide item', () => {
-      const checkbox = element.$$('table tr:nth-child(2) input');
-      const isChecked = checkbox.checked;
-      const displayedLength = element.displayedColumns.length;
+    test('hide item', function() {
+      var checkbox = element.$$('table input');
+      var isChecked = checkbox.checked;
+      var displayedLength = element.displayedColumns.length;
       assert.isTrue(isChecked);
 
       MockInteractions.tap(checkbox);
       flushAsynchronousOperations();
 
-      assert.equal(element.displayedColumns.length, displayedLength - 1);
+      assert.equal(element.displayedColumns.length,
+          displayedLength - 1);
     });
 
-    test('show item', () => {
+    test('show item', function() {
       element.set('displayedColumns', [
         'Status',
         'Owner',
-        'Assignee',
         'Project',
         'Branch',
         'Updated',
       ]);
       flushAsynchronousOperations();
-      const checkbox = element.$$('table tr:nth-child(2) input');
-      const isChecked = checkbox.checked;
-      const displayedLength = element.displayedColumns.length;
+      var checkbox = element.$$('table input');
+      var isChecked = checkbox.checked;
+      var displayedLength = element.displayedColumns.length;
       assert.isFalse(isChecked);
       assert.equal(element.$$('table').style.display, '');
 
@@ -107,11 +105,11 @@ limitations under the License.
           displayedLength + 1);
     });
 
-    test('_handleTargetTap', () => {
-      const checkbox = element.$$('table tr:nth-child(2) input');
-      let originalDisplayedColumns = element.displayedColumns;
-      const td = element.$$('table tr:nth-child(2) .checkboxContainer');
-      const displayedColumnStub =
+    test('_handleTargetTap', function() {
+      var checkbox = element.$$('table input');
+      var originalDisplayedColumns = element.displayedColumns;
+      var td = element.$$('table .checkboxContainer');
+      var displayedColumnStub =
           sandbox.stub(element, '_updateDisplayedColumns');
 
       MockInteractions.tap(checkbox);
@@ -128,28 +126,13 @@ limitations under the License.
           checkbox.checked));
     });
 
-    test('_handleTargetTap on number', () => {
-      element.showNumber = false;
-      const checkbox = element.$$('table tr:nth-child(1) input');
-      const displayedColumnStub =
-          sandbox.stub(element, '_updateDisplayedColumns');
-
-      MockInteractions.tap(checkbox);
-      assert.isFalse(displayedColumnStub.called);
-      assert.isTrue(element.showNumber);
-
-      MockInteractions.tap(checkbox);
-      assert.isFalse(element.showNumber);
-    });
-
-    test('_updateDisplayedColumns', () => {
-      let name = 'Subject';
-      let checked = false;
+    test('_updateDisplayedColumns', function() {
+      var name = 'Subject';
+      var checked = false;
       assert.deepEqual(element._updateDisplayedColumns(columns, name, checked),
           [
             'Status',
             'Owner',
-            'Assignee',
             'Project',
             'Branch',
             'Updated',
@@ -161,7 +144,6 @@ limitations under the License.
             'Subject',
             'Status',
             'Owner',
-            'Assignee',
             'Project',
             'Branch',
             'Updated',

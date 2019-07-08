@@ -20,37 +20,35 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
 <link rel="import" href="gr-select.html">
 
 <script>void(0);</script>
 
 <test-fixture id="basic">
   <template>
-    <gr-select>
-      <select>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-      </select>
-    </gr-select>
+    <select is="gr-select">
+      <option value="1">One</option>
+      <option value="2">Two</option>
+      <option value="3">Three</option>
+    </select>
   </template>
 </test-fixture>
 
 <script>
-  suite('gr-select tests', () => {
-    let element;
+  suite('gr-select tests', function() {
+    var element;
 
-    setup(() => {
+    setup(function() {
       element = fixture('basic');
     });
 
-    test('bidirectional binding property-to-attribute', () => {
-      const changeStub = sinon.stub();
+    test('bidirectional binding property-to-attribute', function() {
+      var changeStub = sinon.stub();
       element.addEventListener('bind-value-changed', changeStub);
 
       // The selected element should be the first one by default.
-      assert.equal(element.nativeSelect.value, '1');
+      assert.equal(element.value, '1');
       assert.equal(element.bindValue, '1');
       assert.isFalse(changeStub.called);
 
@@ -58,26 +56,26 @@ limitations under the License.
       element.bindValue = '2';
 
       // It should be updated.
-      assert.equal(element.nativeSelect.value, '2');
+      assert.equal(element.value, '2');
       assert.equal(element.bindValue, '2');
       assert.isTrue(changeStub.called);
     });
 
-    test('bidirectional binding attribute-to-property', () => {
-      const changeStub = sinon.stub();
+    test('bidirectional binding attribute-to-property', function() {
+      var changeStub = sinon.stub();
       element.addEventListener('bind-value-changed', changeStub);
 
       // The selected element should be the first one by default.
-      assert.equal(element.nativeSelect.value, '1');
+      assert.equal(element.value, '1');
       assert.equal(element.bindValue, '1');
       assert.isFalse(changeStub.called);
 
       // Now change the value.
-      element.nativeSelect.value = '3';
+      element.value = '3';
       element.fire('change');
 
       // It should be updated.
-      assert.equal(element.nativeSelect.value, '3');
+      assert.equal(element.value, '3');
       assert.equal(element.bindValue, '3');
       assert.isTrue(changeStub.called);
     });

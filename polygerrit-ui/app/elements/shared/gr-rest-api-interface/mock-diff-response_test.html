@@ -15,51 +15,51 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
 <dom-module id="mock-diff-response">
   <template></template>
   <script>
     (function() {
       'use strict';
 
-      const RESPONSE = {
-        meta_a: {
-          name: 'lorem-ipsum.txt',
-          content_type: 'text/plain',
-          lines: 45,
+      var RESPONSE = {
+        'meta_a': {
+          'name': 'lorem-ipsum.txt',
+          'content_type': 'text/plain',
+          'lines': 45,
         },
-        meta_b: {
-          name: 'lorem-ipsum.txt',
-          content_type: 'text/plain',
-          lines: 48,
+        'meta_b': {
+          'name': 'lorem-ipsum.txt',
+          'content_type': 'text/plain',
+          'lines': 48,
         },
-        intraline_status: 'OK',
-        change_type: 'MODIFIED',
-        diff_header: [
+        'intraline_status': 'OK',
+        'change_type': 'MODIFIED',
+        'diff_header': [
           'diff --git a/lorem-ipsum.txt b/lorem-ipsum.txt',
           'index b2adcf4..554ae49 100644',
           '--- a/lorem-ipsum.txt',
           '+++ b/lorem-ipsum.txt',
         ],
-        content: [
+        'content': [
           {
-            ab: [
+            'ab': [
               'Lorem ipsum dolor sit amet, suspendisse inceptos vehicula, ' +
                 'nulla phasellus.',
               'Mattis lectus.',
               'Sodales duis.',
               'Orci a faucibus.',
-            ],
+            ]
           },
           {
-            b: [
+            'b': [
               'Nullam neque, ligula ac, id blandit.',
               'Sagittis tincidunt torquent, tempor nunc amet.',
               'At rhoncus id.',
             ],
           },
           {
-            ab: [
+            'ab': [
               'Sem nascetur, erat ut, non in.',
               'A donec, venenatis pellentesque dis.',
               'Mauris mauris.',
@@ -68,7 +68,7 @@ limitations under the License.
             ],
           },
           {
-            a: [
+            'a': [
               'Est amet, vestibulum pellentesque.',
               'Erat ligula.',
               'Justo eros.',
@@ -76,25 +76,25 @@ limitations under the License.
             ],
           },
           {
-            ab: [
+            'ab': [
               'Arcu eget, rhoncus amet cursus, ipsum elementum.',
               'Eros suspendisse.',
             ],
           },
           {
-            a: [
+            'a': [
               'Rhoncus tempor, ultricies aliquam ipsum.',
             ],
-            b: [
+            'b': [
               'Rhoncus tempor, ultricies praesent ipsum.',
             ],
-            edit_a: [
+            'edit_a': [
               [
                 26,
                 7,
               ],
             ],
-            edit_b: [
+            'edit_b': [
               [
                 26,
                 8,
@@ -102,7 +102,7 @@ limitations under the License.
             ],
           },
           {
-            ab: [
+            'ab': [
               'Sollicitudin duis.',
               'Blandit blandit, ante nisl fusce.',
               'Felis ac at, tellus consectetuer.',
@@ -131,7 +131,7 @@ limitations under the License.
             ],
           },
           {
-            b: [
+            'b': [
               'Eu congue risus.',
               'Enim ac, quis elementum.',
               'Non et elit.',
@@ -139,7 +139,7 @@ limitations under the License.
             ],
           },
           {
-            ab: [
+            'ab': [
               'Nec at.',
               'Arcu mauris, venenatis lacus fermentum, praesent duis.',
               'Pellentesque amet et, tellus duis.',
@@ -155,7 +155,7 @@ limitations under the License.
         properties: {
           diffResponse: {
             type: Object,
-            value() {
+            value: function() {
               return RESPONSE;
             },
           },

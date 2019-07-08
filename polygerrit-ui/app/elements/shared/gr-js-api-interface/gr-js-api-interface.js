@@ -14,7 +14,7 @@
 (function() {
   'use strict';
 
-  const EventType = {
+  var EventType = {
     HISTORY: 'history',
     LABEL_CHANGE: 'labelchange',
     SHOW_CHANGE: 'showchange',
@@ -25,7 +25,7 @@
     POST_REVERT: 'postrevert',
   };
 
-  const Element = {
+  var Element = {
     CHANGE_ACTIONS: 'changeactions',
     REPLY_DIALOG: 'replydialog',
   };
@@ -36,21 +36,19 @@
     properties: {
       _elements: {
         type: Object,
-        value: {}, // Shared across all instances.
+        value: {},  // Shared across all instances.
       },
       _eventCallbacks: {
         type: Object,
-        value: {}, // Shared across all instances.
+        value: {},  // Shared across all instances.
       },
     },
 
-    behaviors: [Gerrit.PatchSetBehavior],
+    Element: Element,
+    EventType: EventType,
 
-    Element,
-    EventType,
-
-    handleEvent(type, detail) {
-      Gerrit.awaitPluginsLoaded().then(() => {
+    handleEvent: function(type, detail) {
+      Gerrit.awaitPluginsLoaded().then(function() {
         switch (type) {
           case EventType.HISTORY:
             this._handleHistory(detail);
@@ -69,27 +67,27 @@
                 type);
             break;
         }
-      });
+      }.bind(this));
     },
 
-    addElement(key, el) {
+    addElement: function(key, el) {
       this._elements[key] = el;
     },
 
-    getElement(key) {
+    getElement: function(key) {
       return this._elements[key];
     },
 
-    addEventCallback(eventName, callback) {
+    addEventCallback: function(eventName, callback) {
       if (!this._eventCallbacks[eventName]) {
         this._eventCallbacks[eventName] = [];
       }
       this._eventCallbacks[eventName].push(callback);
     },
 
-    canSubmitChange(change, revision) {
-      const submitCallbacks = this._getEventCallbacks(EventType.SUBMIT_CHANGE);
-      const cancelSubmit = submitCallbacks.some(callback => {
+    canSubmitChange: function(change, revision) {
+      var submitCallbacks = this._getEventCallbacks(EventType.SUBMIT_CHANGE);
+      var cancelSubmit = submitCallbacks.some(function(callback) {
         try {
           return callback(change, revision) === false;
         } catch (err) {
@@ -101,31 +99,30 @@
       return !cancelSubmit;
     },
 
-    _removeEventCallbacks() {
-      for (const k in EventType) {
-        if (!EventType.hasOwnProperty(k)) { continue; }
+    _removeEventCallbacks: function() {
+      for (var k in EventType) {
         this._eventCallbacks[EventType[k]] = [];
       }
     },
 
-    _handleHistory(detail) {
-      for (const cb of this._getEventCallbacks(EventType.HISTORY)) {
+    _handleHistory: function(detail) {
+      this._getEventCallbacks(EventType.HISTORY).forEach(function(cb) {
         try {
           cb(detail.path);
         } catch (err) {
           console.error(err);
         }
-      }
+      });
     },
 
-    _handleShowChange(detail) {
-      for (const cb of this._getEventCallbacks(EventType.SHOW_CHANGE)) {
-        const change = detail.change;
-        const patchNum = detail.patchNum;
-        let revision;
-        for (const rev of Object.values(change.revisions || {})) {
-          if (this.patchNumEquals(rev._number, patchNum)) {
-            revision = rev;
+    _handleShowChange: function(detail) {
+      this._getEventCallbacks(EventType.SHOW_CHANGE).forEach(function(cb) {
+        var change = detail.change;
+        var patchNum = detail.patchNum;
+        var revision;
+        for (var rev in change.revisions) {
+          if (change.revisions[rev]._number == patchNum) {
+            revision = change.revisions[rev];
             break;
           }
         }
@@ -134,63 +131,67 @@
         } catch (err) {
           console.error(err);
         }
-      }
+      });
     },
 
-    handleCommitMessage(change, msg) {
-      for (const cb of this._getEventCallbacks(EventType.COMMIT_MSG_EDIT)) {
-        try {
-          cb(change, msg);
-        } catch (err) {
-          console.error(err);
-        }
-      }
+    handleCommitMessage: function(change, msg) {
+      this._getEventCallbacks(EventType.COMMIT_MSG_EDIT).forEach(
+          function(cb) {
+            try {
+              cb(change, msg);
+            } catch (err) {
+              console.error(err);
+            }
+          }
+      );
     },
 
-    _handleComment(detail) {
-      for (const cb of this._getEventCallbacks(EventType.COMMENT)) {
+    _handleComment: function(detail) {
+      this._getEventCallbacks(EventType.COMMENT).forEach(function(cb) {
         try {
           cb(detail.node);
         } catch (err) {
           console.error(err);
         }
-      }
+      });
     },
 
-    _handleLabelChange(detail) {
-      for (const cb of this._getEventCallbacks(EventType.LABEL_CHANGE)) {
+    _handleLabelChange: function(detail) {
+      this._getEventCallbacks(EventType.LABEL_CHANGE).forEach(function(cb) {
         try {
           cb(detail.change);
         } catch (err) {
           console.error(err);
         }
-      }
+      });
     },
 
-    modifyRevertMsg(change, revertMsg, origMsg) {
-      for (const cb of this._getEventCallbacks(EventType.REVERT)) {
+    modifyRevertMsg: function(change, revertMsg, origMsg) {
+      this._getEventCallbacks(EventType.REVERT).forEach(function(callback) {
         try {
-          revertMsg = cb(change, revertMsg, origMsg);
+          revertMsg = callback(change, revertMsg, origMsg);
         } catch (err) {
           console.error(err);
         }
-      }
+      });
       return revertMsg;
     },
 
-    getLabelValuesPostRevert(change) {
-      let labels = {};
-      for (const cb of this._getEventCallbacks(EventType.POST_REVERT)) {
-        try {
-          labels = cb(change);
-        } catch (err) {
-          console.error(err);
-        }
-      }
+    getLabelValuesPostRevert: function(change) {
+      var labels = {};
+      this._getEventCallbacks(EventType.POST_REVERT).forEach(
+          function(callback) {
+            try {
+              labels = callback(change);
+            } catch (err) {
+              console.error(err);
+            }
+          }
+      );
       return labels;
     },
 
-    _getEventCallbacks(type) {
+    _getEventCallbacks: function(type) {
       return this._eventCallbacks[type] || [];
     },
   });

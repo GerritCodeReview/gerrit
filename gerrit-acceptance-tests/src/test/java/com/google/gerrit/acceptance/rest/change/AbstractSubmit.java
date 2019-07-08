@@ -16,7 +16,7 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth8.assertThat;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
@@ -32,7 +32,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
@@ -41,7 +40,6 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
-import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -67,7 +65,6 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
-import com.google.gerrit.server.change.Submit.TestSubmitInput;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.validators.OnSubmitValidationListener;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -82,7 +79,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -99,8 +95,6 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.ReceiveCommand;
-import org.eclipse.jgit.transport.RefSpec;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -117,6 +111,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Inject private Submit submitHandler;
 
   @Inject private IdentifiedUser.GenericFactory userFactory;
+
+  @Inject private BatchUpdate.Factory updateFactory;
 
   @Inject private DynamicSet<OnSubmitValidationListener> onSubmitValidationListeners;
   private RegistrationHandle onSubmitValidatorHandle;
@@ -310,7 +306,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   public void submitNoPermission() throws Exception {
     // create project where submit is blocked
     Project.NameKey p = createProject("p");
-    block(p, "refs/*", Permission.SUBMIT, REGISTERED_USERS);
+    block(Permission.SUBMIT, REGISTERED_USERS, "refs/*", p);
 
     TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), repo);
@@ -479,59 +475,37 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(commitsInRepo)
         .containsAllOf("Initial empty repository", "Change 1", "Change 2", "Change 3");
     if (getSubmitType() == SubmitType.MERGE_ALWAYS) {
-      assertThat(commitsInRepo).contains("Merge changes from topic \"" + expectedTopic + "\"");
+      assertThat(commitsInRepo).contains("Merge changes from topic '" + expectedTopic + "'");
     }
   }
 
   @Test
-  public void submitReusingOldTopic() throws Exception {
-    assume().that(isSubmitWholeTopicEnabled()).isTrue();
-
-    String topic = "test-topic";
-    PushOneCommit.Result change1 = createChange("Change 1", "a.txt", "content", topic);
-    PushOneCommit.Result change2 = createChange("Change 2", "a.txt", "content", topic);
-    String id1 = change1.getChangeId();
-    String id2 = change2.getChangeId();
-    approve(id1);
-    approve(id2);
-    assertSubmittedTogether(id1, ImmutableList.of(id1, id2));
-    assertSubmittedTogether(id2, ImmutableList.of(id1, id2));
-    submit(id2);
-
-    String expectedTopic = name(topic);
-    change1.assertChange(Change.Status.MERGED, expectedTopic, admin);
-    change2.assertChange(Change.Status.MERGED, expectedTopic, admin);
-    assertSubmittedTogether(id1, ImmutableList.of(id1, id2));
-    assertSubmittedTogether(id2, ImmutableList.of(id1, id2));
-
-    PushOneCommit.Result change3 = createChange("Change 3", "c.txt", "content", topic);
-    String id3 = change3.getChangeId();
-    approve(id3);
-    assertSubmittedTogether(id3, ImmutableList.of());
-    submit(id3);
-
-    change3.assertChange(Change.Status.MERGED, expectedTopic, admin);
-    assertSubmittedTogether(id3, ImmutableList.of());
-  }
-
-  private void assertSubmittedTogether(String changeId, Iterable<String> expected)
-      throws Exception {
-    assertThat(gApi.changes().id(changeId).submittedTogether().stream().map(i -> i.changeId))
-        .containsExactlyElementsIn(expected);
-  }
-
-  @Test
-  public void submitWorkInProgressChange() throws Exception {
-    PushOneCommit.Result change = createWorkInProgressChange();
-    Change.Id num = change.getChange().getId();
+  public void submitDraftChange() throws Exception {
+    PushOneCommit.Result draft = createDraftChange();
+    Change.Id num = draft.getChange().getId();
     submitWithConflict(
-        change.getChangeId(),
+        draft.getChangeId(),
         "Failed to submit 1 change due to the following problems:\n"
             + "Change "
             + num
             + ": Change "
             + num
-            + " is work in progress");
+            + " is draft");
+  }
+
+  @Test
+  public void submitDraftPatchSet() throws Exception {
+    PushOneCommit.Result change = createChange();
+    PushOneCommit.Result draft = amendChangeAsDraft(change.getChangeId());
+    Change.Id num = draft.getChange().getId();
+
+    submitWithConflict(
+        draft.getChangeId(),
+        "Failed to submit 1 change due to the following problems:\n"
+            + "Change "
+            + num
+            + ": submit rule error: "
+            + "Cannot submit draft patch sets");
   }
 
   @Test
@@ -782,16 +756,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
         new OnSubmitValidationListener() {
           @Override
           public void preBranchUpdate(Arguments args) throws ValidationException {
-            String master = "refs/heads/master";
-            assertThat(args.getCommands()).containsKey(master);
-            ReceiveCommand cmd = args.getCommands().get(master);
-            ObjectId newMasterId = cmd.getNewId();
-            try (Repository repo = repoManager.openRepository(args.getProject())) {
-              assertThat(repo.exactRef(master).getObjectId()).isEqualTo(cmd.getOldId());
-              assertThat(args.getRef(master)).hasValue(newMasterId);
-              args.getRevWalk().parseBody(args.getRevWalk().parseCommit(newMasterId));
+            assertThat(args.getCommands().keySet()).contains("refs/heads/master");
+            try (RevWalk rw = args.newRevWalk()) {
+              rw.parseBody(rw.parseCommit(args.getCommands().get("refs/heads/master").getNewId()));
             } catch (IOException e) {
-              throw new AssertionError("failed checking new ref value", e);
+              throw new ValidationException("Unexpected exception", e);
             }
             projectsCalled.add(args.getProject().get());
             if (projectsCalled.size() == 2) {
@@ -814,181 +783,10 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
   }
 
-  @Test
-  public void submitWithCommitAndItsMergeCommitTogether() throws Exception {
-    assume().that(isSubmitWholeTopicEnabled()).isTrue();
-
-    RevCommit initialHead = getRemoteHead();
-
-    // Create a stable branch and bootstrap it.
-    gApi.projects().name(project.get()).branch("stable").create(new BranchInput());
-    PushOneCommit push =
-        pushFactory.create(db, user.getIdent(), testRepo, "initial commit", "a.txt", "a");
-    PushOneCommit.Result change = push.to("refs/heads/stable");
-
-    RevCommit stable = getRemoteHead(project, "stable");
-    RevCommit master = getRemoteHead(project, "master");
-
-    assertThat(master).isEqualTo(initialHead);
-    assertThat(stable).isEqualTo(change.getCommit());
-
-    testRepo.git().fetch().call();
-    testRepo.git().branchCreate().setName("stable").setStartPoint(stable).call();
-    testRepo.git().branchCreate().setName("master").setStartPoint(master).call();
-
-    // Create a fix in stable branch.
-    testRepo.reset(stable);
-    RevCommit fix =
-        testRepo
-            .commit()
-            .parent(stable)
-            .message("small fix")
-            .add("b.txt", "b")
-            .insertChangeId()
-            .create();
-    testRepo.branch("refs/heads/stable").update(fix);
-    testRepo
-        .git()
-        .push()
-        .setRefSpecs(new RefSpec("refs/heads/stable:refs/for/stable/" + name("topic")))
-        .call();
-
-    // Merge the fix into master.
-    testRepo.reset(master);
-    RevCommit merge =
-        testRepo
-            .commit()
-            .parent(master)
-            .parent(fix)
-            .message("Merge stable into master")
-            .insertChangeId()
-            .create();
-    testRepo.branch("refs/heads/master").update(merge);
-    testRepo
-        .git()
-        .push()
-        .setRefSpecs(new RefSpec("refs/heads/master:refs/for/master/" + name("topic")))
-        .call();
-
-    // Submit together.
-    String fixId = GitUtil.getChangeId(testRepo, fix).get();
-    String mergeId = GitUtil.getChangeId(testRepo, merge).get();
-    approve(fixId);
-    approve(mergeId);
-    submit(mergeId);
-    assertMerged(fixId);
-    assertMerged(mergeId);
-    testRepo.git().fetch().call();
-    RevWalk rw = testRepo.getRevWalk();
-    master = rw.parseCommit(getRemoteHead(project, "master"));
-    assertThat(rw.isMergedInto(merge, master)).isTrue();
-    assertThat(rw.isMergedInto(fix, master)).isTrue();
-  }
-
-  @Test
-  public void retrySubmitSingleChangeOnLockFailure() throws Exception {
-    assume().that(notesMigration.disableChangeReviewDb()).isTrue();
-
-    PushOneCommit.Result change = createChange();
-    String id = change.getChangeId();
-    approve(id);
-
-    TestSubmitInput input = new TestSubmitInput();
-    input.generateLockFailures =
-        new ArrayDeque<>(
-            ImmutableList.of(
-                true, // Attempt 1: lock failure
-                false, // Attempt 2: success
-                false)); // Leftover value to check total number of calls.
-    submit(id, input);
-    assertMerged(id);
-
-    testRepo.git().fetch().call();
-    RevWalk rw = testRepo.getRevWalk();
-    RevCommit master = rw.parseCommit(getRemoteHead(project, "master"));
-    RevCommit patchSet = parseCurrentRevision(rw, change);
-    assertThat(rw.isMergedInto(patchSet, master)).isTrue();
-
-    assertThat(input.generateLockFailures).containsExactly(false);
-  }
-
-  @Test
-  public void retrySubmitAfterTornTopicOnLockFailure() throws Exception {
-    assume().that(notesMigration.disableChangeReviewDb()).isTrue();
-    assume().that(isSubmitWholeTopicEnabled()).isTrue();
-
-    String topic = "test-topic";
-
-    TestRepository<?> repoA = createProjectWithPush("project-a", null, getSubmitType());
-    TestRepository<?> repoB = createProjectWithPush("project-b", null, getSubmitType());
-
-    PushOneCommit.Result change1 =
-        createChange(repoA, "master", "Change 1", "a.txt", "content", topic);
-    PushOneCommit.Result change2 =
-        createChange(repoB, "master", "Change 2", "b.txt", "content", topic);
-
-    approve(change1.getChangeId());
-    approve(change2.getChangeId());
-
-    TestSubmitInput input = new TestSubmitInput();
-    input.generateLockFailures =
-        new ArrayDeque<>(
-            ImmutableList.of(
-                false, // Change 1, attempt 1: success
-                true, // Change 2, attempt 1: lock failure
-                false, // Change 1, attempt 2: success
-                false, // Change 2, attempt 2: success
-                false)); // Leftover value to check total number of calls.
-    submit(change2.getChangeId(), input);
-
-    String expectedTopic = name(topic);
-    change1.assertChange(Change.Status.MERGED, expectedTopic, admin);
-    change2.assertChange(Change.Status.MERGED, expectedTopic, admin);
-
-    repoA.git().fetch().call();
-    RevWalk rwA = repoA.getRevWalk();
-    RevCommit masterA = rwA.parseCommit(getRemoteHead(name("project-a"), "master"));
-    RevCommit change1Ps = parseCurrentRevision(rwA, change1);
-    assertThat(rwA.isMergedInto(change1Ps, masterA)).isTrue();
-
-    repoB.git().fetch().call();
-    RevWalk rwB = repoB.getRevWalk();
-    RevCommit masterB = rwB.parseCommit(getRemoteHead(name("project-b"), "master"));
-    RevCommit change2Ps = parseCurrentRevision(rwB, change2);
-    assertThat(rwB.isMergedInto(change2Ps, masterB)).isTrue();
-
-    assertThat(input.generateLockFailures).containsExactly(false);
-  }
-
-  @Test
-  public void authorAndCommitDateAreEqual() throws Exception {
-    assume().that(getSubmitType()).isNotEqualTo(SubmitType.FAST_FORWARD_ONLY);
-
-    ConfigInput ci = new ConfigInput();
-    ci.matchAuthorToCommitterDate = InheritableBoolean.TRUE;
-    gApi.projects().name(project.get()).config(ci);
-
-    RevCommit initialHead = getRemoteHead();
-    testRepo.reset(initialHead);
-    PushOneCommit.Result change = createChange("Change 1", "b", "b");
-
-    testRepo.reset(initialHead);
-    PushOneCommit.Result change2 = createChange("Change 2", "c", "c");
-
-    if (getSubmitType() == SubmitType.MERGE_IF_NECESSARY
-        || getSubmitType() == SubmitType.REBASE_IF_NECESSARY) {
-      // Merge another change so that change2 is not a fast-forward
-      submit(change.getChangeId());
-    }
-
-    submit(change2.getChangeId());
-    assertAuthorAndCommitDateEquals(getRemoteHead());
-  }
-
   private void setChangeStatusToNew(PushOneCommit.Result... changes) throws Exception {
     for (PushOneCommit.Result change : changes) {
       try (BatchUpdate bu =
-          batchUpdateFactory.create(db, project, userFactory.create(admin.id), TimeUtil.nowTs())) {
+          updateFactory.create(db, project, userFactory.create(admin.id), TimeUtil.nowTs())) {
         bu.addOp(
             change.getChange().getId(),
             new BatchUpdateOp() {
@@ -1138,12 +936,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(actual.getTimeZone()).isEqualTo(expected.getTimeZone());
   }
 
-  protected void assertAuthorAndCommitDateEquals(RevCommit commit) {
-    assertThat(commit.getAuthorIdent().getWhen()).isEqualTo(commit.getCommitterIdent().getWhen());
-    assertThat(commit.getAuthorIdent().getTimeZone())
-        .isEqualTo(commit.getCommitterIdent().getTimeZone());
-  }
-
   protected void assertSubmitter(String changeId, int psId) throws Exception {
     assertSubmitter(changeId, psId, admin);
   }
@@ -1178,7 +970,10 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     Repository repo = testRepo.getRepository();
     RevCommit localHead = getHead(repo);
     RevCommit remoteHead = getRemoteHead();
-    assertThat(localHead.getId()).isNotEqualTo(remoteHead.getId());
+    assert_()
+        .withFailureMessage(String.format("%s not equal %s", localHead.name(), remoteHead.name()))
+        .that(localHead.getId())
+        .isNotEqualTo(remoteHead.getId());
     assertThat(remoteHead.getParentCount()).isEqualTo(1);
     if (!contentMerge) {
       assertThat(getLatestRemoteDiff()).isEqualTo(getLatestDiff(repo));

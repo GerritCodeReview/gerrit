@@ -17,7 +17,7 @@ package com.google.gerrit.httpd.auth.container;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Strings.emptyToNull;
 import static com.google.common.net.HttpHeaders.AUTHORIZATION;
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_GERRIT;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -26,7 +26,7 @@ import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.RemoteUserUtil;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.raw.HostPageServlet;
-import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
@@ -66,7 +66,8 @@ class HttpAuthFilter implements Filter {
   private final boolean userNameToLowerCase;
 
   @Inject
-  HttpAuthFilter(DynamicItem<WebSession> webSession, AuthConfig authConfig) throws IOException {
+  HttpAuthFilter(final DynamicItem<WebSession> webSession, final AuthConfig authConfig)
+      throws IOException {
     this.sessionProvider = webSession;
 
     final String pageName = "LoginRedirect.html";
@@ -85,7 +86,8 @@ class HttpAuthFilter implements Filter {
   }
 
   @Override
-  public void doFilter(final ServletRequest request, ServletResponse response, FilterChain chain)
+  public void doFilter(
+      final ServletRequest request, final ServletResponse response, final FilterChain chain)
       throws IOException, ServletException {
     if (isSessionValid((HttpServletRequest) request)) {
       chain.doFilter(request, response);
@@ -163,7 +165,7 @@ class HttpAuthFilter implements Filter {
   }
 
   @Override
-  public void init(FilterConfig filterConfig) {}
+  public void init(final FilterConfig filterConfig) {}
 
   @Override
   public void destroy() {}

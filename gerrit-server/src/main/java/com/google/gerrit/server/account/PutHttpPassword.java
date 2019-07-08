@@ -14,25 +14,18 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PutHttpPassword.Input;
-import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
-import com.google.gerrit.server.mail.send.HttpPasswordUpdateSender;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -41,12 +34,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
-  private static final Logger log = LoggerFactory.getLogger(PutHttpPassword.class);
-
   public static class Input {
     public String httpPassword;
     public boolean generate;
@@ -64,33 +53,23 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
   }
 
   private final Provider<CurrentUser> self;
-  private final PermissionBackend permissionBackend;
-  private final ExternalIds externalIds;
+  private final Provider<ReviewDb> dbProvider;
   private final ExternalIdsUpdate.User externalIdsUpdate;
-  private final HttpPasswordUpdateSender.Factory httpPasswordUpdateSenderFactory;
 
   @Inject
   PutHttpPassword(
       Provider<CurrentUser> self,
-      PermissionBackend permissionBackend,
-      ExternalIds externalIds,
-      ExternalIdsUpdate.User externalIdsUpdate,
-      HttpPasswordUpdateSender.Factory httpPasswordUpdateSenderFactory) {
+      Provider<ReviewDb> dbProvider,
+      ExternalIdsUpdate.User externalIdsUpdate) {
     this.self = self;
-    this.permissionBackend = permissionBackend;
-    this.externalIds = externalIds;
+    this.dbProvider = dbProvider;
     this.externalIdsUpdate = externalIdsUpdate;
-    this.httpPasswordUpdateSenderFactory = httpPasswordUpdateSenderFactory;
   }
 
   @Override
   public Response<String> apply(AccountResource rsrc, Input input)
       throws AuthException, ResourceNotFoundException, ResourceConflictException, OrmException,
-          IOException, ConfigInvalidException, PermissionBackendException {
-    if (!self.get().hasSameAccountId(rsrc.getUser())) {
-      permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
-    }
-
+          IOException, ConfigInvalidException {
     if (input == null) {
       input = new Input();
     }
@@ -98,44 +77,49 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
 
     String newPassword;
     if (input.generate) {
+      if (!self.get().hasSameAccountId(rsrc.getUser())
+          && !self.get().getCapabilities().canAdministrateServer()) {
+        throw new AuthException("not allowed to generate HTTP password");
+      }
       newPassword = generate();
+
     } else if (input.httpPassword == null) {
+      if (!self.get().hasSameAccountId(rsrc.getUser())
+          && !self.get().getCapabilities().canAdministrateServer()) {
+        throw new AuthException("not allowed to clear HTTP password");
+      }
       newPassword = null;
     } else {
-      // Only administrators can explicitly set the password.
-      permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
+      if (!self.get().getCapabilities().canAdministrateServer()) {
+        throw new AuthException(
+            "not allowed to set HTTP password directly, "
+                + "requires the Administrate Server permission");
+      }
       newPassword = input.httpPassword;
     }
     return apply(rsrc.getUser(), newPassword);
   }
 
-  // Used by the serviceuser plugin
-  // TODO(dpursehouse): Replace comment with @UsedAt
   public Response<String> apply(IdentifiedUser user, String newPassword)
-      throws ResourceNotFoundException, ResourceConflictException, OrmException, IOException,
-          ConfigInvalidException {
+      throws ResourceNotFoundException, ResourceConflictException, OrmException, IOException {
     if (user.getUserName() == null) {
       throw new ResourceConflictException("username must be set");
     }
 
-    ExternalId extId = externalIds.get(ExternalId.Key.create(SCHEME_USERNAME, user.getUserName()));
+    ExternalId extId =
+        ExternalId.from(
+            dbProvider
+                .get()
+                .accountExternalIds()
+                .get(
+                    ExternalId.Key.create(SCHEME_USERNAME, user.getUserName())
+                        .asAccountExternalIdKey()));
     if (extId == null) {
       throw new ResourceNotFoundException();
     }
     ExternalId newExtId =
         ExternalId.createWithPassword(extId.key(), extId.accountId(), extId.email(), newPassword);
-    externalIdsUpdate.create().upsert(newExtId);
-
-    try {
-      httpPasswordUpdateSenderFactory
-          .create(user, newPassword == null ? "deleted" : "added or updated")
-          .send();
-    } catch (EmailException e) {
-      log.error(
-          "Cannot send HttpPassword update message to {}",
-          user.getAccount().getPreferredEmail(),
-          e);
-    }
+    externalIdsUpdate.create().upsert(dbProvider.get(), newExtId);
 
     return Strings.isNullOrEmpty(newPassword) ? Response.<String>none() : Response.ok(newPassword);
   }

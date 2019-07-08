@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
-import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.formatTime;
 import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.REVIEW_DB;
@@ -63,7 +62,8 @@ import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.PrimaryStorageMigrator;
 import com.google.gerrit.server.notedb.TestChangeRebuilderWrapper;
-import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.NoteDbMode;
 import com.google.gerrit.testutil.TestTimeUtil;
@@ -97,13 +97,13 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
   }
 
   @Inject private AllUsersName allUsers;
+  @Inject private BatchUpdate.Factory batchUpdateFactory;
   @Inject private ChangeBundleReader bundleReader;
   @Inject private CommentsUtil commentsUtil;
   @Inject private TestChangeRebuilderWrapper rebuilderWrapper;
-  @Inject private ChangeNotes.Factory changeNotesFactory;
+  @Inject private ChangeControl.GenericFactory changeControlFactory;
   @Inject private ChangeUpdate.Factory updateFactory;
   @Inject private InternalUser.Factory internalUserFactory;
-  @Inject private RetryHelper retryHelper;
 
   private PrimaryStorageMigrator migrator;
 
@@ -124,11 +124,11 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
         allUsers,
         rebuilderWrapper,
         ensureRebuiltRetryer,
-        changeNotesFactory,
+        changeControlFactory,
         queryProvider,
         updateFactory,
         internalUserFactory,
-        retryHelper);
+        batchUpdateFactory);
   }
 
   @After
@@ -273,7 +273,7 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
           Throwables.getCausalChain(e).stream()
               .filter(x -> x instanceof OrmRuntimeException)
               .findFirst();
-      assertThat(oe).named("OrmRuntimeException in causal chain of " + e).isPresent();
+      assertThat(oe.isPresent()).named("OrmRuntimeException in causal chain of " + e).isTrue();
       assertThat(oe.get().getMessage()).contains("read-only");
     }
     assertThat(gApi.changes().id(id.get()).get().topic).isNull();

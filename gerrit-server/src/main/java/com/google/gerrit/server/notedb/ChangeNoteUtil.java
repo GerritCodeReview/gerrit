@@ -73,7 +73,6 @@ public class ChangeNoteUtil {
   public static final FooterKey FOOTER_PATCH_SET = new FooterKey("Patch-set");
   public static final FooterKey FOOTER_PATCH_SET_DESCRIPTION =
       new FooterKey("Patch-set-description");
-  public static final FooterKey FOOTER_PRIVATE = new FooterKey("Private");
   public static final FooterKey FOOTER_READ_ONLY_UNTIL = new FooterKey("Read-only-until");
   public static final FooterKey FOOTER_REAL_USER = new FooterKey("Real-user");
   public static final FooterKey FOOTER_STATUS = new FooterKey("Status");
@@ -82,8 +81,6 @@ public class ChangeNoteUtil {
   public static final FooterKey FOOTER_SUBMITTED_WITH = new FooterKey("Submitted-with");
   public static final FooterKey FOOTER_TOPIC = new FooterKey("Topic");
   public static final FooterKey FOOTER_TAG = new FooterKey("Tag");
-  public static final FooterKey FOOTER_WORK_IN_PROGRESS = new FooterKey("Work-in-progress");
-  public static final FooterKey FOOTER_REVERT_OF = new FooterKey("Revert-of");
 
   private static final String AUTHOR = "Author";
   private static final String BASE_PATCH_SET = "Base-for-patch-set";
@@ -131,7 +128,7 @@ public class ChangeNoteUtil {
     this.serverIdent = serverIdent;
     this.anonymousCowardName = anonymousCowardName;
     this.serverId = serverId;
-    this.writeJson = config.getBoolean("notedb", "writeJson", true);
+    this.writeJson = config.getBoolean("notedb", "writeJson", false);
   }
 
   @VisibleForTesting

@@ -14,17 +14,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="../../../behaviors/gr-anonymous-name-behavior/gr-anonymous-name-behavior.html">
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../../styles/shared-styles.html">
+
 
 <dom-module id="gr-search-bar">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         display: inline-block;
       }
@@ -38,22 +38,25 @@ limitations under the License.
         flex: 1;
         font: inherit;
         outline: none;
-        padding: .25em;
+        padding: 0 .25em 0 .25em;
+      }
+      gr-button {
+        background-color: #f1f2f3;
+        border-radius: 0 2px 2px 0;
+        border-left-width: 0;
       }
     </style>
     <form>
       <gr-autocomplete
-          show-search-icon
           id="searchInput"
           text="{{_inputVal}}"
           query="[[query]]"
           on-commit="_handleInputCommit"
-          allow-non-suggested-values
+          allowNonSuggestedValues
           multi
           borderless
-          threshold="[[_threshold]]"
-          tab-complete
-          vertical-offset="30"></gr-autocomplete>
+          tab-complete-without-commit></gr-autocomplete>
+      <gr-button id="searchButton">Search</gr-button>
       <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     </form>
   </template>

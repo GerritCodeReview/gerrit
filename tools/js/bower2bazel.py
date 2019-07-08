@@ -35,7 +35,6 @@ import bowerutil
 package_licenses = {
   "es6-promise": "es6-promise",
   "fetch": "fetch",
-  "font-roboto": "polymer",
   "iron-a11y-announcer": "polymer",
   "iron-a11y-keys-behavior": "polymer",
   "iron-autogrow-textarea": "polymer",
@@ -44,10 +43,7 @@ package_licenses = {
   "iron-fit-behavior": "polymer",
   "iron-flex-layout": "polymer",
   "iron-form-element-behavior": "polymer",
-  "iron-icon": "polymer",
-  "iron-iconset-svg": "polymer",
   "iron-input": "polymer",
-  "iron-menu-behavior": "polymer",
   "iron-meta": "polymer",
   "iron-overlay-behavior": "polymer",
   "iron-resizable-behavior": "polymer",
@@ -56,22 +52,10 @@ package_licenses = {
   "moment": "moment",
   "neon-animation": "polymer",
   "page": "page.js",
-  "paper-button": "polymer",
-  "paper-input": "polymer",
-  "paper-item": "polymer",
-  "paper-listbox": "polymer",
-  "paper-styles": "polymer",
   "polymer": "polymer",
-  "polymer-resin": "polymer",
   "promise-polyfill": "promise-polyfill",
   "web-animations-js": "Apache2.0",
   "webcomponentsjs": "polymer",
-  "paper-material": "polymer",
-  "paper-styles": "polymer",
-  "paper-behaviors": "polymer",
-  "paper-ripple": "polymer",
-  "iron-checked-element-behavior": "polymer",
-  "font-roboto": "polymer",
 }
 
 
@@ -235,7 +219,15 @@ def interpret_bower_json(seeds, ws_out, build_out):
     license = package_licenses.get(pkg_name, "DO_NOT_DISTRIBUTE")
 
     pkg["bazel-license"] = license
-    pkg["normalized-name"] = pkg["_originalSource"]
+
+    # TODO(hanwen): bower packages can also have 'fully qualified'
+    # names, ("PolymerElements/iron-ajax") as well as short names
+    # ("iron-ajax").  It is possible for bower.json files to refer to
+    # long names as their dependencies. If any package does this, we
+    # will have to either 1) strip off the prefix (typically github
+    # user?), or 2) build a map of short name <=> fully qualified
+    # name. For now, we just ignore the problem.
+    pkg["normalized-name"] = pkg["name"]
     data.append(pkg)
 
   dump_workspace(data, seeds, ws_out)

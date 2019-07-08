@@ -19,7 +19,6 @@ import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
-import static com.google.gerrit.server.notedb.ReviewerStateInternal.REMOVED;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
@@ -50,7 +49,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.config.GerritServerId;
-import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.RequestId;
 import com.google.gerrit.testutil.TestChanges;
@@ -117,7 +115,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
-  public void tagInlineComments() throws Exception {
+  public void tagInlineCommenrts() throws Exception {
     String tag = "jenkins";
     Change c = newChange();
     RevCommit commit = tr.commit().message("PS2").create();
@@ -753,7 +751,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     try (RevWalk walk = new RevWalk(repo)) {
       RevCommit commit = walk.parseCommit(update.getResult());
       walk.parseBody(commit);
-      assertThat(commit.getFullMessage()).contains("Hashtags: tag1,tag2\n");
+      assertThat(commit.getFullMessage()).endsWith("Hashtags: tag1,tag2\n");
     }
   }
 
@@ -1056,6 +1054,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     RevCommit commit = tr.commit().message("PS2").create();
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setCommit(rw, commit);
+    update.setPatchSetState(PatchSetState.DRAFT);
     update.putApproval("Code-Review", (short) 1);
     update.setChangeMessage("This is a message");
     update.putComment(
@@ -1076,6 +1075,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
+    assertThat(notes.getPatchSets().get(psId2).isDraft()).isTrue();
     assertThat(notes.getPatchSets().keySet()).containsExactly(psId1, psId2);
     assertThat(notes.getApprovals()).isNotEmpty();
     assertThat(notes.getChangeMessagesByPatchSet()).isNotEmpty();
@@ -1086,6 +1086,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update = newUpdate(c, changeOwner);
     update.setPatchSetState(PatchSetState.PUBLISHED);
     update.commit();
+
+    notes = newNotes(c);
+    assertThat(notes.getPatchSets().get(psId2).isDraft()).isFalse();
 
     // delete ps2
     update = newUpdate(c, changeOwner);
@@ -3260,270 +3263,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeNotes notes = newNotes(c);
     assertThat(notes.getChange().getTopic()).isEqualTo("succeeding-topic");
     assertThat(notes.getReadOnlyUntil()).isEqualTo(new Timestamp(0));
-  }
-
-  @Test
-  public void privateDefault() throws Exception {
-    Change c = newChange();
-    ChangeNotes notes = newNotes(c);
-    assertThat(notes.isPrivate()).isFalse();
-  }
-
-  @Test
-  public void privateSetPrivate() throws Exception {
-    Change c = newChange();
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setPrivate(true);
-    update.commit();
-
-    ChangeNotes notes = newNotes(c);
-    assertThat(notes.isPrivate()).isTrue();
-  }
-
-  @Test
-  public void privateSetPrivateMultipleTimes() throws Exception {
-    Change c = newChange();
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setPrivate(true);
-    update.commit();
-
-    update = newUpdate(c, changeOwner);
-    update.setPrivate(false);
-    update.commit();
-
-    ChangeNotes notes = newNotes(c);
-    assertThat(notes.isPrivate()).isFalse();
-  }
-
-  @Test
-  public void defaultReviewersByEmailIsEmpty() throws Exception {
-    Change c = newChange();
-    ChangeNotes notes = newNotes(c);
-    assertThat(notes.getReviewersByEmail().all()).isEmpty();
-  }
-
-  @Test
-  public void putReviewerByEmail() throws Exception {
-    Address adr = new Address("Foo Bar", "foo.bar@gerritcodereview.com");
-
-    Change c = newChange();
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putReviewerByEmail(adr, ReviewerStateInternal.REVIEWER);
-    update.commit();
-
-    ChangeNotes notes = newNotes(c);
-    assertThat(notes.getReviewersByEmail().all()).containsExactly(adr);
-  }
-
-  @Test
-  public void putAndRemoveReviewerByEmail() throws Exception {
-    Address adr = new Address("Foo Bar", "foo.bar@gerritcodereview.com");
-
-    Change c = newChange();
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putReviewerByEmail(adr, ReviewerStateInternal.REVIEWER);
-    update.commit();
-
-    update = newUpdate(c, changeOwner);
-    update.removeReviewerByEmail(adr);
-    update.commit();
-
-    ChangeNotes notes = newNotes(c);
-    assertThat(notes.getReviewersByEmail().all()).isEmpty();
-  }
-
-  @Test
-  public void putRemoveAndAddBackReviewerByEmail() throws Exception {
-    Address adr = new Address("Foo Bar", "foo.bar@gerritcodereview.com");
-
-    Change c = newChange();
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putReviewerByEmail(adr, ReviewerStateInternal.REVIEWER);
-    update.commit();
-
-    update = newUpdate(c, changeOwner);
-    update.removeReviewerByEmail(adr);
-    update.commit();
-
-    update = newUpdate(c, changeOwner);
-    update.putReviewerByEmail(adr, ReviewerStateInternal.CC);
-    update.commit();
-
-    ChangeNotes notes = newNotes(c);
-    assertThat(notes.getReviewersByEmail().all()).containsExactly(adr);
-  }
-
-  @Test
-  public void putReviewerByEmailAndCcByEmail() throws Exception {
-    Address adrReviewer = new Address("Foo Bar", "foo.bar@gerritcodereview.com");
-    Address adrCc = new Address("Foo Bor", "foo.bar.2@gerritcodereview.com");
-
-    Change c = newChange();
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putReviewerByEmail(adrReviewer, ReviewerStateInternal.REVIEWER);
-    update.commit();
-
-    update = newUpdate(c, changeOwner);
-    update.putReviewerByEmail(adrCc, ReviewerStateInternal.CC);
-    update.commit();
-
-    ChangeNotes notes = newNotes(c);
-    assertThat(notes.getReviewersByEmail().byState(ReviewerStateInternal.REVIEWER))
-        .containsExactly(adrReviewer);
-    assertThat(notes.getReviewersByEmail().byState(ReviewerStateInternal.CC))
-        .containsExactly(adrCc);
-    assertThat(notes.getReviewersByEmail().all()).containsExactly(adrReviewer, adrCc);
-  }
-
-  @Test
-  public void putReviewerByEmailAndChangeToCc() throws Exception {
-    Address adr = new Address("Foo Bar", "foo.bar@gerritcodereview.com");
-
-    Change c = newChange();
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putReviewerByEmail(adr, ReviewerStateInternal.REVIEWER);
-    update.commit();
-
-    update = newUpdate(c, changeOwner);
-    update.putReviewerByEmail(adr, ReviewerStateInternal.CC);
-    update.commit();
-
-    ChangeNotes notes = newNotes(c);
-    assertThat(notes.getReviewersByEmail().byState(ReviewerStateInternal.REVIEWER)).isEmpty();
-    assertThat(notes.getReviewersByEmail().byState(ReviewerStateInternal.CC)).containsExactly(adr);
-    assertThat(notes.getReviewersByEmail().all()).containsExactly(adr);
-  }
-
-  @Test
-  public void hasReviewStarted() throws Exception {
-    ChangeNotes notes = newNotes(newChange());
-    assertThat(notes.hasReviewStarted()).isTrue();
-
-    notes = newNotes(newWorkInProgressChange());
-    assertThat(notes.hasReviewStarted()).isFalse();
-
-    Change c = newWorkInProgressChange();
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    update.commit();
-    notes = newNotes(c);
-    assertThat(notes.hasReviewStarted()).isFalse();
-
-    update = newUpdate(c, changeOwner);
-    update.setWorkInProgress(true);
-    update.commit();
-    notes = newNotes(c);
-    assertThat(notes.hasReviewStarted()).isFalse();
-
-    update = newUpdate(c, changeOwner);
-    update.setWorkInProgress(false);
-    update.commit();
-    notes = newNotes(c);
-    assertThat(notes.hasReviewStarted()).isTrue();
-
-    // Once review is started, setting WIP should have no impact.
-    c = newChange();
-    notes = newNotes(c);
-    assertThat(notes.hasReviewStarted()).isTrue();
-    update = newUpdate(c, changeOwner);
-    update.setWorkInProgress(true);
-    update.commit();
-    notes = newNotes(c);
-    assertThat(notes.hasReviewStarted()).isTrue();
-  }
-
-  @Test
-  public void pendingReviewers() throws Exception {
-    Address adr1 = new Address("Foo Bar1", "foo.bar1@gerritcodereview.com");
-    Address adr2 = new Address("Foo Bar2", "foo.bar2@gerritcodereview.com");
-    Account.Id ownerId = changeOwner.getAccount().getId();
-    Account.Id otherUserId = otherUser.getAccount().getId();
-
-    ChangeNotes notes = newNotes(newChange());
-    assertThat(notes.getPendingReviewers().asTable()).isEmpty();
-    assertThat(notes.getPendingReviewersByEmail().asTable()).isEmpty();
-
-    Change c = newWorkInProgressChange();
-    notes = newNotes(c);
-    assertThat(notes.getPendingReviewers().asTable()).isEmpty();
-    assertThat(notes.getPendingReviewersByEmail().asTable()).isEmpty();
-
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putReviewer(ownerId, REVIEWER);
-    update.putReviewer(otherUserId, CC);
-    update.putReviewerByEmail(adr1, REVIEWER);
-    update.putReviewerByEmail(adr2, CC);
-    update.commit();
-    notes = newNotes(c);
-    assertThat(notes.getPendingReviewers().byState(REVIEWER)).containsExactly(ownerId);
-    assertThat(notes.getPendingReviewers().byState(CC)).containsExactly(otherUserId);
-    assertThat(notes.getPendingReviewers().byState(REMOVED)).isEmpty();
-    assertThat(notes.getPendingReviewersByEmail().byState(REVIEWER)).containsExactly(adr1);
-    assertThat(notes.getPendingReviewersByEmail().byState(CC)).containsExactly(adr2);
-    assertThat(notes.getPendingReviewersByEmail().byState(REMOVED)).isEmpty();
-
-    update = newUpdate(c, changeOwner);
-    update.removeReviewer(ownerId);
-    update.removeReviewerByEmail(adr1);
-    update.commit();
-    notes = newNotes(c);
-    assertThat(notes.getPendingReviewers().byState(REVIEWER)).isEmpty();
-    assertThat(notes.getPendingReviewers().byState(CC)).containsExactly(otherUserId);
-    assertThat(notes.getPendingReviewers().byState(REMOVED)).containsExactly(ownerId);
-    assertThat(notes.getPendingReviewersByEmail().byState(REVIEWER)).isEmpty();
-    assertThat(notes.getPendingReviewersByEmail().byState(CC)).containsExactly(adr2);
-    assertThat(notes.getPendingReviewersByEmail().byState(REMOVED)).containsExactly(adr1);
-
-    update = newUpdate(c, changeOwner);
-    update.setWorkInProgress(false);
-    update.commit();
-    notes = newNotes(c);
-    assertThat(notes.getPendingReviewers().asTable()).isEmpty();
-    assertThat(notes.getPendingReviewersByEmail().asTable()).isEmpty();
-
-    update = newUpdate(c, changeOwner);
-    update.putReviewer(ownerId, REVIEWER);
-    update.putReviewerByEmail(adr1, REVIEWER);
-    update.commit();
-    notes = newNotes(c);
-    assertThat(notes.getPendingReviewers().asTable()).isEmpty();
-    assertThat(notes.getPendingReviewersByEmail().asTable()).isEmpty();
-  }
-
-  @Test
-  public void revertOfIsNullByDefault() throws Exception {
-    Change c = newChange();
-    ChangeNotes notes = newNotes(c);
-    assertThat(notes.getRevertOf()).isNull();
-  }
-
-  @Test
-  public void setRevertOfPersistsValue() throws Exception {
-    Change changeToRevert = newChange();
-    Change c = TestChanges.newChange(project, changeOwner.getAccountId());
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setChangeId(c.getKey().get());
-    update.setRevertOf(changeToRevert.getId().get());
-    update.commit();
-    assertThat(newNotes(c).getRevertOf()).isEqualTo(changeToRevert.getId());
-  }
-
-  @Test
-  public void setRevertOfToCurrentChangeFails() throws Exception {
-    Change c = newChange();
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    exception.expect(IllegalArgumentException.class);
-    exception.expectMessage("A change cannot revert itself");
-    update.setRevertOf(c.getId().get());
-  }
-
-  @Test
-  public void setRevertOfOnChildCommitFails() throws Exception {
-    Change c = newChange();
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setRevertOf(newChange().getId().get());
-    exception.expect(OrmException.class);
-    exception.expectMessage("Given ChangeUpdate is only allowed on initial commit");
-    update.commit();
   }
 
   private boolean testJson() {

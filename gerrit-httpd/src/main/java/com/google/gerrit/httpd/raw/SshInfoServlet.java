@@ -46,19 +46,19 @@ import javax.servlet.http.HttpServletResponse;
  *  Port 8010
  * }</pre>
  */
+@SuppressWarnings("serial")
 @Singleton
 public class SshInfoServlet extends HttpServlet {
-  private static final long serialVersionUID = 1L;
-
   private final SshInfo sshd;
 
   @Inject
-  SshInfoServlet(SshInfo daemon) {
+  SshInfoServlet(final SshInfo daemon) {
     sshd = daemon;
   }
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
+  protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+      throws IOException {
     final List<HostKey> hostKeys = sshd.getHostKeys();
     final String out;
     if (!hostKeys.isEmpty()) {

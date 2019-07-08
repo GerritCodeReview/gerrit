@@ -1,6 +1,6 @@
 load("//tools/bzl:maven_jar.bzl", "MAVEN_CENTRAL", "maven_jar")
 
-_JGIT_VERS = "4.11.8.201904181247-r"
+_JGIT_VERS = "4.7.9.201904161809-r"
 
 _DOC_VERS = _JGIT_VERS  # Set to _JGIT_VERS unless using a snapshot
 
@@ -35,28 +35,28 @@ def jgit_maven_repos():
         name = "jgit-lib",
         artifact = "org.eclipse.jgit:org.eclipse.jgit:" + _JGIT_VERS,
         repository = _JGIT_REPO,
-        sha1 = "d7bc31008c827e63d33b14c68eb149dd2087e41b",
-        src_sha1 = "111ac9eb58c42673f560fa242ea31aec3d0eb7d3",
+        sha1 = "14fb9628876e69d1921776c84c7343ddabe7db31",
+        src_sha1 = "6717cab511548f01f07db2442d104ba901402d49",
         unsign = True,
     )
     maven_jar(
         name = "jgit-servlet",
         artifact = "org.eclipse.jgit:org.eclipse.jgit.http.server:" + _JGIT_VERS,
         repository = _JGIT_REPO,
-        sha1 = "ceefadfc63548bce8d3eedf8656759cc1c41b1ee",
+        sha1 = "4b9006c68e257e4397a34a6022c6729c657129d8",
         unsign = True,
     )
     maven_jar(
         name = "jgit-archive",
         artifact = "org.eclipse.jgit:org.eclipse.jgit.archive:" + _JGIT_VERS,
         repository = _JGIT_REPO,
-        sha1 = "10565873a029aad92b18908786a0e097df975175",
+        sha1 = "41fb617b0d51afb2f6c1345e8ef57f3caece790a",
     )
     maven_jar(
         name = "jgit-junit",
         artifact = "org.eclipse.jgit:org.eclipse.jgit.junit:" + _JGIT_VERS,
         repository = _JGIT_REPO,
-        sha1 = "b8c33396d6083f357cc5ac820814a55aac17f862",
+        sha1 = "10ad697deb13a90b957e462589fb92a5cf371909",
         unsign = True,
     )
 

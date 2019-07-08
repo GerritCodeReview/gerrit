@@ -34,7 +34,6 @@ junit_tests(
         "//gerrit-common:client",
         "//gerrit-extension-api:client",
         "//lib:junit",
-        "//lib:truth",
         "//lib/gwt:dev",
         "//lib/gwt:user",
     ],

@@ -20,7 +20,6 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
 <script src="../../../scripts/util.js"></script>
 
 <link rel="import" href="gr-linked-text.html">
@@ -191,13 +190,6 @@ limitations under the License.
       element.content = 'R=\u200Btest@google.com';
       assert.equal(element.$.output.textContent, 'R=test@google.com');
       assert.equal(element.$.output.innerHTML.match(/(R=<a)/g).length, 1);
-    });
-
-    test('CC=email labels link correctly', function() {
-      element.removeZeroWidthSpace = true;
-      element.content = 'CC=\u200Btest@google.com';
-      assert.equal(element.$.output.textContent, 'CC=test@google.com');
-      assert.equal(element.$.output.innerHTML.match(/(CC=<a)/g).length, 1);
     });
 
     test('overlapping links', function() {

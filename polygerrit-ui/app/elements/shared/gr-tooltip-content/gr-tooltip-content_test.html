@@ -19,7 +19,7 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
 <link rel="import" href="gr-tooltip-content.html">
 
 <script>void(0);</script>
@@ -32,18 +32,18 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-tooltip-content tests', () => {
-    let element;
-    setup(() => {
+  suite('gr-tooltip-content tests', function() {
+    var element;
+    setup(function() {
       element = fixture('basic');
     });
 
-    test('icon is not visible by default', () => {
+    test('icon is not visible by default', function() {
       assert.equal(Polymer.dom(element.root)
           .querySelector('.arrow').hidden, true);
     });
 
-    test('icon is visible with showIcon property', () => {
+    test('icon is visible with showIcon property', function() {
       element.showIcon = true;
       assert.equal(Polymer.dom(element.root)
           .querySelector('.arrow').hidden, false);

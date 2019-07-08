@@ -21,10 +21,10 @@ import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 import java.util.Objects;
 
-public class CommentByPredicate extends ChangeIndexPredicate {
-  protected final Account.Id id;
+class CommentByPredicate extends ChangeIndexPredicate {
+  private final Account.Id id;
 
-  public CommentByPredicate(Account.Id id) {
+  CommentByPredicate(Account.Id id) {
     super(ChangeField.COMMENTBY, id.toString());
     this.id = id;
   }

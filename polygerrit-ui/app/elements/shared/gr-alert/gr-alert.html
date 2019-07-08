@@ -16,13 +16,10 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../gr-button/gr-button.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-
-<script src="../../../scripts/rootElement.js"></script>
 
 <dom-module id="gr-alert">
   <template>
-    <style include="shared-styles">
+    <style>
       /**
        * ALERT: DO NOT ADD TRANSITION PROPERTIES WITHOUT PROPERLY UNDERSTANDING
        * HOW THEY ARE USED IN THE CODE.
@@ -53,7 +50,7 @@ limitations under the License.
       }
       .action {
         color: #a1c2fa;
-        font-family: var(--font-family-bold);
+        font-weight: bold;
         margin-left: 1em;
         text-decoration: none;
       }

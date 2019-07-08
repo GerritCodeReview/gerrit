@@ -222,11 +222,11 @@ public class AllProjectsCreator {
 
   private void initSequences(Repository git, BatchRefUpdate bru) throws IOException {
     if (notesMigration.readChangeSequence()
-        && git.exactRef(REFS_SEQUENCES + Sequences.NAME_CHANGES) == null) {
+        && git.exactRef(REFS_SEQUENCES + Sequences.CHANGES) == null) {
       // Can't easily reuse the inserter from MetaDataUpdate, but this shouldn't slow down site
       // initialization unduly.
       try (ObjectInserter ins = git.newObjectInserter()) {
-        bru.addCommand(RepoSequence.storeNew(ins, Sequences.NAME_CHANGES, firstChangeId));
+        bru.addCommand(RepoSequence.storeNew(ins, Sequences.CHANGES, firstChangeId));
         ins.flush();
       }
     }

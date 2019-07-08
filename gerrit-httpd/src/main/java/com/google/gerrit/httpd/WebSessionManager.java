@@ -30,7 +30,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.cache.Cache;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -55,7 +55,7 @@ public class WebSessionManager {
   private final Cache<String, Val> self;
 
   @Inject
-  WebSessionManager(@GerritServerConfig Config cfg, @Assisted Cache<String, Val> cache) {
+  WebSessionManager(@GerritServerConfig Config cfg, @Assisted final Cache<String, Val> cache) {
     prng = new SecureRandom();
     self = cache;
 
@@ -76,11 +76,11 @@ public class WebSessionManager {
     }
   }
 
-  Key createKey(Account.Id who) {
+  Key createKey(final Account.Id who) {
     return new Key(newUniqueToken(who));
   }
 
-  private String newUniqueToken(Account.Id who) {
+  private String newUniqueToken(final Account.Id who) {
     try {
       final int nonceLen = 20;
       final ByteArrayOutputStream buf;
@@ -135,7 +135,7 @@ public class WebSessionManager {
     return val;
   }
 
-  int getCookieAge(Val val) {
+  int getCookieAge(final Val val) {
     if (val.isPersistentCookie()) {
       // Client may store the cookie until we would remove it from our
       // own cache, after which it will certainly be invalid.
@@ -150,7 +150,7 @@ public class WebSessionManager {
     return -1;
   }
 
-  Val get(Key key) {
+  Val get(final Key key) {
     Val val = self.getIfPresent(key.token);
     if (val != null && val.expiresAt <= nowMs()) {
       self.invalidate(key.token);
@@ -159,14 +159,14 @@ public class WebSessionManager {
     return val;
   }
 
-  void destroy(Key key) {
+  void destroy(final Key key) {
     self.invalidate(key.token);
   }
 
   static final class Key {
     private transient String token;
 
-    Key(String t) {
+    Key(final String t) {
       token = t;
     }
 
@@ -217,15 +217,7 @@ public class WebSessionManager {
       return expiresAt;
     }
 
-    /**
-     * Parse an Account.Id.
-     *
-     * <p>This is public so that plugins that implement a web session, can also implement a way to
-     * clear per user sessions.
-     *
-     * @return account ID.
-     */
-    public Account.Id getAccountId() {
+    Account.Id getAccountId() {
       return accountId;
     }
 
@@ -249,7 +241,7 @@ public class WebSessionManager {
       return persistentCookie;
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
+    private void writeObject(final ObjectOutputStream out) throws IOException {
       writeVarInt32(out, 1);
       writeVarInt32(out, accountId.get());
 
@@ -280,7 +272,7 @@ public class WebSessionManager {
       writeVarInt32(out, 0);
     }
 
-    private void readObject(ObjectInputStream in) throws IOException {
+    private void readObject(final ObjectInputStream in) throws IOException {
       PARSE:
       for (; ; ) {
         final int tag = readVarInt32(in);

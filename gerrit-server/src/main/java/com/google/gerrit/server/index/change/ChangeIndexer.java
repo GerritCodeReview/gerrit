@@ -18,19 +18,18 @@ import static com.google.gerrit.server.extensions.events.EventUtil.logEventListe
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
 import com.google.common.base.Function;
-import com.google.common.base.Objects;
 import com.google.common.util.concurrent.Atomics;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.index.Index;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -51,9 +50,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
@@ -114,11 +111,6 @@ public class ChangeIndexer {
   private final StalenessChecker stalenessChecker;
   private final boolean autoReindexIfStale;
 
-  private final Set<IndexTask> queuedIndexTasks =
-      Collections.newSetFromMap(new ConcurrentHashMap<>());
-  private final Set<ReindexIfStaleTask> queuedReindexIfStaleTasks =
-      Collections.newSetFromMap(new ConcurrentHashMap<>());
-
   @AssistedInject
   ChangeIndexer(
       @GerritServerConfig Config cfg,
@@ -174,7 +166,7 @@ public class ChangeIndexer {
   }
 
   private static boolean autoReindexIfStale(Config cfg) {
-    return cfg.getBoolean("index", null, "autoReindexIfStale", false);
+    return cfg.getBoolean("index", null, "autoReindexIfStale", true);
   }
 
   /**
@@ -186,11 +178,7 @@ public class ChangeIndexer {
   @SuppressWarnings("deprecation")
   public com.google.common.util.concurrent.CheckedFuture<?, IOException> indexAsync(
       Project.NameKey project, Change.Id id) {
-    IndexTask task = new IndexTask(project, id);
-    if (queuedIndexTasks.add(task)) {
-      return submit(task);
-    }
-    return Futures.immediateCheckedFuture(null);
+    return submit(new IndexTask(project, id));
   }
 
   /**
@@ -218,7 +206,7 @@ public class ChangeIndexer {
     for (Index<?, ChangeData> i : getWriteIndexes()) {
       i.replace(cd);
     }
-    fireChangeIndexedEvent(cd.project().get(), cd.getId().get());
+    fireChangeIndexedEvent(cd.getId().get());
 
     // Always double-check whether the change might be stale immediately after
     // interactively indexing it. This fixes up the case where two writers write
@@ -241,10 +229,10 @@ public class ChangeIndexer {
     autoReindexIfStale(cd);
   }
 
-  private void fireChangeIndexedEvent(String projectName, int id) {
+  private void fireChangeIndexedEvent(int id) {
     for (ChangeIndexedListener listener : indexedListeners) {
       try {
-        listener.onChangeIndexed(projectName, id);
+        listener.onChangeIndexed(id);
       } catch (Exception e) {
         logEventListenerError(listener, e);
       }
@@ -321,15 +309,15 @@ public class ChangeIndexer {
   @SuppressWarnings("deprecation")
   public com.google.common.util.concurrent.CheckedFuture<Boolean, IOException> reindexIfStale(
       Project.NameKey project, Change.Id id) {
-    ReindexIfStaleTask task = new ReindexIfStaleTask(project, id);
-    if (queuedReindexIfStaleTasks.add(task)) {
-      return submit(task, batchExecutor);
-    }
-    return Futures.immediateCheckedFuture(false);
+    return submit(new ReindexIfStaleTask(project, id), batchExecutor);
   }
 
-  private void autoReindexIfStale(ChangeData cd) {
-    autoReindexIfStale(cd.project(), cd.getId());
+  private void autoReindexIfStale(ChangeData cd) throws IOException {
+    try {
+      autoReindexIfStale(cd.project(), cd.getId());
+    } catch (OrmException e) {
+      throw new IOException(e);
+    }
   }
 
   private void autoReindexIfStale(Project.NameKey project, Change.Id id) {
@@ -366,8 +354,6 @@ public class ChangeIndexer {
     }
 
     protected abstract T callImpl(Provider<ReviewDb> db) throws Exception;
-
-    protected abstract void remove();
 
     @Override
     public abstract String toString();
@@ -423,34 +409,14 @@ public class ChangeIndexer {
 
     @Override
     public Void callImpl(Provider<ReviewDb> db) throws Exception {
-      remove();
       ChangeData cd = newChangeData(db.get(), project, id);
       index(cd);
       return null;
     }
 
     @Override
-    public int hashCode() {
-      return Objects.hashCode(IndexTask.class, id.get());
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-      if (!(obj instanceof IndexTask)) {
-        return false;
-      }
-      IndexTask other = (IndexTask) obj;
-      return id.get() == other.id.get();
-    }
-
-    @Override
     public String toString() {
       return "index-change-" + id;
-    }
-
-    @Override
-    protected void remove() {
-      queuedIndexTasks.remove(this);
     }
   }
 
@@ -483,7 +449,6 @@ public class ChangeIndexer {
 
     @Override
     public Boolean callImpl(Provider<ReviewDb> db) throws Exception {
-      remove();
       try {
         if (stalenessChecker.isStale(id)) {
           index(newChangeData(db.get(), project, id));
@@ -504,27 +469,8 @@ public class ChangeIndexer {
     }
 
     @Override
-    public int hashCode() {
-      return Objects.hashCode(ReindexIfStaleTask.class, id.get());
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-      if (!(obj instanceof ReindexIfStaleTask)) {
-        return false;
-      }
-      ReindexIfStaleTask other = (ReindexIfStaleTask) obj;
-      return id.get() == other.id.get();
-    }
-
-    @Override
     public String toString() {
       return "reindex-if-stale-change-" + id;
-    }
-
-    @Override
-    protected void remove() {
-      queuedReindexIfStaleTasks.remove(this);
     }
   }
 

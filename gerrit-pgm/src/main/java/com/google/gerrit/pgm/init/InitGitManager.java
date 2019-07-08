@@ -31,7 +31,7 @@ class InitGitManager implements InitStep {
   private final Section gerrit;
 
   @Inject
-  InitGitManager(ConsoleUI ui, Section.Factory sections) {
+  InitGitManager(final ConsoleUI ui, final Section.Factory sections) {
     this.ui = ui;
     this.gerrit = sections.get("gerrit", null);
   }

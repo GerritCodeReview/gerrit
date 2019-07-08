@@ -20,10 +20,10 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
 <script src="../../../bower_components/page/page.js"></script>
 <script src="../../../scripts/util.js"></script>
 
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-diff-comment.html">
 
 <script>void(0);</script>
@@ -47,12 +47,12 @@ limitations under the License.
     return getComputedStyle(el).getPropertyValue('display') !== 'none';
   }
 
-  suite('gr-diff-comment tests', () => {
-    let element;
-    let sandbox;
-    setup(() => {
+  suite('gr-diff-comment tests', function() {
+    var element;
+    var sandbox;
+    setup(function() {
       stub('gr-rest-api-interface', {
-        getAccount() { return Promise.resolve(null); },
+        getAccount: function() { return Promise.resolve(null); },
       });
       element = fixture('basic');
       element.comment = {
@@ -68,18 +68,18 @@ limitations under the License.
       sandbox = sinon.sandbox.create();
     });
 
-    teardown(() => {
+    teardown(function() {
       sandbox.restore();
     });
 
-    test('collapsible comments', () => {
+    test('collapsible comments', function() {
       // When a comment (not draft) is loaded, it should be collapsed
       assert.isTrue(element.collapsed);
       assert.isFalse(isVisible(element.$$('gr-formatted-text')),
           'gr-formatted-text is not visible');
       assert.isFalse(isVisible(element.$$('.actions')),
           'actions are not visible');
-      assert.isFalse(isVisible(element.$$('gr-textarea')),
+      assert.isFalse(isVisible(element.$$('iron-autogrow-textarea')),
           'textarea is not visible');
 
       // The header middle content is only visible when comments are collapsed.
@@ -94,26 +94,27 @@ limitations under the License.
           'gr-formatted-text is visible');
       assert.isTrue(isVisible(element.$$('.actions')),
           'actions are visible');
-      assert.isFalse(isVisible(element.$$('gr-textarea')),
+      assert.isFalse(isVisible(element.$$('iron-autogrow-textarea')),
           'textarea is not visible');
       assert.isFalse(isVisible(element.$$('.collapsedContent')),
           'header middle content is not visible');
     });
 
-    test('clicking on date link does not trigger nav', () => {
-      const showStub = sinon.stub(page, 'show');
-      const dateEl = element.$$('.date');
+    test('clicking on date link does not trigger nav', function() {
+      var showStub = sinon.stub(page, 'show');
+      var dateEl = element.$$('.date');
       assert.ok(dateEl);
       MockInteractions.tap(dateEl);
-      const dest = window.location.pathname + '#5';
+      var dest = window.location.pathname + '#5';
       assert(showStub.lastCall.calledWithExactly(dest, null, false),
           'Should navigate to ' + dest + ' without triggering nav');
       showStub.restore();
     });
 
-    test('message is not retrieved from storage when other edits', done => {
-      const storageStub = sandbox.stub(element.$.storage, 'getDraftComment');
-      const loadSpy = sandbox.spy(element, '_loadLocalDraft');
+    test('message is not retrieved from storage when other editing is true',
+        function(done) {
+      var storageStub = sandbox.stub(element.$.storage, 'getDraftComment');
+      var loadSpy = sandbox.spy(element, '_loadLocalDraft');
 
       element.changeNum = 1;
       element.patchNum = 1;
@@ -125,16 +126,17 @@ limitations under the License.
         line: 5,
         __otherEditing: true,
       };
-      flush(() => {
+      flush(function() {
         assert.isTrue(loadSpy.called);
         assert.isFalse(storageStub.called);
         done();
       });
     });
 
-    test('message is retrieved from storage when no other edits', done => {
-      const storageStub = sandbox.stub(element.$.storage, 'getDraftComment');
-      const loadSpy = sandbox.spy(element, '_loadLocalDraft');
+    test('message is retrieved from storage when there is no other editing',
+        function(done) {
+      var storageStub = sandbox.stub(element.$.storage, 'getDraftComment');
+      var loadSpy = sandbox.spy(element, '_loadLocalDraft');
 
       element.changeNum = 1;
       element.patchNum = 1;
@@ -145,14 +147,14 @@ limitations under the License.
         },
         line: 5,
       };
-      flush(() => {
+      flush(function() {
         assert.isTrue(loadSpy.called);
         assert.isTrue(storageStub.called);
         done();
       });
     });
 
-    test('_getPatchNum', () => {
+    test('_getPatchNum', function() {
       element.side = 'PARENT';
       element.patchNum = 1;
       assert.equal(element._getPatchNum(), 'PARENT');
@@ -160,13 +162,13 @@ limitations under the License.
       assert.equal(element._getPatchNum(), 1);
     });
 
-    test('comment expand and collapse', () => {
+    test('comment expand and collapse', function() {
       element.collapsed = true;
       assert.isFalse(isVisible(element.$$('gr-formatted-text')),
           'gr-formatted-text is not visible');
       assert.isFalse(isVisible(element.$$('.actions')),
           'actions are not visible');
-      assert.isFalse(isVisible(element.$$('gr-textarea')),
+      assert.isFalse(isVisible(element.$$('iron-autogrow-textarea')),
           'textarea is not visible');
       assert.isTrue(isVisible(element.$$('.collapsedContent')),
           'header middle content is visible');
@@ -177,14 +179,14 @@ limitations under the License.
           'gr-formatted-text is visible');
       assert.isTrue(isVisible(element.$$('.actions')),
           'actions are visible');
-      assert.isFalse(isVisible(element.$$('gr-textarea')),
+      assert.isFalse(isVisible(element.$$('iron-autogrow-textarea')),
           'textarea is not visible');
       assert.isFalse(isVisible(element.$$('.collapsedContent')),
           'header middle content is is not visible');
     });
 
-    suite('while editing', () => {
-      setup(() => {
+    suite('while editing', function() {
+      setup(function() {
         element.editing = true;
         element._messageText = 'test';
         sandbox.stub(element, '_handleCancel');
@@ -192,108 +194,75 @@ limitations under the License.
         flushAsynchronousOperations();
       });
 
-      suite('when text is empty', () => {
-        setup(() => {
+      suite('when text is empty', function() {
+        setup(function() {
           element._messageText = '';
         });
 
-        test('esc closes comment when text is empty', () => {
+        test('esc closes comment when text is empty', function() {
           MockInteractions.pressAndReleaseKeyOn(
               element.$.editTextarea, 27); // esc
           assert.isTrue(element._handleCancel.called);
         });
 
-        test('ctrl+enter does not save', () => {
+        test('ctrl+enter does not save', function() {
           MockInteractions.pressAndReleaseKeyOn(
               element.$.editTextarea, 13, 'ctrl'); // ctrl + enter
           assert.isFalse(element._handleSave.called);
         });
 
-        test('meta+enter does not save', () => {
+        test('meta+enter does not save', function() {
           MockInteractions.pressAndReleaseKeyOn(
               element.$.editTextarea, 13, 'meta'); // meta + enter
           assert.isFalse(element._handleSave.called);
         });
 
-        test('ctrl+s does not save', () => {
+        test('ctrl+s does not save', function() {
           MockInteractions.pressAndReleaseKeyOn(
               element.$.editTextarea, 83, 'ctrl'); // ctrl + s
           assert.isFalse(element._handleSave.called);
         });
       });
 
-      test('esc does not close comment that has content', () => {
+      test('esc does not close comment that has content', function() {
         MockInteractions.pressAndReleaseKeyOn(
             element.$.editTextarea, 27); // esc
         assert.isFalse(element._handleCancel.called);
       });
 
-      test('ctrl+enter saves', () => {
+      test('ctrl+enter saves', function() {
         MockInteractions.pressAndReleaseKeyOn(
             element.$.editTextarea, 13, 'ctrl'); // ctrl + enter
         assert.isTrue(element._handleSave.called);
       });
 
-      test('meta+enter saves', () => {
+      test('meta+enter saves', function() {
         MockInteractions.pressAndReleaseKeyOn(
             element.$.editTextarea, 13, 'meta'); // meta + enter
         assert.isTrue(element._handleSave.called);
       });
 
-      test('ctrl+s saves', () => {
+      test('ctrl+s saves', function() {
         MockInteractions.pressAndReleaseKeyOn(
             element.$.editTextarea, 83, 'ctrl'); // ctrl + s
         assert.isTrue(element._handleSave.called);
       });
     });
-    test('delete comment button for non-admins is hidden', () => {
-      element._isAdmin = false;
-      assert.isFalse(element.$$('.action.delete')
-          .classList.contains('showDeleteButtons'));
-    });
-
-    test('delete comment button for admins with draft is hidden', () => {
-      element._isAdmin = false;
-      element.draft = true;
-      assert.isFalse(element.$$('.action.delete')
-          .classList.contains('showDeleteButtons'));
-    });
-
-    test('delete comment', done => {
-      sandbox.stub(
-          element.$.restAPI, 'deleteComment').returns(Promise.resolve({}));
-      sandbox.spy(element.$.confirmDeleteOverlay, 'open');
-      element.changeNum = 42;
-      element.patchNum = 0xDEADBEEF;
-      element._isAdmin = true;
-      assert.isTrue(element.$$('.action.delete')
-          .classList.contains('showDeleteButtons'));
-      MockInteractions.tap(element.$$('.action.delete'));
-      flush(() => {
-        element.$.confirmDeleteOverlay.open.lastCall.returnValue.then(() => {
-          element.$.confirmDeleteComment.message = 'removal reason';
-          element._handleConfirmDeleteComment();
-          assert.isTrue(element.$.restAPI.deleteComment.calledWith(
-              42, 0xDEADBEEF, 'baf0414d_60047215', 'removal reason'));
-          done();
-        });
-      });
-    });
   });
 
-  suite('gr-diff-comment draft tests', () => {
-    let element;
-    let sandbox;
+  suite('gr-diff-comment draft tests', function() {
+    var element;
+    var sandbox;
 
-    setup(() => {
+    setup(function() {
       stub('gr-rest-api-interface', {
-        getAccount() { return Promise.resolve(null); },
-        saveDiffDraft() {
+        getAccount: function() { return Promise.resolve(null); },
+        saveDiffDraft: function() {
           return Promise.resolve({
             ok: true,
-            text() {
+            text: function() {
               return Promise.resolve(
-                  ')]}\'\n{' +
+                ')]}\'\n{' +
                   '"id": "baf0414d_40572e03",' +
                   '"path": "/path/to/file",' +
                   '"line": 5,' +
@@ -304,12 +273,12 @@ limitations under the License.
             },
           });
         },
-        removeChangeReviewer() {
+        removeChangeReviewer: function() {
           return Promise.resolve({ok: true});
         },
       });
       stub('gr-storage', {
-        getDraftComment() { return null; },
+        getDraftComment: function() { return null; },
       });
       element = fixture('draft');
       element.changeNum = 42;
@@ -326,11 +295,11 @@ limitations under the License.
       sandbox = sinon.sandbox.create();
     });
 
-    teardown(() => {
+    teardown(function() {
       sandbox.restore();
     });
 
-    test('button visibility states', () => {
+    test('button visibility states', function() {
       element.showActions = false;
       assert.isTrue(element.$$('.humanActions').hasAttribute('hidden'));
       assert.isTrue(element.$$('.robotActions').hasAttribute('hidden'));
@@ -387,13 +356,13 @@ limitations under the License.
       assert.isFalse(element.$$('.robotActions').hasAttribute('hidden'));
     });
 
-    test('collapsible drafts', () => {
+    test('collapsible drafts', function() {
       assert.isTrue(element.collapsed);
       assert.isFalse(isVisible(element.$$('gr-formatted-text')),
           'gr-formatted-text is not visible');
       assert.isFalse(isVisible(element.$$('.actions')),
           'actions are not visible');
-      assert.isFalse(isVisible(element.$$('gr-textarea')),
+      assert.isFalse(isVisible(element.$$('iron-autogrow-textarea')),
           'textarea is not visible');
       assert.isTrue(isVisible(element.$$('.collapsedContent')),
           'header middle content is visible');
@@ -404,7 +373,7 @@ limitations under the License.
           'gr-formatted-text is visible');
       assert.isTrue(isVisible(element.$$('.actions')),
           'actions are visible');
-      assert.isFalse(isVisible(element.$$('gr-textarea')),
+      assert.isFalse(isVisible(element.$$('iron-autogrow-textarea')),
           'textarea is not visible');
       assert.isFalse(isVisible(element.$$('.collapsedContent')),
           'header middle content is is not visible');
@@ -417,7 +386,7 @@ limitations under the License.
           'gr-formatted-text is not visible');
       assert.isTrue(isVisible(element.$$('.actions')),
           'actions are visible');
-      assert.isTrue(isVisible(element.$$('gr-textarea')),
+      assert.isTrue(isVisible(element.$$('iron-autogrow-textarea')),
           'textarea is visible');
       assert.isFalse(isVisible(element.$$('.collapsedContent')),
           'header middle content is not visible');
@@ -430,7 +399,7 @@ limitations under the License.
           'gr-formatted-text is not visible');
       assert.isFalse(isVisible(element.$$('.actions')),
           'actions are not visible');
-      assert.isFalse(isVisible(element.$$('gr-textarea')),
+      assert.isFalse(isVisible(element.$$('iron-autogrow-textarea')),
           'textarea is not visible');
       assert.isTrue(isVisible(element.$$('.collapsedContent')),
           'header middle content is visible');
@@ -442,32 +411,32 @@ limitations under the License.
           'gr-formatted-text is not visible');
       assert.isTrue(isVisible(element.$$('.actions')),
           'actions are visible');
-      assert.isTrue(isVisible(element.$$('gr-textarea')),
+      assert.isTrue(isVisible(element.$$('iron-autogrow-textarea')),
           'textarea is visible');
       assert.isFalse(isVisible(element.$$('.collapsedContent')),
           'header middle content is not visible');
     });
 
-    test('draft creation/cancelation', done => {
+    test('draft creation/cancelation', function(done) {
       assert.isFalse(element.editing);
       MockInteractions.tap(element.$$('.edit'));
       assert.isTrue(element.editing);
 
       element._messageText = '';
-      const eraseMessageDraftSpy = sandbox.spy(element, '_eraseDraftComment');
+      var eraseMessageDraftSpy = sandbox.spy(element, '_eraseDraftComment');
 
       // Save should be disabled on an empty message.
-      let disabled = element.$$('.save').hasAttribute('disabled');
+      var disabled = element.$$('.save').hasAttribute('disabled');
       assert.isTrue(disabled, 'save button should be disabled.');
       element._messageText = '     ';
       disabled = element.$$('.save').hasAttribute('disabled');
       assert.isTrue(disabled, 'save button should be disabled.');
 
-      const updateStub = sinon.stub();
+      var updateStub = sinon.stub();
       element.addEventListener('comment-update', updateStub);
 
-      let numDiscardEvents = 0;
-      element.addEventListener('comment-discard', e => {
+      var numDiscardEvents = 0;
+      element.addEventListener('comment-discard', function(e) {
         numDiscardEvents++;
         assert.isFalse(eraseMessageDraftSpy.called);
         if (numDiscardEvents === 2) {
@@ -481,61 +450,32 @@ limitations under the License.
       MockInteractions.pressAndReleaseKeyOn(element.$.editTextarea, 27); // esc
     });
 
-    test('draft discard removes message from storage', done => {
+    test('draft discard removes message from storage', function(done) {
       element._messageText = '';
-      const eraseMessageDraftSpy = sandbox.spy(element, '_eraseDraftComment');
-      sandbox.stub(element, '_closeConfirmDiscardOverlay');
+      var eraseMessageDraftSpy = sandbox.spy(element, '_eraseDraftComment');
 
-      element.addEventListener('comment-discard', e => {
+      var numDiscardEvents = 0;
+      element.addEventListener('comment-discard', function(e) {
         assert.isTrue(eraseMessageDraftSpy.called);
         done();
       });
-      element._handleConfirmDiscard({preventDefault: sinon.stub()});
+      MockInteractions.tap(element.$$('.discard'));
     });
 
-    suite('confirm discard', () => {
-      let saveDisabled;
-      let discardStub;
-      let overlayStub;
-      let mockEvent;
-
-      setup(() => {
-        sandbox.stub(element, '_computeSaveDisabled', () => saveDisabled);
-        discardStub = sandbox.stub(element, '_discardDraft');
-        overlayStub = sandbox.stub(element, '_openOverlay');
-        mockEvent = {preventDefault: sinon.stub()};
-      });
-
-      test('confirms discard of comments that can be saved', () => {
-        saveDisabled = false;
-        element._handleDiscard(mockEvent);
-        assert.isTrue(overlayStub.calledWith(element.$.confirmDiscardOverlay));
-        assert.isFalse(discardStub.called);
-      });
-
-      test('no confirmation for comments that cannot be saved', () => {
-        saveDisabled = true;
-        element._handleDiscard(mockEvent);
-        assert.isFalse(overlayStub.called);
-        assert.isTrue(discardStub.calledOnce);
-      });
-    });
-
-    test('ctrl+s saves comment', done => {
-      const stub = sinon.stub(element, 'save', () => {
+    test('ctrl+s saves comment', function(done) {
+      var stub = sinon.stub(element, 'save', function() {
         assert.isTrue(stub.called);
         stub.restore();
         done();
       });
       element._messageText = 'is that the horse from horsing around??';
       MockInteractions.pressAndReleaseKeyOn(
-          element.$.editTextarea.$.textarea.textarea,
-          83, 'ctrl'); // 'ctrl + s'
+        element.$.editTextarea.textarea,
+        83, 'ctrl');  // 'ctrl + s'
     });
 
-    test('draft saving/editing', done => {
-      const fireStub = sinon.stub(element, 'fire');
-      const cancelDebounce = sandbox.stub(element, 'cancelDebouncer');
+    test('draft saving/editing', function(done) {
+      var fireStub = sinon.stub(element, 'fire');
 
       element.draft = true;
       MockInteractions.tap(element.$$('.edit'));
@@ -543,7 +483,7 @@ limitations under the License.
       element.flushDebouncer('fire-update');
       element.flushDebouncer('store');
       assert(fireStub.calledWith('comment-update'),
-          'comment-update should be sent');
+             'comment-update should be sent');
       assert.deepEqual(fireStub.lastCall.args, [
         'comment-update', {
           comment: {
@@ -564,11 +504,9 @@ limitations under the License.
       assert.isTrue(element.disabled,
           'Element should be disabled when creating draft.');
 
-      element._xhrPromise.then(draft => {
+      element._xhrPromise.then(function(draft) {
         assert(fireStub.calledWith('comment-save'),
-            'comment-save should be sent');
-        assert(cancelDebounce.calledWith('store'));
-
+               'comment-save should be sent');
         assert.deepEqual(fireStub.lastCall.args[1], {
           comment: {
             __commentSide: 'right',
@@ -584,10 +522,10 @@ limitations under the License.
           patchNum: 1,
         });
         assert.isFalse(element.disabled,
-            'Element should be enabled when done creating draft.');
+                       'Element should be enabled when done creating draft.');
         assert.equal(draft.message, 'saved!');
         assert.isFalse(element.editing);
-      }).then(() => {
+      }).then(function() {
         MockInteractions.tap(element.$$('.edit'));
         element._messageText = 'You’ll be delivering a package to Chapek 9, ' +
             'a world where humans are killed on sight.';
@@ -595,7 +533,7 @@ limitations under the License.
         assert.isTrue(element.disabled,
             'Element should be disabled when updating draft.');
 
-        element._xhrPromise.then(draft => {
+        element._xhrPromise.then(function(draft) {
           assert.isFalse(element.disabled,
               'Element should be enabled when done updating draft.');
           assert.equal(draft.message, 'saved!');
@@ -606,59 +544,30 @@ limitations under the License.
       });
     });
 
-    test('clicking on date link does not trigger nav', () => {
-      const showStub = sinon.stub(page, 'show');
-      const dateEl = element.$$('.date');
+    test('clicking on date link does not trigger nav', function() {
+      var showStub = sinon.stub(page, 'show');
+      var dateEl = element.$$('.date');
       assert.ok(dateEl);
       MockInteractions.tap(dateEl);
-      const dest = window.location.pathname + '#5';
+      var dest = window.location.pathname + '#5';
       assert(showStub.lastCall.calledWithExactly(dest, null, false),
           'Should navigate to ' + dest + ' without triggering nav');
       showStub.restore();
     });
 
-    test('proper event fires on resolve', done => {
-      element.addEventListener('comment-update', e => {
+    test('proper event fires on resolve', function(done) {
+      element.addEventListener('comment-update', function(e) {
         assert.isTrue(e.detail.comment.unresolved);
         done();
       });
       MockInteractions.tap(element.$$('.resolve input'));
     });
 
-    test('resolved comment state indicated by checkbox', () => {
+    test('resolved comment state indicated by checkbox', function() {
       element.comment = {unresolved: false};
       assert.isTrue(element.$$('.resolve input').checked);
       element.comment = {unresolved: true};
       assert.isFalse(element.$$('.resolve input').checked);
-    });
-
-    suite('draft saving messages', () => {
-      test('_getSavingMessage', () => {
-        assert.equal(element._getSavingMessage(0), 'All changes saved');
-        assert.equal(element._getSavingMessage(1), 'Saving 1 draft...');
-        assert.equal(element._getSavingMessage(2), 'Saving 2 drafts...');
-        assert.equal(element._getSavingMessage(3), 'Saving 3 drafts...');
-      });
-
-      test('_show{Start,End}Request', () => {
-        const updateStub = sandbox.stub(element, '_updateRequestToast');
-        element._numPendingDiffRequests.number = 1;
-
-        element._showStartRequest();
-        assert.isTrue(updateStub.calledOnce);
-        assert.equal(updateStub.lastCall.args[0], 2);
-        assert.equal(element._numPendingDiffRequests.number, 2);
-
-        element._showEndRequest();
-        assert.isTrue(updateStub.calledTwice);
-        assert.equal(updateStub.lastCall.args[0], 1);
-        assert.equal(element._numPendingDiffRequests.number, 1);
-
-        element._showEndRequest();
-        assert.isTrue(updateStub.calledThrice);
-        assert.equal(updateStub.lastCall.args[0], 0);
-        assert.equal(element._numPendingDiffRequests.number, 0);
-      });
     });
   });
 </script>

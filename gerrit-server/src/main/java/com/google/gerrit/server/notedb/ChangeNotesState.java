@@ -34,7 +34,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
@@ -66,19 +65,12 @@ public abstract class ChangeNotesState {
         ImmutableList.of(),
         ImmutableList.of(),
         ReviewerSet.empty(),
-        ReviewerByEmailSet.empty(),
-        ReviewerSet.empty(),
-        ReviewerByEmailSet.empty(),
         ImmutableList.of(),
         ImmutableList.of(),
         ImmutableList.of(),
         ImmutableList.of(),
         ImmutableListMultimap.of(),
         ImmutableListMultimap.of(),
-        null,
-        null,
-        null,
-        true,
         null);
   }
 
@@ -102,20 +94,13 @@ public abstract class ChangeNotesState {
       Map<PatchSet.Id, PatchSet> patchSets,
       ListMultimap<PatchSet.Id, PatchSetApproval> approvals,
       ReviewerSet reviewers,
-      ReviewerByEmailSet reviewersByEmail,
-      ReviewerSet pendingReviewers,
-      ReviewerByEmailSet pendingReviewersByEmail,
       List<Account.Id> allPastReviewers,
       List<ReviewerStatusUpdate> reviewerUpdates,
       List<SubmitRecord> submitRecords,
       List<ChangeMessage> allChangeMessages,
       ListMultimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet,
       ListMultimap<RevId, Comment> publishedComments,
-      @Nullable Timestamp readOnlyUntil,
-      @Nullable Boolean isPrivate,
-      @Nullable Boolean workInProgress,
-      boolean hasReviewStarted,
-      @Nullable Change.Id revertOf) {
+      @Nullable Timestamp readOnlyUntil) {
     if (hashtags == null) {
       hashtags = ImmutableSet.of();
     }
@@ -134,30 +119,19 @@ public abstract class ChangeNotesState {
             originalSubject,
             submissionId,
             assignee,
-            status,
-            isPrivate,
-            workInProgress,
-            hasReviewStarted,
-            revertOf),
+            status),
         ImmutableSet.copyOf(pastAssignees),
         ImmutableSet.copyOf(hashtags),
         ImmutableList.copyOf(patchSets.entrySet()),
         ImmutableList.copyOf(approvals.entries()),
         reviewers,
-        reviewersByEmail,
-        pendingReviewers,
-        pendingReviewersByEmail,
         ImmutableList.copyOf(allPastReviewers),
         ImmutableList.copyOf(reviewerUpdates),
         ImmutableList.copyOf(submitRecords),
         ImmutableList.copyOf(allChangeMessages),
         ImmutableListMultimap.copyOf(changeMessagesByPatchSet),
         ImmutableListMultimap.copyOf(publishedComments),
-        readOnlyUntil,
-        isPrivate,
-        workInProgress,
-        hasReviewStarted,
-        revertOf);
+        readOnlyUntil);
   }
 
   /**
@@ -200,18 +174,6 @@ public abstract class ChangeNotesState {
     // TODO(dborowitz): Use a sensible default other than null
     @Nullable
     abstract Change.Status status();
-
-    @Nullable
-    abstract Boolean isPrivate();
-
-    @Nullable
-    abstract Boolean isWorkInProgress();
-
-    @Nullable
-    abstract Boolean hasReviewStarted();
-
-    @Nullable
-    abstract Change.Id revertOf();
   }
 
   // Only null if NoteDb is disabled.
@@ -235,12 +197,6 @@ public abstract class ChangeNotesState {
 
   abstract ReviewerSet reviewers();
 
-  abstract ReviewerByEmailSet reviewersByEmail();
-
-  abstract ReviewerSet pendingReviewers();
-
-  abstract ReviewerByEmailSet pendingReviewersByEmail();
-
   abstract ImmutableList<Account.Id> allPastReviewers();
 
   abstract ImmutableList<ReviewerStatusUpdate> reviewerUpdates();
@@ -255,18 +211,6 @@ public abstract class ChangeNotesState {
 
   @Nullable
   abstract Timestamp readOnlyUntil();
-
-  @Nullable
-  abstract Boolean isPrivate();
-
-  @Nullable
-  abstract Boolean isWorkInProgress();
-
-  @Nullable
-  abstract Boolean hasReviewStarted();
-
-  @Nullable
-  abstract Change.Id revertOf();
 
   Change newChange(Project.NameKey project) {
     ChangeColumns c = checkNotNull(columns(), "columns are required");
@@ -325,10 +269,6 @@ public abstract class ChangeNotesState {
     change.setLastUpdatedOn(c.lastUpdatedOn());
     change.setSubmissionId(c.submissionId());
     change.setAssignee(c.assignee());
-    change.setPrivate(c.isPrivate() == null ? false : c.isPrivate());
-    change.setWorkInProgress(c.isWorkInProgress() == null ? false : c.isWorkInProgress());
-    change.setReviewStarted(c.hasReviewStarted() == null ? false : c.hasReviewStarted());
-    change.setRevertOf(c.revertOf());
 
     if (!patchSets().isEmpty()) {
       change.setCurrentPatchSet(c.currentPatchSetId(), c.subject(), c.originalSubject());

@@ -22,7 +22,7 @@ import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 
 public class AuthorPredicate extends ChangeIndexPredicate {
-  public AuthorPredicate(String value) {
+  AuthorPredicate(String value) {
     super(AUTHOR, FIELD_AUTHOR, value.toLowerCase());
   }
 

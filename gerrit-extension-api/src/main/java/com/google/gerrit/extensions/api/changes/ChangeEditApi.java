@@ -14,13 +14,11 @@
 
 package com.google.gerrit.extensions.api.changes;
 
-import com.google.gerrit.extensions.client.ChangeEditDetailOption;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import java.util.EnumSet;
 import java.util.Optional;
 
 /**
@@ -30,33 +28,6 @@ import java.util.Optional;
  * represented by the change edit. A change can have at most one change edit at each point in time.
  */
 public interface ChangeEditApi {
-
-  abstract class ChangeEditDetailRequest {
-    private String base;
-    private EnumSet<ChangeEditDetailOption> options = EnumSet.noneOf(ChangeEditDetailOption.class);
-
-    public abstract Optional<EditInfo> get() throws RestApiException;
-
-    public ChangeEditDetailRequest withBase(String base) {
-      this.base = base;
-      return this;
-    }
-
-    public ChangeEditDetailRequest withOption(ChangeEditDetailOption option) {
-      this.options.add(option);
-      return this;
-    }
-
-    public String getBase() {
-      return base;
-    }
-
-    public EnumSet<ChangeEditDetailOption> options() {
-      return options;
-    }
-  }
-
-  ChangeEditDetailRequest detail() throws RestApiException;
 
   /**
    * Retrieves details regarding the change edit.
@@ -184,11 +155,6 @@ public interface ChangeEditApi {
    * interface.
    */
   class NotImplemented implements ChangeEditApi {
-    @Override
-    public ChangeEditDetailRequest detail() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
     @Override
     public Optional<EditInfo> get() throws RestApiException {
       throw new NotImplementedException();

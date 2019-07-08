@@ -116,7 +116,7 @@ public class RestApi {
     }
 
     @Override
-    public void onResponseReceived(Request req, Response res) {
+    public void onResponseReceived(Request req, final Response res) {
       int status = res.getStatusCode();
       if (status == Response.SC_NO_CONTENT) {
         cb.onSuccess(new HttpResponse<T>(res, null, null));
@@ -179,7 +179,7 @@ public class RestApi {
               }
             };
 
-        // Defer handling the response if the create took a while.
+        // Defer handling the response if the parse took a while.
         if ((System.currentTimeMillis() - start) > 75) {
           Scheduler.get().scheduleDeferred(cmd);
         } else {
@@ -256,10 +256,6 @@ public class RestApi {
 
   public RestApi id(String id) {
     return idRaw(URL.encodePathSegment(id));
-  }
-
-  public RestApi id(String project, int id) {
-    return idRaw(URL.encodePathSegment(project) + "~" + id);
   }
 
   public RestApi id(int id) {
@@ -503,7 +499,7 @@ public class RestApi {
     }
   }
 
-  private static <T extends JavaScriptObject> HttpCallback<T> wrap(AsyncCallback<T> cb) {
+  private static <T extends JavaScriptObject> HttpCallback<T> wrap(final AsyncCallback<T> cb) {
     return new HttpCallback<T>() {
       @Override
       public void onSuccess(HttpResponse<T> r) {

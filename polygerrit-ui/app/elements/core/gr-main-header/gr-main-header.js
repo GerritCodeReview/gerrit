@@ -14,7 +14,33 @@
 (function() {
   'use strict';
 
-  const DEFAULT_LINKS = [{
+  var ADMIN_LINKS = [
+    {
+      url: '/admin/groups',
+      name: 'Groups',
+    },
+    {
+      url: '/admin/create-group',
+      name: 'Create Group',
+      capability: 'createGroup'
+    },
+    {
+      url: '/admin/projects',
+      name: 'Projects',
+    },
+    {
+      url: '/admin/create-project',
+      name: 'Create Project',
+      capability: 'createProject',
+    },
+    {
+      url: '/admin/plugins',
+      name: 'Plugins',
+      capability: 'viewPlugins',
+    },
+  ];
+
+  var DEFAULT_LINKS = [{
     title: 'Changes',
     links: [
       {
@@ -32,31 +58,31 @@
     ],
   }];
 
-  const DOCUMENTATION_LINKS = [
+  var DOCUMENTATION_LINKS = [
     {
-      url: '/index.html',
-      name: 'Table of Contents',
+      url : '/index.html',
+      name : 'Table of Contents',
     },
     {
-      url: '/user-search.html',
-      name: 'Searching',
+      url : '/user-search.html',
+      name : 'Searching',
     },
     {
-      url: '/user-upload.html',
-      name: 'Uploading',
+      url : '/user-upload.html',
+      name : 'Uploading',
     },
     {
-      url: '/access-control.html',
-      name: 'Access Control',
+      url : '/access-control.html',
+      name : 'Access Control',
     },
     {
-      url: '/rest-api.html',
-      name: 'REST API',
+      url : '/rest-api.html',
+      name : 'REST API',
     },
     {
-      url: '/intro-project-owner.html',
-      name: 'Project Owner Guide',
-    },
+      url : '/intro-project-owner.html',
+      name : 'Project Owner Guide',
+    }
   ];
 
   Polymer({
@@ -72,25 +98,24 @@
         notify: true,
       },
 
-      /** @type {?Object} */
       _account: Object,
       _adminLinks: {
         type: Array,
-        value() { return []; },
+        value: function() { return []; },
       },
       _defaultLinks: {
         type: Array,
-        value() {
+        value: function() {
           return DEFAULT_LINKS;
         },
       },
       _docBaseUrl: {
         type: String,
-        value: null,
       },
       _links: {
         type: Array,
-        computed: '_computeLinks(_defaultLinks, _userLinks, _docBaseUrl)',
+        computed: '_computeLinks(_defaultLinks, _userLinks, _adminLinks, ' +
+            '_docBaseUrl)',
       },
       _loginURL: {
         type: String,
@@ -98,40 +123,38 @@
       },
       _userLinks: {
         type: Array,
-        value() { return []; },
+        value: function() { return []; },
       },
     },
 
     behaviors: [
       Gerrit.BaseUrlBehavior,
-      Gerrit.DocsUrlBehavior,
     ],
 
     observers: [
       '_accountLoaded(_account)',
     ],
 
-    attached() {
+    attached: function() {
       this._loadAccount();
       this._loadConfig();
       this.listen(window, 'location-change', '_handleLocationChange');
     },
 
-    detached() {
+    detached: function() {
       this.unlisten(window, 'location-change', '_handleLocationChange');
     },
 
-    reload() {
+    reload: function() {
       this._loadAccount();
     },
 
-    _handleLocationChange(e) {
-      const baseUrl = this.getBaseUrl();
-      if (baseUrl) {
+    _handleLocationChange: function(e) {
+      if (this.getBaseUrl()) {
         // Strip the canonical path from the path since needing canonical in
         // the path is uneeded and breaks the url.
-        this._loginURL = baseUrl + '/login/' + encodeURIComponent(
-            '/' + window.location.pathname.substring(baseUrl.length) +
+        this._loginURL = this.getBaseUrl() + '/login/' + encodeURIComponent(
+            '/' + window.location.pathname.substring(this.getBaseUrl().length) +
             window.location.search +
             window.location.hash);
       } else {
@@ -142,35 +165,40 @@
       }
     },
 
-    _computeRelativeURL(path) {
+    _computeRelativeURL: function(path) {
       return '//' + window.location.host + this.getBaseUrl() + path;
     },
 
-    _computeLinks(defaultLinks, userLinks, docBaseUrl) {
-      const links = defaultLinks.slice();
+    _computeLinks: function(defaultLinks, userLinks, adminLinks, docBaseUrl) {
+      var links = defaultLinks.slice();
       if (userLinks && userLinks.length > 0) {
         links.push({
           title: 'Your',
           links: userLinks,
         });
       }
-      const docLinks = this._getDocLinks(docBaseUrl, DOCUMENTATION_LINKS);
+      if (adminLinks && adminLinks.length > 0) {
+        links.push({
+          title: 'Admin',
+          links: adminLinks,
+        });
+      }
+      var docLinks = this._getDocLinks(docBaseUrl, DOCUMENTATION_LINKS);
       if (docLinks.length) {
         links.push({
           title: 'Documentation',
           links: docLinks,
-          class: 'hideOnMobile',
         });
       }
       return links;
     },
 
-    _getDocLinks(docBaseUrl, docLinks) {
+    _getDocLinks: function(docBaseUrl, docLinks) {
       if (!docBaseUrl || !docLinks) {
         return [];
       }
-      return docLinks.map(link => {
-        let url = docBaseUrl;
+      return docLinks.map(function(link) {
+        var url = docBaseUrl;
         if (url && url[url.length - 1] === '/') {
           url = url.substring(0, url.length - 1);
         }
@@ -182,32 +210,59 @@
       });
     },
 
-    _loadAccount() {
-      return this.$.restAPI.getAccount().then(account => {
+    _loadAccount: function() {
+      this.$.restAPI.getAccount().then(function(account) {
         this._account = account;
         this.$.accountContainer.classList.toggle('loggedIn', account != null);
         this.$.accountContainer.classList.toggle('loggedOut', account == null);
-      });
+      }.bind(this));
     },
 
-    _loadConfig() {
-      this.$.restAPI.getConfig()
-          .then(config => this.getDocsBaseUrl(config, this.$.restAPI))
-          .then(docBaseUrl => { this._docBaseUrl = docBaseUrl; });
+    _loadConfig: function() {
+      this.$.restAPI.getConfig().then(function(config) {
+        if (config && config.gerrit && config.gerrit.doc_url) {
+          this._docBaseUrl = config.gerrit.doc_url;
+        }
+        if (!this._docBaseUrl) {
+          return this._probeDocLink('/Documentation/index.html');
+        }
+      }.bind(this));
     },
 
-    _accountLoaded(account) {
+    _probeDocLink: function(path) {
+      return this.$.restAPI.probePath(this.getBaseUrl() + path).then(function(ok) {
+        if (ok) {
+          this._docBaseUrl = this.getBaseUrl() + '/Documentation';
+        } else {
+          this._docBaseUrl = null;
+        }
+      }.bind(this));
+    },
+
+    _accountLoaded: function(account) {
       if (!account) { return; }
 
-      this.$.restAPI.getPreferences().then(prefs => {
+      this.$.restAPI.getPreferences().then(function(prefs) {
         this._userLinks =
             prefs.my.map(this._fixMyMenuItem).filter(this._isSupportedLink);
-      });
+      }.bind(this));
+      this._loadAccountCapabilities();
     },
 
-    _fixMyMenuItem(linkObj) {
+    _loadAccountCapabilities: function() {
+      var params = ['createProject', 'createGroup', 'viewPlugins'];
+      return this.$.restAPI.getAccountCapabilities(params)
+          .then(function(capabilities) {
+        this._adminLinks = ADMIN_LINKS.filter(function(link) {
+          return !link.capability ||
+              capabilities.hasOwnProperty(link.capability);
+        });
+      }.bind(this));
+    },
+
+    _fixMyMenuItem: function(linkObj) {
       // Normalize all urls to PolyGerrit style.
-      if (linkObj.url.startsWith('#')) {
+      if (linkObj.url.indexOf('#') === 0) {
         linkObj.url = linkObj.url.slice(1);
       }
 
@@ -228,9 +283,9 @@
       return linkObj;
     },
 
-    _isSupportedLink(linkObj) {
+    _isSupportedLink: function(linkObj) {
       // Groups are not yet supported.
-      return !linkObj.url.startsWith('/groups');
+      return linkObj.url.indexOf('/groups') !== 0;
     },
   });
 })();

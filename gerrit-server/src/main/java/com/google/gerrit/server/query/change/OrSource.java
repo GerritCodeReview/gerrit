@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.index.query.OrPredicate;
-import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.query.OrPredicate;
+import com.google.gerrit.server.query.Predicate;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;

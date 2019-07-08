@@ -48,12 +48,12 @@ limitations under the License.
     (function() {
       'use strict';
 
-      const DiffViewMode = {
+      var DiffViewMode = {
         SIDE_BY_SIDE: 'SIDE_BY_SIDE',
         UNIFIED: 'UNIFIED_DIFF',
       };
 
-      const TimingLabel = {
+      var TimingLabel = {
         TOTAL: 'Diff Total Render',
         CONTENT: 'Diff Content Render',
         SYNTAX: 'Diff Syntax Render',
@@ -61,9 +61,9 @@ limitations under the License.
 
       // If any line of the diff is more than the character limit, then disable
       // syntax highlighting for the entire file.
-      const SYNTAX_MAX_LINE_LENGTH = 500;
+      var SYNTAX_MAX_LINE_LENGTH = 500;
 
-      const TRAILING_WHITESPACE_PATTERN = /\s+$/;
+      var TRAILING_WHITESPACE_PATTERN = /\s+$/;
 
       Polymer({
         is: 'gr-diff-builder',
@@ -94,7 +94,6 @@ limitations under the License.
           isImageDiff: Boolean,
           baseImage: Object,
           revisionImage: Object,
-          projectName: String,
           _builder: Object,
           _groups: Array,
           _layers: Array,
@@ -109,7 +108,7 @@ limitations under the License.
           '_groupsChanged(_groups.splices)',
         ],
 
-        attached() {
+        attached: function() {
           // Setup annotation layers.
           this._layers = [
             this._createTrailingWhitespaceLayer(),
@@ -119,18 +118,19 @@ limitations under the License.
             this.$.rangeLayer,
           ];
 
-          this.async(() => {
+          this.async(function() {
             this._preRenderThread();
           });
         },
 
-        render(comments, prefs) {
+        render: function(comments, prefs) {
           this.$.syntaxLayer.enabled = prefs.syntax_highlighting;
           this._showTabs = !!prefs.show_tabs;
           this._showTrailingWhitespace = !!prefs.show_whitespace_errors;
 
-          // Stop the processor and syntax layer (if they're running).
-          this.cancel();
+          // Stop the processor (if it's running).
+          this.$.processor.cancel();
+          this.$.syntaxLayer.cancel();
 
           this._builder = this._getDiffBuilder(this.diff, comments, prefs);
 
@@ -140,35 +140,33 @@ limitations under the License.
           this._clearDiffContent();
           this._builder.addColumns(this.diffElement, prefs.font_size);
 
-          const reporting = this.$.reporting;
+          var reporting = this.$.reporting;
 
           reporting.time(TimingLabel.TOTAL);
           reporting.time(TimingLabel.CONTENT);
           this.dispatchEvent(new CustomEvent('render-start', {bubbles: true}));
-          return this.$.processor.process(this.diff.content, this.isImageDiff)
-              .then(() => {
-                if (this.isImageDiff) {
-                  this._builder.renderDiffImages();
-                }
-                this.dispatchEvent(new CustomEvent('render-content',
-                    {bubbles: true}));
+          return this.$.processor.process(this.diff.content).then(function() {
+            if (this.isImageDiff) {
+              this._builder.renderDiffImages();
+            }
+            this.dispatchEvent(new CustomEvent('render-content',
+                {bubbles: true}));
 
-                if (this._anyLineTooLong()) {
-                  this.$.syntaxLayer.enabled = false;
-                }
+            if (this._anyLineTooLong()) {
+              this.$.syntaxLayer.enabled = false;
+            }
 
-                reporting.timeEnd(TimingLabel.CONTENT);
-                reporting.time(TimingLabel.SYNTAX);
-                return this.$.syntaxLayer.process().then(() => {
-                  reporting.timeEnd(TimingLabel.SYNTAX);
-                  reporting.timeEnd(TimingLabel.TOTAL);
-                  this.dispatchEvent(
-                      new CustomEvent('render', {bubbles: true}));
-                });
-              });
+            reporting.timeEnd(TimingLabel.CONTENT);
+            reporting.time(TimingLabel.SYNTAX);
+            return this.$.syntaxLayer.process().then(function() {
+              reporting.timeEnd(TimingLabel.SYNTAX);
+              reporting.timeEnd(TimingLabel.TOTAL);
+              this.dispatchEvent(new CustomEvent('render', {bubbles: true}));
+            }.bind(this));
+          }.bind(this));
         },
 
-        getLineElByChild(node) {
+        getLineElByChild: function(node) {
           while (node) {
             if (node instanceof Element) {
               if (node.classList.contains('lineNum')) {
@@ -183,160 +181,154 @@ limitations under the License.
           return null;
         },
 
-        getLineNumberByChild(node) {
-          const lineEl = this.getLineElByChild(node);
+        getLineNumberByChild: function(node) {
+          var lineEl = this.getLineElByChild(node);
           return lineEl ?
-              parseInt(lineEl.getAttribute('data-value'), 10) :
-              null;
+              parseInt(lineEl.getAttribute('data-value'), 10) : null;
         },
 
-        getContentByLine(lineNumber, opt_side, opt_root) {
+        getContentByLine: function(lineNumber, opt_side, opt_root) {
           return this._builder.getContentByLine(lineNumber, opt_side, opt_root);
         },
 
-        getContentByLineEl(lineEl) {
-          const root = Polymer.dom(lineEl.parentElement);
-          const side = this.getSideByLineEl(lineEl);
-          const line = lineEl.getAttribute('data-value');
+        getContentByLineEl: function(lineEl) {
+          var root = Polymer.dom(lineEl.parentElement);
+          var side = this.getSideByLineEl(lineEl);
+          var line = lineEl.getAttribute('data-value');
           return this.getContentByLine(line, side, root);
         },
 
-        getLineElByNumber(lineNumber, opt_side) {
-          const sideSelector = opt_side ? ('.' + opt_side) : '';
+        getLineElByNumber: function(lineNumber, opt_side) {
+          var sideSelector = !!opt_side ? ('.' + opt_side) : '';
           return this.diffElement.querySelector(
               '.lineNum[data-value="' + lineNumber + '"]' + sideSelector);
         },
 
-        getContentsByLineRange(startLine, endLine, opt_side) {
-          const result = [];
+        getContentsByLineRange: function(startLine, endLine, opt_side) {
+          var result = [];
           this._builder.findLinesByRange(startLine, endLine, opt_side, null,
               result);
           return result;
         },
 
-        getSideByLineEl(lineEl) {
+        getSideByLineEl: function(lineEl) {
           return lineEl.classList.contains(GrDiffBuilder.Side.RIGHT) ?
-          GrDiffBuilder.Side.RIGHT : GrDiffBuilder.Side.LEFT;
+              GrDiffBuilder.Side.RIGHT : GrDiffBuilder.Side.LEFT;
         },
 
-        createCommentThreadGroup(changeNum, patchNum, path,
-            isOnParent, commentSide) {
+        createCommentThreadGroup: function(changeNum, patchNum, path,
+            isOnParent, commentSide, projectConfig) {
           return this._builder.createCommentThreadGroup(changeNum, patchNum,
-              path, isOnParent, commentSide);
+              path, isOnParent, commentSide, projectConfig);
         },
 
-        emitGroup(group, sectionEl) {
+        emitGroup: function(group, sectionEl) {
           this._builder.emitGroup(group, sectionEl);
         },
 
-        showContext(newGroups, sectionEl) {
-          const groups = this._builder.groups;
+        showContext: function(newGroups, sectionEl) {
+          var groups = this._builder.groups;
+          // TODO(viktard): Polyfill findIndex for IE10.
+          var contextIndex = groups.findIndex(function(group) {
+            return group.element == sectionEl;
+          });
+          groups.splice.apply(groups, [contextIndex, 1].concat(newGroups));
 
-          const contextIndex = groups.findIndex(group =>
-            group.element === sectionEl
-          );
-          groups.splice(...[contextIndex, 1].concat(newGroups));
-
-          for (const newGroup of newGroups) {
+          newGroups.forEach(function(newGroup) {
             this._builder.emitGroup(newGroup, sectionEl);
-          }
+          }, this);
           sectionEl.parentNode.removeChild(sectionEl);
 
-          this.async(() => this.fire('render-content'), 1);
+          this.async(function() {
+            this.fire('render');
+          }, 1);
         },
 
-        cancel() {
-          this.$.processor.cancel();
-          this.$.syntaxLayer.cancel();
-        },
-
-        _getDiffBuilder(diff, comments, prefs) {
+        _getDiffBuilder: function(diff, comments, prefs) {
           if (this.isImageDiff) {
             return new GrDiffBuilderImage(diff, comments, prefs,
-                this.projectName, this.diffElement, this.baseImage,
-                this.revisionImage);
+                this.diffElement, this.baseImage, this.revisionImage);
           } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
-            return new GrDiffBuilderSideBySide(diff, comments, prefs,
-                this.projectName, this.diffElement, this._layers);
+            return new GrDiffBuilderSideBySide(
+                diff, comments, prefs, this.diffElement, this._layers);
           } else if (this.viewMode === DiffViewMode.UNIFIED) {
-            return new GrDiffBuilderUnified(diff, comments, prefs,
-                this.projectName, this.diffElement, this._layers);
+            return new GrDiffBuilderUnified(
+                diff, comments, prefs, this.diffElement, this._layers);
           }
           throw Error('Unsupported diff view mode: ' + this.viewMode);
         },
 
-        _clearDiffContent() {
+        _clearDiffContent: function() {
           this.diffElement.innerHTML = null;
         },
 
-        _getCommentLocations(comments) {
-          const result = {
+        _getCommentLocations: function(comments) {
+          var result = {
             left: {},
             right: {},
           };
-          for (const side in comments) {
+          for (var side in comments) {
             if (side !== GrDiffBuilder.Side.LEFT &&
                 side !== GrDiffBuilder.Side.RIGHT) {
               continue;
             }
-            for (const c of comments[side]) {
+            comments[side].forEach(function(c) {
               result[side][c.line || GrDiffLine.FILE] = true;
-            }
+            });
           }
           return result;
         },
 
-        _groupsChanged(changeRecord) {
+        _groupsChanged: function(changeRecord) {
           if (!changeRecord) { return; }
-          for (const splice of changeRecord.indexSplices) {
-            let group;
-            for (let i = 0; i < splice.addedCount; i++) {
+          changeRecord.indexSplices.forEach(function(splice) {
+            var group;
+            for (var i = 0; i < splice.addedCount; i++) {
               group = splice.object[splice.index + i];
               this._builder.groups.push(group);
               this._builder.emitGroup(group);
             }
-          }
+          }, this);
         },
 
-        _createIntralineLayer() {
+        _createIntralineLayer: function() {
           return {
             // Take a DIV.contentText element and a line object with intraline
             // differences to highlight and apply them to the element as
             // annotations.
-            annotate(el, line) {
-              const HL_CLASS = 'style-scope gr-diff intraline';
-              for (const highlight of line.highlights) {
+            annotate: function(el, line) {
+              var HL_CLASS = 'style-scope gr-diff intraline';
+              line.highlights.forEach(function(highlight) {
                 // The start and end indices could be the same if a highlight is
                 // meant to start at the end of a line and continue onto the
                 // next one. Ignore it.
-                if (highlight.startIndex === highlight.endIndex) { continue; }
+                if (highlight.startIndex === highlight.endIndex) { return; }
 
                 // If endIndex isn't present, continue to the end of the line.
-                const endIndex = highlight.endIndex === undefined ?
-                    line.text.length :
-                    highlight.endIndex;
+                var endIndex = highlight.endIndex === undefined ?
+                    line.text.length : highlight.endIndex;
 
                 GrAnnotation.annotateElement(
                     el,
                     highlight.startIndex,
                     endIndex - highlight.startIndex,
                     HL_CLASS);
-              }
+              });
             },
           };
         },
 
-        _createTabIndicatorLayer() {
-          const show = () => this._showTabs;
+        _createTabIndicatorLayer: function() {
+          var show = function() { return this._showTabs; }.bind(this);
           return {
-            annotate(el, line) {
+            annotate: function(el, line) {
               // If visible tabs are disabled, do nothing.
               if (!show()) { return; }
 
               // Find and annotate the locations of tabs.
-              const split = line.text.split('\t');
+              var split = line.text.split('\t');
               if (!split) { return; }
-              for (let i = 0, pos = 0; i < split.length - 1; i++) {
+              for (var i = 0, pos = 0; i < split.length - 1; i++) {
                 // Skip forward by the length of the content
                 pos += split[i].length;
 
@@ -350,22 +342,22 @@ limitations under the License.
           };
         },
 
-        _createTrailingWhitespaceLayer() {
-          const show = function() {
+        _createTrailingWhitespaceLayer: function() {
+          var show = function() {
             return this._showTrailingWhitespace;
           }.bind(this);
 
           return {
-            annotate(el, line) {
+            annotate: function(el, line) {
               if (!show()) { return; }
 
-              const match = line.text.match(TRAILING_WHITESPACE_PATTERN);
+              var match = line.text.match(TRAILING_WHITESPACE_PATTERN);
               if (match) {
                 // Normalize string positions in case there is unicode before or
                 // within the match.
-                const index = GrAnnotation.getStringLength(
+                var index = GrAnnotation.getStringLength(
                     line.text.substr(0, match.index));
-                const length = GrAnnotation.getStringLength(match[0]);
+                var length = GrAnnotation.getStringLength(match[0]);
                 GrAnnotation.annotateElement(el, index, length,
                     'style-scope gr-diff trailing-whitespace');
               }
@@ -382,31 +374,26 @@ limitations under the License.
          * already exist and the user's comment will be quick to load.
          * @see https://gerrit-review.googlesource.com/c/82213/
          */
-        _preRenderThread() {
-          const thread = document.createElement('gr-diff-comment-thread');
+        _preRenderThread: function() {
+          var thread = document.createElement('gr-diff-comment-thread');
           thread.setAttribute('hidden', true);
           thread.addDraft();
-          const parent = Polymer.dom(this.root);
+          var parent = Polymer.dom(this.root);
           parent.appendChild(thread);
           Polymer.dom.flush();
           parent.removeChild(thread);
         },
 
         /**
-         * @return {boolean} whether any of the lines in _groups are longer
+         * @return {Boolean} whether any of the lines in _groups are longer
          * than SYNTAX_MAX_LINE_LENGTH.
          */
-        _anyLineTooLong() {
-          return this._groups.reduce((acc, group) => {
-            return acc || group.lines.reduce((acc, line) => {
+        _anyLineTooLong: function() {
+          return this._groups.reduce(function(acc, group) {
+            return acc || group.lines.reduce(function(acc, line) {
               return acc || line.text.length >= SYNTAX_MAX_LINE_LENGTH;
             }, false);
           }, false);
-        },
-
-        setBlame(blame) {
-          if (!this._builder || !blame) { return; }
-          this._builder.setBlame(blame);
         },
       });
     })();

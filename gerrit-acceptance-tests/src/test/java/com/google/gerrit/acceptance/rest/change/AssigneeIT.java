@@ -16,26 +16,19 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
-import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.Sandboxed;
-import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.TestTimeUtil;
 import java.util.Iterator;
 import java.util.List;
-import org.eclipse.jgit.transport.RefSpec;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -129,43 +122,6 @@ public class AssigneeIT extends AbstractDaemonTest {
   public void deleteAssigneeWhenNoAssignee() throws Exception {
     PushOneCommit.Result r = createChange();
     assertThat(deleteAssignee(r)).isNull();
-  }
-
-  @Test
-  @Sandboxed
-  public void setAssigneeToInactiveUser() throws Exception {
-    PushOneCommit.Result r = createChange();
-    gApi.accounts().id(user.getId().get()).setActive(false);
-    exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("is not active");
-    setAssignee(r, user.email);
-  }
-
-  @Test
-  public void setAssigneeForNonVisibleChange() throws Exception {
-    git().fetch().setRefSpecs(new RefSpec("refs/meta/config:refs/meta/config")).call();
-    testRepo.reset(RefNames.REFS_CONFIG);
-    PushOneCommit.Result r = createChange("refs/for/refs/meta/config");
-    exception.expect(AuthException.class);
-    exception.expectMessage("read not permitted");
-    setAssignee(r, user.email);
-  }
-
-  @Test
-  public void setAssigneeNotAllowedWithoutPermission() throws Exception {
-    PushOneCommit.Result r = createChange();
-    setApiUser(user);
-    exception.expect(AuthException.class);
-    exception.expectMessage("not permitted");
-    setAssignee(r, user.email);
-  }
-
-  @Test
-  public void setAssigneeAllowedWithPermission() throws Exception {
-    PushOneCommit.Result r = createChange();
-    grant(project, "refs/heads/master", Permission.EDIT_ASSIGNEE, false, REGISTERED_USERS);
-    setApiUser(user);
-    assertThat(setAssignee(r, user.email)._accountId).isEqualTo(user.getId().get());
   }
 
   private AccountInfo getAssignee(PushOneCommit.Result r) throws Exception {

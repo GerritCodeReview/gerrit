@@ -14,40 +14,61 @@
 
 package com.google.gerrit.acceptance.pgm;
 
-import static com.google.gerrit.elasticsearch.ElasticTestUtils.createAllIndexes;
-import static com.google.gerrit.elasticsearch.ElasticTestUtils.getConfig;
-
 import com.google.gerrit.elasticsearch.ElasticVersion;
+import com.google.gerrit.elasticsearch.testing.ElasticContainer;
+import com.google.gerrit.elasticsearch.testing.ElasticTestUtils;
+import com.google.gerrit.elasticsearch.testing.ElasticTestUtils.ElasticNodeInfo;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Injector;
+import java.util.UUID;
 import org.eclipse.jgit.lib.Config;
+import org.junit.After;
 import org.junit.Before;
 
 public class ElasticReindexIT extends AbstractReindexTests {
+  private static ElasticContainer<?> container;
+
+  private static Config getConfig(ElasticVersion version) {
+    ElasticNodeInfo elasticNodeInfo;
+    container = ElasticContainer.createAndStart(version);
+    elasticNodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
+    String indicesPrefix = UUID.randomUUID().toString();
+    Config cfg = new Config();
+    ElasticTestUtils.configure(cfg, elasticNodeInfo.port, indicesPrefix, version);
+    return cfg;
+  }
 
   @ConfigSuite.Default
+  public static Config elasticsearchV2() {
+    return getConfig(ElasticVersion.V2_4);
+  }
+
+  @ConfigSuite.Config
   public static Config elasticsearchV5() {
     return getConfig(ElasticVersion.V5_6);
   }
 
   @ConfigSuite.Config
   public static Config elasticsearchV6() {
-    return getConfig(ElasticVersion.V6_7);
-  }
-
-  @ConfigSuite.Config
-  public static Config elasticsearchV7() {
-    return getConfig(ElasticVersion.V7_2);
+    return getConfig(ElasticVersion.V6_4);
   }
 
   @Override
   public void configureIndex(Injector injector) throws Exception {
-    createAllIndexes(injector);
+    ElasticTestUtils.createAllIndexes(injector);
   }
 
   @Before
   public void reindexFirstSinceElastic() throws Exception {
     assertServerStartupFails();
     runGerrit("reindex", "-d", sitePaths.site_path.toString(), "--show-stack-trace");
+  }
+
+  @After
+  public void stopElasticServer() {
+    if (container != null) {
+      container.stop();
+      container = null;
+    }
   }
 }

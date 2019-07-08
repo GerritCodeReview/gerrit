@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -56,13 +57,11 @@ public abstract class AbstractChangeUpdate {
 
   protected PatchSet.Id psId;
   private ObjectId result;
-  protected boolean rootOnly;
 
   protected AbstractChangeUpdate(
       Config cfg,
       NotesMigration migration,
-      ChangeNotes notes,
-      CurrentUser user,
+      ChangeControl ctl,
       PersonIdent serverIdent,
       String anonymousCowardName,
       ChangeNoteUtil noteUtil,
@@ -71,12 +70,12 @@ public abstract class AbstractChangeUpdate {
     this.noteUtil = noteUtil;
     this.serverIdent = new PersonIdent(serverIdent, when);
     this.anonymousCowardName = anonymousCowardName;
-    this.notes = notes;
+    this.notes = ctl.getNotes();
     this.change = notes.getChange();
-    this.accountId = accountId(user);
-    Account.Id realAccountId = accountId(user.getRealUser());
+    this.accountId = accountId(ctl.getUser());
+    Account.Id realAccountId = accountId(ctl.getUser().getRealUser());
     this.realAccountId = realAccountId != null ? realAccountId : accountId;
-    this.authorIdent = ident(noteUtil, serverIdent, anonymousCowardName, user, when);
+    this.authorIdent = ident(noteUtil, serverIdent, anonymousCowardName, ctl.getUser(), when);
     this.when = when;
     this.readOnlySkewMs = NoteDbChangeState.getReadOnlySkew(cfg);
   }
@@ -190,11 +189,6 @@ public abstract class AbstractChangeUpdate {
 
   /** Whether no updates have been done. */
   public abstract boolean isEmpty();
-
-  /** Wether this update can only be a root commit. */
-  public boolean isRootOnly() {
-    return rootOnly;
-  }
 
   /**
    * @return the NameKey for the project where the update will be stored, which is not necessarily

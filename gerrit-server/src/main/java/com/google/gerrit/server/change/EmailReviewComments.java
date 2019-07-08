@@ -50,24 +50,6 @@ public class EmailReviewComments implements Runnable, RequestContext {
   private static final Logger log = LoggerFactory.getLogger(EmailReviewComments.class);
 
   public interface Factory {
-    // TODO(dborowitz/wyatta): Rationalize these arguments so HTML and text templates are operating
-    // on the same set of inputs.
-    /**
-     * @param notify setting for handling notification.
-     * @param accountsToNotify detailed map of accounts to notify.
-     * @param notes change notes.
-     * @param patchSet patch set corresponding to the top-level op
-     * @param user user the email should come from.
-     * @param message used by text template only: the full ChangeMessage that will go in the
-     *     database. The contents of this message typically include the "Patch set N" header and "(M
-     *     comments)".
-     * @param comments inline comments.
-     * @param patchSetComment used by HTML template only: some quasi-human-generated text. The
-     *     contents should *not* include a "Patch set N" header or "(M comments)" footer, as these
-     *     will be added automatically in soy in a structured way.
-     * @param labels labels applied as part of this review operation.
-     * @return handle for sending email.
-     */
     EmailReviewComments create(
         NotifyHandling notify,
         ListMultimap<RecipientType, Account.Id> accountsToNotify,

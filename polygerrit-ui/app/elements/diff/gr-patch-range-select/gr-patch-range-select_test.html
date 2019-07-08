@@ -20,9 +20,9 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
 <script src="../../../bower_components/page/page.js"></script>
 
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-patch-range-select.html">
 
 <script>void(0);</script>
@@ -34,361 +34,91 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-patch-range-select tests', () => {
-    let element;
-    let sandbox;
+  suite('gr-patch-range-select tests', function() {
+    var element;
 
-    setup(() => {
+    setup(function() {
       element = fixture('basic');
-      sandbox = sinon.sandbox.create();
     });
 
-    teardown(() => sandbox.restore());
-
-    test('enabled/disabled options', () => {
-      const patchRange = {
+    test('enabled/disabled options', function() {
+      var patchRange = {
         basePatchNum: 'PARENT',
         patchNum: '3',
       };
-      const sortedRevisions = [
-        {_number: 1},
-        {_number: 2},
-        {_number: element.EDIT_NAME, basePatchNum: 2},
-        {_number: 3},
-      ];
-      for (const patchNum of ['1', '2', '3']) {
-        assert.isFalse(element._computeRightDisabled(patchNum,
-            patchRange.basePatchNum, sortedRevisions));
-      }
-      for (const patchNum of ['PARENT', '1', '2']) {
-        assert.isFalse(element._computeLeftDisabled(patchNum,
-            patchRange.patchNum, sortedRevisions));
-      }
-      assert.isTrue(element._computeLeftDisabled('3', patchRange.patchNum));
-
-      patchRange.basePatchNum = element.EDIT_NAME;
-      assert.isTrue(element._computeLeftDisabled('3', patchRange.patchNum,
-          sortedRevisions));
-      assert.isTrue(element._computeRightDisabled('1', patchRange.basePatchNum,
-          sortedRevisions));
-      assert.isTrue(element._computeRightDisabled('2', patchRange.basePatchNum,
-          sortedRevisions));
-      assert.isFalse(element._computeRightDisabled('3', patchRange.basePatchNum,
-          sortedRevisions));
-      assert.isTrue(element._computeRightDisabled(element.EDIT_NAME,
-          patchRange.basePatchNum, sortedRevisions));
-    });
-
-    test('_computeBaseDropdownContent', () => {
-      const comments = {};
-      const availablePatches = [
-        {num: 1},
-        {num: 2},
-        {num: 3},
-        {num: 'edit'},
-      ];
-      const revisions = [
-        {
-          commit: {},
-          _number: 2,
-          description: 'description',
-        },
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
-      ];
-      const patchNum = 1;
-      const sortedRevisions = [
-        {_number: 1},
-        {_number: 2},
-        {_number: element.EDIT_NAME, basePatchNum: 2},
-        {_number: 3},
-      ];
-      const expectedResult = [
-        {
-          text: 'Base',
-          value: 'PARENT',
-        },
-        {
-          disabled: true,
-          triggerText: 'Patchset 1',
-          text: 'Patchset 1',
-          mobileText: '1',
-          bottomText: '',
-          value: 1,
-        },
-        {
-          disabled: true,
-          triggerText: 'Patchset 2',
-          text: 'Patchset 2',
-          mobileText: '2 description',
-          bottomText: 'description',
-          value: 2,
-        },
-        {
-          disabled: true,
-          triggerText: 'Patchset 3',
-          text: 'Patchset 3',
-          mobileText: '3',
-          bottomText: '',
-          value: 3,
-        },
-        {
-          disabled: true,
-          triggerText: 'Patchset edit',
-          text: 'Patchset edit',
-          mobileText: 'edit',
-          bottomText: '',
-          value: 'edit',
-        },
-      ];
-      assert.deepEqual(element._computeBaseDropdownContent(availablePatches,
-          patchNum, sortedRevisions, revisions, comments), expectedResult);
-    });
-
-    test('_computeBaseDropdownContent called when patchNum updates', () => {
-      element.revisions = [
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
-      ];
-      element.availablePatches = [
-        {num: 1},
-        {num: 2},
-        {num: 3},
-        {num: 'edit'},
-      ];
-      element.patchNum = 2;
-      element.basePatchNum = 'PARENT';
-      flushAsynchronousOperations();
-
-      sandbox.stub(element, '_computeBaseDropdownContent');
-
-      // Should be recomputed for each available patch
-      element.set('patchNum', 1);
-      assert.equal(element._computeBaseDropdownContent.callCount, 1);
-    });
-
-    test('_computeBaseDropdownContent called when comments update', () => {
-      element.revisions = [
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
-      ];
-      element.availablePatches = [
-        {num: 1},
-        {num: 2},
-        {num: 3},
-        {num: 'edit'},
-      ];
-      element.patchNum = 2;
-      element.basePatchNum = 'PARENT';
-      flushAsynchronousOperations();
-
-      // Should be recomputed for each available patch
-      sandbox.stub(element, '_computeBaseDropdownContent');
-      assert.equal(element._computeBaseDropdownContent.callCount, 0);
-      element.set('comments', {
-        file: [{
-          message: 'test',
-          patch_set: 2,
-        }],
+      ['1', '2', '3'].forEach(function(patchNum) {
+        assert.isFalse(element._computeRightDisabled(patchNum, patchRange));
       });
-      assert.equal(element._computeBaseDropdownContent.callCount, 1);
-    });
-
-    test('_computePatchDropdownContent called when basePatchNum updates', () => {
-      element.revisions = [
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
-      ];
-      element.availablePatches = [
-        {num: 1},
-        {num: 2},
-        {num: 3},
-        {num: 'edit'},
-      ];
-      element.patchNum = 2;
-      element.basePatchNum = 'PARENT';
-      flushAsynchronousOperations();
-
-      // Should be recomputed for each available patch
-      sandbox.stub(element, '_computePatchDropdownContent');
-      element.set('basePatchNum', 1);
-      assert.equal(element._computePatchDropdownContent.callCount, 1);
-    });
-
-    test('_computePatchDropdownContent called when comments update', () => {
-      element.revisions = [
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
-      ];
-      element.availablePatches = [
-        {num: 1},
-        {num: 2},
-        {num: 3},
-        {num: 'edit'},
-      ];
-      element.patchNum = 2;
-      element.basePatchNum = 'PARENT';
-      flushAsynchronousOperations();
-
-      // Should be recomputed for each available patch
-      sandbox.stub(element, '_computePatchDropdownContent');
-      assert.equal(element._computePatchDropdownContent.callCount, 0);
-      element.set('comments', {
-        file: [{
-          message: 'test',
-          patch_set: 2,
-        }],
+      ['PARENT', '1', '2'].forEach(function(patchNum) {
+        assert.isFalse(element._computeLeftDisabled(patchNum, patchRange));
       });
-      assert.equal(element._computePatchDropdownContent.callCount, 1);
+      assert.isTrue(element._computeLeftDisabled('3', patchRange));
+
+      patchRange.basePatchNum = '2';
+      assert.isTrue(element._computeLeftDisabled('3', patchRange));
+      assert.isTrue(element._computeRightDisabled('1', patchRange));
+      assert.isTrue(element._computeRightDisabled('2', patchRange));
+      assert.isFalse(element._computeRightDisabled('3', patchRange));
     });
 
-    test('_computePatchDropdownContent', () => {
-      const comments = {};
-      const availablePatches = [
-        {num: 1},
-        {num: 2},
-        {num: 3},
-        {num: 'edit'},
-      ];
-      const revisions = [
-        {
-          commit: {},
-          _number: 2,
-          description: 'description',
-        },
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
-      ];
-      const basePatchNum = 1;
-      const sortedRevisions = [
-        {_number: 1},
-        {_number: 2},
-        {_number: element.EDIT_NAME, basePatchNum: 2},
-        {_number: 3},
-      ];
+    test('navigation', function(done) {
+      var showStub = sinon.stub(page, 'show');
+      var leftSelectEl = element.$.leftPatchSelect;
+      var rightSelectEl = element.$.rightPatchSelect;
+      var blurSpy = sinon.spy(leftSelectEl, 'blur');
+      element.changeNum = '42';
+      element.path = 'path/to/file.txt';
+      element.availablePatches = ['1', '2', '3'];
+      element.patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '3',
+      };
+      flushAsynchronousOperations();
 
-      const expectedResult = [
-        {
-          disabled: true,
-          triggerText: 'Patchset 1',
-          text: 'Patchset 1',
-          mobileText: '1',
-          bottomText: '',
-          value: 1,
-        },
-        {
-          disabled: false,
-          triggerText: 'Patchset 2',
-          text: 'Patchset 2',
-          mobileText: '2 description',
-          bottomText: 'description',
-          value: 2,
-        },
-        {
-          disabled: false,
-          triggerText: 'Patchset 3',
-          text: 'Patchset 3',
-          mobileText: '3',
-          bottomText: '',
-          value: 3,
-        },
-        {
-          disabled: false,
-          triggerText: 'edit',
-          text: 'edit',
-          mobileText: 'edit',
-          bottomText: '',
-          value: 'edit',
-        },
-      ];
-
-      assert.deepEqual(element._computePatchDropdownContent(availablePatches,
-          basePatchNum, sortedRevisions, revisions, comments), expectedResult);
+      var numEvents = 0;
+      leftSelectEl.addEventListener('change', function(e) {
+        numEvents++;
+        if (numEvents == 1) {
+          assert(showStub.lastCall.calledWithExactly(
+              '/c/42/3/path/to/file.txt'),
+              'Should navigate to /c/42/3/path/to/file.txt');
+          leftSelectEl.value = '1';
+          element.fire('change', {}, {node: leftSelectEl});
+          assert(blurSpy.called, 'Dropdown should be blurred after selection');
+        } else if (numEvents == 2) {
+          assert(showStub.lastCall.calledWithExactly(
+              '/c/42/1..3/path/to/file.txt'),
+              'Should navigate to /c/42/1..3/path/to/file.txt');
+          showStub.restore();
+          done();
+        }
+      });
+      leftSelectEl.value = 'PARENT';
+      rightSelectEl.value = '3';
+      element.fire('change', {}, {node: leftSelectEl});
     });
 
-    test('filesWeblinks', () => {
+    test('filesWeblinks', function() {
       element.filesWeblinks = {
         meta_a: [
           {
             name: 'foo',
             url: 'f.oo',
-          },
+          }
         ],
         meta_b: [
           {
             name: 'bar',
             url: 'ba.r',
-          },
+          }
         ],
       };
       flushAsynchronousOperations();
-      const domApi = Polymer.dom(element.root);
+      var domApi = Polymer.dom(element.root);
       assert.equal(
           domApi.querySelector('a[href="f.oo"]').textContent, 'foo');
       assert.equal(
           domApi.querySelector('a[href="ba.r"]').textContent, 'bar');
-    });
-
-    test('_computePatchSetCommentsString', () => {
-      // Test string with unresolved comments.
-      comments = {
-        foo: [{
-          id: '27dcee4d_f7b77cfa',
-          message: 'test',
-          patch_set: 1,
-          unresolved: true,
-        }],
-        bar: [{
-          id: '27dcee4d_f7b77cfa',
-          message: 'test',
-          patch_set: 1,
-        },
-        {
-          id: '27dcee4d_f7b77cfa',
-          message: 'test',
-          patch_set: 1,
-        }],
-        abc: [],
-      };
-
-      assert.equal(element._computePatchSetCommentsString(comments, 1),
-          ' (3 comments, 1 unresolved)');
-
-      // Test string with no unresolved comments.
-      delete comments['foo'];
-      assert.equal(element._computePatchSetCommentsString(comments, 1),
-          ' (2 comments)');
-
-      // Test string with no comments.
-      delete comments['bar'];
-      assert.equal(element._computePatchSetCommentsString(comments, 1), '');
-    });
-
-    test('patch-range-change fires', () => {
-      const handler = sandbox.stub();
-      element.basePatchNum = 1;
-      element.patchNum = 3;
-      element.addEventListener('patch-range-change', handler);
-
-      element.$.basePatchDropdown._handleValueChange(2, [{value: 2}]);
-      assert.isTrue(handler.calledOnce);
-      assert.deepEqual(handler.lastCall.args[0].detail,
-          {basePatchNum: 2, patchNum: 3});
-
-      // BasePatchNum should not have changed, due to one-way data binding.
-      element.$.patchNumDropdown._handleValueChange('edit', [{value: 'edit'}]);
-      assert.deepEqual(handler.lastCall.args[0].detail,
-          {basePatchNum: 1, patchNum: 'edit'});
     });
   });
 </script>

@@ -20,7 +20,8 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-commit-info.html">
 
 <script>void(0);</script>
@@ -32,14 +33,14 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-commit-info tests', () => {
-    let element;
+  suite('gr-commit-info tests', function() {
+    var element;
 
-    setup(() => {
+    setup(function() {
       element = fixture('basic');
     });
 
-    test('no web link when unavailable', () => {
+    test('no web link when unavailable', function() {
       element.commitInfo = {};
       element.serverConfig = {};
       element.change = {labels: []};
@@ -48,7 +49,7 @@ limitations under the License.
           element.commitInfo, element.serverConfig));
     });
 
-    test('use web link when available', () => {
+    test('use web link when available', function() {
       element.commitInfo = {web_links: [{name: 'gitweb', url: 'link-url'}]};
       element.serverConfig = {};
 
@@ -58,9 +59,9 @@ limitations under the License.
           element.serverConfig), 'link-url');
     });
 
-    test('does not relativize web links that begin with scheme', () => {
+    test('does not relativize web links that begin with scheme', function() {
       element.commitInfo = {
-        web_links: [{name: 'gitweb', url: 'https://link-url'}],
+        web_links: [{name: 'gitweb', url: 'https://link-url'}]
       };
       element.serverConfig = {};
 
@@ -70,7 +71,7 @@ limitations under the License.
           element.serverConfig), 'https://link-url');
     });
 
-    test('use gitweb when available', () => {
+    test('use gitweb when available', function() {
       element.commitInfo = {commit: 'commit-sha'};
       element.serverConfig = {gitweb: {
         url: 'url-base/',
@@ -79,7 +80,7 @@ limitations under the License.
       element.change = {
         project: 'project-name',
         labels: [],
-        current_revision: element.commitInfo.commit,
+        current_revision: element.commitInfo.commit
       };
 
       assert.isOk(element._computeShowWebLink(element.change,
@@ -89,10 +90,10 @@ limitations under the License.
           element.serverConfig), 'url-base/xx project-name xx commit-sha xx');
     });
 
-    test('prefer gitweb when both are available', () => {
+    test('prefer gitweb when both are available', function() {
       element.commitInfo = {
         commit: 'commit-sha',
-        web_links: [{url: 'link-url'}],
+        web_links: [{url: 'link-url'}]
       };
       element.serverConfig = {gitweb: {
         url: 'url-base/',
@@ -101,20 +102,20 @@ limitations under the License.
       element.change = {
         project: 'project-name',
         labels: [],
-        current_revision: element.commitInfo.commit,
+        current_revision: element.commitInfo.commit
       };
 
       assert.isOk(element._computeShowWebLink(element.change,
           element.commitInfo, element.serverConfig));
 
-      const link = element._computeWebLink(element.change, element.commitInfo,
+      var link = element._computeWebLink(element.change, element.commitInfo,
           element.serverConfig);
 
       assert.equal(link, 'url-base/xx project-name xx commit-sha xx');
       assert.notEqual(link, '../../link-url');
     });
 
-    test('ignore web links that are neither gitweb nor gitiles', () => {
+    test('ignore web links that are neither gitweb nor gitiles', function() {
       element.commitInfo = {
         commit: 'commit-sha',
         web_links: [
@@ -125,7 +126,7 @@ limitations under the License.
           {
             name: 'gitiles',
             url: 'https://link-url',
-          },
+          }
         ],
       };
       element.serverConfig = {};

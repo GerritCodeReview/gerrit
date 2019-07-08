@@ -15,13 +15,13 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
@@ -145,16 +145,12 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
 
   @Test
   public void repairChangeStateAfterFailure() throws Exception {
-    // In NoteDb-only mode, repo and meta updates are atomic (at least in InMemoryRepository).
-    assume().that(notesMigration.disableChangeReviewDb()).isFalse();
-
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
     Change.Id id = change.getChange().getId();
-    TestSubmitInput failInput = new TestSubmitInput();
-    failInput.failAfterRefUpdates = true;
+    SubmitInput failAfterRefUpdates = new TestSubmitInput(new SubmitInput(), true);
     submit(
         change.getChangeId(),
-        failInput,
+        failAfterRefUpdates,
         ResourceConflictException.class,
         "Failing after ref updates");
 
@@ -193,8 +189,8 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
   public void submitSameCommitsAsInExperimentalBranch() throws Exception {
     RevCommit initialHead = getRemoteHead();
 
-    grant(project, "refs/heads/*", Permission.CREATE);
-    grant(project, "refs/heads/experimental", Permission.PUSH);
+    grant(Permission.CREATE, project, "refs/heads/*");
+    grant(Permission.PUSH, project, "refs/heads/experimental");
 
     RevCommit c1 = commitBuilder().add("b.txt", "1").message("commit at tip").create();
     String id1 = GitUtil.getChangeId(testRepo, c1).get();

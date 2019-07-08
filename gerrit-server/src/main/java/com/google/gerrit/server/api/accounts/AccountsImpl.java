@@ -15,7 +15,7 @@
 package com.google.gerrit.server.api.accounts;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
+import static com.google.gerrit.server.account.CapabilityUtils.checkRequiresCapability;
 
 import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
@@ -32,18 +32,18 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.account.CreateAccount;
 import com.google.gerrit.server.account.QueryAccounts;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.List;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class AccountsImpl implements Accounts {
   private final AccountsCollection accounts;
   private final AccountApiImpl.Factory api;
-  private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> self;
   private final CreateAccount.Factory createAccount;
   private final Provider<QueryAccounts> queryAccountsProvider;
@@ -52,13 +52,11 @@ public class AccountsImpl implements Accounts {
   AccountsImpl(
       AccountsCollection accounts,
       AccountApiImpl.Factory api,
-      PermissionBackend permissionBackend,
       Provider<CurrentUser> self,
       CreateAccount.Factory createAccount,
       Provider<QueryAccounts> queryAccountsProvider) {
     this.accounts = accounts;
     this.api = api;
-    this.permissionBackend = permissionBackend;
     this.self = self;
     this.createAccount = createAccount;
     this.queryAccountsProvider = queryAccountsProvider;
@@ -68,8 +66,8 @@ public class AccountsImpl implements Accounts {
   public AccountApi id(String id) throws RestApiException {
     try {
       return api.create(accounts.parse(TopLevelResource.INSTANCE, IdString.fromDecoded(id)));
-    } catch (Exception e) {
-      throw asRestApiException("Cannot parse change", e);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot parse change", e);
     }
   }
 
@@ -98,13 +96,13 @@ public class AccountsImpl implements Accounts {
     if (checkNotNull(in, "AccountInput").username == null) {
       throw new BadRequestException("AccountInput must specify username");
     }
+    checkRequiresCapability(self, null, CreateAccount.class);
     try {
-      CreateAccount impl = createAccount.create(in.username);
-      permissionBackend.user(self).checkAny(GlobalPermission.fromAnnotation(impl.getClass()));
-      AccountInfo info = impl.apply(TopLevelResource.INSTANCE, in).value();
+      AccountInfo info =
+          createAccount.create(in.username).apply(TopLevelResource.INSTANCE, in).value();
       return id(info._accountId);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot create account " + in.username, e);
+    } catch (OrmException | IOException | ConfigInvalidException e) {
+      throw new RestApiException("Cannot create account " + in.username, e);
     }
   }
 
@@ -130,8 +128,8 @@ public class AccountsImpl implements Accounts {
       myQueryAccounts.setQuery(r.getQuery());
       myQueryAccounts.setLimit(r.getLimit());
       return myQueryAccounts.apply(TopLevelResource.INSTANCE);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot retrieve suggested accounts", e);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot retrieve suggested accounts", e);
     }
   }
 
@@ -160,8 +158,8 @@ public class AccountsImpl implements Accounts {
         myQueryAccounts.addOption(option);
       }
       return myQueryAccounts.apply(TopLevelResource.INSTANCE);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot retrieve suggested accounts", e);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot retrieve suggested accounts", e);
     }
   }
 }

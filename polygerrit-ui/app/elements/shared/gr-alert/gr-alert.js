@@ -41,52 +41,50 @@
       _hideActionButton: Boolean,
       _boundTransitionEndHandler: {
         type: Function,
-        value() { return this._handleTransitionEnd.bind(this); },
+        value: function() { return this._handleTransitionEnd.bind(this); },
       },
-      _actionCallback: Function,
     },
 
-    attached() {
+    attached: function() {
       this.addEventListener('transitionend', this._boundTransitionEndHandler);
     },
 
-    detached() {
+    detached: function() {
       this.removeEventListener('transitionend',
           this._boundTransitionEndHandler);
     },
 
-    show(text, opt_actionText, opt_actionCallback) {
+    show: function(text, opt_actionText) {
       this.text = text;
       this.actionText = opt_actionText;
       this._hideActionButton = !opt_actionText;
-      this._actionCallback = opt_actionCallback;
-      Gerrit.getRootElement().appendChild(this);
+      document.body.appendChild(this);
       this._setShown(true);
     },
 
-    hide() {
+    hide: function() {
       this._setShown(false);
       if (this._hasZeroTransitionDuration()) {
-        Gerrit.getRootElement().removeChild(this);
+        document.body.removeChild(this);
       }
     },
 
-    _hasZeroTransitionDuration() {
-      const style = window.getComputedStyle(this);
+    _hasZeroTransitionDuration: function() {
+      var style = window.getComputedStyle(this);
       // transitionDuration is always given in seconds.
-      const duration = Math.round(parseFloat(style.transitionDuration) * 100);
+      var duration = Math.round(parseFloat(style.transitionDuration) * 100);
       return duration === 0;
     },
 
-    _handleTransitionEnd(e) {
+    _handleTransitionEnd: function(e) {
       if (this.shown) { return; }
 
-      Gerrit.getRootElement().removeChild(this);
+      document.body.removeChild(this);
     },
 
-    _handleActionTap(e) {
+    _handleActionTap: function(e) {
       e.preventDefault();
-      if (this._actionCallback) { this._actionCallback(); }
+      this.fire('action', null, {bubbles: false});
     },
   });
 })();

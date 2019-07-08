@@ -40,7 +40,6 @@ class MariaDb extends BaseDataSourceType {
     b.append(port(dbs.optional("port")));
     b.append("/");
     b.append(dbs.required("database"));
-    b.append("?useBulkStmts=false");
     return b.toString();
   }
 

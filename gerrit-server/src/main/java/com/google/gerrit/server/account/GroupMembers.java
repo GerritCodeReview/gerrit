@@ -14,16 +14,14 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.common.collect.ImmutableSet.toImmutableSet;
-
-import com.google.common.collect.Sets;
+import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroupById;
+import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.group.InternalGroup;
-import com.google.gerrit.server.group.InternalGroupDescription;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -33,7 +31,6 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 public class GroupMembers {
@@ -42,26 +39,26 @@ public class GroupMembers {
   }
 
   private final GroupCache groupCache;
-  private final GroupControl.Factory groupControlFactory;
+  private final GroupDetailFactory.Factory groupDetailFactory;
   private final AccountCache accountCache;
   private final ProjectControl.GenericFactory projectControl;
   private final CurrentUser currentUser;
 
   @Inject
   GroupMembers(
-      GroupCache groupCache,
-      GroupControl.Factory groupControlFactory,
-      AccountCache accountCache,
-      ProjectControl.GenericFactory projectControl,
-      @Assisted CurrentUser currentUser) {
+      final GroupCache groupCache,
+      final GroupDetailFactory.Factory groupDetailFactory,
+      final AccountCache accountCache,
+      final ProjectControl.GenericFactory projectControl,
+      @Assisted final CurrentUser currentUser) {
     this.groupCache = groupCache;
-    this.groupControlFactory = groupControlFactory;
+    this.groupDetailFactory = groupDetailFactory;
     this.accountCache = accountCache;
     this.projectControl = projectControl;
     this.currentUser = currentUser;
   }
 
-  public Set<Account> listAccounts(AccountGroup.UUID groupUUID, Project.NameKey project)
+  public Set<Account> listAccounts(final AccountGroup.UUID groupUUID, final Project.NameKey project)
       throws NoSuchGroupException, NoSuchProjectException, OrmException, IOException {
     return listAccounts(groupUUID, project, new HashSet<AccountGroup.UUID>());
   }
@@ -74,14 +71,15 @@ public class GroupMembers {
     if (SystemGroupBackend.PROJECT_OWNERS.equals(groupUUID)) {
       return getProjectOwners(project, seen);
     }
-    Optional<InternalGroup> group = groupCache.get(groupUUID);
-    if (group.isPresent()) {
-      return getGroupMembers(group.get(), project, seen);
+    AccountGroup group = groupCache.get(groupUUID);
+    if (group != null) {
+      return getGroupMembers(group, project, seen);
     }
     return Collections.emptySet();
   }
 
-  private Set<Account> getProjectOwners(final Project.NameKey project, Set<AccountGroup.UUID> seen)
+  private Set<Account> getProjectOwners(
+      final Project.NameKey project, final Set<AccountGroup.UUID> seen)
       throws NoSuchProjectException, NoSuchGroupException, OrmException, IOException {
     seen.add(SystemGroupBackend.PROJECT_OWNERS);
     if (project == null) {
@@ -92,7 +90,7 @@ public class GroupMembers {
         projectControl.controlFor(project, currentUser).getProjectState().getAllOwners();
 
     final HashSet<Account> projectOwners = new HashSet<>();
-    for (AccountGroup.UUID ownerGroup : ownerGroups) {
+    for (final AccountGroup.UUID ownerGroup : ownerGroups) {
       if (!seen.contains(ownerGroup)) {
         projectOwners.addAll(listAccounts(ownerGroup, project, seen));
       }
@@ -101,27 +99,25 @@ public class GroupMembers {
   }
 
   private Set<Account> getGroupMembers(
-      InternalGroup group, Project.NameKey project, Set<AccountGroup.UUID> seen)
+      final AccountGroup group, final Project.NameKey project, final Set<AccountGroup.UUID> seen)
       throws NoSuchGroupException, OrmException, NoSuchProjectException, IOException {
     seen.add(group.getGroupUUID());
-    GroupControl groupControl = groupControlFactory.controlFor(new InternalGroupDescription(group));
+    final GroupDetail groupDetail = groupDetailFactory.create(group.getId()).call();
 
-    Set<Account> directMembers =
-        group.getMembers().stream()
-            .filter(groupControl::canSeeMember)
-            .map(accountCache::get)
-            .map(AccountState::getAccount)
-            .collect(toImmutableSet());
-
-    Set<Account> indirectMembers = new HashSet<>();
-    if (groupControl.canSeeGroup()) {
-      for (AccountGroup.UUID subgroupUuid : group.getSubgroups()) {
-        if (!seen.contains(subgroupUuid)) {
-          indirectMembers.addAll(listAccounts(subgroupUuid, project, seen));
+    final Set<Account> members = new HashSet<>();
+    if (groupDetail.members != null) {
+      for (final AccountGroupMember member : groupDetail.members) {
+        members.add(accountCache.get(member.getAccountId()).getAccount());
+      }
+    }
+    if (groupDetail.includes != null) {
+      for (final AccountGroupById groupInclude : groupDetail.includes) {
+        final AccountGroup includedGroup = groupCache.get(groupInclude.getIncludeUUID());
+        if (includedGroup != null && !seen.contains(includedGroup.getGroupUUID())) {
+          members.addAll(listAccounts(includedGroup.getGroupUUID(), project, seen));
         }
       }
     }
-
-    return Sets.union(directMembers, indirectMembers);
+    return members;
   }
 }

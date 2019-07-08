@@ -14,72 +14,53 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.index.query.IsVisibleToPredicate;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.permissions.ChangePermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.query.IsVisibleToPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData> {
-  private static final Logger log = LoggerFactory.getLogger(ChangeIsVisibleToPredicate.class);
+class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData> {
+  private final Provider<ReviewDb> db;
+  private final ChangeNotes.Factory notesFactory;
+  private final ChangeControl.GenericFactory changeControl;
+  private final CurrentUser user;
 
-  protected final Provider<ReviewDb> db;
-  protected final ChangeNotes.Factory notesFactory;
-  protected final CurrentUser user;
-  protected final PermissionBackend permissionBackend;
-
-  public ChangeIsVisibleToPredicate(
+  ChangeIsVisibleToPredicate(
       Provider<ReviewDb> db,
       ChangeNotes.Factory notesFactory,
-      CurrentUser user,
-      PermissionBackend permissionBackend) {
-    super(ChangeQueryBuilder.FIELD_VISIBLETO, IndexUtils.describe(user));
+      ChangeControl.GenericFactory changeControlFactory,
+      CurrentUser user) {
+    super(ChangeQueryBuilder.FIELD_VISIBLETO, describe(user));
     this.db = db;
     this.notesFactory = notesFactory;
+    this.changeControl = changeControlFactory;
     this.user = user;
-    this.permissionBackend = permissionBackend;
   }
 
   @Override
-  public boolean match(ChangeData cd) throws OrmException {
+  public boolean match(final ChangeData cd) throws OrmException {
     if (cd.fastIsVisibleTo(user)) {
       return true;
     }
-    Change change = cd.change();
-    if (change == null) {
-      return false;
-    }
-
-    ChangeNotes notes = notesFactory.createFromIndexedChange(change);
-    boolean visible;
     try {
-      visible =
-          permissionBackend
-              .user(user)
-              .indexedChange(cd, notes)
-              .database(db)
-              .test(ChangePermission.READ);
-    } catch (PermissionBackendException e) {
-      Throwable cause = e.getCause();
-      if (cause instanceof RepositoryNotFoundException) {
-        log.warn(
-            "Skipping change {} because the corresponding repository was not found", cd.getId(), e);
+      Change c = cd.change();
+      if (c == null) {
         return false;
       }
-      throw new OrmException("unable to check permissions on change " + cd.getId(), e);
-    }
-    if (visible) {
-      cd.cacheVisibleTo(user);
-      return true;
+
+      ChangeNotes notes = notesFactory.createFromIndexedChange(c);
+      ChangeControl cc = changeControl.controlFor(notes, user);
+      if (cc.isVisible(db.get(), cd)) {
+        cd.cacheVisibleTo(cc);
+        return true;
+      }
+    } catch (NoSuchChangeException e) {
+      // Ignored
     }
     return false;
   }

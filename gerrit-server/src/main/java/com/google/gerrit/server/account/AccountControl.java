@@ -18,17 +18,12 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.errors.NoSuchGroupException;
-import com.google.gerrit.extensions.common.AccountVisibility;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.AccountsSection;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -37,7 +32,6 @@ import java.util.Set;
 /** Access control management for one account's access to other accounts. */
 public class AccountControl {
   public static class Factory {
-    private final PermissionBackend permissionBackend;
     private final ProjectCache projectCache;
     private final GroupControl.Factory groupControlFactory;
     private final Provider<CurrentUser> user;
@@ -46,13 +40,11 @@ public class AccountControl {
 
     @Inject
     Factory(
-        PermissionBackend permissionBackend,
-        ProjectCache projectCache,
-        GroupControl.Factory groupControlFactory,
-        Provider<CurrentUser> user,
-        IdentifiedUser.GenericFactory userFactory,
-        AccountVisibility accountVisibility) {
-      this.permissionBackend = permissionBackend;
+        final ProjectCache projectCache,
+        final GroupControl.Factory groupControlFactory,
+        final Provider<CurrentUser> user,
+        final IdentifiedUser.GenericFactory userFactory,
+        final AccountVisibility accountVisibility) {
       this.projectCache = projectCache;
       this.groupControlFactory = groupControlFactory;
       this.user = user;
@@ -62,34 +54,24 @@ public class AccountControl {
 
     public AccountControl get() {
       return new AccountControl(
-          permissionBackend,
-          projectCache,
-          groupControlFactory,
-          user.get(),
-          userFactory,
-          accountVisibility);
+          projectCache, groupControlFactory, user.get(), userFactory, accountVisibility);
     }
   }
 
   private final AccountsSection accountsSection;
   private final GroupControl.Factory groupControlFactory;
-  private final PermissionBackend.WithUser perm;
   private final CurrentUser user;
   private final IdentifiedUser.GenericFactory userFactory;
   private final AccountVisibility accountVisibility;
 
-  private Boolean viewAll;
-
   AccountControl(
-      PermissionBackend permissionBackend,
-      ProjectCache projectCache,
-      GroupControl.Factory groupControlFactory,
-      CurrentUser user,
-      IdentifiedUser.GenericFactory userFactory,
-      AccountVisibility accountVisibility) {
+      final ProjectCache projectCache,
+      final GroupControl.Factory groupControlFactory,
+      final CurrentUser user,
+      final IdentifiedUser.GenericFactory userFactory,
+      final AccountVisibility accountVisibility) {
     this.accountsSection = projectCache.getAllProjects().getConfig().getAccountsSection();
     this.groupControlFactory = groupControlFactory;
-    this.perm = permissionBackend.user(user);
     this.user = user;
     this.userFactory = userFactory;
     this.accountVisibility = accountVisibility;
@@ -117,7 +99,7 @@ public class AccountControl {
    * because {@link GroupMembership#getKnownGroups()} may only return a subset of the effective
    * groups.
    */
-  public boolean canSee(Account.Id otherUser) {
+  public boolean canSee(final Account.Id otherUser) {
     return canSee(
         new OtherUser() {
           @Override
@@ -139,7 +121,7 @@ public class AccountControl {
    * because {@link GroupMembership#getKnownGroups()} may only return a subset of the effective
    * groups.
    */
-  public boolean canSee(AccountState otherUser) {
+  public boolean canSee(final AccountState otherUser) {
     return canSee(
         new OtherUser() {
           @Override
@@ -155,16 +137,17 @@ public class AccountControl {
   }
 
   private boolean canSee(OtherUser otherUser) {
-    if (accountVisibility == AccountVisibility.ALL) {
+    // Special case: I can always see myself.
+    if (user.isIdentifiedUser() && user.getAccountId().equals(otherUser.getId())) {
       return true;
-    } else if (user.isIdentifiedUser() && user.getAccountId().equals(otherUser.getId())) {
-      // I can always see myself.
-      return true;
-    } else if (viewAll()) {
+    }
+    if (user.getCapabilities().canViewAllAccounts()) {
       return true;
     }
 
     switch (accountVisibility) {
+      case ALL:
+        return true;
       case SAME_GROUP:
         {
           Set<AccountGroup.UUID> usersGroups = groupsOf(otherUser.getUser());
@@ -195,23 +178,10 @@ public class AccountControl {
         }
       case NONE:
         break;
-      case ALL:
       default:
         throw new IllegalStateException("Bad AccountVisibility " + accountVisibility);
     }
     return false;
-  }
-
-  private boolean viewAll() {
-    if (viewAll == null) {
-      try {
-        perm.check(GlobalPermission.VIEW_ALL_ACCOUNTS);
-        viewAll = true;
-      } catch (AuthException | PermissionBackendException e) {
-        viewAll = false;
-      }
-    }
-    return viewAll;
   }
 
   private Set<AccountGroup.UUID> groupsOf(IdentifiedUser user) {

@@ -20,7 +20,7 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
 <link rel="import" href="gr-group-list.html">
 
 <script>void(0);</script>
@@ -32,13 +32,11 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-group-list tests', () => {
-    let sandbox;
-    let element;
-    let groups;
+  suite('gr-group-list tests', function() {
+    var element;
+    var groups;
 
-    setup(done => {
-      sandbox = sinon.sandbox.create();
+    setup(function(done) {
       groups = [{
         url: 'some url',
         options: {},
@@ -48,57 +46,41 @@ limitations under the License.
         owner_id: '123',
         id: 'abc',
         name: 'Group 1',
-      }, {
+      },{
         options: {visible_to_all: true},
         id: '456',
         name: 'Group 2',
-      }, {
+      },{
         options: {},
         id: '789',
         name: 'Group 3',
       }];
 
       stub('gr-rest-api-interface', {
-        getAccountGroups() { return Promise.resolve(groups); },
+        getAccountGroups: function() { return Promise.resolve(groups); },
       });
 
       element = fixture('basic');
 
-      element.loadData().then(() => { flush(done); });
+      element.loadData().then(function() { flush(done); });
     });
 
-    teardown(() => { sandbox.restore(); });
-
-    test('renders', () => {
-      const rows = Polymer.dom(element.root).querySelectorAll('tbody tr');
+    test('renders', function() {
+      var rows = Polymer.dom(element.root).querySelectorAll('tbody tr');
 
       assert.equal(rows.length, 3);
 
-      const nameCells = rows.map(row =>
-        row.querySelectorAll('td a')[0].textContent.trim()
-      );
+      var nameCells = rows.map(
+          function(row) { return row.querySelectorAll('td')[0].textContent; });
 
       assert.equal(nameCells[0], 'Group 1');
       assert.equal(nameCells[1], 'Group 2');
       assert.equal(nameCells[2], 'Group 3');
     });
 
-    test('_computeVisibleToAll', () => {
+    test('_computeVisibleToAll', function() {
       assert.equal(element._computeVisibleToAll(groups[0]), 'No');
       assert.equal(element._computeVisibleToAll(groups[1]), 'Yes');
-    });
-
-    test('_computeGroupPath', () => {
-      let group = {
-        id: 'e2cd66f88a2db4d391ac068a92d987effbe872f5',
-      };
-      assert.equal(element._computeGroupPath(group),
-          '/admin/groups/e2cd66f88a2db4d391ac068a92d987effbe872f5');
-
-      group = {
-        name: 'admin',
-      };
-      assert.isUndefined(element._computeGroupPath(group));
     });
   });
 </script>

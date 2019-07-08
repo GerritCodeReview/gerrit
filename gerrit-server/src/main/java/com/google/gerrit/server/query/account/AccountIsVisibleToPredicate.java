@@ -14,17 +14,16 @@
 
 package com.google.gerrit.server.query.account;
 
-import com.google.gerrit.index.query.IsVisibleToPredicate;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.index.IndexUtils;
+import com.google.gerrit.server.query.IsVisibleToPredicate;
 import com.google.gwtorm.server.OrmException;
 
 public class AccountIsVisibleToPredicate extends IsVisibleToPredicate<AccountState> {
-  protected final AccountControl accountControl;
+  private final AccountControl accountControl;
 
-  public AccountIsVisibleToPredicate(AccountControl accountControl) {
-    super(AccountQueryBuilder.FIELD_VISIBLETO, IndexUtils.describe(accountControl.getUser()));
+  AccountIsVisibleToPredicate(AccountControl accountControl) {
+    super(AccountQueryBuilder.FIELD_VISIBLETO, describe(accountControl.getUser()));
     this.accountControl = accountControl;
   }
 

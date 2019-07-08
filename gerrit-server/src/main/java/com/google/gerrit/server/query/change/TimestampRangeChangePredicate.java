@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.index.FieldDef;
-import com.google.gerrit.index.query.Matchable;
-import com.google.gerrit.index.query.TimestampRangePredicate;
+import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.TimestampRangePredicate;
+import com.google.gerrit.server.query.Matchable;
 import java.sql.Timestamp;
 
 public abstract class TimestampRangeChangePredicate extends TimestampRangePredicate<ChangeData>

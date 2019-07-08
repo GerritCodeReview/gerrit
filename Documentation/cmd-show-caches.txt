@@ -58,15 +58,16 @@ Intended for interactive use only.
                                   |   Mem   Disk   Space|         |Mem  Disk|
   --------------------------------+---------------------+---------+---------+
     accounts                      |  4096               |   3.4ms | 99%     |
+    accounts_byemail              |  1024               |   7.6ms | 98%     |
+    accounts_byname               |  4096               |  11.3ms | 99%     |
     adv_bases                     |                     |         |         |
     changes                       |                     |  27.1ms |  0%     |
     groups                        |  5646               |  11.8ms | 97%     |
-    groups_bymember               |                     |         |         |
+    groups_byinclude              |   230               |   2.4ms | 62%     |
     groups_byname                 |                     |         |         |
-    groups_bysubgroup             |   230               |   2.4ms | 62%     |
     groups_byuuid                 |  5612               |  29.2ms | 99%     |
     groups_external               |     1               |   1.5s  | 98%     |
-    groups_subgroups              |  5714               |  19.7ms | 99%     |
+    groups_members                |  5714               |  19.7ms | 99%     |
     ldap_group_existence          |                     |         |         |
     ldap_groups                   |   650               | 680.5ms | 99%     |
     ldap_groups_byinclude         |  1024               |         | 83%     |

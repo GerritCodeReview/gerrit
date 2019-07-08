@@ -264,41 +264,7 @@ The entries in the map are sorted by project name.
       "can_upload": true,
       "can_add": true,
       "can_add_tags": true,
-      "config_visible": true,
-      "groups": {
-         "53a4f647a89ea57992571187d8025f830625192a": {
-           "url": "#/admin/groups/uuid-53a4f647a89ea57992571187d8025f830625192a",
-           "options": {},
-           "description": "Gerrit Site Administrators",
-           "group_id": 1,
-           "owner": "Administrators",
-           "owner_id": "53a4f647a89ea57992571187d8025f830625192a",
-           "created_on": "2009-06-08 23:31:00.000000000",
-           "name": "Administrators"
-         },
-         "global:Registered-Users": {
-           "options": {},
-           "name": "Registered Users"
-         },
-         "global:Project-Owners": {
-           "options": {},
-           "name": "Project Owners"
-         },
-         "15bfcd8a6de1a69c50b30cedcdcc951c15703152": {
-           "url": "#/admin/groups/uuid-15bfcd8a6de1a69c50b30cedcdcc951c15703152",
-           "options": {},
-           "description": "Users who perform batch actions on Gerrit",
-           "group_id": 2,
-           "owner": "Administrators",
-           "owner_id": "53a4f647a89ea57992571187d8025f830625192a",
-           "created_on": "2009-06-08 23:31:00.000000000",
-           "name": "Non-Interactive Users"
-         },
-         "global:Anonymous-Users": {
-           "options": {},
-           "name": "Anonymous Users"
-         }
-      }
+      "config_visible": true
     },
     "MyProject": {
       "revision": "61157ed63e14d261b6dca40650472a9b0bd88474",
@@ -406,10 +372,6 @@ Whether the calling user can add any tag ref.
 |`config_visible`     |not set if `false`|
 Whether the calling user can see the `refs/meta/config` branch of the
 project.
-|`groups`            |A map of group UUID to
-link:rest-api-groups.html#group-info[GroupInfo] objects, describing
-the group UUIDs used in the `local` map. Groups that are not visible
-are omitted from the `groups` map.
 |==================================
 
 

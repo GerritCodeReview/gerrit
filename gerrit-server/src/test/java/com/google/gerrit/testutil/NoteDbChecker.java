@@ -19,8 +19,6 @@ import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ListMultimap;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -31,7 +29,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.MutableNotesMigration;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
 import com.google.gwtorm.client.IntKey;
 import com.google.gwtorm.server.OrmException;
@@ -55,7 +52,7 @@ public class NoteDbChecker {
 
   private final Provider<ReviewDb> dbProvider;
   private final GitRepositoryManager repoManager;
-  private final MutableNotesMigration notesMigration;
+  private final TestNotesMigration notesMigration;
   private final ChangeBundleReader bundleReader;
   private final ChangeNotes.Factory notesFactory;
   private final ChangeRebuilder changeRebuilder;
@@ -65,7 +62,7 @@ public class NoteDbChecker {
   NoteDbChecker(
       Provider<ReviewDb> dbProvider,
       GitRepositoryManager repoManager,
-      MutableNotesMigration notesMigration,
+      TestNotesMigration notesMigration,
       ChangeBundleReader bundleReader,
       ChangeNotes.Factory notesFactory,
       ChangeRebuilder changeRebuilder,
@@ -80,22 +77,19 @@ public class NoteDbChecker {
   }
 
   public void rebuildAndCheckAllChanges() throws Exception {
-    rebuildAndCheckChanges(
-        getUnwrappedDb().changes().all().toList().stream().map(Change::getId),
-        ImmutableListMultimap.of());
+    rebuildAndCheckChanges(getUnwrappedDb().changes().all().toList().stream().map(Change::getId));
   }
 
   public void rebuildAndCheckChanges(Change.Id... changeIds) throws Exception {
-    rebuildAndCheckChanges(Arrays.stream(changeIds), ImmutableListMultimap.of());
+    rebuildAndCheckChanges(Arrays.stream(changeIds));
   }
 
-  private void rebuildAndCheckChanges(
-      Stream<Change.Id> changeIds, ListMultimap<Change.Id, String> expectedDiffs) throws Exception {
+  private void rebuildAndCheckChanges(Stream<Change.Id> changeIds) throws Exception {
     ReviewDb db = getUnwrappedDb();
 
     List<ChangeBundle> allExpected = readExpected(changeIds);
 
-    boolean oldWrite = notesMigration.rawWriteChangesSetting();
+    boolean oldWrite = notesMigration.writeChanges();
     boolean oldRead = notesMigration.readChanges();
     try {
       notesMigration.setWriteChanges(true);
@@ -110,7 +104,7 @@ public class NoteDbChecker {
         }
       }
 
-      checkActual(allExpected, expectedDiffs, msgs);
+      checkActual(allExpected, msgs);
     } finally {
       notesMigration.setReadChanges(oldRead);
       notesMigration.setWriteChanges(oldWrite);
@@ -118,14 +112,7 @@ public class NoteDbChecker {
   }
 
   public void checkChanges(Change.Id... changeIds) throws Exception {
-    checkActual(
-        readExpected(Arrays.stream(changeIds)), ImmutableListMultimap.of(), new ArrayList<>());
-  }
-
-  public void rebuildAndCheckChange(Change.Id changeId, String... expectedDiff) throws Exception {
-    ImmutableListMultimap.Builder<Change.Id, String> b = ImmutableListMultimap.builder();
-    b.putAll(changeId, Arrays.asList(expectedDiff));
-    rebuildAndCheckChanges(Stream.of(changeId), b.build());
+    checkActual(readExpected(Arrays.stream(changeIds)), new ArrayList<>());
   }
 
   public void assertNoChangeRef(Project.NameKey project, Change.Id changeId) throws Exception {
@@ -172,14 +159,10 @@ public class NoteDbChecker {
     }
   }
 
-  private void checkActual(
-      List<ChangeBundle> allExpected,
-      ListMultimap<Change.Id, String> expectedDiffs,
-      List<String> msgs)
-      throws Exception {
+  private void checkActual(List<ChangeBundle> allExpected, List<String> msgs) throws Exception {
     ReviewDb db = getUnwrappedDb();
     boolean oldRead = notesMigration.readChanges();
-    boolean oldWrite = notesMigration.rawWriteChangesSetting();
+    boolean oldWrite = notesMigration.writeChanges();
     try {
       notesMigration.setWriteChanges(true);
       notesMigration.setReadChanges(true);
@@ -197,14 +180,9 @@ public class NoteDbChecker {
           continue;
         }
         List<String> diff = expected.differencesFrom(actual);
-        List<String> expectedDiff = expectedDiffs.get(c.getId());
-        if (!diff.equals(expectedDiff)) {
+        if (!diff.isEmpty()) {
           msgs.add("Differences between ReviewDb and NoteDb for " + c + ":");
           msgs.addAll(diff);
-          if (!expectedDiff.isEmpty()) {
-            msgs.add("Expected differences:");
-            msgs.addAll(expectedDiff);
-          }
           msgs.add("");
         } else {
           System.err.println("NoteDb conversion of change " + c.getId() + " successful");

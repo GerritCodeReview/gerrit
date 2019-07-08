@@ -36,11 +36,11 @@ public class TreeFormatter {
   private final PrintWriter stdout;
   private String currentTabSeparator = " ";
 
-  public TreeFormatter(PrintWriter stdout) {
+  public TreeFormatter(final PrintWriter stdout) {
     this.stdout = stdout;
   }
 
-  public void printTree(SortedSet<? extends TreeNode> rootNodes) {
+  public void printTree(final SortedSet<? extends TreeNode> rootNodes) {
     if (rootNodes.isEmpty()) {
       return;
     }
@@ -50,7 +50,7 @@ public class TreeFormatter {
       currentTabSeparator = DEFAULT_TAB_SEPARATOR;
       int i = 0;
       final int size = rootNodes.size();
-      for (TreeNode rootNode : rootNodes) {
+      for (final TreeNode rootNode : rootNodes) {
         final boolean isLastRoot = ++i == size;
         if (isLastRoot) {
           currentTabSeparator = " ";
@@ -60,28 +60,28 @@ public class TreeFormatter {
     }
   }
 
-  public void printTree(TreeNode rootNode) {
+  public void printTree(final TreeNode rootNode) {
     printTree(rootNode, 0, true);
   }
 
-  private void printTree(TreeNode node, int level, boolean isLast) {
+  private void printTree(final TreeNode node, final int level, final boolean isLast) {
     printNode(node, level, isLast);
     final SortedSet<? extends TreeNode> childNodes = node.getChildren();
     int i = 0;
     final int size = childNodes.size();
-    for (TreeNode childNode : childNodes) {
+    for (final TreeNode childNode : childNodes) {
       final boolean isLastChild = ++i == size;
       printTree(childNode, level + 1, isLastChild);
     }
   }
 
-  private void printIndention(int level) {
+  private void printIndention(final int level) {
     if (level > 0) {
       stdout.print(String.format("%-" + 4 * level + "s", currentTabSeparator));
     }
   }
 
-  private void printNode(TreeNode node, int level, boolean isLast) {
+  private void printNode(final TreeNode node, final int level, final boolean isLast) {
     printIndention(level);
     stdout.print(isLast ? LAST_NODE_PREFIX : NODE_PREFIX);
     if (node.isVisible()) {

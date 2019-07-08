@@ -14,18 +14,11 @@
 
 package com.google.gerrit.server.config;
 
-import static java.util.stream.Collectors.joining;
-
-import com.google.gerrit.common.Nullable;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -33,15 +26,8 @@ import org.eclipse.jgit.util.FS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Provides {@link Config} annotated with {@link GerritServerConfig}.
- *
- * <p>Note that this class is not a singleton, so the few callers that need a reloaded-on-demand
- * config can inject a {@code GerritServerConfigProvider}. However, most callers won't need this,
- * and will just inject {@code @GerritServerConfig Config} directly, which is bound as a singleton
- * in {@link GerritServerConfigModule}.
- */
-public class GerritServerConfigProvider implements Provider<Config> {
+/** Provides {@link Config} annotated with {@link GerritServerConfig}. */
+class GerritServerConfigProvider implements Provider<Config> {
   private static final Logger log = LoggerFactory.getLogger(GerritServerConfigProvider.class);
 
   private final SitePaths site;
@@ -55,46 +41,19 @@ public class GerritServerConfigProvider implements Provider<Config> {
 
   @Override
   public Config get() {
-    FileBasedConfig baseConfig = loadConfig(null, site.gerrit_config);
-    if (!baseConfig.getFile().exists()) {
+    FileBasedConfig cfg = new FileBasedConfig(site.gerrit_config.toFile(), FS.DETECTED);
+
+    if (!cfg.getFile().exists()) {
       log.info("No " + site.gerrit_config.toAbsolutePath() + "; assuming defaults");
+      return new GerritConfig(cfg, secureStore);
     }
 
-    FileBasedConfig noteDbConfigOverBaseConfig = loadConfig(baseConfig, site.notedb_config);
-    checkNoteDbConfig(noteDbConfigOverBaseConfig);
-
-    return new GerritConfig(noteDbConfigOverBaseConfig, baseConfig, secureStore);
-  }
-
-  private static FileBasedConfig loadConfig(@Nullable Config base, Path path) {
-    FileBasedConfig cfg = new FileBasedConfig(base, path.toFile(), FS.DETECTED);
     try {
       cfg.load();
     } catch (IOException | ConfigInvalidException e) {
       throw new ProvisionException(e.getMessage(), e);
     }
-    return cfg;
-  }
 
-  private static void checkNoteDbConfig(FileBasedConfig noteDbConfig) {
-    List<String> bad = new ArrayList<>();
-    for (String section : noteDbConfig.getSections()) {
-      if (section.equals(NotesMigration.SECTION_NOTE_DB)) {
-        continue;
-      }
-      for (String subsection : noteDbConfig.getSubsections(section)) {
-        noteDbConfig
-            .getNames(section, subsection, false)
-            .forEach(n -> bad.add(section + "." + subsection + "." + n));
-      }
-      noteDbConfig.getNames(section, false).forEach(n -> bad.add(section + "." + n));
-    }
-    if (!bad.isEmpty()) {
-      throw new ProvisionException(
-          "Non-NoteDb config options not allowed in "
-              + noteDbConfig.getFile()
-              + ":\n"
-              + bad.stream().collect(joining("\n")));
-    }
+    return new GerritConfig(cfg, secureStore);
   }
 }

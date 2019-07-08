@@ -198,12 +198,12 @@ public class RelatedChanges extends TabPanel {
     getTab(Tab.SUBMITTED_TOGETHER).setShowSubmittable(true);
   }
 
-  void set(ChangeInfo info, String revision) {
+  void set(final ChangeInfo info, final String revision) {
     if (info.status().isOpen()) {
       setForOpenChange(info, revision);
     }
 
-    ChangeApi.revision(info.project(), info.legacyId().get(), revision)
+    ChangeApi.revision(info.legacyId().get(), revision)
         .view("related")
         .get(
             new TabCallback<RelatedInfo>(Tab.RELATED_CHANGES, info.project(), revision) {
@@ -224,7 +224,7 @@ public class RelatedChanges extends TabPanel {
         new TabChangeListCallback(Tab.CHERRY_PICKS, info.project(), revision));
 
     if (info.currentRevision() != null && info.currentRevision().equals(revision)) {
-      ChangeApi.change(info.project(), info.legacyId().get())
+      ChangeApi.change(info.legacyId().get())
           .view("submitted_together")
           .get(new TabChangeListCallback(Tab.SUBMITTED_TOGETHER, info.project(), revision));
     }
@@ -232,13 +232,9 @@ public class RelatedChanges extends TabPanel {
     if (!Gerrit.info().change().isSubmitWholeTopicEnabled()
         && info.topic() != null
         && !"".equals(info.topic())) {
-      StringBuilder topicQuery =
-          new StringBuilder()
-              .append("status:open")
-              .append(" ")
-              .append(op("-change", info.legacyId().get()))
-              .append(" ")
-              .append(op("topic", info.topic()));
+      StringBuilder topicQuery = new StringBuilder();
+      topicQuery.append("status:open");
+      topicQuery.append(" ").append(op("topic", info.topic()));
       ChangeList.query(
           topicQuery.toString(),
           EnumSet.of(
@@ -250,7 +246,7 @@ public class RelatedChanges extends TabPanel {
     }
   }
 
-  private void setForOpenChange(ChangeInfo info, String revision) {
+  private void setForOpenChange(final ChangeInfo info, final String revision) {
     if (info.mergeable()) {
       StringBuilder conflictsQuery = new StringBuilder();
       conflictsQuery.append("status:open");

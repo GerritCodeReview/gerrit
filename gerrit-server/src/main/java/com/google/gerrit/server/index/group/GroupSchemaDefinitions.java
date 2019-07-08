@@ -14,31 +14,29 @@
 
 package com.google.gerrit.server.index.group;
 
-import static com.google.gerrit.index.SchemaUtil.schema;
+import static com.google.gerrit.server.index.SchemaUtil.schema;
 
-import com.google.gerrit.index.Schema;
-import com.google.gerrit.index.SchemaDefinitions;
-import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.SchemaDefinitions;
 
-public class GroupSchemaDefinitions extends SchemaDefinitions<InternalGroup> {
+public class GroupSchemaDefinitions extends SchemaDefinitions<AccountGroup> {
   @Deprecated
-  static final Schema<InternalGroup> V2 =
+  static final Schema<AccountGroup> V1 =
       schema(
-          GroupField.DESCRIPTION,
           GroupField.ID,
-          GroupField.IS_VISIBLE_TO_ALL,
+          GroupField.UUID,
+          GroupField.OWNER_UUID,
           GroupField.NAME,
           GroupField.NAME_PART,
-          GroupField.OWNER_UUID,
-          GroupField.UUID);
+          GroupField.DESCRIPTION,
+          GroupField.IS_VISIBLE_TO_ALL);
 
-  @Deprecated static final Schema<InternalGroup> V3 = schema(V2, GroupField.CREATED_ON);
-
-  static final Schema<InternalGroup> V4 = schema(V3, GroupField.MEMBER, GroupField.SUBGROUP);
+  static final Schema<AccountGroup> V2 = schema(V1);
 
   public static final GroupSchemaDefinitions INSTANCE = new GroupSchemaDefinitions();
 
   private GroupSchemaDefinitions() {
-    super("groups", InternalGroup.class);
+    super("groups", AccountGroup.class);
   }
 }

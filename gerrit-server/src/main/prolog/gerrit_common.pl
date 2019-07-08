@@ -92,27 +92,6 @@ index_commit_labels([_ | Rs]) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
-%% check_user_label/3:
-%%
-%%   Check Who can set Label to Val.
-%%
-check_user_label(Label, Who, Val) :-
-  hash_get(commit_labels, '$fast_range', true), !,
-  atom(Label),
-  assume_range_from_label(Label, Who, Min, Max),
-  Min @=< Val, Val @=< Max.
-check_user_label(Label, Who, Val) :-
-  Who = user(_), !,
-  atom(Label),
-  current_user(Who, User),
-  '_check_user_label'(Label, User, Val).
-check_user_label(Label, test_user(Name), Val) :-
-  clause(user:test_grant(Label, test_user(Name), range(Min, Max)), _),
-  Min @=< Val, Val @=< Max
-  .
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
 %% user_label_range/4:
 %%
 %%   Lookup the range allowed to be used.
@@ -279,12 +258,12 @@ max_with_block(Min, Max, Label, label(Label, S)) :-
   !,
   max_with_block(Label, Min, Max, S).
 max_with_block(Label, Min, Max, reject(Who)) :-
-  commit_label(label(Label, Min), Who),
+  check_label_range_permission(Label, Min, ok(Who)),
   !
   .
 max_with_block(Label, Min, Max, ok(Who)) :-
-  \+ commit_label(label(Label, Min), _),
-  commit_label(label(Label, Max), Who),
+  \+ check_label_range_permission(Label, Min, ok(_)),
+  check_label_range_permission(Label, Max, ok(Who)),
   !
   .
 max_with_block(Label, Min, Max, need(Max)) :-
@@ -306,7 +285,7 @@ max_with_block(Label, Min, Max, need(Max)) :-
 %%
 any_with_block(Label, Min, reject(Who)) :-
   Min < 0,
-  commit_label(label(Label, Min), Who),
+  check_label_range_permission(Label, Min, ok(Who)),
   !
   .
 any_with_block(Label, Min, may(_)).
@@ -321,7 +300,7 @@ max_no_block(Max, Label, label(Label, S)) :-
   !,
   max_no_block(Label, Max, S).
 max_no_block(Label, Max, ok(Who)) :-
-  commit_label(label(Label, Max), Who),
+  check_label_range_permission(Label, Max, ok(Who)),
   !
   .
 max_no_block(Label, Max, need(Max)) :-
@@ -340,7 +319,8 @@ max_no_block(Label, Max, need(Max)) :-
 %%
 check_label_range_permission(Label, ExpValue, ok(Who)) :-
   commit_label(label(Label, ExpValue), Who),
-  check_user_label(Label, Who, ExpValue)
+  user_label_range(Label, Who, Min, Max),
+  Min @=< ExpValue, ExpValue @=< Max
   .
 %TODO Uncomment this clause when group suggesting is possible.
 %check_label_range_permission(Label, ExpValue, ask(Group)) :-

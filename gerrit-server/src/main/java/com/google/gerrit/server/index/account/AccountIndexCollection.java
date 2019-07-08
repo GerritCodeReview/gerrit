@@ -15,14 +15,16 @@
 package com.google.gerrit.server.index.account;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.gerrit.index.IndexCollection;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.index.IndexCollection;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
 public class AccountIndexCollection
     extends IndexCollection<Account.Id, AccountState, AccountIndex> {
+  @Inject
   @VisibleForTesting
   public AccountIndexCollection() {}
 }

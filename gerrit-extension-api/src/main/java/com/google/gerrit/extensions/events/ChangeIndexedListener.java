@@ -19,13 +19,8 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
 /** Notified whenever a change is indexed or deleted from the index. */
 @ExtensionPoint
 public interface ChangeIndexedListener {
-  /**
-   * Invoked when a change is indexed.
-   *
-   * @param projectName project containing the change
-   * @param id indexed change id
-   */
-  void onChangeIndexed(String projectName, int id);
+  /** Invoked when a change is indexed. */
+  void onChangeIndexed(int id);
 
   /** Invoked when a change is deleted from the index. */
   void onChangeDeleted(int id);

@@ -16,24 +16,13 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-overlay-behavior/iron-overlay-behavior.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-overlay">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         background: #fff;
         box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
-      }
-
-      @media screen and (max-width: 50em) {
-        :host {
-          height: 100%;
-          left: 0;
-          position: fixed;
-          right: 0;
-          top: 0;
-        }
       }
     </style>
     <content></content>

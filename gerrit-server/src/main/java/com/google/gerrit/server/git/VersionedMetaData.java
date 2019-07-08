@@ -75,7 +75,6 @@ public abstract class VersionedMetaData {
   }
 
   protected RevCommit revision;
-  protected RevWalk rw;
   protected ObjectReader reader;
   protected ObjectInserter inserter;
   protected DirCache newTree;
@@ -154,14 +153,12 @@ public abstract class VersionedMetaData {
    * @throws ConfigInvalidException
    */
   public void load(RevWalk walk, ObjectId id) throws IOException, ConfigInvalidException {
-    this.rw = walk;
     this.reader = walk.getObjectReader();
     try {
       revision = id != null ? walk.parseCommit(id) : null;
       onLoad();
     } finally {
-      this.rw = null;
-      this.reader = null;
+      reader = null;
     }
   }
 
@@ -217,6 +214,8 @@ public abstract class VersionedMetaData {
 
     RevCommit createRef(String refName) throws IOException;
 
+    void removeRef(String refName) throws IOException;
+
     RevCommit commit() throws IOException;
 
     RevCommit commitAt(ObjectId revision) throws IOException;
@@ -239,7 +238,7 @@ public abstract class VersionedMetaData {
    * @param update helper info about the update.
    * @throws IOException if the update failed.
    */
-  public BatchMetaDataUpdate openUpdate(MetaDataUpdate update) throws IOException {
+  public BatchMetaDataUpdate openUpdate(final MetaDataUpdate update) throws IOException {
     final Repository db = update.getRepository();
 
     reader = db.newObjectReader();
@@ -330,6 +329,45 @@ public abstract class VersionedMetaData {
       }
 
       @Override
+      public void removeRef(String refName) throws IOException {
+        RefUpdate ru = db.updateRef(refName);
+        ru.setForceUpdate(true);
+        if (revision != null) {
+          ru.setExpectedOldObjectId(revision);
+        }
+        RefUpdate.Result result = ru.delete();
+        switch (result) {
+          case FORCED:
+            update.fireGitRefUpdatedEvent(ru);
+            return;
+          case LOCK_FAILURE:
+            throw new LockFailureException(
+                "Cannot delete "
+                    + ru.getName()
+                    + " in "
+                    + db.getDirectory()
+                    + ": "
+                    + ru.getResult());
+          case FAST_FORWARD:
+          case IO_FAILURE:
+          case NEW:
+          case NOT_ATTEMPTED:
+          case NO_CHANGE:
+          case REJECTED:
+          case REJECTED_CURRENT_BRANCH:
+          case RENAMED:
+          default:
+            throw new IOException(
+                "Cannot delete "
+                    + ru.getName()
+                    + " in "
+                    + db.getDirectory()
+                    + ": "
+                    + ru.getResult());
+        }
+      }
+
+      @Override
       public RevCommit commit() throws IOException {
         return commitAt(revision);
       }
@@ -370,7 +408,7 @@ public abstract class VersionedMetaData {
 
         RefUpdate ru = db.updateRef(refName);
         ru.setExpectedOldObjectId(oldId);
-        ru.setNewObjectId(newId);
+        ru.setNewObjectId(src);
         ru.setRefLogIdent(update.getCommitBuilder().getAuthor());
         String message = update.getCommitBuilder().getMessage();
         if (message == null) {
@@ -395,8 +433,7 @@ public abstract class VersionedMetaData {
                     + " in "
                     + db.getDirectory()
                     + ": "
-                    + ru.getResult(),
-                ru);
+                    + ru.getResult());
           case FORCED:
           case IO_FAILURE:
           case NOT_ATTEMPTED:
@@ -404,8 +441,6 @@ public abstract class VersionedMetaData {
           case REJECTED:
           case REJECTED_CURRENT_BRANCH:
           case RENAMED:
-          case REJECTED_MISSING_OBJECT:
-          case REJECTED_OTHER_REASON:
           default:
             throw new IOException(
                 "Cannot update "
@@ -461,11 +496,10 @@ public abstract class VersionedMetaData {
       return new byte[] {};
     }
 
-    try (TreeWalk tw = TreeWalk.forPath(reader, fileName, revision.getTree())) {
-      if (tw != null) {
-        ObjectLoader obj = reader.open(tw.getObjectId(0), Constants.OBJ_BLOB);
-        return obj.getCachedBytes(Integer.MAX_VALUE);
-      }
+    TreeWalk tw = TreeWalk.forPath(reader, fileName, revision.getTree());
+    if (tw != null) {
+      ObjectLoader obj = reader.open(tw.getObjectId(0), Constants.OBJ_BLOB);
+      return obj.getCachedBytes(Integer.MAX_VALUE);
     }
     return new byte[] {};
   }
@@ -475,10 +509,9 @@ public abstract class VersionedMetaData {
       return null;
     }
 
-    try (TreeWalk tw = TreeWalk.forPath(reader, fileName, revision.getTree())) {
-      if (tw != null) {
-        return tw.getObjectId(0);
-      }
+    TreeWalk tw = TreeWalk.forPath(reader, fileName, revision.getTree());
+    if (tw != null) {
+      return tw.getObjectId(0);
     }
 
     return null;

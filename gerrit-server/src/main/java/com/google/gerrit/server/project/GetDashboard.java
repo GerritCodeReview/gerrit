@@ -15,27 +15,23 @@
 package com.google.gerrit.server.project;
 
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_DASHBOARDS;
-import static com.google.gerrit.server.project.DashboardsCollection.isDefaultDashboard;
 
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import com.google.gerrit.extensions.api.projects.DashboardInfo;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.DashboardsCollection.DashboardInfo;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.kohsuke.args4j.Option;
 
-public class GetDashboard implements RestReadView<DashboardResource> {
+class GetDashboard implements RestReadView<DashboardResource> {
   private final DashboardsCollection dashboards;
 
   @Option(name = "--inherited", usage = "include inherited dashboards")
@@ -46,16 +42,12 @@ public class GetDashboard implements RestReadView<DashboardResource> {
     this.dashboards = dashboards;
   }
 
-  public GetDashboard setInherited(boolean inherited) {
-    this.inherited = inherited;
-    return this;
-  }
-
   @Override
   public DashboardInfo apply(DashboardResource resource)
-      throws RestApiException, IOException, PermissionBackendException {
+      throws ResourceNotFoundException, ResourceConflictException, IOException {
     if (inherited && !resource.isProjectDefault()) {
-      throw new BadRequestException("inherited flag can only be used with default");
+      // inherited flag can only be used with default.
+      throw new ResourceNotFoundException("inherited");
     }
 
     String project = resource.getControl().getProject().getName();
@@ -78,13 +70,12 @@ public class GetDashboard implements RestReadView<DashboardResource> {
   }
 
   private DashboardResource defaultOf(ProjectControl ctl)
-      throws ResourceNotFoundException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+      throws ResourceNotFoundException, IOException, ConfigInvalidException {
     String id = ctl.getProject().getLocalDefaultDashboard();
     if (Strings.isNullOrEmpty(id)) {
       id = ctl.getProject().getDefaultDashboard();
     }
-    if (isDefaultDashboard(id)) {
+    if ("default".equals(id)) {
       throw new ResourceNotFoundException();
     } else if (!Strings.isNullOrEmpty(id)) {
       return parse(ctl, id);
@@ -94,7 +85,7 @@ public class GetDashboard implements RestReadView<DashboardResource> {
 
     for (ProjectState ps : ctl.getProjectState().tree()) {
       id = ps.getProject().getDefaultDashboard();
-      if (isDefaultDashboard(id)) {
+      if ("default".equals(id)) {
         throw new ResourceNotFoundException();
       } else if (!Strings.isNullOrEmpty(id)) {
         ctl = ps.controlFor(ctl.getUser());
@@ -105,8 +96,7 @@ public class GetDashboard implements RestReadView<DashboardResource> {
   }
 
   private DashboardResource parse(ProjectControl ctl, String id)
-      throws ResourceNotFoundException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+      throws ResourceNotFoundException, IOException, ConfigInvalidException {
     List<String> p = Lists.newArrayList(Splitter.on(':').limit(2).split(id));
     String ref = Url.encode(p.get(0));
     String path = Url.encode(p.get(1));

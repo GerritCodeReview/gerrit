@@ -48,8 +48,4 @@ public class CommentResource implements RestResource {
   Account.Id getAuthorId() {
     return comment.author.getId();
   }
-
-  RevisionResource getRevisionResource() {
-    return rev;
-  }
 }

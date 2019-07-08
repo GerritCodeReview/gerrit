@@ -38,22 +38,20 @@ public abstract class ChangeTriplet {
    * @return the triplet if the input string has the proper format, or absent if not.
    */
   public static Optional<ChangeTriplet> parse(String triplet) {
-    int z = triplet.lastIndexOf('~');
-    int y = triplet.lastIndexOf('~', z - 1);
-    return parse(triplet, y, z);
-  }
-
-  public static Optional<ChangeTriplet> parse(String triplet, int y, int z) {
-    if (y < 0 || z < 0) {
+    int t2 = triplet.lastIndexOf('~');
+    int t1 = triplet.lastIndexOf('~', t2 - 1);
+    if (t1 < 0 || t2 < 0) {
       return Optional.empty();
     }
 
-    String project = Url.decode(triplet.substring(0, y));
-    String branch = Url.decode(triplet.substring(y + 1, z));
-    String changeId = Url.decode(triplet.substring(z + 1));
-    return Optional.of(
+    String project = Url.decode(triplet.substring(0, t1));
+    String branch = Url.decode(triplet.substring(t1 + 1, t2));
+    String changeId = Url.decode(triplet.substring(t2 + 1));
+
+    ChangeTriplet result =
         new AutoValue_ChangeTriplet(
-            new Branch.NameKey(new Project.NameKey(project), branch), new Change.Key(changeId)));
+            new Branch.NameKey(new Project.NameKey(project), branch), new Change.Key(changeId));
+    return Optional.of(result);
   }
 
   public final Project.NameKey project() {

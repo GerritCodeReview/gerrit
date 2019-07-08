@@ -14,7 +14,6 @@
 
 package com.google.gerrit.elasticsearch;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.index.change.ChangeField.APPROVAL_CODEC;
 import static com.google.gerrit.server.index.change.ChangeField.CHANGE_CODEC;
 import static com.google.gerrit.server.index.change.ChangeField.PATCH_SET_CODEC;
@@ -37,23 +36,23 @@ import com.google.gerrit.elasticsearch.bulk.BulkRequest;
 import com.google.gerrit.elasticsearch.bulk.DeleteRequest;
 import com.google.gerrit.elasticsearch.bulk.IndexRequest;
 import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
-import com.google.gerrit.index.QueryOptions;
-import com.google.gerrit.index.Schema;
-import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Id;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.IndexUtils;
+import com.google.gerrit.server.index.QueryOptions;
+import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.project.SubmitRuleOptions;
+import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gson.JsonArray;
@@ -62,9 +61,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
@@ -79,7 +78,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** Secondary index implementation using Elasticsearch. */
-class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
+public class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     implements ChangeIndex {
   private static final Logger log = LoggerFactory.getLogger(ElasticChangeIndex.class);
 
@@ -103,19 +102,22 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   private final ChangeMapping mapping;
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
+  private final FillArgs fillArgs;
   private final Schema<ChangeData> schema;
 
-  @Inject
+  @AssistedInject
   ElasticChangeIndex(
       ElasticConfiguration cfg,
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
+      FillArgs fillArgs,
       SitePaths sitePaths,
       ElasticRestClientProvider client,
       @Assisted Schema<ChangeData> schema) {
     super(cfg, sitePaths, schema, client, CHANGES, ALL_CHANGES);
     this.db = db;
     this.changeDataFactory = changeDataFactory;
+    this.fillArgs = fillArgs;
     this.schema = schema;
     this.mapping = new ChangeMapping(schema, client.adapter());
   }
@@ -140,8 +142,8 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     ElasticQueryAdapter adapter = client.adapter();
     BulkRequest bulk =
         new IndexRequest(getId(cd), indexName, adapter.getType(insertIndex), adapter)
-            .add(new UpdateRequest<>(schema, cd));
-    if (adapter.deleteToReplace()) {
+            .add(new UpdateRequest<>(fillArgs, schema, cd));
+    if (!adapter.usePostV5Type()) {
       bulk.add(new DeleteRequest(cd.getId().toString(), indexName, deleteIndex, adapter));
     }
 
@@ -160,19 +162,17 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       throws QueryParseException {
     Set<Change.Status> statuses = ChangeIndexRewriter.getPossibleStatus(p);
     List<String> indexes = Lists.newArrayListWithCapacity(2);
-    if (!client.adapter().omitType()) {
-      if (client.adapter().useV6Type()) {
-        if (!Sets.intersection(statuses, OPEN_STATUSES).isEmpty()
-            || !Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
-          indexes.add(ElasticQueryAdapter.V6_TYPE);
-        }
-      } else {
-        if (!Sets.intersection(statuses, OPEN_STATUSES).isEmpty()) {
-          indexes.add(OPEN_CHANGES);
-        }
-        if (!Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
-          indexes.add(CLOSED_CHANGES);
-        }
+    if (client.adapter().usePostV5Type()) {
+      if (!Sets.intersection(statuses, OPEN_STATUSES).isEmpty()
+          || !Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
+        indexes.add(ElasticQueryAdapter.POST_V5_TYPE);
+      }
+    } else {
+      if (!Sets.intersection(statuses, OPEN_STATUSES).isEmpty()) {
+        indexes.add(OPEN_CHANGES);
+      }
+      if (!Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
+        indexes.add(CLOSED_CHANGES);
       }
     }
     return new QuerySource(indexes, p, opts);
@@ -180,16 +180,16 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
   @Override
   protected String getDeleteActions(Id c) {
-    if (!client.adapter().useV5Type()) {
-      return delete(client.adapter().getType(), c);
+    if (client.adapter().usePostV5Type()) {
+      return delete(ElasticQueryAdapter.POST_V5_TYPE, c);
     }
     return delete(OPEN_CHANGES, c) + delete(CLOSED_CHANGES, c);
   }
 
   @Override
   protected String getMappings() {
-    if (!client.adapter().useV5Type()) {
-      return getMappingsFor(client.adapter().getType(), mapping.changes);
+    if (client.adapter().usePostV5Type()) {
+      return getMappingsFor(ElasticQueryAdapter.POST_V5_TYPE, mapping.changes);
     }
     return gson.toJson(ImmutableMap.of(MAPPINGS, mapping));
   }
@@ -282,8 +282,10 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
       if (c == null) {
         int id = source.get(ChangeField.LEGACY_ID.getName()).getAsInt();
-        // IndexUtils#changeFields ensures either CHANGE or PROJECT is always present.
-        String projectName = checkNotNull(source.get(ChangeField.PROJECT.getName()).getAsString());
+        String projectName = source.get(ChangeField.PROJECT.getName()).getAsString();
+        if (projectName == null) {
+          return changeDataFactory.createOnlyWhenNoteDbDisabled(db.get(), new Change.Id(id));
+        }
         return changeDataFactory.create(
             db.get(), new Project.NameKey(projectName), new Change.Id(id));
       }
@@ -366,37 +368,6 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
         cd.setReviewers(ReviewerSet.empty());
       }
 
-      if (source.get(ChangeField.REVIEWER_BY_EMAIL.getName()) != null) {
-        cd.setReviewersByEmail(
-            ChangeField.parseReviewerByEmailFieldValues(
-                FluentIterable.from(
-                        source.get(ChangeField.REVIEWER_BY_EMAIL.getName()).getAsJsonArray())
-                    .transform(JsonElement::getAsString)));
-      } else if (fields.contains(ChangeField.REVIEWER_BY_EMAIL.getName())) {
-        cd.setReviewersByEmail(ReviewerByEmailSet.empty());
-      }
-
-      if (source.get(ChangeField.PENDING_REVIEWER.getName()) != null) {
-        cd.setPendingReviewers(
-            ChangeField.parseReviewerFieldValues(
-                FluentIterable.from(
-                        source.get(ChangeField.PENDING_REVIEWER.getName()).getAsJsonArray())
-                    .transform(JsonElement::getAsString)));
-      } else if (fields.contains(ChangeField.PENDING_REVIEWER.getName())) {
-        cd.setPendingReviewers(ReviewerSet.empty());
-      }
-
-      if (source.get(ChangeField.PENDING_REVIEWER_BY_EMAIL.getName()) != null) {
-        cd.setPendingReviewersByEmail(
-            ChangeField.parseReviewerByEmailFieldValues(
-                FluentIterable.from(
-                        source
-                            .get(ChangeField.PENDING_REVIEWER_BY_EMAIL.getName())
-                            .getAsJsonArray())
-                    .transform(JsonElement::getAsString)));
-      } else if (fields.contains(ChangeField.PENDING_REVIEWER_BY_EMAIL.getName())) {
-        cd.setPendingReviewersByEmail(ReviewerByEmailSet.empty());
-      }
       decodeSubmitRecords(
           source,
           ChangeField.STORED_SUBMIT_RECORD_STRICT.getName(),
@@ -451,6 +422,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     private JsonArray getSortArray() {
       JsonObject properties = new JsonObject();
       properties.addProperty(ORDER, "desc");
+      client.adapter().setIgnoreUnmapped(properties);
 
       JsonArray sortArray = new JsonArray();
       addNamedElement(ChangeField.UPDATED.getName(), properties, sortArray);

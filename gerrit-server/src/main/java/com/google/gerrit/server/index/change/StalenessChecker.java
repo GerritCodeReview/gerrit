@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.index.change;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
 
@@ -27,15 +27,13 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
-import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.index.RefState;
+import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -48,6 +46,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.StreamSupport;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
@@ -135,24 +136,15 @@ public class StalenessChecker {
 
   @VisibleForTesting
   static boolean reviewDbChangeIsStale(Change indexChange, @Nullable Change reviewDbChange) {
-    checkNotNull(indexChange);
-    PrimaryStorage storageFromIndex = PrimaryStorage.of(indexChange);
-    PrimaryStorage storageFromReviewDb = PrimaryStorage.of(reviewDbChange);
     if (reviewDbChange == null) {
-      if (storageFromIndex == PrimaryStorage.REVIEW_DB) {
-        return true; // Index says it should have been in ReviewDb, but it wasn't.
-      }
-      return false; // Not in ReviewDb, but that's ok.
+      return false; // Nothing the caller can do.
     }
     checkArgument(
         indexChange.getId().equals(reviewDbChange.getId()),
         "mismatched change ID: %s != %s",
         indexChange.getId(),
         reviewDbChange.getId());
-    if (storageFromIndex != storageFromReviewDb) {
-      return true; // Primary storage differs, definitely stale.
-    }
-    if (storageFromReviewDb != PrimaryStorage.REVIEW_DB) {
+    if (PrimaryStorage.of(reviewDbChange) != PrimaryStorage.REVIEW_DB) {
       return false; // Not a ReviewDb change, don't check rowVersion.
     }
     return reviewDbChange.getRowVersion() != indexChange.getRowVersion();
@@ -221,6 +213,43 @@ public class StalenessChecker {
     }
   }
 
+  @AutoValue
+  public abstract static class RefState {
+    static RefState create(String ref, String sha) {
+      return new AutoValue_StalenessChecker_RefState(ref, ObjectId.fromString(sha));
+    }
+
+    static RefState create(String ref, @Nullable ObjectId id) {
+      return new AutoValue_StalenessChecker_RefState(ref, firstNonNull(id, ObjectId.zeroId()));
+    }
+
+    static RefState of(Ref ref) {
+      return new AutoValue_StalenessChecker_RefState(ref.getName(), ref.getObjectId());
+    }
+
+    byte[] toByteArray(Project.NameKey project) {
+      byte[] a = (project.toString() + ':' + ref() + ':').getBytes(UTF_8);
+      byte[] b = new byte[a.length + Constants.OBJECT_ID_STRING_LENGTH];
+      System.arraycopy(a, 0, b, 0, a.length);
+      id().copyTo(b, a.length);
+      return b;
+    }
+
+    private static void check(boolean condition, String str) {
+      checkArgument(condition, "invalid RefState: %s", str);
+    }
+
+    abstract String ref();
+
+    abstract ObjectId id();
+
+    private boolean match(Repository repo) throws IOException {
+      Ref ref = repo.exactRef(ref());
+      ObjectId expected = ref != null ? ref.getObjectId() : ObjectId.zeroId();
+      return id().equals(expected);
+    }
+  }
+
   /**
    * Pattern for matching refs.
    *
@@ -238,7 +267,7 @@ public class StalenessChecker {
 
       // Quote everything except the '*'s, which become ".*".
       String regex =
-          Streams.stream(Splitter.on('*').split(pattern))
+          StreamSupport.stream(Splitter.on('*').split(pattern).spliterator(), false)
               .map(Pattern::quote)
               .collect(joining(".*", "^", "$"));
       return new AutoValue_StalenessChecker_RefStatePattern(

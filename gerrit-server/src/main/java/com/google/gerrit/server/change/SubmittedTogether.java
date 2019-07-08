@@ -29,7 +29,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.WalkSorter.PatchSetData;
 import com.google.gerrit.server.git.ChangeSet;
 import com.google.gerrit.server.git.MergeSuperSet;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -108,7 +107,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   @Override
   public Object apply(ChangeResource resource)
       throws AuthException, BadRequestException, ResourceConflictException, IOException,
-          OrmException, PermissionBackendException {
+          OrmException {
     SubmittedTogetherInfo info = applyInfo(resource);
     if (options.isEmpty()) {
       return info.changes;
@@ -117,7 +116,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   }
 
   public SubmittedTogetherInfo applyInfo(ChangeResource resource)
-      throws AuthException, IOException, OrmException, PermissionBackendException {
+      throws AuthException, IOException, OrmException {
     Change c = resource.getChange();
     try {
       List<ChangeData> cds;
@@ -125,7 +124,9 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
 
       if (c.getStatus().isOpen()) {
         ChangeSet cs =
-            mergeSuperSet.get().completeChangeSet(dbProvider.get(), c, resource.getUser());
+            mergeSuperSet
+                .get()
+                .completeChangeSet(dbProvider.get(), c, resource.getControl().getUser());
         cds = cs.changes().asList();
         hidden = cs.nonVisibleChanges().size();
       } else if (c.getStatus().asChangeStatus() == ChangeStatus.MERGED) {

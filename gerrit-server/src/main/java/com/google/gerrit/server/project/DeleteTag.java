@@ -14,46 +14,36 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 
 @Singleton
 public class DeleteTag implements RestModifyView<TagResource, DeleteTag.Input> {
-  public static class Input {}
-
-  private final PermissionBackend permissionBackend;
-  private final Provider<CurrentUser> user;
   private final DeleteRef.Factory deleteRefFactory;
 
+  public static class Input {}
+
   @Inject
-  DeleteTag(
-      PermissionBackend permissionBackend,
-      Provider<CurrentUser> user,
-      DeleteRef.Factory deleteRefFactory) {
-    this.permissionBackend = permissionBackend;
-    this.user = user;
+  DeleteTag(DeleteRef.Factory deleteRefFactory) {
     this.deleteRefFactory = deleteRefFactory;
   }
 
   @Override
   public Response<?> apply(TagResource resource, Input input)
-      throws OrmException, RestApiException, IOException, PermissionBackendException {
+      throws OrmException, RestApiException, IOException {
     String tag = RefUtil.normalizeTagRef(resource.getTagInfo().ref);
-    permissionBackend
-        .user(user)
-        .project(resource.getNameKey())
-        .ref(tag)
-        .check(RefPermission.DELETE);
+    RefControl refControl = resource.getControl().controlForRef(tag);
+
+    if (!refControl.canDelete()) {
+      throw new AuthException("Cannot delete tag");
+    }
+
     deleteRefFactory.create(resource).ref(tag).delete();
     return Response.none();
   }

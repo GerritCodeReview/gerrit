@@ -20,7 +20,7 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
 <link rel="import" href="gr-syntax-lib-loader.html">
 
 <script>void(0);</script>
@@ -32,23 +32,26 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-syntax-lib-loader tests', () => {
-    let element;
-    let resolveLoad;
-    let loadStub;
+  suite('gr-syntax-lib-loader tests', function() {
+    var element;
+    var resolveLoad;
+    var loadStub;
 
-    setup(() => {
+    setup(function() {
       element = fixture('basic');
 
-      loadStub = sinon.stub(element, '_loadHLJS', () =>
-        new Promise(resolve => resolveLoad = resolve)
-      );
+      loadStub = sinon.stub(element, '_loadHLJS', function() {
+        return new Promise(function(resolve) {
+          resolveLoad = resolve;
+        });
+      });
 
       // Assert preconditions:
+      assert.isFalse(element._state.loaded);
       assert.isFalse(element._state.loading);
     });
 
-    teardown(() => {
+    teardown(function() {
       if (window.hljs) {
         delete window.hljs;
       }
@@ -56,79 +59,38 @@ limitations under the License.
 
       // Because the element state is a singleton, clean it up.
       element._state.loading = false;
+      element._state.loaded = false;
       element._state.callbacks = [];
     });
 
-    test('only load once', done => {
-      const firstCallHandler = sinon.stub();
+    test('only load once', function(done) {
+      var firstCallHandler = sinon.stub();
       element.get().then(firstCallHandler);
 
       // It should now be in the loading state.
       assert.isTrue(loadStub.called);
       assert.isTrue(element._state.loading);
+      assert.isFalse(element._state.loaded);
       assert.isFalse(firstCallHandler.called);
 
-      const secondCallHandler = sinon.stub();
+      var secondCallHandler = sinon.stub();
       element.get().then(secondCallHandler);
 
       // No change in state.
       assert.isTrue(element._state.loading);
+      assert.isFalse(element._state.loaded);
       assert.isFalse(firstCallHandler.called);
       assert.isFalse(secondCallHandler.called);
 
       // Now load the library.
       resolveLoad();
-      flush(() => {
+      flush(function() {
         // The state should be loaded and both handlers called.
         assert.isFalse(element._state.loading);
+        assert.isTrue(element._state.loaded);
         assert.isTrue(firstCallHandler.called);
         assert.isTrue(secondCallHandler.called);
         done();
-      });
-    });
-
-    suite('preloaded', () => {
-      setup(() => {
-        window.hljs = 'test-object';
-      });
-
-      teardown(() => {
-        delete window.hljs;
-      });
-
-      test('returns hljs', done => {
-        const firstCallHandler = sinon.stub();
-        element.get().then(firstCallHandler);
-        flush(() => {
-          assert.isTrue(firstCallHandler.called);
-          assert.isTrue(firstCallHandler.calledWith('test-object'));
-          done();
-        });
-      });
-    });
-
-    suite('_getHLJSUrl', () => {
-      suite('checking _getLibRoot', () => {
-        let libRootStub;
-        let root;
-
-        setup(() => {
-          libRootStub = sinon.stub(element, '_getLibRoot', () => root);
-        });
-
-        teardown(() => {
-          libRootStub.restore();
-        });
-
-        test('with no root', () => {
-          assert.isNull(element._getHLJSUrl());
-        });
-
-        test('with root', () => {
-          root = 'test-root.com/';
-          assert.equal(element._getHLJSUrl(),
-              'test-root.com/bower_components/highlightjs/highlight.min.js');
-        });
       });
     });
   });

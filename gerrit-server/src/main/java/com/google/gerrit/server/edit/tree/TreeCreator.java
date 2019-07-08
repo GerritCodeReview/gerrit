@@ -36,6 +36,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 public class TreeCreator {
 
   private final RevCommit baseCommit;
+  // At the moment, a list wouldn't be necessary as only one modification is
+  // applied per created tree. This is going to change in the near future.
   private final List<TreeModification> treeModifications = new ArrayList<>();
 
   public TreeCreator(RevCommit baseCommit) {
@@ -43,14 +45,14 @@ public class TreeCreator {
   }
 
   /**
-   * Apply modifications to the tree which is taken as a basis. If this method is called multiple
+   * Apply a modification to the tree which is taken as a basis. If this method is called multiple
    * times, the modifications are applied subsequently in exactly the order they were provided.
    *
-   * @param treeModifications modifications which should be applied to the base tree
+   * @param treeModification a modification which should be applied to the base tree
    */
-  public void addTreeModifications(List<TreeModification> treeModifications) {
-    checkNotNull(treeModifications, "treeModifications must not be null");
-    this.treeModifications.addAll(treeModifications);
+  public void addTreeModification(TreeModification treeModification) {
+    checkNotNull(treeModification, "treeModification must not be null");
+    treeModifications.add(treeModification);
   }
 
   /**

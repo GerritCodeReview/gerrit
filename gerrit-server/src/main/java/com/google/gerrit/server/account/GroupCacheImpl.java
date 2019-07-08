@@ -16,14 +16,14 @@ package com.google.gerrit.server.account;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.group.Groups;
-import com.google.gerrit.server.group.InternalGroup;
-import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.index.group.GroupIndexer;
-import com.google.gerrit.server.query.group.InternalGroupQuery;
+import com.google.gwtorm.server.OrmDuplicateKeyException;
+import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -32,9 +32,9 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
-import java.util.function.BooleanSupplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,13 +51,13 @@ public class GroupCacheImpl implements GroupCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(BYID_NAME, AccountGroup.Id.class, new TypeLiteral<Optional<InternalGroup>>() {})
+        cache(BYID_NAME, AccountGroup.Id.class, new TypeLiteral<Optional<AccountGroup>>() {})
             .loader(ByIdLoader.class);
 
-        cache(BYNAME_NAME, String.class, new TypeLiteral<Optional<InternalGroup>>() {})
+        cache(BYNAME_NAME, String.class, new TypeLiteral<Optional<AccountGroup>>() {})
             .loader(ByNameLoader.class);
 
-        cache(BYUUID_NAME, String.class, new TypeLiteral<Optional<InternalGroup>>() {})
+        cache(BYUUID_NAME, String.class, new TypeLiteral<Optional<AccountGroup>>() {})
             .loader(ByUUIDLoader.class);
 
         bind(GroupCacheImpl.class);
@@ -66,146 +66,168 @@ public class GroupCacheImpl implements GroupCache {
     };
   }
 
-  private final LoadingCache<AccountGroup.Id, Optional<InternalGroup>> byId;
-  private final LoadingCache<String, Optional<InternalGroup>> byName;
-  private final LoadingCache<String, Optional<InternalGroup>> byUUID;
+  private final LoadingCache<AccountGroup.Id, Optional<AccountGroup>> byId;
+  private final LoadingCache<String, Optional<AccountGroup>> byName;
+  private final LoadingCache<String, Optional<AccountGroup>> byUUID;
+  private final SchemaFactory<ReviewDb> schema;
   private final Provider<GroupIndexer> indexer;
 
   @Inject
   GroupCacheImpl(
-      @Named(BYID_NAME) LoadingCache<AccountGroup.Id, Optional<InternalGroup>> byId,
-      @Named(BYNAME_NAME) LoadingCache<String, Optional<InternalGroup>> byName,
-      @Named(BYUUID_NAME) LoadingCache<String, Optional<InternalGroup>> byUUID,
+      @Named(BYID_NAME) LoadingCache<AccountGroup.Id, Optional<AccountGroup>> byId,
+      @Named(BYNAME_NAME) LoadingCache<String, Optional<AccountGroup>> byName,
+      @Named(BYUUID_NAME) LoadingCache<String, Optional<AccountGroup>> byUUID,
+      SchemaFactory<ReviewDb> schema,
       Provider<GroupIndexer> indexer) {
     this.byId = byId;
     this.byName = byName;
     this.byUUID = byUUID;
+    this.schema = schema;
     this.indexer = indexer;
   }
 
   @Override
-  public Optional<InternalGroup> get(AccountGroup.Id groupId) {
+  public AccountGroup get(final AccountGroup.Id groupId) {
     try {
-      return byId.get(groupId);
+      Optional<AccountGroup> g = byId.get(groupId);
+      return g.isPresent() ? g.get() : missing(groupId);
     } catch (ExecutionException e) {
       log.warn("Cannot load group {}", groupId, e);
-      return Optional.empty();
+      return missing(groupId);
     }
   }
 
   @Override
-  public void evict(
-      AccountGroup.UUID groupUuid, AccountGroup.Id groupId, AccountGroup.NameKey groupName)
-      throws IOException {
-    if (groupId != null) {
-      byId.invalidate(groupId);
+  public void evict(final AccountGroup group) throws IOException {
+    if (group.getId() != null) {
+      byId.invalidate(group.getId());
     }
-    if (groupName != null) {
-      byName.invalidate(groupName.get());
+    if (group.getNameKey() != null) {
+      byName.invalidate(group.getNameKey().get());
     }
-    if (groupUuid != null) {
-      byUUID.invalidate(groupUuid.get());
+    if (group.getGroupUUID() != null) {
+      byUUID.invalidate(group.getGroupUUID().get());
     }
-    indexer.get().index(groupUuid);
-  }
-
-  @Override
-  public void evictAfterRename(AccountGroup.NameKey oldName) throws IOException {
-    if (oldName != null) {
-      byName.invalidate(oldName.get());
-    }
-  }
-
-  @Override
-  public Optional<InternalGroup> get(AccountGroup.NameKey name) {
-    if (name == null) {
-      return Optional.empty();
-    }
-    try {
-      return byName.get(name.get());
-    } catch (ExecutionException e) {
-      log.warn("Cannot look up group {} by name", name.get(), e);
-      return Optional.empty();
-    }
-  }
-
-  @Override
-  public Optional<InternalGroup> get(AccountGroup.UUID groupUuid) {
-    if (groupUuid == null) {
-      return Optional.empty();
-    }
-
-    try {
-      return byUUID.get(groupUuid.get());
-    } catch (ExecutionException e) {
-      log.warn("Cannot look up group {} by uuid", groupUuid.get(), e);
-      return Optional.empty();
-    }
-  }
-
-  @Override
-  public void onCreateGroup(AccountGroup group) throws IOException {
     indexer.get().index(group.getGroupUUID());
   }
 
-  static class ByIdLoader extends CacheLoader<AccountGroup.Id, Optional<InternalGroup>> {
-    private final SchemaFactory<ReviewDb> schema;
-    private final Groups groups;
-    private final BooleanSupplier hasGroupIndex;
-    private final Provider<InternalGroupQuery> groupQueryProvider;
-
-    @Inject
-    ByIdLoader(
-        SchemaFactory<ReviewDb> schema,
-        Groups groups,
-        GroupIndexCollection groupIndexCollection,
-        Provider<InternalGroupQuery> groupQueryProvider) {
-      this.schema = schema;
-      this.groups = groups;
-      hasGroupIndex = () -> groupIndexCollection.getSearchIndex() != null;
-      this.groupQueryProvider = groupQueryProvider;
+  @Override
+  public void evictAfterRename(
+      final AccountGroup.NameKey oldName, final AccountGroup.NameKey newName) throws IOException {
+    if (oldName != null) {
+      byName.invalidate(oldName.get());
     }
+    if (newName != null) {
+      byName.invalidate(newName.get());
+    }
+    indexer.get().index(get(newName).getGroupUUID());
+  }
 
-    @Override
-    public Optional<InternalGroup> load(AccountGroup.Id key) throws Exception {
-      if (hasGroupIndex.getAsBoolean()) {
-        return groupQueryProvider.get().byId(key);
-      }
-
-      try (ReviewDb db = schema.open()) {
-        return groups.getGroup(db, key);
-      }
+  @Override
+  public AccountGroup get(AccountGroup.NameKey name) {
+    if (name == null) {
+      return null;
+    }
+    try {
+      return byName.get(name.get()).orElse(null);
+    } catch (ExecutionException e) {
+      log.warn("Cannot lookup group {} by name", name.get(), e);
+      return null;
     }
   }
 
-  static class ByNameLoader extends CacheLoader<String, Optional<InternalGroup>> {
-    private final Provider<InternalGroupQuery> groupQueryProvider;
-
-    @Inject
-    ByNameLoader(Provider<InternalGroupQuery> groupQueryProvider) {
-      this.groupQueryProvider = groupQueryProvider;
+  @Override
+  public AccountGroup get(AccountGroup.UUID uuid) {
+    if (uuid == null) {
+      return null;
     }
-
-    @Override
-    public Optional<InternalGroup> load(String name) throws Exception {
-      return groupQueryProvider.get().byName(new AccountGroup.NameKey(name));
+    try {
+      return byUUID.get(uuid.get()).orElse(null);
+    } catch (ExecutionException e) {
+      log.warn("Cannot lookup group {} by uuid", uuid.get(), e);
+      return null;
     }
   }
 
-  static class ByUUIDLoader extends CacheLoader<String, Optional<InternalGroup>> {
+  @Override
+  public ImmutableList<AccountGroup> all() {
+    try (ReviewDb db = schema.open()) {
+      return ImmutableList.copyOf(db.accountGroups().all());
+    } catch (OrmException e) {
+      log.warn("Cannot list internal groups", e);
+      return ImmutableList.of();
+    }
+  }
+
+  @Override
+  public void onCreateGroup(AccountGroup.NameKey newGroupName) throws IOException {
+    byName.invalidate(newGroupName.get());
+    indexer.get().index(get(newGroupName).getGroupUUID());
+  }
+
+  private static AccountGroup missing(AccountGroup.Id key) {
+    AccountGroup.NameKey name = new AccountGroup.NameKey("Deleted Group" + key);
+    return new AccountGroup(name, key, null);
+  }
+
+  static class ByIdLoader extends CacheLoader<AccountGroup.Id, Optional<AccountGroup>> {
     private final SchemaFactory<ReviewDb> schema;
-    private final Groups groups;
 
     @Inject
-    ByUUIDLoader(SchemaFactory<ReviewDb> sf, Groups groups) {
+    ByIdLoader(final SchemaFactory<ReviewDb> sf) {
       schema = sf;
-      this.groups = groups;
     }
 
     @Override
-    public Optional<InternalGroup> load(String uuid) throws Exception {
+    public Optional<AccountGroup> load(final AccountGroup.Id key) throws Exception {
       try (ReviewDb db = schema.open()) {
-        return groups.getGroup(db, new AccountGroup.UUID(uuid));
+        return Optional.ofNullable(db.accountGroups().get(key));
+      }
+    }
+  }
+
+  static class ByNameLoader extends CacheLoader<String, Optional<AccountGroup>> {
+    private final SchemaFactory<ReviewDb> schema;
+
+    @Inject
+    ByNameLoader(final SchemaFactory<ReviewDb> sf) {
+      schema = sf;
+    }
+
+    @Override
+    public Optional<AccountGroup> load(String name) throws Exception {
+      try (ReviewDb db = schema.open()) {
+        AccountGroup.NameKey key = new AccountGroup.NameKey(name);
+        AccountGroupName r = db.accountGroupNames().get(key);
+        if (r != null) {
+          return Optional.ofNullable(db.accountGroups().get(r.getId()));
+        }
+        return Optional.empty();
+      }
+    }
+  }
+
+  static class ByUUIDLoader extends CacheLoader<String, Optional<AccountGroup>> {
+    private final SchemaFactory<ReviewDb> schema;
+
+    @Inject
+    ByUUIDLoader(final SchemaFactory<ReviewDb> sf) {
+      schema = sf;
+    }
+
+    @Override
+    public Optional<AccountGroup> load(String uuid) throws Exception {
+      try (ReviewDb db = schema.open()) {
+        List<AccountGroup> r;
+
+        r = db.accountGroups().byUUID(new AccountGroup.UUID(uuid)).toList();
+        if (r.size() == 1) {
+          return Optional.of(r.get(0));
+        } else if (r.size() == 0) {
+          return Optional.empty();
+        } else {
+          throw new OrmDuplicateKeyException("Duplicate group UUID " + uuid);
+        }
       }
     }
   }

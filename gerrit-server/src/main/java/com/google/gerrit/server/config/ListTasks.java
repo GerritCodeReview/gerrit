@@ -19,14 +19,13 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.TaskInfoFactory;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.ProjectTask;
 import com.google.gerrit.server.git.WorkQueue.Task;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -42,49 +41,37 @@ import java.util.concurrent.TimeUnit;
 
 @Singleton
 public class ListTasks implements RestReadView<ConfigResource> {
-  private final PermissionBackend permissionBackend;
   private final WorkQueue workQueue;
-  private final Provider<CurrentUser> self;
+  private final ProjectCache projectCache;
+  private final Provider<IdentifiedUser> self;
 
   @Inject
-  public ListTasks(
-      PermissionBackend permissionBackend, WorkQueue workQueue, Provider<CurrentUser> self) {
-    this.permissionBackend = permissionBackend;
+  public ListTasks(WorkQueue workQueue, ProjectCache projectCache, Provider<IdentifiedUser> self) {
     this.workQueue = workQueue;
+    this.projectCache = projectCache;
     this.self = self;
   }
 
   @Override
-  public List<TaskInfo> apply(ConfigResource resource)
-      throws AuthException, PermissionBackendException {
+  public List<TaskInfo> apply(ConfigResource resource) throws AuthException {
     CurrentUser user = self.get();
     if (!user.isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
 
     List<TaskInfo> allTasks = getTasks();
-    try {
-      permissionBackend.user(user).check(GlobalPermission.VIEW_QUEUE);
+    if (user.getCapabilities().canViewQueue()) {
       return allTasks;
-    } catch (AuthException e) {
-      // Fall through to filter tasks.
     }
-
     Map<String, Boolean> visibilityCache = new HashMap<>();
+
     List<TaskInfo> visibleTasks = new ArrayList<>();
     for (TaskInfo task : allTasks) {
       if (task.projectName != null) {
         Boolean visible = visibilityCache.get(task.projectName);
         if (visible == null) {
-          try {
-            permissionBackend
-                .user(user)
-                .project(new Project.NameKey(task.projectName))
-                .check(ProjectPermission.ACCESS);
-            visible = true;
-          } catch (AuthException e) {
-            visible = false;
-          }
+          ProjectState e = projectCache.get(new Project.NameKey(task.projectName));
+          visible = e != null ? e.controlFor(user).isVisible() : false;
           visibilityCache.put(task.projectName, visible);
         }
         if (visible) {

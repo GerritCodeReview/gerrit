@@ -22,7 +22,7 @@ limitations under the License.
       .topHeader,
       .groupHeader {
         border-bottom: 1px solid #eee;
-        font-family: var(--font-family-bold);
+        font-weight: bold;
         padding: .3em .5em;
       }
       .topHeader {
@@ -45,7 +45,6 @@ limitations under the License.
       .label,
       .number,
       .owner,
-      .assignee,
       .updated,
       .size,
       .status,
@@ -61,24 +60,6 @@ limitations under the License.
       }
       .label {
         text-align: center;
-      }
-      .truncatedProject {
-        display: none;
-      }
-      @media only screen and (max-width: 90em) {
-        .assignee,
-        .branch,
-        .owner {
-          overflow: hidden;
-          max-width: 10rem;
-          text-overflow: ellipsis;
-        }
-        .truncatedProject {
-          display: inline-block;
-        }
-        .fullProject {
-          display: none;
-        }
       }
       @media only screen and (max-width: 50em) {
         :host {
@@ -98,8 +79,7 @@ limitations under the License.
         .project,
         .branch,
         .updated,
-        .label,
-        .assignee {
+        .label {
           display: none;
         }
         .star {

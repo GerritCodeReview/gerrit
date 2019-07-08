@@ -19,66 +19,69 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PutPreferred.Input;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.concurrent.atomic.AtomicBoolean;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class PutPreferred implements RestModifyView<AccountResource.Email, Input> {
   static class Input {}
 
   private final Provider<CurrentUser> self;
-  private final PermissionBackend permissionBackend;
-  private final AccountsUpdate.Server accountsUpdate;
+  private final Provider<ReviewDb> dbProvider;
+  private final AccountCache byIdCache;
 
   @Inject
-  PutPreferred(
-      Provider<CurrentUser> self,
-      PermissionBackend permissionBackend,
-      AccountsUpdate.Server accountsUpdate) {
+  PutPreferred(Provider<CurrentUser> self, Provider<ReviewDb> dbProvider, AccountCache byIdCache) {
     this.self = self;
-    this.permissionBackend = permissionBackend;
-    this.accountsUpdate = accountsUpdate;
+    this.dbProvider = dbProvider;
+    this.byIdCache = byIdCache;
   }
 
   @Override
   public Response<String> apply(AccountResource.Email rsrc, Input input)
-      throws AuthException, ResourceNotFoundException, OrmException, IOException,
-          PermissionBackendException, ConfigInvalidException {
-    if (!self.get().hasSameAccountId(rsrc.getUser())) {
-      permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
+      throws AuthException, ResourceNotFoundException, OrmException, IOException {
+    if (!self.get().hasSameAccountId(rsrc.getUser())
+        && !self.get().getCapabilities().canModifyAccount()) {
+      throw new AuthException("not allowed to set preferred email address");
     }
     return apply(rsrc.getUser(), rsrc.getEmail());
   }
 
   public Response<String> apply(IdentifiedUser user, String email)
-      throws ResourceNotFoundException, IOException, ConfigInvalidException {
+      throws ResourceNotFoundException, OrmException, IOException {
     AtomicBoolean alreadyPreferred = new AtomicBoolean(false);
-    Account account =
-        accountsUpdate
-            .create()
-            .update(
+    Account a =
+        dbProvider
+            .get()
+            .accounts()
+            .atomicUpdate(
                 user.getAccountId(),
-                a -> {
-                  if (email.equals(a.getPreferredEmail())) {
-                    alreadyPreferred.set(true);
-                  } else {
-                    a.setPreferredEmail(email);
+                new AtomicUpdate<Account>() {
+                  @Override
+                  public Account update(Account a) {
+                    if (email.equals(a.getPreferredEmail())) {
+                      alreadyPreferred.set(true);
+                    } else {
+                      a.setPreferredEmail(email);
+                    }
+                    return a;
                   }
                 });
-    if (account == null) {
+    if (a == null) {
       throw new ResourceNotFoundException("account not found");
     }
+    dbProvider.get().accounts().update(Collections.singleton(a));
+    byIdCache.evict(a.getId());
     return alreadyPreferred.get() ? Response.ok("") : Response.created("");
   }
 }

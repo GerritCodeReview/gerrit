@@ -20,7 +20,8 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-diff-preferences.html">
 
 <script>void(0);</script>
@@ -32,20 +33,14 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-diff-preferences tests', () => {
-    let element;
-    let sandbox;
+  suite('gr-diff-preferences tests', function() {
+    var element;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
+    setup(function() {
       element = fixture('basic');
     });
 
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('model changes', () => {
+    test('model changes', function() {
       element.prefs = {
         context: 10,
         font_size: 12,
@@ -77,7 +72,7 @@ limitations under the License.
       assert.isFalse(element._newPrefs.syntax_highlighting);
     });
 
-    test('clicking fit to screen hides line length input', () => {
+    test('clicking fit to screen hides line length input', function() {
       element.prefs = {line_wrapping: false};
 
       assert.isFalse(element.$.columnsPref.hidden);
@@ -89,33 +84,26 @@ limitations under the License.
       assert.isFalse(element.$.columnsPref.hidden);
     });
 
-    test('clicking save button calls _handleSave function', () => {
-      const savePrefs = sinon.stub(element, '_handleSave');
+    test('clicking save button calls _handleSave function', function() {
+      var savePrefs = sinon.stub(element, '_handleSave');
       MockInteractions.tap(element.$.saveButton);
       flushAsynchronousOperations();
       assert(savePrefs.calledOnce);
       savePrefs.restore();
     });
 
-    test('save button', () => {
-      element.prefs = {
-        font_size: '11',
-      };
-      element._newPrefs = {
-        font_size: '12',
-      };
-      const saveStub = sandbox.stub(element.$.restAPI, 'saveDiffPreferences',
-          () => { return Promise.resolve(); });
-
+    test('events', function(done) {
+      var savePromise = new Promise(function(resolve) {
+        element.addEventListener('save', function() { resolve(); });
+      });
+      var cancelPromise = new Promise(function(resolve) {
+        element.addEventListener('cancel', function() { resolve(); });
+      });
+      Promise.all([savePromise, cancelPromise]).then(function() {
+        done();
+      });
       MockInteractions.tap(element.$$('gr-button[primary]'));
-      assert.deepEqual(element.prefs, element._newPrefs);
-      assert.deepEqual(saveStub.lastCall.args[0], element._newPrefs);
-    });
-
-    test('cancel button', () => {
-      const closeStub = sandbox.stub(element.$.prefsOverlay, 'close');
       MockInteractions.tap(element.$$('gr-button:not([primary])'));
-      assert.isTrue(closeStub.called);
     });
   });
 </script>

@@ -14,15 +14,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
-<link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
-<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
-<link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
+<link rel="import" href="../../../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../../shared/gr-account-chip/gr-account-chip.html">
-<link rel="import" href="../../shared/gr-textarea/gr-textarea.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
 <link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
@@ -30,12 +26,10 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-storage/gr-storage.html">
 <link rel="import" href="../gr-account-list/gr-account-list.html">
-<link rel="import" href="../gr-label-scores/gr-label-scores.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-reply-dialog">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         display: block;
         max-height: 90vh;
@@ -52,19 +46,13 @@ limitations under the License.
         max-height: 90vh;
       }
       section {
-        border-top: 1px solid #cdcdcd;
-        padding: .5em 1.5em;
+        border-top: 1px solid #ddd;
+        padding: .5em .75em;
         width: 100%;
       }
-      .actions {
-        display: flex;
-        justify-content: space-between;
-      }
-      .actions .right gr-button {
-        margin-left: 1em;
-      }
       .peopleContainer,
-      .labelsContainer {
+      .labelsContainer,
+      .actionsContainer {
         flex-shrink: 0;
       }
       .peopleContainer {
@@ -72,7 +60,6 @@ limitations under the License.
       }
       .peopleList {
         display: flex;
-        align-items: center;
         padding-top: .1em;
       }
       .peopleListLabel {
@@ -84,11 +71,6 @@ limitations under the License.
         display: flex;
         flex-wrap: wrap;
         flex: 1;
-        min-height: 1.8em;
-        --account-list-style: {
-          max-height: 12em;
-          overflow-y: auto;
-        }
       }
       #reviewerConfirmationOverlay {
         padding: 1em;
@@ -98,26 +80,62 @@ limitations under the License.
         margin-top: 1em;
       }
       .groupName {
-        font-family: var(--font-family-bold);
+        font-weight: bold;
       }
       .groupSize {
         font-style: italic;
       }
       .textareaContainer {
+        display: flex;
+        flex: 1;
         min-height: 6em;
         position: relative;
       }
-      .textareaContainer,
-      #textarea,
-      gr-endpoint-decorator {
-        display: flex;
-        width: 100%;
+      iron-autogrow-textarea {
+        padding: 0;
+        font-family: var(--monospace-font-family);
       }
       .previewContainer gr-formatted-text {
         background: #f6f6f6;
         max-height: 20vh;
         overflow-y: scroll;
         padding: 1em;
+      }
+      .message {
+        border: none;
+        width: 100%;
+      }
+      .labelContainer:not(:first-of-type) {
+        margin-top: .5em;
+      }
+      .labelName {
+        display: inline-block;
+        margin-right: .5em;
+        min-width: 7em;
+        text-align: right;
+        white-space: nowrap;
+        width: 25%;
+      }
+      .labelMessage {
+        color: #666;
+      }
+      iron-selector {
+        display: inline-flex;
+      }
+      iron-selector > gr-button {
+        margin-right: .25em;
+        min-width: 3.5em;
+      }
+      iron-selector > gr-button:first-of-type {
+        border-top-left-radius: 2px;
+        border-bottom-left-radius: 2px;
+      }
+      iron-selector > gr-button:last-of-type {
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+      }
+      iron-selector > gr-button.iron-selected {
+        background-color: #ddd;
       }
       .draftsContainer {
         flex: 1;
@@ -126,23 +144,13 @@ limitations under the License.
       .draftsContainer h3 {
         margin-top: .25em;
       }
-      #checkingStatusLabel,
-      #notLatestLabel {
-        margin-left: 1em;
+      .actionsContainer {
+        display: flex;
+        justify-content: space-between;
       }
-      #checkingStatusLabel {
-        color: #444;
-        font-style: italic;
-      }
-      #notLatestLabel,
-      #savingLabel {
-        color: red;
-      }
-      #savingLabel {
-        display: none;
-      }
-      #savingLabel.saving {
-        display: inline;
+      .action:link,
+      .action:visited {
+        color: #00e;
       }
       @media screen and (max-width: 50em) {
         :host {
@@ -153,11 +161,12 @@ limitations under the License.
         }
       }
     </style>
-    <div class="container" tabindex="-1">
+    <div class="container">
       <section class="peopleContainer">
         <div class="peopleList">
           <div class="peopleListLabel">Owner</div>
-          <gr-account-chip account="[[_owner]]"></gr-account-chip>
+          <gr-account-chip account="[[_owner]]">
+          <gr-account-chip>
         </div>
       </section>
       <section class="peopleContainer">
@@ -180,9 +189,8 @@ limitations under the License.
                 id="ccs"
                 accounts="{{_ccs}}"
                 change="[[change]]"
-                filter="[[filterCCSuggestion]]"
+                filter="[[filterReviewerSuggestion]]"
                 pending-confirmation="{{_ccPendingConfirmation}}"
-                allow-any-input
                 placeholder="Add CC...">
             </gr-account-list>
           </div>
@@ -211,22 +219,17 @@ limitations under the License.
         </gr-overlay>
       </section>
       <section class="textareaContainer">
-        <gr-endpoint-decorator name="reply-text">
-          <gr-textarea
-              id="textarea"
-              class="message"
-              autocomplete="on"
-              placeholder=[[_messagePlaceholder]]
-              fixed-position-dropdown
-              hide-border="true"
-              monospace="true"
-              disabled="{{disabled}}"
-              rows="4"
-              max-rows="15"
-              text="{{draft}}"
-              on-bind-value-changed="_handleHeightChanged">
-          </gr-textarea>
-        </gr-endpoint-decorator>
+        <iron-autogrow-textarea
+            id="textarea"
+            class="message"
+            autocomplete="on"
+            placeholder="Say something nice..."
+            disabled="{{disabled}}"
+            rows="4"
+            max-rows="15"
+            bind-value="{{draft}}"
+            on-bind-value-changed="_handleHeightChanged">
+        </iron-autogrow-textarea>
       </section>
       <section class="previewContainer">
         <label>
@@ -239,71 +242,40 @@ limitations under the License.
             config="[[projectConfig.commentlinks]]"></gr-formatted-text>
       </section>
       <section class="labelsContainer">
-        <gr-label-scores
-            id="labelScores"
-            account="[[_account]]"
-            change="[[change]]"
-            on-labels-changed="_handleLabelsChanged"
-            permitted-labels=[[permittedLabels]]></gr-label-scores>
+        <template is="dom-repeat" items="[[_labels]]" as="label">
+          <div class="labelContainer">
+            <span class="labelName">[[label.name]]</span>
+            <iron-selector data-label$="[[label.name]]"
+                selected="[[_computeIndexOfLabelValue(change.labels, permittedLabels, label)]]"
+                hidden$="[[!_computeAnyPermittedLabelValues(permittedLabels, label.name)]]">
+              <template is="dom-repeat"
+                  items="[[_computePermittedLabelValues(permittedLabels, label.name)]]"
+                  as="value">
+                <gr-button has-tooltip data-value$="[[value]]"
+                    title$="[[_computeLabelValueTitle(change.labels, label.name, value)]]">[[value]]</gr-button>
+              </template>
+            </iron-selector>
+            <span class="labelMessage"
+                hidden$="[[_computeAnyPermittedLabelValues(permittedLabels, label.name)]]">
+              You don't have permission to edit this label.
+            </span>
+          </div>
+        </template>
       </section>
       <section class="draftsContainer" hidden$="[[_computeHideDraftList(diffDrafts)]]">
-        <div class="includeComments">
-          <input type="checkbox" id="includeComments"
-              checked="{{_includeComments::change}}">
-          <label for="includeComments">Publish [[_computeDraftsTitle(diffDrafts)]]</label>
-        </div>
+        <h3>[[_computeDraftsTitle(diffDrafts)]]</h3>
         <gr-comment-list
-            id="commentList"
             comments="[[diffDrafts]]"
             change-num="[[change._number]]"
             project-config="[[projectConfig]]"
-            patch-num="[[patchNum]]"
-            hidden$="[[!_includeComments]]"></gr-comment-list>
-        <span
-            id="savingLabel"
-            class$="[[_computeSavingLabelClass(_savingComments)]]">
-          Saving comments...
-        </span>
+            patch-num="[[patchNum]]"></gr-comment-list>
       </section>
-      <section class="actions">
-        <div class="left">
-          <template is="dom-if" if="[[canBeStarted]]">
-            <gr-button
-                link
-                tertiary
-                disabled="[[_isState(knownLatestState, 'not-latest')]]"
-                class="action save"
-                has-tooltip
-                title="[[_saveTooltip]]"
-                on-tap="_saveTapHandler">Save</gr-button>
-          </template>
-          <span
-              id="checkingStatusLabel"
-              hidden$="[[!_isState(knownLatestState, 'checking')]]">
-            Checking whether patch [[patchNum]] is latest...
-          </span>
-          <span
-              id="notLatestLabel"
-              hidden$="[[!_isState(knownLatestState, 'not-latest')]]">
-            Patch [[patchNum]] is not latest.
-            <gr-button link on-tap="_reload">Reload</gr-button>
-          </span>
-        </div>
-        <div class="right">
-          <gr-button
-              link
-              id="cancelButton"
-              class="action cancel"
-              on-tap="_cancelTapHandler">Cancel</gr-button>
-          <gr-button
-              link
-              primary
-              disabled="[[_computeSendButtonDisabled(knownLatestState, _sendButtonLabel, diffDrafts, draft, _reviewersMutated, _labelsChanged, _includeComments)]]"
-              class="action send"
-              has-tooltip
-              title$="[[_computeSendButtonTooltip(canBeStarted)]]"
-              on-tap="_sendTapHandler">[[_sendButtonLabel]]</gr-button>
-        </div>
+      <section class="actionsContainer">
+        <gr-button primary class="action send" on-tap="_sendTapHandler">Send</gr-button>
+        <gr-button
+            id="cancelButton"
+            class="action cancel"
+            on-tap="_cancelTapHandler">Cancel</gr-button>
       </section>
     </div>
     <gr-js-api-interface id="jsAPI"></gr-js-api-interface>

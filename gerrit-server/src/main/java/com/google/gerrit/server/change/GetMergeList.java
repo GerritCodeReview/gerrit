@@ -80,7 +80,7 @@ public class GetMergeList implements RestReadView<RevisionResource> {
       List<CommitInfo> result = new ArrayList<>(commits.size());
       ChangeJson changeJson = json.noOptions();
       for (RevCommit c : commits) {
-        result.add(changeJson.toCommit(rsrc.getProject(), rw, c, addLinks, true));
+        result.add(changeJson.toCommit(rsrc.getControl(), rw, c, addLinks, true));
       }
       return createResponse(rsrc, result);
     }

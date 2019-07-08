@@ -20,9 +20,9 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
 <script src="../../../scripts/util.js"></script>
 
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-change-actions.html">
 
 <script>void(0);</script>
@@ -34,14 +34,18 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-change-actions tests', () => {
-    let element;
-    let sandbox;
-
-    setup(() => {
+  suite('gr-change-actions tests', function() {
+    var element;
+    setup(function() {
       stub('gr-rest-api-interface', {
-        getChangeRevisionActions() {
+        getChangeRevisionActions: function() {
           return Promise.resolve({
+            '/': {
+              method: 'DELETE',
+              label: 'Delete',
+              title: 'Delete draft revision 2',
+              enabled: true,
+            },
             cherrypick: {
               method: 'POST',
               label: 'Cherry Pick',
@@ -62,18 +66,18 @@ limitations under the License.
             },
           });
         },
-        send(method, url, payload) {
+        send: function(method, url, payload) {
           if (method !== 'POST') { return Promise.reject('bad method'); }
 
-          if (url === '/changes/test~42/revisions/2/submit') {
+          if (url === '/changes/42/revisions/2/submit') {
             return Promise.resolve({
               ok: true,
-              text() { return Promise.resolve(')]}\'\n{}'); },
+              text: function() { return Promise.resolve(')]}\'\n{}'); },
             });
-          } else if (url === '/changes/test~42/revisions/2/rebase') {
+          } else if (url === '/changes/42/revisions/2/rebase') {
             return Promise.resolve({
               ok: true,
-              text() { return Promise.resolve(')]}\'\n{}'); },
+              text: function() { return Promise.resolve(')]}\'\n{}'); },
             });
           }
 
@@ -88,76 +92,23 @@ limitations under the License.
       element.actions = {
         '/': {
           method: 'DELETE',
-          label: 'Delete Change',
-          title: 'Delete change X_X',
+          label: 'Delete',
+          title: 'Delete draft change 42',
           enabled: true,
         },
       };
-      sandbox = sinon.sandbox.create();
-
       return element.reload();
     });
 
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('_shouldHideActions', () => {
+    test('_shouldHideActions', function() {
       assert.isTrue(element._shouldHideActions(undefined, true));
       assert.isTrue(element._shouldHideActions({base: {}}, false));
       assert.isFalse(element._shouldHideActions({base: ['test']}, false));
     });
 
-    test('plugin revision actions', () => {
-      sandbox.stub(element.$.restAPI, 'getChangeActionURL').returns(
-          Promise.resolve('the-url'));
-      element.revisionActions = {
-        'plugin~action': {},
-      };
-      assert.isOk(element.revisionActions['plugin~action']);
-      flush(() => {
-        assert.isTrue(element.$.restAPI.getChangeActionURL.calledWith(
-            element.changeNum, element.patchNum, '/plugin~action'));
-        assert.equal(element.revisionActions['plugin~action'].__url, 'the-url');
-      });
-    });
-
-    test('plugin change actions', () => {
-      sandbox.stub(element.$.restAPI, 'getChangeActionURL').returns(
-          Promise.resolve('the-url'));
-      element.actions = {
-        'plugin~action': {},
-      };
-      assert.isOk(element.actions['plugin~action']);
-      flush(() => {
-        assert.isTrue(element.$.restAPI.getChangeActionURL.calledWith(
-            element.changeNum, null, '/plugin~action'));
-        assert.equal(element.revisionActions['plugin~action'].__url, 'the-url');
-      });
-    });
-
-    test('not supported actions are filtered out', () => {
-      element.revisionActions = {
-        followup: {
-        },
-      };
-      assert.equal(element.querySelectorAll('section gr-button').length, 0);
-    });
-
-    test('getActionDetails', () => {
-      element.revisionActions = Object.assign({
-        'plugin~action': {},
-      }, element.revisionActions);
-      assert.isUndefined(element.getActionDetails('rubbish'));
-      assert.strictEqual(element.revisionActions['plugin~action'],
-          element.getActionDetails('plugin~action'));
-      assert.strictEqual(element.revisionActions['rebase'],
-          element.getActionDetails('rebase'));
-    });
-
-    test('hide revision action', done => {
-      flush(() => {
-        const buttonEl = element.$$('[data-action-key="submit"]');
+    test('hide revision action', function(done) {
+      flush(function() {
+        var buttonEl = element.$$('[data-action-key="submit"]');
         assert.isOk(buttonEl);
         assert.throws(element.setActionHidden.bind(element, 'invalid type'));
         element.setActionHidden(element.ActionType.REVISION,
@@ -166,14 +117,14 @@ limitations under the License.
         element.setActionHidden(element.ActionType.REVISION,
             element.RevisionActions.SUBMIT, true);
         assert.lengthOf(element._hiddenActions, 1);
-        flush(() => {
-          const buttonEl = element.$$('[data-action-key="submit"]');
+        flush(function() {
+          var buttonEl = element.$$('[data-action-key="submit"]');
           assert.isNotOk(buttonEl);
 
           element.setActionHidden(element.ActionType.REVISION,
-              element.RevisionActions.SUBMIT, false);
-          flush(() => {
-            const buttonEl = element.$$('[data-action-key="submit"]');
+            element.RevisionActions.SUBMIT, false);
+          flush(function() {
+            var buttonEl = element.$$('[data-action-key="submit"]');
             assert.isOk(buttonEl);
             assert.isFalse(buttonEl.hasAttribute('hidden'));
             done();
@@ -182,35 +133,66 @@ limitations under the License.
       });
     });
 
-    test('buttons exist', done => {
+    test('hide menu action', function(done) {
+      flush(function() {
+        var buttonEl = element.$.moreActions.$$('span[data-id="delete"]');
+        assert.isOk(buttonEl);
+        assert.throws(element.setActionHidden.bind(element, 'invalid type'));
+        element.setActionHidden(element.ActionType.CHANGE,
+            element.ChangeActions.DELETE, true);
+        assert.lengthOf(element._hiddenActions, 1);
+        element.setActionHidden(element.ActionType.CHANGE,
+            element.ChangeActions.DELETE, true);
+        assert.lengthOf(element._hiddenActions, 1);
+        flush(function() {
+          var buttonEl = element.$.moreActions.$$('span[data-id="delete"]');
+          assert.isNotOk(buttonEl);
+
+          element.setActionHidden(element.ActionType.CHANGE,
+            element.RevisionActions.DELETE, false);
+          flush(function() {
+            var buttonEl = element.$.moreActions.$$('span[data-id="delete"]');
+            assert.isOk(buttonEl);
+            done();
+          });
+        });
+      });
+    });
+
+    test('buttons exist', function(done) {
       element._loading = false;
-      flush(() => {
-        const buttonEls = Polymer.dom(element.root)
+      flush(function() {
+        var buttonEls = Polymer.dom(element.root)
             .querySelectorAll('gr-button');
-        const menuItems = element.$.moreActions.items;
+        var menuItems = element.$.moreActions.items;
         assert.equal(buttonEls.length + menuItems.length, 6);
         assert.isFalse(element.hidden);
         done();
       });
     });
 
-    test('delete buttons have explicit labels', done => {
-      flush(() => {
-        const deleteItems = element.$.moreActions.items.filter(item => {
-          return item.id.startsWith('delete');
+    test('delete buttons have explicit labels', function(done) {
+      flush(function() {
+        var deleteItems = element.$.moreActions.items.filter(function(item) {
+          return item.id === 'delete';
         });
-        assert.equal(deleteItems.length, 1);
-        assert.notEqual(deleteItems[0].name);
+        assert.equal(deleteItems.length, 2);
+        assert.notEqual(deleteItems[0].name, deleteItems[1].name);
         assert.isTrue(
+            deleteItems[0].name === 'Delete Revision' ||
             deleteItems[0].name === 'Delete Change'
+        );
+        assert.isTrue(
+            deleteItems[1].name === 'Delete Revision' ||
+            deleteItems[1].name === 'Delete Change'
         );
         done();
       });
     });
 
-    test('get revision object from change', () => {
-      const revObj = {_number: 2, foo: 'bar'};
-      const change = {
+    test('get revision object from change', function() {
+      var revObj = {_number: 2, foo: 'bar'};
+      var change = {
         revisions: {
           rev1: {_number: 1},
           rev2: revObj,
@@ -219,26 +201,23 @@ limitations under the License.
       assert.deepEqual(element._getRevision(change, '2'), revObj);
     });
 
-    test('_actionComparator sort order', () => {
-      const actions = [
+    test('_actionComparator sort order', function() {
+      var actions = [
         {label: '123', __type: 'change', __key: 'review'},
-        {label: 'abc-ro', __type: 'revision'},
+        {label: 'abc', __type: 'revision'},
         {label: 'abc', __type: 'change'},
         {label: 'def', __type: 'change'},
-        {label: 'def-p', __type: 'change', __primary: true},
+        {label: 'def', __type: 'change', __primary: true},
       ];
 
-      const result = actions.slice();
+      var result = actions.slice();
       result.reverse();
-      result.sort(element._actionComparator.bind(element));
+      result.sort(element._actionComparator);
+
       assert.deepEqual(result, actions);
     });
 
-    test('submit change', done => {
-      sandbox.stub(element.$.restAPI, 'getFromProjectLookup')
-          .returns(Promise.resolve('test'));
-      sandbox.stub(element, 'fetchIsLatestKnown',
-          () => { return Promise.resolve(true); });
+    test('submit change', function(done) {
       element.change = {
         revisions: {
           rev1: {_number: 1},
@@ -247,42 +226,44 @@ limitations under the License.
       };
       element.patchNum = '2';
 
-      flush(() => {
-        const submitButton = element.$$('gr-button[data-action-key="submit"]');
+      flush(function() {
+        var submitButton = element.$$('gr-button[data-action-key="submit"]');
         assert.ok(submitButton);
         MockInteractions.tap(submitButton);
 
         // Upon success it should fire the reload-change event.
-        element.addEventListener('reload-change', () => {
+        element.addEventListener('reload-change', function(e) {
           done();
         });
       });
     });
 
-    test('submit change with plugin hook', done => {
-      sandbox.stub(element, '_canSubmitChange',
-          () => { return false; });
-      const fireActionStub = sandbox.stub(element, '_fireAction');
-      flush(() => {
-        const submitButton = element.$$('gr-button[data-action-key="submit"]');
+    test('submit change with plugin hook', function(done) {
+      var canSubmitStub = sinon.stub(element, '_canSubmitChange',
+          function() { return false; });
+      var fireActionStub = sinon.stub(element, '_fireAction');
+      flush(function() {
+        var submitButton = element.$$('gr-button[data-action-key="submit"]');
         assert.ok(submitButton);
         MockInteractions.tap(submitButton);
         assert.equal(fireActionStub.callCount, 0);
 
+        canSubmitStub.restore();
+        fireActionStub.restore();
         done();
       });
     });
 
-    test('chain state', () => {
+    test('chain state', function() {
       assert.equal(element._hasKnownChainState, false);
       element.hasParent = true;
       assert.equal(element._hasKnownChainState, true);
       element.hasParent = false;
     });
 
-    test('_calculateDisabled', () => {
-      let hasKnownChainState = false;
-      const action = {__key: 'rebase', enabled: true};
+    test('_calculateDisabled', function() {
+      var hasKnownChainState = false;
+      var action = {__key: 'rebase', enabled: true};
       assert.equal(
           element._calculateDisabled(action, hasKnownChainState), true);
 
@@ -300,12 +281,12 @@ limitations under the License.
           element._calculateDisabled(action, hasKnownChainState), true);
     });
 
-    test('rebase change', done => {
-      const fireActionStub = sandbox.stub(element, '_fireAction');
-      flush(() => {
-        const rebaseButton = element.$$('gr-button[data-action-key="rebase"]');
+    test('rebase change', function(done) {
+      var fireActionStub = sinon.stub(element, '_fireAction');
+      flush(function() {
+        var rebaseButton = element.$$('gr-button[data-action-key="rebase"]');
         MockInteractions.tap(rebaseButton);
-        const rebaseAction = {
+        var rebaseAction = {
           __key: 'rebase',
           __type: 'revision',
           __primary: false,
@@ -332,14 +313,15 @@ limitations under the License.
         assert.deepEqual(fireActionStub.lastCall.args,
           ['/rebase', rebaseAction, true, {base: ''}]);
 
+        fireActionStub.restore();
         done();
       });
     });
 
-    test('two dialogs are not shown at the same time', done => {
+    test('two dialogs are not shown at the same time', function(done) {
       element._hasKnownChainState = true;
-      flush(() => {
-        const rebaseButton = element.$$('gr-button[data-action-key="rebase"]');
+      flush(function() {
+        var rebaseButton = element.$$('gr-button[data-action-key="rebase"]');
         assert.ok(rebaseButton);
         MockInteractions.tap(rebaseButton);
         flushAsynchronousOperations();
@@ -353,162 +335,23 @@ limitations under the License.
       });
     });
 
-    test('fullscreen-overlay-opened hides content', () => {
-      sandbox.spy(element, '_handleHideBackgroundContent');
-      element.$.overlay.fire('fullscreen-overlay-opened');
-      assert.isTrue(element._handleHideBackgroundContent.called);
-      assert.isTrue(element.$.mainContent.classList.contains('overlayOpen'));
-    });
+    suite('cherry-pick', function() {
+      var fireActionStub;
+      var alertStub;
 
-    test('fullscreen-overlay-closed shows content', () => {
-      sandbox.spy(element, '_handleShowBackgroundContent');
-      element.$.overlay.fire('fullscreen-overlay-closed');
-      assert.isTrue(element._handleShowBackgroundContent.called);
-      assert.isFalse(element.$.mainContent.classList.contains('overlayOpen'));
-    });
-
-    suite('change edits', () => {
-      let fireActionStub;
-      const deleteEditAction = {
-        enabled: true,
-        label: 'Delete Edit',
-        title: 'Delete change edit',
-        __key: 'deleteEdit',
-        __primary: false,
-        __type: 'change',
-        method: 'DELETE',
-      };
-      const publishEditAction = {
-        enabled: true,
-        label: 'Publish Edit',
-        title: 'Publish change edit',
-        __key: 'publishEdit',
-        __primary: false,
-        __type: 'change',
-        method: 'POST',
-      };
-      const rebaseEditAction = {
-        enabled: true,
-        label: 'Rebase Edit',
-        title: 'Rebase change edit',
-        __key: 'rebaseEdit',
-        __primary: false,
-        __type: 'change',
-        method: 'POST',
-      };
-
-      setup(() => {
-        fireActionStub = sandbox.stub(element, '_fireAction');
-        element.patchNum = 'edit';
-        element.editLoaded = true;
+      setup(function() {
+        fireActionStub = sinon.stub(element, '_fireAction');
+        alertStub = sinon.stub(window, 'alert');
       });
 
-      test('does not delete edit on action', () => {
-        element._handleDeleteEditTap();
-        assert.isFalse(fireActionStub.called);
+      teardown(function() {
+        alertStub.restore();
+        fireActionStub.restore();
       });
 
-      test('shows confirm dialog for delete edit', () => {
-        element._handleDeleteEditTap();
-        assert.isFalse(element.$$('#confirmDeleteEditDialog').hidden);
-        assert.ok(element.$$('gr-button[data-action-key="deleteEdit"]'));
-        MockInteractions.tap(
-            element.$$('#confirmDeleteEditDialog').$$('gr-button[primary]'));
-        flushAsynchronousOperations();
-        assert.isTrue(
-            fireActionStub.calledWith('/edit', deleteEditAction, false));
-      });
-
-      test('show publish edit but rebaseEdit is hidden', () => {
-        element.change = {
-          status: 'NEW',
-        };
-        const rebaseEditButton =
-            element.$$('gr-button[data-action-key="rebaseEdit"]');
-        assert.isNotOk(rebaseEditButton);
-
-        const publishEditButton =
-            element.$$('gr-button[data-action-key="publishEdit"]');
-        assert.ok(publishEditButton);
-        MockInteractions.tap(publishEditButton);
-        element._handlePublishEditTap();
-        flushAsynchronousOperations();
-
-        assert.isTrue(
-            fireActionStub.calledWith('/edit:publish', publishEditAction, false));
-      });
-
-      test('show rebase edit but publishEdit is hidden', () => {
-        element.change = {
-          status: 'NEW',
-        };
-        element.editBasedOnCurrentPatchSet = false;
-
-        const publishEditButton =
-            element.$$('gr-button[data-action-key="publishEdit"]');
-        assert.isNotOk(publishEditButton);
-
-        const rebaseEditButton =
-            element.$$('gr-button[data-action-key="rebaseEdit"]');
-        assert.ok(rebaseEditButton);
-        MockInteractions.tap(rebaseEditButton);
-        element._handleRebaseEditTap();
-        flushAsynchronousOperations();
-
-        assert.isTrue(
-            fireActionStub.calledWith('/edit:rebase', rebaseEditAction, false));
-      });
-
-      test('hide publishEdit and rebaseEdit if change is not open', () => {
-        element.change = {
-          status: 'MERGED',
-        };
-        flushAsynchronousOperations();
-
-        const publishEditButton =
-            element.$$('gr-button[data-action-key="publishEdit"]');
-        assert.isNotOk(publishEditButton);
-
-        const rebaseEditButton =
-            element.$$('gr-button[data-action-key="rebaseEdit"]');
-        assert.isNotOk(rebaseEditButton);
-
-        const deleteEditButton =
-            element.$$('gr-button[data-action-key="deleteEdit"]');
-        assert.ok(deleteEditButton);
-      });
-
-      test('do not show delete edit on a non change edit', () => {
-        element.editLoaded = false;
-        flushAsynchronousOperations();
-        const deleteEditButton =
-            element.$$('gr-button[data-action-key="deleteEdit"]');
-        assert.isNotOk(deleteEditButton);
-      });
-
-      test('do not show publish edit on a non change edit', () => {
-        element.change = {
-          status: 'NEW',
-        };
-        element.editLoaded = false;
-        flushAsynchronousOperations();
-        const publishEditButton =
-            element.$$('gr-button[data-action-key="publishEdit"]');
-        assert.isNotOk(publishEditButton);
-      });
-    });
-
-    suite('cherry-pick', () => {
-      let fireActionStub;
-
-      setup(() => {
-        fireActionStub = sandbox.stub(element, '_fireAction');
-        sandbox.stub(window, 'alert');
-      });
-
-      test('works', () => {
+      test('works', function() {
         element._handleCherrypickTap();
-        const action = {
+        var action = {
           __key: 'cherrypick',
           __type: 'revision',
           __primary: false,
@@ -523,7 +366,7 @@ limitations under the License.
 
         element.$.confirmCherrypick.branch = 'master';
         element._handleCherrypickConfirm();
-        assert.equal(fireActionStub.callCount, 0); // Still needs a message.
+        assert.equal(fireActionStub.callCount, 0);  // Still needs a message.
 
         // Add attributes that are used to determine the message.
         element.$.confirmCherrypick.commitMessage = 'foo message';
@@ -543,8 +386,8 @@ limitations under the License.
         ]);
       });
 
-      test('branch name cleared when re-open cherrypick', () => {
-        const emptyBranchName = '';
+      test('branch name cleared when re-open cherrypick', function() {
+        var emptyBranchName = '';
         element.$.confirmCherrypick.branch = 'master';
 
         element._handleCherrypickTap();
@@ -552,58 +395,29 @@ limitations under the License.
       });
     });
 
-    suite('move change', () => {
-      let fireActionStub;
-
-      setup(() => {
-        fireActionStub = sandbox.stub(element, '_fireAction');
-        sandbox.stub(window, 'alert');
-      });
-
-      test('works', () => {
-        element._handleMoveTap();
-
-        element._handleMoveConfirm();
-        assert.equal(fireActionStub.callCount, 0);
-
-        element.$.confirmMove.branch = 'master';
-        element._handleMoveConfirm();
-        assert.equal(fireActionStub.callCount, 1);
-      });
-
-      test('branch name cleared when re-open move', () => {
-        const emptyBranchName = '';
-        element.$.confirmMove.branch = 'master';
-
-        element._handleMoveTap();
-        assert.equal(element.$.confirmMove.branch, emptyBranchName);
-      });
-    });
-
-    test('custom actions', done => {
+    test('custom actions', function(done) {
       // Add a button with the same key as a server-based one to ensure
       // collisions are taken care of.
-      const key = element.addActionButton(element.ActionType.REVISION, 'Bork!');
-      element.addEventListener(key + '-tap', e => {
+      var key = element.addActionButton(element.ActionType.REVISION, 'Bork!');
+      element.addEventListener(key + '-tap', function(e) {
         assert.equal(e.detail.node.getAttribute('data-action-key'), key);
         element.removeActionButton(key);
-        flush(() => {
+        flush(function() {
           assert.notOk(element.$$('[data-action-key="' + key + '"]'));
           done();
         });
       });
-      flush(() => {
+      flush(function() {
         MockInteractions.tap(element.$$('[data-action-key="' + key + '"]'));
       });
     });
 
-    test('_setLoadingOnButtonWithKey top-level', () => {
-      const key = 'rebase';
-      const type = 'revision';
-      const cleanup = element._setLoadingOnButtonWithKey(type, key);
+    test('_setLoadingOnButtonWithKey top-level', function() {
+      var key = 'rebase';
+      var cleanup = element._setLoadingOnButtonWithKey(key);
       assert.equal(element._actionLoadingMessage, 'Rebasing...');
 
-      const button = element.$$('[data-action-key="' + key + '"]');
+      var button = element.$$('[data-action-key="' + key + '"]');
       assert.isTrue(button.hasAttribute('loading'));
       assert.isTrue(button.disabled);
 
@@ -616,10 +430,9 @@ limitations under the License.
       assert.isNotOk(element._actionLoadingMessage);
     });
 
-    test('_setLoadingOnButtonWithKey overflow menu', () => {
-      const key = 'cherrypick';
-      const type = 'revision';
-      const cleanup = element._setLoadingOnButtonWithKey(type, key);
+    test('_setLoadingOnButtonWithKey overflow menu', function() {
+      var key = 'cherrypick';
+      var cleanup = element._setLoadingOnButtonWithKey(key);
       assert.equal(element._actionLoadingMessage, 'Cherry-Picking...');
       assert.include(element._disabledMenuActions, 'cherrypick');
       assert.isFunction(cleanup);
@@ -630,13 +443,13 @@ limitations under the License.
       assert.notInclude(element._disabledMenuActions, 'cherrypick');
     });
 
-    suite('revert change', () => {
-      let alertStub;
-      let fireActionStub;
+    suite('revert change', function() {
+      var alertStub;
+      var fireActionStub;
 
-      setup(() => {
-        fireActionStub = sandbox.stub(element, '_fireAction');
-        alertStub = sandbox.stub(window, 'alert');
+      setup(function() {
+        fireActionStub = sinon.stub(element, '_fireAction');
+        alertStub = sinon.stub(window, 'alert');
         element.actions = {
           revert: {
             method: 'POST',
@@ -648,39 +461,48 @@ limitations under the License.
         return element.reload();
       });
 
-      test('revert change with plugin hook', done => {
+      teardown(function() {
+        alertStub.restore();
+        fireActionStub.restore();
+      });
+
+      test('revert change with plugin hook', function(done) {
         element.change = {
           current_revision: 'abc1234',
         };
-        const newRevertMsg = 'Modified revert msg';
-        sandbox.stub(element, '_modifyRevertMsg',
-            () => { return newRevertMsg; });
-        sandbox.stub(element.$.confirmRevertDialog, 'populateRevertMessage',
-            () => { return 'original msg'; });
-        flush(() => {
-          const revertButton =
-              element.$$('gr-button[data-action-key="revert"]');
+        var newRevertMsg = 'Modified revert msg';
+        var modifyRevertMsgStub = sinon.stub(element, '_modifyRevertMsg',
+            function() { return newRevertMsg; });
+        var populateRevertMsgStub = sinon.stub(
+            element.$.confirmRevertDialog, 'populateRevertMessage',
+            function() { return 'original msg'; });
+        flush(function() {
+          var revertButton = element.$$('gr-button[data-action-key="revert"]');
           MockInteractions.tap(revertButton);
 
           assert.equal(element.$.confirmRevertDialog.message, newRevertMsg);
+
+          populateRevertMsgStub.restore();
+          modifyRevertMsgStub.restore();
           done();
         });
       });
 
-      test('works', () => {
+      test('works', function() {
         element.change = {
           current_revision: 'abc1234',
         };
-        sandbox.stub(element.$.confirmRevertDialog, 'populateRevertMessage',
-            () => { return 'original msg'; });
-        const revertButton = element.$$('gr-button[data-action-key="revert"]');
+        var populateRevertMsgStub = sinon.stub(
+            element.$.confirmRevertDialog, 'populateRevertMessage',
+            function() { return 'original msg'; });
+        var revertButton = element.$$('gr-button[data-action-key="revert"]');
         MockInteractions.tap(revertButton);
 
         element.$.confirmRevertDialog.message = 'foo message';
         element._handleRevertDialogConfirm();
         assert.notOk(alertStub.called);
 
-        const action = {
+        var action = {
           __key: 'revert',
           __type: 'change',
           __primary: false,
@@ -693,109 +515,16 @@ limitations under the License.
           '/revert', action, false, {
             message: 'foo message',
           }]);
+        populateRevertMsgStub.restore();
       });
     });
 
-    suite('mark change private', () => {
-      setup(() => {
-        const privateAction = {
-          __key: 'private',
-          __type: 'change',
-          __primary: false,
-          method: 'POST',
-          label: 'Mark private',
-          title: 'Working...',
-          enabled: true,
-        };
+    suite('delete change', function() {
+      var fireActionStub;
+      var deleteAction;
 
-        element.actions = {
-          private: privateAction,
-        };
-
-        element.change.is_private = false;
-
-        element.changeNum = '2';
-        element.patchNum = '2';
-
-        return element.reload();
-      });
-
-      test('make sure the mark private change button is not outside of the ' +
-           'overflow menu', done => {
-        flush(() => {
-          assert.isNotOk(element.$$('[data-action-key="private"]'));
-          done();
-        });
-      });
-
-      test('private change', done => {
-        flush(() => {
-          assert.isOk(
-              element.$.moreActions.$$('span[data-id="private-change"]'));
-          element.setActionOverflow('change', 'private', false);
-          flushAsynchronousOperations();
-          assert.isOk(element.$$('[data-action-key="private"]'));
-          assert.isNotOk(
-              element.$.moreActions.$$('span[data-id="private-change"]'));
-          done();
-        });
-      });
-    });
-
-    suite('unmark private change', () => {
-      setup(() => {
-        const unmarkPrivateAction = {
-          __key: 'private.delete',
-          __type: 'change',
-          __primary: false,
-          method: 'POST',
-          label: 'Unmark private',
-          title: 'Working...',
-          enabled: true,
-        };
-
-        element.actions = {
-          'private.delete': unmarkPrivateAction,
-        };
-
-        element.change.is_private = true;
-
-        element.changeNum = '2';
-        element.patchNum = '2';
-
-        return element.reload();
-      });
-
-      test('make sure the unmark private change button is not outside of the ' +
-           'overflow menu', done => {
-        flush(() => {
-          assert.isNotOk(element.$$('[data-action-key="private.delete"]'));
-          done();
-        });
-      });
-
-      test('unmark the private change', done => {
-        flush(() => {
-          assert.isOk(
-              element.$.moreActions.$$('span[data-id="private.delete-change"]')
-          );
-          element.setActionOverflow('change', 'private.delete', false);
-          flushAsynchronousOperations();
-          assert.isOk(element.$$('[data-action-key="private.delete"]'));
-          assert.isNotOk(
-              element.$.moreActions.$$('span[data-id="private.delete-change"]')
-          );
-          done();
-        });
-      });
-    });
-
-    suite('delete change', () => {
-      let fireActionStub;
-      let deleteAction;
-
-      setup(() => {
-        fireActionStub = sandbox.stub(element, '_fireAction');
+      setup(function() {
+        fireActionStub = sinon.stub(element, '_fireAction');
         element.change = {
           current_revision: 'abc1234',
         };
@@ -810,12 +539,16 @@ limitations under the License.
         };
       });
 
-      test('does not delete on action', () => {
+      teardown(function() {
+        fireActionStub.restore();
+      });
+
+      test('does not delete on action', function() {
         element._handleDeleteTap();
         assert.isFalse(fireActionStub.called);
       });
 
-      test('shows confirm dialog', () => {
+      test('shows confirm dialog', function() {
         element._handleDeleteTap();
         assert.isFalse(element.$$('#confirmDeleteDialog').hidden);
         MockInteractions.tap(
@@ -824,7 +557,7 @@ limitations under the License.
         assert.isTrue(fireActionStub.calledWith('/', deleteAction, false));
       });
 
-      test('hides delete confirm on cancel', () => {
+      test('hides delete confirm on cancel', function() {
         element._handleDeleteTap();
         MockInteractions.tap(
             element.$$('#confirmDeleteDialog').$$('gr-button:not([primary])'));
@@ -834,167 +567,8 @@ limitations under the License.
       });
     });
 
-    suite('ignore change', () => {
-      setup(done => {
-        sandbox.stub(element, '_fireAction');
-
-        const IgnoreAction = {
-          __key: 'ignore',
-          __type: 'change',
-          __primary: false,
-          method: 'PUT',
-          label: 'Ignore',
-          title: 'Working...',
-          enabled: true,
-        };
-
-        element.actions = {
-          ignore: IgnoreAction,
-        };
-
-        element.changeNum = '2';
-        element.patchNum = '2';
-
-        element.reload().then(() => { flush(done); });
-      });
-
-      test('make sure the ignore button is not outside of the overflow menu',
-          () => {
-            assert.isNotOk(element.$$('[data-action-key="ignore"]'));
-          });
-
-      test('ignoring change', () => {
-        assert.isOk(element.$.moreActions.$$('span[data-id="ignore-change"]'));
-        element.setActionOverflow('change', 'ignore', false);
-        flushAsynchronousOperations();
-        assert.isOk(element.$$('[data-action-key="ignore"]'));
-        assert.isNotOk(
-            element.$.moreActions.$$('span[data-id="ignore-change"]'));
-      });
-    });
-
-    suite('unignore change', () => {
-      setup(done => {
-        sandbox.stub(element, '_fireAction');
-
-        const UnignoreAction = {
-          __key: 'unignore',
-          __type: 'change',
-          __primary: false,
-          method: 'PUT',
-          label: 'Unignore',
-          title: 'Working...',
-          enabled: true,
-        };
-
-        element.actions = {
-          unignore: UnignoreAction,
-        };
-
-        element.changeNum = '2';
-        element.patchNum = '2';
-
-        element.reload().then(() => { flush(done); });
-      });
-
-
-      test('unignore button is not outside of the overflow menu', () => {
-        assert.isNotOk(element.$$('[data-action-key="unignore"]'));
-      });
-
-      test('unignoring change', () => {
-        assert.isOk(
-            element.$.moreActions.$$('span[data-id="unignore-change"]'));
-        element.setActionOverflow('change', 'unignore', false);
-        flushAsynchronousOperations();
-        assert.isOk(element.$$('[data-action-key="unignore"]'));
-        assert.isNotOk(
-            element.$.moreActions.$$('span[data-id="unignore-change"]'));
-      });
-    });
-
-    suite('reviewed change', () => {
-      setup(done => {
-        sandbox.stub(element, '_fireAction');
-
-        const ReviewedAction = {
-          __key: 'reviewed',
-          __type: 'change',
-          __primary: false,
-          method: 'PUT',
-          label: 'Mark reviewed',
-          title: 'Working...',
-          enabled: true,
-        };
-
-        element.actions = {
-          reviewed: ReviewedAction,
-        };
-
-        element.changeNum = '2';
-        element.patchNum = '2';
-
-        element.reload().then(() => { flush(done); });
-      });
-
-      test('make sure the reviewed button is not outside of the overflow menu',
-          () => {
-            assert.isNotOk(element.$$('[data-action-key="reviewed"]'));
-          });
-
-      test('reviewing change', () => {
-        assert.isOk(
-            element.$.moreActions.$$('span[data-id="reviewed-change"]'));
-        element.setActionOverflow('change', 'reviewed', false);
-        flushAsynchronousOperations();
-        assert.isOk(element.$$('[data-action-key="reviewed"]'));
-        assert.isNotOk(
-            element.$.moreActions.$$('span[data-id="reviewed-change"]'));
-      });
-    });
-
-    suite('unreviewed change', () => {
-      setup(done => {
-        sandbox.stub(element, '_fireAction');
-
-        const UnreviewedAction = {
-          __key: 'unreviewed',
-          __type: 'change',
-          __primary: false,
-          method: 'PUT',
-          label: 'Mark unreviewed',
-          title: 'Working...',
-          enabled: true,
-        };
-
-        element.actions = {
-          unreviewed: UnreviewedAction,
-        };
-
-        element.changeNum = '2';
-        element.patchNum = '2';
-
-        element.reload().then(() => { flush(done); });
-      });
-
-
-      test('unreviewed button not outside of the overflow menu', () => {
-        assert.isNotOk(element.$$('[data-action-key="unreviewed"]'));
-      });
-
-      test('unreviewed change', () => {
-        assert.isOk(
-            element.$.moreActions.$$('span[data-id="unreviewed-change"]'));
-        element.setActionOverflow('change', 'unreviewed', false);
-        flushAsynchronousOperations();
-        assert.isOk(element.$$('[data-action-key="unreviewed"]'));
-        assert.isNotOk(
-            element.$.moreActions.$$('span[data-id="unreviewed-change"]'));
-      });
-    });
-
-    suite('quick approve', () => {
-      setup(() => {
+    suite('quick approve', function() {
+      setup(function() {
         element.change = {
           current_revision: 'abc1234',
         };
@@ -1016,18 +590,17 @@ limitations under the License.
         flushAsynchronousOperations();
       });
 
-      test('added when can approve', () => {
-        const approveButton =
-            element.$$('gr-button[data-action-key=\'review\']');
+      test('added when can approve', function() {
+        var approveButton = element.$$('gr-button[data-action-key=\'review\']');
         assert.isNotNull(approveButton);
       });
 
-      test('is first in list of actions', () => {
-        const approveButton = element.$$('gr-button');
+      test('is first in list of actions', function() {
+        var approveButton = element.$$('gr-button');
         assert.equal(approveButton.getAttribute('data-label'), 'foo+1');
       });
 
-      test('not added when already approved', () => {
+      test('not added when already approved', function() {
         element.change = {
           current_revision: 'abc1234',
           labels: {
@@ -1041,12 +614,11 @@ limitations under the License.
           },
         };
         flushAsynchronousOperations();
-        const approveButton =
-            element.$$('gr-button[data-action-key=\'review\']');
+        var approveButton = element.$$('gr-button[data-action-key=\'review\']');
         assert.isNull(approveButton);
       });
 
-      test('not added when label not permitted', () => {
+      test('not added when label not permitted', function() {
         element.change = {
           current_revision: 'abc1234',
           labels: {
@@ -1057,23 +629,23 @@ limitations under the License.
           },
         };
         flushAsynchronousOperations();
-        const approveButton =
-            element.$$('gr-button[data-action-key=\'review\']');
+        var approveButton = element.$$('gr-button[data-action-key=\'review\']');
         assert.isNull(approveButton);
       });
 
-      test('approves when tapped', () => {
-        const fireActionStub = sandbox.stub(element, '_fireAction');
+      test('approves when taped', function() {
+        var fireActionStub = sinon.stub(element, '_fireAction');
         MockInteractions.tap(
             element.$$('gr-button[data-action-key=\'review\']'));
         flushAsynchronousOperations();
         assert.isTrue(fireActionStub.called);
         assert.isTrue(fireActionStub.calledWith('/review'));
-        const payload = fireActionStub.lastCall.args[3];
+        var payload = fireActionStub.lastCall.args[3];
         assert.deepEqual(payload.labels, {foo: '+1'});
+        fireActionStub.restore();
       });
 
-      test('not added when multiple labels are required', () => {
+      test('not added when multiple labels are required', function() {
         element.change = {
           current_revision: 'abc1234',
           labels: {
@@ -1086,12 +658,11 @@ limitations under the License.
           },
         };
         flushAsynchronousOperations();
-        const approveButton =
-            element.$$('gr-button[data-action-key=\'review\']');
+        var approveButton = element.$$('gr-button[data-action-key=\'review\']');
         assert.isNull(approveButton);
       });
 
-      test('button label for missing approval', () => {
+      test('button label for missing approval', function() {
         element.change = {
           current_revision: 'abc1234',
           labels: {
@@ -1109,12 +680,11 @@ limitations under the License.
           },
         };
         flushAsynchronousOperations();
-        const approveButton =
-            element.$$('gr-button[data-action-key=\'review\']');
+        var approveButton = element.$$('gr-button[data-action-key=\'review\']');
         assert.equal(approveButton.getAttribute('data-label'), 'foo+1');
       });
 
-      test('no quick approve if score is not maximal for a label', () => {
+      test('no quick approve if score is not maximal for a label', function() {
         element.change = {
           current_revision: 'abc1234',
           labels: {
@@ -1132,12 +702,11 @@ limitations under the License.
           },
         };
         flushAsynchronousOperations();
-        const approveButton =
-            element.$$('gr-button[data-action-key=\'review\']');
+        var approveButton = element.$$('gr-button[data-action-key=\'review\']');
         assert.isNull(approveButton);
       });
 
-      test('approving label with a non-max score', () => {
+      test('approving label with a non-max score', function() {
         element.change = {
           current_revision: 'abc1234',
           labels: {
@@ -1155,163 +724,8 @@ limitations under the License.
           },
         };
         flushAsynchronousOperations();
-        const approveButton =
-            element.$$('gr-button[data-action-key=\'review\']');
+        var approveButton = element.$$('gr-button[data-action-key=\'review\']');
         assert.equal(approveButton.getAttribute('data-label'), 'bar+2');
-      });
-    });
-
-    test('adds download revision action', () => {
-      const handler = sandbox.stub();
-      element.addEventListener('download-tap', handler);
-      assert.ok(element.revisionActions.download);
-      element._handleDownloadTap();
-      flushAsynchronousOperations();
-
-      assert.isTrue(handler.called);
-    });
-
-    test('changing changeNum or patchNum does not reload', () => {
-      const reloadStub = sandbox.stub(element, 'reload');
-      element.changeNum = 123;
-      assert.isFalse(reloadStub.called);
-      element.patchNum = 456;
-      assert.isFalse(reloadStub.called);
-    });
-
-    suite('setActionOverflow', () => {
-      test('move action from overflow', () => {
-        assert.isNotOk(element.$$('[data-action-key="cherrypick"]'));
-        assert.strictEqual(
-            element.$.moreActions.items[0].id, 'cherrypick-revision');
-        element.setActionOverflow('revision', 'cherrypick', false);
-        flushAsynchronousOperations();
-        assert.isOk(element.$$('[data-action-key="cherrypick"]'));
-        assert.notEqual(
-            element.$.moreActions.items[0].id, 'cherrypick-revision');
-      });
-
-      test('move action to overflow', () => {
-        assert.isOk(element.$$('[data-action-key="submit"]'));
-        element.setActionOverflow('revision', 'submit', true);
-        flushAsynchronousOperations();
-        assert.isNotOk(element.$$('[data-action-key="submit"]'));
-        assert.strictEqual(
-            element.$.moreActions.items[3].id, 'submit-revision');
-      });
-
-      suite('_waitForChangeReachable', () => {
-        setup(() => {
-          sandbox.stub(element, 'async', fn => fn());
-        });
-
-        const makeGetChange = numTries => {
-          return () => {
-            if (numTries === 1) {
-              return Promise.resolve({_number: 123});
-            } else {
-              numTries--;
-              return Promise.resolve(undefined);
-            }
-          };
-        };
-
-        test('succeed', () => {
-          sandbox.stub(element.$.restAPI, 'getChange', makeGetChange(5));
-          return element._waitForChangeReachable(123).then(success => {
-            assert.isTrue(success);
-          });
-        });
-
-        test('fail', () => {
-          sandbox.stub(element.$.restAPI, 'getChange', makeGetChange(6));
-          return element._waitForChangeReachable(123).then(success => {
-            assert.isFalse(success);
-          });
-        });
-      });
-    });
-
-    suite('_send', () => {
-      let cleanup;
-      let payload;
-      let onShowAlert;
-
-      setup(() => {
-        cleanup = sinon.stub();
-        element.changeNum = 42;
-        element.patchNum = 12;
-        payload = {foo: 'bar'};
-
-        onShowAlert = sinon.stub();
-        element.addEventListener('show-alert', onShowAlert);
-      });
-
-      suite('happy path', () => {
-        let sendStub;
-
-        setup(() => {
-          sandbox.stub(element, 'fetchIsLatestKnown')
-              .returns(Promise.resolve(true));
-          sendStub = sandbox.stub(element.$.restAPI, 'getChangeURLAndSend')
-              .returns(Promise.resolve({}));
-        });
-
-        test('change action', () => {
-          return element._send('DELETE', payload, '/endpoint', false, cleanup)
-              .then(() => {
-                assert.isFalse(onShowAlert.called);
-                assert.isTrue(cleanup.calledOnce);
-                assert.isTrue(sendStub.calledWith(42, 'DELETE', null,
-                    '/endpoint', payload));
-              });
-        });
-
-        test('revision action', () => {
-          return element._send('DELETE', payload, '/endpoint', true, cleanup)
-              .then(() => {
-                assert.isFalse(onShowAlert.called);
-                assert.isTrue(cleanup.calledOnce);
-                assert.isTrue(sendStub.calledWith(42, 'DELETE', 12, '/endpoint',
-                    payload));
-              });
-        });
-      });
-
-      suite('failure modes', () => {
-        test('non-latest', () => {
-          sandbox.stub(element, 'fetchIsLatestKnown')
-              .returns(Promise.resolve(false));
-          const sendStub = sandbox.stub(element.$.restAPI,
-              'getChangeURLAndSend');
-
-          return element._send('DELETE', payload, '/endpoint', true, cleanup)
-              .then(() => {
-                assert.isTrue(onShowAlert.calledOnce);
-                assert.isTrue(cleanup.calledOnce);
-                assert.isFalse(sendStub.called);
-              });
-        });
-
-        test('send fails', () => {
-          sandbox.stub(element, 'fetchIsLatestKnown')
-              .returns(Promise.resolve(true));
-          const sendStub = sandbox.stub(element.$.restAPI,
-              'getChangeURLAndSend',
-              (num, method, patchNum, endpoint, payload, onErr) => {
-                onErr();
-                return Promise.resolve(null);
-              });
-          const handleErrorStub = sandbox.stub(element, '_handleResponseError');
-
-          return element._send('DELETE', payload, '/endpoint', true, cleanup)
-              .then(() => {
-                assert.isFalse(onShowAlert.called);
-                assert.isTrue(cleanup.called);
-                assert.isTrue(sendStub.calledOnce);
-                assert.isTrue(handleErrorStub.called);
-              });
-        });
       });
     });
   });

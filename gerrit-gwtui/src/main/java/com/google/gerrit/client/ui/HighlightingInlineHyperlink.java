@@ -18,7 +18,8 @@ public class HighlightingInlineHyperlink extends InlineHyperlink {
 
   private String toHighlight;
 
-  public HighlightingInlineHyperlink(final String text, String token, String toHighlight) {
+  public HighlightingInlineHyperlink(
+      final String text, final String token, final String toHighlight) {
     super(text, token);
     this.toHighlight = toHighlight;
     highlight(text, toHighlight);
@@ -30,7 +31,7 @@ public class HighlightingInlineHyperlink extends InlineHyperlink {
     highlight(text, toHighlight);
   }
 
-  private void highlight(String text, String toHighlight) {
+  private void highlight(final String text, final String toHighlight) {
     setHTML(Util.highlight(text, toHighlight));
   }
 }

@@ -20,10 +20,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Ignore;
 
-/**
- * Provides a raw message payload and a parsed {@code MailMessage} to check that mime parts that are
- * neither text/plain, nor * text/html are dropped.
- */
+/** Tests that all mime parts that are neither text/plain, nor text/html are dropped. */
 @Ignore
 public class AttachmentMessage extends RawMailMessage {
   private static String raw =

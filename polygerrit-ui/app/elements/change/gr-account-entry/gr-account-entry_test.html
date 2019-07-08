@@ -20,9 +20,9 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
 <script src="../../../scripts/util.js"></script>
 
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-account-entry.html">
 
 <script>void(0);</script>
@@ -34,11 +34,11 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-account-entry tests', () => {
-    let sandbox;
-    let _nextAccountId = 0;
-    const makeAccount = function(opt_status) {
-      const accountId = ++_nextAccountId;
+  suite('gr-account-entry tests', function() {
+    var sandbox;
+    var _nextAccountId = 0;
+    var makeAccount = function(opt_status) {
+      var accountId = ++_nextAccountId;
       return {
         _account_id: accountId,
         name: 'name ' + accountId,
@@ -46,25 +46,16 @@ limitations under the License.
         status: opt_status,
       };
     };
-    let _nextAccountId2 = 0;
-    const makeAccount2 = function(opt_status) {
-      const accountId2 = ++_nextAccountId2;
-      return {
-        _account_id: accountId2,
-        email: 'email ' + accountId2,
-        status: opt_status,
-      };
-    };
 
-    let owner;
-    let existingReviewer1;
-    let existingReviewer2;
-    let suggestion1;
-    let suggestion2;
-    let suggestion3;
-    let element;
+    var owner;
+    var existingReviewer1;
+    var existingReviewer2;
+    var suggestion1;
+    var suggestion2;
+    var suggestion3;
+    var element;
 
-    setup(() => {
+    setup(function() {
       owner = makeAccount();
       existingReviewer1 = makeAccount();
       existingReviewer2 = makeAccount();
@@ -79,8 +70,7 @@ limitations under the License.
 
       element = fixture('basic');
       element.change = {
-        _number: 42,
-        owner,
+        owner: owner,
         reviewers: {
           CC: [existingReviewer1],
           REVIEWER: [existingReviewer2],
@@ -89,117 +79,97 @@ limitations under the License.
       sandbox = sinon.sandbox.create();
     });
 
-    teardown(() => {
+    teardown(function() {
       sandbox.restore();
     });
 
-    suite('stubbed values for _getReviewerSuggestions', () => {
-      setup(() => {
+    suite('stubbed values for _getReviewerSuggestions', function() {
+      setup(function() {
         stub('gr-rest-api-interface', {
-          getChangeSuggestedReviewers() {
-            const redundantSuggestion1 = {account: existingReviewer1};
-            const redundantSuggestion2 = {account: existingReviewer2};
-            const redundantSuggestion3 = {account: owner};
+          getChangeSuggestedReviewers: function() {
+            var redundantSuggestion1 = {account: existingReviewer1};
+            var redundantSuggestion2 = {account: existingReviewer2};
+            var redundantSuggestion3 = {account: owner};
             return Promise.resolve([redundantSuggestion1, redundantSuggestion2,
-              redundantSuggestion3, suggestion1, suggestion2, suggestion3]);
+                redundantSuggestion3, suggestion1, suggestion2, suggestion3]);
           },
         });
       });
 
-      test('_makeSuggestion formats account or group accordingly', () => {
-        let account = makeAccount();
-        const account2 = makeAccount2();
-        let suggestion = element._makeSuggestion({account});
+      test('_makeSuggestion formats account or group accordingly', function() {
+        var account = makeAccount();
+        var suggestion = element._makeSuggestion({account: account});
         assert.deepEqual(suggestion, {
           name: account.name + ' <' + account.email + '>',
-          value: {account},
+          value: {account: account},
         });
 
-        const group = {name: 'test'};
-        suggestion = element._makeSuggestion({group});
+        var group = {name: 'test'};
+        suggestion = element._makeSuggestion({group: group});
         assert.deepEqual(suggestion, {
           name: group.name + ' (group)',
-          value: {group},
+          value: {group: group},
         });
 
         suggestion = element._makeSuggestion(account);
         assert.deepEqual(suggestion, {
           name: account.name + ' <' + account.email + '>',
-          value: {account, count: 1},
+          value: {account: account, count: 1},
         });
-
-        element._config = {
-          user: {
-            anonymous_coward_name: 'Anonymous Coward',
-          },
-        };
-        assert.deepEqual(element._accountOrAnon(account2), 'Anonymous');
 
         account = makeAccount('OOO');
 
-        suggestion = element._makeSuggestion({account});
+        suggestion = element._makeSuggestion({account: account});
         assert.deepEqual(suggestion, {
           name: account.name + ' <' + account.email + '> (OOO)',
-          value: {account},
+          value: {account: account},
         });
 
         suggestion = element._makeSuggestion(account);
         assert.deepEqual(suggestion, {
           name: account.name + ' <' + account.email + '> (OOO)',
-          value: {account, count: 1},
+          value: {account: account, count: 1},
         });
       });
 
-      test('_getReviewerSuggestions excludes owner+reviewers', done => {
-        element._getReviewerSuggestions().then(reviewers => {
+      test('_getReviewerSuggestions excludes owner+reviewers', function(done) {
+        element._getReviewerSuggestions().then(function(reviewers) {
           // Default is no filtering.
           assert.equal(reviewers.length, 6);
 
           // Set up filter that only accepts suggestion1.
-          const accountId = suggestion1.account._account_id;
+          var accountId = suggestion1.account._account_id;
           element.filter = function(suggestion) {
             return suggestion.account &&
                 suggestion.account._account_id === accountId;
           };
 
-          element._getReviewerSuggestions().then(reviewers => {
+          element._getReviewerSuggestions().then(function(reviewers) {
             assert.deepEqual(reviewers, [element._makeSuggestion(suggestion1)]);
           }).then(done);
         });
       });
     });
 
-    test('allowAnyUser', done => {
-      const suggestReviewerStub =
+    test('allowAnyUser', function(done) {
+      var suggestReviewerStub =
           sandbox.stub(element.$.restAPI, 'getChangeSuggestedReviewers')
           .returns(Promise.resolve([]));
-      const suggestAccountStub =
+      var suggestAccountStub =
           sandbox.stub(element.$.restAPI, 'getSuggestedAccounts')
           .returns(Promise.resolve([]));
 
-      element._getReviewerSuggestions('').then(() => {
+      element._getReviewerSuggestions('').then(function() {
         assert.isTrue(suggestReviewerStub.calledOnce);
-        assert.isTrue(suggestReviewerStub.calledWith(42, ''));
         assert.isFalse(suggestAccountStub.called);
         element.allowAnyUser = true;
 
-        element._getReviewerSuggestions('').then(() => {
+        element._getReviewerSuggestions('').then(function() {
           assert.isTrue(suggestReviewerStub.calledOnce);
           assert.isTrue(suggestAccountStub.calledOnce);
-          assert.isTrue(suggestAccountStub.calledWith('cansee:42 '));
           done();
         });
       });
-    });
-
-    test('setText', () => {
-      // Spy on query, as that is called when _updateSuggestions proceeds.
-      const suggestSpy = sandbox.spy(element.$.input, 'query');
-      element.setText('test text');
-      flushAsynchronousOperations();
-
-      assert.equal(element.$.input.$.input.value, 'test text');
-      assert.isFalse(suggestSpy.called);
     });
   });
 </script>

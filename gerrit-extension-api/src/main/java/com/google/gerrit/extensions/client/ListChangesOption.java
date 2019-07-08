@@ -17,7 +17,7 @@ package com.google.gerrit.extensions.client;
 import java.util.EnumSet;
 import java.util.Set;
 
-/** Output options available for retrieval of change details. */
+/** Output options available for retrieval change details. */
 public enum ListChangesOption {
   LABELS(0),
   DETAILED_LABELS(8),
@@ -72,10 +72,7 @@ public enum ListChangesOption {
   REVIEWER_UPDATES(19),
 
   /** Set the submittable boolean. */
-  SUBMITTABLE(20),
-
-  /** If tracking Ids are included, include detailed tracking Ids info. */
-  TRACKING_IDS(21);
+  SUBMITTABLE(20);
 
   private final int value;
 

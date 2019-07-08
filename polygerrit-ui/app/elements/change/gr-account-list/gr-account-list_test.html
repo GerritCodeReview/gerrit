@@ -20,7 +20,8 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-account-list.html">
 
 <script>void(0);</script>
@@ -32,65 +33,64 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-account-list tests', () => {
-    let _nextAccountId = 0;
-    const makeAccount = function() {
-      const accountId = ++_nextAccountId;
+  suite('gr-account-list tests', function() {
+    var _nextAccountId = 0;
+    var makeAccount = function() {
+      var accountId = ++_nextAccountId;
       return {
         _account_id: accountId,
       };
     };
-    const makeGroup = function() {
-      const groupId = 'group' + (++_nextAccountId);
+    var makeGroup = function() {
+      var groupId = 'group' + (++_nextAccountId);
       return {
         id: groupId,
-        _group: true,
       };
     };
 
-    let existingReviewer1;
-    let existingReviewer2;
-    let sandbox;
-    let element;
+    var existingReviewer1;
+    var existingReviewer2;
+    var sandbox;
+    var element;
 
     function getChips() {
       return Polymer.dom(element.root).querySelectorAll('gr-account-chip');
     }
 
-    setup(() => {
+    setup(function() {
       sandbox = sinon.sandbox.create();
       existingReviewer1 = makeAccount();
       existingReviewer2 = makeAccount();
 
       stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
+        getConfig: function() { return Promise.resolve({}); },
       });
       element = fixture('basic');
       element.accounts = [existingReviewer1, existingReviewer2];
     });
 
-    teardown(() => {
+    teardown(function() {
       sandbox.restore();
     });
 
-    test('account entry only appears when editable', () => {
+    test('account entry only appears when editable', function() {
       element.readonly = false;
       assert.isFalse(element.$.entry.hasAttribute('hidden'));
       element.readonly = true;
       assert.isTrue(element.$.entry.hasAttribute('hidden'));
     });
 
-    test('addition and removal of account/group chips', () => {
+    test('addition and removal of account/group chips', function() {
       flushAsynchronousOperations();
       sandbox.stub(element, '_computeRemovable').returns(true);
       // Existing accounts are listed.
-      let chips = getChips();
+      var chips = getChips();
       assert.equal(chips.length, 2);
       assert.isFalse(chips[0].classList.contains('pendingAdd'));
       assert.isFalse(chips[1].classList.contains('pendingAdd'));
 
       // New accounts are added to end with pendingAdd class.
-      const newAccount = makeAccount();
+      var newAccount = makeAccount();
       element._handleAdd({
         detail: {
           value: {
@@ -122,7 +122,7 @@ limitations under the License.
       assert.isFalse(chips[0].classList.contains('pendingAdd'));
 
       // New groups are added to end with pendingAdd and group classes.
-      const newGroup = makeGroup();
+      var newGroup = makeGroup();
       element._handleAdd({
         detail: {
           value: {
@@ -144,8 +144,8 @@ limitations under the License.
       assert.isFalse(chips[0].classList.contains('pendingAdd'));
     });
 
-    test('_computeChipClass', () => {
-      const account = makeAccount();
+    test('_computeChipClass', function() {
+      var account = makeAccount();
       assert.equal(element._computeChipClass(account), '');
       account._pendingAdd = true;
       assert.equal(element._computeChipClass(account), 'pendingAdd');
@@ -155,8 +155,8 @@ limitations under the License.
       assert.equal(element._computeChipClass(account), 'group');
     });
 
-    test('_computeRemovable', () => {
-      const newAccount = makeAccount();
+    test('_computeRemovable', function() {
+      var newAccount = makeAccount();
       newAccount._pendingAdd = true;
       element.readonly = false;
       element.removableValues = [];
@@ -174,34 +174,10 @@ limitations under the License.
       assert.isFalse(element._computeRemovable(newAccount));
     });
 
-    test('submitEntryText', () => {
-      element.allowAnyInput = true;
-      flushAsynchronousOperations();
-
-      const getTextStub = sandbox.stub(element.$.entry, 'getText');
-      getTextStub.onFirstCall().returns('');
-      getTextStub.onSecondCall().returns('test');
-      getTextStub.onThirdCall().returns('test@test');
-
-      // When entry is empty, return true.
-      const clearStub = sandbox.stub(element.$.entry, 'clear');
-      assert.isTrue(element.submitEntryText());
-      assert.isFalse(clearStub.called);
-
-      // When entry is invalid, return false.
-      assert.isFalse(element.submitEntryText());
-      assert.isFalse(clearStub.called);
-
-      // When entry is valid, return true and clear text.
-      assert.isTrue(element.submitEntryText());
-      assert.isTrue(clearStub.called);
-      assert.equal(element.additions()[0].account.email, 'test@test');
-    });
-
-    test('additions returns sanitized new accounts and groups', () => {
+    test('additions returns sanitized new accounts and groups', function() {
       assert.equal(element.additions().length, 0);
 
-      const newAccount = makeAccount();
+      var newAccount = makeAccount();
       element._handleAdd({
         detail: {
           value: {
@@ -209,7 +185,7 @@ limitations under the License.
           },
         },
       });
-      const newGroup = makeGroup();
+      var newGroup = makeGroup();
       element._handleAdd({
         detail: {
           value: {
@@ -235,13 +211,13 @@ limitations under the License.
       ]);
     });
 
-    test('large group confirmations', () => {
+    test('large group confirmations', function() {
       assert.isNull(element.pendingConfirmation);
       assert.deepEqual(element.additions(), []);
 
-      const group = makeGroup();
-      const reviewer = {
-        group,
+      var group = makeGroup();
+      var reviewer = {
+        group: group,
         count: 10,
         confirm: true,
       };
@@ -268,17 +244,17 @@ limitations under the License.
       ]);
     });
 
-    test('removeAccount fails if account is not removable', () => {
+    test('removeAccount fails if account is not removable', function() {
       element.readonly = true;
-      const acct = makeAccount();
+      var acct = makeAccount();
       element.accounts = [acct];
       element._removeAccount(acct);
       assert.equal(element.accounts.length, 1);
     });
 
-    test('max-count', () => {
+    test('max-count', function() {
       element.maxCount = 1;
-      const acct = makeAccount();
+      var acct = makeAccount();
       element._handleAdd({
         detail: {
           value: {
@@ -290,77 +266,38 @@ limitations under the License.
       assert.isTrue(element.$.entry.hasAttribute('hidden'));
     });
 
-    suite('allowAnyInput', () => {
-      let entry;
+    suite('keyboard interactions', function() {
 
-      setup(() => {
-        entry = element.$.entry;
-        sandbox.stub(entry, '_getReviewerSuggestions');
-        sandbox.stub(entry.$.input, '_updateSuggestions');
-        element.allowAnyInput = true;
-      });
-
-      test('adds emails', () => {
-        const accountLen = element.accounts.length;
-        element._handleAdd({detail: {value: 'test@test'}});
-        assert.equal(element.accounts.length, accountLen + 1);
-        assert.equal(element.accounts[accountLen].email, 'test@test');
-      });
-
-      test('toasts on invalid email', () => {
-        const toastHandler = sandbox.stub();
-        element.addEventListener('show-alert', toastHandler);
-        element._handleAdd({detail: {value: 'test'}});
-        assert.isTrue(toastHandler.called);
-      });
-    });
-
-    test('_accountMatches', () => {
-      const acct = makeAccount();
-
-      assert.isTrue(element._accountMatches(acct, acct));
-      acct.email = 'test';
-      assert.isTrue(element._accountMatches(acct, acct));
-      assert.isTrue(element._accountMatches({email: 'test'}, acct));
-
-      assert.isFalse(element._accountMatches({}, acct));
-      assert.isFalse(element._accountMatches({email: 'test2'}, acct));
-      assert.isFalse(element._accountMatches({_account_id: -1}, acct));
-    });
-
-    suite('keyboard interactions', () => {
-      test('backspace at text input start removes last account', () => {
-        const input = element.$.entry.$.input;
+      test('backspace at text input start removes last account', function() {
+        var input = element.$.entry.$.input;
         sandbox.stub(element.$.entry, '_getReviewerSuggestions');
         sandbox.stub(input, '_updateSuggestions');
         sandbox.stub(element, '_computeRemovable').returns(true);
         // Next line is a workaround for Firefix not moving cursor
         // on input field update
-        assert.equal(input.$.input.inputElement.selectionStart, 0);
+        assert.equal(input.$.input.selectionStart, 0);
         input.text = 'test';
         MockInteractions.focus(input.$.input);
         flushAsynchronousOperations();
         assert.equal(element.accounts.length, 2);
-        MockInteractions.pressAndReleaseKeyOn(
-            input.$.input.inputElement, 8); // Backspace
+        MockInteractions.pressAndReleaseKeyOn(input.$.input, 8); // Backspace
         assert.equal(element.accounts.length, 2);
         input.text = '';
-        MockInteractions.pressAndReleaseKeyOn(
-            input.$.input.inputElement, 8); // Backspace
+        MockInteractions.pressAndReleaseKeyOn(input.$.input, 8); // Backspace
         assert.equal(element.accounts.length, 1);
       });
 
-      test('arrow key navigation', () => {
-        const input = element.$.entry.$.input;
+      test('arrow key navigation', function() {
+        var input = element.$.entry.$.input;
         input.text = '';
         element.accounts = [makeAccount(), makeAccount()];
         MockInteractions.focus(input.$.input);
         flushAsynchronousOperations();
-        const chips = element.accountChips;
-        const chipsOneSpy = sandbox.spy(chips[1], 'focus');
+        var chips = element.accountChips;
+        var chipsOneSpy = sandbox.spy(chips[1], 'focus');
         MockInteractions.pressAndReleaseKeyOn(input.$.input, 37); // Left
         assert.isTrue(chipsOneSpy.called);
-        const chipsZeroSpy = sandbox.spy(chips[0], 'focus');
+        var chipsZeroSpy = sandbox.spy(chips[0], 'focus');
         MockInteractions.pressAndReleaseKeyOn(chips[1], 37); // Left
         assert.isTrue(chipsZeroSpy.called);
         MockInteractions.pressAndReleaseKeyOn(chips[0], 37); // Left
@@ -369,11 +306,12 @@ limitations under the License.
         assert.isTrue(chipsOneSpy.calledTwice);
       });
 
-      test('delete', done => {
+      test('delete', function(done) {
         element.accounts = [makeAccount(), makeAccount()];
-        flush(() => {
-          const focusSpy = sandbox.spy(element.accountChips[1], 'focus');
-          const removeSpy = sandbox.spy(element, '_removeAccount');
+        flush(function() {
+          var chips = element.accountChips;
+          var focusSpy = sandbox.spy(element.accountChips[1], 'focus');
+          var removeSpy = sandbox.spy(element, '_removeAccount');
           MockInteractions.pressAndReleaseKeyOn(
               element.accountChips[0], 8); // Backspace
           assert.isTrue(focusSpy.called);

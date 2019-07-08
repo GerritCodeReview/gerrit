@@ -19,28 +19,25 @@ import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.IOException;
 import java.util.Set;
 
 @Singleton
 public class DefaultRealm extends AbstractRealm {
   private final EmailExpander emailExpander;
-  private final Provider<Emails> emails;
+  private final AccountByEmailCache byEmail;
   private final AuthConfig authConfig;
 
   @Inject
-  DefaultRealm(EmailExpander emailExpander, Provider<Emails> emails, AuthConfig authConfig) {
+  DefaultRealm(EmailExpander emailExpander, AccountByEmailCache byEmail, AuthConfig authConfig) {
     this.emailExpander = emailExpander;
-    this.emails = emails;
+    this.byEmail = byEmail;
     this.authConfig = authConfig;
   }
 
   @Override
-  public boolean allowsEdit(AccountFieldName field) {
+  public boolean allowsEdit(final AccountFieldName field) {
     if (authConfig.getAuthType() == AuthType.HTTP) {
       switch (field) {
         case USER_NAME:
@@ -65,7 +62,7 @@ public class DefaultRealm extends AbstractRealm {
   }
 
   @Override
-  public AuthRequest authenticate(AuthRequest who) {
+  public AuthRequest authenticate(final AuthRequest who) {
     if (who.getEmailAddress() == null
         && who.getLocalUser() != null
         && emailExpander.canExpand(who.getLocalUser())) {
@@ -75,18 +72,14 @@ public class DefaultRealm extends AbstractRealm {
   }
 
   @Override
-  public void onCreateAccount(AuthRequest who, Account account) {}
+  public void onCreateAccount(final AuthRequest who, final Account account) {}
 
   @Override
-  public Account.Id lookup(String accountName) throws IOException {
+  public Account.Id lookup(final String accountName) {
     if (emailExpander.canExpand(accountName)) {
-      try {
-        Set<Account.Id> c = emails.get().getAccountFor(emailExpander.expand(accountName));
-        if (1 == c.size()) {
-          return c.iterator().next();
-        }
-      } catch (OrmException e) {
-        throw new IOException("Failed to query accounts by email", e);
+      final Set<Account.Id> c = byEmail.get(emailExpander.expand(accountName));
+      if (1 == c.size()) {
+        return c.iterator().next();
       }
     }
     return null;

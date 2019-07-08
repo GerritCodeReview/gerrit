@@ -14,40 +14,19 @@
 (function() {
   'use strict';
 
-  const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
+  var STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
-  const FocusTarget = {
+  var FocusTarget = {
     ANY: 'any',
     BODY: 'body',
     CCS: 'cc',
     REVIEWERS: 'reviewers',
   };
 
-  const ReviewerTypes = {
+  var ReviewerTypes = {
     REVIEWER: 'REVIEWER',
     CC: 'CC',
   };
-
-  const LatestPatchState = {
-    LATEST: 'latest',
-    CHECKING: 'checking',
-    NOT_LATEST: 'not-latest',
-  };
-
-  const ButtonLabels = {
-    START_REVIEW: 'Start review',
-    SEND: 'Send',
-  };
-
-  const ButtonTooltips = {
-    SAVE: 'Save reply but do not send',
-    START_REVIEW: 'Mark as ready for review and send reply',
-    SEND: 'Send reply',
-  };
-
-  // TODO(logan): Remove once the fix for issue 6841 is stable on
-  // googlesource.com.
-  const START_REVIEW_MESSAGE = 'This change is ready for review.';
 
   Polymer({
     is: 'gr-reply-dialog',
@@ -71,29 +50,9 @@
      * @event autogrow
      */
 
-    /**
-     * Fires to show an alert when a send is attempted on the non-latest patch.
-     *
-     * @event show-alert
-     */
-
-    /**
-     * Fires when the reply dialog believes that the server side diff drafts
-     * have been updated and need to be refreshed.
-     *
-     * @event comment-refresh
-     */
-
     properties: {
-      /**
-       * @type {{ _number: number, removable_reviewers: Array }}
-       */
       change: Object,
       patchNum: String,
-      canBeStarted: {
-        type: Boolean,
-        value: false,
-      },
       disabled: {
         type: Boolean,
         value: false,
@@ -108,59 +67,30 @@
         type: String,
         value: '',
       },
-      diffDrafts: {
-        type: Object,
-        observer: '_handleHeightChanged',
-      },
-      /** @type {!Function} */
+      diffDrafts: Object,
       filterReviewerSuggestion: {
         type: Function,
-        value() {
-          return this._filterReviewerSuggestionGenerator(false);
-        },
-      },
-      /** @type {!Function} */
-      filterCCSuggestion: {
-        type: Function,
-        value() {
-          return this._filterReviewerSuggestionGenerator(true);
+        value: function() {
+          return this._filterReviewerSuggestion.bind(this);
         },
       },
       permittedLabels: Object,
-      /**
-       * @type {{ note_db_enabled: boolean }}
-       */
       serverConfig: Object,
-      /**
-       * @type {{ commentlinks: Array }}
-       */
       projectConfig: Object,
-      knownLatestState: String,
-      underReview: {
-        type: Boolean,
-        value: true,
-      },
 
       _account: Object,
       _ccs: Array,
-      /** @type {?Object} */
       _ccPendingConfirmation: {
         type: Object,
         observer: '_reviewerPendingConfirmationUpdated',
       },
-      _messagePlaceholder: {
-        type: String,
-        computed: '_computeMessagePlaceholder(canBeStarted)',
+      _labels: {
+        type: Array,
+        computed: '_computeLabels(change.labels.*, _account)',
       },
       _owner: Object,
-      /** @type {?} */
       _pendingConfirmationDetails: Object,
-      _includeComments: {
-        type: Boolean,
-        value: true,
-      },
       _reviewers: Array,
-      /** @type {?Object} */
       _reviewerPendingConfirmation: {
         type: Object,
         observer: '_reviewerPendingConfirmationUpdated',
@@ -177,47 +107,13 @@
           REVIEWER: [],
         },
       },
-      _sendButtonLabel: {
-        type: String,
-        computed: '_computeSendButtonLabel(canBeStarted)',
-      },
-      _ccsEnabled: {
-        type: Boolean,
-        computed: '_computeCCsEnabled(serverConfig)',
-      },
-      _savingComments: Boolean,
-      _reviewersMutated: {
-        type: Boolean,
-        value: false,
-      },
-      _labelsChanged: {
-        type: Boolean,
-        value: false,
-      },
-      _saveTooltip: {
-        type: String,
-        value: ButtonTooltips.SAVE,
-        readOnly: true,
-      },
     },
 
-    FocusTarget,
-
-    // TODO(logan): Remove once the fix for issue 6841 is stable on
-    // googlesource.com.
-    START_REVIEW_MESSAGE,
+    FocusTarget: FocusTarget,
 
     behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-      Gerrit.PatchSetBehavior,
       Gerrit.RESTClientBehavior,
     ],
-
-    keyBindings: {
-      'esc': '_handleEscKey',
-      'ctrl+enter meta+enter': '_handleEnterKey',
-    },
 
     observers: [
       '_changeUpdated(change.reviewers.*, change.owner, serverConfig)',
@@ -225,132 +121,85 @@
       '_reviewersChanged(_reviewers.splices)',
     ],
 
-    attached() {
-      this._getAccount().then(account => {
+    attached: function() {
+      this._getAccount().then(function(account) {
         this._account = account || {};
-      });
+      }.bind(this));
     },
 
-    ready() {
+    ready: function() {
       this.$.jsAPI.addElement(this.$.jsAPI.Element.REPLY_DIALOG, this);
     },
 
-    open(opt_focusTarget) {
-      this.knownLatestState = LatestPatchState.CHECKING;
-      this.fetchIsLatestKnown(this.change, this.$.restAPI)
-          .then(isUpToDate => {
-            this.knownLatestState = isUpToDate ?
-                LatestPatchState.LATEST : LatestPatchState.NOT_LATEST;
-          });
-
+    open: function(opt_focusTarget) {
       this._focusOn(opt_focusTarget);
       if (!this.draft || !this.draft.length) {
         this.draft = this._loadStoredDraft();
       }
-      if (this.$.restAPI.hasPendingDiffDrafts()) {
-        this._savingComments = true;
-        this.$.restAPI.awaitPendingDiffDrafts().then(() => {
-          this.fire('comment-refresh');
-          this._savingComments = false;
-        });
-      }
     },
 
-    focus() {
+    focus: function() {
       this._focusOn(FocusTarget.ANY);
     },
 
-    getFocusStops() {
+    getFocusStops: function() {
       return {
         start: this.$.reviewers.focusStart,
         end: this.$.cancelButton,
       };
     },
 
-    setLabelValue(label, value) {
-      const selectorEl =
-          this.$.labelScores.$$(`gr-label-score-row[name="${label}"]`);
+    setLabelValue: function(label, value) {
+      var selectorEl = this.$$('iron-selector[data-label="' + label + '"]');
+      // The selector may not be present if it’s not at the latest patch set.
       if (!selectorEl) { return; }
-      selectorEl.setSelectedValue(value);
+      var item = selectorEl.$$('gr-button[data-value="' + value + '"]');
+      if (!item) { return; }
+      selectorEl.selectIndex(selectorEl.indexOf(item));
     },
 
-    getLabelValue(label) {
-      const selectorEl =
-          this.$.labelScores.$$(`gr-label-score-row[name="${label}"]`);
-      if (!selectorEl) { return null; }
-
-      return selectorEl.selectedValue;
-    },
-
-    _handleEscKey(e) {
-      this.cancel();
-    },
-
-    _handleEnterKey(e) {
-      this._submit();
-    },
-
-    _ccsChanged(splices) {
+    _ccsChanged: function(splices) {
       if (splices && splices.indexSplices) {
-        this._reviewersMutated = true;
         this._processReviewerChange(splices.indexSplices, ReviewerTypes.CC);
       }
     },
 
-    _reviewersChanged(splices) {
+    _reviewersChanged: function(splices) {
       if (splices && splices.indexSplices) {
-        this._reviewersMutated = true;
         this._processReviewerChange(splices.indexSplices,
             ReviewerTypes.REVIEWER);
-        let key;
-        let index;
-        let account;
-        // Remove any accounts that already exist as a CC.
-        for (const splice of splices.indexSplices) {
-          for (const addedKey of splice.addedKeys) {
-            account = this.get(`_reviewers.${addedKey}`);
-            key = this._accountOrGroupKey(account);
-            index = this._ccs.findIndex(
-                account => this._accountOrGroupKey(account) === key);
-            if (index >= 0) {
-              this.splice('_ccs', index, 1);
-              const message = (account.name || account.email || key) +
-                  ' moved from CC to reviewer.';
-              this.fire('show-alert', {message});
-            }
-          }
-        }
       }
     },
 
-    _processReviewerChange(indexSplices, type) {
-      for (const splice of indexSplices) {
-        for (const account of splice.removed) {
+    _processReviewerChange: function(indexSplices, type) {
+      indexSplices.forEach(function(splice) {
+        splice.removed.forEach(function(account) {
           if (!this._reviewersPendingRemove[type]) {
             console.err('Invalid type ' + type + ' for reviewer.');
             return;
           }
           this._reviewersPendingRemove[type].push(account);
-        }
-      }
+        }.bind(this));
+      }.bind(this));
     },
 
     /**
      * Resets the state of the _reviewersPendingRemove object, and removes
      * accounts if necessary.
      *
-     * @param {boolean} isCancel true if the action is a cancel.
-     * @param {Object=} opt_accountIdsTransferred map of account IDs that must
+     * @param {Boolean} isCancel true if the action is a cancel.
+     * @param {Object} opt_accountIdsTransferred map of account IDs that must
      *     not be removed, because they have been readded in another state.
      */
-    _purgeReviewersPendingRemove(isCancel, opt_accountIdsTransferred) {
-      let reviewerArr;
-      const keep = opt_accountIdsTransferred || {};
-      for (const type in this._reviewersPendingRemove) {
+    _purgeReviewersPendingRemove: function(isCancel,
+        opt_accountIdsTransferred) {
+      var reviewerArr;
+      var keep = opt_accountIdsTransferred || {};
+      for (var type in this._reviewersPendingRemove) {
         if (this._reviewersPendingRemove.hasOwnProperty(type)) {
           if (!isCancel) {
             reviewerArr = this._reviewersPendingRemove[type];
-            for (let i = 0; i < reviewerArr.length; i++) {
+            for (var i = 0; i < reviewerArr.length; i++) {
               if (!keep[reviewerArr[i]._account_id]) {
                 this._removeAccount(reviewerArr[i], type);
               }
@@ -365,168 +214,121 @@
      * Removes an account from the change, both on the backend and the client.
      * Does nothing if the account is a pending addition.
      *
-     * @param {!Object} account
-     * @param {string} type
-     *
-     * * TODO(beckysiegel) submit Polymer PR
-     * @suppress {checkTypes}
+     * @param {Object} account
+     * @param {ReviewerTypes} type
      */
-    _removeAccount(account, type) {
+    _removeAccount: function(account, type) {
       if (account._pendingAdd) { return; }
 
       return this.$.restAPI.removeChangeReviewer(this.change._number,
-          account._account_id).then(response => {
-            if (!response.ok) { return response; }
+          account._account_id).then(function(response) {
+        if (!response.ok) { return response; }
 
-            const reviewers = this.change.reviewers[type] || [];
-            for (let i = 0; i < reviewers.length; i++) {
-              if (reviewers[i]._account_id == account._account_id) {
-                this.splice(['change', 'reviewers', type], i, 1);
-                break;
-              }
-            }
-          });
+        var reviewers = this.change.reviewers[type] || [];
+        for (var i = 0; i < reviewers.length; i++) {
+          if (reviewers[i]._account_id == account._account_id) {
+            this.splice(['change', 'reviewers', type], i, 1);
+            break;
+          }
+        }
+      }.bind(this));
     },
 
-    _mapReviewer(reviewer) {
-      let reviewerId;
-      let confirmed;
+    _mapReviewer: function(reviewer) {
+      var reviewerId;
+      var confirmed;
       if (reviewer.account) {
-        reviewerId = reviewer.account._account_id || reviewer.account.email;
+        reviewerId = reviewer.account._account_id;
       } else if (reviewer.group) {
         reviewerId = reviewer.group.id;
         confirmed = reviewer.group.confirmed;
       }
-      return {reviewer: reviewerId, confirmed};
+      return {reviewer: reviewerId, confirmed: confirmed};
     },
 
-    send(includeComments, startReview) {
-      if (this.knownLatestState === 'not-latest') {
-        this.fire('show-alert',
-            {message: 'Cannot reply to non-latest patch.'});
-        return Promise.resolve({});
-      }
-
-      const labels = this.$.labelScores.getLabelValues();
-
-      const obj = {
-        drafts: includeComments ? 'PUBLISH_ALL_REVISIONS' : 'KEEP',
-        labels,
+    send: function() {
+      var obj = {
+        drafts: 'PUBLISH_ALL_REVISIONS',
+        labels: {},
       };
 
-      if (startReview) {
-        obj.ready = true;
-      }
+      for (var label in this.permittedLabels) {
+        if (!this.permittedLabels.hasOwnProperty(label)) { continue; }
 
+        var selectorEl = this.$$('iron-selector[data-label="' + label + '"]');
+
+        // The user may have not voted on this label.
+        if (!selectorEl || !selectorEl.selectedItem) { continue; }
+
+        var selectedVal = selectorEl.selectedItem.getAttribute('data-value');
+        selectedVal = parseInt(selectedVal, 10);
+
+        // Only send the selection if the user changed it.
+        var prevVal = this._getVoteForAccount(this.change.labels, label,
+            this._account);
+        if (prevVal !== null) {
+          prevVal = parseInt(prevVal, 10);
+        }
+        if (selectedVal !== prevVal) {
+          obj.labels[label] = selectedVal;
+        }
+      }
       if (this.draft != null) {
         obj.message = this.draft;
       }
 
-      const accountAdditions = {};
-      obj.reviewers = this.$.reviewers.additions().map(reviewer => {
+      var accountAdditions = {};
+      obj.reviewers = this.$.reviewers.additions().map(function(reviewer) {
         if (reviewer.account) {
           accountAdditions[reviewer.account._account_id] = true;
         }
         return this._mapReviewer(reviewer);
-      });
-      const ccsEl = this.$$('#ccs');
-      if (ccsEl) {
-        for (let reviewer of ccsEl.additions()) {
+      }.bind(this));
+      if (this.serverConfig.note_db_enabled) {
+        this.$$('#ccs').additions().forEach(function(reviewer) {
           if (reviewer.account) {
             accountAdditions[reviewer.account._account_id] = true;
           }
           reviewer = this._mapReviewer(reviewer);
           reviewer.state = 'CC';
           obj.reviewers.push(reviewer);
-        }
+        }.bind(this));
       }
 
       this.disabled = true;
 
-      if (obj.ready && !obj.message) {
-        // TODO(logan): The server currently doesn't send email in this case.
-        // Insert a dummy message to force an email to be sent. Remove this
-        // once the fix for issue 6841 is stable on googlesource.com.
-        obj.message = START_REVIEW_MESSAGE;
-      }
-
-      const errFn = this._handle400Error.bind(this);
-      return this._saveReview(obj, errFn).then(response => {
-        if (!response) {
-          // Null or undefined response indicates that an error handler
-          // took responsibility, so just return.
-          return {};
+      var errFn = this._handle400Error.bind(this);
+      return this._saveReview(obj, errFn).then(function(response) {
+        if (!response || !response.ok) {
+          return response;
         }
-        if (!response.ok) {
-          this.fire('server-error', {response});
-          return {};
-        }
-
-        // TODO(logan): Remove once the required API changes are live and stable
-        // on googlesource.com.
-        return this._maybeSetReady(startReview, response).catch(err => {
-          // We catch error here because we still want to treat this as a
-          // successful review.
-          console.error('error setting ready:', err);
-        }).then(() => {
-          this.draft = '';
-          this._includeComments = true;
-          this.fire('send', null, {bubbles: false});
-          return accountAdditions;
-        });
-      }).then(result => {
         this.disabled = false;
-        return result;
-      }).catch(err => {
+        this.draft = '';
+        this.fire('send', null, {bubbles: false});
+        return accountAdditions;
+      }.bind(this)).catch(function(err) {
         this.disabled = false;
         throw err;
-      });
+      }.bind(this));
     },
 
-    /**
-     * Returns a promise resolving to true if review was successfully posted,
-     * false otherwise.
-     *
-     * TODO(logan): Remove this once the required API changes are live and
-     * stable on googlesource.com.
-     */
-    _maybeSetReady(startReview, response) {
-      return this.$.restAPI.getResponseObject(response).then(result => {
-        if (!startReview || result.ready) {
-          return Promise.resolve();
-        }
-        // We don't have confirmation that review was started, so attempt to
-        // start review explicitly.
-        return this.$.restAPI.startReview(
-            this.change._number, null, response => {
-              // If we see a 409 response code, then that means the server
-              // *does* support moving from WIP->ready when posting a
-              // review. Only alert user for non-409 failures.
-              if (response.status !== 409) {
-                this.fire('server-error', {response});
-              }
-            });
-      });
-    },
-
-    _focusOn(section) {
+    _focusOn: function(section) {
       if (section === FocusTarget.ANY) {
         section = this._chooseFocusTarget();
       }
       if (section === FocusTarget.BODY) {
-        const textarea = this.$.textarea;
-        textarea.async(textarea.getNativeTextarea()
-            .focus.bind(textarea.getNativeTextarea()));
+        var textarea = this.$.textarea;
+        textarea.async(textarea.textarea.focus.bind(textarea.textarea));
       } else if (section === FocusTarget.REVIEWERS) {
-        const reviewerEntry = this.$.reviewers.focusStart;
+        var reviewerEntry = this.$.reviewers.focusStart;
         reviewerEntry.async(reviewerEntry.focus);
       } else if (section === FocusTarget.CCS) {
-        const ccEntry = this.$$('#ccs').focusStart;
+        var ccEntry = this.$$('#ccs').focusStart;
         ccEntry.async(ccEntry.focus);
       }
     },
 
-    _chooseFocusTarget() {
+    _chooseFocusTarget: function() {
       // If we are the owner and the reviewers field is empty, focus on that.
       if (this._account && this.change && this.change.owner &&
           this._account._account_id === this.change.owner._account_id &&
@@ -538,7 +340,7 @@
       return FocusTarget.BODY;
     },
 
-    _handle400Error(response) {
+    _handle400Error: function(response) {
       // A call to _saveReview could fail with a server error if erroneous
       // reviewers were requested. This is signalled with a 400 Bad Request
       // status. The default gr-rest-api-interface error handling would
@@ -554,87 +356,126 @@
 
       if (response.status !== 400) {
         // This is all restAPI does when there is no custom error handling.
-        this.fire('server-error', {response});
+        this.fire('server-error', {response: response});
         return response;
       }
 
       // Process the response body, format a better error message, and fire
       // an event for gr-event-manager to display.
-      const jsonPromise = this.$.restAPI.getResponseObject(response);
-      return jsonPromise.then(result => {
-        const errors = [];
-        for (const state of ['reviewers', 'ccs']) {
-          if (!result.hasOwnProperty(state)) { continue; }
-          for (const reviewer of Object.values(result[state])) {
-            if (reviewer.error) {
+      var jsonPromise = this.$.restAPI.getResponseObject(response);
+      return jsonPromise.then(function(result) {
+        var errors = [];
+        ['reviewers', 'ccs'].forEach(function(state) {
+          for (var input in result[state]) {
+            var reviewer = result[state][input];
+            if (!!reviewer.error) {
               errors.push(reviewer.error);
             }
           }
-        }
+        });
         response = {
           ok: false,
           status: response.status,
-          text() { return Promise.resolve(errors.join(', ')); },
+          text: function() { return Promise.resolve(errors.join(', ')); },
         };
-        this.fire('server-error', {response});
-      });
+        this.fire('server-error', {response: response});
+      }.bind(this));
     },
 
-    _computeHideDraftList(drafts) {
+    _computeHideDraftList: function(drafts) {
       return Object.keys(drafts || {}).length == 0;
     },
 
-    _computeDraftsTitle(drafts) {
-      let total = 0;
-      for (const file in drafts) {
-        if (drafts.hasOwnProperty(file)) {
-          total += drafts[file].length;
-        }
+    _computeDraftsTitle: function(drafts) {
+      var total = 0;
+      for (var file in drafts) {
+        total += drafts[file].length;
       }
       if (total == 0) { return ''; }
       if (total == 1) { return '1 Draft'; }
       if (total > 1) { return total + ' Drafts'; }
     },
 
-    _computeMessagePlaceholder(canBeStarted) {
-      return canBeStarted ?
-        'Add a note for your reviewers...' :
-        'Say something nice...';
+    _computeLabelValueTitle: function(labels, label, value) {
+      return labels[label] && labels[label].values[value];
     },
 
-    _changeUpdated(changeRecord, owner, serverConfig) {
-      this._rebuildReviewerArrays(changeRecord.base, owner, serverConfig);
+    _computeLabels: function(labelRecord) {
+      var labelsObj = labelRecord.base;
+      if (!labelsObj) { return []; }
+      return Object.keys(labelsObj).sort().map(function(key) {
+        return {
+          name: key,
+          value: this._getVoteForAccount(labelsObj, key, this._account),
+        };
+      }.bind(this));
     },
 
-    _rebuildReviewerArrays(change, owner, serverConfig) {
-      this._owner = owner;
-
-      let reviewers = [];
-      const ccs = [];
-
-      for (const key in change) {
-        if (change.hasOwnProperty(key)) {
-          if (key !== 'REVIEWER' && key !== 'CC') {
-            console.warn('unexpected reviewer state:', key);
-            continue;
-          }
-          for (const entry of change[key]) {
-            if (entry._account_id === owner._account_id) {
-              continue;
-            }
-            switch (key) {
-              case 'REVIEWER':
-                reviewers.push(entry);
-                break;
-              case 'CC':
-                ccs.push(entry);
-                break;
-            }
+    _getVoteForAccount: function(labels, labelName, account) {
+      var votes = labels[labelName];
+      if (votes.all && votes.all.length > 0) {
+        for (var i = 0; i < votes.all.length; i++) {
+          if (votes.all[i]._account_id == account._account_id) {
+            return votes.all[i].value;
           }
         }
       }
+      return null;
+    },
 
-      if (this._ccsEnabled) {
+    _computeIndexOfLabelValue: function(labels, permittedLabels, label) {
+      if (!labels[label.name]) { return null; }
+      var labelValue = label.value;
+      var len = permittedLabels[label.name] != null ?
+          permittedLabels[label.name].length : 0;
+      for (var i = 0; i < len; i++) {
+        var val = parseInt(permittedLabels[label.name][i], 10);
+        if (val == labelValue) {
+          return i;
+        }
+      }
+      return null;
+    },
+
+    _computePermittedLabelValues: function(permittedLabels, label) {
+      return permittedLabels[label];
+    },
+
+    _computeAnyPermittedLabelValues: function(permittedLabels, label) {
+      return permittedLabels.hasOwnProperty(label);
+    },
+
+    _changeUpdated: function(changeRecord, owner, serverConfig) {
+      this._rebuildReviewerArrays(changeRecord.base, owner, serverConfig);
+    },
+
+    _rebuildReviewerArrays: function(change, owner, serverConfig) {
+      this._owner = owner;
+
+      var reviewers = [];
+      var ccs = [];
+
+      for (var key in change) {
+        if (key !== 'REVIEWER' && key !== 'CC') {
+          console.warn('unexpected reviewer state:', key);
+          continue;
+        }
+        change[key].forEach(function(entry) {
+          if (entry._account_id === owner._account_id) {
+            return;
+          }
+          switch (key) {
+            case 'REVIEWER':
+              reviewers.push(entry);
+              break;
+            case 'CC':
+              ccs.push(entry);
+              break;
+          }
+        });
+      }
+
+      if (serverConfig.note_db_enabled) {
         this._ccs = ccs;
       } else {
         this._ccs = [];
@@ -643,94 +484,58 @@
       this._reviewers = reviewers;
     },
 
-    _accountOrGroupKey(entry) {
+    _accountOrGroupKey: function(entry) {
       return entry.id || entry._account_id;
     },
 
-    /**
-     * Generates a function to filter out reviewer/CC entries. When isCCs is
-     * truthy, the function filters out entries that already exist in this._ccs.
-     * When falsy, the function filters entries that exist in this._reviewers.
-     * @param {boolean} isCCs
-     * @return {!Function}
-     */
-    _filterReviewerSuggestionGenerator(isCCs) {
-      return suggestion => {
-        let entry;
-        if (suggestion.account) {
-          entry = suggestion.account;
-        } else if (suggestion.group) {
-          entry = suggestion.group;
-        } else {
-          console.warn(
-              'received suggestion that was neither account nor group:',
-              suggestion);
-        }
-        if (entry._account_id === this._owner._account_id) {
-          return false;
-        }
+    _filterReviewerSuggestion: function(suggestion) {
+      var entry;
+      if (suggestion.account) {
+        entry = suggestion.account;
+      } else if (suggestion.group) {
+        entry = suggestion.group;
+      } else {
+        console.warn('received suggestion that was neither account nor group:',
+            suggestion);
+      }
+      if (entry._account_id === this._owner._account_id) {
+        return false;
+      }
 
-        const key = this._accountOrGroupKey(entry);
-        const finder = entry => this._accountOrGroupKey(entry) === key;
-        if (isCCs) {
-          return this._ccs.find(finder) === undefined;
-        }
-        return this._reviewers.find(finder) === undefined;
-      };
+      var key = this._accountOrGroupKey(entry);
+      var finder = function(entry) {
+        return this._accountOrGroupKey(entry) === key;
+      }.bind(this);
+
+      return this._reviewers.find(finder) === undefined &&
+          this._ccs.find(finder) === undefined;
     },
 
-    _getAccount() {
+    _getAccount: function() {
       return this.$.restAPI.getAccount();
     },
 
-    _cancelTapHandler(e) {
+    _cancelTapHandler: function(e) {
       e.preventDefault();
-      this.cancel();
-    },
-
-    cancel() {
       this.fire('cancel', null, {bubbles: false});
-      this.$.textarea.closeDropdown();
       this._purgeReviewersPendingRemove(true);
       this._rebuildReviewerArrays(this.change.reviewers, this._owner,
           this.serverConfig);
     },
 
-    _saveTapHandler(e) {
+    _sendTapHandler: function(e) {
       e.preventDefault();
-      if (this._ccsEnabled && !this.$$('#ccs').submitEntryText()) {
-        // Do not proceed with the save if there is an invalid email entry in
-        // the text field of the CC entry.
-        return;
-      }
-      this.send(this._includeComments, false).then(keepReviewers => {
-        this._purgeReviewersPendingRemove(false, keepReviewers);
-      });
+      this.send().then(function(keep) {
+        this._purgeReviewersPendingRemove(false, keep);
+      }.bind(this));
     },
 
-    _sendTapHandler(e) {
-      e.preventDefault();
-      this._submit();
-    },
-
-    _submit() {
-      if (this._ccsEnabled && !this.$$('#ccs').submitEntryText()) {
-        // Do not proceed with the send if there is an invalid email entry in
-        // the text field of the CC entry.
-        return;
-      }
-      return this.send(this._includeComments, this.canBeStarted)
-          .then(keepReviewers => {
-            this._purgeReviewersPendingRemove(false, keepReviewers);
-          });
-    },
-
-    _saveReview(review, opt_errFn) {
+    _saveReview: function(review, opt_errFn) {
       return this.$.restAPI.saveChangeReview(this.change._number, this.patchNum,
           review, opt_errFn);
     },
 
-    _reviewerPendingConfirmationUpdated(reviewer) {
+    _reviewerPendingConfirmationUpdated: function(reviewer) {
       if (reviewer === null) {
         this.$.reviewerConfirmationOverlay.close();
       } else {
@@ -740,7 +545,7 @@
       }
     },
 
-    _confirmPendingReviewer() {
+    _confirmPendingReviewer: function() {
       if (this._ccPendingConfirmation) {
         this.$$('#ccs').confirmGroup(this._ccPendingConfirmation.group);
         this._focusOn(FocusTarget.CCS);
@@ -750,32 +555,32 @@
       }
     },
 
-    _cancelPendingReviewer() {
+    _cancelPendingReviewer: function() {
       this._ccPendingConfirmation = null;
       this._reviewerPendingConfirmation = null;
 
-      const target =
+      var target =
           this._ccPendingConfirmation ? FocusTarget.CCS : FocusTarget.REVIEWERS;
       this._focusOn(target);
     },
 
-    _getStorageLocation() {
+    _getStorageLocation: function() {
       // Tests trigger this method without setting change.
       if (!this.change) { return {}; }
       return {
         changeNum: this.change._number,
-        patchNum: '@change',
+        patchNum: this.patchNum,
         path: '@change',
       };
     },
 
-    _loadStoredDraft() {
-      const draft = this.$.storage.getDraftComment(this._getStorageLocation());
+    _loadStoredDraft: function() {
+      var draft = this.$.storage.getDraftComment(this._getStorageLocation());
       return draft ? draft.message : '';
     },
 
-    _draftChanged(newDraft, oldDraft) {
-      this.debounce('store', () => {
+    _draftChanged: function(newDraft, oldDraft) {
+      this.debounce('store', function() {
         if (!newDraft.length && oldDraft) {
           // If the draft has been modified to be empty, then erase the storage
           // entry.
@@ -787,50 +592,11 @@
       }, STORAGE_DEBOUNCE_INTERVAL_MS);
     },
 
-    _handleHeightChanged(e) {
-      this.fire('autogrow');
-    },
-
-    _handleLabelsChanged() {
-      this._labelsChanged = Object.keys(
-          this.$.labelScores.getLabelValues()).length !== 0;
-    },
-
-    _isState(knownLatestState, value) {
-      return knownLatestState === value;
-    },
-
-    _reload() {
-      // Load the current change without any patch range.
-      location.href = this.getBaseUrl() + '/c/' + this.change._number;
-    },
-
-    _computeSendButtonLabel(canBeStarted) {
-      return canBeStarted ? ButtonLabels.START_REVIEW : ButtonLabels.SEND;
-    },
-
-    _computeSendButtonTooltip(canBeStarted) {
-      return canBeStarted ? ButtonTooltips.START_REVIEW : ButtonTooltips.SEND;
-    },
-
-    _computeCCsEnabled(serverConfig) {
-      return serverConfig && serverConfig.note_db_enabled;
-    },
-
-    _computeSavingLabelClass(savingComments) {
-      return savingComments ? 'saving' : '';
-    },
-
-    _computeSendButtonDisabled(knownLatestState, buttonLabel, drafts, text,
-        reviewersMutated, labelsChanged, includeComments) {
-      if (this._isState(knownLatestState, LatestPatchState.NOT_LATEST)) {
-        return true;
-      }
-      if (buttonLabel === ButtonLabels.START_REVIEW) {
-        return false;
-      }
-      const hasDrafts = includeComments && Object.keys(drafts).length;
-      return !hasDrafts && !text.length && !reviewersMutated && !labelsChanged;
+    _handleHeightChanged: function(e) {
+      // If the textarea resizes, we need to re-fit the overlay.
+      this.debounce('autogrow', function() {
+        this.fire('autogrow');
+      });
     },
   });
 })();

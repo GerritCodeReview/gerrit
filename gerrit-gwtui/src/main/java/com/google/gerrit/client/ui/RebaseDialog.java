@@ -42,7 +42,7 @@ public abstract class RebaseDialog extends CommentedActionDialog {
   private final boolean sendEnabled;
 
   public RebaseDialog(
-      final Project.NameKey project,
+      final String project,
       final String branch,
       final Change.Id changeId,
       final boolean sendEnabled) {
@@ -88,7 +88,7 @@ public abstract class RebaseDialog extends CommentedActionDialog {
           public void onClick(ClickEvent event) {
             if (changeParent.getValue()) {
               ChangeList.query(
-                  PageLinks.projectQuery(project)
+                  PageLinks.projectQuery(new Project.NameKey(project))
                       + " "
                       + PageLinks.op("branch", branch)
                       + " is:open -age:90d",

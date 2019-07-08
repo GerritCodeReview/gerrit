@@ -24,7 +24,6 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -34,7 +33,6 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 /** Applies a label with one mouse click. */
 class QuickApprove extends Button implements ClickHandler {
   private Change.Id changeId;
-  private Project.NameKey project;
   private String revision;
   private ReviewInput input;
   private ReplyAction replyAction;
@@ -49,7 +47,7 @@ class QuickApprove extends Button implements ClickHandler {
       setVisible(false);
       return;
     }
-    if (info.revision(commit).isEdit()) {
+    if (info.revision(commit).isEdit() || info.revision(commit).draft()) {
       setVisible(false);
       return;
     }
@@ -73,7 +71,6 @@ class QuickApprove extends Button implements ClickHandler {
 
     if (qName != null) {
       changeId = info.legacyId();
-      project = info.projectNameKey();
       revision = commit;
       input = ReviewInput.create();
       input.drafts(DraftHandling.PUBLISH_ALL_REVISIONS);
@@ -96,14 +93,14 @@ class QuickApprove extends Button implements ClickHandler {
     if (replyAction != null && replyAction.isVisible()) {
       replyAction.quickApprove(input);
     } else {
-      ChangeApi.revision(project.get(), changeId.get(), revision)
+      ChangeApi.revision(changeId.get(), revision)
           .view("review")
           .post(
               input,
               new GerritCallback<ReviewInput>() {
                 @Override
                 public void onSuccess(ReviewInput result) {
-                  Gerrit.display(PageLinks.toChange(project, changeId));
+                  Gerrit.display(PageLinks.toChange(changeId));
                 }
               });
     }

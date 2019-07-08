@@ -14,17 +14,17 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 
 public class DeltaPredicate extends IntegerRangeChangePredicate {
-  public DeltaPredicate(String value) throws QueryParseException {
+  DeltaPredicate(String value) throws QueryParseException {
     super(ChangeField.DELTA, value);
   }
 
   @Override
   protected Integer getValueInt(ChangeData changeData) throws OrmException {
-    return ChangeField.DELTA.get(changeData);
+    return ChangeField.DELTA.get(changeData, null);
   }
 }

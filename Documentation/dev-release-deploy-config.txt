@@ -38,21 +38,15 @@ permission by commenting on the same issue.
 
 * Generate and publish a PGP key
 +
-A PGP key is needed to be able to sign the release artifacts before
-the upload to Maven Central, and to sign the release announcement email.
-+
 Generate and publish a PGP key as described in
 link:http://central.sonatype.org/pages/working-with-pgp-signatures.html[
-Working with PGP Signatures]. In addition to the keyserver mentioned
-there it is recommended to also publish the key to the
-link:https://keyserver.ubuntu.com/[Ubuntu key server].
+Working with PGP Signatures].
 +
 Please be aware that after publishing your public key it may take a
 while until it is visible to the Sonatype server.
 +
-Add an entry for the public key in the
-link:https://gerrit.googlesource.com/homepage/+/md-pages/releases/public-keys.md[key list]
-on the homepage.
+The PGP key is needed to be able to sign the artifacts before the
+upload to Maven Central.
 +
 The PGP passphrase can be put in `~/.m2/settings.xml`:
 +

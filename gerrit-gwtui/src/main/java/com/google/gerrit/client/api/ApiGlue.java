@@ -100,9 +100,9 @@ public class ApiGlue {
         var s = new SettingsScreenDefinition(p,m,c);
         (this.settingsScreens[n] || (this.settingsScreens[n]=[])).push(s);
       },
-      panel: function(i,c,n){this._panel(this.getPluginName(),i,c,n)},
-      _panel: function(n,i,c,x){
-        var p = new PanelDefinition(n,c,x);
+      panel: function(i,c){this._panel(this.getPluginName(),i,c)},
+      _panel: function(n,i,c){
+        var p = new PanelDefinition(n,c);
         (this.panels[i] || (this.panels[i]=[])).push(p);
       },
 

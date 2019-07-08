@@ -23,18 +23,16 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PutName.Input;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class PutName implements RestModifyView<AccountResource, Input> {
@@ -44,34 +42,34 @@ public class PutName implements RestModifyView<AccountResource, Input> {
 
   private final Provider<CurrentUser> self;
   private final Realm realm;
-  private final PermissionBackend permissionBackend;
-  private final AccountsUpdate.Server accountsUpdate;
+  private final Provider<ReviewDb> dbProvider;
+  private final AccountCache byIdCache;
 
   @Inject
   PutName(
       Provider<CurrentUser> self,
       Realm realm,
-      PermissionBackend permissionBackend,
-      AccountsUpdate.Server accountsUpdate) {
+      Provider<ReviewDb> dbProvider,
+      AccountCache byIdCache) {
     this.self = self;
     this.realm = realm;
-    this.permissionBackend = permissionBackend;
-    this.accountsUpdate = accountsUpdate;
+    this.dbProvider = dbProvider;
+    this.byIdCache = byIdCache;
   }
 
   @Override
   public Response<String> apply(AccountResource rsrc, Input input)
       throws AuthException, MethodNotAllowedException, ResourceNotFoundException, OrmException,
-          IOException, PermissionBackendException, ConfigInvalidException {
-    if (!self.get().hasSameAccountId(rsrc.getUser())) {
-      permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
+          IOException {
+    if (!self.get().hasSameAccountId(rsrc.getUser())
+        && !self.get().getCapabilities().canModifyAccount()) {
+      throw new AuthException("not allowed to change name");
     }
     return apply(rsrc.getUser(), input);
   }
 
   public Response<String> apply(IdentifiedUser user, Input input)
-      throws MethodNotAllowedException, ResourceNotFoundException, IOException,
-          ConfigInvalidException {
+      throws MethodNotAllowedException, ResourceNotFoundException, OrmException, IOException {
     if (input == null) {
       input = new Input();
     }
@@ -81,13 +79,25 @@ public class PutName implements RestModifyView<AccountResource, Input> {
     }
 
     String newName = input.name;
-    Account account =
-        accountsUpdate.create().update(user.getAccountId(), a -> a.setFullName(newName));
-    if (account == null) {
+    Account a =
+        dbProvider
+            .get()
+            .accounts()
+            .atomicUpdate(
+                user.getAccountId(),
+                new AtomicUpdate<Account>() {
+                  @Override
+                  public Account update(Account a) {
+                    a.setFullName(newName);
+                    return a;
+                  }
+                });
+    if (a == null) {
       throw new ResourceNotFoundException("account not found");
     }
-    return Strings.isNullOrEmpty(account.getFullName())
-        ? Response.none()
-        : Response.ok(account.getFullName());
+    byIdCache.evict(a.getId());
+    return Strings.isNullOrEmpty(a.getFullName())
+        ? Response.<String>none()
+        : Response.ok(a.getFullName());
   }
 }

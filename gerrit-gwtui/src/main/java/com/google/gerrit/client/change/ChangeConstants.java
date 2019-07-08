@@ -43,6 +43,8 @@ public interface ChangeConstants extends Constants {
 
   String author();
 
+  String draft();
+
   String notAvailable();
 
   String relatedChanges();
@@ -76,4 +78,6 @@ public interface ChangeConstants extends Constants {
   String deleteChangeEdit();
 
   String deleteChange();
+
+  String deleteDraftRevision();
 }

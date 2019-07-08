@@ -31,7 +31,9 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
+import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.strategy.SubmitDryRun;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
@@ -43,6 +45,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -170,6 +173,31 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
     }
   }
 
+  private class Loader implements Callable<Boolean> {
+    private final EntryKey key;
+    private final Branch.NameKey dest;
+    private final Repository repo;
+
+    Loader(EntryKey key, Branch.NameKey dest, Repository repo) {
+      this.key = key;
+      this.dest = dest;
+      this.repo = repo;
+    }
+
+    @Override
+    public Boolean call() throws NoSuchProjectException, IntegrationException, IOException {
+      if (key.into.equals(ObjectId.zeroId())) {
+        return true; // Assume yes on new branch.
+      }
+      try (CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
+        Set<RevCommit> accepted = SubmitDryRun.getAlreadyAccepted(repo, rw);
+        accepted.add(rw.parseCommit(key.into));
+        accepted.addAll(Arrays.asList(rw.parseCommit(key.commit).getParents()));
+        return submitDryRun.run(key.submitType, repo, rw, dest, key.into, key.commit, accepted);
+      }
+    }
+  }
+
   public static class MergeabilityWeigher implements Weigher<EntryKey, Boolean> {
     @Override
     public int weigh(EntryKey k, Boolean v) {
@@ -201,20 +229,7 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
     ObjectId into = intoRef != null ? intoRef.getObjectId() : ObjectId.zeroId();
     EntryKey key = new EntryKey(commit, into, submitType, mergeStrategy);
     try {
-      return cache.get(
-          key,
-          () -> {
-            if (key.into.equals(ObjectId.zeroId())) {
-              return true; // Assume yes on new branch.
-            }
-            try (CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
-              Set<RevCommit> accepted = SubmitDryRun.getAlreadyAccepted(repo, rw);
-              accepted.add(rw.parseCommit(key.into));
-              accepted.addAll(Arrays.asList(rw.parseCommit(key.commit).getParents()));
-              return submitDryRun.run(
-                  key.submitType, repo, rw, dest, key.into, key.commit, accepted);
-            }
-          });
+      return cache.get(key, new Loader(key, dest, repo));
     } catch (ExecutionException | UncheckedExecutionException e) {
       log.error(
           "Error checking mergeability of {} into {} ({})",

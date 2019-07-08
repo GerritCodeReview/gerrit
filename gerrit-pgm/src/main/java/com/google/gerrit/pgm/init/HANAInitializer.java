@@ -16,17 +16,27 @@ package com.google.gerrit.pgm.init;
 
 import static com.google.gerrit.pgm.init.api.InitUtil.username;
 
+import com.google.common.primitives.Ints;
+import com.google.gerrit.pgm.init.api.InitUtil;
 import com.google.gerrit.pgm.init.api.Section;
 
 public class HANAInitializer implements DatabaseConfigInitializer {
 
   @Override
   public void initConfig(Section databaseSection) {
-    final String defPort = "(hana default)";
+    final String defInstanceNumber = "00";
     databaseSection.string("Server hostname", "hostname", "localhost");
-    databaseSection.string("Server port", "port", defPort, true);
-    databaseSection.string("Database name", "database", null);
+    databaseSection.string("Instance number", "instance", defInstanceNumber, false);
+    String instance = databaseSection.get("instance");
+    Integer instanceNumber = Ints.tryParse(instance);
+    if (instanceNumber == null || instanceNumber < 0 || instanceNumber > 99) {
+      instanceIsInvalid();
+    }
     databaseSection.string("Database username", "username", username());
     databaseSection.password("username", "password");
+  }
+
+  private void instanceIsInvalid() {
+    throw InitUtil.die("database.instance must be in the range of 00 to 99");
   }
 }

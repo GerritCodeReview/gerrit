@@ -26,31 +26,23 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-/** Provides functionality for parsing the HTML part of a {@link MailMessage}. */
+/** HTMLParser provides parsing functionality for html email. */
 public class HtmlParser {
-
-  private static final ImmutableList<String> MAIL_PROVIDER_EXTRAS =
+  private static ImmutableList<String> MAIL_PROVIDER_EXTRAS =
       ImmutableList.of(
           "gmail_extra", // "On 01/01/2017 User<user@gmail.com> wrote:"
           "gmail_quote" // Used for quoting original content
           );
 
-  private HtmlParser() {}
-
   /**
    * Parses comments from html email.
    *
-   * <p>This parser goes though all html elements in the email and checks for matching patterns. It
-   * keeps track of the last file and comments it encountered to know in which context a parsed
-   * comment belongs. It uses the href attributes of <a> tags to identify comments sent out by
-   * Gerrit as these are generally more reliable then the text captions.
-   *
-   * @param email the message as received from the email service
-   * @param comments a specific set of comments as sent out in the original notification email.
-   *     Comments are expected to be in the same order as they were sent out to in the email.
-   * @param changeUrl canonical change URL that points to the change on this Gerrit instance.
+   * @param email MailMessage as received from the email service.
+   * @param comments A specific set of comments as sent out in the original notification email.
+   *     Comments are expected to be in the same order as they were sent out to in the email
+   * @param changeUrl Canonical change URL that points to the change on this Gerrit instance.
    *     Example: https://go-review.googlesource.com/#/c/91570
-   * @return list of MailComments parsed from the html part of the email
+   * @return List of MailComments parsed from the html part of the email.
    */
   public static List<MailComment> parse(
       MailMessage email, Collection<Comment> comments, String changeUrl) {
@@ -114,20 +106,17 @@ public class HtmlParser {
             content = ParserUtil.trimQuotation(content);
             // TODO(hiesel) Add more sanitizer
             if (!Strings.isNullOrEmpty(content)) {
-              ParserUtil.appendOrAddNewComment(
-                  new MailComment(content, null, null, MailComment.CommentType.CHANGE_MESSAGE),
-                  parsedComments);
+              parsedComments.add(
+                  new MailComment(content, null, null, MailComment.CommentType.CHANGE_MESSAGE));
             }
           } else if (lastEncounteredComment == null) {
-            ParserUtil.appendOrAddNewComment(
+            parsedComments.add(
                 new MailComment(
-                    content, lastEncounteredFileName, null, MailComment.CommentType.FILE_COMMENT),
-                parsedComments);
+                    content, lastEncounteredFileName, null, MailComment.CommentType.FILE_COMMENT));
           } else {
-            ParserUtil.appendOrAddNewComment(
+            parsedComments.add(
                 new MailComment(
-                    content, null, lastEncounteredComment, MailComment.CommentType.INLINE_COMMENT),
-                parsedComments);
+                    content, null, lastEncounteredComment, MailComment.CommentType.INLINE_COMMENT));
           }
         }
       }

@@ -23,8 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ChangeInfo {
-  // ActionJson#copy(List, ChangeInfo) must be adapted if new fields are added that are not
-  // protected by any ListChangesOption.
   public String id;
   public String project;
   public String branch;
@@ -37,7 +35,6 @@ public class ChangeInfo {
   public Timestamp created;
   public Timestamp updated;
   public Timestamp submitted;
-  public AccountInfo submitter;
   public Boolean starred;
   public Collection<String> stars;
   public Boolean reviewed;
@@ -47,10 +44,6 @@ public class ChangeInfo {
   public Integer insertions;
   public Integer deletions;
   public Integer unresolvedCommentCount;
-  public Boolean isPrivate;
-  public Boolean workInProgress;
-  public Boolean hasReviewStarted;
-  public Integer revertOf;
 
   public int _number;
 
@@ -61,7 +54,6 @@ public class ChangeInfo {
   public Map<String, Collection<String>> permittedLabels;
   public Collection<AccountInfo> removableReviewers;
   public Map<ReviewerState, Collection<AccountInfo>> reviewers;
-  public Map<ReviewerState, Collection<AccountInfo>> pendingReviewers;
   public Collection<ReviewerUpdateInfo> reviewerUpdates;
   public Collection<ChangeMessageInfo> messages;
 
@@ -70,6 +62,4 @@ public class ChangeInfo {
   public Boolean _moreChanges;
 
   public List<ProblemInfo> problems;
-  public List<PluginDefinedInfo> plugins;
-  public Collection<TrackingIdInfo> trackingIds;
 }

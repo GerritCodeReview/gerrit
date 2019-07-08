@@ -14,13 +14,11 @@
 
 package com.google.gerrit.server.git;
 
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-
 public interface QueueProvider {
   enum QueueType {
     INTERACTIVE,
     BATCH
   }
 
-  ScheduledThreadPoolExecutor getQueue(QueueType type);
+  WorkQueue.Executor getQueue(QueueType type);
 }

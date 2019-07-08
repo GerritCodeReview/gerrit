@@ -18,9 +18,9 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-app</title>
 
-<script src="../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../bower_components/webcomponentsjs/webcomponents.min.js"></script>
 <script src="../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../test/common-test-setup.html"/>
+
 <link rel="import" href="gr-app.html">
 
 <script>void(0);</script>
@@ -32,11 +32,11 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-app tests', () => {
-    let sandbox;
-    let element;
+  suite('gr-app tests', function() {
+    var sandbox;
+    var element;
 
-    setup(done => {
+    setup(function(done) {
       sandbox = sinon.sandbox.create();
       stub('gr-reporting', {
         appStarted: sandbox.stub(),
@@ -45,43 +45,43 @@ limitations under the License.
         _getTopContent: sinon.stub(),
       });
       stub('gr-rest-api-interface', {
-        getAccount() { return Promise.resolve({}); },
-        getAccountCapabilities() { return Promise.resolve({}); },
-        getConfig() {
+        getAccount: function() { return Promise.resolve({}); },
+        getAccountCapabilities: function() { return Promise.resolve({}); },
+        getConfig: function() {
           return Promise.resolve({
             gerrit: {web_uis: ['GWT', 'POLYGERRIT']},
-            plugin: {},
+            plugin: {js_resource_paths: []},
           });
         },
-        getPreferences() { return Promise.resolve({my: []}); },
-        getVersion() { return Promise.resolve(42); },
-        probePath() { return Promise.resolve(42); },
+        getVersion: function() { return Promise.resolve(42); },
       });
 
       element = fixture('basic');
       flush(done);
     });
 
-    teardown(() => {
+    teardown(function() {
       sandbox.restore();
     });
 
-    test('reporting', () => {
+    test('reporting', function() {
       assert.isTrue(element.$.reporting.appStarted.calledOnce);
     });
 
-    test('location change updates gwt footer', done => {
+    test('location change updates gwt footer', function(done) {
       element._path = '/test/path';
-      flush(() => {
-        const gwtLink = element.$$('#gwtLink');
-        assert.equal(gwtLink.href, 'http://' + location.host +
-            element.getBaseUrl() + '/?polygerrit=0#/test/path');
+      flush(function() {
+        var gwtLink = element.$$('#gwtLink');
+        assert.equal(
+          gwtLink.href,
+          'http://' + location.host + element.getBaseUrl() + '/?polygerrit=0#/test/path'
+        );
         done();
       });
     });
 
-    test('_handleLocationChange handles hashes', done => {
-      const curLocation = {
+    test('_handleLocationChange handles hashes', function(done) {
+      var curLocation = {
         pathname: '/c/1/1/testfile.txt',
         hash: '#2',
         host: location.host,
@@ -89,21 +89,21 @@ limitations under the License.
       sandbox.stub(element, '_handleSearchPageChange');
       element._handleLocationChange({detail: curLocation});
 
-      flush(() => {
-        const gwtLink = element.$$('#gwtLink');
+      flush(function() {
+        var gwtLink = element.$$('#gwtLink');
         assert.equal(
-            gwtLink.href,
-            'http://' + location.host + element.getBaseUrl() +
+          gwtLink.href,
+          'http://' + location.host + element.getBaseUrl() +
             '/?polygerrit=0#/c/1/1/testfile.txt@2'
         );
         done();
       });
     });
 
-    test('passes config to gr-plugin-host', () => {
-      return element.$.restAPI.getConfig.lastCall.returnValue.then(config => {
-        assert.deepEqual(element.$.plugins.config, config);
-      });
+    test('sets plugins count', function() {
+      sandbox.stub(Gerrit, '_setPluginsCount');
+      element._loadPlugins([]);
+      assert.isTrue(Gerrit._setPluginsCount.calledWithExactly(0));
     });
   });
 </script>

@@ -16,13 +16,13 @@ limitations under the License.
 -->
 
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<title>base-url-behavior</title>
+<title>keyboard-shortcut-behavior</title>
 
 <script src="../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
 <script src="../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../test/common-test-setup.html"/>
+
+<link rel="import" href="../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <script>
-  /** @type {string} */
   window.CANONICAL_PATH = '/r';
 </script>
 <link rel="import" href="base-url-behavior.html">
@@ -42,12 +42,11 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('base-url-behavior tests', () => {
-    let element;
-    // eslint-disable-next-line no-unused-vars
-    let overlay;
+  suite('base-url-behavior tests', function() {
+    var element;
+    var overlay;
 
-    suiteSetup(() => {
+    suiteSetup(function() {
       // Define a Polymer element that uses this behavior.
       Polymer({
         is: 'test-element',
@@ -57,19 +56,19 @@ limitations under the License.
       });
     });
 
-    setup(() => {
+    setup(function() {
       element = fixture('basic');
       overlay = fixture('within-overlay');
     });
 
-    test('getBaseUrl', () => {
+    test('getBaseUrl', function() {
       assert.deepEqual(element.getBaseUrl(), '/r');
     });
 
-    test('computeGwtUrl', () => {
+    test('computeGwtUrl', function() {
       assert.deepEqual(
-          element.computeGwtUrl('/r/c/1/'),
-          '/r/?polygerrit=0#/c/1/'
+        element.computeGwtUrl('/r/c/1/'),
+        '/r/?polygerrit=0#/c/1/'
       );
     });
   });

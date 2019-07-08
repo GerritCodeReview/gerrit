@@ -16,11 +16,10 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../shared/gr-confirm-dialog/gr-confirm-dialog.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-confirm-rebase-dialog">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         display: block;
         width: 30em;
@@ -76,8 +75,7 @@ limitations under the License.
               disabled$="[[!_displayTipOption(rebaseOnCurrent, hasParent)]]"
               on-tap="_handleRebaseOnTip">
           <label id="rebaseOnTipLabel" for="rebaseOnTipInput">
-            Rebase on top of the [[branch]]
-            branch<span hidden$="[[!hasParent]]">
+            Rebase on top of the [[branch]] branch<span hidden="[[!hasParent]]">
               (breaks relation chain)
             </span>
           </label>
@@ -92,7 +90,7 @@ limitations under the License.
               type="radio"
               on-tap="_handleRebaseOnOther">
           <label id="rebaseOnOtherLabel" for="rebaseOnOtherInput">
-            Rebase on a specific change or ref <span hidden$="[[!hasParent]]">
+            Rebase on a specific change or ref <span hidden="[[!hasParent]]">
               (breaks relation chain)
             </span>
           </label>

@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_MAILTO;
 
-import com.google.gerrit.common.Nullable;
+import com.google.gerrit.audit.AuditService;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
-import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -33,15 +33,11 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.Sequences;
-import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.api.accounts.AccountExternalIdCreator;
 import com.google.gerrit.server.group.GroupsCollection;
-import com.google.gerrit.server.group.GroupsUpdate;
-import com.google.gerrit.server.group.UserInitiated;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
@@ -51,6 +47,7 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -63,59 +60,53 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
   }
 
   private final ReviewDb db;
-  private final Sequences seq;
+  private final Provider<IdentifiedUser> currentUser;
   private final GroupsCollection groupsCollection;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
   private final SshKeyCache sshKeyCache;
-  private final AccountsUpdate.User accountsUpdate;
+  private final AccountCache accountCache;
+  private final AccountByEmailCache byEmailCache;
   private final AccountLoader.Factory infoLoader;
   private final DynamicSet<AccountExternalIdCreator> externalIdCreators;
-  private final ExternalIds externalIds;
+  private final AuditService auditService;
   private final ExternalIdsUpdate.User externalIdsUpdateFactory;
-  private final Provider<GroupsUpdate> groupsUpdate;
-  private final OutgoingEmailValidator validator;
   private final String username;
 
   @Inject
   CreateAccount(
       ReviewDb db,
-      Sequences seq,
+      Provider<IdentifiedUser> currentUser,
       GroupsCollection groupsCollection,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
       SshKeyCache sshKeyCache,
-      AccountsUpdate.User accountsUpdate,
+      AccountCache accountCache,
+      AccountByEmailCache byEmailCache,
       AccountLoader.Factory infoLoader,
       DynamicSet<AccountExternalIdCreator> externalIdCreators,
-      ExternalIds externalIds,
+      AuditService auditService,
       ExternalIdsUpdate.User externalIdsUpdateFactory,
-      @UserInitiated Provider<GroupsUpdate> groupsUpdate,
-      OutgoingEmailValidator validator,
       @Assisted String username) {
     this.db = db;
-    this.seq = seq;
+    this.currentUser = currentUser;
     this.groupsCollection = groupsCollection;
     this.authorizedKeys = authorizedKeys;
     this.sshKeyCache = sshKeyCache;
-    this.accountsUpdate = accountsUpdate;
+    this.accountCache = accountCache;
+    this.byEmailCache = byEmailCache;
     this.infoLoader = infoLoader;
     this.externalIdCreators = externalIdCreators;
-    this.externalIds = externalIds;
+    this.auditService = auditService;
     this.externalIdsUpdateFactory = externalIdsUpdateFactory;
-    this.groupsUpdate = groupsUpdate;
-    this.validator = validator;
     this.username = username;
   }
 
   @Override
-  public Response<AccountInfo> apply(TopLevelResource rsrc, @Nullable AccountInput input)
+  public Response<AccountInfo> apply(TopLevelResource rsrc, AccountInput input)
       throws BadRequestException, ResourceConflictException, UnprocessableEntityException,
           OrmException, IOException, ConfigInvalidException {
-    return apply(input != null ? input : new AccountInput());
-  }
-
-  public Response<AccountInfo> apply(AccountInput input)
-      throws BadRequestException, ResourceConflictException, UnprocessableEntityException,
-          OrmException, IOException, ConfigInvalidException {
+    if (input == null) {
+      input = new AccountInput();
+    }
     if (input.username != null && !username.equals(input.username)) {
       throw new BadRequestException("username must match URL");
     }
@@ -124,19 +115,21 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       throw new BadRequestException("Invalid username '" + username + "'");
     }
 
-    Set<AccountGroup.UUID> groups = parseGroups(input.groups);
+    Set<AccountGroup.Id> groups = parseGroups(input.groups);
 
-    Account.Id id = new Account.Id(seq.nextAccountId());
+    Account.Id id = new Account.Id(db.nextAccountId());
 
     ExternalId extUser = ExternalId.createUsername(username, id, input.httpPassword);
-    if (externalIds.get(extUser.key()) != null) {
+    if (db.accountExternalIds().get(extUser.key().asAccountExternalIdKey()) != null) {
       throw new ResourceConflictException("username '" + username + "' already exists");
     }
     if (input.email != null) {
-      if (externalIds.get(ExternalId.Key.create(SCHEME_MAILTO, input.email)) != null) {
+      if (db.accountExternalIds()
+              .get(ExternalId.Key.create(SCHEME_MAILTO, input.email).asAccountExternalIdKey())
+          != null) {
         throw new UnprocessableEntityException("email '" + input.email + "' already exists");
       }
-      if (!validator.isValid(input.email)) {
+      if (!OutgoingEmailValidator.isValid(input.email)) {
         throw new BadRequestException("invalid email address");
       }
     }
@@ -149,39 +142,34 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
 
     ExternalIdsUpdate externalIdsUpdate = externalIdsUpdateFactory.create();
     try {
-      externalIdsUpdate.insert(extIds);
+      externalIdsUpdate.insert(db, extIds);
     } catch (OrmDuplicateKeyException duplicateKey) {
       throw new ResourceConflictException("username '" + username + "' already exists");
     }
 
     if (input.email != null) {
       try {
-        externalIdsUpdate.insert(ExternalId.createEmail(id, input.email));
+        externalIdsUpdate.insert(db, ExternalId.createEmail(id, input.email));
       } catch (OrmDuplicateKeyException duplicateKey) {
         try {
-          externalIdsUpdate.delete(extUser);
-        } catch (IOException | ConfigInvalidException cleanupError) {
+          externalIdsUpdate.delete(db, extUser);
+        } catch (IOException | OrmException cleanupError) {
           // Ignored
         }
         throw new UnprocessableEntityException("email '" + input.email + "' already exists");
       }
     }
 
-    accountsUpdate
-        .create()
-        .insert(
-            id,
-            a -> {
-              a.setFullName(input.name);
-              a.setPreferredEmail(input.email);
-            });
+    Account a = new Account(id, TimeUtil.nowTs());
+    a.setFullName(input.name);
+    a.setPreferredEmail(input.email);
+    db.accounts().insert(Collections.singleton(a));
 
-    for (AccountGroup.UUID groupUuid : groups) {
-      try {
-        groupsUpdate.get().addGroupMember(db, groupUuid, id);
-      } catch (NoSuchGroupException e) {
-        throw new UnprocessableEntityException(String.format("Group %s not found", groupUuid));
-      }
+    for (AccountGroup.Id groupId : groups) {
+      AccountGroupMember m = new AccountGroupMember(new AccountGroupMember.Key(id, groupId));
+      auditService.dispatchAddAccountsToGroup(
+          currentUser.get().getAccountId(), Collections.singleton(m));
+      db.accountGroupMembers().insert(Collections.singleton(m));
     }
 
     if (input.sshKey != null) {
@@ -193,21 +181,24 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       }
     }
 
+    accountCache.evict(id); // triggers reindex
+    accountCache.evictByUsername(username);
+    byEmailCache.evict(input.email);
+
     AccountLoader loader = infoLoader.create(true);
     AccountInfo info = loader.get(id);
     loader.fill();
     return Response.created(info);
   }
 
-  private Set<AccountGroup.UUID> parseGroups(List<String> groups)
+  private Set<AccountGroup.Id> parseGroups(List<String> groups)
       throws UnprocessableEntityException {
-    Set<AccountGroup.UUID> groupUuids = new HashSet<>();
+    Set<AccountGroup.Id> groupIds = new HashSet<>();
     if (groups != null) {
       for (String g : groups) {
-        GroupDescription.Internal internalGroup = groupsCollection.parseInternal(g);
-        groupUuids.add(internalGroup.getGroupUUID());
+        groupIds.add(GroupDescriptions.toAccountGroup(groupsCollection.parseInternal(g)).getId());
       }
     }
-    return groupUuids;
+    return groupIds;
   }
 }

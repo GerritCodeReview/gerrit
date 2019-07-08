@@ -16,15 +16,16 @@ package com.google.gerrit.server.plugins;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.extensions.common.InstallPluginInput;
-import com.google.gerrit.extensions.common.PluginInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.plugins.InstallPlugin.Input;
+import com.google.gerrit.server.plugins.ListPlugins.PluginInfo;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -33,29 +34,24 @@ import java.net.URL;
 import java.util.zip.ZipException;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-public class InstallPlugin implements RestModifyView<TopLevelResource, InstallPluginInput> {
+class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
+  static class Input {
+    @DefaultInput String url;
+    RawInput raw;
+  }
+
   private final PluginLoader loader;
+  private final String name;
+  private final boolean created;
 
-  private String name;
-  private boolean created;
-
-  @Inject
-  InstallPlugin(PluginLoader loader) {
+  InstallPlugin(PluginLoader loader, String name, boolean created) {
     this.loader = loader;
-  }
-
-  public InstallPlugin setName(String name) {
     this.name = name;
-    return this;
-  }
-
-  public InstallPlugin setCreated(boolean created) {
     this.created = created;
-    return this;
   }
 
   @Override
-  public Response<PluginInfo> apply(TopLevelResource resource, InstallPluginInput input)
+  public Response<PluginInfo> apply(TopLevelResource resource, Input input)
       throws BadRequestException, MethodNotAllowedException, IOException {
     if (!loader.isRemoteAdminEnabled()) {
       throw new MethodNotAllowedException("remote installation is disabled");
@@ -63,7 +59,7 @@ public class InstallPlugin implements RestModifyView<TopLevelResource, InstallPl
     try {
       try (InputStream in = openStream(input)) {
         String pluginName = loader.installPluginFromStream(name, in);
-        PluginInfo info = ListPlugins.toPluginInfo(loader.get(pluginName));
+        ListPlugins.PluginInfo info = new ListPlugins.PluginInfo(loader.get(pluginName));
         return created ? Response.created(info) : Response.ok(info);
       }
     } catch (PluginInstallException e) {
@@ -82,7 +78,7 @@ public class InstallPlugin implements RestModifyView<TopLevelResource, InstallPl
     }
   }
 
-  private InputStream openStream(InstallPluginInput input) throws IOException, BadRequestException {
+  private InputStream openStream(Input input) throws IOException, BadRequestException {
     if (input.raw != null) {
       return input.raw.getInputStream();
     }
@@ -94,18 +90,19 @@ public class InstallPlugin implements RestModifyView<TopLevelResource, InstallPl
   }
 
   @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-  static class Overwrite implements RestModifyView<PluginResource, InstallPluginInput> {
-    private final Provider<InstallPlugin> install;
+  static class Overwrite implements RestModifyView<PluginResource, Input> {
+    private final PluginLoader loader;
 
     @Inject
-    Overwrite(Provider<InstallPlugin> install) {
-      this.install = install;
+    Overwrite(PluginLoader loader) {
+      this.loader = loader;
     }
 
     @Override
-    public Response<PluginInfo> apply(PluginResource resource, InstallPluginInput input)
+    public Response<PluginInfo> apply(PluginResource resource, Input input)
         throws BadRequestException, MethodNotAllowedException, IOException {
-      return install.get().setName(resource.getName()).apply(TopLevelResource.INSTANCE, input);
+      return new InstallPlugin(loader, resource.getName(), false)
+          .apply(TopLevelResource.INSTANCE, input);
     }
   }
 }

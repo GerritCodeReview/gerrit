@@ -15,19 +15,17 @@
 package com.google.gerrit.server.group;
 
 import static com.google.gerrit.server.group.GroupResource.GROUP_KIND;
+import static com.google.gerrit.server.group.IncludedGroupResource.INCLUDED_GROUP_KIND;
 import static com.google.gerrit.server.group.MemberResource.MEMBER_KIND;
-import static com.google.gerrit.server.group.SubgroupResource.SUBGROUP_KIND;
 
 import com.google.gerrit.audit.GroupMemberAuditListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestApiModule;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.group.AddIncludedGroups.UpdateIncludedGroup;
 import com.google.gerrit.server.group.AddMembers.UpdateMember;
-import com.google.gerrit.server.group.AddSubgroups.UpdateSubgroup;
+import com.google.gerrit.server.group.DeleteIncludedGroups.DeleteIncludedGroup;
 import com.google.gerrit.server.group.DeleteMembers.DeleteMember;
-import com.google.gerrit.server.group.DeleteSubgroups.DeleteSubgroup;
-import com.google.inject.Provides;
 
 public class Module extends RestApiModule {
   @Override
@@ -36,7 +34,7 @@ public class Module extends RestApiModule {
 
     DynamicMap.mapOf(binder(), GROUP_KIND);
     DynamicMap.mapOf(binder(), MEMBER_KIND);
-    DynamicMap.mapOf(binder(), SUBGROUP_KIND);
+    DynamicMap.mapOf(binder(), INCLUDED_GROUP_KIND);
 
     get(GROUP_KIND).to(GetGroup.class);
     put(GROUP_KIND).to(PutGroup.class);
@@ -45,9 +43,9 @@ public class Module extends RestApiModule {
     post(GROUP_KIND, "members").to(AddMembers.class);
     post(GROUP_KIND, "members.add").to(AddMembers.class);
     post(GROUP_KIND, "members.delete").to(DeleteMembers.class);
-    post(GROUP_KIND, "groups").to(AddSubgroups.class);
-    post(GROUP_KIND, "groups.add").to(AddSubgroups.class);
-    post(GROUP_KIND, "groups.delete").to(DeleteSubgroups.class);
+    post(GROUP_KIND, "groups").to(AddIncludedGroups.class);
+    post(GROUP_KIND, "groups.add").to(AddIncludedGroups.class);
+    post(GROUP_KIND, "groups.delete").to(DeleteIncludedGroups.class);
     get(GROUP_KIND, "description").to(GetDescription.class);
     put(GROUP_KIND, "description").to(PutDescription.class);
     delete(GROUP_KIND, "description").to(PutDescription.class);
@@ -64,27 +62,13 @@ public class Module extends RestApiModule {
     put(MEMBER_KIND).to(UpdateMember.class);
     delete(MEMBER_KIND).to(DeleteMember.class);
 
-    child(GROUP_KIND, "groups").to(SubgroupsCollection.class);
-    get(SUBGROUP_KIND).to(GetSubgroup.class);
-    put(SUBGROUP_KIND).to(UpdateSubgroup.class);
-    delete(SUBGROUP_KIND).to(DeleteSubgroup.class);
+    child(GROUP_KIND, "groups").to(IncludedGroupsCollection.class);
+    get(INCLUDED_GROUP_KIND).to(GetIncludedGroup.class);
+    put(INCLUDED_GROUP_KIND).to(UpdateIncludedGroup.class);
+    delete(INCLUDED_GROUP_KIND).to(DeleteIncludedGroup.class);
 
     factory(CreateGroup.Factory.class);
-    factory(GroupsUpdate.Factory.class);
 
     DynamicSet.bind(binder(), GroupMemberAuditListener.class).to(DbGroupMemberAuditListener.class);
-  }
-
-  @Provides
-  @ServerInitiated
-  GroupsUpdate provideServerInitiatedGroupsUpdate(GroupsUpdate.Factory groupsUpdateFactory) {
-    return groupsUpdateFactory.create(null);
-  }
-
-  @Provides
-  @UserInitiated
-  GroupsUpdate provideUserInitiatedGroupsUpdate(
-      GroupsUpdate.Factory groupsUpdateFactory, IdentifiedUser currentUser) {
-    return groupsUpdateFactory.create(currentUser);
   }
 }

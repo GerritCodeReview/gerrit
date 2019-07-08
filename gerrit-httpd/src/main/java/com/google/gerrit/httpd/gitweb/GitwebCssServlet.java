@@ -32,13 +32,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@SuppressWarnings("serial")
 abstract class GitwebCssServlet extends HttpServlet {
-  private static final long serialVersionUID = 1L;
-
   @Singleton
   static class Site extends GitwebCssServlet {
-    private static final long serialVersionUID = 1L;
-
     @Inject
     Site(SitePaths paths) throws IOException {
       super(paths.site_css);
@@ -47,8 +44,6 @@ abstract class GitwebCssServlet extends HttpServlet {
 
   @Singleton
   static class Default extends GitwebCssServlet {
-    private static final long serialVersionUID = 1L;
-
     @Inject
     Default(GitwebCgiConfig gwcc) throws IOException {
       super(gwcc.getGitwebCss());
@@ -59,7 +54,7 @@ abstract class GitwebCssServlet extends HttpServlet {
   private final byte[] raw_css;
   private final byte[] gz_css;
 
-  GitwebCssServlet(Path src) throws IOException {
+  GitwebCssServlet(final Path src) throws IOException {
     if (src != null) {
       final Path dir = src.getParent();
       final String name = src.getFileName().toString();
@@ -81,12 +76,13 @@ abstract class GitwebCssServlet extends HttpServlet {
   }
 
   @Override
-  protected long getLastModified(HttpServletRequest req) {
+  protected long getLastModified(final HttpServletRequest req) {
     return modified;
   }
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
+  protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+      throws IOException {
     if (raw_css != null) {
       rsp.setContentType("text/css");
       rsp.setCharacterEncoding(UTF_8.name());

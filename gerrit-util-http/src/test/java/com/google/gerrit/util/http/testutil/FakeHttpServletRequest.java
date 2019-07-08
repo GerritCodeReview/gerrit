@@ -19,11 +19,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Splitter;
-import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Maps;
+import com.google.gerrit.extensions.restapi.Url;
 import java.io.BufferedReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -60,7 +60,6 @@ public class FakeHttpServletRequest implements HttpServletRequest {
   private final ListMultimap<String, String> headers;
 
   private ListMultimap<String, String> parameters;
-  private String queryString;
   private String hostName;
   private int port;
   private String contextPath;
@@ -159,7 +158,6 @@ public class FakeHttpServletRequest implements HttpServletRequest {
   }
 
   public void setQueryString(String qs) {
-    this.queryString = qs;
     ListMultimap<String, String> params = LinkedListMultimap.create();
     for (String entry : Splitter.on('&').split(qs)) {
       List<String> kv = Splitter.on('=').limit(2).splitToList(entry);
@@ -308,7 +306,7 @@ public class FakeHttpServletRequest implements HttpServletRequest {
 
   @Override
   public String getQueryString() {
-    return queryString;
+    return paramsToString(parameters);
   }
 
   @Override
@@ -319,8 +317,8 @@ public class FakeHttpServletRequest implements HttpServletRequest {
   @Override
   public String getRequestURI() {
     String uri = contextPath + servletPath + path;
-    if (!Strings.isNullOrEmpty(queryString)) {
-      uri += '?' + queryString;
+    if (!parameters.isEmpty()) {
+      uri += "?" + paramsToString(parameters);
     }
     return uri;
   }
@@ -379,6 +377,23 @@ public class FakeHttpServletRequest implements HttpServletRequest {
   @Override
   public boolean isUserInRole(String role) {
     throw new UnsupportedOperationException();
+  }
+
+  private static String paramsToString(ListMultimap<String, String> params) {
+    StringBuilder sb = new StringBuilder();
+    boolean first = true;
+    for (Map.Entry<String, String> e : params.entries()) {
+      if (!first) {
+        sb.append('&');
+      } else {
+        first = false;
+      }
+      sb.append(Url.encode(e.getKey()));
+      if (!"".equals(e.getValue())) {
+        sb.append('=').append(Url.encode(e.getValue()));
+      }
+    }
+    return sb.toString();
   }
 
   @Override

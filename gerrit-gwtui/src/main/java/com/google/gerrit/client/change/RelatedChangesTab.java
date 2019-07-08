@@ -20,7 +20,6 @@ import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.info.ChangeInfo.CommitInfo;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
@@ -248,9 +247,8 @@ class RelatedChangesTab implements IsWidget {
     }
   }
 
+  @SuppressWarnings("serial")
   private class RowSafeHtml implements SafeHtml {
-    private static final long serialVersionUID = 1L;
-
     private String html;
     private ChangeAndCommit info;
     private final boolean notConnected;
@@ -334,7 +332,7 @@ class RelatedChangesTab implements IsWidget {
 
     private String url() {
       if (info.hasChangeNumber() && info.hasRevisionNumber()) {
-        return "#" + PageLinks.toChange(new Project.NameKey(info.project()), info.patchSetId());
+        return "#" + PageLinks.toChange(info.patchSetId());
       }
       return null;
     }

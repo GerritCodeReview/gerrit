@@ -15,17 +15,14 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
-<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-dropdown/iron-dropdown.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-cursor-manager/gr-cursor-manager.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-dropdown">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         display: inline-block;
       }
@@ -43,22 +40,22 @@ limitations under the License.
         font: inherit;
         padding: .3em 0;
       }
+      :host[down-arrow] .dropdown-trigger {
+        padding-right: 1.4em;
+      }
       gr-avatar {
         height: 2em;
         width: 2em;
         vertical-align: middle;
       }
       gr-button[link] {
-        padding: 0.5em;
-      }
-      gr-button[link]:focus {
-        outline: 5px auto -webkit-focus-ring-color;
+        padding: 1em 0;
       }
       ul {
         list-style: none;
       }
       ul .accountName {
-        font-family: var(--font-family-bold);
+        font-weight: bold;
       }
       li .accountInfo,
       li .itemAction {
@@ -72,31 +69,40 @@ limitations under the License.
       }
       li .itemAction:link,
       li .itemAction:visited {
+        color: #00e;
         text-decoration: none;
       }
       li .itemAction:not(.disabled):hover {
         background-color: #6B82D6;
         color: #fff;
       }
-      li:focus,
-      li.selected {
-        background-color: #EBF5FB;
-        outline: none;
-      }
       .topContent {
         display: block;
         padding: .85em 1em;
       }
       .bold-text {
-        font-family: var(--font-family-bold);
+        font-weight: bold;
+      }
+      :host:not([down-arrow]) .downArrow { display: none; }
+      :host[down-arrow] .downArrow {
+        border-left: .36em solid transparent;
+        border-right: .36em solid transparent;
+        border-top: .36em solid #ccc;
+        height: 0;
+        position: absolute;
+        right: .3em;
+        top: calc(50% - .05em);
+        transition: border-top-color 200ms;
+        width: 0;
+      }
+      .dropdown-trigger:hover .downArrow {
+        border-top-color: #666;
       }
     </style>
-    <gr-button
-        link="[[link]]"
-        class="dropdown-trigger" id="trigger"
-        down-arrow="[[downArrow]]"
+    <gr-button link="[[link]]" class="dropdown-trigger" id="trigger"
         on-tap="_showDropdownTapHandler">
       <content></content>
+       <i class="downArrow"></i>
     </gr-button>
     <iron-dropdown id="dropdown"
         vertical-align="top"
@@ -104,7 +110,7 @@ limitations under the License.
         allow-outside-scroll="true"
         horizontal-align="[[horizontalAlign]]"
         on-tap="_handleDropdownTap">
-      <div class="dropdown-content" slot="dropdown-content">
+      <div class="dropdown-content">
         <ul>
           <template is="dom-if" if="[[topContent]]">
             <div class="topContent">
@@ -113,9 +119,7 @@ limitations under the License.
                   items="[[topContent]]"
                   as="item"
                   initial-count="75">
-                <div
-                    class$="[[_getClassIfBold(item.bold)]] top-item"
-                    tabindex="-1">
+                <div class$="[[_getClassIfBold(item.bold)]] top-item">
                   [[item.text]]
                 </div>
               </template>
@@ -126,31 +130,23 @@ limitations under the License.
               items="[[items]]"
               as="link"
               initial-count="75">
-            <li tabindex="-1">
+            <li>
               <span
                   class$="itemAction [[_computeDisabledClass(link.id, disabledIds.*)]]"
                   data-id$="[[link.id]]"
                   on-tap="_handleItemTap"
-                  hidden$="[[link.url]]"
-                  tabindex="-1">[[link.name]]</span>
+                  hidden$="[[link.url]]">[[link.name]]</span>
               <a
                   class="itemAction"
                   href$="[[_computeLinkURL(link)]]"
                   rel$="[[_computeLinkRel(link)]]"
                   target$="[[link.target]]"
-                  hidden$="[[!link.url]]"
-                  tabindex="-1">[[link.name]]</a>
+                  hidden$="[[!link.url]]">[[link.name]]</a>
             </li>
           </template>
         </ul>
       </div>
     </iron-dropdown>
-    <gr-cursor-manager
-        id="cursor"
-        cursor-target-class="selected"
-        scroll-behavior="never"
-        focus-on-move
-        stops="[[_listElements]]"></gr-cursor-manager>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-dropdown.js"></script>

@@ -16,11 +16,10 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../gr-diff-comment-thread/gr-diff-comment-thread.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-diff-comment-thread-group">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         display: block;
         white-space: normal;
@@ -29,7 +28,8 @@ limitations under the License.
         margin-top: .2em;
       }
     </style>
-    <template is="dom-repeat" items="[[_threads]]" as="thread">
+    <template is="dom-repeat" items="[[_threads]]"
+        as="thread">
       <gr-diff-comment-thread
           comments="[[thread.comments]]"
           comment-side="[[thread.commentSide]]"
@@ -38,7 +38,7 @@ limitations under the License.
           location-range="[[thread.locationRange]]"
           patch-num="[[thread.patchNum]]"
           path="[[path]]"
-          project-name="[[projectName]]"></gr-diff-comment-thread>
+          project-config="[[projectConfig]]"></gr-diff-comment-thread>
     </template>
   </template>
   <script src="gr-diff-comment-thread-group.js"></script>

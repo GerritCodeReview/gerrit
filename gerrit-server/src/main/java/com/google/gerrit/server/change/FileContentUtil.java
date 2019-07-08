@@ -22,7 +22,6 @@ import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.PatchScript.FileMode;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -34,7 +33,7 @@ import com.google.inject.Singleton;
 import eu.medsea.mimeutil.MimeType;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.security.SecureRandom;
+import java.util.Random;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import org.eclipse.jgit.errors.LargeObjectException;
@@ -42,6 +41,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -56,7 +56,7 @@ public class FileContentUtil {
   private static final String X_GIT_GITLINK = "x-git/gitlink";
   private static final int MAX_SIZE = 5 << 20;
   private static final String ZIP_TYPE = "application/zip";
-  private static final SecureRandom rng = new SecureRandom();
+  private static final Random rng = new Random();
 
   private final GitRepositoryManager repoManager;
   private final FileTypeRegistry registry;
@@ -67,75 +67,44 @@ public class FileContentUtil {
     this.registry = ftr;
   }
 
-  /**
-   * Get the content of a file at a specific commit or one of it's parent commits.
-   *
-   * @param project A {@code Project} that this request refers to.
-   * @param revstr An {@code ObjectId} specifying the commit.
-   * @param path A string specifying the filepath.
-   * @param parent A 1-based parent index to get the content from instead. Null if the content
-   *     should be obtained from {@code revstr} instead.
-   * @return Content of the file as {@code BinaryResult}.
-   * @throws ResourceNotFoundException
-   * @throws IOException
-   */
-  public BinaryResult getContent(
-      ProjectState project, ObjectId revstr, String path, @Nullable Integer parent)
-      throws BadRequestException, ResourceNotFoundException, IOException {
+  public BinaryResult getContent(ProjectState project, ObjectId revstr, String path)
+      throws ResourceNotFoundException, IOException {
     try (Repository repo = openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
-      if (parent != null) {
-        RevCommit revCommit = rw.parseCommit(revstr);
-        if (revCommit == null) {
-          throw new ResourceNotFoundException("commit not found");
-        }
-        if (parent > revCommit.getParentCount()) {
-          throw new BadRequestException("invalid parent");
-        }
-        revstr = rw.parseCommit(revstr).getParent(Integer.max(0, parent - 1)).toObjectId();
-      }
-      return getContent(repo, project, revstr, path);
-    }
-  }
-
-  public BinaryResult getContent(
-      Repository repo, ProjectState project, ObjectId revstr, String path)
-      throws IOException, ResourceNotFoundException {
-    try (RevWalk rw = new RevWalk(repo)) {
       RevCommit commit = rw.parseCommit(revstr);
-      try (TreeWalk tw = TreeWalk.forPath(rw.getObjectReader(), path, commit.getTree())) {
-        if (tw == null) {
-          throw new ResourceNotFoundException();
-        }
-
-        org.eclipse.jgit.lib.FileMode mode = tw.getFileMode(0);
-        ObjectId id = tw.getObjectId(0);
-        if (mode == org.eclipse.jgit.lib.FileMode.GITLINK) {
-          return BinaryResult.create(id.name()).setContentType(X_GIT_GITLINK).base64();
-        }
-
-        ObjectLoader obj = repo.open(id, OBJ_BLOB);
-        byte[] raw;
-        try {
-          raw = obj.getCachedBytes(MAX_SIZE);
-        } catch (LargeObjectException e) {
-          raw = null;
-        }
-
-        String type;
-        if (mode == org.eclipse.jgit.lib.FileMode.SYMLINK) {
-          type = X_GIT_SYMLINK;
-        } else {
-          type = registry.getMimeType(path, raw).toString();
-          type = resolveContentType(project, path, FileMode.FILE, type);
-        }
-
-        return asBinaryResult(raw, obj).setContentType(type).base64();
+      ObjectReader reader = rw.getObjectReader();
+      TreeWalk tw = TreeWalk.forPath(reader, path, commit.getTree());
+      if (tw == null) {
+        throw new ResourceNotFoundException();
       }
+
+      org.eclipse.jgit.lib.FileMode mode = tw.getFileMode(0);
+      ObjectId id = tw.getObjectId(0);
+      if (mode == org.eclipse.jgit.lib.FileMode.GITLINK) {
+        return BinaryResult.create(id.name()).setContentType(X_GIT_GITLINK).base64();
+      }
+
+      ObjectLoader obj = repo.open(id, OBJ_BLOB);
+      byte[] raw;
+      try {
+        raw = obj.getCachedBytes(MAX_SIZE);
+      } catch (LargeObjectException e) {
+        raw = null;
+      }
+
+      String type;
+      if (mode == org.eclipse.jgit.lib.FileMode.SYMLINK) {
+        type = X_GIT_SYMLINK;
+      } else {
+        type = registry.getMimeType(path, raw).toString();
+        type = resolveContentType(project, path, FileMode.FILE, type);
+      }
+
+      return asBinaryResult(raw, obj).setContentType(type).base64();
     }
   }
 
-  private static BinaryResult asBinaryResult(byte[] raw, ObjectLoader obj) {
+  private static BinaryResult asBinaryResult(byte[] raw, final ObjectLoader obj) {
     if (raw != null) {
       return BinaryResult.create(raw);
     }
@@ -165,30 +134,30 @@ public class FileContentUtil {
         }
         commit = rw.parseCommit(commit.getParent(parent - 1));
       }
-      try (TreeWalk tw = TreeWalk.forPath(rw.getObjectReader(), path, commit.getTree())) {
-        if (tw == null) {
-          throw new ResourceNotFoundException();
-        }
-
-        int mode = tw.getFileMode(0).getObjectType();
-        if (mode != Constants.OBJ_BLOB) {
-          throw new ResourceNotFoundException();
-        }
-
-        ObjectId id = tw.getObjectId(0);
-        ObjectLoader obj = repo.open(id, OBJ_BLOB);
-        byte[] raw;
-        try {
-          raw = obj.getCachedBytes(MAX_SIZE);
-        } catch (LargeObjectException e) {
-          raw = null;
-        }
-
-        MimeType contentType = registry.getMimeType(path, raw);
-        return registry.isSafeInline(contentType)
-            ? wrapBlob(path, obj, raw, contentType, suffix)
-            : zipBlob(path, obj, commit, suffix);
+      ObjectReader reader = rw.getObjectReader();
+      TreeWalk tw = TreeWalk.forPath(reader, path, commit.getTree());
+      if (tw == null) {
+        throw new ResourceNotFoundException();
       }
+
+      int mode = tw.getFileMode(0).getObjectType();
+      if (mode != Constants.OBJ_BLOB) {
+        throw new ResourceNotFoundException();
+      }
+
+      ObjectId id = tw.getObjectId(0);
+      ObjectLoader obj = repo.open(id, OBJ_BLOB);
+      byte[] raw;
+      try {
+        raw = obj.getCachedBytes(MAX_SIZE);
+      } catch (LargeObjectException e) {
+        raw = null;
+      }
+
+      MimeType contentType = registry.getMimeType(path, raw);
+      return registry.isSafeInline(contentType)
+          ? wrapBlob(path, obj, raw, contentType, suffix)
+          : zipBlob(path, obj, commit, suffix);
     }
   }
 
@@ -205,7 +174,7 @@ public class FileContentUtil {
 
   @SuppressWarnings("resource")
   private BinaryResult zipBlob(
-      final String path, ObjectLoader obj, RevCommit commit, @Nullable final String suffix) {
+      final String path, final ObjectLoader obj, RevCommit commit, @Nullable final String suffix) {
     final String commitName = commit.getName();
     final long when = commit.getCommitTime() * 1000L;
     return new BinaryResult() {
@@ -266,13 +235,14 @@ public class FileContentUtil {
     }
   }
 
+  @SuppressWarnings("deprecation") // Use Hashing.md5 for compatibility.
   private static String randSuffix() {
     // Produce a random suffix that is difficult (or nearly impossible)
     // for an attacker to guess in advance. This reduces the risk that
     // an attacker could upload a *.class file and have us send a ZIP
     // that can be invoked through an applet tag in the victim's browser.
     //
-    Hasher h = Hashing.murmur3_128().newHasher();
+    Hasher h = Hashing.md5().newHasher();
     byte[] buf = new byte[8];
 
     NB.encodeInt64(buf, 0, TimeUtil.nowMs());
@@ -314,6 +284,6 @@ public class FileContentUtil {
 
   private Repository openRepository(ProjectState project)
       throws RepositoryNotFoundException, IOException {
-    return repoManager.openRepository(project.getNameKey());
+    return repoManager.openRepository(project.getProject().getNameKey());
   }
 }

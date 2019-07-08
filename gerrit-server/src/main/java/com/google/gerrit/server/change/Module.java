@@ -19,7 +19,6 @@ import static com.google.gerrit.server.change.ChangeResource.CHANGE_KIND;
 import static com.google.gerrit.server.change.CommentResource.COMMENT_KIND;
 import static com.google.gerrit.server.change.DraftCommentResource.DRAFT_COMMENT_KIND;
 import static com.google.gerrit.server.change.FileResource.FILE_KIND;
-import static com.google.gerrit.server.change.FixResource.FIX_KIND;
 import static com.google.gerrit.server.change.ReviewerResource.REVIEWER_KIND;
 import static com.google.gerrit.server.change.RevisionResource.REVISION_KIND;
 import static com.google.gerrit.server.change.RobotCommentResource.ROBOT_COMMENT_KIND;
@@ -41,14 +40,12 @@ public class Module extends RestApiModule {
     bind(DraftComments.class);
     bind(Comments.class);
     bind(RobotComments.class);
-    bind(Fixes.class);
     bind(Files.class);
     bind(Votes.class);
 
     DynamicMap.mapOf(binder(), CHANGE_KIND);
     DynamicMap.mapOf(binder(), COMMENT_KIND);
     DynamicMap.mapOf(binder(), ROBOT_COMMENT_KIND);
-    DynamicMap.mapOf(binder(), FIX_KIND);
     DynamicMap.mapOf(binder(), DRAFT_COMMENT_KIND);
     DynamicMap.mapOf(binder(), FILE_KIND);
     DynamicMap.mapOf(binder(), REVIEWER_KIND);
@@ -70,13 +67,13 @@ public class Module extends RestApiModule {
     get(CHANGE_KIND, "robotcomments").to(ListChangeRobotComments.class);
     get(CHANGE_KIND, "drafts").to(ListChangeDrafts.class);
     get(CHANGE_KIND, "check").to(Check.class);
-    get(CHANGE_KIND, "pure_revert").to(GetPureRevert.class);
     post(CHANGE_KIND, "check").to(Check.class);
     put(CHANGE_KIND, "topic").to(PutTopic.class);
     delete(CHANGE_KIND, "topic").to(PutTopic.class);
     delete(CHANGE_KIND).to(DeleteChange.class);
     post(CHANGE_KIND, "abandon").to(Abandon.class);
     post(CHANGE_KIND, "hashtags").to(PostHashtags.class);
+    post(CHANGE_KIND, "publish").to(PublishDraftPatchSet.CurrentRevision.class);
     post(CHANGE_KIND, "restore").to(Restore.class);
     post(CHANGE_KIND, "revert").to(Revert.class);
     post(CHANGE_KIND, "submit").to(Submit.CurrentRevision.class);
@@ -85,16 +82,6 @@ public class Module extends RestApiModule {
     post(CHANGE_KIND, "index").to(Index.class);
     post(CHANGE_KIND, "rebuild.notedb").to(Rebuild.class);
     post(CHANGE_KIND, "move").to(Move.class);
-    post(CHANGE_KIND, "private").to(PostPrivate.class);
-    post(CHANGE_KIND, "private.delete").to(DeletePrivateByPost.class);
-    delete(CHANGE_KIND, "private").to(DeletePrivate.class);
-    put(CHANGE_KIND, "ignore").to(Ignore.class);
-    put(CHANGE_KIND, "unignore").to(Unignore.class);
-    put(CHANGE_KIND, "reviewed").to(MarkAsReviewed.class);
-    put(CHANGE_KIND, "unreviewed").to(MarkAsUnreviewed.class);
-    post(CHANGE_KIND, "wip").to(SetWorkInProgress.class);
-    post(CHANGE_KIND, "ready").to(SetReadyForReview.class);
-    put(CHANGE_KIND, "message").to(PutMessage.class);
 
     post(CHANGE_KIND, "reviewers").to(PostReviewers.class);
     get(CHANGE_KIND, "suggest_reviewers").to(SuggestChangeReviewers.class);
@@ -110,7 +97,9 @@ public class Module extends RestApiModule {
     get(REVISION_KIND, "actions").to(GetRevisionActions.class);
     post(REVISION_KIND, "cherrypick").to(CherryPick.class);
     get(REVISION_KIND, "commit").to(GetCommit.class);
+    delete(REVISION_KIND).to(DeleteDraftPatchSet.class);
     get(REVISION_KIND, "mergeable").to(Mergeable.class);
+    post(REVISION_KIND, "publish").to(PublishDraftPatchSet.class);
     get(REVISION_KIND, "related").to(GetRelated.class);
     get(REVISION_KIND, "review").to(GetReview.class);
     post(REVISION_KIND, "review").to(PostReview.class);
@@ -136,13 +125,9 @@ public class Module extends RestApiModule {
 
     child(REVISION_KIND, "comments").to(Comments.class);
     get(COMMENT_KIND).to(GetComment.class);
-    delete(COMMENT_KIND).to(DeleteComment.class);
-    post(COMMENT_KIND, "delete").to(DeleteComment.class);
 
     child(REVISION_KIND, "robotcomments").to(RobotComments.class);
     get(ROBOT_COMMENT_KIND).to(GetRobotComment.class);
-    child(REVISION_KIND, "fixes").to(Fixes.class);
-    post(FIX_KIND, "apply").to(ApplyFix.class);
 
     child(REVISION_KIND, "files").to(Files.class);
     put(FILE_KIND, "reviewed").to(PutReviewed.class);
@@ -167,17 +152,12 @@ public class Module extends RestApiModule {
     factory(ChangeEdits.Create.Factory.class);
     factory(ChangeEdits.DeleteFile.Factory.class);
     factory(ChangeInserter.Factory.class);
-    factory(ChangeResource.Factory.class);
-    factory(DeleteReviewerByEmailOp.Factory.class);
-    factory(DeleteReviewerOp.Factory.class);
     factory(EmailReviewComments.Factory.class);
     factory(PatchSetInserter.Factory.class);
-    factory(PostReviewersOp.Factory.class);
     factory(RebaseChangeOp.Factory.class);
     factory(ReviewerResource.Factory.class);
     factory(SetAssigneeOp.Factory.class);
     factory(SetHashtagsOp.Factory.class);
-    factory(SetPrivateOp.Factory.class);
-    factory(WorkInProgressOp.Factory.class);
+    factory(ChangeResource.Factory.class);
   }
 }

@@ -20,12 +20,11 @@ limitations under the License.
 
 <script src="../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
 <script src="../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../test/common-test-setup.html"/>
 <script>
-  /** @type {string} */
   window.CANONICAL_PATH = '/r';
 </script>
 
+<link rel="import" href="../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="../base-url-behavior/base-url-behavior.html">
 <link rel="import" href="rest-client-behavior.html">
 
@@ -44,12 +43,11 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('rest-client-behavior tests', () => {
-    let element;
-    // eslint-disable-next-line no-unused-vars
-    let overlay;
+  suite('rest-client-behavior tests', function() {
+    var element;
+    var overlay;
 
-    suiteSetup(() => {
+    suiteSetup(function() {
       // Define a Polymer element that uses this behavior.
       Polymer({
         is: 'test-element',
@@ -60,126 +58,20 @@ limitations under the License.
       });
     });
 
-    setup(() => {
+    setup(function() {
       element = fixture('basic');
       overlay = fixture('within-overlay');
     });
 
-    test('changeBaseURL', () => {
+    test('changeBaseURL', function() {
       assert.deepEqual(
-          element.changeBaseURL('1', '1'),
-          '/r/changes/1/revisions/1'
+        element.changeBaseURL('1', '1'),
+        '/r/changes/1/revisions/1'
       );
     });
 
-    test('changePath', () => {
+    test('changePath', function() {
       assert.deepEqual(element.changePath('1'), '/r/c/1');
-    });
-
-    test('Open status', () => {
-      const change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        revisions: {
-          rev1: {_number: 1},
-        },
-        current_revision: 'rev1',
-        status: 'NEW',
-        labels: {},
-        mergeable: true,
-      };
-      const status = element.changeStatusString(change);
-      assert.equal(status, '');
-    });
-
-    test('Merge conflict', () => {
-      const change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        revisions: {
-          rev1: {_number: 1},
-        },
-        current_revision: 'rev1',
-        status: 'NEW',
-        labels: {},
-        mergeable: false,
-      };
-      const status = element.changeStatusString(change);
-      assert.equal(status, 'Merge Conflict');
-    });
-
-    test('mergeable prop undefined', () => {
-      const change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        revisions: {
-          rev1: {_number: 1},
-        },
-        current_revision: 'rev1',
-        status: 'NEW',
-        labels: {},
-      };
-      const status = element.changeStatusString(change);
-      assert.equal(status, '');
-    });
-
-    test('Merged status', () => {
-      const change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        revisions: {
-          rev1: {_number: 1},
-        },
-        current_revision: 'rev1',
-        status: 'MERGED',
-        labels: {},
-      };
-      const status = element.changeStatusString(change);
-      assert.equal(status, 'Merged');
-    });
-
-    test('Abandoned status', () => {
-      const change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        revisions: {
-          rev1: {_number: 1},
-        },
-        current_revision: 'rev1',
-        status: 'ABANDONED',
-        labels: {},
-      };
-      const status = element.changeStatusString(change);
-      assert.equal(status, 'Abandoned');
-    });
-
-    test('Open status with private and wip', () => {
-      const change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        revisions: {
-          rev1: {_number: 1},
-        },
-        current_revision: 'rev1',
-        status: 'NEW',
-        is_private: true,
-        work_in_progress: true,
-        labels: {},
-        mergeable: true,
-      };
-      const status = element.changeStatusString(change);
-      assert.equal(status, 'WIP, Private');
-    });
-
-    test('Merge conflict with private and wip', () => {
-      const change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        revisions: {
-          rev1: {_number: 1},
-        },
-        current_revision: 'rev1',
-        status: 'NEW',
-        is_private: true,
-        work_in_progress: true,
-        labels: {},
-        mergeable: false,
-      };
-      const status = element.changeStatusString(change);
-      assert.equal(status, 'Merge Conflict, WIP, Private');
     });
   });
 </script>

@@ -34,7 +34,6 @@ import static com.google.gerrit.extensions.client.ListChangesOption.PUSH_CERTIFI
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWER_UPDATES;
 import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
-import static com.google.gerrit.extensions.client.ListChangesOption.TRACKING_IDS;
 import static com.google.gerrit.extensions.client.ListChangesOption.WEB_LINKS;
 import static com.google.gerrit.server.CommonConverters.toGitPerson;
 import static java.util.stream.Collectors.toList;
@@ -49,7 +48,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedHashMultimap;
-import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.MultimapBuilder;
@@ -61,6 +59,8 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.api.changes.FixInput;
@@ -77,15 +77,12 @@ import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.PushCertificateInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
-import com.google.gerrit.extensions.common.TrackingIdInfo;
 import com.google.gerrit.extensions.common.VotingRangeInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -100,40 +97,32 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.ReviewerByEmailSet;
-import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.api.accounts.AccountInfoComparator;
 import com.google.gerrit.server.api.accounts.GpgApiAdapter;
-import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
-import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import com.google.gerrit.server.permissions.ChangePermission;
-import com.google.gerrit.server.permissions.LabelPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.RemoveReviewerControl;
 import com.google.gerrit.server.project.SubmitRuleOptions;
+import com.google.gerrit.server.query.QueryResult;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
-import com.google.gerrit.server.query.change.PluginDefinedAttributesFactory;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -168,15 +157,7 @@ public class ChangeJson {
       ChangeField.SUBMIT_RULE_OPTIONS_STRICT.toBuilder().fastEvalLabels(true).build();
 
   public static final ImmutableSet<ListChangesOption> REQUIRE_LAZY_LOAD =
-      ImmutableSet.of(
-          ALL_COMMITS,
-          ALL_REVISIONS,
-          CHANGE_ACTIONS,
-          CHECK,
-          COMMIT_FOOTERS,
-          CURRENT_ACTIONS,
-          CURRENT_COMMIT,
-          MESSAGES);
+      ImmutableSet.of(ALL_REVISIONS, MESSAGES);
 
   @Singleton
   public static class Factory {
@@ -205,9 +186,9 @@ public class ChangeJson {
   }
 
   private final Provider<ReviewDb> db;
+  private final LabelNormalizer labelNormalizer;
   private final Provider<CurrentUser> userProvider;
   private final AnonymousUser anonymous;
-  private final PermissionBackend permissionBackend;
   private final GitRepositoryManager repoManager;
   private final ProjectCache projectCache;
   private final MergeUtil.Factory mergeUtilFactory;
@@ -228,19 +209,17 @@ public class ChangeJson {
   private final ChangeKindCache changeKindCache;
   private final ChangeIndexCollection indexes;
   private final ApprovalsUtil approvalsUtil;
-  private final RemoveReviewerControl removeReviewerControl;
-  private final TrackingFooters trackingFooters;
+
   private boolean lazyLoad = true;
   private AccountLoader accountLoader;
   private FixInput fix;
-  private PluginDefinedAttributesFactory pluginDefinedAttributesFactory;
 
-  @Inject
+  @AssistedInject
   ChangeJson(
       Provider<ReviewDb> db,
+      LabelNormalizer ln,
       Provider<CurrentUser> user,
       AnonymousUser au,
-      PermissionBackend permissionBackend,
       GitRepositoryManager repoManager,
       ProjectCache projectCache,
       MergeUtil.Factory mergeUtilFactory,
@@ -260,14 +239,12 @@ public class ChangeJson {
       ChangeKindCache changeKindCache,
       ChangeIndexCollection indexes,
       ApprovalsUtil approvalsUtil,
-      RemoveReviewerControl removeReviewerControl,
-      TrackingFooters trackingFooters,
       @Assisted Iterable<ListChangesOption> options) {
     this.db = db;
+    this.labelNormalizer = ln;
     this.userProvider = user;
     this.anonymous = au;
     this.changeDataFactory = cdf;
-    this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
     this.userFactory = uf;
     this.projectCache = projectCache;
@@ -286,9 +263,7 @@ public class ChangeJson {
     this.changeKindCache = changeKindCache;
     this.indexes = indexes;
     this.approvalsUtil = approvalsUtil;
-    this.removeReviewerControl = removeReviewerControl;
     this.options = Sets.immutableEnumSet(options);
-    this.trackingFooters = trackingFooters;
   }
 
   public ChangeJson lazyLoad(boolean load) {
@@ -301,12 +276,8 @@ public class ChangeJson {
     return this;
   }
 
-  public void setPluginDefinedAttributesFactory(PluginDefinedAttributesFactory pluginsFactory) {
-    this.pluginDefinedAttributesFactory = pluginsFactory;
-  }
-
   public ChangeInfo format(ChangeResource rsrc) throws OrmException {
-    return format(changeDataFactory.create(db.get(), rsrc.getNotes()));
+    return format(changeDataFactory.create(db.get(), rsrc.getControl()));
   }
 
   public ChangeInfo format(Change change) throws OrmException {
@@ -345,8 +316,6 @@ public class ChangeJson {
         | GpgException
         | OrmException
         | IOException
-        | PermissionBackendException
-        | NoSuchProjectException
         | RuntimeException e) {
       if (!has(CHECK)) {
         Throwables.throwIfInstanceOf(e, OrmException.class);
@@ -357,7 +326,7 @@ public class ChangeJson {
   }
 
   public ChangeInfo format(RevisionResource rsrc) throws OrmException {
-    ChangeData cd = changeDataFactory.create(db.get(), rsrc.getNotes());
+    ChangeData cd = changeDataFactory.create(db.get(), rsrc.getControl());
     return format(cd, Optional.of(rsrc.getPatchSet().getId()), true);
   }
 
@@ -424,17 +393,9 @@ public class ChangeJson {
             | GpgException
             | OrmException
             | IOException
-            | PermissionBackendException
-            | NoSuchProjectException
             | RuntimeException e) {
           if (has(CHECK)) {
             i = checkOnly(cd);
-          } else if (e instanceof NoSuchChangeException) {
-            log.info(
-                "NoSuchChangeException: Omitting corrupt change "
-                    + cd.getId()
-                    + " from results. Seems to be stale in the index.");
-            continue;
           } else {
             log.warn("Omitting corrupt change " + cd.getId() + " from results", e);
             continue;
@@ -448,9 +409,9 @@ public class ChangeJson {
   }
 
   private ChangeInfo checkOnly(ChangeData cd) {
-    ChangeNotes notes;
+    ChangeControl ctl;
     try {
-      notes = cd.notes();
+      ctl = cd.changeControl().forUser(userProvider.get());
     } catch (OrmException e) {
       String msg = "Error loading change";
       log.warn(msg + " " + cd.getId(), e);
@@ -462,7 +423,7 @@ public class ChangeJson {
       return info;
     }
 
-    ConsistencyChecker.Result result = checkerProvider.get().check(notes, fix);
+    ConsistencyChecker.Result result = checkerProvider.get().check(ctl, fix);
     ChangeInfo info;
     Change c = result.change();
     if (c != null) {
@@ -478,9 +439,6 @@ public class ChangeJson {
       info.updated = c.getLastUpdatedOn();
       info._number = c.getId().get();
       info.problems = result.problems();
-      info.isPrivate = c.isPrivate() ? true : null;
-      info.workInProgress = c.isWorkInProgress() ? true : null;
-      info.hasReviewStarted = c.hasReviewStarted();
       finish(info);
     } else {
       info = new ChangeInfo();
@@ -491,13 +449,13 @@ public class ChangeJson {
   }
 
   private ChangeInfo toChangeInfo(ChangeData cd, Optional<PatchSet.Id> limitToPsId)
-      throws PatchListNotAvailableException, GpgException, OrmException, IOException,
-          PermissionBackendException, NoSuchProjectException {
+      throws PatchListNotAvailableException, GpgException, OrmException, IOException {
     ChangeInfo out = new ChangeInfo();
     CurrentUser user = userProvider.get();
+    ChangeControl ctl = cd.changeControl().forUser(user);
 
     if (has(CHECK)) {
-      out.problems = checkerProvider.get().check(cd.notes(), fix).problems();
+      out.problems = checkerProvider.get().check(ctl, fix).problems();
       // If any problems were fixed, the ChangeData needs to be reloaded.
       for (ProblemInfo p : out.problems) {
         if (p.status == ProblemInfo.Status.FIXED) {
@@ -507,7 +465,6 @@ public class ChangeJson {
       }
     }
 
-    PermissionBackend.ForChange perm = permissionBackendForChange(user, cd);
     Change in = cd.change();
     out.project = in.getProject().get();
     out.branch = in.getDest().getShortName();
@@ -534,9 +491,6 @@ public class ChangeJson {
       out.insertions = changedLines.get().insertions;
       out.deletions = changedLines.get().deletions;
     }
-    out.isPrivate = in.isPrivate() ? true : null;
-    out.workInProgress = in.isWorkInProgress() ? true : null;
-    out.hasReviewStarted = in.hasReviewStarted();
     out.subject = in.getSubject();
     out.status = in.getStatus().asChangeStatus();
     out.owner = accountLoader.get(in.getOwner());
@@ -554,31 +508,31 @@ public class ChangeJson {
     }
 
     if (in.getStatus().isOpen() && has(REVIEWED) && user.isIdentifiedUser()) {
-      out.reviewed = cd.isReviewedBy(user.getAccountId()) ? true : null;
+      Account.Id accountId = user.getAccountId();
+      out.reviewed = cd.reviewedBy().contains(accountId) ? true : null;
     }
 
-    out.labels = labelsFor(perm, cd, has(LABELS), has(DETAILED_LABELS));
+    out.labels = labelsFor(ctl, cd, has(LABELS), has(DETAILED_LABELS));
+    out.submitted = getSubmittedOn(cd);
 
     if (out.labels != null && has(DETAILED_LABELS)) {
       // If limited to specific patch sets but not the current patch set, don't
       // list permitted labels, since users can't vote on those patch sets.
-      if (user.isIdentifiedUser()
-          && (!limitToPsId.isPresent() || limitToPsId.get().equals(in.currentPatchSetId()))) {
+      if (!limitToPsId.isPresent() || limitToPsId.get().equals(in.currentPatchSetId())) {
         out.permittedLabels =
             cd.change().getStatus() != Change.Status.ABANDONED
-                ? permittedLabels(perm, cd)
+                ? permittedLabels(ctl, cd)
                 : ImmutableMap.of();
       }
 
-      out.reviewers = reviewerMap(cd.reviewers(), cd.reviewersByEmail(), false);
-      out.pendingReviewers = reviewerMap(cd.pendingReviewers(), cd.pendingReviewersByEmail(), true);
-      out.removableReviewers = removableReviewers(cd, out);
-    }
+      out.reviewers = new HashMap<>();
+      for (Map.Entry<ReviewerStateInternal, Map<Account.Id, Timestamp>> e :
+          cd.reviewers().asTable().rowMap().entrySet()) {
+        out.reviewers.put(e.getKey().asReviewerState(), toAccountInfo(e.getValue().keySet()));
+      }
 
-    setSubmitter(cd, out);
-    out.plugins =
-        pluginDefinedAttributesFactory != null ? pluginDefinedAttributesFactory.create(cd) : null;
-    out.revertOf = cd.change().getRevertOf() != null ? cd.change().getRevertOf().get() : null;
+      out.removableReviewers = removableReviewers(ctl, out);
+    }
 
     if (has(REVIEWER_UPDATES)) {
       out.reviewerUpdates = reviewerUpdates(cd);
@@ -592,16 +546,15 @@ public class ChangeJson {
     } else {
       src = null;
     }
-
     if (needMessages) {
-      out.messages = messages(cd);
+      out.messages = messages(ctl, cd, src);
     }
     finish(out);
 
     // This block must come after the ChangeInfo is mostly populated, since
     // it will be passed to ActionVisitors as-is.
     if (needRevisions) {
-      out.revisions = revisions(cd, src, limitToPsId, out);
+      out.revisions = revisions(ctl, cd, src, out);
       if (out.revisions != null) {
         for (Map.Entry<String, RevisionInfo> entry : out.revisions.entrySet()) {
           if (entry.getValue().isCurrent) {
@@ -613,34 +566,10 @@ public class ChangeJson {
     }
 
     if (has(CURRENT_ACTIONS) || has(CHANGE_ACTIONS)) {
-      actionJson.addChangeActions(out, cd.notes());
-    }
-
-    if (has(TRACKING_IDS)) {
-      ListMultimap<String, String> set = trackingFooters.extract(cd.commitFooters());
-      out.trackingIds =
-          set.entries().stream()
-              .map(e -> new TrackingIdInfo(e.getKey(), e.getValue()))
-              .collect(toList());
+      actionJson.addChangeActions(out, ctl);
     }
 
     return out;
-  }
-
-  private Map<ReviewerState, Collection<AccountInfo>> reviewerMap(
-      ReviewerSet reviewers, ReviewerByEmailSet reviewersByEmail, boolean includeRemoved) {
-    Map<ReviewerState, Collection<AccountInfo>> reviewerMap = new HashMap<>();
-    for (ReviewerStateInternal state : ReviewerStateInternal.values()) {
-      if (!includeRemoved && state == ReviewerStateInternal.REMOVED) {
-        continue;
-      }
-      Collection<AccountInfo> reviewersByState = toAccountInfo(reviewers.byState(state));
-      reviewersByState.addAll(toAccountInfoByEmail(reviewersByEmail.byState(state)));
-      if (!reviewersByState.isEmpty()) {
-        reviewerMap.put(state.asReviewerState(), reviewersByState);
-      }
-    }
-    return reviewerMap;
   }
 
   private Collection<ReviewerUpdateInfo> reviewerUpdates(ChangeData cd) throws OrmException {
@@ -666,30 +595,29 @@ public class ChangeJson {
   }
 
   private Map<String, LabelInfo> labelsFor(
-      PermissionBackend.ForChange perm, ChangeData cd, boolean standard, boolean detailed)
-      throws OrmException, PermissionBackendException {
+      ChangeControl ctl, ChangeData cd, boolean standard, boolean detailed) throws OrmException {
     if (!standard && !detailed) {
       return null;
     }
 
-    LabelTypes labelTypes = cd.getLabelTypes();
+    if (ctl == null) {
+      return null;
+    }
+
+    LabelTypes labelTypes = ctl.getLabelTypes();
     Map<String, LabelWithStatus> withStatus =
-        cd.change().getStatus() == Change.Status.MERGED
-            ? labelsForSubmittedChange(perm, cd, labelTypes, standard, detailed)
-            : labelsForUnsubmittedChange(perm, cd, labelTypes, standard, detailed);
+        cd.change().getStatus().isOpen()
+            ? labelsForOpenChange(ctl, cd, labelTypes, standard, detailed)
+            : labelsForClosedChange(ctl, cd, labelTypes, standard, detailed);
     return ImmutableMap.copyOf(Maps.transformValues(withStatus, LabelWithStatus::label));
   }
 
-  private Map<String, LabelWithStatus> labelsForUnsubmittedChange(
-      PermissionBackend.ForChange perm,
-      ChangeData cd,
-      LabelTypes labelTypes,
-      boolean standard,
-      boolean detailed)
-      throws OrmException, PermissionBackendException {
+  private Map<String, LabelWithStatus> labelsForOpenChange(
+      ChangeControl ctl, ChangeData cd, LabelTypes labelTypes, boolean standard, boolean detailed)
+      throws OrmException {
     Map<String, LabelWithStatus> labels = initLabels(cd, labelTypes, standard);
     if (detailed) {
-      setAllApprovals(perm, cd, labels);
+      setAllApprovals(ctl, cd, labels);
     }
     for (Map.Entry<String, LabelWithStatus> e : labels.entrySet()) {
       LabelType type = labelTypes.byLabel(e.getKey());
@@ -714,6 +642,7 @@ public class ChangeJson {
 
   private Map<String, LabelWithStatus> initLabels(
       ChangeData cd, LabelTypes labelTypes, boolean standard) throws OrmException {
+    // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
     Map<String, LabelWithStatus> labels = new TreeMap<>(labelTypes.nameComparator());
     for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels == null) {
@@ -775,11 +704,10 @@ public class ChangeJson {
   }
 
   private void setAllApprovals(
-      PermissionBackend.ForChange basePerm, ChangeData cd, Map<String, LabelWithStatus> labels)
-      throws OrmException, PermissionBackendException {
+      ChangeControl baseCtrl, ChangeData cd, Map<String, LabelWithStatus> labels)
+      throws OrmException {
     Change.Status status = cd.change().getStatus();
-    checkState(
-        status != Change.Status.MERGED, "should not call setAllApprovals on %s change", status);
+    checkState(status.isOpen(), "should not call setAllApprovals on %s change", status);
 
     // Include a user in the output for this label if either:
     //  - They are an explicit reviewer.
@@ -791,17 +719,17 @@ public class ChangeJson {
     }
 
     Table<Account.Id, String, PatchSetApproval> current =
-        HashBasedTable.create(allUsers.size(), cd.getLabelTypes().getLabelTypes().size());
+        HashBasedTable.create(allUsers.size(), baseCtrl.getLabelTypes().getLabelTypes().size());
     for (PatchSetApproval psa : cd.currentApprovals()) {
       current.put(psa.getAccountId(), psa.getLabel(), psa);
     }
 
-    LabelTypes labelTypes = cd.getLabelTypes();
     for (Account.Id accountId : allUsers) {
-      PermissionBackend.ForChange perm = basePerm.user(userFactory.create(accountId));
-      Map<String, VotingRangeInfo> pvr = getPermittedVotingRanges(permittedLabels(perm, cd));
+      IdentifiedUser user = userFactory.create(accountId);
+      ChangeControl ctl = baseCtrl.forUser(user);
+      Map<String, VotingRangeInfo> pvr = getPermittedVotingRanges(permittedLabels(ctl, cd));
       for (Map.Entry<String, LabelWithStatus> e : labels.entrySet()) {
-        LabelType lt = labelTypes.byLabel(e.getKey());
+        LabelType lt = ctl.getLabelTypes().byLabel(e.getKey());
         if (lt == null) {
           // Ignore submit record for undefined label; likely the submit rule
           // author didn't intend for the label to show up in the table.
@@ -818,7 +746,7 @@ public class ChangeJson {
             // This may be a dummy approval that was inserted when the reviewer
             // was added. Explicitly check whether the user can vote on this
             // label.
-            value = perm.test(new LabelPermission(lt)) ? 0 : null;
+            value = labelNormalizer.canVote(ctl, lt, accountId) ? 0 : null;
           }
           tag = psa.getTag();
           date = psa.getGranted();
@@ -829,7 +757,7 @@ public class ChangeJson {
           // Either the user cannot vote on this label, or they were added as a
           // reviewer but have not responded yet. Explicitly check whether the
           // user can vote on this label.
-          value = perm.test(new LabelPermission(lt)) ? 0 : null;
+          value = labelNormalizer.canVote(ctl, lt, accountId) ? 0 : null;
         }
         addApproval(
             e.getValue().label(), approvalInfo(accountId, value, permittedVotingRange, tag, date));
@@ -869,22 +797,18 @@ public class ChangeJson {
     return Ints.tryParse(value);
   }
 
-  private void setSubmitter(ChangeData cd, ChangeInfo out) throws OrmException {
+  private Timestamp getSubmittedOn(ChangeData cd) throws OrmException {
     Optional<PatchSetApproval> s = cd.getSubmitApproval();
-    if (!s.isPresent()) {
-      return;
-    }
-    out.submitted = s.get().getGranted();
-    out.submitter = accountLoader.get(s.get().getAccountId());
+    return s.isPresent() ? s.get().getGranted() : null;
   }
 
-  private Map<String, LabelWithStatus> labelsForSubmittedChange(
-      PermissionBackend.ForChange basePerm,
+  private Map<String, LabelWithStatus> labelsForClosedChange(
+      ChangeControl baseCtrl,
       ChangeData cd,
       LabelTypes labelTypes,
       boolean standard,
       boolean detailed)
-      throws OrmException, PermissionBackendException {
+      throws OrmException {
     Set<Account.Id> allUsers = new HashSet<>();
     if (detailed) {
       // Users expect to see all reviewers on closed changes, even if they
@@ -910,22 +834,32 @@ public class ChangeJson {
       }
     }
 
-    // Since voting on merged changes is allowed all labels which apply to
-    // the change must be returned. All applying labels can be retrieved from
-    // the submit records, which is what initLabels does.
-    // It's not possible to only compute the labels based on the approvals
-    // since merged changes may not have approvals for all labels (e.g. if not
-    // all labels are required for submit or if the change was auto-closed due
-    // to direct push or if new labels were defined after the change was
-    // merged).
     Map<String, LabelWithStatus> labels;
-    labels = initLabels(cd, labelTypes, standard);
+    if (cd.change().getStatus() == Change.Status.MERGED) {
+      // Since voting on merged changes is allowed all labels which apply to
+      // the change must be returned. All applying labels can be retrieved from
+      // the submit records, which is what initLabels does.
+      // It's not possible to only compute the labels based on the approvals
+      // since merged changes may not have approvals for all labels (e.g. if not
+      // all labels are required for submit or if the change was auto-closed due
+      // to direct push or if new labels were defined after the change was
+      // merged).
+      labels = initLabels(cd, labelTypes, standard);
 
-    // Also include all labels for which approvals exists. E.g. there can be
-    // approvals for labels that are ignored by a Prolog submit rule and hence
-    // it wouldn't be included in the submit records.
-    for (String name : labelNames) {
-      if (!labels.containsKey(name)) {
+      // Also include all labels for which approvals exists. E.g. there can be
+      // approvals for labels that are ignored by a Prolog submit rule and hence
+      // it wouldn't be included in the submit records.
+      for (String name : labelNames) {
+        if (!labels.containsKey(name)) {
+          labels.put(name, LabelWithStatus.create(new LabelInfo(), null));
+        }
+      }
+    } else {
+      // For abandoned changes return only labels for which approvals exist.
+      // Other labels are not needed since voting on abandoned changes is not
+      // allowed.
+      labels = new TreeMap<>(labelTypes.nameComparator());
+      for (String name : labelNames) {
         labels.put(name, LabelWithStatus.create(new LabelInfo(), null));
       }
     }
@@ -940,8 +874,8 @@ public class ChangeJson {
       Map<String, ApprovalInfo> byLabel = Maps.newHashMapWithExpectedSize(labels.size());
       Map<String, VotingRangeInfo> pvr = Collections.emptyMap();
       if (detailed) {
-        PermissionBackend.ForChange perm = basePerm.user(userFactory.create(accountId));
-        pvr = getPermittedVotingRanges(permittedLabels(perm, cd));
+        ChangeControl ctl = baseCtrl.forUser(userFactory.create(accountId));
+        pvr = getPermittedVotingRanges(permittedLabels(ctl, cd));
         for (Map.Entry<String, LabelWithStatus> entry : labels.entrySet()) {
           ApprovalInfo ai = approvalInfo(accountId, 0, null, null, null);
           byLabel.put(entry.getKey(), ai);
@@ -989,8 +923,8 @@ public class ChangeJson {
   public static ApprovalInfo getApprovalInfo(
       Account.Id id,
       Integer value,
-      @Nullable VotingRangeInfo permittedVotingRange,
-      @Nullable String tag,
+      VotingRangeInfo permittedVotingRange,
+      String tag,
       Timestamp date) {
     ApprovalInfo ai = new ApprovalInfo(id.get());
     ai.value = value;
@@ -1015,25 +949,15 @@ public class ChangeJson {
     }
   }
 
-  private Map<String, Collection<String>> permittedLabels(
-      PermissionBackend.ForChange perm, ChangeData cd)
-      throws OrmException, PermissionBackendException {
-    boolean isMerged = cd.change().getStatus() == Change.Status.MERGED;
-    LabelTypes labelTypes = cd.getLabelTypes();
-    Map<String, LabelType> toCheck = new HashMap<>();
-    for (SubmitRecord rec : submitRecords(cd)) {
-      if (rec.labels != null) {
-        for (SubmitRecord.Label r : rec.labels) {
-          LabelType type = labelTypes.byLabel(r.label);
-          if (type != null && (!isMerged || type.allowPostSubmit())) {
-            toCheck.put(type.getName(), type);
-          }
-        }
-      }
+  private Map<String, Collection<String>> permittedLabels(ChangeControl ctl, ChangeData cd)
+      throws OrmException {
+    if (ctl == null || !ctl.getUser().isIdentifiedUser()) {
+      return null;
     }
 
     Map<String, Short> labels = null;
-    Set<LabelPermission.WithValue> can = perm.testLabels(toCheck.values());
+    boolean isMerged = ctl.getChange().getStatus() == Change.Status.MERGED;
+    LabelTypes labelTypes = ctl.getLabelTypes();
     SetMultimap<String, String> permitted = LinkedHashMultimap.create();
     for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels == null) {
@@ -1044,12 +968,12 @@ public class ChangeJson {
         if (type == null || (isMerged && !type.allowPostSubmit())) {
           continue;
         }
-
+        PermissionRange range = ctl.getRange(Permission.forLabel(r.label));
         for (LabelValue v : type.getValues()) {
-          boolean ok = can.contains(new LabelPermission.WithValue(type, v));
+          boolean ok = range.contains(v.getValue());
           if (isMerged) {
             if (labels == null) {
-              labels = currentLabels(perm, cd);
+              labels = currentLabels(ctl);
             }
             short prev = labels.getOrDefault(type.getName(), (short) 0);
             ok &= v.getValue() >= prev;
@@ -1060,7 +984,6 @@ public class ChangeJson {
         }
       }
     }
-
     List<String> toClear = Lists.newArrayListWithCapacity(permitted.keySet().size());
     for (Map.Entry<String, Collection<String>> e : permitted.asMap().entrySet()) {
       if (isOnlyZero(e.getValue())) {
@@ -1073,25 +996,18 @@ public class ChangeJson {
     return permitted.asMap();
   }
 
-  private Map<String, Short> currentLabels(PermissionBackend.ForChange perm, ChangeData cd)
-      throws OrmException {
-    IdentifiedUser user = perm.user().asIdentifiedUser();
+  private Map<String, Short> currentLabels(ChangeControl ctl) throws OrmException {
     Map<String, Short> result = new HashMap<>();
     for (PatchSetApproval psa :
         approvalsUtil.byPatchSetUser(
-            db.get(),
-            lazyLoad ? cd.notes() : notesFactory.createFromIndexedChange(cd.change()),
-            user,
-            cd.change().currentPatchSetId(),
-            user.getAccountId(),
-            null,
-            null)) {
+            db.get(), ctl, ctl.getChange().currentPatchSetId(), ctl.getUser().getAccountId())) {
       result.put(psa.getLabel(), psa.getValue());
     }
     return result;
   }
 
-  private Collection<ChangeMessageInfo> messages(ChangeData cd) throws OrmException {
+  private Collection<ChangeMessageInfo> messages(
+      ChangeControl ctl, ChangeData cd, Map<PatchSet.Id, PatchSet> map) throws OrmException {
     List<ChangeMessage> messages = cmUtil.byChange(db.get(), cd.notes());
     if (messages.isEmpty()) {
       return Collections.emptyList();
@@ -1100,24 +1016,22 @@ public class ChangeJson {
     List<ChangeMessageInfo> result = Lists.newArrayListWithCapacity(messages.size());
     for (ChangeMessage message : messages) {
       PatchSet.Id patchNum = message.getPatchSetId();
-      ChangeMessageInfo cmi = new ChangeMessageInfo();
-      cmi.id = message.getKey().get();
-      cmi.author = accountLoader.get(message.getAuthor());
-      cmi.date = message.getWrittenOn();
-      cmi.message = message.getMessage();
-      cmi.tag = message.getTag();
-      cmi._revisionNumber = patchNum != null ? patchNum.get() : null;
-      Account.Id realAuthor = message.getRealAuthor();
-      if (realAuthor != null) {
-        cmi.realAuthor = accountLoader.get(realAuthor);
+      PatchSet ps = patchNum != null ? map.get(patchNum) : null;
+      if (patchNum == null || ctl.isPatchVisible(ps, db.get())) {
+        ChangeMessageInfo cmi = new ChangeMessageInfo();
+        cmi.id = message.getKey().get();
+        cmi.author = accountLoader.get(message.getAuthor());
+        cmi.date = message.getWrittenOn();
+        cmi.message = message.getMessage();
+        cmi.tag = message.getTag();
+        cmi._revisionNumber = patchNum != null ? patchNum.get() : null;
+        result.add(cmi);
       }
-      result.add(cmi);
     }
     return result;
   }
 
-  private Collection<AccountInfo> removableReviewers(ChangeData cd, ChangeInfo out)
-      throws PermissionBackendException, NoSuchProjectException, OrmException, IOException {
+  private Collection<AccountInfo> removableReviewers(ChangeControl ctl, ChangeInfo out) {
     // Although this is called removableReviewers, this method also determines
     // which CCs are removable.
     //
@@ -1137,9 +1051,7 @@ public class ChangeJson {
       }
       for (ApprovalInfo ai : label.all) {
         Account.Id id = new Account.Id(ai._accountId);
-
-        if (removeReviewerControl.testRemoveReviewer(
-            cd, userProvider.get(), id, MoreObjects.firstNonNull(ai.value, 0))) {
+        if (ctl.canRemoveReviewer(id, MoreObjects.firstNonNull(ai.value, 0))) {
           removable.add(id);
         } else {
           fixed.add(id);
@@ -1154,11 +1066,9 @@ public class ChangeJson {
     Collection<AccountInfo> ccs = out.reviewers.get(ReviewerState.CC);
     if (ccs != null) {
       for (AccountInfo ai : ccs) {
-        if (ai._accountId != null) {
-          Account.Id id = new Account.Id(ai._accountId);
-          if (removeReviewerControl.testRemoveReviewer(cd, userProvider.get(), id, 0)) {
-            removable.add(id);
-          }
+        Account.Id id = new Account.Id(ai._accountId);
+        if (ctl.canRemoveReviewer(id, 0)) {
+          removable.add(id);
         }
       }
     }
@@ -1172,14 +1082,6 @@ public class ChangeJson {
     for (Account.Id id : removable) {
       result.add(accountLoader.get(id));
     }
-    // Reviewers added by email are always removable
-    for (Collection<AccountInfo> infos : out.reviewers.values()) {
-      for (AccountInfo info : infos) {
-        if (info._accountId == null) {
-          result.add(info);
-        }
-      }
-    }
     return result;
   }
 
@@ -1190,54 +1092,23 @@ public class ChangeJson {
         .collect(toList());
   }
 
-  private Collection<AccountInfo> toAccountInfoByEmail(Collection<Address> addresses) {
-    return addresses.stream()
-        .map(a -> new AccountInfo(a.getName(), a.getEmail()))
-        .sorted(AccountInfoComparator.ORDER_NULLS_FIRST)
-        .collect(toList());
-  }
-
   @Nullable
-  private Repository openRepoIfNecessary(Project.NameKey project) throws IOException {
+  private Repository openRepoIfNecessary(ChangeControl ctl) throws IOException {
     if (has(ALL_COMMITS) || has(CURRENT_COMMIT) || has(COMMIT_FOOTERS)) {
-      return repoManager.openRepository(project);
+      return repoManager.openRepository(ctl.getProject().getNameKey());
     }
     return null;
   }
 
-  @Nullable
-  private RevWalk newRevWalk(@Nullable Repository repo) {
-    return repo != null ? new RevWalk(repo) : null;
-  }
-
   private Map<String, RevisionInfo> revisions(
-      ChangeData cd,
-      Map<PatchSet.Id, PatchSet> map,
-      Optional<PatchSet.Id> limitToPsId,
-      ChangeInfo changeInfo)
-      throws PatchListNotAvailableException, GpgException, OrmException, IOException,
-          PermissionBackendException {
+      ChangeControl ctl, ChangeData cd, Map<PatchSet.Id, PatchSet> map, ChangeInfo changeInfo)
+      throws PatchListNotAvailableException, GpgException, OrmException, IOException {
     Map<String, RevisionInfo> res = new LinkedHashMap<>();
-    Boolean isWorldReadable = null;
-    try (Repository repo = openRepoIfNecessary(cd.project());
-        RevWalk rw = newRevWalk(repo)) {
+    try (Repository repo = openRepoIfNecessary(ctl)) {
       for (PatchSet in : map.values()) {
-        PatchSet.Id id = in.getId();
-        boolean want = false;
-        if (has(ALL_REVISIONS)) {
-          want = true;
-        } else if (limitToPsId.isPresent()) {
-          want = id.equals(limitToPsId.get());
-        } else {
-          want = id.equals(cd.change().currentPatchSetId());
-        }
-        if (want) {
-          if (isWorldReadable == null) {
-            isWorldReadable = isWorldReadable(cd);
-          }
-          res.put(
-              in.getRevision().get(),
-              toRevisionInfo(cd, in, repo, rw, false, changeInfo, isWorldReadable));
+        if ((has(ALL_REVISIONS) || in.getId().equals(ctl.getChange().currentPatchSetId()))
+            && ctl.isPatchVisible(in, db.get())) {
+          res.put(in.getRevision().get(), toRevisionInfo(ctl, cd, in, repo, false, changeInfo));
         }
       }
       return res;
@@ -1271,62 +1142,60 @@ public class ChangeJson {
     return map;
   }
 
-  public RevisionInfo getRevisionInfo(ChangeData cd, PatchSet in)
-      throws PatchListNotAvailableException, GpgException, OrmException, IOException,
-          PermissionBackendException {
+  public RevisionInfo getRevisionInfo(ChangeControl ctl, PatchSet in)
+      throws PatchListNotAvailableException, GpgException, OrmException, IOException {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
-    try (Repository repo = openRepoIfNecessary(cd.project());
-        RevWalk rw = newRevWalk(repo)) {
-      RevisionInfo rev = toRevisionInfo(cd, in, repo, rw, true, null, isWorldReadable(cd));
+    try (Repository repo = openRepoIfNecessary(ctl)) {
+      RevisionInfo rev =
+          toRevisionInfo(ctl, changeDataFactory.create(db.get(), ctl), in, repo, true, null);
       accountLoader.fill();
       return rev;
     }
   }
 
   private RevisionInfo toRevisionInfo(
+      ChangeControl ctl,
       ChangeData cd,
       PatchSet in,
       @Nullable Repository repo,
-      @Nullable RevWalk rw,
       boolean fillCommit,
-      @Nullable ChangeInfo changeInfo,
-      boolean isWorldReadable)
+      @Nullable ChangeInfo changeInfo)
       throws PatchListNotAvailableException, GpgException, OrmException, IOException {
-    Change c = cd.change();
+    Change c = ctl.getChange();
     RevisionInfo out = new RevisionInfo();
     out.isCurrent = in.getId().equals(c.currentPatchSetId());
     out._number = in.getId().get();
     out.ref = in.getRefName();
     out.created = in.getCreatedOn();
     out.uploader = accountLoader.get(in.getUploader());
-    out.fetch = makeFetchMap(cd, in, isWorldReadable);
-    out.kind = changeKindCache.getChangeKind(rw, repo != null ? repo.getConfig() : null, cd, in);
+    out.draft = in.isDraft() ? true : null;
+    out.fetch = makeFetchMap(ctl, in);
+    out.kind = changeKindCache.getChangeKind(repo, cd, in);
     out.description = in.getDescription();
 
     boolean setCommit = has(ALL_COMMITS) || (out.isCurrent && has(CURRENT_COMMIT));
     boolean addFooters = out.isCurrent && has(COMMIT_FOOTERS);
     if (setCommit || addFooters) {
-      checkState(rw != null);
-      checkState(repo != null);
       Project.NameKey project = c.getProject();
-      String rev = in.getRevision().get();
-      RevCommit commit = rw.parseCommit(ObjectId.fromString(rev));
-      rw.parseBody(commit);
-      if (setCommit) {
-        out.commit = toCommit(project, rw, commit, has(WEB_LINKS), fillCommit);
-      }
-      if (addFooters) {
-        Ref ref = repo.exactRef(cd.change().getDest().get());
-        RevCommit mergeTip = null;
-        if (ref != null) {
-          mergeTip = rw.parseCommit(ref.getObjectId());
-          rw.parseBody(mergeTip);
+      try (RevWalk rw = new RevWalk(repo)) {
+        String rev = in.getRevision().get();
+        RevCommit commit = rw.parseCommit(ObjectId.fromString(rev));
+        rw.parseBody(commit);
+        if (setCommit) {
+          out.commit = toCommit(ctl, rw, commit, has(WEB_LINKS), fillCommit);
         }
-        out.commitWithFooters =
-            mergeUtilFactory
-                .create(projectCache.get(project))
-                .createCommitMessageOnSubmit(
-                    commit, mergeTip, cd.notes(), userProvider.get(), in.getId());
+        if (addFooters) {
+          Ref ref = repo.exactRef(ctl.getChange().getDest().get());
+          RevCommit mergeTip = null;
+          if (ref != null) {
+            mergeTip = rw.parseCommit(ref.getObjectId());
+            rw.parseBody(mergeTip);
+          }
+          out.commitWithFooters =
+              mergeUtilFactory
+                  .create(projectCache.get(project))
+                  .createCommitMessageOnSubmit(commit, mergeTip, ctl, in.getId());
+        }
       }
     }
 
@@ -1336,12 +1205,12 @@ public class ChangeJson {
       out.files.remove(Patch.MERGE_LIST);
     }
 
-    if (out.isCurrent && has(CURRENT_ACTIONS) && userProvider.get().isIdentifiedUser()) {
+    if ((out.isCurrent || (out.draft != null && out.draft))
+        && has(CURRENT_ACTIONS)
+        && userProvider.get().isIdentifiedUser()) {
 
       actionJson.addRevisionActions(
-          changeInfo,
-          out,
-          new RevisionResource(changeResourceFactory.create(cd.notes(), userProvider.get()), in));
+          changeInfo, out, new RevisionResource(changeResourceFactory.create(ctl), in));
     }
 
     if (gpgApi.isEnabled() && has(PUSH_CERTIFICATES)) {
@@ -1358,8 +1227,9 @@ public class ChangeJson {
   }
 
   CommitInfo toCommit(
-      Project.NameKey project, RevWalk rw, RevCommit commit, boolean addLinks, boolean fillCommit)
+      ChangeControl ctl, RevWalk rw, RevCommit commit, boolean addLinks, boolean fillCommit)
       throws IOException {
+    Project.NameKey project = ctl.getProject().getNameKey();
     CommitInfo info = new CommitInfo();
     if (fillCommit) {
       info.commit = commit.name();
@@ -1389,8 +1259,9 @@ public class ChangeJson {
     return info;
   }
 
-  private Map<String, FetchInfo> makeFetchMap(ChangeData cd, PatchSet in, boolean isWorldReadable) {
+  private Map<String, FetchInfo> makeFetchMap(ChangeControl ctl, PatchSet in) throws OrmException {
     Map<String, FetchInfo> r = new LinkedHashMap<>();
+
     for (DynamicMap.Entry<DownloadScheme> e : downloadSchemes) {
       String schemeName = e.getExportName();
       DownloadScheme scheme = e.getProvider().get();
@@ -1398,11 +1269,12 @@ public class ChangeJson {
           || (scheme.isAuthRequired() && !userProvider.get().isIdentifiedUser())) {
         continue;
       }
-      if (!scheme.isAuthSupported() && !isWorldReadable) {
+
+      if (!scheme.isAuthSupported() && !ctl.forUser(anonymous).isPatchVisible(in, db.get())) {
         continue;
       }
 
-      String projectName = cd.project().get();
+      String projectName = ctl.getProject().getNameKey().get();
       String url = scheme.getUrl(projectName);
       String refName = in.getRefName();
       FetchInfo fetchInfo = new FetchInfo(url, refName);
@@ -1450,28 +1322,6 @@ public class ChangeJson {
       label.all = new ArrayList<>();
     }
     label.all.add(approval);
-  }
-
-  /**
-   * @return {@link com.google.gerrit.server.permissions.PermissionBackend.ForChange} constructed
-   *     from either an index-backed or a database-backed {@link ChangeData} depending on {@code
-   *     lazyload}.
-   */
-  private PermissionBackend.ForChange permissionBackendForChange(CurrentUser user, ChangeData cd)
-      throws OrmException {
-    PermissionBackend.WithUser withUser = permissionBackend.user(user).database(db);
-    return lazyLoad
-        ? withUser.change(cd)
-        : withUser.indexedChange(cd, notesFactory.createFromIndexedChange(cd.change()));
-  }
-
-  private boolean isWorldReadable(ChangeData cd) throws OrmException, PermissionBackendException {
-    try {
-      permissionBackendForChange(anonymous, cd).check(ChangePermission.READ);
-      return true;
-    } catch (AuthException ae) {
-      return false;
-    }
   }
 
   @AutoValue

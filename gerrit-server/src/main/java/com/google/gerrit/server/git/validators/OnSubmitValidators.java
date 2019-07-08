@@ -11,18 +11,18 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 package com.google.gerrit.server.git.validators;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.validators.OnSubmitValidationListener.Arguments;
-import com.google.gerrit.server.update.ChainedReceiveCommands;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
+import java.util.Map;
 import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 public class OnSubmitValidators {
   public interface Factory {
@@ -37,12 +37,14 @@ public class OnSubmitValidators {
   }
 
   public void validate(
-      Project.NameKey project, ObjectReader objectReader, ChainedReceiveCommands commands)
+      Project.NameKey project,
+      Repository repo,
+      ObjectReader objectReader,
+      Map<String, ReceiveCommand> commands)
       throws IntegrationException {
-    try (RevWalk rw = new RevWalk(objectReader)) {
-      Arguments args = new Arguments(project, rw, commands);
-      for (OnSubmitValidationListener listener : listeners) {
-        listener.preBranchUpdate(args);
+    try {
+      for (OnSubmitValidationListener listener : this.listeners) {
+        listener.preBranchUpdate(new Arguments(project, repo, objectReader, commands));
       }
     } catch (ValidationException e) {
       throw new IntegrationException(e.getMessage());

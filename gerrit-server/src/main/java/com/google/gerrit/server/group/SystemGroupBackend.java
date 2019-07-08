@@ -24,17 +24,15 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StartupCheck;
 import com.google.gerrit.server.StartupException;
 import com.google.gerrit.server.account.AbstractGroupBackend;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.project.ProjectState;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
@@ -44,7 +42,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -87,8 +84,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
   }
 
   private final ImmutableSet<String> reservedNames;
-  private final SortedMap<String, GroupReference> namesToGroups;
-  private final ImmutableSet<String> names;
+  private final SortedMap<String, GroupReference> names;
   private final ImmutableMap<AccountGroup.UUID, GroupReference> uuids;
 
   @Inject
@@ -109,9 +105,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
       u.put(ref.getUUID(), ref);
     }
     reservedNames = reservedNamesBuilder.build();
-    namesToGroups = Collections.unmodifiableSortedMap(n);
-    names =
-        ImmutableSet.copyOf(namesToGroups.values().stream().map(r -> r.getName()).collect(toSet()));
+    names = Collections.unmodifiableSortedMap(n);
     uuids = u.build();
   }
 
@@ -120,7 +114,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
   }
 
   public Set<String> getNames() {
-    return names;
+    return names.values().stream().map(r -> r.getName()).collect(toSet());
   }
 
   public Set<String> getReservedNames() {
@@ -162,9 +156,9 @@ public class SystemGroupBackend extends AbstractGroupBackend {
   }
 
   @Override
-  public Collection<GroupReference> suggest(String name, ProjectState project) {
+  public Collection<GroupReference> suggest(String name, ProjectControl project) {
     String nameLC = name.toLowerCase(Locale.US);
-    SortedMap<String, GroupReference> matches = namesToGroups.tailMap(nameLC);
+    SortedMap<String, GroupReference> matches = names.tailMap(nameLC);
     if (matches.isEmpty()) {
       return Collections.emptyList();
     }
@@ -187,14 +181,12 @@ public class SystemGroupBackend extends AbstractGroupBackend {
 
   public static class NameCheck implements StartupCheck {
     private final Config cfg;
-    private final Groups groups;
-    private final SchemaFactory<ReviewDb> schema;
+    private final GroupCache groupCache;
 
     @Inject
-    NameCheck(@GerritServerConfig Config cfg, Groups groups, SchemaFactory<ReviewDb> schema) {
+    NameCheck(@GerritServerConfig Config cfg, GroupCache groupCache) {
       this.cfg = cfg;
-      this.groups = groups;
-      this.schema = schema;
+      this.groupCache = groupCache;
     }
 
     @Override
@@ -211,42 +203,23 @@ public class SystemGroupBackend extends AbstractGroupBackend {
       if (configuredNames.isEmpty()) {
         return;
       }
-
-      Optional<AccountGroup> conflictingGroup;
-      try (ReviewDb db = schema.open()) {
-        conflictingGroup =
-            groups
-                .getAll(db)
-                .filter(group -> hasConfiguredName(byLowerCaseConfiguredName, group))
-                .findAny();
-
-      } catch (OrmException ignored) {
-        return;
+      for (AccountGroup g : groupCache.all()) {
+        String name = g.getName().toLowerCase(Locale.US);
+        if (byLowerCaseConfiguredName.keySet().contains(name)) {
+          AccountGroup.UUID uuidSystemGroup = byLowerCaseConfiguredName.get(name);
+          throw new StartupException(
+              String.format(
+                  "The configured name '%s' for system group '%s' is ambiguous"
+                      + " with the name '%s' of existing group '%s'."
+                      + " Please remove/change the value for groups.%s.name in"
+                      + " gerrit.config.",
+                  configuredNames.get(uuidSystemGroup),
+                  uuidSystemGroup.get(),
+                  g.getName(),
+                  g.getGroupUUID().get(),
+                  uuidSystemGroup.get()));
+        }
       }
-
-      if (conflictingGroup.isPresent()) {
-        AccountGroup group = conflictingGroup.get();
-        String groupName = group.getName();
-        AccountGroup.UUID systemGroupUuid = byLowerCaseConfiguredName.get(groupName);
-        throw new StartupException(
-            getAmbiguousNameMessage(groupName, group.getGroupUUID(), systemGroupUuid));
-      }
-    }
-
-    private static boolean hasConfiguredName(
-        Map<String, AccountGroup.UUID> byLowerCaseConfiguredName, AccountGroup group) {
-      String name = group.getName().toLowerCase(Locale.US);
-      return byLowerCaseConfiguredName.keySet().contains(name);
-    }
-
-    private static String getAmbiguousNameMessage(
-        String groupName, AccountGroup.UUID groupUuid, AccountGroup.UUID systemGroupUuid) {
-      return String.format(
-          "The configured name '%s' for system group '%s' is ambiguous"
-              + " with the name '%s' of existing group '%s'."
-              + " Please remove/change the value for groups.%s.name in"
-              + " gerrit.config.",
-          groupName, systemGroupUuid.get(), groupName, groupUuid.get(), systemGroupUuid.get());
     }
   }
 }

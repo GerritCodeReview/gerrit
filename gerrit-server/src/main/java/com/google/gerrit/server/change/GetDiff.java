@@ -45,9 +45,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.git.LargeObjectException;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchScriptFactory;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -56,7 +54,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.ReplaceEdit;
@@ -123,7 +120,7 @@ public class GetDiff implements RestReadView<FileResource> {
   @Override
   public Response<DiffInfo> apply(FileResource resource)
       throws ResourceConflictException, ResourceNotFoundException, OrmException, AuthException,
-          InvalidChangeOperationException, IOException, PermissionBackendException {
+          InvalidChangeOperationException, IOException {
     DiffPreferencesInfo prefs = new DiffPreferencesInfo();
     if (whitespace != null) {
       prefs.ignoreWhitespace = whitespace;
@@ -137,18 +134,33 @@ public class GetDiff implements RestReadView<FileResource> {
 
     PatchScriptFactory psf;
     PatchSet basePatchSet = null;
-    PatchSet.Id pId = resource.getPatchKey().getParentKey();
-    String fileName = resource.getPatchKey().getFileName();
-    ChangeNotes notes = resource.getRevision().getNotes();
     if (base != null) {
       RevisionResource baseResource =
           revisions.parse(resource.getRevision().getChangeResource(), IdString.fromDecoded(base));
       basePatchSet = baseResource.getPatchSet();
-      psf = patchScriptFactoryFactory.create(notes, fileName, basePatchSet.getId(), pId, prefs);
+      psf =
+          patchScriptFactoryFactory.create(
+              resource.getRevision().getControl(),
+              resource.getPatchKey().getFileName(),
+              basePatchSet.getId(),
+              resource.getPatchKey().getParentKey(),
+              prefs);
     } else if (parentNum > 0) {
-      psf = patchScriptFactoryFactory.create(notes, fileName, parentNum - 1, pId, prefs);
+      psf =
+          patchScriptFactoryFactory.create(
+              resource.getRevision().getControl(),
+              resource.getPatchKey().getFileName(),
+              parentNum - 1,
+              resource.getPatchKey().getParentKey(),
+              prefs);
     } else {
-      psf = patchScriptFactoryFactory.create(notes, fileName, null, pId, prefs);
+      psf =
+          patchScriptFactoryFactory.create(
+              resource.getRevision().getControl(),
+              resource.getPatchKey().getFileName(),
+              null,
+              resource.getPatchKey().getParentKey(),
+              prefs);
     }
 
     try {
@@ -156,7 +168,6 @@ public class GetDiff implements RestReadView<FileResource> {
       psf.setLoadComments(context != DiffPreferencesInfo.WHOLE_FILE_CONTEXT);
       PatchScript ps = psf.call();
       Content content = new Content(ps);
-      Set<Edit> editsDueToRebase = ps.getEditsDueToRebase();
       for (Edit edit : ps.getEdits()) {
         if (edit.getType() == Edit.Type.EMPTY) {
           continue;
@@ -179,8 +190,7 @@ public class GetDiff implements RestReadView<FileResource> {
           case REPLACE:
             List<Edit> internalEdit =
                 edit instanceof ReplaceEdit ? ((ReplaceEdit) edit).getInternalEdits() : null;
-            boolean dueToRebase = editsDueToRebase.contains(edit);
-            content.addDiff(edit.getEndA(), edit.getEndB(), internalEdit, dueToRebase);
+            content.addDiff(edit.getEndA(), edit.getEndB(), internalEdit);
             break;
           case EMPTY:
           default:
@@ -200,7 +210,7 @@ public class GetDiff implements RestReadView<FileResource> {
 
       List<DiffWebLinkInfo> links =
           webLinks.getDiffLinks(
-              state.getName(),
+              state.getProject().getName(),
               resource.getPatchKey().getParentKey().getParentKey().get(),
               basePatchSet != null ? basePatchSet.getId().get() : null,
               revA,
@@ -357,7 +367,7 @@ public class GetDiff implements RestReadView<FileResource> {
       }
     }
 
-    void addDiff(int endA, int endB, List<Edit> internalEdit, boolean dueToRebase) {
+    void addDiff(int endA, int endB, List<Edit> internalEdit) {
       int lenA = endA - nextA;
       int lenB = endB - nextB;
       checkState(lenA > 0 || lenB > 0);
@@ -393,7 +403,6 @@ public class GetDiff implements RestReadView<FileResource> {
           }
         }
       }
-      e.dueToRebase = dueToRebase ? true : null;
     }
 
     private ContentEntry entry() {
@@ -423,7 +432,7 @@ public class GetDiff implements RestReadView<FileResource> {
     }
 
     @Override
-    public final int parseArguments(Parameters params) throws CmdLineException {
+    public final int parseArguments(final Parameters params) throws CmdLineException {
       final String value = params.getParameter(0);
       short context;
       if ("all".equalsIgnoreCase(value)) {

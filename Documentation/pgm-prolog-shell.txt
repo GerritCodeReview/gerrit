@@ -36,8 +36,8 @@ Define a simple predicate and test it:
 	         Copyright(C) 1997-2009 M.Banbara and N.Tamura
 	(type Ctrl-D or "halt." to exit, "['path/to/file.pl']." to load a file)
 
-	{consulting /usr/local/google/users/sop/gerrit/gerrit/simple.pl ...}
-	{/usr/local/google/users/sop/gerrit/gerrit/simple.pl consulted 99 msec}
+	{consulting /usr/local/google/users/sop/gerrit2/gerrit/simple.pl ...}
+	{/usr/local/google/users/sop/gerrit2/gerrit/simple.pl consulted 99 msec}
 
 	| ?- food(Type).
 

@@ -20,10 +20,10 @@ import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
 public class StarPredicate extends ChangeIndexPredicate {
-  protected final Account.Id accountId;
-  protected final String label;
+  private final Account.Id accountId;
+  private final String label;
 
-  public StarPredicate(Account.Id accountId, String label) {
+  StarPredicate(Account.Id accountId, String label) {
     super(ChangeField.STAR, StarredChangesUtil.StarField.create(accountId, label).toString());
     this.accountId = accountId;
     this.label = label;

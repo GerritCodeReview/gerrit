@@ -53,11 +53,11 @@
       _newContent: String,
     },
 
-    focusTextarea() {
+    focusTextarea: function() {
       this.$$('iron-autogrow-textarea').textarea.focus();
     },
 
-    _editingChanged(editing) {
+    _editingChanged: function(editing) {
       if (!editing) { return; }
 
       // TODO(wyatta) switch linkify sequence, see issue 5526.
@@ -65,16 +65,16 @@
           this.content.replace(/^R=\u200B/gm, 'R=') : this.content;
     },
 
-    _computeSaveDisabled(disabled, content, newContent) {
+    _computeSaveDisabled: function(disabled, content, newContent) {
       return disabled || (content === newContent);
     },
 
-    _handleSave(e) {
+    _handleSave: function(e) {
       e.preventDefault();
       this.fire('editable-content-save', {content: this._newContent});
     },
 
-    _handleCancel(e) {
+    _handleCancel: function(e) {
       e.preventDefault();
       this.editing = false;
       this.fire('editable-content-cancel');

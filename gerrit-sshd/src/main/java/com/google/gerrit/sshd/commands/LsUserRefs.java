@@ -17,24 +17,26 @@ package com.google.gerrit.sshd.commands;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.SearchingChangeCacheImpl;
+import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.VisibleRefFilter;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.util.ManualRequestContext;
-import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Map;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -47,9 +49,16 @@ import org.kohsuke.args4j.Option;
     runsAt = MASTER_OR_SLAVE)
 public class LsUserRefs extends SshCommand {
   @Inject private AccountResolver accountResolver;
-  @Inject private OneOffRequestContext requestContext;
-  @Inject private VisibleRefFilter.Factory refFilterFactory;
-  @Inject private GitRepositoryManager repoManager;
+
+  @Inject private IdentifiedUser.GenericFactory userFactory;
+
+  @Inject private ReviewDb db;
+
+  @Inject private TagCache tagCache;
+
+  @Inject private ChangeNotes.Factory changeNotesFactory;
+
+  @Inject @Nullable private SearchingChangeCacheImpl changeCache;
 
   @Option(
       name = "--project",
@@ -70,41 +79,46 @@ public class LsUserRefs extends SshCommand {
   @Option(name = "--only-refs-heads", usage = "list only refs under refs/heads")
   private boolean onlyRefsHeads;
 
+  @Inject private GitRepositoryManager repoManager;
+
   @Override
   protected void run() throws Failure {
     Account userAccount;
     try {
-      userAccount = accountResolver.find(userName);
-    } catch (OrmException | IOException | ConfigInvalidException e) {
+      userAccount = accountResolver.find(db, userName);
+    } catch (OrmException e) {
       throw die(e);
     }
+
     if (userAccount == null) {
       stdout.print("No single user could be found when searching for: " + userName + '\n');
       stdout.flush();
       return;
     }
 
-    Project.NameKey projectName = projectControl.getProject().getNameKey();
-    try (Repository repo = repoManager.openRepository(projectName);
-        ManualRequestContext ctx = requestContext.openAs(userAccount.getId())) {
+    IdentifiedUser user = userFactory.create(userAccount.getId());
+    ProjectControl userProjectControl = projectControl.forUser(user);
+    try (Repository repo =
+        repoManager.openRepository(userProjectControl.getProject().getNameKey())) {
       try {
         Map<String, Ref> refsMap =
-            refFilterFactory
-                .create(projectControl.getProjectState(), repo)
+            new VisibleRefFilter(
+                    tagCache, changeNotesFactory, changeCache, repo, userProjectControl, db, true)
                 .filter(repo.getRefDatabase().getRefs(ALL), false);
 
-        for (String ref : refsMap.keySet()) {
+        for (final String ref : refsMap.keySet()) {
           if (!onlyRefsHeads || ref.startsWith(RefNames.REFS_HEADS)) {
             stdout.println(ref);
           }
         }
       } catch (IOException e) {
-        throw new Failure(1, "fatal: Error reading refs: '" + projectName, e);
+        throw new Failure(
+            1, "fatal: Error reading refs: '" + projectControl.getProject().getNameKey(), e);
       }
     } catch (RepositoryNotFoundException e) {
-      throw die("'" + projectName + "': not a git archive");
-    } catch (IOException | OrmException e) {
-      throw die("Error opening: '" + projectName);
+      throw die("'" + projectControl.getProject().getNameKey() + "': not a git archive");
+    } catch (IOException e) {
+      throw die("Error opening: '" + projectControl.getProject().getNameKey());
     }
   }
 }

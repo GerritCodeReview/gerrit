@@ -21,12 +21,8 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.Nullable;
-import com.google.gerrit.extensions.api.projects.DashboardInfo;
-import com.google.gerrit.extensions.api.projects.DashboardSectionInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -38,13 +34,12 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.UrlEncoded;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gson.annotations.SerializedName;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -56,36 +51,23 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
 @Singleton
-public class DashboardsCollection
+class DashboardsCollection
     implements ChildCollection<ProjectResource, DashboardResource>, AcceptsCreate<ProjectResource> {
-  public static final String DEFAULT_DASHBOARD_NAME = "default";
-
   private final GitRepositoryManager gitManager;
   private final DynamicMap<RestView<DashboardResource>> views;
   private final Provider<ListDashboards> list;
   private final Provider<SetDefaultDashboard.CreateDefault> createDefault;
-  private final PermissionBackend permissionBackend;
 
   @Inject
   DashboardsCollection(
       GitRepositoryManager gitManager,
       DynamicMap<RestView<DashboardResource>> views,
       Provider<ListDashboards> list,
-      Provider<SetDefaultDashboard.CreateDefault> createDefault,
-      PermissionBackend permissionBackend) {
+      Provider<SetDefaultDashboard.CreateDefault> createDefault) {
     this.gitManager = gitManager;
     this.views = views;
     this.list = list;
     this.createDefault = createDefault;
-    this.permissionBackend = permissionBackend;
-  }
-
-  public static boolean isDefaultDashboard(@Nullable String id) {
-    return DEFAULT_DASHBOARD_NAME.equals(id);
-  }
-
-  public static boolean isDefaultDashboard(@Nullable IdString id) {
-    return id != null && isDefaultDashboard(id.toString());
   }
 
   @Override
@@ -93,10 +75,11 @@ public class DashboardsCollection
     return list.get();
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public RestModifyView<ProjectResource, ?> create(ProjectResource parent, IdString id)
       throws RestApiException {
-    if (isDefaultDashboard(id)) {
+    if (id.toString().equals("default")) {
       return createDefault.get();
     }
     throw new ResourceNotFoundException(id);
@@ -104,24 +87,23 @@ public class DashboardsCollection
 
   @Override
   public DashboardResource parse(ProjectResource parent, IdString id)
-      throws ResourceNotFoundException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+      throws ResourceNotFoundException, IOException, ConfigInvalidException {
     ProjectControl myCtl = parent.getControl();
-    if (isDefaultDashboard(id)) {
+    if (id.toString().equals("default")) {
       return DashboardResource.projectDefault(myCtl);
     }
 
-    DashboardInfo info;
-    try {
-      info = newDashboardInfo(id.get());
-    } catch (InvalidDashboardId e) {
+    List<String> parts = Lists.newArrayList(Splitter.on(':').limit(2).split(id.get()));
+    if (parts.size() != 2) {
       throw new ResourceNotFoundException(id);
     }
 
     CurrentUser user = myCtl.getUser();
+    String ref = parts.get(0);
+    String path = parts.get(1);
     for (ProjectState ps : myCtl.getProjectState().tree()) {
       try {
-        return parse(ps.controlFor(user), info, myCtl);
+        return parse(ps.controlFor(user), ref, path, myCtl);
       } catch (AmbiguousObjectException | ConfigInvalidException | IncorrectObjectTypeException e) {
         throw new ResourceNotFoundException(id);
       } catch (ResourceNotFoundException e) {
@@ -131,74 +113,32 @@ public class DashboardsCollection
     throw new ResourceNotFoundException(id);
   }
 
-  public static String normalizeDashboardRef(String ref) {
-    if (!ref.startsWith(REFS_DASHBOARDS)) {
-      return REFS_DASHBOARDS + ref;
-    }
-    return ref;
-  }
-
-  private DashboardResource parse(ProjectControl ctl, DashboardInfo info, ProjectControl myCtl)
+  private DashboardResource parse(ProjectControl ctl, String ref, String path, ProjectControl myCtl)
       throws ResourceNotFoundException, IOException, AmbiguousObjectException,
-          IncorrectObjectTypeException, ConfigInvalidException, PermissionBackendException {
-    String ref = normalizeDashboardRef(info.ref);
-    try {
-      permissionBackend
-          .user(ctl.getUser())
-          .project(ctl.getProject().getNameKey())
-          .ref(ref)
-          .check(RefPermission.READ);
-    } catch (AuthException e) {
-      // Don't leak the project's existence
-      throw new ResourceNotFoundException(info.id);
+          IncorrectObjectTypeException, ConfigInvalidException {
+    String id = ref + ":" + path;
+    if (!ref.startsWith(REFS_DASHBOARDS)) {
+      ref = REFS_DASHBOARDS + ref;
     }
-    if (!Repository.isValidRefName(ref)) {
-      throw new ResourceNotFoundException(info.id);
+    if (!Repository.isValidRefName(ref) || !ctl.controlForRef(ref).isVisible()) {
+      throw new ResourceNotFoundException(id);
     }
 
     try (Repository git = gitManager.openRepository(ctl.getProject().getNameKey())) {
-      ObjectId objId = git.resolve(ref + ":" + info.path);
+      ObjectId objId = git.resolve(ref + ":" + path);
       if (objId == null) {
-        throw new ResourceNotFoundException(info.id);
+        throw new ResourceNotFoundException(id);
       }
       BlobBasedConfig cfg = new BlobBasedConfig(null, git, objId);
-      return new DashboardResource(myCtl, ref, info.path, cfg, false);
+      return new DashboardResource(myCtl, ref, path, cfg, false);
     } catch (RepositoryNotFoundException e) {
-      throw new ResourceNotFoundException(info.id);
+      throw new ResourceNotFoundException(id);
     }
   }
 
   @Override
   public DynamicMap<RestView<DashboardResource>> views() {
     return views;
-  }
-
-  public static DashboardInfo newDashboardInfo(String ref, String path) {
-    DashboardInfo info = new DashboardInfo();
-    info.ref = ref;
-    info.path = path;
-    info.id = Joiner.on(':').join(Url.encode(ref), Url.encode(path));
-    return info;
-  }
-
-  public static class InvalidDashboardId extends Exception {
-    private static final long serialVersionUID = 1L;
-
-    public InvalidDashboardId(String id) {
-      super(id);
-    }
-  }
-
-  static DashboardInfo newDashboardInfo(String id) throws InvalidDashboardId {
-    DashboardInfo info = new DashboardInfo();
-    List<String> parts = Lists.newArrayList(Splitter.on(':').limit(2).split(id));
-    if (parts.size() != 2) {
-      throw new InvalidDashboardId(id);
-    }
-    info.id = id;
-    info.ref = parts.get(0);
-    info.path = parts.get(1);
-    return info;
   }
 
   static DashboardInfo parse(
@@ -208,7 +148,7 @@ public class DashboardsCollection
       Config config,
       String project,
       boolean setDefault) {
-    DashboardInfo info = newDashboardInfo(refName, path);
+    DashboardInfo info = new DashboardInfo(refName, path);
     info.project = project;
     info.definingProject = definingProject.getName();
     String query = config.getString("dashboard", null, "title");
@@ -227,7 +167,7 @@ public class DashboardsCollection
       u.put("foreach", replace(project, info.foreach));
     }
     for (String name : config.getSubsections("section")) {
-      DashboardSectionInfo s = new DashboardSectionInfo();
+      Section s = new Section();
       s.name = name;
       s.query = config.getString("section", name, "query");
       u.put(s.name, replace(project, s.query));
@@ -250,5 +190,33 @@ public class DashboardsCollection
       return defaultId.substring(REFS_DASHBOARDS.length());
     }
     return defaultId;
+  }
+
+  static class DashboardInfo {
+    String id;
+    String project;
+    String definingProject;
+    String ref;
+    String path;
+    String description;
+    String foreach;
+    String url;
+
+    @SerializedName("default")
+    Boolean isDefault;
+
+    String title;
+    List<Section> sections = new ArrayList<>();
+
+    DashboardInfo(String ref, String name) {
+      this.ref = ref;
+      this.path = name;
+      this.id = Joiner.on(':').join(Url.encode(ref), Url.encode(path));
+    }
+  }
+
+  static class Section {
+    String name;
+    String query;
   }
 }

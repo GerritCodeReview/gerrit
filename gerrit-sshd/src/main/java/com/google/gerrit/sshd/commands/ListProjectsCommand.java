@@ -19,7 +19,6 @@ import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 import com.google.gerrit.server.project.ListProjects;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.gerrit.util.cli.Options;
 import com.google.inject.Inject;
 import java.util.List;
 
@@ -27,8 +26,8 @@ import java.util.List;
     name = "ls-projects",
     description = "List projects visible to the caller",
     runsAt = MASTER_OR_SLAVE)
-public class ListProjectsCommand extends SshCommand {
-  @Inject @Options public ListProjects impl;
+final class ListProjectsCommand extends SshCommand {
+  @Inject private ListProjects impl;
 
   @Override
   public void run() throws Exception {
@@ -42,5 +41,10 @@ public class ListProjectsCommand extends SshCommand {
       }
     }
     impl.display(out);
+  }
+
+  @Override
+  protected void parseCommandLine() throws UnloggedFailure {
+    parseCommandLine(impl);
   }
 }

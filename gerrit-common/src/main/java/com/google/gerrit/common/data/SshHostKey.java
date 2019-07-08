@@ -22,7 +22,7 @@ public class SshHostKey {
 
   protected SshHostKey() {}
 
-  public SshHostKey(String hi, String hk, String fp) {
+  public SshHostKey(final String hi, final String hk, final String fp) {
     hostIdent = hi;
     hostKey = hk;
     fingerprint = fp;

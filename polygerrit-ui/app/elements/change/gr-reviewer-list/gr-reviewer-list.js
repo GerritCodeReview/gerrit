@@ -42,15 +42,10 @@
         type: Boolean,
         value: false,
       },
-      maxReviewersDisplayed: Number,
 
-      _displayedReviewers: {
-        type: Array,
-        value() { return []; },
-      },
       _reviewers: {
         type: Array,
-        value() { return []; },
+        value: function() { return []; },
       },
       _showInput: {
         type: Boolean,
@@ -60,11 +55,6 @@
         type: String,
         computed: '_computeAddLabel(ccsOnly)',
       },
-      _hiddenReviewerCount: {
-        type: Number,
-        computed: '_computeHiddenCount(_reviewers, _displayedReviewers)',
-      },
-
 
       // Used for testing.
       _lastAutocompleteRequest: Object,
@@ -75,10 +65,10 @@
       '_reviewersChanged(change.reviewers.*, change.owner)',
     ],
 
-    _reviewersChanged(changeRecord, owner) {
-      let result = [];
-      const reviewers = changeRecord.base;
-      for (const key in reviewers) {
+    _reviewersChanged: function(changeRecord, owner) {
+      var result = [];
+      var reviewers = changeRecord.base;
+      for (var key in reviewers) {
         if (this.reviewersOnly && key !== 'REVIEWER') {
           continue;
         }
@@ -89,88 +79,66 @@
           result = result.concat(reviewers[key]);
         }
       }
-      this._reviewers = result.filter(reviewer => {
+      this._reviewers = result.filter(function(reviewer) {
         return reviewer._account_id != owner._account_id;
       });
-
-      // If there is one more than the max reviewers, don't show the 'show
-      // more' button, because it takes up just as much space.
-      if (this.maxReviewersDisplayed &&
-          this._reviewers.length > this.maxReviewersDisplayed + 1) {
-        this._displayedReviewers =
-          this._reviewers.slice(0, this.maxReviewersDisplayed);
-      } else {
-        this._displayedReviewers = this._reviewers;
-      }
     },
 
-    _computeHiddenCount(reviewers, displayedReviewers) {
-      return reviewers.length - displayedReviewers.length;
-    },
-
-    _computeCanRemoveReviewer(reviewer, mutable) {
+    _computeCanRemoveReviewer: function(reviewer, mutable) {
       if (!mutable) { return false; }
 
-      let current;
-      for (let i = 0; i < this.change.removable_reviewers.length; i++) {
-        current = this.change.removable_reviewers[i];
-        if (current._account_id === reviewer._account_id ||
-            (!reviewer._account_id && current.email === reviewer.email)) {
+      for (var i = 0; i < this.change.removable_reviewers.length; i++) {
+        if (this.change.removable_reviewers[i]._account_id ==
+            reviewer._account_id) {
           return true;
         }
       }
       return false;
     },
 
-    _handleRemove(e) {
+    _handleRemove: function(e) {
       e.preventDefault();
-      const target = Polymer.dom(e).rootTarget;
-      if (!target.account) { return; }
-      const accountID = target.account._account_id || target.account.email;
+      var target = Polymer.dom(e).rootTarget;
+      var accountID = parseInt(target.getAttribute('data-account-id'), 10);
       this.disabled = true;
-      this._xhrPromise = this._removeReviewer(accountID).then(response => {
+      this._xhrPromise =
+          this._removeReviewer(accountID).then(function(response) {
         this.disabled = false;
         if (!response.ok) { return response; }
 
-        const reviewers = this.change.reviewers;
-
-        for (const type of ['REVIEWER', 'CC']) {
+        var reviewers = this.change.reviewers;
+        ['REVIEWER', 'CC'].forEach(function(type) {
           reviewers[type] = reviewers[type] || [];
-          for (let i = 0; i < reviewers[type].length; i++) {
-            if (reviewers[type][i]._account_id == accountID ||
-            reviewers[type][i].email == accountID) {
+          for (var i = 0; i < reviewers[type].length; i++) {
+            if (reviewers[type][i]._account_id == accountID) {
               this.splice('change.reviewers.' + type, i, 1);
               break;
             }
           }
-        }
-      }).catch(err => {
+        }, this);
+      }.bind(this)).catch(function(err) {
         this.disabled = false;
         throw err;
-      });
+      }.bind(this));
     },
 
-    _handleAddTap(e) {
+    _handleAddTap: function(e) {
       e.preventDefault();
-      const value = {};
+      var value = {};
       if (this.reviewersOnly) {
         value.reviewersOnly = true;
       }
       if (this.ccsOnly) {
         value.ccsOnly = true;
       }
-      this.fire('show-reply-dialog', {value});
+      this.fire('show-reply-dialog', {value: value});
     },
 
-    _handleViewAll(e) {
-      this._displayedReviewers = this._reviewers;
-    },
-
-    _removeReviewer(id) {
+    _removeReviewer: function(id) {
       return this.$.restAPI.removeChangeReviewer(this.change._number, id);
     },
 
-    _computeAddLabel(ccsOnly) {
+    _computeAddLabel: function(ccsOnly) {
       return ccsOnly ? 'Add CC' : 'Add reviewer';
     },
   });

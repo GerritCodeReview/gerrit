@@ -31,7 +31,7 @@ public class TransferConfig {
   private final boolean inheritProjectMaxObjectSizeLimit;
 
   @Inject
-  TransferConfig(@GerritServerConfig Config cfg) {
+  TransferConfig(@GerritServerConfig final Config cfg) {
     timeout =
         (int)
             ConfigUtil.getTimeUnit(

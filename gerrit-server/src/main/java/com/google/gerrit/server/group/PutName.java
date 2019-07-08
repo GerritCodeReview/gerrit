@@ -15,24 +15,32 @@
 package com.google.gerrit.server.group;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.errors.NameAlreadyUsedException;
+import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupDetailFactory;
+import com.google.gerrit.server.git.RenameGroupOp;
 import com.google.gerrit.server.group.PutName.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Date;
+import java.util.TimeZone;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 @Singleton
 public class PutName implements RestModifyView<GroupResource, Input> {
@@ -41,21 +49,32 @@ public class PutName implements RestModifyView<GroupResource, Input> {
   }
 
   private final Provider<ReviewDb> db;
-  private final Provider<GroupsUpdate> groupsUpdateProvider;
+  private final GroupCache groupCache;
+  private final GroupDetailFactory.Factory groupDetailFactory;
+  private final RenameGroupOp.Factory renameGroupOpFactory;
+  private final Provider<IdentifiedUser> currentUser;
 
   @Inject
-  PutName(Provider<ReviewDb> db, @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider) {
+  PutName(
+      Provider<ReviewDb> db,
+      GroupCache groupCache,
+      GroupDetailFactory.Factory groupDetailFactory,
+      RenameGroupOp.Factory renameGroupOpFactory,
+      Provider<IdentifiedUser> currentUser) {
     this.db = db;
-    this.groupsUpdateProvider = groupsUpdateProvider;
+    this.groupCache = groupCache;
+    this.groupDetailFactory = groupDetailFactory;
+    this.renameGroupOpFactory = renameGroupOpFactory;
+    this.currentUser = currentUser;
   }
 
   @Override
   public String apply(GroupResource rsrc, Input input)
       throws MethodNotAllowedException, AuthException, BadRequestException,
-          ResourceConflictException, ResourceNotFoundException, OrmException, IOException {
-    GroupDescription.Internal internalGroup =
-        rsrc.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
-    if (!rsrc.getControl().isOwner()) {
+          ResourceConflictException, OrmException, NoSuchGroupException, IOException {
+    if (rsrc.toAccountGroup() == null) {
+      throw new MethodNotAllowedException();
+    } else if (!rsrc.getControl().isOwner()) {
       throw new AuthException("Not group owner");
     } else if (input == null || Strings.isNullOrEmpty(input.name)) {
       throw new BadRequestException("name is required");
@@ -65,25 +84,58 @@ public class PutName implements RestModifyView<GroupResource, Input> {
       throw new BadRequestException("name is required");
     }
 
-    if (internalGroup.getName().equals(newName)) {
+    if (rsrc.toAccountGroup().getName().equals(newName)) {
       return newName;
     }
 
-    renameGroup(internalGroup, newName);
-    return newName;
+    return renameGroup(rsrc.toAccountGroup(), newName).group.getName();
   }
 
-  private void renameGroup(GroupDescription.Internal group, String newName)
-      throws ResourceConflictException, ResourceNotFoundException, OrmException, IOException {
-    AccountGroup.UUID groupUuid = group.getGroupUUID();
+  private GroupDetail renameGroup(AccountGroup group, String newName)
+      throws ResourceConflictException, OrmException, NoSuchGroupException, IOException {
+    AccountGroup.Id groupId = group.getId();
+    AccountGroup.NameKey old = group.getNameKey();
+    AccountGroup.NameKey key = new AccountGroup.NameKey(newName);
+
     try {
-      groupsUpdateProvider
-          .get()
-          .renameGroup(db.get(), groupUuid, new AccountGroup.NameKey(newName));
-    } catch (NoSuchGroupException e) {
-      throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
-    } catch (NameAlreadyUsedException e) {
-      throw new ResourceConflictException("group with name " + newName + " already exists");
+      AccountGroupName id = new AccountGroupName(key, groupId);
+      db.get().accountGroupNames().insert(Collections.singleton(id));
+    } catch (OrmException e) {
+      AccountGroupName other = db.get().accountGroupNames().get(key);
+      if (other != null) {
+        // If we are using this identity, don't report the exception.
+        //
+        if (other.getId().equals(groupId)) {
+          return groupDetailFactory.create(groupId).call();
+        }
+
+        // Otherwise, someone else has this identity.
+        //
+        throw new ResourceConflictException("group with name " + newName + "already exists");
+      }
+      throw e;
     }
+
+    group.setNameKey(key);
+    db.get().accountGroups().update(Collections.singleton(group));
+
+    AccountGroupName priorName = db.get().accountGroupNames().get(old);
+    if (priorName != null) {
+      db.get().accountGroupNames().delete(Collections.singleton(priorName));
+    }
+
+    groupCache.evict(group);
+    groupCache.evictAfterRename(old, key);
+    @SuppressWarnings("unused")
+    Future<?> possiblyIgnoredError =
+        renameGroupOpFactory
+            .create(
+                currentUser.get().newCommitterIdent(new Date(), TimeZone.getDefault()),
+                group.getGroupUUID(),
+                old.get(),
+                newName)
+            .start(0, TimeUnit.MILLISECONDS);
+
+    return groupDetailFactory.create(groupId).call();
   }
 }

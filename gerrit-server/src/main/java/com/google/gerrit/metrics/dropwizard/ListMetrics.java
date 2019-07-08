@@ -19,9 +19,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.ConfigResource;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +28,6 @@ import java.util.TreeMap;
 import org.kohsuke.args4j.Option;
 
 class ListMetrics implements RestReadView<ConfigResource> {
-  private final PermissionBackend permissionBackend;
   private final CurrentUser user;
   private final DropWizardMetricMaker metrics;
 
@@ -46,17 +42,16 @@ class ListMetrics implements RestReadView<ConfigResource> {
   List<String> query = new ArrayList<>();
 
   @Inject
-  ListMetrics(
-      PermissionBackend permissionBackend, CurrentUser user, DropWizardMetricMaker metrics) {
-    this.permissionBackend = permissionBackend;
+  ListMetrics(CurrentUser user, DropWizardMetricMaker metrics) {
     this.user = user;
     this.metrics = metrics;
   }
 
   @Override
-  public Map<String, MetricJson> apply(ConfigResource resource)
-      throws AuthException, PermissionBackendException {
-    permissionBackend.user(user).check(GlobalPermission.VIEW_CACHES);
+  public Map<String, MetricJson> apply(ConfigResource resource) throws AuthException {
+    if (!user.getCapabilities().canViewCaches()) {
+      throw new AuthException("restricted to viewCaches");
+    }
 
     SortedMap<String, MetricJson> out = new TreeMap<>();
     List<String> prefixes = new ArrayList<>(query.size());

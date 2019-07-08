@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.git.strategy.CommitMergeStatus;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.project.ChangeControl;
 import java.io.IOException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -83,7 +84,7 @@ public class CodeReviewCommit extends RevCommit {
     }
 
     @Override
-    public void markUninteresting(RevCommit c)
+    public void markUninteresting(final RevCommit c)
         throws MissingObjectException, IncorrectObjectTypeException, IOException {
       checkArgument(c instanceof CodeReviewCommit);
       super.markUninteresting(c);
@@ -109,7 +110,8 @@ public class CodeReviewCommit extends RevCommit {
    */
   private PatchSet.Id patchsetId;
 
-  private ChangeNotes notes;
+  /** Change control for the change owner. */
+  private ChangeControl control;
 
   /**
    * The result status for this commit.
@@ -118,12 +120,12 @@ public class CodeReviewCommit extends RevCommit {
    */
   private CommitMergeStatus statusCode;
 
-  public CodeReviewCommit(AnyObjectId id) {
+  public CodeReviewCommit(final AnyObjectId id) {
     super(id);
   }
 
   public ChangeNotes notes() {
-    return notes;
+    return getControl().getNotes();
   }
 
   public CommitMergeStatus getStatusCode() {
@@ -142,21 +144,21 @@ public class CodeReviewCommit extends RevCommit {
     this.patchsetId = patchsetId;
   }
 
-  public void copyFrom(CodeReviewCommit src) {
-    notes = src.notes;
+  public void copyFrom(final CodeReviewCommit src) {
+    control = src.control;
     patchsetId = src.patchsetId;
     statusCode = src.statusCode;
   }
 
   public Change change() {
-    return getNotes().getChange();
+    return getControl().getChange();
   }
 
-  public ChangeNotes getNotes() {
-    return notes;
+  public ChangeControl getControl() {
+    return control;
   }
 
-  public void setNotes(ChangeNotes notes) {
-    this.notes = notes;
+  public void setControl(ChangeControl control) {
+    this.control = control;
   }
 }

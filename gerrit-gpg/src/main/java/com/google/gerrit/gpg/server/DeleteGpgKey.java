@@ -15,20 +15,18 @@
 package com.google.gerrit.gpg.server;
 
 import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GPGKEY;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_GPGKEY;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.io.BaseEncoding;
-import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.server.DeleteGpgKey.Input;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
-import com.google.gerrit.server.mail.send.DeleteKeySender;
+import com.google.gerrit.server.account.ExternalId;
+import com.google.gerrit.server.account.ExternalIdsUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -39,29 +37,25 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
-  private static final Logger log = LoggerFactory.getLogger(DeleteGpgKey.class);
-
   public static class Input {}
 
   private final Provider<PersonIdent> serverIdent;
+  private final Provider<ReviewDb> db;
   private final Provider<PublicKeyStore> storeProvider;
   private final ExternalIdsUpdate.User externalIdsUpdateFactory;
-  private final DeleteKeySender.Factory deleteKeySenderFactory;
 
   @Inject
   DeleteGpgKey(
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
+      Provider<ReviewDb> db,
       Provider<PublicKeyStore> storeProvider,
-      ExternalIdsUpdate.User externalIdsUpdateFactory,
-      DeleteKeySender.Factory deleteKeySenderFactory) {
+      ExternalIdsUpdate.User externalIdsUpdateFactory) {
     this.serverIdent = serverIdent;
+    this.db = db;
     this.storeProvider = storeProvider;
     this.externalIdsUpdateFactory = externalIdsUpdateFactory;
-    this.deleteKeySenderFactory = deleteKeySenderFactory;
   }
 
   @Override
@@ -72,6 +66,7 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
     externalIdsUpdateFactory
         .create()
         .delete(
+            db.get(),
             rsrc.getUser().getAccountId(),
             ExternalId.Key.create(
                 SCHEME_GPGKEY, BaseEncoding.base16().encode(key.getFingerprint())));
@@ -89,16 +84,6 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
       switch (saveResult) {
         case NO_CHANGE:
         case FAST_FORWARD:
-          try {
-            deleteKeySenderFactory
-                .create(rsrc.getUser(), ImmutableList.of(PublicKeyStore.keyToString(key)))
-                .send();
-          } catch (EmailException e) {
-            log.error(
-                "Cannot send GPG key deletion message to {}",
-                rsrc.getUser().getAccount().getPreferredEmail(),
-                e);
-          }
           break;
         case FORCED:
         case IO_FAILURE:
@@ -108,8 +93,6 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
         case REJECTED:
         case REJECTED_CURRENT_BRANCH:
         case RENAMED:
-        case REJECTED_MISSING_OBJECT:
-        case REJECTED_OTHER_REASON:
         default:
           throw new ResourceConflictException("Failed to delete public key: " + saveResult);
       }

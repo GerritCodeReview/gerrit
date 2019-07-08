@@ -14,10 +14,7 @@
 
 package com.google.gerrit.server.git.strategy;
 
-import static java.util.stream.Collectors.toSet;
-
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Streams;
+import com.google.common.collect.FluentIterable;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -40,7 +37,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevObject;
-import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,13 +59,10 @@ public class SubmitDryRun {
     }
   }
 
-  public static Set<ObjectId> getAlreadyAccepted(Repository repo) throws IOException {
-    return Streams.concat(
-            repo.getRefDatabase().getRefs(Constants.R_HEADS).values().stream(),
-            repo.getRefDatabase().getRefs(Constants.R_TAGS).values().stream())
-        .map(Ref::getObjectId)
-        .filter(o -> o != null)
-        .collect(toSet());
+  public static Iterable<ObjectId> getAlreadyAccepted(Repository repo) throws IOException {
+    return FluentIterable.from(repo.getRefDatabase().getRefs(Constants.R_HEADS).values())
+        .append(repo.getRefDatabase().getRefs(Constants.R_TAGS).values())
+        .transform(Ref::getObjectId);
   }
 
   public static Set<RevCommit> getAlreadyAccepted(Repository repo, RevWalk rw) throws IOException {
@@ -82,9 +75,6 @@ public class SubmitDryRun {
       throws IOException {
     for (ObjectId id : ids) {
       RevObject obj = rw.parseAny(id);
-      if (obj instanceof RevTag) {
-        obj = rw.peel(obj);
-      }
       if (obj instanceof RevCommit) {
         out.add((RevCommit) obj);
       }
@@ -118,7 +108,7 @@ public class SubmitDryRun {
             repo,
             rw,
             mergeUtilFactory.create(getProject(destBranch)),
-            new MergeSorter(rw, alreadyAccepted, canMerge, ImmutableSet.of(toMergeCommit)));
+            new MergeSorter(rw, alreadyAccepted, canMerge));
 
     switch (submitType) {
       case CHERRY_PICK:
@@ -130,9 +120,9 @@ public class SubmitDryRun {
       case MERGE_IF_NECESSARY:
         return MergeIfNecessary.dryRun(args, tipCommit, toMergeCommit);
       case REBASE_IF_NECESSARY:
-        return RebaseIfNecessary.dryRun(args, repo, tipCommit, toMergeCommit);
+        return RebaseIfNecessary.dryRun(args, tipCommit, toMergeCommit);
       case REBASE_ALWAYS:
-        return RebaseAlways.dryRun(args, repo, tipCommit, toMergeCommit);
+        return RebaseAlways.dryRun(args, tipCommit, toMergeCommit);
       default:
         String errorMsg = "No submit strategy for: " + submitType;
         log.error(errorMsg);

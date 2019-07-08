@@ -30,10 +30,6 @@ def define_bower_components():
         seed = True,
     )
     bower_component(
-        name = "font-roboto",
-        license = "//lib:LICENSE-polymer",
-    )
-    bower_component(
         name = "iron-a11y-announcer",
         license = "//lib:LICENSE-polymer",
         deps = [":polymer"],
@@ -49,6 +45,7 @@ def define_bower_components():
         deps = [
             ":iron-behaviors",
             ":iron-flex-layout",
+            ":iron-form-element-behavior",
             ":iron-validatable-behavior",
             ":polymer",
         ],
@@ -63,18 +60,10 @@ def define_bower_components():
         ],
     )
     bower_component(
-        name = "iron-checked-element-behavior",
-        license = "//lib:LICENSE-polymer",
-        deps = [
-            ":iron-form-element-behavior",
-            ":iron-validatable-behavior",
-            ":polymer",
-        ],
-    )
-    bower_component(
         name = "iron-dropdown",
         license = "//lib:LICENSE-polymer",
         deps = [
+            ":iron-a11y-keys-behavior",
             ":iron-behaviors",
             ":iron-overlay-behavior",
             ":iron-resizable-behavior",
@@ -99,25 +88,6 @@ def define_bower_components():
         deps = [":polymer"],
     )
     bower_component(
-        name = "iron-icon",
-        license = "//lib:LICENSE-polymer",
-        deps = [
-            ":iron-flex-layout",
-            ":iron-meta",
-            ":polymer",
-        ],
-        seed = True,
-    )
-    bower_component(
-        name = "iron-iconset-svg",
-        license = "//lib:LICENSE-polymer",
-        deps = [
-            ":iron-meta",
-            ":polymer",
-        ],
-        seed = True,
-    )
-    bower_component(
         name = "iron-input",
         license = "//lib:LICENSE-polymer",
         deps = [
@@ -126,16 +96,6 @@ def define_bower_components():
             ":polymer",
         ],
         seed = True,
-    )
-    bower_component(
-        name = "iron-menu-behavior",
-        license = "//lib:LICENSE-polymer",
-        deps = [
-            ":iron-a11y-keys-behavior",
-            ":iron-flex-layout",
-            ":iron-selector",
-            ":polymer",
-        ],
     )
     bower_component(
         name = "iron-meta",
@@ -205,98 +165,6 @@ def define_bower_components():
     bower_component(
         name = "page",
         license = "//lib:LICENSE-page.js",
-        seed = True,
-    )
-    bower_component(
-        name = "paper-behaviors",
-        license = "//lib:LICENSE-polymer",
-        deps = [
-            ":iron-behaviors",
-            ":iron-checked-element-behavior",
-            ":paper-ripple",
-            ":polymer",
-        ],
-    )
-    bower_component(
-        name = "paper-button",
-        license = "//lib:LICENSE-polymer",
-        deps = [
-            ":iron-flex-layout",
-            ":paper-behaviors",
-            ":paper-material",
-            ":paper-ripple",
-            ":polymer",
-        ],
-        seed = True,
-    )
-    bower_component(
-        name = "paper-input",
-        license = "//lib:LICENSE-polymer",
-        deps = [
-            ":iron-a11y-keys-behavior",
-            ":iron-autogrow-textarea",
-            ":iron-behaviors",
-            ":iron-form-element-behavior",
-            ":iron-input",
-            ":paper-styles",
-            ":polymer",
-        ],
-        seed = True,
-    )
-    bower_component(
-        name = "paper-item",
-        license = "//lib:LICENSE-polymer",
-        deps = [
-            ":iron-behaviors",
-            ":iron-flex-layout",
-            ":paper-styles",
-            ":polymer",
-        ],
-        seed = True,
-    )
-    bower_component(
-        name = "paper-listbox",
-        license = "//lib:LICENSE-polymer",
-        deps = [
-            ":iron-behaviors",
-            ":iron-menu-behavior",
-            ":paper-styles",
-            ":polymer",
-        ],
-        seed = True,
-    )
-    bower_component(
-        name = "paper-material",
-        license = "//lib:LICENSE-polymer",
-        deps = [
-            ":paper-styles",
-            ":polymer",
-        ],
-    )
-    bower_component(
-        name = "paper-ripple",
-        license = "//lib:LICENSE-polymer",
-        deps = [
-            ":iron-a11y-keys-behavior",
-            ":polymer",
-        ],
-    )
-    bower_component(
-        name = "paper-styles",
-        license = "//lib:LICENSE-polymer",
-        deps = [
-            ":font-roboto",
-            ":iron-flex-layout",
-            ":polymer",
-        ],
-    )
-    bower_component(
-        name = "polymer-resin",
-        license = "//lib:LICENSE-polymer",
-        deps = [
-            ":polymer",
-            ":webcomponentsjs",
-        ],
         seed = True,
     )
     bower_component(

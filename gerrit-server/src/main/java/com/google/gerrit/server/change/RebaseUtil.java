@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -76,14 +77,14 @@ public class RebaseUtil {
 
   @AutoValue
   abstract static class Base {
-    private static Base create(ChangeNotes notes, PatchSet ps) {
-      if (notes == null) {
+    private static Base create(ChangeControl ctl, PatchSet ps) {
+      if (ctl == null) {
         return null;
       }
-      return new AutoValue_RebaseUtil_Base(notes, ps);
+      return new AutoValue_RebaseUtil_Base(ctl, ps);
     }
 
-    abstract ChangeNotes notes();
+    abstract ChangeControl control();
 
     abstract PatchSet patchSet();
   }
@@ -95,20 +96,20 @@ public class RebaseUtil {
     PatchSet.Id basePatchSetId = PatchSet.Id.fromRef(base);
     if (basePatchSetId != null) {
       Change.Id baseChangeId = basePatchSetId.getParentKey();
-      ChangeNotes baseNotes = notesFor(rsrc, baseChangeId);
-      if (baseNotes != null) {
+      ChangeControl baseCtl = controlFor(rsrc, baseChangeId);
+      if (baseCtl != null) {
         return Base.create(
-            notesFor(rsrc, basePatchSetId.getParentKey()),
-            psUtil.get(db, baseNotes, basePatchSetId));
+            controlFor(rsrc, basePatchSetId.getParentKey()),
+            psUtil.get(db, baseCtl.getNotes(), basePatchSetId));
       }
     }
 
     // Try parsing base as a change number (assume current patch set).
     Integer baseChangeId = Ints.tryParse(base);
     if (baseChangeId != null) {
-      ChangeNotes baseNotes = notesFor(rsrc, new Change.Id(baseChangeId));
-      if (baseNotes != null) {
-        return Base.create(baseNotes, psUtil.current(db, baseNotes));
+      ChangeControl baseCtl = controlFor(rsrc, new Change.Id(baseChangeId));
+      if (baseCtl != null) {
+        return Base.create(baseCtl, psUtil.current(db, baseCtl.getNotes()));
       }
     }
 
@@ -120,18 +121,19 @@ public class RebaseUtil {
           continue;
         }
         if (ret == null || ret.patchSet().getId().get() < ps.getId().get()) {
-          ret = Base.create(cd.notes(), ps);
+          ret = Base.create(rsrc.getControl().getProjectControl().controlFor(cd.notes()), ps);
         }
       }
     }
     return ret;
   }
 
-  private ChangeNotes notesFor(RevisionResource rsrc, Change.Id id) throws OrmException {
+  private ChangeControl controlFor(RevisionResource rsrc, Change.Id id) throws OrmException {
     if (rsrc.getChange().getId().equals(id)) {
-      return rsrc.getNotes();
+      return rsrc.getControl();
     }
-    return notesFactory.createChecked(dbProvider.get(), rsrc.getProject(), id);
+    ChangeNotes notes = notesFactory.createChecked(dbProvider.get(), rsrc.getProject(), id);
+    return rsrc.getControl().getProjectControl().controlFor(notes);
   }
 
   /**

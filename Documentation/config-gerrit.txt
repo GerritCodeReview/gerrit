@@ -16,14 +16,11 @@ Sample `etc/gerrit.config`:
   packedGitLimit = 200 m
 
 [cache]
-  directory = /var/cache/gerrit
+  directory = /var/cache/gerrit2
 ----
 
 [[accountPatchReviewDb]]
 === Section accountPatchReviewDb
-
-The AccountPatchReviewDb is a database used to store the user file reviewed
-flags. It co-exists with <<database,ReviewDb>> and link:note-db.html[NoteDb].
 
 [[accountPatchReviewDb.url]]accountPatchReviewDb.url::
 +
@@ -471,14 +468,8 @@ the currently active account.  This is disabled by default except when
 the "Switch Account" link is displayed next to "Sign Out".
 +
 When `auth.type` does not normally enable this URL administrators may
-set this to `login/`, allowing users to begin a new web session. This value
-is used as an href in PolyGerrit and the GWT UI, so absolute URLs like
-`https://someotherhost/login` work as well.
-+
-If a ${path} parameter is included, then PolyGerrit will substitute the
-currently viewed path in the link. Be aware that this path will include
-a leading slash, so a value like this might be appropriate: `/login${path}`.
-Note: in the GWT UI this substitution for ${path} is *always* `/`.
+set this to `login/` or `$canonicalWebUrl/login`, allowing users to
+begin a new web session.
 
 [[auth.cookiePath]]auth.cookiePath::
 +
@@ -631,23 +622,6 @@ enable registration of new email addresses.
 +
 By default, true.
 
-[[auth.autoUpdateAccountActiveStatus]]auth.autoUpdateAccountActiveStatus::
-+
-Whether to allow automatic synchronization of an account's inactive flag upon login.
-If set to true, upon login, if the authentication back-end reports the account as active,
-the account's inactive flag in the internal Gerrit database will be updated to be active.
-If the authentication back-end reports the account as inactive, the account's flag will be
-updated to be inactive and the login attempt will be blocked. Users enabling this feature
-should ensure that their authentication back-end is supported. Currently, only
-strict 'LDAP' authentication is supported.
-+
-In addition, if this parameter is not set, or false, the corresponding scheduled
-task to deactivate inactive Gerrit accounts will also be disabled. If this
-parameter is set to true, users should also consider configuring the
-link:#accountDeactivation[accountDeactivation] section appropriately.
-+
-By default, false.
-
 [[cache]]
 === Section cache
 
@@ -767,12 +741,25 @@ If 0, disk storage for the cache is disabled.
 cache `"accounts"`::
 +
 Cache entries contain important details of an active user, including
-their display name, preferences, and known email addresses. Entry
-information is obtained from the `accounts` database table.
+their display name, preferences, known email addresses, and group
+memberships.  Entry information is obtained from the following
+database tables:
++
+* `accounts`
++
+* `account_group_members`
++
+* `account_external_ids`
 
 +
 If direct updates are made to any of these database tables, this
 cache should be flushed.
+
+cache `"accounts_byemail"`::
++
+Caches account identities keyed by email address, which is scanned
+from the `account_external_ids` database table.  If updates are
+made to this table, this cache should be flushed.
 
 cache `"adv_bases"`::
 +
@@ -844,21 +831,16 @@ cache `"groups"`::
 Caches the basic group information from the `account_groups` table,
 including the group owner, name, and description.
 +
-External group membership obtained from LDAP is cached under
-`"ldap_groups"`.
+Gerrit group membership obtained from the `account_group_members`
+table is cached under the `"accounts"` cache, above.  External group
+membership obtained from LDAP is cached under `"ldap_groups"`.
 
-cache `"groups_bymember"`::
+cache `"groups_byinclude"`::
 +
-Caches the groups which contain a specific member (account). If direct
-updates are made to the `account_group_members` table, this cache should
-be flushed.
-
-cache `"groups_bysubgroups"`::
-+
-Caches the parent groups of a subgroup.  If direct updates are made
+Caches group inclusions in other groups.  If direct updates are made
 to the `account_group_includes` table, this cache should be flushed.
 
-cache `"groups_subgroups"`::
+cache `"groups_members"`::
 +
 Caches subgroups.  If direct updates are made to the
 `account_group_includes` table, this cache should be flushed.
@@ -1029,10 +1011,10 @@ Default is the number of CPUs.
 [[capability.administrateServer]]capability.administrateServer::
 +
 Names of groups of users that are allowed to exercise the
-`administrateServer` capability, in addition to those listed in
+administrateServer capability, in addition to those listed in
 All-Projects. Configuring this option can be a useful fail-safe
 to recover a server in the event an administrator removed all
-groups from the `administrateServer` capability, or to ensure that
+groups from the administrateServer capability, or to ensure that
 specific groups always have administration capabilities.
 +
 ----
@@ -1046,16 +1028,7 @@ name. If a group cannot be found for the configured name a warning
 is logged and the server will continue normal startup.
 +
 If not specified (default), only the groups listed by All-Projects
-may use the `administrateServer` capability.
-
-[[capability.makeFirstUserAdmin]]capability.makeFirstUserAdmin::
-+
-Whether the first user that logs in to the Gerrit server should
-automatically be added to the administrator group and hence get the
-`administrateServer` capability assigned. This is useful to bootstrap
-the authentication database.
-+
-Default is true.
+may use the administrateServer capability.
 
 
 [[change]]
@@ -1089,7 +1062,7 @@ requests per second and requires ~10% CPU.
 +
 If 0 the update polling is disabled.
 +
-Default is 5 minutes.
+Default is 30 seconds.
 
 [[change.allowBlame]]change.allowBlame::
 +
@@ -1099,14 +1072,10 @@ Default is true.
 
 [[change.allowDrafts]]change.allowDrafts::
 +
-Legacy support for drafts workflow. If set to true, pushing a new change
-with draft option will create a private change. Pushing with draft option
-to an existing change will create change edit.
+Allow drafts workflow. If set to false, drafts cannot be created,
+deleted or published.
 +
-Enabling this option allows to push to the `refs/drafts/branch`. When
-disabled any push to `refs/drafts/branch` will be rejected.
-+
-Default is false.
+Default is true.
 
 [[change.cacheAutomerge]]change.cacheAutomerge::
 +
@@ -1204,30 +1173,6 @@ keyboard shortcut is appended.
 +
 Default is "Reply and score". In the user interface it becomes "Reply
 and score (Shortcut: a)".
-
-[[change.robotCommentSizeLimit]]change.robotCommentSizeLimit::
-+
-Maximum allowed size of a robot comment that will be accepted. Robot comments
-which exceed the indicated size will be rejected on addition. The specified
-value is interpreted as the maximum size in bytes of the JSON representation of
-the robot comment. Common unit suffixes of 'k', 'm', or 'g' are supported.
-Zero or negative values allow robot comments of unlimited size.
-+
-The default limit is 1024kB.
-
-[[change.strictLabels]]change.strictLabels::
-+
-Reject invalid label votes: invalid labels or invalid values. This
-configuration option is provided for backwards compaitbility and may
-be removed in future gerrit versions.
-+
-Default is false.
-
-[[change.disablePrivateChanges]]change.disablePrivateChanges::
-+
-If set to true, users are not allowed to create private changes.
-+
-The default is false.
 
 [[changeCleanup]]
 === Section changeCleanup
@@ -1609,20 +1554,15 @@ Default is 1 hour.
 [[database]]
 === Section database
 
-The database section configures ReviewDb, where Gerrit stores its metadata
-records about account groups and change reviews. Starting from 2.15, accounts
-are always stored in NoteDb and, optionally, changes too. See the
-link:note-db.html[NoteDb documentation] for more information.
-
-Note that user file reviewed flags are stored in a separate database. See the
-<<accountPatchReviewDb,accountPatchReviewDb>> section for more information.
+The database section configures where Gerrit stores its metadata
+records about user accounts and change reviews.
 
 ----
 [database]
   type = POSTGRESQL
   hostname = localhost
   database = reviewdb
-  username = gerrit
+  username = gerrit2
   password = s3kr3t
 ----
 
@@ -1811,7 +1751,7 @@ Common unit suffixes of 'k', 'm', or 'g' are supported.
 If `true` enable the automatic mixed mode
 (see link:http://www.h2database.com/html/features.html#auto_mixed_mode[Automatic Mixed Mode]).
 This enables concurrent access to the embedded H2 database from command line
-utils (e.g. MigrateToNoteDb).
+utils (e.g. RebuildNoteDb).
 +
 Default is `false`.
 
@@ -2194,19 +2134,6 @@ gerrit.ui is an enabled UI.
 Defaults to GWT (if GWT is enabled) or POLYGERRIT (if POLYGERRIT is
 enabled and GWT is disabled)
 
-[[gerrit.serverId]]gerrit.serverId::
-+
-Used by NoteDb to, amongst other things, identify author identities from
-per-server specific account IDs.
-+
-If this value is not set on startup it is automatically set to a random UUID.
-+
-[NOTE]
-If this value doesn't match the serverId used when creating an already existing
-NoteDb, Gerrit will not be able to use that instance of NoteDb. The serverId
-used to create the NoteDb will show in the resulting exception message in case
-the value differs.
-
 [[gitweb]]
 === Section gitweb
 
@@ -2412,14 +2339,6 @@ Pattern to print user in Tomcat AccessLog.
 +
 Default value is true.
 
-[[http.addUserAsResponseHeader]]http.addUserAsResponseHeader::
-+
-If true, the header 'User' will be added to the list of response headers so it
-can be accessed from a reverse proxy for logging purposes.
-
-+
-Default value is false.
-
 [[httpd]]
 === Section httpd
 
@@ -2603,12 +2522,6 @@ By default, 5, suitable for most lower-volume traffic sites.
 Maximum number of threads to permit in the worker thread pool.
 +
 By default 25, suitable for most lower-volume traffic sites.
-+
-[NOTE]
-Unless SSH daemon is disabled, see <<sshd.listenAddress, sshd.listenAddress>>,
-the max number of concurrent Git requests over HTTP and SSH together is
-defined by the <<sshd.threads, sshd.threads>> and
-<<sshd.batchThreads, sshd.batchThreads>>.
 
 [[httpd.maxQueued]]httpd.maxQueued::
 +
@@ -2806,19 +2719,6 @@ are the same.
 +
 Defaults to 1024.
 
-[[index.reindexAfterRefUpdate]]index.reindexAfterRefUpdate::
-+
-Whether to reindex all affected open changes after a ref is updated. This
-includes reindexing all open changes to recompute the "mergeable" bit every time
-the destination branch moves, as well as reindexing changes to take into account
-new project configuration (e.g. label definitions).
-+
-Leaving this enabled may result in fresher results, but may cause performance
-problems if there are lots of open changes on a project whose branches advance
-frequently.
-+
-Defaults to true.
-
 [[index.autoReindexIfStale]]index.autoReindexIfStale::
 +
 Whether to automatically check if a document became stale in the index
@@ -2826,7 +2726,7 @@ immediately after indexing it. If false, there is a race condition during two
 simultaneous writes that may cause one of the writes to not be reflected in the
 index. The check to avoid this does consume some resources.
 +
-Defaults to false.
+Defaults to true.
 
 ==== Lucene configuration
 
@@ -2895,7 +2795,7 @@ WARNING: Support for Elasticsearch is still experimental and is not recommended
 for production use. For compatibility information, please refer to the
 link:https://www.gerritcodereview.com/elasticsearch.html[project homepage].
 
-When using Elasticsearch version 5.6, the open and closed changes are
+When using Elasticsearch versions 2.4 and 5.6, the open and closed changes are
 indexed in a single index, separated into types `open_changes` and `closed_changes`
 respectively. When using version 6.2 or later, the open and closed changes are
 merged into the default `_doc` type. The latter is also used for the accounts and
@@ -2924,21 +2824,13 @@ Note that the site initialization program only allows to configure a single
 server. To configure multiple servers the `gerrit.config` file must be edited
 manually.
 
-[[elasticsearch.numberOfShards]]elasticsearch.numberOfShards::
+[[elasticsearch.maxRetryTimeout]]elasticsearch.maxRetryTimeout::
 +
-Sets the number of shards to use per index. Refer to the
-link:https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-concepts.html#getting-started-shards-and-replicas[
-Elasticsearch documentation] for details.
+Sets the maximum timeout to honor in case of multiple retries of the same request.
 +
-Defaults to 5 for Elasticsearch versions 5 and 6, and to 1 starting with Elasticsearch 7.
-
-[[elasticsearch.numberOfReplicas]]elasticsearch.numberOfReplicas::
+The value is in the usual time-unit format like `1 m`, `5 m`.
 +
-Sets the number of replicas to use per index. Refer to the
-link:https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-concepts.html#getting-started-shards-and-replicas[
-Elasticsearch documentation] for details.
-+
-Defaults to 1.
+Defaults to `30000 ms`.
 
 ==== Elasticsearch Security
 
@@ -2947,12 +2839,11 @@ Note that the same username and password are used for all servers.
 
 For further information about Elasticsearch security, please refer to the documentation:
 
+* link:https://www.elastic.co/guide/en/elasticsearch/plugins/2.4/security.html[Elasticsearch 2.4]
 * link:https://www.elastic.co/guide/en/x-pack/5.6/security-getting-started.html[Elasticsearch 5.6]
 * link:https://www.elastic.co/guide/en/x-pack/6.2/security-getting-started.html[Elasticsearch 6.2]
 * link:https://www.elastic.co/guide/en/elastic-stack-overview/6.3/security-getting-started.html[Elasticsearch 6.3]
 * link:https://www.elastic.co/guide/en/elastic-stack-overview/6.4/security-getting-started.html[Elasticsearch 6.4]
-* link:https://www.elastic.co/guide/en/elastic-stack-overview/6.5/security-getting-started.html[Elasticsearch 6.5]
-* link:https://www.elastic.co/guide/en/elastic-stack-overview/6.6/security-getting-started.html[Elasticsearch 6.6]
 
 [[elasticsearch.username]]elasticsearch.username::
 +
@@ -3379,19 +3270,6 @@ if `jsonLogging` is enabled.
 +
 Defaults to true.
 
-[[log.rotate]]log.rotate::
-+
-If set to true, log files are rotated daily at midnight (GMT).
-+
-Defaults to true.
-
-[[log.compress]]log.compress::
-+
-If set to true, log files are compressed at server startup and then daily at 11pm
-(in the server's local time zone).
-+
-Defaults to true.
-
 [[mimetype]]
 === Section mimetype
 
@@ -3424,41 +3302,8 @@ Common examples:
 === Section noteDb
 
 NoteDb is the next generation of Gerrit storage backend, currently powering
-`googlesource.com`. For more information, including how to migrate your data,
-see the link:note-db.html[documentation].
-
-[[notedb.accounts.sequenceBatchSize]]notedb.accounts.sequenceBatchSize::
-+
-The next available account sequence number is stored as UTF-8 text in a
-blob pointed to by the `refs/sequences/accounts` ref in the `All-Users`
-repository. Multiple processes share the same sequence by incrementing
-the counter using normal git ref updates. To amortize the cost of these
-ref updates, processes increment the counter by a larger number and
-hand out numbers from that range in memory until they run out. This
-configuration parameter controls the size of the account ID batch that
-each process retrieves at once.
-+
-By default, 1.
-
-[[noteDb.retryMaxWait]]noteDb.retryMaxWait::
-+
-Maximum time to wait between attempts to retry update operations when one
-attempt fails due to contention (aka lock failure) on the underlying ref
-storage. Operations are retried with exponential backoff, plus some random
-jitter, until the interval reaches this limit. After that, retries continue to
-occur after a fixed timeout (plus jitter), up to
-link:#noteDb.retryTimeout[`noteDb.retryTimeout`].
-+
-Defaults to 5 seconds; unit suffixes are supported, and assumes milliseconds if
-not specified.
-
-[[noteDb.retryTimeout]]noteDb.retryTimeout::
-+
-Total timeout for retrying update operations when one attempt fails due to
-contention (aka lock failure) on the underlying ref storage.
-+
-Defaults to 20 seconds; unit suffixes are supported, and assumes milliseconds if
-not specified.
+`googlesource.com`. It is not (yet) recommended for general use, but if you want
+to learn more, see the link:dev-note-db.html[developer documentation].
 
 [[oauth]]
 === Section oauth
@@ -3594,9 +3439,10 @@ operations when multiple changes are impacted at once.
 [[receive.checkMagicRefs]]receive.checkMagicRefs::
 +
 If true, Gerrit will verify the destination repository has
-no references under the magic 'refs/for' branch namespace. Names under
-these locations confuse clients when trying to upload code reviews so
-Gerrit requires them to be empty.
+no references under the magic 'refs/drafts', 'refs/for', or
+'refs/publish' branch namespaces. Names under these locations
+confuse clients when trying to upload code reviews so Gerrit
+requires them to be empty.
 +
 If false Gerrit skips the sanity check and assumes administrators
 have ensured the repository does not contain any magic references.
@@ -3642,15 +3488,6 @@ This setting can be used to prevent users from uploading large
 number of changes for review by mistake.
 +
 Default is zero, no limit.
-
-[[receive.maxBatchCommits]]receive.maxBatchCommits::
-+
-The maximum number of commits that Gerrit allows to be pushed in a batch
-directly to a branch when link:user-upload.html#bypass_review[bypassing review].
-This limit can be bypassed if a user link:user-upload.html#skip_validation[skips
-validation].
-+
-Default is 10000.
 
 [[receive.maxObjectSizeLimit]]receive.maxObjectSizeLimit::
 +
@@ -3775,10 +3612,7 @@ are `MERGE_IF_NECESSARY`, `FAST_FORWARD_ONLY`, `REBASE_IF_NECESSARY`,
 +
 For more details see link:project-configuration.html#submit_type[Submit Types].
 +
-This submit type is only applied at project creation time if a submit type is
-omitted from the link:rest-api-projects.html#project-input[ProjectInput]. If the
-submit type is unset in the project config at runtime, it defaults to
-link:project-configuration.html#merge_if_necessary[`MERGE_IF_NECESSARY`].
+By default, `MERGE_IF_NECESSARY`.
 
 [[repository.name.ownerGroup]]repository.<name>.ownerGroup::
 +
@@ -4114,25 +3948,15 @@ Gerrit can parse back a user's reply.
 Defaults to an empty string which adds <<sendemail.from,sendemail.from>> as
 Reply-To if inbound email is enabled and the review's author otherwise.
 
-[[sendemail.allowTLD]]sendemail.allowTLD::
-+
-List of custom TLDs to allow sending emails to in addition to those specified
-in the link:http://data.iana.org/TLD/[IANA list].
-+
-Defaults to an empty list, meaning no additional TLDs are allowed.
-
 [[site]]
 === Section site
 
 [[site.allowOriginRegex]]site.allowOriginRegex::
 +
 List of regular expressions matching origins that should be permitted
-to use the full Gerrit REST API.  These should be trusted applications,
-as the sites may be able to use the user's credentials. Applies to
-all requests, including state changing methods (PUT, DELETE, POST).
-+
-Expressions should not require trailing slash. For example a valid
-pattern might be `https://build-status[.]example[.]com`.
+to use the Gerrit REST API to read content. These should be trusted
+applications as the sites may be able to use the user's credentials.
+Only applies to GET and HEAD requests.
 +
 By default, unset, denying all cross-origin requests.
 
@@ -4240,10 +4064,6 @@ If additional requests are received while all threads are busy they
 are queued and serviced in a first-come-first-served order.
 +
 By default, 2x the number of CPUs available to the JVM.
-+
-[NOTE]
-When SSH daemon is enabled then this setting also defines the max number of
-concurrent Git requests for interactive users over SSH and HTTP together.
 
 [[sshd.batchThreads]]sshd.batchThreads::
 +
@@ -4262,10 +4082,6 @@ than the total number of threads allocated in sshd.threads, then the
 value of sshd.threads is increased to accommodate the requested value.
 +
 By default is 1 on single core node, 2 otherwise.
-+
-[NOTE]
-When SSH daemon is enabled then this setting also defines the max number of
-concurrent Git requests for batch users over SSH and HTTP together.
 
 [[sshd.streamThreads]]sshd.streamThreads::
 +
@@ -4699,44 +4515,6 @@ on the server. One or more groups can be set.
 If no groups are added, any user will be allowed to execute
 'upload-pack' on the server.
 
-[[accountDeactivation]]
-=== Section accountDeactivation
-
-Configures the parameters for the scheduled task to sweep and deactivate Gerrit
-accounts according to their status reported by the auth backend. Currently only
-supported for LDAP backends.
-
-[[accountDeactivation.startTime]]accountDeactivation.startTime::
-+
-Start time to define the first execution of account deactivations.
-If the configured `'accountDeactivation.interval'` is shorter than `'accountDeactivation.startTime - now'`
-the start time will be preponed by the maximum integral multiple of
-`'accountDeactivation.interval'` so that the start time is still in the future.
-+
-----
-<day of week> <hours>:<minutes>
-or
-<hours>:<minutes>
-
-<day of week> : Mon, Tue, Wed, Thu, Fri, Sat, Sun
-<hours>       : 00-23
-<minutes>     : 0-59
-----
-
-[[accountDeactivation.interval]]accountDeactivation.interval::
-+
-Interval for periodic repetition of triggering account deactivation sweeps.
-The interval must be larger than zero. The following suffixes are supported
-to define the time unit for the interval:
-+
-* `s, sec, second, seconds`
-* `m, min, minute, minutes`
-* `h, hr, hour, hours`
-* `d, day, days`
-* `w, week, weeks` (`1 week` is treated as `7 days`)
-* `mon, month, months` (`1 month` is treated as `30 days`)
-* `y, year, years` (`1 year` is treated as `365 days`)
-
 [[urlAlias]]
 === Section urlAlias
 
@@ -4800,21 +4578,6 @@ By default this is `TRUE`.
 This allows to enable the superproject subscription mechanism.
 +
 By default this is true.
-
-[[submodule.maxCombinedCommitMessageSize]]submodule.maxCombinedCommitMessageSize::
-+
-This allows to limit the length of the commit message for a submodule.
-+
-By default this is 262144 (256 KiB).
-+
-Common unit suffixes of k, m, or g are supported.
-
-[[submodule.maxCommitMessages]]submodule.maxCommitMessages::
-+
-This allows to limit the number of commit messages that should be combined when creating
-a commit message for a submodule.
-+
-By default this is 1000.
 
 [[user]]
 === Section user
@@ -4892,10 +4655,6 @@ database may be set to control how Gerrit behaves.
 The contents of the `system_config` table are cached at startup
 by Gerrit.  If you modify any columns in this table, Gerrit needs
 to be restarted before it will use the new values.
-
-== Configuring the Polygerrit UI
-
-Please see link:dev-polygerrit.html[UI] on configuring the Polygerrit UI.
 
 === Configurable Parameters
 

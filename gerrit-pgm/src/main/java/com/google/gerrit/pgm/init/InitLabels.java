@@ -14,8 +14,6 @@
 
 package com.google.gerrit.pgm.init;
 
-import static com.google.gerrit.common.data.LabelFunction.MAX_WITH_BLOCK;
-
 import com.google.gerrit.pgm.init.api.AllProjectsConfig;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;
@@ -56,7 +54,7 @@ public class InitLabels implements InitStep {
   public void postRun() throws Exception {
     Config cfg = allProjectsConfig.load().getConfig();
     if (installVerified) {
-      cfg.setString(KEY_LABEL, LABEL_VERIFIED, KEY_FUNCTION, MAX_WITH_BLOCK.getFunctionName());
+      cfg.setString(KEY_LABEL, LABEL_VERIFIED, KEY_FUNCTION, "MaxWithBlock");
       cfg.setStringList(
           KEY_LABEL,
           LABEL_VERIFIED,

@@ -1052,56 +1052,6 @@ It's only used to show `'Needs All-Comments-Resolved'` in the UI to clearly
 indicate to the user that all the comments have to be resolved for the
 change to become submittable.
 
-=== Example 17: Make change submittable if it is a pure revert
-In this example we will use the `pure_revert` fact about a
-change. Our goal is to block the submission of any change that is not a
-pure revert. Basically, it can be achieved by the following rules:
-
-`rules.pl`
-[source,prolog]
-----
-submit_rule(submit(R)) :-
-    gerrit:pure_revert(1),
-    !,
-    gerrit:commit_author(A),
-    R = label('Is-Pure-Revert', ok(A)).
-
-submit_rule(submit(R)) :-
-    gerrit:pure_revert(U),
-    U /= 1,
-    R = label('Is-Pure-Revert', need(_)).
-----
-
-Suppose currently a change is submittable if it gets `+2` for `Code-Review`
-and `+1` for `Verified`. It can be extended to support the above rules as
-follows:
-
-`rules.pl`
-[source,prolog]
-----
-submit_rule(submit(CR, V, R)) :-
-    base(CR, V),
-    gerrit:pure_revert(1),
-    !,
-    gerrit:commit_author(A),
-    R = label('Is-Pure-Revert', ok(A)).
-
-submit_rule(submit(CR, V, R)) :-
-    base(CR, V),
-    gerrit:pure_revert(U),
-    U /= 1,
-    R = label('Is-Pure-Revert', need(_)).
-
-base(CR, V) :-
-    gerrit:max_with_block(-2, 2, 'Code-Review', CR),
-    gerrit:max_with_block(-1, 1, 'Verified', V).
-----
-
-Note that a new label as `Is-Pure-Revert` should not be configured.
-It's only used to show `'Needs Is-Pure-Revert'` in the UI to clearly
-indicate to the user that the change has to be a pure revert in order
-to become submittable.
-
 == Examples - Submit Type
 The following examples show how to implement own submit type rules.
 

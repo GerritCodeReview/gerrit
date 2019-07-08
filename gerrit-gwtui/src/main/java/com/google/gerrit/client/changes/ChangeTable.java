@@ -114,7 +114,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     table.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(ClickEvent event) {
+          public void onClick(final ClickEvent event) {
             final Cell cell = table.getCellForEvent(event);
             if (cell == null) {
               return;
@@ -133,17 +133,18 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   }
 
   @Override
-  protected Object getRowItemKey(ChangeInfo item) {
+  protected Object getRowItemKey(final ChangeInfo item) {
     return item.legacyId();
   }
 
   @Override
-  protected void onOpenRow(int row) {
+  protected void onOpenRow(final int row) {
     final ChangeInfo c = getRowItem(row);
-    Gerrit.display(PageLinks.toChange(c.projectNameKey(), c.legacyId()));
+    final Change.Id id = c.legacyId();
+    Gerrit.display(PageLinks.toChange(id));
   }
 
-  private void insertNoneRow(int row) {
+  private void insertNoneRow(final int row) {
     insertRow(row);
     table.setText(row, 0, Util.C.changeTableNone());
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
@@ -151,13 +152,13 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     fmt.setStyleName(row, 0, Gerrit.RESOURCES.css().emptySection());
   }
 
-  private void insertChangeRow(int row) {
+  private void insertChangeRow(final int row) {
     insertRow(row);
     applyDataRowStyle(row);
   }
 
   @Override
-  protected void applyDataRowStyle(int row) {
+  protected void applyDataRowStyle(final int row) {
     super.applyDataRowStyle(row);
     final CellFormatter fmt = table.getCellFormatter();
     fmt.addStyleName(row, C_STAR, Gerrit.RESOURCES.css().iconCell());
@@ -224,7 +225,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     }
   }
 
-  private void populateChangeRow(int row, ChangeInfo c, boolean highlightUnreviewed) {
+  private void populateChangeRow(final int row, final ChangeInfo c, boolean highlightUnreviewed) {
     CellFormatter fmt = table.getCellFormatter();
     if (Gerrit.isSignedIn()) {
       table.setWidget(row, C_STAR, StarredChanges.createIcon(c.legacyId(), c.starred()));
@@ -236,22 +237,9 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
 
     Change.Status status = c.status();
     if (status != Change.Status.NEW) {
-      table.setText(
-          row,
-          C_STATUS,
-          Util.toLongString(status) + (c.isPrivate() ? (" " + Util.C.isPrivate()) : ""));
-    } else if (c.isWorkInProgress()) {
-      table.setText(
-          row,
-          C_STATUS,
-          Util.C.workInProgress() + (c.isPrivate() ? (" " + Util.C.isPrivate()) : ""));
+      table.setText(row, C_STATUS, Util.toLongString(status));
     } else if (!c.mergeable()) {
-      table.setText(
-          row,
-          C_STATUS,
-          Util.C.changeTableNotMergeable() + (c.isPrivate() ? (" " + Util.C.isPrivate()) : ""));
-    } else if (c.isPrivate()) {
-      table.setText(row, C_STATUS, Util.C.isPrivate());
+      table.setText(row, C_STATUS, Util.C.changeTableNotMergeable());
     }
 
     if (c.owner() != null) {
@@ -420,7 +408,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     return hex.length() == 1 ? "0" + hex : hex;
   }
 
-  public void addSection(Section s) {
+  public void addSection(final Section s) {
     assert s.parent == null;
 
     s.parent = this;
@@ -438,8 +426,8 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     sections.add(s);
   }
 
-  private int insertRow(int beforeRow) {
-    for (Section s : sections) {
+  private int insertRow(final int beforeRow) {
+    for (final Section s : sections) {
       if (beforeRow <= s.titleRow) {
         s.titleRow++;
       }
@@ -450,8 +438,8 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     return table.insertRow(beforeRow);
   }
 
-  private void removeRow(int row) {
-    for (Section s : sections) {
+  private void removeRow(final int row) {
+    for (final Section s : sections) {
       if (row < s.titleRow) {
         s.titleRow--;
       }
@@ -468,7 +456,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     }
 
     @Override
-    public void onKeyPress(KeyPressEvent event) {
+    public void onKeyPress(final KeyPressEvent event) {
       int row = getCurrentRow();
       ChangeInfo c = getRowItem(row);
       if (c != null && Gerrit.isSignedIn()) {
@@ -478,8 +466,8 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   }
 
   private final class TableChangeLink extends ChangeLink {
-    private TableChangeLink(String text, ChangeInfo c) {
-      super(c.projectNameKey(), c.legacyId(), text);
+    private TableChangeLink(final String text, final ChangeInfo c) {
+      super(text, c.legacyId());
     }
 
     @Override
@@ -502,7 +490,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       this.highlightUnreviewed = value;
     }
 
-    public void setTitleText(String text) {
+    public void setTitleText(final String text) {
       titleText = text;
       titleWidget = null;
       if (titleRow >= 0) {
@@ -510,7 +498,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       }
     }
 
-    public void setTitleWidget(Widget title) {
+    public void setTitleWidget(final Widget title) {
       titleWidget = title;
       titleText = null;
       if (titleRow >= 0) {

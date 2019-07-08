@@ -16,19 +16,22 @@ package com.google.gerrit.server.index.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_QUERY_LIMIT;
-import static com.google.gerrit.index.query.Predicate.and;
-import static com.google.gerrit.index.query.Predicate.or;
+import static com.google.gerrit.reviewdb.client.Change.Status.ABANDONED;
+import static com.google.gerrit.reviewdb.client.Change.Status.DRAFT;
 import static com.google.gerrit.reviewdb.client.Change.Status.MERGED;
 import static com.google.gerrit.reviewdb.client.Change.Status.NEW;
 import static com.google.gerrit.server.index.change.IndexedChangeQuery.convertOptions;
+import static com.google.gerrit.server.query.Predicate.and;
+import static com.google.gerrit.server.query.Predicate.or;
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.index.IndexConfig;
-import com.google.gerrit.index.QueryOptions;
-import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.index.IndexConfig;
+import com.google.gerrit.server.index.QueryOptions;
+import com.google.gerrit.server.query.AndPredicate;
+import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.AndChangeSource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -55,7 +58,7 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
     indexes = new ChangeIndexCollection();
     indexes.setSearchIndex(index);
     queryBuilder = new FakeQueryBuilder(indexes);
-    rewrite = new ChangeIndexRewriter(indexes, IndexConfig.builder().maxTerms(3).build());
+    rewrite = new ChangeIndexRewriter(indexes, IndexConfig.create(0, 0, 3));
   }
 
   @Test
@@ -134,7 +137,7 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
 
   @Test
   public void duplicateCompoundNonIndexOnlyPredicates() throws Exception {
-    Predicate<ChangeData> in = parse("status:new bar:p file:a");
+    Predicate<ChangeData> in = parse("(status:new OR status:draft) bar:p file:a");
     Predicate<ChangeData> out = rewrite(in);
     assertThat(out.getClass()).isEqualTo(AndChangeSource.class);
     assertThat(out.getChildren())
@@ -175,16 +178,16 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
 
   @Test
   public void getPossibleStatus() throws Exception {
-    Set<Change.Status> all = EnumSet.allOf(Change.Status.class);
-    assertThat(status("file:a")).isEqualTo(all);
+    assertThat(status("file:a")).isEqualTo(EnumSet.allOf(Change.Status.class));
     assertThat(status("is:new")).containsExactly(NEW);
+    assertThat(status("-is:new")).containsExactly(DRAFT, MERGED, ABANDONED);
     assertThat(status("is:new OR is:merged")).containsExactly(NEW, MERGED);
-    assertThat(status("is:new OR is:x")).isEqualTo(all);
 
     assertThat(status("is:new is:merged")).isEmpty();
-    assertThat(status("(is:new) (is:merged)")).isEmpty();
-    assertThat(status("(is:new) (is:merged)")).isEmpty();
-    assertThat(status("is:new is:x")).containsExactly(NEW);
+    assertThat(status("(is:new is:draft) (is:merged)")).isEmpty();
+    assertThat(status("(is:new is:draft) (is:merged)")).isEmpty();
+
+    assertThat(status("(is:new is:draft) OR (is:merged)")).containsExactly(MERGED);
   }
 
   @Test
@@ -193,10 +196,9 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
     assertThat(rewrite(in)).isEqualTo(query(in));
 
     indexes.setSearchIndex(new FakeChangeIndex(FakeChangeIndex.V1));
-
-    exception.expect(QueryParseException.class);
-    exception.expectMessage("Unsupported index predicate: file:a");
-    rewrite(in);
+    Predicate<ChangeData> out = rewrite(in);
+    assertThat(out).isInstanceOf(AndPredicate.class);
+    assertThat(out.getChildren()).containsExactly(query(in.getChild(0)), in.getChild(1)).inOrder();
   }
 
   @Test

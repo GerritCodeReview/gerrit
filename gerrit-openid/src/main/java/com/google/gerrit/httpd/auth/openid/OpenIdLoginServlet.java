@@ -23,24 +23,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Handles the {@code /OpenID} URL for web based single-sign-on. */
+@SuppressWarnings("serial")
 @Singleton
 class OpenIdLoginServlet extends HttpServlet {
-  private static final long serialVersionUID = 1L;
-
   private final OpenIdServiceImpl impl;
 
   @Inject
-  OpenIdLoginServlet(OpenIdServiceImpl i) {
+  OpenIdLoginServlet(final OpenIdServiceImpl i) {
     impl = i;
   }
 
   @Override
-  public void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
+  public void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+      throws IOException {
     doPost(req, rsp);
   }
 
   @Override
-  public void doPost(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
+  public void doPost(final HttpServletRequest req, final HttpServletResponse rsp)
+      throws IOException {
     try {
       CacheHeaders.setNotCacheable(rsp);
       impl.doAuth(req, rsp);

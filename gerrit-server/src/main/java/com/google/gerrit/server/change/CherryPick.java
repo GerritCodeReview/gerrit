@@ -14,94 +14,90 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
-
+import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.IntegrationException;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
-import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gerrit.server.project.ContributorAgreementsChecker;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
+import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class CherryPick
-    extends RetryingRestModifyView<RevisionResource, CherryPickInput, ChangeInfo>
-    implements UiAction<RevisionResource> {
-  private final PermissionBackend permissionBackend;
-  private final Provider<CurrentUser> user;
+    implements RestModifyView<RevisionResource, CherryPickInput>, UiAction<RevisionResource> {
+  private final Provider<ReviewDb> dbProvider;
   private final CherryPickChange cherryPickChange;
   private final ChangeJson.Factory json;
-  private final ContributorAgreementsChecker contributorAgreements;
 
   @Inject
   CherryPick(
-      PermissionBackend permissionBackend,
-      Provider<CurrentUser> user,
-      RetryHelper retryHelper,
-      CherryPickChange cherryPickChange,
-      ChangeJson.Factory json,
-      ContributorAgreementsChecker contributorAgreements) {
-    super(retryHelper);
-    this.permissionBackend = permissionBackend;
-    this.user = user;
+      Provider<ReviewDb> dbProvider, CherryPickChange cherryPickChange, ChangeJson.Factory json) {
+    this.dbProvider = dbProvider;
     this.cherryPickChange = cherryPickChange;
     this.json = json;
-    this.contributorAgreements = contributorAgreements;
   }
 
   @Override
-  public ChangeInfo applyImpl(
-      BatchUpdate.Factory updateFactory, RevisionResource rsrc, CherryPickInput input)
-      throws OrmException, IOException, UpdateException, RestApiException,
-          PermissionBackendException, ConfigInvalidException, NoSuchProjectException {
-    input.parent = input.parent == null ? 1 : input.parent;
+  public ChangeInfo apply(RevisionResource revision, CherryPickInput input)
+      throws OrmException, IOException, UpdateException, RestApiException {
+    final ChangeControl control = revision.getControl();
+    int parent = input.parent == null ? 1 : input.parent;
+
     if (input.message == null || input.message.trim().isEmpty()) {
       throw new BadRequestException("message must be non-empty");
     } else if (input.destination == null || input.destination.trim().isEmpty()) {
       throw new BadRequestException("destination must be non-empty");
     }
 
-    String refName = RefNames.fullName(input.destination);
-    contributorAgreements.check(rsrc.getProject(), rsrc.getUser());
+    @SuppressWarnings("resource")
+    ReviewDb db = dbProvider.get();
+    if (!control.isVisible(db)) {
+      throw new AuthException("Cherry pick not permitted");
+    }
 
-    permissionBackend
-        .user(user)
-        .project(rsrc.getChange().getProject())
-        .ref(refName)
-        .check(RefPermission.CREATE_CHANGE);
+    ProjectControl projectControl = control.getProjectControl();
+    Capable capable = projectControl.canPushToAtLeastOneRef();
+    if (capable != Capable.OK) {
+      throw new AuthException(capable.getMessage());
+    }
+
+    String refName = RefNames.fullName(input.destination);
+    RefControl refControl = projectControl.controlForRef(refName);
+    if (!refControl.canUpload()) {
+      throw new AuthException(
+          "Not allowed to cherry pick "
+              + revision.getChange().getId().toString()
+              + " to "
+              + input.destination);
+    }
 
     try {
       Change.Id cherryPickedChangeId =
           cherryPickChange.cherryPick(
-              updateFactory,
-              rsrc.getChange(),
-              rsrc.getPatchSet(),
-              input,
-              new Branch.NameKey(rsrc.getProject(), refName));
-      return json.noOptions().format(rsrc.getProject(), cherryPickedChangeId);
+              revision.getChange(),
+              revision.getPatchSet(),
+              input.message,
+              refName,
+              refControl,
+              parent);
+      return json.noOptions().format(revision.getProject(), cherryPickedChangeId);
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());
     } catch (IntegrationException | NoSuchChangeException e) {
@@ -110,16 +106,10 @@ public class CherryPick
   }
 
   @Override
-  public UiAction.Description getDescription(RevisionResource rsrc) {
+  public UiAction.Description getDescription(RevisionResource resource) {
     return new UiAction.Description()
         .setLabel("Cherry Pick")
         .setTitle("Cherry pick change to a different branch")
-        .setVisible(
-            and(
-                rsrc.isCurrent(),
-                permissionBackend
-                    .user(user)
-                    .project(rsrc.getProject())
-                    .testCond(ProjectPermission.CREATE_CHANGE)));
+        .setVisible(resource.getControl().getProjectControl().canUpload() && resource.isCurrent());
   }
 }

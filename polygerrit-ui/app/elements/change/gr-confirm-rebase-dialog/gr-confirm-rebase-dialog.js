@@ -30,10 +30,6 @@
      */
 
     properties: {
-      /**
-       * Weird API usage requires this to be String or Null. Add this so
-       * the closure compiler doesn't complain.
-       * @type {?string} */
       base: String,
       branch: String,
       hasParent: Boolean,
@@ -44,29 +40,29 @@
       '_updateSelectedOption(rebaseOnCurrent, hasParent)',
     ],
 
-    _displayParentOption(rebaseOnCurrent, hasParent) {
+    _displayParentOption: function(rebaseOnCurrent, hasParent) {
       return hasParent && rebaseOnCurrent;
     },
 
-    _displayParentUpToDateMsg(rebaseOnCurrent, hasParent) {
+    _displayParentUpToDateMsg: function(rebaseOnCurrent, hasParent) {
       return hasParent && !rebaseOnCurrent;
     },
 
-    _displayTipOption(rebaseOnCurrent, hasParent) {
+    _displayTipOption: function(rebaseOnCurrent, hasParent) {
       return !(!rebaseOnCurrent && !hasParent);
     },
 
-    _handleConfirmTap(e) {
+    _handleConfirmTap: function(e) {
       e.preventDefault();
       this.fire('confirm', null, {bubbles: false});
     },
 
-    _handleCancelTap(e) {
+    _handleCancelTap: function(e) {
       e.preventDefault();
       this.fire('cancel', null, {bubbles: false});
     },
 
-    _handleRebaseOnOther() {
+    _handleRebaseOnOther: function(e) {
       this.$.parentInput.focus();
     },
 
@@ -77,15 +73,15 @@
      * rebased on top of the target branch. Leaving out the base implies that it
      * should be rebased on top of its current parent.
      */
-    _handleRebaseOnTip() {
+    _handleRebaseOnTip: function(e) {
       this.base = '';
     },
 
-    _handleRebaseOnParent() {
+    _handleRebaseOnParent: function(e) {
       this.base = null;
     },
 
-    _handleEnterChangeNumberTap() {
+    _handleEnterChangeNumberTap: function(e) {
       this.$.rebaseOnOtherInput.checked = true;
     },
 
@@ -93,7 +89,7 @@
      * Sets the default radio button based on the state of the app and
      * the corresponding value to be submitted.
      */
-    _updateSelectedOption(rebaseOnCurrent, hasParent) {
+    _updateSelectedOption: function(rebaseOnCurrent, hasParent) {
       if (this._displayParentOption(rebaseOnCurrent, hasParent)) {
         this.$.rebaseOnParentInput.checked = true;
         this._handleRebaseOnParent();

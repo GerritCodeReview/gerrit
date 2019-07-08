@@ -46,7 +46,7 @@ public class ProjectCacheWarmer implements LifecycleListener {
   public void start() {
     int cpus = Runtime.getRuntime().availableProcessors();
     if (config.getBoolean("cache", "projects", "loadOnStartup", false)) {
-      ThreadPoolExecutor pool =
+      final ThreadPoolExecutor pool =
           new ScheduledThreadPoolExecutor(
               config.getInt("cache", "projects", "loadThreads", cpus),
               new ThreadFactoryBuilder().setNameFormat("ProjectCacheLoader-%d").build());
@@ -54,19 +54,25 @@ public class ProjectCacheWarmer implements LifecycleListener {
 
       log.info("Loading project cache");
       scheduler.execute(
-          () -> {
-            for (Project.NameKey name : cache.all()) {
-              pool.execute(
-                  () -> {
-                    cache.get(name);
-                  });
-            }
-            pool.shutdown();
-            try {
-              pool.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
-              log.info("Finished loading project cache");
-            } catch (InterruptedException e) {
-              log.warn("Interrupted while waiting for project cache to load");
+          new Runnable() {
+            @Override
+            public void run() {
+              for (final Project.NameKey name : cache.all()) {
+                pool.execute(
+                    new Runnable() {
+                      @Override
+                      public void run() {
+                        cache.get(name);
+                      }
+                    });
+              }
+              pool.shutdown();
+              try {
+                pool.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
+                log.info("Finished loading project cache");
+              } catch (InterruptedException e) {
+                log.warn("Interrupted while waiting for project cache to load");
+              }
             }
           });
     }

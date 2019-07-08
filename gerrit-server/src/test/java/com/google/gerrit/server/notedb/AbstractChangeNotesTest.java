@@ -35,6 +35,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.FakeRealm;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.Realm;
@@ -56,13 +57,12 @@ import com.google.gerrit.testutil.FakeAccountCache;
 import com.google.gerrit.testutil.GerritBaseTests;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.gerrit.testutil.TestChanges;
+import com.google.gerrit.testutil.TestNotesMigration;
 import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.TypeLiteral;
 import com.google.inject.util.Providers;
 import java.sql.Timestamp;
 import java.util.TimeZone;
@@ -96,6 +96,8 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
   @ConfigSuite.Parameter public Config testConfig;
 
   private static final TimeZone TZ = TimeZone.getTimeZone("America/Los_Angeles");
+
+  private static final NotesMigration MIGRATION = new TestNotesMigration().setAllEnabled(true);
 
   protected Account.Id otherUserId;
   protected FakeAccountCache accountCache;
@@ -151,8 +153,11 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
                 install(NoteDbModule.forTest(testConfig));
                 bind(AllUsersName.class).toProvider(AllUsersNameProvider.class);
                 bind(String.class).annotatedWith(GerritServerId.class).toInstance("gerrit");
+                bind(NotesMigration.class).toInstance(MIGRATION);
                 bind(GitRepositoryManager.class).toInstance(repoManager);
                 bind(ProjectCache.class).toProvider(Providers.<ProjectCache>of(null));
+                bind(CapabilityControl.Factory.class)
+                    .toProvider(Providers.<CapabilityControl.Factory>of(null));
                 bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(testConfig);
                 bind(String.class)
                     .annotatedWith(AnonymousCowardName.class)
@@ -172,23 +177,6 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
                 bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
                 bind(MetricMaker.class).to(DisabledMetricMaker.class);
                 bind(ReviewDb.class).toProvider(Providers.<ReviewDb>of(null));
-
-                MutableNotesMigration migration = MutableNotesMigration.newDisabled();
-                migration.setFrom(NotesMigrationState.FINAL);
-                bind(MutableNotesMigration.class).toInstance(migration);
-                bind(NotesMigration.class).to(MutableNotesMigration.class);
-
-                // Tests don't support ReviewDb at all, but bindings are required via NoteDbModule.
-                bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {})
-                    .toInstance(
-                        () -> {
-                          throw new UnsupportedOperationException();
-                        });
-                bind(ChangeBundleReader.class)
-                    .toInstance(
-                        (db, id) -> {
-                          throw new UnsupportedOperationException();
-                        });
               }
             });
 
@@ -197,7 +185,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
     changeOwner = userFactory.create(co.getId());
     otherUser = userFactory.create(ou.getId());
     otherUserId = otherUser.getAccountId();
-    internalUser = new InternalUser();
+    internalUser = new InternalUser(null);
   }
 
   private void setTimeForTesting() {
@@ -211,22 +199,13 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
     System.setProperty("user.timezone", systemTimeZone);
   }
 
-  protected Change newChange(boolean workInProgress) throws Exception {
+  protected Change newChange() throws Exception {
     Change c = TestChanges.newChange(project, changeOwner.getAccountId());
     ChangeUpdate u = newUpdate(c, changeOwner);
     u.setChangeId(c.getKey().get());
     u.setBranch(c.getDest().get());
-    u.setWorkInProgress(workInProgress);
     u.commit();
     return c;
-  }
-
-  protected Change newWorkInProgressChange() throws Exception {
-    return newChange(true);
-  }
-
-  protected Change newChange() throws Exception {
-    return newChange(false);
   }
 
   protected ChangeUpdate newUpdate(Change c, CurrentUser user) throws Exception {

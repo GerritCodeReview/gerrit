@@ -17,12 +17,9 @@
   // Prevent redefinition.
   if (window.GrDiffBuilderImage) { return; }
 
-  const IMAGE_MIME_PATTERN = /^image\/(bmp|gif|jpeg|jpg|png|tiff|webp)$/;
-
-  function GrDiffBuilderImage(
-      diff, comments, prefs, projectName, outputEl, baseImage, revisionImage) {
-    GrDiffBuilderSideBySide.call(
-        this, diff, comments, prefs, projectName, outputEl, []);
+  function GrDiffBuilderImage(diff, comments, prefs, outputEl, baseImage,
+      revisionImage) {
+    GrDiffBuilderSideBySide.call(this, diff, comments, prefs, outputEl, []);
     this._baseImage = baseImage;
     this._revisionImage = revisionImage;
   }
@@ -32,7 +29,7 @@
   GrDiffBuilderImage.prototype.constructor = GrDiffBuilderImage;
 
   GrDiffBuilderImage.prototype.renderDiffImages = function() {
-    const section = this._createElement('tbody', 'image-diff');
+    var section = this._createElement('tbody', 'image-diff');
 
     this._emitImagePair(section);
     this._emitImageLabels(section);
@@ -41,30 +38,25 @@
   };
 
   GrDiffBuilderImage.prototype._emitImagePair = function(section) {
-    const tr = this._createElement('tr');
+    var tr = this._createElement('tr');
 
     tr.appendChild(this._createElement('td'));
-    tr.appendChild(this._createImageCell(this._baseImage, 'left', section));
+    tr.appendChild(this._createImageCell(this._baseImage, 'left'));
 
     tr.appendChild(this._createElement('td'));
-    tr.appendChild(this._createImageCell(
-        this._revisionImage, 'right', section));
+    tr.appendChild(this._createImageCell(this._revisionImage, 'right'));
 
     section.appendChild(tr);
   };
 
-  GrDiffBuilderImage.prototype._createImageCell = function(image, className,
-      section) {
-    const td = this._createElement('td', className);
-    if (image && IMAGE_MIME_PATTERN.test(image.type)) {
-      const imageEl = this._createElement('img');
-      imageEl.onload = function() {
-        image._height = imageEl.naturalHeight;
-        image._width = imageEl.naturalWidth;
-        this._updateImageLabel(section, className, image);
-      }.bind(this);
+  GrDiffBuilderImage.prototype._createImageCell = function(image, className) {
+    var td = this._createElement('td', className);
+    if (image) {
+      var imageEl = this._createElement('img');
       imageEl.src = 'data:' + image.type + ';base64, ' + image.body;
-      imageEl.addEventListener('error', () => {
+      image._height = imageEl.naturalHeight;
+      image._width = imageEl.naturalWidth;
+      imageEl.addEventListener('error', function(e) {
         imageEl.remove();
         td.textContent = '[Image failed to load]';
       });
@@ -73,61 +65,20 @@
     return td;
   };
 
-  GrDiffBuilderImage.prototype._updateImageLabel = function(section, className,
-      image) {
-    const label = Polymer.dom(section)
-        .querySelector('.' + className + ' span.label');
-    this._setLabelText(label, image);
-  };
-
-  GrDiffBuilderImage.prototype._setLabelText = function(label, image) {
-    label.textContent = this._getImageLabel(image);
-  };
-
   GrDiffBuilderImage.prototype._emitImageLabels = function(section) {
-    const tr = this._createElement('tr');
-
-    let addNamesInLabel = false;
-
-    if (this._baseImage && this._revisionImage &&
-        this._baseImage._name !== this._revisionImage._name) {
-      addNamesInLabel = true;
-    }
+    var tr = this._createElement('tr');
 
     tr.appendChild(this._createElement('td'));
-    let td = this._createElement('td', 'left');
-    let label = this._createElement('label');
-    let nameSpan;
-    let labelSpan = this._createElement('span', 'label');
-
-    if (addNamesInLabel) {
-      nameSpan = this._createElement('span', 'name');
-      nameSpan.textContent = this._baseImage._name;
-      label.appendChild(nameSpan);
-      label.appendChild(this._createElement('br'));
-    }
-
-    this._setLabelText(labelSpan, this._baseImage, addNamesInLabel);
-
-    label.appendChild(labelSpan);
+    var td = this._createElement('td', 'left');
+    var label = this._createElement('label');
+    label.textContent = this._getImageLabel(this._baseImage);
     td.appendChild(label);
     tr.appendChild(td);
 
     tr.appendChild(this._createElement('td'));
     td = this._createElement('td', 'right');
     label = this._createElement('label');
-    labelSpan = this._createElement('span', 'label');
-
-    if (addNamesInLabel) {
-      nameSpan = this._createElement('span', 'name');
-      nameSpan.textContent = this._revisionImage._name;
-      label.appendChild(nameSpan);
-      label.appendChild(this._createElement('br'));
-    }
-
-    this._setLabelText(labelSpan, this._revisionImage, addNamesInLabel);
-
-    label.appendChild(labelSpan);
+    label.textContent = this._getImageLabel(this._revisionImage);
     td.appendChild(label);
     tr.appendChild(td);
 
@@ -136,7 +87,7 @@
 
   GrDiffBuilderImage.prototype._getImageLabel = function(image) {
     if (image) {
-      const type = image.type || image._expectedType;
+      var type = image.type || image._expectedType;
       if (image._width && image._height) {
         return image._width + '⨉' + image._height + ' ' + type;
       } else {

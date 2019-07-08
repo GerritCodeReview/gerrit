@@ -126,16 +126,19 @@ public class ProcMetricModuleTest {
 
   @Test
   public void callbackMetric0() {
-    CallbackMetric0<Long> cntr =
+    final CallbackMetric0<Long> cntr =
         metrics.newCallbackMetric(
             "test/count", Long.class, new Description("simple test").setCumulative());
 
-    AtomicInteger invocations = new AtomicInteger(0);
+    final AtomicInteger invocations = new AtomicInteger(0);
     metrics.newTrigger(
         cntr,
-        () -> {
-          invocations.getAndIncrement();
-          cntr.set(42L);
+        new Runnable() {
+          @Override
+          public void run() {
+            invocations.getAndIncrement();
+            cntr.set(42L);
+          }
         });
 
     // Triggers run immediately with DropWizard binding.

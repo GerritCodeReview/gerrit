@@ -22,7 +22,6 @@ import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -44,8 +43,7 @@ class LineComment extends Composite {
   @UiField InlineHyperlink line;
   @UiField Element message;
 
-  LineComment(
-      CommentLinkProcessor clp, Project.NameKey project, PatchSet.Id defaultPs, CommentInfo info) {
+  LineComment(CommentLinkProcessor clp, PatchSet.Id defaultPs, CommentInfo info) {
     initWidget(uiBinder.createAndBindUi(this));
 
     PatchSet.Id ps;
@@ -72,7 +70,7 @@ class LineComment extends Composite {
       fileLoc.removeFromParent();
       fileLoc = null;
 
-      line.setTargetHistoryToken(url(project, ps, info));
+      line.setTargetHistoryToken(url(ps, info));
       line.setText(Integer.toString(info.line()));
 
     } else {
@@ -88,9 +86,8 @@ class LineComment extends Composite {
     }
   }
 
-  private static String url(Project.NameKey project, PatchSet.Id ps, CommentInfo info) {
+  private static String url(PatchSet.Id ps, CommentInfo info) {
     return Dispatcher.toPatch(
-        project,
         null,
         ps,
         info.path(),

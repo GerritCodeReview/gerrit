@@ -15,41 +15,33 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
-<link rel="import" href="../../shared/gr-textarea/gr-textarea.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-confirm-dialog/gr-confirm-dialog.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
-<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-storage/gr-storage.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-tooltip-content/gr-tooltip-content.html">
-<link rel="import" href="../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
-<script src="../../../scripts/rootElement.js"></script>
 
 <dom-module id="gr-diff-comment">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         display: block;
         font-family: var(--font-family);
         padding: .7em .7em;
         --iron-autogrow-textarea: {
-          box-sizing: border-box;
           padding: 2px;
         };
       }
-      :host([disabled]) {
+      :host[disabled] {
         pointer-events: none;
       }
-      :host([disabled]) .container {
+      :host[disabled] .container {
         opacity: .5;
       }
-      :host([is-robot-comment]) {
+      :host[is-robot-comment] {
         background-color: #cfe8fc;
       }
       .header {
@@ -68,20 +60,18 @@ limitations under the License.
         overflow: hidden;
       }
       .authorName,
-      .draftLabel,
-      .draftTooltip {
-        font-family: var(--font-family-bold);
+      .draftLabel {
+        display: block;
+        float: left;
+        font-weight: bold;
       }
-      .draftLabel,
-      .draftTooltip {
+      .draftLabel {
         color: #999;
         display: none;
       }
       .date {
         justify-content: flex-end;
         margin-left: 5px;
-        min-width: 4.5em;
-        text-align: right;
         white-space: nowrap;
       }
       a.date:link,
@@ -90,19 +80,10 @@ limitations under the License.
       }
       .actions {
         display: flex;
-        justify-content: flex-end;
         padding-top: 0;
       }
       .action {
-        margin-left: 1em;
-        --gr-button: {
-          color: #212121;
-        }
-        --gr-button-hover-color: rgba(33, 33, 33, .75);
-      }
-      .rightActions {
-        display: flex;
-        justify-content: flex-end;
+        margin-right: .5em;
       }
       .editMessage {
         display: none;
@@ -118,8 +99,7 @@ limitations under the License.
       .draft .done {
         display: none;
       }
-      .draft .draftLabel,
-      .draft .draftTooltip {
+      .draft .draftLabel {
         display: inline;
       }
       .draft:not(.editing) .save,
@@ -137,6 +117,7 @@ limitations under the License.
         display: none;
       }
       .editing .editMessage {
+        background-color: #fff;
         display: block;
       }
       .show-hide {
@@ -182,7 +163,7 @@ limitations under the License.
       }
       #container.collapsed .actions,
       #container.collapsed gr-formatted-text,
-      #container.collapsed gr-textarea {
+      #container.collapsed iron-autogrow-textarea {
         display: none;
       }
       .resolve,
@@ -190,24 +171,11 @@ limitations under the License.
         align-items: center;
         display: flex;
         flex: 1;
-        margin: 0;
+        justify-content: flex-end;
       }
       .resolve label {
         color: #333;
         font-size: 12px;
-      }
-      gr-confirm-dialog .main {
-        background-color: #fef;
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-      }
-      #deleteBtn {
-        color: #666;
-        display: none;
-      }
-      #deleteBtn.showDeleteButtons {
-        display: block;
       }
     </style>
     <div id="container"
@@ -217,23 +185,17 @@ limitations under the License.
       <div class="header" id="header" on-click="_handleToggleCollapsed">
         <div class="headerLeft">
           <span class="authorName">[[comment.author.name]]</span>
-          <span class="draftLabel">DRAFT</span>
-          <gr-tooltip-content class="draftTooltip"
+          <gr-tooltip-content class="draftLabel"
               has-tooltip
               title="This draft is only visible to you. To publish drafts, click the red 'Reply' button at the top of the change or press the 'A' key."
               max-width="20em"
-              show-icon></gr-tooltip-content>
+              show-icon>
+            DRAFT
+          </gr-tooltip-content>
         </div>
         <div class="headerMiddle">
           <span class="collapsedContent">[[comment.message]]</span>
         </div>
-        <gr-button
-            id="deleteBtn"
-            link
-            class$="action delete [[_computeDeleteButtonClass(_isAdmin, draft)]]"
-            on-tap="_handleCommentDelete">
-          (Delete)
-        </gr-button>
         <a class="date" href$="[[_computeLinkToComment(comment)]]" on-tap="_handleLinkTap">
           <gr-date-formatter
               has-tooltip
@@ -253,14 +215,14 @@ limitations under the License.
           [[comment.robot_id]]
         </div>
       </template>
-      <gr-textarea
+      <iron-autogrow-textarea
           id="editTextarea"
           class="editMessage"
           autocomplete="on"
-          monospace
           disabled="{{disabled}}"
           rows="4"
-          text="{{_messageText}}"></gr-textarea>
+          bind-value="{{_messageText}}"
+          on-keydown="_handleTextareaKeydown"></iron-autogrow-textarea>
       <gr-formatted-text class="message"
           content="[[comment.message]]"
           no-trailing-margin="[[!comment.__draft]]"
@@ -275,6 +237,14 @@ limitations under the License.
         </div>
       </div>
       <div class="actions humanActions" hidden$="[[!_showHumanActions]]">
+        <gr-button class="action edit hideOnPublished" on-tap="_handleEdit">
+            Edit</gr-button>
+        <gr-button class="action save hideOnPublished" on-tap="_handleSave"
+            disabled$="[[_computeSaveDisabled(_messageText)]]">Save</gr-button>
+        <gr-button class="action cancel hideOnPublished"
+            on-tap="_handleCancel" hidden>Cancel</gr-button>
+        <gr-button class="action discard hideOnPublished"
+            on-tap="_handleDiscard">Discard</gr-button>
         <div class="action resolve hideOnPublished">
           <label>
             <input type="checkbox"
@@ -286,47 +256,15 @@ limitations under the License.
         <div class="action unresolved hideOnPublished" hidden$="[[resolved]]">
           Unresolved
         </div>
-        <div class="rightActions">
-          <gr-button link class="action cancel hideOnPublished"
-              on-tap="_handleCancel" hidden>Cancel</gr-button>
-          <gr-button link class="action discard hideOnPublished"
-              on-tap="_handleDiscard">Discard</gr-button>
-          <gr-button link class="action edit hideOnPublished"
-              on-tap="_handleEdit">Edit</gr-button>
-          <gr-button link class="action save hideOnPublished"
-              on-tap="_handleSave"
-              disabled$="[[_computeSaveDisabled(_messageText)]]">Save
-          </gr-button>
-        </div>
       </div>
       <div class="actions robotActions" hidden$="[[!_showRobotActions]]">
-        <gr-button link class="action fix"
+        <gr-button class="action fix"
             on-tap="_handleFix"
             disabled="[[robotButtonDisabled]]">
           Please Fix
         </gr-button>
       </div>
     </div>
-    <gr-overlay id="confirmDeleteOverlay" with-backdrop>
-      <gr-confirm-delete-comment-dialog id="confirmDeleteComment"
-          on-confirm="_handleConfirmDeleteComment"
-          on-cancel="_handleCancelDeleteComment">
-      </gr-confirm-delete-comment-dialog>
-    </gr-overlay>
-    <gr-overlay id="confirmDiscardOverlay" with-backdrop>
-      <gr-confirm-dialog
-          id="confirmDiscaDialog"
-          confirm-label="Discard"
-          on-confirm="_handleConfirmDiscard"
-          on-cancel="_closeConfirmDiscardOverlay">
-        <div class="header">
-          Discard comment
-        </div>
-        <div class="main">
-          Are you sure you want to discard this draft comment?
-        </div>
-      </gr-confirm-dialog>
-    </gr-overlay>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-storage id="storage"></gr-storage>
   </template>

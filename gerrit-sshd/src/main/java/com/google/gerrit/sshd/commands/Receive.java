@@ -14,26 +14,22 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.common.collect.MultimapBuilder;
-import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.data.Capable;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.AsyncReceiveCommits;
+import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.VisibleRefFilter;
-import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
-import com.google.gerrit.server.notedb.ReviewerStateInternal;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshSession;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.eclipse.jgit.errors.TooLargeObjectInPackException;
 import org.eclipse.jgit.errors.UnpackException;
 import org.eclipse.jgit.lib.Ref;
@@ -54,18 +50,17 @@ final class Receive extends AbstractGitCommand {
   @Inject private AsyncReceiveCommits.Factory factory;
   @Inject private IdentifiedUser currentUser;
   @Inject private SshSession session;
-  @Inject private PermissionBackend permissionBackend;
 
-  private final SetMultimap<ReviewerStateInternal, Account.Id> reviewers =
-      MultimapBuilder.hashKeys(2).hashSetValues().build();
+  private final Set<Account.Id> reviewerId = new HashSet<>();
+  private final Set<Account.Id> ccId = new HashSet<>();
 
   @Option(
       name = "--reviewer",
       aliases = {"--re"},
       metaVar = "EMAIL",
       usage = "request reviewer for change(s)")
-  void addReviewer(Account.Id id) {
-    reviewers.put(ReviewerStateInternal.REVIEWER, id);
+  void addReviewer(final Account.Id id) {
+    reviewerId.add(id);
   }
 
   @Option(
@@ -73,31 +68,27 @@ final class Receive extends AbstractGitCommand {
       aliases = {},
       metaVar = "EMAIL",
       usage = "CC user on change(s)")
-  void addCC(Account.Id id) {
-    reviewers.put(ReviewerStateInternal.CC, id);
+  void addCC(final Account.Id id) {
+    ccId.add(id);
   }
 
   @Override
   protected void runImpl() throws IOException, Failure {
-    try {
-      permissionBackend
-          .user(currentUser)
-          .project(project.getNameKey())
-          .check(ProjectPermission.RUN_RECEIVE_PACK);
-    } catch (AuthException e) {
+    if (!projectControl.canRunReceivePack()) {
       throw new Failure(1, "fatal: receive-pack not permitted on this server");
-    } catch (PermissionBackendException e) {
-      throw new Failure(1, "fatal: unable to check permissions " + e);
     }
 
-    AsyncReceiveCommits arc = factory.create(projectControl, repo, null, reviewers);
+    final ReceiveCommits receive = factory.create(projectControl, repo).getReceiveCommits();
 
-    Capable r = arc.canUpload();
+    Capable r = receive.canUpload();
     if (r != Capable.OK) {
       throw die(r.getMessage());
     }
 
-    ReceivePack rp = arc.getReceivePack();
+    receive.init();
+    receive.addReviewers(reviewerId);
+    receive.addExtraCC(ccId);
+    ReceivePack rp = receive.getReceivePack();
     try {
       rp.receive(in, out, err);
       session.setPeerAgent(rp.getPeerUserAgent());

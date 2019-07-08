@@ -20,7 +20,7 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
 <link rel="import" href="gr-avatar.html">
 
 <script>void(0);</script>
@@ -32,52 +32,37 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-avatar tests', () => {
-    let element;
+  suite('gr-avatar tests', function() {
+    var element;
 
-    setup(() => {
+    setup(function() {
       stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
+        getConfig: function() { return Promise.resolve({}); },
       });
       element = fixture('basic');
     });
 
-    test('methods', () => {
+    test('methods', function() {
       assert.equal(element._buildAvatarURL(
           {
-            _account_id: 123,
+            _account_id: 123
           }),
           '/accounts/123/avatar?s=16');
-      assert.equal(element._buildAvatarURL(
-          {
-            email: 'test@example.com',
-          }),
-          '/accounts/test%40example.com/avatar?s=16');
-      assert.equal(element._buildAvatarURL(
-          {
-            name: 'John Doe',
-          }),
-          '/accounts/John%20Doe/avatar?s=16');
-      assert.equal(element._buildAvatarURL(
-          {
-            username: 'John_Doe',
-          }),
-          '/accounts/John_Doe/avatar?s=16');
       assert.equal(element._buildAvatarURL(
           {
             _account_id: 123,
             avatars: [
               {
                 url: 'https://cdn.example.com/s12-p/photo.jpg',
-                height: 12,
+                height: 12
               },
               {
                 url: 'https://cdn.example.com/s16-p/photo.jpg',
-                height: 16,
+                height: 16
               },
               {
                 url: 'https://cdn.example.com/s100-p/photo.jpg',
-                height: 100,
+                height: 100
               },
             ],
           }),
@@ -88,31 +73,32 @@ limitations under the License.
             avatars: [
               {
                 url: 'https://cdn.example.com/s95-p/photo.jpg',
-                height: 95,
+                height: 95
               },
             ],
           }),
           '/accounts/123/avatar?s=16');
     });
 
-    test('dom for existing account', () => {
+    test('dom for existing account', function() {
       assert.isTrue(element.hasAttribute('hidden'),
           'element not hidden initially');
       element.hidden = false;
       element.imageSize = 64;
       element.account = {
-        _account_id: 123,
+        _account_id: 123
       };
       assert.isFalse(element.hasAttribute('hidden'), 'element hidden');
-      assert.isTrue(
-          element.style.backgroundImage.includes('/accounts/123/avatar?s=64'));
+      assert.isTrue(element.style.backgroundImage.indexOf(
+          '/accounts/123/avatar?s=64') > -1);
     });
 
-    test('dom for non available account', () => {
+    test('dom for non available account', function() {
       assert.isTrue(element.hasAttribute('hidden'),
           'element not hidden initially');
       element.account = undefined;
       assert.isTrue(element.hasAttribute('hidden'), 'element not hidden');
     });
+
   });
 </script>

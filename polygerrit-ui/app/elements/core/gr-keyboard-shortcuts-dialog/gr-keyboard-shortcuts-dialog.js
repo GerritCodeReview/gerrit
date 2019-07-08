@@ -31,11 +31,11 @@
       role: 'dialog',
     },
 
-    _computeInView(currentView, view) {
+    _computeInView: function(currentView, view) {
       return view === currentView;
     },
 
-    _handleCloseTap(e) {
+    _handleCloseTap: function(e) {
       e.preventDefault();
       this.fire('close', null, {bubbles: false});
     },

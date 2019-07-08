@@ -15,11 +15,13 @@
 package com.google.gerrit.server.group;
 
 import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -37,7 +39,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 @Singleton
 public class GetAuditLog implements RestReadView<GroupResource> {
@@ -63,11 +64,16 @@ public class GetAuditLog implements RestReadView<GroupResource> {
 
   @Override
   public List<? extends GroupAuditEventInfo> apply(GroupResource rsrc)
-      throws AuthException, MethodNotAllowedException, OrmException {
-    GroupDescription.Internal group =
-        rsrc.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
-    if (!rsrc.getControl().isOwner()) {
+      throws AuthException, ResourceNotFoundException, MethodNotAllowedException, OrmException {
+    if (rsrc.toAccountGroup() == null) {
+      throw new MethodNotAllowedException();
+    } else if (!rsrc.getControl().isOwner()) {
       throw new AuthException("Not group owner");
+    }
+
+    AccountGroup group = db.get().accountGroups().get(rsrc.toAccountGroup().getId());
+    if (group == null) {
+      throw new ResourceNotFoundException();
     }
 
     AccountLoader accountLoader = accountLoaderFactory.create(true);
@@ -94,10 +100,10 @@ public class GetAuditLog implements RestReadView<GroupResource> {
     for (AccountGroupByIdAud auditEvent :
         db.get().accountGroupByIdAud().byGroup(group.getId()).toList()) {
       AccountGroup.UUID includedGroupUUID = auditEvent.getKey().getIncludeUUID();
-      Optional<InternalGroup> includedGroup = groupCache.get(includedGroupUUID);
+      AccountGroup includedGroup = groupCache.get(includedGroupUUID);
       GroupInfo member;
-      if (includedGroup.isPresent()) {
-        member = groupJson.format(new InternalGroupDescription(includedGroup.get()));
+      if (includedGroup != null) {
+        member = groupJson.format(GroupDescriptions.forAccountGroup(includedGroup));
       } else {
         GroupDescription.Basic groupDescription = groupBackend.get(includedGroupUUID);
         member = new GroupInfo();

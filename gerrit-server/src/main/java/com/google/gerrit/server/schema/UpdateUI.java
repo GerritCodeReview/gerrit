@@ -17,24 +17,11 @@ package com.google.gerrit.server.schema;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StatementExecutor;
 import java.util.List;
-import java.util.Set;
 
 public interface UpdateUI {
+  void message(String msg);
 
-  void message(String message);
-
-  /** Requests the user to answer a yes/no question. */
-  boolean yesno(boolean defaultValue, String message);
-
-  /** Prints a message asking the user to let us know when it's safe to continue. */
-  void waitForUser();
-
-  /**
-   * Prompts the user for a string, suggesting a default.
-   *
-   * @return the chosen string from the list of allowed values.
-   */
-  String readString(String defaultValue, Set<String> allowedValues, String message);
+  boolean yesno(boolean def, String msg);
 
   boolean isBatch();
 

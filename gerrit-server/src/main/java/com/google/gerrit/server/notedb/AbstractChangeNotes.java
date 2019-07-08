@@ -123,10 +123,7 @@ public abstract class AbstractChangeNotes<T> {
     this.args = checkNotNull(args);
     this.changeId = checkNotNull(changeId);
     this.primaryStorage = primaryStorage;
-    this.autoRebuild =
-        primaryStorage == PrimaryStorage.REVIEW_DB
-            && !args.migration.disableChangeReviewDb()
-            && autoRebuild;
+    this.autoRebuild = primaryStorage == PrimaryStorage.REVIEW_DB && autoRebuild;
   }
 
   public Change.Id getChangeId() {
@@ -146,7 +143,7 @@ public abstract class AbstractChangeNotes<T> {
     if (!read && primaryStorage == PrimaryStorage.NOTE_DB) {
       throw new OrmException("NoteDb is required to read change " + changeId);
     }
-    boolean readOrWrite = read || args.migration.rawWriteChangesSetting();
+    boolean readOrWrite = read || args.migration.writeChanges();
     if (!readOrWrite) {
       // Don't even open the repo if we neither write to nor read from NoteDb. It's possible that
       // there is some garbage in the noteDbState field and/or the repo, but at this point NoteDb is
@@ -154,7 +151,7 @@ public abstract class AbstractChangeNotes<T> {
       loadDefaults();
       return self();
     }
-    if (args.migration.failOnLoadForTest()) {
+    if (args.migration.failOnLoad()) {
       throw new OrmException("Reading from NoteDb is disabled");
     }
     try (Timer1.Context timer = args.metrics.readLatency.start(CHANGES);
@@ -206,7 +203,7 @@ public abstract class AbstractChangeNotes<T> {
   public ObjectId loadRevision() throws OrmException {
     if (loaded) {
       return getRevision();
-    } else if (!args.migration.readChanges()) {
+    } else if (!args.migration.enabled()) {
       return null;
     }
     try (Repository repo = args.repoManager.openRepository(getProjectName())) {

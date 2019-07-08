@@ -23,9 +23,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -41,28 +38,23 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class GetWatchedProjects implements RestReadView<AccountResource> {
-  private final PermissionBackend permissionBackend;
+
   private final Provider<IdentifiedUser> self;
   private final WatchConfig.Accessor watchConfig;
 
   @Inject
-  public GetWatchedProjects(
-      PermissionBackend permissionBackend,
-      Provider<IdentifiedUser> self,
-      WatchConfig.Accessor watchConfig) {
-    this.permissionBackend = permissionBackend;
+  public GetWatchedProjects(Provider<IdentifiedUser> self, WatchConfig.Accessor watchConfig) {
     this.self = self;
     this.watchConfig = watchConfig;
   }
 
   @Override
   public List<ProjectWatchInfo> apply(AccountResource rsrc)
-      throws OrmException, AuthException, IOException, ConfigInvalidException,
-          PermissionBackendException {
-    if (!self.get().hasSameAccountId(rsrc.getUser())) {
-      permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
+      throws OrmException, AuthException, IOException, ConfigInvalidException {
+    if (!self.get().hasSameAccountId(rsrc.getUser())
+        && !self.get().getCapabilities().canAdministrateServer()) {
+      throw new AuthException("It is not allowed to list project watches of other users");
     }
-
     Account.Id accountId = rsrc.getUser().getAccountId();
     List<ProjectWatchInfo> projectWatchInfos = new ArrayList<>();
     for (Map.Entry<ProjectWatchKey, Set<NotifyType>> e :

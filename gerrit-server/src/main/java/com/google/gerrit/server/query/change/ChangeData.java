@@ -15,9 +15,11 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.ApprovalsUtil.sortApprovals;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
@@ -31,12 +33,8 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
-import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -47,39 +45,34 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.StarredChangesUtil.StarRef;
-import com.google.gerrit.server.change.GetPureRevert;
 import com.google.gerrit.server.change.MergeabilityCache;
-import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.DiffSummary;
-import com.google.gerrit.server.patch.DiffSummaryKey;
 import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -91,6 +84,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -279,35 +273,17 @@ public class ChangeData {
     }
   }
 
-  public static class Factory {
-    private final AssistedFactory assistedFactory;
+  public interface Factory {
+    ChangeData create(ReviewDb db, Project.NameKey project, Change.Id id);
 
-    @Inject
-    Factory(AssistedFactory assistedFactory) {
-      this.assistedFactory = assistedFactory;
-    }
+    ChangeData create(ReviewDb db, Change c);
 
-    public ChangeData create(ReviewDb db, Project.NameKey project, Change.Id id) {
-      return assistedFactory.create(db, project, id, null, null);
-    }
+    ChangeData create(ReviewDb db, ChangeNotes cn);
 
-    public ChangeData create(ReviewDb db, Change change) {
-      return assistedFactory.create(db, change.getProject(), change.getId(), change, null);
-    }
+    ChangeData create(ReviewDb db, ChangeControl c);
 
-    public ChangeData create(ReviewDb db, ChangeNotes notes) {
-      return assistedFactory.create(
-          db, notes.getChange().getProject(), notes.getChangeId(), notes.getChange(), notes);
-    }
-  }
-
-  public interface AssistedFactory {
-    ChangeData create(
-        ReviewDb db,
-        Project.NameKey project,
-        Change.Id id,
-        @Nullable Change change,
-        @Nullable ChangeNotes notes);
+    // TODO(dborowitz): Remove when deleting index schemas <27.
+    ChangeData createOnlyWhenNoteDbDisabled(ReviewDb db, Change.Id id);
   }
 
   /**
@@ -324,41 +300,32 @@ public class ChangeData {
     ChangeData cd =
         new ChangeData(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-            null, null, null, null, project, id, null, null);
+            null, project, id);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
   }
 
-  // Injected fields.
-  private @Nullable final StarredChangesUtil starredChangesUtil;
-  private final AllUsersName allUsersName;
+  private boolean lazyLoad = true;
+  private final ReviewDb db;
+  private final GitRepositoryManager repoManager;
+  private final ChangeControl.GenericFactory changeControlFactory;
+  private final IdentifiedUser.GenericFactory userFactory;
+  private final ProjectCache projectCache;
+  private final MergeUtil.Factory mergeUtilFactory;
+  private final ChangeNotes.Factory notesFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
-  private final ChangeNotes.Factory notesFactory;
   private final CommentsUtil commentsUtil;
-  private final GitRepositoryManager repoManager;
-  private final IdentifiedUser.GenericFactory userFactory;
-  private final MergeUtil.Factory mergeUtilFactory;
-  private final MergeabilityCache mergeabilityCache;
-  private final NotesMigration notesMigration;
-  private final PatchListCache patchListCache;
   private final PatchSetUtil psUtil;
-  private final ProjectCache projectCache;
-  private final TrackingFooters trackingFooters;
-  private final GetPureRevert pureRevert;
-  private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
-
-  // Required assisted injected fields.
-  private final ReviewDb db;
-  private final Project.NameKey project;
+  private final PatchListCache patchListCache;
+  private final NotesMigration notesMigration;
+  private final MergeabilityCache mergeabilityCache;
+  private final StarredChangesUtil starredChangesUtil;
   private final Change.Id legacyId;
-
-  // Lazily populated fields, including optional assisted injected fields.
-
   private final Map<SubmitRuleOptions, List<SubmitRecord>> submitRecords =
       Maps.newLinkedHashMapWithExpectedSize(1);
 
-  private boolean lazyLoad = true;
+  private Project.NameKey project;
   private Change change;
   private ChangeNotes notes;
   private String commitMessage;
@@ -367,11 +334,12 @@ public class ChangeData {
   private Collection<PatchSet> patchSets;
   private ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals;
   private List<PatchSetApproval> currentApprovals;
-  private List<String> currentFiles;
-  private Optional<DiffSummary> diffSummary;
+  private Map<Integer, List<String>> files;
+  private Map<Integer, Optional<DiffSummary>> diffSummaries;
   private Collection<Comment> publishedComments;
   private Collection<RobotComment> robotComments;
   private CurrentUser visibleTo;
+  private ChangeControl changeControl;
   private List<ChangeMessage> messages;
   private Optional<ChangedLines> changedLines;
   private SubmitTypeRecord submitTypeRecord;
@@ -384,71 +352,207 @@ public class ChangeData {
   private StarsOf starsOf;
   private ImmutableMap<Account.Id, StarRef> starRefs;
   private ReviewerSet reviewers;
-  private ReviewerByEmailSet reviewersByEmail;
-  private ReviewerSet pendingReviewers;
-  private ReviewerByEmailSet pendingReviewersByEmail;
   private List<ReviewerStatusUpdate> reviewerUpdates;
   private PersonIdent author;
   private PersonIdent committer;
-  private int parentCount;
   private Integer unresolvedCommentCount;
-  private LabelTypes labelTypes;
 
   private ImmutableList<byte[]> refStates;
   private ImmutableList<byte[]> refStatePatterns;
 
-  @Inject
+  @AssistedInject
   private ChangeData(
-      @Nullable StarredChangesUtil starredChangesUtil,
-      ApprovalsUtil approvalsUtil,
-      AllUsersName allUsersName,
-      ChangeMessagesUtil cmUtil,
-      ChangeNotes.Factory notesFactory,
-      CommentsUtil commentsUtil,
       GitRepositoryManager repoManager,
+      ChangeControl.GenericFactory changeControlFactory,
       IdentifiedUser.GenericFactory userFactory,
-      MergeUtil.Factory mergeUtilFactory,
-      MergeabilityCache mergeabilityCache,
-      NotesMigration notesMigration,
-      PatchListCache patchListCache,
-      PatchSetUtil psUtil,
       ProjectCache projectCache,
-      TrackingFooters trackingFooters,
-      GetPureRevert pureRevert,
-      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
+      MergeUtil.Factory mergeUtilFactory,
+      ChangeNotes.Factory notesFactory,
+      ApprovalsUtil approvalsUtil,
+      ChangeMessagesUtil cmUtil,
+      CommentsUtil commentsUtil,
+      PatchSetUtil psUtil,
+      PatchListCache patchListCache,
+      NotesMigration notesMigration,
+      MergeabilityCache mergeabilityCache,
+      @Nullable StarredChangesUtil starredChangesUtil,
       @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
-      @Assisted Change.Id id,
-      @Assisted @Nullable Change change,
-      @Assisted @Nullable ChangeNotes notes) {
-    this.approvalsUtil = approvalsUtil;
-    this.allUsersName = allUsersName;
-    this.cmUtil = cmUtil;
-    this.notesFactory = notesFactory;
-    this.commentsUtil = commentsUtil;
-    this.repoManager = repoManager;
-    this.userFactory = userFactory;
-    this.mergeUtilFactory = mergeUtilFactory;
-    this.mergeabilityCache = mergeabilityCache;
-    this.notesMigration = notesMigration;
-    this.patchListCache = patchListCache;
-    this.psUtil = psUtil;
-    this.projectCache = projectCache;
-    this.starredChangesUtil = starredChangesUtil;
-    this.trackingFooters = trackingFooters;
-    this.pureRevert = pureRevert;
-    this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
-
-    // May be null in tests when created via createForTest above, in which case lazy-loading will
-    // intentionally fail with NPE. Still not marked @Nullable in the constructor, to force callers
-    // using Guice to pass a non-null value.
+      @Assisted Change.Id id) {
     this.db = db;
-
+    this.repoManager = repoManager;
+    this.changeControlFactory = changeControlFactory;
+    this.userFactory = userFactory;
+    this.projectCache = projectCache;
+    this.mergeUtilFactory = mergeUtilFactory;
+    this.notesFactory = notesFactory;
+    this.approvalsUtil = approvalsUtil;
+    this.cmUtil = cmUtil;
+    this.commentsUtil = commentsUtil;
+    this.psUtil = psUtil;
+    this.patchListCache = patchListCache;
+    this.notesMigration = notesMigration;
+    this.mergeabilityCache = mergeabilityCache;
+    this.starredChangesUtil = starredChangesUtil;
     this.project = project;
     this.legacyId = id;
+  }
 
-    this.change = change;
-    this.notes = notes;
+  @AssistedInject
+  private ChangeData(
+      GitRepositoryManager repoManager,
+      ChangeControl.GenericFactory changeControlFactory,
+      IdentifiedUser.GenericFactory userFactory,
+      ProjectCache projectCache,
+      MergeUtil.Factory mergeUtilFactory,
+      ChangeNotes.Factory notesFactory,
+      ApprovalsUtil approvalsUtil,
+      ChangeMessagesUtil cmUtil,
+      CommentsUtil commentsUtil,
+      PatchSetUtil psUtil,
+      PatchListCache patchListCache,
+      NotesMigration notesMigration,
+      MergeabilityCache mergeabilityCache,
+      @Nullable StarredChangesUtil starredChangesUtil,
+      @Assisted ReviewDb db,
+      @Assisted Change c) {
+    this.db = db;
+    this.repoManager = repoManager;
+    this.changeControlFactory = changeControlFactory;
+    this.userFactory = userFactory;
+    this.projectCache = projectCache;
+    this.mergeUtilFactory = mergeUtilFactory;
+    this.notesFactory = notesFactory;
+    this.approvalsUtil = approvalsUtil;
+    this.cmUtil = cmUtil;
+    this.commentsUtil = commentsUtil;
+    this.psUtil = psUtil;
+    this.patchListCache = patchListCache;
+    this.notesMigration = notesMigration;
+    this.mergeabilityCache = mergeabilityCache;
+    this.starredChangesUtil = starredChangesUtil;
+    legacyId = c.getId();
+    change = c;
+    project = c.getProject();
+  }
+
+  @AssistedInject
+  private ChangeData(
+      GitRepositoryManager repoManager,
+      ChangeControl.GenericFactory changeControlFactory,
+      IdentifiedUser.GenericFactory userFactory,
+      ProjectCache projectCache,
+      MergeUtil.Factory mergeUtilFactory,
+      ChangeNotes.Factory notesFactory,
+      ApprovalsUtil approvalsUtil,
+      ChangeMessagesUtil cmUtil,
+      CommentsUtil commentsUtil,
+      PatchSetUtil psUtil,
+      PatchListCache patchListCache,
+      NotesMigration notesMigration,
+      MergeabilityCache mergeabilityCache,
+      @Nullable StarredChangesUtil starredChangesUtil,
+      @Assisted ReviewDb db,
+      @Assisted ChangeNotes cn) {
+    this.db = db;
+    this.repoManager = repoManager;
+    this.changeControlFactory = changeControlFactory;
+    this.userFactory = userFactory;
+    this.projectCache = projectCache;
+    this.mergeUtilFactory = mergeUtilFactory;
+    this.notesFactory = notesFactory;
+    this.approvalsUtil = approvalsUtil;
+    this.cmUtil = cmUtil;
+    this.commentsUtil = commentsUtil;
+    this.psUtil = psUtil;
+    this.patchListCache = patchListCache;
+    this.notesMigration = notesMigration;
+    this.mergeabilityCache = mergeabilityCache;
+    this.starredChangesUtil = starredChangesUtil;
+    legacyId = cn.getChangeId();
+    change = cn.getChange();
+    project = cn.getProjectName();
+    notes = cn;
+  }
+
+  @AssistedInject
+  private ChangeData(
+      GitRepositoryManager repoManager,
+      ChangeControl.GenericFactory changeControlFactory,
+      IdentifiedUser.GenericFactory userFactory,
+      ProjectCache projectCache,
+      MergeUtil.Factory mergeUtilFactory,
+      ChangeNotes.Factory notesFactory,
+      ApprovalsUtil approvalsUtil,
+      ChangeMessagesUtil cmUtil,
+      CommentsUtil commentsUtil,
+      PatchSetUtil psUtil,
+      PatchListCache patchListCache,
+      NotesMigration notesMigration,
+      MergeabilityCache mergeabilityCache,
+      @Nullable StarredChangesUtil starredChangesUtil,
+      @Assisted ReviewDb db,
+      @Assisted ChangeControl c) {
+    this.db = db;
+    this.repoManager = repoManager;
+    this.changeControlFactory = changeControlFactory;
+    this.userFactory = userFactory;
+    this.projectCache = projectCache;
+    this.mergeUtilFactory = mergeUtilFactory;
+    this.notesFactory = notesFactory;
+    this.approvalsUtil = approvalsUtil;
+    this.cmUtil = cmUtil;
+    this.commentsUtil = commentsUtil;
+    this.psUtil = psUtil;
+    this.patchListCache = patchListCache;
+    this.notesMigration = notesMigration;
+    this.mergeabilityCache = mergeabilityCache;
+    this.starredChangesUtil = starredChangesUtil;
+    legacyId = c.getId();
+    change = c.getChange();
+    changeControl = c;
+    notes = c.getNotes();
+    project = notes.getProjectName();
+  }
+
+  @AssistedInject
+  private ChangeData(
+      GitRepositoryManager repoManager,
+      ChangeControl.GenericFactory changeControlFactory,
+      IdentifiedUser.GenericFactory userFactory,
+      ProjectCache projectCache,
+      MergeUtil.Factory mergeUtilFactory,
+      ChangeNotes.Factory notesFactory,
+      ApprovalsUtil approvalsUtil,
+      ChangeMessagesUtil cmUtil,
+      CommentsUtil commentsUtil,
+      PatchSetUtil psUtil,
+      PatchListCache patchListCache,
+      NotesMigration notesMigration,
+      MergeabilityCache mergeabilityCache,
+      @Nullable StarredChangesUtil starredChangesUtil,
+      @Assisted ReviewDb db,
+      @Assisted Change.Id id) {
+    checkState(
+        !notesMigration.readChanges(),
+        "do not call createOnlyWhenNoteDbDisabled when NoteDb is enabled");
+    this.db = db;
+    this.repoManager = repoManager;
+    this.changeControlFactory = changeControlFactory;
+    this.userFactory = userFactory;
+    this.projectCache = projectCache;
+    this.mergeUtilFactory = mergeUtilFactory;
+    this.notesFactory = notesFactory;
+    this.approvalsUtil = approvalsUtil;
+    this.cmUtil = cmUtil;
+    this.commentsUtil = commentsUtil;
+    this.psUtil = psUtil;
+    this.patchListCache = patchListCache;
+    this.notesMigration = notesMigration;
+    this.mergeabilityCache = mergeabilityCache;
+    this.starredChangesUtil = starredChangesUtil;
+    this.legacyId = id;
+    this.project = null;
   }
 
   public ChangeData setLazyLoad(boolean load) {
@@ -460,65 +564,86 @@ public class ChangeData {
     return db;
   }
 
-  public AllUsersName getAllUsersNameForIndexing() {
-    return allUsersName;
+  private Map<Integer, List<String>> initFiles() {
+    if (files == null) {
+      files = new HashMap<>();
+    }
+    return files;
   }
 
   public void setCurrentFilePaths(List<String> filePaths) throws OrmException {
     PatchSet ps = currentPatchSet();
     if (ps != null) {
-      currentFiles = ImmutableList.copyOf(filePaths);
+      initFiles().put(ps.getPatchSetId(), ImmutableList.copyOf(filePaths));
     }
   }
 
-  public List<String> currentFilePaths() throws IOException, OrmException {
-    if (currentFiles == null) {
-      if (!lazyLoad) {
-        return Collections.emptyList();
-      }
-      Optional<DiffSummary> p = getDiffSummary();
-      currentFiles = p.map(DiffSummary::getPaths).orElse(Collections.emptyList());
-    }
-    return currentFiles;
+  public List<String> currentFilePaths() throws OrmException {
+    PatchSet ps = currentPatchSet();
+    return ps != null ? filePaths(ps) : null;
   }
 
-  private Optional<DiffSummary> getDiffSummary() throws OrmException, IOException {
-    if (diffSummary == null) {
-      if (!lazyLoad) {
-        return Optional.empty();
-      }
-
+  public List<String> filePaths(PatchSet ps) throws OrmException {
+    Integer psId = ps.getPatchSetId();
+    List<String> r = initFiles().get(psId);
+    if (r == null) {
       Change c = change();
-      PatchSet ps = currentPatchSet();
-      if (c == null || ps == null || !loadCommitData()) {
-        return Optional.empty();
+      if (c == null) {
+        return null;
       }
 
-      ObjectId id = ObjectId.fromString(ps.getRevision().get());
-      Whitespace ws = Whitespace.IGNORE_NONE;
-      PatchListKey pk =
-          parentCount > 1
-              ? PatchListKey.againstParentNum(1, id, ws)
-              : PatchListKey.againstDefaultBase(id, ws);
-      DiffSummaryKey key = DiffSummaryKey.fromPatchListKey(pk);
-      try {
-        diffSummary = Optional.of(patchListCache.getDiffSummary(key, c.getProject()));
-      } catch (PatchListNotAvailableException e) {
-        diffSummary = Optional.empty();
+      Optional<DiffSummary> p = getDiffSummary(c, ps);
+      if (!p.isPresent()) {
+        List<String> emptyFileList = Collections.emptyList();
+        if (lazyLoad) {
+          files.put(ps.getPatchSetId(), emptyFileList);
+        }
+        return emptyFileList;
       }
+
+      r = p.get().getPaths();
+      files.put(psId, r);
     }
-    return diffSummary;
+    return r;
   }
 
-  private Optional<ChangedLines> computeChangedLines() throws OrmException, IOException {
-    Optional<DiffSummary> ds = getDiffSummary();
+  private Optional<DiffSummary> getDiffSummary(Change c, PatchSet ps) {
+    Integer psId = ps.getId().get();
+    if (diffSummaries == null) {
+      diffSummaries = new HashMap<>();
+    }
+    Optional<DiffSummary> r = diffSummaries.get(psId);
+    if (r == null) {
+      if (!lazyLoad) {
+        return Optional.empty();
+      }
+      try {
+        r = Optional.of(patchListCache.getDiffSummary(c, ps));
+      } catch (PatchListNotAvailableException e) {
+        r = Optional.empty();
+      }
+      diffSummaries.put(psId, r);
+    }
+    return r;
+  }
+
+  private Optional<ChangedLines> computeChangedLines() throws OrmException {
+    Change c = change();
+    if (c == null) {
+      return Optional.empty();
+    }
+    PatchSet ps = currentPatchSet();
+    if (ps == null) {
+      return Optional.empty();
+    }
+    Optional<DiffSummary> ds = getDiffSummary(c, ps);
     if (ds.isPresent()) {
       return Optional.of(ds.get().getChangedLines());
     }
     return Optional.empty();
   }
 
-  public Optional<ChangedLines> changedLines() throws OrmException, IOException {
+  public Optional<ChangedLines> changedLines() throws OrmException {
     if (changedLines == null) {
       if (!lazyLoad) {
         return Optional.empty();
@@ -540,7 +665,13 @@ public class ChangeData {
     return legacyId;
   }
 
-  public Project.NameKey project() {
+  public Project.NameKey project() throws OrmException {
+    if (project == null) {
+      checkState(
+          !notesMigration.readChanges(),
+          "should not have created  ChangeData without a project when NoteDb is enabled");
+      project = change().getProject();
+    }
     return project;
   }
 
@@ -548,8 +679,58 @@ public class ChangeData {
     return visibleTo == user;
   }
 
-  void cacheVisibleTo(CurrentUser user) {
-    visibleTo = user;
+  public boolean hasChangeControl() {
+    return changeControl != null;
+  }
+
+  public ChangeControl changeControl() throws OrmException {
+    if (changeControl == null) {
+      Change c = change();
+      try {
+        changeControl = changeControlFactory.controlFor(db, c, userFactory.create(c.getOwner()));
+      } catch (NoSuchChangeException e) {
+        throw new OrmException(e);
+      }
+    }
+    return changeControl;
+  }
+
+  public ChangeControl changeControl(CurrentUser user) throws OrmException {
+    if (changeControl != null) {
+      CurrentUser oldUser = user;
+      if (sameUser(user, oldUser)) {
+        return changeControl;
+      }
+      throw new IllegalStateException("user already specified: " + changeControl.getUser());
+    }
+    try {
+      if (change != null) {
+        changeControl = changeControlFactory.controlFor(db, change, user);
+      } else {
+        changeControl = changeControlFactory.controlFor(db, project(), legacyId, user);
+      }
+    } catch (NoSuchChangeException e) {
+      throw new OrmException(e);
+    }
+    return changeControl;
+  }
+
+  private static boolean sameUser(CurrentUser a, CurrentUser b) {
+    // TODO(dborowitz): This is a hack; general CurrentUser equality would be
+    // better.
+    if (a.isInternalUser() && b.isInternalUser()) {
+      return true;
+    } else if (a instanceof AnonymousUser && b instanceof AnonymousUser) {
+      return true;
+    } else if (a.isIdentifiedUser() && b.isIdentifiedUser()) {
+      return a.getAccountId().equals(b.getAccountId());
+    }
+    return false;
+  }
+
+  void cacheVisibleTo(ChangeControl ctl) {
+    visibleTo = ctl.getUser();
+    changeControl = ctl;
   }
 
   public Change change() throws OrmException {
@@ -572,19 +753,6 @@ public class ChangeData {
     change = notes.getChange();
     setPatchSets(null);
     return change;
-  }
-
-  public LabelTypes getLabelTypes() throws OrmException {
-    if (labelTypes == null) {
-      ProjectState state;
-      try {
-        state = projectCache.checkedGet(project());
-      } catch (IOException e) {
-        throw new OrmException("project state not available", e);
-      }
-      labelTypes = state.getLabelTypes(change().getDest(), userFactory.create(change().getOwner()));
-    }
-    return labelTypes;
   }
 
   public ChangeNotes notes() throws OrmException {
@@ -625,13 +793,7 @@ public class ChangeData {
         try {
           currentApprovals =
               ImmutableList.copyOf(
-                  approvalsUtil.byPatchSet(
-                      db,
-                      notes(),
-                      userFactory.create(c.getOwner()),
-                      c.currentPatchSetId(),
-                      null,
-                      null));
+                  approvalsUtil.byPatchSet(db, changeControl(), c.currentPatchSetId()));
         } catch (OrmException e) {
           if (e.getCause() instanceof NoSuchChangeException) {
             currentApprovals = Collections.emptyList();
@@ -664,10 +826,6 @@ public class ChangeData {
       }
     }
     return commitFooters;
-  }
-
-  public ListMultimap<String, String> trackingFooters() throws IOException, OrmException {
-    return trackingFooters.extract(commitFooters());
   }
 
   public PersonIdent getAuthor() throws IOException, OrmException {
@@ -703,7 +861,6 @@ public class ChangeData {
       commitFooters = c.getFooterLines();
       author = c.getAuthorIdent();
       committer = c.getCommitterIdent();
-      parentCount = c.getParentCount();
     }
     return true;
   }
@@ -717,6 +874,22 @@ public class ChangeData {
       patchSets = psUtil.byChange(db, notes());
     }
     return patchSets;
+  }
+
+  /**
+   * @return patches for the change visible to the current user.
+   * @throws OrmException an error occurred reading the database.
+   */
+  public Collection<PatchSet> visiblePatchSets() throws OrmException {
+    Predicate<? super PatchSet> predicate =
+        ps -> {
+          try {
+            return changeControl().isPatchVisible(ps, db);
+          } catch (OrmException e) {
+            return false;
+          }
+        };
+    return patchSets().stream().filter(predicate).collect(toList());
   }
 
   public void setPatchSets(Collection<PatchSet> patchSets) {
@@ -781,60 +954,6 @@ public class ChangeData {
     return reviewers;
   }
 
-  public ReviewerByEmailSet reviewersByEmail() throws OrmException {
-    if (reviewersByEmail == null) {
-      if (!lazyLoad) {
-        return ReviewerByEmailSet.empty();
-      }
-      reviewersByEmail = notes().getReviewersByEmail();
-    }
-    return reviewersByEmail;
-  }
-
-  public void setReviewersByEmail(ReviewerByEmailSet reviewersByEmail) {
-    this.reviewersByEmail = reviewersByEmail;
-  }
-
-  public ReviewerByEmailSet getReviewersByEmail() {
-    return reviewersByEmail;
-  }
-
-  public void setPendingReviewers(ReviewerSet pendingReviewers) {
-    this.pendingReviewers = pendingReviewers;
-  }
-
-  public ReviewerSet getPendingReviewers() {
-    return this.pendingReviewers;
-  }
-
-  public ReviewerSet pendingReviewers() throws OrmException {
-    if (pendingReviewers == null) {
-      if (!lazyLoad) {
-        return ReviewerSet.empty();
-      }
-      pendingReviewers = notes().getPendingReviewers();
-    }
-    return pendingReviewers;
-  }
-
-  public void setPendingReviewersByEmail(ReviewerByEmailSet pendingReviewersByEmail) {
-    this.pendingReviewersByEmail = pendingReviewersByEmail;
-  }
-
-  public ReviewerByEmailSet getPendingReviewersByEmail() {
-    return pendingReviewersByEmail;
-  }
-
-  public ReviewerByEmailSet pendingReviewersByEmail() throws OrmException {
-    if (pendingReviewersByEmail == null) {
-      if (!lazyLoad) {
-        return ReviewerByEmailSet.empty();
-      }
-      pendingReviewersByEmail = notes().getPendingReviewersByEmail();
-    }
-    return pendingReviewersByEmail;
-  }
-
   public List<ReviewerStatusUpdate> reviewerUpdates() throws OrmException {
     if (reviewerUpdates == null) {
       if (!lazyLoad) {
@@ -881,46 +1000,13 @@ public class ChangeData {
 
       List<Comment> comments =
           Stream.concat(publishedComments().stream(), robotComments().stream()).collect(toList());
+      Set<String> nonLeafSet = comments.stream().map(c -> c.parentUuid).collect(toSet());
 
-      // Build a map of uuid to list of direct descendants.
-      Map<String, List<Comment>> forest = new HashMap<>();
-      for (Comment comment : comments) {
-        List<Comment> siblings = forest.get(comment.parentUuid);
-        if (siblings == null) {
-          siblings = new ArrayList<>();
-          forest.put(comment.parentUuid, siblings);
-        }
-        siblings.add(comment);
-      }
-
-      // Find latest comment in each thread and apply to unresolved counter.
-      int unresolved = 0;
-      if (forest.containsKey(null)) {
-        for (Comment root : forest.get(null)) {
-          if (getLatestComment(forest, root).unresolved) {
-            unresolved++;
-          }
-        }
-      }
-      unresolvedCommentCount = unresolved;
+      Long count =
+          comments.stream().filter(c -> (c.unresolved && !nonLeafSet.contains(c.key.uuid))).count();
+      unresolvedCommentCount = count.intValue();
     }
-
     return unresolvedCommentCount;
-  }
-
-  protected Comment getLatestComment(Map<String, List<Comment>> forest, Comment root) {
-    List<Comment> children = forest.get(root.key.uuid);
-    if (children == null) {
-      return root;
-    }
-    Comment latest = null;
-    for (Comment comment : children) {
-      Comment branchLatest = getLatestComment(forest, comment);
-      if (latest == null || branchLatest.writtenOn.after(latest.writtenOn)) {
-        latest = branchLatest;
-      }
-    }
-    return latest;
   }
 
   public void setUnresolvedCommentCount(Integer count) {
@@ -938,16 +1024,12 @@ public class ChangeData {
   }
 
   public List<SubmitRecord> submitRecords(SubmitRuleOptions options) throws OrmException {
-    List<SubmitRecord> records = getCachedSubmitRecord(options);
+    List<SubmitRecord> records = submitRecords.get(options);
     if (records == null) {
       if (!lazyLoad) {
         return Collections.emptyList();
       }
-      records =
-          submitRuleEvaluatorFactory
-              .create(userFactory.create(change().getOwner()), this)
-              .setOptions(options)
-              .evaluate();
+      records = new SubmitRuleEvaluator(this).setOptions(options).evaluate();
       submitRecords.put(options, records);
     }
     return records;
@@ -955,21 +1037,7 @@ public class ChangeData {
 
   @Nullable
   public List<SubmitRecord> getSubmitRecords(SubmitRuleOptions options) {
-    return getCachedSubmitRecord(options);
-  }
-
-  private List<SubmitRecord> getCachedSubmitRecord(SubmitRuleOptions options) {
-    List<SubmitRecord> records = submitRecords.get(options);
-    if (records != null) {
-      return records;
-    }
-
-    if (options.allowClosed() && change != null && change.getStatus().isOpen()) {
-      SubmitRuleOptions openSubmitRuleOptions = options.toBuilder().allowClosed(false).build();
-      return submitRecords.get(openSubmitRuleOptions);
-    }
-
-    return null;
+    return submitRecords.get(options);
   }
 
   public void setSubmitRecords(SubmitRuleOptions options, List<SubmitRecord> records) {
@@ -978,10 +1046,7 @@ public class ChangeData {
 
   public SubmitTypeRecord submitTypeRecord() throws OrmException {
     if (submitTypeRecord == null) {
-      submitTypeRecord =
-          submitRuleEvaluatorFactory
-              .create(userFactory.create(change().getOwner()), this)
-              .getSubmitType();
+      submitTypeRecord = new SubmitRuleEvaluator(this).getSubmitType();
     }
     return submitTypeRecord;
   }
@@ -1000,15 +1065,21 @@ public class ChangeData {
         mergeable = true;
       } else if (c.getStatus() == Change.Status.ABANDONED) {
         return null;
-      } else if (c.isWorkInProgress()) {
-        return null;
       } else {
         if (!lazyLoad) {
           return null;
         }
         PatchSet ps = currentPatchSet();
-        if (ps == null) {
-          return null;
+        try {
+          if (ps == null
+              || (!changeControl().isOwner() && !changeControl().isPatchVisible(ps, db))) {
+            return null;
+          }
+        } catch (OrmException e) {
+          if (e.getCause() instanceof NoSuchChangeException) {
+            return null;
+          }
+          throw e;
         }
 
         try (Repository repo = repoManager.openRepository(project())) {
@@ -1104,23 +1175,6 @@ public class ChangeData {
     return draftsByUser;
   }
 
-  public boolean isReviewedBy(Account.Id accountId) throws OrmException {
-    Collection<String> stars = stars(accountId);
-
-    PatchSet ps = currentPatchSet();
-    if (ps != null) {
-      if (stars.contains(StarredChangesUtil.REVIEWED_LABEL + "/" + ps.getPatchSetId())) {
-        return true;
-      }
-
-      if (stars.contains(StarredChangesUtil.UNREVIEWED_LABEL + "/" + ps.getPatchSetId())) {
-        return false;
-      }
-    }
-
-    return reviewedBy().contains(accountId);
-  }
-
   public Set<Account.Id> reviewedBy() throws OrmException {
     if (reviewedBy == null) {
       if (!lazyLoad) {
@@ -1212,22 +1266,6 @@ public class ChangeData {
       }
     }
     return starsOf.stars();
-  }
-
-  /**
-   * @return {@code null} if {@code revertOf} is {@code null}; true if the change is a pure revert;
-   *     false otherwise.
-   */
-  @Nullable
-  public Boolean isPureRevert() throws OrmException {
-    if (change().getRevertOf() == null) {
-      return null;
-    }
-    try {
-      return pureRevert.getPureRevert(notes()).isPureRevert;
-    } catch (IOException | BadRequestException | ResourceConflictException e) {
-      throw new OrmException("could not compute pure revert", e);
-    }
   }
 
   @Override

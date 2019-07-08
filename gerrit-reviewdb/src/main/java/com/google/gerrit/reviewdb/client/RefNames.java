@@ -37,6 +37,9 @@ public class RefNames {
   /** Note tree listing external IDs */
   public static final String REFS_EXTERNAL_IDS = "refs/meta/external-ids";
 
+  /** Preference settings for a user {@code refs/users} */
+  public static final String REFS_USERS = "refs/users/";
+
   /** Magic user branch in All-Users {@code refs/users/self} */
   public static final String REFS_USERS_SELF = "refs/users/self";
 
@@ -45,6 +48,12 @@ public class RefNames {
 
   /** Configurations of project-specific dashboards (canned search queries). */
   public static final String REFS_DASHBOARDS = "refs/meta/dashboards/";
+
+  /** Draft inline comments of a user on a change */
+  public static final String REFS_DRAFT_COMMENTS = "refs/draft-comments/";
+
+  /** A change starred by a user */
+  public static final String REFS_STARRED_CHANGES = "refs/starred-changes/";
 
   /** Sequence counters in NoteDb. */
   public static final String REFS_SEQUENCES = "refs/sequences/";
@@ -67,27 +76,6 @@ public class RefNames {
 
   public static final String EDIT_PREFIX = "edit-";
 
-  /*
-   * The following refs contain an account ID and should be visible only to that account.
-   *
-   * Parsing the account ID from the ref is implemented in Account.Id#fromRef(String). This ensures
-   * that VisibleRefFilter hides those refs from other users.
-   *
-   * This applies to:
-   * - User branches (e.g. 'refs/users/23/1011123')
-   * - Draft comment refs (e.g. 'refs/draft-comments/73/67473/1011123')
-   * - Starred changes refs (e.g. 'refs/starred-changes/73/67473/1011123')
-   */
-
-  /** Preference settings for a user {@code refs/users} */
-  public static final String REFS_USERS = "refs/users/";
-
-  /** Draft inline comments of a user on a change */
-  public static final String REFS_DRAFT_COMMENTS = "refs/draft-comments/";
-
-  /** A change starred by a user */
-  public static final String REFS_STARRED_CHANGES = "refs/starred-changes/";
-
   public static String fullName(String ref) {
     return (ref.startsWith(REFS) || ref.equals(HEAD)) ? ref : REFS_HEADS + ref;
   }
@@ -102,33 +90,32 @@ public class RefNames {
   }
 
   public static String changeMetaRef(Change.Id id) {
-    StringBuilder r = newStringBuilder().append(REFS_CHANGES);
-    return shard(id.get(), r).append(META_SUFFIX).toString();
+    StringBuilder r = new StringBuilder();
+    r.append(REFS_CHANGES);
+    r.append(shard(id.get()));
+    r.append(META_SUFFIX);
+    return r.toString();
   }
 
   public static String robotCommentsRef(Change.Id id) {
-    StringBuilder r = newStringBuilder().append(REFS_CHANGES);
-    return shard(id.get(), r).append(ROBOT_COMMENTS_SUFFIX).toString();
-  }
-
-  public static boolean isNoteDbMetaRef(String ref) {
-    if (ref.startsWith(REFS_CHANGES)
-        && (ref.endsWith(META_SUFFIX) || ref.endsWith(ROBOT_COMMENTS_SUFFIX))) {
-      return true;
-    }
-    if (ref.startsWith(REFS_DRAFT_COMMENTS) || ref.startsWith(REFS_STARRED_CHANGES)) {
-      return true;
-    }
-    return false;
+    StringBuilder r = new StringBuilder();
+    r.append(REFS_CHANGES);
+    r.append(shard(id.get()));
+    r.append(ROBOT_COMMENTS_SUFFIX);
+    return r.toString();
   }
 
   public static String refsUsers(Account.Id accountId) {
-    StringBuilder r = newStringBuilder().append(REFS_USERS);
-    return shard(accountId.get(), r).toString();
+    StringBuilder r = new StringBuilder();
+    r.append(REFS_USERS);
+    r.append(shard(accountId.get()));
+    return r.toString();
   }
 
   public static String refsDraftComments(Change.Id changeId, Account.Id accountId) {
-    return buildRefsPrefix(REFS_DRAFT_COMMENTS, changeId.get()).append(accountId.get()).toString();
+    StringBuilder r = buildRefsPrefix(REFS_DRAFT_COMMENTS, changeId.get());
+    r.append(accountId.get());
+    return r.toString();
   }
 
   public static String refsDraftCommentsPrefix(Change.Id changeId) {
@@ -136,7 +123,9 @@ public class RefNames {
   }
 
   public static String refsStarredChanges(Change.Id changeId, Account.Id accountId) {
-    return buildRefsPrefix(REFS_STARRED_CHANGES, changeId.get()).append(accountId.get()).toString();
+    StringBuilder r = buildRefsPrefix(REFS_STARRED_CHANGES, changeId.get());
+    r.append(accountId.get());
+    return r.toString();
   }
 
   public static String refsStarredChangesPrefix(Change.Id changeId) {
@@ -144,8 +133,11 @@ public class RefNames {
   }
 
   private static StringBuilder buildRefsPrefix(String prefix, int id) {
-    StringBuilder r = newStringBuilder().append(prefix);
-    return shard(id, r).append('/');
+    StringBuilder r = new StringBuilder();
+    r.append(prefix);
+    r.append(shard(id));
+    r.append('/');
+    return r;
   }
 
   public static String refsCacheAutomerge(String hash) {
@@ -156,18 +148,15 @@ public class RefNames {
     if (id < 0) {
       return null;
     }
-    return shard(id, newStringBuilder()).toString();
-  }
-
-  private static StringBuilder shard(int id, StringBuilder sb) {
+    StringBuilder r = new StringBuilder();
     int n = id % 100;
     if (n < 10) {
-      sb.append('0');
+      r.append('0');
     }
-    sb.append(n);
-    sb.append('/');
-    sb.append(id);
-    return sb;
+    r.append(n);
+    r.append('/');
+    r.append(id);
+    return r.toString();
   }
 
   /**
@@ -249,88 +238,6 @@ public class RefNames {
     return id;
   }
 
-  /**
-   * Skips a sharded ref part at the beginning of the name.
-   *
-   * <p>E.g.: "01/1" -> "", "01/1/" -> "/", "01/1/2" -> "/2", "01/1-edit" -> "-edit"
-   *
-   * @param name ref part name
-   * @return the rest of the name, {@code null} if the ref name part doesn't start with a valid
-   *     sharded ID
-   */
-  static String skipShardedRefPart(String name) {
-    if (name == null) {
-      return null;
-    }
-
-    String[] parts = name.split("/");
-    int n = parts.length;
-    if (n < 2) {
-      return null;
-    }
-
-    // Last 2 digits.
-    int le;
-    for (le = 0; le < parts[0].length(); le++) {
-      if (!Character.isDigit(parts[0].charAt(le))) {
-        return null;
-      }
-    }
-    if (le != 2) {
-      return null;
-    }
-
-    // Full ID.
-    int ie;
-    for (ie = 0; ie < parts[1].length(); ie++) {
-      if (!Character.isDigit(parts[1].charAt(ie))) {
-        if (ie == 0) {
-          return null;
-        }
-        break;
-      }
-    }
-
-    int shard = Integer.parseInt(parts[0]);
-    int id = Integer.parseInt(parts[1].substring(0, ie));
-
-    if (id % 100 != shard) {
-      return null;
-    }
-
-    return name.substring(2 + 1 + ie); // 2 for the length of the shard, 1 for the '/'
-  }
-
-  /**
-   * Parses an ID that follows a sharded ref part at the beginning of the name.
-   *
-   * <p>E.g.: "01/1/2" -> 2, "01/1/2/4" -> 2, ""01/1/2-edit" -> 2
-   *
-   * @param name ref part name
-   * @return ID that follows the sharded ref part at the beginning of the name, {@code null} if the
-   *     ref name part doesn't start with a valid sharded ID or if no valid ID follows the sharded
-   *     ref part
-   */
-  static Integer parseAfterShardedRefPart(String name) {
-    String rest = skipShardedRefPart(name);
-    if (rest == null || !rest.startsWith("/")) {
-      return null;
-    }
-
-    rest = rest.substring(1);
-
-    int ie;
-    for (ie = 0; ie < rest.length(); ie++) {
-      if (!Character.isDigit(rest.charAt(ie))) {
-        break;
-      }
-    }
-    if (ie == 0) {
-      return null;
-    }
-    return Integer.parseInt(rest.substring(0, ie));
-  }
-
   static Integer parseRefSuffix(String name) {
     if (name == null) {
       return null;
@@ -349,13 +256,6 @@ public class RefNames {
       return null;
     }
     return Integer.valueOf(name.substring(i, name.length()));
-  }
-
-  private static StringBuilder newStringBuilder() {
-    // Many refname types in this file are always are longer than the default of 16 chars, so
-    // presize StringBuilders larger by default. This hurts readability less than accurate
-    // calculations would, at a negligible cost to memory overhead.
-    return new StringBuilder(64);
   }
 
   private RefNames() {}

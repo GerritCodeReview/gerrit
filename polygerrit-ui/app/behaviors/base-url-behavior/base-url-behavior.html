@@ -18,20 +18,20 @@ limitations under the License.
 (function(window) {
   'use strict';
 
-  window.Gerrit = window.Gerrit || {};
-
   /** @polymerBehavior Gerrit.BaseUrlBehavior */
-  Gerrit.BaseUrlBehavior = {
-    /** @return {string} */
-    getBaseUrl() {
+  var BaseUrlBehavior = {
+    getBaseUrl: function() {
       return window.CANONICAL_PATH || '';
     },
 
-    computeGwtUrl(path) {
-      const base = this.getBaseUrl();
-      const clientPath = path.substring(base.length);
+    computeGwtUrl: function(path) {
+      var base = this.getBaseUrl();
+      var clientPath = path.substring(base.length);
       return base + '/?polygerrit=0#' + clientPath;
     },
   };
+
+  window.Gerrit = window.Gerrit || {};
+  window.Gerrit.BaseUrlBehavior = BaseUrlBehavior;
 })(window);
 </script>

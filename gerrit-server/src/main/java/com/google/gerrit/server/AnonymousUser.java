@@ -14,13 +14,20 @@
 
 package com.google.gerrit.server;
 
+import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.inject.Inject;
 import java.util.Collections;
 
 /** An anonymous user who has not yet authenticated. */
 public class AnonymousUser extends CurrentUser {
+  @Inject
+  AnonymousUser(CapabilityControl.Factory capabilityControlFactory) {
+    super(capabilityControlFactory);
+  }
+
   @Override
   public GroupMembership getEffectiveGroups() {
     return new ListGroupMembership(Collections.singleton(SystemGroupBackend.ANONYMOUS_USERS));

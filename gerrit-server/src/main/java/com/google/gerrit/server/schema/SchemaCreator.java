@@ -14,10 +14,9 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -25,8 +24,6 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.group.GroupsUpdate;
-import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gwtorm.jdbc.JdbcExecutor;
@@ -78,7 +75,7 @@ public class SchemaCreator {
     indexCollection = ic;
   }
 
-  public void create(ReviewDb db) throws OrmException, IOException, ConfigInvalidException {
+  public void create(final ReviewDb db) throws OrmException, IOException, ConfigInvalidException {
     final JdbcSchema jdbc = (JdbcSchema) db;
     try (JdbcExecutor e = new JdbcExecutor(jdbc)) {
       jdbc.updateSchema(e);
@@ -99,31 +96,35 @@ public class SchemaCreator {
   }
 
   private void createDefaultGroups(ReviewDb db) throws OrmException, IOException {
-    admin = newGroup(db, "Administrators");
+    admin = newGroup(db, "Administrators", null);
     admin.setDescription("Gerrit Site Administrators");
-    GroupsUpdate.addNewGroup(db, admin);
-    index(InternalGroup.create(admin, ImmutableSet.of(), ImmutableSet.of()));
+    db.accountGroups().insert(Collections.singleton(admin));
+    db.accountGroupNames().insert(Collections.singleton(new AccountGroupName(admin)));
+    index(admin);
 
-    batch = newGroup(db, "Non-Interactive Users");
+    batch = newGroup(db, "Non-Interactive Users", null);
     batch.setDescription("Users who perform batch actions on Gerrit");
     batch.setOwnerGroupUUID(admin.getGroupUUID());
-    GroupsUpdate.addNewGroup(db, batch);
-    index(InternalGroup.create(batch, ImmutableSet.of(), ImmutableSet.of()));
+    db.accountGroups().insert(Collections.singleton(batch));
+    db.accountGroupNames().insert(Collections.singleton(new AccountGroupName(batch)));
+    index(batch);
   }
 
-  private void index(InternalGroup group) throws IOException {
+  private void index(AccountGroup group) throws IOException {
     for (GroupIndex groupIndex : indexCollection.getWriteIndexes()) {
       groupIndex.replace(group);
     }
   }
 
-  private AccountGroup newGroup(ReviewDb c, String name) throws OrmException {
-    AccountGroup.UUID uuid = GroupUUID.make(name, serverUser);
+  private AccountGroup newGroup(ReviewDb c, String name, AccountGroup.UUID uuid)
+      throws OrmException {
+    if (uuid == null) {
+      uuid = GroupUUID.make(name, serverUser);
+    }
     return new AccountGroup( //
         new AccountGroup.NameKey(name), //
         new AccountGroup.Id(c.nextAccountGroupId()), //
-        uuid,
-        TimeUtil.nowTs());
+        uuid);
   }
 
   private SystemConfig initSystemConfig(ReviewDb db) throws OrmException {

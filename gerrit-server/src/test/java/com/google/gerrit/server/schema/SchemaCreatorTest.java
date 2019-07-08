@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
@@ -106,7 +105,7 @@ public class SchemaCreatorTest {
     assertThat(codeReview).isNotNull();
     assertThat(codeReview.getName()).isEqualTo("Code-Review");
     assertThat(codeReview.getDefaultValue()).isEqualTo(0);
-    assertThat(codeReview.getFunction()).isEqualTo(LabelFunction.MAX_WITH_BLOCK);
+    assertThat(codeReview.getFunctionName()).isEqualTo("MaxWithBlock");
     assertThat(codeReview.isCopyMinScore()).isTrue();
     assertValueRange(codeReview, 2, 1, 0, -1, -2);
   }

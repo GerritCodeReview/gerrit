@@ -1,0 +1,227 @@
+= Gerrit Code Review - Quick get started guide
+
+****
+This guide was made with the impatient in mind, ready to try out Gerrit on their
+own server but not prepared to make the full installation procedure yet.
+
+Explanation is sparse and you should not use a server installed this way in a
+live setup, this is made with proof of concept activities in mind.
+
+It is presumed you install it on a Unix based server such as any of the Linux
+flavors or BSD.
+
+It's also presumed that you have access to an OpenID enabled email address.
+Examples of OpenID enable email providers are Gmail, Yahoo! Mail and Hotmail.
+It's also possible to register a custom email address with OpenID, but that is
+outside the scope of this quick installation guide. For testing purposes one of
+the above providers should be fine. Please note that network access to the
+OpenID provider you choose is necessary for both you and your Gerrit instance.
+****
+
+
+[[requirements]]
+== Requirements
+
+Most distributions come with Java today. Do you already have Java installed?
+
+----
+  $ java -version
+  openjdk version "1.8.0_72"
+  OpenJDK Runtime Environment (build 1.8.0_72-b15)
+  OpenJDK 64-Bit Server VM (build 25.72-b15, mixed mode)
+----
+
+If Java isn't installed, get it:
+
+* JRE, minimum version 1.8 http://www.oracle.com/technetwork/java/javase/downloads/index.html[Download]
+
+
+[[user]]
+== Create a user to host the Gerrit service
+
+We will run the service as a non-privileged user on your system.
+First create the user and then become the user:
+
+----
+  $ sudo adduser gerrit2
+  $ sudo su gerrit2
+----
+
+If you don't have root privileges you could skip this step and run Gerrit
+as your own user as well.
+
+
+[[download]]
+== Download Gerrit
+
+It's time to download the archive that contains the Gerrit web and ssh service.
+
+You can choose from different versions to download from here:
+
+* https://www.gerritcodereview.com/download/index.html[A list of releases available]
+
+This tutorial is based on version 2.2.2, and you can download that from this link
+
+* https://www.gerritcodereview.com/download/gerrit-2.2.2.war[Link to the 2.2.2 war archive]
+
+
+[[initialization]]
+== Initialize the Site
+
+It's time to run the initialization, and with the batch switch enabled, we don't have to answer any questions at all:
+
+----
+  gerrit2@host:~$ java -jar gerrit.war init --batch -d ~/gerrit_testsite
+  Generating SSH host key ... rsa(simple)... done
+  Initialized /home/gerrit2/gerrit_testsite
+  Executing /home/gerrit2/gerrit_testsite/bin/gerrit.sh start
+  Starting Gerrit Code Review: OK
+  gerrit2@host:~$
+----
+
+When the init is complete, you can review your settings in the
+file `'$site_path/etc/gerrit.config'`.
+
+Note that initialization also starts the server.  If any settings changes are
+made, the server must be restarted before they will take effect.
+
+----
+  gerrit2@host:~$ ~/gerrit_testsite/bin/gerrit.sh restart
+  Stopping Gerrit Code Review: OK
+  Starting Gerrit Code Review: OK
+  gerrit2@host:~$
+----
+
+The server can be also stopped and started by passing the `stop` and `start`
+commands to gerrit.sh.
+
+----
+  gerrit2@host:~$ ~/gerrit_testsite/bin/gerrit.sh stop
+  Stopping Gerrit Code Review: OK
+  gerrit2@host:~$
+  gerrit2@host:~$ ~/gerrit_testsite/bin/gerrit.sh start
+  Starting Gerrit Code Review: OK
+  gerrit2@host:~$
+----
+
+include::config-login-register.txt[]
+
+== Project creation
+
+Your base Gerrit server is now running and you have a user that's ready
+to interact with it.  You now have two options, either you create a new
+test project to work with or you already have a git with history that
+you would like to import into Gerrit and try out code review on.
+
+=== New project from scratch
+If you choose to create a new repository from scratch, it's easier for
+you to create a project with an initial commit in it. That way first
+time setup between client and server is easier.
+
+This is done via the SSH port:
+
+----
+  user@host:~$ ssh -p 29418 user@localhost gerrit create-project demo-project --empty-commit
+  user@host:~$
+----
+
+This will create a repository that you can clone to work with.
+
+=== Already existing project
+
+The other alternative is if you already have a git project that you
+want to try out Gerrit on.
+First you have to create the project.  This is done via the SSH port:
+
+----
+  user@host:~$ ssh -p 29418 user@localhost gerrit create-project demo-project
+  user@host:~$
+----
+
+You need to make sure that at least initially your account is granted
+"Create Reference" privileges for the refs/heads/* reference.
+This is done via the web interface in the Admin/Projects/Access page
+that correspond to your project.
+
+After that it's time to upload the previous history to the server:
+
+----
+  user@host:~/my-project$ git push ssh://user@localhost:29418/demo-project *:*
+  Counting objects: 2011, done.
+  Writing objects: 100% (2011/2011), 456293 bytes, done.
+  Total 2011 (delta 0), reused 0 (delta 0)
+  To ssh://user@localhost:29418/demo-project
+   * [new branch]      master -> master
+  user@host:~/my-project$
+----
+
+This will create a repository that you can clone to work with.
+
+
+== My first change
+
+Download a local clone of the repository and move into it
+
+----
+  user@host:~$ git clone ssh://user@localhost:29418/demo-project
+  Cloning into demo-project...
+  remote: Counting objects: 2, done
+  remote: Finding sources: 100% (2/2)
+  remote: Total 2 (delta 0), reused 0 (delta 0)
+  user@host:~$ cd demo-project
+  user@host:~/demo-project$
+----
+
+Then make a change to it and upload it as a reviewable change in Gerrit.
+
+----
+  user@host:~/demo-project$ date > testfile.txt
+  user@host:~/demo-project$ git add testfile.txt
+  user@host:~/demo-project$ git commit -m "My pretty test commit"
+  [master ff643a5] My pretty test commit
+   1 files changed, 1 insertions(+), 0 deletions(-)
+   create mode 100644 testfile.txt
+  user@host:~/demo-project$
+----
+
+Usually when you push to a remote git, you push to the reference
+`'/refs/heads/branch'`, but when working with Gerrit you have to push to a
+virtual branch representing "code review before submission to branch".
+This virtual name space is known as /refs/for/<branch>
+
+----
+  user@host:~/demo-project$ git push origin HEAD:refs/for/master
+  Counting objects: 4, done.
+  Writing objects: 100% (3/3), 293 bytes, done.
+  Total 3 (delta 0), reused 0 (delta 0)
+  remote:
+  remote: New Changes:
+  remote:   http://localhost:8080/1
+  remote:
+  To ssh://user@localhost:29418/demo-project
+   * [new branch]      HEAD -> refs/for/master
+  user@host:~/demo-project$
+----
+
+You should now be able to access your change by browsing to the http URL
+suggested above, http://localhost:8080/1
+
+
+== Quick Installation Complete
+
+This covers the scope of getting Gerrit started and your first change uploaded.
+It doesn't give any clue as to how the review workflow works, please read
+link:http://source.android.com/source/life-of-a-patch[Default Workflow] to
+learn more about the workflow of Gerrit.
+
+To read more on the installation of Gerrit please see link:install.html[the detailed
+installation page].
+
+
+GERRIT
+------
+
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

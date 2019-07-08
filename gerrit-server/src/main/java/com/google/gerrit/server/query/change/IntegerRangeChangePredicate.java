@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.index.FieldDef;
-import com.google.gerrit.index.query.IntegerRangePredicate;
-import com.google.gerrit.index.query.Matchable;
-import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.IntegerRangePredicate;
+import com.google.gerrit.server.query.Matchable;
+import com.google.gerrit.server.query.QueryParseException;
 
 public abstract class IntegerRangeChangePredicate extends IntegerRangePredicate<ChangeData>
     implements Matchable<ChangeData> {

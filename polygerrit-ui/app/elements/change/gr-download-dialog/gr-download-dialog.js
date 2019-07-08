@@ -24,15 +24,18 @@
      */
 
     properties: {
-      /** @type {{ revisions: Array }} */
       change: Object,
       patchNum: String,
-      /** @type {?} */
       config: Object,
+      loggedIn: {
+        type: Boolean,
+        value: false,
+        observer: '_loggedInChanged',
+      },
 
       _schemes: {
         type: Array,
-        value() { return []; },
+        value: function() { return []; },
         computed: '_computeSchemes(change, patchNum)',
         observer: '_schemesChanged',
       },
@@ -44,106 +47,87 @@
     },
 
     behaviors: [
-      Gerrit.PatchSetBehavior,
       Gerrit.RESTClientBehavior,
     ],
 
-    focus() {
+    focus: function() {
       if (this._schemes.length) {
-        this.$.downloadCommands.focusOnCopy();
+        this.$$('.copyToClipboard').focus();
       } else {
         this.$.download.focus();
       }
     },
 
-    getFocusStops() {
-      const links = this.$$('#archives').querySelectorAll('a');
+    getFocusStops: function() {
+      var links = this.$$('#archives').querySelectorAll('a');
       return {
         start: this.$.closeButton,
         end: links[links.length - 1],
       };
     },
 
-    _computeDownloadCommands(change, patchNum, _selectedScheme) {
-      let commandObj;
-      for (const rev of Object.values(change.revisions || {})) {
-        if (this.patchNumEquals(rev._number, patchNum) &&
-            rev.fetch.hasOwnProperty(_selectedScheme)) {
-          commandObj = rev.fetch[_selectedScheme].commands;
+    _loggedInChanged: function(loggedIn) {
+      if (!loggedIn) { return; }
+      this.$.restAPI.getPreferences().then(function(prefs) {
+        if (prefs.download_scheme) {
+          // Note (issue 5180): normalize the download scheme with lower-case.
+          this._selectedScheme = prefs.download_scheme.toLowerCase();
+        }
+      }.bind(this));
+    },
+
+    _computeDownloadCommands: function(change, patchNum, _selectedScheme) {
+      var commandObj;
+      for (var rev in change.revisions) {
+        if (change.revisions[rev]._number == patchNum &&
+            change.revisions[rev].fetch.hasOwnProperty(_selectedScheme)) {
+          commandObj = change.revisions[rev].fetch[_selectedScheme].commands;
           break;
         }
       }
-      const commands = [];
-      for (const title in commandObj) {
-        if (!commandObj.hasOwnProperty(title)) { continue; }
+      var commands = [];
+      for (var title in commandObj) {
         commands.push({
-          title,
+          title: title,
           command: commandObj[title],
         });
       }
       return commands;
     },
 
-    /**
-     * @param {!Object} change
-     * @param {number|string} patchNum
-     *
-     * @return {string}
-     */
-    _computeZipDownloadLink(change, patchNum) {
+    _computeZipDownloadLink: function(change, patchNum) {
       return this._computeDownloadLink(change, patchNum, true);
     },
 
-    /**
-     * @param {!Object} change
-     * @param {number|string} patchNum
-     *
-     * @return {string}
-     */
-    _computeZipDownloadFilename(change, patchNum) {
+    _computeZipDownloadFilename: function(change, patchNum) {
       return this._computeDownloadFilename(change, patchNum, true);
     },
 
-    /**
-     * @param {!Object} change
-     * @param {number|string} patchNum
-     * @param {boolean=} opt_zip
-     *
-     * @return {string} Not sure why there was a mismatch
-     */
-    _computeDownloadLink(change, patchNum, opt_zip) {
+    _computeDownloadLink: function(change, patchNum, zip) {
       return this.changeBaseURL(change._number, patchNum) + '/patch?' +
-          (opt_zip ? 'zip' : 'download');
+          (zip ? 'zip' : 'download');
     },
 
-
-    /**
-     * @param {!Object} change
-     * @param {number|string} patchNum
-     * @param {boolean=} opt_zip
-     *
-     * @return {string}
-     */
-    _computeDownloadFilename(change, patchNum, opt_zip) {
-      let shortRev = '';
-      for (const rev in change.revisions) {
-        if (this.patchNumEquals(change.revisions[rev]._number, patchNum)) {
+    _computeDownloadFilename: function(change, patchNum, zip) {
+      var shortRev;
+      for (var rev in change.revisions) {
+        if (change.revisions[rev]._number == patchNum) {
           shortRev = rev.substr(0, 7);
           break;
         }
       }
-      return shortRev + '.diff.' + (opt_zip ? 'zip' : 'base64');
+      return shortRev + '.diff.' + (zip ? 'zip' : 'base64');
     },
 
-    _computeArchiveDownloadLink(change, patchNum, format) {
+    _computeArchiveDownloadLink: function(change, patchNum, format) {
       return this.changeBaseURL(change._number, patchNum) +
           '/archive?format=' + format;
     },
 
-    _computeSchemes(change, patchNum) {
-      for (const rev of Object.values(change.revisions || {})) {
-        if (this.patchNumEquals(rev._number, patchNum)) {
-          const fetch = rev.fetch;
+    _computeSchemes: function(change, patchNum) {
+      for (var rev in change.revisions) {
+        if (change.revisions[rev]._number == patchNum) {
+          var fetch = change.revisions[rev].fetch;
           if (fetch) {
             return Object.keys(fetch).sort();
           }
@@ -153,21 +137,42 @@
       return [];
     },
 
-    _computePatchSetQuantity(revisions) {
-      if (!revisions) { return 0; }
-      return Object.keys(revisions).length;
+    _computeSchemeSelected: function(scheme, selectedScheme) {
+      return scheme == selectedScheme;
     },
 
-    _handleCloseTap(e) {
+    _handleSchemeTap: function(e) {
+      e.preventDefault();
+      var el = Polymer.dom(e).rootTarget;
+      this._selectedScheme = el.getAttribute('data-scheme');
+      if (this.loggedIn) {
+        this.$.restAPI.savePreferences({download_scheme: this._selectedScheme});
+      }
+    },
+
+    _handleInputTap: function(e) {
+      e.preventDefault();
+      Polymer.dom(e).rootTarget.select();
+    },
+
+    _handleCloseTap: function(e) {
       e.preventDefault();
       this.fire('close', null, {bubbles: false});
     },
 
-    _schemesChanged(schemes) {
-      if (schemes.length === 0) { return; }
-      if (!schemes.includes(this._selectedScheme)) {
+    _schemesChanged: function(schemes) {
+      if (schemes.length == 0) { return; }
+      if (schemes.indexOf(this._selectedScheme) == -1) {
         this._selectedScheme = schemes.sort()[0];
       }
+    },
+
+    _copyToClipboard: function(e) {
+      e.target.parentElement.querySelector('.copyCommand').select();
+      document.execCommand('copy');
+      getSelection().removeAllRanges();
+      e.target.textContent = 'done';
+      setTimeout(function() { e.target.textContent = 'copy'; }, 1000);
     },
   });
 })();

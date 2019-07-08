@@ -162,7 +162,8 @@ class UpgradeFrom2_0_x implements InitStep {
     savePublic(cfg);
   }
 
-  private boolean convertUrl(Section database, String url) throws UnsupportedEncodingException {
+  private boolean convertUrl(final Section database, String url)
+      throws UnsupportedEncodingException {
     String username = null;
     String password = null;
 
@@ -242,14 +243,14 @@ class UpgradeFrom2_0_x implements InitStep {
     return false;
   }
 
-  private void sethost(Section database, InetSocketAddress addr) {
+  private void sethost(final Section database, final InetSocketAddress addr) {
     database.set("hostname", SocketUtil.hostname(addr));
     if (0 < addr.getPort()) {
       database.set("port", String.valueOf(addr.getPort()));
     }
   }
 
-  private void setuser(Section database, String username, String password) {
+  private void setuser(final Section database, String username, String password) {
     if (username != null && !username.isEmpty()) {
       database.set("username", username);
     }
@@ -277,7 +278,7 @@ class UpgradeFrom2_0_x implements InitStep {
         throw new IOException("Cannot read " + name, e);
       }
       final Properties dbprop = new Properties();
-      for (Map.Entry<Object, Object> e : srvprop.entrySet()) {
+      for (final Map.Entry<Object, Object> e : srvprop.entrySet()) {
         final String key = (String) e.getKey();
         if (key.startsWith("database.")) {
           dbprop.put(key.substring("database.".length()), e.getValue());

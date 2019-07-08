@@ -58,9 +58,4 @@ public class RestoreFileModification implements TreeModification {
       }
     }
   }
-
-  @Override
-  public String getFilePath() {
-    return filePath;
-  }
 }

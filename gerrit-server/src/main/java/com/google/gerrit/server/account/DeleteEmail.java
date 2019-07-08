@@ -23,14 +23,10 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.DeleteEmail.Input;
-import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -45,44 +41,42 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
 
   private final Provider<CurrentUser> self;
   private final Realm realm;
-  private final PermissionBackend permissionBackend;
+  private final Provider<ReviewDb> dbProvider;
   private final AccountManager accountManager;
-  private final ExternalIds externalIds;
 
   @Inject
   DeleteEmail(
       Provider<CurrentUser> self,
       Realm realm,
-      PermissionBackend permissionBackend,
-      AccountManager accountManager,
-      ExternalIds externalIds) {
+      Provider<ReviewDb> dbProvider,
+      AccountManager accountManager) {
     this.self = self;
     this.realm = realm;
-    this.permissionBackend = permissionBackend;
+    this.dbProvider = dbProvider;
     this.accountManager = accountManager;
-    this.externalIds = externalIds;
   }
 
   @Override
   public Response<?> apply(AccountResource.Email rsrc, Input input)
       throws AuthException, ResourceNotFoundException, ResourceConflictException,
-          MethodNotAllowedException, OrmException, IOException, ConfigInvalidException,
-          PermissionBackendException {
-    if (!self.get().hasSameAccountId(rsrc.getUser())) {
-      permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
+          MethodNotAllowedException, OrmException, IOException, ConfigInvalidException {
+    if (!self.get().hasSameAccountId(rsrc.getUser())
+        && !self.get().getCapabilities().canModifyAccount()) {
+      throw new AuthException("not allowed to delete email address");
     }
     return apply(rsrc.getUser(), rsrc.getEmail());
   }
 
   public Response<?> apply(IdentifiedUser user, String email)
       throws ResourceNotFoundException, ResourceConflictException, MethodNotAllowedException,
-          OrmException, IOException, ConfigInvalidException {
+          OrmException, IOException {
     if (!realm.allowsEdit(AccountFieldName.REGISTER_NEW_EMAIL)) {
       throw new MethodNotAllowedException("realm does not allow deleting emails");
     }
 
     Set<ExternalId> extIds =
-        externalIds.byAccount(user.getAccountId()).stream()
+        dbProvider.get().accountExternalIds().byAccount(user.getAccountId()).toList().stream()
+            .map(ExternalId::from)
             .filter(e -> email.equals(e.email()))
             .collect(toSet());
     if (extIds.isEmpty()) {
@@ -90,8 +84,11 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
     }
 
     try {
-      accountManager.unlink(
-          user.getAccountId(), extIds.stream().map(e -> e.key()).collect(toSet()));
+      for (ExternalId extId : extIds) {
+        AuthRequest authRequest = new AuthRequest(extId.key());
+        authRequest.setEmailAddress(email);
+        accountManager.unlink(user.getAccountId(), authRequest);
+      }
     } catch (AccountException e) {
       throw new ResourceConflictException(e.getMessage());
     }

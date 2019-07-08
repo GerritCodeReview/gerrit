@@ -36,6 +36,15 @@ public class ReviewInput {
   public Map<String, List<RobotCommentInput>> robotComments;
 
   /**
+   * If true require all labels to be within the user's permitted ranges based on access controls,
+   * attempting to use a label not granted to the user will fail the entire modify operation early.
+   * If false the operation will execute anyway, but the proposed labels given by the user will be
+   * modified to be the "best" value allowed by the access controls, or ignored if the label does
+   * not exist.
+   */
+  public boolean strictLabels = true;
+
+  /**
    * How to process draft comments already in the database that were not also described in this
    * input request.
    *
@@ -45,7 +54,7 @@ public class ReviewInput {
   public DraftHandling drafts;
 
   /** Who to send email notifications to after review is stored. */
-  public NotifyHandling notify;
+  public NotifyHandling notify = NotifyHandling.ALL;
 
   public Map<RecipientType, NotifyInfo> notifyDetails;
 
@@ -57,23 +66,13 @@ public class ReviewInput {
    * on behalf of this named user instead of the caller. Caller must have the labelAs-$NAME
    * permission granted for each label that appears in {@link #labels}. This is in addition to the
    * named user also needing to have permission to use the labels.
+   *
+   * <p>{@link #strictLabels} impacts how labels is processed for the named user, not the caller.
    */
   public String onBehalfOf;
 
   /** Reviewers that should be added to this change. */
   public List<AddReviewerInput> reviewers;
-
-  /**
-   * If true mark the change as work in progress. It is an error for both {@link #workInProgress}
-   * and {@link #ready} to be true.
-   */
-  public boolean workInProgress;
-
-  /**
-   * If true mark the change as ready for review. It is an error for both {@link #workInProgress}
-   * and {@link #ready} to be true.
-   */
-  public boolean ready;
 
   public enum DraftHandling {
     /** Delete pending drafts on this revision only. */
@@ -139,18 +138,6 @@ public class ReviewInput {
       reviewers = new ArrayList<>();
     }
     reviewers.add(input);
-    return this;
-  }
-
-  public ReviewInput setWorkInProgress(boolean workInProgress) {
-    this.workInProgress = workInProgress;
-    ready = !workInProgress;
-    return this;
-  }
-
-  public ReviewInput setReady(boolean ready) {
-    this.ready = ready;
-    workInProgress = !ready;
     return this;
   }
 

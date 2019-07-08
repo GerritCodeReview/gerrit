@@ -14,22 +14,19 @@
 
 package com.google.gerrit.server.index.group;
 
-import com.google.gerrit.index.Index;
-import com.google.gerrit.index.IndexedQuery;
-import com.google.gerrit.index.QueryOptions;
-import com.google.gerrit.index.query.DataSource;
-import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.index.Index;
+import com.google.gerrit.server.index.IndexedQuery;
+import com.google.gerrit.server.index.QueryOptions;
+import com.google.gerrit.server.query.DataSource;
+import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.QueryParseException;
 
-public class IndexedGroupQuery extends IndexedQuery<AccountGroup.UUID, InternalGroup>
-    implements DataSource<InternalGroup> {
+public class IndexedGroupQuery extends IndexedQuery<AccountGroup.UUID, AccountGroup>
+    implements DataSource<AccountGroup> {
 
   public IndexedGroupQuery(
-      Index<AccountGroup.UUID, InternalGroup> index,
-      Predicate<InternalGroup> pred,
-      QueryOptions opts)
+      Index<AccountGroup.UUID, AccountGroup> index, Predicate<AccountGroup> pred, QueryOptions opts)
       throws QueryParseException {
     super(index, pred, opts.convertForBackend());
   }

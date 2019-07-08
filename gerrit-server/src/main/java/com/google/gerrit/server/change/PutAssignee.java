@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
@@ -23,91 +22,74 @@ import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountLoader;
-import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.change.PostReviewers.Addition;
-import com.google.gerrit.server.permissions.ChangePermission;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
-public class PutAssignee extends RetryingRestModifyView<ChangeResource, AssigneeInput, AccountInfo>
-    implements UiAction<ChangeResource> {
+public class PutAssignee
+    implements RestModifyView<ChangeResource, AssigneeInput>, UiAction<ChangeResource> {
 
-  private final AccountsCollection accounts;
   private final SetAssigneeOp.Factory assigneeFactory;
+  private final BatchUpdate.Factory batchUpdateFactory;
   private final Provider<ReviewDb> db;
   private final PostReviewers postReviewers;
   private final AccountLoader.Factory accountLoaderFactory;
 
   @Inject
   PutAssignee(
-      AccountsCollection accounts,
       SetAssigneeOp.Factory assigneeFactory,
-      RetryHelper retryHelper,
+      BatchUpdate.Factory batchUpdateFactory,
       Provider<ReviewDb> db,
       PostReviewers postReviewers,
       AccountLoader.Factory accountLoaderFactory) {
-    super(retryHelper);
-    this.accounts = accounts;
     this.assigneeFactory = assigneeFactory;
+    this.batchUpdateFactory = batchUpdateFactory;
     this.db = db;
     this.postReviewers = postReviewers;
     this.accountLoaderFactory = accountLoaderFactory;
   }
 
   @Override
-  protected AccountInfo applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource rsrc, AssigneeInput input)
-      throws RestApiException, UpdateException, OrmException, IOException,
-          PermissionBackendException, ConfigInvalidException {
-    rsrc.permissions().check(ChangePermission.EDIT_ASSIGNEE);
-
-    input.assignee = Strings.nullToEmpty(input.assignee).trim();
-    if (input.assignee.isEmpty()) {
+  public Response<AccountInfo> apply(ChangeResource rsrc, AssigneeInput input)
+      throws RestApiException, UpdateException, OrmException, IOException {
+    if (!rsrc.getControl().canEditAssignee()) {
+      throw new AuthException("Changing Assignee not permitted");
+    }
+    if (input.assignee == null || input.assignee.trim().isEmpty()) {
       throw new BadRequestException("missing assignee field");
     }
 
-    IdentifiedUser assignee = accounts.parse(input.assignee);
-    if (!assignee.getAccount().isActive()) {
-      throw new UnprocessableEntityException(input.assignee + " is not active");
-    }
-    try {
-      rsrc.permissions().database(db).user(assignee).check(ChangePermission.READ);
-    } catch (AuthException e) {
-      throw new AuthException("read not permitted for " + input.assignee);
-    }
-
     try (BatchUpdate bu =
-        updateFactory.create(
-            db.get(), rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
-      SetAssigneeOp op = assigneeFactory.create(assignee);
+        batchUpdateFactory.create(
+            db.get(),
+            rsrc.getChange().getProject(),
+            rsrc.getControl().getUser(),
+            TimeUtil.nowTs())) {
+      SetAssigneeOp op = assigneeFactory.create(input.assignee);
       bu.addOp(rsrc.getId(), op);
 
       PostReviewers.Addition reviewersAddition = addAssigneeAsCC(rsrc, input.assignee);
       bu.addOp(rsrc.getId(), reviewersAddition.op);
 
       bu.execute();
-      return accountLoaderFactory.create(true).fillOne(assignee.getAccountId());
+      return Response.ok(accountLoaderFactory.create(true).fillOne(op.getNewAssignee()));
     }
   }
 
   private Addition addAssigneeAsCC(ChangeResource rsrc, String assignee)
-      throws OrmException, IOException, PermissionBackendException, ConfigInvalidException {
+      throws OrmException, RestApiException, IOException {
     AddReviewerInput reviewerInput = new AddReviewerInput();
     reviewerInput.reviewer = assignee;
     reviewerInput.state = ReviewerState.CC;
@@ -117,9 +99,9 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
   }
 
   @Override
-  public UiAction.Description getDescription(ChangeResource rsrc) {
+  public UiAction.Description getDescription(ChangeResource resource) {
     return new UiAction.Description()
         .setLabel("Edit Assignee")
-        .setVisible(rsrc.permissions().testCond(ChangePermission.EDIT_ASSIGNEE));
+        .setVisible(resource.getControl().canEditAssignee());
   }
 }

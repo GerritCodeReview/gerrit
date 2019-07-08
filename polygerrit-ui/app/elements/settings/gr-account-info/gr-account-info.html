@@ -19,15 +19,12 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
-<link rel="import" href="../../../styles/gr-form-styles.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-
+<link rel="import" href="../../../styles/gr-settings-styles.html">
 
 <dom-module id="gr-account-info">
   <template>
-    <style include="shared-styles"></style>
-    <style include="gr-form-styles"></style>
-    <div class="gr-form-styles">
+    <style include="gr-settings-styles"></style>
+    <div class="gr-settings-styles">
       <section>
         <span class="title">ID</span>
         <span class="value">[[_account._account_id]]</span>
@@ -44,28 +41,17 @@ limitations under the License.
               date-str="[[_account.registered_on]]"></gr-date-formatter>
         </span>
       </section>
-      <section id="usernameSection">
+      <section>
         <span class="title">Username</span>
-        <span
-            hidden$="[[usernameMutable]]"
-            class="value">[[_username]]</span>
-        <span
-            hidden$="[[!usernameMutable]]"
-            class="value">
-          <input
-              is="iron-input"
-              id="usernameInput"
-              disabled="[[_saving]]"
-              on-keydown="_handleKeydown"
-              bind-value="{{_username}}">
+        <span class="value">[[_account.username]]</span>
       </section>
       <section id="nameSection">
         <span class="title">Full name</span>
         <span
-            hidden$="[[nameMutable]]"
+            hidden$="[[mutable]]"
             class="value">[[_account.name]]</span>
         <span
-            hidden$="[[!nameMutable]]"
+            hidden$="[[!mutable]]"
             class="value">
           <input
               is="iron-input"

@@ -57,18 +57,6 @@ public class ConfigInfo extends JavaScriptObject {
   public final native InheritedBooleanInfo rejectImplicitMerges()
       /*-{ return this.reject_implicit_merges; }-*/ ;
 
-  public final native InheritedBooleanInfo privateByDefault()
-      /*-{ return this.private_by_default; }-*/ ;
-
-  public final native InheritedBooleanInfo workInProgressByDefault()
-      /*-{ return this.work_in_progress_by_default; }-*/ ;
-
-  public final native InheritedBooleanInfo enableReviewerByEmail()
-      /*-{ return this.enable_reviewer_by_email; }-*/ ;
-
-  public final native InheritedBooleanInfo matchAuthorToCommitterDate()
-      /*-{ return this.match_author_to_committer_date; }-*/ ;
-
   public final SubmitType submitType() {
     return SubmitType.valueOf(submitTypeRaw());
   }
@@ -124,9 +112,6 @@ public class ConfigInfo extends JavaScriptObject {
   }
 
   final native ThemeInfo theme() /*-{ return this.theme; }-*/;
-
-  final native NativeMap<JsArrayString>
-      extensionPanelNames() /*-{ return this.extension_panel_names; }-*/;
 
   protected ConfigInfo() {}
 

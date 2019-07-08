@@ -25,8 +25,6 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.mail.Address;
 import java.util.Arrays;
 import java.util.Collections;
@@ -53,7 +51,7 @@ public class FromAddressGeneratorProviderTest {
     return new FromAddressGeneratorProvider(config, "Anonymous Coward", ident, accountCache).get();
   }
 
-  private void setFrom(String newFrom) {
+  private void setFrom(final String newFrom) {
     config.setString("sendemail", null, "from", newFrom);
   }
 
@@ -368,26 +366,23 @@ public class FromAddressGeneratorProviderTest {
     verify(accountCache);
   }
 
-  private Account.Id user(String name, String email) {
+  private Account.Id user(final String name, final String email) {
     final AccountState s = makeUser(name, email);
     expect(accountCache.get(eq(s.getAccount().getId()))).andReturn(s);
     return s.getAccount().getId();
   }
 
-  private Account.Id userNoLookup(String name, String email) {
+  private Account.Id userNoLookup(final String name, final String email) {
     final AccountState s = makeUser(name, email);
     return s.getAccount().getId();
   }
 
-  private AccountState makeUser(String name, String email) {
+  private AccountState makeUser(final String name, final String email) {
     final Account.Id userId = new Account.Id(42);
     final Account account = new Account(userId, TimeUtil.nowTs());
     account.setFullName(name);
     account.setPreferredEmail(email);
     return new AccountState(
-        new AllUsersName(AllUsersNameProvider.DEFAULT),
-        account,
-        Collections.emptySet(),
-        new HashMap<>());
+        account, Collections.emptySet(), Collections.emptySet(), new HashMap<>());
   }
 }

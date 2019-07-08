@@ -11,7 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 (function() {
   'use strict';
 
@@ -24,38 +23,34 @@
       _passwordUrl: String,
     },
 
-    attached() {
-      this.loadData();
-    },
+    loadData: function() {
+      var promises = [];
 
-    loadData() {
-      const promises = [];
-
-      promises.push(this.$.restAPI.getAccount().then(account => {
+      promises.push(this.$.restAPI.getAccount().then(function(account) {
         this._username = account.username;
-      }));
+      }.bind(this)));
 
-      promises.push(this.$.restAPI.getConfig().then(info => {
+      promises.push(this.$.restAPI.getConfig().then(function(info) {
         this._passwordUrl = info.auth.http_password_url || null;
-      }));
+      }.bind(this)));
 
       return Promise.all(promises);
     },
 
-    _handleGenerateTap() {
+    _handleGenerateTap: function() {
       this._generatedPassword = 'Generating...';
       this.$.generatedPasswordOverlay.open();
-      this.$.restAPI.generateAccountHttpPassword().then(newPassword => {
+      this.$.restAPI.generateAccountHttpPassword().then(function(newPassword) {
         this._generatedPassword = newPassword;
-      });
+      }.bind(this));
     },
 
-    _closeOverlay() {
+    _closeOverlay: function() {
       this.$.generatedPasswordOverlay.close();
     },
 
-    _generatedPasswordOverlayClosed() {
-      this._generatedPassword = '';
+    _generatedPasswordOverlayClosed: function() {
+      this._generatedPassword = null;
     },
   });
 })();

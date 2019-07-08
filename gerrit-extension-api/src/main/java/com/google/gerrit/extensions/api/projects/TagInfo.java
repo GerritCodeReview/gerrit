@@ -24,7 +24,7 @@ public class TagInfo extends RefInfo {
   public GitPerson tagger;
   public List<WebLinkInfo> webLinks;
 
-  public TagInfo(String ref, String revision, Boolean canDelete, List<WebLinkInfo> webLinks) {
+  public TagInfo(String ref, String revision, boolean canDelete, List<WebLinkInfo> webLinks) {
     this.ref = ref;
     this.revision = revision;
     this.canDelete = canDelete;
@@ -37,7 +37,7 @@ public class TagInfo extends RefInfo {
       String object,
       String message,
       GitPerson tagger,
-      Boolean canDelete,
+      boolean canDelete,
       List<WebLinkInfo> webLinks) {
     this(ref, revision, canDelete, webLinks);
     this.object = object;

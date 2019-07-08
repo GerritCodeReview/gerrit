@@ -35,7 +35,6 @@ import com.google.gerrit.server.mail.receive.Protocol;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.OrmException;
@@ -156,7 +155,7 @@ public class CommentSender extends ReplyToChangeSender {
     }
     if (notify.compareTo(NotifyHandling.ALL) >= 0) {
       bccStarredBy();
-      includeWatchers(NotifyType.ALL_COMMENTS, !change.isWorkInProgress() && !change.isPrivate());
+      includeWatchers(NotifyType.ALL_COMMENTS, !patchSet.isDraft());
     }
     removeUsersThatIgnoredTheChange();
 
@@ -233,8 +232,6 @@ public class CommentSender extends ReplyToChangeSender {
     if (repo != null) {
       try {
         patchList = getPatchList();
-      } catch (PatchListObjectTooLargeException e) {
-        log.warn("Failed to get patch list: " + e.getMessage());
       } catch (PatchListNotAvailableException e) {
         log.error("Failed to get patch list", e);
       }
@@ -260,7 +257,7 @@ public class CommentSender extends ReplyToChangeSender {
                 "Cannot load {} from {} in {}",
                 c.key.filename,
                 patchList.getNewId().name(),
-                projectState.getName(),
+                projectState.getProject().getName(),
                 e);
             currentGroup.fileData = null;
           }
@@ -404,7 +401,7 @@ public class CommentSender extends ReplyToChangeSender {
 
     Comment.Key key = new Comment.Key(child.parentUuid, child.key.filename, child.key.patchSetId);
     try {
-      return commentsUtil.getPublished(args.db.get(), changeData.notes(), key);
+      return commentsUtil.get(args.db.get(), changeData.notes(), key);
     } catch (OrmException e) {
       log.warn("Could not find the parent of this comment: {}", child.toString());
       return Optional.empty();
@@ -435,41 +432,19 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   /**
-   * @return a shortened version of the given comment's message. Will be shortened to 100 characters
-   *     or the first line, or following the last period within the first 100 characters, whichever
-   *     is shorter. If the message is shortened, an ellipsis is appended.
+   * @return a shortened version of the given comment's message. Will be shortened to 75 characters
+   *     or the first line, whichever is shorter.
    */
-  protected static String getShortenedCommentMessage(String message) {
-    int threshold = 100;
-    String fullMessage = message.trim();
-    String msg = fullMessage;
-
-    if (msg.length() > threshold) {
-      msg = msg.substring(0, threshold);
+  private String getShortenedCommentMessage(Comment comment) {
+    String msg = comment.message.trim();
+    if (msg.length() > 75) {
+      msg = msg.substring(0, 75);
     }
-
     int lf = msg.indexOf('\n');
-    int period = msg.lastIndexOf('.');
-
     if (lf > 0) {
-      // Truncate if a line feed appears within the threshold.
       msg = msg.substring(0, lf);
-
-    } else if (period > 0) {
-      // Otherwise truncate if there is a period within the threshold.
-      msg = msg.substring(0, period + 1);
     }
-
-    // Append an ellipsis if the message has been truncated.
-    if (!msg.equals(fullMessage)) {
-      msg += " […]";
-    }
-
     return msg;
-  }
-
-  protected static String getShortenedCommentMessage(Comment comment) {
-    return getShortenedCommentMessage(comment.message);
   }
 
   /**
@@ -585,7 +560,7 @@ public class CommentSender extends ReplyToChangeSender {
 
   private Repository getRepository() {
     try {
-      return args.server.openRepository(projectState.getNameKey());
+      return args.server.openRepository(projectState.getProject().getNameKey());
     } catch (IOException e) {
       return null;
     }
@@ -611,7 +586,6 @@ public class CommentSender extends ReplyToChangeSender {
 
     footers.add("Gerrit-Comment-Date: " + getCommentTimestamp());
     footers.add("Gerrit-HasComments: " + (hasComments ? "Yes" : "No"));
-    footers.add("Gerrit-HasLabels: " + (labels.isEmpty() ? "No" : "Yes"));
   }
 
   private String getLine(PatchFile fileInfo, short side, int lineNbr) {
@@ -624,7 +598,7 @@ public class CommentSender extends ReplyToChangeSender {
     } catch (IndexOutOfBoundsException err) {
       // Default to the empty string if the given line number does not appear
       // in the file.
-      log.debug("Failed to get line number {} of file on side {}", lineNbr, side, err);
+      log.debug("Failed to get line number of file on side {}", side, err);
       return "";
     } catch (NoSuchEntityException err) {
       // Default to the empty string if the side cannot be found.

@@ -21,17 +21,20 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.MergeInput;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -51,20 +54,14 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
-import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.permissions.ChangePermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gerrit.server.project.CommitsCollection;
-import com.google.gerrit.server.project.ContributorAgreementsChecker;
+import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.ProjectsCollection;
+import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -76,7 +73,6 @@ import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
 import java.util.TimeZone;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -91,27 +87,25 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.ChangeIdUtil;
 
 @Singleton
-public class CreateChange
-    extends RetryingRestModifyView<TopLevelResource, ChangeInput, Response<ChangeInfo>> {
+public class CreateChange implements RestModifyView<TopLevelResource, ChangeInput> {
+
   private final String anonymousCowardName;
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
   private final AccountCache accountCache;
   private final Sequences seq;
   private final TimeZone serverTimeZone;
-  private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> user;
   private final ProjectsCollection projectsCollection;
-  private final CommitsCollection commits;
   private final ChangeInserter.Factory changeInserterFactory;
   private final ChangeJson.Factory jsonFactory;
   private final ChangeFinder changeFinder;
+  private final BatchUpdate.Factory updateFactory;
   private final PatchSetUtil psUtil;
+  private final boolean allowDrafts;
   private final MergeUtil.Factory mergeUtilFactory;
   private final SubmitType submitType;
   private final NotifyUtil notifyUtil;
-  private final ContributorAgreementsChecker contributorAgreements;
-  private final boolean disablePrivateChanges;
 
   @Inject
   CreateChange(
@@ -121,46 +115,39 @@ public class CreateChange
       AccountCache accountCache,
       Sequences seq,
       @GerritPersonIdent PersonIdent myIdent,
-      PermissionBackend permissionBackend,
       Provider<CurrentUser> user,
       ProjectsCollection projectsCollection,
-      CommitsCollection commits,
       ChangeInserter.Factory changeInserterFactory,
       ChangeJson.Factory json,
       ChangeFinder changeFinder,
-      RetryHelper retryHelper,
+      BatchUpdate.Factory updateFactory,
       PatchSetUtil psUtil,
       @GerritServerConfig Config config,
       MergeUtil.Factory mergeUtilFactory,
-      NotifyUtil notifyUtil,
-      ContributorAgreementsChecker contributorAgreements) {
-    super(retryHelper);
+      NotifyUtil notifyUtil) {
     this.anonymousCowardName = anonymousCowardName;
     this.db = db;
     this.gitManager = gitManager;
     this.accountCache = accountCache;
     this.seq = seq;
     this.serverTimeZone = myIdent.getTimeZone();
-    this.permissionBackend = permissionBackend;
     this.user = user;
     this.projectsCollection = projectsCollection;
-    this.commits = commits;
     this.changeInserterFactory = changeInserterFactory;
     this.jsonFactory = json;
     this.changeFinder = changeFinder;
+    this.updateFactory = updateFactory;
     this.psUtil = psUtil;
+    this.allowDrafts = config.getBoolean("change", "allowDrafts", true);
     this.submitType = config.getEnum("project", null, "submitType", SubmitType.MERGE_IF_NECESSARY);
-    this.disablePrivateChanges = config.getBoolean("change", null, "disablePrivateChanges", false);
     this.mergeUtilFactory = mergeUtilFactory;
     this.notifyUtil = notifyUtil;
-    this.contributorAgreements = contributorAgreements;
   }
 
   @Override
-  protected Response<ChangeInfo> applyImpl(
-      BatchUpdate.Factory updateFactory, TopLevelResource parent, ChangeInput input)
+  public Response<ChangeInfo> apply(TopLevelResource parent, ChangeInput input)
       throws OrmException, IOException, InvalidChangeOperationException, RestApiException,
-          UpdateException, PermissionBackendException, ConfigInvalidException {
+          UpdateException {
     if (Strings.isNullOrEmpty(input.project)) {
       throw new BadRequestException("project must be non-empty");
     }
@@ -175,25 +162,29 @@ public class CreateChange
     }
 
     if (input.status != null) {
-      if (input.status != ChangeStatus.NEW) {
+      if (input.status != ChangeStatus.NEW && input.status != ChangeStatus.DRAFT) {
         throw new BadRequestException("unsupported change status");
+      }
+
+      if (!allowDrafts && input.status == ChangeStatus.DRAFT) {
+        throw new MethodNotAllowedException("draft workflow is disabled");
       }
     }
 
+    String refName = RefNames.fullName(input.branch);
     ProjectResource rsrc = projectsCollection.parse(input.project);
-    boolean privateByDefault = rsrc.getProjectState().isPrivateByDefault();
-    boolean isPrivate = input.isPrivate == null ? privateByDefault : input.isPrivate;
 
-    if (isPrivate && disablePrivateChanges) {
-      throw new MethodNotAllowedException("private changes are disabled");
+    Capable r = rsrc.getControl().canPushToAtLeastOneRef();
+    if (r != Capable.OK) {
+      throw new AuthException(r.getMessage());
     }
 
-    contributorAgreements.check(rsrc.getNameKey(), rsrc.getUser());
+    RefControl refControl = rsrc.getControl().controlForRef(refName);
+    if (!refControl.canUpload() || !refControl.canRead()) {
+      throw new AuthException("cannot upload review");
+    }
 
     Project.NameKey project = rsrc.getNameKey();
-    String refName = RefNames.fullName(input.branch);
-    permissionBackend.user(user).project(project).ref(refName).check(RefPermission.CREATE_CHANGE);
-
     try (Repository git = gitManager.openRepository(project);
         ObjectInserter oi = git.newObjectInserter();
         ObjectReader reader = oi.newReader();
@@ -201,15 +192,15 @@ public class CreateChange
       ObjectId parentCommit;
       List<String> groups;
       if (input.baseChange != null) {
-        List<ChangeNotes> notes = changeFinder.find(input.baseChange);
-        if (notes.size() != 1) {
-          throw new UnprocessableEntityException("Base change not found: " + input.baseChange);
+        List<ChangeControl> ctls = changeFinder.find(input.baseChange, rsrc.getControl().getUser());
+        if (ctls.size() != 1) {
+          throw new InvalidChangeOperationException("Base change not found: " + input.baseChange);
         }
-        ChangeNotes change = Iterables.getOnlyElement(notes);
-        if (!permissionBackend.user(user).change(change).database(db).test(ChangePermission.READ)) {
-          throw new UnprocessableEntityException("Base change not found: " + input.baseChange);
+        ChangeControl ctl = Iterables.getOnlyElement(ctls);
+        if (!ctl.isVisible(db.get())) {
+          throw new InvalidChangeOperationException("Base change not found: " + input.baseChange);
         }
-        PatchSet ps = psUtil.current(db.get(), change);
+        PatchSet ps = psUtil.current(db.get(), ctl.getNotes());
         parentCommit = ObjectId.fromString(ps.getRevision().get());
         groups = ps.getGroups();
       } else {
@@ -238,12 +229,6 @@ public class CreateChange
       AccountState account = accountCache.get(me.getAccountId());
       GeneralPreferencesInfo info = account.getAccount().getGeneralPreferencesInfo();
 
-      boolean isWorkInProgress =
-          input.workInProgress == null
-              ? rsrc.getProjectState().isWorkInProgressByDefault()
-                  || MoreObjects.firstNonNull(info.workInProgressByDefault, false)
-              : input.workInProgress;
-
       // Add a Change-Id line if there isn't already one
       String commitMessage = subject;
       if (ChangeIdUtil.indexOfChangeId(commitMessage, "\n") == -1) {
@@ -271,22 +256,24 @@ public class CreateChange
         }
         c =
             newMergeCommit(
-                git, oi, rw, rsrc.getProjectState(), mergeTip, input.merge, author, commitMessage);
+                git, oi, rw, rsrc.getControl(), mergeTip, input.merge, author, commitMessage);
       } else {
         // create an empty commit
         c = newCommit(oi, rw, author, mergeTip, commitMessage);
       }
 
       Change.Id changeId = new Change.Id(seq.nextChangeId());
-      ChangeInserter ins = changeInserterFactory.create(changeId, c, refName);
+      ChangeInserter ins =
+          changeInserterFactory
+              .create(changeId, c, refName)
+              .setValidatePolicy(CommitValidators.Policy.GERRIT);
       ins.setMessage(String.format("Uploaded patch set %s.", ins.getPatchSetId().get()));
       String topic = input.topic;
       if (topic != null) {
         topic = Strings.emptyToNull(topic.trim());
       }
       ins.setTopic(topic);
-      ins.setPrivate(isPrivate);
-      ins.setWorkInProgress(isWorkInProgress);
+      ins.setDraft(input.status == ChangeStatus.DRAFT);
       ins.setGroups(groups);
       ins.setNotify(input.notify);
       ins.setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
@@ -326,7 +313,7 @@ public class CreateChange
       Repository repo,
       ObjectInserter oi,
       RevWalk rw,
-      ProjectState projectState,
+      ProjectControl projectControl,
       RevCommit mergeTip,
       MergeInput merge,
       PersonIdent authorIdent,
@@ -337,25 +324,18 @@ public class CreateChange
     }
 
     RevCommit sourceCommit = MergeUtil.resolveCommit(repo, rw, merge.source);
-    if (!commits.canRead(projectState, repo, sourceCommit)) {
+    if (!projectControl.canReadCommit(db.get(), repo, sourceCommit)) {
       throw new BadRequestException("do not have read permission for: " + merge.source);
     }
 
-    MergeUtil mergeUtil = mergeUtilFactory.create(projectState);
+    MergeUtil mergeUtil = mergeUtilFactory.create(projectControl.getProjectState());
     // default merge strategy from project settings
     String mergeStrategy =
         MoreObjects.firstNonNull(
             Strings.emptyToNull(merge.strategy), mergeUtil.mergeStrategyName());
 
     return MergeUtil.createMergeCommit(
-        oi,
-        repo.getConfig(),
-        mergeTip,
-        sourceCommit,
-        mergeStrategy,
-        authorIdent,
-        commitMessage,
-        rw);
+        repo, oi, mergeTip, sourceCommit, mergeStrategy, authorIdent, commitMessage, rw);
   }
 
   private static ObjectId insert(ObjectInserter inserter, CommitBuilder commit)

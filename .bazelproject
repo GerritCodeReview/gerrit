@@ -18,6 +18,3 @@ targets:
 java_language_level: 8
 
 workspace_type: java
-
-build_flags:
-  --javacopt=-g

@@ -16,13 +16,11 @@ package com.google.gerrit.server.mail.receive;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.extensions.events.LifecycleListener;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.EmailSettings;
-import com.google.gerrit.server.update.UpdateException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -88,11 +86,7 @@ public abstract class MailReceiver implements LifecycleListener {
         new TimerTask() {
           @Override
           public void run() {
-            try {
-              MailReceiver.this.handleEmails(true);
-            } catch (MailTransferException | IOException e) {
-              log.error("Error while fetching emails", e);
-            }
+            MailReceiver.this.handleEmails(true);
           }
         },
         0L,
@@ -121,12 +115,10 @@ public abstract class MailReceiver implements LifecycleListener {
    * handleEmails will open a connection to the mail server, remove emails where deletion is
    * pending, read new email and close the connection.
    *
-   * @param async determines if processing messages should happen asynchronously
-   * @throws MailTransferException in case of a known transport failure
-   * @throws IOException in case of a low-level transport failure
+   * @param async Determines if processing messages should happen asynchronous.
    */
   @VisibleForTesting
-  public abstract void handleEmails(boolean async) throws MailTransferException, IOException;
+  public abstract void handleEmails(boolean async);
 
   protected void dispatchMailProcessor(List<MailMessage> messages, boolean async) {
     for (MailMessage m : messages) {
@@ -140,7 +132,7 @@ public abstract class MailReceiver implements LifecycleListener {
                       try {
                         mailProcessor.process(m);
                         requestDeletion(m.id());
-                      } catch (RestApiException | UpdateException e) {
+                      } catch (OrmException e) {
                         log.error("Mail: Can't process message " + m.id() + " . Won't delete.", e);
                       }
                     });
@@ -149,7 +141,7 @@ public abstract class MailReceiver implements LifecycleListener {
         try {
           mailProcessor.process(m);
           requestDeletion(m.id());
-        } catch (RestApiException | UpdateException e) {
+        } catch (OrmException e) {
           log.error("Mail: Can't process messages. Won't delete.", e);
         }
       }

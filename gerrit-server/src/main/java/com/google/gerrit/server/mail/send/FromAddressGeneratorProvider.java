@@ -41,10 +41,11 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
 
   @Inject
   FromAddressGeneratorProvider(
-      @GerritServerConfig Config cfg,
-      @AnonymousCowardName String anonymousCowardName,
-      @GerritPersonIdent PersonIdent myIdent,
-      AccountCache accountCache) {
+      @GerritServerConfig final Config cfg,
+      @AnonymousCowardName final String anonymousCowardName,
+      @GerritPersonIdent final PersonIdent myIdent,
+      final AccountCache accountCache) {
+
     final String from = cfg.getString("sendemail", null, "from");
     final Address srvAddr = toAddress(myIdent);
 
@@ -72,7 +73,7 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
     }
   }
 
-  private static Address toAddress(PersonIdent myIdent) {
+  private static Address toAddress(final PersonIdent myIdent) {
     return new Address(myIdent.getName(), myIdent.getEmailAddress());
   }
 
@@ -118,7 +119,7 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
     }
 
     @Override
-    public Address from(Account.Id fromId) {
+    public Address from(final Account.Id fromId) {
       String senderName;
       if (fromId != null) {
         Account a = accountCache.get(fromId).getAccount();
@@ -171,7 +172,7 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
     }
 
     @Override
-    public Address from(Account.Id fromId) {
+    public Address from(final Account.Id fromId) {
       return srvAddr;
     }
   }
@@ -202,7 +203,7 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
     }
 
     @Override
-    public Address from(Account.Id fromId) {
+    public Address from(final Account.Id fromId) {
       final String senderName;
 
       if (fromId != null) {

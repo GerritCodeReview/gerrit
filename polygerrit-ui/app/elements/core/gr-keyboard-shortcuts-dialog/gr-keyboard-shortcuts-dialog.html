@@ -16,11 +16,10 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-keyboard-shortcuts-dialog">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         display: block;
       }
@@ -33,7 +32,7 @@ limitations under the License.
       }
       header {
         align-items: center;
-        border-bottom: 1px solid #cdcdcd;
+        border-bottom: 1px solid #ddd;
         display: flex;
         justify-content: space-between;
       }
@@ -48,12 +47,12 @@ limitations under the License.
         text-align: right;
       }
       .header {
-        font-family: var(--font-family-bold);
+        font-weight: bold;
         padding-top: 1em;
       }
       .key {
         display: inline-block;
-        font-family: var(--font-family-bold);
+        font-weight: bold;
         border-radius: 3px;
         background-color: #f1f2f3;
         padding: .1em .5em;
@@ -83,7 +82,7 @@ limitations under the License.
           </tr>
         </tbody>
         <!-- Change View -->
-        <tbody hidden$="[[!_computeInView(view, 'change')]]" hidden>
+        <tbody hidden$="[[!_computeInView(view, 'gr-change-view')]]" hidden>
           <tr>
             <td></td><td class="header">Navigation</td>
           </tr>
@@ -101,7 +100,7 @@ limitations under the License.
           </tr>
         </tbody>
         <!-- Diff View -->
-        <tbody hidden$="[[!_computeInView(view, 'diff')]]" hidden>
+        <tbody hidden$="[[!_computeInView(view, 'gr-diff-view')]]" hidden>
           <tr>
             <td></td><td class="header">Navigation</td>
           </tr>
@@ -136,7 +135,7 @@ limitations under the License.
 
       <table>
         <!-- Change List -->
-        <tbody hidden$="[[!_computeInView(view, 'search')]]" hidden>
+        <tbody hidden$="[[!_computeInView(view, 'gr-change-list-view')]]" hidden>
           <tr>
             <td></td><td class="header">Change list</td>
           </tr>
@@ -163,20 +162,9 @@ limitations under the License.
             </td>
             <td>Show selected change</td>
           </tr>
-          <tr>
-            <td>
-              <span class="key modifier">Shift</span>
-              <span class="key">r</span>
-            </td>
-            <td>Refresh list of changes</td>
-          </tr>
-          <tr>
-            <td><span class="key">s</span></td>
-            <td>Star (or unstar) change</td>
-          </tr>
         </tbody>
         <!-- Dashboard -->
-        <tbody hidden$="[[!_computeInView(view, 'dashboard')]]" hidden>
+        <tbody hidden$="[[!_computeInView(view, 'gr-dashboard-view')]]" hidden>
           <tr>
             <td></td><td class="header">Dashboard</td>
           </tr>
@@ -195,20 +183,9 @@ limitations under the License.
             </td>
             <td>Show selected change</td>
           </tr>
-          <tr>
-            <td>
-              <span class="key modifier">Shift</span>
-              <span class="key">r</span>
-            </td>
-            <td>Refresh list of changes</td>
-          </tr>
-          <tr>
-            <td><span class="key">s</span></td>
-            <td>Star (or unstar) change</td>
-          </tr>
         </tbody>
         <!-- Change View -->
-        <tbody hidden$="[[!_computeInView(view, 'change')]]" hidden>
+        <tbody hidden$="[[!_computeInView(view, 'gr-change-view')]]" hidden>
           <tr>
             <td></td><td class="header">Actions</td>
           </tr>
@@ -228,18 +205,6 @@ limitations under the License.
             <td>Reload the change at the latest patch</td>
           </tr>
           <tr>
-            <td><span class="key">s</span></td>
-            <td>Star (or unstar) change</td>
-          </tr>
-          <tr>
-            <td><span class="key">x</span></td>
-            <td>Expand all messages</td>
-          </tr>
-          <tr>
-            <td><span class="key">z</span></td>
-            <td>Collapse all messages</td>
-          </tr>
-          <tr>
             <td></td><td class="header">File list</td>
           </tr>
           <tr>
@@ -251,15 +216,8 @@ limitations under the License.
             <td>Select previous file</td>
           </tr>
           <tr>
-            <td>
-              <span class="key">Enter</span> or
-              <span class="key">o</span>
-            </td>
+            <td><span class="key">Enter</span> or <span class="key">o</span></td>
             <td>Show selected file</td>
-          </tr>
-          <tr>
-            <td><span class="key">r</span></td>
-            <td>Toggle review flag on selected file</td>
           </tr>
           <tr>
             <td>
@@ -345,7 +303,7 @@ limitations under the License.
           </tr>
         </tbody>
         <!-- Diff View -->
-        <tbody hidden$="[[!_computeInView(view, 'diff')]]" hidden>
+        <tbody hidden$="[[!_computeInView(view, 'gr-diff-view')]]" hidden>
           <tr>
             <td></td><td class="header">Actions</td>
           </tr>

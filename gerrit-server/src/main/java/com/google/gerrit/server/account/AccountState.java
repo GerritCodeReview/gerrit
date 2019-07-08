@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_MAILTO;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
@@ -23,12 +23,11 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser.PropertyKey;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
-import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.config.AllUsersName;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
@@ -43,26 +42,22 @@ public class AccountState {
   public static final Function<AccountState, Account.Id> ACCOUNT_ID_FUNCTION =
       a -> a.getAccount().getId();
 
-  private final AllUsersName allUsersName;
   private final Account account;
+  private final Set<AccountGroup.UUID> internalGroups;
   private final Collection<ExternalId> externalIds;
   private final Map<ProjectWatchKey, Set<NotifyType>> projectWatches;
   private Cache<IdentifiedUser.PropertyKey<Object>, Object> properties;
 
   public AccountState(
-      AllUsersName allUsersName,
       Account account,
+      Set<AccountGroup.UUID> actualGroups,
       Collection<ExternalId> externalIds,
       Map<ProjectWatchKey, Set<NotifyType>> projectWatches) {
-    this.allUsersName = allUsersName;
     this.account = account;
+    this.internalGroups = actualGroups;
     this.externalIds = externalIds;
     this.projectWatches = projectWatches;
     this.account.setUserName(getUserName(externalIds));
-  }
-
-  public AllUsersName getAllUsersNameForIndexing() {
-    return allUsersName;
   }
 
   /** Get the cached account metadata. */
@@ -110,6 +105,11 @@ public class AccountState {
   /** The project watches of the account. */
   public Map<ProjectWatchKey, Set<NotifyType>> getProjectWatches() {
     return projectWatches;
+  }
+
+  /** The set of groups maintained directly within the Gerrit database. */
+  public Set<AccountGroup.UUID> getInternalGroups() {
+    return internalGroups;
   }
 
   public static String getUserName(Collection<ExternalId> ids) {

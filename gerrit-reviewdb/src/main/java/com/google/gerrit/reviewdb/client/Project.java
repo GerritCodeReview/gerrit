@@ -31,7 +31,7 @@ public final class Project {
 
     protected NameKey() {}
 
-    public NameKey(String n) {
+    public NameKey(final String n) {
       name = n;
     }
 
@@ -59,14 +59,10 @@ public final class Project {
     }
 
     /** Parse a Project.NameKey out of a string representation. */
-    public static NameKey parse(String str) {
+    public static NameKey parse(final String str) {
       final NameKey r = new NameKey();
       r.fromString(str);
       return r;
-    }
-
-    public static String asStringOrNull(NameKey key) {
-      return key == null ? null : key.get();
     }
   }
 
@@ -102,12 +98,6 @@ public final class Project {
   protected InheritableBoolean requireSignedPush;
 
   protected InheritableBoolean rejectImplicitMerges;
-  protected InheritableBoolean privateByDefault;
-  protected InheritableBoolean workInProgressByDefault;
-
-  protected InheritableBoolean enableReviewerByEmail;
-
-  protected InheritableBoolean matchAuthorToCommitterDate;
 
   protected Project() {}
 
@@ -122,10 +112,6 @@ public final class Project {
     createNewChangeForAllNotInTarget = InheritableBoolean.INHERIT;
     enableSignedPush = InheritableBoolean.INHERIT;
     requireSignedPush = InheritableBoolean.INHERIT;
-    privateByDefault = InheritableBoolean.INHERIT;
-    workInProgressByDefault = InheritableBoolean.INHERIT;
-    enableReviewerByEmail = InheritableBoolean.INHERIT;
-    matchAuthorToCommitterDate = InheritableBoolean.INHERIT;
   }
 
   public Project.NameKey getNameKey() {
@@ -140,7 +126,7 @@ public final class Project {
     return description;
   }
 
-  public void setDescription(String d) {
+  public void setDescription(final String d) {
     description = d;
   }
 
@@ -168,51 +154,19 @@ public final class Project {
     return rejectImplicitMerges;
   }
 
-  public InheritableBoolean getPrivateByDefault() {
-    return privateByDefault;
-  }
-
-  public void setPrivateByDefault(InheritableBoolean privateByDefault) {
-    this.privateByDefault = privateByDefault;
-  }
-
-  public InheritableBoolean getWorkInProgressByDefault() {
-    return workInProgressByDefault;
-  }
-
-  public void setWorkInProgressByDefault(InheritableBoolean workInProgressByDefault) {
-    this.workInProgressByDefault = workInProgressByDefault;
-  }
-
-  public InheritableBoolean getEnableReviewerByEmail() {
-    return enableReviewerByEmail;
-  }
-
-  public void setEnableReviewerByEmail(InheritableBoolean enable) {
-    enableReviewerByEmail = enable;
-  }
-
-  public InheritableBoolean getMatchAuthorToCommitterDate() {
-    return matchAuthorToCommitterDate;
-  }
-
-  public void setMatchAuthorToCommitterDate(InheritableBoolean match) {
-    matchAuthorToCommitterDate = match;
-  }
-
-  public void setUseContributorAgreements(InheritableBoolean u) {
+  public void setUseContributorAgreements(final InheritableBoolean u) {
     useContributorAgreements = u;
   }
 
-  public void setUseSignedOffBy(InheritableBoolean sbo) {
+  public void setUseSignedOffBy(final InheritableBoolean sbo) {
     useSignedOffBy = sbo;
   }
 
-  public void setUseContentMerge(InheritableBoolean cm) {
+  public void setUseContentMerge(final InheritableBoolean cm) {
     useContentMerge = cm;
   }
 
-  public void setRequireChangeID(InheritableBoolean cid) {
+  public void setRequireChangeID(final InheritableBoolean cid) {
     requireChangeID = cid;
   }
 
@@ -240,7 +194,7 @@ public final class Project {
     requireSignedPush = require;
   }
 
-  public void setMaxObjectSizeLimit(String limit) {
+  public void setMaxObjectSizeLimit(final String limit) {
     maxObjectSizeLimit = limit;
   }
 
@@ -252,7 +206,7 @@ public final class Project {
     return submitType;
   }
 
-  public void setSubmitType(SubmitType type) {
+  public void setSubmitType(final SubmitType type) {
     submitType = type;
   }
 
@@ -260,7 +214,7 @@ public final class Project {
     return state;
   }
 
-  public void setState(ProjectState newState) {
+  public void setState(final ProjectState newState) {
     state = newState;
   }
 
@@ -268,7 +222,7 @@ public final class Project {
     return defaultDashboardId;
   }
 
-  public void setDefaultDashboard(String defaultDashboardId) {
+  public void setDefaultDashboard(final String defaultDashboardId) {
     this.defaultDashboardId = defaultDashboardId;
   }
 
@@ -276,7 +230,7 @@ public final class Project {
     return localDefaultDashboardId;
   }
 
-  public void setLocalDefaultDashboard(String localDefaultDashboardId) {
+  public void setLocalDefaultDashboard(final String localDefaultDashboardId) {
     this.localDefaultDashboardId = localDefaultDashboardId;
   }
 
@@ -284,11 +238,11 @@ public final class Project {
     return themeName;
   }
 
-  public void setThemeName(String themeName) {
+  public void setThemeName(final String themeName) {
     this.themeName = themeName;
   }
 
-  public void copySettingsFrom(Project update) {
+  public void copySettingsFrom(final Project update) {
     description = update.description;
     useContributorAgreements = update.useContributorAgreements;
     useSignedOffBy = update.useSignedOffBy;
@@ -317,7 +271,7 @@ public final class Project {
    * @param allProjectsName name key of the wild project
    * @return name key of the parent project, {@code null} if this project is the wild project
    */
-  public Project.NameKey getParent(Project.NameKey allProjectsName) {
+  public Project.NameKey getParent(final Project.NameKey allProjectsName) {
     if (parent != null) {
       return parent;
     }

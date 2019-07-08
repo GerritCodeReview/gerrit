@@ -24,20 +24,14 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.MultimapBuilder;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.permissions.ChangePermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayDeque;
@@ -59,27 +53,20 @@ import org.eclipse.jgit.revwalk.RevWalk;
 @Singleton
 class RelatedChangesSorter {
   private final GitRepositoryManager repoManager;
-  private final PermissionBackend permissionBackend;
-  private final Provider<ReviewDb> dbProvider;
 
   @Inject
-  RelatedChangesSorter(
-      GitRepositoryManager repoManager,
-      PermissionBackend permissionBackend,
-      Provider<ReviewDb> dbProvider) {
+  RelatedChangesSorter(GitRepositoryManager repoManager) {
     this.repoManager = repoManager;
-    this.permissionBackend = permissionBackend;
-    this.dbProvider = dbProvider;
   }
 
-  public List<PatchSetData> sort(List<ChangeData> in, PatchSet startPs, CurrentUser user)
-      throws OrmException, IOException, PermissionBackendException {
+  public List<PatchSetData> sort(List<ChangeData> in, PatchSet startPs)
+      throws OrmException, IOException {
     checkArgument(!in.isEmpty(), "Input may not be empty");
     // Map of all patch sets, keyed by commit SHA-1.
     Map<String, PatchSetData> byId = collectById(in);
     PatchSetData start = byId.get(startPs.getRevision().get());
     checkArgument(start != null, "%s not found in %s", startPs, in);
-    PermissionBackend.WithUser perm = permissionBackend.user(user).database(dbProvider);
+    ProjectControl ctl = start.data().changeControl().getProjectControl();
 
     // Map of patch set -> immediate parent.
     ListMultimap<PatchSetData, PatchSetData> parents =
@@ -106,9 +93,9 @@ class RelatedChangesSorter {
       }
     }
 
-    Collection<PatchSetData> ancestors = walkAncestors(perm, parents, start);
+    Collection<PatchSetData> ancestors = walkAncestors(ctl, parents, start);
     List<PatchSetData> descendants =
-        walkDescendants(perm, children, start, otherPatchSetsOfStart, ancestors);
+        walkDescendants(ctl, children, start, otherPatchSetsOfStart, ancestors);
     List<PatchSetData> result = new ArrayList<>(ancestors.size() + descendants.size() - 1);
     result.addAll(Lists.reverse(descendants));
     result.addAll(ancestors);
@@ -141,16 +128,14 @@ class RelatedChangesSorter {
   }
 
   private static Collection<PatchSetData> walkAncestors(
-      PermissionBackend.WithUser perm,
-      ListMultimap<PatchSetData, PatchSetData> parents,
-      PatchSetData start)
-      throws PermissionBackendException {
+      ProjectControl ctl, ListMultimap<PatchSetData, PatchSetData> parents, PatchSetData start)
+      throws OrmException {
     LinkedHashSet<PatchSetData> result = new LinkedHashSet<>();
     Deque<PatchSetData> pending = new ArrayDeque<>();
     pending.add(start);
     while (!pending.isEmpty()) {
       PatchSetData psd = pending.remove();
-      if (result.contains(psd) || !isVisible(psd, perm)) {
+      if (result.contains(psd) || !isVisible(psd, ctl)) {
         continue;
       }
       result.add(psd);
@@ -160,25 +145,24 @@ class RelatedChangesSorter {
   }
 
   private static List<PatchSetData> walkDescendants(
-      PermissionBackend.WithUser perm,
+      ProjectControl ctl,
       ListMultimap<PatchSetData, PatchSetData> children,
       PatchSetData start,
       List<PatchSetData> otherPatchSetsOfStart,
       Iterable<PatchSetData> ancestors)
-      throws PermissionBackendException {
+      throws OrmException {
     Set<Change.Id> alreadyEmittedChanges = new HashSet<>();
     addAllChangeIds(alreadyEmittedChanges, ancestors);
 
     // Prefer descendants found by following the original patch set passed in.
     List<PatchSetData> result =
-        walkDescendentsImpl(perm, alreadyEmittedChanges, children, ImmutableList.of(start));
+        walkDescendentsImpl(ctl, alreadyEmittedChanges, children, ImmutableList.of(start));
     addAllChangeIds(alreadyEmittedChanges, result);
 
     // Then, go back and add new indirect descendants found by following any
     // other patch sets of start. These show up after all direct descendants,
     // because we wouldn't know where in the walk to insert them.
-    result.addAll(
-        walkDescendentsImpl(perm, alreadyEmittedChanges, children, otherPatchSetsOfStart));
+    result.addAll(walkDescendentsImpl(ctl, alreadyEmittedChanges, children, otherPatchSetsOfStart));
     return result;
   }
 
@@ -190,11 +174,11 @@ class RelatedChangesSorter {
   }
 
   private static List<PatchSetData> walkDescendentsImpl(
-      PermissionBackend.WithUser perm,
+      ProjectControl ctl,
       Set<Change.Id> alreadyEmittedChanges,
       ListMultimap<PatchSetData, PatchSetData> children,
       List<PatchSetData> start)
-      throws PermissionBackendException {
+      throws OrmException {
     if (start.isEmpty()) {
       return ImmutableList.of();
     }
@@ -205,7 +189,7 @@ class RelatedChangesSorter {
     pending.addAll(start);
     while (!pending.isEmpty()) {
       PatchSetData psd = pending.remove();
-      if (seen.contains(psd) || !isVisible(psd, perm)) {
+      if (seen.contains(psd) || !isVisible(psd, ctl)) {
         continue;
       }
       seen.add(psd);
@@ -236,14 +220,10 @@ class RelatedChangesSorter {
     return result;
   }
 
-  private static boolean isVisible(PatchSetData psd, PermissionBackend.WithUser perm)
-      throws PermissionBackendException {
-    try {
-      perm.change(psd.data()).check(ChangePermission.READ);
-      return true;
-    } catch (AuthException e) {
-      return false;
-    }
+  private static boolean isVisible(PatchSetData psd, ProjectControl ctl) throws OrmException {
+    // Reuse existing project control rather than lazily creating a new one for
+    // each ChangeData.
+    return ctl.controlFor(psd.data().notes()).isPatchVisible(psd.patchSet(), psd.data());
   }
 
   @AutoValue

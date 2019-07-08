@@ -37,6 +37,7 @@ import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 public class CherryPick extends SubmitStrategy {
 
@@ -89,16 +90,12 @@ public class CherryPick extends SubmitStrategy {
     }
 
     @Override
-    protected void updateRepoImpl(RepoContext ctx)
-        throws IntegrationException, IOException, OrmException {
+    protected void updateRepoImpl(RepoContext ctx) throws IntegrationException, IOException {
       // If there is only one parent, a cherry-pick can be done by taking the
       // delta relative to that one parent and redoing that on the current merge
       // tip.
       args.rw.parseBody(toMerge);
-      psId =
-          ChangeUtil.nextPatchSetIdFromChangeRefsMap(
-              ctx.getRepoView().getRefs(getId().toRefPrefix()),
-              toMerge.change().currentPatchSetId());
+      psId = ChangeUtil.nextPatchSetId(args.repo, toMerge.change().currentPatchSetId());
       RevCommit mergeTip = args.mergeTip.getCurrentTip();
       args.rw.parseBody(mergeTip);
       String cherryPickCmtMsg = args.mergeUtil.createCommitMessageOnSubmit(toMerge, mergeTip);
@@ -108,8 +105,8 @@ public class CherryPick extends SubmitStrategy {
       try {
         newCommit =
             args.mergeUtil.createCherryPickFromCommit(
-                ctx.getInserter(),
-                ctx.getRepoView().getConfig(),
+                args.repo,
+                args.inserter,
                 args.mergeTip.getCurrentTip(),
                 toMerge,
                 committer,
@@ -135,7 +132,7 @@ public class CherryPick extends SubmitStrategy {
       args.mergeTip.moveTipTo(newCommit, newCommit);
       args.commitStatus.put(newCommit);
 
-      ctx.addRefUpdate(ObjectId.zeroId(), newCommit, psId.toRefName());
+      ctx.addRefUpdate(new ReceiveCommand(ObjectId.zeroId(), newCommit, psId.toRefName()));
       patchSetInfo = args.patchSetInfoFactory.get(ctx.getRevWalk(), newCommit, psId);
     }
 
@@ -157,6 +154,7 @@ public class CherryPick extends SubmitStrategy {
               ctx.getUpdate(psId),
               psId,
               newCommit,
+              false,
               prevPs != null ? prevPs.getGroups() : ImmutableList.<String>of(),
               null,
               null);
@@ -165,7 +163,7 @@ public class CherryPick extends SubmitStrategy {
       // Don't copy approvals, as this is already taken care of by
       // SubmitStrategyOp.
 
-      newCommit.setNotes(ctx.getNotes());
+      newCommit.setControl(ctx.getControl());
       return newPs;
     }
   }
@@ -197,9 +195,9 @@ public class CherryPick extends SubmitStrategy {
             args.mergeUtil.mergeOneCommit(
                 myIdent,
                 myIdent,
+                args.repo,
                 args.rw,
-                ctx.getInserter(),
-                ctx.getRepoView().getConfig(),
+                args.inserter,
                 args.destBranch,
                 mergeTip.getCurrentTip(),
                 toMerge);

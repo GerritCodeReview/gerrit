@@ -13,19 +13,18 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+
+<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
-<link rel="import" href="../../../behaviors/docs-url-behavior/docs-url-behavior.html">
-<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
-<link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
-<link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-account-dropdown/gr-account-dropdown.html">
+<link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
 <link rel="import" href="../gr-search-bar/gr-search-bar.html">
 
 <dom-module id="gr-main-header">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         display: block;
       }
@@ -41,39 +40,20 @@ limitations under the License.
       .bigTitle:hover {
         text-decoration: underline;
       }
-      /* TODO (viktard): Clean-up after chromium-style migrates to component. */
-      .titleText::before {
-        background-image: var(--header-icon);
-        background-size: var(--header-icon-size) var(--header-icon-size);
-        background-repeat: no-repeat;
-        content: "";
-        display: inline-block;
-        height: var(--header-icon-size);
-        margin: 0 .25em 0 0;
-        vertical-align: text-bottom;
-        width: var(--header-icon-size);
-      }
-      .titleText::after {
-        content: var(--header-title-content);
-      }
       ul {
         list-style: none;
       }
       .links > li {
         cursor: default;
         display: inline-block;
+        margin-left: 1em;
         padding: 0;
         position: relative;
       }
       .linksTitle {
-        color: var(--primary-text-color);
+        color: black;
         display: inline-block;
-        font-family: var(--font-family-bold);
         position: relative;
-        text-transform: uppercase;
-      }
-      .linksTitle:hover {
-        opacity: .75;
       }
       .rightItems {
         align-items: center;
@@ -81,20 +61,10 @@ limitations under the License.
         flex: 1;
         justify-content: flex-end;
       }
-      .rightItems gr-endpoint-decorator:not(:empty) {
-        margin-left: 1em;
-      }
       gr-search-bar {
         flex-grow: 1;
         margin-left: .5em;
         max-width: 500px;
-      }
-      gr-dropdown {
-        padding: 0.5em;
-      }
-      .browse {
-        padding: 1em;
-        text-decoration: none;
       }
       .accountContainer:not(.loggedIn):not(.loggedOut) .loginButton,
       .accountContainer:not(.loggedIn):not(.loggedOut) gr-account-dropdown,
@@ -105,13 +75,10 @@ limitations under the License.
       .accountContainer {
         align-items: center;
         display: flex;
-        margin: 0 -0.5em 0 0.5em;
+        margin-left: var(--default-horizontal-margin);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-      }
-      .loginButton {
-        padding: 1em;
       }
       .dropdown-trigger {
         text-decoration: none;
@@ -123,31 +90,21 @@ limitations under the License.
       @media screen and (max-width: 50em) {
         .bigTitle {
           font-size: 14px;
-          font-family: var(--font-family-bold);
+          font-weight: bold;
         }
-        gr-search-bar,
-        .browse,
-        .rightItems .hideOnMobile,
-        .links > li.hideOnMobile {
+        gr-search-bar {
           display: none;
         }
         .accountContainer {
           margin-left: .5em !important;
         }
-        gr-dropdown {
-          padding: .5em 0 .5em .5em;
-        }
       }
     </style>
     <nav>
-      <a href$="[[_computeRelativeURL('/')]]" class="bigTitle">
-        <gr-endpoint-decorator name="header-title">
-          <span class="titleText"></span>
-        </gr-endpoint-decorator>
-      </a>
+      <a href$="[[_computeRelativeURL('/')]]" class="bigTitle">PolyGerrit</a>
       <ul class="links">
         <template is="dom-repeat" items="[[_links]]" as="linkGroup">
-          <li class$="[[linkGroup.class]]">
+          <li>
           <gr-dropdown
               link
               down-arrow
@@ -159,20 +116,11 @@ limitations under the License.
           </gr-dropdown>
           </li>
         </template>
-        <li>
-          <a
-              class="browse linksTitle"
-              href$="[[_computeRelativeURL('/admin/projects')]]">
-            Browse</a>
-        </li>
       </ul>
       <div class="rightItems">
         <gr-search-bar value="{{searchQuery}}" role="search"></gr-search-bar>
-        <gr-endpoint-decorator
-            class="hideOnMobile"
-            name="header-browse-source"></gr-endpoint-decorator>
         <div class="accountContainer" id="accountContainer">
-          <a class="loginButton" href$="[[_loginURL]]">Sign in</a>
+          <a class="loginButton" href$="[[_loginURL]]" on-tap="_loginTapHandler">Sign in</a>
           <gr-account-dropdown account="[[_account]]"></gr-account-dropdown>
         </div>
       </div>

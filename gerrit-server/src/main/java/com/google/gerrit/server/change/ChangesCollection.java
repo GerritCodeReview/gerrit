@@ -26,10 +26,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeFinder;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.permissions.ChangePermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.QueryChanges;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -47,7 +44,6 @@ public class ChangesCollection
   private final ChangeFinder changeFinder;
   private final CreateChange createChange;
   private final ChangeResource.Factory changeResourceFactory;
-  private final PermissionBackend permissionBackend;
 
   @Inject
   ChangesCollection(
@@ -57,8 +53,7 @@ public class ChangesCollection
       DynamicMap<RestView<ChangeResource>> views,
       ChangeFinder changeFinder,
       CreateChange createChange,
-      ChangeResource.Factory changeResourceFactory,
-      PermissionBackend permissionBackend) {
+      ChangeResource.Factory changeResourceFactory) {
     this.db = db;
     this.user = user;
     this.queryFactory = queryFactory;
@@ -66,7 +61,6 @@ public class ChangesCollection
     this.changeFinder = changeFinder;
     this.createChange = createChange;
     this.changeResourceFactory = changeResourceFactory;
-    this.permissionBackend = permissionBackend;
   }
 
   @Override
@@ -81,51 +75,47 @@ public class ChangesCollection
 
   @Override
   public ChangeResource parse(TopLevelResource root, IdString id)
-      throws ResourceNotFoundException, OrmException, PermissionBackendException {
-    List<ChangeNotes> notes = changeFinder.find(id.encoded());
-    if (notes.isEmpty()) {
+      throws ResourceNotFoundException, OrmException {
+    List<ChangeControl> ctls = changeFinder.find(id.encoded(), user.get());
+    if (ctls.isEmpty()) {
       throw new ResourceNotFoundException(id);
-    } else if (notes.size() != 1) {
+    } else if (ctls.size() != 1) {
       throw new ResourceNotFoundException("Multiple changes found for " + id);
     }
 
-    ChangeNotes change = notes.get(0);
-    if (!canRead(change)) {
+    ChangeControl ctl = ctls.get(0);
+    if (!ctl.isVisible(db.get())) {
       throw new ResourceNotFoundException(id);
     }
-    return changeResourceFactory.create(change, user.get());
+    return changeResourceFactory.create(ctl);
   }
 
-  public ChangeResource parse(Change.Id id)
-      throws ResourceNotFoundException, OrmException, PermissionBackendException {
-    List<ChangeNotes> notes = changeFinder.find(id);
-    if (notes.isEmpty()) {
+  public ChangeResource parse(Change.Id id) throws ResourceNotFoundException, OrmException {
+    List<ChangeControl> ctls = changeFinder.find(id, user.get());
+    if (ctls.isEmpty()) {
       throw new ResourceNotFoundException(toIdString(id));
-    } else if (notes.size() != 1) {
+    } else if (ctls.size() != 1) {
       throw new ResourceNotFoundException("Multiple changes found for " + id);
     }
 
-    ChangeNotes change = notes.get(0);
-    if (!canRead(change)) {
+    ChangeControl ctl = ctls.get(0);
+    if (!ctl.isVisible(db.get())) {
       throw new ResourceNotFoundException(toIdString(id));
     }
-    return changeResourceFactory.create(change, user.get());
+    return changeResourceFactory.create(ctl);
   }
 
   private static IdString toIdString(Change.Id id) {
     return IdString.fromDecoded(id.toString());
   }
 
-  public ChangeResource parse(ChangeNotes notes, CurrentUser user) {
-    return changeResourceFactory.create(notes, user);
+  public ChangeResource parse(ChangeControl control) {
+    return changeResourceFactory.create(control);
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public CreateChange post(TopLevelResource parent) throws RestApiException {
     return createChange;
-  }
-
-  private boolean canRead(ChangeNotes notes) throws PermissionBackendException {
-    return permissionBackend.user(user).change(notes).database(db).test(ChangePermission.READ);
   }
 }

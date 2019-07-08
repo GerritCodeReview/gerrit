@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.hash.Hasher;
-import com.google.common.hash.Hashing;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestResource.HasETag;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -26,7 +24,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.TypeLiteral;
 import java.util.Optional;
 
@@ -53,16 +51,16 @@ public class RevisionResource implements RestResource, HasETag {
     return cacheable;
   }
 
-  public PermissionBackend.ForChange permissions() {
-    return change.permissions();
-  }
-
   public ChangeResource getChangeResource() {
     return change;
   }
 
+  public ChangeControl getControl() {
+    return getChangeResource().getControl();
+  }
+
   public Change getChange() {
-    return getChangeResource().getChange();
+    return getControl().getChange();
   }
 
   public Project.NameKey getProject() {
@@ -79,15 +77,10 @@ public class RevisionResource implements RestResource, HasETag {
 
   @Override
   public String getETag() {
-    Hasher h = Hashing.murmur3_128().newHasher();
-    prepareETag(h, getUser());
-    return h.hash().toString();
-  }
-
-  void prepareETag(Hasher h, CurrentUser user) {
-    // Conservative estimate: refresh the revision if its parent change has changed, so we don't
-    // have to check whether a given modification affected this revision specifically.
-    change.prepareETag(h, user);
+    // Conservative estimate: refresh the revision if its parent change has
+    // changed, so we don't have to check whether a given modification affected
+    // this revision specifically.
+    return change.getETag();
   }
 
   Account.Id getAccountId() {
@@ -95,7 +88,7 @@ public class RevisionResource implements RestResource, HasETag {
   }
 
   CurrentUser getUser() {
-    return getChangeResource().getUser();
+    return getControl().getUser();
   }
 
   RevisionResource doNotCache() {

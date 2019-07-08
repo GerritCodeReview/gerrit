@@ -21,7 +21,6 @@ import com.google.gerrit.server.git.strategy.CommitMergeStatus;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,27 +41,24 @@ public class RebaseSorter {
   private final RevFlag canMergeFlag;
   private final RevCommit initialTip;
   private final Set<RevCommit> alreadyAccepted;
-  private final Provider<InternalChangeQuery> queryProvider;
-  private final Set<CodeReviewCommit> incoming;
+  private final InternalChangeQuery internalChangeQuery;
 
   public RebaseSorter(
       CodeReviewRevWalk rw,
       RevCommit initialTip,
       Set<RevCommit> alreadyAccepted,
       RevFlag canMergeFlag,
-      Provider<InternalChangeQuery> queryProvider,
-      Set<CodeReviewCommit> incoming) {
+      InternalChangeQuery internalChangeQuery) {
     this.rw = rw;
     this.canMergeFlag = canMergeFlag;
     this.initialTip = initialTip;
     this.alreadyAccepted = alreadyAccepted;
-    this.queryProvider = queryProvider;
-    this.incoming = incoming;
+    this.internalChangeQuery = internalChangeQuery;
   }
 
-  public List<CodeReviewCommit> sort(Collection<CodeReviewCommit> toSort) throws IOException {
+  public List<CodeReviewCommit> sort(Collection<CodeReviewCommit> incoming) throws IOException {
     final List<CodeReviewCommit> sorted = new ArrayList<>();
-    final Set<CodeReviewCommit> sort = new HashSet<>(toSort);
+    final Set<CodeReviewCommit> sort = new HashSet<>(incoming);
     while (!sort.isEmpty()) {
       final CodeReviewCommit n = removeOne(sort);
 
@@ -117,7 +113,7 @@ public class RebaseSorter {
       }
 
       // check if the commit associated change is merged in the same branch
-      List<ChangeData> changes = queryProvider.get().byCommit(commit);
+      List<ChangeData> changes = internalChangeQuery.byCommit(commit);
       for (ChangeData change : changes) {
         if (change.change().getStatus() == Status.MERGED
             && change.change().getDest().equals(dest)) {
@@ -132,7 +128,7 @@ public class RebaseSorter {
     }
   }
 
-  private static <T> T removeOne(Collection<T> c) {
+  private static <T> T removeOne(final Collection<T> c) {
     final Iterator<T> i = c.iterator();
     final T r = i.next();
     i.remove();

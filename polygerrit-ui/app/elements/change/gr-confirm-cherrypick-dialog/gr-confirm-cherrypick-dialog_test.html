@@ -20,7 +20,8 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-confirm-cherrypick-dialog.html">
 
 <script>void(0);</script>
@@ -32,83 +33,43 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-confirm-cherrypick-dialog tests', () => {
-    let element;
-    let sandbox;
+  suite('gr-confirm-cherrypick-dialog tests', function() {
+    var element;
 
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      stub('gr-rest-api-interface', {
-        getProjectBranches(input) {
-          if (input.startsWith('test')) {
-            return Promise.resolve([
-              {
-                ref: 'refs/heads/test-branch',
-                revision: '67ebf73496383c6777035e374d2d664009e2aa5c',
-                can_delete: true,
-              },
-            ]);
-          } else {
-            return Promise.resolve({});
-          }
-        },
-      });
+    setup(function() {
       element = fixture('basic');
-      element.project = 'test-project';
     });
 
-    teardown(() => { sandbox.restore(); });
-
-    test('with merged change', () => {
+    test('with merged change', function() {
       element.changeStatus = 'MERGED';
       element.commitMessage = 'message\n';
       element.commitNum = '123';
       element.branch = 'master';
       flushAsynchronousOperations();
-      const expectedMessage = 'message\n(cherry picked from commit 123)';
+      var expectedMessage = 'message\n(cherry picked from commit 123)';
       assert.equal(element.message, expectedMessage);
     });
 
-    test('with unmerged change', () => {
+    test('with unmerged change', function() {
       element.changeStatus = 'OPEN';
       element.commitMessage = 'message\n';
       element.commitNum = '123';
       element.branch = 'master';
       flushAsynchronousOperations();
-      const expectedMessage = 'message\n';
+      var expectedMessage = 'message\n';
       assert.equal(element.message, expectedMessage);
     });
 
-    test('with updated commit message', () => {
+    test('with updated commit message', function() {
       element.changeStatus = 'OPEN';
       element.commitMessage = 'message\n';
       element.commitNum = '123';
       element.branch = 'master';
-      const myNewMessage = 'updated commit message';
+      var myNewMessage = 'updated commit message';
       element.message = myNewMessage;
       flushAsynchronousOperations();
+      var expectedMessage = 'message\n';
       assert.equal(element.message, myNewMessage);
-    });
-
-    test('_getProjectBranchesSuggestions empty', done => {
-      element._getProjectBranchesSuggestions('nonexistent').then(branches => {
-        assert.equal(branches.length, 0);
-        done();
-      });
-    });
-
-    test('resetFocus', () => {
-      const focusStub = sandbox.stub(element.$.branchInput, 'focus');
-      element.resetFocus();
-      assert.isTrue(focusStub.called);
-    });
-
-    test('_getProjectBranchesSuggestions non-empty', done => {
-      element._getProjectBranchesSuggestions('test-branch').then(branches => {
-        assert.equal(branches.length, 1);
-        assert.equal(branches[0].name, 'test-branch');
-        done();
-      });
     });
   });
 </script>

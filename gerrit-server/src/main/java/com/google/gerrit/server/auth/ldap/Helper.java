@@ -77,7 +77,7 @@ class Helper {
 
   @Inject
   Helper(
-      @GerritServerConfig Config config,
+      @GerritServerConfig final Config config,
       @Named(LdapModule.PARENT_GROUPS_CACHE) Cache<String, ImmutableSet<String>> parentGroups) {
     this.config = config;
     this.server = LdapRealm.optional(config, "server");
@@ -139,7 +139,7 @@ class Helper {
     return new InitialDirContext(env);
   }
 
-  private DirContext kerberosOpen(Properties env) throws LoginException, NamingException {
+  private DirContext kerberosOpen(final Properties env) throws LoginException, NamingException {
     LoginContext ctx = new LoginContext("KerberosLogin");
     ctx.login();
     Subject subject = ctx.getSubject();
@@ -211,7 +211,8 @@ class Helper {
   }
 
   Set<AccountGroup.UUID> queryForGroups(
-      final DirContext ctx, String username, LdapQuery.Result account) throws NamingException {
+      final DirContext ctx, final String username, LdapQuery.Result account)
+      throws NamingException {
     final LdapSchema schema = getSchema(ctx);
     final Set<String> groupDNs = new HashSet<>();
 
@@ -333,7 +334,7 @@ class Helper {
     final ParameterizedString groupName;
     final List<LdapQuery> groupMemberQueryList;
 
-    LdapSchema(DirContext ctx) {
+    LdapSchema(final DirContext ctx) {
       type = discoverLdapType(ctx);
       groupMemberQueryList = new ArrayList<>();
       accountQueryList = new ArrayList<>();
@@ -363,7 +364,7 @@ class Helper {
             throw new IllegalArgumentException("No variables in ldap.groupMemberPattern");
           }
 
-          for (String name : groupMemberQuery.getParameters()) {
+          for (final String name : groupMemberQuery.getParameters()) {
             accountAtts.add(name);
           }
 

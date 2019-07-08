@@ -50,8 +50,8 @@ To trust only Yahoo!:
 
 === Database Schema
 
-User identities obtained from OpenID providers are stored as
-link:config-accounts.html#external-ids[external IDs].
+User identities obtained from OpenID providers are stored into the
+`account_external_ids` table.
 
 === Multiple Identities
 
@@ -134,10 +134,11 @@ authentication at the proper time:
 
 === Database Schema
 
-User identities are stored as
-link:config-accounts.html#external-ids[external IDs] with "gerrit" as
-scheme. The user string obtained from the authorization header is
-stored as ID of the external ID.
+User identities are stored in the `account_external_ids` table.
+The user string obtained from the authorization header has the prefix
+"gerrit:" and is stored in the `external_id` field.  For example,
+if a username was "foo" then the external_id field would be populated
+with "gerrit:foo".
 
 
 == Computer Associates Siteminder
@@ -191,10 +192,11 @@ Add the following to `$JETTY_HOME/etc/jetty.xml` under
 
 === Database Schema
 
-User identities are stored as
-link:config-accounts.html#external-ids[external IDs] with "gerrit" as
-scheme. The user string obtained from Siteminder (e.g. the value in the
-"SM_USER" HTTP header) is stored as ID in the external ID.
+User identities are stored in the `account_external_ids` table.
+The user string obtained from Siteminder (e.g. the value in the
+"SM_USER" HTTP header) has the prefix "gerrit:" and is stored in the
+`external_id` field.  For example, if a Siteminder username was "foo"
+then the external_id field would be populated with "gerrit:foo".
 
 GERRIT
 ------

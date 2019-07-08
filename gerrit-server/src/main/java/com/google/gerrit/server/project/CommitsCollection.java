@@ -19,52 +19,33 @@ import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.change.IncludedInResolver;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.VisibleRefFilter;
-import com.google.gerrit.server.index.change.ChangeIndexCollection;
-import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class CommitsCollection implements ChildCollection<ProjectResource, CommitResource> {
-  private static final Logger log = LoggerFactory.getLogger(CommitsCollection.class);
-
   private final DynamicMap<RestView<CommitResource>> views;
   private final GitRepositoryManager repoManager;
-  private final VisibleRefFilter.Factory refFilter;
-  private final ChangeIndexCollection indexes;
-  private final Provider<InternalChangeQuery> queryProvider;
+  private final Provider<ReviewDb> db;
 
   @Inject
   public CommitsCollection(
       DynamicMap<RestView<CommitResource>> views,
       GitRepositoryManager repoManager,
-      VisibleRefFilter.Factory refFilter,
-      ChangeIndexCollection indexes,
-      Provider<InternalChangeQuery> queryProvider) {
+      Provider<ReviewDb> db) {
     this.views = views;
     this.repoManager = repoManager;
-    this.refFilter = refFilter;
-    this.indexes = indexes;
-    this.queryProvider = queryProvider;
+    this.db = db;
   }
 
   @Override
@@ -86,7 +67,7 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
         RevWalk rw = new RevWalk(repo)) {
       RevCommit commit = rw.parseCommit(objectId);
       rw.parseBody(commit);
-      if (!canRead(parent.getProjectState(), repo, commit)) {
+      if (!parent.getControl().canReadCommit(db.get(), repo, commit)) {
         throw new ResourceNotFoundException(id);
       }
       for (int i = 0; i < commit.getParentCount(); i++) {
@@ -101,40 +82,5 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
   @Override
   public DynamicMap<RestView<CommitResource>> views() {
     return views;
-  }
-
-  /** @return true if {@code commit} is visible to the caller. */
-  public boolean canRead(ProjectState state, Repository repo, RevCommit commit) {
-    Project.NameKey project = state.getNameKey();
-
-    // Look for changes associated with the commit.
-    if (indexes.getSearchIndex() != null) {
-      try {
-        List<ChangeData> changes =
-            queryProvider.get().enforceVisibility(true).byProjectCommit(project, commit);
-        if (!changes.isEmpty()) {
-          return true;
-        }
-      } catch (OrmException e) {
-        log.error("Cannot look up change for commit {} in {}", commit.name(), project, e);
-      }
-    }
-
-    return isReachableFrom(state, repo, commit, repo.getAllRefs());
-  }
-
-  public boolean isReachableFrom(
-      ProjectState state, Repository repo, RevCommit commit, Map<String, Ref> refs) {
-    try (RevWalk rw = new RevWalk(repo)) {
-      refs = refFilter.create(state, repo).filter(refs, true);
-      return IncludedInResolver.includedInAny(repo, rw, commit, refs.values());
-    } catch (IOException e) {
-      log.error(
-          "Cannot verify permissions to commit object {} in repository {}",
-          commit.name(),
-          state.getNameKey(),
-          e);
-      return false;
-    }
   }
 }

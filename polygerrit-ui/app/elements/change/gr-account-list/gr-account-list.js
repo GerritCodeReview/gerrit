@@ -14,29 +14,18 @@
 (function() {
   'use strict';
 
-  const VALID_EMAIL_ALERT = 'Please input a valid email.';
-
   Polymer({
     is: 'gr-account-list',
-
-    /**
-     * Fired when user inputs an invalid email address.
-     *
-     * @event show-alert
-     */
 
     properties: {
       accounts: {
         type: Array,
-        value() { return []; },
+        value: function() { return []; },
         notify: true,
       },
       change: Object,
       filter: Function,
       placeholder: String,
-      /**
-       * Needed for template checking since value is initially set to null.
-       * @type {?Object} */
       pendingConfirmation: {
         type: Object,
         value: null,
@@ -46,7 +35,6 @@
         type: Boolean,
         value: false,
       },
-
       /**
        * When true, the account-entry autocomplete uses the account suggest API
        * endpoint, which suggests any account in that Gerrit instance (and does
@@ -60,15 +48,6 @@
         type: Boolean,
         value: false,
       },
-
-      /**
-       * When true, allows for non-suggested inputs to be added.
-       */
-      allowAnyInput: {
-        type: Boolean,
-        value: false,
-      },
-
       /**
        * Array of values (groups/accounts) that are removable. When this prop is
        * undefined, all values are removable.
@@ -81,7 +60,7 @@
     },
 
     listeners: {
-      remove: '_handleRemove',
+      'remove': '_handleRemove',
     },
 
     get accountChips() {
@@ -92,52 +71,36 @@
       return this.$.entry.focusStart;
     },
 
-    _handleAdd(e) {
-      this._addReviewer(e.detail.value);
-    },
-
-    _addReviewer(reviewer) {
+    _handleAdd: function(e) {
+      var reviewer = e.detail.value;
       // Append new account or group to the accounts property. We add our own
       // internal properties to the account/group here, so we clone the object
       // to avoid cluttering up the shared change object.
+      // TODO(logan): Polyfill for Object.assign in IE.
       if (reviewer.account) {
-        const account =
-            Object.assign({}, reviewer.account, {_pendingAdd: true});
+        var account = Object.assign({}, reviewer.account, {_pendingAdd: true});
         this.push('accounts', account);
       } else if (reviewer.group) {
         if (reviewer.confirm) {
           this.pendingConfirmation = reviewer;
           return;
         }
-        const group = Object.assign({}, reviewer.group,
+        var group = Object.assign({}, reviewer.group,
             {_pendingAdd: true, _group: true});
         this.push('accounts', group);
-      } else if (this.allowAnyInput) {
-        if (!reviewer.includes('@')) {
-          // Repopulate the input with what the user tried to enter and have
-          // a toast tell them why they can't enter it.
-          this.$.entry.setText(reviewer);
-          this.dispatchEvent(new CustomEvent('show-alert',
-            {detail: {message: VALID_EMAIL_ALERT}, bubbles: true}));
-          return false;
-        } else {
-          const account = {email: reviewer, _pendingAdd: true};
-          this.push('accounts', account);
-        }
       }
       this.pendingConfirmation = null;
-      return true;
     },
 
-    confirmGroup(group) {
+    confirmGroup: function(group) {
       group = Object.assign(
           {}, group, {confirmed: true, _pendingAdd: true, _group: true});
       this.push('accounts', group);
       this.pendingConfirmation = null;
     },
 
-    _computeChipClass(account) {
-      const classes = [];
+    _computeChipClass: function(account) {
+      var classes = [];
       if (account._group) {
         classes.push('group');
       }
@@ -147,23 +110,11 @@
       return classes.join(' ');
     },
 
-    _accountMatches(a, b) {
-      if (a && b) {
-        if (a._account_id) {
-          return a._account_id === b._account_id;
-        }
-        if (a.email) {
-          return a.email === b.email;
-        }
-      }
-      return a === b;
-    },
-
-    _computeRemovable(account) {
+    _computeRemovable: function(account) {
       if (this.readonly) { return false; }
       if (this.removableValues) {
-        for (let i = 0; i < this.removableValues.length; i++) {
-          if (this._accountMatches(this.removableValues[i], account)) {
+        for (var i = 0; i < this.removableValues.length; i++) {
+          if (this.removableValues[i]._account_id === account._account_id) {
             return true;
           }
         }
@@ -172,21 +123,21 @@
       return true;
     },
 
-    _handleRemove(e) {
-      const toRemove = e.detail.account;
+    _handleRemove: function(e) {
+      var toRemove = e.detail.account;
       this._removeAccount(toRemove);
       this.$.entry.focus();
     },
 
-    _removeAccount(toRemove) {
+    _removeAccount: function(toRemove) {
       if (!toRemove || !this._computeRemovable(toRemove)) { return; }
-      for (let i = 0; i < this.accounts.length; i++) {
-        let matches;
-        const account = this.accounts[i];
+      for (var i = 0; i < this.accounts.length; i++) {
+        var matches;
+        var account = this.accounts[i];
         if (toRemove._group) {
           matches = toRemove.id === account.id;
         } else {
-          matches = this._accountMatches(toRemove, account);
+          matches = toRemove._account_id === account._account_id;
         }
         if (matches) {
           this.splice('accounts', i, 1);
@@ -196,8 +147,8 @@
       console.warn('received remove event for missing account', toRemove);
     },
 
-    _handleInputKeydown(e) {
-      const input = e.detail.input.inputElement;
+    _handleInputKeydown: function(e) {
+      var input = e.detail.input;
       if (input.selectionStart !== input.selectionEnd ||
           input.selectionStart !== 0) {
         return;
@@ -207,17 +158,18 @@
           this._removeAccount(this.accounts[this.accounts.length - 1]);
           break;
         case 37: // Left arrow
-          if (this.accountChips[this.accountChips.length - 1]) {
-            this.accountChips[this.accountChips.length - 1].focus();
+          var chips = this.accountChips;
+          if (chips[chips.length - 1]) {
+            chips[chips.length - 1].focus();
           }
           break;
       }
     },
 
-    _handleChipKeydown(e) {
-      const chip = e.target;
-      const chips = this.accountChips;
-      const index = chips.indexOf(chip);
+    _handleChipKeydown: function(e) {
+      var chip = e.target;
+      var chips = this.accountChips;
+      var index = chips.indexOf(chip);
       switch (e.keyCode) {
         case 8: // Backspace
         case 13: // Enter
@@ -252,35 +204,19 @@
       }
     },
 
-    /**
-     * Submit the text of the entry as a reviewer value, if it exists. If it is
-     * a successful submit of the text, clear the entry value.
-     *
-     * @return {boolean} If there is text in the entry, return true if the
-     *     submission was successful and false if not. If there is no text,
-     *     return true.
-     */
-    submitEntryText() {
-      const text = this.$.entry.getText();
-      if (!text.length) { return true; }
-      const wasSubmitted = this._addReviewer(text);
-      if (wasSubmitted) { this.$.entry.clear(); }
-      return wasSubmitted;
-    },
-
-    additions() {
-      return this.accounts.filter(account => {
+    additions: function() {
+      return this.accounts.filter(function(account) {
         return account._pendingAdd;
-      }).map(account => {
+      }).map(function(account) {
         if (account._group) {
           return {group: account};
         } else {
-          return {account};
+          return {account: account};
         }
       });
     },
 
-    _computeEntryHidden(maxCount, accountsRecord, readonly) {
+    _computeEntryHidden: function(maxCount, accountsRecord, readonly) {
       return (maxCount && maxCount <= accountsRecord.base.length) || readonly;
     },
   });

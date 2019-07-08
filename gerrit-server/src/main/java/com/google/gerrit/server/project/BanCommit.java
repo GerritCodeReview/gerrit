@@ -17,24 +17,21 @@ package com.google.gerrit.server.project;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.git.BanCommitResult;
-import com.google.gerrit.server.project.BanCommit.BanResultInfo;
 import com.google.gerrit.server.project.BanCommit.Input;
-import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
-import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.lib.ObjectId;
 
 @Singleton
-public class BanCommit extends RetryingRestModifyView<ProjectResource, Input, BanResultInfo> {
+public class BanCommit implements RestModifyView<ProjectResource, Input> {
   public static class Input {
     public List<String> commits;
     public String reason;
@@ -53,15 +50,13 @@ public class BanCommit extends RetryingRestModifyView<ProjectResource, Input, Ba
   private final com.google.gerrit.server.git.BanCommit banCommit;
 
   @Inject
-  BanCommit(RetryHelper retryHelper, com.google.gerrit.server.git.BanCommit banCommit) {
-    super(retryHelper);
+  BanCommit(com.google.gerrit.server.git.BanCommit banCommit) {
     this.banCommit = banCommit;
   }
 
   @Override
-  protected BanResultInfo applyImpl(
-      BatchUpdate.Factory updateFactory, ProjectResource rsrc, Input input)
-      throws RestApiException, UpdateException, IOException {
+  public BanResultInfo apply(ProjectResource rsrc, Input input)
+      throws UnprocessableEntityException, AuthException, ResourceConflictException, IOException {
     BanResultInfo r = new BanResultInfo();
     if (input != null && input.commits != null && !input.commits.isEmpty()) {
       List<ObjectId> commitsToBan = new ArrayList<>(input.commits.size());
@@ -80,6 +75,8 @@ public class BanCommit extends RetryingRestModifyView<ProjectResource, Input, Ba
         r.ignored = transformCommits(result.getIgnoredObjectIds());
       } catch (PermissionDeniedException e) {
         throw new AuthException(e.getMessage());
+      } catch (ConcurrentRefUpdateException e) {
+        throw new ResourceConflictException(e.getMessage(), e);
       }
     }
     return r;

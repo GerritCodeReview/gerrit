@@ -18,16 +18,14 @@ import static com.google.gerrit.extensions.registration.PrivateInternals_Dynamic
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.git.QueueProvider;
-import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.plugins.ModuleGenerator;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.plugins.StartPluginListener;
@@ -40,7 +38,6 @@ import com.google.inject.servlet.RequestScoped;
 import java.net.SocketAddress;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 import org.apache.sshd.server.CommandFactory;
 import org.apache.sshd.server.auth.gss.GSSAuthenticator;
 import org.apache.sshd.server.auth.pubkey.PublickeyAuthenticator;
@@ -79,7 +76,7 @@ public class SshModule extends LifecycleModule {
         .toInstance(new DispatchCommandProvider(Commands.CMD_ROOT));
     bind(CommandFactoryProvider.class);
     bind(CommandFactory.class).toProvider(CommandFactoryProvider.class);
-    bind(ScheduledThreadPoolExecutor.class)
+    bind(WorkQueue.Executor.class)
         .annotatedWith(StreamCommandExecutor.class)
         .toProvider(StreamCommandExecutorProvider.class)
         .in(SINGLETON);
@@ -98,10 +95,7 @@ public class SshModule extends LifecycleModule {
         .annotatedWith(UniqueAnnotations.create())
         .to(SshPluginStarterCallback.class);
 
-    DynamicMap.mapOf(binder(), DynamicOptions.DynamicBean.class);
     DynamicItem.itemOf(binder(), SshCreateCommandInterceptor.class);
-    DynamicSet.setOf(binder(), SshExecuteCommandInterceptor.class);
-
     listener().toInstance(registerInParentInjectors());
     listener().to(SshLog.class);
     listener().to(SshDaemon.class);
@@ -130,7 +124,7 @@ public class SshModule extends LifecycleModule {
         .toProvider(SshRemotePeerProvider.class)
         .in(SshScope.REQUEST);
 
-    bind(ScheduledThreadPoolExecutor.class)
+    bind(WorkQueue.Executor.class)
         .annotatedWith(CommandExecutor.class)
         .toProvider(CommandExecutorProvider.class)
         .in(SshScope.REQUEST);

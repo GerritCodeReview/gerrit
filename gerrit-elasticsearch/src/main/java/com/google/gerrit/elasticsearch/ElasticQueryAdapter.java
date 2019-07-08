@@ -14,46 +14,56 @@
 
 package com.google.gerrit.elasticsearch;
 
-import static com.google.gerrit.elasticsearch.ElasticVersion.V6_7;
-
 import com.google.gson.JsonObject;
 
 public class ElasticQueryAdapter {
-  static final String V6_TYPE = "_doc";
+  static final String POST_V5_TYPE = "_doc";
 
-  private static final String INCLUDE_TYPE = "include_type_name=true";
-  private static final String INDICES = "?allow_no_indices=false";
-
-  private final boolean useV5Type;
-  private final boolean useV6Type;
-  private final boolean omitType;
-  private final int defaultNumberOfShards;
+  private final boolean ignoreUnmapped;
+  private final boolean usePostV5Type;
 
   private final String searchFilteringName;
-  private final String indicesExistParams;
+  private final String indicesExistParam;
   private final String exactFieldType;
   private final String stringFieldType;
   private final String indexProperty;
   private final String versionDiscoveryUrl;
-  private final String includeTypeNameParam;
 
   ElasticQueryAdapter(ElasticVersion version) {
-    this.useV5Type = !version.isV6OrLater();
-    this.useV6Type = version.isV6();
-    this.omitType = version.isV7OrLater();
-    this.defaultNumberOfShards = version.isV7OrLater() ? 1 : 5;
-    this.versionDiscoveryUrl = version.isV6OrLater() ? "/%s*" : "/%s*/_aliases";
-    this.searchFilteringName = "_source";
-    this.indicesExistParams =
-        version.isAtLeastMinorVersion(V6_7) ? INDICES + "&" + INCLUDE_TYPE : INDICES;
-    this.exactFieldType = "keyword";
-    this.stringFieldType = "text";
-    this.indexProperty = "true";
-    this.includeTypeNameParam = version.isAtLeastMinorVersion(V6_7) ? "?" + INCLUDE_TYPE : "";
+    this.ignoreUnmapped = version == ElasticVersion.V2_4;
+    this.usePostV5Type = version.isV6();
+    this.versionDiscoveryUrl = version.isV6() ? "/%s*" : "/%s*/_aliases";
+
+    switch (version) {
+      case V5_6:
+      case V6_2:
+      case V6_3:
+      case V6_4:
+        this.searchFilteringName = "_source";
+        this.indicesExistParam = "?allow_no_indices=false";
+        this.exactFieldType = "keyword";
+        this.stringFieldType = "text";
+        this.indexProperty = "true";
+        break;
+      case V2_4:
+      default:
+        this.searchFilteringName = "fields";
+        this.indicesExistParam = "";
+        this.exactFieldType = "string";
+        this.stringFieldType = "string";
+        this.indexProperty = "not_analyzed";
+        break;
+    }
+  }
+
+  void setIgnoreUnmapped(JsonObject properties) {
+    if (ignoreUnmapped) {
+      properties.addProperty("ignore_unmapped", true);
+    }
   }
 
   public void setType(JsonObject properties, String type) {
-    if (useV5Type) {
+    if (!usePostV5Type) {
       properties.addProperty("_type", type);
     }
   }
@@ -62,8 +72,8 @@ public class ElasticQueryAdapter {
     return searchFilteringName;
   }
 
-  String indicesExistParams() {
-    return indicesExistParams;
+  String indicesExistParam() {
+    return indicesExistParam;
   }
 
   String exactFieldType() {
@@ -78,42 +88,15 @@ public class ElasticQueryAdapter {
     return indexProperty;
   }
 
-  boolean deleteToReplace() {
-    return useV5Type;
+  boolean usePostV5Type() {
+    return usePostV5Type;
   }
 
-  boolean useV5Type() {
-    return useV5Type;
-  }
-
-  boolean useV6Type() {
-    return useV6Type;
-  }
-
-  boolean omitType() {
-    return omitType;
-  }
-
-  int getDefaultNumberOfShards() {
-    return defaultNumberOfShards;
-  }
-
-  String getType() {
-    return getType("");
-  }
-
-  String getType(String type) {
-    if (useV6Type()) {
-      return V6_TYPE;
-    }
-    return useV5Type() ? type : "";
+  String getType(String preV6Type) {
+    return usePostV5Type() ? POST_V5_TYPE : preV6Type;
   }
 
   String getVersionDiscoveryUrl(String name) {
     return String.format(versionDiscoveryUrl, name);
-  }
-
-  String includeTypeNameParam() {
-    return includeTypeNameParam;
   }
 }

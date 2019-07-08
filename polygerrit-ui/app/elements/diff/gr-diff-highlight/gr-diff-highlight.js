@@ -20,11 +20,6 @@
     properties: {
       comments: Object,
       loggedIn: Boolean,
-      /**
-       * querySelector can return null, so needs to be nullable.
-       *
-       * @type {?HTMLElement}
-       * */
       _cachedDiffBuilder: Object,
       isAttached: Boolean,
     },
@@ -47,7 +42,7 @@
       return this._cachedDiffBuilder;
     },
 
-    _enableSelectionObserver(loggedIn, isAttached) {
+    _enableSelectionObserver: function(loggedIn, isAttached) {
       if (loggedIn && isAttached) {
         this.listen(document, 'selectionchange', '_handleSelectionChange');
       } else {
@@ -55,11 +50,11 @@
       }
     },
 
-    isRangeSelected() {
+    isRangeSelected: function() {
       return !!this.$$('gr-selection-action-box');
     },
 
-    _handleSelectionChange() {
+    _handleSelectionChange: function() {
       // Can't use up or down events to handle selection started and/or ended in
       // in comment threads or outside of diff.
       // Debounce removeActionBox to give it a chance to react to click/tap.
@@ -67,31 +62,31 @@
       this.debounce('selectionChange', this._handleSelection, 200);
     },
 
-    _handleCommentMouseOver(e) {
-      const comment = e.detail.comment;
+    _handleCommentMouseOver: function(e) {
+      var comment = e.detail.comment;
       if (!comment.range) { return; }
-      const lineEl = this.diffBuilder.getLineElByChild(e.target);
-      const side = this.diffBuilder.getSideByLineEl(lineEl);
-      const index = this._indexOfComment(side, comment);
+      var lineEl = this.diffBuilder.getLineElByChild(e.target);
+      var side = this.diffBuilder.getSideByLineEl(lineEl);
+      var index = this._indexOfComment(side, comment);
       if (index !== undefined) {
         this.set(['comments', side, index, '__hovering'], true);
       }
     },
 
-    _handleCommentMouseOut(e) {
-      const comment = e.detail.comment;
+    _handleCommentMouseOut: function(e) {
+      var comment = e.detail.comment;
       if (!comment.range) { return; }
-      const lineEl = this.diffBuilder.getLineElByChild(e.target);
-      const side = this.diffBuilder.getSideByLineEl(lineEl);
-      const index = this._indexOfComment(side, comment);
+      var lineEl = this.diffBuilder.getLineElByChild(e.target);
+      var side = this.diffBuilder.getSideByLineEl(lineEl);
+      var index = this._indexOfComment(side, comment);
       if (index !== undefined) {
         this.set(['comments', side, index, '__hovering'], false);
       }
     },
 
-    _indexOfComment(side, comment) {
-      const idProp = comment.id ? 'id' : '__draftID';
-      for (let i = 0; i < this.comments[side].length; i++) {
+    _indexOfComment: function(side, comment) {
+      var idProp = comment.id ? 'id' : '__draftID';
+      for (var i = 0; i < this.comments[side].length; i++) {
         if (comment[idProp] &&
             this.comments[side][i][idProp] === comment[idProp]) {
           return i;
@@ -104,7 +99,7 @@
      * Merges multiple ranges, accounts for triple click, accounts for
      * syntax highligh, convert native DOM Range objects to Gerrit concepts
      * (line, side, etc).
-     * @return {({
+     * @return {{
      *   start: {
      *     node: Node,
      *     side: string,
@@ -117,18 +112,18 @@
      *     line: Number,
      *     column: Number
      *   }
-     * })|null|!Object}
+     * }}
      */
-    _getNormalizedRange() {
-      const selection = window.getSelection();
-      const rangeCount = selection.rangeCount;
+    _getNormalizedRange: function() {
+      var selection = window.getSelection();
+      var rangeCount = selection.rangeCount;
       if (rangeCount === 0) {
         return null;
       } else if (rangeCount === 1) {
         return this._normalizeRange(selection.getRangeAt(0));
       } else {
-        const startRange = this._normalizeRange(selection.getRangeAt(0));
-        const endRange = this._normalizeRange(
+        var startRange = this._normalizeRange(selection.getRangeAt(0));
+        var endRange = this._normalizeRange(
             selection.getRangeAt(rangeCount - 1));
         return {
           start: startRange.start,
@@ -139,10 +134,9 @@
 
     /**
      * Normalize a specific DOM Range.
-     * @return {!Object} fixed normalized range
      */
-    _normalizeRange(domRange) {
-      const range = GrRangeNormalizer.normalize(domRange);
+    _normalizeRange: function(domRange) {
+      var range = GrRangeNormalizer.normalize(domRange);
       return this._fixTripleClickSelection({
         start: this._normalizeSelectionSide(
             range.startContainer, range.startOffset),
@@ -162,25 +156,25 @@
      * @param {!Range} domRange DOM Range object
      * @return {!Object} fixed normalized range
      */
-    _fixTripleClickSelection(range, domRange) {
+    _fixTripleClickSelection: function(range, domRange) {
       if (!range.start) {
         // Selection outside of current diff.
         return range;
       }
-      const start = range.start;
-      const end = range.end;
-      const endsAtOtherSideLineNum =
+      var start = range.start;
+      var end = range.end;
+      var endsAtOtherSideLineNum =
           domRange.endOffset === 0 &&
           domRange.endContainer.nodeName === 'TD' &&
           (domRange.endContainer.classList.contains('left') ||
               domRange.endContainer.classList.contains('right'));
-      const endsOnOtherSideStart = endsAtOtherSideLineNum ||
+      var endsOnOtherSideStart = endsAtOtherSideLineNum ||
           end &&
           end.column === 0 &&
           end.line === start.line &&
           end.side != start.side;
-      const content = domRange.cloneContents().querySelector('.contentText');
-      const lineLength = content && this._getLength(content) || 0;
+      var content = domRange.cloneContents().querySelector('.contentText');
+      var lineLength = content && this._getLength(content) || 0;
       if (lineLength && endsOnOtherSideStart || endsAtOtherSideLineNum) {
         // Selection ends at the beginning of the next line.
         // Move the selection to the end of the previous line.
@@ -201,40 +195,40 @@
      *
      * @param {Node} node td.content child
      * @param {number} offset offset within node
-     * @return {({
+     * @return {{
      *   node: Node,
      *   side: string,
      *   line: Number,
      *   column: Number
-     * }|undefined)}
+     * }}
      */
-    _normalizeSelectionSide(node, offset) {
-      let column;
+    _normalizeSelectionSide: function(node, offset) {
+      var column;
       if (!this.contains(node)) {
         return;
       }
-      const lineEl = this.diffBuilder.getLineElByChild(node);
+      var lineEl = this.diffBuilder.getLineElByChild(node);
       if (!lineEl) {
         return;
       }
-      const side = this.diffBuilder.getSideByLineEl(lineEl);
+      var side = this.diffBuilder.getSideByLineEl(lineEl);
       if (!side) {
         return;
       }
-      const line = this.diffBuilder.getLineNumberByChild(lineEl);
+      var line = this.diffBuilder.getLineNumberByChild(lineEl);
       if (!line) {
         return;
       }
-      const contentText = this.diffBuilder.getContentByLineEl(lineEl);
+      var contentText = this.diffBuilder.getContentByLineEl(lineEl);
       if (!contentText) {
         return;
       }
-      const contentTd = contentText.parentElement;
+      var contentTd = contentText.parentElement;
       if (!contentTd.contains(node)) {
         node = contentText;
         column = 0;
       } else {
-        const thread = contentTd.querySelector('gr-diff-comment-thread');
+        var thread = contentTd.querySelector('gr-diff-comment-thread');
         if (thread && thread.contains(node)) {
           column = this._getLength(contentText);
           node = contentText;
@@ -244,25 +238,25 @@
       }
 
       return {
-        node,
-        side,
-        line,
-        column,
+        node: node,
+        side: side,
+        line: line,
+        column: column,
       };
     },
 
-    _handleSelection() {
-      const normalizedRange = this._getNormalizedRange();
+    _handleSelection: function() {
+      var normalizedRange = this._getNormalizedRange();
       if (!normalizedRange) {
         return;
       }
-      const domRange = window.getSelection().getRangeAt(0);
-      /** @type {?} */
-      const start = normalizedRange.start;
+      var domRange = window.getSelection().getRangeAt(0);
+      var start = normalizedRange.start;
+
       if (!start) {
         return;
       }
-      const end = normalizedRange.end;
+      var end = normalizedRange.end;
       if (!end) {
         return;
       }
@@ -274,9 +268,8 @@
 
       // TODO (viktard): Drop empty first and last lines from selection.
 
-      const actionBox = document.createElement('gr-selection-action-box');
-      const root = Polymer.dom(this.root);
-      root.insertBefore(actionBox, root.firstElementChild);
+      var actionBox = document.createElement('gr-selection-action-box');
+      Polymer.dom(this.root).appendChild(actionBox);
       actionBox.range = {
         startLine: start.line,
         startChar: start.column,
@@ -287,9 +280,7 @@
       if (start.line === end.line) {
         actionBox.placeAbove(domRange);
       } else if (start.node instanceof Text) {
-        if (start.column) {
-          actionBox.placeAbove(start.node.splitText(start.column));
-        }
+        actionBox.placeAbove(start.node.splitText(start.column));
         start.node.parentElement.normalize(); // Undo splitText from above.
       } else if (start.node.classList.contains('content') &&
                  start.node.firstChild) {
@@ -299,22 +290,22 @@
       }
     },
 
-    _createComment(e) {
+    _createComment: function(e) {
       this._removeActionBox();
     },
 
-    _removeActionBoxDebounced() {
+    _removeActionBoxDebounced: function() {
       this.debounce('removeActionBox', this._removeActionBox, 10);
     },
 
-    _removeActionBox() {
-      const actionBox = this.$$('gr-selection-action-box');
+    _removeActionBox: function() {
+      var actionBox = this.$$('gr-selection-action-box');
       if (actionBox) {
         Polymer.dom(this.root).removeChild(actionBox);
       }
     },
 
-    _convertOffsetToColumn(el, offset) {
+    _convertOffsetToColumn: function(el, offset) {
       if (el instanceof Element && el.classList.contains('content')) {
         return offset;
       }
@@ -334,20 +325,20 @@
      * Traverse Element from right to left, call callback for each node.
      * Stops if callback returns true.
      *
-     * @param {!Element} startNode
+     * @param {!Node} startNode
      * @param {function(Node):boolean} callback
      * @param {Object=} opt_flags If flags.left is true, traverse left.
      */
-    _traverseContentSiblings(startNode, callback, opt_flags) {
-      const travelLeft = opt_flags && opt_flags.left;
-      let node = startNode;
+    _traverseContentSiblings: function(startNode, callback, opt_flags) {
+      var travelLeft = opt_flags && opt_flags.left;
+      var node = startNode;
       while (node) {
         if (node instanceof Element &&
             node.tagName !== 'HL' &&
             node.tagName !== 'SPAN') {
           break;
         }
-        const nextNode = travelLeft ? node.previousSibling : node.nextSibling;
+        var nextNode = travelLeft ? node.previousSibling : node.nextSibling;
         if (callback(node)) {
           break;
         }
@@ -359,10 +350,10 @@
      * Get length of a node. If the node is a content node, then only give the
      * length of its .contentText child.
      *
-     * @param {?Element} node this is sometimes passed as null.
+     * @param {!Node} node
      * @return {number}
      */
-    _getLength(node) {
+    _getLength: function(node) {
       if (node instanceof Element && node.classList.contains('content')) {
         return this._getLength(node.querySelector('.contentText'));
       } else {

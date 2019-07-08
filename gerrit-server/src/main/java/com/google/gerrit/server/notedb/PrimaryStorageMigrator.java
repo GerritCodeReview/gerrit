@@ -46,12 +46,12 @@ import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbChangeState.RefState;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
@@ -81,27 +81,15 @@ import org.slf4j.LoggerFactory;
 public class PrimaryStorageMigrator {
   private static final Logger log = LoggerFactory.getLogger(PrimaryStorageMigrator.class);
 
-  /**
-   * Exception thrown during migration if the change has no {@code noteDbState} field at the
-   * beginning of the migration.
-   */
-  public static class NoNoteDbStateException extends RuntimeException {
-    private static final long serialVersionUID = 1L;
-
-    private NoNoteDbStateException(Change.Id id) {
-      super("change " + id + " has no note_db_state; rebuild it first");
-    }
-  }
-
   private final AllUsersName allUsers;
-  private final ChangeNotes.Factory changeNotesFactory;
+  private final BatchUpdate.Factory batchUpdateFactory;
+  private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeRebuilder rebuilder;
   private final ChangeUpdate.Factory updateFactory;
   private final GitRepositoryManager repoManager;
   private final InternalUser.Factory internalUserFactory;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Provider<ReviewDb> db;
-  private final RetryHelper retryHelper;
 
   private final long skewMs;
   private final long timeoutMs;
@@ -114,11 +102,11 @@ public class PrimaryStorageMigrator {
       GitRepositoryManager repoManager,
       AllUsersName allUsers,
       ChangeRebuilder rebuilder,
-      ChangeNotes.Factory changeNotesFactory,
+      ChangeControl.GenericFactory changeControlFactory,
       Provider<InternalChangeQuery> queryProvider,
       ChangeUpdate.Factory updateFactory,
       InternalUser.Factory internalUserFactory,
-      RetryHelper retryHelper) {
+      BatchUpdate.Factory batchUpdateFactory) {
     this(
         cfg,
         db,
@@ -126,11 +114,11 @@ public class PrimaryStorageMigrator {
         allUsers,
         rebuilder,
         null,
-        changeNotesFactory,
+        changeControlFactory,
         queryProvider,
         updateFactory,
         internalUserFactory,
-        retryHelper);
+        batchUpdateFactory);
   }
 
   @VisibleForTesting
@@ -141,21 +129,21 @@ public class PrimaryStorageMigrator {
       AllUsersName allUsers,
       ChangeRebuilder rebuilder,
       @Nullable Retryer<NoteDbChangeState> testEnsureRebuiltRetryer,
-      ChangeNotes.Factory changeNotesFactory,
+      ChangeControl.GenericFactory changeControlFactory,
       Provider<InternalChangeQuery> queryProvider,
       ChangeUpdate.Factory updateFactory,
       InternalUser.Factory internalUserFactory,
-      RetryHelper retryHelper) {
+      BatchUpdate.Factory batchUpdateFactory) {
     this.db = db;
     this.repoManager = repoManager;
     this.allUsers = allUsers;
     this.rebuilder = rebuilder;
     this.testEnsureRebuiltRetryer = testEnsureRebuiltRetryer;
-    this.changeNotesFactory = changeNotesFactory;
+    this.changeControlFactory = changeControlFactory;
     this.queryProvider = queryProvider;
     this.updateFactory = updateFactory;
     this.internalUserFactory = internalUserFactory;
-    this.retryHelper = retryHelper;
+    this.batchUpdateFactory = batchUpdateFactory;
     skewMs = NoteDbChangeState.getReadOnlySkew(cfg);
 
     String s = "notedb";
@@ -278,7 +266,7 @@ public class PrimaryStorageMigrator {
     // the primary storage to NoteDb.
 
     setPrimaryStorageNoteDb(id, rebuiltState);
-    log.debug("Migrated change {} to NoteDb primary in {}ms", id, sw.elapsed(MILLISECONDS));
+    log.info("Migrated change {} to NoteDb primary in {}ms", id, sw.elapsed(MILLISECONDS));
   }
 
   private Change setReadOnlyInReviewDb(Change.Id id) throws OrmException {
@@ -293,11 +281,9 @@ public class PrimaryStorageMigrator {
                     NoteDbChangeState state = NoteDbChangeState.parse(change);
                     if (state == null) {
                       // Could rebuild the change here, but that's more complexity, and this
-                      // normally shouldn't happen.
-                      //
-                      // Known cases where this happens are described in and handled by
-                      // NoteDbMigrator#canSkipPrimaryStorageMigration.
-                      throw new NoNoteDbStateException(id);
+                      // really shouldn't happen.
+                      throw new OrmRuntimeException(
+                          "change " + id + " has no note_db_state; rebuild it first");
                     }
                     // If the change is already read-only, then the lease is held by another
                     // (likely failed) migrator thread. Fail early, as we can't take over
@@ -414,7 +400,7 @@ public class PrimaryStorageMigrator {
     rebuilder.rebuildReviewDb(db(), project, id);
     setPrimaryStorageReviewDb(id, newMetaId);
     releaseReadOnlyLeaseInNoteDb(project, id);
-    log.debug("Migrated change {} to ReviewDb primary in {}ms", id, sw.elapsed(MILLISECONDS));
+    log.info("Migrated change {} to ReviewDb primary in {}ms", id, sw.elapsed(MILLISECONDS));
   }
 
   private ObjectId setReadOnlyInNoteDb(Project.NameKey project, Change.Id id)
@@ -423,7 +409,7 @@ public class PrimaryStorageMigrator {
     Timestamp until = new Timestamp(now.getTime() + timeoutMs);
     ChangeUpdate update =
         updateFactory.create(
-            changeNotesFactory.createChecked(db.get(), project, id), internalUserFactory.create());
+            changeControlFactory.controlFor(db.get(), project, id, internalUserFactory.create()));
     update.setReadOnlyUntil(until);
     return update.commit();
   }
@@ -465,27 +451,19 @@ public class PrimaryStorageMigrator {
   private void releaseReadOnlyLeaseInNoteDb(Project.NameKey project, Change.Id id)
       throws OrmException {
     // Use a BatchUpdate since ReviewDb is primary at this point, so it needs to reflect the update.
-    // (In practice retrying won't happen, since we aren't using fused updates at this point.)
-    try {
-      retryHelper.execute(
-          updateFactory -> {
-            try (BatchUpdate bu =
-                updateFactory.create(
-                    db.get(), project, internalUserFactory.create(), TimeUtil.nowTs())) {
-              bu.addOp(
-                  id,
-                  new BatchUpdateOp() {
-                    @Override
-                    public boolean updateChange(ChangeContext ctx) {
-                      ctx.getUpdate(ctx.getChange().currentPatchSetId())
-                          .setReadOnlyUntil(new Timestamp(0));
-                      return true;
-                    }
-                  });
-              bu.execute();
-              return null;
+    try (BatchUpdate bu =
+        batchUpdateFactory.create(
+            db.get(), project, internalUserFactory.create(), TimeUtil.nowTs())) {
+      bu.addOp(
+          id,
+          new BatchUpdateOp() {
+            @Override
+            public boolean updateChange(ChangeContext ctx) {
+              ctx.getUpdate(ctx.getChange().currentPatchSetId()).setReadOnlyUntil(new Timestamp(0));
+              return true;
             }
           });
+      bu.execute();
     } catch (RestApiException | UpdateException e) {
       throw new OrmException(e);
     }

@@ -41,7 +41,7 @@ public class DeleteChangeEdit implements RestModifyView<ChangeResource, Input> {
   @Override
   public Response<?> apply(ChangeResource rsrc, Input input)
       throws AuthException, ResourceNotFoundException, IOException, OrmException {
-    Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getNotes(), rsrc.getUser());
+    Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
     if (edit.isPresent()) {
       editUtil.delete(edit.get());
     } else {

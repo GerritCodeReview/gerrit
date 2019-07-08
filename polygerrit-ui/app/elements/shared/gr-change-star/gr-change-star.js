@@ -18,25 +18,24 @@
     is: 'gr-change-star',
 
     properties: {
-      /** @type {?} */
       change: {
         type: Object,
         notify: true,
       },
 
-      _xhrPromise: Object, // Used for testing.
+      _xhrPromise: Object,  // Used for testing.
     },
 
-    _computeStarClass(starred) {
-      const classes = ['starButton'];
+    _computeStarClass: function(starred) {
+      var classes = ['starButton'];
       if (starred) {
         classes.push('starButton-active');
       }
       return classes.join(' ');
     },
 
-    toggleStar() {
-      const newVal = !this.change.starred;
+    toggleStar: function() {
+      var newVal = !this.change.starred;
       this.set('change.starred', newVal);
       this._xhrPromise = this.$.restAPI.saveChangeStarred(this.change._number,
           newVal);

@@ -20,7 +20,7 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
 <link rel="import" href="gr-account-link.html">
 
 <script>void(0);</script>
@@ -32,19 +32,31 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-account-link tests', () => {
-    let element;
+  suite('gr-account-link tests', function() {
+    var element;
 
-    setup(() => {
+    setup(function() {
       stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
+        getConfig: function() { return Promise.resolve({}); },
       });
       element = fixture('basic');
     });
 
-    test('computed fields', () => {
+    test('computed fields', function() {
+      assert.equal(element._computeOwnerLink(
+          {
+            _account_id: 123,
+            email: 'andybons+gerrit@gmail.com'
+          }),
+          '/q/owner:andybons%2Bgerrit%40gmail.com');
+
+      assert.equal(element._computeOwnerLink({_account_id: 42}),
+          '/q/owner:42');
+
       assert.equal(element._computeShowEmail({name: 'asd'}), false);
+
       assert.equal(element._computeShowEmail({}), true);
     });
+
   });
 </script>

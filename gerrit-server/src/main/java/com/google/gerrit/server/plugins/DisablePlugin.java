@@ -17,17 +17,17 @@ package com.google.gerrit.server.plugins;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.extensions.common.PluginInfo;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.plugins.DisablePlugin.Input;
+import com.google.gerrit.server.plugins.ListPlugins.PluginInfo;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @Singleton
-public class DisablePlugin implements RestModifyView<PluginResource, Input> {
-  public static class Input {}
+class DisablePlugin implements RestModifyView<PluginResource, Input> {
+  static class Input {}
 
   private final PluginLoader loader;
 
@@ -43,6 +43,6 @@ public class DisablePlugin implements RestModifyView<PluginResource, Input> {
     }
     String name = resource.getName();
     loader.disablePlugins(ImmutableSet.of(name));
-    return ListPlugins.toPluginInfo(loader.get(name));
+    return new PluginInfo(loader.get(name));
   }
 }

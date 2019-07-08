@@ -19,7 +19,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AuthResult;
-import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.ExternalId;
 
 public interface WebSession {
   boolean isSignedIn();

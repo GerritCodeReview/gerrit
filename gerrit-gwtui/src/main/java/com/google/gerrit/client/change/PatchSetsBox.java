@@ -29,7 +29,6 @@ import com.google.gerrit.client.ui.FancyFlexTableImpl;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
@@ -104,7 +103,6 @@ class PatchSetsBox extends Composite {
   }
 
   private final Change.Id changeId;
-  private final Project.NameKey project;
   private final String revision;
   private final EditInfo edit;
   private boolean loaded;
@@ -113,8 +111,7 @@ class PatchSetsBox extends Composite {
   @UiField FlexTable table;
   @UiField Style style;
 
-  PatchSetsBox(Project.NameKey project, Change.Id changeId, String revision, EditInfo edit) {
-    this.project = project;
+  PatchSetsBox(Change.Id changeId, String revision, EditInfo edit) {
     this.changeId = changeId;
     this.revision = revision;
     this.edit = edit;
@@ -124,7 +121,7 @@ class PatchSetsBox extends Composite {
   @Override
   protected void onLoad() {
     if (!loaded) {
-      RestApi call = ChangeApi.detail(project.get(), changeId.get());
+      RestApi call = ChangeApi.detail(changeId.get());
       ChangeList.addOptions(
           call, EnumSet.of(ListChangesOption.ALL_COMMITS, ListChangesOption.ALL_REVISIONS));
       call.get(
@@ -192,6 +189,9 @@ class PatchSetsBox extends Composite {
     }
 
     sb.openTd().setStyleName(style.legacy_id());
+    if (r.draft()) {
+      sb.append(Resources.C.draft()).append(' ');
+    }
     sb.append(r.id());
     sb.closeTd();
 
@@ -219,7 +219,7 @@ class PatchSetsBox extends Composite {
   }
 
   private String url(RevisionInfo r) {
-    return PageLinks.toChange(project, changeId, r.id());
+    return PageLinks.toChange(changeId, r.id());
   }
 
   private void closeParent() {

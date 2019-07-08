@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Comment;
@@ -33,12 +34,9 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -47,9 +45,9 @@ import com.google.inject.Singleton;
 import java.util.Collections;
 
 @Singleton
-public class CreateDraftComment
-    extends RetryingRestModifyView<RevisionResource, DraftInput, Response<CommentInfo>> {
+public class CreateDraftComment implements RestModifyView<RevisionResource, DraftInput> {
   private final Provider<ReviewDb> db;
+  private final BatchUpdate.Factory updateFactory;
   private final Provider<CommentJson> commentJson;
   private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
@@ -58,13 +56,13 @@ public class CreateDraftComment
   @Inject
   CreateDraftComment(
       Provider<ReviewDb> db,
-      RetryHelper retryHelper,
+      BatchUpdate.Factory updateFactory,
       Provider<CommentJson> commentJson,
       CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
       PatchListCache patchListCache) {
-    super(retryHelper);
     this.db = db;
+    this.updateFactory = updateFactory;
     this.commentJson = commentJson;
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
@@ -72,8 +70,7 @@ public class CreateDraftComment
   }
 
   @Override
-  protected Response<CommentInfo> applyImpl(
-      BatchUpdate.Factory updateFactory, RevisionResource rsrc, DraftInput in)
+  public Response<CommentInfo> apply(RevisionResource rsrc, DraftInput in)
       throws RestApiException, UpdateException, OrmException {
     if (Strings.isNullOrEmpty(in.path)) {
       throw new BadRequestException("path must be non-empty");
@@ -108,8 +105,7 @@ public class CreateDraftComment
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws ResourceNotFoundException, OrmException, UnprocessableEntityException,
-            PatchListNotAvailableException {
+        throws ResourceNotFoundException, OrmException, UnprocessableEntityException {
       PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       if (ps == null) {
         throw new ResourceNotFoundException("patch set not found: " + psId);
@@ -126,7 +122,7 @@ public class CreateDraftComment
 
       commentsUtil.putComments(
           ctx.getDb(), ctx.getUpdate(psId), Status.DRAFT, Collections.singleton(comment));
-      ctx.dontBumpLastUpdatedOn();
+      ctx.bumpLastUpdatedOn(false);
       return true;
     }
   }

@@ -2,13 +2,15 @@ load("//tools/bzl:junit.bzl", "junit_tests")
 
 java_library(
     name = "elasticsearch",
-    srcs = glob(["src/main/java/**/*.java"]),
+    srcs = glob(
+        ["src/main/java/**/*.java"],
+        exclude = ["**/testing/**"],
+    ),
     visibility = ["//visibility:public"],
     deps = [
+        "//gerrit-antlr:query_exception",
         "//gerrit-common:annotations",
         "//gerrit-extension-api:api",
-        "//gerrit-index:index",
-        "//gerrit-index:query_exception",
         "//gerrit-reviewdb:server",
         "//gerrit-server:server",
         "//lib:gson",
@@ -31,22 +33,16 @@ java_library(
 java_library(
     name = "elasticsearch_test_utils",
     testonly = 1,
-    srcs = glob([
-        "src/test/java/**/ElasticTestUtils.java",
-        "src/test/java/**/ElasticContainer.java",
-    ]),
+    srcs = glob(["src/main/java/com/google/gerrit/elasticsearch/testing/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
         ":elasticsearch",
-        "//gerrit-index:index",
-        "//gerrit-reviewdb:server",
         "//gerrit-server:server",
         "//lib:truth",
         "//lib/guice",
         "//lib/httpcomponents:httpcore",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/testcontainers",
-        "//lib/testcontainers:testcontainers-elasticsearch",
     ],
 )
 
@@ -68,17 +64,25 @@ TYPES = [
 
 SUFFIX = "sTest.java"
 
+ELASTICSEARCH_TESTS = {i: "src/test/java/com/google/gerrit/elasticsearch/ElasticQuery" + i.capitalize() + SUFFIX for i in TYPES}
+
 ELASTICSEARCH_TESTS_V5 = {i: "src/test/java/com/google/gerrit/elasticsearch/ElasticV5Query" + i.capitalize() + SUFFIX for i in TYPES}
 
 ELASTICSEARCH_TESTS_V6 = {i: "src/test/java/com/google/gerrit/elasticsearch/ElasticV6Query" + i.capitalize() + SUFFIX for i in TYPES}
-
-ELASTICSEARCH_TESTS_V7 = {i: "src/test/java/com/google/gerrit/elasticsearch/ElasticV7Query" + i.capitalize() + SUFFIX for i in TYPES}
 
 ELASTICSEARCH_TAGS = [
     "docker",
     "elastic",
     "exclusive",
 ]
+
+[junit_tests(
+    name = "elasticsearch_query_%ss_test" % name,
+    size = "large",
+    srcs = [src],
+    tags = ELASTICSEARCH_TAGS,
+    deps = ELASTICSEARCH_DEPS,
+) for name, src in ELASTICSEARCH_TESTS.items()]
 
 [junit_tests(
     name = "elasticsearch_query_%ss_test_v5" % name,
@@ -95,17 +99,6 @@ ELASTICSEARCH_TAGS = [
     tags = ELASTICSEARCH_TAGS,
     deps = ELASTICSEARCH_DEPS,
 ) for name, src in ELASTICSEARCH_TESTS_V6.items()]
-
-[junit_tests(
-    name = "elasticsearch_query_%ss_test_v7" % name,
-    size = "large",
-    srcs = [src],
-    tags = ELASTICSEARCH_TAGS,
-    deps = ELASTICSEARCH_DEPS + [
-        "//lib/httpcomponents:httpasyncclient",
-        "//lib/httpcomponents:httpclient",
-    ],
-) for name, src in ELASTICSEARCH_TESTS_V7.items()]
 
 junit_tests(
     name = "elasticsearch_tests",

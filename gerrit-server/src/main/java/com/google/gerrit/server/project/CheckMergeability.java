@@ -19,11 +19,13 @@ import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.io.IOException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -37,9 +39,11 @@ import org.kohsuke.args4j.Option;
 
 /** Check the mergeability at current branch for a git object references expression. */
 public class CheckMergeability implements RestReadView<BranchResource> {
+
   private String source;
   private String strategy;
   private SubmitType submitType;
+  private final Provider<ReviewDb> db;
 
   @Option(
       name = "--source",
@@ -62,15 +66,14 @@ public class CheckMergeability implements RestReadView<BranchResource> {
   }
 
   private final GitRepositoryManager gitManager;
-  private final CommitsCollection commits;
 
   @Inject
   CheckMergeability(
-      GitRepositoryManager gitManager, CommitsCollection commits, @GerritServerConfig Config cfg) {
+      GitRepositoryManager gitManager, @GerritServerConfig Config cfg, Provider<ReviewDb> db) {
     this.gitManager = gitManager;
-    this.commits = commits;
     this.strategy = MergeUtil.getMergeStrategy(cfg).getName();
     this.submitType = cfg.getEnum("project", null, "submitType", SubmitType.MERGE_IF_NECESSARY);
+    this.db = db;
   }
 
   @Override
@@ -87,7 +90,7 @@ public class CheckMergeability implements RestReadView<BranchResource> {
     try (Repository git = gitManager.openRepository(resource.getNameKey());
         RevWalk rw = new RevWalk(git);
         ObjectInserter inserter = new InMemoryInserter(git)) {
-      Merger m = MergeUtil.newMerger(inserter, git.getConfig(), strategy);
+      Merger m = MergeUtil.newMerger(git, inserter, strategy);
 
       Ref destRef = git.getRefDatabase().exactRef(resource.getRef());
       if (destRef == null) {
@@ -97,7 +100,7 @@ public class CheckMergeability implements RestReadView<BranchResource> {
       RevCommit targetCommit = rw.parseCommit(destRef.getObjectId());
       RevCommit sourceCommit = MergeUtil.resolveCommit(git, rw, source);
 
-      if (!commits.canRead(resource.getProjectState(), git, sourceCommit)) {
+      if (!resource.getControl().canReadCommit(db.get(), git, sourceCommit)) {
         throw new BadRequestException("do not have read permission for: " + source);
       }
 

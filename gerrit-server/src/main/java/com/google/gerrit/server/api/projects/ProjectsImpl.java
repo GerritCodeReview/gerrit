@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.api.projects;
 
-import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
-
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.api.projects.Projects;
@@ -23,13 +21,13 @@ import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ListProjects;
 import com.google.gerrit.server.project.ListProjects.FilterType;
 import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.SortedMap;
 
 @Singleton
@@ -54,8 +52,8 @@ class ProjectsImpl implements Projects {
       return api.create(projects.parse(name));
     } catch (UnprocessableEntityException e) {
       return api.create(name);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot retrieve project", e);
+    } catch (IOException e) {
+      throw new RestApiException("Cannot retrieve project");
     }
   }
 
@@ -79,17 +77,12 @@ class ProjectsImpl implements Projects {
     return new ListRequest() {
       @Override
       public SortedMap<String, ProjectInfo> getAsMap() throws RestApiException {
-        try {
-          return list(this);
-        } catch (Exception e) {
-          throw asRestApiException("project list unavailable", e);
-        }
+        return list(this);
       }
     };
   }
 
-  private SortedMap<String, ProjectInfo> list(ListRequest request)
-      throws RestApiException, PermissionBackendException {
+  private SortedMap<String, ProjectInfo> list(ListRequest request) throws RestApiException {
     ListProjects lp = listProvider.get();
     lp.setShowDescription(request.getDescription());
     lp.setLimit(request.getLimit());

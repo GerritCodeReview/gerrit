@@ -19,6 +19,7 @@ import static com.google.gerrit.extensions.client.ListGroupsOption.MEMBERS;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
@@ -36,7 +37,8 @@ import java.util.EnumSet;
 public class GroupJson {
   public static GroupOptionsInfo createOptions(GroupDescription.Basic group) {
     GroupOptionsInfo options = new GroupOptionsInfo();
-    if (isInternalGroup(group) && ((GroupDescription.Internal) group).isVisibleToAll()) {
+    AccountGroup ag = GroupDescriptions.toAccountGroup(group);
+    if (ag != null && ag.isVisibleToAll()) {
       options.visibleToAll = true;
     }
     return options;
@@ -45,7 +47,7 @@ public class GroupJson {
   private final GroupBackend groupBackend;
   private final GroupControl.Factory groupControlFactory;
   private final Provider<ListMembers> listMembers;
-  private final Provider<ListSubgroups> listSubgroups;
+  private final Provider<ListIncludedGroups> listIncludes;
   private EnumSet<ListGroupsOption> options;
 
   @Inject
@@ -53,11 +55,11 @@ public class GroupJson {
       GroupBackend groupBackend,
       GroupControl.Factory groupControlFactory,
       Provider<ListMembers> listMembers,
-      Provider<ListSubgroups> listSubgroups) {
+      Provider<ListIncludedGroups> listIncludes) {
     this.groupBackend = groupBackend;
     this.groupControlFactory = groupControlFactory;
     this.listMembers = listMembers;
-    this.listSubgroups = listSubgroups;
+    this.listIncludes = listIncludes;
 
     options = EnumSet.noneOf(ListGroupsOption.class);
   }
@@ -74,7 +76,7 @@ public class GroupJson {
 
   public GroupInfo format(GroupResource rsrc) throws OrmException {
     GroupInfo info = init(rsrc.getGroup());
-    initMembersAndSubgroups(rsrc, info);
+    initMembersAndIncludes(rsrc, info);
     return info;
   }
 
@@ -82,7 +84,7 @@ public class GroupJson {
     GroupInfo info = init(group);
     if (options.contains(MEMBERS) || options.contains(INCLUDES)) {
       GroupResource rsrc = new GroupResource(groupControlFactory.controlFor(group));
-      initMembersAndSubgroups(rsrc, info);
+      initMembersAndIncludes(rsrc, info);
     }
     return info;
   }
@@ -94,31 +96,24 @@ public class GroupJson {
     info.url = Strings.emptyToNull(group.getUrl());
     info.options = createOptions(group);
 
-    if (isInternalGroup(group)) {
-      GroupDescription.Internal internalGroup = (GroupDescription.Internal) group;
-      info.description = Strings.emptyToNull(internalGroup.getDescription());
-      info.groupId = internalGroup.getId().get();
-      AccountGroup.UUID ownerGroupUUID = internalGroup.getOwnerGroupUUID();
-      if (ownerGroupUUID != null) {
-        info.ownerId = Url.encode(ownerGroupUUID.get());
-        GroupDescription.Basic o = groupBackend.get(ownerGroupUUID);
+    AccountGroup g = GroupDescriptions.toAccountGroup(group);
+    if (g != null) {
+      info.description = Strings.emptyToNull(g.getDescription());
+      info.groupId = g.getId().get();
+      if (g.getOwnerGroupUUID() != null) {
+        info.ownerId = Url.encode(g.getOwnerGroupUUID().get());
+        GroupDescription.Basic o = groupBackend.get(g.getOwnerGroupUUID());
         if (o != null) {
           info.owner = o.getName();
         }
       }
-      info.createdOn = internalGroup.getCreatedOn();
     }
 
     return info;
   }
 
-  private static boolean isInternalGroup(GroupDescription.Basic group) {
-    return group instanceof GroupDescription.Internal;
-  }
-
-  private GroupInfo initMembersAndSubgroups(GroupResource rsrc, GroupInfo info)
-      throws OrmException {
-    if (!rsrc.isInternalGroup()) {
+  private GroupInfo initMembersAndIncludes(GroupResource rsrc, GroupInfo info) throws OrmException {
+    if (rsrc.toAccountGroup() == null) {
       return info;
     }
     try {
@@ -127,7 +122,7 @@ public class GroupJson {
       }
 
       if (options.contains(INCLUDES)) {
-        info.includes = listSubgroups.get().apply(rsrc);
+        info.includes = listIncludes.get().apply(rsrc);
       }
       return info;
     } catch (MethodNotAllowedException e) {

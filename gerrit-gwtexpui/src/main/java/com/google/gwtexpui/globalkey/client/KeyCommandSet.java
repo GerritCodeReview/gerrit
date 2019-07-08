@@ -33,7 +33,7 @@ public class KeyCommandSet implements KeyPressHandler {
     this("");
   }
 
-  public KeyCommandSet(String setName) {
+  public KeyCommandSet(final String setName) {
     map = new HashMap<>();
     name = setName;
   }
@@ -42,7 +42,7 @@ public class KeyCommandSet implements KeyPressHandler {
     return name;
   }
 
-  public void setName(String setName) {
+  public void setName(final String setName) {
     assert setName != null;
     name = setName;
   }
@@ -62,7 +62,7 @@ public class KeyCommandSet implements KeyPressHandler {
     b.sibling = a;
   }
 
-  public void add(KeyCommand k) {
+  public void add(final KeyCommand k) {
     assert !map.containsKey(k.keyMask)
         : "Key " + k.describeKeyStroke().asString() + " already registered";
     if (!map.containsKey(k.keyMask)) {
@@ -70,38 +70,38 @@ public class KeyCommandSet implements KeyPressHandler {
     }
   }
 
-  public void remove(KeyCommand k) {
+  public void remove(final KeyCommand k) {
     assert map.get(k.keyMask) == k;
     map.remove(k.keyMask);
   }
 
-  public void add(KeyCommandSet set) {
+  public void add(final KeyCommandSet set) {
     if (sets == null) {
       sets = new ArrayList<>();
     }
     assert !sets.contains(set);
     sets.add(set);
-    for (KeyCommand k : set.map.values()) {
+    for (final KeyCommand k : set.map.values()) {
       add(k);
     }
   }
 
-  public void remove(KeyCommandSet set) {
+  public void remove(final KeyCommandSet set) {
     assert sets != null;
     assert sets.contains(set);
     sets.remove(set);
-    for (KeyCommand k : set.map.values()) {
+    for (final KeyCommand k : set.map.values()) {
       remove(k);
     }
   }
 
-  public void filter(KeyCommandFilter filter) {
+  public void filter(final KeyCommandFilter filter) {
     if (sets != null) {
-      for (KeyCommandSet s : sets) {
+      for (final KeyCommandSet s : sets) {
         s.filter(filter);
       }
     }
-    for (Iterator<KeyCommand> i = map.values().iterator(); i.hasNext(); ) {
+    for (final Iterator<KeyCommand> i = map.values().iterator(); i.hasNext(); ) {
       final KeyCommand kc = i.next();
       if (!filter.include(kc)) {
         i.remove();
@@ -120,7 +120,7 @@ public class KeyCommandSet implements KeyPressHandler {
   }
 
   @Override
-  public void onKeyPress(KeyPressEvent event) {
+  public void onKeyPress(final KeyPressEvent event) {
     final KeyCommand k = map.get(toMask(event));
     if (k != null) {
       event.preventDefault();
@@ -129,7 +129,7 @@ public class KeyCommandSet implements KeyPressHandler {
     }
   }
 
-  static int toMask(KeyPressEvent event) {
+  static int toMask(final KeyPressEvent event) {
     int mask = event.getUnicodeCharCode();
     if (mask == 0) {
       mask = event.getNativeEvent().getKeyCode();

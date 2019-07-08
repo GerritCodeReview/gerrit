@@ -46,12 +46,22 @@ This plugin checks the length of a commit’s commit message subject and
 message body, and reports warnings or errors to the git client if the
 lengths are exceeded.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/commit-message-length-validator[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/commit-message-length-validator[
 Project] |
 link:https://gerrit.googlesource.com/plugins/commit-message-length-validator/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |
 link:https://gerrit.googlesource.com/plugins/commit-message-length-validator/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
+
+[[cookbook-plugin]]
+=== cookbook-plugin
+
+Sample plugin to demonstrate features of Gerrit's plugin API.
+
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/cookbook-plugin[
+Project] |
+link:https://gerrit.googlesource.com/plugins/cookbook-plugin/+doc/master/src/main/resources/Documentation/about.md[
+Documentation]
 
 [[download-commands]]
 === download-commands
@@ -59,7 +69,7 @@ Configuration]
 This plugin defines commands for downloading changes in different
 download schemes (for downloading via different network protocols).
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/download-commands[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/download-commands[
 Project] |
 link:https://gerrit.googlesource.com/plugins/download-commands/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |
@@ -71,7 +81,7 @@ Configuration]
 
 This plugin runs server-side hooks on events.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/hooks[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/hooks[
 Project] |
 link:https://gerrit.googlesource.com/plugins/hooks/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |
@@ -86,7 +96,7 @@ to its managed Git repositories to another system. Usually this would
 be configured to provide mirroring of changes, for warm-standby
 backups, or a load-balanced public mirror farm.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/replication[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/replication[
 Project] |
 link:https://gerrit.googlesource.com/plugins/replication/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |
@@ -99,9 +109,19 @@ Configuration]
 Stores review information for Gerrit changes in the `refs/notes/review`
 branch.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/reviewnotes[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/reviewnotes[
 Project] |
 link:https://gerrit.googlesource.com/plugins/reviewnotes/+doc/master/src/main/resources/Documentation/about.md[
+Documentation]
+
+[[review-strategy]]
+=== review-strategy
+
+This plugin allows users to configure different review strategies.
+
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/review-strategy[
+Project] |
+link:https://gerrit.googlesource.com/plugins/review-strategy/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
 
 [[singleusergroup]]
@@ -127,7 +147,7 @@ plugin jars:
 
 The following list gives an overview of available plugins, but the
 list may not be complete. You may discover more plugins on
-link:https://gerrit-review.googlesource.com/admin/repos/?filter=plugins%252F[
+link:https://gerrit-review.googlesource.com/#/admin/projects/?filter=plugins%252F[
 gerrit-review].
 
 [[admin-console]]
@@ -138,7 +158,7 @@ simplify common administrative tasks. Currently providing user-level
 information. Also providing access control information by project or
 project/account.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/admin-console[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/admin-console[
 Project] |
 link:https://gerrit.googlesource.com/plugins/admin-console/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
@@ -152,7 +172,7 @@ Metrics are extracted in JSON format with one record per line, ready to be
 archived and processed with popular BigData transformation tools such
 Apache Spark or published and visualized in dashboards.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/analytics[Project] |
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/analytics[Project] |
 link:https://gerrit.googlesource.com/plugins/analytics/+doc/master/README.md[Documentation]
 
 [[avatars-external]]
@@ -161,7 +181,7 @@ link:https://gerrit.googlesource.com/plugins/analytics/+doc/master/README.md[Doc
 This plugin allows to use an external url to load the avatar images
 from.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/avatars-external[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/avatars-external[
 Project] |
 link:https://gerrit.googlesource.com/plugins/avatars-external/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |
@@ -173,7 +193,7 @@ Configuration]
 
 Plugin to display user icons from Gravatar.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/avatars-gravatar[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/avatars-gravatar[
 Project]
 
 [[branch-network]]
@@ -184,7 +204,7 @@ graphical HTML5 Canvas. It is mainly intended to be used as a
 "project link" in a gitweb configuration or by other Gerrit GWT UI
 plugins to be plugged elsewhere in Gerrit.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/branch-network[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/branch-network[
 Project] |
 link:https://gerrit.googlesource.com/plugins/branch-network/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |
@@ -196,7 +216,7 @@ Configuration]
 
 This plugin allows to display a static info message on the change screen.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/changemessage[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/changemessage[
 Project] |
 link:https://gerrit.googlesource.com/plugins/changemessage/+doc/master/src/main/resources/Documentation/about.md[
 Plugin Documentation] |
@@ -208,7 +228,7 @@ Configuration]
 
 Provides the ability to delete a project.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/delete-project[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/delete-project[
 Project] |
 link:https://gerrit.googlesource.com/plugins/delete-project/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
@@ -222,7 +242,7 @@ The plugin adds a download command for EGit that allows to copy only
 the change ref into the clipboard. The change ref is needed for
 downloading a Gerrit change from within EGit.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/egit[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/egit[
 Project] |
 link:https://gerrit.googlesource.com/plugins/egit/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
@@ -232,19 +252,29 @@ Documentation]
 
 This plugin allows users to see emoticons in comments as images.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/emoticons[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/emoticons[
 Project] |
 link:https://gerrit.googlesource.com/plugins/emoticons/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |
 link:https://gerrit.googlesource.com/plugins/emoticons/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[force-draft]]
+=== force-draft
+
+Provides an ssh command to force a change or patch set to draft status.
+This is useful for administrators to be able to easily completely
+delete a change or patch set from the server.
+
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/force-draft[
+Project]
+
 [[gitblit]]
 === gitblit
 
 GitBlit code-viewer plugin with SSO and Security Access Control.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/gitblit[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/gitblit[
 Project]
 
 [[github]]
@@ -252,7 +282,7 @@ Project]
 
 Plugin to integrate with GitHub: replication, pull-request to Change-Sets
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/github[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/github[
 Project]
 
 [[gitiles]]
@@ -260,7 +290,7 @@ Project]
 
 Plugin running Gitiles alongside a Gerrit server.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/gitiles[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/gitiles[
 Project]
 
 [[healthcheck]]
@@ -288,7 +318,7 @@ Configuration]
 
 The imagare plugin allows Gerrit users to upload and share images.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/imagare[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/imagare[
 Project] |
 link:https://gerrit.googlesource.com/plugins/imagare/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |
@@ -316,7 +346,7 @@ The importer plugin can also be used to copy a project within one Gerrit
 server, and in combination with the link:#delete-project[delete-project]
 plugin it can be used to rename a project.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/importer[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/importer[
 Project] |
 link:https://gerrit.googlesource.com/plugins/importer/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
@@ -332,7 +362,7 @@ All its-plugins have a common base implementation which is stored in
 the `its-base` project. `its-base` is not a plugin, but just a
 framework for the ITS plugins which is packaged within each ITS plugin.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/its-base[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/its-base[
 its-base Project] |
 link:https://gerrit.googlesource.com/plugins/its-base/+doc/master/src/main/resources/Documentation/about.md[
 its-base Documentation] |
@@ -344,7 +374,7 @@ its-base Configuration]
 
 Plugin to integrate with Bugzilla.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/its-bugzilla[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/its-bugzilla[
 Project] |
 link:https://gerrit.googlesource.com/plugins/its-bugzilla/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
@@ -354,19 +384,9 @@ Documentation]
 
 Plugin to integrate with Jira.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/its-jira[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/its-jira[
 Project] |
 link:https://gerrit.googlesource.com/plugins/its-jira/+doc/master/src/main/resources/Documentation/config.md[
-Configuration]
-
-[[its-phabricator]]
-==== its-phabricator
-
-Plugin to integrate with Phabricator.
-
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/its-phabricator[
-Project] |
-link:https://gerrit.googlesource.com/plugins/its-phabricator/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[its-rtc]]
@@ -374,7 +394,7 @@ Configuration]
 
 Plugin to integrate with IBM Rational Team Concert (RTC).
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/its-rtc[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/its-rtc[
 Project] |
 link:https://gerrit.googlesource.com/plugins/its-rtc/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
@@ -384,7 +404,7 @@ Configuration]
 
 Plugin to integrate with Storyboard task tracking system.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/its-storyboard[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/its-storyboard[
 Project] |
 link:https://gerrit.googlesource.com/plugins/its-storyboard/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
@@ -397,7 +417,7 @@ This plugin allows to monitor the Gerrit server.
 This plugin integrates JavaMelody in Gerrit in order to retrieve live
 instrumentation data from Gerrit.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/javamelody[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/javamelody[
 Project] |
 link:https://gerrit.googlesource.com/plugins/javamelody/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |
@@ -412,7 +432,7 @@ table control to render the labels/approvals on the change screen
 (similar to how labels/approvals were rendered on the old change
 screen).
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/labelui[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/labelui[
 Project] |
 link:https://gerrit.googlesource.com/plugins/labelui/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
@@ -423,7 +443,7 @@ Documentation]
 The menuextender plugin allows Gerrit administrators to configure
 additional menu entries from the WebUI.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/menuextender[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/menuextender[
 Project] |
 link:https://gerrit.googlesource.com/plugins/menuextender/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |
@@ -435,7 +455,7 @@ Configuration]
 
 This plugin reports Gerrit metrics to Elasticsearch.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/metrics-reporter-elasticsearch[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/metrics-reporter-elasticsearch[
 Project].
 
 [[metrics-reporter-graphite]]
@@ -443,7 +463,7 @@ Project].
 
 This plugin reports Gerrit metrics to Graphite.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/metrics-reporter-graphite[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/metrics-reporter-graphite[
 Project].
 
 [[metrics-reporter-jmx]]
@@ -451,7 +471,7 @@ Project].
 
 This plugin reports Gerrit metrics to JMX.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/metrics-reporter-jmx[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/metrics-reporter-jmx[
 Project].
 
 [[motd]]
@@ -463,7 +483,7 @@ can support sending the message to the client, it will be displayed to
 the user (usually prefixed by “remote: ”), but will be silently
 discarded otherwise.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/motd[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/motd[
 Project] |
 link:https://gerrit.googlesource.com/plugins/motd/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |
@@ -486,7 +506,7 @@ https://github.com/davido/gerrit-oauth-provider/wiki/Getting-Started[Configurati
 This plugin provides a Prolog predicate `add_owner_approval/3` that
 appends `label('Owner-Approval', need(_))` to a provided list.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/owners[Project] |
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/owners[Project] |
 link:https://gerrit.googlesource.com/plugins/owners/+doc/master/README.md[Documentation]
 
 [[project-download-commands]]
@@ -498,7 +518,7 @@ Project specific download commands that are defined on a parent project
 are inherited by the child projects. Child projects can overwrite the
 inherited download command or remove it by assigning no value to it.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/project-download-commands[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/project-download-commands[
 Project] |
 link:https://gerrit.googlesource.com/plugins/project-download-commands/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |
@@ -514,21 +534,11 @@ To protect a Gerrit installation it makes sense to limit the resources
 that a project or group can consume. To do this a Gerrit administrator
 can use this plugin to define quotas on project namespaces.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/quota[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/quota[
 Project] |
 link:https://gerrit.googlesource.com/plugins/quota/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
 link:https://gerrit.googlesource.com/plugins/quota/+doc/master/src/main/resources/Documentation/config.md[
-Configuration]
-
-[[rabbitmq]]
-=== rabbitmq
-
-A plugin that publishes Gerrit events to a
-link:https://www.rabbitmq.com/[RabbitMQ] exchange.
-
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/rabbitmq[Project]
-link:https://gerrit.googlesource.com/plugins/rabbitmq/+/master/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[readonly]]
@@ -537,7 +547,7 @@ Configuration]
 A plugin that makes the Gerrit server read-only by rejecting git pushes,
 blocking HTTP PUT/POST/DELETE requests, and disabling SSH commands.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/readonly[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/readonly[
 Project] |
 link:https://gerrit.googlesource.com/plugins/readonly/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |
@@ -552,7 +562,7 @@ A plugin that protects against commits being lost.
 Backups of deleted or non-fast-forward updated refs are created under the
 `refs/backups/` namespace.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/ref-protection[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/ref-protection[
 Project] |
 link:https://gerrit.googlesource.com/plugins/ref-protection/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
@@ -562,29 +572,19 @@ Documentation]
 
 A plugin that provides project reparenting as a self-service for project owners.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/reparent[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/reparent[
 Project] |
 link:https://gerrit.googlesource.com/plugins/reparent/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |
 link:https://gerrit.googlesource.com/plugins/reparent/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
-[[review-strategy]]
-=== review-strategy
-
-This plugin allows users to configure different review strategies.
-
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/review-strategy[
-Project] |
-link:https://gerrit.googlesource.com/plugins/review-strategy/+doc/master/src/main/resources/Documentation/about.md[
-Documentation]
-
 [[reviewers]]
 === reviewers
 
 A plugin that allows adding default reviewers to a change.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/reviewers[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/reviewers[
 Project] |
 link:https://gerrit.googlesource.com/plugins/reviewers/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |
@@ -600,7 +600,7 @@ that authored most of the lines touched by the change, since these
 users should be familiar with the code and can mostly review the
 change.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/reviewers-by-blame[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/reviewers-by-blame[
 Project] |
 link:https://gerrit.googlesource.com/plugins/reviewers-by-blame/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |
@@ -612,7 +612,7 @@ Configuration]
 
 This plugin provides a Groovy runtime environment for Gerrit plugins in Groovy.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/scripting/groovy-provider[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/scripting/groovy-provider[
 Project] |
 link:https://gerrit.googlesource.com/plugins/scripting/groovy-provider/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
@@ -622,7 +622,7 @@ Documentation]
 
 This plugin provides a Scala runtime environment for Gerrit plugins in Scala.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/scripting/scala-provider[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/scripting/scala-provider[
 Project] |
 link:https://gerrit.googlesource.com/plugins/scripting/scala-provider/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
@@ -636,7 +636,7 @@ to provide simple and useful extensions.
 Groovy and Scala scripts require the installation of the corresponding
 scripting/*-provider plugin in order to be loaded into Gerrit.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/scripts[Project]
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/scripts[Project]
 link:https://gerrit.googlesource.com/plugins/scripts/+doc/master/README.md[Documentation]
 
 [[server-config]]
@@ -648,7 +648,7 @@ files.  It may be used to change Gerrit config files (like
 where Gerrit's config files are stored is difficult or impossible to
 get.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/server-config[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/server-config[
 Project]
 
 [[serviceuser]]
@@ -661,7 +661,7 @@ with Gerrit. E.g. a service user is needed to run the Gerrit Trigger
 Plugin in Jenkins. A service user is not able to login into the Gerrit
 WebUI and it cannot push commits or tags.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/serviceuser[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/serviceuser[
 Project] |
 link:https://gerrit.googlesource.com/plugins/serviceuser/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |
@@ -677,7 +677,7 @@ Project owners can configure blocked file extensions, required footers
 and a maximum allowed path length. Pushes of commits that violate these
 settings are rejected by Gerrit.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/uploadvalidator[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/uploadvalidator[
 Project] |
 link:https://gerrit.googlesource.com/plugins/uploadvalidator/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |
@@ -691,7 +691,7 @@ This plugin adds a separate channel for Gerrit to store test metadata and
 view them on the Gerrit UI.  The metadata can be stored in the Gerrit database
 or in a completely separate datastore.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/verify-status[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/verify-status[
 Project] |
 link:https://gerrit.googlesource.com/plugins/verify-status/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |
@@ -706,11 +706,29 @@ a flatfile based implementation. This implementation is shareable
 among multiple Gerrit servers, making it useful for multi-master
 Gerrit installations.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/websession-flatfile[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/websession-flatfile[
 Project] |
 link:https://gerrit.googlesource.com/plugins/websession-flatfile/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |
 link:https://gerrit.googlesource.com/plugins/websession-flatfile/+doc/master/src/main/resources/Documentation/config.md[
+Configuration]
+
+[[wip]]
+=== wip
+
+This plugin adds a new button that allows a change owner to set a
+change to Work In Progress, and a button to change from WIP back to a
+"Ready For Review" state.
+
+Any change in the WIP state will not show up in anyone's Review
+Requests. Pushing a new patchset will reset the change to Review In
+Progress.
+
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/wip[
+Project] |
+link:https://gerrit.googlesource.com/plugins/wip/+doc/master/src/main/resources/Documentation/about.md[
+Documentation] |
+link:https://gerrit.googlesource.com/plugins/wip/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[x-docs]]
@@ -718,7 +736,7 @@ Configuration]
 
 This plugin serves project documentation as HTML pages.
 
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/x-docs[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/x-docs[
 Project] |
 link:https://gerrit.googlesource.com/plugins/x-docs/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |

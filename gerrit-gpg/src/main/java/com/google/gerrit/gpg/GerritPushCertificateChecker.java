@@ -17,8 +17,8 @@ package com.google.gerrit.gpg;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import org.eclipse.jgit.lib.Repository;
 
@@ -30,7 +30,7 @@ public class GerritPushCertificateChecker extends PushCertificateChecker {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
 
-  @Inject
+  @AssistedInject
   GerritPushCertificateChecker(
       GerritPublicKeyChecker.Factory keyCheckerFactory,
       GitRepositoryManager repoManager,

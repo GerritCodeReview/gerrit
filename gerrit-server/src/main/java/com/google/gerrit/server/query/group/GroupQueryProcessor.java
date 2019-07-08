@@ -17,30 +17,21 @@ package com.google.gerrit.server.query.group;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.query.group.GroupQueryBuilder.FIELD_LIMIT;
 
-import com.google.gerrit.index.IndexConfig;
-import com.google.gerrit.index.query.AndSource;
-import com.google.gerrit.index.query.IndexPredicate;
-import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.index.query.QueryProcessor;
-import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.AccountLimits;
 import com.google.gerrit.server.account.GroupControl;
-import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.index.IndexConfig;
+import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.index.group.GroupIndexRewriter;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
+import com.google.gerrit.server.query.AndSource;
+import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.QueryProcessor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-/**
- * Query processor for the group index.
- *
- * <p>Instances are one-time-use. Other singleton classes should inject a Provider rather than
- * holding on to a single instance.
- */
-public class GroupQueryProcessor extends QueryProcessor<InternalGroup> {
-  private final Provider<CurrentUser> userProvider;
+public class GroupQueryProcessor extends QueryProcessor<AccountGroup> {
   private final GroupControl.GenericFactory groupControlFactory;
 
   static {
@@ -53,26 +44,24 @@ public class GroupQueryProcessor extends QueryProcessor<InternalGroup> {
   @Inject
   protected GroupQueryProcessor(
       Provider<CurrentUser> userProvider,
-      AccountLimits.Factory limitsFactory,
-      MetricMaker metricMaker,
+      Metrics metrics,
       IndexConfig indexConfig,
       GroupIndexCollection indexes,
       GroupIndexRewriter rewriter,
       GroupControl.GenericFactory groupControlFactory) {
     super(
-        metricMaker,
+        userProvider,
+        metrics,
         GroupSchemaDefinitions.INSTANCE,
         indexConfig,
         indexes,
         rewriter,
-        FIELD_LIMIT,
-        () -> limitsFactory.create(userProvider.get()).getQueryLimit());
-    this.userProvider = userProvider;
+        FIELD_LIMIT);
     this.groupControlFactory = groupControlFactory;
   }
 
   @Override
-  protected Predicate<InternalGroup> enforceVisibility(Predicate<InternalGroup> pred) {
+  protected Predicate<AccountGroup> enforceVisibility(Predicate<AccountGroup> pred) {
     return new AndSource<>(
         pred, new GroupIsVisibleToPredicate(groupControlFactory, userProvider.get()), start);
   }

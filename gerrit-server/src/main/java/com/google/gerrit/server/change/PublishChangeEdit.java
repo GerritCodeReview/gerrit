@@ -14,30 +14,27 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsPost;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
-import com.google.gerrit.server.project.ContributorAgreementsChecker;
-import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Optional;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class PublishChangeEdit
@@ -65,38 +62,33 @@ public class PublishChangeEdit
     throw new NotImplementedException();
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public Publish post(ChangeResource parent) throws RestApiException {
     return publish;
   }
 
   @Singleton
-  public static class Publish
-      extends RetryingRestModifyView<ChangeResource, PublishChangeEditInput, Response<?>> {
+  public static class Publish implements RestModifyView<ChangeResource, PublishChangeEditInput> {
 
     private final ChangeEditUtil editUtil;
     private final NotifyUtil notifyUtil;
-    private final ContributorAgreementsChecker contributorAgreementsChecker;
 
     @Inject
-    Publish(
-        RetryHelper retryHelper,
-        ChangeEditUtil editUtil,
-        NotifyUtil notifyUtil,
-        ContributorAgreementsChecker contributorAgreementsChecker) {
-      super(retryHelper);
+    Publish(ChangeEditUtil editUtil, NotifyUtil notifyUtil) {
       this.editUtil = editUtil;
       this.notifyUtil = notifyUtil;
-      this.contributorAgreementsChecker = contributorAgreementsChecker;
     }
 
     @Override
-    protected Response<?> applyImpl(
-        BatchUpdate.Factory updateFactory, ChangeResource rsrc, PublishChangeEditInput in)
-        throws IOException, OrmException, RestApiException, UpdateException, ConfigInvalidException,
-            NoSuchProjectException {
-      contributorAgreementsChecker.check(rsrc.getProject(), rsrc.getUser());
-      Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getNotes(), rsrc.getUser());
+    public Response<?> apply(ChangeResource rsrc, PublishChangeEditInput in)
+        throws IOException, OrmException, RestApiException, UpdateException {
+      Capable r = rsrc.getControl().getProjectControl().canPushToAtLeastOneRef();
+      if (r != Capable.OK) {
+        throw new AuthException(r.getMessage());
+      }
+
+      Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
       if (!edit.isPresent()) {
         throw new ResourceConflictException(
             String.format("no edit exists for change %s", rsrc.getChange().getChangeId()));
@@ -104,13 +96,7 @@ public class PublishChangeEdit
       if (in == null) {
         in = new PublishChangeEditInput();
       }
-      editUtil.publish(
-          updateFactory,
-          rsrc.getNotes(),
-          rsrc.getUser(),
-          edit.get(),
-          in.notify,
-          notifyUtil.resolveAccounts(in.notifyDetails));
+      editUtil.publish(edit.get(), in.notify, notifyUtil.resolveAccounts(in.notifyDetails));
       return Response.none();
     }
   }

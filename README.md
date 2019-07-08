@@ -23,7 +23,7 @@ For information about how to install and use Gerrit, refer to
 ## Source
 
 Our canonical Git repository is located on [googlesource.com](https://gerrit.googlesource.com/gerrit).
-There is a mirror of the repository on [Github](https://github.com/GerritCodeReview/gerrit).
+There is a mirror of the repository on [Github](https://github.com/gerrit-review/gerrit).
 
 ## Reporting bugs
 
@@ -38,6 +38,9 @@ Please read the [contribution guidelines](https://gerrit.googlesource.com/gerrit
 Note that we do not accept Pull Requests via the Github mirror.
 
 ## Getting in contact
+
+The IRC channel on freenode is #gerrit. An archive is available at:
+[echelog.com](http://echelog.com/logs/browse/gerrit).
 
 The Developer Mailing list is [repo-discuss on Google Groups](https://groups.google.com/forum/#!forum/repo-discuss).
 

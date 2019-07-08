@@ -14,17 +14,13 @@
 
 package com.google.gerrit.testutil;
 
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
-import com.google.gerrit.audit.AuditModule;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.config.FactoryModule;
-import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.gpg.GpgModule;
-import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -53,25 +49,17 @@ import com.google.gerrit.server.git.PerThreadRequestScope;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.SendEmailExecutor;
 import com.google.gerrit.server.index.IndexModule.IndexType;
-import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.server.index.account.AllAccountsIndexer;
 import com.google.gerrit.server.index.change.AllChangesIndexer;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.group.AllGroupsIndexer;
-import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.GwtormChangeBundleReader;
-import com.google.gerrit.server.notedb.MutableNotesMigration;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.DiffExecutor;
-import com.google.gerrit.server.plugins.PluginRestApiModule;
-import com.google.gerrit.server.plugins.ServerInformationImpl;
-import com.google.gerrit.server.project.DefaultPermissionBackendModule;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.InMemoryAccountPatchReviewStore;
-import com.google.gerrit.server.schema.NotesMigrationSchemaFactory;
-import com.google.gerrit.server.schema.ReviewDbFactory;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.securestore.DefaultSecureStore;
 import com.google.gerrit.server.securestore.SecureStore;
@@ -82,7 +70,6 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Provides;
@@ -124,13 +111,13 @@ public class InMemoryModule extends FactoryModule {
   }
 
   private final Config cfg;
-  private final MutableNotesMigration notesMigration;
+  private final TestNotesMigration notesMigration;
 
   public InMemoryModule() {
-    this(newDefaultConfig(), NoteDbMode.newNotesMigrationFromEnv());
+    this(newDefaultConfig(), new TestNotesMigration());
   }
 
-  public InMemoryModule(Config cfg, MutableNotesMigration notesMigration) {
+  public InMemoryModule(Config cfg, TestNotesMigration notesMigration) {
     this.cfg = cfg;
     this.notesMigration = notesMigration;
   }
@@ -160,10 +147,8 @@ public class InMemoryModule extends FactoryModule {
             });
     bind(MetricMaker.class).to(DisabledMetricMaker.class);
     install(cfgInjector.getInstance(GerritGlobalModule.class));
-    install(new DefaultPermissionBackendModule());
     install(new SearchingChangeCacheImpl.Module());
     factory(GarbageCollection.Factory.class);
-    install(new AuditModule());
 
     bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);
 
@@ -183,19 +168,16 @@ public class InMemoryModule extends FactoryModule {
     bind(GitRepositoryManager.class).to(InMemoryRepositoryManager.class);
     bind(InMemoryRepositoryManager.class).in(SINGLETON);
     bind(TrackingFooters.class).toProvider(TrackingFootersProvider.class).in(SINGLETON);
-    bind(MutableNotesMigration.class).toInstance(notesMigration);
-    bind(NotesMigration.class).to(MutableNotesMigration.class);
+    bind(NotesMigration.class).toInstance(notesMigration);
     bind(ListeningExecutorService.class)
         .annotatedWith(ChangeUpdateExecutor.class)
         .toInstance(MoreExecutors.newDirectExecutorService());
-    bind(DataSourceType.class).to(InMemoryH2Type.class);
-    bind(ChangeBundleReader.class).to(GwtormChangeBundleReader.class);
-    bind(SecureStore.class).to(DefaultSecureStore.class);
 
-    TypeLiteral<SchemaFactory<ReviewDb>> schemaFactory =
-        new TypeLiteral<SchemaFactory<ReviewDb>>() {};
-    bind(schemaFactory).to(NotesMigrationSchemaFactory.class);
-    bind(Key.get(schemaFactory, ReviewDbFactory.class)).to(InMemoryDatabase.class);
+    bind(DataSourceType.class).to(InMemoryH2Type.class);
+    bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {}).to(InMemoryDatabase.class);
+    bind(ChangeBundleReader.class).to(GwtormChangeBundleReader.class);
+
+    bind(SecureStore.class).to(DefaultSecureStore.class);
 
     install(NoSshKeyCache.module());
     install(
@@ -247,9 +229,6 @@ public class InMemoryModule extends FactoryModule {
           throw new ProvisionException("index type unsupported in tests: " + indexType);
       }
     }
-    bind(ServerInformationImpl.class);
-    bind(ServerInformation.class).to(ServerInformationImpl.class);
-    install(new PluginRestApiModule());
   }
 
   @Provides
@@ -275,9 +254,14 @@ public class InMemoryModule extends FactoryModule {
 
   private Module indexModule(String moduleClassName) {
     try {
+      Map<String, Integer> singleVersions = new HashMap<>();
+      int version = cfg.getInt("index", "lucene", "testVersion", -1);
+      if (version > 0) {
+        singleVersions.put(ChangeSchemaDefinitions.INSTANCE.getName(), version);
+      }
       Class<?> clazz = Class.forName(moduleClassName);
       Method m = clazz.getMethod("singleVersionWithExplicitVersions", Map.class, int.class);
-      return (Module) m.invoke(null, getSingleSchemaVersions(), 0);
+      return (Module) m.invoke(null, singleVersions, 0);
     } catch (ClassNotFoundException
         | SecurityException
         | NoSuchMethodException
@@ -288,27 +272,6 @@ public class InMemoryModule extends FactoryModule {
       ProvisionException pe = new ProvisionException(e.getMessage());
       pe.initCause(e);
       throw pe;
-    }
-  }
-
-  private Map<String, Integer> getSingleSchemaVersions() {
-    Map<String, Integer> singleVersions = new HashMap<>();
-    putSchemaVersion(singleVersions, AccountSchemaDefinitions.INSTANCE);
-    putSchemaVersion(singleVersions, ChangeSchemaDefinitions.INSTANCE);
-    putSchemaVersion(singleVersions, GroupSchemaDefinitions.INSTANCE);
-    return singleVersions;
-  }
-
-  private void putSchemaVersion(
-      Map<String, Integer> singleVersions, SchemaDefinitions<?> schemaDef) {
-    String schemaName = schemaDef.getName();
-    int version = cfg.getInt("index", "lucene", schemaName + "TestVersion", -1);
-    if (version > 0) {
-      checkState(
-          !singleVersions.containsKey(schemaName),
-          "version for schema %s was alreay set",
-          schemaName);
-      singleVersions.put(schemaName, version);
     }
   }
 }

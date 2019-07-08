@@ -14,9 +14,6 @@
 (function() {
   'use strict';
 
-  const ERR_COMMIT_NOT_FOUND =
-      'Unable to find the commit hash of this change.';
-
   Polymer({
     is: 'gr-confirm-revert-dialog',
 
@@ -36,26 +33,27 @@
       message: String,
     },
 
-    populateRevertMessage(message, commitHash) {
+    populateRevertMessage: function(message, commitHash) {
       // Figure out what the revert title should be.
-      const originalTitle = message.split('\n')[0];
-      const revertTitle = `Revert "${originalTitle}"`;
+      var originalTitle = message.split('\n')[0];
+      var revertTitle = 'Revert "' + originalTitle + '"';
       if (!commitHash) {
-        this.fire('show-alert', {message: ERR_COMMIT_NOT_FOUND});
+        alert('Unable to find the commit hash of this change.');
         return;
       }
-      const revertCommitText = `This reverts commit ${commitHash}.`;
+      var revertCommitText = 'This reverts commit ' + commitHash + '.';
 
-      this.message = `${revertTitle}\n\n${revertCommitText}\n\n` +
-          `Reason for revert: <INSERT REASONING HERE>\n`;
+      this.message = revertTitle + '\n\n' +
+                     revertCommitText + '\n\n' +
+                     'Reason for revert: <INSERT REASONING HERE>\n';
     },
 
-    _handleConfirmTap(e) {
+    _handleConfirmTap: function(e) {
       e.preventDefault();
       this.fire('confirm', null, {bubbles: false});
     },
 
-    _handleCancelTap(e) {
+    _handleCancelTap: function(e) {
       e.preventDefault();
       this.fire('cancel', null, {bubbles: false});
     },

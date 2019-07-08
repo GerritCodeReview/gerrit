@@ -20,7 +20,8 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-reply-dialog.html">
 
 <script>void(0);</script>
@@ -32,38 +33,36 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-reply-dialog tests', () => {
-    let element;
-    let changeNum;
-    let patchNum;
+  suite('gr-reply-dialog tests', function() {
+    var element;
+    var changeNum;
+    var patchNum;
 
-    let sandbox;
-    let getDraftCommentStub;
-    let setDraftCommentStub;
-    let eraseDraftCommentStub;
+    var sandbox;
+    var getDraftCommentStub;
+    var setDraftCommentStub;
+    var eraseDraftCommentStub;
 
-    let lastId = 0;
-    const makeAccount = function() { return {_account_id: lastId++}; };
-    const makeGroup = function() { return {id: lastId++}; };
+    var lastId = 0;
+    var makeAccount = function() { return {_account_id: lastId++}; };
+    var makeGroup = function() { return {id: lastId++}; };
 
-    setup(() => {
+    setup(function() {
       sandbox = sinon.sandbox.create();
 
       changeNum = 42;
       patchNum = 1;
 
       stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
-        getAccount() { return Promise.resolve({}); },
-        getChange() { return Promise.resolve({}); },
-        getChangeSuggestedReviewers() { return Promise.resolve([]); },
+        getConfig: function() { return Promise.resolve({}); },
+        getAccount: function() { return Promise.resolve({}); },
       });
 
       element = fixture('basic');
       element.change = {
         _number: changeNum,
         labels: {
-          'Verified': {
+          Verified: {
             values: {
               '-1': 'Fails',
               ' 0': 'No score',
@@ -90,7 +89,7 @@ limitations under the License.
           ' 0',
           '+1',
         ],
-        'Verified': [
+        Verified: [
           '-1',
           ' 0',
           '+1',
@@ -103,170 +102,82 @@ limitations under the License.
       eraseDraftCommentStub = sandbox.stub(element.$.storage,
           'eraseDraftComment');
 
-      sandbox.stub(element, 'fetchIsLatestKnown',
-          () => { return Promise.resolve(true); });
-
       // Allow the elements created by dom-repeat to be stamped.
       flushAsynchronousOperations();
     });
 
-    teardown(() => {
+    teardown(function() {
       sandbox.restore();
     });
 
-    function stubSaveReview(jsonResponseProducer) {
-      return sandbox.stub(element, '_saveReview', review => {
-        return new Promise((resolve, reject) => {
-          try {
-            const result = jsonResponseProducer(review) || {};
-            const resultStr =
-                element.$.restAPI.JSON_PREFIX + JSON.stringify(result);
-            resolve({
-              ok: true,
-              text() {
-                return Promise.resolve(resultStr);
-              },
-            });
-          } catch (err) {
-            reject(err);
-          }
-        });
-      });
-    }
+    test('changes in label score are reflected in the DOM', function() {
+      element._account = {_account_id: 1};
+      element.set(['change', 'labels', 'Verified', 'all'],
+          [{_account_id: 1, value: -1}]);
+      flushAsynchronousOperations();
+      var selector = element.$$('iron-selector[data-label="Verified"]');
+      assert.equal(selector.selected, 0); // Index 0, value -1
+      element.set(['change', 'labels', 'Verified', 'all'],
+         [{_account_id: 1, value: 1}]);
+      flushAsynchronousOperations();
+      assert.equal(selector.selected, 2); // Index 2, value 1
+    });
 
-    test('default to publishing drafts with reply', done => {
+    test('cancel event', function(done) {
+      element.addEventListener('cancel', function() { done(); });
+      MockInteractions.tap(element.$$('.cancel'));
+    });
+
+    test('label picker', function(done) {
+      element.revisions = {};
+      element.patchNum = '';
+
       // Async tick is needed because iron-selector content is distributed and
       // distributed content requires an observer to be set up.
       // Note: Double flush seems to be needed in Safari. {@see Issue 4963}.
-      flush(() => {
-        flush(() => {
+      flush(function() {
+        flush(function() {
+          for (var label in element.permittedLabels) {
+            assert.ok(element.$$('iron-selector[data-label="' + label + '"]'),
+                label);
+          }
           element.draft = 'I wholeheartedly disapprove';
+          MockInteractions.tap(element.$$(
+              'iron-selector[data-label="Code-Review"] > ' +
+              'gr-button[data-value="-1"]'));
+          MockInteractions.tap(element.$$(
+              'iron-selector[data-label="Verified"] > ' +
+              'gr-button[data-value="-1"]'));
 
-          stubSaveReview(review => {
+          var saveReviewStub = sinon.stub(element, '_saveReview',
+              function(review) {
             assert.deepEqual(review, {
               drafts: 'PUBLISH_ALL_REVISIONS',
               labels: {
-                'Code-Review': 0,
-                'Verified': 0,
+                'Code-Review': -1,
+                'Verified': -1,
               },
               message: 'I wholeheartedly disapprove',
               reviewers: [],
             });
-            assert.isFalse(element.$.commentList.hidden);
+            return Promise.resolve({ok: true});
+          });
+
+          element.addEventListener('send', function() {
+            assert.isFalse(element.disabled,
+                'Element should be enabled when done sending reply.');
+            assert.equal(element.draft.length, 0);
+            saveReviewStub.restore();
             done();
           });
 
           // This is needed on non-Blink engines most likely due to the ways in
           // which the dom-repeat elements are stamped.
-          flush(() => {
+          flush(function() {
             MockInteractions.tap(element.$$('.send'));
+            assert.isTrue(element.disabled);
           });
         });
-      });
-    });
-
-    test('keep drafts with reply', done => {
-      MockInteractions.tap(element.$$('#includeComments'));
-      assert.equal(element._includeComments, false);
-
-      // Async tick is needed because iron-selector content is distributed and
-      // distributed content requires an observer to be set up.
-      // Note: Double flush seems to be needed in Safari. {@see Issue 4963}.
-      flush(() => {
-        flush(() => {
-          element.draft = 'I wholeheartedly disapprove';
-
-          stubSaveReview(review => {
-            assert.deepEqual(review, {
-              drafts: 'KEEP',
-              labels: {
-                'Code-Review': 0,
-                'Verified': 0,
-              },
-              message: 'I wholeheartedly disapprove',
-              reviewers: [],
-            });
-            assert.isTrue(element.$.commentList.hidden);
-            done();
-          });
-
-          // This is needed on non-Blink engines most likely due to the ways in
-          // which the dom-repeat elements are stamped.
-          flush(() => {
-            MockInteractions.tap(element.$$('.send'));
-          });
-        });
-      });
-    });
-
-    test('label picker', done => {
-      element.draft = 'I wholeheartedly disapprove';
-      stubSaveReview(review => {
-        assert.deepEqual(review, {
-          drafts: 'PUBLISH_ALL_REVISIONS',
-          labels: {
-            'Code-Review': -1,
-            'Verified': -1,
-          },
-          message: 'I wholeheartedly disapprove',
-          reviewers: [],
-        });
-      });
-
-      sandbox.stub(element.$.labelScores, 'getLabelValues', () => {
-        return {
-          'Code-Review': -1,
-          'Verified': -1,
-        };
-      });
-
-      element.addEventListener('send', () => {
-        // Flush to ensure properties are updated.
-        flush(() => {
-          assert.isFalse(element.disabled,
-              'Element should be enabled when done sending reply.');
-          assert.equal(element.draft.length, 0);
-          done();
-        });
-      });
-
-      // This is needed on non-Blink engines most likely due to the ways in
-      // which the dom-repeat elements are stamped.
-      flush(() => {
-        MockInteractions.tap(element.$$('.send'));
-        assert.isTrue(element.disabled);
-      });
-    });
-
-    test('getlabelValue returns value', done => {
-      flush(() => {
-        element.$$('gr-label-scores').$$(`gr-label-score-row[name="Verified"]`)
-            .setSelectedValue(-1);
-        assert.equal('-1', element.getLabelValue('Verified'));
-        done();
-      });
-    });
-
-    test('getlabelValue when no score is selected', done => {
-      flush(() => {
-        element.$$('gr-label-scores').$$(`gr-label-score-row[name="Code-Review"]`)
-            .setSelectedValue(-1);
-        assert.strictEqual(element.getLabelValue('Verified'), ' 0');
-        done();
-      });
-    });
-
-    test('setlabelValue', () => {
-      element._account = {_account_id: 1};
-      flushAsynchronousOperations();
-      const label = 'Verified';
-      const value = '+1';
-      element.setLabelValue(label, value);
-      flushAsynchronousOperations();
-      const labels = element.$.labelScores.getLabelValues();
-      assert.deepEqual(labels, {
-        'Code-Review': 0,
-        'Verified': 1,
       });
     });
 
@@ -280,7 +191,7 @@ limitations under the License.
     }
 
     function overlayObserver(mode) {
-      return new Promise(resolve => {
+      return new Promise(function(resolve) {
         function listener() {
           element.removeEventListener('iron-overlay-' + mode, listener);
           resolve();
@@ -290,9 +201,9 @@ limitations under the License.
     }
 
     function testConfirmationDialog(done, cc) {
-      const yesButton =
+      var yesButton =
           element.$$('.reviewerConfirmationButtons gr-button:first-child');
-      const noButton =
+      var noButton =
           element.$$('.reviewerConfirmationButtons gr-button:last-child');
 
       element.serverConfig = {note_db_enabled: true};
@@ -302,19 +213,19 @@ limitations under the License.
       assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
 
       // Cause the confirmation dialog to display.
-      let observer = overlayObserver('opened');
-      const group = {
+      var observer = overlayObserver('opened');
+      var group = {
         id: 'id',
         name: 'name',
       };
       if (cc) {
         element._ccPendingConfirmation = {
-          group,
+          group: group,
           count: 10,
         };
       } else {
         element._reviewerPendingConfirmation = {
-          group,
+          group: group,
           count: 10,
         };
       }
@@ -330,16 +241,16 @@ limitations under the License.
             element._pendingConfirmationDetails);
       }
 
-      observer.then(() => {
+      observer.then(function() {
         assert.isTrue(isVisible(element.$.reviewerConfirmationOverlay));
         observer = overlayObserver('closed');
-        const expected = 'Group name has 10 members';
+        var expected = 'Group name has 10 members';
         assert.notEqual(
             element.$.reviewerConfirmationOverlay.innerText.indexOf(expected),
             -1);
         MockInteractions.tap(noButton); // close the overlay
         return observer;
-      }).then(() => {
+      }).then(function() {
         assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
 
         // We should be focused on account entry input.
@@ -353,24 +264,24 @@ limitations under the License.
         observer = overlayObserver('opened');
         if (cc) {
           element._ccPendingConfirmation = {
-            group,
+            group: group,
             count: 10,
           };
         } else {
           element._reviewerPendingConfirmation = {
-            group,
+            group: group,
             count: 10,
           };
         }
         return observer;
-      }).then(() => {
+      }).then(function() {
         assert.isTrue(isVisible(element.$.reviewerConfirmationOverlay));
         observer = overlayObserver('closed');
         MockInteractions.tap(yesButton); // Confirm the group.
         return observer;
-      }).then(() => {
+      }).then(function() {
         assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
-        const additions = cc ?
+        var additions = cc ?
             element.$$('#ccs').additions() :
             element.$.reviewers.additions();
         assert.deepEqual(
@@ -390,41 +301,41 @@ limitations under the License.
         // We should be focused on account entry input.
         assert.equal(getActiveElement().id, 'input');
       }).then(done);
-    }
+    };
 
-    test('cc confirmation', done => {
+    test('cc confirmation', function(done) {
       testConfirmationDialog(done, true);
     });
 
-    test('reviewer confirmation', done => {
+    test('reviewer confirmation', function(done) {
       testConfirmationDialog(done, false);
     });
 
-    test('_getStorageLocation', () => {
-      const actual = element._getStorageLocation();
+    test('_getStorageLocation', function() {
+      var actual = element._getStorageLocation();
       assert.equal(actual.changeNum, changeNum);
-      assert.equal(actual.patchNum, '@change');
+      assert.equal(actual.patchNum, patchNum);
       assert.equal(actual.path, '@change');
     });
 
-    test('gets draft from storage on open', () => {
-      const storedDraft = 'hello world';
+    test('gets draft from storage on open', function() {
+      var storedDraft = 'hello world';
       getDraftCommentStub.returns({message: storedDraft});
       element.open();
       assert.isTrue(getDraftCommentStub.called);
       assert.equal(element.draft, storedDraft);
     });
 
-    test('blank if no stored draft', () => {
+    test('blank if no stored draft', function() {
       getDraftCommentStub.returns(null);
       element.open();
       assert.isTrue(getDraftCommentStub.called);
       assert.equal(element.draft, '');
     });
 
-    test('updates stored draft on edits', () => {
-      const firstEdit = 'hello';
-      const location = element._getStorageLocation();
+    test('updates stored draft on edits', function() {
+      var firstEdit = 'hello';
+      var location = element._getStorageLocation();
 
       element.draft = firstEdit;
       element.flushDebouncer('store');
@@ -437,33 +348,32 @@ limitations under the License.
       assert.isTrue(eraseDraftCommentStub.calledWith(location));
     });
 
-    test('400 converts to human-readable server-error', done => {
-      sandbox.stub(window, 'fetch', () => {
-        const text = '....{"reviewers":{"id1":{"error":"first error"}},' +
+    test('400 converts to human-readable server-error', function(done) {
+      sandbox.stub(window, 'fetch', function() {
+        var text = '....{"reviewers":{"id1":{"error":"first error"}},' +
           '"ccs":{"id2":{"error":"second error"}}}';
         return Promise.resolve({
           ok: false,
           status: 400,
-          text() { return Promise.resolve(text); },
+          text: function() { return Promise.resolve(text); },
         });
       });
 
-      element.addEventListener('server-error', event => {
+      element.addEventListener('server-error', function(event) {
         if (event.target !== element) {
           return;
         }
-        event.detail.response.text().then(body => {
+        event.detail.response.text().then(function(body) {
           assert.equal(body, 'first error, second error');
-          done();
         });
       });
 
       // Async tick is needed because iron-selector content is distributed and
       // distributed content requires an observer to be set up.
-      flush(() => { element.send(); });
+      flush(function() { element.send().then(done); });
     });
 
-    test('ccs are displayed if NoteDb is enabled', () => {
+    test('ccs are displayed if NoteDb is enabled', function() {
       function hasCc() {
         flushAsynchronousOperations();
         return !!element.$$('#ccs');
@@ -476,36 +386,34 @@ limitations under the License.
       assert.isTrue(hasCc());
     });
 
-    test('filterReviewerSuggestion', () => {
-      const owner = makeAccount();
-      const reviewer1 = makeAccount();
-      const reviewer2 = makeGroup();
-      const cc1 = makeAccount();
-      const cc2 = makeGroup();
-      let filter = element._filterReviewerSuggestionGenerator(false);
+    test('filterReviewerSuggestion', function() {
+      var owner = makeAccount();
+      var reviewer1 = makeAccount();
+      var reviewer2 = makeGroup();
+      var cc1 = makeAccount();
+      var cc2 = makeGroup();
 
       element._owner = owner;
       element._reviewers = [reviewer1, reviewer2];
       element._ccs = [cc1, cc2];
 
-      assert.isTrue(filter({account: makeAccount()}));
-      assert.isTrue(filter({group: makeGroup()}));
+      assert.isTrue(
+          element._filterReviewerSuggestion({account: makeAccount()}));
+      assert.isTrue(element._filterReviewerSuggestion({group: makeGroup()}));
 
       // Owner should be excluded.
-      assert.isFalse(filter({account: owner}));
+      assert.isFalse(element._filterReviewerSuggestion({account: owner}));
 
-      // Existing and pending reviewers should be excluded when isCC = false.
-      assert.isFalse(filter({account: reviewer1}));
-      assert.isFalse(filter({group: reviewer2}));
+      // Existing and pending reviewers should be excluded.
+      assert.isFalse(element._filterReviewerSuggestion({account: reviewer1}));
+      assert.isFalse(element._filterReviewerSuggestion({group: reviewer2}));
 
-      filter = element._filterReviewerSuggestionGenerator(true);
-
-      // Existing and pending CCs should be excluded when isCC = true;.
-      assert.isFalse(filter({account: cc1}));
-      assert.isFalse(filter({group: cc2}));
+      // Existing and pending CCs should be excluded.
+      assert.isFalse(element._filterReviewerSuggestion({account: cc1}));
+      assert.isFalse(element._filterReviewerSuggestion({group: cc2}));
     });
 
-    test('_chooseFocusTarget', () => {
+    test('_chooseFocusTarget', function() {
       element._account = null;
       assert.strictEqual(
           element._chooseFocusTarget(), element.FocusTarget.BODY);
@@ -532,31 +440,77 @@ limitations under the License.
           element._chooseFocusTarget(), element.FocusTarget.BODY);
     });
 
-    test('only send labels that have changed', done => {
-      flush(() => {
-        stubSaveReview(review => {
-          assert.deepEqual(review.labels, {
-            'Code-Review': 0,
-            'Verified': -1,
-          });
+    test('only send labels that have changed', function(done) {
+      flush(function() {
+        var saveReviewStub = sinon.stub(element, '_saveReview',
+            function(review) {
+          assert.deepEqual(review.labels, {Verified: -1});
+          return Promise.resolve({ok: true});
         });
 
-        element.addEventListener('send', () => {
+        element.addEventListener('send', function() {
+          saveReviewStub.restore();
           done();
         });
         // Without wrapping this test in flush(), the below two calls to
         // MockInteractions.tap() cause a race in some situations in shadow DOM.
         // The send button can be tapped before the others, causing the test to
         // fail.
-
-        element.$$('gr-label-scores').$$(
-            'gr-label-score-row[name="Verified"]').setSelectedValue(-1);
+        MockInteractions.tap(element.$$(
+            'iron-selector[data-label="Verified"] > ' +
+            'gr-button[data-value="-1"]'));
         MockInteractions.tap(element.$$('.send'));
       });
     });
 
-    test('_processReviewerChange', () => {
-      const mockIndexSplices = function(toRemove) {
+    test('do not display tooltips on touch devices', function() {
+      element._account = {_account_id: 1};
+      element.set(['change', 'labels', 'Verified', 'all'],
+          [{_account_id: 1, value: -1}]);
+      element.labels = {
+        Verified: {
+          values: {
+            '-1': 'Fails',
+            ' 0': 'No score',
+            '+1': 'Verified'
+          },
+          default_value: 0,
+        },
+        'Code-Review': {
+          values: {
+            '-2': 'Do not submit',
+            '-1': 'I would prefer that you didn\'t submit this',
+            ' 0': 'No score',
+            '+1': 'Looks good to me, but someone else must approve',
+            '+2': 'Looks good to me, approved'
+          },
+          default_value: 0,
+        },
+      };
+
+      flushAsynchronousOperations();
+
+      var verifiedBtn = element.$$(
+          'iron-selector[data-label="Verified"] > ' +
+          'gr-button[data-value="-1"]');
+
+      // On touch devices, tooltips should not be shown.
+      verifiedBtn._isTouchDevice = true;
+      verifiedBtn._handleShowTooltip();
+      assert.isNotOk(verifiedBtn._tooltip);
+      verifiedBtn._handleHideTooltip();
+      assert.isNotOk(verifiedBtn._tooltip);
+
+      // On other devices, tooltips should be shown.
+      verifiedBtn._isTouchDevice = false;
+      verifiedBtn._handleShowTooltip();
+      assert.isOk(verifiedBtn._tooltip);
+      verifiedBtn._handleHideTooltip();
+      assert.isNotOk(verifiedBtn._tooltip);
+    });
+
+    test('_processReviewerChange', function() {
+      var mockIndexSplices = function(toRemove) {
         return [{
           removed: [toRemove],
         }];
@@ -567,16 +521,16 @@ limitations under the License.
       assert.equal(element._reviewersPendingRemove.REVIEWER.length, 1);
     });
 
-    test('_purgeReviewersPendingRemove', () => {
-      const removeStub = sandbox.stub(element, '_removeAccount');
-      const mock = function() {
+    test('_purgeReviewersPendingRemove', function() {
+      var removeStub = sandbox.stub(element, '_removeAccount');
+      var mock = function() {
         element._reviewersPendingRemove = {
           test: [makeAccount()],
           test2: [makeAccount(), makeAccount()],
         };
       };
-      const checkObjEmpty = function(obj) {
-        for (const prop in obj) {
+      var checkObjEmpty = function(obj) {
+        for (var prop in obj) {
           if (obj.hasOwnProperty(prop) && obj[prop].length) { return false; }
         }
         return true;
@@ -592,78 +546,48 @@ limitations under the License.
       assert.isTrue(checkObjEmpty(element._reviewersPendingRemove));
     });
 
-    test('_removeAccount', done => {
+    test('_removeAccount', function(done) {
       sandbox.stub(element.$.restAPI, 'removeChangeReviewer')
           .returns(Promise.resolve({ok: true}));
-      const arr = [makeAccount(), makeAccount()];
+      var arr = [makeAccount(), makeAccount()];
       element.change.reviewers = {
         REVIEWER: arr.slice(),
       };
 
-      element._removeAccount(arr[1], 'REVIEWER').then(() => {
+      element._removeAccount(arr[1], 'REVIEWER').then(function() {
         assert.equal(element.change.reviewers.REVIEWER.length, 1);
         assert.deepEqual(element.change.reviewers.REVIEWER, arr.slice(0, 1));
         done();
       });
     });
 
-    test('moving from cc to reviewer', () => {
+    test('migrate reviewers between states', function(done) {
       element.serverConfig = {note_db_enabled: true};
       element._reviewersPendingRemove = {
         CC: [],
         REVIEWER: [],
       };
       flushAsynchronousOperations();
-
-      const reviewer1 = makeAccount();
-      const reviewer2 = makeAccount();
-      const reviewer3 = makeAccount();
-      const cc1 = makeAccount();
-      const cc2 = makeAccount();
-      const cc3 = makeAccount();
-      const cc4 = makeAccount();
-      element._reviewers = [reviewer1, reviewer2, reviewer3];
-      element._ccs = [cc1, cc2, cc3, cc4];
-      element.push('_reviewers', cc1);
-      flushAsynchronousOperations();
-
-      assert.deepEqual(element._reviewers,
-          [reviewer1, reviewer2, reviewer3, cc1]);
-      assert.deepEqual(element._ccs, [cc2, cc3, cc4]);
-      assert.deepEqual(element._reviewersPendingRemove.CC, [cc1]);
-
-      element.push('_reviewers', cc4, cc3);
-      flushAsynchronousOperations();
-
-      assert.deepEqual(element._reviewers,
-          [reviewer1, reviewer2, reviewer3, cc1, cc4, cc3]);
-      assert.deepEqual(element._ccs, [cc2]);
-      assert.deepEqual(element._reviewersPendingRemove.CC, [cc1, cc4, cc3]);
-    });
-
-    test('migrate reviewers between states', done => {
-      element.serverConfig = {note_db_enabled: true};
-      element._reviewersPendingRemove = {
-        CC: [],
-        REVIEWER: [],
-      };
-      flushAsynchronousOperations();
-      const reviewers = element.$.reviewers;
-      const ccs = element.$$('#ccs');
-      const reviewer1 = makeAccount();
-      const reviewer2 = makeAccount();
-      const cc1 = makeAccount();
-      const cc2 = makeAccount();
-      const cc3 = makeAccount();
+      var reviewers = element.$.reviewers;
+      var ccs = element.$$('#ccs');
+      var reviewer1 = makeAccount();
+      var reviewer2 = makeAccount();
+      var cc1 = makeAccount();
+      var cc2 = makeAccount();
       element._reviewers = [reviewer1, reviewer2];
-      element._ccs = [cc1, cc2, cc3];
+      element._ccs = [cc1, cc2];
 
-      const mutations = [];
+      var mutations = [];
 
-      stubSaveReview(review => mutations.push(...review.reviewers));
+      var saveReviewStub = sandbox.stub(element, '_saveReview',
+          function(review) {
+        mutations.push.apply(mutations, review.reviewers);
+        return Promise.resolve({ok: true});
+      });
 
-      sandbox.stub(element, '_removeAccount', (account, type) => {
-        mutations.push({state: 'REMOVED', account});
+      var removeAccountStub = sandbox.stub(element, '_removeAccount',
+          function(account, type) {
+        mutations.push({state: 'REMOVED', account: account});
         return Promise.resolve();
       });
 
@@ -671,362 +595,33 @@ limitations under the License.
       reviewers.fire('remove', {account: reviewer1});
       ccs.$.entry.fire('add', {value: {account: reviewer1}});
       ccs.fire('remove', {account: cc1});
-      ccs.fire('remove', {account: cc3});
       reviewers.$.entry.fire('add', {value: {account: cc1}});
 
       // Add to other field without removing from former field.
       // (Currently not possible in UI, but this is a good consistency check).
       reviewers.$.entry.fire('add', {value: {account: cc2}});
       ccs.$.entry.fire('add', {value: {account: reviewer2}});
-      const mapReviewer = function(reviewer, opt_state) {
-        const result = {reviewer: reviewer._account_id, confirmed: undefined};
+      var mapReviewer = function(reviewer, opt_state) {
+        var result = {reviewer: reviewer._account_id, confirmed: undefined};
         if (opt_state) {
           result.state = opt_state;
         }
         return result;
       };
 
-      // Send and purge and verify moves, delete cc3.
+      // Send and purge and verify moves without deletions.
       element.send()
-          .then(keepReviewers =>
-              element._purgeReviewersPendingRemove(false, keepReviewers))
-          .then(() => {
-            assert.deepEqual(
-                mutations, [
-                  mapReviewer(cc1),
-                  mapReviewer(cc2),
-                  mapReviewer(reviewer1, 'CC'),
-                  mapReviewer(reviewer2, 'CC'),
-                  {account: cc3, state: 'REMOVED'},
-                ]);
-            done();
-          });
-    });
-
-    test('emits cancel on esc key', () => {
-      const cancelHandler = sandbox.spy();
-      element.addEventListener('cancel', cancelHandler);
-      MockInteractions.pressAndReleaseKeyOn(element, 27, null, 'esc');
-      flushAsynchronousOperations();
-
-      assert.isTrue(cancelHandler.called);
-    });
-
-    test('should not send on enter key', () => {
-      stubSaveReview(() => undefined);
-      element.addEventListener('send', () => assert.fail('wrongly called'));
-      MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
-      flushAsynchronousOperations();
-    });
-
-    test('emit send on ctrl+enter key', done => {
-      stubSaveReview(() => undefined);
-      element.addEventListener('send', () => done());
-      MockInteractions.pressAndReleaseKeyOn(element, 13, 'ctrl', 'enter');
-      flushAsynchronousOperations();
-    });
-
-    test('_computeMessagePlaceholder', () => {
-      assert.equal(
-          element._computeMessagePlaceholder(false),
-          'Say something nice...');
-      assert.equal(
-          element._computeMessagePlaceholder(true),
-          'Add a note for your reviewers...');
-    });
-
-    test('_computeSendButtonLabel', () => {
-      assert.equal(
-          element._computeSendButtonLabel(false),
-          'Send');
-      assert.equal(
-          element._computeSendButtonLabel(true),
-          'Start review');
-    });
-
-    test('_handle400Error reviewrs and CCs', done => {
-      const error1 = 'error 1';
-      const error2 = 'error 2';
-      const error3 = 'error 3';
-      const response = {
-        status: 400,
-        text() {
-          return Promise.resolve(')]}\'' + JSON.stringify({
-            reviewers: {
-              username1: {
-                input: 'user 1',
-                error: error1,
-              },
-              username2: {
-                input: 'user 2',
-                error: error2,
-              },
-            },
-            ccs: {
-              username3: {
-                input: 'user 3',
-                error: error3,
-              },
-            },
-          }));
-        },
-      };
-      element.addEventListener('server-error', e => {
-        e.detail.response.text().then(text => {
-          assert.equal(text, [error1, error2, error3].join(', '));
-          done();
-        });
+          .then(element._purgeReviewersPendingRemove.bind(element))
+          .then(function() {
+        assert.deepEqual(
+            mutations, [
+                mapReviewer(cc1),
+                mapReviewer(cc2),
+                mapReviewer(reviewer1, 'CC'),
+                mapReviewer(reviewer2, 'CC'),
+            ]);
+        done();
       });
-      element._handle400Error(response);
-    });
-
-    test('_handle400Error CCs only', done => {
-      const error1 = 'error 1';
-      const response = {
-        status: 400,
-        text() {
-          return Promise.resolve(')]}\'' + JSON.stringify({
-            ccs: {
-              username1: {
-                input: 'user 1',
-                error: error1,
-              },
-            },
-          }));
-        },
-      };
-      element.addEventListener('server-error', e => {
-        e.detail.response.text().then(text => {
-          assert.equal(text, error1);
-          done();
-        });
-      });
-      element._handle400Error(response);
-    });
-
-    test('fires height change when the drafts load', done => {
-      // Flush DOM operations before binding to the autogrow event so we don't
-      // catch the events fired from the initial layout.
-      flush(() => {
-        const autoGrowHandler = sinon.stub();
-        element.addEventListener('autogrow', autoGrowHandler);
-        element.diffDrafts = {};
-        flush(() => {
-          assert.isTrue(autoGrowHandler.called);
-          done();
-        });
-      });
-    });
-
-    suite('post review API', () => {
-      let startReviewStub;
-
-      setup(() => {
-        startReviewStub = sandbox.stub(element.$.restAPI, 'startReview', () => {
-          return Promise.resolve();
-        });
-      });
-
-      test('ready property in review input on start review', () => {
-        stubSaveReview(review => {
-          assert.isTrue(review.ready);
-          return {ready: true};
-        });
-        return element.send(true, true).then(() => {
-          assert.isFalse(startReviewStub.called);
-        });
-      });
-
-      test('no ready property in review input on save review', () => {
-        stubSaveReview(review => {
-          assert.isUndefined(review.ready);
-        });
-        return element.send(true, false).then(() => {
-          assert.isFalse(startReviewStub.called);
-        });
-      });
-
-      test('fall back to start review against old backend', () => {
-        stubSaveReview(review => {
-          return {}; // old backend won't set ready: true
-        });
-
-        return element.send(true, true).then(() => {
-          assert.isTrue(startReviewStub.called);
-        }).then(() => {
-          startReviewStub.reset();
-          return element.send(true, false);
-        }).then(() => {
-          assert.isFalse(startReviewStub.called);
-        });
-      });
-    });
-
-    suite('start review and save buttons', () => {
-      let sendStub;
-
-      setup(() => {
-        sendStub = sandbox.stub(element, 'send', () => Promise.resolve());
-        element.canBeStarted = true;
-        // Flush to make both Start/Save buttons appear in DOM.
-        flushAsynchronousOperations();
-      });
-
-      test('start review sets ready', () => {
-        MockInteractions.tap(element.$$('.send'));
-        flushAsynchronousOperations();
-        assert.isTrue(sendStub.calledWith(true, true));
-      });
-
-      test('save review doesn\'t set ready', () => {
-        MockInteractions.tap(element.$$('.save'));
-        flushAsynchronousOperations();
-        assert.isTrue(sendStub.calledWith(true, false));
-      });
-    });
-
-    test('dummy message to force email on start review', () => {
-      stubSaveReview(review => {
-        assert.equal(review.message, element.START_REVIEW_MESSAGE);
-        return {ready: true};
-      });
-      return element.send(true, true);
-    });
-
-    test('buttons disabled until all API calls are resolved', () => {
-      stubSaveReview(review => {
-        return {}; // old backend won't set ready: true
-      });
-      // Check that element is disabled asynchronously after the setReady
-      // promise is returned. The element should not be reenabled until
-      // that promise is resolved.
-      sandbox.stub(element, '_maybeSetReady', (startReview, response) => {
-        return new Promise(resolve => {
-          Polymer.Base.async(() => {
-            assert.isTrue(element.disabled);
-            resolve();
-          });
-        });
-      });
-      return element.send(true, true).then(() => {
-        assert.isFalse(element.disabled);
-      });
-    });
-
-    suite('error handling', () => {
-      const expectedDraft = 'draft';
-      const expectedError = new Error('test');
-
-      setup(() => {
-        element.draft = expectedDraft;
-      });
-
-      function assertDialogOpenAndEnabled() {
-        assert.strictEqual(expectedDraft, element.draft);
-        assert.isFalse(element.disabled);
-      }
-
-      function assertDialogClosed() {
-        assert.strictEqual('', element.draft);
-        assert.isFalse(element.disabled);
-      }
-
-      test('error occurs in _saveReview', () => {
-        stubSaveReview(review => {
-          throw expectedError;
-        });
-        return element.send(true, true).catch(err => {
-          assert.strictEqual(expectedError, err);
-          assertDialogOpenAndEnabled();
-        });
-      });
-
-      test('error occurs during startReview', () => {
-        stubSaveReview(review => {
-          return {}; // old backend won't set ready: true
-        });
-        const errorStub = sandbox.stub(
-            console, 'error', (msg, err) => undefined);
-        sandbox.stub(element.$.restAPI, 'startReview', () => {
-          throw expectedError;
-        });
-        return element.send(true, true).then(() => {
-          assertDialogClosed();
-          assert.isTrue(
-              errorStub.calledWith('error setting ready:', expectedError));
-        });
-      });
-
-      test('non-ok response received by startReview', () => {
-        stubSaveReview(review => {
-          return {}; // old backend won't set ready: true
-        });
-        sandbox.stub(element.$.restAPI, 'startReview', (c, b, f) => {
-          f({status: 500});
-        });
-        return element.send(true, true).then(() => {
-          assertDialogClosed();
-        });
-      });
-
-      test('409 response received by startReview', () => {
-        stubSaveReview(review => {
-          return {}; // old backend won't set ready: true
-        });
-        sandbox.stub(element.$.restAPI, 'startReview', (c, b, f) => {
-          f({status: 409});
-        });
-        return element.send(true, true).then(() => {
-          assertDialogClosed();
-        });
-      });
-
-      suite('pending diff drafts?', () => {
-        test('yes', () => {
-          const promise = mockPromise();
-          const refreshHandler = sandbox.stub();
-
-          element.addEventListener('comment-refresh', refreshHandler);
-          sandbox.stub(element.$.restAPI, 'hasPendingDiffDrafts').returns(true);
-          element.$.restAPI._pendingRequests.sendDiffDraft = [promise];
-          element.open();
-
-          assert.isFalse(refreshHandler.called);
-          assert.isTrue(element._savingComments);
-
-          promise.resolve();
-
-          return element.$.restAPI.awaitPendingDiffDrafts().then(() => {
-            assert.isTrue(refreshHandler.called);
-            assert.isFalse(element._savingComments);
-          });
-        });
-
-        test('no', () => {
-          sandbox.stub(element.$.restAPI, 'hasPendingDiffDrafts').returns(false);
-          element.open();
-          assert.notOk(element._savingComments);
-        });
-      });
-    });
-
-    test('_computeSendButtonDisabled', () => {
-      const fn = element._computeSendButtonDisabled.bind(element);
-      assert.isTrue(fn('not-latest'));
-      assert.isFalse(fn('latest', 'Start review'));
-      assert.isTrue(fn('latest', 'Send', {}, '', false, false, false));
-      // Mock nonempty comment draft array, with seding comments.
-      assert.isFalse(fn('latest', 'Send', {file: ['draft']}, '', false, false,
-          true));
-      // Mock nonempty comment draft array, without seding comments.
-      assert.isTrue(fn('latest', 'Send', {file: ['draft']}, '', false, false,
-          false));
-      // Mock nonempty change message.
-      assert.isFalse(fn('latest', 'Send', {}, 'test', false, false, false));
-      // Mock reviewers mutated.
-      assert.isFalse(fn('latest', 'Send', {}, '', true, false, false));
-      // Mock labels changed.
-      assert.isFalse(fn('latest', 'Send', {}, '', false, true, false));
     });
   });
 </script>

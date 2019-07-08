@@ -24,26 +24,25 @@
      */
 
     properties: {
-      usernameMutable: {
+      mutable: {
         type: Boolean,
         notify: true,
-        computed: '_computeUsernameMutable(_serverConfig, _account.username)',
-      },
-      nameMutable: {
-        type: Boolean,
-        notify: true,
-        computed: '_computeNameMutable(_serverConfig)',
+        computed: '_computeMutable(_serverConfig)',
       },
       hasUnsavedChanges: {
         type: Boolean,
         notify: true,
-        computed: '_computeHasUnsavedChanges(_hasNameChange, ' +
-            '_hasUsernameChange, _hasStatusChange)',
+        computed: '_computeHasUnsavedChanges(_hasNameChange, _hasStatusChange)',
       },
 
-      _hasNameChange: Boolean,
-      _hasUsernameChange: Boolean,
-      _hasStatusChange: Boolean,
+      _hasNameChange: {
+        type: Boolean,
+        value: false,
+      },
+      _hasStatusChange: {
+        type: Boolean,
+        value: false,
+      },
       _loading: {
         type: Boolean,
         value: false,
@@ -52,13 +51,8 @@
         type: Boolean,
         value: false,
       },
-      /** @type {?} */
       _account: Object,
       _serverConfig: Object,
-      _username: {
-        type: String,
-        observer: '_usernameChanged',
-      },
     },
 
     observers: [
@@ -66,32 +60,25 @@
       '_statusChanged(_account.status)',
     ],
 
-    loadData() {
-      const promises = [];
+    loadData: function() {
+      var promises = [];
 
       this._loading = true;
 
-      promises.push(this.$.restAPI.getConfig().then(config => {
+      promises.push(this.$.restAPI.getConfig().then(function(config) {
         this._serverConfig = config;
-      }));
+      }.bind(this)));
 
-      promises.push(this.$.restAPI.getAccount().then(account => {
-        this._hasNameChange = false;
-        this._hasUsernameChange = false;
-        this._hasStatusChange = false;
-        // Provide predefined value for username to trigger computation of
-        // username mutability.
-        account.username = account.username || '';
+      promises.push(this.$.restAPI.getAccount().then(function(account) {
         this._account = account;
-        this._username = account.username;
-      }));
+      }.bind(this)));
 
-      return Promise.all(promises).then(() => {
+      return Promise.all(promises).then(function() {
         this._loading = false;
-      });
+      }.bind(this));
     },
 
-    save() {
+    save: function() {
       if (!this.hasUnsavedChanges) {
         return Promise.resolve();
       }
@@ -100,65 +87,46 @@
       // Set only the fields that have changed.
       // Must be done in sequence to avoid race conditions (@see Issue 5721)
       return this._maybeSetName()
-          .then(this._maybeSetUsername.bind(this))
           .then(this._maybeSetStatus.bind(this))
-          .then(() => {
+          .then(function() {
             this._hasNameChange = false;
             this._hasStatusChange = false;
             this._saving = false;
             this.fire('account-detail-update');
-          });
+          }.bind(this));
     },
 
-    _maybeSetName() {
-      return this._hasNameChange && this.nameMutable ?
-          this.$.restAPI.setAccountName(this._account.name) :
-          Promise.resolve();
+    _maybeSetName: function() {
+      return this._hasNameChange && this.mutable ?
+                this.$.restAPI.setAccountName(this._account.name) :
+                Promise.resolve();
     },
 
-    _maybeSetUsername() {
-      return this._hasUsernameChange && this.usernameMutable ?
-          this.$.restAPI.setAccountUsername(this._username) :
-          Promise.resolve();
-    },
-
-    _maybeSetStatus() {
+    _maybeSetStatus: function() {
       return this._hasStatusChange ?
           this.$.restAPI.setAccountStatus(this._account.status) :
           Promise.resolve();
     },
 
-    _computeHasUnsavedChanges(nameChanged, usernameChanged, statusChanged) {
-      return nameChanged || usernameChanged || statusChanged;
+    _computeHasUnsavedChanges: function(name, status) {
+      return name || status;
     },
 
-    _computeUsernameMutable(config, username) {
-      // Username may not be changed once it is set.
-      return config.auth.editable_account_fields.includes('USER_NAME') &&
-          !username;
+    _computeMutable: function(config) {
+      return config.auth.editable_account_fields.indexOf('FULL_NAME') !== -1;
     },
 
-    _computeNameMutable(config) {
-      return config.auth.editable_account_fields.includes('FULL_NAME');
-    },
-
-    _statusChanged() {
+    _statusChanged: function() {
       if (this._loading) { return; }
       this._hasStatusChange = true;
     },
 
-    _usernameChanged() {
-      if (this._loading || !this._account) { return; }
-      this._hasUsernameChange =
-          (this._account.username || '') !== (this._username || '');
-    },
-
-    _nameChanged() {
+    _nameChanged: function() {
       if (this._loading) { return; }
       this._hasNameChange = true;
     },
 
-    _handleKeydown(e) {
+    _handleKeydown: function(e) {
       if (e.keyCode === 13) { // Enter
         e.stopPropagation();
         this.save();

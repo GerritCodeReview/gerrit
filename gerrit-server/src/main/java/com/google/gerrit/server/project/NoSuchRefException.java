@@ -18,11 +18,11 @@ package com.google.gerrit.server.project;
 public class NoSuchRefException extends Exception {
   private static final long serialVersionUID = 1L;
 
-  public NoSuchRefException(String ref) {
+  public NoSuchRefException(final String ref) {
     this(ref, null);
   }
 
-  public NoSuchRefException(String ref, Throwable why) {
+  public NoSuchRefException(final String ref, final Throwable why) {
     super(ref, why);
   }
 }

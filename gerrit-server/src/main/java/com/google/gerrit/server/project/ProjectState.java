@@ -28,7 +28,6 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.api.projects.ThemeInfo;
@@ -49,7 +48,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.ProjectLevelConfig;
 import com.google.gerrit.server.git.TransferConfig;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.googlecode.prolog_cafe.exceptions.CompileException;
@@ -115,9 +113,6 @@ public class ProjectState {
   /** If this is all projects, the capabilities used by the server. */
   private final CapabilityCollection capabilities;
 
-  /** All label types applicable to changes in this project. */
-  private LabelTypes labelTypes;
-
   @Inject
   public ProjectState(
       SitePaths sitePaths,
@@ -129,7 +124,7 @@ public class ProjectState {
       GitRepositoryManager gitMgr,
       RulesCache rulesCache,
       List<CommentLinkInfo> commentLinks,
-      CapabilityCollection.Factory limitsFactory,
+      CapabilityCollection.Factory capabilityFactory,
       TransferConfig transferConfig,
       @Assisted ProjectConfig config) {
     this.sitePaths = sitePaths;
@@ -146,7 +141,7 @@ public class ProjectState {
     this.configs = new HashMap<>();
     this.capabilities =
         isAllProjects
-            ? limitsFactory.create(config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
+            ? capabilityFactory.create(config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
             : null;
     this.globalMaxObjectSizeLimit = transferConfig.getMaxObjectSizeLimit();
     this.inheritProjectMaxObjectSizeLimit = transferConfig.getInheritProjectMaxObjectSizeLimit();
@@ -187,7 +182,7 @@ public class ProjectState {
   }
 
   private boolean isRevisionOutOfDate() {
-    try (Repository git = gitMgr.openRepository(getNameKey())) {
+    try (Repository git = gitMgr.openRepository(getProject().getNameKey())) {
       Ref ref = git.getRefDatabase().exactRef(RefNames.REFS_CONFIG);
       if (ref == null || ref.getObjectId() == null) {
         return true;
@@ -210,7 +205,7 @@ public class ProjectState {
   public PrologEnvironment newPrologEnvironment() throws CompileException {
     PrologMachineCopy pmc = rulesMachine;
     if (pmc == null) {
-      pmc = rulesCache.loadMachine(getNameKey(), config.getRulesId());
+      pmc = rulesCache.loadMachine(getProject().getNameKey(), config.getRulesId());
       rulesMachine = pmc;
     }
     return envFactory.create(pmc);
@@ -233,14 +228,6 @@ public class ProjectState {
     return config.getProject();
   }
 
-  public Project.NameKey getNameKey() {
-    return getProject().getNameKey();
-  }
-
-  public String getName() {
-    return getNameKey().get();
-  }
-
   public ProjectConfig getConfig() {
     return config;
   }
@@ -251,10 +238,10 @@ public class ProjectState {
     }
 
     ProjectLevelConfig cfg = new ProjectLevelConfig(fileName, this);
-    try (Repository git = gitMgr.openRepository(getNameKey())) {
+    try (Repository git = gitMgr.openRepository(getProject().getNameKey())) {
       cfg.load(git);
     } catch (IOException | ConfigInvalidException e) {
-      log.warn("Failed to load " + fileName + " for " + getName(), e);
+      log.warn("Failed to load " + fileName + " for " + getProject().getName(), e);
     }
 
     configs.put(fileName, cfg);
@@ -333,7 +320,7 @@ public class ProjectState {
           section.setPermissions(copy);
         }
 
-        SectionMatcher matcher = SectionMatcher.wrap(getNameKey(), section);
+        SectionMatcher matcher = SectionMatcher.wrap(getProject().getNameKey(), section);
         if (matcher != null) {
           sm.add(matcher);
         }
@@ -389,7 +376,7 @@ public class ProjectState {
     return result;
   }
 
-  public ProjectControl controlFor(CurrentUser user) {
+  public ProjectControl controlFor(final CurrentUser user) {
     return projectControlFactory.create(user, this);
   }
 
@@ -464,55 +451,24 @@ public class ProjectState {
     return getInheritableBoolean(Project::getRejectImplicitMerges);
   }
 
-  public boolean isPrivateByDefault() {
-    return getInheritableBoolean(Project::getPrivateByDefault);
-  }
-
-  public boolean isWorkInProgressByDefault() {
-    return getInheritableBoolean(Project::getWorkInProgressByDefault);
-  }
-
-  public boolean isEnableReviewerByEmail() {
-    return getInheritableBoolean(Project::getEnableReviewerByEmail);
-  }
-
-  public boolean isMatchAuthorToCommitterDate() {
-    return getInheritableBoolean(Project::getMatchAuthorToCommitterDate);
-  }
-
-  /** All available label types. */
   public LabelTypes getLabelTypes() {
-    if (labelTypes == null) {
-      labelTypes = loadLabelTypes();
-    }
-    return labelTypes;
-  }
-
-  /** All available label types for this change and user. */
-  public LabelTypes getLabelTypes(ChangeNotes notes, CurrentUser user) {
-    return getLabelTypes(notes.getChange().getDest(), user);
-  }
-
-  /** All available label types for this branch and user. */
-  public LabelTypes getLabelTypes(Branch.NameKey destination, CurrentUser user) {
-    List<LabelType> all = getLabelTypes().getLabelTypes();
-
-    List<LabelType> r = Lists.newArrayListWithCapacity(all.size());
-    for (LabelType l : all) {
-      List<String> refs = l.getRefPatterns();
-      if (refs == null) {
-        r.add(l);
-      } else {
-        for (String refPattern : refs) {
-          if (RefConfigSection.isValid(refPattern) && match(destination, refPattern, user)) {
-            r.add(l);
-            break;
-          }
+    Map<String, LabelType> types = new LinkedHashMap<>();
+    for (ProjectState s : treeInOrder()) {
+      for (LabelType type : s.getConfig().getLabelSections().values()) {
+        String lower = type.getName().toLowerCase();
+        LabelType old = types.get(lower);
+        if (old == null || old.canOverride()) {
+          types.put(lower, type);
         }
       }
     }
-
-    return new LabelTypes(r);
+    List<LabelType> all = Lists.newArrayListWithCapacity(types.size());
+    for (LabelType type : types.values()) {
+      if (!type.getValues().isEmpty()) {
+        all.add(type);
+      }
+    }
+    return new LabelTypes(Collections.unmodifiableList(all));
   }
 
   public List<CommentLinkInfo> getCommentLinks() {
@@ -573,27 +529,6 @@ public class ProjectState {
     return theme;
   }
 
-  public Set<GroupReference> getAllGroups() {
-    return getGroups(getAllSections());
-  }
-
-  public Set<GroupReference> getLocalGroups() {
-    return getGroups(getLocalAccessSections());
-  }
-
-  private static Set<GroupReference> getGroups(List<SectionMatcher> sectionMatcherList) {
-    final Set<GroupReference> all = new HashSet<>();
-    for (SectionMatcher matcher : sectionMatcherList) {
-      final AccessSection section = matcher.section;
-      for (Permission permission : section.getPermissions()) {
-        for (PermissionRule rule : permission.getRules()) {
-          all.add(rule.getGroup());
-        }
-      }
-    }
-    return all;
-  }
-
   private ThemeInfo loadTheme() {
     String name = getConfig().getProject().getName();
     Path dir = sitePaths.themes_dir.resolve(name);
@@ -631,29 +566,5 @@ public class ProjectState {
       }
     }
     return false;
-  }
-
-  private LabelTypes loadLabelTypes() {
-    Map<String, LabelType> types = new LinkedHashMap<>();
-    for (ProjectState s : treeInOrder()) {
-      for (LabelType type : s.getConfig().getLabelSections().values()) {
-        String lower = type.getName().toLowerCase();
-        LabelType old = types.get(lower);
-        if (old == null || old.canOverride()) {
-          types.put(lower, type);
-        }
-      }
-    }
-    List<LabelType> all = Lists.newArrayListWithCapacity(types.size());
-    for (LabelType type : types.values()) {
-      if (!type.getValues().isEmpty()) {
-        all.add(type);
-      }
-    }
-    return new LabelTypes(Collections.unmodifiableList(all));
-  }
-
-  private boolean match(Branch.NameKey destination, String refPattern, CurrentUser user) {
-    return RefPatternMatcher.getMatcher(refPattern).match(destination.get(), user);
   }
 }

@@ -29,17 +29,13 @@ public enum ReviewerStateInternal {
   /** The user was previously a reviewer on the change, but was removed. */
   REMOVED(new FooterKey("Removed"), ReviewerState.REMOVED);
 
-  public static ReviewerStateInternal fromReviewerState(ReviewerState state) {
-    return ReviewerStateInternal.values()[state.ordinal()];
-  }
-
   static {
     boolean ok = true;
     if (ReviewerStateInternal.values().length != ReviewerState.values().length) {
       ok = false;
     }
-    for (int i = 0; i < ReviewerStateInternal.values().length; i++) {
-      ok &= ReviewerState.values()[i].equals(ReviewerStateInternal.values()[i].state);
+    for (ReviewerStateInternal s : ReviewerStateInternal.values()) {
+      ok &= s.name().equals(s.state.name());
     }
     if (!ok) {
       throw new IllegalStateException(
@@ -60,10 +56,6 @@ public enum ReviewerStateInternal {
 
   FooterKey getFooterKey() {
     return footerKey;
-  }
-
-  FooterKey getByEmailFooterKey() {
-    return new FooterKey(footerKey.getName() + "-email");
   }
 
   public ReviewerState asReviewerState() {

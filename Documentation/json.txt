@@ -41,15 +41,11 @@ status:: Current state of this change.
 
   NEW;; Change is still being reviewed.
 
+  DRAFT;; Change is a draft change that only consists of draft patchsets.
+
   MERGED;; Change has been merged to its branch.
 
   ABANDONED;; Change was abandoned by its owner or administrator.
-
-private:: Boolean indicating if the change is
-link:intro-user.html#private-changes[private].
-
-wip:: Boolean indicating if the change is
-link:intro-user.html#wip[work in progress].
 
 comments:: All inline/file comments for this change in <<message,message attributes>>.
 
@@ -111,6 +107,8 @@ author:: Author of this patchset in <<account,account attribute>>.
 
 createdOn:: Time in seconds since the UNIX epoch when this patchset
 was created.
+
+isDraft:: Whether or not the patch set is a draft patch set.
 
 kind:: Kind of change uploaded.
 

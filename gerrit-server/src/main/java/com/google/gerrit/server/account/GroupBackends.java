@@ -17,7 +17,7 @@ package com.google.gerrit.server.account;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectControl;
 import java.util.Collection;
 import java.util.Comparator;
 
@@ -33,7 +33,7 @@ public class GroupBackends {
       };
 
   /**
-   * Runs {@link GroupBackend#suggest(String, ProjectState)} and filters the result to return the
+   * Runs {@link GroupBackend#suggest(String, ProjectControl)} and filters the result to return the
    * best suggestion, or null if one does not exist.
    *
    * @param groupBackend the group backend
@@ -46,7 +46,7 @@ public class GroupBackends {
   }
 
   /**
-   * Runs {@link GroupBackend#suggest(String, ProjectState)} and filters the result to return the
+   * Runs {@link GroupBackend#suggest(String, ProjectControl)} and filters the result to return the
    * best suggestion, or null if one does not exist.
    *
    * @param groupBackend the group backend
@@ -56,7 +56,7 @@ public class GroupBackends {
    */
   @Nullable
   public static GroupReference findBestSuggestion(
-      GroupBackend groupBackend, String name, @Nullable ProjectState project) {
+      GroupBackend groupBackend, String name, @Nullable ProjectControl project) {
     Collection<GroupReference> refs = groupBackend.suggest(name, project);
     if (refs.size() == 1) {
       return Iterables.getOnlyElement(refs);
@@ -71,7 +71,7 @@ public class GroupBackends {
   }
 
   /**
-   * Runs {@link GroupBackend#suggest(String, ProjectState)} and filters the result to return the
+   * Runs {@link GroupBackend#suggest(String, ProjectControl)} and filters the result to return the
    * exact suggestion, or null if one does not exist.
    *
    * @param groupBackend the group backend
@@ -84,7 +84,7 @@ public class GroupBackends {
   }
 
   /**
-   * Runs {@link GroupBackend#suggest(String, ProjectState)} and filters the result to return the
+   * Runs {@link GroupBackend#suggest(String, ProjectControl)} and filters the result to return the
    * exact suggestion, or null if one does not exist.
    *
    * @param groupBackend the group backend
@@ -94,7 +94,7 @@ public class GroupBackends {
    */
   @Nullable
   public static GroupReference findExactSuggestion(
-      GroupBackend groupBackend, String name, ProjectState project) {
+      GroupBackend groupBackend, String name, ProjectControl project) {
     Collection<GroupReference> refs = groupBackend.suggest(name, project);
     for (GroupReference ref : refs) {
       if (isExactSuggestion(ref, name)) {

@@ -21,7 +21,6 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -46,7 +45,6 @@ class Topic extends Composite {
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   private PatchSet.Id psId;
-  private Project.NameKey project;
   private boolean canEdit;
 
   @UiField Element show;
@@ -74,7 +72,6 @@ class Topic extends Composite {
     canEdit = info.hasActions() && info.actions().containsKey("topic");
 
     psId = new PatchSet.Id(info.legacyId(), info.revisions().get(revision)._number());
-    project = info.projectNameKey();
 
     initTopicLink(info);
     editIcon.setVisible(canEdit);
@@ -127,13 +124,12 @@ class Topic extends Composite {
   @UiHandler("save")
   void onSave(@SuppressWarnings("unused") ClickEvent e) {
     ChangeApi.topic(
-        project.get(),
         psId.getParentKey().get(),
         input.getValue().trim(),
         new GerritCallback<String>() {
           @Override
           public void onSuccess(String result) {
-            Gerrit.display(PageLinks.toChange(project, psId));
+            Gerrit.display(PageLinks.toChange(psId));
           }
         });
     onCancel(null);

@@ -19,10 +19,8 @@ limitations under the License.
 (function(window) {
   'use strict';
 
-  window.Gerrit = window.Gerrit || {};
-
   /** @polymerBehavior Gerrit.RESTClientBehavior */
-  Gerrit.RESTClientBehavior = [{
+  var RESTClientBehavior = {
     ChangeDiffType: {
       ADDED: 'ADDED',
       COPIED: 'COPIED',
@@ -34,6 +32,7 @@ limitations under the License.
 
     ChangeStatus: {
       ABANDONED: 'ABANDONED',
+      DRAFT: 'DRAFT',
       MERGED: 'MERGED',
       NEW: 'NEW',
     },
@@ -89,52 +88,56 @@ limitations under the License.
       REVIEWER_UPDATES: 19,
 
       // Set the submittable boolean.
-      SUBMITTABLE: 20,
+      SUBMITTABLE: 20
     },
 
-    listChangesOptionsToHex(...args) {
-      let v = 0;
-      for (let i = 0; i < args.length; i++) {
-        v |= 1 << args[i];
+    listChangesOptionsToHex: function() {
+      var v = 0;
+      for (var i = 0; i < arguments.length; i++) {
+        v |= 1 << arguments[i];
       }
       return v.toString(16);
     },
 
-    /**
-     *  @return {string}
-     */
-    changeBaseURL(changeNum, patchNum) {
-      let v = this.getBaseUrl() + '/changes/' + changeNum;
+    changeBaseURL: function(changeNum, patchNum) {
+      var v =  this.getBaseUrl() + '/changes/' + changeNum;
       if (patchNum) {
         v += '/revisions/' + patchNum;
       }
       return v;
     },
 
-    changePath(changeNum) {
+    changePath: function(changeNum) {
       return this.getBaseUrl() + '/c/' + changeNum;
     },
 
-    changeIsOpen(status) {
-      return status === this.ChangeStatus.NEW;
+    changeIsOpen: function(status) {
+      return status === this.ChangeStatus.NEW ||
+          status === this.ChangeStatus.DRAFT;
     },
 
-    changeStatusString(change) {
-      const states = [];
+    changeStatusString: function(change) {
+      // "Closed" states should take precedence over "open" ones.
       if (change.status === this.ChangeStatus.MERGED) {
-        states.push('Merged');
-      } else if (change.status === this.ChangeStatus.ABANDONED) {
-        states.push('Abandoned');
-      } else if (change.mergeable === false) {
-        // 'mergeable' prop may not always exist (@see Issue 6819)
-        states.push('Merge Conflict');
+        return 'Merged';
       }
-      if (change.work_in_progress) { states.push('WIP'); }
-      if (change.is_private) { states.push('Private'); }
-      return states.join(', ');
+      if (change.status === this.ChangeStatus.ABANDONED) {
+        return 'Abandoned';
+      }
+      if (change.mergeable === false) {
+        return 'Merge Conflict';
+      }
+      if (change.status === this.ChangeStatus.DRAFT) {
+        return 'Draft';
+      }
+      return '';
     },
-  },
+  };
+
+  window.Gerrit = window.Gerrit || {};
+  window.Gerrit.RESTClientBehavior = [
     Gerrit.BaseUrlBehavior,
+    RESTClientBehavior
   ];
 })(window);
 </script>

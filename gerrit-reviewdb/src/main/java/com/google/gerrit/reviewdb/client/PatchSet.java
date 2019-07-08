@@ -86,7 +86,7 @@ public final class PatchSet {
       changeId = new Change.Id();
     }
 
-    public Id(Change.Id change, int id) {
+    public Id(final Change.Id change, final int id) {
       this.changeId = change;
       this.patchSetId = id;
     }
@@ -111,7 +111,7 @@ public final class PatchSet {
     }
 
     /** Parse a PatchSet.Id out of a string representation. */
-    public static Id parse(String str) {
+    public static Id parse(final String str) {
       final Id r = new Id();
       r.fromString(str);
       return r;
@@ -168,7 +168,8 @@ public final class PatchSet {
   @Column(id = 4)
   protected Timestamp createdOn;
 
-  // @Column(id = 5)
+  @Column(id = 5)
+  protected boolean draft;
 
   /**
    * Opaque group identifier, usually assigned during creation.
@@ -199,7 +200,7 @@ public final class PatchSet {
 
   protected PatchSet() {}
 
-  public PatchSet(PatchSet.Id k) {
+  public PatchSet(final PatchSet.Id k) {
     id = k;
   }
 
@@ -208,6 +209,7 @@ public final class PatchSet {
     this.revision = src.revision;
     this.uploader = src.uploader;
     this.createdOn = src.createdOn;
+    this.draft = src.draft;
     this.groups = src.groups;
     this.pushCertificate = src.pushCertificate;
     this.description = src.description;
@@ -225,7 +227,7 @@ public final class PatchSet {
     return revision;
   }
 
-  public void setRevision(RevId i) {
+  public void setRevision(final RevId i) {
     revision = i;
   }
 
@@ -233,7 +235,7 @@ public final class PatchSet {
     return uploader;
   }
 
-  public void setUploader(Account.Id who) {
+  public void setUploader(final Account.Id who) {
     uploader = who;
   }
 
@@ -241,8 +243,16 @@ public final class PatchSet {
     return createdOn;
   }
 
-  public void setCreatedOn(Timestamp ts) {
+  public void setCreatedOn(final Timestamp ts) {
     createdOn = ts;
+  }
+
+  public boolean isDraft() {
+    return draft;
+  }
+
+  public void setDraft(boolean draftStatus) {
+    draft = draftStatus;
   }
 
   public List<String> getGroups() {

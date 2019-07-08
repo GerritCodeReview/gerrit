@@ -152,10 +152,6 @@ public class ProjectApi {
       InheritableBoolean enableSignedPush,
       InheritableBoolean requireSignedPush,
       InheritableBoolean rejectImplicitMerges,
-      InheritableBoolean privateByDefault,
-      InheritableBoolean workInProgressByDefault,
-      InheritableBoolean enableReviewerByEmail,
-      InheritableBoolean matchAuthorToCommitterDate,
       String maxObjectSizeLimit,
       SubmitType submitType,
       ProjectState state,
@@ -175,19 +171,15 @@ public class ProjectApi {
       in.setRequireSignedPush(requireSignedPush);
     }
     in.setRejectImplicitMerges(rejectImplicitMerges);
-    in.setPrivateByDefault(privateByDefault);
-    in.setWorkInProgressByDefault(workInProgressByDefault);
     in.setMaxObjectSizeLimit(maxObjectSizeLimit);
     in.setSubmitType(submitType);
     in.setState(state);
     in.setPluginConfigValues(pluginConfigValues);
-    in.setEnableReviewerByEmail(enableReviewerByEmail);
-    in.setMatchAuthorToCommitterDate(matchAuthorToCommitterDate);
 
     project(name).view("config").put(in, cb);
   }
 
-  public static void getParent(Project.NameKey name, AsyncCallback<Project.NameKey> cb) {
+  public static void getParent(Project.NameKey name, final AsyncCallback<Project.NameKey> cb) {
     project(name)
         .view("parent")
         .get(
@@ -306,33 +298,6 @@ public class ProjectApi {
     final void setRequireSignedPush(InheritableBoolean v) {
       setRequireSignedPushRaw(v.name());
     }
-
-    final void setPrivateByDefault(InheritableBoolean v) {
-      setPrivateByDefault(v.name());
-    }
-
-    private native void setPrivateByDefault(String v) /*-{ if(v)this.private_by_default=v; }-*/;
-
-    final void setWorkInProgressByDefault(InheritableBoolean v) {
-      setWorkInProgressByDefault(v.name());
-    }
-
-    private native void setWorkInProgressByDefault(
-        String v) /*-{ if(v)this.work_in_progress_by_default=v; }-*/;
-
-    final void setEnableReviewerByEmail(InheritableBoolean v) {
-      setEnableReviewerByEmailRaw(v.name());
-    }
-
-    final void setMatchAuthorToCommitterDate(InheritableBoolean v) {
-      setMatchAuthorToCommitterDateRaw(v.name());
-    }
-
-    private native void setMatchAuthorToCommitterDateRaw(String v)
-        /*-{ if(v)this.match_author_to_committer_date=v; }-*/ ;
-
-    private native void setEnableReviewerByEmailRaw(String v)
-        /*-{ if(v)this.enable_reviewer_by_email=v; }-*/ ;
 
     private native void setRequireSignedPushRaw(String v)
         /*-{ if(v)this.require_signed_push=v; }-*/ ;

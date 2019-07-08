@@ -123,7 +123,7 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
   public void onDeleteGroupsFromGroup(Account.Id me, Collection<AccountGroupById> removed) {
     final List<AccountGroupByIdAud> auditUpdates = new ArrayList<>();
     try (ReviewDb db = schema.open()) {
-      for (AccountGroupById g : removed) {
+      for (final AccountGroupById g : removed) {
         AccountGroupByIdAud audit = null;
         for (AccountGroupByIdAud a :
             db.accountGroupByIdAud().byGroupInclude(g.getGroupId(), g.getIncludeUUID())) {
@@ -152,7 +152,7 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
       Account.Id accountId = m.getAccountId();
       String userName = accountCache.get(accountId).getUserName();
       AccountGroup.Id groupId = m.getAccountGroupId();
-      String groupName = getGroupName(groupId);
+      String groupName = groupCache.get(groupId).getName();
 
       descriptions.add(
           MessageFormat.format(
@@ -168,7 +168,7 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
       AccountGroup.UUID groupUuid = m.getIncludeUUID();
       String groupName = groupBackend.get(groupUuid).getName();
       AccountGroup.Id targetGroupId = m.getGroupId();
-      String targetGroupName = getGroupName(targetGroupId);
+      String targetGroupName = groupCache.get(targetGroupId).getName();
 
       descriptions.add(
           MessageFormat.format(
@@ -176,10 +176,6 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
               groupUuid, groupName, targetGroupId, targetGroupName));
     }
     logOrmException(header, me, descriptions, e);
-  }
-
-  private String getGroupName(AccountGroup.Id groupId) {
-    return groupCache.get(groupId).map(InternalGroup::getName).orElse("Deleted group " + groupId);
   }
 
   private void logOrmException(String header, Account.Id me, Iterable<?> values, OrmException e) {

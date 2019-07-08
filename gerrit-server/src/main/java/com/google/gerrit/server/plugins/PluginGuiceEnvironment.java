@@ -34,7 +34,6 @@ import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
-import com.google.gerrit.index.IndexCollection;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.util.PluginRequestContext;
 import com.google.gerrit.server.util.RequestContext;
@@ -569,7 +568,7 @@ public class PluginGuiceEnvironment {
     Class<?> type = key.getTypeLiteral().getRawType();
     if (LifecycleListener.class.isAssignableFrom(type)
         // This is needed for secondary index to work from plugin listeners
-        && !IndexCollection.class.isAssignableFrom(type)) {
+        && !is("com.google.gerrit.server.index.IndexCollection", type)) {
       return false;
     }
     if (StartPluginListener.class.isAssignableFrom(type)) {

@@ -16,8 +16,8 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.server.index.AbstractVersionManager;
 import com.google.gerrit.server.index.ReindexerAlreadyRunningException;
-import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
@@ -34,7 +34,7 @@ public class IndexStartCommand extends SshCommand {
   @Argument(index = 0, required = true, metaVar = "INDEX", usage = "index name to start")
   private String name;
 
-  @Inject private VersionManager versionManager;
+  @Inject private AbstractVersionManager versionManager;
 
   @Override
   protected void run() throws UnloggedFailure {

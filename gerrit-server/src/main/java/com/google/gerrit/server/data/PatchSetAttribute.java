@@ -25,6 +25,7 @@ public class PatchSetAttribute {
   public AccountAttribute uploader;
   public Long createdOn;
   public AccountAttribute author;
+  public boolean isDraft;
   public ChangeKind kind;
 
   public List<ApprovalAttribute> approvals;

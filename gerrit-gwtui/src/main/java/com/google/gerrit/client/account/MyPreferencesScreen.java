@@ -55,8 +55,6 @@ public class MyPreferencesScreen extends SettingsScreen {
   private CheckBox legacycidInChangeTable;
   private CheckBox muteCommonPathPrefixes;
   private CheckBox signedOffBy;
-  private CheckBox publishCommentsOnPush;
-  private CheckBox workInProgressByDefault;
   private ListBox maximumPageSize;
   private ListBox dateFormat;
   private ListBox timeFormat;
@@ -75,7 +73,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     showSiteHeader = new CheckBox(Util.C.showSiteHeader());
     useFlashClipboard = new CheckBox(Util.C.useFlashClipboard());
     maximumPageSize = new ListBox();
-    for (int v : PAGESIZE_CHOICES) {
+    for (final int v : PAGESIZE_CHOICES) {
       maximumPageSize.addItem(Util.M.rowsPerPage(v), String.valueOf(v));
     }
 
@@ -163,11 +161,9 @@ public class MyPreferencesScreen extends SettingsScreen {
     legacycidInChangeTable = new CheckBox(Util.C.showLegacycidInChangeTable());
     muteCommonPathPrefixes = new CheckBox(Util.C.muteCommonPathPrefixes());
     signedOffBy = new CheckBox(Util.C.signedOffBy());
-    publishCommentsOnPush = new CheckBox(Util.C.publishCommentsOnPush());
-    workInProgressByDefault = new CheckBox(Util.C.workInProgressByDefault());
 
     boolean flashClippy = !UserAgent.hasJavaScriptClipboard() && UserAgent.Flash.isInstalled();
-    final Grid formGrid = new Grid(16 + (flashClippy ? 1 : 0), 2);
+    final Grid formGrid = new Grid(14 + (flashClippy ? 1 : 0), 2);
 
     int row = 0;
 
@@ -227,14 +223,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     formGrid.setWidget(row, fieldIdx, signedOffBy);
     row++;
 
-    formGrid.setText(row, labelIdx, "");
-    formGrid.setWidget(row, fieldIdx, publishCommentsOnPush);
-    row++;
-
-    formGrid.setText(row, labelIdx, "");
-    formGrid.setWidget(row, fieldIdx, workInProgressByDefault);
-    row++;
-
     if (flashClippy) {
       formGrid.setText(row, labelIdx, "");
       formGrid.setWidget(row, fieldIdx, useFlashClipboard);
@@ -247,7 +235,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     save.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(ClickEvent event) {
+          public void onClick(final ClickEvent event) {
             doSave();
           }
         });
@@ -269,8 +257,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(legacycidInChangeTable);
     e.listenTo(muteCommonPathPrefixes);
     e.listenTo(signedOffBy);
-    e.listenTo(publishCommentsOnPush);
-    e.listenTo(workInProgressByDefault);
     e.listenTo(diffView);
     e.listenTo(reviewCategoryStrategy);
     e.listenTo(emailStrategy);
@@ -297,7 +283,7 @@ public class MyPreferencesScreen extends SettingsScreen {
             });
   }
 
-  private void enable(boolean on) {
+  private void enable(final boolean on) {
     showSiteHeader.setEnabled(on);
     useFlashClipboard.setEnabled(on);
     maximumPageSize.setEnabled(on);
@@ -309,8 +295,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     legacycidInChangeTable.setEnabled(on);
     muteCommonPathPrefixes.setEnabled(on);
     signedOffBy.setEnabled(on);
-    publishCommentsOnPush.setEnabled(on);
-    workInProgressByDefault.setEnabled(on);
     reviewCategoryStrategy.setEnabled(on);
     diffView.setEnabled(on);
     emailStrategy.setEnabled(on);
@@ -336,8 +320,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     legacycidInChangeTable.setValue(p.legacycidInChangeTable());
     muteCommonPathPrefixes.setValue(p.muteCommonPathPrefixes());
     signedOffBy.setValue(p.signedOffBy());
-    publishCommentsOnPush.setValue(p.publishCommentsOnPush());
-    workInProgressByDefault.setValue(p.workInProgressByDefault());
     setListBox(
         reviewCategoryStrategy,
         GeneralPreferencesInfo.ReviewCategoryStrategy.NONE,
@@ -360,18 +342,19 @@ public class MyPreferencesScreen extends SettingsScreen {
     myMenus.display(values);
   }
 
-  private void setListBox(ListBox f, int defaultValue, int currentValue) {
+  private void setListBox(final ListBox f, final int defaultValue, final int currentValue) {
     setListBox(f, String.valueOf(defaultValue), String.valueOf(currentValue));
   }
 
-  private <T extends Enum<?>> void setListBox(final ListBox f, T defaultValue, T currentValue) {
+  private <T extends Enum<?>> void setListBox(
+      final ListBox f, final T defaultValue, final T currentValue) {
     setListBox(
         f,
         defaultValue != null ? defaultValue.name() : "",
         currentValue != null ? currentValue.name() : "");
   }
 
-  private void setListBox(ListBox f, String defaultValue, String currentValue) {
+  private void setListBox(final ListBox f, final String defaultValue, final String currentValue) {
     final int n = f.getItemCount();
     for (int i = 0; i < n; i++) {
       if (f.getValue(i).equals(currentValue)) {
@@ -384,7 +367,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     }
   }
 
-  private int getListBox(ListBox f, int defaultValue) {
+  private int getListBox(final ListBox f, final int defaultValue) {
     final int idx = f.getSelectedIndex();
     if (0 <= idx) {
       return Short.parseShort(f.getValue(idx));
@@ -392,7 +375,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     return defaultValue;
   }
 
-  private <T extends Enum<?>> T getListBox(ListBox f, T defaultValue, T[] all) {
+  private <T extends Enum<?>> T getListBox(final ListBox f, final T defaultValue, T[] all) {
     final int idx = f.getSelectedIndex();
     if (0 <= idx) {
       String v = f.getValue(idx);
@@ -429,8 +412,6 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.legacycidInChangeTable(legacycidInChangeTable.getValue());
     p.muteCommonPathPrefixes(muteCommonPathPrefixes.getValue());
     p.signedOffBy(signedOffBy.getValue());
-    p.publishCommentsOnPush(publishCommentsOnPush.getValue());
-    p.workInProgressByDefault(workInProgressByDefault.getValue());
     p.reviewCategoryStrategy(
         getListBox(
             reviewCategoryStrategy, ReviewCategoryStrategy.NONE, ReviewCategoryStrategy.values()));

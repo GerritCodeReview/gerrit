@@ -23,7 +23,7 @@ public class CanonicalWebUrlProvider implements Provider<String> {
   private final String canonicalUrl;
 
   @Inject
-  public CanonicalWebUrlProvider(@GerritServerConfig Config config) {
+  public CanonicalWebUrlProvider(@GerritServerConfig final Config config) {
     String u = config.getString("gerrit", null, "canonicalweburl");
     if (u != null && !u.endsWith("/")) {
       u += "/";

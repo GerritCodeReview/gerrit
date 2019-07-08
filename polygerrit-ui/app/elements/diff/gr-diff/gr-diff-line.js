@@ -43,4 +43,5 @@
   GrDiffLine.BLANK_LINE = new GrDiffLine(GrDiffLine.Type.BLANK);
 
   window.GrDiffLine = GrDiffLine;
+
 })(window);

@@ -14,21 +14,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-
-<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
-<link rel="import" href="../../../bower_components/iron-dropdown/iron-dropdown.html">
-<link rel="import" href="../../../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-
+<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <dom-module id="gr-editable-label">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         align-items: center;
         display: inline-flex;
-      }
-      :host([uppercase]) label {
-        text-transform: uppercase;
       }
       input,
       label {
@@ -40,64 +32,29 @@ limitations under the License.
       label {
         color: #777;
         display: inline-block;
-        font-family: var(--font-family-bold);
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
       }
       label.editable {
-        color: var(--color-link);
         cursor: pointer;
       }
-      #dropdown {
-        box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
-      }
-      .inputContainer {
-        padding: .8em;
-        background-color: #fff;
-      }
-      .buttons {
-        display: flex;
-        padding-top: 1.2em;
-        justify-content: flex-end;
-        width: 100%;
-      }
-      .buttons gr-button {
-        margin-left: .5em;
-      }
-      paper-input {
-        --paper-input-container: {
-          padding: 0;
-          min-width: 15em;
-        }
-        --paper-input-container-input: {
-          font-size: 1em;
-        }
+      label.editable.placeholder {
+        color: #00f;
+        text-decoration: underline;
       }
     </style>
-      <label
-          class$="[[_computeLabelClass(readOnly, value, placeholder)]]"
-          title$="[[_computeLabel(value, placeholder)]]"
-          on-tap="_showDropdown">[[_computeLabel(value, placeholder)]]</label>
-      <iron-dropdown id="dropdown"
-          vertical-align="auto"
-          horizontal-align="auto"
-          vertical-offset="[[_verticalOffset]]"
-          allow-outside-scroll="true"
-          on-iron-overlay-canceled="_cancel">
-        <div class="dropdown-content" slot="dropdown-content">
-          <div class="inputContainer">
-            <paper-input
-                id="input"
-                label="[[labelText]]"
-                value="{{_inputText}}"></paper-input>
-            <div class="buttons">
-              <gr-button link id="cancelBtn" on-tap="_cancel">cancel</gr-button>
-              <gr-button link id="saveBtn" on-tap="_save">save</gr-button>
-            </div>
-          </div>
-        </div>
-    </iron-dropdown>
+    <input
+        is="iron-input"
+        id="input"
+        hidden$="[[!editing]]"
+        on-keydown="_handleInputKeydown"
+        bind-value="{{_inputText}}">
+    <label
+        hidden$="[[editing]]"
+        class$="[[_computeLabelClass(readOnly, value, placeholder)]]"
+        title$="[[_computeLabel(value, placeholder)]]"
+        on-tap="_open">[[_computeLabel(value, placeholder)]]</label>
   </template>
   <script src="gr-editable-label.js"></script>
 </dom-module>

@@ -21,11 +21,9 @@ import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ConfigValue;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Project;
@@ -35,7 +33,6 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
-import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.inject.Inject;
@@ -65,7 +62,6 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final PluginConfigFactory cfgFactory;
   private final AllProjectsName allProjects;
-  private final UiActions uiActions;
   private final DynamicMap<RestView<ProjectResource>> views;
   private final Provider<CurrentUser> user;
 
@@ -78,7 +74,6 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
       AllProjectsName allProjects,
-      UiActions uiActions,
       DynamicMap<RestView<ProjectResource>> views,
       Provider<CurrentUser> user) {
     this.serverEnableSignedPush = serverEnableSignedPush;
@@ -88,22 +83,22 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
     this.pluginConfigEntries = pluginConfigEntries;
     this.cfgFactory = cfgFactory;
     this.allProjects = allProjects;
-    this.uiActions = uiActions;
     this.views = views;
     this.user = user;
   }
 
   @Override
-  public ConfigInfo apply(ProjectResource rsrc, ConfigInput input) throws RestApiException {
+  public ConfigInfo apply(ProjectResource rsrc, ConfigInput input)
+      throws ResourceNotFoundException, BadRequestException, ResourceConflictException {
     if (!rsrc.getControl().isOwner()) {
-      throw new AuthException("restricted to project owner");
+      throw new ResourceNotFoundException(rsrc.getName());
     }
-    return apply(rsrc.getProjectState(), input);
+    return apply(rsrc.getControl(), input);
   }
 
-  public ConfigInfo apply(ProjectState projectState, ConfigInput input)
+  public ConfigInfo apply(ProjectControl ctrl, ConfigInput input)
       throws ResourceNotFoundException, BadRequestException, ResourceConflictException {
-    Project.NameKey projectName = projectState.getNameKey();
+    Project.NameKey projectName = ctrl.getProject().getNameKey();
     if (input == null) {
       throw new BadRequestException("config is required");
     }
@@ -145,14 +140,6 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
         p.setRejectImplicitMerges(input.rejectImplicitMerges);
       }
 
-      if (input.privateByDefault != null) {
-        p.setPrivateByDefault(input.privateByDefault);
-      }
-
-      if (input.workInProgressByDefault != null) {
-        p.setWorkInProgressByDefault(input.workInProgressByDefault);
-      }
-
       if (input.maxObjectSizeLimit != null) {
         p.setMaxObjectSizeLimit(input.maxObjectSizeLimit);
       }
@@ -165,16 +152,8 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
         p.setState(input.state);
       }
 
-      if (input.enableReviewerByEmail != null) {
-        p.setEnableReviewerByEmail(input.enableReviewerByEmail);
-      }
-
-      if (input.matchAuthorToCommitterDate != null) {
-        p.setMatchAuthorToCommitterDate(input.matchAuthorToCommitterDate);
-      }
-
       if (input.pluginConfigValues != null) {
-        setPluginConfigValues(projectState, projectConfig, input.pluginConfigValues);
+        setPluginConfigValues(ctrl.getProjectState(), projectConfig, input.pluginConfigValues);
       }
 
       md.setMessage("Modified project settings\n");
@@ -198,7 +177,6 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
           pluginConfigEntries,
           cfgFactory,
           allProjects,
-          uiActions,
           views);
     } catch (RepositoryNotFoundException notFound) {
       throw new ResourceNotFoundException(projectName.get());
@@ -312,7 +290,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       throw new BadRequestException(
           String.format(
               "Not allowed to set parameter '%s' of plugin '%s' on project '%s'.",
-              parameterName, pluginName, projectState.getName()));
+              parameterName, pluginName, projectState.getProject().getName()));
     }
   }
 }

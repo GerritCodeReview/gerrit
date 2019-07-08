@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm.init;
 
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
@@ -36,6 +37,7 @@ public class InitModule extends FactoryModule {
   @Override
   protected void configure() {
     bind(SitePaths.class);
+    bind(InitFlags.class);
     bind(Libraries.class);
     bind(LibraryDownloader.class);
     factory(Section.Factory.class);
@@ -62,7 +64,6 @@ public class InitModule extends FactoryModule {
     step().to(InitCache.class);
     step().to(InitPlugins.class);
     step().to(InitDev.class);
-    step().to(InitExperimental.class);
   }
 
   protected LinkedBindingBuilder<InitStep> step() {

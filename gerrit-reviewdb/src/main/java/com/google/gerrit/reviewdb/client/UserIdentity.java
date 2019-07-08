@@ -39,7 +39,7 @@ public final class UserIdentity {
     return name;
   }
 
-  public void setName(String n) {
+  public void setName(final String n) {
     name = n;
   }
 
@@ -47,7 +47,7 @@ public final class UserIdentity {
     return email;
   }
 
-  public void setEmail(String e) {
+  public void setEmail(final String e) {
     email = e;
   }
 
@@ -59,7 +59,7 @@ public final class UserIdentity {
     return when;
   }
 
-  public void setDate(Timestamp d) {
+  public void setDate(final Timestamp d) {
     when = d;
   }
 
@@ -67,7 +67,7 @@ public final class UserIdentity {
     return tz;
   }
 
-  public void setTimeZone(int offset) {
+  public void setTimeZone(final int offset) {
     tz = offset;
   }
 
@@ -75,7 +75,7 @@ public final class UserIdentity {
     return accountId;
   }
 
-  public void setAccount(Account.Id id) {
+  public void setAccount(final Account.Id id) {
     accountId = id;
   }
 }

@@ -14,13 +14,10 @@
 
 package com.google.gerrit.extensions.api.changes;
 
-import com.google.common.collect.ListMultimap;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
-import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
-import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
@@ -33,14 +30,13 @@ import java.util.Map;
 import java.util.Set;
 
 public interface RevisionApi {
-  @Deprecated
   void delete() throws RestApiException;
 
   String description() throws RestApiException;
 
   void description(String description) throws RestApiException;
 
-  ReviewResult review(ReviewInput in) throws RestApiException;
+  void review(ReviewInput in) throws RestApiException;
 
   void submit() throws RestApiException;
 
@@ -50,7 +46,6 @@ public interface RevisionApi {
 
   BinaryResult submitPreview(String format) throws RestApiException;
 
-  @Deprecated
   void publish() throws RestApiException;
 
   ChangeApi cherryPick(CherryPickInput in) throws RestApiException;
@@ -73,11 +68,7 @@ public interface RevisionApi {
 
   Map<String, FileInfo> files(int parentNum) throws RestApiException;
 
-  List<String> queryFiles(String query) throws RestApiException;
-
   FileApi file(String path);
-
-  CommitInfo commit(boolean addLinks) throws RestApiException;
 
   MergeableInfo mergeable() throws RestApiException;
 
@@ -94,17 +85,6 @@ public interface RevisionApi {
   List<CommentInfo> draftsAsList() throws RestApiException;
 
   List<RobotCommentInfo> robotCommentsAsList() throws RestApiException;
-
-  /**
-   * Applies the indicated fix by creating a new change edit or integrating the fix with the
-   * existing change edit. If no change edit exists before this call, the fix must refer to the
-   * current patch set. If a change edit exists, the fix must refer to the patch set on which the
-   * change edit is based.
-   *
-   * @param fixId the ID of the fix which should be applied
-   * @throws RestApiException if the fix couldn't be applied
-   */
-  EditInfo applyFix(String fixId) throws RestApiException;
 
   DraftApi createDraft(DraftInput in) throws RestApiException;
 
@@ -128,11 +108,6 @@ public interface RevisionApi {
   SubmitType testSubmitType(TestSubmitRuleInput in) throws RestApiException;
 
   MergeListRequest getMergeList() throws RestApiException;
-
-  RelatedChangesInfo related() throws RestApiException;
-
-  /** Returns votes on the revision. */
-  ListMultimap<String, ApprovalInfo> votes() throws RestApiException;
 
   abstract class MergeListRequest {
     private boolean addLinks;
@@ -164,14 +139,13 @@ public interface RevisionApi {
    * interface.
    */
   class NotImplemented implements RevisionApi {
-    @Deprecated
     @Override
     public void delete() throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public ReviewResult review(ReviewInput in) throws RestApiException {
+    public void review(ReviewInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 
@@ -185,7 +159,6 @@ public interface RevisionApi {
       throw new NotImplementedException();
     }
 
-    @Deprecated
     @Override
     public void publish() throws RestApiException {
       throw new NotImplementedException();
@@ -252,17 +225,7 @@ public interface RevisionApi {
     }
 
     @Override
-    public List<String> queryFiles(String query) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
     public FileApi file(String path) {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public CommitInfo commit(boolean addLinks) throws RestApiException {
       throw new NotImplementedException();
     }
 
@@ -288,11 +251,6 @@ public interface RevisionApi {
 
     @Override
     public List<RobotCommentInfo> robotCommentsAsList() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public EditInfo applyFix(String fixId) throws RestApiException {
       throw new NotImplementedException();
     }
 
@@ -358,16 +316,6 @@ public interface RevisionApi {
 
     @Override
     public MergeListRequest getMergeList() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public RelatedChangesInfo related() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public ListMultimap<String, ApprovalInfo> votes() throws RestApiException {
       throw new NotImplementedException();
     }
 

@@ -14,13 +14,7 @@
 (function() {
   'use strict';
 
-  const STORAGE_DEBOUNCE_INTERVAL = 400;
-  const TOAST_DEBOUNCE_INTERVAL = 200;
-
-  const SAVING_MESSAGE = 'Saving';
-  const DRAFT_SINGULAR = 'draft...';
-  const DRAFT_PLURAL = 'drafts...';
-  const SAVED_MESSAGE = 'All changes saved';
+  var STORAGE_DEBOUNCE_INTERVAL = 400;
 
   Polymer({
     is: 'gr-diff-comment',
@@ -59,7 +53,6 @@
 
     properties: {
       changeNum: String,
-      /** @type {?} */
       comment: {
         type: Object,
         notify: true,
@@ -95,15 +88,10 @@
         value: true,
         observer: '_toggleCollapseClass',
       },
-      /** @type {?} */
       projectConfig: Object,
       robotButtonDisabled: Boolean,
-      _isAdmin: {
-        type: Boolean,
-        value: false,
-      },
 
-      _xhrPromise: Object, // Used for testing.
+      _xhrPromise: Object,  // Used for testing.
       _messageText: {
         type: String,
         value: '',
@@ -115,11 +103,6 @@
         type: Boolean,
         observer: '_toggleResolved',
       },
-
-      _numPendingDiffRequests: {
-        type: Object,
-        value: {number: 0}, // Intentional to share the object across instances.
-      },
     },
 
     observers: [
@@ -129,65 +112,48 @@
       '_calculateActionstoShow(showActions, isRobotComment)',
     ],
 
-    behaviors: [
-      Gerrit.KeyboardShortcutBehavior,
-    ],
-
-    keyBindings: {
-      'ctrl+enter meta+enter ctrl+s meta+s': '_handleSaveKey',
-      'esc': '_handleEsc',
-    },
-
-    attached() {
+    attached: function() {
       if (this.editing) {
         this.collapsed = false;
       } else if (this.comment) {
         this.collapsed = this.comment.collapsed;
       }
-      this._getIsAdmin().then(isAdmin => {
-        this._isAdmin = isAdmin;
-      });
     },
 
-    detached() {
+    detached: function() {
       this.cancelDebouncer('fire-update');
-      this.$.editTextarea.closeDropdown();
     },
 
-    _computeShowHideText(collapsed) {
+    _computeShowHideText: function(collapsed) {
       return collapsed ? '◀' : '▼';
     },
 
-    _calculateActionstoShow(showActions, isRobotComment) {
+    _calculateActionstoShow: function(showActions, isRobotComment) {
       this._showHumanActions = showActions && !isRobotComment;
       this._showRobotActions = showActions && isRobotComment;
     },
 
-    _isRobotComment(comment) {
+    _isRobotComment: function(comment) {
       this.isRobotComment = !!comment.robot_id;
     },
 
-    isOnParent() {
+    isOnParent: function() {
       return this.side === 'PARENT';
     },
 
-    _getIsAdmin() {
-      return this.$.restAPI.getIsAdmin();
-    },
-
-    save() {
+    save: function() {
       this.comment.message = this._messageText;
 
       this.disabled = true;
 
       this._eraseDraftComment();
 
-      this._xhrPromise = this._saveDraft(this.comment).then(response => {
+      this._xhrPromise = this._saveDraft(this.comment).then(function(response) {
         this.disabled = false;
         if (!response.ok) { return response; }
 
-        return this.$.restAPI.getResponseObject(response).then(obj => {
-          const comment = obj;
+        return this.$.restAPI.getResponseObject(response).then(function(obj) {
+          var comment = obj;
           comment.__draft = true;
           // Maintain the ephemeral draft ID for identification by other
           // elements.
@@ -199,18 +165,14 @@
           this.editing = false;
           this._fireSave();
           return obj;
-        });
-      }).catch(err => {
+        }.bind(this));
+      }.bind(this)).catch(function(err) {
         this.disabled = false;
         throw err;
-      });
+      }.bind(this));
     },
 
-    _eraseDraftComment() {
-      // Prevents a race condition in which removing the draft comment occurs
-      // prior to it being saved.
-      this.cancelDebouncer('store');
-
+    _eraseDraftComment: function() {
       this.$.storage.eraseDraftComment({
         changeNum: this.changeNum,
         patchNum: this._getPatchNum(),
@@ -220,7 +182,7 @@
       });
     },
 
-    _commentChanged(comment) {
+    _commentChanged: function(comment) {
       this.editing = !!comment.__editing;
       this.resolved = !comment.unresolved;
       if (this.editing) { // It's a new draft/reply, notify.
@@ -228,36 +190,41 @@
       }
     },
 
-    /**
-     * @param {!Object=} opt_mixin
-     *
-     * @return {!Object}
-     */
-    _getEventPayload(opt_mixin) {
-      return Object.assign({}, opt_mixin, {
+    _getEventPayload: function(opt_mixin) {
+      var payload = {
         comment: this.comment,
         patchNum: this.patchNum,
-      });
+      };
+      for (var k in opt_mixin) {
+        payload[k] = opt_mixin[k];
+      }
+      return payload;
     },
 
-    _fireSave() {
+    _fireSave: function() {
       this.fire('comment-save', this._getEventPayload());
     },
 
-    _fireUpdate() {
-      this.debounce('fire-update', () => {
+    _fireUpdate: function() {
+      this.debounce('fire-update', function() {
         this.fire('comment-update', this._getEventPayload());
       });
     },
 
-    _draftChanged(draft) {
+    _draftChanged: function(draft) {
       this.$.container.classList.toggle('draft', draft);
     },
 
-    _editingChanged(editing, previousValue) {
+    _editingChanged: function(editing, previousValue) {
       this.$.container.classList.toggle('editing', editing);
       if (editing) {
-        this.$.editTextarea.putCursorAtEnd();
+        var textarea = this.$.editTextarea.textarea;
+        // Put the cursor at the end always.
+        textarea.selectionStart = textarea.value.length;
+        textarea.selectionEnd = textarea.selectionStart;
+        this.async(function() {
+          textarea.focus();
+        }.bind(this));
       }
       if (this.comment && this.comment.id) {
         this.$$('.cancel').hidden = !editing;
@@ -271,37 +238,39 @@
       }
     },
 
-    _computeLinkToComment(comment) {
+    _computeLinkToComment: function(comment) {
       return '#' + comment.line;
     },
 
-    _computeDeleteButtonClass(isAdmin, draft) {
-      return isAdmin && !draft ? 'showDeleteButtons' : '';
-    },
-
-    _computeSaveDisabled(draft) {
+    _computeSaveDisabled: function(draft) {
       return draft == null || draft.trim() == '';
     },
 
-    _handleSaveKey(e) {
-      if (this._messageText.length) {
-        e.preventDefault();
-        this._handleSave(e);
+    _handleTextareaKeydown: function(e) {
+      switch (e.keyCode) {
+        case 13: // 'enter'
+          if (this._messageText.length !== 0 && (e.metaKey || e.ctrlKey)) {
+            this._handleSave(e);
+          }
+          break;
+        case 27: // 'esc'
+          if (this._messageText.length === 0) {
+            this._handleCancel(e);
+          }
+          break;
+        case 83: // 's'
+          if (this._messageText.length !== 0 && e.ctrlKey) {
+            this._handleSave(e);
+          }
+          break;
       }
     },
 
-    _handleEsc(e) {
-      if (!this._messageText.length) {
-        e.preventDefault();
-        this._handleCancel(e);
-      }
-    },
-
-    _handleToggleCollapsed() {
+    _handleToggleCollapsed: function() {
       this.collapsed = !this.collapsed;
     },
 
-    _toggleCollapseClass(collapsed) {
+    _toggleCollapseClass: function(collapsed) {
       if (collapsed) {
         this.$.container.classList.add('collapsed');
       } else {
@@ -309,20 +278,20 @@
       }
     },
 
-    _commentMessageChanged(message) {
+    _commentMessageChanged: function(message) {
       this._messageText = message || '';
     },
 
-    _messageTextChanged(newValue, oldValue) {
+    _messageTextChanged: function(newValue, oldValue) {
       if (!this.comment || (this.comment && this.comment.id)) { return; }
 
       // Keep comment.message in sync so that gr-diff-comment-thread is aware
       // of the current message in the case that another comment is deleted.
       this.comment.message = this._messageText || '';
-      this.debounce('store', () => {
-        const message = this._messageText;
+      this.debounce('store', function() {
+        var message = this._messageText;
 
-        const commentLocation = {
+        var commentLocation = {
           changeNum: this.changeNum,
           patchNum: this._getPatchNum(),
           path: this.comment.path,
@@ -341,9 +310,9 @@
       }, STORAGE_DEBOUNCE_INTERVAL);
     },
 
-    _handleLinkTap(e) {
+    _handleLinkTap: function(e) {
       e.preventDefault();
-      const hash = this._computeLinkToComment(this.comment);
+      var hash = this._computeLinkToComment(this.comment);
       // Don't add the hash to the window history if it's already there.
       // Otherwise you mess up expected back button behavior.
       if (window.location.hash == hash) { return; }
@@ -352,51 +321,52 @@
       page.show(window.location.pathname + hash, null, false);
     },
 
-    _handleReply(e) {
+    _handleReply: function(e) {
       e.preventDefault();
       this.fire('create-reply-comment', this._getEventPayload(),
           {bubbles: false});
     },
 
-    _handleQuote(e) {
+    _handleQuote: function(e) {
       e.preventDefault();
       this.fire('create-reply-comment', this._getEventPayload({quote: true}),
           {bubbles: false});
     },
 
-    _handleFix(e) {
+    _handleFix: function(e) {
       e.preventDefault();
       this.fire('create-fix-comment', this._getEventPayload({quote: true}),
           {bubbles: false});
     },
 
-    _handleAck(e) {
+    _handleAck: function(e) {
       e.preventDefault();
       this.fire('create-ack-comment', this._getEventPayload(),
           {bubbles: false});
     },
 
-    _handleDone(e) {
+    _handleDone: function(e) {
       e.preventDefault();
       this.fire('create-done-comment', this._getEventPayload(),
           {bubbles: false});
     },
 
-    _handleEdit(e) {
+    _handleEdit: function(e) {
       e.preventDefault();
       this._messageText = this.comment.message;
       this.editing = true;
     },
 
-    _handleSave(e) {
+    _handleSave: function(e) {
       e.preventDefault();
       this.set('comment.__editing', false);
       this.save();
     },
 
-    _handleCancel(e) {
+    _handleCancel: function(e) {
       e.preventDefault();
-      if (!this.comment.message || this.comment.message.trim().length === 0) {
+      if (!this.comment.message ||
+          this.comment.message.trim().length === 0) {
         this._fireDiscard();
         return;
       }
@@ -404,27 +374,13 @@
       this.editing = false;
     },
 
-    _fireDiscard() {
+    _fireDiscard: function() {
       this.cancelDebouncer('fire-update');
       this.fire('comment-discard', this._getEventPayload());
     },
 
-    _handleDiscard(e) {
+    _handleDiscard: function(e) {
       e.preventDefault();
-      if (this._computeSaveDisabled(this._messageText)) {
-        this._discardDraft();
-        return;
-      }
-      this._openOverlay(this.$.confirmDiscardOverlay);
-    },
-
-    _handleConfirmDiscard(e) {
-      e.preventDefault();
-      this._closeConfirmDiscardOverlay();
-      this._discardDraft();
-    },
-
-    _discardDraft() {
       if (!this.comment.__draft) {
         throw Error('Cannot discard a non-draft comment.');
       }
@@ -438,74 +394,32 @@
         return;
       }
 
-      this._xhrPromise = this._deleteDraft(this.comment).then(response => {
-        this.disabled = false;
-        if (!response.ok) { return response; }
+      this._xhrPromise = this._deleteDraft(this.comment).then(
+          function(response) {
+            this.disabled = false;
+            if (!response.ok) { return response; }
 
-        this._fireDiscard();
-      }).catch(err => {
-        this.disabled = false;
-        throw err;
-      });
+            this._fireDiscard();
+          }.bind(this)).catch(function(err) {
+            this.disabled = false;
+            throw err;
+          }.bind(this));
     },
 
-    _closeConfirmDiscardOverlay() {
-      this._closeOverlay(this.$.confirmDiscardOverlay);
+    _saveDraft: function(draft) {
+      return this.$.restAPI.saveDiffDraft(this.changeNum, this.patchNum, draft);
     },
 
-    _getSavingMessage(numPending) {
-      if (numPending === 0) { return SAVED_MESSAGE; }
-      return [
-        SAVING_MESSAGE,
-        numPending,
-        numPending === 1 ? DRAFT_SINGULAR : DRAFT_PLURAL,
-      ].join(' ');
-    },
-
-    _showStartRequest() {
-      const numPending = ++this._numPendingDiffRequests.number;
-      this._updateRequestToast(numPending);
-    },
-
-    _showEndRequest() {
-      const numPending = --this._numPendingDiffRequests.number;
-      this._updateRequestToast(numPending);
-    },
-
-    _updateRequestToast(numPending) {
-      const message = this._getSavingMessage(numPending);
-      this.debounce('draft-toast', () => {
-        // Note: the event is fired on the body rather than this element because
-        // this element may not be attached by the time this executes, in which
-        // case the event would not bubble.
-        document.body.dispatchEvent(new CustomEvent('show-alert',
-            {detail: {message}, bubbles: true}));
-      }, TOAST_DEBOUNCE_INTERVAL);
-    },
-
-    _saveDraft(draft) {
-      this._showStartRequest();
-      return this.$.restAPI.saveDiffDraft(this.changeNum, this.patchNum, draft)
-          .then(result => {
-            this._showEndRequest();
-            return result;
-          });
-    },
-
-    _deleteDraft(draft) {
-      this._showStartRequest();
+    _deleteDraft: function(draft) {
       return this.$.restAPI.deleteDiffDraft(this.changeNum, this.patchNum,
-          draft).then(result => {
-            this._showEndRequest();
-            return result;
-          });
+          draft);
     },
 
-    _getPatchNum() {
+    _getPatchNum: function() {
       return this.isOnParent() ? 'PARENT' : this.patchNum;
     },
 
-    _loadLocalDraft(changeNum, patchNum, comment) {
+    _loadLocalDraft: function(changeNum, patchNum, comment) {
       // Only apply local drafts to comments that haven't been saved
       // remotely, and haven't been given a default message already.
       //
@@ -516,8 +430,8 @@
         return;
       }
 
-      const draft = this.$.storage.getDraftComment({
-        changeNum,
+      var draft = this.$.storage.getDraftComment({
+        changeNum: changeNum,
         patchNum: this._getPatchNum(),
         path: comment.path,
         line: comment.line,
@@ -529,50 +443,21 @@
       }
     },
 
-    _handleMouseEnter(e) {
+    _handleMouseEnter: function(e) {
       this.fire('comment-mouse-over', this._getEventPayload());
     },
 
-    _handleMouseLeave(e) {
+    _handleMouseLeave: function(e) {
       this.fire('comment-mouse-out', this._getEventPayload());
     },
 
-    _handleToggleResolved() {
+    _handleToggleResolved: function() {
       this.resolved = !this.resolved;
     },
 
-    _toggleResolved(resolved) {
+    _toggleResolved: function(resolved) {
       this.comment.unresolved = !resolved;
       this.fire('comment-update', this._getEventPayload());
-    },
-
-    _handleCommentDelete() {
-      this._openOverlay(this.$.confirmDeleteOverlay);
-    },
-
-    _handleCancelDeleteComment() {
-      this._closeOverlay(this.$.confirmDeleteOverlay);
-    },
-
-    _openOverlay(overlay) {
-      Polymer.dom(Gerrit.getRootElement()).appendChild(overlay);
-      this.async(() => {
-        overlay.open();
-      }, 1);
-    },
-
-    _closeOverlay(overlay) {
-      Polymer.dom(Gerrit.getRootElement()).removeChild(overlay);
-      overlay.close();
-    },
-
-    _handleConfirmDeleteComment() {
-      this.$.restAPI.deleteComment(
-          this.changeNum, this.patchNum, this.comment.id,
-          this.$.confirmDeleteComment.message).then(newComment => {
-            this._handleCancelDeleteComment();
-            this.comment = newComment;
-          });
     },
   });
 })();

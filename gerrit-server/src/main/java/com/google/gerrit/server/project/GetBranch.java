@@ -15,26 +15,14 @@
 package com.google.gerrit.server.project;
 
 import com.google.gerrit.extensions.api.projects.BranchInfo;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.IOException;
 
 @Singleton
 public class GetBranch implements RestReadView<BranchResource> {
-  private final Provider<ListBranches> list;
-
-  @Inject
-  GetBranch(Provider<ListBranches> list) {
-    this.list = list;
-  }
 
   @Override
-  public BranchInfo apply(BranchResource rsrc)
-      throws ResourceNotFoundException, IOException, PermissionBackendException {
-    return list.get().toBranchInfo(rsrc);
+  public BranchInfo apply(BranchResource rsrc) {
+    return rsrc.getBranchInfo();
   }
 }

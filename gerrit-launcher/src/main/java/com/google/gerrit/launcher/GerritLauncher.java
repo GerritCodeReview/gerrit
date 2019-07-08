@@ -57,22 +57,11 @@ public final class GerritLauncher {
 
   private static ClassLoader daemonClassLoader;
 
-  public static void main(String[] argv) throws Exception {
+  public static void main(final String[] argv) throws Exception {
     System.exit(mainImpl(argv));
   }
 
-  /**
-   * Invokes a proram.
-   *
-   * <p>Creates a new classloader to load and run the program class. To reuse a classloader across
-   * calls (e.g. from tests), use {@link #invokeProgram(ClassLoader, String[])}.
-   *
-   * @param argv arguments, as would be passed to {@code gerrit.war}. The first argument is the
-   *     program name.
-   * @return program return code.
-   * @throws Exception if any error occurs.
-   */
-  public static int mainImpl(String[] argv) throws Exception {
+  public static int mainImpl(final String[] argv) throws Exception {
     if (argv.length == 0) {
       File me;
       try {
@@ -117,7 +106,7 @@ public final class GerritLauncher {
     return invokeProgram(cl, argv);
   }
 
-  public static void daemonStart(String[] argv) throws Exception {
+  public static void daemonStart(final String[] argv) throws Exception {
     if (daemonClassLoader != null) {
       throw new IllegalStateException("daemonStart can be called only once per JVM instance");
     }
@@ -137,7 +126,7 @@ public final class GerritLauncher {
     }
   }
 
-  public static void daemonStop(String[] argv) throws Exception {
+  public static void daemonStop(final String[] argv) throws Exception {
     if (daemonClassLoader == null) {
       throw new IllegalStateException("daemonStop can be called only after call to daemonStop");
     }
@@ -157,7 +146,7 @@ public final class GerritLauncher {
     return "PrologShell".equals(cn) || "Rulec".equals(cn);
   }
 
-  private static String getVersion(File me) {
+  private static String getVersion(final File me) {
     if (me == null) {
       return "";
     }
@@ -172,16 +161,8 @@ public final class GerritLauncher {
     }
   }
 
-  /**
-   * Invokes a proram in the provided {@code ClassLoader}.
-   *
-   * @param loader classloader to load program class from.
-   * @param origArgv arguments, as would be passed to {@code gerrit.war}. The first argument is the
-   *     program name.
-   * @return program return code.
-   * @throws Exception if any error occurs.
-   */
-  public static int invokeProgram(ClassLoader loader, String[] origArgv) throws Exception {
+  private static int invokeProgram(final ClassLoader loader, final String[] origArgv)
+      throws Exception {
     String name = origArgv[0];
     final String[] argv = new String[origArgv.length - 1];
     System.arraycopy(origArgv, 1, argv, 0, argv.length);
@@ -333,7 +314,7 @@ public final class GerritLauncher {
     }
   }
 
-  private static String safeName(ZipEntry ze) {
+  private static String safeName(final ZipEntry ze) {
     // Try to derive the name of the temporary file so it
     // doesn't completely suck. Best if we can make it
     // match the name it was in the archive.
@@ -552,7 +533,7 @@ public final class GerritLauncher {
     if (tmpEntries != null) {
       final long now = System.currentTimeMillis();
       final long expired = now - MILLISECONDS.convert(7, DAYS);
-      for (File tmpEntry : tmpEntries) {
+      for (final File tmpEntry : tmpEntries) {
         if (tmpEntry.isDirectory() && tmpEntry.lastModified() < expired) {
           final String[] all = tmpEntry.list();
           if (all == null || all.length == 0) {

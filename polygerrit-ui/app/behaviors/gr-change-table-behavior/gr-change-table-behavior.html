@@ -17,10 +17,8 @@ limitations under the License.
 (function(window) {
   'use strict';
 
-  window.Gerrit = window.Gerrit || {};
-
   /** @polymerBehavior Gerrit.ChangeTableBehavior */
-  Gerrit.ChangeTableBehavior = {
+  var ChangeTableBehavior = {
     properties: {
       columnNames: {
         type: Array,
@@ -28,35 +26,31 @@ limitations under the License.
           'Subject',
           'Status',
           'Owner',
-          'Assignee',
           'Project',
           'Branch',
           'Updated',
           'Size',
         ],
         readOnly: true,
-      },
+      }
     },
 
     /**
      * Returns the complement to the given column array
      * @param {Array} columns
-     * @return {!Array}
      */
-    getComplementColumns(columns) {
-      return this.columnNames.filter(column => {
-        return !columns.includes(column);
+    getComplementColumns: function(columns) {
+      return this.columnNames.filter(function(column) {
+        return columns.indexOf(column) === -1;
       });
     },
 
-    /**
-     * @param {string} columnToCheck
-     * @param {!Array} columnsToDisplay
-     * @return {boolean}
-     */
-    isColumnHidden(columnToCheck, columnsToDisplay) {
-      return !columnsToDisplay.includes(columnToCheck);
+    isColumnHidden: function(columnToCheck, columnsToDisplay) {
+      return columnsToDisplay.indexOf(columnToCheck) === -1;
     },
   };
+
+  window.Gerrit = window.Gerrit || {};
+  window.Gerrit.ChangeTableBehavior = ChangeTableBehavior;
 })(window);
 </script>

@@ -29,17 +29,14 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET_DESCRIPTION;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PRIVATE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_READ_ONLY_UNTIL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REAL_USER;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REVERT_OF;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBJECT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_WORK_IN_PROGRESS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.sanitizeFooter;
 import static java.util.Comparator.comparing;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
@@ -59,12 +56,11 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.RobotComment;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.mail.Address;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.RequestId;
@@ -108,9 +104,9 @@ import org.eclipse.jgit.revwalk.RevWalk;
  */
 public class ChangeUpdate extends AbstractChangeUpdate {
   public interface Factory {
-    ChangeUpdate create(ChangeNotes notes, CurrentUser user);
+    ChangeUpdate create(ChangeControl ctl);
 
-    ChangeUpdate create(ChangeNotes notes, CurrentUser user, Date when);
+    ChangeUpdate create(ChangeControl ctl, Date when);
 
     ChangeUpdate create(
         Change change,
@@ -121,19 +117,16 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         Comparator<String> labelNameComparator);
 
     @VisibleForTesting
-    ChangeUpdate create(
-        ChangeNotes notes, CurrentUser user, Date when, Comparator<String> labelNameComparator);
+    ChangeUpdate create(ChangeControl ctl, Date when, Comparator<String> labelNameComparator);
   }
 
   private final AccountCache accountCache;
-  private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
   private final RobotCommentUpdate.Factory robotCommentUpdateFactory;
-  private final DeleteCommentRewriter.Factory deleteCommentRewriterFactory;
+  private final NoteDbUpdateManager.Factory updateManagerFactory;
 
   private final Table<String, Account.Id, Optional<Short>> approvals;
   private final Map<Account.Id, ReviewerStateInternal> reviewers = new LinkedHashMap<>();
-  private final Map<Address, ReviewerStateInternal> reviewersByEmail = new LinkedHashMap<>();
   private final List<Comment> comments = new ArrayList<>();
 
   private String commitSubject;
@@ -156,13 +149,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private String psDescription;
   private boolean currentPatchSet;
   private Timestamp readOnlyUntil;
-  private Boolean isPrivate;
-  private Boolean workInProgress;
-  private Integer revertOf;
 
   private ChangeDraftUpdate draftUpdate;
   private RobotCommentUpdate robotCommentUpdate;
-  private DeleteCommentRewriter deleteCommentRewriter;
 
   @AssistedInject
   private ChangeUpdate(
@@ -174,10 +163,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
-      DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
       ProjectCache projectCache,
-      @Assisted ChangeNotes notes,
-      @Assisted CurrentUser user,
+      @Assisted ChangeControl ctl,
       ChangeNoteUtil noteUtil) {
     this(
         cfg,
@@ -188,10 +175,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         updateManagerFactory,
         draftUpdateFactory,
         robotCommentUpdateFactory,
-        deleteCommentRewriterFactory,
         projectCache,
-        notes,
-        user,
+        ctl,
         serverIdent.getWhen(),
         noteUtil);
   }
@@ -206,10 +191,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
-      DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
       ProjectCache projectCache,
-      @Assisted ChangeNotes notes,
-      @Assisted CurrentUser user,
+      @Assisted ChangeControl ctl,
       @Assisted Date when,
       ChangeNoteUtil noteUtil) {
     this(
@@ -221,12 +204,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         updateManagerFactory,
         draftUpdateFactory,
         robotCommentUpdateFactory,
-        deleteCommentRewriterFactory,
-        notes,
-        user,
+        ctl,
         when,
-        projectCache.get(notes.getProjectName()).getLabelTypes().nameComparator(),
+        projectCache.get(getProjectName(ctl)).getLabelTypes().nameComparator(),
         noteUtil);
+  }
+
+  private static Project.NameKey getProjectName(ChangeControl ctl) {
+    return ctl.getProject().getNameKey();
   }
 
   private static Table<String, Account.Id, Optional<Short>> approvals(
@@ -244,18 +229,15 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
-      DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
-      @Assisted ChangeNotes notes,
-      @Assisted CurrentUser user,
+      @Assisted ChangeControl ctl,
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator,
       ChangeNoteUtil noteUtil) {
-    super(cfg, migration, notes, user, serverIdent, anonymousCowardName, noteUtil, when);
+    super(cfg, migration, ctl, serverIdent, anonymousCowardName, noteUtil, when);
     this.accountCache = accountCache;
-    this.updateManagerFactory = updateManagerFactory;
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
-    this.deleteCommentRewriterFactory = deleteCommentRewriterFactory;
+    this.updateManagerFactory = updateManagerFactory;
     this.approvals = approvals(labelNameComparator);
   }
 
@@ -269,7 +251,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
-      DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
       ChangeNoteUtil noteUtil,
       @Assisted Change change,
       @Assisted("effective") @Nullable Account.Id accountId,
@@ -293,7 +274,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
     this.updateManagerFactory = updateManagerFactory;
-    this.deleteCommentRewriterFactory = deleteCommentRewriterFactory;
     this.approvals = approvals(labelNameComparator);
   }
 
@@ -408,11 +388,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     createDraftUpdateIfNull().deleteComment(c);
   }
 
-  public void deleteCommentByRewritingHistory(String uuid, String newMessage) {
-    deleteCommentRewriter =
-        deleteCommentRewriterFactory.create(getChange().getId(), uuid, newMessage);
-  }
-
   @VisibleForTesting
   ChangeDraftUpdate createDraftUpdateIfNull() {
     if (draftUpdate == null) {
@@ -494,15 +469,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     reviewers.put(reviewer, ReviewerStateInternal.REMOVED);
   }
 
-  public void putReviewerByEmail(Address reviewer, ReviewerStateInternal type) {
-    checkArgument(type != ReviewerStateInternal.REMOVED, "invalid ReviewerType");
-    reviewersByEmail.put(reviewer, type);
-  }
-
-  public void removeReviewerByEmail(Address reviewer) {
-    reviewersByEmail.put(reviewer, ReviewerStateInternal.REMOVED);
-  }
-
   public void setPatchSetState(PatchSetState psState) {
     this.psState = psState;
   }
@@ -514,13 +480,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   public void setGroups(List<String> groups) {
     checkNotNull(groups, "groups may not be null");
     this.groups = groups;
-  }
-
-  public void setRevertOf(int revertOf) {
-    int ownId = getChange().getId().get();
-    checkArgument(ownId != revertOf, "A change cannot revert itself");
-    this.revertOf = revertOf;
-    rootOnly = true;
   }
 
   /** @return the tree id for the updated tree */
@@ -622,8 +581,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   @Override
   protected CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins, ObjectId curr)
       throws OrmException, IOException {
-    checkState(deleteCommentRewriter == null, "cannot update and rewrite ref in one BatchUpdate");
-
     CommitBuilder cb = new CommitBuilder();
 
     int ps = psId != null ? psId.get() : getChange().currentPatchSetId().get();
@@ -701,10 +658,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addIdent(msg, e.getKey()).append('\n');
     }
 
-    for (Map.Entry<Address, ReviewerStateInternal> e : reviewersByEmail.entrySet()) {
-      addFooter(msg, e.getValue().getByEmailFooterKey(), e.getKey().toString());
-    }
-
     for (Table.Cell<String, Account.Id, Optional<Short>> c : approvals.cellSet()) {
       addFooter(msg, FOOTER_LABEL);
       // Label names/values are safe to append without sanitizing.
@@ -758,18 +711,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_READ_ONLY_UNTIL, ChangeNoteUtil.formatTime(serverIdent, readOnlyUntil));
     }
 
-    if (isPrivate != null) {
-      addFooter(msg, FOOTER_PRIVATE, isPrivate);
-    }
-
-    if (workInProgress != null) {
-      addFooter(msg, FOOTER_WORK_IN_PROGRESS, workInProgress);
-    }
-
-    if (revertOf != null) {
-      addFooter(msg, FOOTER_REVERT_OF, revertOf);
-    }
-
     cb.setMessage(msg.toString());
     try {
       ObjectId treeId = storeRevisionNotes(rw, ins, curr);
@@ -802,7 +743,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && changeMessage == null
         && comments.isEmpty()
         && reviewers.isEmpty()
-        && reviewersByEmail.isEmpty()
         && changeId == null
         && branch == null
         && status == null
@@ -817,10 +757,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && tag == null
         && psDescription == null
         && !currentPatchSet
-        && readOnlyUntil == null
-        && isPrivate == null
-        && workInProgress == null
-        && revertOf == null;
+        && readOnlyUntil == null;
   }
 
   ChangeDraftUpdate getDraftUpdate() {
@@ -831,10 +768,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     return robotCommentUpdate;
   }
 
-  public DeleteCommentRewriter getDeleteCommentRewriter() {
-    return deleteCommentRewriter;
-  }
-
   public void setAllowWriteToNewRef(boolean allow) {
     isAllowWriteToNewtRef = allow;
   }
@@ -842,14 +775,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   @Override
   public boolean allowWriteToNewRef() {
     return isAllowWriteToNewtRef;
-  }
-
-  public void setPrivate(boolean isPrivate) {
-    this.isPrivate = isPrivate;
-  }
-
-  public void setWorkInProgress(boolean workInProgress) {
-    this.workInProgress = workInProgress;
   }
 
   void setReadOnlyUntil(Timestamp readOnlyUntil) {

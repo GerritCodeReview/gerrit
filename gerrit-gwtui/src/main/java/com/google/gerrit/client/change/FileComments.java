@@ -19,7 +19,6 @@ import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -37,21 +36,17 @@ class FileComments extends Composite {
   @UiField FlowPanel comments;
 
   FileComments(
-      CommentLinkProcessor clp,
-      Project.NameKey project,
-      PatchSet.Id defaultPs,
-      String title,
-      List<CommentInfo> list) {
+      CommentLinkProcessor clp, PatchSet.Id defaultPs, String title, List<CommentInfo> list) {
     initWidget(uiBinder.createAndBindUi(this));
 
-    path.setTargetHistoryToken(url(project, defaultPs, list.get(0)));
+    path.setTargetHistoryToken(url(defaultPs, list.get(0)));
     path.setText(title);
     for (CommentInfo c : list) {
-      comments.add(new LineComment(clp, project, defaultPs, c));
+      comments.add(new LineComment(clp, defaultPs, c));
     }
   }
 
-  private static String url(Project.NameKey project, PatchSet.Id ps, CommentInfo info) {
-    return Dispatcher.toPatch(project, null, ps, info.path());
+  private static String url(PatchSet.Id ps, CommentInfo info) {
+    return Dispatcher.toPatch(null, ps, info.path());
   }
 }

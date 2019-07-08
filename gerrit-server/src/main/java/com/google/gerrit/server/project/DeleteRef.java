@@ -16,7 +16,6 @@ package com.google.gerrit.server.project;
 
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
-import static org.eclipse.jgit.lib.Constants.R_REFS;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.eclipse.jgit.transport.ReceiveCommand.Type.DELETE;
 
@@ -26,14 +25,11 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +53,6 @@ public class DeleteRef {
   private static final long SLEEP_ON_LOCK_FAILURE_MS = 15;
 
   private final Provider<IdentifiedUser> identifiedUser;
-  private final PermissionBackend permissionBackend;
   private final GitRepositoryManager repoManager;
   private final GitReferenceUpdated referenceUpdated;
   private final RefValidationHelper refDeletionValidator;
@@ -70,17 +65,15 @@ public class DeleteRef {
     DeleteRef create(ProjectResource r);
   }
 
-  @Inject
+  @AssistedInject
   DeleteRef(
       Provider<IdentifiedUser> identifiedUser,
-      PermissionBackend permissionBackend,
       GitRepositoryManager repoManager,
       GitReferenceUpdated referenceUpdated,
       RefValidationHelper.Factory refDeletionValidatorFactory,
       Provider<InternalChangeQuery> queryProvider,
       @Assisted ProjectResource resource) {
     this.identifiedUser = identifiedUser;
-    this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
     this.referenceUpdated = referenceUpdated;
     this.refDeletionValidator = refDeletionValidatorFactory.create(DELETE);
@@ -104,9 +97,7 @@ public class DeleteRef {
     return this;
   }
 
-  public void delete()
-      throws OrmException, IOException, ResourceConflictException, AuthException,
-          PermissionBackendException {
+  public void delete() throws OrmException, IOException, ResourceConflictException, AuthException {
     if (!refsToDelete.isEmpty()) {
       try (Repository r = repoManager.openRepository(resource.getNameKey())) {
         if (refsToDelete.size() == 1) {
@@ -119,17 +110,15 @@ public class DeleteRef {
   }
 
   private void deleteSingleRef(Repository r)
-      throws IOException, ResourceConflictException, AuthException, PermissionBackendException {
+      throws IOException, ResourceConflictException, AuthException {
     String ref = refsToDelete.get(0);
-    if (prefix != null && !ref.startsWith(R_REFS)) {
+    if (prefix != null && !ref.startsWith(prefix)) {
       ref = prefix + ref;
     }
 
-    permissionBackend
-        .user(identifiedUser)
-        .project(resource.getNameKey())
-        .ref(ref)
-        .check(RefPermission.DELETE);
+    if (!resource.getControl().controlForRef(ref).canDelete()) {
+      throw new AuthException("delete not permitted for " + ref);
+    }
 
     RefUpdate.Result result;
     RefUpdate u = r.updateRef(ref);
@@ -179,8 +168,6 @@ public class DeleteRef {
       case NOT_ATTEMPTED:
       case REJECTED:
       case RENAMED:
-      case REJECTED_MISSING_OBJECT:
-      case REJECTED_OTHER_REASON:
       default:
         log.error("Cannot delete " + ref + ": " + result.name());
         throw new ResourceConflictException("cannot delete: " + result.name());
@@ -188,14 +175,13 @@ public class DeleteRef {
   }
 
   private void deleteMultipleRefs(Repository r)
-      throws OrmException, IOException, ResourceConflictException, PermissionBackendException {
+      throws OrmException, IOException, ResourceConflictException {
     BatchRefUpdate batchUpdate = r.getRefDatabase().newBatchUpdate();
-    batchUpdate.setAtomic(false);
     List<String> refs =
         prefix == null
             ? refsToDelete
             : refsToDelete.stream()
-                .map(ref -> ref.startsWith(R_REFS) ? ref : prefix + ref)
+                .map(ref -> ref.startsWith(prefix) ? ref : prefix + ref)
                 .collect(toList());
     for (String ref : refs) {
       batchUpdate.addCommand(createDeleteCommand(resource, r, ref));
@@ -217,7 +203,7 @@ public class DeleteRef {
   }
 
   private ReceiveCommand createDeleteCommand(ProjectResource project, Repository r, String refName)
-      throws OrmException, IOException, ResourceConflictException, PermissionBackendException {
+      throws OrmException, IOException, ResourceConflictException {
     Ref ref = r.getRefDatabase().getRef(refName);
     ReceiveCommand command;
     if (ref == null) {
@@ -229,13 +215,7 @@ public class DeleteRef {
     }
     command = new ReceiveCommand(ref.getObjectId(), ObjectId.zeroId(), ref.getName());
 
-    try {
-      permissionBackend
-          .user(identifiedUser)
-          .project(project.getNameKey())
-          .ref(refName)
-          .check(RefPermission.DELETE);
-    } catch (AuthException denied) {
+    if (!project.getControl().controlForRef(refName).canDelete()) {
       command.setResult(
           Result.REJECTED_OTHER_REASON,
           "it doesn't exist or you do not have permission to delete it");

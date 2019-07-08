@@ -8,7 +8,6 @@ RSRCS = "src/main/resources/com/google/gerrit/pgm/"
 INIT_API_SRCS = glob([SRCS + "init/api/*.java"])
 
 BASE_JETTY_DEPS = [
-    "//gerrit-common:annotations",
     "//gerrit-common:server",
     "//gerrit-extension-api:api",
     "//gerrit-gwtexpui:linker_server",
@@ -28,10 +27,6 @@ BASE_JETTY_DEPS = [
 
 DEPS = BASE_JETTY_DEPS + [
     "//gerrit-reviewdb:server",
-    "//gerrit-server:metrics",
-    "//gerrit-server:module",
-    "//gerrit-server:receive",
-    "//lib:gwtorm",
     "//lib/log:jsonevent-layout",
 ]
 
@@ -39,7 +34,7 @@ java_library(
     name = "init-api",
     srcs = INIT_API_SRCS,
     visibility = ["//visibility:public"],
-    deps = DEPS,
+    deps = DEPS + ["//gerrit-common:annotations"],
 )
 
 java_library(
@@ -50,13 +45,14 @@ java_library(
     deps = DEPS + [
         ":init-api",
         ":util",
-        "//gerrit-index:index",
+        "//gerrit-common:annotations",
         "//gerrit-elasticsearch:elasticsearch",
         "//gerrit-launcher:launcher",  # We want this dep to be provided_deps
         "//gerrit-lucene:lucene",
         "//lib:args4j",
         "//lib:derby",
         "//lib:gwtjsonrpc",
+        "//lib:gwtorm",
         "//lib:h2",
         "//lib/commons:validator",
         "//lib/mina:sshd",
@@ -68,6 +64,7 @@ REST_UTIL_DEPS = [
     "//gerrit-cache-mem:mem",
     "//gerrit-util-cli:cli",
     "//lib:args4j",
+    "//lib:gwtorm",
     "//lib/commons:dbcp",
 ]
 
@@ -119,11 +116,11 @@ REST_PGM_DEPS = [
     "//gerrit-cache-mem:mem",
     "//gerrit-elasticsearch:elasticsearch",
     "//gerrit-gpg:gpg",
-    "//gerrit-index:index",
     "//gerrit-lucene:lucene",
     "//gerrit-oauth:oauth",
     "//gerrit-openid:openid",
     "//lib:args4j",
+    "//lib:gwtorm",
     "//lib:protobuf",
     "//lib:servlet-api-3_1-without-neverlink",
     "//lib/prolog:cafeteria",
@@ -161,7 +158,6 @@ junit_tests(
     name = "pgm_tests",
     srcs = glob(["src/test/java/**/*.java"]),
     deps = [
-        ":http-jetty",
         ":init",
         ":init-api",
         ":pgm",
@@ -169,7 +165,6 @@ junit_tests(
         "//gerrit-server:server",
         "//lib:guava",
         "//lib:junit",
-        "//lib:truth",
         "//lib/easymock",
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",

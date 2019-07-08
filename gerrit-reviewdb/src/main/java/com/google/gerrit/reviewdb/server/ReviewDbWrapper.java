@@ -77,6 +77,16 @@ public class ReviewDbWrapper implements ReviewDb {
   }
 
   @Override
+  public AccountAccess accounts() {
+    return delegate.accounts();
+  }
+
+  @Override
+  public AccountExternalIdAccess accountExternalIds() {
+    return delegate.accountExternalIds();
+  }
+
+  @Override
   public AccountGroupAccess accountGroups() {
     return delegate.accountGroups();
   }
@@ -132,7 +142,6 @@ public class ReviewDbWrapper implements ReviewDb {
   }
 
   @Override
-  @SuppressWarnings("deprecation")
   public int nextAccountId() throws OrmException {
     return delegate.nextAccountId();
   }
@@ -146,11 +155,6 @@ public class ReviewDbWrapper implements ReviewDb {
   @SuppressWarnings("deprecation")
   public int nextChangeId() throws OrmException {
     return delegate.nextChangeId();
-  }
-
-  @Override
-  public boolean changesTablesEnabled() {
-    return delegate.changesTablesEnabled();
   }
 
   public static class ChangeAccessWrapper implements ChangeAccess {

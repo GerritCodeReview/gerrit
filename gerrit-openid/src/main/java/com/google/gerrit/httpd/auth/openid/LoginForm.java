@@ -53,10 +53,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /** Handles OpenID based login flow. */
+@SuppressWarnings("serial")
 @Singleton
 class LoginForm extends HttpServlet {
-  private static final long serialVersionUID = 1L;
-
   private static final Logger log = LoggerFactory.getLogger(LoginForm.class);
   private static final ImmutableMap<String, String> ALL_PROVIDERS =
       ImmutableMap.of(

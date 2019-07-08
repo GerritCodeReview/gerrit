@@ -14,12 +14,12 @@
 
 package com.google.gerrit.server.group;
 
-import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -40,8 +40,10 @@ public class GetOwner implements RestReadView<GroupResource> {
   @Override
   public GroupInfo apply(GroupResource resource)
       throws MethodNotAllowedException, ResourceNotFoundException, OrmException {
-    GroupDescription.Internal group =
-        resource.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
+    AccountGroup group = resource.toAccountGroup();
+    if (group == null) {
+      throw new MethodNotAllowedException();
+    }
     try {
       GroupControl c = controlFactory.validateFor(group.getOwnerGroupUUID());
       return json.format(c.getGroup());

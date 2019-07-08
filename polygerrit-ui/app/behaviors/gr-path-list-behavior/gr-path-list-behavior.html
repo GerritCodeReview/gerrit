@@ -13,101 +13,58 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<script src="../../scripts/util.js"></script>
 <script>
 (function(window) {
   'use strict';
 
-  window.Gerrit = window.Gerrit || {};
   /** @polymerBehavior Gerrit.PathListBehavior */
-  Gerrit.PathListBehavior = {
-
-    COMMIT_MESSAGE_PATH: '/COMMIT_MSG',
-    MERGE_LIST_PATH: '/MERGE_LIST',
-
-    /**
-     * @param {string} a
-     * @param {string} b
-     * @return {number}
-     */
-    specialFilePathCompare(a, b) {
+  var PathListBehavior = {
+    specialFilePathCompare: function(a, b) {
       // The commit message always goes first.
-      if (a === Gerrit.PathListBehavior.COMMIT_MESSAGE_PATH) {
+      var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
+      if (a === COMMIT_MESSAGE_PATH) {
         return -1;
       }
-      if (b === Gerrit.PathListBehavior.COMMIT_MESSAGE_PATH) {
+      if (b === COMMIT_MESSAGE_PATH) {
         return 1;
       }
 
       // The merge list always comes next.
-      if (a === Gerrit.PathListBehavior.MERGE_LIST_PATH) {
+      var MERGE_LIST_PATH = '/MERGE_LIST';
+      if (a === MERGE_LIST_PATH) {
         return -1;
       }
-      if (b === Gerrit.PathListBehavior.MERGE_LIST_PATH) {
+      if (b === MERGE_LIST_PATH) {
         return 1;
       }
 
-      const aLastDotIndex = a.lastIndexOf('.');
-      const aExt = a.substr(aLastDotIndex + 1);
-      const aFile = a.substr(0, aLastDotIndex) || a;
+      var aLastDotIndex = a.lastIndexOf('.');
+      var aExt = a.substr(aLastDotIndex + 1);
+      var aFile = a.substr(0, aLastDotIndex) || a;
 
-      const bLastDotIndex = b.lastIndexOf('.');
-      const bExt = b.substr(bLastDotIndex + 1);
-      const bFile = b.substr(0, bLastDotIndex) || b;
+      var bLastDotIndex = b.lastIndexOf('.');
+      var bExt = b.substr(bLastDotIndex + 1);
+      var bFile = b.substr(0, bLastDotIndex) || b;
 
       // Sort header files above others with the same base name.
-      const headerExts = ['h', 'hxx', 'hpp'];
+      var headerExts = ['h', 'hxx', 'hpp'];
       if (aFile.length > 0 && aFile === bFile) {
-        if (headerExts.includes(aExt) && headerExts.includes(bExt)) {
+        if (headerExts.indexOf(aExt) !== -1 &&
+            headerExts.indexOf(bExt) !== -1) {
           return a.localeCompare(b);
         }
-        if (headerExts.includes(aExt)) {
+        if (headerExts.indexOf(aExt) !== -1) {
           return -1;
         }
-        if (headerExts.includes(bExt)) {
+        if (headerExts.indexOf(bExt) !== -1) {
           return 1;
         }
       }
       return aFile.localeCompare(bFile) || a.localeCompare(b);
     },
-
-    computeDisplayPath(path) {
-      if (path === Gerrit.PathListBehavior.COMMIT_MESSAGE_PATH) {
-        return 'Commit message';
-      } else if (path === Gerrit.PathListBehavior.MERGE_LIST_PATH) {
-        return 'Merge list';
-      }
-      return path;
-    },
-
-    computeTruncatedPath(path) {
-      return Gerrit.PathListBehavior.truncatePath(
-          Gerrit.PathListBehavior.computeDisplayPath(path));
-    },
-
-    /**
-     * Truncates URLs to display filename only
-     * Example
-     * // returns '.../text.html'
-     * util.truncatePath.('dir/text.html');
-     * Example
-     * // returns 'text.html'
-     * util.truncatePath.('text.html');
-     *
-     * @param {string} path
-     * @param {number=} opt_threshold
-     * @return {string} Returns the truncated value of a URL.
-     */
-    truncatePath(path, opt_threshold) {
-      const threshold = opt_threshold || 1;
-      const pathPieces = path.split('/');
-
-      if (pathPieces.length <= threshold) { return path; }
-
-      const index = pathPieces.length - threshold;
-      // Character is an ellipsis.
-      return `\u2026/${pathPieces.slice(index).join('/')}`;
-    },
   };
+
+  window.Gerrit = window.Gerrit || {};
+  window.Gerrit.PathListBehavior = PathListBehavior;
 })(window);
 </script>

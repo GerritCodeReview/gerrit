@@ -30,6 +30,7 @@ import com.google.gerrit.httpd.restapi.ChangesRestApiServlet;
 import com.google.gerrit.httpd.restapi.ConfigRestApiServlet;
 import com.google.gerrit.httpd.restapi.GroupsRestApiServlet;
 import com.google.gerrit.httpd.restapi.ProjectsRestApiServlet;
+import com.google.gerrit.httpd.rpc.doc.QueryDocumentationFilter;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AuthConfig;
@@ -112,9 +113,7 @@ class UrlModule extends ServletModule {
     serveRegex("^/(?:a/)?groups/(.*)?$").with(GroupsRestApiServlet.class);
     serveRegex("^/(?:a/)?projects/(.*)?$").with(ProjectsRestApiServlet.class);
 
-    serveRegex("^/Documentation$").with(redirectDocumentation());
-    serveRegex("^/Documentation/$").with(redirectDocumentation());
-    filter("/Documentation/*").through(QueryDocumentationFilter.class);
+    filter("/Documentation/").through(QueryDocumentationFilter.class);
   }
 
   private Key<HttpServlet> notFound() {
@@ -123,7 +122,8 @@ class UrlModule extends ServletModule {
           private static final long serialVersionUID = 1L;
 
           @Override
-          protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
+          protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+              throws IOException {
             rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
           }
         });
@@ -135,19 +135,21 @@ class UrlModule extends ServletModule {
           private static final long serialVersionUID = 1L;
 
           @Override
-          protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
+          protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+              throws IOException {
             toGerrit(req.getRequestURI().substring(req.getContextPath().length()), req, rsp);
           }
         });
   }
 
-  private Key<HttpServlet> screen(String target) {
+  private Key<HttpServlet> screen(final String target) {
     return key(
         new HttpServlet() {
           private static final long serialVersionUID = 1L;
 
           @Override
-          protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
+          protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+              throws IOException {
             toGerrit(target, req, rsp);
           }
         });
@@ -159,7 +161,8 @@ class UrlModule extends ServletModule {
           private static final long serialVersionUID = 1L;
 
           @Override
-          protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
+          protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+              throws IOException {
             final String token = req.getPathInfo().substring(1);
             toGerrit(token, req, rsp);
           }
@@ -172,17 +175,15 @@ class UrlModule extends ServletModule {
           private static final long serialVersionUID = 1L;
 
           @Override
-          protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
+          protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+              throws IOException {
             try {
               String idString = req.getPathInfo();
               if (idString.endsWith("/")) {
                 idString = idString.substring(0, idString.length() - 1);
               }
               Change.Id id = Change.Id.parse(idString);
-              // User accessed Gerrit with /1234, so we have no project yet.
-              // TODO(hiesel) Replace with a preflight request to obtain project before we deprecate
-              // the numeric change id.
-              toGerrit(PageLinks.toChange(null, id), req, rsp);
+              toGerrit(PageLinks.toChange(id), req, rsp);
             } catch (IllegalArgumentException err) {
               rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
             }
@@ -224,19 +225,20 @@ class UrlModule extends ServletModule {
         });
   }
 
-  private Key<HttpServlet> query(String query) {
+  private Key<HttpServlet> query(final String query) {
     return key(
         new HttpServlet() {
           private static final long serialVersionUID = 1L;
 
           @Override
-          protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
+          protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+              throws IOException {
             toGerrit(PageLinks.toChangeQuery(query), req, rsp);
           }
         });
   }
 
-  private Key<HttpServlet> key(HttpServlet servlet) {
+  private Key<HttpServlet> key(final HttpServlet servlet) {
     final Key<HttpServlet> srv = Key.get(HttpServlet.class, UniqueAnnotations.create());
     bind(srv)
         .toProvider(
@@ -256,27 +258,16 @@ class UrlModule extends ServletModule {
           private static final long serialVersionUID = 1L;
 
           @Override
-          protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
+          protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+              throws IOException {
             String path = String.format("/register%s", slash ? req.getPathInfo() : "");
             toGerrit(path, req, rsp);
           }
         });
   }
 
-  private Key<HttpServlet> redirectDocumentation() {
-    return key(
-        new HttpServlet() {
-          private static final long serialVersionUID = 1L;
-
-          @Override
-          protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
-            String path = "/Documentation/index.html";
-            toGerrit(path, req, rsp);
-          }
-        });
-  }
-
-  static void toGerrit(String target, HttpServletRequest req, HttpServletResponse rsp)
+  static void toGerrit(
+      final String target, final HttpServletRequest req, final HttpServletResponse rsp)
       throws IOException {
     final StringBuilder url = new StringBuilder();
     url.append(req.getContextPath());

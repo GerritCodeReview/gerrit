@@ -14,18 +14,16 @@
 
 package com.google.gerrit.server.api.changes;
 
-import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
-
-import com.google.gerrit.extensions.api.changes.DeleteCommentInput;
 import com.google.gerrit.extensions.api.changes.DraftApi;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.common.CommentInfo;
-import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.DeleteDraftComment;
 import com.google.gerrit.server.change.DraftCommentResource;
 import com.google.gerrit.server.change.GetDraftComment;
 import com.google.gerrit.server.change.PutDraftComment;
+import com.google.gerrit.server.update.UpdateException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -55,8 +53,8 @@ class DraftApiImpl implements DraftApi {
   public CommentInfo get() throws RestApiException {
     try {
       return getDraft.apply(draft);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot retrieve draft", e);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot retrieve draft", e);
     }
   }
 
@@ -64,8 +62,8 @@ class DraftApiImpl implements DraftApi {
   public CommentInfo update(DraftInput in) throws RestApiException {
     try {
       return putDraft.apply(draft, in).value();
-    } catch (Exception e) {
-      throw asRestApiException("Cannot update draft", e);
+    } catch (UpdateException | OrmException e) {
+      throw new RestApiException("Cannot update draft", e);
     }
   }
 
@@ -73,13 +71,8 @@ class DraftApiImpl implements DraftApi {
   public void delete() throws RestApiException {
     try {
       deleteDraft.apply(draft, null);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot delete draft", e);
+    } catch (UpdateException e) {
+      throw new RestApiException("Cannot delete draft", e);
     }
-  }
-
-  @Override
-  public CommentInfo delete(DeleteCommentInput input) {
-    throw new NotImplementedException();
   }
 }

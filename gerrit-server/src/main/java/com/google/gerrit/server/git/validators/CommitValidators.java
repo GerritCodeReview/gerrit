@@ -15,27 +15,21 @@
 package com.google.gerrit.server.git.validators;
 
 import static com.google.gerrit.reviewdb.client.Change.CHANGE_ID_PATTERN;
-import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
-import static java.util.stream.Collectors.toList;
+import static com.google.gerrit.server.git.ReceiveCommits.NEW_PATCHSET;
 
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.WatchConfig;
-import com.google.gerrit.server.account.externalids.ExternalIdsConsistencyChecker;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -43,11 +37,8 @@ import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.ValidationError;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
@@ -76,8 +67,19 @@ import org.slf4j.LoggerFactory;
 public class CommitValidators {
   private static final Logger log = LoggerFactory.getLogger(CommitValidators.class);
 
-  public static final Pattern NEW_PATCHSET_PATTERN =
-      Pattern.compile("^" + REFS_CHANGES + "(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/[1-9][0-9]*)?$");
+  public enum Policy {
+    /** Use {@link Factory#forGerritCommits}. */
+    GERRIT,
+
+    /** Use {@link Factory#forReceiveCommits}. */
+    RECEIVE_COMMITS,
+
+    /** Use {@link Factory#forMergedCommits}. */
+    MERGED,
+
+    /** Do not validate commits. */
+    NONE
+  }
 
   @Singleton
   public static class Factory {
@@ -85,10 +87,7 @@ public class CommitValidators {
     private final String canonicalWebUrl;
     private final DynamicSet<CommitValidationListener> pluginValidators;
     private final AllUsersName allUsers;
-    private final ExternalIdsConsistencyChecker externalIdsConsistencyChecker;
-    private final AccountValidator accountValidator;
     private final String installCommitMsgHookCommand;
-    private final ProjectCache projectCache;
 
     @Inject
     Factory(
@@ -96,85 +95,67 @@ public class CommitValidators {
         @CanonicalWebUrl @Nullable String canonicalWebUrl,
         @GerritServerConfig Config cfg,
         DynamicSet<CommitValidationListener> pluginValidators,
-        AllUsersName allUsers,
-        ExternalIdsConsistencyChecker externalIdsConsistencyChecker,
-        AccountValidator accountValidator,
-        ProjectCache projectCache) {
+        AllUsersName allUsers) {
       this.gerritIdent = gerritIdent;
       this.canonicalWebUrl = canonicalWebUrl;
       this.pluginValidators = pluginValidators;
       this.allUsers = allUsers;
-      this.externalIdsConsistencyChecker = externalIdsConsistencyChecker;
-      this.accountValidator = accountValidator;
       this.installCommitMsgHookCommand =
           cfg != null ? cfg.getString("gerrit", null, "installCommitMsgHookCommand") : null;
-      this.projectCache = projectCache;
     }
 
-    public CommitValidators forReceiveCommits(
-        PermissionBackend.ForRef perm,
-        Branch.NameKey branch,
-        IdentifiedUser user,
-        SshInfo sshInfo,
-        Repository repo,
-        RevWalk rw)
-        throws IOException {
-      return forReceiveCommits(perm, branch, user, sshInfo, repo, rw, false);
+    public CommitValidators create(
+        Policy policy, RefControl refControl, SshInfo sshInfo, Repository repo) throws IOException {
+      switch (policy) {
+        case RECEIVE_COMMITS:
+          return forReceiveCommits(refControl, sshInfo, repo);
+        case GERRIT:
+          return forGerritCommits(refControl, sshInfo, repo);
+        case MERGED:
+          return forMergedCommits(refControl);
+        case NONE:
+          return none();
+        default:
+          throw new IllegalArgumentException("unspported policy: " + policy);
+      }
     }
 
-    public CommitValidators forReceiveCommits(
-        PermissionBackend.ForRef perm,
-        Branch.NameKey branch,
-        IdentifiedUser user,
-        SshInfo sshInfo,
-        Repository repo,
-        RevWalk rw,
-        boolean skipValidation)
-        throws IOException {
-      NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(repo, rw);
-      ProjectState projectState = projectCache.checkedGet(branch.getParentKey());
+    private CommitValidators forReceiveCommits(
+        RefControl refControl, SshInfo sshInfo, Repository repo) throws IOException {
+      try (RevWalk rw = new RevWalk(repo)) {
+        NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(repo, rw);
+        return new CommitValidators(
+            ImmutableList.of(
+                new UploadMergesPermissionValidator(refControl),
+                new AmendedGerritMergeCommitValidationListener(refControl, gerritIdent),
+                new AuthorUploaderValidator(refControl, canonicalWebUrl),
+                new CommitterUploaderValidator(refControl, canonicalWebUrl),
+                new SignedOffByValidator(refControl),
+                new ChangeIdValidator(
+                    refControl, canonicalWebUrl, installCommitMsgHookCommand, sshInfo),
+                new ConfigValidator(refControl, repo, allUsers),
+                new BannedCommitsValidator(rejectCommits),
+                new PluginCommitValidationListener(pluginValidators),
+                new BlockExternalIdUpdateListener(allUsers)));
+      }
+    }
+
+    private CommitValidators forGerritCommits(
+        RefControl refControl, SshInfo sshInfo, Repository repo) {
       return new CommitValidators(
           ImmutableList.of(
-              new UploadMergesPermissionValidator(perm),
-              new AmendedGerritMergeCommitValidationListener(perm, gerritIdent),
-              new AuthorUploaderValidator(user, perm, canonicalWebUrl),
-              new CommitterUploaderValidator(user, perm, canonicalWebUrl),
-              new SignedOffByValidator(user, perm, projectState),
+              new UploadMergesPermissionValidator(refControl),
+              new AmendedGerritMergeCommitValidationListener(refControl, gerritIdent),
+              new AuthorUploaderValidator(refControl, canonicalWebUrl),
+              new SignedOffByValidator(refControl),
               new ChangeIdValidator(
-                  projectState, user, canonicalWebUrl, installCommitMsgHookCommand, sshInfo),
-              new ConfigValidator(branch, user, rw, allUsers),
-              new BannedCommitsValidator(rejectCommits),
-              new PluginCommitValidationListener(pluginValidators, skipValidation),
-              new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
-              new AccountCommitValidator(allUsers, accountValidator)));
-    }
-
-    public CommitValidators forGerritCommits(
-        PermissionBackend.ForRef perm,
-        Branch.NameKey branch,
-        IdentifiedUser user,
-        SshInfo sshInfo,
-        RevWalk rw)
-        throws IOException {
-      return new CommitValidators(
-          ImmutableList.of(
-              new UploadMergesPermissionValidator(perm),
-              new AmendedGerritMergeCommitValidationListener(perm, gerritIdent),
-              new AuthorUploaderValidator(user, perm, canonicalWebUrl),
-              new SignedOffByValidator(user, perm, projectCache.checkedGet(branch.getParentKey())),
-              new ChangeIdValidator(
-                  projectCache.checkedGet(branch.getParentKey()),
-                  user,
-                  canonicalWebUrl,
-                  installCommitMsgHookCommand,
-                  sshInfo),
-              new ConfigValidator(branch, user, rw, allUsers),
+                  refControl, canonicalWebUrl, installCommitMsgHookCommand, sshInfo),
+              new ConfigValidator(refControl, repo, allUsers),
               new PluginCommitValidationListener(pluginValidators),
-              new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
-              new AccountCommitValidator(allUsers, accountValidator)));
+              new BlockExternalIdUpdateListener(allUsers)));
     }
 
-    public CommitValidators forMergedCommits(PermissionBackend.ForRef perm, IdentifiedUser user) {
+    private CommitValidators forMergedCommits(RefControl refControl) {
       // Generally only include validators that are based on permissions of the
       // user creating a change for a merged commit; generally exclude
       // validators that would require amending the change in order to correct.
@@ -190,9 +171,13 @@ public class CommitValidators {
       //    formats, so we play it safe and exclude them.
       return new CommitValidators(
           ImmutableList.of(
-              new UploadMergesPermissionValidator(perm),
-              new AuthorUploaderValidator(user, perm, canonicalWebUrl),
-              new CommitterUploaderValidator(user, perm, canonicalWebUrl)));
+              new UploadMergesPermissionValidator(refControl),
+              new AuthorUploaderValidator(refControl, canonicalWebUrl),
+              new CommitterUploaderValidator(refControl, canonicalWebUrl)));
+    }
+
+    private CommitValidators none() {
+      return new CommitValidators(ImmutableList.<CommitValidationListener>of());
     }
   }
 
@@ -218,38 +203,38 @@ public class CommitValidators {
     return messages;
   }
 
-  public boolean hasAllCommitsValidators() {
-    return validators.stream().anyMatch(v -> v.shouldValidateAllCommits());
-  }
-
   public static class ChangeIdValidator implements CommitValidationListener {
     private static final String CHANGE_ID_PREFIX = FooterConstants.CHANGE_ID.getName() + ":";
-    private static final String MISSING_CHANGE_ID_MSG = "missing Change-Id in message footer";
+    private static final String MISSING_CHANGE_ID_MSG =
+        "[%s] missing " + FooterConstants.CHANGE_ID.getName() + " in commit message footer";
     private static final String MISSING_SUBJECT_MSG =
-        "missing subject; Change-Id must be in message footer";
+        "[%s] missing subject; "
+            + FooterConstants.CHANGE_ID.getName()
+            + " must be in commit message footer";
     private static final String MULTIPLE_CHANGE_ID_MSG =
-        "multiple Change-Id lines in message footer";
+        "[%s] multiple " + FooterConstants.CHANGE_ID.getName() + " lines in commit message footer";
     private static final String INVALID_CHANGE_ID_MSG =
-        "invalid Change-Id line format in message footer";
+        "[%s] invalid "
+            + FooterConstants.CHANGE_ID.getName()
+            + " line format in commit message footer";
     private static final Pattern CHANGE_ID = Pattern.compile(CHANGE_ID_PATTERN);
 
-    private final ProjectState projectState;
+    private final ProjectControl projectControl;
     private final String canonicalWebUrl;
     private final String installCommitMsgHookCommand;
     private final SshInfo sshInfo;
     private final IdentifiedUser user;
 
     public ChangeIdValidator(
-        ProjectState projectState,
-        IdentifiedUser user,
+        RefControl refControl,
         String canonicalWebUrl,
         String installCommitMsgHookCommand,
         SshInfo sshInfo) {
-      this.projectState = projectState;
+      this.projectControl = refControl.getProjectControl();
       this.canonicalWebUrl = canonicalWebUrl;
       this.installCommitMsgHookCommand = installCommitMsgHookCommand;
       this.sshInfo = sshInfo;
-      this.user = user;
+      this.user = projectControl.getUser().asIdentifiedUser();
     }
 
     @Override
@@ -261,26 +246,31 @@ public class CommitValidators {
       RevCommit commit = receiveEvent.commit;
       List<CommitValidationMessage> messages = new ArrayList<>();
       List<String> idList = commit.getFooterLines(FooterConstants.CHANGE_ID);
+      String sha1 = commit.abbreviate(RevId.ABBREV_LEN).name();
 
       if (idList.isEmpty()) {
         String shortMsg = commit.getShortMessage();
         if (shortMsg.startsWith(CHANGE_ID_PREFIX)
             && CHANGE_ID.matcher(shortMsg.substring(CHANGE_ID_PREFIX.length()).trim()).matches()) {
-          throw new CommitValidationException(MISSING_SUBJECT_MSG);
+          String errMsg = String.format(MISSING_SUBJECT_MSG, sha1);
+          throw new CommitValidationException(errMsg);
         }
-        if (projectState.isRequireChangeID()) {
-          messages.add(getMissingChangeIdErrorMsg(MISSING_CHANGE_ID_MSG, commit));
-          throw new CommitValidationException(MISSING_CHANGE_ID_MSG, messages);
+        if (projectControl.getProjectState().isRequireChangeID()) {
+          String errMsg = String.format(MISSING_CHANGE_ID_MSG, sha1);
+          messages.add(getMissingChangeIdErrorMsg(errMsg, commit));
+          throw new CommitValidationException(errMsg, messages);
         }
       } else if (idList.size() > 1) {
-        throw new CommitValidationException(MULTIPLE_CHANGE_ID_MSG, messages);
+        String errMsg = String.format(MULTIPLE_CHANGE_ID_MSG, sha1);
+        throw new CommitValidationException(errMsg, messages);
       } else {
         String v = idList.get(idList.size() - 1).trim();
         // Reject Change-Ids with wrong format and invalid placeholder ID from
         // Egit (I0000000000000000000000000000000000000000).
         if (!CHANGE_ID.matcher(v).matches() || v.matches("^I00*$")) {
-          messages.add(getMissingChangeIdErrorMsg(INVALID_CHANGE_ID_MSG, receiveEvent.commit));
-          throw new CommitValidationException(INVALID_CHANGE_ID_MSG, messages);
+          String errMsg = String.format(INVALID_CHANGE_ID_MSG, sha1);
+          messages.add(getMissingChangeIdErrorMsg(errMsg, receiveEvent.commit));
+          throw new CommitValidationException(errMsg, messages);
         }
       }
       return Collections.emptyList();
@@ -288,33 +278,37 @@ public class CommitValidators {
 
     private static boolean shouldValidateChangeId(CommitReceivedEvent event) {
       return MagicBranch.isMagicBranch(event.command.getRefName())
-          || NEW_PATCHSET_PATTERN.matcher(event.command.getRefName()).matches();
+          || NEW_PATCHSET.matcher(event.command.getRefName()).matches();
     }
 
-    private CommitValidationMessage getMissingChangeIdErrorMsg(String errMsg, RevCommit c) {
+    private CommitValidationMessage getMissingChangeIdErrorMsg(
+        final String errMsg, final RevCommit c) {
       StringBuilder sb = new StringBuilder();
-      sb.append("ERROR: ").append(errMsg).append("\n");
+      sb.append("ERROR: ").append(errMsg);
 
-      boolean hinted = false;
-      if (c.getFullMessage().contains(CHANGE_ID_PREFIX)) {
-        String lastLine = Iterables.getLast(Splitter.on('\n').split(c.getFullMessage()), "");
-        if (!lastLine.contains(CHANGE_ID_PREFIX)) {
-          hinted = true;
-          sb.append("\n")
-              .append("Hint: run\n")
-              .append("  git commit --amend\n")
-              .append("and move 'Change-Id: Ixxx..' to the bottom on a separate line\n");
+      if (c.getFullMessage().indexOf(CHANGE_ID_PREFIX) >= 0) {
+        String[] lines = c.getFullMessage().trim().split("\n");
+        String lastLine = lines.length > 0 ? lines[lines.length - 1] : "";
+
+        if (lastLine.indexOf(CHANGE_ID_PREFIX) == -1) {
+          sb.append('\n');
+          sb.append('\n');
+          sb.append("Hint: A potential ");
+          sb.append(FooterConstants.CHANGE_ID.getName());
+          sb.append(" was found, but it was not in the ");
+          sb.append("footer (last paragraph) of the commit message.");
         }
       }
+      sb.append('\n');
+      sb.append('\n');
+      sb.append("Hint: To automatically insert ");
+      sb.append(FooterConstants.CHANGE_ID.getName());
+      sb.append(", install the hook:\n");
+      sb.append(getCommitMessageHookInstallationHint());
+      sb.append('\n');
+      sb.append("And then amend the commit:\n");
+      sb.append("  git commit --amend\n");
 
-      // Print only one hint to avoid overwhelming the user.
-      if (!hinted) {
-        sb.append("\nHint: to automatically insert a Change-Id, install the hook:\n")
-            .append(getCommitMessageHookInstallationHint())
-            .append("\n")
-            .append("and then amend the commit:\n")
-            .append("  git commit --amend\n");
-      }
       return new CommitValidationMessage(sb.toString(), false);
     }
 
@@ -358,28 +352,27 @@ public class CommitValidators {
 
   /** If this is the special project configuration branch, validate the config. */
   public static class ConfigValidator implements CommitValidationListener {
-    private final Branch.NameKey branch;
-    private final IdentifiedUser user;
-    private final RevWalk rw;
+    private final RefControl refControl;
+    private final Repository repo;
     private final AllUsersName allUsers;
 
-    public ConfigValidator(
-        Branch.NameKey branch, IdentifiedUser user, RevWalk rw, AllUsersName allUsers) {
-      this.branch = branch;
-      this.user = user;
-      this.rw = rw;
+    public ConfigValidator(RefControl refControl, Repository repo, AllUsersName allUsers) {
+      this.refControl = refControl;
+      this.repo = repo;
       this.allUsers = allUsers;
     }
 
     @Override
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
-      if (REFS_CONFIG.equals(branch.get())) {
+      IdentifiedUser currentUser = refControl.getUser().asIdentifiedUser();
+
+      if (REFS_CONFIG.equals(refControl.getRefName())) {
         List<CommitValidationMessage> messages = new ArrayList<>();
 
         try {
           ProjectConfig cfg = new ProjectConfig(receiveEvent.project.getNameKey());
-          cfg.load(rw, receiveEvent.command.getNewId());
+          cfg.load(repo, receiveEvent.command.getNewId());
           if (!cfg.getValidationErrors().isEmpty()) {
             addError("Invalid project configuration:", messages);
             for (ValidationError err : cfg.getValidationErrors()) {
@@ -390,23 +383,24 @@ public class CommitValidators {
         } catch (ConfigInvalidException | IOException e) {
           log.error(
               "User "
-                  + user.getUserName()
+                  + currentUser.getUserName()
                   + " tried to push an invalid project configuration "
                   + receiveEvent.command.getNewId().name()
                   + " for project "
-                  + receiveEvent.project,
+                  + receiveEvent.project.getName(),
               e);
           throw new CommitValidationException("invalid project configuration", messages);
         }
       }
 
-      if (allUsers.equals(branch.getParentKey()) && RefNames.isRefsUsers(branch.get())) {
+      if (allUsers.equals(refControl.getProjectControl().getProject().getNameKey())
+          && RefNames.isRefsUsers(refControl.getRefName())) {
         List<CommitValidationMessage> messages = new ArrayList<>();
-        Account.Id accountId = Account.Id.fromRef(branch.get());
+        Account.Id accountId = Account.Id.fromRef(refControl.getRefName());
         if (accountId != null) {
           try {
             WatchConfig wc = new WatchConfig(accountId);
-            wc.load(rw, receiveEvent.command.getNewId());
+            wc.load(repo, receiveEvent.command.getNewId());
             if (!wc.getValidationErrors().isEmpty()) {
               addError("Invalid project configuration:", messages);
               for (ValidationError err : wc.getValidationErrors()) {
@@ -417,7 +411,7 @@ public class CommitValidators {
           } catch (IOException | ConfigInvalidException e) {
             log.error(
                 "User "
-                    + user.getUserName()
+                    + currentUser.getUserName()
                     + " tried to push an invalid watch configuration "
                     + receiveEvent.command.getNewId().name()
                     + " for account "
@@ -432,46 +426,30 @@ public class CommitValidators {
     }
   }
 
-  /** Require permission to upload merge commits. */
+  /** Require permission to upload merges. */
   public static class UploadMergesPermissionValidator implements CommitValidationListener {
-    private final PermissionBackend.ForRef perm;
+    private final RefControl refControl;
 
-    public UploadMergesPermissionValidator(PermissionBackend.ForRef perm) {
-      this.perm = perm;
+    public UploadMergesPermissionValidator(RefControl refControl) {
+      this.refControl = refControl;
     }
 
     @Override
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
-      if (receiveEvent.commit.getParentCount() <= 1) {
-        return Collections.emptyList();
-      }
-      try {
-        perm.check(RefPermission.MERGE);
-        return Collections.emptyList();
-      } catch (AuthException e) {
+      if (receiveEvent.commit.getParentCount() > 1 && !refControl.canUploadMerges()) {
         throw new CommitValidationException("you are not allowed to upload merges");
-      } catch (PermissionBackendException e) {
-        log.error("cannot check MERGE", e);
-        throw new CommitValidationException("internal auth error");
       }
+      return Collections.emptyList();
     }
   }
 
   /** Execute commit validation plug-ins */
   public static class PluginCommitValidationListener implements CommitValidationListener {
-    private boolean skipValidation;
     private final DynamicSet<CommitValidationListener> commitValidationListeners;
 
     public PluginCommitValidationListener(
         final DynamicSet<CommitValidationListener> commitValidationListeners) {
-      this(commitValidationListeners, false);
-    }
-
-    public PluginCommitValidationListener(
-        final DynamicSet<CommitValidationListener> commitValidationListeners,
-        boolean skipValidation) {
-      this.skipValidation = skipValidation;
       this.commitValidationListeners = commitValidationListeners;
     }
 
@@ -481,9 +459,6 @@ public class CommitValidators {
       List<CommitValidationMessage> messages = new ArrayList<>();
 
       for (CommitValidationListener validator : commitValidationListeners) {
-        if (skipValidation && !validator.shouldValidateAllCommits()) {
-          continue;
-        }
         try {
           messages.addAll(validator.onCommitReceived(receiveEvent));
         } catch (CommitValidationException e) {
@@ -493,58 +468,40 @@ public class CommitValidators {
       }
       return messages;
     }
-
-    @Override
-    public boolean shouldValidateAllCommits() {
-      return commitValidationListeners.stream().anyMatch(v -> v.shouldValidateAllCommits());
-    }
   }
 
   public static class SignedOffByValidator implements CommitValidationListener {
-    private final IdentifiedUser user;
-    private final PermissionBackend.ForRef perm;
-    private final ProjectState state;
+    private final RefControl refControl;
 
-    public SignedOffByValidator(
-        IdentifiedUser user, PermissionBackend.ForRef perm, ProjectState state) {
-      this.user = user;
-      this.perm = perm;
-      this.state = state;
+    public SignedOffByValidator(RefControl refControl) {
+      this.refControl = refControl;
     }
 
     @Override
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
-      if (!state.isUseSignedOffBy()) {
-        return Collections.emptyList();
-      }
+      IdentifiedUser currentUser = refControl.getUser().asIdentifiedUser();
+      final PersonIdent committer = receiveEvent.commit.getCommitterIdent();
+      final PersonIdent author = receiveEvent.commit.getAuthorIdent();
+      final ProjectControl projectControl = refControl.getProjectControl();
 
-      RevCommit commit = receiveEvent.commit;
-      PersonIdent committer = commit.getCommitterIdent();
-      PersonIdent author = commit.getAuthorIdent();
-
-      boolean sboAuthor = false;
-      boolean sboCommitter = false;
-      boolean sboMe = false;
-      for (FooterLine footer : commit.getFooterLines()) {
-        if (footer.matches(FooterKey.SIGNED_OFF_BY)) {
-          String e = footer.getEmailAddress();
-          if (e != null) {
-            sboAuthor |= author.getEmailAddress().equals(e);
-            sboCommitter |= committer.getEmailAddress().equals(e);
-            sboMe |= user.hasEmailAddress(e);
+      if (projectControl.getProjectState().isUseSignedOffBy()) {
+        boolean sboAuthor = false;
+        boolean sboCommitter = false;
+        boolean sboMe = false;
+        for (final FooterLine footer : receiveEvent.commit.getFooterLines()) {
+          if (footer.matches(FooterKey.SIGNED_OFF_BY)) {
+            final String e = footer.getEmailAddress();
+            if (e != null) {
+              sboAuthor |= author.getEmailAddress().equals(e);
+              sboCommitter |= committer.getEmailAddress().equals(e);
+              sboMe |= currentUser.hasEmailAddress(e);
+            }
           }
         }
-      }
-      if (!sboAuthor && !sboCommitter && !sboMe) {
-        try {
-          perm.check(RefPermission.FORGE_COMMITTER);
-        } catch (AuthException denied) {
+        if (!sboAuthor && !sboCommitter && !sboMe && !refControl.canForgeCommitter()) {
           throw new CommitValidationException(
-              "not Signed-off-by author/committer/uploader in message footer");
-        } catch (PermissionBackendException e) {
-          log.error("cannot check FORGE_COMMITTER", e);
-          throw new CommitValidationException("internal auth error");
+              "not Signed-off-by author/committer/uploader in commit message footer");
         }
       }
       return Collections.emptyList();
@@ -553,67 +510,56 @@ public class CommitValidators {
 
   /** Require that author matches the uploader. */
   public static class AuthorUploaderValidator implements CommitValidationListener {
-    private final IdentifiedUser user;
-    private final PermissionBackend.ForRef perm;
+    private final RefControl refControl;
     private final String canonicalWebUrl;
 
-    public AuthorUploaderValidator(
-        IdentifiedUser user, PermissionBackend.ForRef perm, String canonicalWebUrl) {
-      this.user = user;
-      this.perm = perm;
+    public AuthorUploaderValidator(RefControl refControl, String canonicalWebUrl) {
+      this.refControl = refControl;
       this.canonicalWebUrl = canonicalWebUrl;
     }
 
     @Override
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
-      PersonIdent author = receiveEvent.commit.getAuthorIdent();
-      if (user.hasEmailAddress(author.getEmailAddress())) {
-        return Collections.emptyList();
+      IdentifiedUser currentUser = refControl.getUser().asIdentifiedUser();
+      final PersonIdent author = receiveEvent.commit.getAuthorIdent();
+
+      if (!currentUser.hasEmailAddress(author.getEmailAddress()) && !refControl.canForgeAuthor()) {
+        List<CommitValidationMessage> messages = new ArrayList<>();
+
+        messages.add(
+            getInvalidEmailError(
+                receiveEvent.commit, "author", author, currentUser, canonicalWebUrl));
+        throw new CommitValidationException("invalid author", messages);
       }
-      try {
-        perm.check(RefPermission.FORGE_AUTHOR);
-        return Collections.emptyList();
-      } catch (AuthException e) {
-        throw new CommitValidationException(
-            "invalid author", invalidEmail("author", author, user, canonicalWebUrl));
-      } catch (PermissionBackendException e) {
-        log.error("cannot check FORGE_AUTHOR", e);
-        throw new CommitValidationException("internal auth error");
-      }
+      return Collections.emptyList();
     }
   }
 
   /** Require that committer matches the uploader. */
   public static class CommitterUploaderValidator implements CommitValidationListener {
-    private final IdentifiedUser user;
-    private final PermissionBackend.ForRef perm;
+    private final RefControl refControl;
     private final String canonicalWebUrl;
 
-    public CommitterUploaderValidator(
-        IdentifiedUser user, PermissionBackend.ForRef perm, String canonicalWebUrl) {
-      this.user = user;
-      this.perm = perm;
+    public CommitterUploaderValidator(RefControl refControl, String canonicalWebUrl) {
+      this.refControl = refControl;
       this.canonicalWebUrl = canonicalWebUrl;
     }
 
     @Override
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
-      PersonIdent committer = receiveEvent.commit.getCommitterIdent();
-      if (user.hasEmailAddress(committer.getEmailAddress())) {
-        return Collections.emptyList();
+      IdentifiedUser currentUser = refControl.getUser().asIdentifiedUser();
+      final PersonIdent committer = receiveEvent.commit.getCommitterIdent();
+      if (!currentUser.hasEmailAddress(committer.getEmailAddress())
+          && !refControl.canForgeCommitter()) {
+        List<CommitValidationMessage> messages = new ArrayList<>();
+        messages.add(
+            getInvalidEmailError(
+                receiveEvent.commit, "committer", committer, currentUser, canonicalWebUrl));
+        throw new CommitValidationException("invalid committer", messages);
       }
-      try {
-        perm.check(RefPermission.FORGE_COMMITTER);
-        return Collections.emptyList();
-      } catch (AuthException e) {
-        throw new CommitValidationException(
-            "invalid committer", invalidEmail("committer", committer, user, canonicalWebUrl));
-      } catch (PermissionBackendException e) {
-        log.error("cannot check FORGE_COMMITTER", e);
-        throw new CommitValidationException("internal auth error");
-      }
+      return Collections.emptyList();
     }
   }
 
@@ -623,36 +569,25 @@ public class CommitValidators {
    */
   public static class AmendedGerritMergeCommitValidationListener
       implements CommitValidationListener {
-    private final PermissionBackend.ForRef perm;
     private final PersonIdent gerritIdent;
+    private final RefControl refControl;
 
     public AmendedGerritMergeCommitValidationListener(
-        PermissionBackend.ForRef perm, PersonIdent gerritIdent) {
-      this.perm = perm;
+        final RefControl refControl, final PersonIdent gerritIdent) {
+      this.refControl = refControl;
       this.gerritIdent = gerritIdent;
     }
 
     @Override
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
-      PersonIdent author = receiveEvent.commit.getAuthorIdent();
+      final PersonIdent author = receiveEvent.commit.getAuthorIdent();
+
       if (receiveEvent.commit.getParentCount() > 1
           && author.getName().equals(gerritIdent.getName())
-          && author.getEmailAddress().equals(gerritIdent.getEmailAddress())) {
-        try {
-          // Stop authors from amending the merge commits that Gerrit itself creates.
-          perm.check(RefPermission.FORGE_SERVER);
-        } catch (AuthException denied) {
-          throw new CommitValidationException(
-              String.format(
-                  "pushing merge commit %s by %s requires '%s' permission",
-                  receiveEvent.commit.getId(),
-                  gerritIdent.getEmailAddress(),
-                  RefPermission.FORGE_SERVER.name()));
-        } catch (PermissionBackendException e) {
-          log.error("cannot check FORGE_SERVER", e);
-          throw new CommitValidationException("internal auth error");
-        }
+          && author.getEmailAddress().equals(gerritIdent.getEmailAddress())
+          && !refControl.canForgeGerritServerIdentity()) {
+        throw new CommitValidationException("do not amend merges not made by you");
       }
       return Collections.emptyList();
     }
@@ -683,14 +618,11 @@ public class CommitValidators {
     }
   }
 
-  /** Validates updates to refs/meta/external-ids. */
-  public static class ExternalIdUpdateListener implements CommitValidationListener {
+  /** Blocks any update to refs/meta/external-ids */
+  public static class BlockExternalIdUpdateListener implements CommitValidationListener {
     private final AllUsersName allUsers;
-    private final ExternalIdsConsistencyChecker externalIdsConsistencyChecker;
 
-    public ExternalIdUpdateListener(
-        AllUsersName allUsers, ExternalIdsConsistencyChecker externalIdsConsistencyChecker) {
-      this.externalIdsConsistencyChecker = externalIdsConsistencyChecker;
+    public BlockExternalIdUpdateListener(AllUsersName allUsers) {
       this.allUsers = allUsers;
     }
 
@@ -699,106 +631,47 @@ public class CommitValidators {
         throws CommitValidationException {
       if (allUsers.equals(receiveEvent.project.getNameKey())
           && RefNames.REFS_EXTERNAL_IDS.equals(receiveEvent.refName)) {
-        try {
-          List<ConsistencyProblemInfo> problems =
-              externalIdsConsistencyChecker.check(receiveEvent.commit);
-          List<CommitValidationMessage> msgs =
-              problems.stream()
-                  .map(
-                      p ->
-                          new CommitValidationMessage(
-                              p.message, p.status == ConsistencyProblemInfo.Status.ERROR))
-                  .collect(toList());
-          if (msgs.stream().anyMatch(m -> m.isError())) {
-            throw new CommitValidationException("invalid external IDs", msgs);
-          }
-          return msgs;
-        } catch (IOException e) {
-          String m = "error validating external IDs";
-          log.warn(m, e);
-          throw new CommitValidationException(m, e);
-        }
+        throw new CommitValidationException("not allowed to update " + RefNames.REFS_EXTERNAL_IDS);
       }
       return Collections.emptyList();
     }
   }
 
-  /** Rejects updates to 'account.config' in user branches. */
-  public static class AccountCommitValidator implements CommitValidationListener {
-    private final AllUsersName allUsers;
-    private final AccountValidator accountValidator;
-
-    public AccountCommitValidator(AllUsersName allUsers, AccountValidator accountValidator) {
-      this.allUsers = allUsers;
-      this.accountValidator = accountValidator;
-    }
-
-    @Override
-    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
-        throws CommitValidationException {
-      if (!allUsers.equals(receiveEvent.project.getNameKey())) {
-        return Collections.emptyList();
-      }
-
-      if (receiveEvent.command.getRefName().startsWith(MagicBranch.NEW_CHANGE)) {
-        // no validation on push for review, will be checked on submit by
-        // MergeValidators.AccountMergeValidator
-        return Collections.emptyList();
-      }
-
-      Account.Id accountId = Account.Id.fromRef(receiveEvent.refName);
-      if (accountId == null) {
-        return Collections.emptyList();
-      }
-
-      try {
-        List<String> errorMessages =
-            accountValidator.validate(
-                accountId,
-                receiveEvent.revWalk,
-                receiveEvent.command.getOldId(),
-                receiveEvent.commit);
-        if (!errorMessages.isEmpty()) {
-          throw new CommitValidationException(
-              "invalid account configuration",
-              errorMessages.stream()
-                  .map(m -> new CommitValidationMessage(m, true))
-                  .collect(toList()));
-        }
-      } catch (IOException e) {
-        String m = String.format("Validating update for account %s failed", accountId.get());
-        log.error(m, e);
-        throw new CommitValidationException(m, e);
-      }
-      return Collections.emptyList();
-    }
-  }
-
-  private static CommitValidationMessage invalidEmail(
-      String type, PersonIdent who, IdentifiedUser currentUser, String canonicalWebUrl) {
+  private static CommitValidationMessage getInvalidEmailError(
+      RevCommit c,
+      String type,
+      PersonIdent who,
+      IdentifiedUser currentUser,
+      String canonicalWebUrl) {
     StringBuilder sb = new StringBuilder();
-
-    sb.append("email address ")
-        .append(who.getEmailAddress())
-        .append(" is not registered in your account, and you lack 'forge ")
+    sb.append("\n");
+    sb.append("ERROR:  In commit ").append(c.name()).append("\n");
+    sb.append("ERROR:  ")
         .append(type)
-        .append("' permission.\n");
-
+        .append(" email address ")
+        .append(who.getEmailAddress())
+        .append("\n");
+    sb.append("ERROR:  does not match your user account.\n");
+    sb.append("ERROR:\n");
     if (currentUser.getEmailAddresses().isEmpty()) {
-      sb.append("You have not registered any email addresses.\n");
+      sb.append("ERROR:  You have not registered any email addresses.\n");
     } else {
-      sb.append("The following addresses are currently registered:\n");
+      sb.append("ERROR:  The following addresses are currently registered:\n");
       for (String address : currentUser.getEmailAddresses()) {
-        sb.append("   ").append(address).append("\n");
+        sb.append("ERROR:    ").append(address).append("\n");
       }
     }
-
+    sb.append("ERROR:\n");
     if (canonicalWebUrl != null) {
-      sb.append("To register an email address, visit:\n");
-      sb.append(canonicalWebUrl).append("#").append(PageLinks.SETTINGS_CONTACT).append("\n");
+      sb.append("ERROR:  To register an email address, please visit:\n");
+      sb.append("ERROR:  ")
+          .append(canonicalWebUrl)
+          .append("#")
+          .append(PageLinks.SETTINGS_CONTACT)
+          .append("\n");
     }
     sb.append("\n");
-    return new CommitValidationMessage(sb.toString(), true);
+    return new CommitValidationMessage(sb.toString(), false);
   }
 
   /**

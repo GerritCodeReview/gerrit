@@ -21,10 +21,8 @@ import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import java.util.Collections;
@@ -32,7 +30,6 @@ import java.util.Comparator;
 
 /** Collection of published and draft comments loaded from the server. */
 class CommentsCollections {
-  @Nullable private final Project.NameKey project;
   private final String path;
   private final DiffObject base;
   private final PatchSet.Id revision;
@@ -43,9 +40,7 @@ class CommentsCollections {
   JsArray<CommentInfo> draftsBase;
   JsArray<CommentInfo> draftsRevision;
 
-  CommentsCollections(
-      @Nullable Project.NameKey project, DiffObject base, PatchSet.Id revision, String path) {
-    this.project = project;
+  CommentsCollections(DiffObject base, PatchSet.Id revision, String path) {
     this.path = path;
     this.base = base;
     this.revision = revision;
@@ -53,19 +48,15 @@ class CommentsCollections {
 
   void load(CallbackGroup group) {
     if (base.isPatchSet()) {
-      CommentApi.comments(
-          Project.NameKey.asStringOrNull(project), base.asPatchSetId(), group.add(publishedBase()));
+      CommentApi.comments(base.asPatchSetId(), group.add(publishedBase()));
     }
-    CommentApi.comments(
-        Project.NameKey.asStringOrNull(project), revision, group.add(publishedRevision()));
+    CommentApi.comments(revision, group.add(publishedRevision()));
 
     if (Gerrit.isSignedIn()) {
       if (base.isPatchSet()) {
-        CommentApi.drafts(
-            Project.NameKey.asStringOrNull(project), base.asPatchSetId(), group.add(draftsBase()));
+        CommentApi.drafts(base.asPatchSetId(), group.add(draftsBase()));
       }
-      CommentApi.drafts(
-          Project.NameKey.asStringOrNull(project), revision, group.add(draftsRevision()));
+      CommentApi.drafts(revision, group.add(draftsRevision()));
     }
   }
 

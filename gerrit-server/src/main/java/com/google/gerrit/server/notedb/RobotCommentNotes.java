@@ -24,8 +24,8 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -44,7 +44,7 @@ public class RobotCommentNotes extends AbstractChangeNotes<RobotCommentNotes> {
   private RevisionNoteMap<RobotCommentsRevisionNote> revisionNoteMap;
   private ObjectId metaId;
 
-  @Inject
+  @AssistedInject
   RobotCommentNotes(Args args, @Assisted Change change) {
     super(args, change.getId(), PrimaryStorage.of(change), false);
     this.change = change;

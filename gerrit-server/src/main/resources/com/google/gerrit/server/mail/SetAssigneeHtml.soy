@@ -17,7 +17,6 @@
 {namespace com.google.gerrit.server.mail.template}
 
 /**
- * @param diffLines
  * @param email
  * @param fromName
  * @param patchSet
@@ -45,6 +44,6 @@
   {/if}
 
   {if $email.includeDiff}
-    {call .UnifiedDiff}{param diffLines: $diffLines /}{/call}
+    {call .Pre}{param content: $email.unifiedDiff /}{/call}
   {/if}
 {/template}

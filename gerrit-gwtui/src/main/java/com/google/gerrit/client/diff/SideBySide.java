@@ -24,10 +24,8 @@ import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.InlineHyperlink;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
 import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -70,13 +68,8 @@ public class SideBySide extends DiffScreen {
   private SideBySideCommentManager commentManager;
 
   public SideBySide(
-      @Nullable Project.NameKey project,
-      DiffObject base,
-      DiffObject revision,
-      String path,
-      DisplaySide startSide,
-      int startLine) {
-    super(project, base, revision, path, startSide, startLine, DiffView.SIDE_BY_SIDE);
+      DiffObject base, DiffObject revision, String path, DisplaySide startSide, int startLine) {
+    super(base, revision, path, startSide, startLine, DiffView.SIDE_BY_SIDE);
 
     diffTable = new SideBySideTable(this, base, revision, path);
     add(uiBinder.createAndBindUi(this));
@@ -92,7 +85,6 @@ public class SideBySide extends DiffScreen {
         commentManager =
             new SideBySideCommentManager(
                 SideBySide.this,
-                getProject(),
                 base,
                 revision,
                 path,
@@ -110,11 +102,14 @@ public class SideBySide extends DiffScreen {
     super.onShowView();
 
     operation(
-        () -> {
-          resizeCodeMirror();
-          chunkManager.adjustPadding();
-          cmA.refresh();
-          cmB.refresh();
+        new Runnable() {
+          @Override
+          public void run() {
+            resizeCodeMirror();
+            chunkManager.adjustPadding();
+            cmA.refresh();
+            cmB.refresh();
+          }
         });
     setLineLength(Patch.COMMIT_MSG.equals(path) ? 72 : prefs.lineLength());
     diffTable.refresh();
@@ -146,7 +141,7 @@ public class SideBySide extends DiffScreen {
   }
 
   @Override
-  void registerCmEvents(CodeMirror cm) {
+  void registerCmEvents(final CodeMirror cm) {
     super.registerCmEvents(cm);
 
     KeyMap keyMap =
@@ -188,8 +183,8 @@ public class SideBySide extends DiffScreen {
     };
   }
 
-  private void display(CommentsCollections comments) {
-    DiffInfo diff = getDiff();
+  private void display(final CommentsCollections comments) {
+    final DiffInfo diff = getDiff();
     setThemeStyles(prefs.theme().isDark());
     setShowIntraline(prefs.intralineDifference());
     if (prefs.showLineNumbers()) {
@@ -214,15 +209,18 @@ public class SideBySide extends DiffScreen {
     chunkManager = new SideBySideChunkManager(this, cmA, cmB, diffTable.scrollbar);
 
     operation(
-        () -> {
-          // Estimate initial CodeMirror height, fixed up in onShowView.
-          int height = Window.getClientHeight() - (Gerrit.getHeaderFooterHeight() + 18);
-          cmA.setHeight(height);
-          cmB.setHeight(height);
+        new Runnable() {
+          @Override
+          public void run() {
+            // Estimate initial CodeMirror height, fixed up in onShowView.
+            int height = Window.getClientHeight() - (Gerrit.getHeaderFooterHeight() + 18);
+            cmA.setHeight(height);
+            cmB.setHeight(height);
 
-          render(diff);
-          commentManager.render(comments, prefs.expandAllComments());
-          skipManager.render(prefs.context(), diff);
+            render(diff);
+            commentManager.render(comments, prefs.expandAllComments());
+            skipManager.render(prefs.context(), diff);
+          }
         });
 
     registerCmEvents(cmA);
@@ -239,8 +237,7 @@ public class SideBySide extends DiffScreen {
   private List<InlineHyperlink> getUnifiedDiffLink() {
     InlineHyperlink toUnifiedDiffLink = new InlineHyperlink();
     toUnifiedDiffLink.setHTML(new ImageResourceRenderer().render(Gerrit.RESOURCES.unifiedDiff()));
-    toUnifiedDiffLink.setTargetHistoryToken(
-        Dispatcher.toUnified(getProject(), base, revision, path));
+    toUnifiedDiffLink.setTargetHistoryToken(Dispatcher.toUnified(base, revision, path));
     toUnifiedDiffLink.setTitle(PatchUtil.C.unifiedDiff());
     return Collections.singletonList(toUnifiedDiffLink);
   }
@@ -322,52 +319,66 @@ public class SideBySide extends DiffScreen {
   }
 
   @Override
-  Runnable updateActiveLine(CodeMirror cm) {
-    CodeMirror other = otherCm(cm);
-    return () -> {
-      // The rendering of active lines has to be deferred. Reflow
-      // caused by adding and removing styles chokes Firefox when arrow
-      // key (or j/k) is held down. Performance on Chrome is fine
-      // without the deferral.
-      //
-      Scheduler.get()
-          .scheduleDeferred(
-              new ScheduledCommand() {
-                @Override
-                public void execute() {
-                  operation(
-                      () -> {
-                        LineHandle handle = cm.getLineHandleVisualStart(cm.getCursor("end").line());
-                        if (!cm.extras().activeLine(handle)) {
-                          return;
-                        }
+  Runnable updateActiveLine(final CodeMirror cm) {
+    final CodeMirror other = otherCm(cm);
+    return new Runnable() {
+      @Override
+      public void run() {
+        // The rendering of active lines has to be deferred. Reflow
+        // caused by adding and removing styles chokes Firefox when arrow
+        // key (or j/k) is held down. Performance on Chrome is fine
+        // without the deferral.
+        //
+        Scheduler.get()
+            .scheduleDeferred(
+                new ScheduledCommand() {
+                  @Override
+                  public void execute() {
+                    operation(
+                        new Runnable() {
+                          @Override
+                          public void run() {
+                            LineHandle handle =
+                                cm.getLineHandleVisualStart(cm.getCursor("end").line());
+                            if (!cm.extras().activeLine(handle)) {
+                              return;
+                            }
 
-                        LineOnOtherInfo info = lineOnOther(cm.side(), cm.getLineNumber(handle));
-                        if (info.isAligned()) {
-                          other.extras().activeLine(other.getLineHandle(info.getLine()));
-                        } else {
-                          other.extras().clearActiveLine();
-                        }
-                      });
-                }
-              });
+                            LineOnOtherInfo info = lineOnOther(cm.side(), cm.getLineNumber(handle));
+                            if (info.isAligned()) {
+                              other.extras().activeLine(other.getLineHandle(info.getLine()));
+                            } else {
+                              other.extras().clearActiveLine();
+                            }
+                          }
+                        });
+                  }
+                });
+      }
     };
   }
 
-  private Runnable moveCursorToSide(CodeMirror cmSrc, DisplaySide sideDst) {
-    CodeMirror cmDst = getCmFromSide(sideDst);
+  private Runnable moveCursorToSide(final CodeMirror cmSrc, DisplaySide sideDst) {
+    final CodeMirror cmDst = getCmFromSide(sideDst);
     if (cmDst == cmSrc) {
-      return () -> {};
+      return new Runnable() {
+        @Override
+        public void run() {}
+      };
     }
 
-    DisplaySide sideSrc = cmSrc.side();
-    return () -> {
-      if (cmSrc.extras().hasActiveLine()) {
-        cmDst.setCursor(
-            Pos.create(
-                lineOnOther(sideSrc, cmSrc.getLineNumber(cmSrc.extras().activeLine())).getLine()));
+    final DisplaySide sideSrc = cmSrc.side();
+    return new Runnable() {
+      @Override
+      public void run() {
+        if (cmSrc.extras().hasActiveLine()) {
+          cmDst.setCursor(
+              Pos.create(
+                  lineOnOther(sideSrc, cmSrc.getLineNumber(cmSrc.extras().activeLine()))
+                      .getLine()));
+        }
+        cmDst.focus();
       }
-      cmDst.focus();
     };
   }
 
@@ -378,8 +389,20 @@ public class SideBySide extends DiffScreen {
   }
 
   @Override
-  void operation(Runnable apply) {
-    cmA.operation(() -> cmB.operation(apply::run));
+  void operation(final Runnable apply) {
+    cmA.operation(
+        new Runnable() {
+          @Override
+          public void run() {
+            cmB.operation(
+                new Runnable() {
+                  @Override
+                  public void run() {
+                    apply.run();
+                  }
+                });
+          }
+        });
   }
 
   @Override

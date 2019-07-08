@@ -14,33 +14,29 @@
 
 package com.google.gerrit.server.index.account;
 
-import static com.google.gerrit.index.SchemaUtil.schema;
+import static com.google.gerrit.server.index.SchemaUtil.schema;
 
-import com.google.gerrit.index.Schema;
-import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.SchemaDefinitions;
 
 public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
   @Deprecated
-  static final Schema<AccountState> V4 =
+  static final Schema<AccountState> V1 =
       schema(
+          AccountField.ID,
           AccountField.ACTIVE,
           AccountField.EMAIL,
           AccountField.EXTERNAL_ID,
-          AccountField.FULL_NAME,
-          AccountField.ID,
           AccountField.NAME_PART,
           AccountField.REGISTERED,
-          AccountField.USERNAME,
-          AccountField.WATCHED_PROJECT);
+          AccountField.USERNAME);
 
-  @Deprecated static final Schema<AccountState> V5 = schema(V4, AccountField.PREFERRED_EMAIL);
+  @Deprecated static final Schema<AccountState> V2 = schema(V1, AccountField.WATCHED_PROJECT);
 
-  @Deprecated
-  static final Schema<AccountState> V6 =
-      schema(V5, AccountField.REF_STATE, AccountField.EXTERNAL_ID_STATE);
+  @Deprecated static final Schema<AccountState> V3 = schema(V2, AccountField.FULL_NAME);
 
-  static final Schema<AccountState> V7 = schema(V6, AccountField.PREFERRED_EMAIL_EXACT);
+  static final Schema<AccountState> V4 = schema(V3);
 
   public static final String NAME = "accounts";
   public static final AccountSchemaDefinitions INSTANCE = new AccountSchemaDefinitions();

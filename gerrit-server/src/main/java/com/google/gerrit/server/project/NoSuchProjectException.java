@@ -23,11 +23,11 @@ public class NoSuchProjectException extends Exception {
   private static final String MESSAGE = "Project not found: ";
   private final Project.NameKey project;
 
-  public NoSuchProjectException(Project.NameKey key) {
+  public NoSuchProjectException(final Project.NameKey key) {
     this(key, null);
   }
 
-  public NoSuchProjectException(Project.NameKey key, Throwable why) {
+  public NoSuchProjectException(final Project.NameKey key, final Throwable why) {
     super(MESSAGE + key.toString(), why);
     project = key;
   }

@@ -28,7 +28,7 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.config.GitwebCgiConfig;
-import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
+import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.util.GuiceRequestScopePropagator;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;

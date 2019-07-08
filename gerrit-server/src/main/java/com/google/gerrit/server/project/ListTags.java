@@ -15,7 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -23,13 +23,14 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommonConverters;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.SearchingChangeCacheImpl;
+import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.VisibleRefFilter;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -51,9 +52,10 @@ import org.kohsuke.args4j.Option;
 
 public class ListTags implements RestReadView<ProjectResource> {
   private final GitRepositoryManager repoManager;
-  private final PermissionBackend permissionBackend;
-  private final Provider<CurrentUser> user;
-  private final VisibleRefFilter.Factory refFilterFactory;
+  private final Provider<ReviewDb> dbProvider;
+  private final TagCache tagCache;
+  private final ChangeNotes.Factory changeNotesFactory;
+  @Nullable private final SearchingChangeCacheImpl changeCache;
   private final WebLinks links;
 
   @Option(
@@ -67,7 +69,7 @@ public class ListTags implements RestReadView<ProjectResource> {
 
   @Option(
       name = "--start",
-      aliases = {"-S", "-s"},
+      aliases = {"-S"},
       metaVar = "CNT",
       usage = "number of tags to skip")
   public void setStart(int start) {
@@ -100,23 +102,17 @@ public class ListTags implements RestReadView<ProjectResource> {
   @Inject
   public ListTags(
       GitRepositoryManager repoManager,
-      PermissionBackend permissionBackend,
-      Provider<CurrentUser> user,
-      VisibleRefFilter.Factory refFilterFactory,
+      Provider<ReviewDb> dbProvider,
+      TagCache tagCache,
+      ChangeNotes.Factory changeNotesFactory,
+      @Nullable SearchingChangeCacheImpl changeCache,
       WebLinks webLinks) {
     this.repoManager = repoManager;
-    this.permissionBackend = permissionBackend;
-    this.user = user;
-    this.refFilterFactory = refFilterFactory;
+    this.dbProvider = dbProvider;
+    this.tagCache = tagCache;
+    this.changeNotesFactory = changeNotesFactory;
+    this.changeCache = changeCache;
     this.links = webLinks;
-  }
-
-  public ListTags request(ListRefsRequest<TagInfo> request) {
-    this.setLimit(request.getLimit());
-    this.setStart(request.getStart());
-    this.setMatchSubstring(request.getSubstring());
-    this.setMatchRegex(request.getRegex());
-    return this;
   }
 
   @Override
@@ -124,14 +120,13 @@ public class ListTags implements RestReadView<ProjectResource> {
       throws IOException, ResourceNotFoundException, BadRequestException {
     List<TagInfo> tags = new ArrayList<>();
 
-    PermissionBackend.ForProject perm = permissionBackend.user(user).project(resource.getNameKey());
     try (Repository repo = getRepository(resource.getNameKey());
         RevWalk rw = new RevWalk(repo)) {
+      ProjectControl pctl = resource.getControl();
       Map<String, Ref> all =
-          visibleTags(
-              resource.getProjectState(), repo, repo.getRefDatabase().getRefs(Constants.R_TAGS));
+          visibleTags(pctl, repo, repo.getRefDatabase().getRefs(Constants.R_TAGS));
       for (Ref ref : all.values()) {
-        tags.add(createTagInfo(perm.ref(ref.getName()), ref, rw, resource.getNameKey(), links));
+        tags.add(createTagInfo(ref, rw, pctl.controlForRef(ref.getName()), pctl, links));
       }
     }
 
@@ -161,33 +156,19 @@ public class ListTags implements RestReadView<ProjectResource> {
         tagName = Constants.R_TAGS + tagName;
       }
       Ref ref = repo.getRefDatabase().exactRef(tagName);
-      if (ref != null
-          && !visibleTags(resource.getProjectState(), repo, ImmutableMap.of(ref.getName(), ref))
-              .isEmpty()) {
-        return createTagInfo(
-            permissionBackend
-                .user(resource.getUser())
-                .project(resource.getNameKey())
-                .ref(ref.getName()),
-            ref,
-            rw,
-            resource.getNameKey(),
-            links);
+      ProjectControl pctl = resource.getControl();
+      if (ref != null && !visibleTags(pctl, repo, ImmutableMap.of(ref.getName(), ref)).isEmpty()) {
+        return createTagInfo(ref, rw, pctl.controlForRef(ref.getName()), pctl, links);
       }
     }
     throw new ResourceNotFoundException(id);
   }
 
   public static TagInfo createTagInfo(
-      PermissionBackend.ForRef perm,
-      Ref ref,
-      RevWalk rw,
-      Project.NameKey projectName,
-      WebLinks links)
+      Ref ref, RevWalk rw, RefControl control, ProjectControl pctl, WebLinks links)
       throws MissingObjectException, IOException {
     RevObject object = rw.parseAny(ref.getObjectId());
-    Boolean canDelete = perm.testOrFalse(RefPermission.DELETE) ? true : null;
-    List<WebLinkInfo> webLinks = links.getTagLinks(projectName.get(), ref.getName());
+    List<WebLinkInfo> webLinks = links.getTagLinks(pctl.getProject().getName(), ref.getName());
     if (object instanceof RevTag) {
       // Annotated or signed tag
       RevTag tag = (RevTag) object;
@@ -198,14 +179,14 @@ public class ListTags implements RestReadView<ProjectResource> {
           tag.getObject().getName(),
           tag.getFullMessage().trim(),
           tagger != null ? CommonConverters.toGitPerson(tag.getTaggerIdent()) : null,
-          canDelete,
+          control.canDelete(),
           webLinks.isEmpty() ? null : webLinks);
     }
     // Lightweight tag
     return new TagInfo(
         ref.getName(),
         ref.getObjectId().getName(),
-        canDelete,
+        control.canDelete(),
         webLinks.isEmpty() ? null : webLinks);
   }
 
@@ -218,7 +199,10 @@ public class ListTags implements RestReadView<ProjectResource> {
     }
   }
 
-  private Map<String, Ref> visibleTags(ProjectState state, Repository repo, Map<String, Ref> tags) {
-    return refFilterFactory.create(state, repo).setShowMetadata(false).filter(tags, true);
+  private Map<String, Ref> visibleTags(
+      ProjectControl pctl, Repository repo, Map<String, Ref> tags) {
+    return new VisibleRefFilter(
+            tagCache, changeNotesFactory, changeCache, repo, pctl, dbProvider.get(), false)
+        .filter(tags, true);
   }
 }

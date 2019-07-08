@@ -14,7 +14,6 @@
 
 package com.google.gerrit.testutil;
 
-import com.google.common.base.CharMatcher;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.StandardKeyEncoder;
 import org.junit.Ignore;
@@ -30,16 +29,4 @@ public abstract class GerritBaseTests {
 
   @Rule public ExpectedException exception = ExpectedException.none();
   @Rule public final TestName testName = new TestName();
-
-  protected String getSanitizedMethodName() {
-    String name = testName.getMethodName().toLowerCase();
-    name =
-        CharMatcher.inRange('a', 'z')
-            .or(CharMatcher.inRange('A', 'Z'))
-            .or(CharMatcher.inRange('0', '9'))
-            .negate()
-            .replaceFrom(name, '_');
-    name = CharMatcher.is('_').trimTrailingFrom(name);
-    return name;
-  }
 }

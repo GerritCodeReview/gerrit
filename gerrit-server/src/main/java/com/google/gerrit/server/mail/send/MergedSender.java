@@ -41,7 +41,7 @@ public class MergedSender extends ReplyToChangeSender {
   public MergedSender(EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id)
       throws OrmException {
     super(ea, "merged", newChangeData(ea, project, id));
-    labelTypes = changeData.getLabelTypes();
+    labelTypes = changeData.changeControl().getLabelTypes();
   }
 
   @Override
@@ -70,12 +70,7 @@ public class MergedSender extends ReplyToChangeSender {
       Table<Account.Id, String, PatchSetApproval> neg = HashBasedTable.create();
       for (PatchSetApproval ca :
           args.approvalsUtil.byPatchSet(
-              args.db.get(),
-              changeData.notes(),
-              args.identifiedUserFactory.create(changeData.change().getOwner()),
-              patchSet.getId(),
-              null,
-              null)) {
+              args.db.get(), changeData.changeControl(), patchSet.getId())) {
         LabelType lt = labelTypes.byLabel(ca.getLabelId());
         if (lt == null) {
           continue;

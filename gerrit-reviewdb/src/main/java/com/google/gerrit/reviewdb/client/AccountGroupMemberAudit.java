@@ -37,7 +37,7 @@ public final class AccountGroupMemberAudit {
       groupId = new AccountGroup.Id();
     }
 
-    public Key(Account.Id a, AccountGroup.Id g, Timestamp t) {
+    public Key(final Account.Id a, final AccountGroup.Id g, final Timestamp t) {
       accountId = a;
       groupId = g;
       addedOn = t;
@@ -76,7 +76,8 @@ public final class AccountGroupMemberAudit {
 
   protected AccountGroupMemberAudit() {}
 
-  public AccountGroupMemberAudit(final AccountGroupMember m, Account.Id adder, Timestamp addedOn) {
+  public AccountGroupMemberAudit(
+      final AccountGroupMember m, final Account.Id adder, Timestamp addedOn) {
     final Account.Id who = m.getAccountId();
     final AccountGroup.Id group = m.getAccountGroupId();
     key = new AccountGroupMemberAudit.Key(who, group, addedOn);
@@ -91,7 +92,7 @@ public final class AccountGroupMemberAudit {
     return removedOn == null;
   }
 
-  public void removed(Account.Id deleter, Timestamp when) {
+  public void removed(final Account.Id deleter, final Timestamp when) {
     removedBy = deleter;
     removedOn = when;
   }

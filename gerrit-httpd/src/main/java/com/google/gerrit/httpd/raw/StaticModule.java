@@ -120,8 +120,6 @@ public class StaticModule extends ServletModule {
 
   @Override
   protected void configureServlets() {
-    serveRegex("^/Documentation$").with(named(DOC_SERVLET));
-    serveRegex("^/Documentation/$").with(named(DOC_SERVLET));
     serveRegex("^/Documentation/(.+)$").with(named(DOC_SERVLET));
     serve("/static/*").with(SiteStaticDirectoryServlet.class);
     install(

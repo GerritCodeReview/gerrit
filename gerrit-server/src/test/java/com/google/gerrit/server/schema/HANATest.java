@@ -33,8 +33,11 @@ public class HANATest {
 
   @Test
   public void getUrl() throws Exception {
-    config.setString("database", null, "port", "4242");
-    assertThat(hana.getUrl()).isEqualTo("jdbc:sap://my.host:4242");
+    config.setString("database", null, "instance", "3");
+    assertThat(hana.getUrl()).isEqualTo("jdbc:sap://my.host:30315");
+
+    config.setString("database", null, "instance", "77");
+    assertThat(hana.getUrl()).isEqualTo("jdbc:sap://my.host:37715");
   }
 
   @Test

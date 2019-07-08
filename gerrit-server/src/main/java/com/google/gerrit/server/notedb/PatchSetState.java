@@ -18,6 +18,9 @@ public enum PatchSetState {
   /** Published and visible to anyone who can see the change; the default. */
   PUBLISHED,
 
+  /** Draft patch set, only visible to certain users. */
+  DRAFT,
+
   /**
    * Deleted patch set.
    *

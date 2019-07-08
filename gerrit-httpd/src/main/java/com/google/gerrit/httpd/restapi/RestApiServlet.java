@@ -12,20 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// WARNING: NoteDbUpdateManager cares about the package name RestApiServlet lives in.
 package com.google.gerrit.httpd.restapi;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN;
-import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_MAX_AGE;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD;
-import static com.google.common.net.HttpHeaders.AUTHORIZATION;
-import static com.google.common.net.HttpHeaders.CONTENT_TYPE;
 import static com.google.common.net.HttpHeaders.ORIGIN;
 import static com.google.common.net.HttpHeaders.VARY;
 import static java.math.RoundingMode.CEILING;
@@ -56,6 +51,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.MultimapBuilder;
 import com.google.common.io.BaseEncoding;
 import com.google.common.io.CountingOutputStream;
 import com.google.common.math.IntMath;
@@ -94,16 +90,13 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.httpd.WebSession;
-import com.google.gerrit.httpd.restapi.ParameterParser.QueryParams;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OptionUtil;
 import com.google.gerrit.server.OutputFormat;
+import com.google.gerrit.server.account.CapabilityUtils;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.util.http.RequestUtil;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
@@ -120,14 +113,12 @@ import com.google.gson.stream.MalformedJsonException;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.TypeLiteral;
 import com.google.inject.util.Providers;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.EOFException;
 import java.io.FilterOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -142,20 +133,17 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 import java.util.zip.GZIPOutputStream;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
-import org.eclipse.jgit.http.server.ServletUtils;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.TemporaryBuffer.Heap;
@@ -175,17 +163,8 @@ public class RestApiServlet extends HttpServlet {
   // TODO: Remove when HttpServletResponse.SC_UNPROCESSABLE_ENTITY is available
   private static final int SC_UNPROCESSABLE_ENTITY = 422;
   private static final String X_REQUESTED_WITH = "X-Requested-With";
-  private static final String X_GERRIT_AUTH = "X-Gerrit-Auth";
-  static final ImmutableSet<String> ALLOWED_CORS_METHODS =
-      ImmutableSet.of("GET", "HEAD", "POST", "PUT", "DELETE");
   private static final ImmutableSet<String> ALLOWED_CORS_REQUEST_HEADERS =
-      Stream.of(AUTHORIZATION, CONTENT_TYPE, X_GERRIT_AUTH, X_REQUESTED_WITH)
-          .map(s -> s.toLowerCase(Locale.US))
-          .collect(ImmutableSet.toImmutableSet());
-
-  public static final String XD_AUTHORIZATION = "access_token";
-  public static final String XD_CONTENT_TYPE = "$ct";
-  public static final String XD_METHOD = "$m";
+      ImmutableSet.of(X_REQUESTED_WITH);
 
   private static final int HEAP_EST_SIZE = 10 * 8 * 1024; // Presize 10 blocks.
 
@@ -207,7 +186,6 @@ public class RestApiServlet extends HttpServlet {
     final Provider<CurrentUser> currentUser;
     final DynamicItem<WebSession> webSession;
     final Provider<ParameterParser> paramParser;
-    final PermissionBackend permissionBackend;
     final AuditService auditService;
     final RestApiMetrics metrics;
     final Pattern allowOrigin;
@@ -217,14 +195,12 @@ public class RestApiServlet extends HttpServlet {
         Provider<CurrentUser> currentUser,
         DynamicItem<WebSession> webSession,
         Provider<ParameterParser> paramParser,
-        PermissionBackend permissionBackend,
         AuditService auditService,
         RestApiMetrics metrics,
         @GerritServerConfig Config cfg) {
       this.currentUser = currentUser;
       this.webSession = webSession;
       this.paramParser = paramParser;
-      this.permissionBackend = permissionBackend;
       this.auditService = auditService;
       this.metrics = metrics;
       allowOrigin = makeAllowOrigin(cfg);
@@ -267,7 +243,8 @@ public class RestApiServlet extends HttpServlet {
     int status = SC_OK;
     long responseBytes = -1;
     Object result = null;
-    QueryParams qp = null;
+    ListMultimap<String, String> params = MultimapBuilder.hashKeys().arrayListValues().build();
+    ListMultimap<String, String> config = MultimapBuilder.hashKeys().arrayListValues().build();
     Object inputRequestBody = null;
     RestResource rsrc = TopLevelResource.INSTANCE;
     ViewData viewData = null;
@@ -277,26 +254,20 @@ public class RestApiServlet extends HttpServlet {
         doCorsPreflight(req, res);
         return;
       }
-
-      qp = ParameterParser.getQueryParams(req);
-      checkCors(req, res, qp.hasXdOverride());
-      if (qp.hasXdOverride()) {
-        req = applyXdOverrides(req, qp);
-      }
+      checkCors(req, res);
       checkUserSession(req);
+
+      ParameterParser.splitQueryString(req.getQueryString(), config, params);
 
       List<IdString> path = splitPath(req);
       RestCollection<RestResource, RestResource> rc = members.get();
-      globals
-          .permissionBackend
-          .user(globals.currentUser)
-          .checkAny(GlobalPermission.fromAnnotation(rc.getClass()));
+      CapabilityUtils.checkRequiresCapability(globals.currentUser, null, rc.getClass());
 
       viewData = new ViewData(null, null);
 
       if (path.isEmpty()) {
         if (rc instanceof NeedsParams) {
-          ((NeedsParams) rc).setParams(qp.params());
+          ((NeedsParams) rc).setParams(params);
         }
 
         if (isRead(req)) {
@@ -389,7 +360,7 @@ public class RestApiServlet extends HttpServlet {
         return;
       }
 
-      if (!globals.paramParser.get().parse(viewData.view, qp.params(), req, res)) {
+      if (!globals.paramParser.get().parse(viewData.view, params, req, res)) {
         return;
       }
 
@@ -400,14 +371,8 @@ public class RestApiServlet extends HttpServlet {
         RestModifyView<RestResource, Object> m =
             (RestModifyView<RestResource, Object>) viewData.view;
 
-        Type type = inputType(m);
-        inputRequestBody = parseRequest(req, type);
+        inputRequestBody = parseRequest(req, inputType(m));
         result = m.apply(rsrc, inputRequestBody);
-        if (inputRequestBody instanceof RawInput) {
-          try (InputStream is = req.getInputStream()) {
-            ServletUtils.consumeRequestBody(is);
-          }
-        }
       } else {
         throw new ResourceNotFoundException();
       }
@@ -436,7 +401,7 @@ public class RestApiServlet extends HttpServlet {
         if (result instanceof BinaryResult) {
           responseBytes = replyBinaryResult(req, res, (BinaryResult) result);
         } else {
-          responseBytes = replyJson(req, res, qp.config(), result);
+          responseBytes = replyJson(req, res, config, result);
         }
       }
     } catch (MalformedJsonException e) {
@@ -511,7 +476,7 @@ public class RestApiServlet extends HttpServlet {
               globals.currentUser.get(),
               req,
               auditStartTs,
-              qp != null ? qp.params() : ImmutableListMultimap.of(),
+              params,
               inputRequestBody,
               status,
               result,
@@ -520,54 +485,11 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
-  private static HttpServletRequest applyXdOverrides(HttpServletRequest req, QueryParams qp)
-      throws BadRequestException {
-    if (!"POST".equals(req.getMethod())) {
-      throw new BadRequestException("POST required");
-    }
-
-    String method = qp.xdMethod();
-    String contentType = qp.xdContentType();
-    if (method.equals("POST") || method.equals("PUT")) {
-      if (!"text/plain".equals(req.getContentType())) {
-        throw new BadRequestException("invalid " + CONTENT_TYPE);
-      } else if (Strings.isNullOrEmpty(contentType)) {
-        throw new BadRequestException(XD_CONTENT_TYPE + " required");
-      }
-    }
-
-    return new HttpServletRequestWrapper(req) {
-      @Override
-      public String getMethod() {
-        return method;
-      }
-
-      @Override
-      public String getContentType() {
-        return contentType;
-      }
-    };
-  }
-
-  private void checkCors(HttpServletRequest req, HttpServletResponse res, boolean isXd)
-      throws BadRequestException {
+  private void checkCors(HttpServletRequest req, HttpServletResponse res) {
     String origin = req.getHeader(ORIGIN);
-    if (isXd) {
-      // Cross-domain, non-preflighted requests must come from an approved origin.
-      if (Strings.isNullOrEmpty(origin) || !isOriginAllowed(origin)) {
-        throw new BadRequestException("origin not allowed");
-      }
+    if (isRead(req) && !Strings.isNullOrEmpty(origin) && isOriginAllowed(origin)) {
       res.addHeader(VARY, ORIGIN);
-      res.setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, origin);
-      res.setHeader(ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
-    } else if (!Strings.isNullOrEmpty(origin)) {
-      // All other requests must be processed, but conditionally set CORS headers.
-      if (globals.allowOrigin != null) {
-        res.addHeader(VARY, ORIGIN);
-      }
-      if (isOriginAllowed(origin)) {
-        setCorsHeaders(res, origin);
-      }
+      setCorsHeaders(res, origin);
     }
   }
 
@@ -580,10 +502,8 @@ public class RestApiServlet extends HttpServlet {
   private void doCorsPreflight(HttpServletRequest req, HttpServletResponse res)
       throws BadRequestException {
     CacheHeaders.setNotCacheable(res);
-    setHeaderList(
-        res,
-        VARY,
-        ImmutableList.of(ORIGIN, ACCESS_CONTROL_REQUEST_METHOD, ACCESS_CONTROL_REQUEST_HEADERS));
+    res.setHeader(
+        VARY, Joiner.on(", ").join(ImmutableList.of(ORIGIN, ACCESS_CONTROL_REQUEST_METHOD)));
 
     String origin = req.getHeader(ORIGIN);
     if (Strings.isNullOrEmpty(origin) || !isOriginAllowed(origin)) {
@@ -591,16 +511,20 @@ public class RestApiServlet extends HttpServlet {
     }
 
     String method = req.getHeader(ACCESS_CONTROL_REQUEST_METHOD);
-    if (!ALLOWED_CORS_METHODS.contains(method)) {
+    if (!"GET".equals(method) && !"HEAD".equals(method)) {
       throw new BadRequestException(method + " not allowed in CORS");
     }
 
     String headers = req.getHeader(ACCESS_CONTROL_REQUEST_HEADERS);
     if (headers != null) {
-      for (String reqHdr : Splitter.on(',').trimResults().split(headers)) {
-        if (!ALLOWED_CORS_REQUEST_HEADERS.contains(reqHdr.toLowerCase(Locale.US))) {
-          throw new BadRequestException(reqHdr + " not allowed in CORS");
-        }
+      res.addHeader(VARY, ACCESS_CONTROL_REQUEST_HEADERS);
+      String badHeader =
+          StreamSupport.stream(Splitter.on(',').trimResults().split(headers).spliterator(), false)
+              .filter(h -> !ALLOWED_CORS_REQUEST_HEADERS.contains(h))
+              .findFirst()
+              .orElse(null);
+      if (badHeader != null) {
+        throw new BadRequestException(badHeader + " not allowed in CORS");
       }
     }
 
@@ -610,19 +534,11 @@ public class RestApiServlet extends HttpServlet {
     res.setContentLength(0);
   }
 
-  private static void setCorsHeaders(HttpServletResponse res, String origin) {
+  private void setCorsHeaders(HttpServletResponse res, String origin) {
     res.setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, origin);
     res.setHeader(ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
-    res.setHeader(ACCESS_CONTROL_MAX_AGE, "600");
-    setHeaderList(
-        res,
-        ACCESS_CONTROL_ALLOW_METHODS,
-        Iterables.concat(ALLOWED_CORS_METHODS, ImmutableList.of("OPTIONS")));
-    setHeaderList(res, ACCESS_CONTROL_ALLOW_HEADERS, ALLOWED_CORS_REQUEST_HEADERS);
-  }
-
-  private static void setHeaderList(HttpServletResponse res, String name, Iterable<String> values) {
-    res.setHeader(name, Joiner.on(", ").join(values));
+    res.setHeader(ACCESS_CONTROL_ALLOW_METHODS, "GET, OPTIONS");
+    res.setHeader(ACCESS_CONTROL_ALLOW_HEADERS, Joiner.on(", ").join(ALLOWED_CORS_REQUEST_HEADERS));
   }
 
   private boolean isOriginAllowed(String origin) {
@@ -710,53 +626,64 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private static Type inputType(RestModifyView<RestResource, Object> m) {
-    // MyModifyView implements RestModifyView<SomeResource, MyInput>
-    TypeLiteral<?> typeLiteral = TypeLiteral.get(m.getClass());
+    Type inputType = extractInputType(m.getClass());
+    if (inputType == null) {
+      throw new IllegalStateException(
+          String.format(
+              "View %s does not correctly implement %s",
+              m.getClass(), RestModifyView.class.getSimpleName()));
+    }
+    return inputType;
+  }
 
-    // RestModifyView<SomeResource, MyInput>
-    // This is smart enough to resolve even when there are intervening subclasses, even if they have
-    // reordered type arguments.
-    TypeLiteral<?> supertypeLiteral = typeLiteral.getSupertype(RestModifyView.class);
+  @SuppressWarnings("rawtypes")
+  private static Type extractInputType(Class clazz) {
+    for (Type t : clazz.getGenericInterfaces()) {
+      if (t instanceof ParameterizedType
+          && ((ParameterizedType) t).getRawType() == RestModifyView.class) {
+        return ((ParameterizedType) t).getActualTypeArguments()[1];
+      }
+    }
 
-    Type supertype = supertypeLiteral.getType();
-    checkState(
-        supertype instanceof ParameterizedType,
-        "supertype of %s is not parameterized: %s",
-        typeLiteral,
-        supertypeLiteral);
-    return ((ParameterizedType) supertype).getActualTypeArguments()[1];
+    if (clazz.getSuperclass() != null) {
+      Type i = extractInputType(clazz.getSuperclass());
+      if (i != null) {
+        return i;
+      }
+    }
+
+    for (Class t : clazz.getInterfaces()) {
+      Type i = extractInputType(t);
+      if (i != null) {
+        return i;
+      }
+    }
+
+    return null;
   }
 
   private Object parseRequest(HttpServletRequest req, Type type)
       throws IOException, BadRequestException, SecurityException, IllegalArgumentException,
           NoSuchMethodException, IllegalAccessException, InstantiationException,
           InvocationTargetException, MethodNotAllowedException {
-    // HTTP/1.1 requires consuming the request body before writing non-error response (less than
-    // 400). Consume the request body for all but raw input request types here.
     if (isType(JSON_TYPE, req.getContentType())) {
       try (BufferedReader br = req.getReader();
           JsonReader json = new JsonReader(br)) {
-        try {
-          json.setLenient(true);
+        json.setLenient(true);
 
-          JsonToken first;
-          try {
-            first = json.peek();
-          } catch (EOFException e) {
-            throw new BadRequestException("Expected JSON object");
-          }
-          if (first == JsonToken.STRING) {
-            return parseString(json.nextString(), type);
-          }
-          return OutputFormat.JSON.newGson().fromJson(json, type);
-        } finally {
-          // Reader.close won't consume the rest of the input. Explicitly consume the request body.
-          br.skip(Long.MAX_VALUE);
+        JsonToken first;
+        try {
+          first = json.peek();
+        } catch (EOFException e) {
+          throw new BadRequestException("Expected JSON object");
         }
+        if (first == JsonToken.STRING) {
+          return parseString(json.nextString(), type);
+        }
+        return OutputFormat.JSON.newGson().fromJson(json, type);
       }
-    }
-    String method = req.getMethod();
-    if (("PUT".equals(method) || "POST".equals(method)) && acceptsRawInput(type)) {
+    } else if (("PUT".equals(req.getMethod()) || "POST".equals(req.getMethod()))
+        && acceptsRawInput(type)) {
       return parseRawInput(req, type);
     } else if ("DELETE".equals(req.getMethod()) && hasNoBody(req)) {
       return null;
@@ -797,7 +724,7 @@ public class RestApiServlet extends HttpServlet {
     return false;
   }
 
-  private Object parseRawInput(HttpServletRequest req, Type type)
+  private Object parseRawInput(final HttpServletRequest req, Type type)
       throws SecurityException, NoSuchMethodException, IllegalArgumentException,
           InstantiationException, IllegalAccessException, InvocationTargetException,
           MethodNotAllowedException {
@@ -972,7 +899,7 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
-  private static BinaryResult stackJsonString(HttpServletResponse res, BinaryResult src)
+  private static BinaryResult stackJsonString(HttpServletResponse res, final BinaryResult src)
       throws IOException {
     TemporaryBuffer.Heap buf = heap(HEAP_EST_SIZE, Integer.MAX_VALUE);
     buf.write(JSON_MAGIC);
@@ -988,7 +915,7 @@ public class RestApiServlet extends HttpServlet {
     return asBinaryResult(buf).setContentType(JSON_TYPE).setCharacterEncoding(UTF_8);
   }
 
-  private static BinaryResult stackBase64(HttpServletResponse res, BinaryResult src)
+  private static BinaryResult stackBase64(HttpServletResponse res, final BinaryResult src)
       throws IOException {
     BinaryResult b64;
     long len = src.getContentLength();
@@ -1019,7 +946,7 @@ public class RestApiServlet extends HttpServlet {
     return b64.setContentType("text/plain").setCharacterEncoding(ISO_8859_1);
   }
 
-  private static BinaryResult stackGzip(HttpServletResponse res, BinaryResult src)
+  private static BinaryResult stackGzip(HttpServletResponse res, final BinaryResult src)
       throws IOException {
     BinaryResult gz;
     long len = src.getContentLength();
@@ -1142,6 +1069,7 @@ public class RestApiServlet extends HttpServlet {
     CurrentUser user = globals.currentUser.get();
     if (isRead(req)) {
       user.setAccessPath(AccessPath.REST_API);
+      user.setLastLoginExternalIdKey(globals.webSession.get().getLastLoginExternalId());
     } else if (user instanceof AnonymousUser) {
       throw new AuthException("Authentication required");
     } else if (!globals.webSession.get().isAccessPathOk(AccessPath.REST_API)) {
@@ -1149,29 +1077,15 @@ public class RestApiServlet extends HttpServlet {
           "Invalid authentication method. In order to authenticate, "
               + "prefix the REST endpoint URL with /a/ (e.g. http://example.com/a/projects/).");
     }
-    if (user.isIdentifiedUser()) {
-      user.setLastLoginExternalIdKey(globals.webSession.get().getLastLoginExternalId());
-    }
   }
 
   private static boolean isRead(HttpServletRequest req) {
     return "GET".equals(req.getMethod()) || "HEAD".equals(req.getMethod());
   }
 
-  private void checkRequiresCapability(ViewData d)
-      throws AuthException, PermissionBackendException {
-    try {
-      globals
-          .permissionBackend
-          .user(globals.currentUser)
-          .check(GlobalPermission.ADMINISTRATE_SERVER);
-    } catch (AuthException e) {
-      // Skiping
-      globals
-          .permissionBackend
-          .user(globals.currentUser)
-          .checkAny(GlobalPermission.fromAnnotation(d.pluginName, d.view.getClass()));
-    }
+  private void checkRequiresCapability(ViewData viewData) throws AuthException {
+    CapabilityUtils.checkRequiresCapability(
+        globals.currentUser, viewData.pluginName, viewData.view.getClass());
   }
 
   private static long handleException(
@@ -1282,7 +1196,7 @@ public class RestApiServlet extends HttpServlet {
   }
 
   @SuppressWarnings("resource")
-  private static BinaryResult asBinaryResult(TemporaryBuffer.Heap buf) {
+  private static BinaryResult asBinaryResult(final TemporaryBuffer.Heap buf) {
     return new BinaryResult() {
       @Override
       public void writeTo(OutputStream os) throws IOException {
@@ -1295,9 +1209,8 @@ public class RestApiServlet extends HttpServlet {
     return new TemporaryBuffer.Heap(est, max);
   }
 
+  @SuppressWarnings("serial")
   private static class AmbiguousViewException extends Exception {
-    private static final long serialVersionUID = 1L;
-
     AmbiguousViewException(String message) {
       super(message);
     }

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.query.QueryParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

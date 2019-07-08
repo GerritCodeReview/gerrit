@@ -14,23 +14,23 @@
 (function() {
   'use strict';
 
-  const DiffSides = {
+  var DiffSides = {
     LEFT: 'left',
     RIGHT: 'right',
   };
 
-  const DiffViewMode = {
+  var DiffViewMode = {
     SIDE_BY_SIDE: 'SIDE_BY_SIDE',
     UNIFIED: 'UNIFIED_DIFF',
   };
 
-  const ScrollBehavior = {
+  var ScrollBehavior = {
     KEEP_VISIBLE: 'keep-visible',
     NEVER: 'never',
   };
 
-  const LEFT_SIDE_CLASS = 'target-side-left';
-  const RIGHT_SIDE_CLASS = 'target-side-right';
+  var LEFT_SIDE_CLASS = 'target-side-left';
+  var RIGHT_SIDE_CLASS = 'target-side-right';
 
   Polymer({
     is: 'gr-diff-cursor',
@@ -43,7 +43,6 @@
         type: String,
         value: DiffSides.RIGHT,
       },
-      /** @type {!HTMLElement|undefined} */
       diffRow: {
         type: Object,
         notify: true,
@@ -55,15 +54,15 @@
        */
       diffs: {
         type: Array,
-        value() { return []; },
+        value: function() {
+          return [];
+        },
       },
 
       /**
        * If set, the cursor will attempt to move to the line number (instead of
        * the first chunk) the next time the diff renders. It is set back to null
        * when used.
-       *
-       * @type (?number)
        */
       initialLineNumber: {
         type: Number,
@@ -80,11 +79,6 @@
         value: ScrollBehavior.KEEP_VISIBLE,
       },
 
-      _focusOnMove: {
-        type: Boolean,
-        value: true,
-      },
-
       _listeningForScroll: Boolean,
     },
 
@@ -93,30 +87,30 @@
       '_diffsChanged(diffs.splices)',
     ],
 
-    attached() {
+    attached: function() {
       // Catch when users are scrolling as the view loads.
       this.listen(window, 'scroll', '_handleWindowScroll');
     },
 
-    detached() {
+    detached: function() {
       this.unlisten(window, 'scroll', '_handleWindowScroll');
     },
 
-    moveLeft() {
+    moveLeft: function() {
       this.side = DiffSides.LEFT;
       if (this._isTargetBlank()) {
         this.moveUp();
       }
     },
 
-    moveRight() {
+    moveRight: function() {
       this.side = DiffSides.RIGHT;
       if (this._isTargetBlank()) {
         this.moveUp();
       }
     },
 
-    moveDown() {
+    moveDown: function() {
       if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE) {
         this.$.cursorManager.next(this._rowHasSide.bind(this));
       } else {
@@ -124,7 +118,7 @@
       }
     },
 
-    moveUp() {
+    moveUp: function() {
       if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE) {
         this.$.cursorManager.previous(this._rowHasSide.bind(this));
       } else {
@@ -132,36 +126,31 @@
       }
     },
 
-    moveToNextChunk() {
+    moveToNextChunk: function() {
       this.$.cursorManager.next(this._isFirstRowOfChunk.bind(this),
-          target => {
+          function(target) {
             return target.parentNode.scrollHeight;
           });
       this._fixSide();
     },
 
-    moveToPreviousChunk() {
+    moveToPreviousChunk: function() {
       this.$.cursorManager.previous(this._isFirstRowOfChunk.bind(this));
       this._fixSide();
     },
 
-    moveToNextCommentThread() {
+    moveToNextCommentThread: function() {
       this.$.cursorManager.next(this._rowHasThread.bind(this));
       this._fixSide();
     },
 
-    moveToPreviousCommentThread() {
+    moveToPreviousCommentThread: function() {
       this.$.cursorManager.previous(this._rowHasThread.bind(this));
       this._fixSide();
     },
 
-    /**
-     * @param {number} number
-     * @param {string} side
-     * @param {string=} opt_path
-     */
-    moveToLineNumber(number, side, opt_path) {
-      const row = this._findRowByNumberAndFile(number, side, opt_path);
+    moveToLineNumber: function(number, side) {
+      var row = this._findRowByNumber(number, side);
       if (row) {
         this.side = side;
         this.$.cursorManager.setCursor(row);
@@ -170,10 +159,10 @@
 
     /**
      * Get the line number element targeted by the cursor row and side.
-     * @return {?Element|undefined}
+     * @return {DOMElement}
      */
-    getTargetLineElement() {
-      let lineElSelector = '.lineNum';
+    getTargetLineElement: function() {
+      var lineElSelector = '.lineNum';
 
       if (!this.diffRow) {
         return;
@@ -186,20 +175,20 @@
       return this.diffRow.querySelector(lineElSelector);
     },
 
-    getTargetDiffElement() {
+    getTargetDiffElement: function() {
       // Find the parent diff element of the cursor row.
-      for (let diff = this.diffRow; diff; diff = diff.parentElement) {
+      for (var diff = this.diffRow; diff; diff = diff.parentElement) {
         if (diff.tagName === 'GR-DIFF') { return diff; }
       }
       return null;
     },
 
-    moveToFirstChunk() {
+    moveToFirstChunk: function() {
       this.$.cursorManager.moveToStart();
       this.moveToNextChunk();
     },
 
-    reInitCursor() {
+    reInitCursor: function() {
       this._updateStops();
       if (this.initialLineNumber) {
         this.moveToLineNumber(this.initialLineNumber, this.side);
@@ -209,42 +198,39 @@
       }
     },
 
-    _handleWindowScroll() {
+    _handleWindowScroll: function() {
       if (this._listeningForScroll) {
         this._scrollBehavior = ScrollBehavior.NEVER;
-        this._focusOnMove = false;
         this._listeningForScroll = false;
       }
     },
 
-    handleDiffUpdate() {
+    handleDiffUpdate: function() {
       this._updateStops();
 
       if (!this.diffRow) {
         this.reInitCursor();
       }
       this._scrollBehavior = ScrollBehavior.KEEP_VISIBLE;
-      this._focusOnMove = true;
       this._listeningForScroll = false;
     },
 
-    _handleDiffRenderStart() {
+    _handleDiffRenderStart: function() {
       this._listeningForScroll = true;
     },
 
     /**
-     * Get an object describing the location of the cursor. Such as
-     * {leftSide: false, number: 123} for line 123 of the revision, or
-     * {leftSide: true, number: 321} for line 321 of the base patch.
-     * Returns null if an address is not available.
-     * @return {?Object}
+     * Get a short address for the location of the cursor. Such as '123' for
+     * line 123 of the revision, or 'b321' for line 321 of the base patch.
+     * Returns an empty string if an address is not available.
+     * @return {String}
      */
-    getAddress() {
-      if (!this.diffRow) { return null; }
+    getAddress: function() {
+      if (!this.diffRow) { return ''; }
 
       // Get the line-number cell targeted by the cursor. If the mode is unified
       // then prefer the revision cell if available.
-      let cell;
+      var cell;
       if (this._getViewMode() === DiffViewMode.UNIFIED) {
         cell = this.diffRow.querySelector('.lineNum.right');
         if (!cell) {
@@ -253,18 +239,15 @@
       } else {
         cell = this.diffRow.querySelector('.lineNum.' + this.side);
       }
-      if (!cell) { return null; }
+      if (!cell) { return ''; }
 
-      const number = cell.getAttribute('data-value');
-      if (!number || number === 'FILE') { return null; }
+      var number = cell.getAttribute('data-value');
+      if (!number || number === 'FILE') { return ''; }
 
-      return {
-        leftSide: cell.matches('.left'),
-        number: parseInt(number, 10),
-      };
+      return (cell.matches('.left') ? 'b' : '') + number;
     },
 
-    _getViewMode() {
+    _getViewMode: function() {
       if (!this.diffRow) {
         return null;
       }
@@ -276,20 +259,20 @@
       }
     },
 
-    _rowHasSide(row) {
-      const selector = (this.side === DiffSides.LEFT ? '.left' : '.right') +
+    _rowHasSide: function(row) {
+      var selector = (this.side === DiffSides.LEFT ? '.left' : '.right') +
           ' + .content';
       return !!row.querySelector(selector);
     },
 
-    _isFirstRowOfChunk(row) {
-      const parentClassList = row.parentNode.classList;
+    _isFirstRowOfChunk: function(row) {
+      var parentClassList = row.parentNode.classList;
       return parentClassList.contains('section') &&
           parentClassList.contains('delta') &&
           !row.previousSibling;
     },
 
-    _rowHasThread(row) {
+    _rowHasThread: function(row) {
       return row.querySelector('gr-diff-comment-thread');
     },
 
@@ -297,7 +280,7 @@
      * If we jumped to a row where there is no content on the current side then
      * switch to the alternate side.
      */
-    _fixSide() {
+    _fixSide: function() {
       if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE &&
           this._isTargetBlank()) {
         this.side = this.side === DiffSides.LEFT ?
@@ -305,24 +288,24 @@
       }
     },
 
-    _isTargetBlank() {
+    _isTargetBlank: function() {
       if (!this.diffRow) {
         return false;
       }
 
-      const actions = this._getActionsForRow();
+      var actions = this._getActionsForRow();
       return (this.side === DiffSides.LEFT && !actions.left) ||
           (this.side === DiffSides.RIGHT && !actions.right);
     },
 
-    _rowChanged(newRow, oldRow) {
+    _rowChanged: function(newRow, oldRow) {
       if (oldRow) {
         oldRow.classList.remove(LEFT_SIDE_CLASS, RIGHT_SIDE_CLASS);
       }
       this._updateSideClass();
     },
 
-    _updateSideClass() {
+    _updateSideClass: function() {
       if (!this.diffRow) {
         return;
       }
@@ -332,12 +315,12 @@
           this.diffRow);
     },
 
-    _isActionType(type) {
+    _isActionType: function(type) {
       return type !== 'blank' && type !== 'contextControl';
     },
 
-    _getActionsForRow() {
-      const actions = {left: false, right: false};
+    _getActionsForRow: function() {
+      var actions = {left: false, right: false};
       if (this.diffRow) {
         actions.left = this._isActionType(
             this.diffRow.getAttribute('left-type'));
@@ -347,14 +330,14 @@
       return actions;
     },
 
-    _getStops() {
+    _getStops: function() {
       return this.diffs.reduce(
-          (stops, diff) => {
+          function(stops, diff) {
             return stops.concat(diff.getCursorStops());
           }, []);
     },
 
-    _updateStops() {
+    _updateStops: function() {
       this.$.cursorManager.stops = this._getStops();
     },
 
@@ -363,14 +346,14 @@
      * removed from the cursor.
      * @private
      */
-    _diffsChanged(changeRecord) {
+    _diffsChanged: function(changeRecord) {
       if (!changeRecord) { return; }
 
       this._updateStops();
 
-      let splice;
-      let i;
-      for (let spliceIdx = 0;
+      var splice;
+      var i;
+      for (var spliceIdx = 0;
         changeRecord.indexSplices &&
             spliceIdx < changeRecord.indexSplices.length;
         spliceIdx++) {
@@ -388,22 +371,15 @@
             i++) {
           this.unlisten(splice.removed[i],
               'render-start', '_handleDiffRenderStart');
-          this.unlisten(splice.removed[i],
-              'render-content', 'handleDiffUpdate');
+          this.unlisten(splice.removed[i], 'render', 'handleDiffUpdate');
         }
       }
     },
 
-    _findRowByNumberAndFile(targetNumber, side, opt_path) {
-      let stops;
-      if (opt_path) {
-        const diff = this.diffs.filter(diff => diff.path === opt_path)[0];
-        stops = diff.getCursorStops();
-      } else {
-        stops = this.$.cursorManager.stops;
-      }
-      let selector;
-      for (let i = 0; i < stops.length; i++) {
+    _findRowByNumber: function(targetNumber, side) {
+      var stops = this.$.cursorManager.stops;
+      var selector;
+      for (var i = 0; i < stops.length; i++) {
         selector = '.lineNum.' + side + '[data-value="' + targetNumber + '"]';
         if (stops[i].querySelector(selector)) {
           return stops[i];

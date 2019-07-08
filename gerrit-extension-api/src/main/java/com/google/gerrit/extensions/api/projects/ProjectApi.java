@@ -16,9 +16,6 @@ package com.google.gerrit.extensions.api.projects;
 
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
-import com.google.gerrit.extensions.api.config.AccessCheckInfo;
-import com.google.gerrit.extensions.api.config.AccessCheckInput;
-import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -38,10 +35,6 @@ public interface ProjectApi {
   ProjectAccessInfo access() throws RestApiException;
 
   ProjectAccessInfo access(ProjectAccessInput p) throws RestApiException;
-
-  ChangeInfo accessChange(ProjectAccessInput p) throws RestApiException;
-
-  AccessCheckInfo checkAccess(AccessCheckInput in) throws RestApiException;
 
   ConfigInfo config() throws RestApiException;
 
@@ -132,55 +125,6 @@ public interface ProjectApi {
   TagApi tag(String ref) throws RestApiException;
 
   /**
-   * Lookup a commit by its {@code ObjectId} string.
-   *
-   * @param commit the {@code ObjectId} string.
-   * @return API for accessing the commit.
-   */
-  CommitApi commit(String commit) throws RestApiException;
-
-  /**
-   * Lookup a dashboard by its name.
-   *
-   * @param name the name.
-   * @return API for accessing the dashboard.
-   */
-  DashboardApi dashboard(String name) throws RestApiException;
-
-  /**
-   * Get the project's default dashboard.
-   *
-   * @return API for accessing the dashboard.
-   */
-  DashboardApi defaultDashboard() throws RestApiException;
-
-  /**
-   * Set the project's default dashboard.
-   *
-   * @param name the dashboard to set as default.
-   */
-  void defaultDashboard(String name) throws RestApiException;
-
-  /** Remove the project's default dashboard. */
-  void removeDefaultDashboard() throws RestApiException;
-
-  abstract class ListDashboardsRequest {
-    public abstract List<DashboardInfo> get() throws RestApiException;
-  }
-
-  ListDashboardsRequest dashboards() throws RestApiException;
-
-  /** Get the name of the branch to which {@code HEAD} points. */
-  String head() throws RestApiException;
-
-  /**
-   * Set the project's {@code HEAD}.
-   *
-   * @param head the HEAD
-   */
-  void head(String head) throws RestApiException;
-
-  /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
    */
@@ -211,27 +155,17 @@ public interface ProjectApi {
     }
 
     @Override
-    public ProjectAccessInfo access(ProjectAccessInput p) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public ChangeInfo accessChange(ProjectAccessInput input) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public AccessCheckInfo checkAccess(AccessCheckInput in) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
     public ConfigInfo config() throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
     public ConfigInfo config(ConfigInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ProjectAccessInfo access(ProjectAccessInput p) throws RestApiException {
       throw new NotImplementedException();
     }
 
@@ -282,46 +216,6 @@ public interface ProjectApi {
 
     @Override
     public void deleteTags(DeleteTagsInput in) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public CommitApi commit(String commit) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public DashboardApi dashboard(String name) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public DashboardApi defaultDashboard() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public ListDashboardsRequest dashboards() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void defaultDashboard(String name) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void removeDefaultDashboard() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public String head() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void head(String head) throws RestApiException {
       throw new NotImplementedException();
     }
   }

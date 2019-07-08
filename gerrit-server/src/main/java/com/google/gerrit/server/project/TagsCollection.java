@@ -58,6 +58,7 @@ public class TagsCollection
     return views;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public CreateTag create(ProjectResource resource, IdString name) {
     return createTagFactory.create(name.get());

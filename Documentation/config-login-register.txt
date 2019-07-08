@@ -1,6 +1,6 @@
 [[usersetup]]
 == Initial Login
-It's time to exit the gerrit account as you now have Gerrit running on your
+It's time to exit the gerrit2 account as you now have Gerrit running on your
 host and setup your first workspace.
 
 Start a shell with the credentials of the account you will perform
@@ -57,9 +57,9 @@ Open a browser and enter the canonical url of your Gerrit server.  You can
 find the url in the settings file.
 
 ----
-  gerrit@host:~$ git config -f ~/gerrit_testsite/etc/gerrit.config gerrit.canonicalWebUrl
+  gerrit2@host:~$ git config -f ~/gerrit_testsite/etc/gerrit.config gerrit.canonicalWebUrl
   http://localhost:8080/
-  gerrit@host:~$
+  gerrit2@host:~$
 ----
 
 Register a new account in Gerrit through the web interface with the
@@ -70,9 +70,9 @@ proxy, and you are using an external OpenID provider, you will need to add the
 proxy settings in the configuration file.
 
 ----
-  gerrit@host:~$ git config -f ~/gerrit_testsite/etc/gerrit.config --add http.proxy http://proxy:8080
-  gerrit@host:~$ git config -f ~/gerrit_testsite/etc/gerrit.config --add http.proxyUsername username
-  gerrit@host:~$ git config -f ~/gerrit_testsite/etc/gerrit.config --add http.proxyPassword password
+  gerrit2@host:~$ git config -f ~/gerrit_testsite/etc/gerrit.config --add http.proxy http://proxy:8080
+  gerrit2@host:~$ git config -f ~/gerrit_testsite/etc/gerrit.config --add http.proxyUsername username
+  gerrit2@host:~$ git config -f ~/gerrit_testsite/etc/gerrit.config --add http.proxyPassword password
 ----
 
 Refer to the Gerrit configuration guide for more detailed information about

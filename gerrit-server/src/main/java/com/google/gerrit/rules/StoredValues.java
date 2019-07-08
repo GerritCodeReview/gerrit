@@ -26,9 +26,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.Accounts;
-import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -36,8 +33,7 @@ import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.googlecode.prolog_cafe.exceptions.SystemException;
@@ -49,13 +45,15 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
 public final class StoredValues {
-  public static final StoredValue<Accounts> ACCOUNTS = create(Accounts.class);
-  public static final StoredValue<AccountCache> ACCOUNT_CACHE = create(AccountCache.class);
-  public static final StoredValue<Emails> EMAILS = create(Emails.class);
   public static final StoredValue<ReviewDb> REVIEW_DB = create(ReviewDb.class);
   public static final StoredValue<ChangeData> CHANGE_DATA = create(ChangeData.class);
+
+  // Note: no guarantees are made about the user passed in the ChangeControl; do
+  // not depend on this directly. Either use .forUser(otherUser) to get a
+  // control for a specific known user, or use CURRENT_USER, which may be null
+  // for rule types that may not depend on the current user.
+  public static final StoredValue<ChangeControl> CHANGE_CONTROL = create(ChangeControl.class);
   public static final StoredValue<CurrentUser> CURRENT_USER = create(CurrentUser.class);
-  public static final StoredValue<ProjectState> PROJECT_STATE = create(ProjectState.class);
 
   public static Change getChange(Prolog engine) throws SystemException {
     ChangeData cd = CHANGE_DATA.get(engine);
@@ -121,23 +119,20 @@ public final class StoredValues {
           GitRepositoryManager gitMgr = env.getArgs().getGitRepositoryManager();
           Change change = getChange(engine);
           Project.NameKey projectKey = change.getProject();
-          Repository repo;
+          final Repository repo;
           try {
             repo = gitMgr.openRepository(projectKey);
           } catch (IOException e) {
             throw new SystemException(e.getMessage());
           }
-          env.addToCleanup(repo::close);
+          env.addToCleanup(
+              new Runnable() {
+                @Override
+                public void run() {
+                  repo.close();
+                }
+              });
           return repo;
-        }
-      };
-
-  public static final StoredValue<PermissionBackend> PERMISSION_BACKEND =
-      new StoredValue<PermissionBackend>() {
-        @Override
-        protected PermissionBackend createValue(Prolog engine) {
-          PrologEnvironment env = (PrologEnvironment) engine.control;
-          return env.getArgs().getPermissionBackend();
         }
       };
 

@@ -15,7 +15,6 @@
 package com.google.gerrit.reviewdb.client;
 
 import java.sql.Timestamp;
-import java.util.Comparator;
 import java.util.Objects;
 
 /**
@@ -131,13 +130,7 @@ public class Comment {
     }
   }
 
-  public static class Range implements Comparable<Range> {
-    private static final Comparator<Range> RANGE_COMPARATOR =
-        Comparator.<Range>comparingInt(range -> range.startLine)
-            .thenComparingInt(range -> range.startChar)
-            .thenComparingInt(range -> range.endLine)
-            .thenComparingInt(range -> range.endChar);
-
+  public static class Range {
     public int startLine; // 1-based, inclusive
     public int startChar; // 0-based, inclusive
     public int endLine; // 1-based, exclusive
@@ -192,11 +185,6 @@ public class Comment {
           .append(endChar)
           .append('}')
           .toString();
-    }
-
-    @Override
-    public int compareTo(Range otherRange) {
-      return RANGE_COMPARATOR.compare(this, otherRange);
     }
   }
 

@@ -3,15 +3,14 @@ load(
     "//tools/bzl:gwt.bzl",
     "GWT_COMPILER_ARGS",
     "GWT_JVM_ARGS",
+    "GWT_PLUGIN_DEPS",
     "GWT_PLUGIN_DEPS_NEVERLINK",
     "GWT_TRANSITIVE_DEPS",
+    "PLUGIN_DEPS_NEVERLINK",
     "gwt_binary",
-    _gwt_plugin_deps = "GWT_PLUGIN_DEPS",
 )
 
-GWT_PLUGIN_DEPS = _gwt_plugin_deps
 PLUGIN_DEPS = ["//gerrit-plugin-api:lib"]
-PLUGIN_DEPS_NEVERLINK = ["//gerrit-plugin-api:lib-neverlink"]
 
 PLUGIN_TEST_DEPS = [
     "//gerrit-acceptance-framework:lib",
@@ -28,7 +27,6 @@ def gerrit_plugin(
         gwt_module = [],
         resources = [],
         manifest_entries = [],
-        dir_name = None,
         target_suffix = "",
         **kwargs):
     native.java_library(
@@ -43,9 +41,6 @@ def gerrit_plugin(
     static_jars = []
     if gwt_module:
         static_jars = [":%s-static" % name]
-
-    if not dir_name:
-        dir_name = name
 
     native.java_binary(
         name = "%s__non_stamped" % name,
@@ -93,7 +88,7 @@ def gerrit_plugin(
         stamp = 1,
         srcs = ["%s__non_stamped_deploy.jar" % name],
         cmd = " && ".join([
-            "GEN_VERSION=$$(cat bazel-out/stable-status.txt | grep -w STABLE_BUILD_%s_LABEL | cut -d ' ' -f 2)" % dir_name.upper(),
+            "GEN_VERSION=$$(cat bazel-out/stable-status.txt | grep -w STABLE_BUILD_%s_LABEL | cut -d ' ' -f 2)" % name.upper(),
             "cd $$TMP",
             "unzip -q $$ROOT/$<",
             "echo \"Implementation-Version: $$GEN_VERSION\n$$(cat META-INF/MANIFEST.MF)\" > META-INF/MANIFEST.MF",

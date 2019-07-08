@@ -19,14 +19,11 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.group.InternalGroup;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -43,19 +40,21 @@ public class IncludingGroupMembership implements GroupMembership {
     IncludingGroupMembership create(IdentifiedUser user);
   }
 
-  private final GroupCache groupCache;
   private final GroupIncludeCache includeCache;
   private final IdentifiedUser user;
   private final Map<AccountGroup.UUID, Boolean> memberOf;
   private Set<AccountGroup.UUID> knownGroups;
 
   @Inject
-  IncludingGroupMembership(
-      GroupCache groupCache, GroupIncludeCache includeCache, @Assisted IdentifiedUser user) {
-    this.groupCache = groupCache;
+  IncludingGroupMembership(GroupIncludeCache includeCache, @Assisted IdentifiedUser user) {
     this.includeCache = includeCache;
     this.user = user;
-    memberOf = new ConcurrentHashMap<>();
+
+    Set<AccountGroup.UUID> groups = user.state().getInternalGroups();
+    memberOf = new ConcurrentHashMap<>(groups.size());
+    for (AccountGroup.UUID g : groups) {
+      memberOf.put(g, true);
+    }
   }
 
   @Override
@@ -89,15 +88,7 @@ public class IncludingGroupMembership implements GroupMembership {
         }
 
         memberOf.put(id, false);
-        Optional<InternalGroup> group = groupCache.get(id);
-        if (!group.isPresent()) {
-          continue;
-        }
-        if (group.get().getMembers().contains(user.getAccountId())) {
-          memberOf.put(id, true);
-          return true;
-        }
-        if (search(group.get().getSubgroups())) {
+        if (search(includeCache.subgroupsOf(id))) {
           memberOf.put(id, true);
           return true;
         }
@@ -124,8 +115,7 @@ public class IncludingGroupMembership implements GroupMembership {
 
   private ImmutableSet<AccountGroup.UUID> computeKnownGroups() {
     GroupMembership membership = user.getEffectiveGroups();
-    Collection<AccountGroup.UUID> direct = includeCache.getGroupsWithMember(user.getAccountId());
-    direct.forEach(groupUuid -> memberOf.put(groupUuid, true));
+    Set<AccountGroup.UUID> direct = user.state().getInternalGroups();
     Set<AccountGroup.UUID> r = Sets.newHashSet(direct);
     r.remove(null);
 

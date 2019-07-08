@@ -15,12 +15,9 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.sshd.AdminHighPriorityCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -32,8 +29,8 @@ import org.kohsuke.args4j.Option;
 @RequiresCapability(GlobalCapability.ACCESS_DATABASE)
 @CommandMetaData(name = "gsql", description = "Administrative interface to active database")
 final class AdminQueryShell extends SshCommand {
-  @Inject private PermissionBackend permissionBackend;
   @Inject private QueryShell.Factory factory;
+
   @Inject private IdentifiedUser currentUser;
 
   @Option(name = "--format", usage = "Set output format")
@@ -45,11 +42,9 @@ final class AdminQueryShell extends SshCommand {
   @Override
   protected void run() throws Failure {
     try {
-      permissionBackend.user(currentUser).check(GlobalPermission.ACCESS_DATABASE);
-    } catch (AuthException err) {
+      checkPermission();
+    } catch (PermissionDeniedException err) {
       throw die(err.getMessage());
-    } catch (PermissionBackendException e) {
-      throw new Failure(1, "unavailable", e);
     }
 
     QueryShell shell = factory.create(in, out);
@@ -58,6 +53,24 @@ final class AdminQueryShell extends SshCommand {
       shell.execute(query);
     } else {
       shell.run();
+    }
+  }
+
+  /**
+   * Assert that the current user is permitted to perform raw queries.
+   *
+   * <p>As the @RequireCapability guards at various entry points of internal commands implicitly add
+   * administrators (which we want to avoid), we also check permissions within QueryShell and grant
+   * access only to those who can access the database, regardless of whether they are administrators
+   * or not.
+   *
+   * @throws PermissionDeniedException
+   */
+  private void checkPermission() throws PermissionDeniedException {
+    if (!currentUser.getCapabilities().canAccessDatabase()) {
+      throw new PermissionDeniedException(
+          String.format(
+              "%s does not have \"Access Database\" capability.", currentUser.getUserName()));
     }
   }
 }

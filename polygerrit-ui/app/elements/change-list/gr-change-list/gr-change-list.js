@@ -14,7 +14,7 @@
 (function() {
   'use strict';
 
-  const NUMBER_FIXED_COLUMNS = 3;
+  var NUMBER_FIXED_COLUMNS = 3;
 
   Polymer({
     is: 'gr-change-list',
@@ -42,7 +42,7 @@
        */
       account: {
         type: Object,
-        value() { return {}; },
+        value: function() { return {}; },
       },
       /**
        * An array of ChangeInfo objects to render.
@@ -53,22 +53,20 @@
         observer: '_changesChanged',
       },
       /**
-       * ChangeInfo objects grouped into arrays. The sections and changes
+       * ChangeInfo objects grouped into arrays. The groups and changes
        * properties should not be used together.
-       *
-       * @type {!Array<{
-       *   sectionName: string,
-       *   query: string,
-       *   results: !Array<!Object>
-       * }>}
        */
-      sections: {
+      groups: {
         type: Array,
-        value() { return []; },
+        value: function() { return []; },
+      },
+      groupTitles: {
+        type: Array,
+        value: function() { return []; },
       },
       labelNames: {
         type: Array,
-        computed: '_computeLabelNames(sections)',
+        computed: '_computeLabelNames(groups)',
       },
       selectedIndex: {
         type: Number,
@@ -85,58 +83,34 @@
       },
       keyEventTarget: {
         type: Object,
-        value() { return document.body; },
+        value: function() { return document.body; },
       },
-      changeTableColumns: Array,
-      visibleChangeTableColumns: Array,
     },
 
     behaviors: [
-      Gerrit.BaseUrlBehavior,
       Gerrit.ChangeTableBehavior,
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.RESTClientBehavior,
-      Gerrit.URLEncodingBehavior,
     ],
 
     keyBindings: {
       'j': '_handleJKey',
       'k': '_handleKKey',
       'n ]': '_handleNKey',
-      'o': '_handleOKey',
+      'o enter': '_handleEnterKey',
       'p [': '_handlePKey',
-      'shift+r': '_handleRKey',
-      's': '_handleSKey',
     },
 
-    listeners: {
-      keydown: '_scopedKeydownHandler',
-    },
-
-    /**
-     * Iron-a11y-keys-behavior catches keyboard events globally. Some keyboard
-     * events must be scoped to a component level (e.g. `enter`) in order to not
-     * override native browser functionality.
-     *
-     * Context: Issue 7294
-     */
-    _scopedKeydownHandler(e) {
-      if (e.keyCode === 13) {
-        // Enter.
-        this._handleOKey(e);
-      }
-    },
-
-    attached() {
+    attached: function() {
       this._loadPreferences();
     },
 
-    _lowerCase(column) {
+    _lowerCase: function(column) {
       return column.toLowerCase();
     },
 
-    _loadPreferences() {
-      return this._getLoggedIn().then(loggedIn => {
+    _loadPreferences: function() {
+      return this._getLoggedIn().then(function(loggedIn) {
         this.changeTableColumns = this.columnNames;
 
         if (!loggedIn) {
@@ -144,103 +118,99 @@
           this.visibleChangeTableColumns = this.columnNames;
           return;
         }
-        return this._getPreferences().then(preferences => {
+        return this._getPreferences().then(function(preferences) {
           this.showNumber = !!(preferences &&
               preferences.legacycid_in_change_table);
           this.visibleChangeTableColumns = preferences.change_table.length > 0 ?
               preferences.change_table : this.columnNames;
-        });
-      });
+        }.bind(this));
+      }.bind(this));
     },
 
-    _getLoggedIn() {
+    _getLoggedIn: function() {
       return this.$.restAPI.getLoggedIn();
     },
 
-    _getPreferences() {
+    _getPreferences: function() {
       return this.$.restAPI.getPreferences();
     },
 
-    _computeColspan(changeTableColumns, labelNames) {
+    _computeColspan: function(changeTableColumns, labelNames) {
       return changeTableColumns.length + labelNames.length +
           NUMBER_FIXED_COLUMNS;
     },
 
-    _computeLabelNames(sections) {
-      if (!sections) { return []; }
-      let labels = [];
-      const nonExistingLabel = function(item) {
-        return !labels.includes(item);
+    _computeLabelNames: function(groups) {
+      if (!groups) { return []; }
+      var labels = [];
+      var nonExistingLabel = function(item) {
+        return labels.indexOf(item) < 0;
       };
-      for (const section of sections) {
-        if (!section.results) { continue; }
-        for (const change of section.results) {
+      for (var i = 0; i < groups.length; i++) {
+        var group = groups[i];
+        for (var j = 0; j < group.length; j++) {
+          var change = group[j];
           if (!change.labels) { continue; }
-          const currentLabels = Object.keys(change.labels);
+          var currentLabels = Object.keys(change.labels);
           labels = labels.concat(currentLabels.filter(nonExistingLabel));
         }
       }
       return labels.sort();
     },
 
-    _computeLabelShortcut(labelName) {
-      return labelName.split('-').reduce((a, i) => {
-        return a + i[0].toUpperCase();
-      }, '');
+    _computeLabelShortcut: function(labelName) {
+      return labelName.replace(/[a-z-]/g, '');
     },
 
-    _changesChanged(changes) {
-      this.sections = changes ? [{results: changes}] : [];
+    _changesChanged: function(changes) {
+      this.groups = changes ? [changes] : [];
     },
 
-    _sectionHref(query) {
-      return `${this.getBaseUrl()}/q/${this.encodeURL(query, true)}`;
+    _groupTitle: function(groupIndex) {
+      if (groupIndex > this.groupTitles.length - 1) { return null; }
+      return this.groupTitles[groupIndex];
     },
 
-    /**
-     * Maps an index local to a particular section to the absolute index
-     * across all the changes on the page.
-     *
-     * @param sectionIndex {number} index of section
-     * @param localIndex {number} index of row within section
-     * @return {number} absolute index of row in the aggregate dashboard
-     */
-    _computeItemAbsoluteIndex(sectionIndex, localIndex) {
-      let idx = 0;
-      for (let i = 0; i < sectionIndex; i++) {
-        idx += this.sections[i].results.length;
+    _computeItemSelected: function(index, groupIndex, selectedIndex) {
+      var idx = 0;
+      for (var i = 0; i < groupIndex; i++) {
+        idx += this.groups[i].length;
       }
-      return idx + localIndex;
-    },
-
-    _computeItemSelected(sectionIndex, index, selectedIndex) {
-      const idx = this._computeItemAbsoluteIndex(sectionIndex, index);
+      idx += index;
       return idx == selectedIndex;
     },
 
-    _computeItemNeedsReview(account, change, showReviewedState) {
+    _computeItemNeedsReview: function(account, change, showReviewedState) {
       return showReviewedState && !change.reviewed &&
           this.changeIsOpen(change.status) &&
           account._account_id != change.owner._account_id;
     },
 
-    _computeItemAssigned(account, change) {
+    _computeItemAssigned: function(account, change) {
       if (!change.assignee) { return false; }
       return account._account_id === change.assignee._account_id;
     },
 
-    _handleJKey(e) {
+    _getAggregateGroupsLen: function(groups) {
+      groups = groups || [];
+      var len = 0;
+      this.groups.forEach(function(group) {
+        len += group.length;
+      });
+      return len;
+    },
+
+    _handleJKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
       e.preventDefault();
-      // Compute absolute index of item that would come after final item.
-      const len = this._computeItemAbsoluteIndex(this.sections.length, 0);
+      var len = this._getAggregateGroupsLen(this.groups);
       if (this.selectedIndex === len - 1) { return; }
       this.selectedIndex += 1;
     },
 
-    _handleKKey(e) {
+    _handleKKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
@@ -249,75 +219,37 @@
       this.selectedIndex -= 1;
     },
 
-    _handleOKey(e) {
+    _handleEnterKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
       e.preventDefault();
-      Gerrit.Nav.navigateToChange(this._changeForIndex(this.selectedIndex));
+      page.show(this._changeURLForIndex(this.selectedIndex));
     },
 
-    _handleNKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e) && !this.isModifierPressed(e, 'shiftKey')) {
-        return;
-      }
+    _handleNKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       e.preventDefault();
       this.fire('next-page');
     },
 
-    _handlePKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e) && !this.isModifierPressed(e, 'shiftKey')) {
-        return;
-      }
+    _handlePKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       e.preventDefault();
       this.fire('previous-page');
     },
 
-    _handleRKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-
-      e.preventDefault();
-      this._reloadWindow();
-    },
-
-    _reloadWindow() {
-      window.location.reload();
-    },
-
-    _handleSKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e)) { return; }
-
-      e.preventDefault();
-      this._toggleStarForIndex(this.selectedIndex);
-    },
-
-    _toggleStarForIndex(index) {
-      const changeEls = this._getListItems();
-      if (index >= changeEls.length || !changeEls[index]) {
-        return;
-      }
-
-      const changeEl = changeEls[index];
-      const change = changeEl.change;
-      const newVal = !change.starred;
-      changeEl.set('change.starred', newVal);
-      this.$.restAPI.saveChangeStarred(change._number, newVal);
-    },
-
-    _changeForIndex(index) {
-      const changeEls = this._getListItems();
+    _changeURLForIndex: function(index) {
+      var changeEls = this._getListItems();
       if (index < changeEls.length && changeEls[index]) {
-        return changeEls[index].change;
+        return changeEls[index].changeURL;
       }
-      return null;
+      return '';
     },
 
-    _getListItems() {
+    _getListItems: function() {
       return Polymer.dom(this.root).querySelectorAll('gr-change-list-item');
     },
   });

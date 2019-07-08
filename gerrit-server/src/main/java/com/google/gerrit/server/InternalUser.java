@@ -14,7 +14,10 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
+import com.google.inject.Inject;
 
 /**
  * User identity for plugin code that needs an identity.
@@ -28,6 +31,12 @@ import com.google.gerrit.server.account.GroupMembership;
 public class InternalUser extends CurrentUser {
   public interface Factory {
     InternalUser create();
+  }
+
+  @VisibleForTesting
+  @Inject
+  public InternalUser(CapabilityControl.Factory capabilityControlFactory) {
+    super(capabilityControlFactory);
   }
 
   @Override

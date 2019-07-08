@@ -22,7 +22,7 @@ final class CommandProvider {
   private final Provider<Command> provider;
   private final String description;
 
-  CommandProvider(Provider<Command> p, String d) {
+  CommandProvider(final Provider<Command> p, final String d) {
     this.provider = p;
     this.description = d;
   }

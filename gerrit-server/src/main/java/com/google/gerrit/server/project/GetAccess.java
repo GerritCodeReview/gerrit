@@ -14,13 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-import static com.google.gerrit.server.permissions.GlobalPermission.ADMINISTRATE_SERVER;
-import static com.google.gerrit.server.permissions.ProjectPermission.CREATE_REF;
-import static com.google.gerrit.server.permissions.ProjectPermission.CREATE_TAG_REF;
-import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
-import static com.google.gerrit.server.permissions.RefPermission.READ;
-import static java.util.stream.Collectors.toMap;
-
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.AccessSection;
@@ -32,8 +25,6 @@ import com.google.gerrit.extensions.api.access.AccessSectionInfo;
 import com.google.gerrit.extensions.api.access.PermissionInfo;
 import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
-import com.google.gerrit.extensions.common.GroupInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -46,12 +37,6 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.group.GroupJson;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -61,15 +46,9 @@ import java.util.HashSet;
 import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class GetAccess implements RestReadView<ProjectResource> {
-  private static final Logger LOG = LoggerFactory.getLogger(GetAccess.class);
-
-  /** Marker value used in {@code Map<?, GroupInfo>} for groups not visible to current user. */
-  private static final GroupInfo INVISIBLE_SENTINEL = new GroupInfo();
 
   public static final ImmutableBiMap<PermissionRule.Action, PermissionRuleInfo.Action> ACTION_TYPE =
       ImmutableBiMap.of(
@@ -84,8 +63,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
           PermissionRule.Action.INTERACTIVE,
           PermissionRuleInfo.Action.INTERACTIVE);
 
-  private final Provider<CurrentUser> user;
-  private final PermissionBackend permissionBackend;
+  private final Provider<CurrentUser> self;
   private final GroupControl.Factory groupControlFactory;
   private final AllProjectsName allProjectsName;
   private final ProjectJson projectJson;
@@ -93,22 +71,18 @@ public class GetAccess implements RestReadView<ProjectResource> {
   private final MetaDataUpdate.Server metaDataUpdateFactory;
   private final ProjectControl.GenericFactory projectControlFactory;
   private final GroupBackend groupBackend;
-  private final GroupJson groupJson;
 
   @Inject
   public GetAccess(
       Provider<CurrentUser> self,
-      PermissionBackend permissionBackend,
       GroupControl.Factory groupControlFactory,
       AllProjectsName allProjectsName,
       ProjectCache projectCache,
       MetaDataUpdate.Server metaDataUpdateFactory,
       ProjectJson projectJson,
       ProjectControl.GenericFactory projectControlFactory,
-      GroupBackend groupBackend,
-      GroupJson groupJson) {
-    this.user = self;
-    this.permissionBackend = permissionBackend;
+      GroupBackend groupBackend) {
+    this.self = self;
     this.groupControlFactory = groupControlFactory;
     this.allProjectsName = allProjectsName;
     this.projectJson = projectJson;
@@ -116,14 +90,12 @@ public class GetAccess implements RestReadView<ProjectResource> {
     this.projectControlFactory = projectControlFactory;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.groupBackend = groupBackend;
-    this.groupJson = groupJson;
   }
 
   public ProjectAccessInfo apply(Project.NameKey nameKey)
-      throws ResourceNotFoundException, ResourceConflictException, IOException,
-          PermissionBackendException, OrmException {
+      throws ResourceNotFoundException, ResourceConflictException, IOException {
     try {
-      return apply(new ProjectResource(projectControlFactory.controlFor(nameKey, user.get())));
+      return this.apply(new ProjectResource(projectControlFactory.controlFor(nameKey, self.get())));
     } catch (NoSuchProjectException e) {
       throw new ResourceNotFoundException(nameKey.get());
     }
@@ -131,18 +103,16 @@ public class GetAccess implements RestReadView<ProjectResource> {
 
   @Override
   public ProjectAccessInfo apply(ProjectResource rsrc)
-      throws ResourceNotFoundException, ResourceConflictException, IOException,
-          PermissionBackendException, OrmException {
+      throws ResourceNotFoundException, ResourceConflictException, IOException {
     // Load the current configuration from the repository, ensuring it's the most
     // recent version available. If it differs from what was in the project
     // state, force a cache flush now.
-
+    //
     Project.NameKey projectName = rsrc.getNameKey();
     ProjectAccessInfo info = new ProjectAccessInfo();
-    ProjectControl pc = createProjectControl(projectName);
-    PermissionBackend.ForProject perm = permissionBackend.user(user).project(projectName);
-
     ProjectConfig config;
+    ProjectControl pc = open(projectName);
+    RefControl metaConfigControl = pc.controlForRef(RefNames.REFS_CONFIG);
     try (MetaDataUpdate md = metaDataUpdateFactory.create(projectName)) {
       config = ProjectConfig.read(md);
 
@@ -150,13 +120,11 @@ public class GetAccess implements RestReadView<ProjectResource> {
         md.setMessage("Update group names\n");
         config.commit(md);
         projectCache.evict(config.getProject());
-        pc = createProjectControl(projectName);
-        perm = permissionBackend.user(user).project(projectName);
+        pc = open(projectName);
       } else if (config.getRevision() != null
           && !config.getRevision().equals(pc.getProjectState().getConfig().getRevision())) {
         projectCache.evict(config.getProject());
-        pc = createProjectControl(projectName);
-        perm = permissionBackend.user(user).project(projectName);
+        pc = open(projectName);
       }
     } catch (ConfigInvalidException e) {
       throw new ResourceConflictException(e.getMessage());
@@ -166,29 +134,29 @@ public class GetAccess implements RestReadView<ProjectResource> {
 
     info.local = new HashMap<>();
     info.ownerOf = new HashSet<>();
-    Map<AccountGroup.UUID, GroupInfo> visibleGroups = new HashMap<>();
-    boolean checkReadConfig = check(perm, RefNames.REFS_CONFIG, READ);
+    Map<AccountGroup.UUID, Boolean> visibleGroups = new HashMap<>();
 
     for (AccessSection section : config.getAccessSections()) {
       String name = section.getName();
       if (AccessSection.GLOBAL_CAPABILITIES.equals(name)) {
         if (pc.isOwner()) {
-          info.local.put(name, createAccessSection(visibleGroups, section));
+          info.local.put(name, createAccessSection(section));
           info.ownerOf.add(name);
 
-        } else if (checkReadConfig) {
-          info.local.put(section.getName(), createAccessSection(visibleGroups, section));
+        } else if (metaConfigControl.isVisible()) {
+          info.local.put(section.getName(), createAccessSection(section));
         }
 
       } else if (RefConfigSection.isValid(name)) {
-        if (pc.controlForRef(name).isOwner()) {
-          info.local.put(name, createAccessSection(visibleGroups, section));
+        RefControl rc = pc.controlForRef(name);
+        if (rc.isOwner()) {
+          info.local.put(name, createAccessSection(section));
           info.ownerOf.add(name);
 
-        } else if (checkReadConfig) {
-          info.local.put(name, createAccessSection(visibleGroups, section));
+        } else if (metaConfigControl.isVisible()) {
+          info.local.put(name, createAccessSection(section));
 
-        } else if (check(perm, name, READ)) {
+        } else if (rc.isVisible()) {
           // Filter the section to only add rules describing groups that
           // are visible to the current-user. This includes any group the
           // user is a member of, as well as groups they own or that
@@ -199,18 +167,26 @@ public class GetAccess implements RestReadView<ProjectResource> {
             Permission dstPerm = null;
 
             for (PermissionRule srcRule : srcPerm.getRules()) {
-              AccountGroup.UUID groupId = srcRule.getGroup().getUUID();
-              if (groupId == null) {
+              AccountGroup.UUID group = srcRule.getGroup().getUUID();
+              if (group == null) {
                 continue;
               }
 
-              GroupInfo group = loadGroup(visibleGroups, groupId);
+              Boolean canSeeGroup = visibleGroups.get(group);
+              if (canSeeGroup == null) {
+                try {
+                  canSeeGroup = groupControlFactory.controlFor(group).isVisible();
+                } catch (NoSuchGroupException e) {
+                  canSeeGroup = Boolean.FALSE;
+                }
+                visibleGroups.put(group, canSeeGroup);
+              }
 
-              if (group != INVISIBLE_SENTINEL) {
+              if (canSeeGroup) {
                 if (dstPerm == null) {
                   if (dst == null) {
                     dst = new AccessSection(name);
-                    info.local.put(name, createAccessSection(visibleGroups, dst));
+                    info.local.put(name, createAccessSection(dst));
                   }
                   dstPerm = dst.getPermission(srcPerm.getName(), true);
                 }
@@ -222,10 +198,10 @@ public class GetAccess implements RestReadView<ProjectResource> {
       }
     }
 
-    if (info.ownerOf.isEmpty()
-        && permissionBackend.user(user).test(GlobalPermission.ADMINISTRATE_SERVER)) {
+    if (info.ownerOf.isEmpty() && pc.isOwnerAnyRef()) {
       // Special case: If the section list is empty, this project has no current
-      // access control information. Fall back to site administrators.
+      // access control information. Rely on what ProjectControl determines
+      // is ownership, which probably means falling back to site administrators.
       info.ownerOf.add(AccessSection.ALL);
     }
 
@@ -238,61 +214,23 @@ public class GetAccess implements RestReadView<ProjectResource> {
       info.inheritsFrom = projectJson.format(parent.getProject());
     }
 
-    if (projectName.equals(allProjectsName)
-        && permissionBackend.user(user).testOrFalse(ADMINISTRATE_SERVER)) {
-      info.ownerOf.add(AccessSection.GLOBAL_CAPABILITIES);
+    if (pc.getProject().getNameKey().equals(allProjectsName)) {
+      if (pc.isOwner()) {
+        info.ownerOf.add(AccessSection.GLOBAL_CAPABILITIES);
+      }
     }
 
     info.isOwner = toBoolean(pc.isOwner());
     info.canUpload =
-        toBoolean(
-            pc.isOwner()
-                || (checkReadConfig && perm.ref(RefNames.REFS_CONFIG).testOrFalse(CREATE_CHANGE)));
-    info.canAdd = toBoolean(perm.testOrFalse(CREATE_REF));
-    info.canAddTags = toBoolean(perm.testOrFalse(CREATE_TAG_REF));
-    info.configVisible = checkReadConfig || pc.isOwner();
-
-    info.groups =
-        visibleGroups.entrySet().stream()
-            .filter(e -> e.getValue() != INVISIBLE_SENTINEL)
-            .collect(toMap(e -> e.getKey().get(), e -> e.getValue()));
+        toBoolean(pc.isOwner() || (metaConfigControl.isVisible() && metaConfigControl.canUpload()));
+    info.canAdd = toBoolean(pc.canAddRefs());
+    info.canAddTags = toBoolean(pc.canAddTagRefs());
+    info.configVisible = pc.isOwner() || metaConfigControl.isVisible();
 
     return info;
   }
 
-  private GroupInfo loadGroup(Map<AccountGroup.UUID, GroupInfo> visibleGroups, AccountGroup.UUID id)
-      throws OrmException {
-    GroupInfo group = visibleGroups.get(id);
-    if (group == null) {
-      try {
-        GroupControl control = groupControlFactory.controlFor(id);
-        group = INVISIBLE_SENTINEL;
-        if (control.isVisible()) {
-          group = groupJson.format(control.getGroup());
-          group.id = null;
-        }
-      } catch (NoSuchGroupException e) {
-        LOG.warn("NoSuchGroupException; ignoring group " + id, e);
-        group = INVISIBLE_SENTINEL;
-      }
-      visibleGroups.put(id, group);
-    }
-
-    return group;
-  }
-
-  private static boolean check(PermissionBackend.ForProject ctx, String ref, RefPermission perm)
-      throws PermissionBackendException {
-    try {
-      ctx.ref(ref).check(perm);
-      return true;
-    } catch (AuthException denied) {
-      return false;
-    }
-  }
-
-  private AccessSectionInfo createAccessSection(
-      Map<AccountGroup.UUID, GroupInfo> groups, AccessSection section) throws OrmException {
+  private AccessSectionInfo createAccessSection(AccessSection section) {
     AccessSectionInfo accessSectionInfo = new AccessSectionInfo();
     accessSectionInfo.permissions = new HashMap<>();
     for (Permission p : section.getPermissions()) {
@@ -308,7 +246,6 @@ public class GetAccess implements RestReadView<ProjectResource> {
         AccountGroup.UUID group = r.getGroup().getUUID();
         if (group != null) {
           pInfo.rules.put(group.get(), info);
-          loadGroup(groups, group);
         }
       }
       accessSectionInfo.permissions.put(p.getName(), pInfo);
@@ -316,10 +253,11 @@ public class GetAccess implements RestReadView<ProjectResource> {
     return accessSectionInfo;
   }
 
-  private ProjectControl createProjectControl(Project.NameKey projectName)
-      throws IOException, ResourceNotFoundException {
+  private ProjectControl open(Project.NameKey projectName)
+      throws ResourceNotFoundException, IOException {
     try {
-      return projectControlFactory.controlFor(projectName, user.get());
+      return projectControlFactory.validateFor(
+          projectName, ProjectControl.OWNER | ProjectControl.VISIBLE, self.get());
     } catch (NoSuchProjectException e) {
       throw new ResourceNotFoundException(projectName.get());
     }

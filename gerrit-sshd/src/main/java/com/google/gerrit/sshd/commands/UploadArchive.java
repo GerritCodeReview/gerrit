@@ -17,14 +17,9 @@ package com.google.gerrit.sshd.commands;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.AllowedFormats;
 import com.google.gerrit.server.change.ArchiveFormat;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
-import com.google.gerrit.server.project.CommitsCollection;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -117,10 +112,8 @@ public class UploadArchive extends AbstractGitCommand {
     private List<String> path;
   }
 
-  @Inject private PermissionBackend permissionBackend;
-  @Inject private CommitsCollection commits;
-  @Inject private IdentifiedUser user;
   @Inject private AllowedFormats allowedFormats;
+  @Inject private ReviewDb db;
   private Options options = new Options();
 
   /**
@@ -160,7 +153,7 @@ public class UploadArchive extends AbstractGitCommand {
   }
 
   @Override
-  protected void runImpl() throws IOException, PermissionBackendException, Failure {
+  protected void runImpl() throws IOException, Failure {
     PacketLineOut packetOut = new PacketLineOut(out);
     packetOut.setFlushOnEnd(true);
     packetOut.writeString("ACK");
@@ -181,8 +174,8 @@ public class UploadArchive extends AbstractGitCommand {
         throw new Failure(4, "fatal: reference not found");
       }
 
-      // Verify the user has permissions to read the specified tree.
-      if (!canRead(treeId)) {
+      // Verify the user has permissions to read the specified reference
+      if (!projectControl.allRefsAreVisible() && !canRead(treeId)) {
         throw new Failure(5, "fatal: cannot perform upload-archive operation");
       }
 
@@ -239,16 +232,10 @@ public class UploadArchive extends AbstractGitCommand {
     return Collections.emptyMap();
   }
 
-  private boolean canRead(ObjectId revId) throws IOException, PermissionBackendException {
-    try {
-      permissionBackend.user(user).project(projectName).check(ProjectPermission.READ);
-      return true;
-    } catch (AuthException e) {
-      // Check reachability of the specific revision.
-      try (RevWalk rw = new RevWalk(repo)) {
-        RevCommit commit = rw.parseCommit(revId);
-        return commits.canRead(state, repo, commit);
-      }
+  private boolean canRead(ObjectId revId) throws IOException {
+    try (RevWalk rw = new RevWalk(repo)) {
+      RevCommit commit = rw.parseCommit(revId);
+      return projectControl.canReadCommit(db, repo, commit);
     }
   }
 }

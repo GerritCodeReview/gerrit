@@ -25,8 +25,9 @@
       },
     },
 
-    _updateWidth(maxWidth) {
-      this.updateStyles({'--tooltip-max-width': maxWidth});
+    _updateWidth: function(maxWidth) {
+      this.customStyle['--tooltip-max-width'] = maxWidth;
+      this.updateStyles();
     },
   });
 })();

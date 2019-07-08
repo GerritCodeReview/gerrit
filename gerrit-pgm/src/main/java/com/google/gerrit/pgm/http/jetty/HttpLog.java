@@ -14,18 +14,10 @@
 
 package com.google.gerrit.pgm.http.jetty;
 
-import static com.google.gerrit.httpd.restapi.RestApiServlet.XD_AUTHORIZATION;
-
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Splitter;
-import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.httpd.GetUserFilter;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.inject.Inject;
-import java.util.Iterator;
 import org.apache.log4j.AsyncAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -39,7 +31,6 @@ import org.eclipse.jetty.util.component.AbstractLifeCycle;
 class HttpLog extends AbstractLifeCycle implements RequestLog {
   private static final Logger log = Logger.getLogger(HttpLog.class);
   private static final String LOG_NAME = "httpd_log";
-  private static final ImmutableSet<String> REDACT_PARAM = ImmutableSet.of(XD_AUTHORIZATION);
 
   interface HttpLogFactory {
     HttpLog get();
@@ -58,7 +49,7 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
   private final AsyncAppender async;
 
   @Inject
-  HttpLog(SystemLog systemLog) {
+  HttpLog(final SystemLog systemLog) {
     async = systemLog.createAsyncAppender(LOG_NAME, new HttpLogLayout());
   }
 
@@ -71,7 +62,7 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
   }
 
   @Override
-  public void log(Request req, Response rsp) {
+  public void log(final Request req, final Response rsp) {
     final LoggingEvent event =
         new LoggingEvent( //
             Logger.class.getName(), // fqnOfCategoryClass
@@ -87,9 +78,12 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
             );
 
     String uri = req.getRequestURI();
-    uri = redactQueryString(uri, req.getQueryString());
+    String qs = req.getQueryString();
+    if (qs != null) {
+      uri = uri + "?" + qs;
+    }
 
-    String user = (String) req.getAttribute(GetUserFilter.USER_ATTR_KEY);
+    String user = (String) req.getAttribute(GetUserFilter.REQ_ATTR_KEY);
     if (user != null) {
       event.setProperty(P_USER, user);
     }
@@ -104,31 +98,6 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
     set(event, P_USER_AGENT, req.getHeader("User-Agent"));
 
     async.append(event);
-  }
-
-  @VisibleForTesting
-  static String redactQueryString(String uri, String qs) {
-    if (Strings.isNullOrEmpty(qs)) {
-      return uri;
-    }
-
-    StringBuilder b = new StringBuilder(uri);
-    boolean first = true;
-    for (String kvPair : Splitter.on('&').split(qs)) {
-      Iterator<String> i = Splitter.on('=').limit(2).split(kvPair).iterator();
-      String key = i.next();
-      b.append(first ? '?' : '&').append(key);
-      first = false;
-      if (i.hasNext()) {
-        b.append('=');
-        if (REDACT_PARAM.contains(Url.decode(key))) {
-          b.append('*');
-        } else {
-          b.append(i.next());
-        }
-      }
-    }
-    return b.toString();
   }
 
   private static void set(LoggingEvent event, String key, String val) {

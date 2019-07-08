@@ -18,10 +18,10 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
-public class HasDraftByPredicate extends ChangeIndexPredicate {
-  protected final Account.Id accountId;
+class HasDraftByPredicate extends ChangeIndexPredicate {
+  private final Account.Id accountId;
 
-  public HasDraftByPredicate(Account.Id accountId) {
+  HasDraftByPredicate(Account.Id accountId) {
     super(ChangeField.DRAFTBY, accountId.toString());
     this.accountId = accountId;
   }

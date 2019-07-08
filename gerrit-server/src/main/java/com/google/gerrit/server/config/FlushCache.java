@@ -23,9 +23,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.FlushCache.Input;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -37,20 +34,17 @@ public class FlushCache implements RestModifyView<CacheResource, Input> {
 
   public static final String WEB_SESSIONS = "web_sessions";
 
-  private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> self;
 
   @Inject
-  public FlushCache(PermissionBackend permissionBackend, Provider<CurrentUser> self) {
-    this.permissionBackend = permissionBackend;
+  public FlushCache(Provider<CurrentUser> self) {
     this.self = self;
   }
 
   @Override
-  public Response<String> apply(CacheResource rsrc, Input input)
-      throws AuthException, PermissionBackendException {
-    if (WEB_SESSIONS.equals(rsrc.getName())) {
-      permissionBackend.user(self).check(GlobalPermission.MAINTAIN_SERVER);
+  public Response<String> apply(CacheResource rsrc, Input input) throws AuthException {
+    if (WEB_SESSIONS.equals(rsrc.getName()) && !self.get().getCapabilities().canMaintainServer()) {
+      throw new AuthException(String.format("only site maintainers can flush %s", WEB_SESSIONS));
     }
 
     rsrc.getCache().invalidateAll();

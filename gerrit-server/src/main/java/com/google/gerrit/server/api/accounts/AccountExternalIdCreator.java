@@ -15,7 +15,7 @@
 package com.google.gerrit.server.api.accounts;
 
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.ExternalId;
 import java.util.List;
 
 public interface AccountExternalIdCreator {

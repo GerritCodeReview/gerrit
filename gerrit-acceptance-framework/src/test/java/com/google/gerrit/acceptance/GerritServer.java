@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.config.FactoryModule;
@@ -27,7 +26,7 @@ import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.Daemon;
 import com.google.gerrit.pgm.Init;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
+import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
@@ -47,9 +46,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
@@ -57,7 +54,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Stream;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.jgit.lib.Config;
@@ -80,7 +76,7 @@ public class GerritServer implements AutoCloseable {
       return new AutoValue_GerritServer_Description(
           testDesc,
           configName,
-          !has(UseLocalDisk.class, testDesc.getTestClass()) && !forceLocalDisk(),
+          !has(UseLocalDisk.class, testDesc.getTestClass()),
           !has(NoHttpd.class, testDesc.getTestClass()),
           has(Sandboxed.class, testDesc.getTestClass()),
           has(UseSsh.class, testDesc.getTestClass()),
@@ -95,9 +91,8 @@ public class GerritServer implements AutoCloseable {
       return new AutoValue_GerritServer_Description(
           testDesc,
           configName,
-          (testDesc.getAnnotation(UseLocalDisk.class) == null
-                  && !has(UseLocalDisk.class, testDesc.getTestClass()))
-              && !forceLocalDisk(),
+          testDesc.getAnnotation(UseLocalDisk.class) == null
+              && !has(UseLocalDisk.class, testDesc.getTestClass()),
           testDesc.getAnnotation(NoHttpd.class) == null
               && !has(NoHttpd.class, testDesc.getTestClass()),
           testDesc.getAnnotation(Sandboxed.class) != null
@@ -130,11 +125,7 @@ public class GerritServer implements AutoCloseable {
 
     abstract boolean sandboxed();
 
-    abstract boolean useSshAnnotation();
-
-    boolean useSsh() {
-      return useSshAnnotation() && SshMode.useSsh();
-    }
+    abstract boolean useSsh();
 
     @Nullable
     abstract GerritConfig config();
@@ -178,21 +169,6 @@ public class GerritServer implements AutoCloseable {
         return ConfigAnnotationParser.parse(pluginConfig());
       }
       return new HashMap<>();
-    }
-  }
-
-  private static boolean forceLocalDisk() {
-    String value = Strings.nullToEmpty(System.getenv("GERRIT_FORCE_LOCAL_DISK"));
-    if (value.isEmpty()) {
-      value = Strings.nullToEmpty(System.getProperty("gerrit.forceLocalDisk"));
-    }
-    switch (value.trim().toLowerCase(Locale.US)) {
-      case "1":
-      case "yes":
-      case "true":
-        return true;
-      default:
-        return false;
     }
   }
 
@@ -251,14 +227,13 @@ public class GerritServer implements AutoCloseable {
    * @return started server.
    * @throws Exception
    */
-  public static GerritServer initAndStart(
-      Description desc, Config baseConfig, @Nullable Module testSysModule) throws Exception {
+  public static GerritServer initAndStart(Description desc, Config baseConfig) throws Exception {
     Path site = TempFileUtil.createTempDirectory().toPath();
     try {
       if (!desc.memory()) {
         init(desc, baseConfig, site);
       }
-      return start(desc, baseConfig, site, testSysModule);
+      return start(desc, baseConfig, site);
     } catch (Exception e) {
       TempFileUtil.recursivelyDelete(site.toFile());
       throw e;
@@ -272,44 +247,36 @@ public class GerritServer implements AutoCloseable {
    * @param baseConfig default config values; merged with config from {@code desc}.
    * @param site existing temporary directory for site. Required, but may be empty, for in-memory
    *     servers. For on-disk servers, assumes that {@link #init} was previously called to
-   *     initialize this directory. Can be retrieved from the returned instance via {@link
-   *     #getSitePath()}.
-   * @param testSysModule optional additional module to add to the system injector.
-   * @param additionalArgs additional command-line arguments for the daemon program; only allowed if
-   *     the test is not in-memory.
+   *     initialize this directory.
    * @return started server.
    * @throws Exception
    */
-  public static GerritServer start(
-      Description desc,
-      Config baseConfig,
-      Path site,
-      @Nullable Module testSysModule,
-      String... additionalArgs)
+  public static GerritServer start(Description desc, Config baseConfig, Path site)
       throws Exception {
     checkArgument(site != null, "site is required (even for in-memory server");
     desc.checkValidAnnotations();
     Logger.getLogger("com.google.gerrit").setLevel(Level.DEBUG);
-    CyclicBarrier serverStarted = new CyclicBarrier(2);
-    Daemon daemon =
+    final CyclicBarrier serverStarted = new CyclicBarrier(2);
+    final Daemon daemon =
         new Daemon(
-            () -> {
-              try {
-                serverStarted.await();
-              } catch (InterruptedException | BrokenBarrierException e) {
-                throw new RuntimeException(e);
+            new Runnable() {
+              @Override
+              public void run() {
+                try {
+                  serverStarted.await();
+                } catch (InterruptedException | BrokenBarrierException e) {
+                  throw new RuntimeException(e);
+                }
               }
             },
             site);
     daemon.setEmailModuleForTesting(new FakeEmailSender.Module());
-    daemon.setAdditionalSysModuleForTesting(testSysModule);
-    daemon.setEnableSshd(desc.useSsh());
+    daemon.setEnableSshd(SshMode.useSsh());
 
     if (desc.memory()) {
-      checkArgument(additionalArgs.length == 0, "cannot pass args to in-memory server");
       return startInMemory(desc, site, baseConfig, daemon);
     }
-    return startOnDisk(desc, site, daemon, serverStarted, additionalArgs);
+    return startOnDisk(desc, site, daemon, serverStarted);
   }
 
   private static GerritServer startInMemory(
@@ -322,7 +289,6 @@ public class GerritServer implements AutoCloseable {
     cfg.setBoolean("httpd", null, "requestLog", false);
     cfg.setBoolean("sshd", null, "requestLog", false);
     cfg.setBoolean("index", "lucene", "testInmemory", true);
-    cfg.setBoolean("index", null, "onlineUpgrade", false);
     cfg.setString("gitweb", null, "cgi", "");
     daemon.setEnableHttpd(desc.httpd());
     daemon.setLuceneModule(LuceneIndexModule.singleVersionAllLatest(0));
@@ -333,25 +299,18 @@ public class GerritServer implements AutoCloseable {
   }
 
   private static GerritServer startOnDisk(
-      Description desc,
-      Path site,
-      Daemon daemon,
-      CyclicBarrier serverStarted,
-      String[] additionalArgs)
-      throws Exception {
+      Description desc, Path site, Daemon daemon, CyclicBarrier serverStarted) throws Exception {
     checkNotNull(site);
     ExecutorService daemonService = Executors.newSingleThreadExecutor();
-    String[] args =
-        Stream.concat(
-                Stream.of(
-                    "-d", site.toString(), "--headless", "--console-log", "--show-stack-trace"),
-                Arrays.stream(additionalArgs))
-            .toArray(String[]::new);
     @SuppressWarnings("unused")
     Future<?> possiblyIgnoredError =
         daemonService.submit(
             () -> {
-              int rc = daemon.main(args);
+              int rc =
+                  daemon.main(
+                      new String[] {
+                        "-d", site.toString(), "--headless", "--console-log", "--show-stack-trace",
+                      });
               if (rc != 0) {
                 System.err.println("Failed to start Gerrit daemon");
                 serverStarted.reset();
@@ -387,9 +346,6 @@ public class GerritServer implements AutoCloseable {
     cfg.setInt("sshd", null, "commandStartThreads", 1);
     cfg.setInt("receive", null, "threadPoolSize", 1);
     cfg.setInt("index", null, "threads", 1);
-    cfg.setBoolean("index", null, "reindexAfterRefUpdate", false);
-
-    NoteDbMode.newNotesMigrationFromEnv().setConfigValues(cfg);
   }
 
   private static Injector createTestInjector(Daemon daemon) throws Exception {
@@ -398,7 +354,6 @@ public class GerritServer implements AutoCloseable {
         new FactoryModule() {
           @Override
           protected void configure() {
-            bindConstant().annotatedWith(SshEnabled.class).to(daemon.getEnableSshd());
             bind(AccountCreator.class);
             factory(PushOneCommit.Factory.class);
             install(InProcessProtocol.module());

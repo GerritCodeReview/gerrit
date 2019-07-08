@@ -20,26 +20,24 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
-import com.google.gerrit.common.RawInputUtil;
+import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.client.AuthType;
-import com.google.gerrit.extensions.common.AccountVisibility;
-import com.google.gerrit.extensions.common.InstallPluginInput;
 import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
+import com.google.gerrit.server.config.SitePaths;
+import com.google.inject.Inject;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import org.junit.Test;
 
 @NoHttpd
 public class ServerInfoIT extends AbstractDaemonTest {
-  private static final byte[] JS_PLUGIN_CONTENT =
-      "Gerrit.install(function(self){});\n".getBytes(UTF_8);
+  @Inject private SitePaths sitePaths;
 
   @Test
-  // accounts
-  @GerritConfig(name = "accounts.visibility", value = "VISIBLE_GROUP")
-
   // auth
   @GerritConfig(name = "auth.type", value = "HTTP")
   @GerritConfig(name = "auth.contributorAgreements", value = "true")
@@ -54,11 +52,11 @@ public class ServerInfoIT extends AbstractDaemonTest {
   @GerritConfig(name = "auth.httpPasswordUrl", value = "https://example.com/password")
 
   // change
+  @GerritConfig(name = "change.allowDrafts", value = "false")
   @GerritConfig(name = "change.largeChange", value = "300")
   @GerritConfig(name = "change.replyTooltip", value = "Publish votes and draft comments")
   @GerritConfig(name = "change.replyLabel", value = "Vote")
   @GerritConfig(name = "change.updateDelay", value = "50s")
-  @GerritConfig(name = "change.disablePrivateChanges", value = "true")
 
   // download
   @GerritConfig(
@@ -80,9 +78,6 @@ public class ServerInfoIT extends AbstractDaemonTest {
   public void serverConfig() throws Exception {
     ServerInfo i = gApi.config().server().getInfo();
 
-    // accounts
-    assertThat(i.accounts.visibility).isEqualTo(AccountVisibility.VISIBLE_GROUP);
-
     // auth
     assertThat(i.auth.authType).isEqualTo(AuthType.HTTP);
     assertThat(i.auth.editableAccountFields)
@@ -97,11 +92,11 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.auth.httpPasswordUrl).isNull();
 
     // change
+    assertThat(i.change.allowDrafts).isNull();
     assertThat(i.change.largeChange).isEqualTo(300);
     assertThat(i.change.replyTooltip).startsWith("Publish votes and draft comments");
     assertThat(i.change.replyLabel).isEqualTo("Vote\u2026");
     assertThat(i.change.updateDelay).isEqualTo(50);
-    assertThat(i.change.disablePrivateChanges).isTrue();
 
     // download
     assertThat(i.download.archives).containsExactly("tar", "tbz2", "tgz", "txz");
@@ -136,16 +131,18 @@ public class ServerInfoIT extends AbstractDaemonTest {
   }
 
   @Test
+  @UseSsh
   @GerritConfig(name = "plugins.allowRemoteAdmin", value = "true")
   public void serverConfigWithPlugin() throws Exception {
+    Path plugins = sitePaths.plugins_dir;
+    Files.createDirectory(plugins);
+    Path jsplugin = plugins.resolve("js-plugin-1.js");
+    Files.write(jsplugin, "Gerrit.install(function(self){});\n".getBytes(UTF_8));
+    adminSshSession.exec("gerrit plugin reload");
+
     ServerInfo i = gApi.config().server().getInfo();
-    assertThat(i.plugin.jsResourcePaths).isEmpty();
 
-    InstallPluginInput input = new InstallPluginInput();
-    input.raw = RawInputUtil.create(JS_PLUGIN_CONTENT);
-    gApi.plugins().install("js-plugin-1.js", input);
-
-    i = gApi.config().server().getInfo();
+    // plugin
     assertThat(i.plugin.jsResourcePaths).hasSize(1);
   }
 
@@ -170,10 +167,11 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.auth.httpPasswordUrl).isNull();
 
     // change
+    assertThat(i.change.allowDrafts).isTrue();
     assertThat(i.change.largeChange).isEqualTo(500);
     assertThat(i.change.replyTooltip).startsWith("Reply and score");
     assertThat(i.change.replyLabel).isEqualTo("Reply\u2026");
-    assertThat(i.change.updateDelay).isEqualTo(300);
+    assertThat(i.change.updateDelay).isEqualTo(30);
 
     // download
     assertThat(i.download.archives).containsExactly("tar", "tbz2", "tgz", "txz");

@@ -64,15 +64,18 @@ public class PerThreadRequestScope {
     }
 
     public <T> Callable<T> scope(RequestContext requestContext, Callable<T> callable) {
-      Context ctx = new Context();
-      Callable<T> wrapped = context(requestContext, cleanup(callable));
-      return () -> {
-        Context old = current.get();
-        current.set(ctx);
-        try {
-          return wrapped.call();
-        } finally {
-          current.set(old);
+      final Context ctx = new Context();
+      final Callable<T> wrapped = context(requestContext, cleanup(callable));
+      return new Callable<T>() {
+        @Override
+        public T call() throws Exception {
+          Context old = current.get();
+          current.set(ctx);
+          try {
+            return wrapped.call();
+          } finally {
+            current.set(old);
+          }
         }
       };
     }
@@ -91,7 +94,7 @@ public class PerThreadRequestScope {
   public static final Scope REQUEST =
       new Scope() {
         @Override
-        public <T> Provider<T> scope(Key<T> key, Provider<T> creator) {
+        public <T> Provider<T> scope(final Key<T> key, final Provider<T> creator) {
           return new Provider<T>() {
             @Override
             public T get() {

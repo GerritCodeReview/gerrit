@@ -19,9 +19,9 @@ import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
 public class HasStarsPredicate extends ChangeIndexPredicate {
-  protected final Account.Id accountId;
+  private final Account.Id accountId;
 
-  public HasStarsPredicate(Account.Id accountId) {
+  HasStarsPredicate(Account.Id accountId) {
     super(ChangeField.STARBY, accountId.toString());
     this.accountId = accountId;
   }

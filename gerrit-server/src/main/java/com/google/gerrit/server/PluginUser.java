@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.gerrit.server.account.CapabilityControl;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -26,7 +27,9 @@ public class PluginUser extends InternalUser {
   private final String pluginName;
 
   @Inject
-  protected PluginUser(@Assisted String pluginName) {
+  protected PluginUser(
+      CapabilityControl.Factory capabilityControlFactory, @Assisted String pluginName) {
+    super(capabilityControlFactory);
     this.pluginName = pluginName;
   }
 

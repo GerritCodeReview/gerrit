@@ -14,36 +14,13 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.common.collect.ImmutableList.toImmutableList;
-
-import com.google.common.collect.ImmutableList;
 import java.io.IOException;
-import org.eclipse.jgit.lib.BatchRefUpdate;
-import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.transport.ReceiveCommand;
 
 /** Thrown when updating a ref in Git fails with LOCK_FAILURE. */
 public class LockFailureException extends IOException {
   private static final long serialVersionUID = 1L;
 
-  private final ImmutableList<String> refs;
-
-  public LockFailureException(String message, RefUpdate refUpdate) {
+  public LockFailureException(String message) {
     super(message);
-    refs = ImmutableList.of(refUpdate.getName());
-  }
-
-  public LockFailureException(String message, BatchRefUpdate batchRefUpdate) {
-    super(message);
-    refs =
-        batchRefUpdate.getCommands().stream()
-            .filter(c -> c.getResult() == ReceiveCommand.Result.LOCK_FAILURE)
-            .map(ReceiveCommand::getRefName)
-            .collect(toImmutableList());
-  }
-
-  /** Subset of ref names that caused the lock failure. */
-  public ImmutableList<String> getFailedRefs() {
-    return refs;
   }
 }

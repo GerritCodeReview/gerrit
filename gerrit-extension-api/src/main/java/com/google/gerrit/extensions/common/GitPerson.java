@@ -15,42 +15,10 @@
 package com.google.gerrit.extensions.common;
 
 import java.sql.Timestamp;
-import java.util.Objects;
 
 public class GitPerson {
   public String name;
   public String email;
   public Timestamp date;
   public int tz;
-
-  @Override
-  public boolean equals(Object o) {
-    if (!(o instanceof GitPerson)) {
-      return false;
-    }
-    GitPerson p = (GitPerson) o;
-    return Objects.equals(name, p.name)
-        && Objects.equals(email, p.email)
-        && Objects.equals(date, p.date)
-        && tz == p.tz;
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(name, email, date, tz);
-  }
-
-  @Override
-  public String toString() {
-    return getClass().getSimpleName()
-        + "{name="
-        + name
-        + ", email="
-        + email
-        + ", date="
-        + date
-        + ", tz="
-        + tz
-        + "}".toString();
-  }
 }

@@ -15,28 +15,23 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.extensions.common.ProjectInfo;
-import com.google.gerrit.index.query.OrPredicate;
-import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ListChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.query.OrPredicate;
+import com.google.gerrit.server.query.Predicate;
 import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-public class ParentProjectPredicate extends OrPredicate<ChangeData> {
-  private static final Logger log = LoggerFactory.getLogger(ParentProjectPredicate.class);
+class ParentProjectPredicate extends OrPredicate<ChangeData> {
+  private final String value;
 
-  protected final String value;
-
-  public ParentProjectPredicate(
+  ParentProjectPredicate(
       ProjectCache projectCache,
       Provider<ListChildProjects> listChildProjects,
       Provider<CurrentUser> self,
@@ -45,7 +40,7 @@ public class ParentProjectPredicate extends OrPredicate<ChangeData> {
     this.value = value;
   }
 
-  protected static List<Predicate<ChangeData>> predicates(
+  private static List<Predicate<ChangeData>> predicates(
       ProjectCache projectCache,
       Provider<ListChildProjects> listChildProjects,
       Provider<CurrentUser> self,
@@ -56,16 +51,11 @@ public class ParentProjectPredicate extends OrPredicate<ChangeData> {
     }
 
     List<Predicate<ChangeData>> r = new ArrayList<>();
-    r.add(new ProjectPredicate(projectState.getName()));
-    try {
-      ProjectResource proj = new ProjectResource(projectState.controlFor(self.get()));
-      ListChildProjects children = listChildProjects.get();
-      children.setRecursive(true);
-      for (ProjectInfo p : children.apply(proj)) {
-        r.add(new ProjectPredicate(p.name));
-      }
-    } catch (PermissionBackendException e) {
-      log.warn("cannot check permissions to expand child projects", e);
+    r.add(new ProjectPredicate(projectState.getProject().getName()));
+    ListChildProjects children = listChildProjects.get();
+    children.setRecursive(true);
+    for (ProjectInfo p : children.apply(new ProjectResource(projectState.controlFor(self.get())))) {
+      r.add(new ProjectPredicate(p.name));
     }
     return r;
   }

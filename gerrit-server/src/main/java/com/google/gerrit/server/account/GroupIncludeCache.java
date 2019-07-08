@@ -14,41 +14,19 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import java.util.Collection;
 
 /** Tracks group inclusions in memory for efficient access. */
 public interface GroupIncludeCache {
-
-  /**
-   * Returns the UUIDs of all groups of which the specified account is a direct member.
-   *
-   * @param memberId the ID of the account
-   * @return the UUIDs of all groups having the account as member
-   */
-  Collection<AccountGroup.UUID> getGroupsWithMember(Account.Id memberId);
-
-  /**
-   * Returns the subgroups of a group.
-   *
-   * @param group the UUID of the group
-   * @return the UUIDs of all direct subgroups
-   */
+  /** @return groups directly a member of the passed group. */
   Collection<AccountGroup.UUID> subgroupsOf(AccountGroup.UUID group);
 
-  /**
-   * Returns the parent groups of a subgroup.
-   *
-   * @param groupId the UUID of the subgroup
-   * @return the UUIDs of all direct parent groups
-   */
+  /** @return any groups the passed group belongs to. */
   Collection<AccountGroup.UUID> parentGroupsOf(AccountGroup.UUID groupId);
 
   /** @return set of any UUIDs that are not internal groups. */
   Collection<AccountGroup.UUID> allExternalMembers();
-
-  void evictGroupsWithMember(Account.Id memberId);
 
   void evictSubgroupsOf(AccountGroup.UUID groupId);
 

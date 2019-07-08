@@ -25,8 +25,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
-import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
@@ -67,7 +65,6 @@ public class Mergeable implements RestReadView<RevisionResource> {
   private final Provider<ReviewDb> db;
   private final ChangeIndexer indexer;
   private final MergeabilityCache cache;
-  private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
 
   @Inject
   Mergeable(
@@ -77,8 +74,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
       ChangeData.Factory changeDataFactory,
       Provider<ReviewDb> db,
       ChangeIndexer indexer,
-      MergeabilityCache cache,
-      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
+      MergeabilityCache cache) {
     this.gitManager = gitManager;
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;
@@ -86,7 +82,6 @@ public class Mergeable implements RestReadView<RevisionResource> {
     this.db = db;
     this.indexer = indexer;
     this.cache = cache;
-    this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
   }
 
   public void setOtherBranches(boolean otherBranches) {
@@ -102,14 +97,14 @@ public class Mergeable implements RestReadView<RevisionResource> {
     MergeableInfo result = new MergeableInfo();
 
     if (!change.getStatus().isOpen()) {
-      throw new ResourceConflictException("change is " + ChangeUtil.status(change));
+      throw new ResourceConflictException("change is " + Submit.status(change));
     } else if (!ps.getId().equals(change.currentPatchSetId())) {
       // Only the current revision is mergeable. Others always fail.
       return result;
     }
 
-    ChangeData cd = changeDataFactory.create(db.get(), resource.getNotes());
-    result.submitType = getSubmitType(resource.getUser(), cd, ps);
+    ChangeData cd = changeDataFactory.create(db.get(), resource.getControl());
+    result.submitType = getSubmitType(cd, ps);
 
     try (Repository git = gitManager.openRepository(change.getProject())) {
       ObjectId commit = toId(ps);
@@ -141,10 +136,8 @@ public class Mergeable implements RestReadView<RevisionResource> {
     return result;
   }
 
-  private SubmitType getSubmitType(CurrentUser user, ChangeData cd, PatchSet patchSet)
-      throws OrmException {
-    SubmitTypeRecord rec =
-        submitRuleEvaluatorFactory.create(user, cd).setPatchSet(patchSet).getSubmitType();
+  private SubmitType getSubmitType(ChangeData cd, PatchSet patchSet) throws OrmException {
+    SubmitTypeRecord rec = new SubmitRuleEvaluator(cd).setPatchSet(patchSet).getSubmitType();
     if (rec.status != SubmitTypeRecord.Status.OK) {
       throw new OrmException("Submit type rule failed: " + rec);
     }

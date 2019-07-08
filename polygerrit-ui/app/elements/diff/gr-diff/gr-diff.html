@@ -15,8 +15,6 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-
-<link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-diff-builder/gr-diff-builder.html">
@@ -24,27 +22,21 @@ limitations under the License.
 <link rel="import" href="../gr-diff-highlight/gr-diff-highlight.html">
 <link rel="import" href="../gr-diff-selection/gr-diff-selection.html">
 <link rel="import" href="../gr-syntax-themes/gr-theme-default.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-
-<script src="../../../scripts/hiddenscroll.js"></script>
 
 <dom-module id="gr-diff">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         --light-remove-highlight-color: #fee;
         --dark-remove-highlight-color: rgba(255, 0, 0, 0.15);
         --light-add-highlight-color: #efe;
         --dark-add-highlight-color: rgba(0, 255, 0, 0.15);
-        --light-rebased-remove-highlight-color: #fff6ea;
-        --dark-rebased-remove-highlight-color: rgba(255, 139, 6, 0.15);
-        --light-rebased-add-highlight-color: #edfffa;
-        --dark-rebased-add-highlight-color: rgba(11, 255, 155, 0.15);
+
       }
-      :host(.no-left) .sideBySide ::content .left,
-      :host(.no-left) .sideBySide ::content .left + td,
-      :host(.no-left) .sideBySide ::content .right:not([data-value]),
-      :host(.no-left) .sideBySide ::content .right:not([data-value]) + td {
+      :host.no-left .sideBySide ::content .left,
+      :host.no-left .sideBySide ::content .left + td,
+      :host.no-left .sideBySide ::content .right:not([data-value]),
+      :host.no-left .sideBySide ::content .right:not([data-value]) + td {
         display: none;
       }
       .diffContainer {
@@ -52,14 +44,20 @@ limitations under the License.
         border-top: 1px solid #eee;
         display: flex;
         font: 12px var(--monospace-font-family);
-      }
-      .diffContainer.hiddenscroll {
-        padding-bottom: .8em;
+        overflow-x: auto;
+        will-change: transform;
       }
       table {
         border-collapse: collapse;
         border-right: 1px solid #ddd;
         table-layout: fixed;
+
+        /* Hint GPU acceleration */
+        -webkit-transform: translateZ(0);
+        -moz-transform: translateZ(0);
+        -ms-transform: translateZ(0);
+        -o-transform: translateZ(0);
+        transform: translateZ(0);
       }
       .lineNum {
         background-color: #eee;
@@ -74,9 +72,6 @@ limitations under the License.
       .image-diff label {
         font-family: var(--font-family);
         font-style: italic;
-      }
-      .diff-row {
-        outline: none;
       }
       .diff-row.target-row.target-side-left .lineNum.left,
       .diff-row.target-row.target-side-right .lineNum.right,
@@ -108,11 +103,10 @@ limitations under the License.
       }
       .contextLineNum:before,
       .lineNum:before {
-        box-sizing: border-box;
         display: inline-block;
         color: #666;
         content: attr(data-value);
-        padding: 0 .5em;
+        padding: 0 .75em;
         text-align: right;
         width: 100%;
       }
@@ -144,22 +138,8 @@ limitations under the License.
       .content.remove {
         background-color: var(--light-remove-highlight-color);
       }
-      .dueToRebase .content.add .intraline,
-      .delta.total.dueToRebase .content.add {
-        background-color: var(--dark-rebased-add-highlight-color);
-      }
-      .dueToRebase .content.add {
-        background-color: var(--light-rebased-add-highlight-color);
-      }
-      .dueToRebase .content.remove .intraline,
-      .delta.total.dueToRebase .content.remove {
-        background-color: var(--dark-rebased-remove-highlight-color);
-      }
-      .dueToRebase .content.remove {
-        background-color: var(--light-rebased-remove-highlight-color);
-      }
-      .content .contentText:empty:after {
-        /* Newline, to ensure empty lines are one line-height tall. */
+      .content .contentText:after {
+        /* Newline, to ensure all lines are one line-height tall. */
         content: '\A';
       }
       .contextControl {
@@ -174,8 +154,8 @@ limitations under the License.
       .contextControl td:not(.lineNum) {
         text-align: center;
       }
-      .displayLine .diff-row.target-row td {
-        box-shadow: inset 0 -1px #bbb;
+      .displayLine .diff-row.target-row {
+        border-bottom: 1px solid #bbb;
       }
       .br:after {
         /* Line feed */
@@ -188,109 +168,33 @@ limitations under the License.
         color: #C62828;
         /* >> character */
         content: '\00BB';
-        position: absolute;
       }
       .trailing-whitespace {
         border-radius: .4em;
         background-color: #FF9AD2;
       }
-      #diffHeader {
-        background-color: #F9F9F9;
-        color: #2A00FF;
-        font-family: var(--monospace-font-family);
-        font-size: var(--font-size, 12px);
-        padding: 0.5em 0 0.5em 4em;
-      }
-      #sizeWarning {
-        display: none;
-        margin: 1em auto;
-        max-width: 60em;
-        text-align: center;
-      }
-      #sizeWarning gr-button {
-        margin: 1em;
-      }
-      #sizeWarning.warn {
-        display: block;
-      }
-      .target-row td.blame {
-        background: #eee;
-      }
-      col.blame {
-        display: none;
-      }
-      td.blame {
-        display: none;
-        font-family: var(--font-family);
-        font-size: var(--font-size, 12px);
-        padding: 0 .5em;
-        white-space: pre;
-      }
-      :host(.showBlame) col.blame {
-        display: table-column;
-      }
-      :host(.showBlame) td.blame {
-        display: table-cell;
-      }
-      td.blame > span {
-        opacity: 0.6;
-      }
-      td.blame > span.startOfRange {
-        opacity: 1;
-      }
-      td.blame .sha {
-        font-family: var(--monospace-font-family);
-      }
-      .full-width td.blame {
-        overflow: hidden;
-        width: 200px;
-      }
     </style>
     <style include="gr-theme-default"></style>
-    <div id="diffHeader" hidden$="[[_computeDiffHeaderHidden(_diffHeaderItems)]]">
-      <template
-          is="dom-repeat"
-          items="[[_diffHeaderItems]]">
-        <div>[[item]]</div>
-      </template>
-    </div>
     <div class$="[[_computeContainerClass(_loggedIn, viewMode, displayLine)]]"
         on-tap="_handleTap">
       <gr-diff-selection diff="[[_diff]]">
         <gr-diff-highlight
             id="highlights"
             logged-in="[[_loggedIn]]"
-            comments="{{comments}}">
+            comments="{{_comments}}">
           <gr-diff-builder
               id="diffBuilder"
-              comments="[[comments]]"
-              project-name="[[projectName]]"
+              comments="[[_comments]]"
               diff="[[_diff]]"
-              diff-path="[[path]]"
               view-mode="[[viewMode]]"
               line-wrapping="[[lineWrapping]]"
               is-image-diff="[[isImageDiff]]"
               base-image="[[_baseImage]]"
               revision-image="[[_revisionImage]]">
-            <table
-                id="diffTable"
-                class$="[[_diffTableClass]]"
-                role="presentation"></table>
+            <table id="diffTable" class$="[[_diffTableClass]]"></table>
           </gr-diff-builder>
         </gr-diff-highlight>
       </gr-diff-selection>
-    </div>
-    <div id="sizeWarning" class$="[[_computeWarningClass(_showWarning)]]">
-      <p>
-        Prevented render because "Whole file" is enabled and this diff is very
-        large (about [[_diffLength(_diff)]] lines).
-      </p>
-      <gr-button on-tap="_handleLimitedBypass">
-        Render with limited context
-      </gr-button>
-      <gr-button on-tap="_handleFullBypass">
-        Render anyway (may be slow)
-      </gr-button>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

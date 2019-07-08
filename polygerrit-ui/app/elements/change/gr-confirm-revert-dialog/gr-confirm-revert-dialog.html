@@ -17,11 +17,10 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../shared/gr-confirm-dialog/gr-confirm-dialog.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-confirm-revert-dialog">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         display: block;
       }
@@ -40,8 +39,7 @@ limitations under the License.
         width: 73ch; /* Add a char to account for the border. */
 
         --iron-autogrow-textarea {
-          border: 1px solid #cdcdcd;
-          box-sizing: border-box;
+          border: 1px solid #ddd;
           font-family: var(--monospace-font-family);
         }
       }

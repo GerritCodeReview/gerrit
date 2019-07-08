@@ -1,4 +1,4 @@
-= commit xxxxxxx: missing Change-Id in message footer
+= missing Change-Id in commit message footer
 
 With this error message Gerrit rejects to push a commit to a project
 which is configured to always require a Change-Id in the commit

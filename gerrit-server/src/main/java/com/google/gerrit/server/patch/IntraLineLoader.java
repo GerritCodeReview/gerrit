@@ -16,13 +16,10 @@
 package com.google.gerrit.server.patch;
 
 import com.google.common.base.Throwables;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.util.ArrayList;
+import com.google.inject.assistedinject.AssistedInject;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -55,7 +52,7 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
   private final IntraLineDiffKey key;
   private final IntraLineDiffArgs args;
 
-  @Inject
+  @AssistedInject
   IntraLineLoader(
       @DiffExecutor ExecutorService diffExecutor,
       @GerritServerConfig Config cfg,
@@ -78,9 +75,12 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
   public IntraLineDiff call() throws Exception {
     Future<IntraLineDiff> result =
         diffExecutor.submit(
-            () ->
-                IntraLineLoader.compute(
-                    args.aText(), args.bText(), args.edits(), args.editsDueToRebase()));
+            new Callable<IntraLineDiff>() {
+              @Override
+              public IntraLineDiff call() throws Exception {
+                return IntraLineLoader.compute(args.aText(), args.bText(), args.edits());
+              }
+            });
     try {
       return result.get(timeoutMillis, TimeUnit.MILLISECONDS);
     } catch (InterruptedException | TimeoutException e) {
@@ -107,13 +107,8 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
     }
   }
 
-  static IntraLineDiff compute(
-      Text aText,
-      Text bText,
-      ImmutableList<Edit> immutableEdits,
-      ImmutableSet<Edit> immutableEditsDueToRebase) {
-    List<Edit> edits = new ArrayList<>(immutableEdits);
-    combineLineEdits(edits, immutableEditsDueToRebase, aText, bText);
+  static IntraLineDiff compute(Text aText, Text bText, List<Edit> edits) throws Exception {
+    combineLineEdits(edits, aText, bText);
 
     for (int i = 0; i < edits.size(); i++) {
       Edit e = edits.get(i);
@@ -262,18 +257,10 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
     return new IntraLineDiff(edits);
   }
 
-  private static void combineLineEdits(
-      List<Edit> edits, ImmutableSet<Edit> editsDueToRebase, Text a, Text b) {
+  private static void combineLineEdits(List<Edit> edits, Text a, Text b) {
     for (int j = 0; j < edits.size() - 1; ) {
       Edit c = edits.get(j);
       Edit n = edits.get(j + 1);
-
-      if (editsDueToRebase.contains(c) || editsDueToRebase.contains(n)) {
-        // Don't combine any edits which were identified as being introduced by a rebase as we would
-        // lose that information because of the combination.
-        j++;
-        continue;
-      }
 
       // Combine edits that are really close together. Right now our rule
       // is, coalesce two line edits which are only one line apart if that

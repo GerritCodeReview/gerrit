@@ -22,7 +22,7 @@ class SshKeyCacheEntry {
   private final AccountSshKey.Id id;
   private final PublicKey publicKey;
 
-  SshKeyCacheEntry(AccountSshKey.Id i, PublicKey k) {
+  SshKeyCacheEntry(final AccountSshKey.Id i, final PublicKey k) {
     id = i;
     publicKey = k;
   }
@@ -31,7 +31,7 @@ class SshKeyCacheEntry {
     return id.getParentKey();
   }
 
-  boolean match(PublicKey inkey) {
+  boolean match(final PublicKey inkey) {
     return publicKey.equals(inkey);
   }
 }

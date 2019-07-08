@@ -40,7 +40,6 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.LabelNormalizer.Result;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
@@ -70,14 +69,12 @@ public class LabelNormalizerTest {
   @Inject private ProjectCache projectCache;
   @Inject private SchemaCreator schemaCreator;
   @Inject protected ThreadLocalRequestContext requestContext;
-  @Inject private ChangeNotes.Factory changeNotesFactory;
 
   private LifecycleManager lifecycle;
   private ReviewDb db;
   private Account.Id userId;
   private IdentifiedUser user;
   private Change change;
-  private ChangeNotes notes;
 
   @Before
   public void setUpInjector() throws Exception {
@@ -134,7 +131,6 @@ public class LabelNormalizerTest {
     ps.setSubject("Test change");
     change.setCurrentPatchSet(ps);
     db.changes().insert(ImmutableList.of(change));
-    notes = changeNotesFactory.createChecked(db, change);
   }
 
   @After
@@ -150,7 +146,7 @@ public class LabelNormalizerTest {
   }
 
   @Test
-  public void noNormalizeByPermission() throws Exception {
+  public void normalizeByPermission() throws Exception {
     ProjectConfig pc = loadAllProjects();
     allow(pc, forLabel("Code-Review"), -1, 1, REGISTERED_USERS, "refs/heads/*");
     allow(pc, forLabel("Verified"), -1, 1, REGISTERED_USERS, "refs/heads/*");
@@ -158,7 +154,8 @@ public class LabelNormalizerTest {
 
     PatchSetApproval cr = psa(userId, "Code-Review", 2);
     PatchSetApproval v = psa(userId, "Verified", 1);
-    assertEquals(Result.create(list(cr, v), list(), list()), norm.normalize(notes, list(cr, v)));
+    assertEquals(
+        Result.create(list(v), list(copy(cr, 1)), list()), norm.normalize(change, list(cr, v)));
   }
 
   @Test
@@ -172,14 +169,14 @@ public class LabelNormalizerTest {
     PatchSetApproval v = psa(userId, "Verified", 5);
     assertEquals(
         Result.create(list(), list(copy(cr, 2), copy(v, 1)), list()),
-        norm.normalize(notes, list(cr, v)));
+        norm.normalize(change, list(cr, v)));
   }
 
   @Test
-  public void emptyPermissionRangeKeepsResult() throws Exception {
+  public void emptyPermissionRangeOmitsResult() throws Exception {
     PatchSetApproval cr = psa(userId, "Code-Review", 1);
     PatchSetApproval v = psa(userId, "Verified", 1);
-    assertEquals(Result.create(list(cr, v), list(), list()), norm.normalize(notes, list(cr, v)));
+    assertEquals(Result.create(list(), list(), list(cr, v)), norm.normalize(change, list(cr, v)));
   }
 
   @Test
@@ -190,7 +187,7 @@ public class LabelNormalizerTest {
 
     PatchSetApproval cr = psa(userId, "Code-Review", 0);
     PatchSetApproval v = psa(userId, "Verified", 0);
-    assertEquals(Result.create(list(cr, v), list(), list()), norm.normalize(notes, list(cr, v)));
+    assertEquals(Result.create(list(cr), list(), list(v)), norm.normalize(change, list(cr, v)));
   }
 
   private ProjectConfig loadAllProjects() throws Exception {

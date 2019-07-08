@@ -72,20 +72,13 @@ public class MailIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void doesNotDeleteMessageNotMarkedForDeletion() throws Exception {
+  public void delete() throws Exception {
     GreenMailUser user = mockPop3Server.setUser(USERNAME, USERNAME, PASSWORD);
     user.deliver(createSimpleMessage());
     assertThat(mockPop3Server.getReceivedMessages().length).isEqualTo(1);
     // Let Gerrit handle emails
     mailReceiver.handleEmails(false);
     // Check that the message is still present
-    assertThat(mockPop3Server.getReceivedMessages().length).isEqualTo(1);
-  }
-
-  @Test
-  public void deletesMessageMarkedForDeletion() throws Exception {
-    GreenMailUser user = mockPop3Server.setUser(USERNAME, USERNAME, PASSWORD);
-    user.deliver(createSimpleMessage());
     assertThat(mockPop3Server.getReceivedMessages().length).isEqualTo(1);
     // Mark the message for deletion
     mailReceiver.requestDeletion(mockPop3Server.getReceivedMessages()[0].getMessageID());

@@ -7,7 +7,6 @@ acceptance_tests(
     ),
     group = "pgm",
     labels = ["pgm"],
-    vm_args = ["-Xmx512m"],
     deps = [":util"],
 )
 
@@ -22,19 +21,12 @@ acceptance_tests(
         "exclusive",
         "pgm",
     ],
-    deps = [
-        ":util",
-        "//gerrit-elasticsearch:elasticsearch",
-        "//gerrit-elasticsearch:elasticsearch_test_utils",
-    ],
+    deps = [":util"],
 )
 
 java_library(
     name = "util",
     testonly = 1,
-    srcs = [
-        "AbstractReindexTests.java",
-        "IndexUpgradeController.java",
-    ],
+    srcs = ["AbstractReindexTests.java"],
     deps = ["//gerrit-acceptance-tests:lib"],
 )

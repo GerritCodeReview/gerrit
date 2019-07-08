@@ -20,7 +20,8 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-menu-editor.html">
 
 <script>void(0);</script>
@@ -32,14 +33,14 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-settings-view tests', () => {
-    let element;
-    let menu;
+  suite('gr-settings-view tests', function() {
+    var element;
+    var menu;
 
     function assertMenuNamesEqual(element, expected) {
-      const names = element.menuItems.map(i => { return i.name; });
+      var names = element.menuItems.map(function(i) { return i.name; });
       assert.equal(names.length, expected.length);
-      for (let i = 0; i < names.length; i++) {
+      for (var i = 0; i < names.length; i++) {
         assert.equal(names[i], expected[i]);
       }
     }
@@ -47,14 +48,13 @@ limitations under the License.
     // Click the up/down button (according to direction) for the index'th row.
     // The index of the first row is 0, corresponding to the array.
     function move(element, index, direction) {
-      const selector = 'tr:nth-child(' + (index + 1) + ') .move' +
-          direction + 'Button';
-      const button =
-          element.$$('tbody').querySelector(selector).$$('paper-button');
+      var selector =
+          'tr:nth-child(' + (index + 1) + ') .move-' + direction + '-button';
+      var button = element.$$('tbody').querySelector(selector);
       MockInteractions.tap(button);
     }
 
-    setup(() => {
+    setup(function() {
       element = fixture('basic');
       menu = [
         {url: '/first/url', name: 'first name', target: '_blank'},
@@ -65,12 +65,12 @@ limitations under the License.
       Polymer.dom.flush();
     });
 
-    test('renders', () => {
-      const rows = element.$$('tbody').querySelectorAll('tr');
-      let tds;
+    test('renders', function() {
+      var rows = element.$$('tbody').querySelectorAll('tr');
+      var tds;
 
       assert.equal(rows.length, menu.length);
-      for (let i = 0; i < menu.length; i++) {
+      for (var i = 0; i < menu.length; i++) {
         tds = rows[i].querySelectorAll('td');
         assert.equal(tds[0].textContent, menu[i].name);
         assert.equal(tds[1].textContent, menu[i].url);
@@ -80,23 +80,23 @@ limitations under the License.
           element._newUrl));
     });
 
-    test('_computeAddDisabled', () => {
+    test('_computeAddDisabled', function() {
       assert.isTrue(element._computeAddDisabled('', ''));
       assert.isTrue(element._computeAddDisabled('name', ''));
       assert.isTrue(element._computeAddDisabled('', 'url'));
       assert.isFalse(element._computeAddDisabled('name', 'url'));
     });
 
-    test('add a new menu item', () => {
-      const newName = 'new name';
-      const newUrl = 'new url';
+    test('add a new menu item', function() {
+      var newName = 'new name';
+      var newUrl = 'new url';
 
       element._newName = newName;
       element._newUrl = newUrl;
       assert.isFalse(element._computeAddDisabled(element._newName,
           element._newUrl));
 
-      const originalMenuLength = element.menuItems.length;
+      var originalMenuLength = element.menuItems.length;
 
       element._handleAddButton();
 
@@ -106,51 +106,51 @@ limitations under the License.
       assert.equal(element.menuItems[element.menuItems.length - 1].url, newUrl);
     });
 
-    test('move items down', () => {
+    test('move items down', function() {
       assertMenuNamesEqual(element,
           ['first name', 'second name', 'third name']);
 
       // Move the middle item down
-      move(element, 1, 'Down');
+      move(element, 1, 'down');
       assertMenuNamesEqual(element,
           ['first name', 'third name', 'second name']);
 
       // Moving the bottom item down is a no-op.
-      move(element, 2, 'Down');
+      move(element, 2, 'down');
       assertMenuNamesEqual(element,
           ['first name', 'third name', 'second name']);
     });
 
-    test('move items up', () => {
+    test('move items up', function() {
       assertMenuNamesEqual(element,
           ['first name', 'second name', 'third name']);
 
       // Move the last item up twice to be the first.
-      move(element, 2, 'Up');
-      move(element, 1, 'Up');
+      move(element, 2, 'up');
+      move(element, 1, 'up');
       assertMenuNamesEqual(element,
           ['third name', 'first name', 'second name']);
 
       // Moving the top item up is a no-op.
-      move(element, 0, 'Up');
+      move(element, 0, 'up');
       assertMenuNamesEqual(element,
           ['third name', 'first name', 'second name']);
     });
 
-    test('remove item', () => {
+    test('remove item', function() {
       assertMenuNamesEqual(element,
           ['first name', 'second name', 'third name']);
 
       // Tap the delete button for the middle item.
-      MockInteractions.tap(element.$$('tbody')
-          .querySelector('tr:nth-child(2) .remove-button').$$('paper-button'));
+      MockInteractions.tap(
+          element.$$('tbody').querySelector('tr:nth-child(2) .remove-button'));
 
       assertMenuNamesEqual(element, ['first name', 'third name']);
 
       // Delete remaining items.
-      for (let i = 0; i < 2; i++) {
-        MockInteractions.tap(element.$$('tbody')
-            .querySelector('tr:first-child .remove-button').$$('paper-button'));
+      for (var i = 0; i < 2; i++) {
+        MockInteractions.tap(
+            element.$$('tbody').querySelector('tr:first-child .remove-button'));
       }
       assertMenuNamesEqual(element, []);
 

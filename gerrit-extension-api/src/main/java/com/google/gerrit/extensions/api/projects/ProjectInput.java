@@ -33,8 +33,6 @@ public class ProjectInput {
   public InheritableBoolean useContentMerge;
   public InheritableBoolean requireChangeId;
   public InheritableBoolean createNewChangeForAllNotInTarget;
-  public InheritableBoolean enableSignedPush;
-  public InheritableBoolean requireSignedPush;
   public String maxObjectSizeLimit;
   public Map<String, Map<String, ConfigValue>> pluginConfigValues;
 }

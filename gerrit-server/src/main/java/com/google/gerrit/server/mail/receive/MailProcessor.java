@@ -36,22 +36,20 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.mail.MailFilter;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
-import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
@@ -59,7 +57,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -70,13 +67,12 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** A service that can attach the comments from a {@link MailMessage} to a change. */
 @Singleton
 public class MailProcessor {
   private static final Logger log = LoggerFactory.getLogger(MailProcessor.class);
 
-  private final Emails emails;
-  private final RetryHelper retryHelper;
+  private final AccountByEmailCache accountByEmailCache;
+  private final BatchUpdate.Factory buf;
   private final ChangeMessagesUtil changeMessagesUtil;
   private final CommentsUtil commentsUtil;
   private final OneOffRequestContext oneOffRequestContext;
@@ -92,8 +88,8 @@ public class MailProcessor {
 
   @Inject
   public MailProcessor(
-      Emails emails,
-      RetryHelper retryHelper,
+      AccountByEmailCache accountByEmailCache,
+      BatchUpdate.Factory buf,
       ChangeMessagesUtil changeMessagesUtil,
       CommentsUtil commentsUtil,
       OneOffRequestContext oneOffRequestContext,
@@ -106,8 +102,8 @@ public class MailProcessor {
       CommentAdded commentAdded,
       AccountCache accountCache,
       @CanonicalWebUrl Provider<String> canonicalUrl) {
-    this.emails = emails;
-    this.retryHelper = retryHelper;
+    this.accountByEmailCache = accountByEmailCache;
+    this.buf = buf;
     this.changeMessagesUtil = changeMessagesUtil;
     this.commentsUtil = commentsUtil;
     this.oneOffRequestContext = oneOffRequestContext;
@@ -123,20 +119,12 @@ public class MailProcessor {
   }
 
   /**
-   * Parses comments from a {@link MailMessage} and persists them on the change.
+   * Parse comments from MailMessage and persist them on the change.
    *
-   * @param message {@link MailMessage} to process
+   * @param message MailMessage to process.
+   * @throws OrmException
    */
-  public void process(MailMessage message) throws RestApiException, UpdateException {
-    retryHelper.execute(
-        buf -> {
-          processImpl(buf, message);
-          return null;
-        });
-  }
-
-  private void processImpl(BatchUpdate.Factory buf, MailMessage message)
-      throws OrmException, UpdateException, RestApiException, IOException {
+  public void process(MailMessage message) throws OrmException {
     for (DynamicMap.Entry<MailFilter> filter : mailFilters) {
       if (!filter.getProvider().get().shouldProcessMessage(message)) {
         log.warn(
@@ -157,28 +145,22 @@ public class MailProcessor {
       return;
     }
 
-    Set<Account.Id> accountIds = emails.getAccountFor(metadata.author);
-    if (accountIds.size() != 1) {
+    Set<Account.Id> accounts = accountByEmailCache.get(metadata.author);
+    if (accounts.size() != 1) {
       log.error(
           "Address {} could not be matched to a unique account. It was matched to {}."
               + " Will delete message.",
           metadata.author,
-          accountIds);
+          accounts);
       return;
     }
-    Account.Id account = accountIds.iterator().next();
+    Account.Id account = accounts.iterator().next();
     if (!accountCache.get(account).getAccount().isActive()) {
       log.warn("Mail: Account {} is inactive. Will delete message.", account);
       return;
     }
 
-    persistComments(buf, message, metadata, account);
-  }
-
-  private void persistComments(
-      BatchUpdate.Factory buf, MailMessage message, MailMetadata metadata, Account.Id sender)
-      throws OrmException, UpdateException, RestApiException {
-    try (ManualRequestContext ctx = oneOffRequestContext.openAs(sender)) {
+    try (ManualRequestContext ctx = oneOffRequestContext.openAs(account)) {
       List<ChangeData> changeDataList =
           queryProvider.get().byLegacyChangeId(new Change.Id(metadata.changeNumber));
       if (changeDataList.size() != 1) {
@@ -221,7 +203,11 @@ public class MailProcessor {
       Op o = new Op(new PatchSet.Id(cd.getId(), metadata.patchSet), parsedComments, message.id());
       BatchUpdate batchUpdate = buf.create(cd.db(), project, ctx.getUser(), TimeUtil.nowTs());
       batchUpdate.addOp(cd.getId(), o);
-      batchUpdate.execute();
+      try {
+        batchUpdate.execute();
+      } catch (UpdateException | RestApiException e) {
+        throw new OrmException(e);
+      }
     }
   }
 
@@ -232,7 +218,7 @@ public class MailProcessor {
     private ChangeMessage changeMessage;
     private List<Comment> comments;
     private PatchSet patchSet;
-    private ChangeNotes notes;
+    private ChangeControl changeControl;
 
     private Op(PatchSet.Id psId, List<MailComment> parsedComments, String messageId) {
       this.psId = psId;
@@ -242,23 +228,69 @@ public class MailProcessor {
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws OrmException, UnprocessableEntityException, PatchListNotAvailableException {
+        throws OrmException, UnprocessableEntityException {
+      changeControl = ctx.getControl();
       patchSet = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
-      notes = ctx.getNotes();
       if (patchSet == null) {
         throw new OrmException("patch set not found: " + psId);
       }
 
-      changeMessage = generateChangeMessage(ctx);
-      changeMessagesUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId), changeMessage);
+      String changeMsg = "Patch Set " + psId.get() + ":";
+      if (parsedComments.get(0).type == MailComment.CommentType.CHANGE_MESSAGE) {
+        // Add a blank line after Patch Set to follow the default format
+        if (parsedComments.size() > 1) {
+          changeMsg += "\n\n" + numComments(parsedComments.size() - 1);
+        }
+        changeMsg += "\n\n" + parsedComments.get(0).message;
+      } else {
+        changeMsg += "\n\n" + numComments(parsedComments.size());
+      }
 
+      changeMessage = ChangeMessagesUtil.newMessage(ctx, changeMsg, tag);
+      changeMessagesUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId), changeMessage);
       comments = new ArrayList<>();
       for (MailComment c : parsedComments) {
         if (c.type == MailComment.CommentType.CHANGE_MESSAGE) {
           continue;
         }
-        comments.add(
-            persistentCommentFromMailComment(ctx, c, targetPatchSetForComment(ctx, c, patchSet)));
+
+        String fileName;
+        // The patch set that this comment is based on is different if this
+        // comment was sent in reply to a comment on a previous patch set.
+        PatchSet psForComment;
+        Side side;
+        if (c.inReplyTo != null) {
+          fileName = c.inReplyTo.key.filename;
+          psForComment =
+              psUtil.get(
+                  ctx.getDb(),
+                  ctx.getNotes(),
+                  new PatchSet.Id(ctx.getChange().getId(), c.inReplyTo.key.patchSetId));
+          side = Side.fromShort(c.inReplyTo.side);
+        } else {
+          fileName = c.fileName;
+          psForComment = patchSet;
+          side = Side.REVISION;
+        }
+
+        Comment comment =
+            commentsUtil.newComment(
+                ctx,
+                fileName,
+                psForComment.getId(),
+                (short) side.ordinal(),
+                c.message,
+                false,
+                null);
+        comment.tag = tag;
+        if (c.inReplyTo != null) {
+          comment.parentUuid = c.inReplyTo.key.uuid;
+          comment.lineNbr = c.inReplyTo.lineNbr;
+          comment.range = c.inReplyTo.range;
+          comment.unresolved = c.inReplyTo.unresolved;
+        }
+        CommentsUtil.setCommentRevId(comment, patchListCache, ctx.getChange(), psForComment);
+        comments.add(comment);
       }
       commentsUtil.putComments(
           ctx.getDb(),
@@ -280,7 +312,7 @@ public class MailProcessor {
           .create(
               NotifyHandling.ALL,
               ArrayListMultimap.create(),
-              notes,
+              changeControl.getNotes(),
               patchSet,
               ctx.getUser().asIdentifiedUser(),
               changeMessage,
@@ -291,86 +323,18 @@ public class MailProcessor {
       // Get previous approvals from this user
       Map<String, Short> approvals = new HashMap<>();
       approvalsUtil
-          .byPatchSetUser(
-              ctx.getDb(),
-              notes,
-              ctx.getUser(),
-              psId,
-              ctx.getAccountId(),
-              ctx.getRevWalk(),
-              ctx.getRepoView().getConfig())
+          .byPatchSetUser(ctx.getDb(), changeControl, psId, ctx.getAccountId())
           .forEach(a -> approvals.put(a.getLabel(), a.getValue()));
       // Fire Gerrit event. Note that approvals can't be granted via email, so old and new approvals
       // are always the same here.
       commentAdded.fire(
-          notes.getChange(),
+          changeControl.getChange(),
           patchSet,
           ctx.getAccount(),
           changeMessage.getMessage(),
           approvals,
           approvals,
           ctx.getWhen());
-    }
-
-    private ChangeMessage generateChangeMessage(ChangeContext ctx) {
-      String changeMsg = "Patch Set " + psId.get() + ":";
-      if (parsedComments.get(0).type == MailComment.CommentType.CHANGE_MESSAGE) {
-        // Add a blank line after Patch Set to follow the default format
-        if (parsedComments.size() > 1) {
-          changeMsg += "\n\n" + numComments(parsedComments.size() - 1);
-        }
-        changeMsg += "\n\n" + parsedComments.get(0).message;
-      } else {
-        changeMsg += "\n\n" + numComments(parsedComments.size());
-      }
-      return ChangeMessagesUtil.newMessage(ctx, changeMsg, tag);
-    }
-
-    private PatchSet targetPatchSetForComment(
-        ChangeContext ctx, MailComment mailComment, PatchSet current) throws OrmException {
-      if (mailComment.inReplyTo != null) {
-        return psUtil.get(
-            ctx.getDb(),
-            ctx.getNotes(),
-            new PatchSet.Id(ctx.getChange().getId(), mailComment.inReplyTo.key.patchSetId));
-      }
-      return current;
-    }
-
-    private Comment persistentCommentFromMailComment(
-        ChangeContext ctx, MailComment mailComment, PatchSet patchSetForComment)
-        throws OrmException, UnprocessableEntityException, PatchListNotAvailableException {
-      String fileName;
-      // The patch set that this comment is based on is different if this
-      // comment was sent in reply to a comment on a previous patch set.
-      Side side;
-      if (mailComment.inReplyTo != null) {
-        fileName = mailComment.inReplyTo.key.filename;
-        side = Side.fromShort(mailComment.inReplyTo.side);
-      } else {
-        fileName = mailComment.fileName;
-        side = Side.REVISION;
-      }
-
-      Comment comment =
-          commentsUtil.newComment(
-              ctx,
-              fileName,
-              patchSetForComment.getId(),
-              (short) side.ordinal(),
-              mailComment.message,
-              false,
-              null);
-
-      comment.tag = tag;
-      if (mailComment.inReplyTo != null) {
-        comment.parentUuid = mailComment.inReplyTo.key.uuid;
-        comment.lineNbr = mailComment.inReplyTo.lineNbr;
-        comment.range = mailComment.inReplyTo.range;
-        comment.unresolved = mailComment.inReplyTo.unresolved;
-      }
-      CommentsUtil.setCommentRevId(comment, patchListCache, ctx.getChange(), patchSetForComment);
-      return comment;
     }
   }
 

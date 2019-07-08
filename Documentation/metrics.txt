@@ -86,12 +86,6 @@ Each queue provides the following metrics:
 
 * `sql/connection_pool/connections`: SQL database connections.
 
-=== Topics
-
-* `topic/cross_project_submit`: number of cross-project topic submissions.
-* `topic/cross_project_submit_completed`: number of cross-project
-topic submissions that concluded successfully.
-
 === JGit
 
 * `jgit/block_cache/cache_used`: Bytes of memory retained in JGit block cache.
@@ -109,10 +103,6 @@ topic submissions that concluded successfully.
 
 * `batch_update/execute_change_ops`: BatchUpdate change update latency,
 excluding reindexing
-* `batch_update/retry_attempt_counts`: Distribution of number of attempts made
-by RetryHelper (1 == single attempt, no retry)
-* `batch_update/retry_timeout_count`: Number of executions of RetryHelper that
-ultimately timed out
 
 === NoteDb
 
@@ -123,9 +113,6 @@ ultimately timed out
 * `notedb/auto_rebuild_latency`: NoteDb auto-rebuilding latency by table.
 * `notedb/auto_rebuild_failure_count`: NoteDb auto-rebuilding attempts that
 failed by table.
-* `notedb/external_id_update_count`: Total number of external ID updates.
-* `notedb/read_all_external_ids_latency`: Latency for reading all
-external ID's from NoteDb.
 
 === Reviewer Suggestion
 
@@ -137,10 +124,6 @@ for reviewer suggestion.
 reviewer suggestion.
 * `reviewer_suggestion/query_groups`: Latency for querying groups for reviewer
 suggestion.
-
-=== Repo Sequences
-
-* `sequence/next_id_latency`: Latency of requesting IDs from repo sequences.
 
 === Replication Plugin
 

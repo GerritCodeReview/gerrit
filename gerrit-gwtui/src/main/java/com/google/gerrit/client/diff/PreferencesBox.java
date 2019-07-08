@@ -322,10 +322,13 @@ public class PreferencesBox extends Composite {
       prefs.tabSize(Math.max(1, Integer.parseInt(v)));
       if (view != null) {
         view.operation(
-            () -> {
-              int size = prefs.tabSize();
-              for (CodeMirror cm : view.getCms()) {
-                cm.setOption("tabSize", size);
+            new Runnable() {
+              @Override
+              public void run() {
+                int v = prefs.tabSize();
+                for (CodeMirror cm : view.getCms()) {
+                  cm.setOption("tabSize", v);
+                }
               }
             });
       }
@@ -338,7 +341,13 @@ public class PreferencesBox extends Composite {
     if (v != null && v.length() > 0) {
       prefs.lineLength(Math.max(1, Integer.parseInt(v)));
       if (view != null) {
-        view.operation(() -> view.setLineLength(prefs.lineLength()));
+        view.operation(
+            new Runnable() {
+              @Override
+              public void run() {
+                view.setLineLength(prefs.lineLength());
+              }
+            });
       }
     }
   }
@@ -439,7 +448,7 @@ public class PreferencesBox extends Composite {
 
   @UiHandler("mode")
   void onMode(@SuppressWarnings("unused") ChangeEvent e) {
-    String mode = getSelectedMode();
+    final String mode = getSelectedMode();
     prefs.syntaxHighlighting(true);
     syntaxHighlighting.setValue(true, false);
     new ModeInjector()
@@ -452,9 +461,12 @@ public class PreferencesBox extends Composite {
                     && Objects.equals(mode, getSelectedMode())
                     && view.isAttached()) {
                   view.operation(
-                      () -> {
-                        view.getCmFromSide(DisplaySide.A).setOption("mode", mode);
-                        view.getCmFromSide(DisplaySide.B).setOption("mode", mode);
+                      new Runnable() {
+                        @Override
+                        public void run() {
+                          view.getCmFromSide(DisplaySide.A).setOption("mode", mode);
+                          view.getCmFromSide(DisplaySide.B).setOption("mode", mode);
+                        }
                       });
                 }
               }
@@ -471,10 +483,13 @@ public class PreferencesBox extends Composite {
     prefs.showWhitespaceErrors(e.getValue());
     if (view != null) {
       view.operation(
-          () -> {
-            boolean s = prefs.showWhitespaceErrors();
-            for (CodeMirror cm : view.getCms()) {
-              cm.setOption("showTrailingSpace", s);
+          new Runnable() {
+            @Override
+            public void run() {
+              boolean s = prefs.showWhitespaceErrors();
+              for (CodeMirror cm : view.getCms()) {
+                cm.setOption("showTrailingSpace", s);
+              }
             }
           });
     }
@@ -522,7 +537,7 @@ public class PreferencesBox extends Composite {
 
   @UiHandler("theme")
   void onTheme(@SuppressWarnings("unused") ChangeEvent e) {
-    Theme newTheme = getSelectedTheme();
+    final Theme newTheme = getSelectedTheme();
     prefs.theme(newTheme);
     if (view != null) {
       ThemeLoader.loadTheme(
@@ -531,12 +546,15 @@ public class PreferencesBox extends Composite {
             @Override
             public void onSuccess(Void result) {
               view.operation(
-                  () -> {
-                    if (getSelectedTheme() == newTheme && isAttached()) {
-                      String t = newTheme.name().toLowerCase();
-                      view.getCmFromSide(DisplaySide.A).setOption("theme", t);
-                      view.getCmFromSide(DisplaySide.B).setOption("theme", t);
-                      view.setThemeStyles(newTheme.isDark());
+                  new Runnable() {
+                    @Override
+                    public void run() {
+                      if (getSelectedTheme() == newTheme && isAttached()) {
+                        String t = newTheme.name().toLowerCase();
+                        view.getCmFromSide(DisplaySide.A).setOption("theme", t);
+                        view.getCmFromSide(DisplaySide.B).setOption("theme", t);
+                        view.setThemeStyles(newTheme.isDark());
+                      }
                     }
                   });
             }

@@ -18,6 +18,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.server.IdentifiedUser;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 /**
@@ -28,25 +33,44 @@ import org.eclipse.jgit.revwalk.RevCommit;
  * change number and P is the patch set number it is based on.
  */
 public class ChangeEdit {
+  private final IdentifiedUser user;
   private final Change change;
-  private final String editRefName;
+  private final Ref ref;
   private final RevCommit editCommit;
   private final PatchSet basePatchSet;
 
   public ChangeEdit(
-      Change change, String editRefName, RevCommit editCommit, PatchSet basePatchSet) {
-    this.change = checkNotNull(change);
-    this.editRefName = checkNotNull(editRefName);
-    this.editCommit = checkNotNull(editCommit);
-    this.basePatchSet = checkNotNull(basePatchSet);
+      IdentifiedUser user, Change change, Ref ref, RevCommit editCommit, PatchSet basePatchSet) {
+    checkNotNull(user);
+    checkNotNull(change);
+    checkNotNull(ref);
+    checkNotNull(editCommit);
+    checkNotNull(basePatchSet);
+    this.user = user;
+    this.change = change;
+    this.ref = ref;
+    this.editCommit = editCommit;
+    this.basePatchSet = basePatchSet;
   }
 
   public Change getChange() {
     return change;
   }
 
+  public IdentifiedUser getUser() {
+    return user;
+  }
+
+  public Ref getRef() {
+    return ref;
+  }
+
+  public RevId getRevision() {
+    return new RevId(ObjectId.toString(ref.getObjectId()));
+  }
+
   public String getRefName() {
-    return editRefName;
+    return RefNames.refsEdit(user.getAccountId(), change.getId(), basePatchSet.getId());
   }
 
   public RevCommit getEditCommit() {

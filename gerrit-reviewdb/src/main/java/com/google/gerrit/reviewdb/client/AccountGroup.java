@@ -17,22 +17,9 @@ package com.google.gerrit.reviewdb.client;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 import com.google.gwtorm.client.StringKey;
-import java.sql.Timestamp;
 
 /** Named group of one or more accounts, typically used for access controls. */
 public final class AccountGroup {
-  /**
-   * Time when the audit subsystem was implemented, used as the default value for {@link #createdOn}
-   * when one couldn't be determined from the audit log.
-   */
-  // Can't use Instant here because GWT. This is verified against a readable time in the tests,
-  // which don't need to compile under GWT.
-  private static final long AUDIT_CREATION_INSTANT_MS = 1244489460000L;
-
-  public static Timestamp auditCreationInstantTs() {
-    return new Timestamp(AUDIT_CREATION_INSTANT_MS);
-  }
-
   /** Group name key */
   public static class NameKey extends StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
@@ -42,7 +29,7 @@ public final class AccountGroup {
 
     protected NameKey() {}
 
-    public NameKey(String n) {
+    public NameKey(final String n) {
       name = n;
     }
 
@@ -66,7 +53,7 @@ public final class AccountGroup {
 
     protected UUID() {}
 
-    public UUID(String n) {
+    public UUID(final String n) {
       uuid = n;
     }
 
@@ -81,7 +68,7 @@ public final class AccountGroup {
     }
 
     /** Parse an AccountGroup.UUID out of a string representation. */
-    public static UUID parse(String str) {
+    public static UUID parse(final String str) {
       final UUID r = new UUID();
       r.fromString(str);
       return r;
@@ -102,7 +89,7 @@ public final class AccountGroup {
 
     protected Id() {}
 
-    public Id(int id) {
+    public Id(final int id) {
       this.id = id;
     }
 
@@ -117,7 +104,7 @@ public final class AccountGroup {
     }
 
     /** Parse an AccountGroup.Id out of a string representation. */
-    public static Id parse(String str) {
+    public static Id parse(final String str) {
       final Id r = new Id();
       r.fromString(str);
       return r;
@@ -158,22 +145,17 @@ public final class AccountGroup {
   @Column(id = 10)
   protected UUID ownerGroupUUID;
 
-  @Column(id = 11, notNull = false)
-  protected Timestamp createdOn;
-
   protected AccountGroup() {}
 
   public AccountGroup(
-      AccountGroup.NameKey newName,
-      AccountGroup.Id newId,
-      AccountGroup.UUID uuid,
-      Timestamp createdOn) {
+      final AccountGroup.NameKey newName,
+      final AccountGroup.Id newId,
+      final AccountGroup.UUID uuid) {
     name = newName;
     groupId = newId;
     visibleToAll = false;
     groupUUID = uuid;
     ownerGroupUUID = groupUUID;
-    this.createdOn = createdOn;
   }
 
   public AccountGroup.Id getId() {
@@ -188,7 +170,7 @@ public final class AccountGroup {
     return name;
   }
 
-  public void setNameKey(AccountGroup.NameKey nameKey) {
+  public void setNameKey(final AccountGroup.NameKey nameKey) {
     name = nameKey;
   }
 
@@ -196,7 +178,7 @@ public final class AccountGroup {
     return description;
   }
 
-  public void setDescription(String d) {
+  public void setDescription(final String d) {
     description = d;
   }
 
@@ -204,11 +186,11 @@ public final class AccountGroup {
     return ownerGroupUUID;
   }
 
-  public void setOwnerGroupUUID(AccountGroup.UUID uuid) {
+  public void setOwnerGroupUUID(final AccountGroup.UUID uuid) {
     ownerGroupUUID = uuid;
   }
 
-  public void setVisibleToAll(boolean visibleToAll) {
+  public void setVisibleToAll(final boolean visibleToAll) {
     this.visibleToAll = visibleToAll;
   }
 
@@ -222,13 +204,5 @@ public final class AccountGroup {
 
   public void setGroupUUID(AccountGroup.UUID uuid) {
     groupUUID = uuid;
-  }
-
-  public Timestamp getCreatedOn() {
-    return createdOn != null ? createdOn : auditCreationInstantTs();
-  }
-
-  public void setCreatedOn(Timestamp createdOn) {
-    this.createdOn = createdOn;
   }
 }

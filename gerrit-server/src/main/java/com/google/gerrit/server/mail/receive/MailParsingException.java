@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.mail.receive;
 
-/** An {@link Exception} indicating that an email could not be parsed. */
+/** MailParsingException indicates that an email could not be parsed. */
 public class MailParsingException extends Exception {
   private static final long serialVersionUID = 1L;
 

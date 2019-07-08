@@ -14,15 +14,12 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.mail.Address;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -39,8 +36,7 @@ public class ReviewerResource implements RestResource {
 
   private final ChangeResource change;
   private final RevisionResource revision;
-  @Nullable private final IdentifiedUser user;
-  @Nullable private final Address address;
+  private final IdentifiedUser user;
 
   @AssistedInject
   ReviewerResource(
@@ -48,9 +44,8 @@ public class ReviewerResource implements RestResource {
       @Assisted ChangeResource change,
       @Assisted Account.Id id) {
     this.change = change;
-    this.user = userFactory.create(id);
     this.revision = null;
-    this.address = null;
+    this.user = userFactory.create(id);
   }
 
   @AssistedInject
@@ -61,21 +56,6 @@ public class ReviewerResource implements RestResource {
     this.revision = revision;
     this.change = revision.getChangeResource();
     this.user = userFactory.create(id);
-    this.address = null;
-  }
-
-  ReviewerResource(ChangeResource change, Address address) {
-    this.change = change;
-    this.address = address;
-    this.revision = null;
-    this.user = null;
-  }
-
-  ReviewerResource(RevisionResource revision, Address address) {
-    this.revision = revision;
-    this.change = revision.getChangeResource();
-    this.address = address;
-    this.user = null;
   }
 
   public ChangeResource getChangeResource() {
@@ -95,22 +75,22 @@ public class ReviewerResource implements RestResource {
   }
 
   public IdentifiedUser getReviewerUser() {
-    checkArgument(user != null, "no user provided");
     return user;
   }
 
-  public Address getReviewerByEmail() {
-    checkArgument(address != null, "no address provided");
-    return address;
+  /**
+   * @return the control for the caller's user (as opposed to the reviewer's user as returned by
+   *     {@link #getReviewerControl()}).
+   */
+  public ChangeControl getControl() {
+    return change.getControl();
   }
 
   /**
-   * Check if this resource was constructed by email or by {@code Account.Id}.
-   *
-   * @return true if the resource was constructed by providing an {@code Address}; false if the
-   *     resource was constructed by providing an {@code Account.Id}.
+   * @return the control for the reviewer's user (as opposed to the caller's user as returned by
+   *     {@link #getControl()}).
    */
-  public boolean isByEmail() {
-    return user == null;
+  public ChangeControl getReviewerControl() {
+    return change.getControl().forUser(user);
   }
 }

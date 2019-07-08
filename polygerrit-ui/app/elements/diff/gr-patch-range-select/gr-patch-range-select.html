@@ -13,49 +13,45 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<link rel="import" href="../../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../shared/gr-dropdown-list/gr-dropdown-list.html">
-
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
 
 <dom-module id="gr-patch-range-select">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
-        align-items: center;
-        display: flex;
+        display: block;
+      }
+      .patchRange {
+        display: inline-block;
       }
       select {
         max-width: 15em;
-      }
-      .arrow {
-        color: rgba(0,0,0,.7);
-        margin: 0 .5em;
-      }
-      gr-dropdown-list {
-        --trigger-style: {
-          color: rgba(0,0,0,.7);
-          text-transform: none;
-          font-family: var(--font-family);
-        }
-        --trigger-hover-color: rgba(0,0,0,.6);
       }
       @media screen and (max-width: 50em) {
         .filesWeblinks {
           display: none;
         }
+        select {
+          max-width: 5.25em;
+        }
       }
     </style>
+    Patch set:
     <span class="patchRange">
-      <gr-dropdown-list
-          id="basePatchDropdown"
-          value="[[basePatchNum]]"
-          on-value-change="_handlePatchChange"
-          items="[[_baseDropdownContent]]">
-      </gr-dropdown-list>
+      <select id="leftPatchSelect" bind-value="{{_leftSelected}}"
+          on-change="_handlePatchChange" is="gr-select">
+        <option value="PARENT">Base</option>
+        <template is="dom-repeat" items="{{availablePatches}}" as="patchNum">
+          <option value$="[[patchNum]]"
+              disabled$="[[_computeLeftDisabled(patchNum, patchRange)]]">
+            [[patchNum]]
+            [[_computePatchSetDescription(revisions, patchNum)]]
+          </option>
+        </template>
+      </select>
     </span>
     <span is="dom-if" if="[[filesWeblinks.meta_a]]" class="filesWeblinks">
       <template is="dom-repeat" items="[[filesWeblinks.meta_a]]" as="weblink">
@@ -63,14 +59,18 @@ limitations under the License.
            href$="[[weblink.url]]">[[weblink.name]]</a>
       </template>
     </span>
-    <span class="arrow">&rarr;</span>
+    &rarr;
     <span class="patchRange">
-      <gr-dropdown-list
-          id="patchNumDropdown"
-          value="[[patchNum]]"
-          on-value-change="_handlePatchChange"
-          items="[[_patchDropdownContent]]">
-      </gr-dropdown-list>
+      <select id="rightPatchSelect" bind-value="{{_rightSelected}}"
+          on-change="_handlePatchChange" is="gr-select">
+        <template is="dom-repeat" items="{{availablePatches}}" as="patchNum">
+          <option value$="[[patchNum]]"
+              disabled$="[[_computeRightDisabled(patchNum, patchRange)]]">
+            [[patchNum]]
+            [[_computePatchSetDescription(revisions, patchNum)]]
+          </option>
+        </template>
+      </select>
       <span is="dom-if" if="[[filesWeblinks.meta_b]]" class="filesWeblinks">
         <template is="dom-repeat" items="[[filesWeblinks.meta_b]]" as="weblink">
           <a target="_blank"

@@ -19,7 +19,6 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.RepositoryCaseMismatchException;
-import com.google.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedSet;
@@ -52,7 +51,9 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
 
     private Repo(Project.NameKey name) {
       super(new Description(name));
-      setPerformsAtomicTransactions(true);
+      // TODO(dborowitz): Allow atomic transactions when this is supported:
+      // https://git.eclipse.org/r/#/c/61841/2/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InMemoryRepository.java@313
+      setPerformsAtomicTransactions(false);
     }
 
     @Override
@@ -71,12 +72,7 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
     }
   }
 
-  private final Map<String, Repo> repos;
-
-  @Inject
-  public InMemoryRepositoryManager() {
-    this.repos = new HashMap<>();
-  }
+  private Map<String, Repo> repos = new HashMap<>();
 
   @Override
   public synchronized Repo openRepository(Project.NameKey name) throws RepositoryNotFoundException {

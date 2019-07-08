@@ -30,14 +30,6 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.errors.NotSignedInException;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.index.IndexConfig;
-import com.google.gerrit.index.Schema;
-import com.google.gerrit.index.SchemaUtil;
-import com.google.gerrit.index.query.LimitPredicate;
-import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.index.query.QueryBuilder;
-import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.index.query.QueryRequiresAuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -50,6 +42,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.VersionedAccountDestinations;
@@ -57,40 +50,46 @@ import com.google.gerrit.server.account.VersionedAccountQueries;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.strategy.SubmitDryRun;
 import com.google.gerrit.server.group.ListMembers;
+import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.IndexConfig;
+import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
-import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ListChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.LimitPredicate;
+import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.QueryBuilder;
+import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.QueryRequiresAuthException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.util.Providers;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
 /** Parses a query string meant to be applied to change objects. */
@@ -118,8 +117,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   private static final Pattern DEF_CHANGE =
       Pattern.compile("^(?:[1-9][0-9]*|(?:[^~]+~[^~]+~)?[iI][0-9a-f]{4,}.*)$");
 
-  static final int MAX_ACCOUNTS_PER_DEFAULT_FIELD = 10;
-
   // NOTE: As new search operations are added, please keep the
   // SearchSuggestOracle up to date.
 
@@ -127,7 +124,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_AGE = "age";
   public static final String FIELD_ASSIGNEE = "assignee";
   public static final String FIELD_AUTHOR = "author";
-  public static final String FIELD_EXACTAUTHOR = "exactauthor";
   public static final String FIELD_BEFORE = "before";
   public static final String FIELD_CHANGE = "change";
   public static final String FIELD_CHANGE_ID = "change_id";
@@ -135,7 +131,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_COMMENTBY = "commentby";
   public static final String FIELD_COMMIT = "commit";
   public static final String FIELD_COMMITTER = "committer";
-  public static final String FIELD_EXACTCOMMITTER = "exactcommitter";
   public static final String FIELD_CONFLICTS = "conflicts";
   public static final String FIELD_DELETED = "deleted";
   public static final String FIELD_DELTA = "delta";
@@ -156,9 +151,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_OWNERIN = "ownerin";
   public static final String FIELD_PARENTPROJECT = "parentproject";
   public static final String FIELD_PATH = "path";
-  public static final String FIELD_PENDING_REVIEWER = "pendingreviewer";
-  public static final String FIELD_PENDING_REVIEWER_BY_EMAIL = "pendingreviewerbyemail";
-  public static final String FIELD_PRIVATE = "private";
   public static final String FIELD_PROJECT = "project";
   public static final String FIELD_PROJECTS = "projects";
   public static final String FIELD_REF = "ref";
@@ -168,15 +160,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_STAR = "star";
   public static final String FIELD_STARBY = "starby";
   public static final String FIELD_STARREDBY = "starredby";
-  public static final String FIELD_STARTED = "started";
   public static final String FIELD_STATUS = "status";
   public static final String FIELD_SUBMISSIONID = "submissionid";
   public static final String FIELD_TR = "tr";
   public static final String FIELD_UNRESOLVED_COMMENT_COUNT = "unresolved";
   public static final String FIELD_VISIBLETO = "visibleto";
   public static final String FIELD_WATCHEDBY = "watchedby";
-  public static final String FIELD_WIP = "wip";
-  public static final String FIELD_REVERTOF = "revertof";
 
   public static final String ARG_ID_USER = "user";
   public static final String ARG_ID_GROUP = "group";
@@ -192,7 +181,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final AccountResolver accountResolver;
     final AllProjectsName allProjectsName;
     final AllUsersName allUsersName;
-    final PermissionBackend permissionBackend;
+    final CapabilityControl.Factory capabilityControlFactory;
+    final ChangeControl.GenericFactory changeControlGenericFactory;
     final ChangeData.Factory changeDataFactory;
     final ChangeIndex index;
     final ChangeIndexRewriter rewriter;
@@ -201,6 +191,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final ConflictsCache conflictsCache;
     final DynamicMap<ChangeHasOperandFactory> hasOperands;
     final DynamicMap<ChangeOperatorFactory> opFactories;
+    final FieldDef.FillArgs fillArgs;
     final GitRepositoryManager repoManager;
     final GroupBackend groupBackend;
     final IdentifiedUser.GenericFactory userFactory;
@@ -214,6 +205,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final Provider<ReviewDb> db;
     final StarredChangesUtil starredChangesUtil;
     final SubmitDryRun submitDryRun;
+    final TrackingFooters trackingFooters;
+    final boolean allowsDrafts;
 
     private final Provider<CurrentUser> self;
 
@@ -227,9 +220,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         DynamicMap<ChangeHasOperandFactory> hasOperands,
         IdentifiedUser.GenericFactory userFactory,
         Provider<CurrentUser> self,
-        PermissionBackend permissionBackend,
+        CapabilityControl.Factory capabilityControlFactory,
+        ChangeControl.GenericFactory changeControlGenericFactory,
         ChangeNotes.Factory notesFactory,
         ChangeData.Factory changeDataFactory,
+        FieldDef.FillArgs fillArgs,
         CommentsUtil commentsUtil,
         AccountResolver accountResolver,
         GroupBackend groupBackend,
@@ -242,10 +237,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ChangeIndexCollection indexes,
         SubmitDryRun submitDryRun,
         ConflictsCache conflictsCache,
+        TrackingFooters trackingFooters,
         IndexConfig indexConfig,
         Provider<ListMembers> listMembers,
         StarredChangesUtil starredChangesUtil,
         AccountCache accountCache,
+        @GerritServerConfig Config cfg,
         NotesMigration notesMigration) {
       this(
           db,
@@ -255,9 +252,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           hasOperands,
           userFactory,
           self,
-          permissionBackend,
+          capabilityControlFactory,
+          changeControlGenericFactory,
           notesFactory,
           changeDataFactory,
+          fillArgs,
           commentsUtil,
           accountResolver,
           groupBackend,
@@ -269,11 +268,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           listChildProjects,
           submitDryRun,
           conflictsCache,
+          trackingFooters,
           indexes != null ? indexes.getSearchIndex() : null,
           indexConfig,
           listMembers,
           starredChangesUtil,
           accountCache,
+          cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true),
           notesMigration);
     }
 
@@ -285,9 +286,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         DynamicMap<ChangeHasOperandFactory> hasOperands,
         IdentifiedUser.GenericFactory userFactory,
         Provider<CurrentUser> self,
-        PermissionBackend permissionBackend,
+        CapabilityControl.Factory capabilityControlFactory,
+        ChangeControl.GenericFactory changeControlGenericFactory,
         ChangeNotes.Factory notesFactory,
         ChangeData.Factory changeDataFactory,
+        FieldDef.FillArgs fillArgs,
         CommentsUtil commentsUtil,
         AccountResolver accountResolver,
         GroupBackend groupBackend,
@@ -299,11 +302,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         Provider<ListChildProjects> listChildProjects,
         SubmitDryRun submitDryRun,
         ConflictsCache conflictsCache,
+        TrackingFooters trackingFooters,
         ChangeIndex index,
         IndexConfig indexConfig,
         Provider<ListMembers> listMembers,
         StarredChangesUtil starredChangesUtil,
         AccountCache accountCache,
+        boolean allowsDrafts,
         NotesMigration notesMigration) {
       this.db = db;
       this.queryProvider = queryProvider;
@@ -311,9 +316,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.opFactories = opFactories;
       this.userFactory = userFactory;
       this.self = self;
-      this.permissionBackend = permissionBackend;
+      this.capabilityControlFactory = capabilityControlFactory;
       this.notesFactory = notesFactory;
+      this.changeControlGenericFactory = changeControlGenericFactory;
       this.changeDataFactory = changeDataFactory;
+      this.fillArgs = fillArgs;
       this.commentsUtil = commentsUtil;
       this.accountResolver = accountResolver;
       this.groupBackend = groupBackend;
@@ -325,11 +332,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.listChildProjects = listChildProjects;
       this.submitDryRun = submitDryRun;
       this.conflictsCache = conflictsCache;
+      this.trackingFooters = trackingFooters;
       this.index = index;
       this.indexConfig = indexConfig;
       this.listMembers = listMembers;
       this.starredChangesUtil = starredChangesUtil;
       this.accountCache = accountCache;
+      this.allowsDrafts = allowsDrafts;
       this.hasOperands = hasOperands;
       this.notesMigration = notesMigration;
     }
@@ -343,9 +352,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           hasOperands,
           userFactory,
           Providers.of(otherUser),
-          permissionBackend,
+          capabilityControlFactory,
+          changeControlGenericFactory,
           notesFactory,
           changeDataFactory,
+          fillArgs,
           commentsUtil,
           accountResolver,
           groupBackend,
@@ -357,11 +368,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           listChildProjects,
           submitDryRun,
           conflictsCache,
+          trackingFooters,
           index,
           indexConfig,
           listMembers,
           starredChangesUtil,
           accountCache,
+          allowsDrafts,
           notesMigration);
     }
 
@@ -482,7 +495,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> status(String statusName) {
+  public Predicate<ChangeData> status(String statusName) throws QueryParseException {
     if ("reviewed".equalsIgnoreCase(statusName)) {
       return IsReviewedPredicate.create();
     }
@@ -550,28 +563,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("reviewer".equalsIgnoreCase(value)) {
-      if (args.getSchema().hasField(ChangeField.WIP)) {
-        return Predicate.and(
-            Predicate.not(new BooleanPredicate(ChangeField.WIP)),
-            ReviewerPredicate.reviewer(args, self()));
-      }
       return ReviewerPredicate.reviewer(args, self());
     }
 
     if ("cc".equalsIgnoreCase(value)) {
-      return ReviewerPredicate.cc(self());
+      return ReviewerPredicate.cc(args, self());
     }
 
     if ("mergeable".equalsIgnoreCase(value)) {
-      return new BooleanPredicate(ChangeField.MERGEABLE);
-    }
-
-    if ("private".equalsIgnoreCase(value)) {
-      if (args.getSchema().hasField(ChangeField.PRIVATE)) {
-        return new BooleanPredicate(ChangeField.PRIVATE);
-      }
-      throw new QueryParseException(
-          "'is:private' operator is not supported by change index version");
+      return new IsMergeablePredicate(args.fillArgs);
     }
 
     if ("assigned".equalsIgnoreCase(value)) {
@@ -586,26 +586,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return new SubmittablePredicate(SubmitRecord.Status.OK);
     }
 
-    if ("ignored".equalsIgnoreCase(value)) {
-      return star("ignore");
+    try {
+      return status(value);
+    } catch (IllegalArgumentException e) {
+      // not status: alias?
     }
 
-    if ("started".equalsIgnoreCase(value)) {
-      if (args.getSchema().hasField(ChangeField.STARTED)) {
-        return new BooleanPredicate(ChangeField.STARTED);
-      }
-      throw new QueryParseException(
-          "'is:started' operator is not supported by change index version");
-    }
-
-    if ("wip".equalsIgnoreCase(value)) {
-      if (args.getSchema().hasField(ChangeField.WIP)) {
-        return new BooleanPredicate(ChangeField.WIP);
-      }
-      throw new QueryParseException("'is:wip' operator is not supported by change index version");
-    }
-
-    return status(value);
+    throw error("Invalid query");
   }
 
   @Operator
@@ -615,12 +602,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> conflicts(String value) throws OrmException, QueryParseException {
-    List<Change> changes = parseChange(value);
-    List<Predicate<ChangeData>> or = new ArrayList<>(changes.size());
-    for (Change c : changes) {
-      or.add(ConflictsPredicate.create(args, value, c));
-    }
-    return Predicate.or(or);
+    return new ConflictsPredicate(args, value, parseChange(value));
   }
 
   @Operator
@@ -705,8 +687,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> label(String name)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+  public Predicate<ChangeData> label(String name) throws QueryParseException, OrmException {
     Set<Account.Id> accounts = null;
     AccountGroup.UUID group = null;
 
@@ -805,8 +786,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> starredby(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+  public Predicate<ChangeData> starredby(String who) throws QueryParseException, OrmException {
     return starredby(parseAccount(who));
   }
 
@@ -823,8 +803,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> watchedby(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+  public Predicate<ChangeData> watchedby(String who) throws QueryParseException, OrmException {
     Set<Account.Id> m = parseAccount(who);
     List<IsWatchedByPredicate> p = Lists.newArrayListWithCapacity(m.size());
 
@@ -848,8 +827,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> draftby(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+  public Predicate<ChangeData> draftby(String who) throws QueryParseException, OrmException {
     Set<Account.Id> m = parseAccount(who);
     List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(m.size());
     for (Account.Id id : m) {
@@ -862,17 +840,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     return new HasDraftByPredicate(who);
   }
 
-  private boolean isSelf(String who) {
-    return "self".equals(who) || "me".equals(who);
-  }
-
   @Operator
-  public Predicate<ChangeData> visibleto(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
-    if (isSelf(who)) {
+  public Predicate<ChangeData> visibleto(String who) throws QueryParseException, OrmException {
+    if ("self".equals(who)) {
       return is_visible();
     }
-    Set<Account.Id> m = args.accountResolver.findAll(who);
+    Set<Account.Id> m = args.accountResolver.findAll(args.db.get(), who);
     if (!m.isEmpty()) {
       List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(m.size());
       for (Account.Id id : m) {
@@ -889,14 +862,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       for (GroupReference ref : suggestions) {
         ids.add(ref.getUUID());
       }
-      return visibleto(new SingleGroupUser(ids));
+      return visibleto(new SingleGroupUser(args.capabilityControlFactory, ids));
     }
 
     throw error("No user or group matches \"" + who + "\".");
   }
 
   public Predicate<ChangeData> visibleto(CurrentUser user) {
-    return new ChangeIsVisibleToPredicate(args.db, args.notesFactory, user, args.permissionBackend);
+    return new ChangeIsVisibleToPredicate(
+        args.db, args.notesFactory, args.changeControlGenericFactory, user);
   }
 
   public Predicate<ChangeData> is_visible() throws QueryParseException {
@@ -904,14 +878,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> o(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+  public Predicate<ChangeData> o(String who) throws QueryParseException, OrmException {
     return owner(who);
   }
 
   @Operator
-  public Predicate<ChangeData> owner(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+  public Predicate<ChangeData> owner(String who) throws QueryParseException, OrmException {
     return owner(parseAccount(who));
   }
 
@@ -923,18 +895,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     return Predicate.or(p);
   }
 
-  private Predicate<ChangeData> ownerDefaultField(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
-    Set<Account.Id> accounts = parseAccount(who);
-    if (accounts.size() > MAX_ACCOUNTS_PER_DEFAULT_FIELD) {
-      return Predicate.any();
-    }
-    return owner(accounts);
-  }
-
   @Operator
-  public Predicate<ChangeData> assignee(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+  public Predicate<ChangeData> assignee(String who) throws QueryParseException, OrmException {
     return assignee(parseAccount(who));
   }
 
@@ -968,39 +930,22 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> r(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+  public Predicate<ChangeData> r(String who) throws QueryParseException, OrmException {
     return reviewer(who);
   }
 
   @Operator
-  public Predicate<ChangeData> reviewer(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
-    return reviewer(who, false);
-  }
-
-  private Predicate<ChangeData> reviewerDefaultField(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
-    return reviewer(who, true);
-  }
-
-  private Predicate<ChangeData> reviewer(String who, boolean forDefaultField)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
-    Predicate<ChangeData> byState =
-        reviewerByState(who, ReviewerStateInternal.REVIEWER, forDefaultField);
-    if (Objects.equals(byState, Predicate.<ChangeData>any())) {
-      return Predicate.any();
-    }
-    if (args.getSchema().hasField(ChangeField.WIP)) {
-      return Predicate.and(Predicate.not(new BooleanPredicate(ChangeField.WIP)), byState);
-    }
-    return byState;
+  public Predicate<ChangeData> reviewer(String who) throws QueryParseException, OrmException {
+    return Predicate.or(
+        parseAccount(who).stream()
+            .map(id -> ReviewerPredicate.reviewer(args, id))
+            .collect(toList()));
   }
 
   @Operator
-  public Predicate<ChangeData> cc(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
-    return reviewerByState(who, ReviewerStateInternal.CC, false);
+  public Predicate<ChangeData> cc(String who) throws QueryParseException, OrmException {
+    return Predicate.or(
+        parseAccount(who).stream().map(id -> ReviewerPredicate.cc(args, id)).collect(toList()));
   }
 
   @Operator
@@ -1014,7 +959,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> tr(String trackingId) {
-    return new TrackingIdPredicate(trackingId);
+    return new TrackingIdPredicate(args.trackingFooters, trackingId);
   }
 
   @Operator
@@ -1052,8 +997,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> commentby(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+  public Predicate<ChangeData> commentby(String who) throws QueryParseException, OrmException {
     return commentby(parseAccount(who));
   }
 
@@ -1066,8 +1010,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> from(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+  public Predicate<ChangeData> from(String who) throws QueryParseException, OrmException {
     Set<Account.Id> ownerIds = parseAccount(who);
     return Predicate.or(owner(ownerIds), commentby(ownerIds));
   }
@@ -1091,8 +1034,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> reviewedby(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+  public Predicate<ChangeData> reviewedby(String who) throws QueryParseException, OrmException {
     return IsReviewedPredicate.create(parseAccount(who));
   }
 
@@ -1115,21 +1057,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> author(String who) throws QueryParseException {
-    if (args.getSchema().hasField(ChangeField.EXACT_AUTHOR)) {
-      return getAuthorOrCommitterPredicate(
-          who.trim(), ExactAuthorPredicate::new, AuthorPredicate::new);
-    }
-    return getAuthorOrCommitterFullTextPredicate(who.trim(), AuthorPredicate::new);
+  public Predicate<ChangeData> author(String who) {
+    return new AuthorPredicate(who);
   }
 
   @Operator
-  public Predicate<ChangeData> committer(String who) throws QueryParseException {
-    if (args.getSchema().hasField(ChangeField.EXACT_COMMITTER)) {
-      return getAuthorOrCommitterPredicate(
-          who.trim(), ExactCommitterPredicate::new, CommitterPredicate::new);
-    }
-    return getAuthorOrCommitterFullTextPredicate(who.trim(), CommitterPredicate::new);
+  public Predicate<ChangeData> committer(String who) {
+    return new CommitterPredicate(who);
   }
 
   @Operator
@@ -1145,14 +1079,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> unresolved(String value) throws QueryParseException {
     return new IsUnresolvedPredicate(value);
-  }
-
-  @Operator
-  public Predicate<ChangeData> revertof(String value) throws QueryParseException {
-    if (args.getSchema().hasField(ChangeField.REVERT_OF)) {
-      return new RevertOfPredicate(value);
-    }
-    throw new QueryParseException("'revertof' operator is not supported by change index version");
   }
 
   @Override
@@ -1178,25 +1104,19 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     // Adapt the capacity of this list when adding more default predicates.
     List<Predicate<ChangeData>> predicates = Lists.newArrayListWithCapacity(11);
     try {
-      Predicate<ChangeData> p = ownerDefaultField(query);
-      if (!Objects.equals(p, Predicate.<ChangeData>any())) {
-        predicates.add(p);
-      }
-    } catch (OrmException | IOException | ConfigInvalidException | QueryParseException e) {
+      predicates.add(owner(query));
+    } catch (OrmException | QueryParseException e) {
       // Skip.
     }
     try {
-      Predicate<ChangeData> p = reviewerDefaultField(query);
-      if (!Objects.equals(p, Predicate.<ChangeData>any())) {
-        predicates.add(p);
-      }
-    } catch (OrmException | IOException | ConfigInvalidException | QueryParseException e) {
+      predicates.add(reviewer(query));
+    } catch (OrmException | QueryParseException e) {
       // Skip.
     }
     predicates.add(file(query));
     try {
       predicates.add(label(query));
-    } catch (OrmException | IOException | ConfigInvalidException | QueryParseException e) {
+    } catch (OrmException | QueryParseException e) {
       // Skip.
     }
     predicates.add(commit(query));
@@ -1209,30 +1129,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     // Adapt the capacity of the "predicates" list when adding more default
     // predicates.
     return Predicate.or(predicates);
-  }
-
-  private Predicate<ChangeData> getAuthorOrCommitterPredicate(
-      String who,
-      Function<String, Predicate<ChangeData>> exactPredicateFunc,
-      Function<String, Predicate<ChangeData>> fullPredicateFunc)
-      throws QueryParseException {
-    if (Address.tryParse(who) != null) {
-      return exactPredicateFunc.apply(who);
-    }
-    return getAuthorOrCommitterFullTextPredicate(who, fullPredicateFunc);
-  }
-
-  private Predicate<ChangeData> getAuthorOrCommitterFullTextPredicate(
-      String who, Function<String, Predicate<ChangeData>> fullPredicateFunc)
-      throws QueryParseException {
-    Set<String> parts = SchemaUtil.getNameParts(who);
-    if (parts.isEmpty()) {
-      throw error("invalid value");
-    }
-
-    List<Predicate<ChangeData>> predicates =
-        parts.stream().map(fullPredicateFunc).collect(toList());
-    return Predicate.and(predicates);
   }
 
   private Set<Account.Id> getMembers(AccountGroup.UUID g) throws OrmException {
@@ -1251,12 +1147,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     return accounts;
   }
 
-  private Set<Account.Id> parseAccount(String who)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
-    if (isSelf(who)) {
+  private Set<Account.Id> parseAccount(String who) throws QueryParseException, OrmException {
+    if ("self".equals(who)) {
       return Collections.singleton(self());
     }
-    Set<Account.Id> matches = args.accountResolver.findAll(who);
+    Set<Account.Id> matches = args.accountResolver.findAll(args.db.get(), who);
     if (matches.isEmpty()) {
       throw error("User " + who + " not found");
     }
@@ -1294,44 +1189,5 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   private Account.Id self() throws QueryParseException {
     return args.getIdentifiedUser().getAccountId();
-  }
-
-  public Predicate<ChangeData> reviewerByState(
-      String who, ReviewerStateInternal state, boolean forDefaultField)
-      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
-    Predicate<ChangeData> reviewerByEmailPredicate = null;
-    if (args.index.getSchema().hasField(ChangeField.REVIEWER_BY_EMAIL)) {
-      Address address = Address.tryParse(who);
-      if (address != null) {
-        reviewerByEmailPredicate = ReviewerByEmailPredicate.forState(address, state);
-      }
-    }
-
-    Predicate<ChangeData> reviewerPredicate = null;
-    try {
-      Set<Account.Id> accounts = parseAccount(who);
-      if (!forDefaultField || accounts.size() <= MAX_ACCOUNTS_PER_DEFAULT_FIELD) {
-        reviewerPredicate =
-            Predicate.or(
-                accounts.stream()
-                    .map(id -> ReviewerPredicate.forState(id, state))
-                    .collect(toList()));
-      }
-    } catch (QueryParseException e) {
-      // Propagate this exception only if we can't use 'who' to query by email
-      if (reviewerByEmailPredicate == null) {
-        throw e;
-      }
-    }
-
-    if (reviewerPredicate != null && reviewerByEmailPredicate != null) {
-      return Predicate.or(reviewerPredicate, reviewerByEmailPredicate);
-    } else if (reviewerPredicate != null) {
-      return reviewerPredicate;
-    } else if (reviewerByEmailPredicate != null) {
-      return reviewerByEmailPredicate;
-    } else {
-      return Predicate.any();
-    }
   }
 }

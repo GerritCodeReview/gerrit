@@ -20,7 +20,7 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
 <link rel="import" href="gr-formatted-text.html">
 
 <script>void(0);</script>
@@ -32,9 +32,9 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-formatted-text tests', () => {
-    let element;
-    let sandbox;
+  suite('gr-formatted-text tests', function() {
+    var element;
+    var sandbox;
 
     function assertBlock(result, index, type, text) {
       assert.equal(result[index].type, type);
@@ -46,73 +46,73 @@ limitations under the License.
       assert.equal(result[resultIndex].items[itemIndex], text);
     }
 
-    setup(() => {
+    setup(function() {
       element = fixture('basic');
       sandbox = sinon.sandbox.create();
     });
 
-    teardown(() => {
+    teardown(function() {
       sandbox.restore();
     });
 
-    test('parse null undefined and empty', () => {
+    test('parse null undefined and empty', function() {
       assert.lengthOf(element._computeBlocks(null), 0);
       assert.lengthOf(element._computeBlocks(undefined), 0);
       assert.lengthOf(element._computeBlocks(''), 0);
     });
 
-    test('parse simple', () => {
-      const comment = 'Para1';
-      const result = element._computeBlocks(comment);
+    test('parse simple', function() {
+      var comment = 'Para1';
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 1);
       assertBlock(result, 0, 'paragraph', comment);
     });
 
-    test('parse multiline para', () => {
-      const comment = 'Para 1\nStill para 1';
-      const result = element._computeBlocks(comment);
+    test('parse multiline para', function() {
+      var comment = 'Para 1\nStill para 1';
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 1);
       assertBlock(result, 0, 'paragraph', comment);
     });
 
-    test('parse para break', () => {
-      const comment = 'Para 1\n\nPara 2\n\nPara 3';
-      const result = element._computeBlocks(comment);
+    test('parse para break', function() {
+      var comment = 'Para 1\n\nPara 2\n\nPara 3';
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 3);
       assertBlock(result, 0, 'paragraph', 'Para 1');
       assertBlock(result, 1, 'paragraph', 'Para 2');
       assertBlock(result, 2, 'paragraph', 'Para 3');
     });
 
-    test('parse quote', () => {
-      const comment = '> Quote text';
-      const result = element._computeBlocks(comment);
+    test('parse quote', function() {
+      var comment = '> Quote text';
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 1);
       assert.equal(result[0].type, 'quote');
       assert.lengthOf(result[0].blocks, 1);
       assertBlock(result[0].blocks, 0, 'paragraph', 'Quote text');
     });
 
-    test('parse quote lead space', () => {
-      const comment = ' > Quote text';
-      const result = element._computeBlocks(comment);
+    test('parse quote lead space', function() {
+      var comment = ' > Quote text';
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 1);
       assert.equal(result[0].type, 'quote');
       assert.lengthOf(result[0].blocks, 1);
       assertBlock(result[0].blocks, 0, 'paragraph', 'Quote text');
     });
 
-    test('parse excludes empty', () => {
-      const comment = 'Para 1\n\n\n\nPara 2';
-      const result = element._computeBlocks(comment);
+    test('parse excludes empty', function() {
+      var comment = 'Para 1\n\n\n\nPara 2';
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 2);
       assertBlock(result, 0, 'paragraph', 'Para 1');
       assertBlock(result, 1, 'paragraph', 'Para 2');
     });
 
-    test('parse multiline quote', () => {
-      const comment = '> Quote line 1\n> Quote line 2\n > Quote line 3\n';
-      const result = element._computeBlocks(comment);
+    test('parse multiline quote', function() {
+      var comment = '> Quote line 1\n> Quote line 2\n > Quote line 3\n';
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 1);
       assert.equal(result[0].type, 'quote');
       assert.lengthOf(result[0].blocks, 1);
@@ -120,55 +120,55 @@ limitations under the License.
           'Quote line 1\nQuote line 2\nQuote line 3\n');
     });
 
-    test('parse pre', () => {
-      const comment = '    Four space indent.';
-      const result = element._computeBlocks(comment);
+    test('parse pre', function() {
+      var comment = '    Four space indent.';
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 1);
       assertBlock(result, 0, 'pre', comment);
     });
 
-    test('parse one space pre', () => {
-      const comment = ' One space indent.\n Another line.';
-      const result = element._computeBlocks(comment);
+    test('parse one space pre', function() {
+      var comment = ' One space indent.\n Another line.';
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 1);
       assertBlock(result, 0, 'pre', comment);
     });
 
-    test('parse tab pre', () => {
-      const comment = '\tOne tab indent.\n\tAnother line.\n  Yet another!';
-      const result = element._computeBlocks(comment);
+    test('parse tab pre', function() {
+      var comment = '\tOne tab indent.\n\tAnother line.\n  Yet another!';
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 1);
       assertBlock(result, 0, 'pre', comment);
     });
 
-    test('parse intermediate leading whitespace pre', () => {
-      const comment = 'No indent.\n\tNonzero indent.\nNo indent again.';
-      const result = element._computeBlocks(comment);
+    test('parse intermediate leading whitespace pre', function() {
+      var comment = 'No indent.\n\tNonzero indent.\nNo indent again.';
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 1);
       assertBlock(result, 0, 'pre', comment);
     });
 
-    test('parse star list', () => {
-      const comment = '* Item 1\n* Item 2\n* Item 3';
-      const result = element._computeBlocks(comment);
+    test('parse star list', function() {
+      var comment = '* Item 1\n* Item 2\n* Item 3';
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 1);
       assertListBlock(result, 0, 0, 'Item 1');
       assertListBlock(result, 0, 1, 'Item 2');
       assertListBlock(result, 0, 2, 'Item 3');
     });
 
-    test('parse dash list', () => {
-      const comment = '- Item 1\n- Item 2\n- Item 3';
-      const result = element._computeBlocks(comment);
+    test('parse dash list', function() {
+      var comment = '- Item 1\n- Item 2\n- Item 3';
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 1);
       assertListBlock(result, 0, 0, 'Item 1');
       assertListBlock(result, 0, 1, 'Item 2');
       assertListBlock(result, 0, 2, 'Item 3');
     });
 
-    test('parse mixed list', () => {
-      const comment = '- Item 1\n* Item 2\n- Item 3\n* Item 4';
-      const result = element._computeBlocks(comment);
+    test('parse mixed list', function() {
+      var comment = '- Item 1\n* Item 2\n- Item 3\n* Item 4';
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 1);
       assertListBlock(result, 0, 0, 'Item 1');
       assertListBlock(result, 0, 1, 'Item 2');
@@ -176,8 +176,8 @@ limitations under the License.
       assertListBlock(result, 0, 3, 'Item 4');
     });
 
-    test('parse mixed block types', () => {
-      const comment = 'Paragraph\nacross\na\nfew\nlines.' +
+    test('parse mixed block types', function() {
+      var comment = 'Paragraph\nacross\na\nfew\nlines.' +
           '\n\n' +
           '> Quote\n> across\n> not many lines.' +
           '\n\n' +
@@ -190,7 +190,7 @@ limitations under the License.
           '\tPreformatted text.' +
           '\n\n' +
           'Parting words.';
-      const result = element._computeBlocks(comment);
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 7);
       assertBlock(result, 0, 'paragraph', 'Paragraph\nacross\na\nfew\nlines.');
 
@@ -209,18 +209,18 @@ limitations under the License.
       assertBlock(result, 6, 'paragraph', 'Parting words.');
     });
 
-    test('bullet list 1', () => {
-      const comment = 'A\n\n* line 1\n* 2nd line';
-      const result = element._computeBlocks(comment);
+    test('bullet list 1', function() {
+      var comment = 'A\n\n* line 1\n* 2nd line';
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 2);
       assertBlock(result, 0, 'paragraph', 'A');
       assertListBlock(result, 1, 0, 'line 1');
       assertListBlock(result, 1, 1, '2nd line');
     });
 
-    test('bullet list 2', () => {
-      const comment = 'A\n\n* line 1\n* 2nd line\n\nB';
-      const result = element._computeBlocks(comment);
+    test('bullet list 2', function() {
+      var comment = 'A\n\n* line 1\n* 2nd line\n\nB';
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 3);
       assertBlock(result, 0, 'paragraph', 'A');
       assertListBlock(result, 1, 0, 'line 1');
@@ -228,50 +228,50 @@ limitations under the License.
       assertBlock(result, 2, 'paragraph', 'B');
     });
 
-    test('bullet list 3', () => {
-      const comment = '* line 1\n* 2nd line\n\nB';
-      const result = element._computeBlocks(comment);
+    test('bullet list 3', function() {
+      var comment = '* line 1\n* 2nd line\n\nB';
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 2);
       assertListBlock(result, 0, 0, 'line 1');
       assertListBlock(result, 0, 1, '2nd line');
       assertBlock(result, 1, 'paragraph', 'B');
     });
 
-    test('bullet list 4', () => {
-      const comment = 'To see this bug, you have to:\n' +
+    test('bullet list 4', function() {
+      var comment = 'To see this bug, you have to:\n' +
           '* Be on IMAP or EAS (not on POP)\n' +
           '* Be very unlucky\n';
-      const result = element._computeBlocks(comment);
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 2);
       assertBlock(result, 0, 'paragraph', 'To see this bug, you have to:');
       assertListBlock(result, 1, 0, 'Be on IMAP or EAS (not on POP)');
       assertListBlock(result, 1, 1, 'Be very unlucky');
     });
 
-    test('bullet list 5', () => {
-      const comment = 'To see this bug,\n' +
+    test('bullet list 5', function() {
+      var comment = 'To see this bug,\n' +
           'you have to:\n' +
           '* Be on IMAP or EAS (not on POP)\n' +
           '* Be very unlucky\n';
-      const result = element._computeBlocks(comment);
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 2);
       assertBlock(result, 0, 'paragraph', 'To see this bug, you have to:');
       assertListBlock(result, 1, 0, 'Be on IMAP or EAS (not on POP)');
       assertListBlock(result, 1, 1, 'Be very unlucky');
     });
 
-    test('dash list 1', () => {
-      const comment = 'A\n\n- line 1\n- 2nd line';
-      const result = element._computeBlocks(comment);
+    test('dash list 1', function() {
+      var comment = 'A\n\n- line 1\n- 2nd line';
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 2);
       assertBlock(result, 0, 'paragraph', 'A');
       assertListBlock(result, 1, 0, 'line 1');
       assertListBlock(result, 1, 1, '2nd line');
     });
 
-    test('dash list 2', () => {
-      const comment = 'A\n\n- line 1\n- 2nd line\n\nB';
-      const result = element._computeBlocks(comment);
+    test('dash list 2', function() {
+      var comment = 'A\n\n- line 1\n- 2nd line\n\nB';
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 3);
       assertBlock(result, 0, 'paragraph', 'A');
       assertListBlock(result, 1, 0, 'line 1');
@@ -279,52 +279,52 @@ limitations under the License.
       assertBlock(result, 2, 'paragraph', 'B');
     });
 
-    test('dash list 3', () => {
-      const comment = '- line 1\n- 2nd line\n\nB';
-      const result = element._computeBlocks(comment);
+    test('dash list 3', function() {
+      var comment = '- line 1\n- 2nd line\n\nB';
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 2);
       assertListBlock(result, 0, 0, 'line 1');
       assertListBlock(result, 0, 1, '2nd line');
       assertBlock(result, 1, 'paragraph', 'B');
     });
 
-    test('pre format 1', () => {
-      const comment = 'A\n\n  This is pre\n  formatted';
-      const result = element._computeBlocks(comment);
+    test('pre format 1', function() {
+      var comment = 'A\n\n  This is pre\n  formatted';
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 2);
       assertBlock(result, 0, 'paragraph', 'A');
       assertBlock(result, 1, 'pre', '  This is pre\n  formatted');
     });
 
-    test('pre format 2', () => {
-      const comment = 'A\n\n  This is pre\n  formatted\n\nbut this is not';
-      const result = element._computeBlocks(comment);
+    test('pre format 2', function() {
+      var comment = 'A\n\n  This is pre\n  formatted\n\nbut this is not';
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 3);
       assertBlock(result, 0, 'paragraph', 'A');
       assertBlock(result, 1, 'pre', '  This is pre\n  formatted');
       assertBlock(result, 2, 'paragraph', 'but this is not');
     });
 
-    test('pre format 3', () => {
-      const comment = 'A\n\n  Q\n    <R>\n  S\n\nB';
-      const result = element._computeBlocks(comment);
+    test('pre format 3', function() {
+      var comment = 'A\n\n  Q\n    <R>\n  S\n\nB';
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 3);
       assertBlock(result, 0, 'paragraph', 'A');
       assertBlock(result, 1, 'pre', '  Q\n    <R>\n  S');
       assertBlock(result, 2, 'paragraph', 'B');
     });
 
-    test('pre format 4', () => {
-      const comment = '  Q\n    <R>\n  S\n\nB';
-      const result = element._computeBlocks(comment);
+    test('pre format 4', function() {
+      var comment = '  Q\n    <R>\n  S\n\nB';
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 2);
       assertBlock(result, 0, 'pre', '  Q\n    <R>\n  S');
       assertBlock(result, 1, 'paragraph', 'B');
     });
 
-    test('quote 1', () => {
-      const comment = '> I\'m happy\n > with quotes!\n\nSee above.';
-      const result = element._computeBlocks(comment);
+    test('quote 1', function() {
+      var comment = '> I\'m happy\n > with quotes!\n\nSee above.';
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 2);
       assert.equal(result[0].type, 'quote');
       assert.lengthOf(result[0].blocks, 1);
@@ -332,9 +332,9 @@ limitations under the License.
       assertBlock(result, 1, 'paragraph', 'See above.');
     });
 
-    test('quote 2', () => {
-      const comment = 'See this said:\n\n > a quoted\n > string block\n\nOK?';
-      const result = element._computeBlocks(comment);
+    test('quote 2', function() {
+      var comment = 'See this said:\n\n > a quoted\n > string block\n\nOK?';
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 3);
       assertBlock(result, 0, 'paragraph', 'See this said:');
       assert.equal(result[1].type, 'quote');
@@ -343,9 +343,9 @@ limitations under the License.
       assertBlock(result, 2, 'paragraph', 'OK?');
     });
 
-    test('nested quotes', () => {
-      const comment = ' > > prior\n > \n > next\n';
-      const result = element._computeBlocks(comment);
+    test('nested quotes', function() {
+      var comment = ' > > prior\n > \n > next\n';
+      var result = element._computeBlocks(comment);
       assert.lengthOf(result, 1);
       assert.equal(result[0].type, 'quote');
       assert.lengthOf(result[0].blocks, 2);
@@ -355,23 +355,25 @@ limitations under the License.
       assertBlock(result[0].blocks, 1, 'paragraph', 'next\n');
     });
 
-    test('getTextContent', () => {
-      const comment = 'Paragraph\n\n  pre\n\n* List\n* Of\n* Items\n\n> Quote';
+    test('getTextContent', function() {
+      var comment = 'Paragraph\n\n  pre\n\n* List\n* Of\n* Items\n\n> Quote';
       element.content = comment;
-      const result = element.getTextContent();
-      const expected = 'Paragraph\n\n  pre\n\nList\nOf\nItems\n\nQuote';
+      var result = element.getTextContent();
+      var expected = 'Paragraph\n\n  pre\n\nList\nOf\nItems\n\nQuote';
       assert.equal(result, expected);
     });
 
-    test('_computeNodes called without config', () => {
-      const computeNodesSpy = sandbox.spy(element, '_computeNodes');
+    test('_contentOrConfigChanged not called without config', function() {
+      var contentStub = sandbox.stub(element, '_contentChanged');
+      var contentConfigStub = sandbox.stub(element, '_contentOrConfigChanged');
       element.content = 'some text';
-      assert.isTrue(computeNodesSpy.called);
+      assert.isTrue(contentStub.called);
+      assert.isFalse(contentConfigStub.called);
     });
 
-    test('_contentOrConfigChanged called with config', () => {
-      const contentStub = sandbox.stub(element, '_contentChanged');
-      const contentConfigStub = sandbox.stub(element, '_contentOrConfigChanged');
+    test('_contentOrConfigChanged called with config', function() {
+      var contentStub = sandbox.stub(element, '_contentChanged');
+      var contentConfigStub = sandbox.stub(element, '_contentOrConfigChanged');
       element.content = 'some text';
       element.config = {};
       assert.isTrue(contentStub.called);

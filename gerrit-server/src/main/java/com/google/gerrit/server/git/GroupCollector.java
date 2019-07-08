@@ -48,7 +48,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Helper for assigning groups to commits during {@code ReceiveCommits}.
+ * Helper for assigning groups to commits during {@link ReceiveCommits}.
  *
  * <p>For each commit encountered along a walk between the branch tip and the tip of the push, the
  * group of a commit is defined as follows:

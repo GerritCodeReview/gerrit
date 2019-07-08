@@ -14,19 +14,18 @@
 
 package com.google.gerrit.server.index.group;
 
-import com.google.gerrit.index.Index;
-import com.google.gerrit.index.IndexDefinition;
-import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.index.Index;
+import com.google.gerrit.server.index.IndexDefinition;
+import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.group.GroupPredicates;
 
-public interface GroupIndex extends Index<AccountGroup.UUID, InternalGroup> {
+public interface GroupIndex extends Index<AccountGroup.UUID, AccountGroup> {
   public interface Factory
-      extends IndexDefinition.IndexFactory<AccountGroup.UUID, InternalGroup, GroupIndex> {}
+      extends IndexDefinition.IndexFactory<AccountGroup.UUID, AccountGroup, GroupIndex> {}
 
   @Override
-  default Predicate<InternalGroup> keyPredicate(AccountGroup.UUID uuid) {
+  default Predicate<AccountGroup> keyPredicate(AccountGroup.UUID uuid) {
     return GroupPredicates.uuid(uuid);
   }
 }

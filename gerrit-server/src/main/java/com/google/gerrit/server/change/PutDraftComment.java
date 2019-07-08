@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
@@ -32,12 +33,9 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -48,13 +46,13 @@ import java.util.Collections;
 import java.util.Optional;
 
 @Singleton
-public class PutDraftComment
-    extends RetryingRestModifyView<DraftCommentResource, DraftInput, Response<CommentInfo>> {
+public class PutDraftComment implements RestModifyView<DraftCommentResource, DraftInput> {
 
   private final Provider<ReviewDb> db;
   private final DeleteDraftComment delete;
   private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
+  private final BatchUpdate.Factory updateFactory;
   private final Provider<CommentJson> commentJson;
   private final PatchListCache patchListCache;
 
@@ -64,24 +62,23 @@ public class PutDraftComment
       DeleteDraftComment delete,
       CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
-      RetryHelper retryHelper,
+      BatchUpdate.Factory updateFactory,
       Provider<CommentJson> commentJson,
       PatchListCache patchListCache) {
-    super(retryHelper);
     this.db = db;
     this.delete = delete;
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
+    this.updateFactory = updateFactory;
     this.commentJson = commentJson;
     this.patchListCache = patchListCache;
   }
 
   @Override
-  protected Response<CommentInfo> applyImpl(
-      BatchUpdate.Factory updateFactory, DraftCommentResource rsrc, DraftInput in)
+  public Response<CommentInfo> apply(DraftCommentResource rsrc, DraftInput in)
       throws RestApiException, UpdateException, OrmException {
     if (in == null || in.message == null || in.message.trim().isEmpty()) {
-      return delete.applyImpl(updateFactory, rsrc, null);
+      return delete.apply(rsrc, null);
     } else if (in.id != null && !rsrc.getId().equals(in.id)) {
       throw new BadRequestException("id must match URL");
     } else if (in.line != null && in.line < 0) {
@@ -92,7 +89,10 @@ public class PutDraftComment
 
     try (BatchUpdate bu =
         updateFactory.create(
-            db.get(), rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+            db.get(),
+            rsrc.getChange().getProject(),
+            rsrc.getControl().getUser(),
+            TimeUtil.nowTs())) {
       Op op = new Op(rsrc.getComment().key, in);
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();
@@ -113,10 +113,8 @@ public class PutDraftComment
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx)
-        throws ResourceNotFoundException, OrmException, PatchListNotAvailableException {
-      Optional<Comment> maybeComment =
-          commentsUtil.getDraft(ctx.getDb(), ctx.getNotes(), ctx.getIdentifiedUser(), key);
+    public boolean updateChange(ChangeContext ctx) throws ResourceNotFoundException, OrmException {
+      Optional<Comment> maybeComment = commentsUtil.get(ctx.getDb(), ctx.getNotes(), key);
       if (!maybeComment.isPresent()) {
         // Disappeared out from under us. Can't easily fall back to insert,
         // because the input might be missing required fields. Just give up.
@@ -148,7 +146,7 @@ public class PutDraftComment
           update,
           Status.DRAFT,
           Collections.singleton(update(comment, in, ctx.getWhen())));
-      ctx.dontBumpLastUpdatedOn();
+      ctx.bumpLastUpdatedOn(false);
       return true;
     }
   }

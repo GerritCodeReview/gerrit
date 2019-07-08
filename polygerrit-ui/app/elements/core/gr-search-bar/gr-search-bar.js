@@ -14,12 +14,11 @@
 (function() {
   'use strict';
 
-  // Possible static search options for auto complete, without negations.
-  const SEARCH_OPERATORS = [
+  // Possible static search options for auto complete.
+  var SEARCH_OPERATORS = [
     'added:',
     'age:',
     'age:1week', // Give an example age
-    'assignee:',
     'author:',
     'branch:',
     'bug:',
@@ -40,26 +39,20 @@
     'has:edit',
     'has:star',
     'has:stars',
-    'has:unresolved',
-    'hashtag:',
     'intopic:',
     'is:',
     'is:abandoned',
-    'is:assigned',
     'is:closed',
-    'is:ignored',
+    'is:draft',
     'is:mergeable',
     'is:merged',
     'is:open',
     'is:owner',
     'is:pending',
-    'is:private',
     'is:reviewed',
     'is:reviewer',
     'is:starred',
-    'is:submittable',
     'is:watched',
-    'is:wip',
     'label:',
     'message:',
     'owner:',
@@ -78,6 +71,7 @@
     'status:',
     'status:abandoned',
     'status:closed',
+    'status:draft',
     'status:merged',
     'status:open',
     'status:pending',
@@ -86,25 +80,23 @@
     'tr:',
   ];
 
-  // All of the ops, with corresponding negations.
-  const SEARCH_OPERATORS_WITH_NEGATIONS =
-      SEARCH_OPERATORS.concat(SEARCH_OPERATORS.map(op => `-${op}`));
+  var SELF_EXPRESSION = 'self';
 
-  const SELF_EXPRESSION = 'self';
-  const ME_EXPRESSION = 'me';
+  var MAX_AUTOCOMPLETE_RESULTS = 10;
 
-  const MAX_AUTOCOMPLETE_RESULTS = 10;
-
-  const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+\s*/g;
+  var TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+\s*/g;
 
   Polymer({
     is: 'gr-search-bar',
 
     behaviors: [
-      Gerrit.AnonymousNameBehavior,
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.URLEncodingBehavior,
     ],
+
+    listeners: {
+      'searchButton.tap': '_preventDefaultAndNavigateToInputVal',
+    },
 
     keyBindings: {
       '/': '_handleForwardSlashKey',
@@ -119,33 +111,22 @@
       },
       keyEventTarget: {
         type: Object,
-        value() { return document.body; },
+        value: function() { return document.body; },
       },
       query: {
         type: Function,
-        value() {
+        value: function() {
           return this._getSearchSuggestions.bind(this);
         },
       },
       _inputVal: String,
-      _threshold: {
-        type: Number,
-        value: 1,
-      },
-      _config: Object,
     },
 
-    attached() {
-      this.$.restAPI.getConfig().then(cfg => {
-        this._config = cfg;
-      });
-    },
-
-    _valueChanged(value) {
+    _valueChanged: function(value) {
       this._inputVal = value;
     },
 
-    _handleInputCommit(e) {
+    _handleInputCommit: function(e) {
       this._preventDefaultAndNavigateToInputVal(e);
     },
 
@@ -157,9 +138,9 @@
      *
      * @param {!Event} e
      */
-    _preventDefaultAndNavigateToInputVal(e) {
+    _preventDefaultAndNavigateToInputVal: function(e) {
       e.preventDefault();
-      const target = Polymer.dom(e).rootTarget;
+      var target = Polymer.dom(e).rootTarget;
       // If the target is the #searchInput or has a sub-input component, that
       // is what holds the focus as opposed to the target from the DOM event.
       if (target.$.input) {
@@ -172,10 +153,6 @@
       }
     },
 
-    _accountOrAnon(name) {
-      return this.getUserName(this._config, name, false);
-    },
-
     /**
      * Fetch from the API the predicted accounts.
      * @param {string} predicate - The first part of the search term, e.g.
@@ -185,26 +162,22 @@
      * @return {!Promise} This returns a promise that resolves to an array of
      *     strings.
      */
-    _fetchAccounts(predicate, expression) {
+    _fetchAccounts: function(predicate, expression) {
       if (expression.length === 0) { return Promise.resolve([]); }
       return this.$.restAPI.getSuggestedAccounts(
           expression,
           MAX_AUTOCOMPLETE_RESULTS)
-          .then(accounts => {
+          .then(function(accounts) {
             if (!accounts) { return []; }
-            return accounts.map(acct => acct.email ?
-              `${predicate}:${acct.email}` :
-              `${predicate}:"${this._accountOrAnon(acct)}"`);
-          }).then(accounts => {
+            return accounts.map(function(acct) {
+              return predicate + ':"' + acct.name + ' <' + acct.email + '>"';
+            });
+          }).then(function(accounts) {
             // When the expression supplied is a beginning substring of 'self',
             // add it as an autocomplete option.
-            if (SELF_EXPRESSION.startsWith(expression)) {
-              return accounts.concat([predicate + ':' + SELF_EXPRESSION]);
-            } else if (ME_EXPRESSION.startsWith(expression)) {
-              return accounts.concat([predicate + ':' + ME_EXPRESSION]);
-            } else {
-              return accounts;
-            }
+            return SELF_EXPRESSION.indexOf(expression) === 0 ?
+                accounts.concat([predicate + ':' + SELF_EXPRESSION]) :
+                accounts;
           });
     },
 
@@ -217,15 +190,15 @@
      * @return {!Promise} This returns a promise that resolves to an array of
      *     strings.
      */
-    _fetchGroups(predicate, expression) {
+    _fetchGroups: function(predicate, expression) {
       if (expression.length === 0) { return Promise.resolve([]); }
       return this.$.restAPI.getSuggestedGroups(
           expression,
           MAX_AUTOCOMPLETE_RESULTS)
-          .then(groups => {
+          .then(function(groups) {
             if (!groups) { return []; }
-            const keys = Object.keys(groups);
-            return keys.map(key => predicate + ':' + key);
+            var keys = Object.keys(groups);
+            return keys.map(function(key) { return predicate + ':' + key; });
           });
     },
 
@@ -238,14 +211,14 @@
      * @return {!Promise} This returns a promise that resolves to an array of
      *     strings.
      */
-    _fetchProjects(predicate, expression) {
+    _fetchProjects: function(predicate, expression) {
       return this.$.restAPI.getSuggestedProjects(
           expression,
           MAX_AUTOCOMPLETE_RESULTS)
-          .then(projects => {
+          .then(function(projects) {
             if (!projects) { return []; }
-            const keys = Object.keys(projects);
-            return keys.map(key => predicate + ':' + key);
+            var keys = Object.keys(projects);
+            return keys.map(function(key) { return predicate + ':' + key; });
           });
     },
 
@@ -256,11 +229,11 @@
      * @return {!Promise} This returns a promise that resolves to an array of
      *     strings.
      */
-    _fetchSuggestions(input) {
+    _fetchSuggestions: function(input) {
       // Split the input on colon to get a two part predicate/expression.
-      const splitInput = input.split(':');
-      const predicate = splitInput[0];
-      const expression = splitInput[1] || '';
+      var splitInput = input.split(':');
+      var predicate = splitInput[0];
+      var expression = splitInput[1] || '';
       // Switch on the predicate to determine what to autocomplete.
       switch (predicate) {
         case 'ownerin':
@@ -285,8 +258,10 @@
           return this._fetchAccounts(predicate, expression);
 
         default:
-          return Promise.resolve(SEARCH_OPERATORS_WITH_NEGATIONS
-              .filter(operator => operator.includes(input)));
+          return Promise.resolve(SEARCH_OPERATORS
+              .filter(function(operator) {
+                return operator.indexOf(input) !== -1;
+              }));
       }
     },
 
@@ -296,19 +271,19 @@
      * @return {!Promise} This returns a promise that resolves to an array of
      *     strings.
      */
-    _getSearchSuggestions(input) {
+    _getSearchSuggestions: function(input) {
       // Allow spaces within quoted terms.
-      const tokens = input.match(TOKENIZE_REGEX);
-      const trimmedInput = tokens[tokens.length - 1].toLowerCase();
+      var tokens = input.match(TOKENIZE_REGEX);
+      var trimmedInput = tokens[tokens.length - 1].toLowerCase();
 
       return this._fetchSuggestions(trimmedInput)
-          .then(operators => {
+          .then(function(operators) {
             if (!operators || !operators.length) { return []; }
             return operators
                 // Prioritize results that start with the input.
-                .sort((a, b) => {
-                  const aContains = a.toLowerCase().indexOf(trimmedInput);
-                  const bContains = b.toLowerCase().indexOf(trimmedInput);
+                .sort(function(a, b) {
+                  var aContains = a.toLowerCase().indexOf(trimmedInput);
+                  var bContains = b.toLowerCase().indexOf(trimmedInput);
                   if (aContains === bContains) {
                     return a.localeCompare(b);
                   }
@@ -323,7 +298,7 @@
                 // Return only the first {MAX_AUTOCOMPLETE_RESULTS} results.
                 .slice(0, MAX_AUTOCOMPLETE_RESULTS - 1)
                 // Map to an object to play nice with gr-autocomplete.
-                .map(operator => {
+                .map(function(operator) {
                   return {
                     name: operator,
                     value: operator,
@@ -332,7 +307,7 @@
           });
     },
 
-    _handleForwardSlashKey(e) {
+    _handleForwardSlashKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 

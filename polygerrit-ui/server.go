@@ -17,11 +17,9 @@ package main
 import (
 	"bufio"
 	"compress/gzip"
-	"encoding/json"
 	"errors"
 	"flag"
 	"io"
-	"io/ioutil"
 	"log"
 	"net"
 	"net/http"
@@ -55,22 +53,14 @@ func main() {
 	if len(*plugins) > 0 {
 		http.Handle("/plugins/", http.StripPrefix("/plugins/",
 			http.FileServer(http.Dir(*plugins))))
-		log.Println("Local plugins from", *plugins)
-	} else {
-		http.HandleFunc("/plugins/", handleRESTProxy)
+		log.Println("Local plugins at", *plugins)
 	}
 	log.Println("Serving on port", *port)
 	log.Fatal(http.ListenAndServe(*port, &server{}))
 }
 
 func handleRESTProxy(w http.ResponseWriter, r *http.Request) {
-	if strings.HasSuffix(r.URL.Path, ".html") {
-		w.Header().Set("Content-Type", "text/html")
-	} else if strings.HasSuffix(r.URL.Path, ".css") {
-		w.Header().Set("Content-Type", "text/css")
-	} else {
-		w.Header().Set("Content-Type", "application/json")
-	}
+	w.Header().Set("Content-Type", "application/json")
 	req := &http.Request{
 		Method: "GET",
 		URL: &url.URL{
@@ -87,87 +77,10 @@ func handleRESTProxy(w http.ResponseWriter, r *http.Request) {
 	}
 	defer res.Body.Close()
 	w.WriteHeader(res.StatusCode)
-	if _, err := io.Copy(w, patchResponse(r, res)); err != nil {
+	if _, err := io.Copy(w, res.Body); err != nil {
 		log.Println("Error copying response to ResponseWriter:", err)
 		return
 	}
-}
-
-func getJsonPropByPath(json map[string]interface{}, path []string) interface{} {
-	prop, path := path[0], path[1:]
-	if json[prop] == nil {
-		return nil
-	}
-	switch json[prop].(type) {
-	case map[string]interface{}: // map
-		return getJsonPropByPath(json[prop].(map[string]interface{}), path)
-	case []interface{}: // array
-		return json[prop].([]interface{})
-	default:
-		return json[prop].(interface{})
-	}
-}
-
-func setJsonPropByPath(json map[string]interface{}, path []string, value interface{}) {
-	prop, path := path[0], path[1:]
-	if json[prop] == nil {
-		return // path not found
-	}
-	if len(path) > 0 {
-		setJsonPropByPath(json[prop].(map[string]interface{}), path, value)
-	} else {
-		json[prop] = value
-	}
-}
-
-func patchResponse(r *http.Request, res *http.Response) io.Reader {
-	switch r.URL.EscapedPath() {
-	case "/config/server/info":
-		return injectLocalPlugins(res.Body)
-	default:
-		return res.Body
-	}
-}
-
-func injectLocalPlugins(r io.Reader) io.Reader {
-	if len(*plugins) == 0 {
-		return r
-	}
-	// Skip escape prefix
-	io.CopyN(ioutil.Discard, r, 5)
-	dec := json.NewDecoder(r)
-
-	var response map[string]interface{}
-	err := dec.Decode(&response)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Configuration path in the JSON server response
-	pluginsPath := []string{"plugin", "html_resource_paths"}
-
-	htmlResources := getJsonPropByPath(response, pluginsPath).([]interface{})
-	files, err := ioutil.ReadDir(*plugins)
-	if err != nil {
-		log.Fatal(err)
-	}
-	for _, f := range files {
-		if strings.HasSuffix(f.Name(), ".html") {
-			htmlResources = append(htmlResources, "plugins/"+f.Name())
-		}
-	}
-	setJsonPropByPath(response, pluginsPath, htmlResources)
-
-	reader, writer := io.Pipe()
-	go func() {
-		defer writer.Close()
-		io.WriteString(writer, ")]}'") // Write escape prefix
-		err := json.NewEncoder(writer).Encode(&response)
-		if err != nil {
-			log.Fatal(err)
-		}
-	}()
-	return reader
 }
 
 func handleAccountDetail(w http.ResponseWriter, r *http.Request) {
@@ -200,7 +113,7 @@ type server struct{}
 
 // Any path prefixes that should resolve to index.html.
 var (
-	fePaths    = []string{"/q/", "/c/", "/dashboard/", "/admin/"}
+	fePaths    = []string{"/q/", "/c/", "/dashboard/"}
 	issueNumRE = regexp.MustCompile(`^\/\d+\/?$`)
 )
 

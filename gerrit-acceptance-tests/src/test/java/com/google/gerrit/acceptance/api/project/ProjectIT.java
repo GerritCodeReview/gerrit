@@ -30,13 +30,9 @@ import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.DescriptionInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
-import com.google.gerrit.extensions.client.InheritableBoolean;
-import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -111,12 +107,12 @@ public class ProjectIT extends AbstractDaemonTest {
 
   @Test
   public void createBranch() throws Exception {
-    allow("refs/*", Permission.READ, ANONYMOUS_USERS);
+    allow(Permission.READ, ANONYMOUS_USERS, "refs/*");
     gApi.projects().name(project.get()).branch("foo").create(new BranchInput());
   }
 
   @Test
-  public void descriptionChangeCausesRefUpdate() throws Exception {
+  public void description() throws Exception {
     RevCommit initialHead = getRemoteHead(project, RefNames.REFS_CONFIG);
     assertThat(gApi.projects().name(project.get()).description()).isEmpty();
     DescriptionInput in = new DescriptionInput();
@@ -130,19 +126,7 @@ public class ProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void descriptionIsDeletedWhenNotSpecified() throws Exception {
-    assertThat(gApi.projects().name(project.get()).description()).isEmpty();
-    DescriptionInput in = new DescriptionInput();
-    in.description = "new project description";
-    gApi.projects().name(project.get()).description(in);
-    assertThat(gApi.projects().name(project.get()).description()).isEqualTo(in.description);
-    in.description = null;
-    gApi.projects().name(project.get()).description(in);
-    assertThat(gApi.projects().name(project.get()).description()).isEmpty();
-  }
-
-  @Test
-  public void configChangeCausesRefUpdate() throws Exception {
+  public void submitType() throws Exception {
     RevCommit initialHead = getRemoteHead(project, RefNames.REFS_CONFIG);
 
     ConfigInfo info = getConfig();
@@ -157,62 +141,6 @@ public class ProjectIT extends AbstractDaemonTest {
     RevCommit updatedHead = getRemoteHead(project, RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(
         project.get(), RefNames.REFS_CONFIG, initialHead, updatedHead);
-  }
-
-  @Test
-  public void setConfig() throws Exception {
-    ConfigInput input = createTestConfigInput();
-    ConfigInfo info = gApi.projects().name(project.get()).config(input);
-    assertThat(info.description).isEqualTo(input.description);
-    assertThat(info.useContributorAgreements.configuredValue)
-        .isEqualTo(input.useContributorAgreements);
-    assertThat(info.useContentMerge.configuredValue).isEqualTo(input.useContentMerge);
-    assertThat(info.useSignedOffBy.configuredValue).isEqualTo(input.useSignedOffBy);
-    assertThat(info.createNewChangeForAllNotInTarget.configuredValue)
-        .isEqualTo(input.createNewChangeForAllNotInTarget);
-    assertThat(info.requireChangeId.configuredValue).isEqualTo(input.requireChangeId);
-    assertThat(info.rejectImplicitMerges.configuredValue).isEqualTo(input.rejectImplicitMerges);
-    assertThat(info.enableReviewerByEmail.configuredValue).isEqualTo(input.enableReviewerByEmail);
-    assertThat(info.createNewChangeForAllNotInTarget.configuredValue)
-        .isEqualTo(input.createNewChangeForAllNotInTarget);
-    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo(input.maxObjectSizeLimit);
-    assertThat(info.submitType).isEqualTo(input.submitType);
-    assertThat(info.state).isEqualTo(input.state);
-  }
-
-  @Test
-  public void setPartialConfig() throws Exception {
-    ConfigInput input = createTestConfigInput();
-    ConfigInfo info = gApi.projects().name(project.get()).config(input);
-
-    ConfigInput partialInput = new ConfigInput();
-    partialInput.useContributorAgreements = InheritableBoolean.FALSE;
-    info = gApi.projects().name(project.get()).config(partialInput);
-
-    assertThat(info.description).isNull();
-    assertThat(info.useContributorAgreements.configuredValue)
-        .isEqualTo(partialInput.useContributorAgreements);
-    assertThat(info.useContentMerge.configuredValue).isEqualTo(input.useContentMerge);
-    assertThat(info.useSignedOffBy.configuredValue).isEqualTo(input.useSignedOffBy);
-    assertThat(info.createNewChangeForAllNotInTarget.configuredValue)
-        .isEqualTo(input.createNewChangeForAllNotInTarget);
-    assertThat(info.requireChangeId.configuredValue).isEqualTo(input.requireChangeId);
-    assertThat(info.rejectImplicitMerges.configuredValue).isEqualTo(input.rejectImplicitMerges);
-    assertThat(info.enableReviewerByEmail.configuredValue).isEqualTo(input.enableReviewerByEmail);
-    assertThat(info.createNewChangeForAllNotInTarget.configuredValue)
-        .isEqualTo(input.createNewChangeForAllNotInTarget);
-    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo(input.maxObjectSizeLimit);
-    assertThat(info.submitType).isEqualTo(input.submitType);
-    assertThat(info.state).isEqualTo(input.state);
-  }
-
-  @Test
-  public void nonOwnerCannotSetConfig() throws Exception {
-    ConfigInput input = createTestConfigInput();
-    setApiUser(user);
-    exception.expect(AuthException.class);
-    exception.expectMessage("restricted to project owner");
-    gApi.projects().name(project.get()).config(input);
   }
 
   @Test
@@ -380,58 +308,6 @@ public class ProjectIT extends AbstractDaemonTest {
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("100 foo");
     setMaxObjectSize("100 foo");
-  }
-
-  @Test
-  public void setHead() throws Exception {
-    assertThat(gApi.projects().name(project.get()).head()).isEqualTo("refs/heads/master");
-    gApi.projects().name(project.get()).branch("test1").create(new BranchInput());
-    gApi.projects().name(project.get()).branch("test2").create(new BranchInput());
-    for (String head : new String[] {"test1", "refs/heads/test2"}) {
-      gApi.projects().name(project.get()).head(head);
-      assertThat(gApi.projects().name(project.get()).head()).isEqualTo(RefNames.fullName(head));
-    }
-  }
-
-  @Test
-  public void setHeadToNonexistentBranch() throws Exception {
-    exception.expect(UnprocessableEntityException.class);
-    gApi.projects().name(project.get()).head("does-not-exist");
-  }
-
-  @Test
-  public void setHeadToSameBranch() throws Exception {
-    gApi.projects().name(project.get()).branch("test").create(new BranchInput());
-    for (String head : new String[] {"test", "refs/heads/test"}) {
-      gApi.projects().name(project.get()).head(head);
-      assertThat(gApi.projects().name(project.get()).head()).isEqualTo(RefNames.fullName(head));
-    }
-  }
-
-  @Test
-  public void setHeadNotAllowed() throws Exception {
-    gApi.projects().name(project.get()).branch("test").create(new BranchInput());
-    setApiUser(user);
-    exception.expect(AuthException.class);
-    exception.expectMessage("restricted to project owner");
-    gApi.projects().name(project.get()).head("test");
-  }
-
-  private ConfigInput createTestConfigInput() {
-    ConfigInput input = new ConfigInput();
-    input.description = "some description";
-    input.useContributorAgreements = InheritableBoolean.TRUE;
-    input.useContentMerge = InheritableBoolean.TRUE;
-    input.useSignedOffBy = InheritableBoolean.TRUE;
-    input.createNewChangeForAllNotInTarget = InheritableBoolean.TRUE;
-    input.requireChangeId = InheritableBoolean.TRUE;
-    input.rejectImplicitMerges = InheritableBoolean.TRUE;
-    input.enableReviewerByEmail = InheritableBoolean.TRUE;
-    input.createNewChangeForAllNotInTarget = InheritableBoolean.TRUE;
-    input.maxObjectSizeLimit = "5m";
-    input.submitType = SubmitType.CHERRY_PICK;
-    input.state = ProjectState.HIDDEN;
-    return input;
   }
 
   private ConfigInfo setConfig(Project.NameKey name, ConfigInput input) throws Exception {

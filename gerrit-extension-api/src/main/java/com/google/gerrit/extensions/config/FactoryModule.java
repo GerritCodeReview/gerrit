@@ -39,7 +39,7 @@ public abstract class FactoryModule extends AbstractModule {
    *
    * @param factory interface which specifies the bean factory method.
    */
-  protected void factory(Class<?> factory) {
+  protected void factory(final Class<?> factory) {
     install(new FactoryModuleBuilder().build(factory));
   }
 }

@@ -23,7 +23,6 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.util.RequestId;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TestChanges;
@@ -381,32 +380,6 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.commit();
 
     assertBodyEquals("Update patch set 1\n\nPatch-set: 1\nCurrent: true\n", update.getResult());
-  }
-
-  @Test
-  public void reviewerByEmail() throws Exception {
-    Change c = newChange();
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putReviewerByEmail(
-        new Address("John Doe", "j.doe@gerritcodereview.com"), ReviewerStateInternal.REVIEWER);
-    update.commit();
-
-    assertBodyEquals(
-        "Update patch set 1\n\nPatch-set: 1\n"
-            + "Reviewer-email: John Doe <j.doe@gerritcodereview.com>\n",
-        update.getResult());
-  }
-
-  @Test
-  public void ccByEmail() throws Exception {
-    Change c = newChange();
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putReviewerByEmail(new Address("j.doe@gerritcodereview.com"), ReviewerStateInternal.CC);
-    update.commit();
-
-    assertBodyEquals(
-        "Update patch set 1\n\nPatch-set: 1\nCC-email: j.doe@gerritcodereview.com\n",
-        update.getResult());
   }
 
   private RevCommit parseCommit(ObjectId id) throws Exception {

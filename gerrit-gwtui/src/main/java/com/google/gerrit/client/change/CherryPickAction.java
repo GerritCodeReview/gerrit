@@ -32,11 +32,11 @@ class CherryPickAction {
       final Button b,
       final ChangeInfo info,
       final String revision,
-      final Project.NameKey project,
+      String project,
       final String commitMessage) {
     // TODO Replace CherryPickDialog with a nicer looking display.
     b.setEnabled(false);
-    new CherryPickDialog(project) {
+    new CherryPickDialog(new Project.NameKey(project)) {
       {
         sendButton.setText(Util.C.buttonCherryPickChangeSend());
         if (info.status() == Change.Status.MERGED) {
@@ -49,7 +49,6 @@ class CherryPickAction {
       @Override
       public void onSend() {
         ChangeApi.cherrypick(
-            info.project(),
             info.legacyId().get(),
             revision,
             getDestinationBranch(),
@@ -59,7 +58,7 @@ class CherryPickAction {
               public void onSuccess(ChangeInfo result) {
                 sent = true;
                 hide();
-                Gerrit.display(PageLinks.toChange(project, result.legacyId()));
+                Gerrit.display(PageLinks.toChange(result.legacyId()));
               }
 
               @Override

@@ -28,9 +28,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Shorts;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -45,10 +46,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
-import com.google.gerrit.server.permissions.ChangePermission;
-import com.google.gerrit.server.permissions.LabelPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -62,8 +60,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -101,26 +97,26 @@ public class ApprovalsUtil {
   }
 
   private static Iterable<PatchSetApproval> filterApprovals(
-      Iterable<PatchSetApproval> psas, Account.Id accountId) {
+      Iterable<PatchSetApproval> psas, final Account.Id accountId) {
     return Iterables.filter(psas, a -> Objects.equals(a.getAccountId(), accountId));
   }
 
   private final NotesMigration migration;
   private final IdentifiedUser.GenericFactory userFactory;
+  private final ChangeControl.GenericFactory changeControlFactory;
   private final ApprovalCopier copier;
-  private final PermissionBackend permissionBackend;
 
   @VisibleForTesting
   @Inject
   public ApprovalsUtil(
       NotesMigration migration,
       IdentifiedUser.GenericFactory userFactory,
-      ApprovalCopier copier,
-      PermissionBackend permissionBackend) {
+      ChangeControl.GenericFactory changeControlFactory,
+      ApprovalCopier copier) {
     this.migration = migration;
     this.userFactory = userFactory;
+    this.changeControlFactory = changeControlFactory;
     this.copier = copier;
-    this.permissionBackend = permissionBackend;
   }
 
   /**
@@ -263,8 +259,8 @@ public class ApprovalsUtil {
   private boolean canSee(ReviewDb db, ChangeNotes notes, Account.Id accountId) {
     try {
       IdentifiedUser user = userFactory.create(accountId);
-      return permissionBackend.user(user).change(notes).database(db).test(ChangePermission.READ);
-    } catch (PermissionBackendException e) {
+      return changeControlFactory.controlFor(notes, user).isVisible(db);
+    } catch (OrmException e) {
       log.warn(
           "Failed to check if account {} can see change {}",
           accountId.get(),
@@ -306,7 +302,7 @@ public class ApprovalsUtil {
    * @param update change update.
    * @param labelTypes label types for the containing project.
    * @param ps patch set being approved.
-   * @param user user adding approvals.
+   * @param changeCtl change control for user adding approvals.
    * @param approvals approvals to add.
    * @throws RestApiException
    * @throws OrmException
@@ -316,24 +312,24 @@ public class ApprovalsUtil {
       ChangeUpdate update,
       LabelTypes labelTypes,
       PatchSet ps,
-      CurrentUser user,
+      ChangeControl changeCtl,
       Map<String, Short> approvals)
-      throws RestApiException, OrmException, PermissionBackendException {
-    Account.Id accountId = user.getAccountId();
+      throws RestApiException, OrmException {
+    Account.Id accountId = changeCtl.getUser().getAccountId();
     checkArgument(
         accountId.equals(ps.getUploader()),
         "expected user %s to match patch set uploader %s",
         accountId,
         ps.getUploader());
     if (approvals.isEmpty()) {
-      return ImmutableList.of();
+      return Collections.emptyList();
     }
-    checkApprovals(approvals, permissionBackend.user(user).database(db).change(update.getNotes()));
+    checkApprovals(approvals, changeCtl);
     List<PatchSetApproval> cells = new ArrayList<>(approvals.size());
     Date ts = update.getWhen();
     for (Map.Entry<String, Short> vote : approvals.entrySet()) {
       LabelType lt = labelTypes.byLabel(vote.getKey());
-      cells.add(newApproval(ps.getId(), user, lt.getLabelId(), vote.getValue(), ts));
+      cells.add(newApproval(ps.getId(), changeCtl.getUser(), lt.getLabelId(), vote.getValue(), ts));
     }
     for (PatchSetApproval psa : cells) {
       update.putApproval(psa.getLabel(), psa.getValue());
@@ -354,15 +350,13 @@ public class ApprovalsUtil {
     }
   }
 
-  private static void checkApprovals(
-      Map<String, Short> approvals, PermissionBackend.ForChange forChange)
-      throws AuthException, PermissionBackendException {
+  private static void checkApprovals(Map<String, Short> approvals, ChangeControl changeCtl)
+      throws AuthException {
     for (Map.Entry<String, Short> vote : approvals.entrySet()) {
       String name = vote.getKey();
       Short value = vote.getValue();
-      try {
-        forChange.check(new LabelPermission.WithValue(name, value));
-      } catch (AuthException e) {
+      PermissionRange range = changeCtl.getRange(Permission.forLabel(name));
+      if (range == null || !range.contains(value)) {
         throw new AuthException(
             String.format("applying label \"%s\": %d is restricted", name, value));
       }
@@ -382,33 +376,20 @@ public class ApprovalsUtil {
     return notes.load().getApprovals();
   }
 
-  public Iterable<PatchSetApproval> byPatchSet(
-      ReviewDb db,
-      ChangeNotes notes,
-      CurrentUser user,
-      PatchSet.Id psId,
-      @Nullable RevWalk rw,
-      @Nullable Config repoConfig)
+  public Iterable<PatchSetApproval> byPatchSet(ReviewDb db, ChangeControl ctl, PatchSet.Id psId)
       throws OrmException {
     if (!migration.readChanges()) {
       return sortApprovals(db.patchSetApprovals().byPatchSet(psId));
     }
-    return copier.getForPatchSet(db, notes, user, psId, rw, repoConfig);
+    return copier.getForPatchSet(db, ctl, psId);
   }
 
   public Iterable<PatchSetApproval> byPatchSetUser(
-      ReviewDb db,
-      ChangeNotes notes,
-      CurrentUser user,
-      PatchSet.Id psId,
-      Account.Id accountId,
-      @Nullable RevWalk rw,
-      @Nullable Config repoConfig)
-      throws OrmException {
+      ReviewDb db, ChangeControl ctl, PatchSet.Id psId, Account.Id accountId) throws OrmException {
     if (!migration.readChanges()) {
       return sortApprovals(db.patchSetApprovals().byPatchSetUser(psId, accountId));
     }
-    return filterApprovals(byPatchSet(db, notes, user, psId, rw, repoConfig), accountId);
+    return filterApprovals(byPatchSet(db, ctl, psId), accountId);
   }
 
   public PatchSetApproval getSubmitter(ReviewDb db, ChangeNotes notes, PatchSet.Id c) {

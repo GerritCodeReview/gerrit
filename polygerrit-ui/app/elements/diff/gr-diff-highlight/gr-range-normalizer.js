@@ -18,36 +18,36 @@
   if (window.GrRangeNormalizer) { return; }
 
   // Astral code point as per https://mathiasbynens.be/notes/javascript-unicode
-  const REGEX_ASTRAL_SYMBOL = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
+  var REGEX_ASTRAL_SYMBOL = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
-  const GrRangeNormalizer = {
+  var GrRangeNormalizer = {
     /**
      * Remap DOM range to whole lines of a diff if necessary. If the start or
      * end containers are DOM elements that are singular pieces of syntax
      * highlighting, the containers are remapped to the .contentText divs that
      * contain the entire line of code.
      *
-     * @param {!Object} range - the standard DOM selector range.
-     * @return {!Object} A modified version of the range that correctly accounts
+     * @param {Object} range - the standard DOM selector range.
+     * @return {Object} A modified version of the range that correctly accounts
      *     for syntax highlighting.
      */
-    normalize(range) {
-      const startContainer = this._getContentTextParent(range.startContainer);
-      const startOffset = range.startOffset +
-          this._getTextOffset(startContainer, range.startContainer);
-      const endContainer = this._getContentTextParent(range.endContainer);
-      const endOffset = range.endOffset + this._getTextOffset(endContainer,
+    normalize: function(range) {
+      var startContainer = this._getContentTextParent(range.startContainer);
+      var startOffset = range.startOffset + this._getTextOffset(startContainer,
+          range.startContainer);
+      var endContainer = this._getContentTextParent(range.endContainer);
+      var endOffset = range.endOffset + this._getTextOffset(endContainer,
           range.endContainer);
       return {
-        startContainer,
-        startOffset,
-        endContainer,
-        endOffset,
+        startContainer: startContainer,
+        startOffset: startOffset,
+        endContainer: endContainer,
+        endOffset: endOffset,
       };
     },
 
-    _getContentTextParent(target) {
-      let element = target;
+    _getContentTextParent: function(target) {
+      var element = target;
       if (element.nodeName === '#text') {
         element = element.parentElement;
       }
@@ -69,18 +69,18 @@
      * @param {!Element} child The child element being searched for.
      * @return {number}
      */
-    _getTextOffset(node, child) {
-      let count = 0;
-      let stack = [node];
+    _getTextOffset: function(node, child) {
+      var count = 0;
+      var stack = [node];
       while (stack.length) {
-        const n = stack.pop();
+        var n = stack.pop();
         if (n === child) {
           break;
         }
         if (n.childNodes && n.childNodes.length !== 0) {
-          const arr = [];
-          for (const childNode of n.childNodes) {
-            arr.push(childNode);
+          var arr = [];
+          for (var i = 0; i < n.childNodes.length; i++) {
+            arr.push(n.childNodes[i]);
           }
           arr.reverse();
           stack = stack.concat(arr);
@@ -94,10 +94,10 @@
     /**
      * The DOM API textContent.length calculation is broken when the text
      * contains Unicode. See https://mathiasbynens.be/notes/javascript-unicode .
-     * @param {text} node A text node.
-     * @return {number} The length of the text.
+     * @param {Text} A text node.
+     * @return {Number} The length of the text.
      */
-    _getLength(node) {
+    _getLength: function(node) {
       return node.textContent.replace(REGEX_ASTRAL_SYMBOL, '_').length;
     },
   };

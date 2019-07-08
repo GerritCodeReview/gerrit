@@ -18,20 +18,18 @@ import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.google.gerrit.index.FieldDef;
-import com.google.gerrit.index.IndexConfig;
-import com.google.gerrit.index.IndexRewriter;
-import com.google.gerrit.index.QueryOptions;
-import com.google.gerrit.index.Schema;
-import com.google.gerrit.index.query.AndPredicate;
-import com.google.gerrit.index.query.IndexPredicate;
-import com.google.gerrit.index.query.LimitPredicate;
-import com.google.gerrit.index.query.NotPredicate;
-import com.google.gerrit.index.query.OrPredicate;
-import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
+import com.google.gerrit.server.index.IndexConfig;
+import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.index.IndexRewriter;
+import com.google.gerrit.server.index.QueryOptions;
+import com.google.gerrit.server.query.AndPredicate;
+import com.google.gerrit.server.query.LimitPredicate;
+import com.google.gerrit.server.query.NotPredicate;
+import com.google.gerrit.server.query.OrPredicate;
+import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.AndChangeSource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
@@ -83,8 +81,7 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
 
   private static EnumSet<Change.Status> extractStatus(Predicate<ChangeData> in) {
     if (in instanceof ChangeStatusPredicate) {
-      Status status = ((ChangeStatusPredicate) in).getStatus();
-      return status != null ? EnumSet.of(status) : null;
+      return EnumSet.of(((ChangeStatusPredicate) in).getStatus());
     } else if (in instanceof NotPredicate) {
       EnumSet<Status> s = extractStatus(in.getChild(0));
       return s != null ? EnumSet.complementOf(s) : null;
@@ -191,9 +188,6 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
       // and included that in their limit computation.
       return new LimitPredicate<>(ChangeQueryBuilder.FIELD_LIMIT, opts.limit());
     } else if (!isRewritePossible(in)) {
-      if (in instanceof IndexPredicate) {
-        throw new QueryParseException("Unsupported index predicate: " + in.toString());
-      }
       return null; // magic to indicate "in" cannot be rewritten
     }
 
@@ -201,7 +195,6 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
     BitSet isIndexed = new BitSet(n);
     BitSet notIndexed = new BitSet(n);
     BitSet rewritten = new BitSet(n);
-    BitSet changeSource = new BitSet(n);
     List<Predicate<ChangeData>> newChildren = Lists.newArrayListWithCapacity(n);
     for (int i = 0; i < n; i++) {
       Predicate<ChangeData> c = in.getChild(i);
@@ -213,9 +206,6 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
         notIndexed.set(i);
         newChildren.add(c);
       } else {
-        if (nc instanceof ChangeDataSource) {
-          changeSource.set(i);
-        }
         rewritten.set(i);
         newChildren.add(nc);
       }
@@ -226,11 +216,7 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
     } else if (notIndexed.cardinality() == n) {
       return null; // Can't rewrite any children, so cannot rewrite in.
     } else if (rewritten.cardinality() == n) {
-      // All children were rewritten.
-      if (changeSource.cardinality() == n) {
-        return copy(in, newChildren);
-      }
-      return in.copy(newChildren);
+      return in.copy(newChildren); // All children were rewritten.
     }
     return partitionChildren(in, newChildren, isIndexed, index, opts);
   }
@@ -240,10 +226,7 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
       return false;
     }
     IndexPredicate<ChangeData> p = (IndexPredicate<ChangeData>) in;
-
-    FieldDef<ChangeData, ?> def = p.getField();
-    Schema<ChangeData> schema = index.getSchema();
-    return schema.hasField(def);
+    return index.getSchema().hasField(p.getField());
   }
 
   private Predicate<ChangeData> partitionChildren(

@@ -20,23 +20,23 @@ import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
-import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.rules.PrologModule;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
+import com.google.gerrit.server.account.AccountVisibility;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.CapabilityCollection;
+import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.FakeRealm;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.account.Realm;
-import com.google.gerrit.server.account.externalids.ExternalIdModule;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.H2CacheModule;
 import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
@@ -57,24 +57,21 @@ import com.google.gerrit.server.extensions.events.EventUtil;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
-import com.google.gerrit.server.git.VisibleRefFilter;
-import com.google.gerrit.server.git.receive.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.group.GroupModule;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.CommentLinkProvider;
-import com.google.gerrit.server.project.CommitResource;
-import com.google.gerrit.server.project.DefaultPermissionBackendModule;
 import com.google.gerrit.server.project.ProjectCacheImpl;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionSortCache;
-import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -119,10 +116,6 @@ public class BatchProgramModule extends FactoryModule {
     bind(new TypeLiteral<List<CommentLinkInfo>>() {})
         .toProvider(CommentLinkProvider.class)
         .in(SINGLETON);
-    bind(new TypeLiteral<DynamicMap<ChangeQueryProcessor.ChangeAttributeFactory>>() {})
-        .toInstance(DynamicMap.<ChangeQueryProcessor.ChangeAttributeFactory>emptyMap());
-    bind(new TypeLiteral<DynamicMap<RestView<CommitResource>>>() {})
-        .toInstance(DynamicMap.<RestView<CommitResource>>emptyMap());
     bind(String.class)
         .annotatedWith(CanonicalWebUrl.class)
         .toProvider(CanonicalWebUrlProvider.class);
@@ -138,7 +131,6 @@ public class BatchProgramModule extends FactoryModule {
     factory(MergeUtil.Factory.class);
     factory(PatchSetInserter.Factory.class);
     factory(RebaseChangeOp.Factory.class);
-    factory(VisibleRefFilter.Factory.class);
 
     // As Reindex is a batch program, don't assume the index is available for
     // the change cache.
@@ -153,16 +145,17 @@ public class BatchProgramModule extends FactoryModule {
     bind(new TypeLiteral<Set<AccountGroup.UUID>>() {})
         .annotatedWith(GitReceivePackGroups.class)
         .toInstance(Collections.<AccountGroup.UUID>emptySet());
+    bind(ChangeControl.Factory.class);
+    factory(ProjectControl.AssistedFactory.class);
 
     install(new BatchGitModule());
-    install(new DefaultPermissionBackendModule());
     install(new DefaultMemoryCacheModule());
     install(new H2CacheModule());
-    install(new ExternalIdModule());
     install(new GroupModule());
     install(new NoteDbModule(cfg));
     install(new PrologModule());
-    install(AccountCacheImpl.module());
+    install(AccountByEmailCacheImpl.module());
+    install(AccountCacheImpl.module(false));
     install(GroupCacheImpl.module());
     install(GroupIncludeCacheImpl.module());
     install(ProjectCacheImpl.module());
@@ -171,9 +164,9 @@ public class BatchProgramModule extends FactoryModule {
     install(MergeabilityCacheImpl.module());
     install(TagCache.module());
     factory(CapabilityCollection.Factory.class);
-    factory(ChangeData.AssistedFactory.class);
+    factory(CapabilityControl.Factory.class);
+    factory(ChangeData.Factory.class);
     factory(ProjectState.Factory.class);
-    factory(SubmitRuleEvaluator.Factory.class);
 
     bind(ChangeJson.Factory.class).toProvider(Providers.<ChangeJson.Factory>of(null));
     bind(EventUtil.class).toProvider(Providers.<EventUtil>of(null));

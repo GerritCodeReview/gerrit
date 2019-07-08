@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -29,16 +30,15 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.PrivateInternals_UiActionDescription;
 import com.google.gerrit.extensions.webui.UiAction;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.extensions.webui.UiActions;
-import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.google.inject.util.Providers;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,27 +48,21 @@ public class ActionJson {
   private final Revisions revisions;
   private final ChangeJson.Factory changeJsonFactory;
   private final ChangeResource.Factory changeResourceFactory;
-  private final UiActions uiActions;
   private final DynamicMap<RestView<ChangeResource>> changeViews;
   private final DynamicSet<ActionVisitor> visitorSet;
-  private final Provider<CurrentUser> userProvider;
 
   @Inject
   ActionJson(
       Revisions revisions,
       ChangeJson.Factory changeJsonFactory,
       ChangeResource.Factory changeResourceFactory,
-      UiActions uiActions,
       DynamicMap<RestView<ChangeResource>> changeViews,
-      DynamicSet<ActionVisitor> visitorSet,
-      Provider<CurrentUser> userProvider) {
+      DynamicSet<ActionVisitor> visitorSet) {
     this.revisions = revisions;
     this.changeJsonFactory = changeJsonFactory;
     this.changeResourceFactory = changeResourceFactory;
-    this.uiActions = uiActions;
     this.changeViews = changeViews;
     this.visitorSet = visitorSet;
-    this.userProvider = userProvider;
   }
 
   public Map<String, ActionInfo> format(RevisionResource rsrc) throws OrmException {
@@ -91,9 +85,9 @@ public class ActionJson {
     return Lists.newArrayList(visitorSet);
   }
 
-  public ChangeInfo addChangeActions(ChangeInfo to, ChangeNotes notes) {
+  public ChangeInfo addChangeActions(ChangeInfo to, ChangeControl ctl) {
     List<ActionVisitor> visitors = visitors();
-    to.actions = toActionMap(notes, visitors, copy(visitors, to));
+    to.actions = toActionMap(ctl, visitors, copy(visitors, to));
     return to;
   }
 
@@ -115,8 +109,8 @@ public class ActionJson {
     if (visitors.isEmpty()) {
       return null;
     }
-    // Include all fields from ChangeJson#toChangeInfo that are not protected by any
-    // ListChangesOptions.
+    // Include all fields from ChangeJson#toChangeInfo that are not protected by
+    // any ListChangesOptions.
     ChangeInfo copy = new ChangeInfo();
     copy.project = changeInfo.project;
     copy.branch = changeInfo.branch;
@@ -128,21 +122,15 @@ public class ActionJson {
     copy.mergeable = changeInfo.mergeable;
     copy.insertions = changeInfo.insertions;
     copy.deletions = changeInfo.deletions;
-    copy.hasReviewStarted = changeInfo.hasReviewStarted;
-    copy.isPrivate = changeInfo.isPrivate;
     copy.subject = changeInfo.subject;
     copy.status = changeInfo.status;
     copy.owner = changeInfo.owner;
     copy.created = changeInfo.created;
     copy.updated = changeInfo.updated;
     copy._number = changeInfo._number;
-    copy.revertOf = changeInfo.revertOf;
     copy.starred = changeInfo.starred;
     copy.stars = changeInfo.stars;
     copy.submitted = changeInfo.submitted;
-    copy.submitter = changeInfo.submitter;
-    copy.unresolvedCommentCount = changeInfo.unresolvedCommentCount;
-    copy.workInProgress = changeInfo.workInProgress;
     copy.id = changeInfo.id;
     return copy;
   }
@@ -151,14 +139,15 @@ public class ActionJson {
     if (visitors.isEmpty()) {
       return null;
     }
-    // Include all fields from ChangeJson#toRevisionInfo that are not protected by any
-    // ListChangesOptions.
+    // Include all fields from ChangeJson#toRevisionInfo that are not protected
+    // by any ListChangesOptions.
     RevisionInfo copy = new RevisionInfo();
     copy.isCurrent = revisionInfo.isCurrent;
     copy._number = revisionInfo._number;
     copy.ref = revisionInfo.ref;
     copy.created = revisionInfo.created;
     copy.uploader = revisionInfo.uploader;
+    copy.draft = revisionInfo.draft;
     copy.fetch = revisionInfo.fetch;
     copy.kind = revisionInfo.kind;
     copy.description = revisionInfo.description;
@@ -166,27 +155,25 @@ public class ActionJson {
   }
 
   private Map<String, ActionInfo> toActionMap(
-      ChangeNotes notes, List<ActionVisitor> visitors, ChangeInfo changeInfo) {
-    CurrentUser user = userProvider.get();
+      ChangeControl ctl, List<ActionVisitor> visitors, ChangeInfo changeInfo) {
     Map<String, ActionInfo> out = new LinkedHashMap<>();
-    if (!user.isIdentifiedUser()) {
+    if (!ctl.getUser().isIdentifiedUser()) {
       return out;
     }
 
-    Iterable<UiAction.Description> descs =
-        uiActions.from(changeViews, changeResourceFactory.create(notes, user));
-
+    Provider<CurrentUser> userProvider = Providers.of(ctl.getUser());
+    FluentIterable<UiAction.Description> descs =
+        UiActions.from(changeViews, changeResourceFactory.create(ctl), userProvider);
     // The followup action is a client-side only operation that does not
     // have a server side handler. It must be manually registered into the
     // resulting action map.
-    Status status = notes.getChange().getStatus();
-    if (status.isOpen() || status.equals(Status.MERGED)) {
+    if (ctl.getChange().getStatus().isOpen()) {
       UiAction.Description descr = new UiAction.Description();
       PrivateInternals_UiActionDescription.setId(descr, "followup");
       PrivateInternals_UiActionDescription.setMethod(descr, "POST");
       descr.setTitle("Create follow-up change");
       descr.setLabel("Follow-Up");
-      descs = Iterables.concat(descs, Collections.singleton(descr));
+      descs = descs.append(descr);
     }
 
     ACTION:
@@ -207,13 +194,13 @@ public class ActionJson {
       List<ActionVisitor> visitors,
       ChangeInfo changeInfo,
       RevisionInfo revisionInfo) {
-    if (!rsrc.getUser().isIdentifiedUser()) {
+    if (!rsrc.getControl().getUser().isIdentifiedUser()) {
       return ImmutableMap.of();
     }
-
     Map<String, ActionInfo> out = new LinkedHashMap<>();
+    Provider<CurrentUser> userProvider = Providers.of(rsrc.getControl().getUser());
     ACTION:
-    for (UiAction.Description d : uiActions.from(revisions, rsrc)) {
+    for (UiAction.Description d : UiActions.from(revisions, rsrc, userProvider)) {
       ActionInfo actionInfo = new ActionInfo(d);
       for (ActionVisitor visitor : visitors) {
         if (!visitor.visit(d.getId(), actionInfo, changeInfo, revisionInfo)) {

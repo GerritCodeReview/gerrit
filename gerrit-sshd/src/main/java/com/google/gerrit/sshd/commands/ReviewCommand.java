@@ -33,9 +33,8 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -78,7 +77,7 @@ public class ReviewCommand extends SshCommand {
       multiValued = true,
       metaVar = "{COMMIT | CHANGE,PATCHSET}",
       usage = "list of commits or patch sets to review")
-  void addPatchSetId(String token) {
+  void addPatchSetId(final String token) {
     try {
       PatchSet ps = psParser.parsePatchSet(token, projectControl, branch);
       patchSets.add(ps);
@@ -127,8 +126,19 @@ public class ReviewCommand extends SshCommand {
   @Option(name = "--submit", aliases = "-s", usage = "submit the specified patch set(s)")
   private boolean submitChange;
 
+  @Option(name = "--publish", usage = "publish the specified draft patch set(s)")
+  private boolean publishPatchSet;
+
+  @Option(name = "--delete", usage = "delete the specified draft patch set(s)")
+  private boolean deleteDraftPatchSet;
+
   @Option(name = "--json", aliases = "-j", usage = "read review input json from stdin")
   private boolean json;
+
+  @Option(
+      name = "--strict-labels",
+      usage = "Strictly check if the labels specified can be applied to the given patch set(s)")
+  private boolean strictLabels;
 
   @Option(
       name = "--tag",
@@ -142,13 +152,13 @@ public class ReviewCommand extends SshCommand {
       aliases = "-l",
       usage = "custom label(s) to assign",
       metaVar = "LABEL=VALUE")
-  void addLabel(String token) {
+  void addLabel(final String token) {
     LabelVote v = LabelVote.parseWithEquals(token);
     LabelType.checkName(v.label()); // Disallow SUBM.
     customLabels.put(v.label(), v.value());
   }
 
-  @Inject private ProjectCache projectCache;
+  @Inject private ProjectControl.Factory projectControlFactory;
 
   @Inject private AllProjectsName allProjects;
 
@@ -168,11 +178,28 @@ public class ReviewCommand extends SshCommand {
       if (submitChange) {
         throw die("abandon and submit actions are mutually exclusive");
       }
+      if (publishPatchSet) {
+        throw die("abandon and publish actions are mutually exclusive");
+      }
+      if (deleteDraftPatchSet) {
+        throw die("abandon and delete actions are mutually exclusive");
+      }
       if (rebaseChange) {
         throw die("abandon and rebase actions are mutually exclusive");
       }
       if (moveToBranch != null) {
         throw die("abandon and move actions are mutually exclusive");
+      }
+    }
+    if (publishPatchSet) {
+      if (restoreChange) {
+        throw die("publish and restore actions are mutually exclusive");
+      }
+      if (submitChange) {
+        throw die("publish and submit actions are mutually exclusive");
+      }
+      if (deleteDraftPatchSet) {
+        throw die("publish and delete actions are mutually exclusive");
       }
     }
     if (json) {
@@ -181,6 +208,12 @@ public class ReviewCommand extends SshCommand {
       }
       if (submitChange) {
         throw die("json and submit actions are mutually exclusive");
+      }
+      if (deleteDraftPatchSet) {
+        throw die("json and delete actions are mutually exclusive");
+      }
+      if (publishPatchSet) {
+        throw die("json and publish actions are mutually exclusive");
       }
       if (abandonChange) {
         throw die("json and abandon actions are mutually exclusive");
@@ -199,9 +232,15 @@ public class ReviewCommand extends SshCommand {
       }
     }
     if (rebaseChange) {
+      if (deleteDraftPatchSet) {
+        throw die("rebase and delete actions are mutually exclusive");
+      }
       if (submitChange) {
         throw die("rebase and submit actions are mutually exclusive");
       }
+    }
+    if (deleteDraftPatchSet && submitChange) {
+      throw die("delete and submit actions are mutually exclusive");
     }
 
     boolean ok = true;
@@ -210,7 +249,7 @@ public class ReviewCommand extends SshCommand {
       input = reviewFromJson();
     }
 
-    for (PatchSet patchSet : patchSets) {
+    for (final PatchSet patchSet : patchSets) {
       try {
         if (input != null) {
           applyReview(patchSet, input);
@@ -235,7 +274,7 @@ public class ReviewCommand extends SshCommand {
     }
   }
 
-  private void applyReview(PatchSet patchSet, ReviewInput review) throws RestApiException {
+  private void applyReview(PatchSet patchSet, final ReviewInput review) throws RestApiException {
     gApi.changes()
         .id(patchSet.getId().getParentKey().get())
         .revision(patchSet.getRevision().get())
@@ -251,7 +290,10 @@ public class ReviewCommand extends SshCommand {
     }
   }
 
-  private void reviewPatchSet(PatchSet patchSet) throws Exception {
+  private void reviewPatchSet(final PatchSet patchSet) throws Exception {
+    if (notify == null) {
+      notify = NotifyHandling.ALL;
+    }
 
     ReviewInput review = new ReviewInput();
     review.message = Strings.emptyToNull(changeComment);
@@ -259,6 +301,7 @@ public class ReviewCommand extends SshCommand {
     review.notify = notify;
     review.labels = new TreeMap<>();
     review.drafts = ReviewInput.DraftHandling.PUBLISH;
+    review.strictLabels = strictLabels;
     for (ApproveOption ao : optionList) {
       Short v = ao.value();
       if (v != null) {
@@ -302,6 +345,11 @@ public class ReviewCommand extends SshCommand {
         revisionApi(patchSet).submit();
       }
 
+      if (publishPatchSet) {
+        revisionApi(patchSet).publish();
+      } else if (deleteDraftPatchSet) {
+        revisionApi(patchSet).delete();
+      }
     } catch (IllegalStateException | RestApiException e) {
       throw die(e);
     }
@@ -320,14 +368,14 @@ public class ReviewCommand extends SshCommand {
     optionList = new ArrayList<>();
     customLabels = new HashMap<>();
 
-    ProjectState allProjectsState;
+    ProjectControl allProjectsControl;
     try {
-      allProjectsState = projectCache.checkedGet(allProjects);
-    } catch (IOException e) {
+      allProjectsControl = projectControlFactory.controlFor(allProjects);
+    } catch (NoSuchProjectException e) {
       throw die("missing " + allProjects.get());
     }
 
-    for (LabelType type : allProjectsState.getLabelTypes().getLabelTypes()) {
+    for (LabelType type : allProjectsControl.getLabelTypes().getLabelTypes()) {
       StringBuilder usage = new StringBuilder("score for ").append(type.getName()).append("\n");
 
       for (LabelValue v : type.getValues()) {

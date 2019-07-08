@@ -1,16 +1,11 @@
-# Roboto Mono. Version 2.136
-# https://github.com/google/roboto/releases/tag/v2.136
-
+# Source Code Pro. Version 2.010 Roman / 1.030 Italics
+# https://github.com/adobe-fonts/source-code-pro/releases/tag/2.010R-ro%2F1.030R-it
 filegroup(
-    name = "robotofonts",
+    name = "sourcecodepro",
     srcs = [
-        "Roboto-Medium.woff",
-        "Roboto-Medium.woff2",
-        "Roboto-Regular.woff",
-        "Roboto-Regular.woff2",
-        "RobotoMono-Regular.woff",
-        "RobotoMono-Regular.woff2",
+        "SourceCodePro-Regular.woff",
+        "SourceCodePro-Regular.woff2",
     ],
-    data = ["//lib:LICENSE-Apache2.0"],
+    data = ["//lib:LICENSE-OFL1.1"],
     visibility = ["//visibility:public"],
 )

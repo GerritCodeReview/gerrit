@@ -17,11 +17,10 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.RefPermission;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -35,39 +34,32 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 @Singleton
 public class GetHead implements RestReadView<ProjectResource> {
-  private final GitRepositoryManager repoManager;
-  private final CommitsCollection commits;
-  private final PermissionBackend permissionBackend;
+  private GitRepositoryManager repoManager;
+  private Provider<ReviewDb> db;
 
   @Inject
-  GetHead(
-      GitRepositoryManager repoManager,
-      CommitsCollection commits,
-      PermissionBackend permissionBackend) {
+  GetHead(GitRepositoryManager repoManager, Provider<ReviewDb> db) {
     this.repoManager = repoManager;
-    this.commits = commits;
-    this.permissionBackend = permissionBackend;
+    this.db = db;
   }
 
   @Override
   public String apply(ProjectResource rsrc)
-      throws AuthException, ResourceNotFoundException, IOException, PermissionBackendException {
+      throws AuthException, ResourceNotFoundException, IOException {
     try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
       Ref head = repo.getRefDatabase().exactRef(Constants.HEAD);
       if (head == null) {
         throw new ResourceNotFoundException(Constants.HEAD);
       } else if (head.isSymbolic()) {
         String n = head.getTarget().getName();
-        permissionBackend
-            .user(rsrc.getUser())
-            .project(rsrc.getNameKey())
-            .ref(n)
-            .check(RefPermission.READ);
-        return n;
+        if (rsrc.getControl().controlForRef(n).isVisible()) {
+          return n;
+        }
+        throw new AuthException("not allowed to see HEAD");
       } else if (head.getObjectId() != null) {
         try (RevWalk rw = new RevWalk(repo)) {
           RevCommit commit = rw.parseCommit(head.getObjectId());
-          if (commits.canRead(rsrc.getProjectState(), repo, commit)) {
+          if (rsrc.getControl().canReadCommit(db.get(), repo, commit)) {
             return head.getObjectId().name();
           }
           throw new AuthException("not allowed to see HEAD");

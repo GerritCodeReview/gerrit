@@ -18,10 +18,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import java.lang.annotation.Annotation;
@@ -31,10 +29,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Map;
 import org.junit.runner.Runner;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.Suite;
@@ -85,26 +80,11 @@ import org.junit.runners.model.InitializationError;
  * Additionally, config values used by <strong>default</strong> can be set in a method annotated
  * with {@code @ConfigSuite.Default}.
  *
- * <p>In addition groups of tests for different configurations can be defined by annotating a method
- * that returns a Map&lt;String, Config&gt; with {@link Configs}. The map keys define the test suite
- * names, while the values define the configurations for the test suites.
- *
- * <pre>
- * {@literal @}ConfigSuite.Configs
- * public static Map&lt;String, Config&gt; configs() {
- *   Config cfgA = new Config();
- *   cfgA.setString("gerrit", null, "testValue", "a");
- *   Config cfgB = new Config();
- *   cfgB.setString("gerrit", null, "testValue", "b");
- *   return ImmutableMap.of("testWithValueA", cfgA, "testWithValueB", cfgB);
- * }
- * </pre>
- *
  * <p>The name of the config method corresponding to the currently-running test can be stored in a
  * field annotated with {@code @ConfigSuite.Name}.
  */
 public class ConfigSuite extends Suite {
-  public static final String DEFAULT = "default";
+  private static final String DEFAULT = "default";
 
   @Target({METHOD})
   @Retention(RUNTIME)
@@ -113,10 +93,6 @@ public class ConfigSuite extends Suite {
   @Target({METHOD})
   @Retention(RUNTIME)
   public static @interface Config {}
-
-  @Target({METHOD})
-  @Retention(RUNTIME)
-  public static @interface Configs {}
 
   @Target({FIELD})
   @Retention(RUNTIME)
@@ -127,29 +103,25 @@ public class ConfigSuite extends Suite {
   public static @interface Name {}
 
   private static class ConfigRunner extends BlockJUnit4ClassRunner {
-    private final org.eclipse.jgit.lib.Config cfg;
+    private final Method configMethod;
     private final Field parameterField;
     private final Field nameField;
     private final String name;
 
     private ConfigRunner(
-        Class<?> clazz,
-        Field parameterField,
-        Field nameField,
-        String name,
-        org.eclipse.jgit.lib.Config cfg)
+        Class<?> clazz, Field parameterField, Field nameField, String name, Method configMethod)
         throws InitializationError {
       super(clazz);
       this.parameterField = parameterField;
       this.nameField = nameField;
       this.name = name;
-      this.cfg = cfg;
+      this.configMethod = configMethod;
     }
 
     @Override
     public Object createTest() throws Exception {
       Object test = getTestClass().getJavaClass().getDeclaredConstructor().newInstance();
-      parameterField.set(test, new org.eclipse.jgit.lib.Config(cfg));
+      parameterField.set(test, callConfigMethod(configMethod));
       if (nameField != null) {
         nameField.set(test, name);
       }
@@ -171,23 +143,14 @@ public class ConfigSuite extends Suite {
   private static List<Runner> runnersFor(Class<?> clazz) {
     Method defaultConfig = getDefaultConfig(clazz);
     List<Method> configs = getConfigs(clazz);
-    Map<String, org.eclipse.jgit.lib.Config> configMap =
-        callConfigMapMethod(getConfigMap(clazz), configs);
-
     Field parameterField = getOnlyField(clazz, Parameter.class);
     checkArgument(parameterField != null, "No @ConfigSuite.Parameter found");
     Field nameField = getOnlyField(clazz, Name.class);
     List<Runner> result = Lists.newArrayListWithCapacity(configs.size() + 1);
     try {
-      result.add(
-          new ConfigRunner(
-              clazz, parameterField, nameField, null, callConfigMethod(defaultConfig)));
+      result.add(new ConfigRunner(clazz, parameterField, nameField, null, defaultConfig));
       for (Method m : configs) {
-        result.add(
-            new ConfigRunner(clazz, parameterField, nameField, m.getName(), callConfigMethod(m)));
-      }
-      for (Map.Entry<String, org.eclipse.jgit.lib.Config> e : configMap.entrySet()) {
-        result.add(new ConfigRunner(clazz, parameterField, nameField, e.getKey(), e.getValue()));
+        result.add(new ConfigRunner(clazz, parameterField, nameField, m.getName(), m));
       }
       return result;
     } catch (InitializationError e) {
@@ -200,20 +163,15 @@ public class ConfigSuite extends Suite {
   }
 
   private static Method getDefaultConfig(Class<?> clazz) {
-    return getAnnotatedMethod(clazz, Default.class);
-  }
-
-  private static Method getConfigMap(Class<?> clazz) {
-    return getAnnotatedMethod(clazz, Configs.class);
-  }
-
-  private static <T extends Annotation> Method getAnnotatedMethod(
-      Class<?> clazz, Class<T> annotationClass) {
     Method result = null;
     for (Method m : clazz.getMethods()) {
-      T ann = m.getAnnotation(annotationClass);
+      Default ann = m.getAnnotation(Default.class);
       if (ann != null) {
-        checkArgument(result == null, "Multiple methods annotated with %s: %s, %s", ann, result, m);
+        checkArgument(
+            result == null,
+            "Multiple methods annotated with @ConfigSuite.Method: %s, %s",
+            result,
+            m);
         result = m;
       }
     }
@@ -225,7 +183,8 @@ public class ConfigSuite extends Suite {
     for (Method m : clazz.getMethods()) {
       Config ann = m.getAnnotation(Config.class);
       if (ann != null) {
-        checkArgument(!m.getName().equals(DEFAULT), "%s cannot be named %s", ann, DEFAULT);
+        checkArgument(
+            !m.getName().equals(DEFAULT), "@ConfigSuite.Config cannot be named %s", DEFAULT);
         result.add(m);
       }
     }
@@ -244,45 +203,6 @@ public class ConfigSuite extends Suite {
     checkArgument(m.getParameterTypes().length == 0, "%s must take no parameters", m);
     try {
       return (org.eclipse.jgit.lib.Config) m.invoke(null);
-    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-      throw new IllegalArgumentException(e);
-    }
-  }
-
-  private static Map<String, org.eclipse.jgit.lib.Config> callConfigMapMethod(
-      Method m, List<Method> configs) {
-    if (m == null) {
-      return ImmutableMap.of();
-    }
-    checkArgument(Map.class.isAssignableFrom(m.getReturnType()), "%s must return Map", m);
-    Type[] types = ((ParameterizedType) m.getGenericReturnType()).getActualTypeArguments();
-    checkArgument(
-        String.class.isAssignableFrom((Class<?>) types[0]),
-        "The map returned by %s must have String as key",
-        m);
-    checkArgument(
-        org.eclipse.jgit.lib.Config.class.isAssignableFrom((Class<?>) types[1]),
-        "The map returned by %s must have Config as value",
-        m);
-    checkArgument((m.getModifiers() & Modifier.STATIC) != 0, "%s must be static", m);
-    checkArgument(m.getParameterTypes().length == 0, "%s must take no parameters", m);
-    try {
-      @SuppressWarnings("unchecked")
-      Map<String, org.eclipse.jgit.lib.Config> configMap =
-          (Map<String, org.eclipse.jgit.lib.Config>) m.invoke(null);
-      checkArgument(
-          !configMap.containsKey(DEFAULT),
-          "The map returned by %s cannot contain key %s (duplicate test suite name)",
-          m,
-          DEFAULT);
-      for (String name : configs.stream().map(cm -> cm.getName()).collect(toSet())) {
-        checkArgument(
-            !configMap.containsKey(name),
-            "The map returned by %s cannot contain key %s (duplicate test suite name)",
-            m,
-            name);
-      }
-      return configMap;
     } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
       throw new IllegalArgumentException(e);
     }

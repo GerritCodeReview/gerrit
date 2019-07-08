@@ -121,15 +121,12 @@ public final class Plugin extends JavaScriptObject {
    *
    * @param extensionPoint the UI extension point for which the panel should be registered.
    * @param entry callback function invoked to create the panel widgets.
-   * @param name the name of the panel which can be used to specify panel ordering via project
-   *     config
    */
-  public final void panel(
-      GerritUiExtensionPoint extensionPoint, Panel.EntryPoint entry, String name) {
-    panel(extensionPoint.name(), wrap(entry), name);
+  public void panel(GerritUiExtensionPoint extensionPoint, Panel.EntryPoint entry) {
+    panel(extensionPoint.name(), wrap(entry));
   }
 
-  private native void panel(String i, JavaScriptObject e, String n) /*-{ this.panel(i, e, n) }-*/;
+  private native void panel(String i, JavaScriptObject e) /*-{ this.panel(i, e) }-*/;
 
   protected Plugin() {}
 

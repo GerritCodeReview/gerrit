@@ -28,7 +28,8 @@ public class MergeIfNecessary extends SubmitStrategy {
   @Override
   public List<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge)
       throws IntegrationException {
-    List<CodeReviewCommit> sorted = args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
+    List<CodeReviewCommit> sorted =
+        args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge, args.incoming);
     List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
 
     if (args.mergeTip.getInitialTip() == null

@@ -16,7 +16,7 @@ package gerrit;
 
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.rules.StoredValues;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ChangeControl;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.Operation;
 import com.googlecode.prolog_cafe.lang.Predicate;
@@ -46,8 +46,9 @@ public class PRED_project_default_submit_type_1 extends Predicate.P1 {
     engine.setB0();
     Term a1 = arg1.dereference();
 
-    ProjectState projectState = StoredValues.PROJECT_STATE.get(engine);
-    SubmitType submitType = projectState.getProject().getSubmitType();
+    ChangeControl control = StoredValues.CHANGE_CONTROL.get(engine);
+    SubmitType submitType = control.getProject().getSubmitType();
+
     if (!a1.unify(term[submitType.ordinal()], engine.trail)) {
       return engine.fail();
     }

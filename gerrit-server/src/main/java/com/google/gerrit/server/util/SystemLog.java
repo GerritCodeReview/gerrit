@@ -27,7 +27,6 @@ import java.nio.file.Path;
 import org.apache.log4j.Appender;
 import org.apache.log4j.AsyncAppender;
 import org.apache.log4j.DailyRollingFileAppender;
-import org.apache.log4j.FileAppender;
 import org.apache.log4j.Layout;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -44,22 +43,20 @@ public class SystemLog {
   public static final String LOG4J_CONFIGURATION = "log4j.configuration";
 
   private final SitePaths site;
-  private final int asyncLoggingBufferSize;
-  private final boolean rotateLogs;
+  private final Config config;
 
   @Inject
-  public SystemLog(SitePaths site, @GerritServerConfig Config config) {
+  public SystemLog(final SitePaths site, @GerritServerConfig Config config) {
     this.site = site;
-    this.asyncLoggingBufferSize = config.getInt("core", "asyncLoggingBufferSize", 64);
-    this.rotateLogs = config.getBoolean("log", "rotate", true);
+    this.config = config;
   }
 
   public static boolean shouldConfigure() {
     return Strings.isNullOrEmpty(System.getProperty(LOG4J_CONFIGURATION));
   }
 
-  public static Appender createAppender(Path logdir, String name, Layout layout, boolean rotate) {
-    final FileAppender dst = rotate ? new DailyRollingFileAppender() : new FileAppender();
+  public static Appender createAppender(Path logdir, String name, Layout layout) {
+    final DailyRollingFileAppender dst = new DailyRollingFileAppender();
     dst.setName(name);
     dst.setLayout(layout);
     dst.setEncoding(UTF_8.name());
@@ -77,19 +74,14 @@ public class SystemLog {
   }
 
   public AsyncAppender createAsyncAppender(String name, Layout layout, boolean forPlugin) {
-    return createAsyncAppender(name, layout, forPlugin, rotateLogs);
-  }
-
-  private AsyncAppender createAsyncAppender(
-      String name, Layout layout, boolean forPlugin, boolean rotate) {
     AsyncAppender async = new AsyncAppender();
     async.setName(name);
     async.setBlocking(true);
-    async.setBufferSize(asyncLoggingBufferSize);
+    async.setBufferSize(config.getInt("core", "asyncLoggingBufferSize", 64));
     async.setLocationInfo(false);
 
     if (forPlugin || shouldConfigure()) {
-      async.addAppender(createAppender(site.logs_dir, name, layout, rotate));
+      async.addAppender(createAppender(site.logs_dir, name, layout));
     } else {
       Appender appender = LogManager.getLogger(name).getAppender(name);
       if (appender != null) {

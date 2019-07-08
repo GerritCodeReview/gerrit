@@ -12,7 +12,6 @@ _ssh_ -p <port> <host> _gerrit set-account_
   [--preferred-email <EMAIL>]
   [--add-ssh-key - | <KEY>]
   [--delete-ssh-key - | <KEY> | ALL]
-  [--generate-http-password]
   [--http-password <PASSWORD>]
   [--clear-http-password] <USER>
 --
@@ -26,9 +25,8 @@ It also allows managing email addresses, which bypasses the
 verification step we force within the UI.
 
 == ACCESS
-Users can call this to update their own accounts. To update a different
-account, a caller must be a member of the privileged 'Administrators'
-group, or have been granted
+Caller must be a member of the privileged 'Administrators' group,
+or have been granted
 link:access-control.html#capability_modifyAccount[the 'Modify Account' global capability].
 For security reasons only the members of the privileged 'Administrators'
 group can add or delete SSH keys for a user.
@@ -94,11 +92,6 @@ This most likely requires double quoting the value, for example
     associated SSH keys are removed from this account.
     May be supplied more than once to delete multiple SSH
     keys in a single command execution.
-
---generate-http-password::
-    Generate a new random HTTP password for the user account
-    similar to the web ui. The password will be output to the
-    user on success with a line: `New password: <PASSWORD>`.
 
 --http-password::
     Set the HTTP password for the user account.

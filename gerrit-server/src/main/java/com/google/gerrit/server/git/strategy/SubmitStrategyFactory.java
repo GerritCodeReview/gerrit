@@ -15,8 +15,8 @@
 package com.google.gerrit.server.git.strategy;
 
 import com.google.common.collect.ListMultimap;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
-import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -32,6 +32,8 @@ import com.google.gerrit.server.util.RequestId;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Set;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.slf4j.Logger;
@@ -52,7 +54,9 @@ public class SubmitStrategyFactory {
   public SubmitStrategy create(
       SubmitType submitType,
       ReviewDb db,
+      Repository repo,
       CodeReviewRevWalk rw,
+      ObjectInserter inserter,
       RevFlag canMergeFlag,
       Set<RevCommit> alreadyAccepted,
       Set<CodeReviewCommit> incoming,
@@ -61,7 +65,7 @@ public class SubmitStrategyFactory {
       MergeTip mergeTip,
       CommitStatus commitStatus,
       RequestId submissionId,
-      SubmitInput submitInput,
+      NotifyHandling notifyHandling,
       ListMultimap<RecipientType, Account.Id> accountsToNotify,
       SubmoduleOp submoduleOp,
       boolean dryrun)
@@ -74,12 +78,14 @@ public class SubmitStrategyFactory {
             rw,
             caller,
             mergeTip,
+            inserter,
+            repo,
             canMergeFlag,
             db,
             alreadyAccepted,
             incoming,
             submissionId,
-            submitInput,
+            notifyHandling,
             accountsToNotify,
             submoduleOp,
             dryrun);

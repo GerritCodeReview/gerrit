@@ -29,7 +29,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -83,16 +83,15 @@ public class EventUtil {
   }
 
   public RevisionInfo revisionInfo(Project project, PatchSet ps)
-      throws OrmException, PatchListNotAvailableException, GpgException, IOException,
-          PermissionBackendException {
+      throws OrmException, PatchListNotAvailableException, GpgException, IOException {
     return revisionInfo(project.getNameKey(), ps);
   }
 
   public RevisionInfo revisionInfo(Project.NameKey project, PatchSet ps)
-      throws OrmException, PatchListNotAvailableException, GpgException, IOException,
-          PermissionBackendException {
+      throws OrmException, PatchListNotAvailableException, GpgException, IOException {
     ChangeData cd = changeDataFactory.create(db.get(), project, ps.getId().getParentKey());
-    return changeJsonFactory.create(CHANGE_OPTIONS).getRevisionInfo(cd, ps);
+    ChangeControl ctl = cd.changeControl();
+    return changeJsonFactory.create(CHANGE_OPTIONS).getRevisionInfo(ctl, ps);
   }
 
   public AccountInfo accountInfo(Account a) {
@@ -125,10 +124,9 @@ public class EventUtil {
           error);
     } else {
       log.warn(
-          "Error in event listener {} for event {}: {} - {}",
+          "Error in event listener {} for event {}: {}",
           listener.getClass().getName(),
           event.getClass().getName(),
-          error.getClass().getName(),
           error.getMessage());
     }
   }

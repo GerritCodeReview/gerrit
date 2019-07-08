@@ -26,7 +26,7 @@ public final class RevId {
 
   protected RevId() {}
 
-  public RevId(String str) {
+  public RevId(final String str) {
     id = str;
   }
 

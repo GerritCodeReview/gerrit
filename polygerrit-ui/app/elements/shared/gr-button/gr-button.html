@@ -15,116 +15,124 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-
 <link rel="import" href="../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
-<link rel="import" href="../../../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-button">
   <template strip-whitespace>
-    <style include="shared-styles">
-      /* general styles for all buttons */
+    <style>
       :host {
+        background-color: #f5f5f5;
+        border: 1px solid #d1d2d3;
+        border-radius: 2px;
+        box-sizing: border-box;
+        color: #333;
+        cursor: pointer;
         display: inline-block;
-        font-family: var(--font-family-bold);
+        font-family: var(--font-family);
         font-size: 12px;
+        font-weight: bold;
+        outline-width: 0;
+        padding: .4em .85em;
         position: relative;
+        text-align: center;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
       }
       :host([hidden]) {
         display: none;
       }
-      :host([no-uppercase]) paper-button {
-        text-transform: none;
-      }
-      paper-button {
-        /* Some of these are overridden for link style buttons since buttons
-         without the link attribute are raised */
-        background-color: var(--gr-button-background, #fff);
-        color: var(--gr-button-color, var(--color-link));
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0;
-        min-width: 0;
-        padding: .4em .85em;
-        @apply --gr-button;
-      }
-      paper-button:hover,
-      paper-button:focus {
-        color: var(--gr-button-hover-color, var(--color-button-hover));
-      }
-      :host([disabled]) paper-button {
-        color: #a8a8a8;
-        cursor: wait;
-      }
-      /* styles for the optional down arrow */
-      :host:not([down-arrow]) .downArrow {display: none; }
-      :host([down-arrow]) .downArrow {
-        border-top: .36em solid var(--gr-button-arrow-color, #ccc);
-        border-left: .36em solid transparent;
-        border-right: .36em solid transparent;
-        margin-bottom: .05em;
-        margin-left: .5em;
-        transition: border-top-color 200ms;
-      }
-      :host([down-arrow]) paper-button:hover .downArrow {
-        border-top-color: var(--gr-button-arrow-hover-color, #666);
-      }
-
-      /* styles for raised buttons specifically*/
-      :host([primary]) paper-button[raised],
-      :host([secondary]) paper-button[raised] {
-        background-color: var(--color-link);
+      :host([primary]),
+      :host([secondary]) {
         color: #fff;
       }
-      :host([primary]) paper-button[raised]:hover,
-      :host([primary]) paper-button[raised]:focus,
-      :host([secondary]) paper-button[raised]:hover,
-      :host([secondary]) paper-button[raised]:focus {
-        background-color: var(--gr-button-hover-background-color, var(--color-button-hover));
-        color: var(--gr-button-color, #fff);
+      :host([primary]) {
+        background-color: #4d90fe;
+        border-color: #3079ed;
       }
-      :host([disabled]) paper-button[raised] {
-        background-color: #eaeaea;
-        color: #a8a8a8;
+      :host([secondary]) {
+        background-color: #d14836;
+        border-color: transparent;
       }
-      /* styles for link buttons specifically */
+      :host([small]) {
+        font-size: 12px;
+      }
       :host([link]) {
         background-color: transparent;
         border: none;
-        color: var(--color-link);
+        color: #00f;
         font-size: inherit;
-        font-family: var(--font-family-bold);
-        text-transform: none;
-      }
-      :host([link][tertiary]) {
-        color: var(--color-link-tertiary);
-      }
-      :host([link]) paper-button {
-        background-color: transparent;
-        margin: 0;
+        font-weight: normal;
         padding: 0;
-        --paper-button: {
-          padding: 0;
-        }
-        @apply --gr-button;
+        text-decoration: underline;
       }
-      :host([disabled][link]) paper-button {
-        background-color: transparent;
+      :host([loading]),
+      :host([disabled]) {
+        background-color: #efefef;
+        color: #aaa;
       }
-      :host([link]) paper-button:hover,
-      :host([link]) paper-button:focus {
-        color: var(--gr-button-hover-color, var(--color-button-hover));
+      :host([disabled]) {
+        cursor: default;
+      }
+      :host([loading]),
+      :host([loading][disabled]) {
+        cursor: wait;
+      }
+      :host:focus:not([link]),
+      :host:hover:not([link]) {
+        background-color: #f8f8f8;
+        border-color: #aaa;
+      }
+      :host(:active) {
+        border-color: #d1d2d3;
+        color: #aaa;
+      }
+      :host([primary]:focus),
+      :host([secondary]:focus),
+      :host([primary]:active),
+      :host([secondary]:active) {
+        color: #fff;
+      }
+      :host([primary]:focus) {
+        box-shadow: 0 0 1px #00f;
+        background-color: #4d90fe;
+      }
+      :host([primary]:not([disabled]):hover) {
+        background-color: #4d90fe;
+        border-color: #00F;
+      }
+      :host([primary]:active),
+      :host([secondary]:active) {
+        box-shadow: none;
+      }
+      :host([primary]:active) {
+        border-color: #0c2188;
+      }
+      :host([secondary]:focus) {
+        box-shadow: 0 0 1px #f00;
+        background-color: #d14836;
+      }
+      :host([secondary]:not([disabled]):hover) {
+        background-color: #c53727;
+        border: 1px solid #b0281a;
+      }
+      :host([secondary]:active) {
+        border-color: #941c0c;
+      }
+      :host([primary][loading]) {
+        background-color: #7caeff;
+        border-color: transparent;
+        color: #fff;
+      }
+      :host([primary][disabled]) {
+        background-color: #4d90fe;
+        color: #fff;
+        opacity: .5;
       }
     </style>
-    <paper-button
-        raised="[[!link]]"
-        disabled="[[_computeDisabled(disabled, loading)]]"
-        tabindex="-1">
-      <content></content>
-      <i class="downArrow"></i>
-    </paper-button>
+    <content></content>
   </template>
   <script src="gr-button.js"></script>
 </dom-module>

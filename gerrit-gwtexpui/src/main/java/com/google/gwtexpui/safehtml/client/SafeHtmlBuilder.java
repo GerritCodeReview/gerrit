@@ -17,9 +17,8 @@ package com.google.gwtexpui.safehtml.client;
 import com.google.gwt.core.client.GWT;
 
 /** Safely constructs a {@link SafeHtml}, escaping user provided content. */
+@SuppressWarnings("serial")
 public class SafeHtmlBuilder extends SafeHtml {
-  private static final long serialVersionUID = 1L;
-
   private static final Impl impl;
 
   static {
@@ -50,12 +49,12 @@ public class SafeHtmlBuilder extends SafeHtml {
     return !isEmpty();
   }
 
-  public SafeHtmlBuilder append(boolean in) {
+  public SafeHtmlBuilder append(final boolean in) {
     cb.append(in);
     return this;
   }
 
-  public SafeHtmlBuilder append(char in) {
+  public SafeHtmlBuilder append(final char in) {
     switch (in) {
       case '&':
         cb.append("&amp;");
@@ -84,22 +83,22 @@ public class SafeHtmlBuilder extends SafeHtml {
     return this;
   }
 
-  public SafeHtmlBuilder append(int in) {
+  public SafeHtmlBuilder append(final int in) {
     cb.append(in);
     return this;
   }
 
-  public SafeHtmlBuilder append(long in) {
+  public SafeHtmlBuilder append(final long in) {
     cb.append(in);
     return this;
   }
 
-  public SafeHtmlBuilder append(float in) {
+  public SafeHtmlBuilder append(final float in) {
     cb.append(in);
     return this;
   }
 
-  public SafeHtmlBuilder append(double in) {
+  public SafeHtmlBuilder append(final double in) {
     cb.append(in);
     return this;
   }
@@ -113,7 +112,7 @@ public class SafeHtmlBuilder extends SafeHtml {
   }
 
   /** Append already safe HTML as-is, avoiding double escaping. */
-  public SafeHtmlBuilder append(SafeHtml in) {
+  public SafeHtmlBuilder append(final SafeHtml in) {
     if (in != null) {
       cb.append(in.asString());
     }
@@ -121,7 +120,7 @@ public class SafeHtmlBuilder extends SafeHtml {
   }
 
   /** Append the string, escaping unsafe characters. */
-  public SafeHtmlBuilder append(String in) {
+  public SafeHtmlBuilder append(final String in) {
     if (in != null) {
       impl.escapeStr(this, in);
     }
@@ -129,7 +128,7 @@ public class SafeHtmlBuilder extends SafeHtml {
   }
 
   /** Append the string, escaping unsafe characters. */
-  public SafeHtmlBuilder append(StringBuilder in) {
+  public SafeHtmlBuilder append(final StringBuilder in) {
     if (in != null) {
       append(in.toString());
     }
@@ -137,7 +136,7 @@ public class SafeHtmlBuilder extends SafeHtml {
   }
 
   /** Append the string, escaping unsafe characters. */
-  public SafeHtmlBuilder append(StringBuffer in) {
+  public SafeHtmlBuilder append(final StringBuffer in) {
     if (in != null) {
       append(in.toString());
     }
@@ -145,7 +144,7 @@ public class SafeHtmlBuilder extends SafeHtml {
   }
 
   /** Append the result of toString(), escaping unsafe characters. */
-  public SafeHtmlBuilder append(Object in) {
+  public SafeHtmlBuilder append(final Object in) {
     if (in != null) {
       append(in.toString());
     }
@@ -153,7 +152,7 @@ public class SafeHtmlBuilder extends SafeHtml {
   }
 
   /** Append the string, escaping unsafe characters. */
-  public SafeHtmlBuilder append(CharSequence in) {
+  public SafeHtmlBuilder append(final CharSequence in) {
     if (in != null) {
       escapeCS(this, in);
     }
@@ -168,7 +167,7 @@ public class SafeHtmlBuilder extends SafeHtml {
    *
    * @param tagName name of the HTML element to open.
    */
-  public SafeHtmlBuilder openElement(String tagName) {
+  public SafeHtmlBuilder openElement(final String tagName) {
     assert isElementName(tagName);
     cb.append("<");
     cb.append(tagName);
@@ -188,7 +187,7 @@ public class SafeHtmlBuilder extends SafeHtml {
    * @return the attribute value, as a string. The empty string if the attribute has not been
    *     assigned a value. The returned string is the raw (unescaped) value.
    */
-  public String getAttribute(String name) {
+  public String getAttribute(final String name) {
     assert isAttributeName(name);
     assert cb == sBuf;
     return att.get(name);
@@ -201,7 +200,7 @@ public class SafeHtmlBuilder extends SafeHtml {
    * @param value value to assign; any existing value is replaced. The value is escaped (if
    *     necessary) during the assignment.
    */
-  public SafeHtmlBuilder setAttribute(String name, String value) {
+  public SafeHtmlBuilder setAttribute(final String name, final String value) {
     assert isAttributeName(name);
     assert cb == sBuf;
     att.set(name, value != null ? value : "");
@@ -214,7 +213,7 @@ public class SafeHtmlBuilder extends SafeHtml {
    * @param name name of the attribute to set.
    * @param value value to assign, any existing value is replaced.
    */
-  public SafeHtmlBuilder setAttribute(String name, int value) {
+  public SafeHtmlBuilder setAttribute(final String name, final int value) {
     return setAttribute(name, String.valueOf(value));
   }
 
@@ -228,7 +227,7 @@ public class SafeHtmlBuilder extends SafeHtml {
    * @param name name of the attribute to append onto.
    * @param value additional value to append.
    */
-  public SafeHtmlBuilder appendAttribute(String name, String value) {
+  public SafeHtmlBuilder appendAttribute(final String name, String value) {
     if (value != null && value.length() > 0) {
       final String e = getAttribute(name);
       return setAttribute(name, e.length() > 0 ? e + " " + value : value);
@@ -237,17 +236,17 @@ public class SafeHtmlBuilder extends SafeHtml {
   }
 
   /** Set the height attribute of the current element. */
-  public SafeHtmlBuilder setHeight(int height) {
+  public SafeHtmlBuilder setHeight(final int height) {
     return setAttribute("height", height);
   }
 
   /** Set the width attribute of the current element. */
-  public SafeHtmlBuilder setWidth(int width) {
+  public SafeHtmlBuilder setWidth(final int width) {
     return setAttribute("width", width);
   }
 
   /** Set the CSS class name for this element. */
-  public SafeHtmlBuilder setStyleName(String style) {
+  public SafeHtmlBuilder setStyleName(final String style) {
     assert isCssName(style);
     return setAttribute("class", style);
   }
@@ -257,7 +256,7 @@ public class SafeHtmlBuilder extends SafeHtml {
    *
    * <p>If no CSS class name has been specified yet, this method initializes it to the single name.
    */
-  public SafeHtmlBuilder addStyleName(String style) {
+  public SafeHtmlBuilder addStyleName(final String style) {
     assert isCssName(style);
     return appendAttribute("class", style);
   }
@@ -282,7 +281,7 @@ public class SafeHtmlBuilder extends SafeHtml {
   }
 
   /** Append a closing tag for the named element. */
-  public SafeHtmlBuilder closeElement(String name) {
+  public SafeHtmlBuilder closeElement(final String name) {
     assert isElementName(name);
     cb.append("</");
     cb.append(name);
@@ -363,7 +362,7 @@ public class SafeHtmlBuilder extends SafeHtml {
   }
 
   /** Append "&lt;param name=... value=... /&gt;". */
-  public SafeHtmlBuilder paramElement(String name, String value) {
+  public SafeHtmlBuilder paramElement(final String name, final String value) {
     openElement("param");
     setAttribute("name", name);
     setAttribute("value", value);
@@ -380,21 +379,21 @@ public class SafeHtmlBuilder extends SafeHtml {
     return cb.toString();
   }
 
-  private static void escapeCS(SafeHtmlBuilder b, CharSequence in) {
+  private static void escapeCS(final SafeHtmlBuilder b, final CharSequence in) {
     for (int i = 0; i < in.length(); i++) {
       b.append(in.charAt(i));
     }
   }
 
-  private static boolean isElementName(String name) {
+  private static boolean isElementName(final String name) {
     return name.matches("^[a-zA-Z][a-zA-Z0-9_-]*$");
   }
 
-  private static boolean isAttributeName(String name) {
+  private static boolean isAttributeName(final String name) {
     return isElementName(name);
   }
 
-  private static boolean isCssName(String name) {
+  private static boolean isCssName(final String name) {
     return isElementName(name);
   }
 
@@ -404,14 +403,14 @@ public class SafeHtmlBuilder extends SafeHtml {
 
   private static class ServerImpl extends Impl {
     @Override
-    void escapeStr(SafeHtmlBuilder b, String in) {
+    void escapeStr(final SafeHtmlBuilder b, final String in) {
       SafeHtmlBuilder.escapeCS(b, in);
     }
   }
 
   private static class ClientImpl extends Impl {
     @Override
-    void escapeStr(SafeHtmlBuilder b, String in) {
+    void escapeStr(final SafeHtmlBuilder b, final String in) {
       b.cb.append(escape(in));
     }
 

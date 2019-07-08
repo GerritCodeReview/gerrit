@@ -20,11 +20,10 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
 <script src="../../../bower_components/page/page.js"></script>
 <script src="../../../scripts/util.js"></script>
 
-<link rel="import" href="../../shared/gr-rest-api-interface/mock-diff-response_test.html">
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-file-list.html">
 
 <script>void(0);</script>
@@ -35,56 +34,43 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<script>
-  suite('gr-file-list tests', () => {
-    let element;
-    let sandbox;
-    let saveStub;
-    let loadCommentStub;
+<test-fixture id="blank">
+  <template>
+    <div></div>
+  </template>
+</test-fixture>
 
-    setup(() => {
+<script>
+  suite('gr-file-list tests', function() {
+    var element;
+    var sandbox;
+    var saveStub;
+
+    setup(function() {
       sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(true); },
-        getPreferences() { return Promise.resolve({}); },
-        fetchJSON() { return Promise.resolve({}); },
+        getLoggedIn: function() { return Promise.resolve(true); },
+        getPreferences: function() { return Promise.resolve({}); },
+        fetchJSON: function() { return Promise.resolve({}); },
       });
       stub('gr-date-formatter', {
-        _loadTimeFormat() { return Promise.resolve(''); },
+        _loadTimeFormat: function() { return Promise.resolve(''); },
       });
       stub('gr-diff', {
-        reload() { return Promise.resolve(); },
+        reload: function() { return Promise.resolve(); },
       });
-      stub('gr-comment-api', {
-        getPaths() { return {}; },
-        getCommentsForPath() { return {meta: {}, left: [], right: []}; },
-      });
-
       element = fixture('basic');
-      element.numFilesShown = 200;
       saveStub = sandbox.stub(element, '_saveReviewedState',
-          () => { return Promise.resolve(); });
-      loadCommentStub = sandbox.stub(element.$.commentAPI, 'loadAll',
-          () => { return Promise.resolve(); });
+          function() { return Promise.resolve(); });
     });
 
-    teardown(() => {
+    teardown(function() {
       sandbox.restore();
     });
 
-    test('correct number of files are shown', () => {
-      element._files = _.times(500, i => {
-        return {__path: '/file' + i, lines_inserted: 9};
-      });
-      flushAsynchronousOperations();
-      assert.equal(
-          Polymer.dom(element.root).querySelectorAll('.file-row').length,
-          element.numFilesShown);
-    });
-
-    test('get file list', done => {
-      const getChangeFilesStub = sandbox.stub(element.$.restAPI, 'getChangeFiles',
-          () => {
+    test('get file list', function(done) {
+      var getChangeFilesStub = sandbox.stub(element.$.restAPI, 'getChangeFiles',
+          function() {
             return Promise.resolve({
               '/COMMIT_MSG': {lines_inserted: 9},
               'tags.html': {lines_deleted: 123},
@@ -92,8 +78,8 @@ limitations under the License.
             });
           });
 
-      element._getFiles().then(files => {
-        const filenames = files.map(f => { return f.__path; });
+      element._getFiles().then(function(files) {
+        var filenames = files.map(function(f) { return f.__path; });
         assert.deepEqual(filenames, ['/COMMIT_MSG', 'about.txt', 'tags.html']);
         assert.deepEqual(files[0], {
           lines_inserted: 9,
@@ -116,49 +102,7 @@ limitations under the License.
       });
     });
 
-    test('get file list with change edit', done => {
-      element.editLoaded = true;
-
-      sandbox.stub(element.$.restAPI,
-          'getChangeEditFiles', () => {
-            return Promise.resolve({
-              commit: {},
-              files: {
-                '/COMMIT_MSG': {
-                  lines_inserted: 9,
-                },
-                'tags.html': {
-                  lines_deleted: 123,
-                },
-                'about.txt': {},
-              },
-            });
-          });
-
-      element._getFiles().then(files => {
-        const filenames = files.map(f => { return f.__path; });
-        assert.deepEqual(filenames, ['/COMMIT_MSG', 'about.txt', 'tags.html']);
-        assert.deepEqual(files[0], {
-          lines_inserted: 9,
-          lines_deleted: 0,
-          __path: '/COMMIT_MSG',
-        });
-        assert.deepEqual(files[1], {
-          lines_inserted: 0,
-          lines_deleted: 0,
-          __path: 'about.txt',
-        });
-        assert.deepEqual(files[2], {
-          lines_inserted: 0,
-          lines_deleted: 123,
-          __path: 'tags.html',
-        });
-
-        done();
-      });
-    });
-
-    test('calculate totals for patch number', () => {
+    test('calculate totals for patch number', function() {
       element._files = [
         {__path: '/COMMIT_MSG', lines_inserted: 9},
         {
@@ -233,7 +177,7 @@ limitations under the License.
       assert.isFalse(element._hideChangeTotals);
     });
 
-    test('binary only files', () => {
+    test('binary only files', function() {
       element._files = [
         {__path: '/COMMIT_MSG', lines_inserted: 9},
         {__path: 'file_binary', binary: true, size_delta: 10, size: 100},
@@ -250,7 +194,7 @@ limitations under the License.
       assert.isTrue(element._hideChangeTotals);
     });
 
-    test('binary and regular files', () => {
+    test('binary and regular files', function() {
       element._files = [
         {__path: '/COMMIT_MSG', lines_inserted: 9},
         {__path: 'file_binary', binary: true, size_delta: 10, size: 100},
@@ -269,64 +213,64 @@ limitations under the License.
       assert.isFalse(element._hideChangeTotals);
     });
 
-    test('_formatBytes function', () => {
-      const table = {
-        '64': '+64 B',
-        '1023': '+1023 B',
-        '1024': '+1 KiB',
-        '4096': '+4 KiB',
-        '1073741824': '+1 GiB',
+    test('_formatBytes function', function() {
+      var table = {
+        64: '+64 B',
+        1023: '+1023 B',
+        1024: '+1 KiB',
+        4096: '+4 KiB',
+        1073741824: '+1 GiB',
         '-64': '-64 B',
         '-1023': '-1023 B',
         '-1024': '-1 KiB',
         '-4096': '-4 KiB',
         '-1073741824': '-1 GiB',
-        '0': '+/-0 B',
+        0: '+/-0 B',
       };
 
-      for (const bytes in table) {
+      for (var bytes in table) {
         if (table.hasOwnProperty(bytes)) {
           assert.equal(element._formatBytes(bytes), table[bytes]);
         }
       }
     });
 
-    test('_formatPercentage function', () => {
-      const table = [
-        {size: 100,
+    test('_formatPercentage function', function() {
+      var table = [
+        { size: 100,
           delta: 100,
           display: '',
         },
-        {size: 195060,
+        { size: 195060,
           delta: 64,
           display: '(+0%)',
         },
-        {size: 195060,
+        { size: 195060,
           delta: -64,
           display: '(-0%)',
         },
-        {size: 394892,
+        { size: 394892,
           delta: -7128,
           display: '(-2%)',
         },
-        {size: 90,
+        { size: 90,
           delta: -10,
           display: '(-10%)',
         },
-        {size: 110,
+        { size: 110,
           delta: 10,
           display: '(+10%)',
         },
       ];
 
-      for (const item of table) {
+      table.forEach(function(item) {
         assert.equal(element._formatPercentage(
             item.size, item.delta), item.display);
-      }
+      });
     });
 
-    suite('keyboard shortcuts', () => {
-      setup(() => {
+    suite('keyboard shortcuts', function() {
+      setup(function() {
         element._files = [
           {__path: '/COMMIT_MSG'},
           {__path: 'file_added_in_rev2.txt'},
@@ -337,16 +281,15 @@ limitations under the License.
           basePatchNum: 'PARENT',
           patchNum: '2',
         };
-        element.change = {_number: 42};
         element.$.fileCursor.setCursorAtIndex(0);
       });
 
-      test('toggle left diff via shortcut', () => {
-        const toggleLeftDiffStub = sandbox.stub();
+      test('toggle left diff via shortcut', function() {
+        var toggleLeftDiffStub = sandbox.stub();
         // Property getter cannot be stubbed w/ sandbox due to a bug in Sinon.
         // https://github.com/sinonjs/sinon/issues/781
-        const diffsStub = sinon.stub(element, 'diffs', {
-          get() {
+        var diffsStub = sinon.stub(element, 'diffs', {
+          get: function() {
             return [{toggleLeftDiff: toggleLeftDiffStub}];
           },
         });
@@ -355,47 +298,33 @@ limitations under the License.
         diffsStub.restore();
       });
 
-      test('keyboard shortcuts', () => {
+      test('keyboard shortcuts', function() {
         flushAsynchronousOperations();
 
-        const items = Polymer.dom(element.root).querySelectorAll('.file-row');
+        var items = Polymer.dom(element.root).querySelectorAll('.file-row');
         element.$.fileCursor.stops = items;
         element.$.fileCursor.setCursorAtIndex(0);
         assert.equal(items.length, 3);
         assert.isTrue(items[0].classList.contains('selected'));
         assert.isFalse(items[1].classList.contains('selected'));
         assert.isFalse(items[2].classList.contains('selected'));
-        // j with a modifier should not move the cursor.
-        MockInteractions.pressAndReleaseKeyOn(element, 74, 'shift', 'j');
-        assert.equal(element.$.fileCursor.index, 0);
-        // down should not move the cursor.
-        MockInteractions.pressAndReleaseKeyOn(element, 40, null, 'down');
-        assert.equal(element.$.fileCursor.index, 0);
-
         MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
         assert.equal(element.$.fileCursor.index, 1);
         assert.equal(element.selectedIndex, 1);
         MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
 
-        const navStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
+        var showStub = sandbox.stub(page, 'show');
         assert.equal(element.$.fileCursor.index, 2);
         assert.equal(element.selectedIndex, 2);
-
-        // k with a modifier should not move the cursor.
-        MockInteractions.pressAndReleaseKeyOn(element, 75, 'shift', 'k');
-        assert.equal(element.$.fileCursor.index, 2);
-
-        // up should not move the cursor.
-        MockInteractions.pressAndReleaseKeyOn(element, 38, null, 'down');
-        assert.equal(element.$.fileCursor.index, 2);
+        MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
+        assert(showStub.lastCall.calledWith('/c/42/2/myfile.txt'),
+            'Should navigate to /c/42/2/myfile.txt');
 
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
         assert.equal(element.$.fileCursor.index, 1);
         assert.equal(element.selectedIndex, 1);
         MockInteractions.pressAndReleaseKeyOn(element, 79, null, 'o');
-
-        assert(navStub.lastCall.calledWith(element.change,
-            'file_added_in_rev2.txt', '2'),
+        assert(showStub.lastCall.calledWith('/c/42/2/file_added_in_rev2.txt'),
             'Should navigate to /c/42/2/file_added_in_rev2.txt');
 
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
@@ -405,11 +334,10 @@ limitations under the License.
         assert.equal(element.selectedIndex, 0);
       });
 
-      test('i key shows/hides selected inline diff', () => {
+      test('i key shows/hides selected inline diff', function() {
         sandbox.stub(element, '_expandedPathsChanged');
         flushAsynchronousOperations();
-        const files = Polymer.dom(element.root).querySelectorAll('.file-row');
-        element.$.fileCursor.stops = files;
+        element.$.fileCursor.stops = element.diffs;
         element.$.fileCursor.setCursorAtIndex(0);
         MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
         flushAsynchronousOperations();
@@ -424,95 +352,58 @@ limitations under the License.
 
         MockInteractions.pressAndReleaseKeyOn(element, 73, 'shift', 'i');
         flushAsynchronousOperations();
-        for (const index in element.diffs) {
-          if (!element.diffs.hasOwnProperty(index)) { continue; }
+        for (var index in element.diffs) {
           assert.include(element._expandedFilePaths, element.diffs[index].path);
         }
         MockInteractions.pressAndReleaseKeyOn(element, 73, 'shift', 'i');
         flushAsynchronousOperations();
-        for (const index in element.diffs) {
-          if (!element.diffs.hasOwnProperty(index)) { continue; }
+        for (var index in element.diffs) {
           assert.notInclude(element._expandedFilePaths,
               element.diffs[index].path);
         }
       });
 
-      test('r key toggles reviewed flag', () => {
-        flushAsynchronousOperations();
-
-        // Default state should be unreviewed.
-        assert.equal(element._reviewed.length, 0);
-
-        // Press the review key to toggle it (set the flag).
-        MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
-        assert.equal(element._reviewed.length, 1);
-
-        // Press the review key to toggle it (clear the flag).
-        MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
-        assert.equal(element._reviewed.length, 0);
+      test('_handleEnterKey navigates', function() {
+        sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+        sandbox.stub(element, 'modifierPressed').returns(false);
+        var expandStub = sandbox.stub(element, '_openCursorFile');
+        var navStub = sandbox.stub(element, '_openSelectedFile');
+        var e = new CustomEvent('fake-keyboard-event');
+        sinon.stub(e, 'preventDefault');
+        element._showInlineDiffs = false;
+        element._handleEnterKey(e);
+        assert.isTrue(e.preventDefault.called);
+        assert.isTrue(navStub.called);
+        assert.isFalse(expandStub.called);
       });
 
-      suite('_handleOKey', () => {
-        let interact;
+      test('_handleEnterKey expands', function() {
+        sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+        sandbox.stub(element, 'modifierPressed').returns(false);
+        var expandStub = sandbox.stub(element, '_openCursorFile');
+        var navStub = sandbox.stub(element, '_openSelectedFile');
+        var e = new CustomEvent('fake-keyboard-event');
+        sinon.stub(e, 'preventDefault');
+        element._showInlineDiffs = true;
+        element._handleEnterKey(e);
+        assert.isTrue(e.preventDefault.called);
+        assert.isFalse(navStub.called);
+        assert.isTrue(expandStub.called);
+      });
 
-        setup(() => {
-          sandbox.stub(element, 'shouldSuppressKeyboardShortcut')
-              .returns(false);
-          sandbox.stub(element, 'modifierPressed').returns(false);
-          const openCursorStub = sandbox.stub(element, '_openCursorFile');
-          const openSelectedStub = sandbox.stub(element, '_openSelectedFile');
-          const expandStub = sandbox.stub(element, '_togglePathExpanded');
-
-          interact = function(opt_payload) {
-            openCursorStub.reset();
-            openSelectedStub.reset();
-            expandStub.reset();
-
-            const e = new CustomEvent('fake-keyboard-event', opt_payload);
-            sinon.stub(e, 'preventDefault');
-            element._handleOKey(e);
-            assert.isTrue(e.preventDefault.called);
-            const result = {};
-            if (openCursorStub.called) {
-              result.opened_cursor = true;
-            }
-            if (openSelectedStub.called) {
-              result.opened_selected = true;
-            }
-            if (expandStub.called) {
-              result.expanded = true;
-            }
-            return result;
-          };
-        });
-
-        test('open from selected file', () => {
-          element._showInlineDiffs = false;
-          assert.deepEqual(interact(), {opened_selected: true});
-        });
-
-        test('open from diff cursor', () => {
-          element._showInlineDiffs = true;
-          assert.deepEqual(interact(), {opened_cursor: true});
-
-          // "Show diffs" mode overrides userPrefs.expand_inline_diffs
-          element._userPrefs = {expand_inline_diffs: true};
-          assert.deepEqual(interact(), {opened_cursor: true});
-        });
-
-        test('expand when user prefers', () => {
-          element._showInlineDiffs = false;
-          assert.deepEqual(interact(), {opened_selected: true});
-          element._userPrefs = {};
-          assert.deepEqual(interact(), {opened_selected: true});
-          element._userPrefs.expand_inline_diffs = true;
-          assert.deepEqual(interact(), {expanded: true});
-        });
+      test('_handleEnterKey noop when anchor focused', function() {
+        sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+        sandbox.stub(element, 'modifierPressed').returns(false);
+        var e = new CustomEvent('fake-keyboard-event',
+            {detail: {keyboardEvent: {target: document.createElement('a')}}});
+        sinon.stub(e, 'preventDefault');
+        element._handleEnterKey(e);
+        assert.isFalse(e.preventDefault.called);
       });
     });
 
-    test('comment filtering', () => {
-      const comments = {
+    test('comment filtering', function() {
+      var comments = {
         '/COMMIT_MSG': [
           {patch_set: 1, message: 'Done', updated: '2017-02-08 16:40:49'},
           {patch_set: 1, message: 'oh hay', updated: '2017-02-09 16:40:49'},
@@ -548,7 +439,7 @@ limitations under the License.
           },
         ],
       };
-      const drafts = {
+      var drafts = {
         'unresolved.file': [
           {
             patch_set: 2,
@@ -580,13 +471,13 @@ limitations under the License.
           '1d');
       assert.equal(
           element._computeCountString(comments, '1',
-              'file_added_in_rev2.txt', 'comment'), '');
+          'file_added_in_rev2.txt', 'comment'), '');
       assert.equal(
           element._computeCommentsStringMobile(comments, '1',
-              'file_added_in_rev2.txt'), '');
+          'file_added_in_rev2.txt'), '');
       assert.equal(
           element._computeDraftsStringMobile(comments, '1',
-              'file_added_in_rev2.txt'), '');
+          'file_added_in_rev2.txt'), '');
       assert.equal(
           element._computeCountString(comments, '2', '/COMMIT_MSG', 'comment'),
           '1 comment');
@@ -607,34 +498,39 @@ limitations under the License.
           '2d');
       assert.equal(
           element._computeCountString(comments, '2',
-              'file_added_in_rev2.txt', 'comment'), '');
+          'file_added_in_rev2.txt', 'comment'), '');
       assert.equal(element._computeCountString(comments, '2',
           'unresolved.file', 'comment'), '3 comments');
       assert.equal(
           element._computeUnresolvedString(comments, [], 2, 'myfile.txt'), '');
       assert.equal(
-          element.computeUnresolvedNum(comments, [], 2, 'myfile.txt'), 0);
-      assert.equal(
           element._computeUnresolvedString(comments, [], 2, 'unresolved.file'),
           '(1 unresolved)');
       assert.equal(
-          element.computeUnresolvedNum(comments, [], 2, 'unresolved.file'), 1);
-      assert.equal(
           element._computeUnresolvedString(comments, drafts, 2,
-              'unresolved.file'), '');
+          'unresolved.file'), '');
     });
 
-    test('computed properties', () => {
+    test('computed properties', function() {
       assert.equal(element._computeFileStatus('A'), 'A');
       assert.equal(element._computeFileStatus(undefined), 'M');
       assert.equal(element._computeFileStatus(null), 'M');
 
+      assert.equal(element._computeFileDisplayName('/foo/bar/baz'),
+          '/foo/bar/baz');
+      assert.equal(element._computeFileDisplayName('/COMMIT_MSG'),
+          'Commit message');
+
       assert.equal(element._computeClass('clazz', '/foo/bar/baz'), 'clazz');
       assert.equal(element._computeClass('clazz', '/COMMIT_MSG'),
           'clazz invisible');
+      assert.equal(element._computeExpandInlineClass(
+          {expand_inline_diffs: true}), 'expandInline');
+      assert.equal(element._computeExpandInlineClass(
+        {expand_inline_diffs: false}), '');
     });
 
-    test('file review status', () => {
+    test('file review status', function() {
       element._files = [
         {__path: '/COMMIT_MSG'},
         {__path: 'file_added_in_rev2.txt'},
@@ -650,45 +546,34 @@ limitations under the License.
       element.$.fileCursor.setCursorAtIndex(0);
 
       flushAsynchronousOperations();
-      const fileRows =
+      var fileRows =
           Polymer.dom(element.root).querySelectorAll('.row:not(.header)');
-      const checkSelector = 'input.reviewed[type="checkbox"]';
-      const commitMsg = fileRows[0].querySelector(checkSelector);
-      const fileAdded = fileRows[1].querySelector(checkSelector);
-      const myFile = fileRows[2].querySelector(checkSelector);
+      var commitMsg = fileRows[0].querySelector(
+          'input.reviewed[type="checkbox"]');
+      var fileAdded = fileRows[1].querySelector(
+          'input.reviewed[type="checkbox"]');
+      var myFile = fileRows[2].querySelector(
+          'input.reviewed[type="checkbox"]');
 
       assert.isTrue(commitMsg.checked);
       assert.isFalse(fileAdded.checked);
       assert.isTrue(myFile.checked);
 
-      const commitReviewLabel = fileRows[0].querySelector('.reviewedLabel');
-      const markReviewLabel = commitMsg.nextElementSibling;
-      assert.isTrue(commitReviewLabel.classList.contains('isReviewed'));
-      assert.equal(markReviewLabel.textContent, 'MARK UNREVIEWED');
-
-      const tapSpy = sandbox.spy(element, '_handleFileListTap');
-      MockInteractions.tap(markReviewLabel);
+      MockInteractions.tap(commitMsg);
       assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', false));
-      assert.isFalse(commitReviewLabel.classList.contains('isReviewed'));
-      assert.equal(markReviewLabel.textContent, 'MARK REVIEWED');
-      assert.isTrue(tapSpy.lastCall.args[0].defaultPrevented);
-
-      MockInteractions.tap(markReviewLabel);
+      MockInteractions.tap(commitMsg);
       assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', true));
-      assert.isTrue(commitReviewLabel.classList.contains('isReviewed'));
-      assert.equal(markReviewLabel.textContent, 'MARK UNREVIEWED');
-      assert.isTrue(tapSpy.lastCall.args[0].defaultPrevented);
     });
 
-    test('patch set from revisions', () => {
-      const expected = [
+    test('patch set from revisions', function() {
+      var expected = [
         {num: 1, desc: 'test'},
         {num: 2, desc: 'test'},
         {num: 3, desc: 'test'},
         {num: 4, desc: 'test'},
       ];
-      const patchNums = element.computeAllPatchSets({
-        revisions: {
+      var patchNums = element._computePatchSets({
+        base: {
           rev3: {_number: 3, description: 'test'},
           rev1: {_number: 1, description: 'test'},
           rev4: {_number: 4, description: 'test'},
@@ -696,12 +581,49 @@ limitations under the License.
         },
       });
       assert.equal(patchNums.length, expected.length);
-      for (let i = 0; i < expected.length; i++) {
+      for (var i = 0; i < expected.length; i++) {
         assert.deepEqual(patchNums[i], expected[i]);
       }
     });
 
-    test('checkbox shows/hides diff inline', () => {
+    test('patch range string', function() {
+      assert.equal(
+          element._patchRangeStr({basePatchNum: 'PARENT', patchNum: '1'}),
+          '1');
+      assert.equal(
+          element._patchRangeStr({basePatchNum: '1', patchNum: '3'}),
+          '1..3');
+    });
+
+    test('diff against dropdown', function(done) {
+      var showStub = sandbox.stub(page, 'show');
+      element.changeNum = '42';
+      element.patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '3',
+      };
+      element.revisions = {
+        rev1: {_number: 1},
+        rev2: {_number: 2},
+        rev3: {_number: 3},
+      };
+      flush(function() {
+        var selectEl = element.$.patchChange;
+        assert.equal(selectEl.value, 'PARENT');
+        assert.isTrue(element.$$('option[value="3"]').hasAttribute('disabled'));
+        selectEl.addEventListener('change', function() {
+          assert.equal(selectEl.value, '2');
+          assert(showStub.lastCall.calledWithExactly('/c/42/2..3'),
+              'Should navigate to /c/42/2..3');
+          showStub.restore();
+          done();
+        });
+        selectEl.value = '2';
+        element.fire('change', {}, {node: selectEl});
+      });
+    });
+
+    test('checkbox shows/hides diff inline', function() {
       element._files = [
         {__path: 'myfile.txt'},
       ];
@@ -713,20 +635,35 @@ limitations under the License.
       element.$.fileCursor.setCursorAtIndex(0);
       sandbox.stub(element, '_expandedPathsChanged');
       flushAsynchronousOperations();
-      const fileRows =
+      var fileRows =
           Polymer.dom(element.root).querySelectorAll('.row:not(.header)');
-      // Because the label surrounds the input, the tap event is triggered
-      // there first.
-      const showHideLabel = fileRows[0].querySelector('label.show-hide');
-      const showHideCheck = fileRows[0].querySelector(
+      var showHideCheck = fileRows[0].querySelector(
           'input.show-hide[type="checkbox"]');
       assert.isNotOk(showHideCheck.checked);
-      MockInteractions.tap(showHideLabel);
+      MockInteractions.tap(showHideCheck);
       assert.isOk(showHideCheck.checked);
       assert.notEqual(element._expandedFilePaths.indexOf('myfile.txt'), -1);
     });
 
-    test('diff mode correctly toggles the diffs', () => {
+    test('path should be properly escaped', function() {
+      element._files = [
+        {__path: 'foo bar/my+file.txt%'},
+      ];
+      element.changeNum = '42';
+      element.patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '2',
+      };
+      flushAsynchronousOperations();
+      // Slashes should be preserved, and spaces should be translated to `+`.
+      // @see Issue 4255 regarding double-encoding.
+      // @see Issue 4577 regarding more readable URLs.
+      assert.equal(
+          element.$$('a').getAttribute('href'),
+          '/c/42/2/foo+bar/my%252Bfile.txt%2525');
+    });
+
+    test('diff mode correctly toggles the diffs', function() {
       element._files = [
         {__path: 'myfile.txt'},
       ];
@@ -735,32 +672,82 @@ limitations under the License.
         basePatchNum: 'PARENT',
         patchNum: '2',
       };
-      sandbox.spy(element, '_updateDiffPreferences');
       element.$.fileCursor.setCursorAtIndex(0);
       flushAsynchronousOperations();
-
-      // Tap on a file to generate the diff.
-      const row = Polymer.dom(element.root)
-          .querySelectorAll('.row:not(.header) label.show-hide')[0];
-
-      MockInteractions.tap(row);
-      flushAsynchronousOperations();
-      const diffDisplay = element.diffs[0];
+      var diffDisplay = element.diffs[0];
       element._userPrefs = {default_diff_view: 'SIDE_BY_SIDE'};
+      assert.equal(element.diffViewMode, 'SIDE_BY_SIDE');
+      assert.equal(diffDisplay.viewMode, 'SIDE_BY_SIDE');
       element.set('diffViewMode', 'UNIFIED_DIFF');
       assert.equal(diffDisplay.viewMode, 'UNIFIED_DIFF');
-      assert.isTrue(element._updateDiffPreferences.called);
     });
 
+    test('diff mode selector initializes from preferences', function() {
+      var resolvePrefs;
+      var prefsPromise = new Promise(function(resolve) {
+        resolvePrefs = resolve;
+      });
+      sandbox.stub(element, '_getPreferences').returns(prefsPromise);
 
-    test('expanded attribute not set on path when not expanded', () => {
+      // Attach a new gr-file-list so we can intercept the preferences fetch.
+      var view = document.createElement('gr-file-list');
+      var select = view.$.modeSelect;
+      fixture('blank').appendChild(view);
+      flushAsynchronousOperations();
+
+      // At this point the diff mode doesn't yet have the user's preference.
+      assert.equal(select.value, 'SIDE_BY_SIDE');
+
+      // Receive the overriding preference.
+      resolvePrefs({default_diff_view: 'UNIFIED'});
+      flushAsynchronousOperations();
+      assert.equal(select.value, 'SIDE_BY_SIDE');
+      document.getElementById('blank').restore();
+    });
+
+    test('show/hide diffs disabled for large amounts of files', function(done) {
+      var computeSpy = sandbox.spy(element, '_fileListActionsVisible');
+      element._files = [];
+      element.changeNum = '42';
+      element.patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '2',
+      };
+      element.$.fileCursor.setCursorAtIndex(0);
+      flush(function() {
+        assert.isTrue(computeSpy.lastCall.returnValue);
+        var arr = [];
+        _.times(element._maxFilesForBulkActions + 1, function() {
+          arr.push({__path: 'myfile.txt'});
+        });
+        element._files = arr;
+        element._numFilesShown = arr.length;
+        assert.isFalse(computeSpy.lastCall.returnValue);
+        done();
+      });
+    });
+
+    test('expanded attribute not set on path when not expanded', function() {
       element._files = [
         {__path: '/COMMIT_MSG'},
       ];
       assert.isNotOk(element.$$('.expanded'));
     });
 
-    test('expand_inline_diffs user preference', () => {
+    test('_getDiffViewMode', function() {
+      // No user prefs or diff view mode set.
+      assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
+      // User prefs but no diff view mode set.
+      element.diffViewMode = null;
+      element._userPrefs = {default_diff_view: 'UNIFIED_DIFF'};
+      assert.equal(
+          element._getDiffViewMode(null, element._userPrefs), 'UNIFIED_DIFF');
+      // User prefs and diff view mode set.
+      element.diffViewMode = 'SIDE_BY_SIDE';
+      assert.equal(element._getDiffViewMode(
+          element.diffViewMode, element._userPrefs), 'SIDE_BY_SIDE');
+    });
+    test('expand_inline_diffs user preference', function() {
       element._files = [
         {__path: '/COMMIT_MSG'},
       ];
@@ -771,30 +758,30 @@ limitations under the License.
       };
       sandbox.stub(element, '_expandedPathsChanged');
       flushAsynchronousOperations();
-      const commitMsgFile = Polymer.dom(element.root)
+      var commitMsgFile = Polymer.dom(element.root)
           .querySelectorAll('.row:not(.header) a')[0];
 
       // Remove href attribute so the app doesn't route to a diff view
       commitMsgFile.removeAttribute('href');
-      const togglePathSpy = sandbox.spy(element, '_togglePathExpanded');
+      var hiddenChangeSpy = sandbox.spy(element, '_handleHiddenChange');
 
       MockInteractions.tap(commitMsgFile);
       flushAsynchronousOperations();
-      assert(togglePathSpy.notCalled, 'file is opened as diff view');
+      assert(hiddenChangeSpy.notCalled, 'file is opened as diff view');
       assert.isNotOk(element.$$('.expanded'));
 
       element._userPrefs = {expand_inline_diffs: true};
       flushAsynchronousOperations();
       MockInteractions.tap(commitMsgFile);
       flushAsynchronousOperations();
-      assert(togglePathSpy.calledOnce, 'file is expanded');
+      assert(hiddenChangeSpy.calledOnce, 'file is expanded');
       assert.isOk(element.$$('.expanded'));
     });
 
-    test('_togglePathExpanded', () => {
-      const path = 'path/to/my/file.txt';
+    test('_togglePathExpanded', function() {
+      var path = 'path/to/my/file.txt';
       element.files = [{__path: path}];
-      const renderStub = sandbox.stub(element, '_renderInOrder')
+      var renderStub = sandbox.stub(element, '_renderInOrder')
           .returns(Promise.resolve());
 
       assert.equal(element._expandedFilePaths.length, 0);
@@ -810,486 +797,111 @@ limitations under the License.
       assert.notInclude(element._expandedFilePaths, path);
     });
 
-    test('collapseAllDiffs', () => {
-      sandbox.stub(element, '_renderInOrder')
-          .returns(Promise.resolve());
-      const cursorUpdateStub = sandbox.stub(element.$.diffCursor,
-          'handleDiffUpdate');
-
-      const path = 'path/to/my/file.txt';
-      element.files = [{__path: path}];
-      element._expandedFilePaths = [path];
-      element._showInlineDiffs = true;
-
-      element.collapseAllDiffs();
-      flushAsynchronousOperations();
-      assert.equal(element._expandedFilePaths.length, 0);
-      assert.isFalse(element._showInlineDiffs);
-      assert.isTrue(cursorUpdateStub.calledOnce);
-    });
-
-    test('_expandedPathsChanged', done => {
+    test('_expandedPathsChanged', function(done) {
       sandbox.stub(element, '_reviewFile');
-      const path = 'path/to/my/file.txt';
-      const diffs = [{
-        path,
-        reload() {
+      var path = 'path/to/my/file.txt';
+      var diffs = [{
+        path: path,
+        reload: function() {
           done();
         },
       }];
-      sinon.stub(element, 'diffs', {
-        get() { return diffs; },
+      var diffsStub = sinon.stub(element, 'diffs', {
+        get: function() { return diffs; },
       });
       element.push('_expandedFilePaths', path);
     });
 
-    suite('_handleFileListTap', () => {
+    suite('_handleFileTap', function() {
       function testForModifier(modifier) {
-        const e = {preventDefault() {}};
+        var e = {preventDefault: function() {}};
         e.detail = {sourceEvent: {}};
-        e.target = {
-          dataset: {path: '/test'},
-          classList: element.classList,
-        };
-
         e.detail.sourceEvent[modifier] = true;
 
-        const togglePathStub = sandbox.stub(element, '_togglePathExpanded');
-        element._userPrefs = {expand_inline_diffs: true};
+        var hiddenChangeStub = sandbox.stub(element, '_handleHiddenChange');
+        element._userPrefs = { expand_inline_diffs: true };
 
-        element._handleFileListTap(e);
-        assert.isFalse(togglePathStub.called);
+        element._handleFileTap(e);
+        assert.isFalse(hiddenChangeStub.called);
 
         e.detail.sourceEvent[modifier] = false;
-        element._handleFileListTap(e);
-        assert.equal(togglePathStub.callCount, 1);
+        element._handleFileTap(e);
+        assert.equal(hiddenChangeStub.callCount, 1);
 
-        element._userPrefs = {expand_inline_diffs: false};
-        element._handleFileListTap(e);
-        assert.equal(togglePathStub.callCount, 1);
+        element._userPrefs = { expand_inline_diffs: false };
+        element._handleFileTap(e);
+        assert.equal(hiddenChangeStub.callCount, 1);
       }
 
-      test('_handleFileListTap meta', () => {
+      test('_handleFileTap meta', function() {
         testForModifier('metaKey');
       });
 
-      test('_handleFileListTap ctrl', () => {
+      test('_handleFileTap ctrl', function() {
         testForModifier('ctrlKey');
       });
     });
 
-    test('_renderInOrder', done => {
-      const reviewStub = sandbox.stub(element, '_reviewFile');
-      let callCount = 0;
-      const diffs = [{
+    test('_renderInOrder', function(done) {
+      var reviewStub = sandbox.stub(element, '_reviewFile');
+      var callCount = 0;
+      var diffs = [{
         path: 'p0',
-        reload() {
+        reload: function() {
           assert.equal(callCount++, 2);
           return Promise.resolve();
         },
       }, {
         path: 'p1',
-        reload() {
+        reload: function() {
           assert.equal(callCount++, 1);
           return Promise.resolve();
         },
       }, {
         path: 'p2',
-        reload() {
+        reload: function() {
           assert.equal(callCount++, 0);
           return Promise.resolve();
         },
       }];
       element._renderInOrder(['p2', 'p1', 'p0'], diffs, 3)
-          .then(() => {
-            assert.isFalse(reviewStub.called);
-            assert.isTrue(loadCommentStub.called);
-            done();
-          });
+        .then(function() {
+          assert.isFalse(reviewStub.called);
+          done();
+        });
     });
 
-    test('_renderInOrder logged in', done => {
+    test('_renderInOrder logged in', function(done) {
       element._isLoggedIn = true;
-      const reviewStub = sandbox.stub(element, '_reviewFile');
-      let callCount = 0;
-      const diffs = [{
+      var reviewStub = sandbox.stub(element, '_reviewFile');
+      var callCount = 0;
+      var diffs = [{
         path: 'p0',
-        reload() {
+        reload: function() {
           assert.equal(reviewStub.callCount, 2);
           assert.equal(callCount++, 2);
           return Promise.resolve();
         },
       }, {
         path: 'p1',
-        reload() {
+        reload: function() {
           assert.equal(reviewStub.callCount, 1);
           assert.equal(callCount++, 1);
           return Promise.resolve();
         },
       }, {
         path: 'p2',
-        reload() {
+        reload: function() {
           assert.equal(reviewStub.callCount, 0);
           assert.equal(callCount++, 0);
           return Promise.resolve();
         },
       }];
       element._renderInOrder(['p2', 'p1', 'p0'], diffs, 3)
-          .then(() => {
-            assert.equal(reviewStub.callCount, 3);
-            done();
-          });
-    });
-
-    test('_loadingChanged fired from reload in debouncer', done => {
-      element.changeNum = 123;
-      element.patchRange = {patchNum: 12};
-      element._files = [{__path: 'foo.bar'}];
-
-      element.reload().then(() => {
-        assert.isFalse(element._loading);
-        element.flushDebouncer('loading-change');
-        assert.isFalse(element.classList.contains('loading'));
-        done();
-      });
-      assert.isTrue(element._loading);
-      assert.isFalse(element.classList.contains('loading'));
-      element.flushDebouncer('loading-change');
-      assert.isTrue(element.classList.contains('loading'));
-    });
-
-    test('_loadingChanged does not set class when there are no files', () => {
-      element.changeNum = 123;
-      element.patchRange = {patchNum: 12};
-      element.reload();
-      assert.isTrue(element._loading);
-      element.flushDebouncer('loading-change');
-      assert.isFalse(element.classList.contains('loading'));
-    });
-
-    test('no execute _computeDiffURL before patchNum is knwon', done => {
-      const urlStub = sandbox.stub(element, '_computeDiffURL');
-      element.change = {_number: 123};
-      element.patchRange = {patchNum: undefined, basePatchNum: 'PARENT'};
-      element._files = [{__path: 'foo/bar.cpp'}];
-      flush(() => {
-        assert.isFalse(urlStub.called);
-        element.set('patchRange.patchNum', 4);
-        flush(() => {
-          assert.isTrue(urlStub.called);
+        .then(function() {
+          assert.equal(reviewStub.callCount, 3);
           done();
         });
-      });
     });
   });
-
-  suite('gr-file-list inline diff tests', () => {
-    let element;
-    let sandbox;
-
-    const setupDiff = function(diff) {
-      const mock = document.createElement('mock-diff-response');
-      diff._diff = mock.diffResponse;
-      diff.comments = {
-        left: [],
-        right: [],
-      };
-      diff.prefs = {
-        context: 10,
-        tab_size: 8,
-        font_size: 12,
-        line_length: 100,
-        cursor_blink_rate: 0,
-        line_wrapping: false,
-        intraline_difference: true,
-        show_line_endings: true,
-        show_tabs: true,
-        show_whitespace_errors: true,
-        syntax_highlighting: true,
-        auto_hide_diff_table_header: true,
-        theme: 'DEFAULT',
-        ignore_whitespace: 'IGNORE_NONE',
-      };
-      diff._renderDiffTable();
-    };
-
-    const renderAndGetNewDiffs = function(index) {
-      const diffs =
-          Polymer.dom(element.root).querySelectorAll('gr-diff');
-
-      for (let i = index; i < diffs.length; i++) {
-        setupDiff(diffs[i]);
-      }
-
-      element._updateDiffCursor();
-      element.$.diffCursor.handleDiffUpdate();
-      return diffs;
-    };
-
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(true); },
-        getPreferences() { return Promise.resolve({}); },
-      });
-      stub('gr-date-formatter', {
-        _loadTimeFormat() { return Promise.resolve(''); },
-      });
-      stub('gr-diff', {
-        reload() { return Promise.resolve(); },
-      });
-      stub('gr-comment-api', {
-        loadAll() { return Promise.resolve(); },
-        getPaths() { return {}; },
-        getCommentsForPath() { return {meta: {}, left: [], right: []}; },
-      });
-      element = fixture('basic');
-      element.numFilesShown = 75;
-      element.selectedIndex = 0;
-      element._files = [
-        {__path: '/COMMIT_MSG', lines_inserted: 9},
-        {
-          __path: 'file_added_in_rev2.txt',
-          lines_inserted: 1,
-          lines_deleted: 1,
-          size_delta: 10,
-          size: 100,
-        },
-        {
-          __path: 'myfile.txt',
-          lines_inserted: 1,
-          lines_deleted: 1,
-          size_delta: 10,
-          size: 100,
-        },
-      ];
-      element._reviewed = ['/COMMIT_MSG', 'myfile.txt'];
-      element._loggedIn = true;
-      element.changeNum = '42';
-      element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: '2',
-      };
-      sandbox.stub(window, 'fetch', () => {
-        return Promise.resolve();
-      });
-      flushAsynchronousOperations();
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('cursor with individually opened files', () => {
-      MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
-      flushAsynchronousOperations();
-      let diffs = renderAndGetNewDiffs(0);
-      const diffStops = diffs[0].getCursorStops();
-
-      // 1 diff should be rendered.
-      assert.equal(diffs.length, 1);
-
-      // No line number is selected.
-      assert.isFalse(diffStops[10].classList.contains('target-row'));
-
-      // Tapping content on a line selects the line number.
-      MockInteractions.tap(Polymer.dom(
-          diffStops[10]).querySelectorAll('.contentText')[0]);
-      flushAsynchronousOperations();
-      assert.isTrue(diffStops[10].classList.contains('target-row'));
-
-      // Keyboard shortcuts are still moving the file cursor, not the diff
-      // cursor.
-      MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
-      flushAsynchronousOperations();
-      assert.isTrue(diffStops[10].classList.contains('target-row'));
-      assert.isFalse(diffStops[11].classList.contains('target-row'));
-
-      // The file cusor is now at 1.
-      assert.equal(element.$.fileCursor.index, 1);
-      MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
-      flushAsynchronousOperations();
-
-      diffs = renderAndGetNewDiffs(1);
-      // Two diffs should be rendered.
-      assert.equal(diffs.length, 2);
-      const diffStopsFirst = diffs[0].getCursorStops();
-      const diffStopsSecond = diffs[1].getCursorStops();
-
-      // The line on the first diff is stil selected
-      assert.isTrue(diffStopsFirst[10].classList.contains('target-row'));
-      assert.isFalse(diffStopsSecond[10].classList.contains('target-row'));
-    });
-
-    test('cursor with toggle all files', () => {
-      MockInteractions.pressAndReleaseKeyOn(element, 73, 'shift', 'i');
-      flushAsynchronousOperations();
-
-      const diffs = renderAndGetNewDiffs(0);
-      const diffStops = diffs[0].getCursorStops();
-
-      // 1 diff should be rendered.
-      assert.equal(diffs.length, 3);
-
-      // No line number is selected.
-      assert.isFalse(diffStops[10].classList.contains('target-row'));
-
-      // Tapping content on a line selects the line number.
-      MockInteractions.tap(Polymer.dom(
-          diffStops[10]).querySelectorAll('.contentText')[0]);
-      flushAsynchronousOperations();
-      assert.isTrue(diffStops[10].classList.contains('target-row'));
-
-      // Keyboard shortcuts are still moving the file cursor, not the diff
-      // cursor.
-      MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
-      flushAsynchronousOperations();
-      assert.isFalse(diffStops[10].classList.contains('target-row'));
-      assert.isTrue(diffStops[11].classList.contains('target-row'));
-
-      // The file cusor is still at 0.
-      assert.equal(element.$.fileCursor.index, 0);
-    });
-
-    suite('n key presses', () => {
-      let nKeySpy;
-      let nextCommentStub;
-      let nextChunkStub;
-      let fileRows;
-      setup(() => {
-        sandbox.stub(element, '_renderInOrder').returns(Promise.resolve());
-        nKeySpy = sandbox.spy(element, '_handleNKey');
-        nextCommentStub = sandbox.stub(element.$.diffCursor,
-            'moveToNextCommentThread');
-        nextChunkStub = sandbox.stub(element.$.diffCursor,
-            'moveToNextChunk');
-        fileRows =
-            Polymer.dom(element.root).querySelectorAll('.row:not(.header)');
-      });
-      test('n key with all files expanded and no shift key', () => {
-        MockInteractions.pressAndReleaseKeyOn(fileRows[0], 73, null, 'i');
-        flushAsynchronousOperations();
-
-        // Handle N key should return before calling diff cursor functions.
-        MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
-        assert.isTrue(nKeySpy.called);
-        assert.isFalse(nextCommentStub.called);
-
-        // This is also called in diffCursor.moveToFirstChunk.
-        assert.equal(nextChunkStub.callCount, 1);
-        assert.isFalse(!!element._showInlineDiffs);
-      });
-
-      test('n key with all files expanded and shift key', () => {
-        MockInteractions.pressAndReleaseKeyOn(fileRows[0], 73, null, 'i');
-        flushAsynchronousOperations();
-
-        MockInteractions.pressAndReleaseKeyOn(element, 78, 'shift', 'n');
-        assert.isTrue(nKeySpy.called);
-        assert.isFalse(nextCommentStub.called);
-
-        // This is also called in diffCursor.moveToFirstChunk.
-        assert.equal(nextChunkStub.callCount, 1);
-        assert.isFalse(!!element._showInlineDiffs);
-      });
-
-      test('n key without all files expanded and shift key', () => {
-        MockInteractions.pressAndReleaseKeyOn(fileRows[0], 73, 'shift', 'i');
-        flushAsynchronousOperations();
-
-        MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
-        assert.isTrue(nKeySpy.called);
-        assert.isFalse(nextCommentStub.called);
-
-        // This is also called in diffCursor.moveToFirstChunk.
-        assert.equal(nextChunkStub.callCount, 2);
-        assert.isTrue(element._showInlineDiffs);
-      });
-
-      test('n key without all files expanded and no shift key', () => {
-        MockInteractions.pressAndReleaseKeyOn(fileRows[0], 73, 'shift', 'i');
-        flushAsynchronousOperations();
-
-        MockInteractions.pressAndReleaseKeyOn(element, 78, 'shift', 'n');
-        assert.isTrue(nKeySpy.called);
-        assert.isTrue(nextCommentStub.called);
-
-        // This is also called in diffCursor.moveToFirstChunk.
-        assert.equal(nextChunkStub.callCount, 1);
-        assert.isTrue(element._showInlineDiffs);
-      });
-    });
-
-    test('_openSelectedFile behavior', () => {
-      const _files = element._files;
-      element.set('_files', []);
-      const navStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
-      // Noop when there are no files.
-      element._openSelectedFile();
-      assert.isFalse(navStub.called);
-
-      element.set('_files', _files);
-      flushAsynchronousOperations();
-       // Navigates when a file is selected.
-      element._openSelectedFile();
-      assert.isTrue(navStub.called);
-    });
-
-    test('_displayLine', () => {
-      sandbox.stub(element, 'shouldSuppressKeyboardShortcut', () => false);
-      sandbox.stub(element, 'modifierPressed', () => false);
-      element._showInlineDiffs = true;
-      const mockEvent = {preventDefault() {}};
-
-      element._displayLine = false;
-      element._handleDownKey(mockEvent);
-      assert.isTrue(element._displayLine);
-
-      element._displayLine = false;
-      element._handleUpKey(mockEvent);
-      assert.isTrue(element._displayLine);
-
-      element._displayLine = true;
-      element._handleEscKey(mockEvent);
-      assert.isFalse(element._displayLine);
-    });
-
-    suite('editLoaded behavior', () => {
-      const isVisible = el => {
-        assert.ok(el);
-        return getComputedStyle(el).getPropertyValue('display') !== 'none';
-      };
-
-      test('reviewed checkbox', () => {
-        const alertStub = sandbox.stub();
-        const saveReviewStub = sandbox.stub(element, '_saveReviewedState');
-
-        element.addEventListener('show-alert', alertStub);
-        element.editLoaded = false;
-        // Reviewed checkbox should be shown.
-        assert.isTrue(isVisible(element.$$('.reviewed')));
-        MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
-        assert.isFalse(alertStub.called);
-        assert.isTrue(saveReviewStub.calledOnce);
-
-        element.editLoaded = true;
-        flushAsynchronousOperations();
-
-        assert.isFalse(isVisible(element.$$('.reviewed')));
-        MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
-        assert.isTrue(alertStub.called);
-        assert.isTrue(saveReviewStub.calledOnce);
-      });
-
-      test('_getReviewedFiles does not call API', () => {
-        const apiSpy = sandbox.spy(element.$.restAPI, 'getReviewedFiles');
-        element.editLoaded = true;
-        return element._getReviewedFiles().then(files => {
-          assert.equal(files.length, 0);
-          assert.isFalse(apiSpy.called);
-        });
-      });
-    });
-  });
-  a11ySuite('basic');
 </script>

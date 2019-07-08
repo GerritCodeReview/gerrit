@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.common.AgreementInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
-import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -70,8 +69,6 @@ public interface AccountApi {
 
   List<ChangeInfo> getStarredChanges() throws RestApiException;
 
-  List<GroupInfo> getGroups() throws RestApiException;
-
   List<EmailInfo> getEmails() throws RestApiException;
 
   void addEmail(EmailInput input) throws RestApiException;
@@ -101,25 +98,6 @@ public interface AccountApi {
   List<AccountExternalIdInfo> getExternalIds() throws RestApiException;
 
   void deleteExternalIds(List<String> externalIds) throws RestApiException;
-
-  void setName(String name) throws RestApiException;
-
-  /**
-   * Generate a new HTTP password.
-   *
-   * @return the generated password.
-   */
-  String generateHttpPassword() throws RestApiException;
-
-  /**
-   * Set a new HTTP password.
-   *
-   * <p>May only be invoked by administrators.
-   *
-   * @param httpPassword the new password, {@code null} to remove the password.
-   * @return the new password, {@code null} if the password was removed.
-   */
-  String setHttpPassword(String httpPassword) throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility when adding new methods to the
@@ -219,11 +197,6 @@ public interface AccountApi {
     }
 
     @Override
-    public List<GroupInfo> getGroups() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
     public List<EmailInfo> getEmails() throws RestApiException {
       throw new NotImplementedException();
     }
@@ -296,21 +269,6 @@ public interface AccountApi {
 
     @Override
     public void deleteExternalIds(List<String> externalIds) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void setName(String name) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public String generateHttpPassword() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public String setHttpPassword(String httpPassword) throws RestApiException {
       throw new NotImplementedException();
     }
   }

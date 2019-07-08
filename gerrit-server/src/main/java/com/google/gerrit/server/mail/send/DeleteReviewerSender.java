@@ -20,7 +20,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
-import com.google.gerrit.server.mail.Address;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -33,7 +32,6 @@ import java.util.Set;
 /** Let users know that a reviewer and possibly her review have been removed. */
 public class DeleteReviewerSender extends ReplyToChangeSender {
   private final Set<Account.Id> reviewers = new HashSet<>();
-  private final Set<Address> reviewersByEmail = new HashSet<>();
 
   public interface Factory extends ReplyToChangeSender.Factory<DeleteReviewerSender> {
     @Override
@@ -51,10 +49,6 @@ public class DeleteReviewerSender extends ReplyToChangeSender {
     reviewers.addAll(cc);
   }
 
-  public void addReviewersByEmail(Collection<Address> cc) {
-    reviewersByEmail.addAll(cc);
-  }
-
   @Override
   protected void init() throws EmailException {
     super.init();
@@ -64,7 +58,6 @@ public class DeleteReviewerSender extends ReplyToChangeSender {
     ccExistingReviewers();
     includeWatchers(NotifyType.ALL_COMMENTS);
     add(RecipientType.TO, reviewers);
-    addByEmail(RecipientType.TO, reviewersByEmail);
     removeUsersThatIgnoredTheChange();
   }
 
@@ -77,15 +70,12 @@ public class DeleteReviewerSender extends ReplyToChangeSender {
   }
 
   public List<String> getReviewerNames() {
-    if (reviewers.isEmpty() && reviewersByEmail.isEmpty()) {
+    if (reviewers.isEmpty()) {
       return null;
     }
     List<String> names = new ArrayList<>();
     for (Account.Id id : reviewers) {
       names.add(getNameFor(id));
-    }
-    for (Address a : reviewersByEmail) {
-      names.add(a.toString());
     }
     return names;
   }

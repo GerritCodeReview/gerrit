@@ -19,7 +19,6 @@
 /**
  * @param canonicalPath
  * @param staticResourcePath
- * @param? versionInfo
  */
 {template .Index autoescape="strict" kind="html"}
   <!DOCTYPE html>{\n}
@@ -32,31 +31,19 @@
     To use PolyGerrit, please enable JavaScript in your browser settings, and then refresh this page.
   </noscript>
 
-  <script>
-    window.CLOSURE_NO_DEPS = true;
-    {if $canonicalPath != ''}window.CANONICAL_PATH = '{$canonicalPath}';{/if}
-    {if $versionInfo}window.VERSION_INFO = '{$versionInfo}';{/if}
-  </script>{\n}
+  {if $canonicalPath != ''}
+    <script>window.CANONICAL_PATH = '{$canonicalPath}';</script>{\n}
+  {/if}
 
   <link rel="icon" type="image/x-icon" href="{$canonicalPath}/favicon.ico">{\n}
 
-  // RobotoMono fonts are used in styles/fonts.css
+  // SourceCodePro fonts are used in styles/fonts.css
   // @see https://github.com/w3c/preload/issues/32 regarding crossorigin
-  <link rel="preload" href="{$staticResourcePath}/fonts/RobotoMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">{\n}
-  <link rel="preload" href="{$staticResourcePath}/fonts/RobotoMono-Regular.woff" as="font" type="font/woff" crossorigin="anonymous">{\n}
-  <link rel="preload" href="{$staticResourcePath}/fonts/Roboto-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">{\n}
-  <link rel="preload" href="{$staticResourcePath}/fonts/Roboto-Regular.woff" as="font" type="font/woff" crossorigin="anonymous">{\n}
-  <link rel="preload" href="{$staticResourcePath}/fonts/Roboto-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">{\n}
-  <link rel="preload" href="{$staticResourcePath}/fonts/Roboto-Medium.woff" as="font" type="font/woff" crossorigin="anonymous">{\n}
+  <link rel="preload" href="{$staticResourcePath}/fonts/SourceCodePro-Regular.woff2" as="font" type="font/woff2" crossorigin>{\n}
+  <link rel="preload" href="{$staticResourcePath}/fonts/SourceCodePro-Regular.woff" as="font" type="font/woff" crossorigin>{\n}
   <link rel="stylesheet" href="{$staticResourcePath}/styles/fonts.css">{\n}
   <link rel="stylesheet" href="{$staticResourcePath}/styles/main.css">{\n}
   <script src="{$staticResourcePath}/bower_components/webcomponentsjs/webcomponents-lite.js"></script>{\n}
-  // Content between webcomponents-lite and the load of the main app element
-  // run before polymer-resin is installed so may have security consequences.
-  // Contact your local security engineer if you have any questions, and
-  // CC them on any changes that load content before gr-app.html.
-  //
-  // github.com/Polymer/polymer-resin/blob/master/getting-started.md#integrating
   <link rel="preload" href="{$staticResourcePath}/elements/gr-app.js" as="script" crossorigin="anonymous">{\n}
   <link rel="import" href="{$staticResourcePath}/elements/gr-app.html">{\n}
 

@@ -17,12 +17,19 @@ package com.google.gerrit.common.data;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import java.sql.Timestamp;
 
 /** Utility class for building GroupDescription objects. */
 public class GroupDescriptions {
 
-  public static GroupDescription.Internal forAccountGroup(AccountGroup group) {
+  @Nullable
+  public static AccountGroup toAccountGroup(GroupDescription.Basic group) {
+    if (group instanceof GroupDescription.Internal) {
+      return ((GroupDescription.Internal) group).getAccountGroup();
+    }
+    return null;
+  }
+
+  public static GroupDescription.Internal forAccountGroup(final AccountGroup group) {
     return new GroupDescription.Internal() {
       @Override
       public AccountGroup.UUID getGroupUUID() {
@@ -35,40 +42,20 @@ public class GroupDescriptions {
       }
 
       @Override
+      public AccountGroup getAccountGroup() {
+        return group;
+      }
+
+      @Override
       @Nullable
       public String getEmailAddress() {
         return null;
       }
 
       @Override
+      @Nullable
       public String getUrl() {
         return "#" + PageLinks.toGroup(getGroupUUID());
-      }
-
-      @Override
-      public AccountGroup.Id getId() {
-        return group.getId();
-      }
-
-      @Override
-      @Nullable
-      public String getDescription() {
-        return group.getDescription();
-      }
-
-      @Override
-      public AccountGroup.UUID getOwnerGroupUUID() {
-        return group.getOwnerGroupUUID();
-      }
-
-      @Override
-      public boolean isVisibleToAll() {
-        return group.isVisibleToAll();
-      }
-
-      @Override
-      public Timestamp getCreatedOn() {
-        return group.getCreatedOn();
       }
     };
   }

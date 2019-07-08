@@ -280,11 +280,11 @@ public class SafeHtmlBuilderTest {
     new SafeHtmlBuilder().openElement("form").setAttribute("action", href);
   }
 
-  private static String escape(char c) {
+  private static String escape(final char c) {
     return new SafeHtmlBuilder().append(c).asString();
   }
 
-  private static String escape(String c) {
+  private static String escape(final String c) {
     return new SafeHtmlBuilder().append(c).asString();
   }
 }

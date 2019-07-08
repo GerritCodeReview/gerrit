@@ -14,12 +14,9 @@
 
 package com.google.gerrit.server.api.changes;
 
-import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
-
-import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
-import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ChangeEditApi;
@@ -32,7 +29,6 @@ import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.api.changes.ReviewerApi;
-import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherOption;
@@ -40,17 +36,13 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
-import com.google.gerrit.extensions.common.CommitMessageInput;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
-import com.google.gerrit.extensions.common.PureRevertInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.StarredChangesUtil;
-import com.google.gerrit.server.StarredChangesUtil.IllegalLabelException;
 import com.google.gerrit.server.change.Abandon;
 import com.google.gerrit.server.change.ChangeIncludedIn;
 import com.google.gerrit.server.change.ChangeJson;
@@ -59,43 +51,34 @@ import com.google.gerrit.server.change.Check;
 import com.google.gerrit.server.change.CreateMergePatchSet;
 import com.google.gerrit.server.change.DeleteAssignee;
 import com.google.gerrit.server.change.DeleteChange;
-import com.google.gerrit.server.change.DeletePrivate;
 import com.google.gerrit.server.change.GetAssignee;
 import com.google.gerrit.server.change.GetHashtags;
 import com.google.gerrit.server.change.GetPastAssignees;
-import com.google.gerrit.server.change.GetPureRevert;
 import com.google.gerrit.server.change.GetTopic;
-import com.google.gerrit.server.change.Ignore;
 import com.google.gerrit.server.change.Index;
 import com.google.gerrit.server.change.ListChangeComments;
 import com.google.gerrit.server.change.ListChangeDrafts;
 import com.google.gerrit.server.change.ListChangeRobotComments;
-import com.google.gerrit.server.change.ListReviewers;
-import com.google.gerrit.server.change.MarkAsReviewed;
-import com.google.gerrit.server.change.MarkAsUnreviewed;
 import com.google.gerrit.server.change.Move;
 import com.google.gerrit.server.change.PostHashtags;
-import com.google.gerrit.server.change.PostPrivate;
 import com.google.gerrit.server.change.PostReviewers;
+import com.google.gerrit.server.change.PublishDraftPatchSet;
 import com.google.gerrit.server.change.PutAssignee;
-import com.google.gerrit.server.change.PutMessage;
 import com.google.gerrit.server.change.PutTopic;
 import com.google.gerrit.server.change.Rebase;
 import com.google.gerrit.server.change.Restore;
 import com.google.gerrit.server.change.Revert;
 import com.google.gerrit.server.change.Reviewers;
 import com.google.gerrit.server.change.Revisions;
-import com.google.gerrit.server.change.SetPrivateOp;
-import com.google.gerrit.server.change.SetReadyForReview;
-import com.google.gerrit.server.change.SetWorkInProgress;
 import com.google.gerrit.server.change.SubmittedTogether;
 import com.google.gerrit.server.change.SuggestChangeReviewers;
-import com.google.gerrit.server.change.Unignore;
-import com.google.gerrit.server.change.WorkInProgressOp;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -112,13 +95,13 @@ class ChangeApiImpl implements ChangeApi {
   private final ReviewerApiImpl.Factory reviewerApi;
   private final RevisionApiImpl.Factory revisionApi;
   private final SuggestChangeReviewers suggestReviewers;
-  private final ListReviewers listReviewers;
   private final ChangeResource change;
   private final Abandon abandon;
   private final Revert revert;
   private final Restore restore;
   private final CreateMergePatchSet updateByMerge;
   private final Provider<SubmittedTogether> submittedTogether;
+  private final PublishDraftPatchSet.CurrentRevision publishDraftChange;
   private final Rebase.CurrentRevision rebase;
   private final DeleteChange deleteChange;
   private final GetTopic getTopic;
@@ -139,17 +122,6 @@ class ChangeApiImpl implements ChangeApi {
   private final Check check;
   private final Index index;
   private final Move move;
-  private final PostPrivate postPrivate;
-  private final DeletePrivate deletePrivate;
-  private final Ignore ignore;
-  private final Unignore unignore;
-  private final MarkAsReviewed markAsReviewed;
-  private final MarkAsUnreviewed markAsUnreviewed;
-  private final SetWorkInProgress setWip;
-  private final SetReadyForReview setReady;
-  private final PutMessage putMessage;
-  private final GetPureRevert getPureRevert;
-  private final StarredChangesUtil stars;
 
   @Inject
   ChangeApiImpl(
@@ -159,12 +131,12 @@ class ChangeApiImpl implements ChangeApi {
       ReviewerApiImpl.Factory reviewerApi,
       RevisionApiImpl.Factory revisionApi,
       SuggestChangeReviewers suggestReviewers,
-      ListReviewers listReviewers,
       Abandon abandon,
       Revert revert,
       Restore restore,
       CreateMergePatchSet updateByMerge,
       Provider<SubmittedTogether> submittedTogether,
+      PublishDraftPatchSet.CurrentRevision publishDraftChange,
       Rebase.CurrentRevision rebase,
       DeleteChange deleteChange,
       GetTopic getTopic,
@@ -185,17 +157,6 @@ class ChangeApiImpl implements ChangeApi {
       Check check,
       Index index,
       Move move,
-      PostPrivate postPrivate,
-      DeletePrivate deletePrivate,
-      Ignore ignore,
-      Unignore unignore,
-      MarkAsReviewed markAsReviewed,
-      MarkAsUnreviewed markAsUnreviewed,
-      SetWorkInProgress setWip,
-      SetReadyForReview setReady,
-      PutMessage putMessage,
-      GetPureRevert getPureRevert,
-      StarredChangesUtil stars,
       @Assisted ChangeResource change) {
     this.changeApi = changeApi;
     this.revert = revert;
@@ -204,11 +165,11 @@ class ChangeApiImpl implements ChangeApi {
     this.reviewerApi = reviewerApi;
     this.revisionApi = revisionApi;
     this.suggestReviewers = suggestReviewers;
-    this.listReviewers = listReviewers;
     this.abandon = abandon;
     this.restore = restore;
     this.updateByMerge = updateByMerge;
     this.submittedTogether = submittedTogether;
+    this.publishDraftChange = publishDraftChange;
     this.rebase = rebase;
     this.deleteChange = deleteChange;
     this.getTopic = getTopic;
@@ -229,17 +190,6 @@ class ChangeApiImpl implements ChangeApi {
     this.check = check;
     this.index = index;
     this.move = move;
-    this.postPrivate = postPrivate;
-    this.deletePrivate = deletePrivate;
-    this.ignore = ignore;
-    this.unignore = unignore;
-    this.markAsReviewed = markAsReviewed;
-    this.markAsUnreviewed = markAsUnreviewed;
-    this.setWip = setWip;
-    this.setReady = setReady;
-    this.putMessage = putMessage;
-    this.getPureRevert = getPureRevert;
-    this.stars = stars;
     this.change = change;
   }
 
@@ -262,8 +212,8 @@ class ChangeApiImpl implements ChangeApi {
   public RevisionApi revision(String id) throws RestApiException {
     try {
       return revisionApi.create(revisions.parse(change, IdString.fromDecoded(id)));
-    } catch (Exception e) {
-      throw asRestApiException("Cannot parse revision", e);
+    } catch (OrmException | IOException e) {
+      throw new RestApiException("Cannot parse revision", e);
     }
   }
 
@@ -271,8 +221,8 @@ class ChangeApiImpl implements ChangeApi {
   public ReviewerApi reviewer(String id) throws RestApiException {
     try {
       return reviewerApi.create(reviewers.parse(change, IdString.fromDecoded(id)));
-    } catch (Exception e) {
-      throw asRestApiException("Cannot parse reviewer", e);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot parse reviewer", e);
     }
   }
 
@@ -285,8 +235,8 @@ class ChangeApiImpl implements ChangeApi {
   public void abandon(AbandonInput in) throws RestApiException {
     try {
       abandon.apply(change, in);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot abandon change", e);
+    } catch (OrmException | UpdateException e) {
+      throw new RestApiException("Cannot abandon change", e);
     }
   }
 
@@ -299,8 +249,8 @@ class ChangeApiImpl implements ChangeApi {
   public void restore(RestoreInput in) throws RestApiException {
     try {
       restore.apply(change, in);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot restore change", e);
+    } catch (OrmException | UpdateException e) {
+      throw new RestApiException("Cannot restore change", e);
     }
   }
 
@@ -315,40 +265,8 @@ class ChangeApiImpl implements ChangeApi {
   public void move(MoveInput in) throws RestApiException {
     try {
       move.apply(change, in);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot move change", e);
-    }
-  }
-
-  @Override
-  public void setPrivate(boolean value, @Nullable String message) throws RestApiException {
-    try {
-      SetPrivateOp.Input input = new SetPrivateOp.Input(message);
-      if (value) {
-        postPrivate.apply(change, input);
-      } else {
-        deletePrivate.apply(change, input);
-      }
-    } catch (Exception e) {
-      throw asRestApiException("Cannot change private status", e);
-    }
-  }
-
-  @Override
-  public void setWorkInProgress(@Nullable String message) throws RestApiException {
-    try {
-      setWip.apply(change, new WorkInProgressOp.Input(message));
-    } catch (Exception e) {
-      throw asRestApiException("Cannot set work in progress state", e);
-    }
-  }
-
-  @Override
-  public void setReadyForReview(@Nullable String message) throws RestApiException {
-    try {
-      setReady.apply(change, new WorkInProgressOp.Input(message));
-    } catch (Exception e) {
-      throw asRestApiException("Cannot set ready for review state", e);
+    } catch (OrmException | UpdateException e) {
+      throw new RestApiException("Cannot move change", e);
     }
   }
 
@@ -361,8 +279,8 @@ class ChangeApiImpl implements ChangeApi {
   public ChangeApi revert(RevertInput in) throws RestApiException {
     try {
       return changeApi.id(revert.apply(change, in)._number);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot revert change", e);
+    } catch (OrmException | IOException | UpdateException e) {
+      throw new RestApiException("Cannot revert change", e);
     }
   }
 
@@ -370,8 +288,8 @@ class ChangeApiImpl implements ChangeApi {
   public ChangeInfo createMergePatchSet(MergePatchSetInput in) throws RestApiException {
     try {
       return updateByMerge.apply(change, in).value();
-    } catch (Exception e) {
-      throw asRestApiException("Cannot update change by merge", e);
+    } catch (IOException | UpdateException | InvalidChangeOperationException | OrmException e) {
+      throw new RestApiException("Cannot update change by merge", e);
     }
   }
 
@@ -399,15 +317,18 @@ class ChangeApiImpl implements ChangeApi {
           .addListChangesOption(listOptions)
           .addSubmittedTogetherOption(submitOptions)
           .applyInfo(change);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot query submittedTogether", e);
+    } catch (IOException | OrmException e) {
+      throw new RestApiException("Cannot query submittedTogether", e);
     }
   }
 
-  @Deprecated
   @Override
   public void publish() throws RestApiException {
-    throw new UnsupportedOperationException("draft workflow is discontinued");
+    try {
+      publishDraftChange.apply(change, null);
+    } catch (UpdateException e) {
+      throw new RestApiException("Cannot publish change", e);
+    }
   }
 
   @Override
@@ -419,8 +340,8 @@ class ChangeApiImpl implements ChangeApi {
   public void rebase(RebaseInput in) throws RestApiException {
     try {
       rebase.apply(change, in);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot rebase change", e);
+    } catch (EmailException | OrmException | UpdateException | IOException e) {
+      throw new RestApiException("Cannot rebase change", e);
     }
   }
 
@@ -428,8 +349,8 @@ class ChangeApiImpl implements ChangeApi {
   public void delete() throws RestApiException {
     try {
       deleteChange.apply(change, null);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot delete change", e);
+    } catch (UpdateException e) {
+      throw new RestApiException("Cannot delete change", e);
     }
   }
 
@@ -444,8 +365,8 @@ class ChangeApiImpl implements ChangeApi {
     in.topic = topic;
     try {
       putTopic.apply(change, in);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot set topic", e);
+    } catch (UpdateException e) {
+      throw new RestApiException("Cannot set topic", e);
     }
   }
 
@@ -453,24 +374,24 @@ class ChangeApiImpl implements ChangeApi {
   public IncludedInInfo includedIn() throws RestApiException {
     try {
       return includedIn.apply(change);
-    } catch (Exception e) {
-      throw asRestApiException("Could not extract IncludedIn data", e);
+    } catch (OrmException | IOException e) {
+      throw new RestApiException("Could not extract IncludedIn data", e);
     }
   }
 
   @Override
-  public AddReviewerResult addReviewer(String reviewer) throws RestApiException {
+  public void addReviewer(String reviewer) throws RestApiException {
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = reviewer;
-    return addReviewer(in);
+    addReviewer(in);
   }
 
   @Override
-  public AddReviewerResult addReviewer(AddReviewerInput in) throws RestApiException {
+  public void addReviewer(AddReviewerInput in) throws RestApiException {
     try {
-      return postReviewers.apply(change, in);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot add change reviewer", e);
+      postReviewers.apply(change, in);
+    } catch (OrmException | IOException | UpdateException e) {
+      throw new RestApiException("Cannot add change reviewer", e);
     }
   }
 
@@ -495,17 +416,8 @@ class ChangeApiImpl implements ChangeApi {
       suggestReviewers.setQuery(r.getQuery());
       suggestReviewers.setLimit(r.getLimit());
       return suggestReviewers.apply(change);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot retrieve suggested reviewers", e);
-    }
-  }
-
-  @Override
-  public List<ReviewerInfo> reviewers() throws RestApiException {
-    try {
-      return listReviewers.apply(change);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot retrieve reviewers", e);
+    } catch (OrmException | IOException e) {
+      throw new RestApiException("Cannot retrieve suggested reviewers", e);
     }
   }
 
@@ -513,8 +425,8 @@ class ChangeApiImpl implements ChangeApi {
   public ChangeInfo get(EnumSet<ListChangesOption> s) throws RestApiException {
     try {
       return changeJson.create(s).format(change);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot retrieve change", e);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot retrieve change", e);
     }
   }
 
@@ -534,22 +446,6 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public void setMessage(String msg) throws RestApiException {
-    CommitMessageInput in = new CommitMessageInput();
-    in.message = msg;
-    setMessage(in);
-  }
-
-  @Override
-  public void setMessage(CommitMessageInput in) throws RestApiException {
-    try {
-      putMessage.apply(change, in);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot edit commit message", e);
-    }
-  }
-
-  @Override
   public ChangeInfo info() throws RestApiException {
     return get(EnumSet.noneOf(ListChangesOption.class));
   }
@@ -558,8 +454,8 @@ class ChangeApiImpl implements ChangeApi {
   public void setHashtags(HashtagsInput input) throws RestApiException {
     try {
       postHashtags.apply(change, input);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot post hashtags", e);
+    } catch (UpdateException e) {
+      throw new RestApiException("Cannot post hashtags", e);
     }
   }
 
@@ -567,17 +463,17 @@ class ChangeApiImpl implements ChangeApi {
   public Set<String> getHashtags() throws RestApiException {
     try {
       return getHashtags.apply(change).value();
-    } catch (Exception e) {
-      throw asRestApiException("Cannot get hashtags", e);
+    } catch (IOException | OrmException e) {
+      throw new RestApiException("Cannot get hashtags", e);
     }
   }
 
   @Override
   public AccountInfo setAssignee(AssigneeInput input) throws RestApiException {
     try {
-      return putAssignee.apply(change, input);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot set assignee", e);
+      return putAssignee.apply(change, input).value();
+    } catch (UpdateException | IOException | OrmException e) {
+      throw new RestApiException("Cannot set assignee", e);
     }
   }
 
@@ -586,8 +482,8 @@ class ChangeApiImpl implements ChangeApi {
     try {
       Response<AccountInfo> r = getAssignee.apply(change);
       return r.isNone() ? null : r.value();
-    } catch (Exception e) {
-      throw asRestApiException("Cannot get assignee", e);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot get assignee", e);
     }
   }
 
@@ -595,8 +491,8 @@ class ChangeApiImpl implements ChangeApi {
   public List<AccountInfo> getPastAssignees() throws RestApiException {
     try {
       return getPastAssignees.apply(change).value();
-    } catch (Exception e) {
-      throw asRestApiException("Cannot get past assignees", e);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot get past assignees", e);
     }
   }
 
@@ -605,8 +501,8 @@ class ChangeApiImpl implements ChangeApi {
     try {
       Response<AccountInfo> r = deleteAssignee.apply(change, null);
       return r.isNone() ? null : r.value();
-    } catch (Exception e) {
-      throw asRestApiException("Cannot delete assignee", e);
+    } catch (UpdateException | OrmException e) {
+      throw new RestApiException("Cannot delete assignee", e);
     }
   }
 
@@ -614,8 +510,8 @@ class ChangeApiImpl implements ChangeApi {
   public Map<String, List<CommentInfo>> comments() throws RestApiException {
     try {
       return listComments.apply(change);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot get comments", e);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot get comments", e);
     }
   }
 
@@ -623,8 +519,8 @@ class ChangeApiImpl implements ChangeApi {
   public Map<String, List<RobotCommentInfo>> robotComments() throws RestApiException {
     try {
       return listChangeRobotComments.apply(change);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot get robot comments", e);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot get robot comments", e);
     }
   }
 
@@ -632,8 +528,8 @@ class ChangeApiImpl implements ChangeApi {
   public Map<String, List<CommentInfo>> drafts() throws RestApiException {
     try {
       return listDrafts.apply(change);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot get drafts", e);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot get drafts", e);
     }
   }
 
@@ -641,19 +537,17 @@ class ChangeApiImpl implements ChangeApi {
   public ChangeInfo check() throws RestApiException {
     try {
       return check.apply(change).value();
-    } catch (Exception e) {
-      throw asRestApiException("Cannot check change", e);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot check change", e);
     }
   }
 
   @Override
   public ChangeInfo check(FixInput fix) throws RestApiException {
     try {
-      // TODO(dborowitz): Convert to RetryingRestModifyView. Needs to plumb BatchUpdate.Factory into
-      // ConsistencyChecker.
       return check.apply(change, fix).value();
-    } catch (Exception e) {
-      throw asRestApiException("Cannot check change", e);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot check change", e);
     }
   }
 
@@ -661,62 +555,8 @@ class ChangeApiImpl implements ChangeApi {
   public void index() throws RestApiException {
     try {
       index.apply(change, new Index.Input());
-    } catch (Exception e) {
-      throw asRestApiException("Cannot index change", e);
-    }
-  }
-
-  @Override
-  public void ignore(boolean ignore) throws RestApiException {
-    // TODO(dborowitz): Convert to RetryingRestModifyView. Needs to plumb BatchUpdate.Factory into
-    // StarredChangesUtil.
-    try {
-      if (ignore) {
-        this.ignore.apply(change, new Ignore.Input());
-      } else {
-        unignore.apply(change, new Unignore.Input());
-      }
-    } catch (OrmException | IllegalLabelException e) {
-      throw asRestApiException("Cannot ignore change", e);
-    }
-  }
-
-  @Override
-  public boolean ignored() throws RestApiException {
-    try {
-      return stars.isIgnored(change);
-    } catch (OrmException e) {
-      throw asRestApiException("Cannot check if ignored", e);
-    }
-  }
-
-  @Override
-  public void markAsReviewed(boolean reviewed) throws RestApiException {
-    // TODO(dborowitz): Convert to RetryingRestModifyView. Needs to plumb BatchUpdate.Factory into
-    // StarredChangesUtil.
-    try {
-      if (reviewed) {
-        markAsReviewed.apply(change, new MarkAsReviewed.Input());
-      } else {
-        markAsUnreviewed.apply(change, new MarkAsUnreviewed.Input());
-      }
-    } catch (OrmException | IllegalLabelException e) {
-      throw asRestApiException(
-          "Cannot mark change as " + (reviewed ? "reviewed" : "unreviewed"), e);
-    }
-  }
-
-  @Override
-  public PureRevertInfo pureRevert() throws RestApiException {
-    return pureRevert(null);
-  }
-
-  @Override
-  public PureRevertInfo pureRevert(@Nullable String claimedOriginal) throws RestApiException {
-    try {
-      return getPureRevert.setClaimedOriginal(claimedOriginal).apply(change);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot compute pure revert", e);
+    } catch (IOException | OrmException e) {
+      throw new RestApiException("Cannot index change", e);
     }
   }
 }

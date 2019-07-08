@@ -15,30 +15,25 @@
 package com.google.gerrit.httpd;
 
 import com.google.common.cache.Cache;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ImmutableSetMultimap;
-import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
-import com.google.gerrit.audit.AuditService;
-import com.google.gerrit.audit.HttpAuditEvent;
-import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.ReceiveCommits;
+import com.google.gerrit.server.git.SearchingChangeCacheImpl;
+import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
-import com.google.gerrit.server.git.UploadPackInitializer;
 import com.google.gerrit.server.git.VisibleRefFilter;
-import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.git.validators.UploadValidators;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.AbstractModule;
@@ -72,7 +67,6 @@ import org.eclipse.jgit.transport.PostUploadHookChain;
 import org.eclipse.jgit.transport.PreUploadHook;
 import org.eclipse.jgit.transport.PreUploadHookChain;
 import org.eclipse.jgit.transport.ReceivePack;
-import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadPack;
 import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
 import org.eclipse.jgit.transport.resolver.RepositoryResolver;
@@ -86,7 +80,7 @@ public class GitOverHttpServlet extends GitServlet {
   private static final long serialVersionUID = 1L;
 
   private static final String ATT_CONTROL = ProjectControl.class.getName();
-  private static final String ATT_ARC = AsyncReceiveCommits.class.getName();
+  private static final String ATT_RC = ReceiveCommits.class.getName();
   private static final String ID_CACHE = "adv_bases";
 
   public static final String URL_REGEX;
@@ -146,52 +140,20 @@ public class GitOverHttpServlet extends GitServlet {
     addReceivePackFilter(receiveFilter);
   }
 
-  private static String extractWhat(HttpServletRequest request) {
-    StringBuilder commandName = new StringBuilder(request.getRequestURL());
-    if (request.getQueryString() != null) {
-      commandName.append("?").append(request.getQueryString());
-    }
-    return commandName.toString();
-  }
-
-  private static ListMultimap<String, String> extractParameters(HttpServletRequest request) {
-
-    ListMultimap<String, String> multiMap = ArrayListMultimap.create();
-    if (request.getQueryString() != null) {
-      request
-          .getParameterMap()
-          .forEach(
-              (k, v) -> {
-                for (int i = 0; i < v.length; i++) {
-                  multiMap.put(k, v[i]);
-                }
-              });
-    }
-    return multiMap;
-  }
-
   static class Resolver implements RepositoryResolver<HttpServletRequest> {
     private final GitRepositoryManager manager;
-    private final PermissionBackend permissionBackend;
-    private final Provider<CurrentUser> userProvider;
-    private final ProjectControl.GenericFactory projectControlFactory;
+    private final ProjectControl.Factory projectControlFactory;
 
     @Inject
-    Resolver(
-        GitRepositoryManager manager,
-        PermissionBackend permissionBackend,
-        Provider<CurrentUser> userProvider,
-        ProjectControl.GenericFactory projectControlFactory) {
+    Resolver(GitRepositoryManager manager, ProjectControl.Factory projectControlFactory) {
       this.manager = manager;
-      this.permissionBackend = permissionBackend;
-      this.userProvider = userProvider;
       this.projectControlFactory = projectControlFactory;
     }
 
     @Override
     public Repository open(HttpServletRequest req, String projectName)
         throws RepositoryNotFoundException, ServiceNotAuthorizedException,
-            ServiceNotEnabledException, ServiceMayNotContinueException {
+            ServiceNotEnabledException {
       while (projectName.endsWith("/")) {
         projectName = projectName.substring(0, projectName.length() - 1);
       }
@@ -206,31 +168,28 @@ public class GitOverHttpServlet extends GitServlet {
         }
       }
 
-      CurrentUser user = userProvider.get();
+      final ProjectControl pc;
+      try {
+        pc = projectControlFactory.controlFor(new Project.NameKey(projectName));
+      } catch (NoSuchProjectException err) {
+        throw new RepositoryNotFoundException(projectName);
+      }
+
+      CurrentUser user = pc.getUser();
       user.setAccessPath(AccessPath.GIT);
 
+      if (!pc.isVisible()) {
+        if (user instanceof AnonymousUser) {
+          throw new ServiceNotAuthorizedException();
+        }
+        throw new ServiceNotEnabledException();
+      }
+      req.setAttribute(ATT_CONTROL, pc);
+
       try {
-        Project.NameKey nameKey = new Project.NameKey(projectName);
-        ProjectControl pc;
-        try {
-          pc = projectControlFactory.controlFor(nameKey, user);
-        } catch (NoSuchProjectException err) {
-          throw new RepositoryNotFoundException(projectName);
-        }
-        req.setAttribute(ATT_CONTROL, pc);
-
-        try {
-          permissionBackend.user(user).project(nameKey).check(ProjectPermission.ACCESS);
-        } catch (AuthException e) {
-          if (user instanceof AnonymousUser) {
-            throw new ServiceNotAuthorizedException();
-          }
-          throw new ServiceNotEnabledException(e.getMessage());
-        }
-
-        return manager.openRepository(nameKey);
-      } catch (IOException | PermissionBackendException err) {
-        throw new ServiceMayNotContinueException(projectName + " unavailable", err);
+        return manager.openRepository(pc.getProject().getNameKey());
+      } catch (IOException e) {
+        throw new RepositoryNotFoundException(pc.getProject().getNameKey().get(), e);
       }
     }
   }
@@ -239,18 +198,15 @@ public class GitOverHttpServlet extends GitServlet {
     private final TransferConfig config;
     private final DynamicSet<PreUploadHook> preUploadHooks;
     private final DynamicSet<PostUploadHook> postUploadHooks;
-    private final DynamicSet<UploadPackInitializer> uploadPackInitializers;
 
     @Inject
     UploadFactory(
         TransferConfig tc,
         DynamicSet<PreUploadHook> preUploadHooks,
-        DynamicSet<PostUploadHook> postUploadHooks,
-        DynamicSet<UploadPackInitializer> uploadPackInitializers) {
+        DynamicSet<PostUploadHook> postUploadHooks) {
       this.config = tc;
       this.preUploadHooks = preUploadHooks;
       this.postUploadHooks = postUploadHooks;
-      this.uploadPackInitializers = uploadPackInitializers;
     }
 
     @Override
@@ -260,33 +216,29 @@ public class GitOverHttpServlet extends GitServlet {
       up.setTimeout(config.getTimeout());
       up.setPreUploadHook(PreUploadHookChain.newChain(Lists.newArrayList(preUploadHooks)));
       up.setPostUploadHook(PostUploadHookChain.newChain(Lists.newArrayList(postUploadHooks)));
-      ProjectControl pc = (ProjectControl) req.getAttribute(ATT_CONTROL);
-      for (UploadPackInitializer initializer : uploadPackInitializers) {
-        initializer.init(pc.getProject().getNameKey(), up);
-      }
       return up;
     }
   }
 
   static class UploadFilter implements Filter {
-    private final VisibleRefFilter.Factory refFilterFactory;
+    private final Provider<ReviewDb> db;
+    private final TagCache tagCache;
+    private final ChangeNotes.Factory changeNotesFactory;
+    @Nullable private final SearchingChangeCacheImpl changeCache;
     private final UploadValidators.Factory uploadValidatorsFactory;
-    private final PermissionBackend permissionBackend;
-    private final Provider<CurrentUser> userProvider;
-    private final AuditService auditService;
 
     @Inject
     UploadFilter(
-        VisibleRefFilter.Factory refFilterFactory,
-        UploadValidators.Factory uploadValidatorsFactory,
-        PermissionBackend permissionBackend,
-        Provider<CurrentUser> userProvider,
-        AuditService auditService) {
-      this.refFilterFactory = refFilterFactory;
+        Provider<ReviewDb> db,
+        TagCache tagCache,
+        ChangeNotes.Factory changeNotesFactory,
+        @Nullable SearchingChangeCacheImpl changeCache,
+        UploadValidators.Factory uploadValidatorsFactory) {
+      this.db = db;
+      this.tagCache = tagCache;
+      this.changeNotesFactory = changeNotesFactory;
+      this.changeCache = changeCache;
       this.uploadValidatorsFactory = uploadValidatorsFactory;
-      this.permissionBackend = permissionBackend;
-      this.userProvider = userProvider;
-      this.auditService = auditService;
     }
 
     @Override
@@ -297,43 +249,23 @@ public class GitOverHttpServlet extends GitServlet {
       ProjectControl pc = (ProjectControl) request.getAttribute(ATT_CONTROL);
       UploadPack up = (UploadPack) request.getAttribute(ServletUtils.ATTRIBUTE_HANDLER);
 
-      try {
-        permissionBackend
-            .user(pc.getUser())
-            .project(pc.getProject().getNameKey())
-            .check(ProjectPermission.RUN_UPLOAD_PACK);
-      } catch (AuthException e) {
+      if (!pc.canRunUploadPack()) {
         GitSmartHttpTools.sendError(
             (HttpServletRequest) request,
             (HttpServletResponse) response,
             HttpServletResponse.SC_FORBIDDEN,
             "upload-pack not permitted on this server");
         return;
-      } catch (PermissionBackendException e) {
-        throw new ServletException(e);
-      } finally {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
-        auditService.dispatch(
-            new HttpAuditEvent(
-                httpRequest.getSession().getId(),
-                userProvider.get(),
-                extractWhat(httpRequest),
-                TimeUtil.nowMs(),
-                extractParameters(httpRequest),
-                httpRequest.getMethod(),
-                httpRequest,
-                httpResponse.getStatus(),
-                httpResponse));
       }
-
       // We use getRemoteHost() here instead of getRemoteAddr() because REMOTE_ADDR
       // may have been overridden by a proxy server -- we'll try to avoid this.
       UploadValidators uploadValidators =
           uploadValidatorsFactory.create(pc.getProject(), repo, request.getRemoteHost());
       up.setPreUploadHook(
           PreUploadHookChain.newChain(Lists.newArrayList(up.getPreUploadHook(), uploadValidators)));
-      up.setAdvertiseRefsHook(refFilterFactory.create(pc.getProjectState(), repo));
+      up.setAdvertiseRefsHook(
+          new VisibleRefFilter(
+              tagCache, changeNotesFactory, changeCache, repo, pc, db.get(), true));
 
       next.doFilter(request, response);
     }
@@ -363,9 +295,11 @@ public class GitOverHttpServlet extends GitServlet {
         throw new ServiceNotAuthorizedException();
       }
 
-      AsyncReceiveCommits arc = factory.create(pc, db, null, ImmutableSetMultimap.of());
-      ReceivePack rp = arc.getReceivePack();
-      req.setAttribute(ATT_ARC, arc);
+      ReceiveCommits rc = factory.create(pc, db).getReceiveCommits();
+      rc.init();
+
+      ReceivePack rp = rc.getReceivePack();
+      req.setAttribute(ATT_RC, rc);
       return rp;
     }
   }
@@ -380,20 +314,10 @@ public class GitOverHttpServlet extends GitServlet {
 
   static class ReceiveFilter implements Filter {
     private final Cache<AdvertisedObjectsCacheKey, Set<ObjectId>> cache;
-    private final PermissionBackend permissionBackend;
-    private final Provider<CurrentUser> userProvider;
-    private final AuditService auditService;
 
     @Inject
-    ReceiveFilter(
-        @Named(ID_CACHE) Cache<AdvertisedObjectsCacheKey, Set<ObjectId>> cache,
-        PermissionBackend permissionBackend,
-        Provider<CurrentUser> userProvider,
-        AuditService auditService) {
+    ReceiveFilter(@Named(ID_CACHE) Cache<AdvertisedObjectsCacheKey, Set<ObjectId>> cache) {
       this.cache = cache;
-      this.permissionBackend = permissionBackend;
-      this.userProvider = userProvider;
-      this.auditService = auditService;
     }
 
     @Override
@@ -401,43 +325,22 @@ public class GitOverHttpServlet extends GitServlet {
         throws IOException, ServletException {
       boolean isGet = "GET".equalsIgnoreCase(((HttpServletRequest) request).getMethod());
 
-      AsyncReceiveCommits arc = (AsyncReceiveCommits) request.getAttribute(ATT_ARC);
-      ReceivePack rp = arc.getReceivePack();
+      ReceiveCommits rc = (ReceiveCommits) request.getAttribute(ATT_RC);
+      ReceivePack rp = rc.getReceivePack();
       rp.getAdvertiseRefsHook().advertiseRefs(rp);
       ProjectControl pc = (ProjectControl) request.getAttribute(ATT_CONTROL);
       Project.NameKey projectName = pc.getProject().getNameKey();
 
-      try {
-        permissionBackend
-            .user(pc.getUser())
-            .project(pc.getProject().getNameKey())
-            .check(ProjectPermission.RUN_RECEIVE_PACK);
-      } catch (AuthException e) {
+      if (!pc.canRunReceivePack()) {
         GitSmartHttpTools.sendError(
             (HttpServletRequest) request,
             (HttpServletResponse) response,
             HttpServletResponse.SC_FORBIDDEN,
             "receive-pack not permitted on this server");
         return;
-      } catch (PermissionBackendException e) {
-        throw new RuntimeException(e);
-      } finally {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
-        auditService.dispatch(
-            new HttpAuditEvent(
-                httpRequest.getSession().getId(),
-                userProvider.get(),
-                extractWhat(httpRequest),
-                TimeUtil.nowMs(),
-                extractParameters(httpRequest),
-                httpRequest.getMethod(),
-                httpRequest,
-                httpResponse.getStatus(),
-                httpResponse));
       }
 
-      Capable s = arc.canUpload();
+      final Capable s = rc.canUpload();
       if (s != Capable.OK) {
         GitSmartHttpTools.sendError(
             (HttpServletRequest) request,

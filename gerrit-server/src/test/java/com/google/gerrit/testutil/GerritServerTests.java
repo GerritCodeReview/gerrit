@@ -14,7 +14,6 @@
 
 package com.google.gerrit.testutil;
 
-import com.google.gerrit.server.notedb.MutableNotesMigration;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
@@ -28,13 +27,13 @@ public class GerritServerTests extends GerritBaseTests {
 
   @ConfigSuite.Name private String configName;
 
-  protected MutableNotesMigration notesMigration;
+  protected TestNotesMigration notesMigration;
 
   @Rule
   public TestRule testRunner =
       new TestRule() {
         @Override
-        public Statement apply(Statement base, Description description) {
+        public Statement apply(final Statement base, final Description description) {
           return new Statement() {
             @Override
             public void evaluate() throws Throwable {
@@ -50,10 +49,8 @@ public class GerritServerTests extends GerritBaseTests {
       };
 
   public void beforeTest() throws Exception {
-    notesMigration = NoteDbMode.newNotesMigrationFromEnv();
+    notesMigration = new TestNotesMigration().setFromEnv();
   }
 
-  public void afterTest() {
-    NoteDbMode.resetFromEnv(notesMigration);
-  }
+  public void afterTest() {}
 }

@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 public abstract class DefaultQueueOp implements Runnable {
   private final WorkQueue workQueue;
 
-  protected DefaultQueueOp(WorkQueue wq) {
+  protected DefaultQueueOp(final WorkQueue wq) {
     workQueue = wq;
   }
 

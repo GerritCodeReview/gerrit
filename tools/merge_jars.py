@@ -17,7 +17,7 @@ from __future__ import print_function
 import collections
 import sys
 import zipfile
-import io
+
 
 if len(sys.argv) < 3:
   print('usage: %s <out.zip> <in.zip>...' % sys.argv[0], file=sys.stderr)

@@ -14,39 +14,33 @@
 
 package com.google.gerrit.server.account;
 
+import static java.util.stream.Collectors.toSet;
+
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
+import com.google.gerrit.audit.AuditService;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
-import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.Sequences;
-import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
-import com.google.gerrit.server.auth.NoSuchUserException;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.group.GroupsUpdate;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Consumer;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,62 +50,45 @@ public class AccountManager {
   private static final Logger log = LoggerFactory.getLogger(AccountManager.class);
 
   private final SchemaFactory<ReviewDb> schema;
-  private final Sequences sequences;
-  private final Accounts accounts;
-  private final AccountsUpdate.Server accountsUpdateFactory;
   private final AccountCache byIdCache;
+  private final AccountByEmailCache byEmailCache;
   private final Realm realm;
   private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeUserName.Factory changeUserNameFactory;
   private final ProjectCache projectCache;
   private final AtomicBoolean awaitsFirstAccountCheck;
-  private final ExternalIds externalIds;
+  private final AuditService auditService;
   private final ExternalIdsUpdate.Server externalIdsUpdateFactory;
-  private final GroupsUpdate.Factory groupsUpdateFactory;
-  private final boolean autoUpdateAccountActiveStatus;
-  private final SetInactiveFlag setInactiveFlag;
 
   @Inject
   AccountManager(
       SchemaFactory<ReviewDb> schema,
-      Sequences sequences,
-      @GerritServerConfig Config cfg,
-      Accounts accounts,
-      AccountsUpdate.Server accountsUpdateFactory,
       AccountCache byIdCache,
+      AccountByEmailCache byEmailCache,
       Realm accountMapper,
       IdentifiedUser.GenericFactory userFactory,
       ChangeUserName.Factory changeUserNameFactory,
       ProjectCache projectCache,
-      ExternalIds externalIds,
-      ExternalIdsUpdate.Server externalIdsUpdateFactory,
-      GroupsUpdate.Factory groupsUpdateFactory,
-      SetInactiveFlag setInactiveFlag) {
+      AuditService auditService,
+      ExternalIdsUpdate.Server externalIdsUpdateFactory) {
     this.schema = schema;
-    this.sequences = sequences;
-    this.accounts = accounts;
-    this.accountsUpdateFactory = accountsUpdateFactory;
     this.byIdCache = byIdCache;
+    this.byEmailCache = byEmailCache;
     this.realm = accountMapper;
     this.userFactory = userFactory;
     this.changeUserNameFactory = changeUserNameFactory;
     this.projectCache = projectCache;
-    this.awaitsFirstAccountCheck =
-        new AtomicBoolean(cfg.getBoolean("capability", "makeFirstUserAdmin", true));
-    this.externalIds = externalIds;
+    this.awaitsFirstAccountCheck = new AtomicBoolean(true);
+    this.auditService = auditService;
     this.externalIdsUpdateFactory = externalIdsUpdateFactory;
-    this.groupsUpdateFactory = groupsUpdateFactory;
-    this.autoUpdateAccountActiveStatus =
-        cfg.getBoolean("auth", "autoUpdateAccountActiveStatus", false);
-    this.setInactiveFlag = setInactiveFlag;
   }
 
   /** @return user identified by this external identity string */
   public Optional<Account.Id> lookup(String externalId) throws AccountException {
-    try {
-      ExternalId extId = externalIds.get(ExternalId.Key.parse(externalId));
+    try (ReviewDb db = schema.open()) {
+      ExternalId extId = findExternalId(db, ExternalId.Key.parse(externalId));
       return extId != null ? Optional.of(extId.accountId()) : Optional.empty();
-    } catch (IOException | ConfigInvalidException e) {
+    } catch (OrmException e) {
       throw new AccountException("Cannot lookup account " + externalId, e);
     }
   }
@@ -122,19 +99,13 @@ public class AccountManager {
    * @param who identity of the user, with any details we received about them.
    * @return the result of authenticating the user.
    * @throws AccountException the account does not exist, and cannot be created, or exists, but
-   *     cannot be located, is unable to be activated or deactivated, or is inactive, or cannot be
-   *     added to the admin group (only for the first account).
+   *     cannot be located, or is inactive.
    */
   public AuthResult authenticate(AuthRequest who) throws AccountException, IOException {
-    try {
-      who = realm.authenticate(who);
-    } catch (NoSuchUserException e) {
-      deactivateAccountIfItExists(who);
-      throw e;
-    }
+    who = realm.authenticate(who);
     try {
       try (ReviewDb db = schema.open()) {
-        ExternalId id = externalIds.get(who.getExternalIdKey());
+        ExternalId id = findExternalId(db, who.getExternalIdKey());
         if (id == null) {
           // New account, automatically create and return.
           //
@@ -142,13 +113,13 @@ public class AccountManager {
         }
 
         // Account exists
-        Account act = updateAccountActiveStatus(who, byIdCache.get(id.accountId()).getAccount());
+        Account act = byIdCache.get(id.accountId()).getAccount();
         if (!act.isActive()) {
           throw new AccountException("Authentication error, account inactive");
         }
 
         // return the identity to the caller.
-        update(who, id);
+        update(db, who, id);
         return new AuthResult(id.accountId(), who.getExternalIdKey(), false);
       }
     } catch (OrmException | ConfigInvalidException e) {
@@ -156,51 +127,14 @@ public class AccountManager {
     }
   }
 
-  private void deactivateAccountIfItExists(AuthRequest authRequest) {
-    if (!shouldUpdateActiveStatus(authRequest)) {
-      return;
-    }
-    try {
-      ExternalId id = externalIds.get(authRequest.getExternalIdKey());
-      if (id == null) {
-        return;
-      }
-      setInactiveFlag.deactivate(id.accountId());
-    } catch (Exception e) {
-      log.error("Unable to deactivate account " + authRequest.getUserName(), e);
-    }
+  private ExternalId findExternalId(ReviewDb db, ExternalId.Key key) throws OrmException {
+    return ExternalId.from(db.accountExternalIds().get(key.asAccountExternalIdKey()));
   }
 
-  private Account updateAccountActiveStatus(AuthRequest authRequest, Account account)
-      throws AccountException {
-    if (!shouldUpdateActiveStatus(authRequest) || authRequest.isActive() == account.isActive()) {
-      return account;
-    }
-
-    if (authRequest.isActive()) {
-      try {
-        setInactiveFlag.activate(account.getId());
-      } catch (Exception e) {
-        throw new AccountException("Unable to activate account " + account.getId(), e);
-      }
-    } else {
-      try {
-        setInactiveFlag.deactivate(account.getId());
-      } catch (Exception e) {
-        throw new AccountException("Unable to deactivate account " + account.getId(), e);
-      }
-    }
-    return byIdCache.get(account.getId()).getAccount();
-  }
-
-  private boolean shouldUpdateActiveStatus(AuthRequest authRequest) {
-    return autoUpdateAccountActiveStatus && authRequest.authProvidesAccountActiveStatus();
-  }
-
-  private void update(AuthRequest who, ExternalId extId)
-      throws OrmException, IOException, ConfigInvalidException {
+  private void update(ReviewDb db, AuthRequest who, ExternalId extId)
+      throws OrmException, IOException {
     IdentifiedUser user = userFactory.create(extId.accountId());
-    List<Consumer<Account>> accountUpdates = new ArrayList<>();
+    Account toUpdate = null;
 
     // If the email address was modified by the authentication provider,
     // update our records to match the changed email.
@@ -209,25 +143,23 @@ public class AccountManager {
     String oldEmail = extId.email();
     if (newEmail != null && !newEmail.equals(oldEmail)) {
       if (oldEmail != null && oldEmail.equals(user.getAccount().getPreferredEmail())) {
-        accountUpdates.add(a -> a.setPreferredEmail(newEmail));
+        toUpdate = load(toUpdate, user.getAccountId(), db);
+        toUpdate.setPreferredEmail(newEmail);
       }
 
       externalIdsUpdateFactory
           .create()
           .replace(
-              extId, ExternalId.create(extId.key(), extId.accountId(), newEmail, extId.password()));
+              db,
+              extId,
+              ExternalId.create(extId.key(), extId.accountId(), newEmail, extId.password()));
     }
 
-    if (!Strings.isNullOrEmpty(who.getDisplayName())
+    if (!realm.allowsEdit(AccountFieldName.FULL_NAME)
+        && !Strings.isNullOrEmpty(who.getDisplayName())
         && !eq(user.getAccount().getFullName(), who.getDisplayName())) {
-      if (realm.allowsEdit(AccountFieldName.FULL_NAME)) {
-        accountUpdates.add(a -> a.setFullName(who.getDisplayName()));
-      } else {
-        log.warn(
-            "Not changing already set display name '{}' to '{}'",
-            user.getAccount().getFullName(),
-            who.getDisplayName());
-      }
+      toUpdate = load(toUpdate, user.getAccountId(), db);
+      toUpdate.setFullName(who.getDisplayName());
     }
 
     if (!realm.allowsEdit(AccountFieldName.USER_NAME)
@@ -236,12 +168,27 @@ public class AccountManager {
       log.warn("Not changing already set username {} to {}", user.getUserName(), who.getUserName());
     }
 
-    if (!accountUpdates.isEmpty()) {
-      Account account = accountsUpdateFactory.create().update(user.getAccountId(), accountUpdates);
-      if (account == null) {
-        throw new OrmException("Account " + user.getAccountId() + " has been deleted");
+    if (toUpdate != null) {
+      db.accounts().update(Collections.singleton(toUpdate));
+    }
+
+    if (newEmail != null && !newEmail.equals(oldEmail)) {
+      byEmailCache.evict(oldEmail);
+      byEmailCache.evict(newEmail);
+    }
+    if (toUpdate != null) {
+      byIdCache.evict(toUpdate.getId());
+    }
+  }
+
+  private Account load(Account toUpdate, Account.Id accountId, ReviewDb db) throws OrmException {
+    if (toUpdate == null) {
+      toUpdate = db.accounts().get(accountId);
+      if (toUpdate == null) {
+        throw new OrmException("Account " + accountId + " has been deleted");
       }
     }
+    return toUpdate;
   }
 
   private static boolean eq(String a, String b) {
@@ -250,30 +197,27 @@ public class AccountManager {
 
   private AuthResult create(ReviewDb db, AuthRequest who)
       throws OrmException, AccountException, IOException, ConfigInvalidException {
-    Account.Id newId = new Account.Id(sequences.nextAccountId());
+    Account.Id newId = new Account.Id(db.nextAccountId());
     log.debug("Assigning new Id {} to account", newId);
+    Account account = new Account(newId, TimeUtil.nowTs());
 
     ExternalId extId =
         ExternalId.createWithEmail(who.getExternalIdKey(), newId, who.getEmailAddress());
     log.debug("Created external Id: {}", extId);
+    account.setFullName(who.getDisplayName());
+    account.setPreferredEmail(extId.email());
 
-    boolean isFirstAccount = awaitsFirstAccountCheck.getAndSet(false) && !accounts.hasAnyAccount();
+    boolean isFirstAccount =
+        awaitsFirstAccountCheck.getAndSet(false) && db.accounts().anyAccounts().toList().isEmpty();
 
-    Account account;
     try {
-      AccountsUpdate accountsUpdate = accountsUpdateFactory.create();
-      account =
-          accountsUpdate.insert(
-              newId,
-              a -> {
-                a.setFullName(who.getDisplayName());
-                a.setPreferredEmail(extId.email());
-              });
+      db.accounts().upsert(Collections.singleton(account));
 
-      ExternalId existingExtId = externalIds.get(extId.key());
+      ExternalId existingExtId =
+          ExternalId.from(db.accountExternalIds().get(extId.key().asAccountExternalIdKey()));
       if (existingExtId != null && !existingExtId.accountId().equals(extId.accountId())) {
         // external ID is assigned to another account, do not overwrite
-        accountsUpdate.delete(account);
+        db.accounts().delete(Collections.singleton(account));
         throw new AccountException(
             "Cannot assign external ID \""
                 + extId.key().get()
@@ -281,15 +225,13 @@ public class AccountManager {
                 + newId
                 + "; external ID already in use.");
       }
-      externalIdsUpdateFactory.create().upsert(extId);
+      externalIdsUpdateFactory.create().upsert(db, extId);
     } finally {
       // If adding the account failed, it may be that it actually was the
       // first account. So we reset the 'check for first account'-guard, as
       // otherwise the first account would not get administration permissions.
       awaitsFirstAccountCheck.set(isFirstAccount);
     }
-
-    IdentifiedUser user = userFactory.create(newId);
 
     if (isFirstAccount) {
       // This is the first user account on our site. Assume this user
@@ -304,13 +246,16 @@ public class AccountManager {
               .getPermission(GlobalCapability.ADMINISTRATE_SERVER);
 
       AccountGroup.UUID uuid = admin.getRules().get(0).getGroup().getUUID();
-      // The user initiated this request by logging in. -> Attribute all modifications to that user.
-      GroupsUpdate groupsUpdate = groupsUpdateFactory.create(user);
-      try {
-        groupsUpdate.addGroupMember(db, uuid, newId);
-      } catch (NoSuchGroupException e) {
-        throw new AccountException(String.format("Group %s not found", uuid));
+      Iterator<AccountGroup> adminGroupIt = db.accountGroups().byUUID(uuid).iterator();
+      if (!adminGroupIt.hasNext()) {
+        throw new OrmException(
+            "Administrator group's UUID is misaligned in backend and All-Projects repository");
       }
+      AccountGroup g = adminGroupIt.next();
+      AccountGroup.Id adminId = g.getId();
+      AccountGroupMember m = new AccountGroupMember(new AccountGroupMember.Key(newId, adminId));
+      auditService.dispatchAddAccountsToGroup(newId, Collections.singleton(m));
+      db.accountGroupMembers().insert(Collections.singleton(m));
     }
 
     log.debug("Username from AuthRequest: {}", who.getUserName());
@@ -318,9 +263,10 @@ public class AccountManager {
       log.debug("Setting username for: {}", who.getUserName());
       // Only set if the name hasn't been used yet, but was given to us.
       //
+      IdentifiedUser user = userFactory.create(newId);
+      log.debug("Identified user {} was created from {}", user, who.getUserName());
       try {
-        changeUserNameFactory.create(user, who.getUserName()).call();
-        log.debug("Identified user {} was created from {}", user, who.getUserName());
+        changeUserNameFactory.create(db, user, who.getUserName()).call();
       } catch (NameAlreadyUsedException e) {
         String message =
             "Cannot assign user name \""
@@ -328,7 +274,7 @@ public class AccountManager {
                 + "\" to account "
                 + newId
                 + "; name already in use.";
-        handleSettingUserNameFailure(account, extId, message, e, false);
+        handleSettingUserNameFailure(db, account, extId, message, e, false);
       } catch (InvalidUserNameException e) {
         String message =
             "Cannot assign user name \""
@@ -336,13 +282,15 @@ public class AccountManager {
                 + "\" to account "
                 + newId
                 + "; name does not conform.";
-        handleSettingUserNameFailure(account, extId, message, e, false);
+        handleSettingUserNameFailure(db, account, extId, message, e, false);
       } catch (OrmException e) {
         String message = "Cannot assign user name";
-        handleSettingUserNameFailure(account, extId, message, e, true);
+        handleSettingUserNameFailure(db, account, extId, message, e, true);
       }
     }
 
+    byEmailCache.evict(account.getPreferredEmail());
+    byIdCache.evict(account.getId());
     realm.onCreateAccount(who, account);
     return new AuthResult(newId, extId.key(), true);
   }
@@ -353,6 +301,7 @@ public class AccountManager {
    * deletes the newly created account and throws an {@link AccountUserNameException}. In any case
    * the error message is logged.
    *
+   * @param db the database
    * @param account the newly created account
    * @param extId the newly created external id
    * @param errorMessage the error message
@@ -363,8 +312,13 @@ public class AccountManager {
    * @throws OrmException thrown if cleaning the database failed
    */
   private void handleSettingUserNameFailure(
-      Account account, ExternalId extId, String errorMessage, Exception e, boolean logException)
-      throws AccountUserNameException, OrmException, IOException, ConfigInvalidException {
+      ReviewDb db,
+      Account account,
+      ExternalId extId,
+      String errorMessage,
+      Exception e,
+      boolean logException)
+      throws AccountUserNameException, OrmException, IOException {
     if (logException) {
       log.error(errorMessage, e);
     } else {
@@ -374,12 +328,13 @@ public class AccountManager {
       // setting the given user name has failed, but the realm does not
       // allow the user to manually set a user name,
       // this means we would end with an account without user name
-      // (without 'username:<USERNAME>' external ID),
+      // (without 'username:<USERNAME>' entry in
+      // account_external_ids table),
       // such an account cannot be used for uploading changes,
       // this is why the best we can do here is to fail early and cleanup
       // the database
-      accountsUpdateFactory.create().delete(account);
-      externalIdsUpdateFactory.create().delete(extId);
+      db.accounts().delete(Collections.singleton(account));
+      externalIdsUpdateFactory.create().delete(db, extId);
       throw new AccountUserNameException(errorMessage, e);
     }
   }
@@ -394,33 +349,33 @@ public class AccountManager {
    *     this time.
    */
   public AuthResult link(Account.Id to, AuthRequest who)
-      throws AccountException, OrmException, IOException, ConfigInvalidException {
-    ExternalId extId = externalIds.get(who.getExternalIdKey());
-    if (extId != null) {
-      if (!extId.accountId().equals(to)) {
-        throw new AccountException(
-            "Identity '" + extId.key().get() + "' in use by another account");
-      }
-      update(who, extId);
-    } else {
-      externalIdsUpdateFactory
-          .create()
-          .insert(ExternalId.createWithEmail(who.getExternalIdKey(), to, who.getEmailAddress()));
-
-      if (who.getEmailAddress() != null) {
-        accountsUpdateFactory
+      throws AccountException, OrmException, IOException {
+    try (ReviewDb db = schema.open()) {
+      ExternalId extId = findExternalId(db, who.getExternalIdKey());
+      if (extId != null) {
+        if (!extId.accountId().equals(to)) {
+          throw new AccountException("Identity in use by another account");
+        }
+        update(db, who, extId);
+      } else {
+        externalIdsUpdateFactory
             .create()
-            .update(
-                to,
-                a -> {
-                  if (a.getPreferredEmail() == null) {
-                    a.setPreferredEmail(who.getEmailAddress());
-                  }
-                });
-      }
-    }
+            .insert(
+                db, ExternalId.createWithEmail(who.getExternalIdKey(), to, who.getEmailAddress()));
 
-    return new AuthResult(to, who.getExternalIdKey(), false);
+        if (who.getEmailAddress() != null) {
+          Account a = db.accounts().get(to);
+          if (a.getPreferredEmail() == null) {
+            a.setPreferredEmail(who.getEmailAddress());
+            db.accounts().update(Collections.singleton(a));
+            byIdCache.evict(to);
+          }
+          byEmailCache.evict(who.getEmailAddress());
+        }
+      }
+
+      return new AuthResult(to, who.getExternalIdKey(), false);
+    }
   }
 
   /**
@@ -437,78 +392,62 @@ public class AccountManager {
    *     this time.
    */
   public AuthResult updateLink(Account.Id to, AuthRequest who)
-      throws OrmException, AccountException, IOException, ConfigInvalidException {
-    Collection<ExternalId> filteredExtIdsByScheme =
-        externalIds.byAccount(to, who.getExternalIdKey().scheme());
+      throws OrmException, AccountException, IOException {
+    try (ReviewDb db = schema.open()) {
+      Collection<ExternalId> filteredExtIdsByScheme =
+          ExternalId.from(db.accountExternalIds().byAccount(to).toList()).stream()
+              .filter(e -> e.isScheme(who.getExternalIdKey().scheme()))
+              .collect(toSet());
 
-    if (!filteredExtIdsByScheme.isEmpty()
-        && (filteredExtIdsByScheme.size() > 1
-            || !filteredExtIdsByScheme.stream()
-                .filter(e -> e.key().equals(who.getExternalIdKey()))
-                .findAny()
-                .isPresent())) {
-      externalIdsUpdateFactory.create().delete(filteredExtIdsByScheme);
+      if (!filteredExtIdsByScheme.isEmpty()
+          && (filteredExtIdsByScheme.size() > 1
+              || !filteredExtIdsByScheme.stream()
+                  .filter(e -> e.key().equals(who.getExternalIdKey()))
+                  .findAny()
+                  .isPresent())) {
+        externalIdsUpdateFactory.create().delete(db, filteredExtIdsByScheme);
+      }
+      byIdCache.evict(to);
+      return link(to, who);
     }
-    return link(to, who);
   }
 
   /**
-   * Unlink an external identity from an existing account.
+   * Unlink an authentication identity from an existing account.
    *
-   * @param from account to unlink the external identity from
-   * @param extIdKey the key of the external ID that should be deleted
-   * @throws AccountException the identity belongs to a different account, or the identity was not
-   *     found
+   * @param from account to unlink the identity from.
+   * @param who the identity to delete
+   * @return the result of unlinking the identity from the user.
+   * @throws AccountException the identity belongs to a different account, or it cannot be unlinked
+   *     at this time.
    */
-  public void unlink(Account.Id from, ExternalId.Key extIdKey)
-      throws AccountException, OrmException, IOException, ConfigInvalidException {
-    unlink(from, ImmutableList.of(extIdKey));
-  }
-
-  /**
-   * Unlink an external identities from an existing account.
-   *
-   * @param from account to unlink the external identity from
-   * @param extIdKeys the keys of the external IDs that should be deleted
-   * @throws AccountException any of the identity belongs to a different account, or any of the
-   *     identity was not found
-   */
-  public void unlink(Account.Id from, Collection<ExternalId.Key> extIdKeys)
-      throws AccountException, OrmException, IOException, ConfigInvalidException {
-    if (extIdKeys.isEmpty()) {
-      return;
-    }
-
-    List<ExternalId> extIds = new ArrayList<>(extIdKeys.size());
-    for (ExternalId.Key extIdKey : extIdKeys) {
-      ExternalId extId = externalIds.get(extIdKey);
+  public AuthResult unlink(Account.Id from, AuthRequest who)
+      throws AccountException, OrmException, IOException {
+    try (ReviewDb db = schema.open()) {
+      ExternalId extId = findExternalId(db, who.getExternalIdKey());
       if (extId != null) {
         if (!extId.accountId().equals(from)) {
-          throw new AccountException("Identity '" + extIdKey.get() + "' in use by another account");
+          throw new AccountException(
+              "Identity '" + who.getExternalIdKey().get() + "' in use by another account");
         }
-        extIds.add(extId);
+        externalIdsUpdateFactory.create().delete(db, extId);
+
+        if (who.getEmailAddress() != null) {
+          Account a = db.accounts().get(from);
+          if (a.getPreferredEmail() != null
+              && a.getPreferredEmail().equals(who.getEmailAddress())) {
+            a.setPreferredEmail(null);
+            db.accounts().update(Collections.singleton(a));
+            byIdCache.evict(from);
+          }
+          byEmailCache.evict(who.getEmailAddress());
+        }
+
       } else {
-        throw new AccountException("Identity '" + extIdKey.get() + "' not found");
+        throw new AccountException("Identity '" + who.getExternalIdKey().get() + "' not found");
       }
-    }
 
-    externalIdsUpdateFactory.create().delete(extIds);
-
-    if (extIds.stream().anyMatch(e -> e.email() != null)) {
-      accountsUpdateFactory
-          .create()
-          .update(
-              from,
-              a -> {
-                if (a.getPreferredEmail() != null) {
-                  for (ExternalId extId : extIds) {
-                    if (a.getPreferredEmail().equals(extId.email())) {
-                      a.setPreferredEmail(null);
-                      break;
-                    }
-                  }
-                }
-              });
+      return new AuthResult(from, who.getExternalIdKey(), false);
     }
   }
 }

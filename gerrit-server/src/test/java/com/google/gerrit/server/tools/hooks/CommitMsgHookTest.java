@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.tools.hooks;
 
-import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.TruthJUnit.assume;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -621,11 +621,11 @@ public class CommitMsgHookTest extends HookTestCase {
                 "RealTag: abc\n"));
   }
 
-  private void hookDoesNotModify(String in) throws Exception {
+  private void hookDoesNotModify(final String in) throws Exception {
     assertEquals(in, call(in));
   }
 
-  private String call(String body) throws Exception {
+  private String call(final String body) throws Exception {
     final File tmp = write(body);
     try {
       final File hook = getHook("commit-msg");
@@ -636,7 +636,7 @@ public class CommitMsgHookTest extends HookTestCase {
     }
   }
 
-  private DirCacheEntry file(String name) throws IOException {
+  private DirCacheEntry file(final String name) throws IOException {
     try (ObjectInserter oi = repository.newObjectInserter()) {
       final DirCacheEntry e = new DirCacheEntry(name);
       e.setFileMode(FileMode.REGULAR_FILE);
@@ -658,7 +658,8 @@ public class CommitMsgHookTest extends HookTestCase {
       final RefUpdate ref = repository.updateRef(Constants.HEAD);
       ref.setNewObjectId(commitId);
       Result result = ref.forceUpdate();
-      assertWithMessage(Constants.HEAD + " did not change: " + ref.getResult())
+      assert_()
+          .withFailureMessage(Constants.HEAD + " did not change: " + ref.getResult())
           .that(result)
           .isAnyOf(Result.FAST_FORWARD, Result.FORCED, Result.NEW, Result.NO_CHANGE);
     }

@@ -14,22 +14,18 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.extensions.api.changes.RelatedChangeAndCommitInfo;
-import com.google.gerrit.extensions.api.changes.RelatedChangesInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RelatedChangesSorter.PatchSetData;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -65,16 +61,14 @@ public class GetRelated implements RestReadView<RevisionResource> {
   }
 
   @Override
-  public RelatedChangesInfo apply(RevisionResource rsrc)
-      throws RepositoryNotFoundException, IOException, OrmException, NoSuchProjectException,
-          PermissionBackendException {
-    RelatedChangesInfo relatedChangesInfo = new RelatedChangesInfo();
-    relatedChangesInfo.changes = getRelated(rsrc);
-    return relatedChangesInfo;
+  public RelatedInfo apply(RevisionResource rsrc)
+      throws RepositoryNotFoundException, IOException, OrmException {
+    RelatedInfo relatedInfo = new RelatedInfo();
+    relatedInfo.changes = getRelated(rsrc);
+    return relatedInfo;
   }
 
-  private List<RelatedChangeAndCommitInfo> getRelated(RevisionResource rsrc)
-      throws OrmException, IOException, PermissionBackendException {
+  private List<ChangeAndCommit> getRelated(RevisionResource rsrc) throws OrmException, IOException {
     Set<String> groups = getAllGroups(rsrc.getNotes());
     if (groups.isEmpty()) {
       return Collections.emptyList();
@@ -91,14 +85,14 @@ public class GetRelated implements RestReadView<RevisionResource> {
     if (cds.size() == 1 && cds.get(0).getId().equals(rsrc.getChange().getId())) {
       return Collections.emptyList();
     }
-    List<RelatedChangeAndCommitInfo> result = new ArrayList<>(cds.size());
+    List<ChangeAndCommit> result = new ArrayList<>(cds.size());
 
     boolean isEdit = rsrc.getEdit().isPresent();
     PatchSet basePs = isEdit ? rsrc.getEdit().get().getBasePatchSet() : rsrc.getPatchSet();
 
     reloadChangeIfStale(cds, basePs);
 
-    for (PatchSetData d : sorter.sort(cds, basePs, rsrc.getUser())) {
+    for (PatchSetData d : sorter.sort(cds, basePs)) {
       PatchSet ps = d.patchSet();
       RevCommit commit;
       if (isEdit && ps.getId().equals(basePs.getId())) {
@@ -108,11 +102,11 @@ public class GetRelated implements RestReadView<RevisionResource> {
       } else {
         commit = d.commit();
       }
-      result.add(newChangeAndCommit(rsrc.getProject(), d.data().change(), ps, commit));
+      result.add(new ChangeAndCommit(d.data().change(), ps, commit));
     }
 
     if (result.size() == 1) {
-      RelatedChangeAndCommitInfo r = result.get(0);
+      ChangeAndCommit r = result.get(0);
       if (r.commit != null && r.commit.commit.equals(rsrc.getPatchSet().getRevision().get())) {
         return Collections.emptyList();
       }
@@ -138,30 +132,64 @@ public class GetRelated implements RestReadView<RevisionResource> {
     }
   }
 
-  static RelatedChangeAndCommitInfo newChangeAndCommit(
-      Project.NameKey project, @Nullable Change change, @Nullable PatchSet ps, RevCommit c) {
-    RelatedChangeAndCommitInfo info = new RelatedChangeAndCommitInfo();
-    info.project = project.get();
+  public static class RelatedInfo {
+    public List<ChangeAndCommit> changes;
+  }
 
-    if (change != null) {
-      info.changeId = change.getKey().get();
-      info._changeNumber = change.getChangeId();
-      info._revisionNumber = ps != null ? ps.getPatchSetId() : null;
-      PatchSet.Id curr = change.currentPatchSetId();
-      info._currentRevisionNumber = curr != null ? curr.get() : null;
-      info.status = change.getStatus().asChangeStatus().toString();
+  public static class ChangeAndCommit {
+    public String changeId;
+    public CommitInfo commit;
+    public Integer _changeNumber;
+    public Integer _revisionNumber;
+    public Integer _currentRevisionNumber;
+    public String status;
+
+    public ChangeAndCommit() {}
+
+    ChangeAndCommit(@Nullable Change change, @Nullable PatchSet ps, RevCommit c) {
+      if (change != null) {
+        changeId = change.getKey().get();
+        _changeNumber = change.getChangeId();
+        _revisionNumber = ps != null ? ps.getPatchSetId() : null;
+        PatchSet.Id curr = change.currentPatchSetId();
+        _currentRevisionNumber = curr != null ? curr.get() : null;
+        status = change.getStatus().asChangeStatus().toString();
+      }
+
+      commit = new CommitInfo();
+      commit.commit = c.name();
+      commit.parents = Lists.newArrayListWithCapacity(c.getParentCount());
+      for (int i = 0; i < c.getParentCount(); i++) {
+        CommitInfo p = new CommitInfo();
+        p.commit = c.getParent(i).name();
+        commit.parents.add(p);
+      }
+      commit.author = CommonConverters.toGitPerson(c.getAuthorIdent());
+      commit.subject = c.getShortMessage();
     }
 
-    info.commit = new CommitInfo();
-    info.commit.commit = c.name();
-    info.commit.parents = Lists.newArrayListWithCapacity(c.getParentCount());
-    for (int i = 0; i < c.getParentCount(); i++) {
-      CommitInfo p = new CommitInfo();
-      p.commit = c.getParent(i).name();
-      info.commit.parents.add(p);
+    @Override
+    public String toString() {
+      return MoreObjects.toStringHelper(this)
+          .add("changeId", changeId)
+          .add("commit", toString(commit))
+          .add("_changeNumber", _changeNumber)
+          .add("_revisionNumber", _revisionNumber)
+          .add("_currentRevisionNumber", _currentRevisionNumber)
+          .add("status", status)
+          .toString();
     }
-    info.commit.author = CommonConverters.toGitPerson(c.getAuthorIdent());
-    info.commit.subject = c.getShortMessage();
-    return info;
+
+    private static String toString(CommitInfo commit) {
+      return MoreObjects.toStringHelper(commit)
+          .add("commit", commit.commit)
+          .add("parent", commit.parents)
+          .add("author", commit.author)
+          .add("committer", commit.committer)
+          .add("subject", commit.subject)
+          .add("message", commit.message)
+          .add("webLinks", commit.webLinks)
+          .toString();
+    }
   }
 }

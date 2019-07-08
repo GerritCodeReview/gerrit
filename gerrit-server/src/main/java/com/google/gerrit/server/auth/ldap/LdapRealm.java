@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.auth.ldap;
 
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_GERRIT;
 
 import com.google.common.base.Strings;
 import com.google.common.cache.CacheLoader;
@@ -25,22 +25,21 @@ import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AbstractRealm;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.EmailExpander;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.account.GroupBackends;
-import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
-import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -84,9 +83,11 @@ class LdapRealm extends AbstractRealm {
       AuthConfig authConfig,
       EmailExpander emailExpander,
       LdapGroupBackend groupBackend,
-      @Named(LdapModule.GROUP_CACHE) LoadingCache<String, Set<AccountGroup.UUID>> membershipCache,
-      @Named(LdapModule.USERNAME_CACHE) LoadingCache<String, Optional<Account.Id>> usernameCache,
-      @GerritServerConfig Config config) {
+      @Named(LdapModule.GROUP_CACHE)
+          final LoadingCache<String, Set<AccountGroup.UUID>> membershipCache,
+      @Named(LdapModule.USERNAME_CACHE)
+          final LoadingCache<String, Optional<Account.Id>> usernameCache,
+      @GerritServerConfig final Config config) {
     this.helper = helper;
     this.authConfig = authConfig;
     this.emailExpander = emailExpander;
@@ -111,11 +112,11 @@ class LdapRealm extends AbstractRealm {
     mandatoryGroup = optional(config, "mandatoryGroup");
   }
 
-  static SearchScope scope(Config c, String setting) {
+  static SearchScope scope(final Config c, final String setting) {
     return c.getEnum("ldap", null, setting, SearchScope.SUBTREE);
   }
 
-  static String optional(Config config, String name) {
+  static String optional(final Config config, final String name) {
     return config.getString("ldap", null, name);
   }
 
@@ -135,7 +136,7 @@ class LdapRealm extends AbstractRealm {
     return config.getBoolean("ldap", name, defaultValue);
   }
 
-  static String required(Config config, String name) {
+  static String required(final Config config, final String name) {
     final String v = optional(config, name);
     if (v == null || "".equals(v)) {
       throw new IllegalArgumentException("No ldap." + name + " configured");
@@ -143,12 +144,12 @@ class LdapRealm extends AbstractRealm {
     return v;
   }
 
-  static List<String> optionalList(Config config, String name) {
+  static List<String> optionalList(final Config config, final String name) {
     String[] s = config.getStringList("ldap", null, name);
     return Arrays.asList(s);
   }
 
-  static List<String> requiredList(Config config, String name) {
+  static List<String> requiredList(final Config config, final String name) {
     List<String> vlist = optionalList(config, name);
 
     if (vlist.isEmpty()) {
@@ -158,7 +159,7 @@ class LdapRealm extends AbstractRealm {
     return vlist;
   }
 
-  static String optdef(Config c, String n, String d) {
+  static String optdef(final Config c, final String n, final String d) {
     final String[] v = c.getStringList("ldap", null, n);
     if (v == null || v.length == 0) {
       return d;
@@ -172,7 +173,7 @@ class LdapRealm extends AbstractRealm {
     }
   }
 
-  static String reqdef(Config c, String n, String d) {
+  static String reqdef(final Config c, final String n, final String d) {
     final String v = optdef(c, n, d);
     if (v == null) {
       throw new IllegalArgumentException("No ldap." + n + " configured");
@@ -201,7 +202,7 @@ class LdapRealm extends AbstractRealm {
   }
 
   @Override
-  public boolean allowsEdit(AccountFieldName field) {
+  public boolean allowsEdit(final AccountFieldName field) {
     return !readOnlyAccountFields.contains(field);
   }
 
@@ -211,7 +212,7 @@ class LdapRealm extends AbstractRealm {
     }
 
     final Map<String, String> values = new HashMap<>();
-    for (String name : m.attributes()) {
+    for (final String name : m.attributes()) {
       values.put(name, m.get(name));
     }
 
@@ -220,7 +221,7 @@ class LdapRealm extends AbstractRealm {
   }
 
   @Override
-  public AuthRequest authenticate(AuthRequest who) throws AccountException {
+  public AuthRequest authenticate(final AuthRequest who) throws AccountException {
     if (config.getBoolean("ldap", "localUsernameToLowerCase", false)) {
       who.setLocalUser(who.getLocalUser().toLowerCase(Locale.US));
     }
@@ -235,10 +236,7 @@ class LdapRealm extends AbstractRealm {
       }
       try {
         final Helper.LdapSchema schema = helper.getSchema(ctx);
-        LdapQuery.Result m;
-        who.setAuthProvidesAccountActiveStatus(true);
-        m = helper.findAccount(schema, ctx, username, fetchMemberOfEagerly);
-        who.setActive(true);
+        final LdapQuery.Result m = helper.findAccount(schema, ctx, username, fetchMemberOfEagerly);
 
         if (authConfig.getAuthType() == AuthType.LDAP && !who.isSkipAuthentication()) {
           // We found the user account, but we need to verify
@@ -302,7 +300,7 @@ class LdapRealm extends AbstractRealm {
   }
 
   @Override
-  public void onCreateAccount(AuthRequest who, Account account) {
+  public void onCreateAccount(final AuthRequest who, final Account account) {
     usernameCache.put(who.getLocalUser(), Optional.of(account.getId()));
   }
 
@@ -320,47 +318,25 @@ class LdapRealm extends AbstractRealm {
     }
   }
 
-  @Override
-  public boolean isActive(String username)
-      throws LoginException, NamingException, AccountException {
-    final DirContext ctx = helper.open();
-    try {
-      Helper.LdapSchema schema = helper.getSchema(ctx);
-      helper.findAccount(schema, ctx, username, false);
-      return true;
-    } catch (NoSuchUserException e) {
-      return false;
-    } finally {
-      try {
-        ctx.close();
-      } catch (NamingException e) {
-        log.warn("Cannot close LDAP query handle", e);
-      }
-    }
-  }
-
-  @Override
-  public boolean accountBelongsToRealm(Collection<ExternalId> externalIds) {
-    for (ExternalId id : externalIds) {
-      if (id.toString().contains(SCHEME_GERRIT)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   static class UserLoader extends CacheLoader<String, Optional<Account.Id>> {
-    private final ExternalIds externalIds;
+    private final SchemaFactory<ReviewDb> schema;
 
     @Inject
-    UserLoader(ExternalIds externalIds) {
-      this.externalIds = externalIds;
+    UserLoader(SchemaFactory<ReviewDb> schema) {
+      this.schema = schema;
     }
 
     @Override
     public Optional<Account.Id> load(String username) throws Exception {
-      return Optional.ofNullable(externalIds.get(ExternalId.Key.create(SCHEME_GERRIT, username)))
-          .map(ExternalId::accountId);
+      try (ReviewDb db = schema.open()) {
+        return Optional.ofNullable(
+                ExternalId.from(
+                    db.accountExternalIds()
+                        .get(
+                            ExternalId.Key.create(SCHEME_GERRIT, username)
+                                .asAccountExternalIdKey())))
+            .map(ExternalId::accountId);
+      }
     }
   }
 
@@ -368,7 +344,7 @@ class LdapRealm extends AbstractRealm {
     private final Helper helper;
 
     @Inject
-    MemberLoader(Helper helper) {
+    MemberLoader(final Helper helper) {
       this.helper = helper;
     }
 
@@ -391,12 +367,12 @@ class LdapRealm extends AbstractRealm {
     private final Helper helper;
 
     @Inject
-    ExistenceLoader(Helper helper) {
+    ExistenceLoader(final Helper helper) {
       this.helper = helper;
     }
 
     @Override
-    public Boolean load(String groupDn) throws Exception {
+    public Boolean load(final String groupDn) throws Exception {
       final DirContext ctx = helper.open();
       try {
         Name compositeGroupName = new CompositeName().add(groupDn);

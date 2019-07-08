@@ -29,7 +29,6 @@ import com.google.inject.Scope;
 import com.google.inject.servlet.ServletScopes;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
  * Base class for propagating request-scoped data between threads.
@@ -65,9 +64,10 @@ public abstract class RequestScopePropagator {
    * request state when the returned Callable is invoked. The method must be called in a request
    * scope and the returned Callable may only be invoked in a thread that is not already in a
    * request scope or is in the same request scope. The returned Callable will inherit toString()
-   * from the passed in Callable. A {@link ScheduledThreadPoolExecutor} does not accept a Callable,
-   * so there is no ProjectCallable implementation. Implementations of this method must be
-   * consistent with Guice's {@link ServletScopes#continueRequest(Callable, java.util.Map)}.
+   * from the passed in Callable. A {@link com.google.gerrit.server.git.WorkQueue.Executor} does not
+   * accept a Callable, so there is no ProjectCallable implementation. Implementations of this
+   * method must be consistent with Guice's {@link ServletScopes#continueRequest(Callable,
+   * java.util.Map)}.
    *
    * <p>There are some limitations:
    *
@@ -82,7 +82,7 @@ public abstract class RequestScopePropagator {
    * @return a new Callable which will execute in the current request scope.
    */
   @SuppressWarnings("javadoc") // See GuiceRequestScopePropagator#wrapImpl
-  public final <T> Callable<T> wrap(Callable<T> callable) {
+  public final <T> Callable<T> wrap(final Callable<T> callable) {
     final RequestContext callerContext = checkNotNull(local.getContext());
     final Callable<T> wrapped = wrapImpl(context(callerContext, cleanup(callable)));
     return new Callable<T>() {
@@ -114,7 +114,7 @@ public abstract class RequestScopePropagator {
    * @param runnable the Runnable to wrap.
    * @return a new Runnable which will execute in the current request scope.
    */
-  public final Runnable wrap(Runnable runnable) {
+  public final Runnable wrap(final Runnable runnable) {
     final Callable<Object> wrapped = wrap(Executors.callable(runnable));
 
     if (runnable instanceof ProjectRunnable) {
@@ -172,46 +172,52 @@ public abstract class RequestScopePropagator {
   /** @see #wrap(Callable) */
   protected abstract <T> Callable<T> wrapImpl(Callable<T> callable);
 
-  protected <T> Callable<T> context(RequestContext context, Callable<T> callable) {
-    return () -> {
-      RequestContext old =
-          local.setContext(
-              new RequestContext() {
-                @Override
-                public CurrentUser getUser() {
-                  return context.getUser();
-                }
+  protected <T> Callable<T> context(final RequestContext context, final Callable<T> callable) {
+    return new Callable<T>() {
+      @Override
+      public T call() throws Exception {
+        RequestContext old =
+            local.setContext(
+                new RequestContext() {
+                  @Override
+                  public CurrentUser getUser() {
+                    return context.getUser();
+                  }
 
-                @Override
-                public Provider<ReviewDb> getReviewDbProvider() {
-                  return dbProviderProvider.get();
-                }
-              });
-      try {
-        return callable.call();
-      } finally {
-        local.setContext(old);
+                  @Override
+                  public Provider<ReviewDb> getReviewDbProvider() {
+                    return dbProviderProvider.get();
+                  }
+                });
+        try {
+          return callable.call();
+        } finally {
+          local.setContext(old);
+        }
       }
     };
   }
 
-  protected <T> Callable<T> cleanup(Callable<T> callable) {
-    return () -> {
-      RequestCleanup cleanup =
-          scope
-              .scope(
-                  Key.get(RequestCleanup.class),
-                  new Provider<RequestCleanup>() {
-                    @Override
-                    public RequestCleanup get() {
-                      return new RequestCleanup();
-                    }
-                  })
-              .get();
-      try {
-        return callable.call();
-      } finally {
-        cleanup.run();
+  protected <T> Callable<T> cleanup(final Callable<T> callable) {
+    return new Callable<T>() {
+      @Override
+      public T call() throws Exception {
+        RequestCleanup cleanup =
+            scope
+                .scope(
+                    Key.get(RequestCleanup.class),
+                    new Provider<RequestCleanup>() {
+                      @Override
+                      public RequestCleanup get() {
+                        return new RequestCleanup();
+                      }
+                    })
+                .get();
+        try {
+          return callable.call();
+        } finally {
+          cleanup.run();
+        }
       }
     };
   }

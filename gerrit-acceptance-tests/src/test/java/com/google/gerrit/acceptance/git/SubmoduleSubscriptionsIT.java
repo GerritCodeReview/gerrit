@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.GerritConfig;
@@ -503,43 +502,5 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     ObjectId subHEAD = pushChangeTo(subRepo, "master");
 
     expectToHaveSubmoduleState(superRepo, "master", "nested/subscribed-to-project", subHEAD);
-  }
-
-  @Test
-  @GerritConfig(name = "submodule.verboseSuperprojectUpdate", value = "SUBJECT_ONLY")
-  @GerritConfig(name = "submodule.maxCommitMessages", value = "1")
-  public void submoduleSubjectCommitMessageCountLimit() throws Exception {
-    testSubmoduleSubjectCommitMessageAndExpectTruncation();
-  }
-
-  @Test
-  @GerritConfig(name = "submodule.verboseSuperprojectUpdate", value = "SUBJECT_ONLY")
-  @GerritConfig(name = "submodule.maxCombinedCommitMessageSize", value = "220")
-  public void submoduleSubjectCommitMessageSizeLimit() throws Exception {
-    assume().that(isSubmitWholeTopicEnabled()).isFalse();
-    testSubmoduleSubjectCommitMessageAndExpectTruncation();
-  }
-
-  private void testSubmoduleSubjectCommitMessageAndExpectTruncation() throws Exception {
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowMatchingSubmoduleSubscription(
-        "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
-
-    pushChangeTo(subRepo, "master");
-    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
-    // The first update doesn't include the rev log, so we ignore it
-    pushChangeTo(subRepo, "master");
-
-    // Next, we push two commits at once. Since maxCommitMessages=1, we expect to see only the first
-    // message plus ellipsis to mark truncation.
-    ObjectId subHEAD = pushChangesTo(subRepo, "master", 2);
-    RevCommit subCommitMsg = subRepo.getRevWalk().parseCommit(subHEAD);
-    expectToHaveCommitMessage(
-        superRepo,
-        "master",
-        String.format(
-            "Update git submodules\n\n* Update %s from branch 'master'\n  to %s\n  - %s\n\n[...]",
-            name("subscribed-to-project"), subHEAD.getName(), subCommitMsg.getShortMessage()));
   }
 }

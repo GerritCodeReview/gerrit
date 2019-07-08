@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -26,6 +25,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -244,9 +244,6 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
 
   @Test
   public void repairChangeStateAfterFailure() throws Exception {
-    // In NoteDb-only mode, repo and meta updates are atomic (at least in InMemoryRepository).
-    assume().that(notesMigration.disableChangeReviewDb()).isFalse();
-
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
@@ -255,11 +252,10 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
     testRepo.reset(initialHead);
     PushOneCommit.Result change2 = createChange("Change 2", "b.txt", "other content");
     Change.Id id2 = change2.getChange().getId();
-    TestSubmitInput failInput = new TestSubmitInput();
-    failInput.failAfterRefUpdates = true;
+    SubmitInput failAfterRefUpdates = new TestSubmitInput(new SubmitInput(), true);
     submit(
         change2.getChangeId(),
-        failInput,
+        failAfterRefUpdates,
         ResourceConflictException.class,
         "Failing after ref updates");
     RevCommit headAfterFailedSubmit = getRemoteHead();

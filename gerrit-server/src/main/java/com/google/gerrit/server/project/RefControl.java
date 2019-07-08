@@ -14,37 +14,37 @@
 
 package com.google.gerrit.server.project;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.permissions.FailedPermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
-import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.OrmException;
-import com.google.inject.util.Providers;
+import com.google.gerrit.server.group.SystemGroupBackend;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.revwalk.RevTag;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Manages access control for Git references (aka branches, tags). */
 public class RefControl {
+  private static final Logger log = LoggerFactory.getLogger(RefControl.class);
+
   private final ProjectControl projectControl;
   private final String refName;
 
@@ -100,48 +100,68 @@ public class RefControl {
   }
 
   /** Can this user see this reference exists? */
-  boolean isVisible() {
+  public boolean isVisible() {
     if (isVisible == null) {
-      isVisible =
-          (getUser().isInternalUser() || canPerform(Permission.READ))
-              && isProjectStatePermittingRead();
+      isVisible = (getUser().isInternalUser() || canPerform(Permission.READ)) && canRead();
     }
     return isVisible;
   }
 
-  /** Can this user see other users change edits? */
-  public boolean isEditVisible() {
-    return canViewPrivateChanges();
+  /** True if this reference is visible by all REGISTERED_USERS */
+  public boolean isVisibleByRegisteredUsers() {
+    List<PermissionRule> access = relevant.getPermission(Permission.READ);
+    List<PermissionRule> overridden = relevant.getOverridden(Permission.READ);
+    Set<ProjectRef> allows = new HashSet<>();
+    Set<ProjectRef> blocks = new HashSet<>();
+    for (PermissionRule rule : access) {
+      if (rule.isBlock()) {
+        blocks.add(relevant.getRuleProps(rule));
+      } else if (SystemGroupBackend.isAnonymousOrRegistered(rule.getGroup())) {
+        allows.add(relevant.getRuleProps(rule));
+      }
+    }
+    for (PermissionRule rule : overridden) {
+      if (SystemGroupBackend.isAnonymousOrRegistered(rule.getGroup())) {
+        blocks.remove(relevant.getRuleProps(rule));
+      }
+    }
+    blocks.removeAll(allows);
+    return blocks.isEmpty() && !allows.isEmpty();
   }
 
-  private boolean canUpload() {
+  /**
+   * Determines whether the user can upload a change to the ref controlled by this object.
+   *
+   * @return {@code true} if the user specified can upload a change to the Git ref
+   */
+  public boolean canUpload() {
     return projectControl.controlForRef("refs/for/" + getRefName()).canPerform(Permission.PUSH)
-        && isProjectStatePermittingWrite();
+        && canWrite();
   }
 
   /** @return true if this user can add a new patch set to this ref */
-  boolean canAddPatchSet() {
+  public boolean canAddPatchSet() {
     return projectControl
             .controlForRef("refs/for/" + getRefName())
             .canPerform(Permission.ADD_PATCH_SET)
-        && isProjectStatePermittingWrite();
+        && canWrite();
   }
 
   /** @return true if this user can submit merge patch sets to this ref */
-  private boolean canUploadMerges() {
+  public boolean canUploadMerges() {
     return projectControl
             .controlForRef("refs/for/" + getRefName())
             .canPerform(Permission.PUSH_MERGE)
-        && isProjectStatePermittingWrite();
+        && canWrite();
   }
 
   /** @return true if this user can rebase changes on this ref */
-  boolean canRebase() {
-    return canPerform(Permission.REBASE) && isProjectStatePermittingWrite();
+  public boolean canRebase() {
+    return canPerform(Permission.REBASE) && canWrite();
   }
 
   /** @return true if this user can submit patch sets to this ref */
-  boolean canSubmit(boolean isChangeOwner) {
+  public boolean canSubmit(boolean isChangeOwner) {
     if (RefNames.REFS_CONFIG.equals(refName)) {
       // Always allow project owners to submit configuration changes.
       // Submitting configuration changes modifies the access control
@@ -150,11 +170,16 @@ public class RefControl {
       // granting of powers beyond submitting to the configuration.
       return projectControl.isOwner();
     }
-    return canPerform(Permission.SUBMIT, isChangeOwner) && isProjectStatePermittingWrite();
+    return canPerform(Permission.SUBMIT, isChangeOwner) && canWrite();
+  }
+
+  /** @return true if this user was granted submitAs to this ref */
+  public boolean canSubmitAs() {
+    return canPerform(Permission.SUBMIT_AS);
   }
 
   /** @return true if the user can update the reference as a fast-forward. */
-  private boolean canUpdate() {
+  public boolean canUpdate() {
     if (RefNames.REFS_CONFIG.equals(refName) && !projectControl.isOwner()) {
       // Pushing requires being at least project owner, in addition to push.
       // Pushing configuration changes modifies the access control
@@ -165,16 +190,17 @@ public class RefControl {
       // On the AllProjects project the owner access right cannot be assigned,
       // this why for the AllProjects project we allow administrators to push
       // configuration changes if they have push without being project owner.
-      if (!(projectControl.getProjectState().isAllProjects() && projectControl.isAdmin())) {
+      if (!(projectControl.getProjectState().isAllProjects()
+          && getUser().getCapabilities().canAdministrateServer())) {
         return false;
       }
     }
-    return canPerform(Permission.PUSH) && isProjectStatePermittingWrite();
+    return canPerform(Permission.PUSH) && canWrite();
   }
 
   /** @return true if the user can rewind (force push) the reference. */
-  private boolean canForceUpdate() {
-    if (!isProjectStatePermittingWrite()) {
+  public boolean canForceUpdate() {
+    if (!canWrite()) {
       return false;
     }
 
@@ -192,21 +218,21 @@ public class RefControl {
       case UNKNOWN:
       case WEB_BROWSER:
       default:
-        return (isOwner() && !isForceBlocked(Permission.PUSH)) || projectControl.isAdmin();
+        return getUser().getCapabilities().canAdministrateServer()
+            || (isOwner() && !isForceBlocked(Permission.PUSH));
     }
   }
 
-  private boolean isProjectStatePermittingWrite() {
-    return getProjectControl().getProject().getState().permitsWrite();
+  public boolean canWrite() {
+    return getProjectControl().getProject().getState().equals(ProjectState.ACTIVE);
   }
 
-  private boolean isProjectStatePermittingRead() {
-    return getProjectControl().getProject().getState().permitsRead();
+  public boolean canRead() {
+    return getProjectControl().getProject().getState().equals(ProjectState.READ_ONLY) || canWrite();
   }
 
   private boolean canPushWithForce() {
-    if (!isProjectStatePermittingWrite()
-        || (RefNames.REFS_CONFIG.equals(refName) && !projectControl.isOwner())) {
+    if (!canWrite() || (RefNames.REFS_CONFIG.equals(refName) && !projectControl.isOwner())) {
       // Pushing requires being at least project owner, in addition to push.
       // Pushing configuration changes modifies the access control
       // rules. Allowing this to be done by a non-project-owner opens
@@ -218,12 +244,108 @@ public class RefControl {
   }
 
   /**
+   * Determines whether the user can create a new Git ref.
+   *
+   * @param db db for checking change visibility.
+   * @param repo repository on which user want to create
+   * @param object the object the user will start the reference with.
+   * @return {@code true} if the user specified can create a new Git ref
+   */
+  public boolean canCreate(ReviewDb db, Repository repo, RevObject object) {
+    if (!canWrite()) {
+      return false;
+    }
+
+    if (object instanceof RevCommit) {
+      if (!canPerform(Permission.CREATE)) {
+        // No create permissions.
+        return false;
+      }
+      return canCreateCommit(db, repo, (RevCommit) object);
+    } else if (object instanceof RevTag) {
+      final RevTag tag = (RevTag) object;
+      try (RevWalk rw = new RevWalk(repo)) {
+        rw.parseBody(tag);
+      } catch (IOException e) {
+        return false;
+      }
+
+      // If tagger is present, require it matches the user's email.
+      //
+      final PersonIdent tagger = tag.getTaggerIdent();
+      if (tagger != null) {
+        boolean valid;
+        if (getUser().isIdentifiedUser()) {
+          final String addr = tagger.getEmailAddress();
+          valid = getUser().asIdentifiedUser().hasEmailAddress(addr);
+        } else {
+          valid = false;
+        }
+        if (!valid && !canForgeCommitter()) {
+          return false;
+        }
+      }
+
+      RevObject tagObject = tag.getObject();
+      if (tagObject instanceof RevCommit) {
+        if (!canCreateCommit(db, repo, (RevCommit) tagObject)) {
+          return false;
+        }
+      } else {
+        if (!canCreate(db, repo, tagObject)) {
+          return false;
+        }
+      }
+
+      // If the tag has a PGP signature, allow a lower level of permission
+      // than if it doesn't have a PGP signature.
+      //
+      if (tag.getFullMessage().contains("-----BEGIN PGP SIGNATURE-----\n")) {
+        return canPerform(Permission.CREATE_SIGNED_TAG);
+      }
+      return canPerform(Permission.CREATE_TAG);
+    } else {
+      return false;
+    }
+  }
+
+  private boolean canCreateCommit(ReviewDb db, Repository repo, RevCommit commit) {
+    if (canUpdate()) {
+      // If the user has push permissions, they can create the ref regardless
+      // of whether they are pushing any new objects along with the create.
+      return true;
+    } else if (isMergedIntoBranchOrTag(db, repo, commit)) {
+      // If the user has no push permissions, check whether the object is
+      // merged into a branch or tag readable by this user. If so, they are
+      // not effectively "pushing" more objects, so they can create the ref
+      // even if they don't have push permission.
+      return true;
+    }
+    return false;
+  }
+
+  private boolean isMergedIntoBranchOrTag(ReviewDb db, Repository repo, RevCommit commit) {
+    try (RevWalk rw = new RevWalk(repo)) {
+      List<Ref> refs = new ArrayList<>(repo.getRefDatabase().getRefs(Constants.R_HEADS).values());
+      refs.addAll(repo.getRefDatabase().getRefs(Constants.R_TAGS).values());
+      return projectControl.isMergedIntoVisibleRef(repo, db, rw, commit, refs);
+    } catch (IOException e) {
+      String msg =
+          String.format(
+              "Cannot verify permissions to commit object %s in repository %s",
+              commit.name(), projectControl.getProject().getNameKey());
+      log.error(msg, e);
+    }
+    return false;
+  }
+
+  /**
    * Determines whether the user can delete the Git ref controlled by this object.
    *
    * @return {@code true} if the user specified can delete a Git ref.
    */
-  private boolean canDelete() {
-    if (!isProjectStatePermittingWrite() || (RefNames.REFS_CONFIG.equals(refName))) {
+  public boolean canDelete() {
+    if (!canWrite() || (RefNames.REFS_CONFIG.equals(refName))) {
       // Never allow removal of the refs/meta/config branch.
       // Deleting the branch would destroy all Gerrit specific
       // metadata about the project, including its access rules.
@@ -242,15 +364,15 @@ public class RefControl {
       case UNKNOWN:
       case WEB_BROWSER:
       default:
-        return (isOwner() && !isForceBlocked(Permission.PUSH))
+        return getUser().getCapabilities().canAdministrateServer()
+            || (isOwner() && !isForceBlocked(Permission.PUSH))
             || canPushWithForce()
-            || canPerform(Permission.DELETE)
-            || projectControl.isAdmin();
+            || canPerform(Permission.DELETE);
     }
   }
 
   /** @return true if this user can forge the author line in a commit. */
-  private boolean canForgeAuthor() {
+  public boolean canForgeAuthor() {
     if (canForgeAuthor == null) {
       canForgeAuthor = canPerform(Permission.FORGE_AUTHOR);
     }
@@ -258,7 +380,7 @@ public class RefControl {
   }
 
   /** @return true if this user can forge the committer line in a commit. */
-  private boolean canForgeCommitter() {
+  public boolean canForgeCommitter() {
     if (canForgeCommitter == null) {
       canForgeCommitter = canPerform(Permission.FORGE_COMMITTER);
     }
@@ -266,12 +388,12 @@ public class RefControl {
   }
 
   /** @return true if this user can forge the server on the committer line. */
-  private boolean canForgeGerritServerIdentity() {
+  public boolean canForgeGerritServerIdentity() {
     return canPerform(Permission.FORGE_SERVER);
   }
 
   /** @return true if this user can abandon a change for this ref */
-  boolean canAbandon() {
+  public boolean canAbandon() {
     return canPerform(Permission.ABANDON);
   }
 
@@ -280,43 +402,74 @@ public class RefControl {
     return canPerform(Permission.REMOVE_REVIEWER);
   }
 
-  /** @return true if this user can view private changes. */
-  boolean canViewPrivateChanges() {
-    return canPerform(Permission.VIEW_PRIVATE_CHANGES);
+  /** @return true if this user can view draft changes. */
+  public boolean canViewDrafts() {
+    return canPerform(Permission.VIEW_DRAFTS);
+  }
+
+  /** @return true if this user can publish draft changes. */
+  public boolean canPublishDrafts() {
+    return canPerform(Permission.PUBLISH_DRAFTS);
+  }
+
+  /** @return true if this user can delete draft changes. */
+  public boolean canDeleteDrafts() {
+    return canPerform(Permission.DELETE_DRAFTS);
   }
 
   /** @return true if this user can delete changes. */
-  boolean canDeleteChanges(boolean isChangeOwner) {
+  public boolean canDeleteChanges(boolean isChangeOwner) {
     return canPerform(Permission.DELETE_CHANGES)
         || (isChangeOwner && canPerform(Permission.DELETE_OWN_CHANGES, isChangeOwner));
   }
 
   /** @return true if this user can edit topic names. */
-  boolean canEditTopicName() {
+  public boolean canEditTopicName() {
     return canPerform(Permission.EDIT_TOPIC_NAME);
   }
 
   /** @return true if this user can edit hashtag names. */
-  boolean canEditHashtags() {
+  public boolean canEditHashtags() {
     return canPerform(Permission.EDIT_HASHTAGS);
   }
 
-  boolean canEditAssignee() {
+  public boolean canEditAssignee() {
     return canPerform(Permission.EDIT_ASSIGNEE);
   }
 
   /** @return true if this user can force edit topic names. */
-  boolean canForceEditTopicName() {
+  public boolean canForceEditTopicName() {
     return canForcePerform(Permission.EDIT_TOPIC_NAME);
   }
 
+  /** All value ranges of any allowed label permission. */
+  public List<PermissionRange> getLabelRanges(boolean isChangeOwner) {
+    List<PermissionRange> r = new ArrayList<>();
+    for (Map.Entry<String, List<PermissionRule>> e : relevant.getDeclaredPermissions()) {
+      if (Permission.isLabel(e.getKey())) {
+        int min = 0;
+        int max = 0;
+        for (PermissionRule rule : e.getValue()) {
+          if (projectControl.match(rule, isChangeOwner)) {
+            min = Math.min(min, rule.getMin());
+            max = Math.max(max, rule.getMax());
+          }
+        }
+        if (min != 0 || max != 0) {
+          r.add(new PermissionRange(e.getKey(), min, max));
+        }
+      }
+    }
+    return r;
+  }
+
   /** The range of permitted values associated with a label permission. */
-  PermissionRange getRange(String permission) {
+  public PermissionRange getRange(String permission) {
     return getRange(permission, false);
   }
 
   /** The range of permitted values associated with a label permission. */
-  PermissionRange getRange(String permission, boolean isChangeOwner) {
+  public PermissionRange getRange(String permission, boolean isChangeOwner) {
     if (Permission.hasRange(permission)) {
       return toRange(permission, access(permission, isChangeOwner));
     }
@@ -489,103 +642,5 @@ public class RefControl {
     }
     effective.put(permissionName, mine);
     return mine;
-  }
-
-  ForRef asForRef() {
-    return new ForRefImpl();
-  }
-
-  private class ForRefImpl extends ForRef {
-    @Override
-    public ForRef user(CurrentUser user) {
-      return forUser(user).asForRef().database(db);
-    }
-
-    @Override
-    public ForChange change(ChangeData cd) {
-      try {
-        // TODO(hiesel) Force callers to call database() and use db instead of cd.db()
-        return getProjectControl()
-            .controlFor(cd.db(), cd.change())
-            .asForChange(cd, Providers.of(cd.db()));
-      } catch (OrmException e) {
-        return FailedPermissionBackend.change("unavailable", e);
-      }
-    }
-
-    @Override
-    public ForChange change(ChangeNotes notes) {
-      Project.NameKey project = getProjectControl().getProject().getNameKey();
-      Change change = notes.getChange();
-      checkArgument(
-          project.equals(change.getProject()),
-          "expected change in project %s, not %s",
-          project,
-          change.getProject());
-      return getProjectControl().controlFor(notes).asForChange(null, db);
-    }
-
-    @Override
-    public ForChange indexedChange(ChangeData cd, ChangeNotes notes) {
-      return getProjectControl().controlFor(notes).asForChange(cd, db);
-    }
-
-    @Override
-    public void check(RefPermission perm) throws AuthException, PermissionBackendException {
-      if (!can(perm)) {
-        throw new AuthException(perm.describeForException() + " not permitted for " + getRefName());
-      }
-    }
-
-    @Override
-    public Set<RefPermission> test(Collection<RefPermission> permSet)
-        throws PermissionBackendException {
-      EnumSet<RefPermission> ok = EnumSet.noneOf(RefPermission.class);
-      for (RefPermission perm : permSet) {
-        if (can(perm)) {
-          ok.add(perm);
-        }
-      }
-      return ok;
-    }
-
-    private boolean can(RefPermission perm) throws PermissionBackendException {
-      switch (perm) {
-        case READ:
-          return isVisible();
-        case CREATE:
-          // TODO This isn't an accurate test.
-          return canPerform(perm.permissionName().get());
-        case DELETE:
-          return canDelete();
-        case UPDATE:
-          return canUpdate();
-        case FORCE_UPDATE:
-          return canForceUpdate();
-
-        case FORGE_AUTHOR:
-          return canForgeAuthor();
-        case FORGE_COMMITTER:
-          return canForgeCommitter();
-        case FORGE_SERVER:
-          return canForgeGerritServerIdentity();
-        case MERGE:
-          return canUploadMerges();
-
-        case CREATE_CHANGE:
-          return canUpload();
-
-        case UPDATE_BY_SUBMIT:
-          return projectControl.controlForRef("refs/for/" + getRefName()).canSubmit(true);
-
-        case SKIP_VALIDATION:
-          return canForgeAuthor()
-              && canForgeCommitter()
-              && canForgeGerritServerIdentity()
-              && canUploadMerges()
-              && !projectControl.getProjectState().isUseSignedOffBy();
-      }
-      throw new PermissionBackendException(perm + " unsupported");
-    }
   }
 }

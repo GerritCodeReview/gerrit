@@ -76,7 +76,7 @@ public class SmtpEmailSender implements EmailSender {
   private int expiryDays;
 
   @Inject
-  SmtpEmailSender(@GerritServerConfig Config cfg) {
+  SmtpEmailSender(@GerritServerConfig final Config cfg) {
     enabled = cfg.getBoolean("sendemail", null, "enable", true);
     connectTimeout =
         Ints.checkedCast(
@@ -200,31 +200,30 @@ public class SmtpEmailSender implements EmailSender {
           }
         }
 
-        try (Writer messageDataWriter = client.sendMessageData()) {
-          if (messageDataWriter == null) {
-            /* Include rejected recipient error messages here to not lose that
-             * information. That piece of the puzzle is vital if zero recipients
-             * are accepted and the server consequently rejects the DATA command.
-             */
-            throw new EmailException(
-                rejected
-                    + "Server "
-                    + smtpHost
-                    + " rejected DATA command: "
-                    + client.getReplyString());
-          }
+        Writer messageDataWriter = client.sendMessageData();
+        if (messageDataWriter == null) {
+          /* Include rejected recipient error messages here to not lose that
+           * information. That piece of the puzzle is vital if zero recipients
+           * are accepted and the server consequently rejects the DATA command.
+           */
+          throw new EmailException(
+              rejected
+                  + "Server "
+                  + smtpHost
+                  + " rejected DATA command: "
+                  + client.getReplyString());
+        }
 
-          render(messageDataWriter, callerHeaders, textBody, htmlBody);
+        render(messageDataWriter, callerHeaders, textBody, htmlBody);
 
-          if (!client.completePendingCommand()) {
-            throw new EmailException(
-                "Server " + smtpHost + " rejected message body: " + client.getReplyString());
-          }
+        if (!client.completePendingCommand()) {
+          throw new EmailException(
+              "Server " + smtpHost + " rejected message body: " + client.getReplyString());
+        }
 
-          client.logout();
-          if (rejected.length() > 0) {
-            throw new EmailException(rejected.toString());
-          }
+        client.logout();
+        if (rejected.length() > 0) {
+          throw new EmailException(rejected.toString());
         }
       } finally {
         client.disconnect();

@@ -17,7 +17,6 @@ package com.google.gerrit.server.schema;
 import static com.google.gerrit.server.schema.JdbcUtil.hostname;
 import static com.google.gerrit.server.schema.JdbcUtil.port;
 
-import com.google.common.base.Strings;
 import com.google.gerrit.server.config.ConfigSection;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -29,7 +28,7 @@ class HANA extends BaseDataSourceType {
   private Config cfg;
 
   @Inject
-  HANA(@GerritServerConfig Config cfg) {
+  HANA(@GerritServerConfig final Config cfg) {
     super("com.sap.db.jdbc.Driver");
     this.cfg = cfg;
   }
@@ -40,11 +39,9 @@ class HANA extends BaseDataSourceType {
     final ConfigSection dbs = new ConfigSection(cfg, "database");
     b.append("jdbc:sap://");
     b.append(hostname(dbs.required("hostname")));
-    b.append(port(dbs.optional("port")));
-    String database = dbs.optional("database");
-    if (!Strings.isNullOrEmpty(database)) {
-      b.append("?databaseName=").append(database);
-    }
+    int instance = Integer.parseInt(dbs.required("instance"));
+    String port = "3" + String.format("%02d", instance) + "15";
+    b.append(port(port));
     return b.toString();
   }
 

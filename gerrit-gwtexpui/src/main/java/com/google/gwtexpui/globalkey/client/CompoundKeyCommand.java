@@ -34,7 +34,7 @@ public final class CompoundKeyCommand extends KeyCommand {
   }
 
   @Override
-  public void onKeyPress(KeyPressEvent event) {
+  public void onKeyPress(final KeyPressEvent event) {
     GlobalKey.temporaryWithTimeout(set);
   }
 }

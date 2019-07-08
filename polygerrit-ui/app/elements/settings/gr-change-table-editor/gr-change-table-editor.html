@@ -19,47 +19,37 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../../styles/gr-form-styles.html">
+
+<link rel="import" href="../../../styles/gr-settings-styles.html">
 
 <dom-module id="gr-change-table-editor">
   <template>
-    <style include="shared-styles"></style>
-    <style include="gr-form-styles">
-      #changeCols {
-        width: auto;
+    <style>
+      table {
+        margin-top: 1em;
       }
-      #changeCols .visibleHeader {
-        text-align: center;
+      th.nameHeader {
+        width: 11em;
       }
-      .checkboxContainer {
+      td.checkboxContainer {
+        border: 1px solid #fff;
         cursor: pointer;
         text-align: center;
       }
-      .checkboxContainer:hover {
-        outline: 1px solid #ddd;
+      td.checkboxContainer:hover {
+        border: 1px solid #ddd;
       }
     </style>
-    <div class="gr-form-styles">
-      <table id="changeCols">
+    <style include="gr-settings-styles"></style>
+    <div class="gr-settings-styles">
+      <table>
         <thead>
           <tr>
             <th class="nameHeader">Column</th>
-            <th class="visibleHeader">Visible</th>
+            <th>Visible</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Number</td>
-            <td
-                class="checkboxContainer"
-                on-tap="_handleTargetTap">
-              <input
-                  type="checkbox"
-                  name="number"
-                  checked$="[[showNumber]]">
-            </td>
-          </tr>
           <template is="dom-repeat" items="[[columnNames]]">
             <tr>
               <td>[[item]]</td>

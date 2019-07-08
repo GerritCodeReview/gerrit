@@ -38,7 +38,7 @@ public class VersionedAccountPreferences extends VersionedMetaData {
   private final String ref;
   private Config cfg;
 
-  protected VersionedAccountPreferences(String ref) {
+  private VersionedAccountPreferences(String ref) {
     this.ref = ref;
   }
 

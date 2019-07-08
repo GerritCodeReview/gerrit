@@ -27,7 +27,7 @@ public class HidePopupPanelCommand extends KeyCommand {
   }
 
   @Override
-  public void onKeyPress(KeyPressEvent event) {
+  public void onKeyPress(final KeyPressEvent event) {
     panel.hide();
   }
 }

@@ -17,7 +17,6 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
@@ -48,7 +47,7 @@ public class Util {
   public static final LabelType patchSetLock() {
     LabelType label =
         category("Patch-Set-Lock", value(1, "Patch Set Locked"), value(0, "Patch Set Unlocked"));
-    label.setFunction(LabelFunction.PATCH_SET_LOCK);
+    label.setFunctionName("PatchSetLock");
     return label;
   }
 

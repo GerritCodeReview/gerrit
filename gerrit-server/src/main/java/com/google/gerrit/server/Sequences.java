@@ -18,16 +18,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.metrics.Description;
-import com.google.gerrit.metrics.Description.Units;
-import com.google.gerrit.metrics.Field;
-import com.google.gerrit.metrics.MetricMaker;
-import com.google.gerrit.metrics.Timer2;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.RepoSequence;
@@ -39,87 +32,50 @@ import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
 
+@SuppressWarnings("deprecation")
 @Singleton
 public class Sequences {
-  public static final String NAME_ACCOUNTS = "accounts";
-  public static final String NAME_CHANGES = "changes";
-
-  public static int getChangeSequenceGap(Config cfg) {
-    return cfg.getInt("noteDb", "changes", "initialSequenceGap", 1000);
-  }
-
-  private enum SequenceType {
-    ACCOUNTS,
-    CHANGES;
-  }
+  public static final String CHANGES = "changes";
 
   private final Provider<ReviewDb> db;
   private final NotesMigration migration;
-  private final RepoSequence accountSeq;
   private final RepoSequence changeSeq;
-  private final Timer2<SequenceType, Boolean> nextIdLatency;
 
   @Inject
   Sequences(
       @GerritServerConfig Config cfg,
-      Provider<ReviewDb> db,
+      final Provider<ReviewDb> db,
       NotesMigration migration,
       GitRepositoryManager repoManager,
-      GitReferenceUpdated gitRefUpdated,
-      AllProjectsName allProjects,
-      AllUsersName allUsers,
-      MetricMaker metrics) {
+      AllProjectsName allProjects) {
     this.db = db;
     this.migration = migration;
 
-    int accountBatchSize = cfg.getInt("noteDb", "accounts", "sequenceBatchSize", 1);
-    accountSeq =
-        new RepoSequence(
-            repoManager,
-            gitRefUpdated,
-            allUsers,
-            NAME_ACCOUNTS,
-            () -> ReviewDb.FIRST_ACCOUNT_ID,
-            accountBatchSize);
-
-    int gap = getChangeSequenceGap(cfg);
-    @SuppressWarnings("deprecation")
-    RepoSequence.Seed changeSeed = () -> db.get().nextChangeId() + gap;
-    int changeBatchSize = cfg.getInt("noteDb", "changes", "sequenceBatchSize", 20);
+    final int gap = cfg.getInt("noteDb", "changes", "initialSequenceGap", 0);
     changeSeq =
         new RepoSequence(
-            repoManager, gitRefUpdated, allProjects, NAME_CHANGES, changeSeed, changeBatchSize);
-
-    nextIdLatency =
-        metrics.newTimer(
-            "sequence/next_id_latency",
-            new Description("Latency of requesting IDs from repo sequences")
-                .setCumulative()
-                .setUnit(Units.MILLISECONDS),
-            Field.ofEnum(SequenceType.class, "sequence"),
-            Field.ofBoolean("multiple"));
-  }
-
-  public int nextAccountId() throws OrmException {
-    try (Timer2.Context timer = nextIdLatency.start(SequenceType.ACCOUNTS, false)) {
-      return accountSeq.next();
-    }
+            repoManager,
+            allProjects,
+            CHANGES,
+            new RepoSequence.Seed() {
+              @Override
+              public int get() throws OrmException {
+                return db.get().nextChangeId() + gap;
+              }
+            },
+            cfg.getInt("noteDb", "changes", "sequenceBatchSize", 20));
   }
 
   public int nextChangeId() throws OrmException {
     if (!migration.readChangeSequence()) {
-      return nextChangeId(db.get());
+      return db.get().nextChangeId();
     }
-    try (Timer2.Context timer = nextIdLatency.start(SequenceType.CHANGES, false)) {
-      return changeSeq.next();
-    }
+    return changeSeq.next();
   }
 
   public ImmutableList<Integer> nextChangeIds(int count) throws OrmException {
     if (migration.readChangeSequence()) {
-      try (Timer2.Context timer = nextIdLatency.start(SequenceType.CHANGES, count > 1)) {
-        return changeSeq.next(count);
-      }
+      return changeSeq.next(count);
     }
 
     if (count == 0) {
@@ -129,7 +85,7 @@ public class Sequences {
     List<Integer> ids = new ArrayList<>(count);
     ReviewDb db = this.db.get();
     for (int i = 0; i < count; i++) {
-      ids.add(nextChangeId(db));
+      ids.add(db.nextChangeId());
     }
     return ImmutableList.copyOf(ids);
   }
@@ -137,10 +93,5 @@ public class Sequences {
   @VisibleForTesting
   public RepoSequence getChangeIdRepoSequence() {
     return changeSeq;
-  }
-
-  @SuppressWarnings("deprecation")
-  private static int nextChangeId(ReviewDb db) throws OrmException {
-    return db.nextChangeId();
   }
 }

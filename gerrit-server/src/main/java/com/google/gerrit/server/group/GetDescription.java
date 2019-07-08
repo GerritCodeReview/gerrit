@@ -15,17 +15,19 @@
 package com.google.gerrit.server.group;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.inject.Singleton;
 
 @Singleton
 public class GetDescription implements RestReadView<GroupResource> {
   @Override
   public String apply(GroupResource resource) throws MethodNotAllowedException {
-    GroupDescription.Internal group =
-        resource.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
+    AccountGroup group = resource.toAccountGroup();
+    if (group == null) {
+      throw new MethodNotAllowedException();
+    }
     return Strings.nullToEmpty(group.getDescription());
   }
 }

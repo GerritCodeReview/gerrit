@@ -20,9 +20,6 @@ import static com.google.gerrit.extensions.client.ChangeKind.NO_CHANGE;
 import static com.google.gerrit.extensions.client.ChangeKind.NO_CODE_CHANGE;
 import static com.google.gerrit.extensions.client.ChangeKind.REWORK;
 import static com.google.gerrit.extensions.client.ChangeKind.TRIVIAL_REBASE;
-import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMMIT;
-import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
-import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
@@ -41,6 +38,7 @@ import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.client.ChangeKind;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
@@ -338,7 +336,13 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   private ChangeInfo detailedChange(String changeId) throws Exception {
-    return gApi.changes().id(changeId).get(DETAILED_LABELS, CURRENT_REVISION, CURRENT_COMMIT);
+    return gApi.changes()
+        .id(changeId)
+        .get(
+            EnumSet.of(
+                ListChangesOption.DETAILED_LABELS,
+                ListChangesOption.CURRENT_REVISION,
+                ListChangesOption.CURRENT_COMMIT));
   }
 
   private void assertNotSticky(Set<ChangeKind> changeKinds) throws Exception {
@@ -529,7 +533,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   private ChangeKind getChangeKind(String changeId) throws Exception {
-    ChangeInfo c = gApi.changes().id(changeId).get(CURRENT_REVISION);
+    ChangeInfo c = gApi.changes().id(changeId).get(EnumSet.of(ListChangesOption.CURRENT_REVISION));
     return c.revisions.get(c.currentRevision).kind;
   }
 

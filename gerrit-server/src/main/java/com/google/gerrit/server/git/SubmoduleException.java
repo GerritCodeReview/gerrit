@@ -14,19 +14,15 @@
 
 package com.google.gerrit.server.git;
 
-/**
- * Indicates the gitlink's update cannot be processed at this time.
- *
- * <p>Message should be considered user-visible.
- */
+/** Indicates the gitlink's update cannot be processed at this time. */
 public class SubmoduleException extends Exception {
   private static final long serialVersionUID = 1L;
 
-  SubmoduleException(String msg) {
+  SubmoduleException(final String msg) {
     super(msg, null);
   }
 
-  SubmoduleException(String msg, Throwable why) {
+  SubmoduleException(final String msg, final Throwable why) {
     super(msg, why);
   }
 }

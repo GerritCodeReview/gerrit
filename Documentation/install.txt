@@ -79,8 +79,8 @@ the path of the site directory to be created as an argument to the
 own user account on the host system:
 
 ----
-  sudo adduser gerrit
-  sudo su gerrit
+  sudo adduser gerrit2
+  sudo su gerrit2
 
   java -jar gerrit.war init -d /path/to/your/gerrit_application_directory
 ----
@@ -88,7 +88,7 @@ own user account on the host system:
 [NOTE]
 If you choose a location where your new user doesn't
 have any privileges, you may have to manually create the directory first and
-then give ownership of that location to the `'gerrit'` user.
+then give ownership of that location to the `'gerrit2'` user.
 
 If run from an interactive terminal, the init command will prompt through a
 series of configuration questions, including gathering information
@@ -106,8 +106,8 @@ When the init phase is complete, the daemon will be automatically started
 in the background and your web browser will open to the site:
 
 ----
-  Initialized /home/gerrit/review_site
-  Executing /home/gerrit/review_site/bin/gerrit.sh start
+  Initialized /home/gerrit2/review_site
+  Executing /home/gerrit2/review_site/bin/gerrit.sh start
   Starting Gerrit Code Review: OK
   Waiting for server to start ... OK
   Opening browser ...

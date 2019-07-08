@@ -15,45 +15,37 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
-<link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+
+<link rel="import" href="../../../styles/gr-settings-styles.html">
 
 <dom-module id="gr-group-list">
   <template>
-    <style include="shared-styles"></style>
-    <style include="gr-form-styles">
-        #groups .nameColumn {
-          min-width: 11em;
-          width: auto;
-        }
-        .descriptionHeader {
-          min-width: 21.5em;
-        }
-        .visibleCell {
-          text-align: center;
-          width: 6em;
-        }
-      </style>
-    <div class="gr-form-styles">
-      <table id="groups">
+    <style>
+      .nameHeader {
+        width: 15em;
+      }
+      .descriptionHeader {
+        width: 21.5em;
+      }
+      .visibleCell {
+        text-align: center;
+      }
+    </style>
+    <style include="gr-settings-styles"></style>
+    <div class="gr-settings-styles">
+      <table>
         <thead>
           <tr>
             <th class="nameHeader">Name</th>
             <th class="descriptionHeader">Description</th>
-            <th class="visibleCell">Visible to all</th>
+            <th>Visible to all</th>
           </tr>
         </thead>
         <tbody>
           <template is="dom-repeat" items="[[_groups]]">
             <tr>
-              <td class="nameColumn">
-                <a href$="[[_computeGroupPath(item)]]">
-                  [[item.name]]
-                </a>
-              </td>
+              <td>[[item.name]]</td>
               <td>[[item.description]]</td>
               <td class="visibleCell">[[_computeVisibleToAll(item)]]</td>
             </tr>

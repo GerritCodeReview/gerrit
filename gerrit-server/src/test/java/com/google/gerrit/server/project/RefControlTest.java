@@ -48,6 +48,7 @@ import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityCollection;
+import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -58,9 +59,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.index.SingleVersionModule.SingleVersionListener;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.ProjectPermission;
-import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -103,18 +102,20 @@ public class RefControlTest {
     assertThat(u.isOwner()).named("not owner").isFalse();
   }
 
+  private void assertOwnerAnyRef(ProjectControl u) {
+    assertThat(u.isOwnerAnyRef()).named("owns ref").isTrue();
+  }
+
   private void assertNotOwner(String ref, ProjectControl u) {
     assertThat(u.controlForRef(ref).isOwner()).named("NOT OWN " + ref).isFalse();
   }
 
-  private void assertCanAccess(ProjectControl u) {
-    boolean access = u.asForProject().testOrFalse(ProjectPermission.ACCESS);
-    assertThat(access).named("can access").isTrue();
+  private void assertCanRead(ProjectControl u) {
+    assertThat(u.isVisible()).named("can read").isTrue();
   }
 
-  private void assertAccessDenied(ProjectControl u) {
-    boolean access = u.asForProject().testOrFalse(ProjectPermission.ACCESS);
-    assertThat(access).named("cannot access").isFalse();
+  private void assertCannotRead(ProjectControl u) {
+    assertThat(u.isVisible()).named("cannot read").isFalse();
   }
 
   private void assertCanRead(String ref, ProjectControl u) {
@@ -137,18 +138,16 @@ public class RefControlTest {
     assertThat(u.canPushToAtLeastOneRef()).named("can upload").isEqualTo(Capable.OK);
   }
 
-  private void assertCreateChange(String ref, ProjectControl u) {
-    boolean create = u.asForProject().ref(ref).testOrFalse(RefPermission.CREATE_CHANGE);
-    assertThat(create).named("can create change " + ref).isTrue();
+  private void assertCanUpload(String ref, ProjectControl u) {
+    assertThat(u.controlForRef(ref).canUpload()).named("can upload " + ref).isTrue();
   }
 
   private void assertCannotUpload(ProjectControl u) {
     assertThat(u.canPushToAtLeastOneRef()).named("cannot upload").isNotEqualTo(Capable.OK);
   }
 
-  private void assertCannotCreateChange(String ref, ProjectControl u) {
-    boolean create = u.asForProject().ref(ref).testOrFalse(RefPermission.CREATE_CHANGE);
-    assertThat(create).named("cannot create change " + ref).isFalse();
+  private void assertCannotUpload(String ref, ProjectControl u) {
+    assertThat(u.controlForRef(ref).canUpload()).named("cannot upload " + ref).isFalse();
   }
 
   private void assertBlocked(String p, String ref, ProjectControl u) {
@@ -160,23 +159,19 @@ public class RefControlTest {
   }
 
   private void assertCanUpdate(String ref, ProjectControl u) {
-    boolean update = u.asForProject().ref(ref).testOrFalse(RefPermission.UPDATE);
-    assertThat(update).named("can update " + ref).isTrue();
+    assertThat(u.controlForRef(ref).canUpdate()).named("can update " + ref).isTrue();
   }
 
   private void assertCannotUpdate(String ref, ProjectControl u) {
-    boolean update = u.asForProject().ref(ref).testOrFalse(RefPermission.UPDATE);
-    assertThat(update).named("cannot update " + ref).isFalse();
+    assertThat(u.controlForRef(ref).canUpdate()).named("cannot update " + ref).isFalse();
   }
 
   private void assertCanForceUpdate(String ref, ProjectControl u) {
-    boolean update = u.asForProject().ref(ref).testOrFalse(RefPermission.FORCE_UPDATE);
-    assertThat(update).named("can force push " + ref).isTrue();
+    assertThat(u.controlForRef(ref).canForceUpdate()).named("can force push " + ref).isTrue();
   }
 
   private void assertCannotForceUpdate(String ref, ProjectControl u) {
-    boolean update = u.asForProject().ref(ref).testOrFalse(RefPermission.FORCE_UPDATE);
-    assertThat(update).named("cannot force push " + ref).isFalse();
+    assertThat(u.controlForRef(ref).canForceUpdate()).named("cannot force push " + ref).isFalse();
   }
 
   private void assertCanVote(int score, PermissionRange range) {
@@ -202,12 +197,14 @@ public class RefControlTest {
   private ChangeControl.Factory changeControlFactory;
   private ReviewDb db;
 
-  @Inject private PermissionBackend permissionBackend;
   @Inject private CapabilityCollection.Factory capabilityCollectionFactory;
+  @Inject private CapabilityControl.Factory capabilityControlFactory;
   @Inject private SchemaCreator schemaCreator;
   @Inject private SingleVersionListener singleVersionListener;
   @Inject private InMemoryDatabase schemaFactory;
   @Inject private ThreadLocalRequestContext requestContext;
+  @Inject private Provider<InternalChangeQuery> queryProvider;
+  @Inject private ProjectControl.Metrics metrics;
   @Inject private TransferConfig transferConfig;
 
   @Before
@@ -264,12 +261,6 @@ public class RefControlTest {
 
           @Override
           public void evict(Project.NameKey p) {}
-
-          @Override
-          public ProjectState checkedGet(Project.NameKey projectName, boolean strict)
-              throws Exception {
-            return all.get(projectName);
-          }
         };
 
     Injector injector = Guice.createInjector(new InMemoryModule());
@@ -362,6 +353,7 @@ public class RefControlTest {
 
     ProjectControl uDev = user(local, DEVS);
     assertNotOwner(uDev);
+    assertOwnerAnyRef(uDev);
 
     assertOwner("refs/heads/x/*", uDev);
     assertOwner("refs/heads/x/y", uDev);
@@ -380,6 +372,7 @@ public class RefControlTest {
 
     ProjectControl uDev = user(local, DEVS);
     assertNotOwner(uDev);
+    assertOwnerAnyRef(uDev);
 
     assertOwner("refs/heads/x/*", uDev);
     assertOwner("refs/heads/x/y", uDev);
@@ -389,6 +382,7 @@ public class RefControlTest {
 
     ProjectControl uFix = user(local, fixers);
     assertNotOwner(uFix);
+    assertOwnerAnyRef(uFix);
 
     assertOwner("refs/heads/x/y/*", uFix);
     assertOwner("refs/heads/x/y/bar", uFix);
@@ -408,8 +402,8 @@ public class RefControlTest {
 
     ProjectControl u = user(local);
     assertCanUpload(u);
-    assertCreateChange("refs/heads/master", u);
-    assertCannotCreateChange("refs/heads/foobar", u);
+    assertCanUpload("refs/heads/master", u);
+    assertCannotUpload("refs/heads/foobar", u);
   }
 
   @Test
@@ -418,7 +412,7 @@ public class RefControlTest {
     block(parent, PUSH, ANONYMOUS_USERS, "refs/drafts/*");
 
     ProjectControl u = user(local);
-    assertCreateChange("refs/heads/master", u);
+    assertCanUpload("refs/heads/master", u);
     assertBlocked(PUSH, "refs/drafts/refs/heads/master", u);
   }
 
@@ -441,21 +435,21 @@ public class RefControlTest {
 
     ProjectControl u = user(local);
     assertCanUpload(u);
-    assertCreateChange("refs/heads/master", u);
-    assertCreateChange("refs/heads/foobar", u);
+    assertCanUpload("refs/heads/master", u);
+    assertCanUpload("refs/heads/foobar", u);
   }
 
   @Test
   public void inheritDuplicateSections() throws Exception {
     allow(parent, READ, ADMIN, "refs/*");
     allow(local, READ, DEVS, "refs/heads/*");
-    assertCanAccess(user(local, "a", ADMIN));
+    assertCanRead(user(local, "a", ADMIN));
 
     local = new ProjectConfig(localKey);
     local.load(newRepository(localKey));
     local.getProject().setParentName(parentKey);
     allow(local, READ, DEVS, "refs/*");
-    assertCanAccess(user(local, "d", DEVS));
+    assertCanRead(user(local, "d", DEVS));
   }
 
   @Test
@@ -463,7 +457,7 @@ public class RefControlTest {
     allow(parent, READ, REGISTERED_USERS, "refs/*");
     deny(local, READ, REGISTERED_USERS, "refs/*");
 
-    assertAccessDenied(user(local));
+    assertCannotRead(user(local));
   }
 
   @Test
@@ -472,7 +466,7 @@ public class RefControlTest {
     deny(local, READ, REGISTERED_USERS, "refs/heads/*");
 
     ProjectControl u = user(local);
-    assertCanAccess(u);
+    assertCanRead(u);
     assertCanRead("refs/master", u);
     assertCanRead("refs/tags/foobar", u);
     assertCanRead("refs/heads/master", u);
@@ -485,7 +479,7 @@ public class RefControlTest {
     allow(local, READ, REGISTERED_USERS, "refs/heads/*");
 
     ProjectControl u = user(local);
-    assertCanAccess(u);
+    assertCanRead(u);
     assertCannotRead("refs/foobar", u);
     assertCannotRead("refs/tags/foobar", u);
     assertCanRead("refs/heads/foobar", u);
@@ -511,7 +505,7 @@ public class RefControlTest {
 
     ProjectControl u = user(local);
     assertCannotUpload(u);
-    assertCannotCreateChange("refs/heads/master", u);
+    assertCannotUpload("refs/heads/master", u);
   }
 
   @Test
@@ -723,6 +717,28 @@ public class RefControlTest {
   }
 
   @Test
+  public void unblockVisibilityByRegisteredUsers() {
+    block(local, READ, ANONYMOUS_USERS, "refs/heads/*");
+    allow(local, READ, REGISTERED_USERS, "refs/heads/*");
+
+    ProjectControl u = user(local, REGISTERED_USERS);
+    assertThat(u.controlForRef("refs/heads/master").isVisibleByRegisteredUsers())
+        .named("u can read")
+        .isTrue();
+  }
+
+  @Test
+  public void unblockInLocalVisibilityByRegisteredUsers_Fails() {
+    block(parent, READ, ANONYMOUS_USERS, "refs/heads/*");
+    allow(local, READ, REGISTERED_USERS, "refs/heads/*");
+
+    ProjectControl u = user(local, REGISTERED_USERS);
+    assertThat(u.controlForRef("refs/heads/master").isVisibleByRegisteredUsers())
+        .named("u can't read")
+        .isFalse();
+  }
+
+  @Test
   public void unblockForceEditTopicName() {
     block(local, EDIT_TOPIC_NAME, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, EDIT_TOPIC_NAME, DEVS, "refs/heads/*").setForce(true);
@@ -879,15 +895,22 @@ public class RefControlTest {
   }
 
   private ProjectControl user(ProjectConfig local, String name, AccountGroup.UUID... memberOf) {
+    String canonicalWebUrl = "http://localhost";
+
     return new ProjectControl(
         Collections.<AccountGroup.UUID>emptySet(),
         Collections.<AccountGroup.UUID>emptySet(),
+        projectCache,
         sectionSorter,
-        null, // commitsCollection
+        null,
         changeControlFactory,
-        permissionBackend,
+        null,
+        queryProvider,
+        null,
+        canonicalWebUrl,
         new MockUser(name, memberOf),
-        newProjectState(local));
+        newProjectState(local),
+        metrics);
   }
 
   private ProjectState newProjectState(ProjectConfig local) {
@@ -895,11 +918,12 @@ public class RefControlTest {
     return all.get(local.getProject().getNameKey());
   }
 
-  private static class MockUser extends CurrentUser {
+  private class MockUser extends CurrentUser {
     private final String username;
     private final GroupMembership groups;
 
     MockUser(String name, AccountGroup.UUID[] groupId) {
+      super(capabilityControlFactory);
       username = name;
       ArrayList<AccountGroup.UUID> groupIds = Lists.newArrayList(groupId);
       groupIds.add(REGISTERED_USERS);

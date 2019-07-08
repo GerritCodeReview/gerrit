@@ -46,7 +46,6 @@ elif 'deploy' == args.a:
   cmd = [
     'mvn',
     'gpg:sign-and-deploy-file',
-    '-Dversion=%s' % args.v,
     '-DrepositoryId=%s' % args.repository,
     '-Durl=%s' % args.url,
   ]

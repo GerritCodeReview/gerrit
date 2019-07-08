@@ -32,50 +32,44 @@
       Gerrit.BaseUrlBehavior,
     ],
 
-    created() {
+    created: function() {
       this.hidden = true;
     },
 
-    attached() {
-      this.$.restAPI.getConfig().then(cfg => {
-        const hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
+    attached: function() {
+      this.$.restAPI.getConfig().then(function(cfg) {
+        var hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
         if (hasAvatars) {
           this.hidden = false;
           // src needs to be set if avatar becomes visible
           this._updateAvatarURL(this.account);
         }
-      });
+      }.bind(this));
     },
 
-    _accountChanged(account) {
+    _accountChanged: function(account) {
       this._updateAvatarURL(account);
     },
 
-    _updateAvatarURL(account) {
+    _updateAvatarURL: function(account) {
       if (!this.hidden && account) {
-        const url = this._buildAvatarURL(this.account);
+        var url = this._buildAvatarURL(this.account);
         if (url) {
           this.style.backgroundImage = 'url("' + url + '")';
         }
       }
     },
 
-    _getAccounts(account) {
-      return account._account_id || account.email || account.username ||
-          account.name;
-    },
-
-    _buildAvatarURL(account) {
+    _buildAvatarURL: function(account) {
       if (!account) { return ''; }
-      const avatars = account.avatars || [];
-      for (let i = 0; i < avatars.length; i++) {
+      var avatars = account.avatars || [];
+      for (var i = 0; i < avatars.length; i++) {
         if (avatars[i].height === this.imageSize) {
           return avatars[i].url;
         }
       }
-      return this.getBaseUrl() + '/accounts/' +
-        encodeURIComponent(this._getAccounts(account)) +
-        '/avatar?s=' + this.imageSize;
+      return this.getBaseUrl() + '/accounts/' + account._account_id +
+          '/avatar?s=' + this.imageSize;
     },
   });
 })();

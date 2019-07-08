@@ -1,25 +1,16 @@
 load("//tools/bzl:java.bzl", "java_library2")
 load("//tools/bzl:javadoc.bzl", "java_doc")
-load("//tools/bzl:junit.bzl", "junit_tests")
 
-TEST_SRCS = ["src/test/java/com/google/gerrit/acceptance/MergeableFileBasedConfigTest.java"]
-
-SRCS = glob(
-    ["src/test/java/com/google/gerrit/acceptance/*.java"],
-    exclude = TEST_SRCS,
-)
+SRCS = glob(["src/test/java/com/google/gerrit/acceptance/*.java"])
 
 PROVIDED = [
     "//gerrit-common:annotations",
     "//gerrit-common:server",
     "//gerrit-extension-api:api",
     "//gerrit-httpd:httpd",
-    "//gerrit-index:index",
     "//gerrit-lucene:lucene",
     "//gerrit-pgm:init",
     "//gerrit-reviewdb:server",
-    "//gerrit-server:metrics",
-    "//gerrit-server:receive",
     "//gerrit-server:server",
     "//lib:gson",
     "//lib:jsch",
@@ -41,15 +32,15 @@ java_library2(
     testonly = 1,
     srcs = SRCS,
     exported_deps = [
+        "//gerrit-antlr:query_exception",
         "//gerrit-gpg:gpg",
-        "//gerrit-index:query_exception",
         "//gerrit-launcher:launcher",
         "//gerrit-openid:openid",
         "//gerrit-pgm:daemon",
         "//gerrit-pgm:http-jetty",
         "//gerrit-pgm:util-nodep",
-        "//gerrit-server:prolog-common",
         "//gerrit-server:testutil",
+        "//gerrit-server/src/main/prolog:common",
         "//lib:jimfs",
         "//lib:truth",
         "//lib:truth-java8-extension",
@@ -82,15 +73,4 @@ java_doc(
     pkgs = ["com.google.gerrit.acceptance"],
     title = "Gerrit Acceptance Test Framework Documentation",
     visibility = ["//visibility:public"],
-)
-
-junit_tests(
-    name = "acceptance_framework_tests",
-    srcs = TEST_SRCS,
-    deps = [
-        ":lib",
-        "//lib:guava",
-        "//lib:truth",
-        "//lib/jgit/org.eclipse.jgit:jgit",
-    ],
 )

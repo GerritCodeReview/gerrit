@@ -15,23 +15,23 @@
 package com.google.gerrit.acceptance.api.group;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.common.truth.Truth.assert_;
 
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import java.util.Set;
 
 public class GroupAssert {
 
   public static void assertGroups(Iterable<String> expected, Set<String> actual) {
     for (String g : expected) {
-      assertWithMessage("missing group " + g).that(actual.remove(g)).isTrue();
+      assert_().withFailureMessage("missing group " + g).that(actual.remove(g)).isTrue();
     }
-    assertWithMessage("unexpected groups: " + actual).that(actual).isEmpty();
+    assert_().withFailureMessage("unexpected groups: " + actual).that(actual).isEmpty();
   }
 
-  public static void assertGroupInfo(InternalGroup group, GroupInfo info) {
+  public static void assertGroupInfo(AccountGroup group, GroupInfo info) {
     if (info.name != null) {
       // 'name' is not set if returned in a map
       assertThat(info.name).isEqualTo(group.getName());
@@ -42,7 +42,6 @@ public class GroupAssert {
     assertThat(toBoolean(info.options.visibleToAll)).isEqualTo(group.isVisibleToAll());
     assertThat(info.description).isEqualTo(group.getDescription());
     assertThat(Url.decode(info.ownerId)).isEqualTo(group.getOwnerGroupUUID().get());
-    assertThat(info.createdOn).isEqualTo(group.getCreatedOn());
   }
 
   public static boolean toBoolean(Boolean b) {

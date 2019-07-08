@@ -99,13 +99,6 @@ limitations under the License.
     .statusText {
       font-weight: bold;
     }
-    .privateText {
-      font-weight: bold;
-    }
-
-    .wipText {
-      font-weight: bold;
-    }
 
     div.popdown {
       display: inline-block;
@@ -383,9 +376,7 @@ limitations under the License.
           <span class='{style.changeId}'>
             <ui:msg>Change <g:Anchor ui:field='permalink' title='Reload the change (Shortcut: R)'>
               <ui:attribute name='title'/>
-            </g:Anchor> - <span ui:field='statusText' class='{style.statusText}'/>
-              <span ui:field='privateText' class='{style.privateText}'/>
-              <span ui:field='wipText' class='{style.wipText}'/></ui:msg>
+            </g:Anchor> - <span ui:field='statusText' class='{style.statusText}'/></ui:msg>
           </span>
           <g:SimplePanel ui:field='headerExtension' styleName='{style.headerExtension}'/>
         </div>
@@ -414,6 +405,13 @@ limitations under the License.
           </g:Button>
           <g:Button ui:field='deleteEdit' styleName='' visible='false'>
             <div><ui:msg>Delete Edit</ui:msg></div>
+          </g:Button>
+          <g:Button ui:field='publish'
+              styleName='{style.highlight}' visible='false'>
+            <div><ui:msg>Publish</ui:msg></div>
+          </g:Button>
+          <g:Button ui:field='deleteRevision' styleName='' visible='false'>
+            <div><ui:msg>Delete Revision</ui:msg></div>
           </g:Button>
           <g:SimplePanel ui:field='headerExtensionMiddle' styleName='{style.headerExtension}'/>
         </div>
@@ -526,7 +524,6 @@ limitations under the License.
               <td ui:field='actionDate'/>
             </tr>
             <tr ui:field='hashtagTableRow'>
-              <th><ui:msg>Hashtags</ui:msg></th>
               <td colspan='2'>
                 <c:Hashtags ui:field='hashtags'/>
               </td>

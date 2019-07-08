@@ -14,27 +14,25 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 
-import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.Sequences;
-import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.AccountByEmailCache;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.ExternalId;
+import com.google.gerrit.server.account.ExternalIdsUpdate;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
-import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
-import com.google.gerrit.server.group.GroupsUpdate;
-import com.google.gerrit.server.group.InternalGroup;
-import com.google.gerrit.server.group.ServerInitiated;
 import com.google.gerrit.server.ssh.SshKeyCache;
+import com.google.gerrit.testutil.SshMode;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
@@ -42,118 +40,97 @@ import com.jcraft.jsch.KeyPair;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Singleton
 public class AccountCreator {
   private final Map<String, TestAccount> accounts;
 
   private final SchemaFactory<ReviewDb> reviewDbProvider;
-  private final Sequences sequences;
-  private final AccountsUpdate.Server accountsUpdate;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
   private final GroupCache groupCache;
-  private final Provider<GroupsUpdate> groupsUpdateProvider;
   private final SshKeyCache sshKeyCache;
+  private final AccountCache accountCache;
+  private final AccountByEmailCache byEmailCache;
   private final ExternalIdsUpdate.Server externalIdsUpdate;
-  private final boolean sshEnabled;
 
   @Inject
   AccountCreator(
       SchemaFactory<ReviewDb> schema,
-      Sequences sequences,
-      AccountsUpdate.Server accountsUpdate,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
       GroupCache groupCache,
-      @ServerInitiated Provider<GroupsUpdate> groupsUpdateProvider,
       SshKeyCache sshKeyCache,
-      ExternalIdsUpdate.Server externalIdsUpdate,
-      @SshEnabled boolean sshEnabled) {
+      AccountCache accountCache,
+      AccountByEmailCache byEmailCache,
+      ExternalIdsUpdate.Server externalIdsUpdate) {
     accounts = new HashMap<>();
     reviewDbProvider = schema;
-    this.sequences = sequences;
-    this.accountsUpdate = accountsUpdate;
     this.authorizedKeys = authorizedKeys;
     this.groupCache = groupCache;
-    this.groupsUpdateProvider = groupsUpdateProvider;
     this.sshKeyCache = sshKeyCache;
+    this.accountCache = accountCache;
+    this.byEmailCache = byEmailCache;
     this.externalIdsUpdate = externalIdsUpdate;
-    this.sshEnabled = sshEnabled;
   }
 
   public synchronized TestAccount create(
-      @Nullable String username,
-      @Nullable String email,
-      @Nullable String fullName,
-      String... groupNames)
-      throws Exception {
-
+      String username, String email, String fullName, String... groups) throws Exception {
     TestAccount account = accounts.get(username);
     if (account != null) {
       return account;
     }
     try (ReviewDb db = reviewDbProvider.open()) {
-      Account.Id id = new Account.Id(sequences.nextAccountId());
+      Account.Id id = new Account.Id(db.nextAccountId());
 
       List<ExternalId> extIds = new ArrayList<>(2);
-      String httpPass = null;
-      if (username != null) {
-        httpPass = "http-pass";
-        extIds.add(ExternalId.createUsername(username, id, httpPass));
-      }
+      String httpPass = "http-pass";
+      extIds.add(ExternalId.createUsername(username, id, httpPass));
 
       if (email != null) {
         extIds.add(ExternalId.createEmail(id, email));
       }
-      externalIdsUpdate.create().insert(extIds);
+      externalIdsUpdate.create().insert(db, extIds);
 
-      accountsUpdate
-          .create()
-          .insert(
-              id,
-              a -> {
-                a.setFullName(fullName);
-                a.setPreferredEmail(email);
-              });
+      Account a = new Account(id, TimeUtil.nowTs());
+      a.setFullName(fullName);
+      a.setPreferredEmail(email);
+      db.accounts().insert(Collections.singleton(a));
 
-      if (groupNames != null) {
-        for (String n : groupNames) {
+      if (groups != null) {
+        for (String n : groups) {
           AccountGroup.NameKey k = new AccountGroup.NameKey(n);
-          Optional<InternalGroup> group = groupCache.get(k);
-          if (!group.isPresent()) {
-            throw new NoSuchGroupException(n);
-          }
-          groupsUpdateProvider.get().addGroupMember(db, group.get().getGroupUUID(), id);
+          AccountGroup g = groupCache.get(k);
+          checkArgument(g != null, "group not found: %s", n);
+          AccountGroupMember m = new AccountGroupMember(new AccountGroupMember.Key(id, g.getId()));
+          db.accountGroupMembers().insert(Collections.singleton(m));
         }
       }
 
       KeyPair sshKey = null;
-      if (sshEnabled && username != null) {
+      if (SshMode.useSsh()) {
         sshKey = genSshKey();
         authorizedKeys.addKey(id, publicKey(sshKey, email));
         sshKeyCache.evict(username);
       }
 
+      accountCache.evict(id);
+      accountCache.evictByUsername(username);
+      byEmailCache.evict(email);
+
       account = new TestAccount(id, username, email, fullName, sshKey, httpPass);
-      if (username != null) {
-        accounts.put(username, account);
-      }
+      accounts.put(username, account);
       return account;
     }
   }
 
-  public TestAccount create(@Nullable String username, String group) throws Exception {
+  public TestAccount create(String username, String group) throws Exception {
     return create(username, null, username, group);
   }
 
-  public TestAccount create() throws Exception {
-    return create(null);
-  }
-
-  public TestAccount create(@Nullable String username) throws Exception {
+  public TestAccount create(String username) throws Exception {
     return create(username, null, username, (String[]) null);
   }
 

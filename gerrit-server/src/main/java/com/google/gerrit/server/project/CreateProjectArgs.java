@@ -24,7 +24,7 @@ public class CreateProjectArgs {
 
   private Project.NameKey projectName;
   public List<AccountGroup.UUID> ownerIds;
-  public Project.NameKey newParent;
+  public ProjectControl newParent;
   public String projectDescription;
   public SubmitType submitType;
   public InheritableBoolean contributorAgreements;
@@ -34,8 +34,6 @@ public class CreateProjectArgs {
   public InheritableBoolean contentMerge;
   public InheritableBoolean newChangeForAllNotInTarget;
   public InheritableBoolean changeIdRequired;
-  public InheritableBoolean enableSignedPush;
-  public InheritableBoolean requireSignedPush;
   public boolean createEmptyCommit;
   public String maxObjectSizeLimit;
 
@@ -45,8 +43,6 @@ public class CreateProjectArgs {
     contentMerge = InheritableBoolean.INHERIT;
     changeIdRequired = InheritableBoolean.INHERIT;
     newChangeForAllNotInTarget = InheritableBoolean.INHERIT;
-    enableSignedPush = InheritableBoolean.INHERIT;
-    requireSignedPush = InheritableBoolean.INHERIT;
     submitType = SubmitType.MERGE_IF_NECESSARY;
   }
 

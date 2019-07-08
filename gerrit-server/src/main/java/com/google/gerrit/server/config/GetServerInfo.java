@@ -21,7 +21,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.extensions.client.UiType;
-import com.google.gerrit.extensions.common.AccountsInfo;
 import com.google.gerrit.extensions.common.AuthInfo;
 import com.google.gerrit.extensions.common.ChangeConfigInfo;
 import com.google.gerrit.extensions.common.DownloadInfo;
@@ -42,7 +41,6 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.server.EnableSignedPush;
-import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.change.AllowedFormats;
@@ -55,7 +53,6 @@ import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
@@ -71,7 +68,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private static final String KEY_TOKEN = "token";
 
   private final Config config;
-  private final AccountVisibilityProvider accountVisibilityProvider;
   private final AuthConfig authConfig;
   private final Realm realm;
   private final DynamicMap<DownloadScheme> downloadSchemes;
@@ -90,12 +86,10 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final AgreementJson agreementJson;
   private final GerritOptions gerritOptions;
   private final ChangeIndexCollection indexes;
-  private final SitePaths sitePaths;
 
   @Inject
   public GetServerInfo(
       @GerritServerConfig Config config,
-      AccountVisibilityProvider accountVisibilityProvider,
       AuthConfig authConfig,
       Realm realm,
       DynamicMap<DownloadScheme> downloadSchemes,
@@ -113,10 +107,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       ProjectCache projectCache,
       AgreementJson agreementJson,
       GerritOptions gerritOptions,
-      ChangeIndexCollection indexes,
-      SitePaths sitePaths) {
+      ChangeIndexCollection indexes) {
     this.config = config;
-    this.accountVisibilityProvider = accountVisibilityProvider;
     this.authConfig = authConfig;
     this.realm = realm;
     this.downloadSchemes = downloadSchemes;
@@ -135,13 +127,11 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.agreementJson = agreementJson;
     this.gerritOptions = gerritOptions;
     this.indexes = indexes;
-    this.sitePaths = sitePaths;
   }
 
   @Override
   public ServerInfo apply(ConfigResource rsrc) throws MalformedURLException {
     ServerInfo info = new ServerInfo();
-    info.accounts = getAccountsInfo(accountVisibilityProvider);
     info.auth = getAuthInfo(authConfig, realm);
     info.change = getChangeInfo(config);
     info.download =
@@ -149,9 +139,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.gerrit = getGerritInfo(config, allProjectsName, allUsersName);
     info.noteDbEnabled = toBoolean(isNoteDbEnabled());
     info.plugin = getPluginInfo();
-    if (Files.exists(sitePaths.site_theme)) {
-      info.defaultTheme = "/static/" + SitePaths.THEME_FILENAME;
-    }
     info.sshd = getSshdInfo(config);
     info.suggest = getSuggestInfo(config);
 
@@ -160,12 +147,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
 
     info.user = getUserInfo(anonymousCowardName);
     info.receive = getReceiveInfo();
-    return info;
-  }
-
-  private AccountsInfo getAccountsInfo(AccountVisibilityProvider accountVisibilityProvider) {
-    AccountsInfo info = new AccountsInfo();
-    info.visibility = accountVisibilityProvider.get();
     return info;
   }
 
@@ -222,6 +203,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private ChangeConfigInfo getChangeInfo(Config cfg) {
     ChangeConfigInfo info = new ChangeConfigInfo();
     info.allowBlame = toBoolean(cfg.getBoolean("change", "allowBlame", true));
+    info.allowDrafts = toBoolean(cfg.getBoolean("change", "allowDrafts", true));
     boolean hasAssigneeInIndex =
         indexes.getSearchIndex().getSchema().hasField(ChangeField.ASSIGNEE);
     info.showAssigneeInChangesTable =
@@ -234,10 +216,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.replyLabel =
         Optional.ofNullable(cfg.getString("change", null, "replyLabel")).orElse("Reply") + "\u2026";
     info.updateDelay =
-        (int) ConfigUtil.getTimeUnit(cfg, "change", null, "updateDelay", 300, TimeUnit.SECONDS);
+        (int) ConfigUtil.getTimeUnit(cfg, "change", null, "updateDelay", 30, TimeUnit.SECONDS);
     info.submitWholeTopic = Submit.wholeTopicEnabled(cfg);
-    info.disablePrivateChanges =
-        toBoolean(config.getBoolean("change", null, "disablePrivateChanges", false));
     return info;
   }
 
@@ -330,15 +310,9 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     PluginConfigInfo info = new PluginConfigInfo();
     info.hasAvatars = toBoolean(avatar.get() != null);
     info.jsResourcePaths = new ArrayList<>();
-    info.htmlResourcePaths = new ArrayList<>();
     for (WebUiPlugin u : plugins) {
-      String path =
-          String.format("plugins/%s/%s", u.getPluginName(), u.getJavaScriptResourcePath());
-      if (path.endsWith(".html")) {
-        info.htmlResourcePaths.add(path);
-      } else {
-        info.jsResourcePaths.add(path);
-      }
+      info.jsResourcePaths.add(
+          String.format("plugins/%s/%s", u.getPluginName(), u.getJavaScriptResourcePath()));
     }
     return info;
   }

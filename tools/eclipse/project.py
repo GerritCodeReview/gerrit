@@ -157,7 +157,7 @@ def gen_classpath(ext):
       src.add(m.group(1))
       # Exceptions: both source and lib
       if p.endswith('libquery_parser.jar') or \
-         p.endswith('libprolog-common.jar') or \
+         p.endswith('prolog/libcommon.jar') or \
          p.endswith('com_google_protobuf/libprotobuf_java.jar') or \
          p.endswith('lucene-core-and-backward-codecs__merged.jar'):
         lib.add(p)

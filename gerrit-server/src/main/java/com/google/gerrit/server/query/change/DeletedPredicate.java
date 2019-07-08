@@ -14,17 +14,17 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 
 public class DeletedPredicate extends IntegerRangeChangePredicate {
-  public DeletedPredicate(String value) throws QueryParseException {
+  DeletedPredicate(String value) throws QueryParseException {
     super(ChangeField.DELETED, value);
   }
 
   @Override
   protected Integer getValueInt(ChangeData changeData) throws OrmException {
-    return ChangeField.DELETED.get(changeData);
+    return ChangeField.DELETED.get(changeData, null);
   }
 }

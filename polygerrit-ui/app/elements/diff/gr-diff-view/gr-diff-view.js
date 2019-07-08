@@ -14,16 +14,17 @@
 (function() {
   'use strict';
 
-  const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
-  const MSG_LOADING_BLAME = 'Loading blame...';
-  const MSG_LOADED_BLAME = 'Blame loaded';
+  var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
+  var MERGE_LIST_PATH = '/MERGE_LIST';
 
-  const PARENT = 'PARENT';
+  var COMMENT_SAVE = 'Try again when all comments have saved.';
 
-  const DiffSides = {
+  var DiffSides = {
     LEFT: 'left',
     RIGHT: 'right',
   };
+
+  var HASH_PATTERN = /^[ab]?\d+$/;
 
   Polymer({
     is: 'gr-diff-view',
@@ -50,32 +51,21 @@
       },
       keyEventTarget: {
         type: Object,
-        value() { return document.body; },
+        value: function() { return document.body; },
       },
-      /**
-       * @type {{ diffMode: (string|undefined) }}
-       */
       changeViewState: {
         type: Object,
         notify: true,
-        value() { return {}; },
-        observer: '_changeViewStateChanged',
+        value: function() { return {}; },
       },
-      /** @type {?} */
+
       _patchRange: Object,
-      /**
-       * @type {{
-       *  subject: string,
-       *  project: string,
-       *  revisions: string,
-       * }}
-       */
       _change: Object,
       _changeNum: String,
       _diff: Object,
       _fileList: {
         type: Array,
-        value() { return []; },
+        value: function() { return []; },
       },
       _path: {
         type: String,
@@ -106,8 +96,6 @@
        */
       _commentMap: Object,
 
-      _commentsForDiff: Object,
-
       /**
        * Object to contain the path of the next and previous file in the current
        * change and patch range that has comments.
@@ -116,40 +104,18 @@
         type: Object,
         computed: '_computeCommentSkips(_commentMap, _fileList, _path)',
       },
-      _panelFloatingDisabled: {
-        type: Boolean,
-        value: () => { return window.PANEL_FLOATING_DISABLED; },
-      },
-      _editLoaded: {
-        type: Boolean,
-        computed: '_computeEditLoaded(_patchRange.*)',
-      },
-      _isBlameSupported: {
-        type: Boolean,
-        value: false,
-      },
-      _isBlameLoaded: Boolean,
-      _isBlameLoading: {
-        type: Boolean,
-        value: false,
-      },
-      _allPatchSets: {
-        type: Array,
-        computed: 'computeAllPatchSets(_change, _change.revisions.*)',
-      },
     },
 
     behaviors: [
+      Gerrit.BaseUrlBehavior,
       Gerrit.KeyboardShortcutBehavior,
-      Gerrit.PatchSetBehavior,
-      Gerrit.PathListBehavior,
       Gerrit.RESTClientBehavior,
+      Gerrit.URLEncodingBehavior,
     ],
 
     observers: [
       '_getProjectConfig(_change.project)',
       '_getFiles(_changeNum, _patchRange.*)',
-      '_setReviewedObserver(_loggedIn, params.*)',
     ],
 
     keyBindings: {
@@ -168,78 +134,85 @@
       ',': '_handleCommaKey',
     },
 
-    attached() {
-      this._getLoggedIn().then(loggedIn => {
+    attached: function() {
+      this._getLoggedIn().then(function(loggedIn) {
         this._loggedIn = loggedIn;
-      });
+        if (loggedIn) {
+          this._setReviewed(true);
+        }
+      }.bind(this));
+      if (this.changeViewState.diffMode === null) {
+        // If screen size is small, always default to unified view.
+        this.$.restAPI.getPreferences().then(function(prefs) {
+          this.set('changeViewState.diffMode', prefs.default_diff_view);
+        }.bind(this));
+      }
 
-      this.$.restAPI.getConfig().then(config => {
-        this._isBlameSupported = config.change.allow_blame;
-      });
+      if (this._path) {
+        this.fire('title-change',
+            {title: this._computeFileDisplayName(this._path)});
+      }
 
       this.$.cursor.push('diffs', this.$.diff);
     },
 
-    _getLoggedIn() {
+    _getLoggedIn: function() {
       return this.$.restAPI.getLoggedIn();
     },
 
-    _getProjectConfig(project) {
+    _getProjectConfig: function(project) {
       return this.$.restAPI.getProjectConfig(project).then(
-          config => {
+          function(config) {
             this._projectConfig = config;
-          });
+          }.bind(this));
     },
 
-    _getChangeDetail(changeNum) {
-      return this.$.restAPI.getDiffChangeDetail(changeNum).then(change => {
-        this._change = change;
-      });
+    _getChangeDetail: function(changeNum) {
+      return this.$.restAPI.getDiffChangeDetail(changeNum).then(
+          function(change) {
+            this._change = change;
+          }.bind(this));
     },
 
-    _getChangeEdit(changeNum) {
-      return this.$.restAPI.getChangeEdit(this._changeNum);
-    },
-
-    _getFiles(changeNum, patchRangeRecord) {
-      const patchRange = patchRangeRecord.base;
+    _getFiles: function(changeNum, patchRangeRecord) {
+      var patchRange = patchRangeRecord.base;
       return this.$.restAPI.getChangeFilePathsAsSpeciallySortedArray(
-          changeNum, patchRange).then(files => {
+          changeNum, patchRange).then(function(files) {
             this._fileList = files;
-          });
+          }.bind(this));
     },
 
-    _getDiffPreferences() {
+    _getDiffPreferences: function() {
       return this.$.restAPI.getDiffPreferences();
     },
 
-    _getPreferences() {
+    _getPreferences: function() {
       return this.$.restAPI.getPreferences();
     },
 
-    _getWindowWidth() {
+    _getWindowWidth: function() {
       return window.innerWidth;
     },
 
-    _handleReviewedChange(e) {
+    _handleReviewedChange: function(e) {
       this._setReviewed(Polymer.dom(e).rootTarget.checked);
     },
 
-    _setReviewed(reviewed) {
-      if (this._editLoaded) { return; }
+    _setReviewed: function(reviewed) {
       this.$.reviewed.checked = reviewed;
-      this._saveReviewedState(reviewed).catch(err => {
-        this.fire('show-alert', {message: ERR_REVIEW_STATUS});
+      this._saveReviewedState(reviewed).catch(function(err) {
+        alert('Couldn’t change file review status. Check the console ' +
+            'and contact the PolyGerrit team for assistance.');
         throw err;
-      });
+      }.bind(this));
     },
 
-    _saveReviewedState(reviewed) {
+    _saveReviewedState: function(reviewed) {
       return this.$.restAPI.saveFileReviewed(this._changeNum,
           this._patchRange.patchNum, this._path, reviewed);
     },
 
-    _handleEscKey(e) {
+    _handleEscKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
@@ -247,21 +220,21 @@
       this.$.diff.displayLine = false;
     },
 
-    _handleShiftLeftKey(e) {
+    _handleShiftLeftKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       e.preventDefault();
       this.$.cursor.moveLeft();
     },
 
-    _handleShiftRightKey(e) {
+    _handleShiftRightKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       e.preventDefault();
       this.$.cursor.moveRight();
     },
 
-    _handleUpKey(e) {
+    _handleUpKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
       if (e.detail.keyboardEvent.shiftKey &&
           e.detail.keyboardEvent.keyCode === 75) { // 'K'
@@ -275,7 +248,7 @@
       this.$.cursor.moveUp();
     },
 
-    _handleDownKey(e) {
+    _handleDownKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
       if (e.detail.keyboardEvent.shiftKey &&
           e.detail.keyboardEvent.keyCode === 74) { // 'J'
@@ -289,51 +262,49 @@
       this.$.cursor.moveDown();
     },
 
-    _moveToPreviousFileWithComment() {
+    _moveToPreviousFileWithComment: function() {
       if (this._commentSkips && this._commentSkips.previous) {
-        Gerrit.Nav.navigateToDiff(this._change, this._commentSkips.previous,
-            this._patchRange.patchNum, this._patchRange.basePatchNum);
+        page.show(this._getDiffURL(this._changeNum, this._patchRange,
+            this._commentSkips.previous));
       }
     },
 
-    _moveToNextFileWithComment() {
+    _moveToNextFileWithComment: function() {
       if (this._commentSkips && this._commentSkips.next) {
-        Gerrit.Nav.navigateToDiff(this._change, this._commentSkips.next,
-            this._patchRange.patchNum, this._patchRange.basePatchNum);
+        page.show(this._getDiffURL(this._changeNum, this._patchRange,
+            this._commentSkips.next));
       }
     },
 
-    _handleCKey(e) {
+    _handleCKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
       if (this.$.diff.isRangeSelected()) { return; }
       if (this.modifierPressed(e)) { return; }
 
       e.preventDefault();
-      const line = this.$.cursor.getTargetLineElement();
+      var line = this.$.cursor.getTargetLineElement();
       if (line) {
         this.$.diff.addDraftAtLine(line);
       }
     },
 
-    _handleLeftBracketKey(e) {
-      // Check for meta key to avoid overriding native chrome shortcut.
+    _handleLeftBracketKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.getKeyboardEvent(e).metaKey) { return; }
+          this.modifierPressed(e)) { return; }
 
       e.preventDefault();
       this._navToFile(this._path, this._fileList, -1);
     },
 
-    _handleRightBracketKey(e) {
-      // Check for meta key to avoid overriding native chrome shortcut.
+    _handleRightBracketKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.getKeyboardEvent(e).metaKey) { return; }
+          this.modifierPressed(e)) { return; }
 
       e.preventDefault();
       this._navToFile(this._path, this._fileList, 1);
     },
 
-    _handleNKey(e) {
+    _handleNKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       e.preventDefault();
@@ -345,7 +316,7 @@
       }
     },
 
-    _handlePKey(e) {
+    _handlePKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       e.preventDefault();
@@ -357,7 +328,7 @@
       }
     },
 
-    _handleAKey(e) {
+    _handleAKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       if (e.detail.keyboardEvent.shiftKey) { // Hide left diff.
@@ -369,13 +340,18 @@
       if (this.modifierPressed(e)) { return; }
 
       if (!this._loggedIn) { return; }
+      if (this.$.restAPI.hasPendingDiffDrafts()) {
+        this.dispatchEvent(new CustomEvent('show-alert',
+            {detail: {message: COMMENT_SAVE}, bubbles: true}));
+        return;
+      }
 
       this.set('changeViewState.showReplyDialog', true);
       e.preventDefault();
       this._navToChangeView();
     },
 
-    _handleUKey(e) {
+    _handleUKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
@@ -383,41 +359,49 @@
       this._navToChangeView();
     },
 
-    _handleCommaKey(e) {
+    _handleCommaKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
       e.preventDefault();
-      this.$.diffPreferences.open();
+      this._openPrefs();
     },
 
-    _navToChangeView() {
+    _navToChangeView: function() {
       if (!this._changeNum || !this._patchRange.patchNum) { return; }
-      this._navigateToChange(
-          this._change,
+
+      page.show(this._getChangePath(
+          this._changeNum,
           this._patchRange,
-          this._change && this._change.revisions);
+          this._change && this._change.revisions));
     },
 
-    _navToFile(path, fileList, direction) {
-      const newPath = this._getNavLinkPath(path, fileList, direction);
-      if (!newPath) { return; }
+    _computeUpURL: function(changeNum, patchRange, change, changeRevisions) {
+      return this._getChangePath(
+          changeNum,
+          patchRange,
+          change && changeRevisions);
+    },
 
-      if (newPath.up) {
-        this._navigateToChange(
-            this._change,
-            this._patchRange,
-            this._change && this._change.revisions);
-        return;
-      }
+    _navToFile: function(path, fileList, direction) {
+      var url = this._computeNavLinkURL(path, fileList, direction);
+      if (!url) { return; }
 
-      Gerrit.Nav.navigateToDiff(this._change, newPath.path,
-          this._patchRange.patchNum, this._patchRange.basePatchNum);
+      page.show(this._computeNavLinkURL(path, fileList, direction));
+    },
+
+    _openPrefs: function() {
+      this.$.prefsOverlay.open().then(function() {
+        var diffPreferences = this.$.diffPreferences;
+        var focusStops = diffPreferences.getFocusStops();
+        this.$.prefsOverlay.setFocusStops(focusStops);
+        this.$.diffPreferences.resetFocus();
+      }.bind(this));
     },
 
     /**
      * @param {?string} path The path of the current file being shown.
-     * @param {!Array<string>} fileList The list of files in this change and
+     * @param {Array.<string>} fileList The list of files in this change and
      *     patch range.
      * @param {number} direction Either 1 (next file) or -1 (prev file).
      * @param {(number|boolean)} opt_noUp Whether to return to the change view
@@ -426,46 +410,13 @@
      * @return {?string} The next URL when proceeding in the specified
      *     direction.
      */
-    _computeNavLinkURL(change, path, fileList, direction, opt_noUp) {
-      const newPath = this._getNavLinkPath(path, fileList, direction, opt_noUp);
-      if (!newPath) { return null; }
-
-      if (newPath.up) {
-        return this._getChangePath(
-            this._change,
-            this._patchRange,
-            this._change && this._change.revisions);
-      }
-      return this._getDiffUrl(this._change, this._patchRange, newPath.path);
-    },
-
-    /**
-     * Gives an object representing the target of navigating either left or
-     * right through the change. The resulting object will have one of the
-     * following forms:
-     *   * {path: "<target file path>"} - When another file path should be the
-     *     result of the navigation.
-     *   * {up: true} - When the result of navigating should go back to the
-     *     change view.
-     *   * null - When no navigation is possible for the given direction.
-     *
-     * @param {?string} path The path of the current file being shown.
-     * @param {!Array<string>} fileList The list of files in this change and
-     *     patch range.
-     * @param {number} direction Either 1 (next file) or -1 (prev file).
-     * @param {?number|boolean=} opt_noUp Whether to return to the change view
-     *     when advancing the file goes outside the bounds of fileList.
-     * @return {?Object}
-     */
-    _getNavLinkPath(path, fileList, direction, opt_noUp) {
+    _computeNavLinkURL: function(path, fileList, direction, opt_noUp) {
       if (!path || fileList.length === 0) { return null; }
 
-      let idx = fileList.indexOf(path);
+      var idx = fileList.indexOf(path);
       if (idx === -1) {
-        const file = direction > 0 ?
-            fileList[0] :
-            fileList[fileList.length - 1];
-        return {path: file};
+        var file = direction > 0 ? fileList[0] : fileList[fileList.length - 1];
+        return this._getDiffURL(this._changeNum, this._patchRange, file);
       }
 
       idx += direction;
@@ -473,31 +424,28 @@
       // outside the bounds of [0, fileList.length).
       if (idx < 0 || idx > fileList.length - 1) {
         if (opt_noUp) { return null; }
-        return {up: true};
+        return this._getChangePath(
+            this._changeNum,
+            this._patchRange,
+            this._change && this._change.revisions);
       }
-
-      return {path: fileList[idx]};
+      return this._getDiffURL(this._changeNum, this._patchRange, fileList[idx]);
     },
 
-    _paramsChanged(value) {
-      if (value.view !== Gerrit.Nav.View.DIFF) { return; }
+    _paramsChanged: function(value) {
+      if (value.view != this.tagName.toLowerCase()) { return; }
 
-      this._initCursor(this.params);
+      this._loadHash(location.hash);
 
       this._changeNum = value.changeNum;
       this._patchRange = {
         patchNum: value.patchNum,
-        basePatchNum: value.basePatchNum || PARENT,
+        basePatchNum: value.basePatchNum || 'PARENT',
       };
       this._path = value.path;
 
-      // NOTE: This may be called before attachment (e.g. while parentElement is
-      // null). Fire title-change in an async so that, if attachment to the DOM
-      // has been queued, the event can bubble up to the handler in gr-app.
-      this.async(() => {
-        this.fire('title-change',
-            {title: this.computeTruncatedPath(this._path)});
-      });
+      this.fire('title-change',
+          {title: this._computeFileDisplayName(this._path)});
 
       // When navigating away from the page, there is a possibility that the
       // patch number is no longer a part of the URL (say when navigating to
@@ -506,146 +454,128 @@
         return;
       }
 
-      const promises = [];
+      var promises = [];
 
       this._localPrefs = this.$.storage.getPreferences();
-      promises.push(this._getDiffPreferences().then(prefs => {
+      promises.push(this._getDiffPreferences().then(function(prefs) {
         this._prefs = prefs;
-      }));
+      }.bind(this)));
 
-      promises.push(this._getPreferences().then(prefs => {
+      promises.push(this._getPreferences().then(function(prefs) {
         this._userPrefs = prefs;
-      }));
+      }.bind(this)));
 
       promises.push(this._getChangeDetail(this._changeNum));
 
-      promises.push(this._loadComments());
-
-      promises.push(this._getChangeEdit(this._changeNum));
-
-      this._loading = true;
-      Promise.all(promises).then(r => {
-        const edit = r[4];
-        if (edit) {
-          this.set('_change.revisions.' + edit.commit.commit, {
-            _number: this.EDIT_NAME,
-            basePatchNum: edit.base_patch_set_number,
-            commit: edit.commit,
-          });
-        }
+      Promise.all(promises).then(function() {
         this._loading = false;
-        this.$.diff.comments = this._commentsForDiff;
         this.$.diff.reload();
-      });
-    },
+      }.bind(this));
 
-    _changeViewStateChanged(changeViewState) {
-      if (changeViewState.diffMode === null) {
-        // If screen size is small, always default to unified view.
-        this.$.restAPI.getPreferences().then(prefs => {
-          this.set('changeViewState.diffMode', prefs.default_diff_view);
-        });
-      }
-    },
-
-    _setReviewedObserver(_loggedIn) {
-      if (_loggedIn) {
-        this._setReviewed(true);
-      }
+      this._loadCommentMap().then(function(commentMap) {
+        this._commentMap = commentMap;
+      }.bind(this));
     },
 
     /**
-     * If the params specify a diff address then configure the diff cursor.
+     * If the URL hash is a diff address then configure the diff cursor.
      */
-    _initCursor(params) {
-      if (params.lineNum === undefined) { return; }
-      if (params.leftSide) {
+    _loadHash: function(hash) {
+      hash = hash.replace(/^#/, '');
+      if (!HASH_PATTERN.test(hash)) { return; }
+      if (hash[0] === 'a' || hash[0] === 'b') {
         this.$.cursor.side = DiffSides.LEFT;
+        hash = hash.substring(1);
       } else {
         this.$.cursor.side = DiffSides.RIGHT;
       }
-      this.$.cursor.initialLineNumber = params.lineNum;
+      this.$.cursor.initialLineNumber = parseInt(hash, 10);
     },
 
-    _pathChanged(path) {
-      if (path) {
-        this.fire('title-change',
-            {title: this.computeTruncatedPath(path)});
-      }
-
+    _pathChanged: function(path) {
       if (this._fileList.length == 0) { return; }
 
       this.set('changeViewState.selectedFileIndex',
           this._fileList.indexOf(path));
+
+      if (this._loggedIn) {
+        this._setReviewed(true);
+      }
     },
 
-    _getDiffUrl(change, patchRange, path) {
-      return Gerrit.Nav.getUrlForDiff(change, path, patchRange.patchNum,
-          patchRange.basePatchNum);
+    _getDiffURL: function(changeNum, patchRange, path) {
+      return this.getBaseUrl() + '/c/' + changeNum + '/' +
+          this._patchRangeStr(patchRange) + '/' + this.encodeURL(path, true);
     },
 
-    _computeDiffURL(change, patchRangeRecord, path) {
-      return this._getDiffUrl(change, patchRangeRecord.base, path);
+    _computeDiffURL: function(changeNum, patchRangeRecord, path) {
+      return this._getDiffURL(changeNum, patchRangeRecord.base, path);
     },
 
-    _patchRangeStr(patchRange) {
-      let patchStr = patchRange.patchNum;
+    _patchRangeStr: function(patchRange) {
+      var patchStr = patchRange.patchNum;
       if (patchRange.basePatchNum != null &&
-          patchRange.basePatchNum != PARENT) {
+          patchRange.basePatchNum != 'PARENT') {
         patchStr = patchRange.basePatchNum + '..' + patchRange.patchNum;
       }
       return patchStr;
     },
 
-    /**
-     * When the latest patch of the change is selected (and there is no base
-     * patch) then the patch range need not appear in the URL. Return a patch
-     * range object with undefined values when a range is not needed.
-     *
-     * @param {!Object} patchRange
-     * @param {!Object} revisions
-     * @return {!Object}
-     */
-    _getChangeUrlRange(patchRange, revisions) {
-      let patchNum = undefined;
-      let basePatchNum = undefined;
-      let latestPatchNum = -1;
-      for (const rev of Object.values(revisions || {})) {
-        latestPatchNum = Math.max(latestPatchNum, rev._number);
+    _computeAvailablePatches: function(revisions) {
+      var patchNums = [];
+      for (var rev in revisions) {
+        patchNums.push(revisions[rev]._number);
       }
-      if (patchRange.basePatchNum !== PARENT ||
+      return patchNums.sort(function(a, b) { return a - b; });
+    },
+
+    _getChangePath: function(changeNum, patchRange, revisions) {
+      var base = this.getBaseUrl() + '/c/' + changeNum + '/';
+
+      // The change may not have loaded yet, making revisions unavailable.
+      if (!revisions) {
+        return base + this._patchRangeStr(patchRange);
+      }
+
+      var latestPatchNum = -1;
+      for (var rev in revisions) {
+        latestPatchNum = Math.max(latestPatchNum, revisions[rev]._number);
+      }
+      if (patchRange.basePatchNum !== 'PARENT' ||
           parseInt(patchRange.patchNum, 10) !== latestPatchNum) {
-        patchNum = patchRange.patchNum;
-        basePatchNum = patchRange.basePatchNum;
+        return base + this._patchRangeStr(patchRange);
       }
-      return {patchNum, basePatchNum};
+
+      return base;
     },
 
-    _getChangePath(change, patchRange, revisions) {
-      const range = this._getChangeUrlRange(patchRange, revisions);
-      return Gerrit.Nav.getUrlForChange(change, range.patchNum,
-          range.basePatchNum);
+    _computeChangePath: function(changeNum, patchRangeRecord, revisions) {
+      return this._getChangePath(changeNum, patchRangeRecord.base, revisions);
     },
 
-    _navigateToChange(change, patchRange, revisions) {
-      const range = this._getChangeUrlRange(patchRange, revisions);
-      Gerrit.Nav.navigateToChange(change, range.patchNum, range.basePatchNum);
+    _computeFileDisplayName: function(path) {
+      if (path === COMMIT_MESSAGE_PATH) {
+        return 'Commit message';
+      } else if (path === MERGE_LIST_PATH) {
+        return 'Merge list';
+      }
+      return path;
     },
 
-    _computeChangePath(change, patchRangeRecord, revisions) {
-      return this._getChangePath(change, patchRangeRecord.base, revisions);
+    _computeTruncatedFileDisplayName: function(path) {
+      return util.truncatePath(this._computeFileDisplayName(path));
     },
 
-    _computeFileSelected(path, currentPath) {
+    _computeFileSelected: function(path, currentPath) {
       return path == currentPath;
     },
 
-    _computePrefsButtonHidden(prefs, loggedIn) {
+    _computePrefsButtonHidden: function(prefs, loggedIn) {
       return !loggedIn || !prefs;
     },
 
-    _computeKeyNav(path, selectedPath, fileList) {
-      const selectedIndex = fileList.indexOf(selectedPath);
+    _computeKeyNav: function(path, selectedPath, fileList) {
+      var selectedIndex = fileList.indexOf(selectedPath);
       if (fileList.indexOf(path) == selectedIndex - 1) {
         return '[';
       }
@@ -655,50 +585,46 @@
       return '';
     },
 
-    _handleFileTap(e) {
-      // async is needed so that that the click event is fired before the
-      // dropdown closes (This was a bug for touch devices).
-      this.async(() => {
-        this.$.dropdown.close();
-      }, 1);
+    _handleFileTap: function(e) {
+      this.$.dropdown.close();
     },
 
-    _handleMobileSelectChange(e) {
-      const path = Polymer.dom(e).rootTarget.value;
-      Gerrit.Nav.navigateToDiff(this._change, path, this._patchRange.patchNum,
-          this._patchRange.basePatchNum);
+    _handleMobileSelectChange: function(e) {
+      var path = Polymer.dom(e).rootTarget.value;
+      page.show(this._getDiffURL(this._changeNum, this._patchRange, path));
     },
 
-    _showDropdownTapHandler(e) {
+    _showDropdownTapHandler: function(e) {
       this.$.dropdown.open();
     },
 
-    _handlePatchChange(e) {
-      const {basePatchNum, patchNum} = e.detail;
-      if (this.patchNumEquals(basePatchNum, this._patchRange.basePatchNum) &&
-          this.patchNumEquals(patchNum, this._patchRange.patchNum)) { return; }
-      Gerrit.Nav.navigateToDiff(
-          this._change, this._path, patchNum, basePatchNum);
-    },
-
-    _handlePrefsTap(e) {
+    _handlePrefsTap: function(e) {
       e.preventDefault();
-      this.$.diffPreferences.open();
+      this._openPrefs();
     },
 
-    _handlePrefsSave(e) {
+    _handlePrefsSave: function(e) {
       e.stopPropagation();
-      const el = Polymer.dom(e).rootTarget;
+      var el = Polymer.dom(e).rootTarget;
       el.disabled = true;
       this.$.storage.savePreferences(this._localPrefs);
-      this._saveDiffPreferences().then(response => {
+      this._saveDiffPreferences().then(function(response) {
         el.disabled = false;
         if (!response.ok) { return response; }
 
         this.$.prefsOverlay.close();
-      }).catch(err => {
+      }.bind(this)).catch(function(err) {
         el.disabled = false;
-      });
+      }.bind(this));
+    },
+
+    _saveDiffPreferences: function() {
+      return this.$.restAPI.saveDiffPreferences(this._prefs);
+    },
+
+    _handlePrefsCancel: function(e) {
+      e.stopPropagation();
+      this.$.prefsOverlay.close();
     },
 
     /**
@@ -713,9 +639,9 @@
      *
      * Use side-by-side if the user is not logged in.
      *
-     * @return {string}
+     * @return {String}
      */
-    _getDiffViewMode() {
+    _getDiffViewMode: function() {
       if (this.changeViewState.diffMode) {
         return this.changeViewState.diffMode;
       } else if (this._userPrefs) {
@@ -726,48 +652,66 @@
       }
     },
 
-    _computeModeSelectHidden() {
+    _computeModeSelectHidden: function() {
       return this._isImageDiff;
     },
 
-    _onLineSelected(e, detail) {
+    _onLineSelected: function(e, detail) {
       this.$.cursor.moveToLineNumber(detail.number, detail.side);
-      if (!this._change) { return; }
-      const cursorAddress = this.$.cursor.getAddress();
-      const number = cursorAddress ? cursorAddress.number : undefined;
-      const leftSide = cursorAddress ? cursorAddress.leftSide : undefined;
-      const url = Gerrit.Nav.getUrlForDiffById(this._changeNum,
-          this._change.project, this._path, this._patchRange.patchNum,
-          this._patchRange.basePatchNum, number, leftSide);
-      history.replaceState(null, '', url);
+      history.replaceState(null, null, '#' + this.$.cursor.getAddress());
     },
 
-    _computeDownloadLink(changeNum, patchRange, path) {
-      let url = this.changeBaseURL(changeNum, patchRange.patchNum);
+    _computeDownloadLink: function(changeNum, patchRange, path) {
+      var url = this.changeBaseURL(changeNum, patchRange.patchNum);
       url += '/patch?zip&path=' + encodeURIComponent(path);
       return url;
     },
 
-    _loadComments() {
-      return this.$.commentAPI.loadAll(this._changeNum).then(() => {
-        this._commentMap = this.$.commentAPI.getPaths(this._patchRange);
+    /**
+     * Request all comments (and drafts and robot comments) for the current
+     * change and construct the map of file paths that have comments for the
+     * current patch range.
+     * @return {Promise} A promise that yields a comment map object.
+     */
+    _loadCommentMap: function() {
+      function filterByRange(comment) {
+        var patchNum = comment.patch_set + '';
+        return patchNum === this._patchRange.patchNum ||
+            patchNum === this._patchRange.basePatchNum;
+      };
 
-        this._commentsForDiff = this.$.commentAPI.getCommentsForPath(this._path,
-            this._patchRange, this._projectConfig);
-      });
+      return Promise.all([
+        this.$.restAPI.getDiffComments(this._changeNum),
+        this._getDiffDrafts(),
+        this.$.restAPI.getDiffRobotComments(this._changeNum),
+      ]).then(function(results) {
+        var commentMap = {};
+        results.forEach(function(response) {
+          for (var path in response) {
+            if (response.hasOwnProperty(path) &&
+                response[path].filter(filterByRange.bind(this)).length) {
+              commentMap[path] = true;
+            }
+          }
+        }.bind(this));
+        return commentMap;
+      }.bind(this));
     },
 
-    _getDiffDrafts() {
-      return this.$.restAPI.getDiffDrafts(this._changeNum);
+    _getDiffDrafts: function() {
+      return this._getLoggedIn().then(function(loggedIn) {
+        if (!loggedIn) { return Promise.resolve({}); }
+        return this.$.restAPI.getDiffDrafts(this._changeNum);
+      }.bind(this));
     },
 
-    _computeCommentSkips(commentMap, fileList, path) {
-      const skips = {previous: null, next: null};
+    _computeCommentSkips: function(commentMap, fileList, path) {
+      var skips = {previous: null, next: null};
       if (!fileList.length) { return skips; }
-      const pathIndex = fileList.indexOf(path);
+      var pathIndex = fileList.indexOf(path);
 
       // Scan backward for the previous file.
-      for (let i = pathIndex - 1; i >= 0; i--) {
+      for (var i = pathIndex - 1; i >= 0; i--) {
         if (commentMap[fileList[i]]) {
           skips.previous = fileList[i];
           break;
@@ -775,7 +719,7 @@
       }
 
       // Scan forward for the next file.
-      for (let i = pathIndex + 1; i < fileList.length; i++) {
+      for (i = pathIndex + 1; i < fileList.length; i++) {
         if (commentMap[fileList[i]]) {
           skips.next = fileList[i];
           break;
@@ -783,58 +727,6 @@
       }
 
       return skips;
-    },
-
-    _computeDiffClass(panelFloatingDisabled) {
-      if (panelFloatingDisabled) {
-        return 'noOverflow';
-      }
-    },
-
-    /**
-     * @param {!Object} patchRangeRecord
-     */
-    _computeEditLoaded(patchRangeRecord) {
-      const patchRange = patchRangeRecord.base || {};
-      return this.patchNumEquals(patchRange.patchNum, this.EDIT_NAME);
-    },
-
-    /**
-     * @param {boolean} editLoaded
-     */
-    _computeContainerClass(editLoaded) {
-      return editLoaded ? 'editLoaded' : '';
-    },
-
-    _computeBlameToggleLabel(loaded, loading) {
-      if (loaded) { return 'Hide blame'; }
-      return 'Show blame';
-    },
-
-    /**
-     * Load and display blame information if it has not already been loaded.
-     * Otherwise hide it.
-     */
-    _toggleBlame() {
-      if (this._isBlameLoaded) {
-        this.$.diff.clearBlame();
-        return;
-      }
-
-      this._isBlameLoading = true;
-      this.fire('show-alert', {message: MSG_LOADING_BLAME});
-      this.$.diff.loadBlame()
-          .then(() => {
-            this._isBlameLoading = false;
-            this.fire('show-alert', {message: MSG_LOADED_BLAME});
-          })
-          .catch(() => {
-            this._isBlameLoading = false;
-          });
-    },
-
-    _computeBlameLoaderClass(isImageDiff, supported) {
-      return !isImageDiff && supported ? 'show' : '';
     },
   });
 })();

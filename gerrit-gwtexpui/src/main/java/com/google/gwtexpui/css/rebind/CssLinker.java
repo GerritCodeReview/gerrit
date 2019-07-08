@@ -38,18 +38,19 @@ public class CssLinker extends AbstractLinker {
   }
 
   @Override
-  public ArtifactSet link(final TreeLogger logger, LinkerContext context, ArtifactSet artifacts)
+  public ArtifactSet link(
+      final TreeLogger logger, final LinkerContext context, final ArtifactSet artifacts)
       throws UnableToCompleteException {
     final ArtifactSet returnTo = new ArtifactSet();
     int index = 0;
 
     final HashMap<String, PublicResource> css = new HashMap<>();
 
-    for (StandardStylesheetReference ssr :
+    for (final StandardStylesheetReference ssr :
         artifacts.<StandardStylesheetReference>find(StandardStylesheetReference.class)) {
       css.put(ssr.getSrc(), null);
     }
-    for (PublicResource pr : artifacts.<PublicResource>find(PublicResource.class)) {
+    for (final PublicResource pr : artifacts.<PublicResource>find(PublicResource.class)) {
       if (css.containsKey(pr.getPartialPath())) {
         css.put(pr.getPartialPath(), new CssPubRsrc(name(logger, pr), pr));
       }
@@ -73,7 +74,8 @@ public class CssLinker extends AbstractLinker {
     return returnTo;
   }
 
-  private String name(TreeLogger logger, PublicResource r) throws UnableToCompleteException {
+  private String name(final TreeLogger logger, final PublicResource r)
+      throws UnableToCompleteException {
     byte[] out;
     try (ByteArrayOutputStream tmp = new ByteArrayOutputStream();
         InputStream in = r.getContents(logger)) {
@@ -103,13 +105,13 @@ public class CssLinker extends AbstractLinker {
     private static final long serialVersionUID = 1L;
     private final PublicResource src;
 
-    CssPubRsrc(String partialPath, PublicResource r) {
+    CssPubRsrc(final String partialPath, final PublicResource r) {
       super(StandardLinkerContext.class, partialPath);
       src = r;
     }
 
     @Override
-    public InputStream getContents(TreeLogger logger) throws UnableToCompleteException {
+    public InputStream getContents(final TreeLogger logger) throws UnableToCompleteException {
       return src.getContents(logger);
     }
 

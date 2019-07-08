@@ -19,9 +19,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -29,22 +26,19 @@ import com.google.inject.Singleton;
 @Singleton
 public class GetPreferences implements RestReadView<AccountResource> {
   private final Provider<CurrentUser> self;
-  private final PermissionBackend permissionBackend;
   private final AccountCache accountCache;
 
   @Inject
-  GetPreferences(
-      Provider<CurrentUser> self, PermissionBackend permissionBackend, AccountCache accountCache) {
+  GetPreferences(Provider<CurrentUser> self, AccountCache accountCache) {
     this.self = self;
-    this.permissionBackend = permissionBackend;
     this.accountCache = accountCache;
   }
 
   @Override
-  public GeneralPreferencesInfo apply(AccountResource rsrc)
-      throws AuthException, PermissionBackendException {
-    if (!self.get().hasSameAccountId(rsrc.getUser())) {
-      permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
+  public GeneralPreferencesInfo apply(AccountResource rsrc) throws AuthException {
+    if (!self.get().hasSameAccountId(rsrc.getUser())
+        && !self.get().getCapabilities().canModifyAccount()) {
+      throw new AuthException("requires Modify Account capability");
     }
 
     Account.Id id = rsrc.getUser().getAccountId();

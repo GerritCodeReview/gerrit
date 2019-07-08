@@ -17,23 +17,24 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.util.RegexListSearcher;
 import com.google.gwtorm.server.OrmException;
-import java.io.IOException;
 import java.util.List;
 
-public class RegexPathPredicate extends ChangeRegexPredicate {
-  public RegexPathPredicate(String re) {
+class RegexPathPredicate extends ChangeRegexPredicate {
+  RegexPathPredicate(String re) {
     super(ChangeField.PATH, re);
   }
 
   @Override
   public boolean match(ChangeData object) throws OrmException {
-    List<String> files;
-    try {
-      files = object.currentFilePaths();
-    } catch (IOException e) {
-      throw new OrmException(e);
+    List<String> files = object.currentFilePaths();
+    if (files != null) {
+      return RegexListSearcher.ofStrings(getValue()).hasMatch(files);
     }
-    return RegexListSearcher.ofStrings(getValue()).hasMatch(files);
+    // The ChangeData can't do expensive lookups right now. Bypass
+    // them and include the result anyway. We might be able to do
+    // a narrow later on to a smaller set.
+    //
+    return true;
   }
 
   @Override

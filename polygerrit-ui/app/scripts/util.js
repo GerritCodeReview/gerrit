@@ -14,7 +14,7 @@
 (function(window) {
   'use strict';
 
-  const util = window.util || {};
+  var util = window.util || {};
 
   util.parseDate = function(dateStr) {
     // Timestamps are given in UTC and have the format
@@ -25,18 +25,39 @@
   };
 
   util.getCookie = function(name) {
-    const key = name + '=';
-    const cookies = document.cookie.split(';');
-    for (let i = 0; i < cookies.length; i++) {
-      let c = cookies[i];
-      while (c.charAt(0) === ' ') {
+    var key = name + '=';
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+      var c = cookies[i];
+      while (c.charAt(0) == ' ') {
         c = c.substring(1);
       }
-      if (c.startsWith(key)) {
+      if (c.indexOf(key) == 0) {
         return c.substring(key.length, c.length);
       }
     }
     return '';
   };
+
+  /**
+   * Truncates URLs to display filename only
+   * Example
+   * // returns '.../text.html'
+   * util.truncatePath.('dir/text.html');
+   * Example
+   * // returns 'text.html'
+   * util.truncatePath.('text.html');
+   * @return {String} Returns the truncated value of a URL.
+   */
+  util.truncatePath = function(path) {
+    var pathPieces = path.split('/');
+
+    if (pathPieces.length < 2) {
+      return path;
+    }
+    // Character is an ellipsis.
+    return '\u2026/' + pathPieces[pathPieces.length - 1];
+  };
+
   window.util = util;
 })(window);

@@ -36,7 +36,6 @@ public class Module extends RestApiModule {
     child(CONFIG_KIND, "top-menus").to(TopMenuCollection.class);
     get(CONFIG_KIND, "version").to(GetVersion.class);
     get(CONFIG_KIND, "info").to(GetServerInfo.class);
-    post(CONFIG_KIND, "check.consistency").to(CheckConsistency.class);
     get(CONFIG_KIND, "preferences").to(GetPreferences.class);
     put(CONFIG_KIND, "preferences").to(SetPreferences.class);
     get(CONFIG_KIND, "preferences.diff").to(GetDiffPreferences.class);

@@ -41,7 +41,7 @@ public class ProgressBar extends Composite {
   }
 
   /** Create a bar displaying the specified message. */
-  public ProgressBar(String text) {
+  public ProgressBar(final String text) {
     if (text == null || text.length() == 0) {
       callerText = "";
     } else {
@@ -68,7 +68,7 @@ public class ProgressBar extends Composite {
   }
 
   /** Update the bar's percent completion. */
-  public void setValue(int pComplete) {
+  public void setValue(final int pComplete) {
     assert 0 <= pComplete && pComplete <= 100;
     value = pComplete;
     bar.setWidth(2 * pComplete + "px");

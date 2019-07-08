@@ -74,14 +74,6 @@ public class CreateGroupScreen extends Screen {
     addCreateGroupPanel();
   }
 
-  @Override
-  public void onShowView() {
-    super.onShowView();
-    if (addTxt != null) {
-      addTxt.setFocus(true);
-    }
-  }
-
   private void addCreateGroupPanel() {
     VerticalPanel addPanel = new VerticalPanel();
     addPanel.setStyleName(Gerrit.RESOURCES.css().addSshKeyPanel());
@@ -125,7 +117,7 @@ public class CreateGroupScreen extends Screen {
     addNew.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(ClickEvent event) {
+          public void onClick(final ClickEvent event) {
             doCreateGroup();
           }
         });
@@ -146,7 +138,7 @@ public class CreateGroupScreen extends Screen {
         newName,
         new GerritCallback<GroupInfo>() {
           @Override
-          public void onSuccess(GroupInfo result) {
+          public void onSuccess(final GroupInfo result) {
             History.newItem(Dispatcher.toGroup(result.getGroupId(), AccountGroupScreen.MEMBERS));
           }
 

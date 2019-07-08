@@ -16,11 +16,10 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../gr-button/gr-button.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-confirm-dialog">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         display: block;
         max-height: 90vh;
@@ -31,9 +30,9 @@ limitations under the License.
         max-height: 90vh;
       }
       header {
-        border-bottom: 1px solid #cdcdcd;
+        border-bottom: 1px solid #ddd;
         flex-shrink: 0;
-        font-family: var(--font-family-bold);
+        font-weight: bold;
       }
       main {
         display: flex;
@@ -43,25 +42,22 @@ limitations under the License.
       header,
       main,
       footer {
-        padding: .5em 1.5em;
-      }
-      gr-button {
-        margin-left: 1em;
+        padding: .5em .65em;
       }
       footer {
         display: flex;
         flex-shrink: 0;
-        justify-content: flex-end;
+        justify-content: space-between;
       }
     </style>
     <div class="container">
       <header><content select=".header"></content></header>
       <main><content select=".main"></content></main>
       <footer>
-        <gr-button link on-tap="_handleCancelTap">Cancel</gr-button>
-        <gr-button link primary on-tap="_handleConfirmTap" disabled="[[disabled]]">
+        <gr-button primary on-tap="_handleConfirmTap" disabled="[[disabled]]">
           [[confirmLabel]]
         </gr-button>
+        <gr-button on-tap="_handleCancelTap">Cancel</gr-button>
       </footer>
     </div>
   </template>

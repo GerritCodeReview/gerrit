@@ -31,7 +31,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthResult;
-import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -44,7 +44,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.binary.Base64;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -170,7 +169,7 @@ class OAuthSessionOverOpenID {
           log.debug("Claimed account already exists: link to it.");
           try {
             accountManager.link(claimedId.get(), areq);
-          } catch (OrmException | ConfigInvalidException e) {
+          } catch (OrmException e) {
             log.error(
                 "Cannot link: "
                     + user.getExternalId()
@@ -189,7 +188,7 @@ class OAuthSessionOverOpenID {
         try {
           log.debug("Linking \"{}\" to \"{}\"", user.getExternalId(), accountId);
           accountManager.link(accountId, areq);
-        } catch (OrmException | ConfigInvalidException e) {
+        } catch (OrmException e) {
           log.error("Cannot link: " + user.getExternalId() + " to user identity: " + accountId);
           rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
           return;

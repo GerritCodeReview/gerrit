@@ -29,6 +29,7 @@ import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventTypes;
 import com.google.gerrit.server.events.ProjectNameKeySerializer;
 import com.google.gerrit.server.events.SupplierSerializer;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -42,7 +43,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
@@ -70,7 +70,7 @@ final class StreamEvents extends BaseCommand {
 
   @Inject private DynamicSet<UserScopedEventListener> eventListeners;
 
-  @Inject @StreamCommandExecutor private ScheduledThreadPoolExecutor pool;
+  @Inject @StreamCommandExecutor private WorkQueue.Executor pool;
 
   /** Queue of events to stream to the connected user. */
   private final LinkedBlockingQueue<Event> queue = new LinkedBlockingQueue<>(MAX_EVENTS);
@@ -130,7 +130,7 @@ final class StreamEvents extends BaseCommand {
   private PrintWriter stdout;
 
   @Override
-  public void start(Environment env) throws IOException {
+  public void start(final Environment env) throws IOException {
     try {
       parseCommandLine();
     } catch (UnloggedFailure e) {
@@ -149,7 +149,7 @@ final class StreamEvents extends BaseCommand {
         eventListeners.add(
             new UserScopedEventListener() {
               @Override
-              public void onEvent(Event event) {
+              public void onEvent(final Event event) {
                 if (subscribedToEvents.isEmpty() || subscribedToEvents.contains(event.getType())) {
                   offer(event);
                 }
@@ -175,7 +175,7 @@ final class StreamEvents extends BaseCommand {
   }
 
   @Override
-  protected void onExit(int rc) {
+  protected void onExit(final int rc) {
     removeEventListenerRegistration();
 
     synchronized (taskLock) {
@@ -204,7 +204,7 @@ final class StreamEvents extends BaseCommand {
     }
   }
 
-  private void offer(Event event) {
+  private void offer(final Event event) {
     synchronized (taskLock) {
       if (!queue.offer(event)) {
         dropped = true;
@@ -268,7 +268,7 @@ final class StreamEvents extends BaseCommand {
     }
   }
 
-  private void write(Object message) {
+  private void write(final Object message) {
     String msg = null;
     try {
       msg = gson.toJson(message) + "\n";

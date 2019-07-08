@@ -15,10 +15,8 @@
 package com.google.gerrit.reviewdb.client;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.reviewdb.client.RefNames.parseAfterShardedRefPart;
 import static com.google.gerrit.reviewdb.client.RefNames.parseRefSuffix;
 import static com.google.gerrit.reviewdb.client.RefNames.parseShardedRefPart;
-import static com.google.gerrit.reviewdb.client.RefNames.skipShardedRefPart;
 
 import org.junit.Test;
 
@@ -34,17 +32,6 @@ public class RefNamesTest {
     assertThat(RefNames.fullName("master")).isEqualTo("refs/heads/master");
     assertThat(RefNames.fullName("refs/tags/v1.0")).isEqualTo("refs/tags/v1.0");
     assertThat(RefNames.fullName("HEAD")).isEqualTo("HEAD");
-  }
-
-  @Test
-  public void changeRefs() throws Exception {
-    String changeMetaRef = RefNames.changeMetaRef(changeId);
-    assertThat(changeMetaRef).isEqualTo("refs/changes/73/67473/meta");
-    assertThat(RefNames.isNoteDbMetaRef(changeMetaRef)).isTrue();
-
-    String robotCommentsRef = RefNames.robotCommentsRef(changeId);
-    assertThat(robotCommentsRef).isEqualTo("refs/changes/73/67473/robot-comments");
-    assertThat(RefNames.isNoteDbMetaRef(robotCommentsRef)).isTrue();
   }
 
   @Test
@@ -103,7 +90,7 @@ public class RefNamesTest {
   }
 
   @Test
-  public void parseShardedRefsPart() throws Exception {
+  public void testparseShardedRefsPart() throws Exception {
     assertThat(parseShardedRefPart("01/1")).isEqualTo(1);
     assertThat(parseShardedRefPart("01/1-drafts")).isEqualTo(1);
     assertThat(parseShardedRefPart("01/1-drafts/2")).isEqualTo(1);
@@ -123,58 +110,6 @@ public class RefNamesTest {
 
     // Shard too short.
     assertThat(parseShardedRefPart("1/1")).isNull();
-  }
-
-  @Test
-  public void skipShardedRefsPart() throws Exception {
-    assertThat(skipShardedRefPart("01/1")).isEqualTo("");
-    assertThat(skipShardedRefPart("01/1/")).isEqualTo("/");
-    assertThat(skipShardedRefPart("01/1/2")).isEqualTo("/2");
-    assertThat(skipShardedRefPart("01/1-edit")).isEqualTo("-edit");
-
-    assertThat(skipShardedRefPart(null)).isNull();
-    assertThat(skipShardedRefPart("")).isNull();
-
-    // Prefix not stripped.
-    assertThat(skipShardedRefPart("refs/draft-comments/01/1/2")).isNull();
-
-    // Invalid characters.
-    assertThat(skipShardedRefPart("01a/1/2")).isNull();
-    assertThat(skipShardedRefPart("01a/a1/2")).isNull();
-
-    // Mismatched shard.
-    assertThat(skipShardedRefPart("01/23/2")).isNull();
-
-    // Shard too short.
-    assertThat(skipShardedRefPart("1/1")).isNull();
-  }
-
-  @Test
-  public void parseAfterShardedRefsPart() throws Exception {
-    assertThat(parseAfterShardedRefPart("01/1/2")).isEqualTo(2);
-    assertThat(parseAfterShardedRefPart("01/1/2/4")).isEqualTo(2);
-    assertThat(parseAfterShardedRefPart("01/1/2-edit")).isEqualTo(2);
-
-    assertThat(parseAfterShardedRefPart(null)).isNull();
-    assertThat(parseAfterShardedRefPart("")).isNull();
-
-    // No ID after sharded ref part
-    assertThat(parseAfterShardedRefPart("01/1")).isNull();
-    assertThat(parseAfterShardedRefPart("01/1/")).isNull();
-    assertThat(parseAfterShardedRefPart("01/1/a")).isNull();
-
-    // Prefix not stripped.
-    assertThat(parseAfterShardedRefPart("refs/draft-comments/01/1/2")).isNull();
-
-    // Invalid characters.
-    assertThat(parseAfterShardedRefPart("01a/1/2")).isNull();
-    assertThat(parseAfterShardedRefPart("01a/a1/2")).isNull();
-
-    // Mismatched shard.
-    assertThat(parseAfterShardedRefPart("01/23/2")).isNull();
-
-    // Shard too short.
-    assertThat(parseAfterShardedRefPart("1/1")).isNull();
   }
 
   @Test

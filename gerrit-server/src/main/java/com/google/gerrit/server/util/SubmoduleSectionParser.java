@@ -56,7 +56,7 @@ public class SubmoduleSectionParser {
 
   public Set<SubmoduleSubscription> parseAllSections() {
     Set<SubmoduleSubscription> parsedSubscriptions = new HashSet<>();
-    for (String id : bbc.getSubsections("submodule")) {
+    for (final String id : bbc.getSubsections("submodule")) {
       final SubmoduleSubscription subscription = parse(id);
       if (subscription != null) {
         parsedSubscriptions.add(subscription);
@@ -65,7 +65,7 @@ public class SubmoduleSectionParser {
     return parsedSubscriptions;
   }
 
-  private SubmoduleSubscription parse(String id) {
+  private SubmoduleSubscription parse(final String id) {
     final String url = bbc.getString("submodule", id, "url");
     final String path = bbc.getString("submodule", id, "path");
     String branch = bbc.getString("submodule", id, "branch");

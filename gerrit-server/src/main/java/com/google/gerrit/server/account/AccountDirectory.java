@@ -50,9 +50,8 @@ public abstract class AccountDirectory {
   public abstract void fillAccountInfo(Iterable<? extends AccountInfo> in, Set<FillOptions> options)
       throws DirectoryException;
 
+  @SuppressWarnings("serial")
   public static class DirectoryException extends Exception {
-    private static final long serialVersionUID = 1L;
-
     public DirectoryException(String message, Throwable why) {
       super(message, why);
     }

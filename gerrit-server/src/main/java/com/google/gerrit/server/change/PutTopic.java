@@ -16,27 +16,24 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.PutTopic.Input;
 import com.google.gerrit.server.extensions.events.TopicEdited;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.permissions.ChangePermission;
-import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -44,10 +41,10 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class PutTopic extends RetryingRestModifyView<ChangeResource, Input, Response<String>>
-    implements UiAction<ChangeResource> {
+public class PutTopic implements RestModifyView<ChangeResource, Input>, UiAction<ChangeResource> {
   private final Provider<ReviewDb> dbProvider;
   private final ChangeMessagesUtil cmUtil;
+  private final BatchUpdate.Factory batchUpdateFactory;
   private final TopicEdited topicEdited;
 
   public static class Input {
@@ -58,35 +55,32 @@ public class PutTopic extends RetryingRestModifyView<ChangeResource, Input, Resp
   PutTopic(
       Provider<ReviewDb> dbProvider,
       ChangeMessagesUtil cmUtil,
-      RetryHelper retryHelper,
+      BatchUpdate.Factory batchUpdateFactory,
       TopicEdited topicEdited) {
-    super(retryHelper);
     this.dbProvider = dbProvider;
     this.cmUtil = cmUtil;
+    this.batchUpdateFactory = batchUpdateFactory;
     this.topicEdited = topicEdited;
   }
 
   @Override
-  protected Response<String> applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource req, Input input)
-      throws UpdateException, RestApiException, PermissionBackendException {
-    req.permissions().check(ChangePermission.EDIT_TOPIC_NAME);
-
-    if (input != null
-        && input.topic != null
-        && input.topic.length() > ChangeUtil.TOPIC_MAX_LENGTH) {
-      throw new BadRequestException(
-          String.format("topic length exceeds the limit (%s)", ChangeUtil.TOPIC_MAX_LENGTH));
+  public Response<String> apply(ChangeResource req, Input input)
+      throws UpdateException, RestApiException {
+    ChangeControl ctl = req.getControl();
+    if (!ctl.canEditTopicName()) {
+      throw new AuthException("changing topic not permitted");
     }
 
     Op op = new Op(input != null ? input : new Input());
     try (BatchUpdate u =
-        updateFactory.create(
-            dbProvider.get(), req.getChange().getProject(), req.getUser(), TimeUtil.nowTs())) {
+        batchUpdateFactory.create(
+            dbProvider.get(), req.getChange().getProject(), ctl.getUser(), TimeUtil.nowTs())) {
       u.addOp(req.getId(), op);
       u.execute();
     }
-    return Strings.isNullOrEmpty(op.newTopicName) ? Response.none() : Response.ok(op.newTopicName);
+    return Strings.isNullOrEmpty(op.newTopicName)
+        ? Response.<String>none()
+        : Response.ok(op.newTopicName);
   }
 
   private class Op implements BatchUpdateOp {
@@ -135,9 +129,9 @@ public class PutTopic extends RetryingRestModifyView<ChangeResource, Input, Resp
   }
 
   @Override
-  public UiAction.Description getDescription(ChangeResource rsrc) {
+  public UiAction.Description getDescription(ChangeResource resource) {
     return new UiAction.Description()
         .setLabel("Edit Topic")
-        .setVisible(rsrc.permissions().testCond(ChangePermission.EDIT_TOPIC_NAME));
+        .setVisible(resource.getControl().canEditTopicName());
   }
 }

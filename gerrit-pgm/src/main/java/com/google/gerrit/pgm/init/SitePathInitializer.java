@@ -107,7 +107,6 @@ public class SitePathInitializer {
     extractMailExample("Abandoned.soy");
     extractMailExample("AbandonedHtml.soy");
     extractMailExample("AddKey.soy");
-    extractMailExample("AddKeyHtml.soy");
     extractMailExample("ChangeFooter.soy");
     extractMailExample("ChangeFooterHtml.soy");
     extractMailExample("ChangeSubject.soy");
@@ -115,8 +114,6 @@ public class SitePathInitializer {
     extractMailExample("CommentHtml.soy");
     extractMailExample("CommentFooter.soy");
     extractMailExample("CommentFooterHtml.soy");
-    extractMailExample("DeleteKey.soy");
-    extractMailExample("DeleteKeyHtml.soy");
     extractMailExample("DeleteReviewer.soy");
     extractMailExample("DeleteReviewerHtml.soy");
     extractMailExample("DeleteVote.soy");
@@ -124,8 +121,6 @@ public class SitePathInitializer {
     extractMailExample("Footer.soy");
     extractMailExample("FooterHtml.soy");
     extractMailExample("HeaderHtml.soy");
-    extractMailExample("HttpPasswordUpdate.soy");
-    extractMailExample("HttpPasswordUpdateHtml.soy");
     extractMailExample("Merged.soy");
     extractMailExample("MergedHtml.soy");
     extractMailExample("NewChange.soy");
@@ -170,7 +165,7 @@ public class SitePathInitializer {
     chmod(0444, ex);
   }
 
-  private static List<InitStep> stepsOf(Injector injector) {
+  private static List<InitStep> stepsOf(final Injector injector) {
     final ArrayList<InitStep> r = new ArrayList<>();
     for (Binding<InitStep> b : all(injector)) {
       r.add(b.getProvider().get());
@@ -178,7 +173,7 @@ public class SitePathInitializer {
     return r;
   }
 
-  private static List<Binding<InitStep>> all(Injector injector) {
+  private static List<Binding<InitStep>> all(final Injector injector) {
     return injector.findBindingsByType(new TypeLiteral<InitStep>() {});
   }
 }

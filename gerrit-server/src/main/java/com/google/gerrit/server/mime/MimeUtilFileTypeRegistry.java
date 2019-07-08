@@ -20,7 +20,6 @@ import com.google.inject.Singleton;
 import eu.medsea.mimeutil.MimeException;
 import eu.medsea.mimeutil.MimeType;
 import eu.medsea.mimeutil.MimeUtil2;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -79,7 +78,7 @@ public class MimeUtilFileTypeRegistry implements FileTypeRegistry {
 
   @Override
   @SuppressWarnings("unchecked")
-  public MimeType getMimeType(String path, byte[] content) {
+  public MimeType getMimeType(final String path, final byte[] content) {
     Set<MimeType> mimeTypes = new HashSet<>();
     if (content != null && content.length > 0) {
       try {
@@ -88,23 +87,6 @@ public class MimeUtilFileTypeRegistry implements FileTypeRegistry {
         log.warn("Unable to determine MIME type from content", e);
       }
     }
-    return getMimeType(mimeTypes, path);
-  }
-
-  @Override
-  @SuppressWarnings("unchecked")
-  public MimeType getMimeType(String path, InputStream is) {
-    Set<MimeType> mimeTypes = new HashSet<>();
-    try {
-      mimeTypes.addAll(mimeUtil.getMimeTypes(is));
-    } catch (MimeException e) {
-      log.warn("Unable to determine MIME type from content", e);
-    }
-    return getMimeType(mimeTypes, path);
-  }
-
-  @SuppressWarnings("unchecked")
-  private MimeType getMimeType(Set<MimeType> mimeTypes, String path) {
     try {
       mimeTypes.addAll(mimeUtil.getMimeTypes(path));
     } catch (MimeException e) {
@@ -128,7 +110,7 @@ public class MimeUtilFileTypeRegistry implements FileTypeRegistry {
   }
 
   @Override
-  public boolean isSafeInline(MimeType type) {
+  public boolean isSafeInline(final MimeType type) {
     if (MimeUtil2.UNKNOWN_MIME_TYPE.equals(type)) {
       // Most browsers perform content type sniffing when they get told
       // a generic content type. This is bad, so assume we cannot send

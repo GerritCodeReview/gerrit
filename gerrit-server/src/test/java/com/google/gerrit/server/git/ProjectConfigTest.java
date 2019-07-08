@@ -15,7 +15,7 @@
 package com.google.gerrit.server.git;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.common.truth.Truth.assert_;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.AccessSection;
@@ -30,8 +30,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.project.CommentLinkInfoImpl;
-import com.google.gwtorm.client.KeyUtil;
-import com.google.gwtorm.server.StandardKeyEncoder;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -49,7 +47,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
@@ -79,11 +76,6 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
 
   private Repository db;
   private TestRepository<Repository> util;
-
-  @BeforeClass
-  public static void setUpOnce() {
-    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
-  }
 
   @Override
   @Before
@@ -523,7 +515,8 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     u.disableRefLog();
     u.setNewObjectId(rev);
     Result result = u.forceUpdate();
-    assertWithMessage("Cannot update ref for test: " + result)
+    assert_()
+        .withFailureMessage("Cannot update ref for test: " + result)
         .that(result)
         .isAnyOf(Result.FAST_FORWARD, Result.FORCED, Result.NEW, Result.NO_CHANGE);
   }

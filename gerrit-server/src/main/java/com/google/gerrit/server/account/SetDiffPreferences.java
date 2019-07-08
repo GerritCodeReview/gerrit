@@ -29,9 +29,6 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.UserConfigSections;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -44,7 +41,6 @@ public class SetDiffPreferences implements RestModifyView<AccountResource, DiffP
   private final Provider<CurrentUser> self;
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final AllUsersName allUsersName;
-  private final PermissionBackend permissionBackend;
   private final GitRepositoryManager gitMgr;
 
   @Inject
@@ -52,21 +48,20 @@ public class SetDiffPreferences implements RestModifyView<AccountResource, DiffP
       Provider<CurrentUser> self,
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       AllUsersName allUsersName,
-      PermissionBackend permissionBackend,
       GitRepositoryManager gitMgr) {
     this.self = self;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.allUsersName = allUsersName;
-    this.permissionBackend = permissionBackend;
     this.gitMgr = gitMgr;
   }
 
   @Override
   public DiffPreferencesInfo apply(AccountResource rsrc, DiffPreferencesInfo in)
       throws AuthException, BadRequestException, ConfigInvalidException,
-          RepositoryNotFoundException, IOException, PermissionBackendException {
-    if (!self.get().hasSameAccountId(rsrc.getUser())) {
-      permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
+          RepositoryNotFoundException, IOException {
+    if (!self.get().hasSameAccountId(rsrc.getUser())
+        && !self.get().getCapabilities().canModifyAccount()) {
+      throw new AuthException("requires Modify Account capability");
     }
 
     if (in == null) {

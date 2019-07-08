@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.Anchor;
 public class CommandMenuItem extends Anchor implements ClickHandler {
   private final Command command;
 
-  public CommandMenuItem(String text, Command cmd) {
+  public CommandMenuItem(final String text, final Command cmd) {
     super(text);
     setStyleName(Gerrit.RESOURCES.css().menuItem());
     Roles.getMenuitemRole().set(getElement());
@@ -33,7 +33,7 @@ public class CommandMenuItem extends Anchor implements ClickHandler {
   }
 
   @Override
-  public void onClick(ClickEvent event) {
+  public void onClick(final ClickEvent event) {
     setFocus(false);
     command.execute();
   }

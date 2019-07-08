@@ -37,7 +37,7 @@ The output executable WAR will be placed in:
 === Gerrit Release WAR File
 
 To build the Gerrit web application that includes the GWT UI, the
-PolyGerrit UI, core plugins and documentation:
+PolyGerrit UI and documentation:
 
 ----
   bazel build release
@@ -231,7 +231,7 @@ Primary storage NoteDb:
 Primary storage NoteDb and ReviewDb disabled:
 
 ----
-  bazel test --test_env=GERRIT_NOTEDB=ON //...
+  bazel test --test_env=GERRIT_NOTEDB=DISABLE_CHANGE_REVIEW_DB //...
 ----
 
 To run only tests that do not use SSH:

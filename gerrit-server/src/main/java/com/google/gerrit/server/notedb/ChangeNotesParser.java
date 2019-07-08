@@ -24,17 +24,14 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET_DESCRIPTION;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PRIVATE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_READ_ONLY_UNTIL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REAL_USER;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REVERT_OF;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBJECT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_WORK_IN_PROGRESS;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 import static java.util.stream.Collectors.joining;
 
@@ -43,7 +40,6 @@ import com.google.common.base.Enums;
 import com.google.common.base.Splitter;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -66,10 +62,8 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
-import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
-import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.LabelVote;
 import java.io.IOException;
@@ -133,7 +127,6 @@ class ChangeNotesParser {
   // Private final but mutable members initialized in the constructor and filled
   // in during the parsing process.
   private final Table<Account.Id, ReviewerStateInternal, Timestamp> reviewers;
-  private final Table<Address, ReviewerStateInternal, Timestamp> reviewersByEmail;
   private final List<Account.Id> allPastReviewers;
   private final List<ReviewerStatusUpdate> reviewerUpdates;
   private final List<SubmitRecord> submitRecords;
@@ -164,13 +157,6 @@ class ChangeNotesParser {
   private String tag;
   private RevisionNoteMap<ChangeRevisionNote> revisionNoteMap;
   private Timestamp readOnlyUntil;
-  private Boolean isPrivate;
-  private Boolean workInProgress;
-  private Boolean previousWorkInProgressFooter;
-  private Boolean hasReviewStarted;
-  private ReviewerSet pendingReviewers;
-  private ReviewerByEmailSet pendingReviewersByEmail;
-  private Change.Id revertOf;
 
   ChangeNotesParser(
       Change.Id changeId,
@@ -186,9 +172,6 @@ class ChangeNotesParser {
     approvals = new LinkedHashMap<>();
     bufferedApprovals = new ArrayList<>();
     reviewers = HashBasedTable.create();
-    reviewersByEmail = HashBasedTable.create();
-    pendingReviewers = ReviewerSet.empty();
-    pendingReviewersByEmail = ReviewerByEmailSet.empty();
     allPastReviewers = new ArrayList<>();
     reviewerUpdates = new ArrayList<>();
     submitRecords = Lists.newArrayListWithExpectedSize(1);
@@ -213,17 +196,9 @@ class ChangeNotesParser {
       while ((commit = walk.next()) != null) {
         parse(commit);
       }
-      if (hasReviewStarted == null) {
-        if (previousWorkInProgressFooter == null) {
-          hasReviewStarted = true;
-        } else {
-          hasReviewStarted = !previousWorkInProgressFooter;
-        }
-      }
       parseNotes();
       allPastReviewers.addAll(reviewers.rowKeySet());
       pruneReviewers();
-      pruneReviewersByEmail();
 
       updatePatchSetStates();
       checkMandatoryFooters();
@@ -257,20 +232,13 @@ class ChangeNotesParser {
         patchSets,
         buildApprovals(),
         ReviewerSet.fromTable(Tables.transpose(reviewers)),
-        ReviewerByEmailSet.fromTable(Tables.transpose(reviewersByEmail)),
-        pendingReviewers,
-        pendingReviewersByEmail,
         allPastReviewers,
         buildReviewerUpdates(),
         submitRecords,
         buildAllMessages(),
         buildMessagesByPatchSet(),
         comments,
-        readOnlyUntil,
-        isPrivate,
-        workInProgress,
-        hasReviewStarted,
-        revertOf);
+        readOnlyUntil);
   }
 
   private PatchSet.Id buildCurrentPatchSetId() {
@@ -403,9 +371,6 @@ class ChangeNotesParser {
       for (String line : commit.getFooterLineValues(state.getFooterKey())) {
         parseReviewer(ts, state, line);
       }
-      for (String line : commit.getFooterLineValues(state.getByEmailFooterKey())) {
-        parseReviewerByEmail(ts, state, line);
-      }
       // Don't update timestamp when a reviewer was added, matching RevewDb
       // behavior.
     }
@@ -413,17 +378,6 @@ class ChangeNotesParser {
     if (readOnlyUntil == null) {
       parseReadOnlyUntil(commit);
     }
-
-    if (isPrivate == null) {
-      parseIsPrivate(commit);
-    }
-
-    if (revertOf == null) {
-      revertOf = parseRevertOf(commit);
-    }
-
-    previousWorkInProgressFooter = null;
-    parseWorkInProgress(commit);
 
     if (lastUpdatedOn == null || ts.after(lastUpdatedOn)) {
       lastUpdatedOn = ts;
@@ -956,19 +910,6 @@ class ChangeNotesParser {
     }
   }
 
-  private void parseReviewerByEmail(Timestamp ts, ReviewerStateInternal state, String line)
-      throws ConfigInvalidException {
-    Address adr;
-    try {
-      adr = Address.parse(line);
-    } catch (IllegalArgumentException e) {
-      throw invalidFooter(state.getByEmailFooterKey(), line);
-    }
-    if (!reviewersByEmail.containsRow(adr)) {
-      reviewersByEmail.put(adr, state, ts);
-    }
-  }
-
   private void parseReadOnlyUntil(ChangeNotesCommit commit) throws ConfigInvalidException {
     String raw = parseOneFooter(commit, FOOTER_READ_ONLY_UNTIL);
     if (raw == null) {
@@ -983,80 +924,11 @@ class ChangeNotesParser {
     }
   }
 
-  private void parseIsPrivate(ChangeNotesCommit commit) throws ConfigInvalidException {
-    String raw = parseOneFooter(commit, FOOTER_PRIVATE);
-    if (raw == null) {
-      return;
-    } else if (Boolean.TRUE.toString().equalsIgnoreCase(raw)) {
-      isPrivate = true;
-      return;
-    } else if (Boolean.FALSE.toString().equalsIgnoreCase(raw)) {
-      isPrivate = false;
-      return;
-    }
-    throw invalidFooter(FOOTER_PRIVATE, raw);
-  }
-
-  private void parseWorkInProgress(ChangeNotesCommit commit) throws ConfigInvalidException {
-    String raw = parseOneFooter(commit, FOOTER_WORK_IN_PROGRESS);
-    if (raw == null) {
-      // No change to WIP state in this revision.
-      previousWorkInProgressFooter = null;
-      return;
-    } else if (Boolean.TRUE.toString().equalsIgnoreCase(raw)) {
-      // This revision moves the change into WIP.
-      previousWorkInProgressFooter = true;
-      if (workInProgress == null) {
-        // Because this is the first time workInProgress is being set, we know
-        // that this change's current state is WIP. All the reviewer updates
-        // we've seen so far are pending, so take a snapshot of the reviewers
-        // and reviewersByEmail tables.
-        pendingReviewers =
-            ReviewerSet.fromTable(Tables.transpose(ImmutableTable.copyOf(reviewers)));
-        pendingReviewersByEmail =
-            ReviewerByEmailSet.fromTable(Tables.transpose(ImmutableTable.copyOf(reviewersByEmail)));
-        workInProgress = true;
-      }
-      return;
-    } else if (Boolean.FALSE.toString().equalsIgnoreCase(raw)) {
-      previousWorkInProgressFooter = false;
-      hasReviewStarted = true;
-      if (workInProgress == null) {
-        workInProgress = false;
-      }
-      return;
-    }
-    throw invalidFooter(FOOTER_WORK_IN_PROGRESS, raw);
-  }
-
-  private Change.Id parseRevertOf(ChangeNotesCommit commit) throws ConfigInvalidException {
-    String footer = parseOneFooter(commit, FOOTER_REVERT_OF);
-    if (footer == null) {
-      return null;
-    }
-    Integer revertOf = Ints.tryParse(footer);
-    if (revertOf == null) {
-      throw invalidFooter(FOOTER_REVERT_OF, footer);
-    }
-    return new Change.Id(revertOf);
-  }
-
   private void pruneReviewers() {
     Iterator<Table.Cell<Account.Id, ReviewerStateInternal, Timestamp>> rit =
         reviewers.cellSet().iterator();
     while (rit.hasNext()) {
       Table.Cell<Account.Id, ReviewerStateInternal, Timestamp> e = rit.next();
-      if (e.getColumnKey() == ReviewerStateInternal.REMOVED) {
-        rit.remove();
-      }
-    }
-  }
-
-  private void pruneReviewersByEmail() {
-    Iterator<Table.Cell<Address, ReviewerStateInternal, Timestamp>> rit =
-        reviewersByEmail.cellSet().iterator();
-    while (rit.hasNext()) {
-      Table.Cell<Address, ReviewerStateInternal, Timestamp> e = rit.next();
       if (e.getColumnKey() == ReviewerStateInternal.REMOVED) {
         rit.remove();
       }
@@ -1080,6 +952,13 @@ class ChangeNotesParser {
 
         case DELETED:
           patchSets.remove(e.getKey());
+          break;
+
+        case DRAFT:
+          PatchSet ps = patchSets.get(e.getKey());
+          if (ps != null) {
+            ps.setDraft(true);
+          }
           break;
       }
     }

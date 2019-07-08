@@ -45,11 +45,11 @@ public abstract class HighlightSuggestOracle extends SuggestOracle {
         request,
         new Callback() {
           @Override
-          public void onSuggestionsReady(Request request, Response response) {
+          public void onSuggestionsReady(final Request request, final Response response) {
             final String qpat = getQueryPattern(request.getQuery());
             final boolean html = isHTML();
             final ArrayList<Suggestion> r = new ArrayList<>();
-            for (Suggestion s : response.getSuggestions()) {
+            for (final Suggestion s : response.getSuggestions()) {
               r.add(new BoldSuggestion(qpat, s, html));
             }
             cb.onSuggestionsReady(request, new Response(r));
@@ -57,7 +57,7 @@ public abstract class HighlightSuggestOracle extends SuggestOracle {
         });
   }
 
-  protected String getQueryPattern(String query) {
+  protected String getQueryPattern(final String query) {
     return query;
   }
 
@@ -77,7 +77,7 @@ public abstract class HighlightSuggestOracle extends SuggestOracle {
     private final Suggestion suggestion;
     private final String displayString;
 
-    BoldSuggestion(String qstr, Suggestion s, boolean html) {
+    BoldSuggestion(final String qstr, final Suggestion s, final boolean html) {
       suggestion = s;
 
       String ds = s.getDisplayString();

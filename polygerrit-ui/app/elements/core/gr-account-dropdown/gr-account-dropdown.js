@@ -12,88 +12,59 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 (function() {
-  'use strict';
+  'use strict'
 
-  const INTERPOLATE_URL_PATTERN = /\$\{([\w]+)\}/g;
+   var ANONYMOUS_NAME = 'Anonymous';
 
   Polymer({
     is: 'gr-account-dropdown',
 
     properties: {
       account: Object,
-      config: Object,
+      _hasAvatars: Boolean,
+      _anonymousName: {
+        type: String,
+        value: ANONYMOUS_NAME,
+      },
       links: {
         type: Array,
-        computed: '_getLinks(_switchAccountUrl, _path)',
+        value: [
+          {name: 'Settings', url: '/settings'},
+          {name: 'Switch account', url: '/switch-account'},
+          {name: 'Sign out', url: '/logout'},
+        ],
       },
       topContent: {
         type: Array,
-        computed: '_getTopContent(account)',
+        computed: '_getTopContent(account, _anonymousName)',
       },
-      _path: {
-        type: String,
-        value: '/',
-      },
-      _hasAvatars: Boolean,
-      _switchAccountUrl: String,
     },
 
-    attached() {
-      this._handleLocationChange();
-      this.listen(window, 'location-change', '_handleLocationChange');
-      this.$.restAPI.getConfig().then(cfg => {
-        this.config = cfg;
-
-        if (cfg && cfg.auth && cfg.auth.switch_account_url) {
-          this._switchAccountUrl = cfg.auth.switch_account_url;
-        } else {
-          this._switchAccountUrl = '';
-        }
+    attached: function() {
+      this.$.restAPI.getConfig().then(function(cfg) {
         this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
-      });
+        if (cfg && cfg.user &&
+            cfg.user.anonymous_coward_name &&
+            cfg.user.anonymous_coward_name !== 'Anonymous Coward') {
+          this._anonymousName = cfg.user.anonymous_coward_name;
+        }
+      }.bind(this));
     },
 
-    behaviors: [
-      Gerrit.AnonymousNameBehavior,
-    ],
-
-    detached() {
-      this.unlisten(window, 'location-change', '_handleLocationChange');
-    },
-
-    _getLinks(switchAccountUrl, path) {
-      const links = [{name: 'Settings', url: '/settings/'}];
-      if (switchAccountUrl) {
-        const replacements = {path};
-        const url = this._interpolateUrl(switchAccountUrl, replacements);
-        links.push({name: 'Switch account', url, external: true});
-      }
-      links.push({name: 'Sign out', url: '/logout'});
-      return links;
-    },
-
-    _getTopContent(account) {
+    _getTopContent: function(account, _anonymousName) {
       return [
-        {text: this._accountName(account), bold: true},
+        {text: this._accountName(account, _anonymousName), bold: true},
         {text: account.email ? account.email : ''},
       ];
     },
 
-    _handleLocationChange() {
-      this._path =
-          window.location.pathname +
-          window.location.search +
-          window.location.hash;
-    },
-
-    _interpolateUrl(url, replacements) {
-      return url.replace(INTERPOLATE_URL_PATTERN, (match, p1) => {
-        return replacements[p1] || '';
-      });
-    },
-
-    _accountName(account) {
-      return this.getUserName(this.config, account, true);
+    _accountName: function(account, _anonymousName) {
+      if (account && account.name) {
+        return account.name;
+      } else if (account && account.email) {
+        return account.email;
+      }
+      return _anonymousName;
     },
   });
 })();

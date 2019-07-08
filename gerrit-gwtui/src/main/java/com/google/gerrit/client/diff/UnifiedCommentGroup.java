@@ -50,26 +50,29 @@ class UnifiedCommentGroup extends CommentGroup {
   void handleRedraw() {
     getLineWidget()
         .onRedraw(
-            () -> {
-              if (canComputeHeight()) {
-                if (getResizeTimer() != null) {
-                  getResizeTimer().cancel();
-                  setResizeTimer(null);
-                }
-                reportHeightChange();
-              } else if (getResizeTimer() == null) {
-                setResizeTimer(
-                    new Timer() {
-                      @Override
-                      public void run() {
-                        if (canComputeHeight()) {
-                          cancel();
-                          setResizeTimer(null);
-                          reportHeightChange();
+            new Runnable() {
+              @Override
+              public void run() {
+                if (canComputeHeight()) {
+                  if (getResizeTimer() != null) {
+                    getResizeTimer().cancel();
+                    setResizeTimer(null);
+                  }
+                  reportHeightChange();
+                } else if (getResizeTimer() == null) {
+                  setResizeTimer(
+                      new Timer() {
+                        @Override
+                        public void run() {
+                          if (canComputeHeight()) {
+                            cancel();
+                            setResizeTimer(null);
+                            reportHeightChange();
+                          }
                         }
-                      }
-                    });
-                getResizeTimer().scheduleRepeating(5);
+                      });
+                  getResizeTimer().scheduleRepeating(5);
+                }
               }
             });
   }

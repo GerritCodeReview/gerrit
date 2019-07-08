@@ -388,7 +388,7 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
       confirmationDialog.center();
     }
 
-    private void deleteTags(Set<String> tags) {
+    private void deleteTags(final Set<String> tags) {
       ProjectApi.deleteTags(
           getProjectKey(),
           tags,

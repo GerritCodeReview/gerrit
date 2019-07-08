@@ -16,11 +16,10 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-editable-content">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         display: block;
       }
@@ -31,8 +30,6 @@ limitations under the License.
         width: 100%;
 
         --iron-autogrow-textarea: {
-          box-sizing: border-box;
-          overflow-y: hidden;
           white-space: pre;
         };
       }

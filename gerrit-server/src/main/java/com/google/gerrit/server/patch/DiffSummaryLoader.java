@@ -16,8 +16,8 @@ package com.google.gerrit.server.patch;
 
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -32,7 +32,7 @@ public class DiffSummaryLoader implements Callable<DiffSummary> {
   private final DiffSummaryKey key;
   private final Project.NameKey project;
 
-  @Inject
+  @AssistedInject
   DiffSummaryLoader(PatchListCache plc, @Assisted DiffSummaryKey k, @Assisted Project.NameKey p) {
     patchListCache = plc;
     key = k;

@@ -15,7 +15,6 @@
 
 package com.google.gerrit.server.patch;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
@@ -100,19 +99,12 @@ public class PatchListCacheImpl implements PatchListCache {
       throws PatchListNotAvailableException {
     try {
       PatchList pl = fileCache.get(key, fileLoaderFactory.create(key, project));
-      if (pl instanceof LargeObjectTombstone) {
-        throw new PatchListObjectTooLargeException(
-            "Error computing " + key + ". Previous attempt failed with LargeObjectException");
-      }
       return pl;
     } catch (ExecutionException e) {
       PatchListLoader.log.warn("Error computing " + key, e);
       throw new PatchListNotAvailableException(e);
     } catch (UncheckedExecutionException e) {
       if (e.getCause() instanceof LargeObjectException) {
-        // Cache negative result so we don't need to redo expensive computations that would yield
-        // the same result.
-        fileCache.put(key, new LargeObjectTombstone());
         PatchListLoader.log.warn("Error computing " + key, e);
         throw new PatchListNotAvailableException(e);
       }
@@ -159,6 +151,16 @@ public class PatchListCacheImpl implements PatchListCache {
   }
 
   @Override
+  public DiffSummary getDiffSummary(Change change, PatchSet patchSet)
+      throws PatchListNotAvailableException {
+    Project.NameKey project = change.getProject();
+    ObjectId b = ObjectId.fromString(patchSet.getRevision().get());
+    Whitespace ws = Whitespace.IGNORE_NONE;
+    return getDiffSummary(
+        DiffSummaryKey.fromPatchListKey(PatchListKey.againstDefaultBase(b, ws)), project);
+  }
+
+  @Override
   public DiffSummary getDiffSummary(DiffSummaryKey key, Project.NameKey project)
       throws PatchListNotAvailableException {
     try {
@@ -172,20 +174,6 @@ public class PatchListCacheImpl implements PatchListCache {
         throw new PatchListNotAvailableException(e);
       }
       throw e;
-    }
-  }
-
-  /** Used to cache negative results in {@code fileCache}. */
-  @VisibleForTesting
-  public static class LargeObjectTombstone extends PatchList {
-    private static final long serialVersionUID = 1L;
-
-    @VisibleForTesting
-    public LargeObjectTombstone() {
-      // Initialize super class with valid values. We don't care about the inner state, but need to
-      // pass valid values that don't break (de)serialization.
-      super(
-          null, ObjectId.zeroId(), false, ComparisonType.againstAutoMerge(), new PatchListEntry[0]);
     }
   }
 }

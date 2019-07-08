@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.index.FieldDef;
-import com.google.gerrit.index.query.Matchable;
-import com.google.gerrit.index.query.RegexPredicate;
+import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.RegexPredicate;
+import com.google.gerrit.server.query.Matchable;
 
 public abstract class ChangeRegexPredicate extends RegexPredicate<ChangeData>
     implements Matchable<ChangeData> {

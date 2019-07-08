@@ -14,14 +14,10 @@
 (function() {
   'use strict';
 
-  const LookupQueryPatterns = {
+  var LookupQueryPatterns = {
     CHANGE_ID: /^\s*i?[0-9a-f]{8,40}\s*$/i,
     CHANGE_NUM: /^\s*[1-9][0-9]*\s*$/g,
   };
-
-  const USER_QUERY_PATTERN = /^owner:\s?("[^"]+"|[^ ]+)$/;
-
-  const LIMIT_OPERATOR_PATTERN = /\blimit:(\d+)/i;
 
   Polymer({
     is: 'gr-change-list-view',
@@ -56,16 +52,11 @@
 
       /**
        * State persisted across restamps of the element.
-       *
-       * Need sub-property declaration since it is used in template before
-       * assignment.
-       * @type {{ selectedChangeIndex: (number|undefined) }}
-       *
        */
       viewState: {
         type: Object,
         notify: true,
-        value() { return {}; },
+        value: function() { return {}; },
       },
 
       _changesPerPage: Number,
@@ -86,10 +77,7 @@
       /**
        * Change objects loaded from the server.
        */
-      _changes: {
-        type: Array,
-        observer: '_changesChanged',
-      },
+      _changes: Array,
 
       /**
        * For showing a "loading..." string during ajax requests.
@@ -98,12 +86,6 @@
         type: Boolean,
         value: true,
       },
-
-      /** @type {?String} */
-      _userId: {
-        type: String,
-        value: null,
-      },
     },
 
     listeners: {
@@ -111,12 +93,12 @@
       'previous-page': '_handlePreviousPage',
     },
 
-    attached() {
+    attached: function() {
       this.fire('title-change', {title: this._query});
     },
 
-    _paramsChanged(value) {
-      if (value.view !== Gerrit.Nav.View.SEARCH) { return; }
+    _paramsChanged: function(value) {
+      if (value.view != this.tagName.toLowerCase()) { return; }
 
       this._loading = true;
       this._query = value.query;
@@ -130,92 +112,64 @@
 
       this.fire('title-change', {title: this._query});
 
-      this._getPreferences().then(prefs => {
+      this._getPreferences().then(function(prefs) {
         this._changesPerPage = prefs.changes_per_page;
         return this._getChanges();
-      }).then(changes => {
-        changes = changes || [];
+      }.bind(this)).then(function(changes) {
         if (this._query && changes.length === 1) {
-          for (const query in LookupQueryPatterns) {
+          for (var query in LookupQueryPatterns) {
             if (LookupQueryPatterns.hasOwnProperty(query) &&
                 this._query.match(LookupQueryPatterns[query])) {
-              this._replaceCurrentLocation(
-                  Gerrit.Nav.getUrlForChange(changes[0]));
+              page.show('/c/' + changes[0]._number);
               return;
             }
           }
         }
         this._changes = changes;
         this._loading = false;
-      });
+      }.bind(this));
     },
 
-    _replaceCurrentLocation(url) {
-      window.location.replace(url);
-    },
-
-    _getChanges() {
+    _getChanges: function() {
       return this.$.restAPI.getChanges(this._changesPerPage, this._query,
           this._offset);
     },
 
-    _getPreferences() {
+    _getPreferences: function() {
       return this.$.restAPI.getPreferences();
     },
 
-    _limitFor(query, defaultLimit) {
-      const match = query.match(LIMIT_OPERATOR_PATTERN);
-      if (!match) {
-        return defaultLimit;
-      }
-      return parseInt(match[1], 10);
-    },
-
-    _computeNavLink(query, offset, direction, changesPerPage) {
+    _computeNavLink: function(query, offset, direction, changesPerPage) {
       // Offset could be a string when passed from the router.
       offset = +(offset || 0);
-      const limit = this._limitFor(query, changesPerPage);
-      const newOffset = Math.max(0, offset + (limit * direction));
+      var newOffset = Math.max(0, offset + (changesPerPage * direction));
       // Double encode URI component.
-      let href = this.getBaseUrl() + '/q/' + this.encodeURL(query, false);
+      var href = this.getBaseUrl() + '/q/' + this.encodeURL(query, false);
       if (newOffset > 0) {
         href += ',' + newOffset;
       }
       return href;
     },
 
-    _hidePrevArrow(offset) {
+    _hidePrevArrow: function(offset) {
       return offset === 0;
     },
 
-    _hideNextArrow(loading) {
+    _hideNextArrow: function(loading) {
       return loading || !this._changes || !this._changes.length ||
           !this._changes[this._changes.length - 1]._more_changes;
     },
 
-    _handleNextPage() {
+    _handleNextPage: function() {
       if (this.$.nextArrow.hidden) { return; }
       page.show(this._computeNavLink(
           this._query, this._offset, 1, this._changesPerPage));
     },
 
-    _handlePreviousPage() {
+    _handlePreviousPage: function() {
       if (this.$.prevArrow.hidden) { return; }
       page.show(this._computeNavLink(
           this._query, this._offset, -1, this._changesPerPage));
-    },
-
-    _changesChanged(changes) {
-      if (!changes || !changes.length ||
-          !USER_QUERY_PATTERN.test(this._query)) {
-        this._userId = null;
-        return;
-      }
-      this._userId = changes[0].owner.email;
-    },
-
-    _computeUserHeaderClass(userId) {
-      return userId ? '' : 'hide';
     },
   });
 })();

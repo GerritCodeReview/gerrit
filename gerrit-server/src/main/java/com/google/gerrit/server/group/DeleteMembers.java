@@ -14,17 +14,18 @@
 
 package com.google.gerrit.server.group;
 
-import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.AddMembers.Input;
@@ -33,52 +34,81 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
-import org.eclipse.jgit.errors.ConfigInvalidException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class DeleteMembers implements RestModifyView<GroupResource, Input> {
   private final AccountsCollection accounts;
+  private final AccountCache accountCache;
   private final Provider<ReviewDb> db;
-  private final Provider<GroupsUpdate> groupsUpdateProvider;
+  private final Provider<CurrentUser> self;
+  private final AuditService auditService;
 
   @Inject
   DeleteMembers(
       AccountsCollection accounts,
+      AccountCache accountCache,
       Provider<ReviewDb> db,
-      @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider) {
+      Provider<CurrentUser> self,
+      AuditService auditService) {
     this.accounts = accounts;
+    this.accountCache = accountCache;
     this.db = db;
-    this.groupsUpdateProvider = groupsUpdateProvider;
+    this.self = self;
+    this.auditService = auditService;
   }
 
   @Override
   public Response<?> apply(GroupResource resource, Input input)
       throws AuthException, MethodNotAllowedException, UnprocessableEntityException, OrmException,
-          IOException, ConfigInvalidException, ResourceNotFoundException {
-    GroupDescription.Internal internalGroup =
-        resource.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
+          IOException {
+    AccountGroup internalGroup = resource.toAccountGroup();
+    if (internalGroup == null) {
+      throw new MethodNotAllowedException();
+    }
     input = Input.init(input);
 
     final GroupControl control = resource.getControl();
-    if (!control.canRemoveMember()) {
-      throw new AuthException("Cannot delete members from group " + internalGroup.getName());
+    final Map<Account.Id, AccountGroupMember> members = getMembers(internalGroup.getId());
+    final List<AccountGroupMember> toRemove = new ArrayList<>();
+
+    for (final String nameOrEmail : input.members) {
+      Account a = accounts.parse(nameOrEmail).getAccount();
+
+      if (!control.canRemoveMember()) {
+        throw new AuthException("Cannot delete member: " + a.getFullName());
+      }
+
+      final AccountGroupMember m = members.remove(a.getId());
+      if (m != null) {
+        toRemove.add(m);
+      }
     }
 
-    Set<Account.Id> membersToRemove = new HashSet<>();
-    for (String nameOrEmail : input.members) {
-      Account a = accounts.parse(nameOrEmail).getAccount();
-      membersToRemove.add(a.getId());
-    }
-    AccountGroup.UUID groupUuid = internalGroup.getGroupUUID();
-    try {
-      groupsUpdateProvider.get().removeGroupMembers(db.get(), groupUuid, membersToRemove);
-    } catch (NoSuchGroupException e) {
-      throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
+    writeAudits(toRemove);
+    db.get().accountGroupMembers().delete(toRemove);
+    for (final AccountGroupMember m : toRemove) {
+      accountCache.evict(m.getAccountId());
     }
 
     return Response.none();
+  }
+
+  private void writeAudits(final List<AccountGroupMember> toRemove) {
+    final Account.Id me = self.get().getAccountId();
+    auditService.dispatchDeleteAccountsFromGroup(me, toRemove);
+  }
+
+  private Map<Account.Id, AccountGroupMember> getMembers(final AccountGroup.Id groupId)
+      throws OrmException {
+    final Map<Account.Id, AccountGroupMember> members = new HashMap<>();
+    for (final AccountGroupMember m : db.get().accountGroupMembers().byGroup(groupId)) {
+      members.put(m.getAccountId(), m);
+    }
+    return members;
   }
 
   @Singleton
@@ -88,14 +118,14 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
     private final Provider<DeleteMembers> delete;
 
     @Inject
-    DeleteMember(Provider<DeleteMembers> delete) {
+    DeleteMember(final Provider<DeleteMembers> delete) {
       this.delete = delete;
     }
 
     @Override
     public Response<?> apply(MemberResource resource, Input input)
         throws AuthException, MethodNotAllowedException, UnprocessableEntityException, OrmException,
-            IOException, ConfigInvalidException, ResourceNotFoundException {
+            IOException {
       AddMembers.Input in = new AddMembers.Input();
       in._oneMember = resource.getMember().getAccountId().toString();
       return delete.get().apply(resource, in);

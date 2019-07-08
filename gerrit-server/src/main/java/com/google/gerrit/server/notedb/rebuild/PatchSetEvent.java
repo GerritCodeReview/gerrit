@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb.rebuild;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.PatchSetState;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.List;
@@ -63,6 +64,9 @@ class PatchSetEvent extends Event {
     List<String> groups = ps.getGroups();
     if (!groups.isEmpty()) {
       update.setGroups(ps.getGroups());
+    }
+    if (ps.isDraft()) {
+      update.setPatchSetState(PatchSetState.DRAFT);
     }
   }
 

@@ -16,16 +16,17 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
-<link rel="import" href="../../../styles/gr-form-styles.html">
+<link rel="import" href="../../../styles/gr-settings-styles.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-ssh-editor">
   <template>
-    <style include="shared-styles"></style>
-    <style include="gr-form-styles">
+    <style>
+      .commentHeader {
+        width: 27em;
+      }
       .statusHeader {
         width: 4em;
       }
@@ -47,29 +48,22 @@ limitations under the License.
         position: absolute;
         right: 2em;
       }
-      #existing {
-        margin-bottom: 1em;
-      }
-      #existing .commentColumn {
-        min-width: 27em;
-        width: auto;
-      }
     </style>
-    <div class="gr-form-styles">
-      <fieldset id="existing">
+    <style include="gr-settings-styles"></style>
+    <div class="gr-settings-styles">
+      <fieldset>
         <table>
           <thead>
             <tr>
-              <th class="commentColumn">Comment</th>
+              <th class="commentHeader">Comment</th>
               <th class="statusHeader">Status</th>
               <th class="keyHeader">Public key</th>
-              <th></th>
             </tr>
           </thead>
           <tbody>
             <template is="dom-repeat" items="[[_keys]]" as="key">
               <tr>
-                <td class="commentColumn">[[key.comment]]</td>
+                <td>[[key.comment]]</td>
                 <td>[[_getStatusLabel(key.valid)]]</td>
                 <td>
                   <gr-button

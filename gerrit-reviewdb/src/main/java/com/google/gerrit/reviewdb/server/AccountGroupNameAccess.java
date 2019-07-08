@@ -29,4 +29,8 @@ public interface AccountGroupNameAccess extends Access<AccountGroupName, Account
 
   @Query("ORDER BY name")
   ResultSet<AccountGroupName> all() throws OrmException;
+
+  @Query("WHERE name.name >= ? AND name.name <= ? ORDER BY name LIMIT ?")
+  ResultSet<AccountGroupName> suggestByName(String nameA, String nameB, int limit)
+      throws OrmException;
 }

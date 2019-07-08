@@ -46,9 +46,9 @@ public class FilesInCommitCollection implements ChildCollection<CommitResource, 
   public FileResource parse(CommitResource parent, IdString id)
       throws ResourceNotFoundException, IOException {
     if (Patch.isMagic(id.get())) {
-      return new FileResource(parent.getProjectState(), parent.getCommit(), id.get());
+      return new FileResource(parent.getProject(), parent.getCommit(), id.get());
     }
-    return FileResource.create(repoManager, parent.getProjectState(), parent.getCommit(), id.get());
+    return FileResource.create(repoManager, parent.getProject(), parent.getCommit(), id.get());
   }
 
   @Override

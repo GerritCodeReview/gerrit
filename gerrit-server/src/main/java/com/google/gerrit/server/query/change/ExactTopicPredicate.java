@@ -19,13 +19,13 @@ import static com.google.gerrit.server.index.change.ChangeField.EXACT_TOPIC;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwtorm.server.OrmException;
 
-public class ExactTopicPredicate extends ChangeIndexPredicate {
-  public ExactTopicPredicate(String topic) {
+class ExactTopicPredicate extends ChangeIndexPredicate {
+  ExactTopicPredicate(String topic) {
     super(EXACT_TOPIC, topic);
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
+  public boolean match(final ChangeData object) throws OrmException {
     Change change = object.change();
     if (change == null) {
       return false;

@@ -15,10 +15,10 @@
 package com.google.gerrit.lucene;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.AbstractIndexModule;
-import com.google.gerrit.server.index.VersionManager;
+import com.google.gerrit.server.index.AbstractVersionManager;
+import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.group.GroupIndex;
@@ -36,7 +36,7 @@ public class LuceneIndexModule extends AbstractIndexModule {
     return new LuceneIndexModule(versions, threads);
   }
 
-  public static LuceneIndexModule latestVersion() {
+  public static LuceneIndexModule latestVersionWithOnlineUpgrade() {
     return new LuceneIndexModule(null, 0);
   }
 
@@ -64,7 +64,7 @@ public class LuceneIndexModule extends AbstractIndexModule {
   }
 
   @Override
-  protected Class<? extends VersionManager> getVersionManager() {
+  protected Class<? extends AbstractVersionManager> getVersionManager() {
     return LuceneVersionManager.class;
   }
 

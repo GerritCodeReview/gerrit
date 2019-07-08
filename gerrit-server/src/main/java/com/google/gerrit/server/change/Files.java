@@ -15,8 +15,6 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.collect.Lists;
-import com.google.common.hash.Hasher;
-import com.google.common.hash.Hashing;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -24,10 +22,10 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.CacheControl;
 import com.google.gerrit.extensions.restapi.ChildCollection;
-import com.google.gerrit.extensions.restapi.ETagView;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -40,10 +38,7 @@ import com.google.gerrit.server.change.AccountPatchReviewStore.PatchSetWithRevie
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -95,7 +90,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
     return new FileResource(rev, id.get());
   }
 
-  public static final class ListFiles implements ETagView<RevisionResource> {
+  public static final class ListFiles implements RestReadView<RevisionResource> {
     private static final Logger log = LoggerFactory.getLogger(ListFiles.class);
 
     @Option(name = "--base", metaVar = "revision-id")
@@ -147,8 +142,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
     @Override
     public Response<?> apply(RevisionResource resource)
         throws AuthException, BadRequestException, ResourceNotFoundException, OrmException,
-            RepositoryNotFoundException, IOException, PatchListNotAvailableException,
-            PermissionBackendException {
+            RepositoryNotFoundException, IOException, PatchListNotAvailableException {
       checkOptions();
       if (reviewed) {
         return Response.ok(reviewed(resource));
@@ -243,8 +237,6 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
 
         try {
           return copy(res.files(), res.patchSetId(), resource, userId);
-        } catch (PatchListObjectTooLargeException e) {
-          log.warn("Cannot copy patch review flags: " + e.getMessage());
         } catch (IOException | PatchListNotAvailableException e) {
           log.warn("Cannot copy patch review flags", e);
         }
@@ -321,11 +313,6 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
       }
     }
 
-    public ListFiles setQuery(String query) {
-      this.query = query;
-      return this;
-    }
-
     public ListFiles setBase(String base) {
       this.base = base;
       return this;
@@ -334,16 +321,6 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
     public ListFiles setParent(int parentNum) {
       this.parentNum = parentNum;
       return this;
-    }
-
-    @Override
-    public String getETag(RevisionResource resource) {
-      Hasher h = Hashing.murmur3_128().newHasher();
-      resource.prepareETag(h, resource.getUser());
-      // File list comes from the PatchListCache, so any change to the key or value should
-      // invalidate ETag.
-      h.putLong(PatchListKey.serialVersionUID);
-      return h.hash().toString();
     }
   }
 }

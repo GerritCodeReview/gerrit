@@ -14,17 +14,12 @@
 
 package com.google.gerrit.pgm;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.gerrit.common.Version.getVersion;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
-import com.google.gerrit.audit.AuditModule;
 import com.google.gerrit.common.EventBroker;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.elasticsearch.ElasticIndexModule;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.gpg.GpgModule;
@@ -56,7 +51,6 @@ import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.LibModuleLoader;
 import com.google.gerrit.server.ModuleOverloader;
 import com.google.gerrit.server.StartupChecks;
-import com.google.gerrit.server.account.AccountDeactivator;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.cache.h2.H2CacheModule;
 import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
@@ -72,25 +66,20 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.RestCacheAdminModule;
 import com.google.gerrit.server.events.StreamEventsApiListener;
 import com.google.gerrit.server.git.GarbageCollectionModule;
+import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.git.receive.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.index.DummyIndexModule;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
-import com.google.gerrit.server.index.OnlineUpgrader;
-import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.receive.MailReceiver;
 import com.google.gerrit.server.mail.send.SmtpEmailSender;
 import com.google.gerrit.server.mime.MimeUtil2Module;
-import com.google.gerrit.server.notedb.rebuild.NoteDbMigrator;
-import com.google.gerrit.server.notedb.rebuild.OnlineNoteDbMigrator;
 import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
 import com.google.gerrit.server.plugins.PluginRestApiModule;
-import com.google.gerrit.server.project.DefaultPermissionBackendModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.InMemoryAccountPatchReviewStore;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
@@ -124,7 +113,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.spi.ExplicitBooleanOptionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -175,15 +163,6 @@ public class Daemon extends SiteProgram {
   @Option(name = "--stop-only", usage = "Stop the daemon", hidden = true)
   private boolean stopOnly;
 
-  @Option(
-      name = "--migrate-to-note-db",
-      usage = "Automatically migrate changes to NoteDb",
-      handler = ExplicitBooleanOptionHandler.class)
-  private boolean migrateToNoteDb;
-
-  @Option(name = "--trial", usage = "(With --migrate-to-note-db) " + MigrateToNoteDb.TRIAL_USAGE)
-  private boolean trial;
-
   private final LifecycleManager manager = new LifecycleManager();
   private Injector dbInjector;
   private Injector cfgInjector;
@@ -193,10 +172,9 @@ public class Daemon extends SiteProgram {
   private Injector webInjector;
   private Injector httpdInjector;
   private Path runFile;
-  private boolean inMemoryTest;
+  private boolean test;
   private AbstractModule luceneModule;
   private Module emailModule;
-  private Module testSysModule;
 
   private Runnable serverStarted;
   private IndexType indexType;
@@ -212,11 +190,6 @@ public class Daemon extends SiteProgram {
   @VisibleForTesting
   public void setEnableSshd(boolean enable) {
     sshd = enable;
-  }
-
-  @VisibleForTesting
-  public boolean getEnableSshd() {
-    return sshd;
   }
 
   public void setEnableHttpd(boolean enable) {
@@ -260,9 +233,12 @@ public class Daemon extends SiteProgram {
     try {
       start();
       RuntimeShutdown.add(
-          () -> {
-            log.info("caught shutdown, cleaning up");
-            stop();
+          new Runnable() {
+            @Override
+            public void run() {
+              log.info("caught shutdown, cleaning up");
+              stop();
+            }
           });
 
       log.info("Gerrit Code Review " + myVersion() + " ready");
@@ -304,7 +280,7 @@ public class Daemon extends SiteProgram {
   @VisibleForTesting
   public void setDatabaseForTesting(List<Module> modules) {
     dbInjector = Guice.createInjector(Stage.PRODUCTION, modules);
-    inMemoryTest = true;
+    test = true;
     headless = true;
   }
 
@@ -316,12 +292,7 @@ public class Daemon extends SiteProgram {
   @VisibleForTesting
   public void setLuceneModule(LuceneIndexModule m) {
     luceneModule = m;
-    inMemoryTest = true;
-  }
-
-  @VisibleForTesting
-  public void setAdditionalSysModuleForTesting(@Nullable Module m) {
-    testSysModule = m;
+    test = true;
   }
 
   @VisibleForTesting
@@ -371,15 +342,7 @@ public class Daemon extends SiteProgram {
   }
 
   private String myVersion() {
-    List<String> versionParts = new ArrayList<>();
-    if (slave) {
-      versionParts.add("[slave]");
-    }
-    if (headless) {
-      versionParts.add("[headless]");
-    }
-    versionParts.add(getVersion());
-    return Joiner.on(" ").join(versionParts);
+    return com.google.gerrit.common.Version.getVersion();
   }
 
   private Injector createCfgInjector() {
@@ -394,6 +357,19 @@ public class Daemon extends SiteProgram {
     modules.add(new DropWizardMetricMaker.RestModule());
     modules.add(new LogFileCompressor.Module());
 
+    // Plugin module needs to be inserted *before* the index module.
+    // There is the concept of LifecycleModule, in Gerrit's own extension
+    // to Guice, which has these:
+    //  listener().to(SomeClassImplementingLifecycleListener.class);
+    // and the start() methods of each such listener are executed in the
+    // order they are declared.
+    // Makes sure that PluginLoader.start() is executed before the
+    // LuceneIndexModule.start() so that plugins get loaded and the respective
+    // Guice modules installed so that the on-line reindexing will happen
+    // with the proper classes (e.g. group backends, custom Prolog
+    // predicates) and the associated rules ready to be evaluated.
+    modules.add(new PluginModule());
+
     // Index module shutdown must happen before work queue shutdown, otherwise
     // work queue can get stuck waiting on index futures that will never return.
     modules.add(createIndexModule());
@@ -402,7 +378,7 @@ public class Daemon extends SiteProgram {
     modules.add(new StreamEventsApiListener.Module());
     modules.add(new EventBroker.Module());
     modules.add(
-        inMemoryTest
+        test
             ? new InMemoryAccountPatchReviewStore.Module()
             : new JdbcAccountPatchReviewStore.Module(config));
     modules.add(new ReceiveCommitsExecutorModule());
@@ -411,7 +387,6 @@ public class Daemon extends SiteProgram {
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new SearchingChangeCacheImpl.Module(slave));
     modules.add(new InternalAccountDirectory.Module());
-    modules.add(new DefaultPermissionBackendModule());
     modules.add(new DefaultMemoryCacheModule());
     modules.add(new H2CacheModule());
     modules.add(cfgInjector.getInstance(MailReceiver.Module.class));
@@ -420,15 +395,7 @@ public class Daemon extends SiteProgram {
     } else {
       modules.add(new SmtpEmailSender.Module());
     }
-    modules.add(new AuditModule());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
-    modules.add(new PluginModule());
-    if (!slave
-        && VersionManager.getOnlineUpgrade(config)
-        // Schema upgrade is handled by OnlineNoteDbMigrator in this case.
-        && !migrateToNoteDb()) {
-      modules.add(new OnlineUpgrader.Module());
-    }
     modules.add(new PluginRestApiModule());
     modules.add(new RestCacheAdminModule());
     modules.add(new GpgModule(config));
@@ -461,7 +428,7 @@ public class Daemon extends SiteProgram {
           protected void configure() {
             bind(GerritOptions.class)
                 .toInstance(new GerritOptions(config, headless, slave, polyGerritDev));
-            if (inMemoryTest) {
+            if (test) {
               bind(String.class)
                   .annotatedWith(SecureStoreClassName.class)
                   .toInstance(DefaultSecureStore.class.getName());
@@ -471,22 +438,10 @@ public class Daemon extends SiteProgram {
         });
     modules.add(new GarbageCollectionModule());
     if (!slave) {
-      modules.add(new AccountDeactivator.Module());
       modules.add(new ChangeCleanupRunner.Module());
-    }
-    modules.addAll(LibModuleLoader.loadModules(cfgInjector));
-    if (migrateToNoteDb()) {
-      modules.add(new OnlineNoteDbMigrator.Module(trial));
-    }
-    if (testSysModule != null) {
-      modules.add(testSysModule);
     }
     return cfgInjector.createChildInjector(
         ModuleOverloader.override(modules, LibModuleLoader.loadModules(cfgInjector)));
-  }
-
-  private boolean migrateToNoteDb() {
-    return migrateToNoteDb || NoteDbMigrator.getAutoMigrate(checkNotNull(config));
   }
 
   private Module createIndexModule() {
@@ -498,9 +453,9 @@ public class Daemon extends SiteProgram {
     }
     switch (indexType) {
       case LUCENE:
-        return LuceneIndexModule.latestVersion();
+        return LuceneIndexModule.latestVersionWithOnlineUpgrade();
       case ELASTICSEARCH:
-        return ElasticIndexModule.latestVersion();
+        return ElasticIndexModule.latestVersionWithOnlineUpgrade();
       default:
         throw new IllegalStateException("unsupported index.type = " + indexType);
     }
@@ -526,7 +481,7 @@ public class Daemon extends SiteProgram {
   private Injector createSshInjector() {
     final List<Module> modules = new ArrayList<>();
     modules.add(sysInjector.getInstance(SshModule.class));
-    if (!inMemoryTest) {
+    if (!test) {
       modules.add(new SshHostKeyModule());
     }
     modules.add(

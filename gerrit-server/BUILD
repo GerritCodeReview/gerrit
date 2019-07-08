@@ -1,4 +1,3 @@
-load("//lib/prolog:prolog.bzl", "prolog_cafe_library")
 load("//tools/bzl:javadoc.bzl", "java_doc")
 load("//tools/bzl:junit.bzl", "junit_tests")
 
@@ -6,18 +5,9 @@ CONSTANTS_SRC = [
     "src/main/java/com/google/gerrit/server/documentation/Constants.java",
 ]
 
-GERRIT_GLOBAL_MODULE_SRC = [
-    "src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
-]
-
-# Non-recursive glob; dropwizard implementation is in a subpackage.
-METRICS_SRCS = glob(["src/main/java/com/google/gerrit/metrics/*.java"])
-
-RECEIVE_SRCS = glob(["src/main/java/com/google/gerrit/server/git/receive/**/*.java"])
-
 SRCS = glob(
     ["src/main/java/**/*.java"],
-    exclude = CONSTANTS_SRC + GERRIT_GLOBAL_MODULE_SRC + METRICS_SRCS + RECEIVE_SRCS,
+    exclude = CONSTANTS_SRC,
 )
 
 RESOURCES = glob(["src/main/resources/**/*"])
@@ -28,19 +18,6 @@ java_library(
     visibility = ["//visibility:public"],
 )
 
-prolog_cafe_library(
-    name = "prolog-common",
-    srcs = ["src/main/prolog/gerrit_common.pl"],
-    visibility = ["//visibility:public"],
-    deps = [":server"],
-)
-
-# Giant kitchen-sink target.
-#
-# The only reason this hasn't been split up further is because we have too many
-# tangled dependencies (and Guice unfortunately makes it quite easy to get into
-# this state). Which means if you see an opportunity to split something off, you
-# should seize it.
 java_library(
     name = "server",
     srcs = SRCS,
@@ -48,12 +25,11 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         ":constants",
-        ":metrics",
+        "//gerrit-antlr:query_exception",
+        "//gerrit-antlr:query_parser",
         "//gerrit-common:annotations",
         "//gerrit-common:server",
         "//gerrit-extension-api:api",
-        "//gerrit-index:index",
-        "//gerrit-index:query_exception",
         "//gerrit-patch-commonsnet:commons-net",
         "//gerrit-patch-jgit:server",
         "//gerrit-prettify:server",
@@ -78,6 +54,7 @@ java_library(
         "//lib:soy",
         "//lib:tukaani-xz",
         "//lib:velocity",
+        "//lib/antlr:java-runtime",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/bouncycastle:bcpkix-neverlink",
@@ -111,63 +88,7 @@ java_library(
     ],
 )
 
-# Large modules that import things from all across the server package
-# hierarchy, so they need lots of dependencies.
-java_library(
-    name = "module",
-    srcs = GERRIT_GLOBAL_MODULE_SRC,
-    visibility = ["//visibility:public"],
-    deps = [
-        ":receive",
-        ":server",
-        "//gerrit-extension-api:api",
-        "//lib:blame-cache",
-        "//lib:guava",
-        "//lib:soy",
-        "//lib:velocity",
-        "//lib/guice",
-        "//lib/jgit/org.eclipse.jgit:jgit",
-    ],
-)
-
-java_library(
-    name = "receive",
-    srcs = RECEIVE_SRCS,
-    visibility = ["//visibility:public"],
-    deps = [
-        ":server",
-        "//gerrit-common:annotations",
-        "//gerrit-common:server",
-        "//gerrit-extension-api:api",
-        "//gerrit-reviewdb:server",
-        "//gerrit-util-cli:cli",
-        "//lib:args4j",
-        "//lib:guava",
-        "//lib:gwtorm",
-        "//lib/auto:auto-value",
-        "//lib/auto:auto-value-annotations",
-        "//lib/guice",
-        "//lib/guice:guice-assistedinject",
-        "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/log:api",
-    ],
-)
-
-# TODO(dborowitz): Move to a different top-level directory to avoid inbound
-# dependencies on gerrit-server.
-java_library(
-    name = "metrics",
-    srcs = METRICS_SRCS,
-    visibility = ["//visibility:public"],
-    deps = [
-        "//gerrit-extension-api:api",
-        "//lib:guava",
-    ],
-)
-
 TESTUTIL_DEPS = [
-    ":metrics",
-    ":module",
     ":server",
     "//gerrit-common:annotations",
     "//gerrit-common:server",
@@ -175,7 +96,6 @@ TESTUTIL_DEPS = [
     "//gerrit-cache-mem:mem",
     "//gerrit-extension-api:api",
     "//gerrit-gpg:gpg",
-    "//gerrit-index:index",
     "//gerrit-lucene:lucene",
     "//gerrit-reviewdb:server",
     "//lib:gwtorm",
@@ -223,22 +143,6 @@ java_library(
     ],
 )
 
-CUSTOM_TRUTH_SUBJECTS = glob([
-    "src/test/java/com/google/gerrit/server/**/*Subject.java",
-])
-
-java_library(
-    name = "custom-truth-subjects",
-    testonly = 1,
-    srcs = CUSTOM_TRUTH_SUBJECTS,
-    deps = [
-        ":server",
-        "//gerrit-extension-api:api",
-        "//gerrit-test-util:test_util",
-        "//lib:truth",
-    ],
-)
-
 PROLOG_TEST_CASE = [
     "src/test/java/com/google/gerrit/rules/PrologTestCase.java",
 ]
@@ -270,9 +174,9 @@ junit_tests(
     srcs = PROLOG_TESTS,
     resources = glob(["src/test/resources/com/google/gerrit/rules/**/*"]),
     deps = TESTUTIL_DEPS + [
-        ":prolog-common",
         ":prolog_test_case",
         ":testutil",
+        "//gerrit-server/src/main/prolog:common",
         "//lib/prolog:runtime",
     ],
 )
@@ -287,8 +191,11 @@ java_library(
     srcs = QUERY_TESTS,
     visibility = ["//visibility:public"],
     deps = TESTUTIL_DEPS + [
-        ":prolog-common",
         ":testutil",
+        "//gerrit-antlr:query_exception",
+        "//gerrit-antlr:query_parser",
+        "//gerrit-server/src/main/prolog:common",
+        "//lib/antlr:java-runtime",
     ],
 )
 
@@ -298,8 +205,11 @@ junit_tests(
     srcs = QUERY_TESTS,
     visibility = ["//visibility:public"],
     deps = TESTUTIL_DEPS + [
-        ":prolog-common",
         ":testutil",
+        "//gerrit-antlr:query_exception",
+        "//gerrit-antlr:query_parser",
+        "//gerrit-server/src/main/prolog:common",
+        "//lib/antlr:java-runtime",
     ],
 )
 
@@ -308,16 +218,15 @@ junit_tests(
     size = "large",
     srcs = glob(
         ["src/test/java/**/*.java"],
-        exclude = TESTUTIL + CUSTOM_TRUTH_SUBJECTS + PROLOG_TESTS + PROLOG_TEST_CASE + QUERY_TESTS,
+        exclude = TESTUTIL + PROLOG_TESTS + PROLOG_TEST_CASE + QUERY_TESTS,
     ),
     resources = glob(["src/test/resources/com/google/gerrit/server/**/*"]),
     visibility = ["//visibility:public"],
     deps = TESTUTIL_DEPS + [
-        ":custom-truth-subjects",
-        ":prolog-common",
         ":testutil",
-        "//gerrit-index:query_exception",
+        "//gerrit-antlr:query_exception",
         "//gerrit-patch-jgit:server",
+        "//gerrit-server/src/main/prolog:common",
         "//gerrit-test-util:test_util",
         "//lib:args4j",
         "//lib:grappa",
@@ -325,25 +234,12 @@ junit_tests(
         "//lib:guava",
         "//lib:guava-retrying",
         "//lib:protobuf",
-        "//lib:truth-java8-extension",
         "//lib/bouncycastle:bcprov",
         "//lib/bouncycastle:bcpkix",
         "//lib/dropwizard:dropwizard-core",
         "//lib/guice:guice-assistedinject",
         "//lib/prolog:runtime",
         "//lib/commons:codec",
-    ],
-)
-
-junit_tests(
-    name = "testutil_test",
-    size = "small",
-    srcs = [
-        "src/test/java/com/google/gerrit/testutil/IndexVersionsTest.java",
-    ],
-    visibility = ["//visibility:public"],
-    deps = TESTUTIL_DEPS + [
-        ":testutil",
     ],
 )
 

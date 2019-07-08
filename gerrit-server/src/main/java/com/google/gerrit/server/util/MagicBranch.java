@@ -27,9 +27,7 @@ public final class MagicBranch {
   private static final Logger log = LoggerFactory.getLogger(MagicBranch.class);
 
   public static final String NEW_CHANGE = "refs/for/";
-  // TODO(xchangcheng): remove after 'repo' supports private/wip changes.
   public static final String NEW_DRAFT_CHANGE = "refs/drafts/";
-  // TODO(xchangcheng): remove after migrating tools which are using this magic branch.
   public static final String NEW_PUBLISH_CHANGE = "refs/publish/";
 
   /** Extracts the destination from a ref name */

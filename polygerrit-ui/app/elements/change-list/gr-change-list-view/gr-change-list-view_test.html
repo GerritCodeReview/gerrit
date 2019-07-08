@@ -21,7 +21,8 @@ limitations under the License.
 <script src="../../../bower_components/page/page.js"></script>
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-change-list-view.html">
 
 <script>void(0);</script>
@@ -33,17 +34,17 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  const CHANGE_ID = 'IcA3dAB3edAB9f60B8dcdA6ef71A75980e4B7127';
-  const COMMIT_HASH = '12345678';
+  var CHANGE_ID = 'IcA3dAB3edAB9f60B8dcdA6ef71A75980e4B7127';
+  var COMMIT_HASH = '12345678';
 
-  suite('gr-change-list-view tests', () => {
-    let element;
-    let sandbox;
+  suite('gr-change-list-view tests', function() {
+    var element;
+    var sandbox;
 
-    setup(() => {
+    setup(function() {
       stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(false); },
-        getChanges(num, query) {
+        getLoggedIn: function() { return Promise.resolve(false); },
+        getChanges: function(num, query) {
           return Promise.resolve([]);
         },
       });
@@ -51,14 +52,14 @@ limitations under the License.
       sandbox = sinon.sandbox.create();
     });
 
-    teardown(done => {
-      flush(() => {
+    teardown(function(done) {
+      flush(function() {
         sandbox.restore();
         done();
       });
     });
 
-    test('url is properly encoded', () => {
+    test('url is properly encoded', function() {
       assert.equal(element._computeNavLink(
           'status:open project:platform/frameworks/base', 0, -1, 25),
           '/q/status:open+project:platform%252Fframeworks%252Fbase'
@@ -69,20 +70,11 @@ limitations under the License.
       );
     });
 
-    test('_limitFor', () => {
-      const defaultLimit = 25;
-      const _limitFor = q => element._limitFor(q, defaultLimit);
-      assert.equal(_limitFor(''), defaultLimit);
-      assert.equal(_limitFor('limit:10'), 10);
-      assert.equal(_limitFor('xlimit:10'), defaultLimit);
-      assert.equal(_limitFor('x(limit:10'), 10);
-    });
-
-    test('_computeNavLink', () => {
-      const query = 'status:open';
-      let offset = 0;
-      let direction = 1;
-      const changesPerPage = 5;
+    test('_computeNavLink', function() {
+      var query = 'status:open';
+      var offset = 0;
+      var direction = 1;
+      var changesPerPage = 5;
       assert.equal(
           element._computeNavLink(query, offset, direction, changesPerPage),
           '/q/status:open,5');
@@ -95,19 +87,14 @@ limitations under the License.
       assert.equal(
           element._computeNavLink(query, offset, direction, changesPerPage),
           '/q/status:open,10');
-      assert.equal(
-          element._computeNavLink(
-              query + ' limit:10', offset, direction, changesPerPage),
-          '/q/status:open+limit:10,15');
     });
 
-    test('_computeNavLink with path', () => {
-      const oldCanonicalPath = window.CANONICAL_PATH;
+    test('_computeNavLink with path', function() {
       window.CANONICAL_PATH = '/r';
-      const query = 'status:open';
-      let offset = 0;
-      let direction = 1;
-      const changesPerPage = 5;
+      var query = 'status:open';
+      var offset = 0;
+      var direction = 1;
+      var changesPerPage = 5;
       assert.equal(
           element._computeNavLink(query, offset, direction, changesPerPage),
           '/r/q/status:open,5');
@@ -120,37 +107,36 @@ limitations under the License.
       assert.equal(
           element._computeNavLink(query, offset, direction, changesPerPage),
           '/r/q/status:open,10');
-      window.CANONICAL_PATH = oldCanonicalPath;
     });
 
-    test('_hidePrevArrow', () => {
-      let offset = 0;
+    test('_hidePrevArrow', function() {
+      var offset = 0;
       assert.isTrue(element._hidePrevArrow(offset));
       offset = 5;
       assert.isFalse(element._hidePrevArrow(offset));
     });
 
-    test('_hideNextArrow', () => {
-      let loading = true;
+    test('_hideNextArrow', function() {
+      var loading = true;
       assert.isTrue(element._hideNextArrow(loading));
       loading = false;
       assert.isTrue(element._hideNextArrow(loading));
       element._changes = [];
       assert.isTrue(element._hideNextArrow(loading));
       element._changes =
-          Array(...Array(5)).map(Object.prototype.valueOf, {});
+          Array.apply(null, Array(5)).map(Object.prototype.valueOf, {});
       assert.isTrue(element._hideNextArrow(loading));
       element._changes =
-          Array(...Array(25)).map(Object.prototype.valueOf,
+          Array.apply(null, Array(25)).map(Object.prototype.valueOf,
           {_more_changes: true});
       assert.isFalse(element._hideNextArrow(loading));
       element._changes =
-          Array(...Array(25)).map(Object.prototype.valueOf, {});
+          Array.apply(null, Array(25)).map(Object.prototype.valueOf, {});
       assert.isTrue(element._hideNextArrow(loading));
     });
 
-    test('_handleNextPage', () => {
-      const showStub = sandbox.stub(page, 'show');
+    test('_handleNextPage', function() {
+      var showStub = sandbox.stub(page, 'show');
       element.$.nextArrow.hidden = true;
       element._handleNextPage();
       assert.isFalse(showStub.called);
@@ -159,8 +145,8 @@ limitations under the License.
       assert.isTrue(showStub.called);
     });
 
-    test('_handlePreviousPage', () => {
-      const showStub = sandbox.stub(page, 'show');
+    test('_handlePreviousPage', function() {
+      var showStub = sandbox.stub(page, 'show');
       element.$.prevArrow.hidden = true;
       element._handlePreviousPage();
       assert.isFalse(showStub.called);
@@ -169,83 +155,57 @@ limitations under the License.
       assert.isTrue(showStub.called);
     });
 
-    test('_userId query', done => {
-      assert.isNull(element._userId);
-      element._query = 'owner: foo@bar';
-      element._changes = [{owner: {email: 'foo@bar'}}];
-      flush(() => {
-        assert.equal(element._userId, 'foo@bar');
-
-        element._query = 'foo bar baz';
-        element._changes = [{owner: {email: 'foo@bar'}}];
-        assert.isNull(element._userId);
-
-        done();
-      });
-    });
-
-    suite('query based navigation', () => {
-      setup(() => {
-        sandbox.stub(Gerrit.Nav, 'getUrlForChange', () => '/r/c/1');
-      });
-
-      teardown(done => {
-        flush(() => {
-          sandbox.restore();
-          done();
-        });
-      });
-
-      test('Searching for a change ID redirects to change', done => {
+    suite('query based navigation', function() {
+      test('Searching for a change ID redirects to change', function(done) {
         sandbox.stub(element, '_getChanges')
             .returns(Promise.resolve([{_number: 1}]));
-        sandbox.stub(element, '_replaceCurrentLocation', url => {
-          assert.equal(url, '/r/c/1');
+        sandbox.stub(page, 'show', function(url) {
+          assert.equal(url, '/c/1');
           done();
         });
 
-        element.params = {view: Gerrit.Nav.View.SEARCH, query: CHANGE_ID};
+        element.params = {view: 'gr-change-list-view', query: CHANGE_ID};
       });
 
-      test('Searching for a change num redirects to change', done => {
+      test('Searching for a change num redirects to change', function(done) {
         sandbox.stub(element, '_getChanges')
             .returns(Promise.resolve([{_number: 1}]));
-        sandbox.stub(element, '_replaceCurrentLocation', url => {
-          assert.equal(url, '/r/c/1');
+        sandbox.stub(page, 'show', function(url) {
+          assert.equal(url, '/c/1');
           done();
         });
 
-        element.params = {view: Gerrit.Nav.View.SEARCH, query: '1'};
+        element.params = {view: 'gr-change-list-view', query: '1'};
       });
 
-      test('Commit hash redirects to change', done => {
+      test('Commit hash redirects to change', function(done) {
         sandbox.stub(element, '_getChanges')
             .returns(Promise.resolve([{_number: 1}]));
-        sandbox.stub(element, '_replaceCurrentLocation', url => {
-          assert.equal(url, '/r/c/1');
+        sandbox.stub(page, 'show', function(url) {
+          assert.equal(url, '/c/1');
           done();
         });
 
-        element.params = {view: Gerrit.Nav.View.SEARCH, query: COMMIT_HASH};
+        element.params = {view: 'gr-change-list-view', query: COMMIT_HASH};
       });
 
-      test('Searching for an invalid change ID searches', () => {
+      test('Searching for an invalid change ID searches', function() {
         sandbox.stub(element, '_getChanges')
             .returns(Promise.resolve([]));
-        const stub = sandbox.stub(element, '_replaceCurrentLocation');
+        var stub = sandbox.stub(page, 'show');
 
-        element.params = {view: Gerrit.Nav.View.SEARCH, query: CHANGE_ID};
+        element.params = {view: 'gr-change-list-view', query: CHANGE_ID};
         flushAsynchronousOperations();
 
         assert.isFalse(stub.called);
       });
 
-      test('Change ID with multiple search results searches', () => {
+      test('Change ID with multiple search results searches', function() {
         sandbox.stub(element, '_getChanges')
             .returns(Promise.resolve([{}, {}]));
-        const stub = sandbox.stub(element, '_replaceCurrentLocation');
+        var stub = sandbox.stub(page, 'show');
 
-        element.params = {view: Gerrit.Nav.View.SEARCH, query: CHANGE_ID};
+        element.params = {view: 'gr-change-list-view', query: CHANGE_ID};
         flushAsynchronousOperations();
 
         assert.isFalse(stub.called);

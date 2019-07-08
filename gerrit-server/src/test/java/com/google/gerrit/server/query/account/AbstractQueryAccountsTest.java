@@ -18,8 +18,10 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.access.AccessSectionInfo;
 import com.google.gerrit.extensions.api.access.PermissionInfo;
@@ -42,20 +44,12 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.account.Accounts;
-import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.schema.SchemaCreator;
@@ -72,12 +66,11 @@ import com.google.inject.Provider;
 import com.google.inject.util.Providers;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -92,17 +85,11 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     return cfg;
   }
 
-  @Inject protected Accounts accounts;
-
-  @Inject protected AccountsUpdate.Server accountsUpdate;
-
   @Inject protected AccountCache accountCache;
 
   @Inject protected AccountManager accountManager;
 
   @Inject protected GerritApi gApi;
-
-  @Inject @GerritPersonIdent Provider<PersonIdent> serverIdent;
 
   @Inject protected IdentifiedUser.GenericFactory userFactory;
 
@@ -116,18 +103,14 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
   @Inject protected OneOffRequestContext oneOffRequestContext;
 
-  @Inject protected Provider<InternalAccountQuery> queryProvider;
+  @Inject protected InternalAccountQuery internalAccountQuery;
 
   @Inject protected AllProjectsName allProjects;
 
-  @Inject protected AllUsersName allUsers;
-
-  @Inject protected GitRepositoryManager repoManager;
-
   @Inject protected AccountIndexCollection accountIndexes;
 
-  protected LifecycleManager lifecycle;
   protected Injector injector;
+  protected LifecycleManager lifecycle;
   protected ReviewDb db;
   protected AccountInfo currentUserInfo;
   protected CurrentUser user;
@@ -142,16 +125,6 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     injector.injectMembers(this);
     lifecycle.start();
     initAfterLifecycleStart();
-    setUpDatabase();
-  }
-
-  @After
-  public void cleanUp() {
-    lifecycle.stop();
-    db.close();
-  }
-
-  protected void setUpDatabase() throws Exception {
     db = schemaFactory.open();
     schemaCreator.create(db);
 
@@ -159,6 +132,12 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     user = userFactory.create(userId);
     requestContext.setContext(newRequestContext(userId));
     currentUserInfo = gApi.accounts().id(userId.get()).get();
+  }
+
+  @After
+  public void cleanUp() {
+    lifecycle.stop();
+    db.close();
   }
 
   protected void initAfterLifecycleStart() throws Exception {}
@@ -297,7 +276,6 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     assertQuery("Jo Do", user1);
     assertQuery("jo do", user1);
     assertQuery("self", currentUserInfo, user3);
-    assertQuery("me", currentUserInfo);
     assertQuery("name:John", user1);
     assertQuery("name:john", user1);
     assertQuery("name:Doe", user1);
@@ -333,19 +311,19 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     AccountInfo user2 = newAccountWithFullName("jroe", "Jane Roe");
     AccountInfo user3 = newAccountWithFullName("user3", "Mr Selfish");
 
-    assertThat(queryProvider.get().byWatchedProject(p)).isEmpty();
+    assertThat(internalAccountQuery.byWatchedProject(p)).isEmpty();
 
     watch(user1, p, null);
-    assertAccounts(queryProvider.get().byWatchedProject(p), user1);
+    assertAccounts(internalAccountQuery.byWatchedProject(p), user1);
 
     watch(user2, p, "keyword");
-    assertAccounts(queryProvider.get().byWatchedProject(p), user1, user2);
+    assertAccounts(internalAccountQuery.byWatchedProject(p), user1, user2);
 
     watch(user3, p2, "keyword");
     watch(user3, allProjects, "keyword");
-    assertAccounts(queryProvider.get().byWatchedProject(p), user1, user2);
-    assertAccounts(queryProvider.get().byWatchedProject(p2), user3);
-    assertAccounts(queryProvider.get().byWatchedProject(allProjects), user3);
+    assertAccounts(internalAccountQuery.byWatchedProject(p), user1, user2);
+    assertAccounts(internalAccountQuery.byWatchedProject(p2), user3);
+    assertAccounts(internalAccountQuery.byWatchedProject(allProjects), user3);
   }
 
   @Test
@@ -448,19 +426,11 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   public void reindex() throws Exception {
     AccountInfo user1 = newAccountWithFullName("tester", "Test Usre");
 
-    // update account without reindex so that account index is stale
-    Account.Id accountId = new Account.Id(user1._accountId);
+    // update account in the database so that account index is stale
     String newName = "Test User";
-    try (Repository repo = repoManager.openRepository(allUsers)) {
-      MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsers, repo);
-      PersonIdent ident = serverIdent.get();
-      md.getCommitBuilder().setAuthor(ident);
-      md.getCommitBuilder().setCommitter(ident);
-      AccountConfig accountConfig = new AccountConfig(null, accountId);
-      accountConfig.load(repo);
-      accountConfig.getAccount().setFullName(newName);
-      accountConfig.commit(md);
-    }
+    Account account = db.accounts().get(new Account.Id(user1._accountId));
+    account.setFullName(newName);
+    db.accounts().update(Collections.singleton(account));
 
     assertQuery("name:" + quote(user1.name), user1);
     assertQuery("name:" + quote(newName));
@@ -517,7 +487,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     PermissionInfo p = new PermissionInfo(null, null);
     p.rules =
         ImmutableMap.of(group.id, new PermissionRuleInfo(PermissionRuleInfo.Action.BLOCK, false));
-    a.permissions = ImmutableMap.of("read", p);
+    a.permissions = ImmutableMap.of(Permission.READ, p);
     in.add = ImmutableMap.of("refs/*", a);
 
     gApi.projects().name(project.get()).access(in);
@@ -560,8 +530,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     if (name == null) {
       return null;
     }
-
-    String suffix = getSanitizedMethodName();
+    String suffix = testName.getMethodName().toLowerCase();
     if (name.contains("@")) {
       return name + "." + suffix;
     }
@@ -575,15 +544,12 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
       if (email != null) {
         accountManager.link(id, AuthRequest.forEmail(email));
       }
-      accountsUpdate
-          .create()
-          .update(
-              id,
-              a -> {
-                a.setFullName(fullName);
-                a.setPreferredEmail(email);
-                a.setActive(active);
-              });
+      Account a = db.accounts().get(id);
+      a.setFullName(fullName);
+      a.setPreferredEmail(email);
+      a.setActive(active);
+      db.accounts().update(ImmutableList.of(a));
+      accountCache.evict(id);
       return id;
     }
   }

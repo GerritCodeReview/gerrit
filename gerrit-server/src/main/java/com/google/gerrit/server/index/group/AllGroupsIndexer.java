@@ -14,27 +14,24 @@
 
 package com.google.gerrit.server.index.group;
 
-import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
-import com.google.gerrit.index.SiteIndexer;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.group.Groups;
-import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.IndexExecutor;
+import com.google.gerrit.server.index.SiteIndexer;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -44,24 +41,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGroup, GroupIndex> {
+public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, AccountGroup, GroupIndex> {
   private static final Logger log = LoggerFactory.getLogger(AllGroupsIndexer.class);
 
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ListeningExecutorService executor;
   private final GroupCache groupCache;
-  private final Groups groups;
 
   @Inject
   AllGroupsIndexer(
       SchemaFactory<ReviewDb> schemaFactory,
       @IndexExecutor(BATCH) ListeningExecutorService executor,
-      GroupCache groupCache,
-      Groups groups) {
+      GroupCache groupCache) {
     this.schemaFactory = schemaFactory;
     this.executor = executor;
     this.groupCache = groupCache;
-    this.groups = groups;
   }
 
   @Override
@@ -84,33 +78,30 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGro
     progress.beginTask("Reindexing groups", uuids.size());
     List<ListenableFuture<?>> futures = new ArrayList<>(uuids.size());
     AtomicBoolean ok = new AtomicBoolean(true);
-    AtomicInteger done = new AtomicInteger();
-    AtomicInteger failed = new AtomicInteger();
+    final AtomicInteger done = new AtomicInteger();
+    final AtomicInteger failed = new AtomicInteger();
     Stopwatch sw = Stopwatch.createStarted();
-    for (AccountGroup.UUID uuid : uuids) {
-      String desc = "group " + uuid;
+    for (final AccountGroup.UUID uuid : uuids) {
+      final String desc = "group " + uuid;
       ListenableFuture<?> future =
           executor.submit(
-              () -> {
-                try {
-                  Optional<InternalGroup> oldGroup = groupCache.get(uuid);
-                  if (oldGroup.isPresent()) {
-                    InternalGroup group = oldGroup.get();
-                    groupCache.evict(group.getGroupUUID(), group.getId(), group.getNameKey());
+              new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                  try {
+                    AccountGroup oldGroup = groupCache.get(uuid);
+                    if (oldGroup != null) {
+                      groupCache.evict(oldGroup);
+                    }
+                    index.replace(groupCache.get(uuid));
+                    verboseWriter.println("Reindexed " + desc);
+                    done.incrementAndGet();
+                  } catch (Exception e) {
+                    failed.incrementAndGet();
+                    throw e;
                   }
-                  Optional<InternalGroup> internalGroup = groupCache.get(uuid);
-                  if (internalGroup.isPresent()) {
-                    index.replace(internalGroup.get());
-                  } else {
-                    index.delete(uuid);
-                  }
-                  verboseWriter.println("Reindexed " + desc);
-                  done.incrementAndGet();
-                } catch (Exception e) {
-                  failed.incrementAndGet();
-                  throw e;
+                  return null;
                 }
-                return null;
               });
       addErrorListener(future, desc, progress, ok);
       futures.add(future);
@@ -129,10 +120,13 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGro
 
   private List<AccountGroup.UUID> collectGroups(ProgressMonitor progress) throws OrmException {
     progress.beginTask("Collecting groups", ProgressMonitor.UNKNOWN);
+    List<AccountGroup.UUID> uuids = new ArrayList<>();
     try (ReviewDb db = schemaFactory.open()) {
-      return groups.getAll(db).map(AccountGroup::getGroupUUID).collect(toImmutableList());
-    } finally {
-      progress.endTask();
+      for (AccountGroup group : db.accountGroups().all()) {
+        uuids.add(group.getGroupUUID());
+      }
     }
+    progress.endTask();
+    return uuids;
   }
 }

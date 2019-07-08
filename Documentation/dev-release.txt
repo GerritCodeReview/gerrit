@@ -16,8 +16,8 @@ tasks.
 == Gerrit Release Type
 
 Here are some guidelines on release approaches depending on the
-type of release you want to make (`stable-fix`, `stable`, `rc0`,
-`rc1`...).
+type of release you want to make (`stable-fix`, `stable`, `RC0`,
+`RC1`...).
 
 [[stable]]
 === Stable
@@ -27,19 +27,19 @@ need to undergo some stabilization before releasing the final release.
 
 * Propose the release with any plans/objectives to the mailing list
 
-* Create a Gerrit `rc0`
+* Create a Gerrit `RC0`
 
-* If needed create a Gerrit `rc1`
+* If needed create a Gerrit `RC1`
 
 [NOTE]
 You may let in a few features to this release
 
-* If needed create a Gerrit `rc2`
+* If needed create a Gerrit `RC2`
 
 [NOTE]
 There should be no new features in this release, only bug fixes
 
-* Finally create the `stable` release (no `rc`)
+* Finally create the `stable` release (no `RC`)
 
 
 === Stable-Fix
@@ -75,6 +75,7 @@ the `gerrit-security-fixes` project be taken over into the public
 
 To create a Gerrit release the following steps have to be done:
 
+. link:#subproject[Release Subprojects]
 . link:#build-gerrit[Build the Gerrit Release]
 . link:#publish-gerrit[Publish the Gerrit Release]
 .. link:#publish-to-maven-central[Publish the Gerrit artifacts to Maven Central]
@@ -89,10 +90,34 @@ To create a Gerrit release the following steps have to be done:
 . link:#merge-stable[Merge `stable` into `master`]
 
 
+[[subproject]]
+=== Release Subprojects
+
+The subprojects to be released are:
+
+* `gwtjsonrpc`
+* `gwtorm`
+* `prolog-cafe`
+
+For each subproject do:
+
+* Check the dependency to the Subproject in the Gerrit parent `pom.xml`:
++
+If a `SNAPSHOT` version of the subproject is referenced the subproject
+needs to be released so that Gerrit can reference a released version of
+the subproject.
+
+* link:dev-release-subproject.html#make-snapshot[Make a snapshot and test it]
+* link:dev-release-subproject.html#prepare-release[Prepare the Release]
+* link:dev-release-subproject.html#publish-release[Publish the Release]
+
+* Update the `artifact`, `sha1`, and `src_sha1` values in the `maven_jar`
+for the Subproject in `WORKSPACE` to the released version.
+
 [[update-versions]]
 === Update Versions and Create Release Tag
 
-Before doing the release build, the `GERRIT_VERSION` in the `version.bzl`
+Before doing the release build, the `GERRIT_VERSION` in the `VERSION`
 file must be updated, e.g. change it from `2.5-SNAPSHOT` to `2.5`.
 
 In addition the version must be updated in a number of pom.xml files.
@@ -104,16 +129,16 @@ version as parameter, e.g.:
   ./tools/version.py 2.5
 ----
 
-Commit the changes and create a signed release tag on the new commit:
+Commit the changes and create the release tag on the new commit:
 
 ----
-  git tag -s -m "v2.5" v2.5
+  git tag -a v2.5
 ----
 
 Tag the plugins:
 
 ----
-  git submodule foreach git tag -s -m "v2.5" v2.5
+  git submodule foreach git tag -a v2.5
 ----
 
 [[build-gerrit]]
@@ -258,7 +283,7 @@ gerrit-releases bucket in the Google cloud storage console]
 ==== Push the Stable Branch
 
 * Create the stable branch `stable-2.5` in the `gerrit` project via the
-link:https://gerrit-review.googlesource.com/admin/repos/gerrit,branches[
+link:https://gerrit-review.googlesource.com/#/admin/projects/gerrit,branches[
 Gerrit Web UI] or by push.
 
 * Push the commits done on `stable-2.5` to `refs/for/stable-2.5` and
@@ -305,7 +330,7 @@ latest version bold.
 [[update-links]]
 ==== Update homepage links
 
-Upload a change on the link:https://gerrit-review.googlesource.com/admin/repos/homepage[
+Upload a change on the link:https://gerrit-review.googlesource.com/#/admin/projects/homepage[
 homepage project] to change the version numbers to the new version.
 
 [[update-issues]]
@@ -326,17 +351,27 @@ because `Status=Submitted` is considered a closed issue.
 [[announce]]
 ==== Announce on Mailing List
 
-Send an email to the mailing list to announce the release. The content of the
-announcement email is generated with the `release-announcement.py` which
-automatically includes all the necessary links, hash values, and wraps the
-text in a PGP signature.
+* Send an email to the mailing list to announce the release, consider
+including some or all of the following in the email:
+** A link to the release and the release notes
+** A link to the docs
+** Describe the type of release (stable, bug fix, RC)
+** Hash values (SHA1, SHA256, MD5) for the release WAR file.
++
+The SHA1 and MD5 can be taken from the artifact page on Sonatype. The
+SHA256 can be generated with
+`openssl sha -sha256 bazel-bin/release.war` or an equivalent
+command.
 
-For details refer to the documentation in the script's header, and/or the
-help text:
+* Update the new discussion group announcement to be sticky
+** Go to: http://groups.google.com/group/repo-discuss/topics
+** Click on the announcement thread
+** Near the top right, click on actions
+** Under actions, click the "Display this top first" checkbox
 
-----
- ./tools/release-announcement.py --help
-----
+* Update the previous discussion group announcement to no longer be sticky
+** See above (unclick checkbox)
+
 
 [[increase-version]]
 === Increase Gerrit Version for Current Development
@@ -348,7 +383,7 @@ for the next release.
 Use the `version` tool to set the version in the `version.bzl` file:
 
 ----
- ./tools/version.py 2.6-SNAPSHOT
+ ./tools/version.py 2.11-SNAPSHOT
 ----
 
 Verify that the changes made by the tool are sane, then commit them, push
@@ -368,13 +403,6 @@ none of the changes/fixes ever get lost.
   git merge stable
 ----
 
-[[update-api-version-in-bazlets-repository]]
-
-Bazlets is used by gerrit plugins to simplify build process. To allow the
-new released version to be used by gerrit plugins,
-link:https://gerrit.googlesource.com/bazlets/+/master/gerrit_api.bzl#8[gerrit_api.bzl]
-must reference the new version. Upload a change to bazlets repository with
-api version upgrade.
 
 GERRIT
 ------

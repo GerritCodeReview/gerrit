@@ -19,17 +19,15 @@ import static java.util.concurrent.TimeUnit.HOURS;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.HostPageData;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.httpd.WebSessionManager.Key;
 import com.google.gerrit.httpd.WebSessionManager.Val;
-import com.google.gerrit.httpd.restapi.ParameterParser;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AuthResult;
-import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Provider;
 import com.google.inject.servlet.RequestScoped;
@@ -58,12 +56,12 @@ public abstract class CacheBasedWebSession implements WebSession {
   private CurrentUser user;
 
   protected CacheBasedWebSession(
-      HttpServletRequest request,
-      HttpServletResponse response,
-      WebSessionManager manager,
-      AuthConfig authConfig,
-      Provider<AnonymousUser> anonymousProvider,
-      IdentifiedUser.RequestFactory identified) {
+      final HttpServletRequest request,
+      final HttpServletResponse response,
+      final WebSessionManager manager,
+      final AuthConfig authConfig,
+      final Provider<AnonymousUser> anonymousProvider,
+      final IdentifiedUser.RequestFactory identified) {
     this.request = request;
     this.response = response;
     this.manager = manager;
@@ -72,50 +70,31 @@ public abstract class CacheBasedWebSession implements WebSession {
     this.identified = identified;
 
     if (request.getRequestURI() == null || !GitSmartHttpTools.isGitClient(request)) {
-      String cookie = readCookie(request);
+      String cookie = readCookie();
       if (cookie != null) {
-        authFromCookie(cookie);
-      } else {
-        String token;
-        try {
-          token = ParameterParser.getQueryParams(request).accessToken();
-        } catch (BadRequestException e) {
-          token = null;
+        key = new Key(cookie);
+        val = manager.get(key);
+        if (val != null && val.needsCookieRefresh()) {
+          // Cookie is more than half old. Send the cookie again to the
+          // client with an updated expiration date.
+          val = manager.createVal(key, val);
         }
-        if (token != null) {
-          authFromQueryParameter(token);
+
+        String token = request.getHeader(HostPageData.XSRF_HEADER_NAME);
+        if (val != null && token != null && token.equals(val.getAuth())) {
+          okPaths.add(AccessPath.REST_API);
         }
-      }
-      if (val != null && val.needsCookieRefresh()) {
-        // Session is more than half old; update cache entry with new expiration date.
-        val = manager.createVal(key, val);
       }
     }
   }
 
-  private void authFromCookie(String cookie) {
-    key = new Key(cookie);
-    val = manager.get(key);
-    String token = request.getHeader(HostPageData.XSRF_HEADER_NAME);
-    if (val != null && token != null && token.equals(val.getAuth())) {
-      okPaths.add(AccessPath.REST_API);
-    }
-  }
-
-  private void authFromQueryParameter(String accessToken) {
-    key = new Key(accessToken);
-    val = manager.get(key);
-    if (val != null) {
-      okPaths.add(AccessPath.REST_API);
-    }
-  }
-
-  private static String readCookie(HttpServletRequest request) {
-    Cookie[] all = request.getCookies();
+  private String readCookie() {
+    final Cookie[] all = request.getCookies();
     if (all != null) {
-      for (Cookie c : all) {
+      for (final Cookie c : all) {
         if (ACCOUNT_COOKIE.equals(c.getName())) {
-          return Strings.emptyToNull(c.getValue());
+          final String v = c.getValue();
+          return v != null && !"".equals(v) ? v : null;
         }
       }
     }
@@ -250,7 +229,7 @@ public abstract class CacheBasedWebSession implements WebSession {
     response.addCookie(outCookie);
   }
 
-  private static boolean isSecure(HttpServletRequest req) {
+  private static boolean isSecure(final HttpServletRequest req) {
     return req.isSecure() || "https".equals(req.getScheme());
   }
 }

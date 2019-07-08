@@ -36,21 +36,15 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final RulesCache rules;
-  private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
 
   @Option(name = "--filters", usage = "impact of filters in parent projects")
   private Filters filters = Filters.RUN;
 
   @Inject
-  TestSubmitType(
-      Provider<ReviewDb> db,
-      ChangeData.Factory changeDataFactory,
-      RulesCache rules,
-      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
+  TestSubmitType(Provider<ReviewDb> db, ChangeData.Factory changeDataFactory, RulesCache rules) {
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.rules = rules;
-    this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
   }
 
   @Override
@@ -64,8 +58,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
     }
     input.filters = MoreObjects.firstNonNull(input.filters, filters);
     SubmitRuleEvaluator evaluator =
-        submitRuleEvaluatorFactory.create(
-            rsrc.getUser(), changeDataFactory.create(db.get(), rsrc.getNotes()));
+        new SubmitRuleEvaluator(changeDataFactory.create(db.get(), rsrc.getControl()));
 
     SubmitTypeRecord rec =
         evaluator

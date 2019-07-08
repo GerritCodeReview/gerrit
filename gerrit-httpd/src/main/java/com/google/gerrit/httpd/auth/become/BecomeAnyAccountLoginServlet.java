@@ -14,8 +14,8 @@
 
 package com.google.gerrit.httpd.auth.become;
 
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_UUID;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_UUID;
 
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -25,74 +25,63 @@ import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.template.SiteHeaderFooter;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
-import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+@SuppressWarnings("serial")
 @Singleton
 class BecomeAnyAccountLoginServlet extends HttpServlet {
-  private static final long serialVersionUID = 1L;
-
-  private final DynamicItem<WebSession> webSession;
   private final SchemaFactory<ReviewDb> schema;
-  private final Accounts accounts;
-  private final AccountCache accountCache;
+  private final DynamicItem<WebSession> webSession;
   private final AccountManager accountManager;
   private final SiteHeaderFooter headers;
-  private final Provider<InternalAccountQuery> queryProvider;
+  private final InternalAccountQuery accountQuery;
 
   @Inject
   BecomeAnyAccountLoginServlet(
       DynamicItem<WebSession> ws,
       SchemaFactory<ReviewDb> sf,
-      Accounts a,
-      AccountCache ac,
       AccountManager am,
       SiteHeaderFooter shf,
-      Provider<InternalAccountQuery> qp) {
+      InternalAccountQuery aq) {
     webSession = ws;
     schema = sf;
-    accounts = a;
-    accountCache = ac;
     accountManager = am;
     headers = shf;
-    queryProvider = qp;
+    accountQuery = aq;
   }
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse rsp)
+  protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
       throws IOException, ServletException {
     doPost(req, rsp);
   }
 
   @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse rsp)
+  protected void doPost(final HttpServletRequest req, final HttpServletResponse rsp)
       throws IOException, ServletException {
     CacheHeaders.setNotCacheable(rsp);
 
@@ -160,8 +149,8 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
 
     Element userlistElement = HtmlDomUtil.find(doc, "userlist");
     try (ReviewDb db = schema.open()) {
-      for (Account.Id accountId : accounts.firstNIds(100)) {
-        Account a = accountCache.get(accountId).getAccount();
+      ResultSet<Account> accounts = db.accounts().firstNById(100);
+      for (Account a : accounts) {
         String displayName;
         if (a.getUserName() != null) {
           displayName = a.getUserName();
@@ -170,7 +159,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
         } else if (a.getPreferredEmail() != null) {
           displayName = a.getPreferredEmail();
         } else {
-          displayName = accountId.toString();
+          displayName = a.getId().toString();
         }
 
         Element linkElement = doc.createElement("a");
@@ -184,7 +173,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     return HtmlDomUtil.toUTF8(doc);
   }
 
-  private AuthResult auth(Account account) {
+  private AuthResult auth(final Account account) {
     if (account != null) {
       return new AuthResult(account.getId(), null, false);
     }
@@ -198,10 +187,9 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     return null;
   }
 
-  private AuthResult byUserName(String userName) {
+  private AuthResult byUserName(final String userName) {
     try {
-      List<AccountState> accountStates =
-          queryProvider.get().byExternalId(SCHEME_USERNAME, userName);
+      List<AccountState> accountStates = accountQuery.byExternalId(SCHEME_USERNAME, userName);
       if (accountStates.isEmpty()) {
         getServletContext().log("No accounts with username " + userName + " found");
         return null;
@@ -217,29 +205,26 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     }
   }
 
-  private AuthResult byPreferredEmail(String email) {
+  private AuthResult byPreferredEmail(final String email) {
     try (ReviewDb db = schema.open()) {
-      Optional<Account> match =
-          queryProvider.get().byPreferredEmail(email).stream()
-              .map(AccountState::getAccount)
-              .findFirst();
-      return match.isPresent() ? auth(match.get()) : null;
+      List<Account> matches = db.accounts().byPreferredEmail(email).toList();
+      return matches.size() == 1 ? auth(matches.get(0)) : null;
     } catch (OrmException e) {
       getServletContext().log("cannot query database", e);
       return null;
     }
   }
 
-  private AuthResult byAccountId(String idStr) {
+  private AuthResult byAccountId(final String idStr) {
     final Account.Id id;
     try {
       id = Account.Id.parse(idStr);
     } catch (NumberFormatException nfe) {
       return null;
     }
-    try {
-      return auth(accounts.get(id));
-    } catch (IOException | ConfigInvalidException e) {
+    try (ReviewDb db = schema.open()) {
+      return auth(db.accounts().get(id));
+    } catch (OrmException e) {
       getServletContext().log("cannot query database", e);
       return null;
     }

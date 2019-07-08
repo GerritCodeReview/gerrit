@@ -27,13 +27,8 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.Accounts;
-import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 import com.googlecode.prolog_cafe.exceptions.CompileException;
 import com.googlecode.prolog_cafe.exceptions.ReductionLimitException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
@@ -43,7 +38,6 @@ import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
-import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -87,41 +81,20 @@ public class SubmitRuleEvaluator {
     }
   }
 
-  public interface Factory {
-    SubmitRuleEvaluator create(CurrentUser user, ChangeData cd);
-  }
-
-  private final AccountCache accountCache;
-  private final Accounts accounts;
-  private final Emails emails;
-  private final ProjectCache projectCache;
   private final ChangeData cd;
+  private final ChangeControl control;
 
   private SubmitRuleOptions.Builder optsBuilder = SubmitRuleOptions.defaults();
   private SubmitRuleOptions opts;
-  private Change change;
-  private CurrentUser user;
   private PatchSet patchSet;
   private boolean logErrors = true;
   private long reductionsConsumed;
-  private ProjectState projectState;
 
   private Term submitRule;
 
-  @Inject
-  SubmitRuleEvaluator(
-      AccountCache accountCache,
-      Accounts accounts,
-      Emails emails,
-      ProjectCache projectCache,
-      @Assisted CurrentUser user,
-      @Assisted ChangeData cd) {
-    this.accountCache = accountCache;
-    this.accounts = accounts;
-    this.emails = emails;
-    this.projectCache = projectCache;
-    this.user = user;
+  public SubmitRuleEvaluator(ChangeData cd) throws OrmException {
     this.cd = cd;
+    this.control = cd.changeControl();
   }
 
   /**
@@ -184,6 +157,16 @@ public class SubmitRuleEvaluator {
   }
 
   /**
+   * @param allow whether to allow {@link #evaluate()} on draft changes.
+   * @return this
+   */
+  public SubmitRuleEvaluator setAllowDraft(boolean allow) {
+    checkNotStarted();
+    optsBuilder.allowDraft(allow);
+    return this;
+  }
+
+  /**
    * @param skip if true, submit filter will not be applied.
    * @return this
    */
@@ -225,16 +208,22 @@ public class SubmitRuleEvaluator {
    */
   public List<SubmitRecord> evaluate() {
     initOptions();
-    try {
-      init();
-    } catch (OrmException e) {
-      return ruleError("Error looking up change " + cd.getId(), e);
-    }
-
-    if (!opts.allowClosed() && change.getStatus().isClosed()) {
+    Change c = control.getChange();
+    if (!opts.allowClosed() && c.getStatus().isClosed()) {
       SubmitRecord rec = new SubmitRecord();
       rec.status = SubmitRecord.Status.CLOSED;
       return Collections.singletonList(rec);
+    }
+    if (!opts.allowDraft()) {
+      try {
+        initPatchSet();
+      } catch (OrmException e) {
+        return ruleError(
+            "Error looking up patch set " + control.getChange().currentPatchSetId(), e);
+      }
+      if (c.getStatus() == Change.Status.DRAFT || patchSet.isDraft()) {
+        return cannotSubmitDraft();
+      }
     }
 
     List<Term> results;
@@ -245,7 +234,7 @@ public class SubmitRuleEvaluator {
               "can_submit",
               "locate_submit_filter",
               "filter_submit_results",
-              user);
+              control.getUser());
     } catch (RuleEvalException e) {
       return ruleError(e.getMessage(), e);
     }
@@ -262,6 +251,24 @@ public class SubmitRuleEvaluator {
     }
 
     return resultsToSubmitRecord(getSubmitRule(), results);
+  }
+
+  private List<SubmitRecord> cannotSubmitDraft() {
+    try {
+      if (!control.isDraftVisible(cd.db(), cd)) {
+        return createRuleError("Patch set " + patchSet.getId() + " not found");
+      }
+      if (patchSet.isDraft()) {
+        return createRuleError("Cannot submit draft patch sets");
+      }
+      return createRuleError("Cannot submit draft changes");
+    } catch (OrmException err) {
+      PatchSet.Id psId =
+          patchSet != null ? patchSet.getId() : control.getChange().currentPatchSetId();
+      String msg = "Cannot check visibility of patch set " + psId;
+      log.error(msg, err);
+      return createRuleError(msg);
+    }
   }
 
   /**
@@ -391,9 +398,23 @@ public class SubmitRuleEvaluator {
   public SubmitTypeRecord getSubmitType() {
     initOptions();
     try {
-      init();
+      initPatchSet();
     } catch (OrmException e) {
-      return typeError("Error looking up change " + cd.getId(), e);
+      return typeError("Error looking up patch set " + control.getChange().currentPatchSetId(), e);
+    }
+
+    try {
+      if (control.getChange().getStatus() == Change.Status.DRAFT
+          && !control.isDraftVisible(cd.db(), cd)) {
+        return SubmitTypeRecord.error("Patch set " + patchSet.getId() + " not found");
+      }
+      if (patchSet.isDraft() && !control.isDraftVisible(cd.db(), cd)) {
+        return SubmitTypeRecord.error("Patch set " + patchSet.getId() + " not found");
+      }
+    } catch (OrmException err) {
+      String msg = "Cannot read patch set " + patchSet.getId();
+      log.error(msg, err);
+      return SubmitTypeRecord.error(msg);
     }
 
     List<Term> results;
@@ -524,6 +545,7 @@ public class SubmitRuleEvaluator {
   }
 
   private PrologEnvironment getPrologEnvironment(CurrentUser user) throws RuleEvalException {
+    ProjectState projectState = control.getProjectControl().getProjectState();
     PrologEnvironment env;
     try {
       if (opts.rule() == null) {
@@ -533,22 +555,21 @@ public class SubmitRuleEvaluator {
       }
     } catch (CompileException err) {
       String msg;
-      if (opts.rule() == null) {
+      if (opts.rule() == null && control.getProjectControl().isOwner()) {
         msg = String.format("Cannot load rules.pl for %s: %s", getProjectName(), err.getMessage());
-      } else {
+      } else if (opts.rule() != null) {
         msg = err.getMessage();
+      } else {
+        msg = String.format("Cannot load rules.pl for %s", getProjectName());
       }
       throw new RuleEvalException(msg, err);
     }
-    env.set(StoredValues.ACCOUNTS, accounts);
-    env.set(StoredValues.ACCOUNT_CACHE, accountCache);
-    env.set(StoredValues.EMAILS, emails);
     env.set(StoredValues.REVIEW_DB, cd.db());
     env.set(StoredValues.CHANGE_DATA, cd);
+    env.set(StoredValues.CHANGE_CONTROL, control);
     if (user != null) {
       env.set(StoredValues.CURRENT_USER, user);
     }
-    env.set(StoredValues.PROJECT_STATE, projectState);
     return env;
   }
 
@@ -558,13 +579,15 @@ public class SubmitRuleEvaluator {
       String filterRuleLocatorName,
       String filterRuleWrapperName)
       throws RuleEvalException {
+    ProjectState projectState = control.getProjectControl().getProjectState();
     PrologEnvironment childEnv = env;
     for (ProjectState parentState : projectState.parents()) {
       PrologEnvironment parentEnv;
       try {
         parentEnv = parentState.newPrologEnvironment();
       } catch (CompileException err) {
-        throw new RuleEvalException("Cannot consult rules.pl for " + parentState.getName(), err);
+        throw new RuleEvalException(
+            "Cannot consult rules.pl for " + parentState.getProject().getName(), err);
       }
 
       parentEnv.copyStoredValues(childEnv);
@@ -582,12 +605,12 @@ public class SubmitRuleEvaluator {
         throw new RuleEvalException(
             String.format(
                 "%s on change %d of %s",
-                err.getMessage(), cd.getId().get(), parentState.getName()));
+                err.getMessage(), cd.getId().get(), parentState.getProject().getName()));
       } catch (RuntimeException err) {
         throw new RuleEvalException(
             String.format(
                 "Exception calling %s on change %d of %s",
-                filterRule, cd.getId().get(), parentState.getName()),
+                filterRule, cd.getId().get(), parentState.getProject().getName()),
             err);
       } finally {
         reductionsConsumed += env.getReductions();
@@ -643,22 +666,7 @@ public class SubmitRuleEvaluator {
     }
   }
 
-  private void init() throws OrmException {
-    if (change == null) {
-      change = cd.change();
-      if (change == null) {
-        throw new OrmException("No change found");
-      }
-    }
-
-    if (projectState == null) {
-      try {
-        projectState = projectCache.checkedGet(change.getProject());
-      } catch (IOException e) {
-        throw new OrmException("Can't load project state", e);
-      }
-    }
-
+  private void initPatchSet() throws OrmException {
     if (patchSet == null) {
       patchSet = cd.currentPatchSet();
       if (patchSet == null) {
@@ -668,6 +676,6 @@ public class SubmitRuleEvaluator {
   }
 
   private String getProjectName() {
-    return projectState.getName();
+    return control.getProjectControl().getProjectState().getProject().getName();
   }
 }

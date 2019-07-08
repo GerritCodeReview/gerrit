@@ -14,13 +14,13 @@
 
 package com.google.gerrit.acceptance;
 
-import com.google.gerrit.index.QueryOptions;
-import com.google.gerrit.index.Schema;
-import com.google.gerrit.index.query.DataSource;
-import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Change.Id;
+import com.google.gerrit.server.index.QueryOptions;
+import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.change.ChangeIndex;
+import com.google.gerrit.server.query.DataSource;
+import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import java.io.IOException;
 

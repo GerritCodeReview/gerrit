@@ -20,7 +20,7 @@ import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadFactory;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -28,8 +28,8 @@ public class CommandExecutorQueueProvider implements QueueProvider {
 
   private int poolSize;
   private final int batchThreads;
-  private final ScheduledThreadPoolExecutor interactiveExecutor;
-  private final ScheduledThreadPoolExecutor batchExecutor;
+  private final WorkQueue.Executor interactiveExecutor;
+  private final WorkQueue.Executor batchExecutor;
 
   @Inject
   public CommandExecutorQueueProvider(
@@ -43,18 +43,31 @@ public class CommandExecutorQueueProvider implements QueueProvider {
       poolSize += batchThreads;
     }
     int interactiveThreads = Math.max(1, poolSize - batchThreads);
-    interactiveExecutor =
-        queues.createQueue(interactiveThreads, "SSH-Interactive-Worker", Thread.MIN_PRIORITY, true);
+    interactiveExecutor = queues.createQueue(interactiveThreads, "SSH-Interactive-Worker", true);
     if (batchThreads != 0) {
-      batchExecutor =
-          queues.createQueue(batchThreads, "SSH-Batch-Worker", Thread.MIN_PRIORITY, true);
+      batchExecutor = queues.createQueue(batchThreads, "SSH-Batch-Worker", true);
+      setThreadFactory(batchExecutor);
     } else {
       batchExecutor = interactiveExecutor;
     }
+    setThreadFactory(interactiveExecutor);
+  }
+
+  private void setThreadFactory(WorkQueue.Executor executor) {
+    final ThreadFactory parent = executor.getThreadFactory();
+    executor.setThreadFactory(
+        new ThreadFactory() {
+          @Override
+          public Thread newThread(final Runnable task) {
+            final Thread t = parent.newThread(task);
+            t.setPriority(Thread.MIN_PRIORITY);
+            return t;
+          }
+        });
   }
 
   @Override
-  public ScheduledThreadPoolExecutor getQueue(QueueType type) {
+  public WorkQueue.Executor getQueue(QueueType type) {
     switch (type) {
       case INTERACTIVE:
         return interactiveExecutor;

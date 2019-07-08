@@ -15,14 +15,10 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.html">
 <link rel="import" href="../gr-button/gr-button.html">
-<link rel="import" href="../gr-limited-text/gr-limited-text.html">
-<link rel="import" href="../../../styles/shared-styles.html">
-
 <dom-module id="gr-linked-chip">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         display: block;
         overflow: hidden;
@@ -34,48 +30,34 @@ limitations under the License.
         display: inline-flex;
         padding: 0 .5em;
       }
+      gr-button.remove,
       gr-button.remove:hover,
       gr-button.remove:focus {
-        --gr-button: {
-          color: #333;
-        }
+        border-color: transparent;
+        color: #333;
       }
       gr-button.remove {
-        --gr-button: {
-          border: 0;
-          color: #666;
-          font-size: 1.7em;
-          font-weight: normal;
-          height: .6em;
-          line-height: .6em;
-          margin-left: .15em;
-          margin-top: -.05em;
-          padding: 0;
-          text-decoration: none;
-        }
-        --gr-button-hover-color: {
-          color: #333;
-        }
-        --gr-button-hover-background-color: {
-          color: #333;
-        }
+        background: #eee;
+        border: 0;
+        color: #666;
+        font-size: 1.7em;
+        font-weight: normal;
+        height: .6em;
+        line-height: .6em;
+        margin-left: .15em;
+        margin-top: -.05em;
+        padding: 0;
+        text-decoration: none;
       }
       .transparentBackground,
       gr-button.transparentBackground {
         background-color: transparent;
       }
-      :host([disabled]) {
-        opacity: .6;
-        pointer-events: none;
-      }
     </style>
     <div class$="container [[_getBackgroundClass(transparentBackground)]]">
-      <a href$="[[href]]">
-        <gr-limited-text limit="[[limit]]" text="[[text]]"></gr-limited-text>
-      </a>
+      <a href$="[[href]]">[[text]]</a>
       <gr-button
           id="remove"
-          link
           hidden$="[[!removable]]"
           hidden
           class$="remove [[_getBackgroundClass(transparentBackground)]]"

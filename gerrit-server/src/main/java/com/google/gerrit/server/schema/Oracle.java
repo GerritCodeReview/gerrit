@@ -26,7 +26,7 @@ public class Oracle extends BaseDataSourceType {
   private Config cfg;
 
   @Inject
-  public Oracle(@GerritServerConfig Config cfg) {
+  public Oracle(@GerritServerConfig final Config cfg) {
     super("oracle.jdbc.driver.OracleDriver");
     this.cfg = cfg;
   }

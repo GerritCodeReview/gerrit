@@ -16,17 +16,11 @@
 package com.google.gerrit.server.patch;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toSet;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.base.Throwables;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Multimap;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Project;
@@ -35,14 +29,12 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.MergeUtil;
-import com.google.gerrit.server.patch.EditTransformer.ContextAwareEdit;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -50,8 +42,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.stream.Stream;
 import org.eclipse.jgit.diff.DiffEntry;
-import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.EditList;
@@ -94,7 +86,7 @@ public class PatchListLoader implements Callable<PatchList> {
   private final long timeoutMillis;
   private final boolean save;
 
-  @Inject
+  @AssistedInject
   PatchListLoader(
       GitRepositoryManager mgr,
       PatchListCache plc,
@@ -152,7 +144,7 @@ public class PatchListLoader implements Callable<PatchList> {
     return save ? repo.newObjectInserter() : new InMemoryInserter(repo);
   }
 
-  private PatchList readPatchList(Repository repo, RevWalk rw, ObjectInserter ins)
+  public PatchList readPatchList(Repository repo, RevWalk rw, ObjectInserter ins)
       throws IOException, PatchListNotAvailableException {
     ObjectReader reader = rw.getObjectReader();
     checkArgument(reader.getCreatedFromInserter() == ins);
@@ -186,12 +178,19 @@ public class PatchListLoader implements Callable<PatchList> {
       df.setDetectRenames(true);
       List<DiffEntry> diffEntries = df.scan(aTree, bTree);
 
-      Multimap<String, ContextAwareEdit> editsDueToRebasePerFilePath = ImmutableMultimap.of();
-      EditsDueToRebaseResult editsDueToRebaseResult =
-          determineEditsDueToRebase(aCommit, b, diffEntries, df, rw);
-      diffEntries = editsDueToRebaseResult.getRelevantOriginalDiffEntries();
-      editsDueToRebasePerFilePath = editsDueToRebaseResult.getEditsDueToRebasePerFilePath();
+      Set<String> paths = null;
+      if (key.getOldId() != null && b.getParentCount() == 1) {
+        PatchListKey newKey = PatchListKey.againstDefaultBase(key.getNewId(), key.getWhitespace());
+        PatchListKey oldKey = PatchListKey.againstDefaultBase(key.getOldId(), key.getWhitespace());
+        paths =
+            Stream.concat(
+                    patchListCache.get(newKey, project).getPatches().stream(),
+                    patchListCache.get(oldKey, project).getPatches().stream())
+                .map(PatchListEntry::getNewName)
+                .collect(toSet());
+      }
 
+      int cnt = diffEntries.size();
       List<PatchListEntry> entries = new ArrayList<>();
       entries.add(
           newCommitMessage(
@@ -206,202 +205,19 @@ public class PatchListLoader implements Callable<PatchList> {
                 b,
                 comparisonType));
       }
-      for (DiffEntry diffEntry : diffEntries) {
-        Set<ContextAwareEdit> editsDueToRebase =
-            getEditsDueToRebase(editsDueToRebasePerFilePath, diffEntry);
-        Optional<PatchListEntry> patchListEntry =
-            getPatchListEntry(reader, df, diffEntry, aTree, bTree, editsDueToRebase);
-        patchListEntry.ifPresent(entries::add);
+      for (int i = 0; i < cnt; i++) {
+        DiffEntry e = diffEntries.get(i);
+        if (paths == null || paths.contains(e.getNewPath()) || paths.contains(e.getOldPath())) {
+
+          FileHeader fh = toFileHeader(key, df, e);
+          long oldSize = getFileSize(reader, e.getOldMode(), e.getOldPath(), aTree);
+          long newSize = getFileSize(reader, e.getNewMode(), e.getNewPath(), bTree);
+          entries.add(newEntry(aTree, fh, newSize, newSize - oldSize));
+        }
       }
       return new PatchList(
           a, b, isMerge, comparisonType, entries.toArray(new PatchListEntry[entries.size()]));
     }
-  }
-
-  /**
-   * Identifies the edits which are present between {@code commitA} and {@code commitB} due to other
-   * commits in between those two. Edits which cannot be clearly attributed to those other commits
-   * (because they overlap with modifications introduced by {@code commitA} or {@code commitB}) are
-   * omitted from the result. The edits are expressed as differences between {@code treeA} of {@code
-   * commitA} and {@code treeB} of {@code commitB}.
-   *
-   * <p><b>Note:</b> If one of the commits is a merge commit, an empty {@code Multimap} will be
-   * returned.
-   *
-   * <p><b>Warning:</b> This method assumes that commitA and commitB are either a parent and child
-   * commit or represent two patch sets which belong to the same change. No checks are made to
-   * confirm this assumption! Passing arbitrary commits to this method may lead to strange results
-   * or take very long.
-   *
-   * <p>This logic could be expanded to arbitrary commits if the following adjustments were applied:
-   *
-   * <ul>
-   *   <li>If {@code commitA} is an ancestor of {@code commitB} (or the other way around), {@code
-   *       commitA} (or {@code commitB}) is used instead of its parent in this method.
-   *   <li>Special handling for merge commits is added. If only one of them is a merge commit, the
-   *       whole computation has to be done between the single parent and all parents of the merge
-   *       commit. If both of them are merge commits, all combinations of parents have to be
-   *       considered. Alternatively, we could decide to not support this feature for merge commits
-   *       (or just for specific types of merge commits).
-   * </ul>
-   *
-   * @param commitA the commit defining {@code treeA}
-   * @param commitB the commit defining {@code treeB}
-   * @param diffEntries the list of {@code DiffEntries} for the diff between {@code commitA} and
-   *     {@code commitB}
-   * @param df the {@code DiffFormatter}
-   * @param rw the current {@code RevWalk}
-   * @return an aggregated result of the computation
-   * @throws PatchListNotAvailableException if the edits can't be identified
-   * @throws IOException if an error occurred while accessing the repository
-   */
-  private EditsDueToRebaseResult determineEditsDueToRebase(
-      RevCommit commitA,
-      RevCommit commitB,
-      List<DiffEntry> diffEntries,
-      DiffFormatter df,
-      RevWalk rw)
-      throws PatchListNotAvailableException, IOException {
-    if (commitA == null
-        || isRootOrMergeCommit(commitA)
-        || isRootOrMergeCommit(commitB)
-        || areParentChild(commitA, commitB)
-        || haveCommonParent(commitA, commitB)) {
-      return EditsDueToRebaseResult.create(diffEntries, ImmutableMultimap.of());
-    }
-
-    PatchListKey oldKey = PatchListKey.againstDefaultBase(key.getOldId(), key.getWhitespace());
-    PatchList oldPatchList = patchListCache.get(oldKey, project);
-    PatchListKey newKey = PatchListKey.againstDefaultBase(key.getNewId(), key.getWhitespace());
-    PatchList newPatchList = patchListCache.get(newKey, project);
-
-    List<PatchListEntry> oldPatches = oldPatchList.getPatches();
-    List<PatchListEntry> newPatches = newPatchList.getPatches();
-    // TODO(aliceks): Have separate but more limited lists for parents and patch sets (but don't
-    // mess up renames/copies).
-    Set<String> touchedFilePaths = new HashSet<>();
-    for (PatchListEntry patchListEntry : oldPatches) {
-      touchedFilePaths.addAll(getTouchedFilePaths(patchListEntry));
-    }
-    for (PatchListEntry patchListEntry : newPatches) {
-      touchedFilePaths.addAll(getTouchedFilePaths(patchListEntry));
-    }
-
-    List<DiffEntry> relevantDiffEntries =
-        diffEntries.stream()
-            .filter(diffEntry -> isTouched(touchedFilePaths, diffEntry))
-            .collect(toImmutableList());
-
-    RevCommit parentCommitA = commitA.getParent(0);
-    rw.parseBody(parentCommitA);
-    RevCommit parentCommitB = commitB.getParent(0);
-    rw.parseBody(parentCommitB);
-    List<DiffEntry> parentDiffEntries = df.scan(parentCommitA, parentCommitB);
-    // TODO(aliceks): Find a way to not construct a PatchListEntry as it contains many unnecessary
-    // details and we don't fill all of them properly.
-    List<PatchListEntry> parentPatchListEntries =
-        getRelevantPatchListEntries(
-            parentDiffEntries, parentCommitA, parentCommitB, touchedFilePaths, df);
-
-    EditTransformer editTransformer = new EditTransformer(parentPatchListEntries);
-    editTransformer.transformReferencesOfSideA(oldPatches);
-    editTransformer.transformReferencesOfSideB(newPatches);
-    return EditsDueToRebaseResult.create(
-        relevantDiffEntries, editTransformer.getEditsPerFilePath());
-  }
-
-  private static boolean isRootOrMergeCommit(RevCommit commit) {
-    return commit.getParentCount() != 1;
-  }
-
-  private static boolean areParentChild(RevCommit commitA, RevCommit commitB) {
-    return ObjectId.equals(commitA.getParent(0), commitB)
-        || ObjectId.equals(commitB.getParent(0), commitA);
-  }
-
-  private static boolean haveCommonParent(RevCommit commitA, RevCommit commitB) {
-    return ObjectId.equals(commitA.getParent(0), commitB.getParent(0));
-  }
-
-  private static Set<String> getTouchedFilePaths(PatchListEntry patchListEntry) {
-    String oldFilePath = patchListEntry.getOldName();
-    String newFilePath = patchListEntry.getNewName();
-
-    return oldFilePath == null
-        ? ImmutableSet.of(newFilePath)
-        : ImmutableSet.of(oldFilePath, newFilePath);
-  }
-
-  private static boolean isTouched(Set<String> touchedFilePaths, DiffEntry diffEntry) {
-    String oldFilePath = diffEntry.getOldPath();
-    String newFilePath = diffEntry.getNewPath();
-    // One of the above file paths could be /dev/null but we need not explicitly check for this
-    // value as the set of file paths shouldn't contain it.
-    return touchedFilePaths.contains(oldFilePath) || touchedFilePaths.contains(newFilePath);
-  }
-
-  private List<PatchListEntry> getRelevantPatchListEntries(
-      List<DiffEntry> parentDiffEntries,
-      RevCommit parentCommitA,
-      RevCommit parentCommitB,
-      Set<String> touchedFilePaths,
-      DiffFormatter diffFormatter)
-      throws IOException {
-    List<PatchListEntry> parentPatchListEntries = new ArrayList<>(parentDiffEntries.size());
-    for (DiffEntry parentDiffEntry : parentDiffEntries) {
-      if (!isTouched(touchedFilePaths, parentDiffEntry)) {
-        continue;
-      }
-      FileHeader fileHeader = toFileHeader(parentCommitB, diffFormatter, parentDiffEntry);
-      // The code which uses this PatchListEntry doesn't care about the last three parameters. As
-      // they are expensive to compute, we use arbitrary values for them.
-      PatchListEntry patchListEntry =
-          newEntry(parentCommitA.getTree(), fileHeader, ImmutableSet.of(), 0, 0);
-      parentPatchListEntries.add(patchListEntry);
-    }
-    return parentPatchListEntries;
-  }
-
-  private static Set<ContextAwareEdit> getEditsDueToRebase(
-      Multimap<String, ContextAwareEdit> editsDueToRebasePerFilePath, DiffEntry diffEntry) {
-    if (editsDueToRebasePerFilePath.isEmpty()) {
-      return ImmutableSet.of();
-    }
-
-    String filePath = diffEntry.getNewPath();
-    if (diffEntry.getChangeType() == ChangeType.DELETE) {
-      filePath = diffEntry.getOldPath();
-    }
-    return ImmutableSet.copyOf(editsDueToRebasePerFilePath.get(filePath));
-  }
-
-  private Optional<PatchListEntry> getPatchListEntry(
-      ObjectReader objectReader,
-      DiffFormatter diffFormatter,
-      DiffEntry diffEntry,
-      RevTree treeA,
-      RevTree treeB,
-      Set<ContextAwareEdit> editsDueToRebase)
-      throws IOException {
-    FileHeader fileHeader = toFileHeader(key.getNewId(), diffFormatter, diffEntry);
-    long oldSize = getFileSize(objectReader, diffEntry.getOldMode(), diffEntry.getOldPath(), treeA);
-    long newSize = getFileSize(objectReader, diffEntry.getNewMode(), diffEntry.getNewPath(), treeB);
-    Set<Edit> contentEditsDueToRebase = getContentEdits(editsDueToRebase);
-    PatchListEntry patchListEntry =
-        newEntry(treeA, fileHeader, contentEditsDueToRebase, newSize, newSize - oldSize);
-    // All edits in a file are due to rebase -> exclude the file from the diff.
-    if (EditTransformer.toEdits(patchListEntry).allMatch(editsDueToRebase::contains)) {
-      return Optional.empty();
-    }
-    return Optional.of(patchListEntry);
-  }
-
-  private static Set<Edit> getContentEdits(Set<ContextAwareEdit> editsDueToRebase) {
-    return editsDueToRebase.stream()
-        .map(ContextAwareEdit::toEdit)
-        .filter(Optional::isPresent)
-        .map(Optional::get)
-        .collect(toSet());
   }
 
   private ComparisonType getComparisonType(RevObject a, RevCommit b) {
@@ -434,13 +250,17 @@ public class PatchListLoader implements Callable<PatchList> {
   }
 
   private FileHeader toFileHeader(
-      ObjectId commitB, DiffFormatter diffFormatter, DiffEntry diffEntry) throws IOException {
+      PatchListKey key, final DiffFormatter diffFormatter, final DiffEntry diffEntry)
+      throws IOException {
 
     Future<FileHeader> result =
         diffExecutor.submit(
-            () -> {
-              synchronized (diffEntry) {
-                return diffFormatter.toFileHeader(diffEntry);
+            new Callable<FileHeader>() {
+              @Override
+              public FileHeader call() throws IOException {
+                synchronized (diffEntry) {
+                  return diffFormatter.toFileHeader(diffEntry);
+                }
               }
             });
 
@@ -453,7 +273,7 @@ public class PatchListLoader implements Callable<PatchList> {
               + " in project "
               + project
               + " on commit "
-              + commitB.name()
+              + key.getNewId().name()
               + " on path "
               + diffEntry.getNewPath()
               + " comparing "
@@ -511,7 +331,7 @@ public class PatchListLoader implements Callable<PatchList> {
     RawText bRawText = new RawText(bContent);
     EditList edits = new HistogramDiff().diff(cmp, aRawText, bRawText);
     FileHeader fh = new FileHeader(rawHdr, edits, PatchType.UNIFIED);
-    return new PatchListEntry(fh, edits, ImmutableSet.of(), size, sizeDelta);
+    return new PatchListEntry(fh, edits, size, sizeDelta);
   }
 
   private static byte[] getRawHeader(boolean hasA, String fileName) {
@@ -534,19 +354,18 @@ public class PatchListLoader implements Callable<PatchList> {
     return hdr.toString().getBytes(UTF_8);
   }
 
-  private static PatchListEntry newEntry(
-      RevTree aTree, FileHeader fileHeader, Set<Edit> editsDueToRebase, long size, long sizeDelta) {
+  private PatchListEntry newEntry(RevTree aTree, FileHeader fileHeader, long size, long sizeDelta) {
     if (aTree == null // want combined diff
         || fileHeader.getPatchType() != PatchType.UNIFIED
         || fileHeader.getHunks().isEmpty()) {
-      return new PatchListEntry(fileHeader, ImmutableList.of(), ImmutableSet.of(), size, sizeDelta);
+      return new PatchListEntry(fileHeader, Collections.<Edit>emptyList(), size, sizeDelta);
     }
 
     List<Edit> edits = fileHeader.toEditList();
     if (edits.isEmpty()) {
-      return new PatchListEntry(fileHeader, ImmutableList.of(), ImmutableSet.of(), size, sizeDelta);
+      return new PatchListEntry(fileHeader, Collections.<Edit>emptyList(), size, sizeDelta);
     }
-    return new PatchListEntry(fileHeader, edits, editsDueToRebase, size, sizeDelta);
+    return new PatchListEntry(fileHeader, edits, size, sizeDelta);
   }
 
   private RevObject aFor(
@@ -582,20 +401,5 @@ public class PatchListLoader implements Callable<PatchList> {
     ObjectId id = ins.insert(Constants.OBJ_TREE, new byte[] {});
     ins.flush();
     return id;
-  }
-
-  @AutoValue
-  abstract static class EditsDueToRebaseResult {
-    public static EditsDueToRebaseResult create(
-        List<DiffEntry> relevantDiffEntries,
-        Multimap<String, ContextAwareEdit> editsDueToRebasePerFilePath) {
-      return new AutoValue_PatchListLoader_EditsDueToRebaseResult(
-          relevantDiffEntries, editsDueToRebasePerFilePath);
-    }
-
-    public abstract List<DiffEntry> getRelevantOriginalDiffEntries();
-
-    /** Returns the edits per file path they modify in {@code treeB}. */
-    public abstract Multimap<String, ContextAwareEdit> getEditsDueToRebasePerFilePath();
   }
 }

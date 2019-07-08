@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
@@ -74,10 +75,10 @@ public class BanCommit {
 
   @Inject
   BanCommit(
-      Provider<IdentifiedUser> currentUser,
-      GitRepositoryManager repoManager,
-      @GerritPersonIdent PersonIdent gerritIdent,
-      NotesBranchUtil.Factory notesBranchUtilFactory) {
+      final Provider<IdentifiedUser> currentUser,
+      final GitRepositoryManager repoManager,
+      @GerritPersonIdent final PersonIdent gerritIdent,
+      final NotesBranchUtil.Factory notesBranchUtilFactory) {
     this.currentUser = currentUser;
     this.repoManager = repoManager;
     this.notesBranchUtilFactory = notesBranchUtilFactory;
@@ -85,8 +86,8 @@ public class BanCommit {
   }
 
   public BanCommitResult ban(
-      ProjectControl projectControl, List<ObjectId> commitsToBan, String reason)
-      throws PermissionDeniedException, LockFailureException, IOException {
+      final ProjectControl projectControl, final List<ObjectId> commitsToBan, final String reason)
+      throws PermissionDeniedException, IOException, ConcurrentRefUpdateException {
     if (!projectControl.isOwner()) {
       throw new PermissionDeniedException("Not project owner: not permitted to ban commits");
     }
@@ -99,7 +100,7 @@ public class BanCommit {
         RevWalk revWalk = new RevWalk(repo);
         ObjectInserter inserter = repo.newObjectInserter()) {
       ObjectId noteId = null;
-      for (ObjectId commitToBan : commitsToBan) {
+      for (final ObjectId commitToBan : commitsToBan) {
         try {
           revWalk.parseCommit(commitToBan);
         } catch (MissingObjectException e) {
@@ -145,7 +146,8 @@ public class BanCommit {
     return currentUser.get().newCommitterIdent(now, tz);
   }
 
-  private static String buildCommitMessage(List<ObjectId> bannedCommits, String reason) {
+  private static String buildCommitMessage(
+      final List<ObjectId> bannedCommits, final String reason) {
     final StringBuilder commitMsg = new StringBuilder();
     commitMsg.append("Banning ");
     commitMsg.append(bannedCommits.size());
@@ -159,7 +161,7 @@ public class BanCommit {
     }
     commitMsg.append("The following commits are banned:\n");
     final StringBuilder commitList = new StringBuilder();
-    for (ObjectId c : bannedCommits) {
+    for (final ObjectId c : bannedCommits) {
       if (commitList.length() > 0) {
         commitList.append(",\n");
       }

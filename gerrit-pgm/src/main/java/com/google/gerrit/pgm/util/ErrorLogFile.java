@@ -49,7 +49,8 @@ public class ErrorLogFile {
     root.addAppender(dst);
   }
 
-  public static LifecycleListener start(Path sitePath, Config config) throws IOException {
+  public static LifecycleListener start(final Path sitePath, final Config config)
+      throws IOException {
     Path logdir =
         FileUtil.mkdirsOrDie(new SitePaths(sitePath).logs_dir, "Cannot create log directory");
     if (SystemLog.shouldConfigure()) {
@@ -73,18 +74,16 @@ public class ErrorLogFile {
 
     boolean json = config.getBoolean("log", "jsonLogging", false);
     boolean text = config.getBoolean("log", "textLogging", true) || !json;
-    boolean rotate = config.getBoolean("log", "rotate", true);
 
     if (text) {
       root.addAppender(
           SystemLog.createAppender(
-              logdir, LOG_NAME, new PatternLayout("[%d] [%t] %-5p %c %x: %m%n"), rotate));
+              logdir, LOG_NAME, new PatternLayout("[%d] [%t] %-5p %c %x: %m%n")));
     }
 
     if (json) {
       root.addAppender(
-          SystemLog.createAppender(
-              logdir, LOG_NAME + JSON_SUFFIX, new JSONEventLayoutV1(), rotate));
+          SystemLog.createAppender(logdir, LOG_NAME + JSON_SUFFIX, new JSONEventLayoutV1()));
     }
   }
 }

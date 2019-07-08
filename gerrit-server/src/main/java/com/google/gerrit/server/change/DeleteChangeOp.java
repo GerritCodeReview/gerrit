@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -26,6 +27,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.ChangeDeleted;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -37,12 +39,20 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Map;
-import java.util.Optional;
+import java.util.Collections;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 class DeleteChangeOp implements BatchUpdateOp {
+  static boolean allowDrafts(Config cfg) {
+    return cfg.getBoolean("change", "allowDrafts", true);
+  }
+
   static ReviewDb unwrap(ReviewDb db) {
     // This is special. We want to delete exactly the rows that are present in
     // the database, even when reading everything else from NoteDb, so we need
@@ -56,6 +66,7 @@ class DeleteChangeOp implements BatchUpdateOp {
   private final PatchSetUtil psUtil;
   private final StarredChangesUtil starredChangesUtil;
   private final DynamicItem<AccountPatchReviewStore> accountPatchReviewStore;
+  private final boolean allowDrafts;
   private final ChangeDeleted changeDeleted;
 
   private Change.Id id;
@@ -65,10 +76,12 @@ class DeleteChangeOp implements BatchUpdateOp {
       PatchSetUtil psUtil,
       StarredChangesUtil starredChangesUtil,
       DynamicItem<AccountPatchReviewStore> accountPatchReviewStore,
+      @GerritServerConfig Config cfg,
       ChangeDeleted changeDeleted) {
     this.psUtil = psUtil;
     this.starredChangesUtil = starredChangesUtil;
     this.accountPatchReviewStore = accountPatchReviewStore;
+    this.allowDrafts = allowDrafts(cfg);
     this.changeDeleted = changeDeleted;
   }
 
@@ -94,7 +107,8 @@ class DeleteChangeOp implements BatchUpdateOp {
   }
 
   private void ensureDeletable(ChangeContext ctx, Change.Id id, Collection<PatchSet> patchSets)
-      throws ResourceConflictException, MethodNotAllowedException, IOException {
+      throws ResourceConflictException, MethodNotAllowedException, OrmException, AuthException,
+          IOException {
     Change.Status status = ctx.getChange().getStatus();
     if (status == Change.Status.MERGED) {
       throw new MethodNotAllowedException("Deleting merged change " + id + " is not allowed");
@@ -107,17 +121,40 @@ class DeleteChangeOp implements BatchUpdateOp {
                 id, patchSet.getPatchSetId()));
       }
     }
+
+    if (!ctx.getControl().canDelete(ctx.getDb(), status)) {
+      throw new AuthException("Deleting change " + id + " is not permitted");
+    }
+
+    if (status == Change.Status.DRAFT) {
+      if (!allowDrafts && !ctx.getControl().isAdmin()) {
+        throw new MethodNotAllowedException("Draft workflow is disabled");
+      }
+      for (PatchSet ps : patchSets) {
+        if (!ps.isDraft()) {
+          throw new ResourceConflictException(
+              "Cannot delete draft change "
+                  + id
+                  + ": patch set "
+                  + ps.getPatchSetId()
+                  + " is not a draft");
+        }
+      }
+    }
   }
 
   private boolean isPatchSetMerged(ChangeContext ctx, PatchSet patchSet) throws IOException {
-    Optional<ObjectId> destId = ctx.getRepoView().getRef(ctx.getChange().getDest().get());
-    if (!destId.isPresent()) {
+    Repository repository = ctx.getRepository();
+    Ref destinationRef = repository.exactRef(ctx.getChange().getDest().get());
+    if (destinationRef == null) {
       return false;
     }
 
     RevWalk revWalk = ctx.getRevWalk();
     ObjectId objectId = ObjectId.fromString(patchSet.getRevision().get());
-    return revWalk.isMergedInto(revWalk.parseCommit(objectId), revWalk.parseCommit(destId.get()));
+    RevCommit revCommit = revWalk.parseCommit(objectId);
+    return IncludedInResolver.includedInOne(
+        repository, revWalk, revCommit, Collections.singletonList(destinationRef));
   }
 
   private void deleteChangeElementsFromDb(ChangeContext ctx, Change.Id id) throws OrmException {
@@ -145,8 +182,8 @@ class DeleteChangeOp implements BatchUpdateOp {
   public void updateRepo(RepoContext ctx) throws IOException {
     String prefix = new PatchSet.Id(id, 1).toRefName();
     prefix = prefix.substring(0, prefix.length() - 1);
-    for (Map.Entry<String, ObjectId> e : ctx.getRepoView().getRefs(prefix).entrySet()) {
-      ctx.addRefUpdate(e.getValue(), ObjectId.zeroId(), prefix + e.getKey());
+    for (Ref ref : ctx.getRepository().getRefDatabase().getRefs(prefix).values()) {
+      ctx.addRefUpdate(new ReceiveCommand(ref.getObjectId(), ObjectId.zeroId(), ref.getName()));
     }
   }
 }

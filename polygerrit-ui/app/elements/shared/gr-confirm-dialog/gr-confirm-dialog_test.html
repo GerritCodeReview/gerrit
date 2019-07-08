@@ -20,7 +20,8 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-confirm-dialog.html">
 
 <script>void(0);</script>
@@ -32,15 +33,15 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-confirm-dialog tests', () => {
-    let element;
+  suite('gr-confirm-dialog tests', function() {
+    var element;
 
-    setup(() => {
+    setup(function() {
       element = fixture('basic');
     });
 
-    test('events', done => {
-      let numEvents = 0;
+    test('events', function(done) {
+      var numEvents = 0;
       function handler() { if (++numEvents == 2) { done(); } }
 
       element.addEventListener('confirm', handler);
@@ -49,5 +50,6 @@ limitations under the License.
       MockInteractions.tap(element.$$('gr-button[primary]'));
       MockInteractions.tap(element.$$('gr-button:not([primary])'));
     });
+
   });
 </script>

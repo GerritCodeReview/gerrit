@@ -26,7 +26,7 @@ import java.util.Set;
 public class ProjectAccessUtil {
   public static List<AccessSection> mergeSections(List<AccessSection> src) {
     Map<String, AccessSection> map = new LinkedHashMap<>();
-    for (AccessSection section : src) {
+    for (final AccessSection section : src) {
       if (section.getPermissions().isEmpty()) {
         continue;
       }
@@ -44,21 +44,21 @@ public class ProjectAccessUtil {
   public static List<AccessSection> removeEmptyPermissionsAndSections(
       final List<AccessSection> src) {
     final Set<AccessSection> sectionsToRemove = new HashSet<>();
-    for (AccessSection section : src) {
+    for (final AccessSection section : src) {
       final Set<Permission> permissionsToRemove = new HashSet<>();
-      for (Permission permission : section.getPermissions()) {
+      for (final Permission permission : section.getPermissions()) {
         if (permission.getRules().isEmpty()) {
           permissionsToRemove.add(permission);
         }
       }
-      for (Permission permissionToRemove : permissionsToRemove) {
+      for (final Permission permissionToRemove : permissionsToRemove) {
         section.remove(permissionToRemove);
       }
       if (section.getPermissions().isEmpty()) {
         sectionsToRemove.add(section);
       }
     }
-    for (AccessSection sectionToRemove : sectionsToRemove) {
+    for (final AccessSection sectionToRemove : sectionsToRemove) {
       src.remove(sectionToRemove);
     }
     return src;

@@ -63,15 +63,15 @@ One-time setup:
 
 1. [Build Gerrit](https://gerrit-review.googlesource.com/Documentation/dev-bazel.html#_gerrit_development_war_file)
 2. Set up a local test site. Docs
-   [here](https://gerrit-review.googlesource.com/Documentation/linux-quickstart.html) and
+   [here](https://gerrit-review.googlesource.com/Documentation/install-quick.html) and
    [here](https://gerrit-review.googlesource.com/Documentation/dev-readme.html#init).
 
 When your project is set up and works using the classic UI, run a test server
 that serves PolyGerrit:
 
 ```sh
-bazel build polygerrit &&
-  $(bazel info output_base)/external/local_jdk/bin/java -DsourceRoot=/path/to/my/checkout \
+bazel build polygerrit && \
+  java -DsourceRoot=/path/to/my/checkout \
   -jar bazel-bin/polygerrit.war daemon --polygerrit-dev \
   -d ../gerrit_testsite --console-log --show-stack-trace
 ```
@@ -99,11 +99,6 @@ Run all web tests:
 ```sh
 ./polygerrit-ui/app/run_test.sh
 ```
-
-To allow the tests to run in Safari:
-
-* In the Advanced preferences tab, check "Show Develop menu in menu bar".
-* In the Develop menu, enable the "Allow Remote Automation" option.
 
 If you need to pass additional arguments to `wct`:
 
@@ -134,75 +129,3 @@ Toolchain requirements for headless mode:
 
 We follow the [Google JavaScript Style Guide](https://google.github.io/styleguide/javascriptguide.xml)
 with a few exceptions. When in doubt, remain consistent with the code around you.
-
-In addition, we encourage the use of [ESLint](http://eslint.org/).
-It is available as a command line utility, as well as a plugin for most editors
-and IDEs. It, along with a few dependencies, can also be installed through NPM:
-
-```sh
-sudo npm install -g eslint eslint-config-google eslint-plugin-html
-```
-
-`eslint-config-google` is a port of the Google JS Style Guide to an ESLint
-config module, and `eslint-plugin-html` allows ESLint to lint scripts inside
-HTML.
-We have an .eslintrc.json config file in the polygerrit-ui/ directory configured
-to enforce the preferred style of the PolyGerrit project.
-After installing, you can use `eslint` on any new file you create.
-In addition, you can supply the `--fix` flag to apply some suggested fixes for
-simple style issues.
-If you modify JS inside of `<script>` tags, like for test suites, you may have
-to supply the `--ext .html` flag.
-
-Some useful commands:
-
-* To run ESLint on the whole app, less some dependency code:
-`eslint --ignore-pattern 'bower_components/' --ignore-pattern 'gr-linked-text' --ignore-pattern 'scripts/vendor' --ext .html,.js polygerrit-ui/app`
-* To run ESLint on just the subdirectory you modified:
-`eslint --ext .html,.js polygerrit-ui/app/$YOUR_DIR_HERE`
-* To run the linter on all of your local changes:
-`git diff --name-only master | xargs eslint --ext .html,.js`
-
-We also use the polylint tool to lint use of Polymer. To install polylint,
-execute the following command.
-
-```sh
-npm install -g polylint
-```
-
-To run polylint, execute the following command.
-
-```sh
-bazel test //polygerrit-ui/app:polylint_test
-```
-## Template Type Safety
-Polymer elements are not type checked against the element definition, making it trivial to break the display when refactoring or moving code. We now run additional tests to help ensure that template types are checked.
-
-A few notes to ensure that these tests pass
-- Any functions with optional parameters will need closure annotations.
-- Any Polymer parameters that are nullable or can be multiple types (other than the one explicitly delared) will need type annotations.
-
-A few dependencies are necessary to run these tests:
-``` sh
-npm install -g typescript fried-twinkie
-```
-
-To run on all files, execute the following command:
-
-```sh
-bazel test //polygerrit-ui/app:all --test_tag_filters=template --test_output errors
-```
-
-To run on a specific top level directory (ex: change-list)
-```sh
-bazel test //polygerrit-ui/app:template_test_change-list --test_output errors
-```
-
-To run on a specific file (ex: gr-change-list-view), execute the following command:
-```sh
-bazel test //polygerrit-ui/app:template_test_<TOP_LEVEL_DIRECTORY> --test_arg=<VIEW_NAME> --test_output errors
-```
-
-```sh
-bazel test //polygerrit-ui/app:template_test_change-list --test_arg=gr-change-list-view  --test_output errors
-```

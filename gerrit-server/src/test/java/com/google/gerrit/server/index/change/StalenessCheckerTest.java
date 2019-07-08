@@ -28,7 +28,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.index.RefState;
+import com.google.gerrit.server.index.change.StalenessChecker.RefState;
 import com.google.gerrit.server.index.change.StalenessChecker.RefStatePattern;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.testutil.GerritBaseTests;
@@ -321,13 +321,11 @@ public class StalenessCheckerTest extends GerritBaseTests {
     Change indexChange = newChange(P1, new Account.Id(1));
     indexChange.setNoteDbState(SHA1);
 
-    // Change is missing from ReviewDb but present in index.
-    assertThat(StalenessChecker.reviewDbChangeIsStale(indexChange, null)).isTrue();
+    assertThat(StalenessChecker.reviewDbChangeIsStale(indexChange, null)).isFalse();
 
-    // Change differs only in primary storage.
     Change noteDbPrimary = clone(indexChange);
     noteDbPrimary.setNoteDbState(NoteDbChangeState.NOTE_DB_PRIMARY_STATE);
-    assertThat(StalenessChecker.reviewDbChangeIsStale(indexChange, noteDbPrimary)).isTrue();
+    assertThat(StalenessChecker.reviewDbChangeIsStale(indexChange, noteDbPrimary)).isFalse();
 
     assertThat(StalenessChecker.reviewDbChangeIsStale(indexChange, clone(indexChange))).isFalse();
 

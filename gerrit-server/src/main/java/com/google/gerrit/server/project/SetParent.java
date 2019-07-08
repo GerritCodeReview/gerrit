@@ -30,9 +30,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.SetParent.Input;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -48,18 +45,12 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
   }
 
   private final ProjectCache cache;
-  private final PermissionBackend permissionBackend;
   private final MetaDataUpdate.Server updateFactory;
   private final AllProjectsName allProjects;
 
   @Inject
-  SetParent(
-      ProjectCache cache,
-      PermissionBackend permissionBackend,
-      MetaDataUpdate.Server updateFactory,
-      AllProjectsName allProjects) {
+  SetParent(ProjectCache cache, MetaDataUpdate.Server updateFactory, AllProjectsName allProjects) {
     this.cache = cache;
-    this.permissionBackend = permissionBackend;
     this.updateFactory = updateFactory;
     this.allProjects = allProjects;
   }
@@ -67,17 +58,17 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
   @Override
   public String apply(ProjectResource rsrc, Input input)
       throws AuthException, ResourceConflictException, ResourceNotFoundException,
-          UnprocessableEntityException, IOException, PermissionBackendException {
+          UnprocessableEntityException, IOException {
     return apply(rsrc, input, true);
   }
 
   public String apply(ProjectResource rsrc, Input input, boolean checkIfAdmin)
       throws AuthException, ResourceConflictException, ResourceNotFoundException,
-          UnprocessableEntityException, IOException, PermissionBackendException {
-    IdentifiedUser user = rsrc.getUser().asIdentifiedUser();
+          UnprocessableEntityException, IOException {
+    ProjectControl ctl = rsrc.getControl();
     String parentName =
         MoreObjects.firstNonNull(Strings.emptyToNull(input.parent), allProjects.get());
-    validateParentUpdate(rsrc.getProjectState().getNameKey(), user, parentName, checkIfAdmin);
+    validateParentUpdate(ctl, parentName, checkIfAdmin);
     try (MetaDataUpdate md = updateFactory.create(rsrc.getNameKey())) {
       ProjectConfig config = ProjectConfig.read(md);
       Project project = config.getProject();
@@ -89,10 +80,10 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
       } else if (!msg.endsWith("\n")) {
         msg += "\n";
       }
-      md.setAuthor(user);
+      md.setAuthor(ctl.getUser().asIdentifiedUser());
       md.setMessage(msg);
       config.commit(md);
-      cache.evict(rsrc.getProjectState().getProject());
+      cache.evict(ctl.getProject());
 
       Project.NameKey parent = project.getParent(allProjects);
       checkNotNull(parent);
@@ -105,15 +96,14 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
     }
   }
 
-  public void validateParentUpdate(
-      Project.NameKey project, IdentifiedUser user, String newParent, boolean checkIfAdmin)
-      throws AuthException, ResourceConflictException, UnprocessableEntityException,
-          PermissionBackendException {
-    if (checkIfAdmin) {
-      permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+  public void validateParentUpdate(final ProjectControl ctl, String newParent, boolean checkIfAdmin)
+      throws AuthException, ResourceConflictException, UnprocessableEntityException {
+    IdentifiedUser user = ctl.getUser().asIdentifiedUser();
+    if (checkIfAdmin && !user.getCapabilities().canAdministrateServer()) {
+      throw new AuthException("not administrator");
     }
 
-    if (project.equals(allProjects)) {
+    if (ctl.getProject().getNameKey().equals(allProjects)) {
       throw new ResourceConflictException("cannot set parent of " + allProjects.get());
     }
 
@@ -127,11 +117,14 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
       if (Iterables.tryFind(
               parent.tree(),
               p -> {
-                return p.getNameKey().equals(project);
+                return p.getProject().getNameKey().equals(ctl.getProject().getNameKey());
               })
           .isPresent()) {
         throw new ResourceConflictException(
-            "cycle exists between " + project.get() + " and " + parent.getName());
+            "cycle exists between "
+                + ctl.getProject().getName()
+                + " and "
+                + parent.getProject().getName());
       }
     }
   }

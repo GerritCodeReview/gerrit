@@ -32,7 +32,7 @@ public class RequestScopedReviewDbProvider implements Provider<ReviewDb> {
 
   @Inject
   public RequestScopedReviewDbProvider(
-      final SchemaFactory<ReviewDb> schema, Provider<RequestCleanup> cleanup) {
+      final SchemaFactory<ReviewDb> schema, final Provider<RequestCleanup> cleanup) {
     this.schema = schema;
     this.cleanup = cleanup;
   }
@@ -41,7 +41,7 @@ public class RequestScopedReviewDbProvider implements Provider<ReviewDb> {
   @Override
   public ReviewDb get() {
     if (db == null) {
-      ReviewDb c;
+      final ReviewDb c;
       try {
         c = schema.open();
       } catch (OrmException e) {
@@ -51,9 +51,12 @@ public class RequestScopedReviewDbProvider implements Provider<ReviewDb> {
         cleanup
             .get()
             .add(
-                () -> {
-                  c.close();
-                  db = null;
+                new Runnable() {
+                  @Override
+                  public void run() {
+                    c.close();
+                    db = null;
+                  }
                 });
       } catch (Throwable e) {
         c.close();

@@ -19,8 +19,8 @@ import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 import java.util.List;
 
-public class GroupPredicate extends ChangeIndexPredicate {
-  public GroupPredicate(String group) {
+class GroupPredicate extends ChangeIndexPredicate {
+  GroupPredicate(String group) {
     super(ChangeField.GROUP, group);
   }
 

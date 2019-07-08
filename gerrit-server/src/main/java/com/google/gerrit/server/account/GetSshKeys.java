@@ -22,9 +22,6 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -38,25 +35,21 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 public class GetSshKeys implements RestReadView<AccountResource> {
 
   private final Provider<CurrentUser> self;
-  private final PermissionBackend permissionBackend;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
 
   @Inject
-  GetSshKeys(
-      Provider<CurrentUser> self,
-      PermissionBackend permissionBackend,
-      VersionedAuthorizedKeys.Accessor authorizedKeys) {
+  GetSshKeys(Provider<CurrentUser> self, VersionedAuthorizedKeys.Accessor authorizedKeys) {
     this.self = self;
-    this.permissionBackend = permissionBackend;
     this.authorizedKeys = authorizedKeys;
   }
 
   @Override
   public List<SshKeyInfo> apply(AccountResource rsrc)
       throws AuthException, OrmException, RepositoryNotFoundException, IOException,
-          ConfigInvalidException, PermissionBackendException {
-    if (!self.get().hasSameAccountId(rsrc.getUser())) {
-      permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
+          ConfigInvalidException {
+    if (!self.get().hasSameAccountId(rsrc.getUser())
+        && !self.get().getCapabilities().canModifyAccount()) {
+      throw new AuthException("not allowed to get SSH keys");
     }
     return apply(rsrc.getUser());
   }

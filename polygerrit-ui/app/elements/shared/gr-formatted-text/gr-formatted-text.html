@@ -15,11 +15,10 @@ limitations under the License.
 -->
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../gr-linked-text/gr-linked-text.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-formatted-text">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         display: block;
         font-family: var(--font-family);
@@ -28,17 +27,12 @@ limitations under the License.
       ul,
       blockquote,
       gr-linked-text.pre {
-        margin: 0 0 .8em 0;
+        margin: 0 0 1.4em 0;
       }
-      p,
-      ul,
-      blockquote {
-        max-width: var(--gr-formatted-text-prose-max-width, none);
-      }
-      :host(.noTrailingMargin) p:last-child,
-      :host(.noTrailingMargin) ul:last-child,
-      :host(.noTrailingMargin) blockquote:last-child,
-      :host(.noTrailingMargin) gr-linked-text.pre:last-child {
+      :host.noTrailingMargin p:last-child,
+      :host.noTrailingMargin ul:last-child,
+      :host.noTrailingMargin blockquote:last-child,
+      :host.noTrailingMargin gr-linked-text.pre:last-child {
         margin: 0;
       }
       blockquote {
@@ -46,7 +40,6 @@ limitations under the License.
         padding: 0 .7em;
       }
       li {
-        list-style-type: disc;
         margin-left: 1.4em;
       }
       gr-linked-text.pre {

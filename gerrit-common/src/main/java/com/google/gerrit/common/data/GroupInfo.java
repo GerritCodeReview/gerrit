@@ -31,7 +31,7 @@ public class GroupInfo {
    * <p>This constructor should only be a last-ditch effort, when the usual group lookup has failed
    * and a stale group id has been discovered in the data store.
    */
-  public GroupInfo(AccountGroup.UUID uuid) {
+  public GroupInfo(final AccountGroup.UUID uuid) {
     this.uuid = uuid;
   }
 
@@ -46,7 +46,8 @@ public class GroupInfo {
     url = a.getUrl();
 
     if (a instanceof GroupDescription.Internal) {
-      description = ((GroupDescription.Internal) a).getDescription();
+      AccountGroup group = ((GroupDescription.Internal) a).getAccountGroup();
+      description = group.getDescription();
     }
   }
 

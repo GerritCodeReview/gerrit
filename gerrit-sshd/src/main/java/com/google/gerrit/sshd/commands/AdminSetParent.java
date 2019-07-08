@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ListChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -121,18 +120,14 @@ final class AdminSetParent extends SshCommand {
     }
 
     final List<Project.NameKey> childProjects = new ArrayList<>();
-    for (ProjectControl pc : children) {
+    for (final ProjectControl pc : children) {
       childProjects.add(pc.getProject().getNameKey());
     }
     if (oldParent != null) {
-      try {
-        childProjects.addAll(getChildrenForReparenting(oldParent));
-      } catch (PermissionBackendException e) {
-        throw new Failure(1, "permissions unavailable", e);
-      }
+      childProjects.addAll(getChildrenForReparenting(oldParent));
     }
 
-    for (Project.NameKey nameKey : childProjects) {
+    for (final Project.NameKey nameKey : childProjects) {
       final String name = nameKey.get();
 
       if (allProjectsName.equals(nameKey)) {
@@ -185,18 +180,17 @@ final class AdminSetParent extends SshCommand {
    * list of child projects does not contain projects that were specified to be excluded from
    * reparenting.
    */
-  private List<Project.NameKey> getChildrenForReparenting(ProjectControl parent)
-      throws PermissionBackendException {
+  private List<Project.NameKey> getChildrenForReparenting(final ProjectControl parent) {
     final List<Project.NameKey> childProjects = new ArrayList<>();
     final List<Project.NameKey> excluded = new ArrayList<>(excludedChildren.size());
-    for (ProjectControl excludedChild : excludedChildren) {
+    for (final ProjectControl excludedChild : excludedChildren) {
       excluded.add(excludedChild.getProject().getNameKey());
     }
     final List<Project.NameKey> automaticallyExcluded = new ArrayList<>(excludedChildren.size());
     if (newParentKey != null) {
       automaticallyExcluded.addAll(getAllParents(newParentKey));
     }
-    for (ProjectInfo child : listChildProjects.apply(new ProjectResource(parent))) {
+    for (final ProjectInfo child : listChildProjects.apply(new ProjectResource(parent))) {
       final Project.NameKey childName = new Project.NameKey(child.name);
       if (!excluded.contains(childName)) {
         if (!automaticallyExcluded.contains(childName)) {
@@ -221,6 +215,6 @@ final class AdminSetParent extends SshCommand {
     if (ps == null) {
       return Collections.emptySet();
     }
-    return ps.parents().transform(s -> s.getNameKey()).toSet();
+    return ps.parents().transform(s -> s.getProject().getNameKey()).toSet();
   }
 }

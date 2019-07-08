@@ -40,7 +40,7 @@ public class ShowHelpCommand extends KeyCommand {
   }
 
   @Override
-  public void onKeyPress(KeyPressEvent event) {
+  public void onKeyPress(final KeyPressEvent event) {
     if (current != null) {
       // Already open? Close the dialog.
       //
@@ -52,7 +52,7 @@ public class ShowHelpCommand extends KeyCommand {
     help.addCloseHandler(
         new CloseHandler<PopupPanel>() {
           @Override
-          public void onClose(CloseEvent<PopupPanel> event) {
+          public void onClose(final CloseEvent<PopupPanel> event) {
             current = null;
             BUS.fireEvent(new FocusEvent() {});
           }
@@ -61,7 +61,7 @@ public class ShowHelpCommand extends KeyCommand {
     help.setPopupPositionAndShow(
         new PositionCallback() {
           @Override
-          public void setPosition(int pWidth, int pHeight) {
+          public void setPosition(final int pWidth, final int pHeight) {
             final int left = (Window.getClientWidth() - pWidth) >> 1;
             final int wLeft = Window.getScrollLeft();
             final int wTop = Window.getScrollTop();

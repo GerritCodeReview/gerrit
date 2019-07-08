@@ -15,7 +15,6 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -23,9 +22,6 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -38,7 +34,6 @@ public class SshKeys implements ChildCollection<AccountResource, AccountResource
   private final DynamicMap<RestView<AccountResource.SshKey>> views;
   private final GetSshKeys list;
   private final Provider<CurrentUser> self;
-  private final PermissionBackend permissionBackend;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
 
   @Inject
@@ -46,12 +41,10 @@ public class SshKeys implements ChildCollection<AccountResource, AccountResource
       DynamicMap<RestView<AccountResource.SshKey>> views,
       GetSshKeys list,
       Provider<CurrentUser> self,
-      PermissionBackend permissionBackend,
       VersionedAuthorizedKeys.Accessor authorizedKeys) {
     this.views = views;
     this.list = list;
     this.self = self;
-    this.permissionBackend = permissionBackend;
     this.authorizedKeys = authorizedKeys;
   }
 
@@ -62,15 +55,10 @@ public class SshKeys implements ChildCollection<AccountResource, AccountResource
 
   @Override
   public AccountResource.SshKey parse(AccountResource rsrc, IdString id)
-      throws ResourceNotFoundException, OrmException, IOException, ConfigInvalidException,
-          PermissionBackendException {
-    if (!self.get().hasSameAccountId(rsrc.getUser())) {
-      try {
-        permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
-      } catch (AuthException e) {
-        // If lacking MODIFY_ACCOUNT claim the resource does not exist.
-        throw new ResourceNotFoundException();
-      }
+      throws ResourceNotFoundException, OrmException, IOException, ConfigInvalidException {
+    if (!self.get().hasSameAccountId(rsrc.getUser())
+        && !self.get().getCapabilities().canModifyAccount()) {
+      throw new ResourceNotFoundException();
     }
     return parse(rsrc.getUser(), id);
   }

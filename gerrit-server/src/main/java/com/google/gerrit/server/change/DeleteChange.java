@@ -14,53 +14,51 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
-
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.DeleteChange.Input;
-import com.google.gerrit.server.permissions.ChangePermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.Order;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
-public class DeleteChange extends RetryingRestModifyView<ChangeResource, Input, Response<?>>
-    implements UiAction<ChangeResource> {
+public class DeleteChange
+    implements RestModifyView<ChangeResource, Input>, UiAction<ChangeResource> {
   public static class Input {}
 
   private final Provider<ReviewDb> db;
+  private final BatchUpdate.Factory updateFactory;
   private final Provider<DeleteChangeOp> opProvider;
+  private final boolean allowDrafts;
 
   @Inject
   public DeleteChange(
-      Provider<ReviewDb> db, RetryHelper retryHelper, Provider<DeleteChangeOp> opProvider) {
-    super(retryHelper);
+      Provider<ReviewDb> db,
+      BatchUpdate.Factory updateFactory,
+      Provider<DeleteChangeOp> opProvider,
+      @GerritServerConfig Config cfg) {
     this.db = db;
+    this.updateFactory = updateFactory;
     this.opProvider = opProvider;
+    this.allowDrafts = DeleteChangeOp.allowDrafts(cfg);
   }
 
   @Override
-  protected Response<?> applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input input)
-      throws RestApiException, UpdateException, PermissionBackendException {
-    if (rsrc.getChange().getStatus() == Change.Status.MERGED) {
-      throw new MethodNotAllowedException("delete not permitted");
-    }
-    rsrc.permissions().database(db).check(ChangePermission.DELETE);
-
+  public Response<?> apply(ChangeResource rsrc, Input input)
+      throws RestApiException, UpdateException {
     try (BatchUpdate bu =
         updateFactory.create(db.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       Change.Id id = rsrc.getChange().getId();
@@ -73,25 +71,21 @@ public class DeleteChange extends RetryingRestModifyView<ChangeResource, Input, 
 
   @Override
   public UiAction.Description getDescription(ChangeResource rsrc) {
-    Change.Status status = rsrc.getChange().getStatus();
-    PermissionBackend.ForChange perm = rsrc.permissions().database(db);
-    return new UiAction.Description()
-        .setLabel("Delete")
-        .setTitle("Delete change " + rsrc.getId())
-        .setVisible(and(couldDeleteWhenIn(status), perm.testCond(ChangePermission.DELETE)));
+    try {
+      Change.Status status = rsrc.getChange().getStatus();
+      ChangeControl changeControl = rsrc.getControl();
+      boolean visible =
+          isActionAllowed(changeControl, status) && changeControl.canDelete(db.get(), status);
+      return new UiAction.Description()
+          .setLabel("Delete")
+          .setTitle("Delete change " + rsrc.getId())
+          .setVisible(visible);
+    } catch (OrmException e) {
+      throw new IllegalStateException(e);
+    }
   }
 
-  private boolean couldDeleteWhenIn(Change.Status status) {
-    switch (status) {
-      case NEW:
-      case ABANDONED:
-        // New or abandoned changes can be deleted with the right permissions.
-        return true;
-
-      case MERGED:
-        // Merged changes should never be deleted.
-        return false;
-    }
-    return false;
+  private boolean isActionAllowed(ChangeControl changeControl, Status status) {
+    return status != Status.DRAFT || allowDrafts || changeControl.isAdmin();
   }
 }

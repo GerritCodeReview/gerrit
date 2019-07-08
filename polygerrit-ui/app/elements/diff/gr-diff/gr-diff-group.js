@@ -22,7 +22,6 @@
     this.lines = [];
     this.adds = [];
     this.removes = [];
-    this.dueToRebase = undefined;
 
     this.lineRange = {
       left: {start: null, end: null},
@@ -45,7 +44,7 @@
   GrDiffGroup.prototype.addLine = function(line) {
     this.lines.push(line);
 
-    const notDelta = (this.type === GrDiffGroup.Type.BOTH ||
+    var notDelta = (this.type === GrDiffGroup.Type.BOTH ||
         this.type === GrDiffGroup.Type.CONTEXT_CONTROL);
     if (notDelta && (line.type === GrDiffLine.Type.ADD ||
         line.type === GrDiffLine.Type.REMOVE)) {
@@ -63,7 +62,7 @@
   GrDiffGroup.prototype.getSideBySidePairs = function() {
     if (this.type === GrDiffGroup.Type.BOTH ||
         this.type === GrDiffGroup.Type.CONTEXT_CONTROL) {
-      return this.lines.map(line => {
+      return this.lines.map(function(line) {
         return {
           left: line,
           right: line,
@@ -71,9 +70,9 @@
       });
     }
 
-    const pairs = [];
-    let i = 0;
-    let j = 0;
+    var pairs = [];
+    var i = 0;
+    var j = 0;
     while (i < this.removes.length || j < this.adds.length) {
       pairs.push({
         left: this.removes[i] || GrDiffLine.BLANK_LINE,

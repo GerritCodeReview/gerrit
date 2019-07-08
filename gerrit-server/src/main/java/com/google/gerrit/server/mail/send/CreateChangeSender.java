@@ -47,10 +47,10 @@ public class CreateChangeSender extends NewChangeSender {
   protected void init() throws EmailException {
     super.init();
 
+    boolean isDraft = change.getStatus() == Change.Status.DRAFT;
     try {
       // Try to mark interested owners with TO and CC or BCC line.
-      Watchers matching =
-          getWatchers(NotifyType.NEW_CHANGES, !change.isWorkInProgress() && !change.isPrivate());
+      Watchers matching = getWatchers(NotifyType.NEW_CHANGES, !isDraft);
       for (Account.Id user :
           Iterables.concat(matching.to.accounts, matching.cc.accounts, matching.bcc.accounts)) {
         if (isOwnerOfProjectOrBranch(user)) {
@@ -69,7 +69,7 @@ public class CreateChangeSender extends NewChangeSender {
       log.warn("Cannot notify watchers for new change", err);
     }
 
-    includeWatchers(NotifyType.NEW_PATCHSETS, !change.isWorkInProgress() && !change.isPrivate());
+    includeWatchers(NotifyType.NEW_PATCHSETS, !isDraft);
   }
 
   private boolean isOwnerOfProjectOrBranch(Account.Id user) {

@@ -14,33 +14,78 @@
 (function() {
   'use strict';
 
-  const DiffViewMode = {
+  var DiffViewMode = {
     SIDE_BY_SIDE: 'SIDE_BY_SIDE',
     UNIFIED: 'UNIFIED_DIFF',
   };
-  const JSON_PREFIX = ')]}\'';
-  const MAX_PROJECT_RESULTS = 25;
-  const MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX = 900;
-  const PARENT_PATCH_NUM = 'PARENT';
-  const CHECK_SIGN_IN_DEBOUNCE_MS = 3 * 1000;
-  const CHECK_SIGN_IN_DEBOUNCER_NAME = 'checkCredentials';
-  const FAILED_TO_FETCH_ERROR = 'Failed to fetch';
+  var JSON_PREFIX = ')]}\'';
+  var MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX = 900;
+  var PARENT_PATCH_NUM = 'PARENT';
 
-  const Requests = {
+  var Requests = {
     SEND_DIFF_DRAFT: 'sendDiffDraft',
   };
 
-  const CREATE_DRAFT_UNEXPECTED_STATUS_MESSAGE =
-      'Saving draft resulted in HTTP 200 (OK) but expected HTTP 201 (Created)';
-  const HEADER_REPORTING_BLACKLIST = /^set-cookie$/i;
+  // Must be kept in sync with the ListChangesOption enum and protobuf.
+  var ListChangesOption = {
+    LABELS: 0,
+    DETAILED_LABELS: 8,
 
+    // Return information on the current patch set of the change.
+    CURRENT_REVISION: 1,
+    ALL_REVISIONS: 2,
+
+    // If revisions are included, parse the commit object.
+    CURRENT_COMMIT: 3,
+    ALL_COMMITS: 4,
+
+    // If a patch set is included, include the files of the patch set.
+    CURRENT_FILES: 5,
+    ALL_FILES: 6,
+
+    // If accounts are included, include detailed account info.
+    DETAILED_ACCOUNTS: 7,
+
+    // Include messages associated with the change.
+    MESSAGES: 9,
+
+    // Include allowed actions client could perform.
+    CURRENT_ACTIONS: 10,
+
+    // Set the reviewed boolean for the caller.
+    REVIEWED: 11,
+
+    // Include download commands for the caller.
+    DOWNLOAD_COMMANDS: 13,
+
+    // Include patch set weblinks.
+    WEB_LINKS: 14,
+
+    // Include consistency check results.
+    CHECK: 15,
+
+    // Include allowed change actions client could perform.
+    CHANGE_ACTIONS: 16,
+
+    // Include a copy of commit messages including review footers.
+    COMMIT_FOOTERS: 17,
+
+    // Include push certificate information along with any patch sets.
+    PUSH_CERTIFICATES: 18,
+
+    // Include change's reviewer updates.
+    REVIEWER_UPDATES: 19,
+
+    // Set the submittable boolean.
+    SUBMITTABLE: 20,
+  };
 
   Polymer({
     is: 'gr-rest-api-interface',
 
     behaviors: [
+      Gerrit.BaseUrlBehavior,
       Gerrit.PathListBehavior,
-      Gerrit.RESTClientBehavior,
     ],
 
     /**
@@ -55,385 +100,107 @@
      * @event network-error
      */
 
-    /**
-     * Fired when credentials were rejected by server (e.g. expired).
-     *
-     * @event auth-error
-     */
-
     properties: {
       _cache: {
         type: Object,
-        value: {}, // Intentional to share the object across instances.
+        value: {},  // Intentional to share the object across instances.
       },
       _sharedFetchPromises: {
         type: Object,
-        value: {}, // Intentional to share the object across instances.
+        value: {},  // Intentional to share the object across instances.
       },
       _pendingRequests: {
         type: Object,
-        value: {}, // Intentional to share the object across instances.
-      },
-      _etags: {
-        type: Object,
-        value: new GrEtagDecorator(), // Share across instances.
-      },
-      /**
-       * Used to maintain a mapping of changeNums to project names.
-       */
-      _projectLookup: {
-        type: Object,
-        value: {}, // Intentional to share the object across instances.
-      },
-      _auth: {
-        type: Object,
-        value: Gerrit.Auth, // Share across instances.
+        value: {},  // Intentional to share the object across instances.
       },
     },
 
-    JSON_PREFIX,
+    fetchJSON: function(url, opt_errFn, opt_cancelCondition, opt_params,
+        opt_opts) {
+      opt_opts = opt_opts || {};
+      // Issue 5715, This can be reverted back once
+      // iOS 10.3 and mac os 10.12.4 has the fetch api fix.
+      var fetchOptions = {
+        credentials: 'same-origin'
+      };
+      if (opt_opts.headers !== undefined) {
+        fetchOptions['headers'] = opt_opts.headers;
+      }
 
-    /**
-     * Fetch JSON from url provided.
-     * Returns a Promise that resolves to a native Response.
-     * Doesn't do error checking. Supports cancel condition. Performs auth.
-     * Validates auth expiry errors.
-     * @param {string} url
-     * @param {?function(?Response, string=)=} opt_errFn
-     *    passed as null sometimes.
-     * @param {?function()=} opt_cancelCondition
-     *    passed as null sometimes.
-     * @param {?Object=} opt_params URL params, key-value hash.
-     * @param {?Object=} opt_options Fetch options.
-     */
-    _fetchRawJSON(url, opt_errFn, opt_cancelCondition, opt_params,
-        opt_options) {
-      const urlWithParams = this._urlWithParams(url, opt_params);
-      return this._auth.fetch(urlWithParams, opt_options).then(response => {
+      var urlWithParams = this._urlWithParams(url, opt_params);
+      return fetch(urlWithParams, fetchOptions).then(function(response) {
         if (opt_cancelCondition && opt_cancelCondition()) {
           response.body.cancel();
           return;
         }
-        return response;
-      }).catch(err => {
-        const isLoggedIn = !!this._cache['/accounts/self/detail'];
-        if (isLoggedIn && err && err.message === FAILED_TO_FETCH_ERROR) {
-          if (!this.isDebouncerActive(CHECK_SIGN_IN_DEBOUNCER_NAME)) {
-            this.checkCredentials();
+
+        if (!response.ok) {
+          if (opt_errFn) {
+            opt_errFn.call(null, response);
+            return;
           }
-          this.debounce(CHECK_SIGN_IN_DEBOUNCER_NAME, this.checkCredentials,
-              CHECK_SIGN_IN_DEBOUNCE_MS);
+          this.fire('server-error', {response: response});
           return;
         }
+
+        return this.getResponseObject(response);
+      }.bind(this)).catch(function(err) {
         if (opt_errFn) {
-          opt_errFn.call(undefined, null, err);
+          opt_errFn.call(null, null, err);
         } else {
           this.fire('network-error', {error: err});
+          throw err;
         }
         throw err;
-      });
+      }.bind(this));
     },
 
-    /**
-     * Fetch JSON from url provided.
-     * Returns a Promise that resolves to a parsed response.
-     * Same as {@link _fetchRawJSON}, plus error handling.
-     * @param {string} url
-     * @param {?function(?Response, string=)=} opt_errFn
-     *    passed as null sometimes.
-     * @param {?function()=} opt_cancelCondition
-     *    passed as null sometimes.
-     * @param {?Object=} opt_params URL params, key-value hash.
-     * @param {?Object=} opt_options Fetch options.
-     */
-    fetchJSON(url, opt_errFn, opt_cancelCondition, opt_params, opt_options) {
-      return this._fetchRawJSON(
-          url, opt_errFn, opt_cancelCondition, opt_params, opt_options)
-          .then(response => {
-            if (!response) {
-              return;
-            }
-            if (!response.ok) {
-              if (opt_errFn) {
-                opt_errFn.call(null, response);
-                return;
-              }
-              this.fire('server-error', {response});
-              return;
-            }
-            return response && this.getResponseObject(response);
-          });
-    },
-
-    /**
-     * @param {string} url
-     * @param {?Object=} opt_params URL params, key-value hash.
-     * @return {string}
-     */
-    _urlWithParams(url, opt_params) {
+    _urlWithParams: function(url, opt_params) {
       if (!opt_params) { return this.getBaseUrl() + url; }
 
-      const params = [];
-      for (const p in opt_params) {
-        if (!opt_params.hasOwnProperty(p)) { continue; }
+      var params = [];
+      for (var p in opt_params) {
         if (opt_params[p] == null) {
           params.push(encodeURIComponent(p));
           continue;
         }
-        for (const value of [].concat(opt_params[p])) {
-          params.push(`${encodeURIComponent(p)}=${encodeURIComponent(value)}`);
+        var values = [].concat(opt_params[p]);
+        for (var i = 0; i < values.length; i++) {
+          params.push(
+            encodeURIComponent(p) + '=' +
+            encodeURIComponent(values[i]));
         }
       }
       return this.getBaseUrl() + url + '?' + params.join('&');
     },
 
-    /**
-     * @param {!Object} response
-     * @return {?}
-     */
-    getResponseObject(response) {
-      return this._readResponsePayload(response)
-          .then(payload => payload.parsed);
-    },
-
-    /**
-     * @param {!Object} response
-     * @return {!Object}
-     */
-    _readResponsePayload(response) {
-      return response.text().then(text => {
-        let result;
+    getResponseObject: function(response) {
+      return response.text().then(function(text) {
+        var result;
         try {
-          result = this._parsePrefixedJSON(text);
+          result = JSON.parse(text.substring(JSON_PREFIX.length));
         } catch (_) {
           result = null;
         }
-        return {parsed: result, raw: text};
+        return result;
       });
     },
 
-    /**
-     * @param {string} source
-     * @return {?}
-     */
-    _parsePrefixedJSON(source) {
-      return JSON.parse(source.substring(JSON_PREFIX.length));
-    },
-
-    getConfig() {
+    getConfig: function() {
       return this._fetchSharedCacheURL('/config/server/info');
     },
 
-    getProject(project) {
-      return this._fetchSharedCacheURL(
-          '/projects/' + encodeURIComponent(project));
-    },
-
-    getProjectConfig(project) {
+    getProjectConfig: function(project) {
       return this._fetchSharedCacheURL(
           '/projects/' + encodeURIComponent(project) + '/config');
     },
 
-    getProjectAccess(project) {
-      return this._fetchSharedCacheURL(
-          '/access/?project=' + encodeURIComponent(project));
-    },
-
-    saveProjectConfig(project, config, opt_errFn, opt_ctx) {
-      const encodeName = encodeURIComponent(project);
-      return this.send('PUT', `/projects/${encodeName}/config`, config,
-          opt_errFn, opt_ctx);
-    },
-
-    runProjectGC(project, opt_errFn, opt_ctx) {
-      if (!project) {
-        return '';
-      }
-      const encodeName = encodeURIComponent(project);
-      return this.send('POST', `/projects/${encodeName}/gc`, '',
-          opt_errFn, opt_ctx);
-    },
-
-    /**
-     * @param {?Object} config
-     * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
-     */
-    createProject(config, opt_errFn, opt_ctx) {
-      if (!config.name) { return ''; }
-      const encodeName = encodeURIComponent(config.name);
-      return this.send('PUT', `/projects/${encodeName}`, config, opt_errFn,
-          opt_ctx);
-    },
-
-    /**
-     * @param {?Object} config
-     * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
-     */
-    createGroup(config, opt_errFn, opt_ctx) {
-      if (!config.name) { return ''; }
-      const encodeName = encodeURIComponent(config.name);
-      return this.send('PUT', `/groups/${encodeName}`, config, opt_errFn,
-          opt_ctx);
-    },
-
-    getGroupConfig(group) {
-      const encodeName = encodeURIComponent(group);
-      return this.fetchJSON(`/groups/${encodeName}/detail`);
-    },
-
-    /**
-     * @param {string} project
-     * @param {string} ref
-     * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
-     */
-    deleteProjectBranches(project, ref, opt_errFn, opt_ctx) {
-      if (!project || !ref) {
-        return '';
-      }
-      const encodeName = encodeURIComponent(project);
-      const encodeRef = encodeURIComponent(ref);
-      return this.send('DELETE',
-          `/projects/${encodeName}/branches/${encodeRef}`, '',
-          opt_errFn, opt_ctx);
-    },
-
-    /**
-     * @param {string} project
-     * @param {string} ref
-     * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
-     */
-    deleteProjectTags(project, ref, opt_errFn, opt_ctx) {
-      if (!project || !ref) {
-        return '';
-      }
-      const encodeName = encodeURIComponent(project);
-      const encodeRef = encodeURIComponent(ref);
-      return this.send('DELETE',
-          `/projects/${encodeName}/tags/${encodeRef}`, '',
-          opt_errFn, opt_ctx);
-    },
-
-    /**
-     * @param {string} name
-     * @param {string} branch
-     * @param {string} revision
-     * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
-     */
-    createProjectBranch(name, branch, revision, opt_errFn, opt_ctx) {
-      if (!name || !branch || !revision) { return ''; }
-      const encodeName = encodeURIComponent(name);
-      const encodeBranch = encodeURIComponent(branch);
-      return this.send('PUT',
-          `/projects/${encodeName}/branches/${encodeBranch}`,
-          revision, opt_errFn, opt_ctx);
-    },
-
-    /**
-     * @param {string} name
-     * @param {string} tag
-     * @param {string} revision
-     * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
-     */
-    createProjectTag(name, tag, revision, opt_errFn, opt_ctx) {
-      if (!name || !tag || !revision) { return ''; }
-      const encodeName = encodeURIComponent(name);
-      const encodeTag = encodeURIComponent(tag);
-      return this.send('PUT', `/projects/${encodeName}/tags/${encodeTag}`,
-          revision, opt_errFn, opt_ctx);
-    },
-
-    /**
-     * @param {!string} groupName
-     * @returns {!Promise<boolean>}
-     */
-    getIsGroupOwner(groupName) {
-      const encodeName = encodeURIComponent(groupName);
-      return this._fetchSharedCacheURL(`/groups/?owned&q=${encodeName}`)
-          .then(configs => configs.hasOwnProperty(groupName));
-    },
-
-    getGroupMembers(groupName) {
-      const encodeName = encodeURIComponent(groupName);
-      return this.send('GET', `/groups/${encodeName}/members/`)
-          .then(response => this.getResponseObject(response));
-    },
-
-    getIncludedGroup(groupName) {
-      const encodeName = encodeURIComponent(groupName);
-      return this.send('GET', `/groups/${encodeName}/groups/`)
-          .then(response => this.getResponseObject(response));
-    },
-
-    saveGroupName(groupId, name) {
-      const encodeId = encodeURIComponent(groupId);
-      return this.send('PUT', `/groups/${encodeId}/name`, {name});
-    },
-
-    saveGroupOwner(groupId, ownerId) {
-      const encodeId = encodeURIComponent(groupId);
-      return this.send('PUT', `/groups/${encodeId}/owner`, {owner: ownerId});
-    },
-
-    saveGroupDescription(groupId, description) {
-      const encodeId = encodeURIComponent(groupId);
-      return this.send('PUT', `/groups/${encodeId}/description`,
-          {description});
-    },
-
-    saveGroupOptions(groupId, options) {
-      const encodeId = encodeURIComponent(groupId);
-      return this.send('PUT', `/groups/${encodeId}/options`, options);
-    },
-
-    getGroupAuditLog(group) {
-      return this._fetchSharedCacheURL('/groups/' + group + '/log.audit');
-    },
-
-    saveGroupMembers(groupName, groupMembers) {
-      const encodeName = encodeURIComponent(groupName);
-      const encodeMember = encodeURIComponent(groupMembers);
-      return this.send('PUT', `/groups/${encodeName}/members/${encodeMember}`)
-          .then(response => this.getResponseObject(response));
-    },
-
-    saveIncludedGroup(groupName, includedGroup, opt_errFn) {
-      const encodeName = encodeURIComponent(groupName);
-      const encodeIncludedGroup = encodeURIComponent(includedGroup);
-      return this.send('PUT',
-          `/groups/${encodeName}/groups/${encodeIncludedGroup}`, null,
-          opt_errFn).then(response => {
-            if (response.ok) {
-              return this.getResponseObject(response);
-            }
-          });
-    },
-
-    deleteGroupMembers(groupName, groupMembers) {
-      const encodeName = encodeURIComponent(groupName);
-      const encodeMember = encodeURIComponent(groupMembers);
-      return this.send('DELETE',
-          `/groups/${encodeName}/members/${encodeMember}`);
-    },
-
-    deleteIncludedGroup(groupName, includedGroup) {
-      const encodeName = encodeURIComponent(groupName);
-      const encodeIncludedGroup = encodeURIComponent(includedGroup);
-      return this.send('DELETE',
-          `/groups/${encodeName}/groups/${encodeIncludedGroup}`);
-    },
-
-    getVersion() {
+    getVersion: function() {
       return this._fetchSharedCacheURL('/config/server/version');
     },
 
-    getDiffPreferences() {
-      return this.getLoggedIn().then(loggedIn => {
+    getDiffPreferences: function() {
+      return this.getLoggedIn().then(function(loggedIn) {
         if (loggedIn) {
           return this._fetchSharedCacheURL('/accounts/self/preferences.diff');
         }
@@ -457,15 +224,10 @@
           tab_size: 8,
           theme: 'DEFAULT',
         });
-      });
+      }.bind(this));
     },
 
-    /**
-     * @param {?Object} prefs
-     * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
-     */
-    savePreferences(prefs, opt_errFn, opt_ctx) {
+    savePreferences: function(prefs, opt_errFn, opt_ctx) {
       // Note (Issue 5142): normalize the download scheme with lower case before
       // saving.
       if (prefs.download_scheme) {
@@ -476,209 +238,127 @@
           opt_ctx);
     },
 
-    /**
-     * @param {?Object} prefs
-     * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
-     */
-    saveDiffPreferences(prefs, opt_errFn, opt_ctx) {
+    saveDiffPreferences: function(prefs, opt_errFn, opt_ctx) {
       // Invalidate the cache.
       this._cache['/accounts/self/preferences.diff'] = undefined;
       return this.send('PUT', '/accounts/self/preferences.diff', prefs,
           opt_errFn, opt_ctx);
     },
 
-    getAccount() {
-      return this._fetchSharedCacheURL('/accounts/self/detail', resp => {
+    getAccount: function() {
+      return this._fetchSharedCacheURL('/accounts/self/detail', function(resp) {
         if (resp.status === 403) {
           this._cache['/accounts/self/detail'] = null;
         }
-      });
+      }.bind(this));
     },
 
-    /**
-     * @param {string} userId the ID of the user usch as an email address.
-     * @return {!Promise<!Object>}
-     */
-    getAccountDetails(userId) {
-      return this.fetchJSON(`/accounts/${encodeURIComponent(userId)}/detail`);
-    },
-
-    getAccountEmails() {
+    getAccountEmails: function() {
       return this._fetchSharedCacheURL('/accounts/self/emails');
     },
 
-    /**
-     * @param {string} email
-     * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
-     */
-    addAccountEmail(email, opt_errFn, opt_ctx) {
+    addAccountEmail: function(email, opt_errFn, opt_ctx) {
       return this.send('PUT', '/accounts/self/emails/' +
           encodeURIComponent(email), null, opt_errFn, opt_ctx);
     },
 
-    /**
-     * @param {string} email
-     * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
-     */
-    deleteAccountEmail(email, opt_errFn, opt_ctx) {
+    deleteAccountEmail: function(email, opt_errFn, opt_ctx) {
       return this.send('DELETE', '/accounts/self/emails/' +
           encodeURIComponent(email), null, opt_errFn, opt_ctx);
     },
 
-    /**
-     * @param {string} email
-     * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
-     */
-    setPreferredAccountEmail(email, opt_errFn, opt_ctx) {
+    setPreferredAccountEmail: function(email, opt_errFn, opt_ctx) {
       return this.send('PUT', '/accounts/self/emails/' +
           encodeURIComponent(email) + '/preferred', null,
-          opt_errFn, opt_ctx).then(() => {
-            // If result of getAccountEmails is in cache, update it in the cache
-            // so we don't have to invalidate it.
-            const cachedEmails = this._cache['/accounts/self/emails'];
-            if (cachedEmails) {
-              const emails = cachedEmails.map(entry => {
-                if (entry.email === email) {
-                  return {email, preferred: true};
-                } else {
-                  return {email};
-                }
-              });
-              this._cache['/accounts/self/emails'] = emails;
+          opt_errFn, opt_ctx).then(function() {
+        // If result of getAccountEmails is in cache, update it in the cache
+        // so we don't have to invalidate it.
+        var cachedEmails = this._cache['/accounts/self/emails'];
+        if (cachedEmails) {
+          var emails = cachedEmails.map(function(entry) {
+            if (entry.email === email) {
+              return {email: email, preferred: true};
+            } else {
+              return {email: email};
             }
           });
+          this._cache['/accounts/self/emails'] = emails;
+        }
+      }.bind(this));
     },
 
-    /**
-     * @param {?Object} obj
-     */
-    _updateCachedAccount(obj) {
-      // If result of getAccount is in cache, update it in the cache
-      // so we don't have to invalidate it.
-      const cachedAccount = this._cache['/accounts/self/detail'];
-      if (cachedAccount) {
-        // Replace object in cache with new object to force UI updates.
-        this._cache['/accounts/self/detail'] =
-            Object.assign({}, cachedAccount, obj);
-      }
+    setAccountName: function(name, opt_errFn, opt_ctx) {
+      return this.send('PUT', '/accounts/self/name', {name: name}, opt_errFn,
+          opt_ctx).then(function(response) {
+            // If result of getAccount is in cache, update it in the cache
+            // so we don't have to invalidate it.
+            var cachedAccount = this._cache['/accounts/self/detail'];
+            if (cachedAccount) {
+              return this.getResponseObject(response).then(function(newName) {
+                // Replace object in cache with new object to force UI updates.
+                // TODO(logan): Polyfill for Object.assign in IE
+                this._cache['/accounts/self/detail'] = Object.assign(
+                    {}, cachedAccount, {name: newName});
+              }.bind(this));
+            }
+          }.bind(this));
     },
 
-    /**
-     * @param {string} name
-     * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
-     */
-    setAccountName(name, opt_errFn, opt_ctx) {
-      return this.send('PUT', '/accounts/self/name', {name}, opt_errFn, opt_ctx)
-          .then(response => this.getResponseObject(response)
-              .then(newName => this._updateCachedAccount({name: newName})));
+    setAccountStatus: function(status, opt_errFn, opt_ctx) {
+      return this.send('PUT', '/accounts/self/status', {status: status},
+          opt_errFn, opt_ctx).then(function(response) {
+            // If result of getAccount is in cache, update it in the cache
+            // so we don't have to invalidate it.
+            var cachedAccount = this._cache['/accounts/self/detail'];
+            if (cachedAccount) {
+              return this.getResponseObject(response).then(function(newStatus) {
+                // Replace object in cache with new object to force UI updates.
+                // TODO(logan): Polyfill for Object.assign in IE
+                this._cache['/accounts/self/detail'] = Object.assign(
+                    {}, cachedAccount, {status: newStatus});
+              }.bind(this));
+            }
+          }.bind(this));
     },
 
-    /**
-     * @param {string} username
-     * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
-     */
-    setAccountUsername(username, opt_errFn, opt_ctx) {
-      return this.send('PUT', '/accounts/self/username', {username}, opt_errFn,
-          opt_ctx).then(response => this.getResponseObject(response)
-              .then(newName => this._updateCachedAccount({username: newName})));
-    },
-
-    /**
-     * @param {string} status
-     * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
-     */
-    setAccountStatus(status, opt_errFn, opt_ctx) {
-      return this.send('PUT', '/accounts/self/status', {status},
-          opt_errFn, opt_ctx).then(response => this.getResponseObject(response)
-              .then(newStatus => this._updateCachedAccount(
-                  {status: newStatus})));
-    },
-
-    getAccountStatus(userId) {
-      return this.fetchJSON(`/accounts/${encodeURIComponent(userId)}/status`);
-    },
-
-    getAccountGroups() {
+    getAccountGroups: function() {
       return this._fetchSharedCacheURL('/accounts/self/groups');
     },
 
-    getAccountAgreements() {
-      return this._fetchSharedCacheURL('/accounts/self/agreements');
-    },
-
-    /**
-     * @param {string=} opt_params
-     */
-    getAccountCapabilities(opt_params) {
-      let queryString = '';
+    getAccountCapabilities: function(opt_params) {
+      var queryString = '';
       if (opt_params) {
         queryString = '?q=' + opt_params
-            .map(param => { return encodeURIComponent(param); })
+            .map(function(param) { return encodeURIComponent(param); })
             .join('&q=');
       }
       return this._fetchSharedCacheURL('/accounts/self/capabilities' +
           queryString);
     },
 
-    getLoggedIn() {
-      return this.getAccount().then(account => {
+    getLoggedIn: function() {
+      return this.getAccount().then(function(account) {
         return account != null;
       });
     },
 
-    getIsAdmin() {
-      return this.getLoggedIn().then(isLoggedIn => {
-        if (isLoggedIn) {
-          return this.getAccountCapabilities();
-        } else {
-          return Promise.resolve();
-        }
-      }).then(capabilities => {
-        return capabilities && capabilities.administrateServer;
-      });
-    },
-
-    checkCredentials() {
+    checkCredentials: function() {
       // Skip the REST response cache.
-      return this._fetchRawJSON('/accounts/self/detail').then(response => {
-        if (!response) { return; }
-        if (response.status === 403) {
-          this.fire('auth-error');
-          this._cache['/accounts/self/detail'] = null;
-        } else if (response.ok) {
-          return this.getResponseObject(response);
-        }
-      }).then(response => {
-        if (response) {
-          this._cache['/accounts/self/detail'] = response;
-        }
-        return response;
-      });
+      return this.fetchJSON('/accounts/self/detail');
     },
 
-    getDefaultPreferences() {
-      return this._fetchSharedCacheURL('/config/server/preferences');
-    },
-
-    getPreferences() {
-      return this.getLoggedIn().then(loggedIn => {
+    getPreferences: function() {
+      return this.getLoggedIn().then(function(loggedIn) {
         if (loggedIn) {
           return this._fetchSharedCacheURL('/accounts/self/preferences').then(
-              res => {
-                if (this._isNarrowScreen()) {
-                  res.default_diff_view = DiffViewMode.UNIFIED;
-                } else {
-                  res.default_diff_view = res.diff_view;
-                }
-                return Promise.resolve(res);
-              });
+              function(res) {
+            if (this._isNarrowScreen()) {
+              res.default_diff_view = DiffViewMode.UNIFIED;
+            } else {
+              res.default_diff_view = res.diff_view;
+            }
+            return Promise.resolve(res);
+          }.bind(this));
         }
 
         return Promise.resolve({
@@ -687,41 +367,27 @@
               DiffViewMode.UNIFIED : DiffViewMode.SIDE_BY_SIDE,
           diff_view: 'SIDE_BY_SIDE',
         });
-      });
+      }.bind(this));
     },
 
-    getWatchedProjects() {
+    getWatchedProjects: function() {
       return this._fetchSharedCacheURL('/accounts/self/watched.projects');
     },
 
-    /**
-     * @param {string} projects
-     * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
-     */
-    saveWatchedProjects(projects, opt_errFn, opt_ctx) {
+    saveWatchedProjects: function(projects, opt_errFn, opt_ctx) {
       return this.send('POST', '/accounts/self/watched.projects', projects,
           opt_errFn, opt_ctx)
-          .then(response => {
+          .then(function(response) {
             return this.getResponseObject(response);
-          });
+          }.bind(this));
     },
 
-    /**
-     * @param {string} projects
-     * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
-     */
-    deleteWatchedProjects(projects, opt_errFn, opt_ctx) {
+    deleteWatchedProjects: function(projects, opt_errFn, opt_ctx) {
       return this.send('POST', '/accounts/self/watched.projects:delete',
           projects, opt_errFn, opt_ctx);
     },
 
-    /**
-     * @param {string} url
-     * @param {function(?Response, string=)=} opt_errFn
-     */
-    _fetchSharedCacheURL(url, opt_errFn) {
+    _fetchSharedCacheURL: function(url, opt_errFn) {
       if (this._sharedFetchPromises[url]) {
         return this._sharedFetchPromises[url];
       }
@@ -729,238 +395,129 @@
       if (this._cache[url] !== undefined) {
         return Promise.resolve(this._cache[url]);
       }
-      this._sharedFetchPromises[url] = this.fetchJSON(url, opt_errFn)
-          .then(response => {
-            if (response !== undefined) {
-              this._cache[url] = response;
-            }
-            this._sharedFetchPromises[url] = undefined;
-            return response;
-          }).catch(err => {
-            this._sharedFetchPromises[url] = undefined;
-            throw err;
-          });
+      this._sharedFetchPromises[url] = this.fetchJSON(url, opt_errFn).then(
+        function(response) {
+          if (response !== undefined) {
+            this._cache[url] = response;
+          }
+          this._sharedFetchPromises[url] = undefined;
+          return response;
+        }.bind(this)).catch(function(err) {
+          this._sharedFetchPromises[url] = undefined;
+          throw err;
+        }.bind(this));
       return this._sharedFetchPromises[url];
     },
 
-    _isNarrowScreen() {
+    _isNarrowScreen: function() {
       return window.innerWidth < MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX;
     },
 
-    /**
-     * @param {number=} opt_changesPerPage
-     * @param {string|!Array<string>=} opt_query A query or an array of queries.
-     * @param {number|string=} opt_offset
-     * @param {!Object=} opt_options
-     * @return {?Array<!Object>|?Array<!Array<!Object>>} If opt_query is an
-     *     array, fetchJSON will return an array of arrays of changeInfos. If it
-     *     is unspecified or a string, fetchJSON will return an array of
-     *     changeInfos.
-     */
-    getChanges(opt_changesPerPage, opt_query, opt_offset, opt_options) {
-      const options = opt_options || this.listChangesOptionsToHex(
-          this.ListChangesOption.LABELS,
-          this.ListChangesOption.DETAILED_ACCOUNTS
+    getChanges: function(changesPerPage, opt_query, opt_offset) {
+      var options = this._listChangesOptionsToHex(
+          ListChangesOption.LABELS,
+          ListChangesOption.DETAILED_ACCOUNTS
       );
       // Issue 4524: respect legacy token with max sortkey.
       if (opt_offset === 'n,z') {
         opt_offset = 0;
       }
-      const params = {
+      var params = {
+        n: changesPerPage,
         O: options,
         S: opt_offset || 0,
       };
-      if (opt_changesPerPage) { params.n = opt_changesPerPage; }
       if (opt_query && opt_query.length > 0) {
         params.q = opt_query;
       }
-      const iterateOverChanges = arr => {
-        for (const change of (arr || [])) {
-          this._maybeInsertInLookup(change);
-        }
+      return this.fetchJSON('/changes/', null, null, params);
+    },
+
+    getDashboardChanges: function() {
+      var options = this._listChangesOptionsToHex(
+          ListChangesOption.LABELS,
+          ListChangesOption.DETAILED_ACCOUNTS,
+          ListChangesOption.REVIEWED
+      );
+      var params = {
+        O: options,
+        q: [
+          'is:open owner:self',
+          'is:open ((reviewer:self -owner:self -star:ignore) OR assignee:self)',
+          'is:closed (owner:self OR reviewer:self OR assignee:self) -age:4w ' +
+            'limit:10',
+        ],
       };
-      return this.fetchJSON('/changes/', null, null, params).then(response => {
-        // Response may be an array of changes OR an array of arrays of
-        // changes.
-        if (opt_query instanceof Array) {
-          for (const arr of response) {
-            iterateOverChanges(arr);
-          }
-        } else {
-          iterateOverChanges(response);
-        }
-        return response;
-      });
+      return this.fetchJSON('/changes/', null, null, params);
     },
 
-    /**
-     * Inserts a change into _projectLookup iff it has a valid structure.
-     * @param {?{ _number: (number|string) }} change
-     */
-    _maybeInsertInLookup(change) {
-      if (change && change.project && change._number) {
-        this.setInProjectLookup(change._number, change.project);
-      }
+    getChangeActionURL: function(changeNum, opt_patchNum, endpoint) {
+      return this._changeBaseURL(changeNum, opt_patchNum) + endpoint;
     },
 
-    /**
-     * TODO (beckysiegel) this needs to be rewritten with the optional param
-     * at the end.
-     *
-     * @param {number|string} changeNum
-     * @param {?number|string=} opt_patchNum passed as null sometimes.
-     * @param {?=} endpoint
-     * @return {!Promise<string>}
-     */
-    getChangeActionURL(changeNum, opt_patchNum, endpoint) {
-      return this._changeBaseURL(changeNum, opt_patchNum)
-          .then(url => url + endpoint);
-    },
-
-    /**
-     * @param {number|string} changeNum
-     * @param {function(?Response, string=)=} opt_errFn
-     * @param {function()=} opt_cancelCondition
-     */
-    getChangeDetail(changeNum, opt_errFn, opt_cancelCondition) {
-      const options = this.listChangesOptionsToHex(
-          this.ListChangesOption.ALL_COMMITS,
-          this.ListChangesOption.ALL_REVISIONS,
-          this.ListChangesOption.CHANGE_ACTIONS,
-          this.ListChangesOption.CURRENT_ACTIONS,
-          this.ListChangesOption.DOWNLOAD_COMMANDS,
-          this.ListChangesOption.SUBMITTABLE,
-          this.ListChangesOption.WEB_LINKS
+    getChangeDetail: function(changeNum, opt_errFn, opt_cancelCondition) {
+      var options = this._listChangesOptionsToHex(
+          ListChangesOption.ALL_COMMITS,
+          ListChangesOption.ALL_REVISIONS,
+          ListChangesOption.CHANGE_ACTIONS,
+          ListChangesOption.CURRENT_ACTIONS,
+          ListChangesOption.DOWNLOAD_COMMANDS,
+          ListChangesOption.SUBMITTABLE,
+          ListChangesOption.WEB_LINKS
       );
       return this._getChangeDetail(
           changeNum, options, opt_errFn, opt_cancelCondition)
-          .then(GrReviewerUpdatesParser.parse);
+            .then(GrReviewerUpdatesParser.parse);
     },
 
-    /**
-     * @param {number|string} changeNum
-     * @param {function(?Response, string=)=} opt_errFn
-     * @param {function()=} opt_cancelCondition
-     */
-    getDiffChangeDetail(changeNum, opt_errFn, opt_cancelCondition) {
-      const params = this.listChangesOptionsToHex(
-          this.ListChangesOption.ALL_REVISIONS
+    getDiffChangeDetail: function(changeNum, opt_errFn, opt_cancelCondition) {
+      var options = this._listChangesOptionsToHex(
+          ListChangesOption.ALL_REVISIONS
       );
-      return this._getChangeDetail(changeNum, params, opt_errFn,
+      return this._getChangeDetail(changeNum, options, opt_errFn,
           opt_cancelCondition);
     },
 
-    /**
-     * @param {number|string} changeNum
-     * @param {function(?Response, string=)=} opt_errFn
-     * @param {function()=} opt_cancelCondition
-     */
-    _getChangeDetail(changeNum, params, opt_errFn,
+    _getChangeDetail: function(changeNum, options, opt_errFn,
         opt_cancelCondition) {
-      return this.getChangeActionURL(changeNum, null, '/detail').then(url => {
-        const urlWithParams = this._urlWithParams(url, params);
-        return this._fetchRawJSON(
-            url,
-            opt_errFn,
-            opt_cancelCondition,
-            {O: params},
-            this._etags.getOptions(urlWithParams))
-            .then(response => {
-              if (response && response.status === 304) {
-                return Promise.resolve(this._parsePrefixedJSON(
-                    this._etags.getCachedPayload(urlWithParams)));
-              }
-
-              if (response && !response.ok) {
-                if (opt_errFn) {
-                  opt_errFn.call(null, response);
-                } else {
-                  this.fire('server-error', {response});
-                }
-                return;
-              }
-
-              const payloadPromise = response ?
-                  this._readResponsePayload(response) :
-                  Promise.resolve(null);
-
-              return payloadPromise.then(payload => {
-                if (!payload) { return null; }
-
-                this._etags.collect(urlWithParams, response, payload.raw);
-                this._maybeInsertInLookup(payload);
-
-                return payload.parsed;
-              });
-            });
-      });
+      return this.fetchJSON(
+          this.getChangeActionURL(changeNum, null, '/detail'),
+          opt_errFn,
+          opt_cancelCondition,
+          {O: options});
     },
 
-    /**
-     * @param {number|string} changeNum
-     * @param {number|string} patchNum
-     */
-    getChangeCommitInfo(changeNum, patchNum) {
-      return this._getChangeURLAndFetch(changeNum, '/commit?links', patchNum);
+    getChangeCommitInfo: function(changeNum, patchNum) {
+      return this.fetchJSON(
+          this.getChangeActionURL(changeNum, patchNum, '/commit?links'));
     },
 
-    /**
-     * @param {number|string} changeNum
-     * @param {!Promise<?Object>} patchRange
-     */
-    getChangeFiles(changeNum, patchRange) {
-      let endpoint = '/files';
+    getChangeFiles: function(changeNum, patchRange) {
+      var endpoint = '/files';
       if (patchRange.basePatchNum !== 'PARENT') {
         endpoint += '?base=' + encodeURIComponent(patchRange.basePatchNum);
       }
-      return this._getChangeURLAndFetch(changeNum, endpoint,
-          patchRange.patchNum);
+      return this.fetchJSON(
+          this.getChangeActionURL(changeNum, patchRange.patchNum, endpoint));
     },
 
-    /**
-     * @param {number|string} changeNum
-     * @param {!Promise<?Object>} patchRange
-     */
-    getChangeEditFiles(changeNum, patchRange) {
-      let endpoint = '/edit?list';
-      if (patchRange.basePatchNum !== 'PARENT') {
-        endpoint += '?base=' + encodeURIComponent(patchRange.basePatchNum);
-      }
-      return this._getChangeURLAndFetch(changeNum, endpoint);
-    },
-
-    getChangeFilesAsSpeciallySortedArray(changeNum, patchRange) {
+    getChangeFilesAsSpeciallySortedArray: function(changeNum, patchRange) {
       return this.getChangeFiles(changeNum, patchRange).then(
           this._normalizeChangeFilesResponse.bind(this));
     },
 
-    getChangeEditFilesAsSpeciallySortedArray(changeNum, patchRange) {
-      return this.getChangeEditFiles(changeNum, patchRange).then(files =>
-            this._normalizeChangeFilesResponse(files.files));
-    },
-
-    /**
-     * The closure compiler doesn't realize this.specialFilePathCompare is
-     * valid.
-     * @suppress {checkTypes}
-     */
-    getChangeFilePathsAsSpeciallySortedArray(changeNum, patchRange) {
-      return this.getChangeFiles(changeNum, patchRange).then(files => {
+    getChangeFilePathsAsSpeciallySortedArray: function(changeNum, patchRange) {
+      return this.getChangeFiles(changeNum, patchRange).then(function(files) {
         return Object.keys(files).sort(this.specialFilePathCompare);
-      });
+      }.bind(this));
     },
 
-    /**
-     * The closure compiler doesn't realize this.specialFilePathCompare is
-     * valid.
-     * @suppress {checkTypes}
-     */
-    _normalizeChangeFilesResponse(response) {
+    _normalizeChangeFilesResponse: function(response) {
       if (!response) { return []; }
-      const paths = Object.keys(response).sort(this.specialFilePathCompare);
-      const files = [];
-      for (let i = 0; i < paths.length; i++) {
-        const info = response[paths[i]];
+      var paths = Object.keys(response).sort(this.specialFilePathCompare);
+      var files = [];
+      for (var i = 0; i < paths.length; i++) {
+        var info = response[paths[i]];
         info.__path = paths[i];
         info.lines_inserted = info.lines_inserted || 0;
         info.lines_deleted = info.lines_deleted || 0;
@@ -969,443 +526,254 @@
       return files;
     },
 
-    getChangeRevisionActions(changeNum, patchNum) {
-      return this._getChangeURLAndFetch(changeNum, '/actions', patchNum)
-          .then(revisionActions => {
-            // The rebase button on change screen is always enabled.
-            if (revisionActions.rebase) {
-              revisionActions.rebase.rebaseOnCurrent =
-                  !!revisionActions.rebase.enabled;
-              revisionActions.rebase.enabled = true;
-            }
-            return revisionActions;
-          });
-    },
-
-    /**
-     * @param {number|string} changeNum
-     * @param {string} inputVal
-     * @param {function(?Response, string=)=} opt_errFn
-     */
-    getChangeSuggestedReviewers(changeNum, inputVal, opt_errFn) {
-      const params = {n: 10};
-      if (inputVal) { params.q = inputVal; }
-      return this._getChangeURLAndFetch(changeNum, '/suggest_reviewers', null,
-          opt_errFn, null, params);
-    },
-
-    /**
-     * @param {number|string} changeNum
-     */
-    getChangeIncludedIn(changeNum) {
-      return this._getChangeURLAndFetch(changeNum, '/in', null);
-    },
-
-    _computeFilter(filter) {
-      if (filter && filter.startsWith('^')) {
-        filter = '&r=' + encodeURIComponent(filter);
-      } else if (filter) {
-        filter = '&m=' + encodeURIComponent(filter);
-      } else {
-        filter = '';
-      }
-      return filter;
-    },
-
-    /**
-     * @param {string} filter
-     * @param {number} groupsPerPage
-     * @param {number=} opt_offset
-     * @return {!Promise<?Object>}
-     */
-    getGroups(filter, groupsPerPage, opt_offset) {
-      const offset = opt_offset || 0;
-
-      return this._fetchSharedCacheURL(
-          `/groups/?n=${groupsPerPage + 1}&S=${offset}` +
-          this._computeFilter(filter)
-      );
-    },
-
-    /**
-     * @param {string} filter
-     * @param {number} projectsPerPage
-     * @param {number=} opt_offset
-     * @return {!Promise<?Object>}
-     */
-    getProjects(filter, projectsPerPage, opt_offset) {
-      const offset = opt_offset || 0;
-
-      return this._fetchSharedCacheURL(
-          `/projects/?d&n=${projectsPerPage + 1}&S=${offset}` +
-          this._computeFilter(filter)
-      );
-    },
-
-    setProjectHead(project, ref) {
-      return this.send(
-          'PUT', `/projects/${encodeURIComponent(project)}/HEAD`, {ref});
-    },
-
-    /**
-     * @param {string} filter
-     * @param {string} project
-     * @param {number} projectsBranchesPerPage
-     * @param {number=} opt_offset
-     * @return {!Promise<?Object>}
-     */
-    getProjectBranches(filter, project, projectsBranchesPerPage, opt_offset) {
-      const offset = opt_offset || 0;
-
+    getChangeRevisionActions: function(changeNum, patchNum) {
       return this.fetchJSON(
-          `/projects/${encodeURIComponent(project)}/branches` +
-          `?n=${projectsBranchesPerPage + 1}&S=${offset}` +
-          this._computeFilter(filter)
-      );
+          this.getChangeActionURL(changeNum, patchNum, '/actions')).then(
+              function(revisionActions) {
+                // The rebase button on change screen is always enabled.
+                if (revisionActions.rebase) {
+                  revisionActions.rebase.rebaseOnCurrent =
+                      !!revisionActions.rebase.enabled;
+                  revisionActions.rebase.enabled = true;
+                }
+                return revisionActions;
+              });
     },
 
-    /**
-     * @param {string} filter
-     * @param {string} project
-     * @param {number} projectsTagsPerPage
-     * @param {number=} opt_offset
-     * @return {!Promise<?Object>}
-     */
-    getProjectTags(filter, project, projectsTagsPerPage, opt_offset) {
-      const offset = opt_offset || 0;
-
-      return this.fetchJSON(
-          `/projects/${encodeURIComponent(project)}/tags` +
-          `?n=${projectsTagsPerPage + 1}&S=${offset}` +
-          this._computeFilter(filter)
-      );
+    getChangeSuggestedReviewers: function(changeNum, inputVal, opt_errFn,
+        opt_ctx) {
+      var url = this.getChangeActionURL(changeNum, null, '/suggest_reviewers');
+      return this.fetchJSON(url, opt_errFn, opt_ctx, {
+        n: 10,  // Return max 10 results
+        q: inputVal,
+      });
     },
 
-    /**
-     * @param {string} filter
-     * @param {number} pluginsPerPage
-     * @param {number=} opt_offset
-     * @return {!Promise<?Object>}
-     */
-    getPlugins(filter, pluginsPerPage, opt_offset) {
-      const offset = opt_offset || 0;
-
-      return this.fetchJSON(
-          `/plugins/?all&n=${pluginsPerPage + 1}&S=${offset}` +
-          this._computeFilter(filter)
-      );
-    },
-
-    getProjectAccessRights(projectName) {
-      return this._fetchSharedCacheURL(
-          `/projects/${encodeURIComponent(projectName)}/access`);
-    },
-
-    setProjectAccessRights(projectName, projectInfo) {
-      return this.send(
-          'POST', `/projects/${encodeURIComponent(projectName)}/access`,
-          projectInfo);
-    },
-
-    /**
-     * @param {string} inputVal
-     * @param {number} opt_n
-     * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
-     */
-    getSuggestedGroups(inputVal, opt_n, opt_errFn, opt_ctx) {
-      const params = {s: inputVal};
+    getSuggestedGroups: function(inputVal, opt_n, opt_errFn, opt_ctx) {
+      var params = {s: inputVal};
       if (opt_n) { params.n = opt_n; }
       return this.fetchJSON('/groups/', opt_errFn, opt_ctx, params);
     },
 
-    /**
-     * @param {string} inputVal
-     * @param {number} opt_n
-     * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
-     */
-    getSuggestedProjects(inputVal, opt_n, opt_errFn, opt_ctx) {
-      const params = {
-        m: inputVal,
-        n: MAX_PROJECT_RESULTS,
-        type: 'ALL',
-      };
+    getSuggestedProjects: function(inputVal, opt_n, opt_errFn, opt_ctx) {
+      var params = {p: inputVal};
       if (opt_n) { params.n = opt_n; }
       return this.fetchJSON('/projects/', opt_errFn, opt_ctx, params);
     },
 
-    /**
-     * @param {string} inputVal
-     * @param {number} opt_n
-     * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
-     */
-    getSuggestedAccounts(inputVal, opt_n, opt_errFn, opt_ctx) {
-      if (!inputVal) {
-        return Promise.resolve([]);
-      }
-      const params = {suggest: null, q: inputVal};
+    getSuggestedAccounts: function(inputVal, opt_n, opt_errFn, opt_ctx) {
+      var params = {q: inputVal, suggest: null};
       if (opt_n) { params.n = opt_n; }
       return this.fetchJSON('/accounts/', opt_errFn, opt_ctx, params);
     },
 
-    addChangeReviewer(changeNum, reviewerID) {
+    addChangeReviewer: function(changeNum, reviewerID) {
       return this._sendChangeReviewerRequest('POST', changeNum, reviewerID);
     },
 
-    removeChangeReviewer(changeNum, reviewerID) {
+    removeChangeReviewer: function(changeNum, reviewerID) {
       return this._sendChangeReviewerRequest('DELETE', changeNum, reviewerID);
     },
 
-    _sendChangeReviewerRequest(method, changeNum, reviewerID) {
-      return this.getChangeActionURL(changeNum, null, '/reviewers')
-          .then(url => {
-            let body;
-            switch (method) {
-              case 'POST':
-                body = {reviewer: reviewerID};
-                break;
-              case 'DELETE':
-                url += '/' + encodeURIComponent(reviewerID);
-                break;
-              default:
-                throw Error('Unsupported HTTP method: ' + method);
-            }
+    _sendChangeReviewerRequest: function(method, changeNum, reviewerID) {
+      var url = this.getChangeActionURL(changeNum, null, '/reviewers');
+      var body;
+      switch (method) {
+        case 'POST':
+          body = {reviewer: reviewerID};
+          break;
+        case 'DELETE':
+          url += '/' + reviewerID;
+          break;
+        default:
+          throw Error('Unsupported HTTP method: ' + method);
+      }
 
-            return this.send(method, url, body);
-          });
+      return this.send(method, url, body);
     },
 
-    getRelatedChanges(changeNum, patchNum) {
-      return this._getChangeURLAndFetch(changeNum, '/related', patchNum);
+    getRelatedChanges: function(changeNum, patchNum) {
+      return this.fetchJSON(
+          this.getChangeActionURL(changeNum, patchNum, '/related'));
     },
 
-    getChangesSubmittedTogether(changeNum) {
-      return this._getChangeURLAndFetch(changeNum, '/submitted_together', null);
+    getChangesSubmittedTogether: function(changeNum) {
+      return this.fetchJSON(
+          this.getChangeActionURL(changeNum, null, '/submitted_together'));
     },
 
-    getChangeConflicts(changeNum) {
-      const options = this.listChangesOptionsToHex(
-          this.ListChangesOption.CURRENT_REVISION,
-          this.ListChangesOption.CURRENT_COMMIT
+    getChangeConflicts: function(changeNum) {
+      var options = this._listChangesOptionsToHex(
+          ListChangesOption.CURRENT_REVISION,
+          ListChangesOption.CURRENT_COMMIT
       );
-      const params = {
+      var params = {
         O: options,
         q: 'status:open is:mergeable conflicts:' + changeNum,
       };
       return this.fetchJSON('/changes/', null, null, params);
     },
 
-    getChangeCherryPicks(project, changeID, changeNum) {
-      const options = this.listChangesOptionsToHex(
-          this.ListChangesOption.CURRENT_REVISION,
-          this.ListChangesOption.CURRENT_COMMIT
+    getChangeCherryPicks: function(project, changeID, changeNum) {
+      var options = this._listChangesOptionsToHex(
+          ListChangesOption.CURRENT_REVISION,
+          ListChangesOption.CURRENT_COMMIT
       );
-      const query = [
+      var query = [
         'project:' + project,
         'change:' + changeID,
         '-change:' + changeNum,
         '-is:abandoned',
       ].join(' ');
-      const params = {
+      var params = {
         O: options,
         q: query,
       };
       return this.fetchJSON('/changes/', null, null, params);
     },
 
-    getChangesWithSameTopic(topic, changeNum) {
-      const options = this.listChangesOptionsToHex(
-          this.ListChangesOption.LABELS,
-          this.ListChangesOption.CURRENT_REVISION,
-          this.ListChangesOption.CURRENT_COMMIT,
-          this.ListChangesOption.DETAILED_LABELS
+    getChangesWithSameTopic: function(topic) {
+      var options = this._listChangesOptionsToHex(
+          ListChangesOption.LABELS,
+          ListChangesOption.CURRENT_REVISION,
+          ListChangesOption.CURRENT_COMMIT,
+          ListChangesOption.DETAILED_LABELS
       );
-      const query = [
-        'status:open',
-        '-change:' + changeNum,
-        'topic:' + topic,
-      ].join(' ');
-      const params = {
+      var params = {
         O: options,
-        q: query,
+        q: 'status:open topic:' + topic,
       };
       return this.fetchJSON('/changes/', null, null, params);
     },
 
-    getReviewedFiles(changeNum, patchNum) {
-      return this._getChangeURLAndFetch(changeNum, '/files?reviewed', patchNum);
+    getReviewedFiles: function(changeNum, patchNum) {
+      return this.fetchJSON(
+          this.getChangeActionURL(changeNum, patchNum, '/files?reviewed'));
     },
 
-    /**
-     * @param {number|string} changeNum
-     * @param {number|string} patchNum
-     * @param {string} path
-     * @param {boolean} reviewed
-     * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
-     */
-    saveFileReviewed(changeNum, patchNum, path, reviewed, opt_errFn, opt_ctx) {
-      const method = reviewed ? 'PUT' : 'DELETE';
-      const e = `/files/${encodeURIComponent(path)}/reviewed`;
-      return this.getChangeURLAndSend(changeNum, method, patchNum, e, null,
-          opt_errFn, opt_ctx);
+    saveFileReviewed: function(changeNum, patchNum, path, reviewed, opt_errFn,
+        opt_ctx) {
+      var method = reviewed ? 'PUT' : 'DELETE';
+      var url = this.getChangeActionURL(changeNum, patchNum,
+          '/files/' + encodeURIComponent(path) + '/reviewed');
+
+      return this.send(method, url, null, opt_errFn, opt_ctx);
     },
 
-    /**
-     * @param {number|string} changeNum
-     * @param {number|string} patchNum
-     * @param {!Object} review
-     * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
-     */
-    saveChangeReview(changeNum, patchNum, review, opt_errFn, opt_ctx) {
-      const promises = [
-        this.awaitPendingDiffDrafts(),
-        this.getChangeActionURL(changeNum, patchNum, '/review'),
-      ];
-      return Promise.all(promises).then(([, url]) => {
-        return this.send('POST', url, review, opt_errFn, opt_ctx);
-      });
+    saveChangeReview: function(changeNum, patchNum, review, opt_errFn,
+        opt_ctx) {
+      var url = this.getChangeActionURL(changeNum, patchNum, '/review');
+      return this.send('POST', url, review, opt_errFn, opt_ctx);
     },
 
-    getChangeEdit(changeNum, opt_download_commands) {
-      const params = opt_download_commands ? {'download-commands': true} : null;
-      return this.getLoggedIn().then(loggedIn => {
-        return loggedIn ?
-            this._getChangeURLAndFetch(changeNum, '/edit/', null, null, null,
-                params) :
-            false;
-      });
+    getFileInChangeEdit: function(changeNum, path) {
+      return this.send('GET',
+          this.getChangeActionURL(changeNum, null,
+              '/edit/' + encodeURIComponent(path)
+          ));
     },
 
-    /**
-     * @param {!string} project
-     * @param {!string} branch
-     * @param {!string} subject
-     * @param {!string} topic
-     * @param {!boolean} isPrivate
-     * @param {!boolean} workInProgress
-     */
-    createChange(project, branch, subject, topic, isPrivate,
-        workInProgress) {
-      return this.send('POST', '/changes/',
-          {project, branch, subject, topic, is_private: isPrivate,
-            work_in_progress: workInProgress})
-          .then(response => this.getResponseObject(response));
+    rebaseChangeEdit: function(changeNum) {
+      return this.send('POST',
+          this.getChangeActionURL(changeNum, null,
+              '/edit:rebase'
+          ));
     },
 
-    getFileInChangeEdit(changeNum, path) {
-      const e = '/edit/' + encodeURIComponent(path);
-      return this.getChangeURLAndSend(changeNum, 'GET', null, e);
+    deleteChangeEdit: function(changeNum) {
+      return this.send('DELETE',
+          this.getChangeActionURL(changeNum, null,
+              '/edit'
+          ));
     },
 
-    rebaseChangeEdit(changeNum) {
-      return this.getChangeURLAndSend(changeNum, 'POST', null, '/edit:rebase');
+    restoreFileInChangeEdit: function(changeNum, restore_path) {
+      return this.send('POST',
+          this.getChangeActionURL(changeNum, null, '/edit'),
+          {restore_path: restore_path}
+      );
     },
 
-    deleteChangeEdit(changeNum) {
-      return this.getChangeURLAndSend(changeNum, 'DELETE', null, '/edit');
+    renameFileInChangeEdit: function(changeNum, old_path, new_path) {
+      return this.send('POST',
+          this.getChangeActionURL(changeNum, null, '/edit'),
+          {old_path: old_path},
+          {new_path: new_path}
+      );
     },
 
-    restoreFileInChangeEdit(changeNum, restore_path) {
-      const p = {restore_path};
-      return this.getChangeURLAndSend(changeNum, 'POST', null, '/edit', p);
+    deleteFileInChangeEdit: function(changeNum, path) {
+      return this.send('DELETE',
+          this.getChangeActionURL(changeNum, null,
+              '/edit/' + encodeURIComponent(path)
+          ));
     },
 
-    renameFileInChangeEdit(changeNum, old_path, new_path) {
-      const p = {old_path, new_path};
-      return this.getChangeURLAndSend(changeNum, 'POST', null, '/edit', p);
+    saveChangeEdit: function(changeNum, path, contents) {
+      return this.send('PUT',
+          this.getChangeActionURL(changeNum, null,
+              '/edit/' + encodeURIComponent(path)
+          ),
+          contents
+      );
     },
 
-    deleteFileInChangeEdit(changeNum, path) {
-      const e = '/edit/' + encodeURIComponent(path);
-      return this.getChangeURLAndSend(changeNum, 'DELETE', null, e);
+    saveChangeCommitMessageEdit: function(changeNum, message) {
+      var url = this.getChangeActionURL(changeNum, null, '/edit:message');
+      return this.send('PUT', url, {message: message});
     },
 
-    saveChangeEdit(changeNum, path, contents) {
-      const e = '/edit/' + encodeURIComponent(path);
-      return this.getChangeURLAndSend(changeNum, 'PUT', null, e, contents);
+    publishChangeEdit: function(changeNum) {
+      return this.send('POST',
+          this.getChangeActionURL(changeNum, null, '/edit:publish'));
     },
 
-    // Deprecated, prefer to use putChangeCommitMessage instead.
-    saveChangeCommitMessageEdit(changeNum, message) {
-      const p = {message};
-      return this.getChangeURLAndSend(changeNum, 'PUT', null, '/edit:message',
-          p);
-    },
-
-    publishChangeEdit(changeNum) {
-      return this.getChangeURLAndSend(changeNum, 'POST', null,
-          '/edit:publish');
-    },
-
-    putChangeCommitMessage(changeNum, message) {
-      const p = {message};
-      return this.getChangeURLAndSend(changeNum, 'PUT', null, '/message', p);
-    },
-
-    saveChangeStarred(changeNum, starred) {
-      const url = '/accounts/self/starred.changes/' + changeNum;
-      const method = starred ? 'PUT' : 'DELETE';
+    saveChangeStarred: function(changeNum, starred) {
+      var url = '/accounts/self/starred.changes/' + changeNum;
+      var method = starred ? 'PUT' : 'DELETE';
       return this.send(method, url);
     },
 
-    /**
-     * @param {string} method
-     * @param {string} url
-     * @param {?string|number|Object=} opt_body passed as null sometimes
-     *    and also apparently a number. TODO (beckysiegel) remove need for
-     *    number at least.
-     * @param {?function(?Response, string=)=} opt_errFn
-     *    passed as null sometimes.
-     * @param {?=} opt_ctx
-     * @param {?string=} opt_contentType
-     */
-    send(method, url, opt_body, opt_errFn, opt_ctx, opt_contentType) {
-      const options = {method};
+    send: function(method, url, opt_body, opt_errFn, opt_ctx, opt_contentType) {
+      var headers = new Headers({
+        'X-Gerrit-Auth': this._getCookie('XSRF_TOKEN'),
+      });
+      var options = {
+        method: method,
+        headers: headers,
+        credentials: 'same-origin',
+      };
       if (opt_body) {
-        options.headers = new Headers();
-        options.headers.set(
-            'Content-Type', opt_contentType || 'application/json');
+        headers.append('Content-Type', opt_contentType || 'application/json');
         if (typeof opt_body !== 'string') {
           opt_body = JSON.stringify(opt_body);
         }
         options.body = opt_body;
       }
-      if (!url.startsWith('http')) {
-        url = this.getBaseUrl() + url;
-      }
-      return this._auth.fetch(url, options).then(response => {
+      return fetch(this.getBaseUrl() + url, options).then(function(response) {
         if (!response.ok) {
           if (opt_errFn) {
-            return opt_errFn.call(opt_ctx || null, response);
+            opt_errFn.call(opt_ctx || null, response);
+            return undefined;
           }
-          this.fire('server-error', {response});
+          this.fire('server-error', {response: response});
         }
+
         return response;
-      }).catch(err => {
+      }.bind(this)).catch(function(err) {
         this.fire('network-error', {error: err});
         if (opt_errFn) {
-          return opt_errFn.call(opt_ctx, null, err);
+          opt_errFn.call(opt_ctx, null, err);
         } else {
           throw err;
         }
-      });
+      }.bind(this));
     },
 
-    /**
-     * @param {number|string} changeNum
-     * @param {number|string} basePatchNum
-     * @param {number|string} patchNum
-     * @param {string} path
-     * @param {function(?Response, string=)=} opt_errFn
-     * @param {function()=} opt_cancelCondition
-     */
-    getDiff(changeNum, basePatchNum, patchNum, path,
+    getDiff: function(changeNum, basePatchNum, patchNum, path,
         opt_errFn, opt_cancelCondition) {
-      const params = {
+      var url = this._getDiffFetchURL(changeNum, patchNum, path);
+      var params = {
         context: 'ALL',
         intraline: null,
         whitespace: 'IGNORE_NONE',
@@ -1413,50 +781,36 @@
       if (basePatchNum != PARENT_PATCH_NUM) {
         params.base = basePatchNum;
       }
-      const endpoint = `/files/${encodeURIComponent(path)}/diff`;
 
-      return this._getChangeURLAndFetch(changeNum, endpoint, patchNum,
-          opt_errFn, opt_cancelCondition, params);
+      return this.fetchJSON(url, opt_errFn, opt_cancelCondition, params);
     },
 
-    /**
-     * @param {number|string} changeNum
-     * @param {number|string=} opt_basePatchNum
-     * @param {number|string=} opt_patchNum
-     * @param {string=} opt_path
-     */
-    getDiffComments(changeNum, opt_basePatchNum, opt_patchNum, opt_path) {
+    _getDiffFetchURL: function(changeNum, patchNum, path) {
+      return this._changeBaseURL(changeNum, patchNum) + '/files/' +
+          encodeURIComponent(path) + '/diff';
+    },
+
+    getDiffComments: function(changeNum, opt_basePatchNum, opt_patchNum,
+        opt_path) {
       return this._getDiffComments(changeNum, '/comments', opt_basePatchNum,
           opt_patchNum, opt_path);
     },
 
-    getDiffRobotComments(changeNum, basePatchNum, patchNum, opt_path) {
+    getDiffRobotComments: function(changeNum, basePatchNum, patchNum,
+        opt_path) {
       return this._getDiffComments(changeNum, '/robotcomments', basePatchNum,
           patchNum, opt_path);
     },
 
-    /**
-     * If the user is logged in, fetch the user's draft diff comments. If there
-     * is no logged in user, the request is not made and the promise yields an
-     * empty object.
-     *
-     * @param {number|string} changeNum
-     * @param {number|string=} opt_basePatchNum
-     * @param {number|string=} opt_patchNum
-     * @param {string=} opt_path
-     * @return {!Promise<?Object>}
-     */
-    getDiffDrafts(changeNum, opt_basePatchNum, opt_patchNum, opt_path) {
-      return this.getLoggedIn().then(loggedIn => {
-        if (!loggedIn) { return Promise.resolve({}); }
-        return this._getDiffComments(changeNum, '/drafts', opt_basePatchNum,
-            opt_patchNum, opt_path);
-      });
+    getDiffDrafts: function(changeNum, opt_basePatchNum, opt_patchNum,
+        opt_path) {
+      return this._getDiffComments(changeNum, '/drafts', opt_basePatchNum,
+          opt_patchNum, opt_path);
     },
 
-    _setRange(comments, comment) {
+    _setRange: function(comments, comment) {
       if (comment.in_reply_to && !comment.range) {
-        for (let i = 0; i < comments.length; i++) {
+        for (var i = 0; i < comments.length; i++) {
           if (comments[i].id === comment.in_reply_to) {
             comment.range = comments[i].range;
             break;
@@ -1466,54 +820,41 @@
       return comment;
     },
 
-    _setRanges(comments) {
+    _setRanges: function(comments) {
       comments = comments || [];
-      comments.sort((a, b) => {
+      comments.sort(function(a, b) {
         return util.parseDate(a.updated) - util.parseDate(b.updated);
       });
-      for (const comment of comments) {
+      comments.forEach(function(comment) {
         this._setRange(comments, comment);
-      }
+      }.bind(this));
       return comments;
     },
 
-    /**
-     * @param {number|string} changeNum
-     * @param {string} endpoint
-     * @param {number|string=} opt_basePatchNum
-     * @param {number|string=} opt_patchNum
-     * @param {string=} opt_path
-     */
-    _getDiffComments(changeNum, endpoint, opt_basePatchNum,
+    _getDiffComments: function(changeNum, endpoint, opt_basePatchNum,
         opt_patchNum, opt_path) {
-      /**
-       * Fetches the comments for a given patchNum.
-       * Helper function to make promises more legible.
-       *
-       * @param {string|number=} opt_patchNum
-       * @return {!Object} Diff comments response.
-       */
-      const fetchComments = opt_patchNum => {
-        return this._getChangeURLAndFetch(changeNum, endpoint, opt_patchNum);
-      };
-
       if (!opt_basePatchNum && !opt_patchNum && !opt_path) {
-        return fetchComments();
+        return this.fetchJSON(
+            this._getDiffCommentsFetchURL(changeNum, endpoint));
       }
+
       function onlyParent(c) { return c.side == PARENT_PATCH_NUM; }
       function withoutParent(c) { return c.side != PARENT_PATCH_NUM; }
       function setPath(c) { c.path = opt_path; }
 
-      const promises = [];
-      let comments;
-      let baseComments;
-      let fetchPromise;
-      fetchPromise = fetchComments(opt_patchNum).then(response => {
+      var promises = [];
+      var comments;
+      var baseComments;
+      var url =
+          this._getDiffCommentsFetchURL(changeNum, endpoint, opt_patchNum);
+      promises.push(this.fetchJSON(url).then(function(response) {
         comments = response[opt_path] || [];
-        // TODO(kaspern): Implement this on in the backend so this can
-        // be removed.
-        // Sort comments by date so that parent ranges can be propagated
-        // in a single pass.
+
+        // TODO(kaspern): Implement this on in the backend so this can be
+        // removed.
+
+        // Sort comments by date so that parent ranges can be propagated in a
+        // single pass.
         comments = this._setRanges(comments);
 
         if (opt_basePatchNum == PARENT_PATCH_NUM) {
@@ -1523,132 +864,146 @@
         comments = comments.filter(withoutParent);
 
         comments.forEach(setPath);
-      });
-      promises.push(fetchPromise);
+      }.bind(this)));
 
       if (opt_basePatchNum != PARENT_PATCH_NUM) {
-        fetchPromise = fetchComments(opt_basePatchNum).then(response => {
-          baseComments = (response[opt_path] || [])
-              .filter(withoutParent);
+        var baseURL = this._getDiffCommentsFetchURL(changeNum, endpoint,
+            opt_basePatchNum);
+        promises.push(this.fetchJSON(baseURL).then(function(response) {
+          baseComments = (response[opt_path] || []).filter(withoutParent);
+
           baseComments = this._setRanges(baseComments);
+
           baseComments.forEach(setPath);
-        });
-        promises.push(fetchPromise);
+        }.bind(this)));
       }
 
-      return Promise.all(promises).then(() => {
+      return Promise.all(promises).then(function() {
         return Promise.resolve({
-          baseComments,
-          comments,
+          baseComments: baseComments,
+          comments: comments,
         });
       });
     },
 
-    /**
-     * @param {number|string} changeNum
-     * @param {string} endpoint
-     * @param {number|string=} opt_patchNum
-     */
-    _getDiffCommentsFetchURL(changeNum, endpoint, opt_patchNum) {
-      return this._changeBaseURL(changeNum, opt_patchNum)
-          .then(url => url + endpoint);
+    _getDiffCommentsFetchURL: function(changeNum, endpoint, opt_patchNum) {
+      return this._changeBaseURL(changeNum, opt_patchNum) + endpoint;
     },
 
-    saveDiffDraft(changeNum, patchNum, draft) {
+    saveDiffDraft: function(changeNum, patchNum, draft) {
       return this._sendDiffDraftRequest('PUT', changeNum, patchNum, draft);
     },
 
-    deleteDiffDraft(changeNum, patchNum, draft) {
+    deleteDiffDraft: function(changeNum, patchNum, draft) {
       return this._sendDiffDraftRequest('DELETE', changeNum, patchNum, draft);
     },
 
-    /**
-     * @returns {boolean} Whether there are pending diff draft sends.
-     */
-    hasPendingDiffDrafts() {
-      const promises = this._pendingRequests[Requests.SEND_DIFF_DRAFT];
-      return promises && promises.length;
+    hasPendingDiffDrafts: function() {
+      return !!this._pendingRequests[Requests.SEND_DIFF_DRAFT];
     },
 
-    /**
-     * @returns {!Promise<undefined>} A promise that resolves when all pending
-     *    diff draft sends have resolved.
-     */
-    awaitPendingDiffDrafts() {
-      return Promise.all(this._pendingRequests[Requests.SEND_DIFF_DRAFT] || [])
-          .then(() => {
-            this._pendingRequests[Requests.SEND_DIFF_DRAFT] = [];
-          });
-    },
-
-    _sendDiffDraftRequest(method, changeNum, patchNum, draft) {
-      const isCreate = !draft.id && method === 'PUT';
-      let endpoint = '/drafts';
+    _sendDiffDraftRequest: function(method, changeNum, patchNum, draft) {
+      var url = this.getChangeActionURL(changeNum, patchNum, '/drafts');
       if (draft.id) {
-        endpoint += '/' + draft.id;
+        url += '/' + draft.id;
       }
-      let body;
+      var body;
       if (method === 'PUT') {
         body = draft;
       }
 
       if (!this._pendingRequests[Requests.SEND_DIFF_DRAFT]) {
-        this._pendingRequests[Requests.SEND_DIFF_DRAFT] = [];
+        this._pendingRequests[Requests.SEND_DIFF_DRAFT] = 0;
       }
+      this._pendingRequests[Requests.SEND_DIFF_DRAFT]++;
 
-      const promise = this.getChangeURLAndSend(changeNum, method, patchNum,
-          endpoint, body);
-      this._pendingRequests[Requests.SEND_DIFF_DRAFT].push(promise);
-
-      if (isCreate) {
-        return this._failForCreate200(promise);
-      }
-
-      return promise;
+      return this.send(method, url, body).then(function(res) {
+        this._pendingRequests[Requests.SEND_DIFF_DRAFT]--;
+        return res;
+      }.bind(this));
     },
 
-    getCommitInfo(project, commit) {
+    _changeBaseURL: function(changeNum, opt_patchNum) {
+      var v = '/changes/' + changeNum;
+      if (opt_patchNum) {
+        v += '/revisions/' + opt_patchNum;
+      }
+      return v;
+    },
+
+    // Derived from
+    // gerrit-extension-api/src/main/j/c/g/gerrit/extensions/client/ListChangesOption.java
+    _listChangesOptionsToHex: function() {
+      var v = 0;
+      for (var i = 0; i < arguments.length; i++) {
+        v |= 1 << arguments[i];
+      }
+      return v.toString(16);
+    },
+
+    _getCookie: function(name) {
+      var key = name + '=';
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+        var c = cookies[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(key) == 0) {
+          return c.substring(key.length, c.length);
+        }
+      }
+      return '';
+    },
+
+    getCommitInfo: function(project, commit) {
       return this.fetchJSON(
           '/projects/' + encodeURIComponent(project) +
           '/commits/' + encodeURIComponent(commit));
     },
 
-    _fetchB64File(url) {
-      return this._auth.fetch(this.getBaseUrl() + url)
-          .then(response => {
-            if (!response.ok) { return Promise.reject(response.statusText); }
-            const type = response.headers.get('X-FYI-Content-Type');
-            return response.text()
-                .then(text => {
-                  return {body: text, type};
-                });
+    _fetchB64File: function(url) {
+      return fetch(this.getBaseUrl() + url, {credentials: 'same-origin'}).then(function(response) {
+        var type = response.headers.get('X-FYI-Content-Type');
+        return response.text()
+          .then(function(text) {
+            return {body: text, type: type};
           });
-    },
-
-    /**
-     * @param {string} changeId
-     * @param {string|number} patchNum
-     * @param {string} path
-     * @param {number=} opt_parentIndex
-     */
-    getChangeFileContents(changeId, patchNum, path, opt_parentIndex) {
-      const parent = typeof opt_parentIndex === 'number' ?
-          '?parent=' + opt_parentIndex : '';
-      return this._changeBaseURL(changeId, patchNum).then(url => {
-        url = `${url}/files/${encodeURIComponent(path)}/content${parent}`;
-        return this._fetchB64File(url);
       });
     },
 
-    getImagesForDiff(changeNum, diff, patchRange) {
-      let promiseA;
-      let promiseB;
+    getChangeFileContents: function(changeId, patchNum, path) {
+      return this._fetchB64File(
+          '/changes/' + encodeURIComponent(changeId) +
+          '/revisions/' + encodeURIComponent(patchNum) +
+          '/files/' + encodeURIComponent(path) +
+          '/content');
+    },
 
-      if (diff.meta_a && diff.meta_a.content_type.startsWith('image/')) {
+    getCommitFileContents: function(projectName, commit, path) {
+      return this._fetchB64File(
+          '/projects/' + encodeURIComponent(projectName) +
+          '/commits/' + encodeURIComponent(commit) +
+          '/files/' + encodeURIComponent(path) +
+          '/content');
+    },
+
+    getImagesForDiff: function(project, commit, changeNum, diff, patchRange) {
+      var promiseA;
+      var promiseB;
+
+      if (diff.meta_a && diff.meta_a.content_type.indexOf('image/') === 0) {
         if (patchRange.basePatchNum === 'PARENT') {
-          // Note: we only attempt to get the image from the first parent.
-          promiseA = this.getChangeFileContents(changeNum, patchRange.patchNum,
-              diff.meta_a.name, 1);
+          // Need the commit info know the parent SHA.
+          promiseA = this.getCommitInfo(project, commit).then(function(info) {
+            if (info.parents.length !== 1) {
+              return Promise.reject('Change commit has multiple parents.');
+            }
+            var parent = info.parents[0].commit;
+            return this.getCommitFileContents(project, parent,
+                diff.meta_a.name);
+          }.bind(this));
+
         } else {
           promiseA = this.getChangeFileContents(changeNum,
               patchRange.basePatchNum, diff.meta_a.name);
@@ -1657,124 +1012,81 @@
         promiseA = Promise.resolve(null);
       }
 
-      if (diff.meta_b && diff.meta_b.content_type.startsWith('image/')) {
+      if (diff.meta_b && diff.meta_b.content_type.indexOf('image/') === 0) {
         promiseB = this.getChangeFileContents(changeNum, patchRange.patchNum,
             diff.meta_b.name);
       } else {
         promiseB = Promise.resolve(null);
       }
 
-      return Promise.all([promiseA, promiseB]).then(results => {
-        const baseImage = results[0];
-        const revisionImage = results[1];
+      return Promise.all([promiseA, promiseB])
+        .then(function(results) {
+          var baseImage = results[0];
+          var revisionImage = results[1];
 
-        // Sometimes the server doesn't send back the content type.
-        if (baseImage) {
-          baseImage._expectedType = diff.meta_a.content_type;
-          baseImage._name = diff.meta_a.name;
-        }
-        if (revisionImage) {
-          revisionImage._expectedType = diff.meta_b.content_type;
-          revisionImage._name = diff.meta_b.name;
-        }
+          // Sometimes the server doesn't send back the content type.
+          if (baseImage) {
+            baseImage._expectedType = diff.meta_a.content_type;
+          }
+          if (revisionImage) {
+            revisionImage._expectedType = diff.meta_b.content_type;
+          }
 
-        return {baseImage, revisionImage};
-      });
+          return {baseImage: baseImage, revisionImage: revisionImage};
+        }.bind(this));
     },
 
-    /**
-     * @param {number|string} changeNum
-     * @param {?number|string=} opt_patchNum passed as null sometimes.
-     * @param {string=} opt_project
-     * @return {!Promise<string>}
-     */
-    _changeBaseURL(changeNum, opt_patchNum, opt_project) {
-      // TODO(kaspern): For full slicer migration, app should warn with a call
-      // stack every time _changeBaseURL is called without a project.
-      const projectPromise = opt_project ?
-          Promise.resolve(opt_project) :
-          this.getFromProjectLookup(changeNum);
-      return projectPromise.then(project => {
-        let url = `/changes/${encodeURIComponent(project)}~${changeNum}`;
-        if (opt_patchNum) {
-          url += `/revisions/${opt_patchNum}`;
-        }
-        return url;
-      });
+    setChangeTopic: function(changeNum, topic) {
+      return this.send('PUT', '/changes/' + encodeURIComponent(changeNum) +
+          '/topic', {topic: topic});
     },
 
-    /**
-     * @suppress {checkTypes}
-     * Resulted in error: Promise.prototype.then does not match formal
-     * parameter.
-     */
-    setChangeTopic(changeNum, topic) {
-      const p = {topic};
-      return this.getChangeURLAndSend(changeNum, 'PUT', null, '/topic', p)
-          .then(this.getResponseObject.bind(this));
-    },
-
-    /**
-     * @suppress {checkTypes}
-     * Resulted in error: Promise.prototype.then does not match formal
-     * parameter.
-     */
-    setChangeHashtag(changeNum, hashtag) {
-      return this.getChangeURLAndSend(changeNum, 'POST', null, '/hashtags',
-          hashtag).then(this.getResponseObject.bind(this));
-    },
-
-    deleteAccountHttpPassword() {
+    deleteAccountHttpPassword: function() {
       return this.send('DELETE', '/accounts/self/password.http');
     },
 
-    /**
-     * @suppress {checkTypes}
-     * Resulted in error: Promise.prototype.then does not match formal
-     * parameter.
-     */
-    generateAccountHttpPassword() {
+    generateAccountHttpPassword: function() {
       return this.send('PUT', '/accounts/self/password.http', {generate: true})
-          .then(this.getResponseObject.bind(this));
+          .then(this.getResponseObject);
     },
 
-    getAccountSSHKeys() {
+    getAccountSSHKeys: function() {
       return this._fetchSharedCacheURL('/accounts/self/sshkeys');
     },
 
-    addAccountSSHKey(key) {
+    addAccountSSHKey: function(key) {
       return this.send('POST', '/accounts/self/sshkeys', key, null, null,
           'plain/text')
-          .then(response => {
+          .then(function(response) {
             if (response.status < 200 && response.status >= 300) {
               return Promise.reject();
             }
             return this.getResponseObject(response);
-          })
-          .then(obj => {
+          }.bind(this))
+          .then(function(obj) {
             if (!obj.valid) { return Promise.reject(); }
             return obj;
           });
     },
 
-    deleteAccountSSHKey(id) {
+    deleteAccountSSHKey: function(id) {
       return this.send('DELETE', '/accounts/self/sshkeys/' + id);
     },
 
-    deleteVote(changeNum, account, label) {
-      const e = `/reviewers/${account}/votes/${encodeURIComponent(label)}`;
-      return this.getChangeURLAndSend(changeNum, 'DELETE', null, e);
+    deleteVote: function(changeID, account, label) {
+      return this.send('DELETE', '/changes/' + changeID +
+          '/reviewers/' + account + '/votes/' + encodeURIComponent(label));
     },
 
-    setDescription(changeNum, patchNum, desc) {
-      const p = {description: desc};
-      return this.getChangeURLAndSend(changeNum, 'PUT', patchNum,
-          '/description', p);
+    setDescription: function(changeNum, patchNum, desc) {
+      return this.send('PUT',
+          this.getChangeActionURL(changeNum, patchNum, '/description'),
+          {description: desc});
     },
 
-    confirmEmail(token) {
-      return this.send('PUT', '/config/server/email.confirm', {token})
-          .then(response => {
+    confirmEmail: function(token) {
+      return this.send('PUT', '/config/server/email.confirm', {token: token})
+          .then(function(response) {
             if (response.status === 204) {
               return 'Email confirmed successfully.';
             }
@@ -1782,199 +1094,22 @@
           });
     },
 
-    getCapabilities(token) {
-      return this.fetchJSON('/config/server/capabilities');
+    setAssignee: function(changeNum, assignee) {
+      return this.send('PUT',
+          this.getChangeActionURL(changeNum, null, '/assignee'),
+          {assignee: assignee});
     },
 
-    setAssignee(changeNum, assignee) {
-      const p = {assignee};
-      return this.getChangeURLAndSend(changeNum, 'PUT', null, '/assignee', p);
+    deleteAssignee: function(changeNum) {
+      return this.send('DELETE',
+          this.getChangeActionURL(changeNum, null, '/assignee'));
     },
 
-    deleteAssignee(changeNum) {
-      return this.getChangeURLAndSend(changeNum, 'DELETE', null, '/assignee');
-    },
-
-    probePath(path) {
+    probePath: function(path) {
       return fetch(new Request(path, {method: 'HEAD'}))
-          .then(response => {
-            return response.ok;
-          });
-    },
-
-    /**
-     * @param {number|string} changeNum
-     * @param {number|string=} opt_message
-     */
-    startWorkInProgress(changeNum, opt_message) {
-      const payload = {};
-      if (opt_message) {
-        payload.message = opt_message;
-      }
-      return this.getChangeURLAndSend(changeNum, 'POST', null, '/wip', payload)
-          .then(response => {
-            if (response.status === 204) {
-              return 'Change marked as Work In Progress.';
-            }
-          });
-    },
-
-    /**
-     * @param {number|string} changeNum
-     * @param {number|string=} opt_body
-     * @param {function(?Response, string=)=} opt_errFn
-     */
-    startReview(changeNum, opt_body, opt_errFn) {
-      return this.getChangeURLAndSend(changeNum, 'POST', null, '/ready',
-          opt_body, opt_errFn);
-    },
-
-    /**
-     * @suppress {checkTypes}
-     * Resulted in error: Promise.prototype.then does not match formal
-     * parameter.
-     */
-    deleteComment(changeNum, patchNum, commentID, reason) {
-      const endpoint = `/comments/${commentID}/delete`;
-      const payload = {reason};
-      return this.getChangeURLAndSend(changeNum, 'POST', patchNum, endpoint,
-          payload).then(this.getResponseObject.bind(this));
-    },
-
-    /**
-     * Given a changeNum, gets the change.
-     *
-     * @param {number|string} changeNum
-     * @param {function(?Response, string=)=} opt_errFn
-     * @return {!Promise<?Object>} The change
-     */
-    getChange(changeNum, opt_errFn) {
-      // Cannot use _changeBaseURL, as this function is used by _projectLookup.
-      return this.fetchJSON(`/changes/${changeNum}`, opt_errFn);
-    },
-
-    /**
-     * @param {string|number} changeNum
-     * @param {string=} project
-     */
-    setInProjectLookup(changeNum, project) {
-      if (this._projectLookup[changeNum] &&
-          this._projectLookup[changeNum] !== project) {
-        console.warn('Change set with multiple project nums.' +
-            'One of them must be invalid.');
-      }
-      this._projectLookup[changeNum] = project;
-    },
-
-    /**
-     * Checks in _projectLookup for the changeNum. If it exists, returns the
-     * project. If not, calls the restAPI to get the change, populates
-     * _projectLookup with the project for that change, and returns the project.
-     *
-     * @param {string|number} changeNum
-     * @return {!Promise<string|undefined>}
-     */
-    getFromProjectLookup(changeNum) {
-      const project = this._projectLookup[changeNum];
-      if (project) { return Promise.resolve(project); }
-
-      const onError = response => {
-        // Fire a page error so that the visual 404 is displayed.
-        this.fire('page-error', {response});
-      };
-
-      return this.getChange(changeNum, onError).then(change => {
-        if (!change || !change.project) { return; }
-        this.setInProjectLookup(changeNum, change.project);
-        return change.project;
-      });
-    },
-
-    /**
-     * Alias for _changeBaseURL.then(send).
-     * @todo(beckysiegel) clean up comments
-     * @param {string|number} changeNum
-     * @param {string} method
-     * @param {?string|number} patchNum gets passed as null.
-     * @param {?string} endpoint gets passed as null.
-     * @param {?Object|number|string=} opt_payload gets passed as null, string,
-     *    Object, or number.
-     * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
-     * @param {?=} opt_contentType
-     * @return {!Promise<!Object>}
-     */
-    getChangeURLAndSend(changeNum, method, patchNum, endpoint, opt_payload,
-        opt_errFn, opt_ctx, opt_contentType) {
-      return this._changeBaseURL(changeNum, patchNum).then(url => {
-        return this.send(method, url + endpoint, opt_payload, opt_errFn,
-            opt_ctx, opt_contentType);
-      });
-    },
-
-   /**
-    * Alias for _changeBaseURL.then(fetchJSON).
-    * @todo(beckysiegel) clean up comments
-    * @param {string|number} changeNum
-    * @param {string} endpoint
-    * @param {?string|number=} opt_patchNum gets passed as null.
-    * @param {?function(?Response, string=)=} opt_errFn gets passed as null.
-    * @param {?function()=} opt_cancelCondition gets passed as null.
-    * @param {?Object=} opt_params gets passed as null.
-    * @param {!Object=} opt_options
-    * @return {!Promise<!Object>}
-    */
-    _getChangeURLAndFetch(changeNum, endpoint, opt_patchNum, opt_errFn,
-        opt_cancelCondition, opt_params, opt_options) {
-      return this._changeBaseURL(changeNum, opt_patchNum).then(url => {
-        return this.fetchJSON(url + endpoint, opt_errFn, opt_cancelCondition,
-            opt_params, opt_options);
-      });
-    },
-
-    /**
-     * Get blame information for the given diff.
-     * @param {string|number} changeNum
-     * @param {string|number} patchNum
-     * @param {string} path
-     * @param {boolean=} opt_base If true, requests blame for the base of the
-     *     diff, rather than the revision.
-     * @return {!Promise<!Object>}
-     */
-    getBlame(changeNum, patchNum, path, opt_base) {
-      const encodedPath = encodeURIComponent(path);
-      return this._getChangeURLAndFetch(changeNum,
-          `/files/${encodedPath}/blame`, patchNum, undefined, undefined,
-          opt_base ? {base: 't'} : undefined);
-    },
-
-    /**
-     * Modify the given create draft request promise so that it fails and throws
-     * an error if the response bears HTTP status 200 instead of HTTP 201.
-     * @see Issue 7763
-     * @param {Promise} promise The original promise.
-     * @return {Promise} The modified promise.
-     */
-    _failForCreate200(promise) {
-      return promise.then(result => {
-        if (result.status === 200) {
-          // Read the response headers into an object representation.
-          const headers = Array.from(result.headers.entries())
-              .reduce((obj, [key, val]) => {
-                if (!HEADER_REPORTING_BLACKLIST.test(key)) {
-                  obj[key] = val;
-                }
-                return obj;
-              }, {});
-          const err = new Error([
-            CREATE_DRAFT_UNEXPECTED_STATUS_MESSAGE,
-            JSON.stringify(headers),
-          ].join('\n'));
-          // Throw the error so that it is caught by gr-reporting.
-          throw err;
-        }
-        return result;
-      });
+        .then(function(response) {
+          return response.ok;
+        });
     },
   });
 })();

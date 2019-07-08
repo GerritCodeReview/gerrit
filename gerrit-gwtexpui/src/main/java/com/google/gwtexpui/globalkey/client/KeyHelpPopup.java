@@ -51,7 +51,7 @@ public class KeyHelpPopup extends PopupPanel implements KeyPressHandler, KeyDown
     closer.addClickHandler(
         new ClickHandler() {
           @Override
-          public void onClick(ClickEvent event) {
+          public void onClick(final ClickEvent event) {
             hide();
           }
         });
@@ -84,7 +84,7 @@ public class KeyHelpPopup extends PopupPanel implements KeyPressHandler, KeyDown
   }
 
   @Override
-  public void setVisible(boolean show) {
+  public void setVisible(final boolean show) {
     super.setVisible(show);
     if (show) {
       focus.setFocus(true);
@@ -92,7 +92,7 @@ public class KeyHelpPopup extends PopupPanel implements KeyPressHandler, KeyDown
   }
 
   @Override
-  public void onKeyPress(KeyPressEvent event) {
+  public void onKeyPress(final KeyPressEvent event) {
     if (KeyCommandSet.toMask(event) == ShowHelpCommand.INSTANCE.keyMask) {
       // Block the '?' key from triggering us to show right after
       // we just hide ourselves.
@@ -104,16 +104,16 @@ public class KeyHelpPopup extends PopupPanel implements KeyPressHandler, KeyDown
   }
 
   @Override
-  public void onKeyDown(KeyDownEvent event) {
+  public void onKeyDown(final KeyDownEvent event) {
     if (event.getNativeKeyCode() == KeyCodes.KEY_ESCAPE) {
       hide();
     }
   }
 
-  private void populate(Grid lists) {
+  private void populate(final Grid lists) {
     int[] end = new int[5];
     int column = 0;
-    for (KeyCommandSet set : combinedSetsByName()) {
+    for (final KeyCommandSet set : combinedSetsByName()) {
       int row = end[column];
       row = formatGroup(lists, row, column, set);
       end[column] = row;
@@ -131,7 +131,7 @@ public class KeyHelpPopup extends PopupPanel implements KeyPressHandler, KeyDown
    */
   private static Collection<KeyCommandSet> combinedSetsByName() {
     LinkedHashMap<String, KeyCommandSet> byName = new LinkedHashMap<>();
-    for (KeyCommandSet set : GlobalKey.active.all.getSets()) {
+    for (final KeyCommandSet set : GlobalKey.active.all.getSets()) {
       KeyCommandSet v = byName.get(set.getName());
       if (v == null) {
         v = new KeyCommandSet(set.getName());
@@ -142,7 +142,7 @@ public class KeyHelpPopup extends PopupPanel implements KeyPressHandler, KeyDown
     return byName.values();
   }
 
-  private int formatGroup(Grid lists, int row, int col, KeyCommandSet set) {
+  private int formatGroup(final Grid lists, int row, final int col, final KeyCommandSet set) {
     if (set.isEmpty()) {
       return row;
     }
@@ -157,7 +157,8 @@ public class KeyHelpPopup extends PopupPanel implements KeyPressHandler, KeyDown
     return formatKeys(lists, row, col, set, null);
   }
 
-  private int formatKeys(final Grid lists, int row, int col, KeyCommandSet set, SafeHtml prefix) {
+  private int formatKeys(
+      final Grid lists, int row, final int col, final KeyCommandSet set, final SafeHtml prefix) {
     final CellFormatter fmt = lists.getCellFormatter();
     final List<KeyCommand> keys = sort(set);
     if (lists.getRowCount() < row + keys.size()) {
@@ -227,7 +228,7 @@ public class KeyHelpPopup extends PopupPanel implements KeyPressHandler, KeyDown
     return row;
   }
 
-  private List<KeyCommand> sort(KeyCommandSet set) {
+  private List<KeyCommand> sort(final KeyCommandSet set) {
     final List<KeyCommand> keys = new ArrayList<>(set.getKeys());
     Collections.sort(
         keys,

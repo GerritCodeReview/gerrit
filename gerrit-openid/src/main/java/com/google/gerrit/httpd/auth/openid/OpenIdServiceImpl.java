@@ -26,7 +26,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.UrlEncoded;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.auth.openid.OpenIdProviderPattern;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.ConfigUtil;
@@ -99,12 +99,12 @@ class OpenIdServiceImpl {
 
   @Inject
   OpenIdServiceImpl(
-      DynamicItem<WebSession> cf,
-      Provider<IdentifiedUser> iu,
+      final DynamicItem<WebSession> cf,
+      final Provider<IdentifiedUser> iu,
       CanonicalWebUrl up,
-      @GerritServerConfig Config config,
-      AuthConfig ac,
-      AccountManager am,
+      @GerritServerConfig final Config config,
+      final AuthConfig ac,
+      final AccountManager am,
       ProxyProperties proxyProperties) {
 
     if (proxyProperties.getProxyUrl() != null) {
@@ -139,9 +139,9 @@ class OpenIdServiceImpl {
   DiscoveryResult discover(
       HttpServletRequest req,
       String openidIdentifier,
-      SignInMode mode,
-      boolean remember,
-      String returnToken) {
+      final SignInMode mode,
+      final boolean remember,
+      final String returnToken) {
     final State state;
     state = init(req, openidIdentifier, mode, remember, returnToken);
     if (state == null) {
@@ -183,7 +183,7 @@ class OpenIdServiceImpl {
     return new DiscoveryResult(aReq.getDestinationUrl(false), aReq.getParameterMap());
   }
 
-  private boolean requestRegistration(AuthRequest aReq) {
+  private boolean requestRegistration(final AuthRequest aReq) {
     if (AuthRequest.SELECT_ID.equals(aReq.getIdentity())) {
       // We don't know anything about the identity, as the provider
       // will offer the user a way to indicate their identity. Skip
@@ -204,7 +204,7 @@ class OpenIdServiceImpl {
   }
 
   /** Called by {@link OpenIdLoginServlet} doGet, doPost */
-  void doAuth(HttpServletRequest req, HttpServletResponse rsp) throws Exception {
+  void doAuth(final HttpServletRequest req, final HttpServletResponse rsp) throws Exception {
     if (OMODE_CANCEL.equals(req.getParameter(OPENID_MODE))) {
       cancel(req, rsp);
       return;
@@ -459,7 +459,7 @@ class OpenIdServiceImpl {
     }
   }
 
-  private boolean isSignIn(SignInMode mode) {
+  private boolean isSignIn(final SignInMode mode) {
     switch (mode) {
       case SIGN_IN:
       case REGISTER:
@@ -470,7 +470,7 @@ class OpenIdServiceImpl {
     }
   }
 
-  private static SignInMode signInMode(HttpServletRequest req) {
+  private static SignInMode signInMode(final HttpServletRequest req) {
     try {
       return SignInMode.valueOf(req.getParameter(P_MODE));
     } catch (RuntimeException e) {
@@ -478,7 +478,8 @@ class OpenIdServiceImpl {
     }
   }
 
-  private void callback(final boolean isNew, HttpServletRequest req, HttpServletResponse rsp)
+  private void callback(
+      final boolean isNew, final HttpServletRequest req, final HttpServletResponse rsp)
       throws IOException {
     String token = req.getParameter(P_TOKEN);
     if (token == null || token.isEmpty() || token.startsWith("/SignInFailure,")) {
@@ -499,7 +500,8 @@ class OpenIdServiceImpl {
     rsp.sendRedirect(rdr.toString());
   }
 
-  private void cancel(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
+  private void cancel(final HttpServletRequest req, final HttpServletResponse rsp)
+      throws IOException {
     if (isSignIn(signInMode(req))) {
       webSession.get().logout();
     }
@@ -507,7 +509,7 @@ class OpenIdServiceImpl {
   }
 
   private void cancelWithError(
-      final HttpServletRequest req, HttpServletResponse rsp, String errorDetail)
+      final HttpServletRequest req, final HttpServletResponse rsp, final String errorDetail)
       throws IOException {
     final SignInMode mode = signInMode(req);
     if (isSignIn(mode)) {
@@ -557,8 +559,8 @@ class OpenIdServiceImpl {
     return new State(discovered, retTo, contextUrl);
   }
 
-  boolean isAllowedOpenID(String id) {
-    for (OpenIdProviderPattern pattern : allowedOpenIDs) {
+  boolean isAllowedOpenID(final String id) {
+    for (final OpenIdProviderPattern pattern : allowedOpenIDs) {
       if (pattern.matches(id)) {
         return true;
       }
@@ -571,7 +573,7 @@ class OpenIdServiceImpl {
     final UrlEncoded retTo;
     final String contextUrl;
 
-    State(DiscoveryInformation d, UrlEncoded r, String c) {
+    State(final DiscoveryInformation d, final UrlEncoded r, final String c) {
       discovered = d;
       retTo = r;
       contextUrl = c;

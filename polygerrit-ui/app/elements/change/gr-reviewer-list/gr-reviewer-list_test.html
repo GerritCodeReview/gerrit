@@ -20,7 +20,8 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-reviewer-list.html">
 
 <script>void(0);</script>
@@ -32,47 +33,47 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-reviewer-list tests', () => {
-    let element;
-    let sandbox;
+  suite('gr-reviewer-list tests', function() {
+    var element;
+    var sandbox;
 
-    setup(() => {
+    setup(function() {
       element = fixture('basic');
       sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
-        removeChangeReviewer() {
+        getConfig: function() { return Promise.resolve({}); },
+        removeChangeReviewer: function() {
           return Promise.resolve({ok: true});
         },
       });
     });
 
-    teardown(() => {
+    teardown(function() {
       sandbox.restore();
     });
 
-    test('controls hidden on immutable element', () => {
+    test('controls hidden on immutable element', function() {
       element.mutable = false;
       assert.isTrue(element.$$('.controlsContainer').hasAttribute('hidden'));
       element.mutable = true;
       assert.isFalse(element.$$('.controlsContainer').hasAttribute('hidden'));
     });
 
-    test('add reviewer button opens reply dialog', done => {
-      element.addEventListener('show-reply-dialog', () => {
+    test('add reviewer button opens reply dialog', function(done) {
+      element.addEventListener('show-reply-dialog', function() {
         done();
       });
       MockInteractions.tap(element.$$('.addReviewer'));
     });
 
-    test('only show remove for removable reviewers', () => {
+    test('only show remove for removable reviewers', function() {
       element.mutable = true;
       element.change = {
         owner: {
           _account_id: 1,
         },
         reviewers: {
-          REVIEWER: [
+          'REVIEWER': [
             {
               _account_id: 2,
               name: 'Bojack Horseman',
@@ -83,16 +84,13 @@ limitations under the License.
               name: 'Pinky Penguin',
             },
           ],
-          CC: [
+          'CC': [
             {
               _account_id: 4,
               name: 'Diane Nguyen',
               email: 'macarthurfellow2B@juno.com',
             },
-            {
-              email: 'test@e.mail',
-            },
-          ],
+          ]
         },
         removable_reviewers: [
           {
@@ -104,40 +102,36 @@ limitations under the License.
             name: 'Diane Nguyen',
             email: 'macarthurfellow2B@juno.com',
           },
-          {
-            email: 'test@e.mail',
-          },
-        ],
+        ]
       };
       flushAsynchronousOperations();
-      const chips =
+      var chips =
           Polymer.dom(element.root).querySelectorAll('gr-account-chip');
-      assert.equal(chips.length, 4);
-
-      for (const el of Array.from(chips)) {
-        const accountID = el.account._account_id || el.account.email;
+      assert.equal(chips.length, 3);
+      Array.from(chips).forEach(function(el) {
+        var accountID = parseInt(el.getAttribute('data-account-id'), 10);
         assert.ok(accountID);
 
-        const buttonEl = el.$$('gr-button');
+        var buttonEl = el.$$('gr-button');
         assert.isNotNull(buttonEl);
         if (accountID == 2) {
           assert.isTrue(buttonEl.hasAttribute('hidden'));
         } else {
           assert.isFalse(buttonEl.hasAttribute('hidden'));
         }
-      }
+      });
     });
 
-    test('tracking reviewers and ccs', () => {
-      let counter = 0;
+    test('tracking reviewers and ccs', function() {
+      var counter = 0;
       function makeAccount() {
         return {_account_id: counter++};
       }
 
-      const owner = makeAccount();
-      const reviewer = makeAccount();
-      const cc = makeAccount();
-      const reviewers = {
+      var owner = makeAccount();
+      var reviewer = makeAccount();
+      var cc = makeAccount();
+      var reviewers = {
         REMOVED: [makeAccount()],
         REVIEWER: [owner, reviewer],
         CC: [owner, cc],
@@ -146,30 +140,30 @@ limitations under the License.
       element.ccsOnly = false;
       element.reviewersOnly = false;
       element.change = {
-        owner,
-        reviewers,
+        owner: owner,
+        reviewers: reviewers,
       };
       assert.deepEqual(element._reviewers, [reviewer, cc]);
 
       element.reviewersOnly = true;
       element.change = {
-        owner,
-        reviewers,
+        owner: owner,
+        reviewers: reviewers,
       };
       assert.deepEqual(element._reviewers, [reviewer]);
 
       element.ccsOnly = true;
       element.reviewersOnly = false;
       element.change = {
-        owner,
-        reviewers,
+        owner: owner,
+        reviewers: reviewers,
       };
       assert.deepEqual(element._reviewers, [cc]);
     });
 
-    test('_handleAddTap passes mode with event', () => {
-      const fireStub = sandbox.stub(element, 'fire');
-      const e = {preventDefault() {}};
+    test('_handleAddTap passes mode with event', function() {
+      var fireStub = sandbox.stub(element, 'fire');
+      var e = {preventDefault: function() {}};
 
       element.ccsOnly = false;
       element.reviewersOnly = false;
@@ -186,109 +180,6 @@ limitations under the License.
       element._handleAddTap(e);
       assert.isTrue(fireStub.lastCall.calledWith('show-reply-dialog',
           {value: {ccsOnly: true}}));
-    });
-
-    test('no show all reviewers button with 6 reviewers', () => {
-      const reviewers = [];
-      element.maxReviewersDisplayed = 5;
-      for (let i = 0; i < 6; i++) {
-        reviewers.push(
-          {email: i+'reviewer@google.com', name: 'reviewer-' + i});
-      }
-      element.ccsOnly = true;
-
-      element.change = {
-        owner: {
-          _account_id: 1,
-        },
-        reviewers: {
-          CC: reviewers,
-        },
-      };
-      flushAsynchronousOperations();
-      assert.equal(element._hiddenReviewerCount, 0);
-      assert.equal(element._displayedReviewers.length, 6);
-      assert.equal(element._reviewers.length, 6);
-      assert.isTrue(element.$$('.hiddenReviewers').hidden);
-    });
-
-    test('show all reviewers button with 7 reviewers', () => {
-      const reviewers = [];
-      element.maxReviewersDisplayed = 5;
-      for (let i = 0; i < 7; i++) {
-        reviewers.push(
-          {email: i+'reviewer@google.com', name: 'reviewer-' + i});
-      }
-      element.ccsOnly = true;
-
-      element.change = {
-        owner: {
-          _account_id: 1,
-        },
-        reviewers: {
-          CC: reviewers,
-        },
-      };
-      flushAsynchronousOperations();
-      assert.equal(element._hiddenReviewerCount, 2);
-      assert.equal(element._displayedReviewers.length, 5);
-      assert.equal(element._reviewers.length, 7);
-      assert.isFalse(element.$$('.hiddenReviewers').hidden);
-    });
-
-
-    test('no maxReviewersDisplayed', () => {
-      const reviewers = [];
-      for (let i = 0; i < 7; i++) {
-        reviewers.push(
-          {email: i+'reviewer@google.com', name: 'reviewer-' + i});
-      }
-      element.ccsOnly = true;
-
-      element.change = {
-        owner: {
-          _account_id: 1,
-        },
-        reviewers: {
-          CC: reviewers,
-        },
-      };
-      flushAsynchronousOperations();
-      assert.equal(element._hiddenReviewerCount, 0);
-      assert.equal(element._displayedReviewers.length, 7);
-      assert.equal(element._reviewers.length, 7);
-      assert.isTrue(element.$$('.hiddenReviewers').hidden);
-    });
-
-    test('show all reviewers button', () => {
-      const reviewers = [];
-      element.maxReviewersDisplayed = 5;
-      for (let i = 0; i < 100; i++) {
-        reviewers.push(
-          {email: i+'reviewer@google.com', name: 'reviewer-' + i});
-      }
-      element.ccsOnly = true;
-
-      element.change = {
-        owner: {
-          _account_id: 1,
-        },
-        reviewers: {
-          CC: reviewers,
-        },
-      };
-      flushAsynchronousOperations();
-      assert.equal(element._hiddenReviewerCount, 95);
-      assert.equal(element._displayedReviewers.length, 5);
-      assert.equal(element._reviewers.length, 100);
-      assert.isFalse(element.$$('.hiddenReviewers').hidden);
-
-      MockInteractions.tap(element.$$('.hiddenReviewers'));
-      flushAsynchronousOperations();
-      assert.equal(element._hiddenReviewerCount, 0);
-      assert.equal(element._displayedReviewers.length, 100);
-      assert.equal(element._reviewers.length, 100);
-      assert.isTrue(element.$$('.hiddenReviewers').hidden);
     });
   });
 </script>

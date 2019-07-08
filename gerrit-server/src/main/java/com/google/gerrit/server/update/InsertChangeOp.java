@@ -15,7 +15,6 @@
 package com.google.gerrit.server.update;
 
 import com.google.gerrit.reviewdb.client.Change;
-import java.io.IOException;
 
 /**
  * Specialization of {@link BatchUpdateOp} for creating changes.
@@ -28,5 +27,5 @@ import java.io.IOException;
  * first.
  */
 public interface InsertChangeOp extends BatchUpdateOp {
-  Change createChange(Context ctx) throws IOException;
+  Change createChange(Context ctx);
 }

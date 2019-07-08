@@ -86,10 +86,6 @@ public class ProjectInfoScreen extends ProjectScreen {
   private ListBox enableSignedPush;
   private ListBox requireSignedPush;
   private ListBox rejectImplicitMerges;
-  private ListBox privateByDefault;
-  private ListBox workInProgressByDefault;
-  private ListBox enableReviewerByEmail;
-  private ListBox matchAuthorToCommitterDate;
   private NpTextBox maxObjectSizeLimit;
   private Label effectiveMaxObjectSizeLimit;
   private Map<String, Map<String, HasEnabled>> pluginConfigWidgets;
@@ -103,7 +99,7 @@ public class ProjectInfoScreen extends ProjectScreen {
 
   private OnEditEnabler saveEnabler;
 
-  public ProjectInfoScreen(Project.NameKey toShow) {
+  public ProjectInfoScreen(final Project.NameKey toShow) {
     super(toShow);
   }
 
@@ -197,11 +193,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     signedOffBy.setEnabled(isOwner);
     requireChangeID.setEnabled(isOwner);
     rejectImplicitMerges.setEnabled(isOwner);
-    privateByDefault.setEnabled(isOwner);
-    workInProgressByDefault.setEnabled(isOwner);
     maxObjectSizeLimit.setEnabled(isOwner);
-    enableReviewerByEmail.setEnabled(isOwner);
-    matchAuthorToCommitterDate.setEnabled(isOwner);
 
     if (pluginConfigWidgets != null) {
       for (Map<String, HasEnabled> widgetMap : pluginConfigWidgets.values()) {
@@ -237,7 +229,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     grid.add(AdminConstants.I.headingProjectState(), state);
 
     submitType = new ListBox();
-    for (SubmitType type : SubmitType.values()) {
+    for (final SubmitType type : SubmitType.values()) {
       submitType.addItem(Util.toLongString(type), type.name());
     }
     submitType.addChangeHandler(
@@ -274,22 +266,6 @@ public class ProjectInfoScreen extends ProjectScreen {
     rejectImplicitMerges = newInheritedBooleanBox();
     saveEnabler.listenTo(rejectImplicitMerges);
     grid.addHtml(AdminConstants.I.rejectImplicitMerges(), rejectImplicitMerges);
-
-    privateByDefault = newInheritedBooleanBox();
-    saveEnabler.listenTo(privateByDefault);
-    grid.addHtml(AdminConstants.I.privateByDefault(), privateByDefault);
-
-    workInProgressByDefault = newInheritedBooleanBox();
-    saveEnabler.listenTo(workInProgressByDefault);
-    grid.addHtml(AdminConstants.I.workInProgressByDefault(), workInProgressByDefault);
-
-    enableReviewerByEmail = newInheritedBooleanBox();
-    saveEnabler.listenTo(enableReviewerByEmail);
-    grid.addHtml(AdminConstants.I.enableReviewerByEmail(), enableReviewerByEmail);
-
-    matchAuthorToCommitterDate = newInheritedBooleanBox();
-    saveEnabler.listenTo(matchAuthorToCommitterDate);
-    grid.addHtml(AdminConstants.I.matchAuthorToCommitterDate(), matchAuthorToCommitterDate);
 
     maxObjectSizeLimit = new NpTextBox();
     saveEnabler.listenTo(maxObjectSizeLimit);
@@ -341,7 +317,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     grid.addHtml(AdminConstants.I.useSignedOffBy(), signedOffBy);
   }
 
-  private void setSubmitType(SubmitType newSubmitType) {
+  private void setSubmitType(final SubmitType newSubmitType) {
     int index = -1;
     if (submitType != null) {
       for (int i = 0; i < submitType.getItemCount(); i++) {
@@ -355,7 +331,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     }
   }
 
-  private void setState(ProjectState newState) {
+  private void setState(final ProjectState newState) {
     if (state != null) {
       for (int i = 0; i < state.getItemCount(); i++) {
         if (newState.name().equals(state.getValue(i))) {
@@ -422,10 +398,6 @@ public class ProjectInfoScreen extends ProjectScreen {
       setBool(requireSignedPush, result.requireSignedPush());
     }
     setBool(rejectImplicitMerges, result.rejectImplicitMerges());
-    setBool(privateByDefault, result.privateByDefault());
-    setBool(workInProgressByDefault, result.workInProgressByDefault());
-    setBool(enableReviewerByEmail, result.enableReviewerByEmail());
-    setBool(matchAuthorToCommitterDate, result.matchAuthorToCommitterDate());
     setSubmitType(result.submitType());
     setState(result.state());
     maxObjectSizeLimit.setText(result.maxObjectSizeLimit().configuredValue());
@@ -677,7 +649,7 @@ public class ProjectInfoScreen extends ProjectScreen {
         new ClickHandler() {
           @Override
           public void onClick(ClickEvent event) {
-            EditConfigAction.call(editConfig, getProjectKey());
+            EditConfigAction.call(editConfig, getProjectKey().get());
           }
         });
     return editConfig;
@@ -699,10 +671,6 @@ public class ProjectInfoScreen extends ProjectScreen {
         esp,
         rsp,
         getBool(rejectImplicitMerges),
-        getBool(privateByDefault),
-        getBool(workInProgressByDefault),
-        getBool(enableReviewerByEmail),
-        getBool(matchAuthorToCommitterDate),
         maxObjectSizeLimit.getText().trim(),
         SubmitType.valueOf(submitType.getValue(submitType.getSelectedIndex())),
         ProjectState.valueOf(state.getValue(state.getSelectedIndex())),

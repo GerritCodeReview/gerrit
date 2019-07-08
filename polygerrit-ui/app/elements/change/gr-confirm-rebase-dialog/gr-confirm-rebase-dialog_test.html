@@ -20,7 +20,8 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-confirm-rebase-dialog.html">
 
 <script>void(0);</script>
@@ -32,14 +33,14 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-confirm-rebase-dialog tests', () => {
-    let element;
+  suite('gr-confirm-rebase-dialog tests', function() {
+    var element;
 
-    setup(() => {
+    setup(function() {
       element = fixture('basic');
     });
 
-    test('controls with parent and rebase on current available', () => {
+    test('controls with parent and rebase on current available', function() {
       element.rebaseOnCurrent = true;
       element.hasParent = true;
       flushAsynchronousOperations();
@@ -50,7 +51,7 @@ limitations under the License.
       assert.isTrue(element.$.tipUpToDateMsg.hasAttribute('hidden'));
     });
 
-    test('controls with parent rebase on current not available', () => {
+    test('controls with parent rebase on current not available', function() {
       element.rebaseOnCurrent = false;
       element.hasParent = true;
       flushAsynchronousOperations();
@@ -61,7 +62,7 @@ limitations under the License.
       assert.isTrue(element.$.tipUpToDateMsg.hasAttribute('hidden'));
     });
 
-    test('controls without parent and rebase on current available', () => {
+    test('controls without parent and rebase on current available', function() {
       element.rebaseOnCurrent = true;
       element.hasParent = false;
       flushAsynchronousOperations();
@@ -72,7 +73,7 @@ limitations under the License.
       assert.isTrue(element.$.tipUpToDateMsg.hasAttribute('hidden'));
     });
 
-    test('controls without parent rebase on current not available', () => {
+    test('controls without parent rebase on current not available', function() {
       element.rebaseOnCurrent = false;
       element.hasParent = false;
       flushAsynchronousOperations();

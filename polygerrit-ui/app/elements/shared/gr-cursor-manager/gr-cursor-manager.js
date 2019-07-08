@@ -14,7 +14,7 @@
 (function() {
   'use strict';
 
-  const ScrollBehavior = {
+  var ScrollBehavior = {
     NEVER: 'never',
     KEEP_VISIBLE: 'keep-visible',
   };
@@ -25,14 +25,11 @@
     properties: {
       stops: {
         type: Array,
-        value() {
+        value: function() {
           return [];
         },
         observer: '_updateIndex',
       },
-      /**
-       * @type (?Object)
-       */
       target: {
         type: Object,
         notify: true,
@@ -40,7 +37,6 @@
       },
       /**
        * The height of content intended to be included with the target.
-       * @type (?number)
        */
       _targetHeight: Number,
 
@@ -65,8 +61,6 @@
        * The scroll behavior for the cursor. Values are 'never' and
        * 'keep-visible'. 'keep-visible' will only scroll if the cursor is beyond
        * the viewport.
-       * TODO (beckysiegel) figure out why it can be undefined
-       * @type (string|undefined)
        */
       scrollBehavior: {
         type: String,
@@ -82,26 +76,26 @@
       },
     },
 
-    detached() {
+    detached: function() {
       this.unsetCursor();
     },
 
-    next(opt_condition, opt_getTargetHeight) {
+    next: function(opt_condition, opt_getTargetHeight) {
       this._moveCursor(1, opt_condition, opt_getTargetHeight);
     },
 
-    previous(opt_condition) {
+    previous: function(opt_condition) {
       this._moveCursor(-1, opt_condition);
     },
 
     /**
      * Set the cursor to an arbitrary element.
-     * @param {!HTMLElement} element
-     * @param {boolean=} opt_noScroll prevent any potential scrolling in response
+     * @param {DOMElement} element
+     * @param {boolean} opt_noScroll prevent any potential scrolling in response
      *   setting the cursor.
      */
-    setCursor(element, opt_noScroll) {
-      let behavior;
+    setCursor: function(element, opt_noScroll) {
+      var behavior;
       if (opt_noScroll) {
         behavior = this.scrollBehavior;
         this.scrollBehavior = ScrollBehavior.NEVER;
@@ -115,44 +109,44 @@
       if (opt_noScroll) { this.scrollBehavior = behavior; }
     },
 
-    unsetCursor() {
+    unsetCursor: function() {
       this._unDecorateTarget();
       this.index = -1;
       this.target = null;
       this._targetHeight = null;
     },
 
-    isAtStart() {
+    isAtStart: function() {
       return this.index === 0;
     },
 
-    isAtEnd() {
+    isAtEnd: function() {
       return this.index === this.stops.length - 1;
     },
 
-    moveToStart() {
+    moveToStart: function() {
       if (this.stops.length) {
         this.setCursor(this.stops[0]);
       }
     },
 
-    setCursorAtIndex(index, opt_noScroll) {
+    setCursorAtIndex: function(index, opt_noScroll) {
       this.setCursor(this.stops[index], opt_noScroll);
     },
 
     /**
      * Move the cursor forward or backward by delta. Noop if moving past either
      * end of the stop list.
-     * @param {number} delta either -1 or 1.
-     * @param {!Function=} opt_condition Optional stop condition. If a condition
+     * @param {Number} delta either -1 or 1.
+     * @param {Function} opt_condition Optional stop condition. If a condition
      *    is passed the cursor will continue to move in the specified direction
      *    until the condition is met.
-     * @param {!Function=} opt_getTargetHeight Optional function to calculate the
+     * @param {Function} opt_getTargetHeight Optional function to calculate the
      *    height of the target's 'section'. The height of the target itself is
      *    sometimes different, used by the diff cursor.
      * @private
      */
-    _moveCursor(delta, opt_condition, opt_getTargetHeight) {
+    _moveCursor: function(delta, opt_condition, opt_getTargetHeight) {
       if (!this.stops.length) {
         this.unsetCursor();
         return;
@@ -160,17 +154,12 @@
 
       this._unDecorateTarget();
 
-      const newIndex = this._getNextindex(delta, opt_condition);
+      var newIndex = this._getNextindex(delta, opt_condition);
 
-      let newTarget = null;
-      if (newIndex !== -1) {
+      var newTarget = null;
+      if (newIndex != -1) {
         newTarget = this.stops[newIndex];
       }
-
-      this.index = newIndex;
-      this.target = newTarget;
-
-      if (!this.target) { return; }
 
       if (opt_getTargetHeight) {
         this._targetHeight = opt_getTargetHeight(newTarget);
@@ -178,18 +167,21 @@
         this._targetHeight = newTarget.scrollHeight;
       }
 
+      this.index = newIndex;
+      this.target = newTarget;
+
       if (this.focusOnMove) { this.target.focus(); }
 
       this._decorateTarget();
     },
 
-    _decorateTarget() {
+    _decorateTarget: function() {
       if (this.target && this.cursorTargetClass) {
         this.target.classList.add(this.cursorTargetClass);
       }
     },
 
-    _unDecorateTarget() {
+    _unDecorateTarget: function() {
       if (this.target && this.cursorTargetClass) {
         this.target.classList.remove(this.cursorTargetClass);
       }
@@ -197,17 +189,17 @@
 
     /**
      * Get the next stop index indicated by the delta direction.
-     * @param {number} delta either -1 or 1.
-     * @param {!Function=} opt_condition Optional stop condition.
-     * @return {number} the new index.
+     * @param {Number} delta either -1 or 1.
+     * @param {Function} opt_condition Optional stop condition.
+     * @return {Number} the new index.
      * @private
      */
-    _getNextindex(delta, opt_condition) {
+    _getNextindex: function(delta, opt_condition) {
       if (!this.stops.length || this.index === -1) {
         return -1;
       }
 
-      let newIndex = this.index;
+      var newIndex = this.index;
       do {
         newIndex = newIndex + delta;
       } while (newIndex > 0 &&
@@ -229,13 +221,13 @@
       return newIndex;
     },
 
-    _updateIndex() {
+    _updateIndex: function() {
       if (!this.target) {
         this.index = -1;
         return;
       }
 
-      const newIndex = Array.prototype.indexOf.call(this.stops, this.target);
+      var newIndex = Array.prototype.indexOf.call(this.stops, this.target);
       if (newIndex === -1) {
         this.unsetCursor();
       } else {
@@ -245,12 +237,12 @@
 
     /**
      * Calculate where the element is relative to the window.
-     * @param {!Object} target Target to scroll to.
+     * @param {object} target Target to scroll to.
      * @return {number} Distance to top of the target.
      */
-    _getTop(target) {
-      let top = target.offsetTop;
-      for (let offsetParent = target.offsetParent;
+    _getTop: function(target) {
+      var top = target.offsetTop;
+      for (var offsetParent = target.offsetParent;
            offsetParent;
            offsetParent = offsetParent.offsetParent) {
         top += offsetParent.offsetTop;
@@ -261,25 +253,25 @@
     /**
      * @return {boolean}
      */
-    _targetIsVisible(top) {
+    _targetIsVisible: function(top) {
       return this.scrollBehavior === ScrollBehavior.KEEP_VISIBLE &&
           top > window.pageYOffset &&
           top < window.pageYOffset + window.innerHeight;
     },
 
-    _calculateScrollToValue(top, target) {
+    _calculateScrollToValue: function(top, target) {
       return top - (window.innerHeight / 3) + (target.offsetHeight / 2);
     },
 
-    _scrollToTarget() {
+    _scrollToTarget: function() {
       if (!this.target || this.scrollBehavior === ScrollBehavior.NEVER) {
         return;
       }
 
-      const top = this._getTop(this.target);
-      const bottomIsVisible = this._targetHeight ?
+      var top = this._getTop(this.target);
+      var bottomIsVisible = this._targetHeight ?
           this._targetIsVisible(top + this._targetHeight) : true;
-      const scrollToValue = this._calculateScrollToValue(top, this.target);
+      var scrollToValue = this._calculateScrollToValue(top, this.target);
 
       if (this._targetIsVisible(top)) {
         // Don't scroll if either the bottom is visible or if the position that

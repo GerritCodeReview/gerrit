@@ -29,23 +29,18 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 class DefaultActions {
   static void invoke(ChangeInfo change, ActionInfo action, RestApi api) {
-    invoke(action, api, callback(PageLinks.toChange(change.projectNameKey(), change.legacyId())));
+    invoke(action, api, callback(PageLinks.toChange(change.legacyId())));
   }
 
   static void invoke(Project.NameKey project, ActionInfo action, RestApi api) {
     invoke(action, api, callback(PageLinks.toProject(project)));
   }
 
-  private static AsyncCallback<JavaScriptObject> callback(String target) {
+  private static AsyncCallback<JavaScriptObject> callback(final String target) {
     return new GerritCallback<JavaScriptObject>() {
       @Override
       public void onSuccess(JavaScriptObject in) {
         UiResult result = asUiResult(in);
-        if (result == null) {
-          Gerrit.display(target);
-          return;
-        }
-
         if (result.alert() != null) {
           Window.alert(result.alert());
         }

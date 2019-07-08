@@ -35,10 +35,6 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListeningExecutorService;
-import com.google.gerrit.index.QueryOptions;
-import com.google.gerrit.index.Schema;
-import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -47,21 +43,26 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.IndexUtils;
+import com.google.gerrit.server.index.QueryOptions;
+import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.project.SubmitRuleOptions;
+import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.ResultSet;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -105,7 +106,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   static final String UPDATED_SORT_FIELD = sortFieldName(ChangeField.UPDATED);
   static final String ID_SORT_FIELD = sortFieldName(ChangeField.LEGACY_ID);
 
-  private static final String CHANGES = "changes";
+  private static final String CHANGES_PREFIX = "changes_";
   private static final String CHANGES_OPEN = "open";
   private static final String CHANGES_CLOSED = "closed";
   private static final String ADDED_FIELD = ChangeField.ADDED.getName();
@@ -114,14 +115,10 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String DELETED_FIELD = ChangeField.DELETED.getName();
   private static final String MERGEABLE_FIELD = ChangeField.MERGEABLE.getName();
   private static final String PATCH_SET_FIELD = ChangeField.PATCH_SET.getName();
-  private static final String PENDING_REVIEWER_FIELD = ChangeField.PENDING_REVIEWER.getName();
-  private static final String PENDING_REVIEWER_BY_EMAIL_FIELD =
-      ChangeField.PENDING_REVIEWER_BY_EMAIL.getName();
   private static final String REF_STATE_FIELD = ChangeField.REF_STATE.getName();
   private static final String REF_STATE_PATTERN_FIELD = ChangeField.REF_STATE_PATTERN.getName();
   private static final String REVIEWEDBY_FIELD = ChangeField.REVIEWEDBY.getName();
   private static final String REVIEWER_FIELD = ChangeField.REVIEWER.getName();
-  private static final String REVIEWER_BY_EMAIL_FIELD = ChangeField.REVIEWER_BY_EMAIL.getName();
   private static final String HASHTAG_FIELD = ChangeField.HASHTAG_CASE_AWARE.getName();
   private static final String STAR_FIELD = ChangeField.STAR.getName();
   private static final String SUBMIT_RECORD_LENIENT_FIELD =
@@ -139,6 +136,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     return QueryBuilder.intTerm(LEGACY_ID.getName(), id.get());
   }
 
+  private final FillArgs fillArgs;
   private final ListeningExecutorService executor;
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
@@ -147,15 +145,17 @@ public class LuceneChangeIndex implements ChangeIndex {
   private final ChangeSubIndex openIndex;
   private final ChangeSubIndex closedIndex;
 
-  @Inject
+  @AssistedInject
   LuceneChangeIndex(
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
       @IndexExecutor(INTERACTIVE) ListeningExecutorService executor,
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
+      FillArgs fillArgs,
       @Assisted Schema<ChangeData> schema)
       throws IOException {
+    this.fillArgs = fillArgs;
     this.executor = executor;
     this.db = db;
     this.changeDataFactory = changeDataFactory;
@@ -175,7 +175,7 @@ public class LuceneChangeIndex implements ChangeIndex {
           new ChangeSubIndex(
               schema, sitePaths, new RAMDirectory(), "ramClosed", closedConfig, searcherFactory);
     } else {
-      Path dir = LuceneVersionManager.getDir(sitePaths, CHANGES, schema);
+      Path dir = LuceneVersionManager.getDir(sitePaths, CHANGES_PREFIX, schema);
       openIndex =
           new ChangeSubIndex(
               schema, sitePaths, dir.resolve(CHANGES_OPEN), openConfig, searcherFactory);
@@ -204,7 +204,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     Term id = LuceneChangeIndex.idTerm(cd);
     // toDocument is essentially static and doesn't depend on the specific
     // sub-index, so just pick one.
-    Document doc = openIndex.toDocument(cd);
+    Document doc = openIndex.toDocument(cd, fillArgs);
     try {
       if (cd.change().getStatus().isOpen()) {
         Futures.allAsList(closedIndex.delete(id), openIndex.replace(id, doc)).get();
@@ -418,9 +418,14 @@ public class LuceneChangeIndex implements ChangeIndex {
     } else {
       IndexableField f = Iterables.getFirst(doc.get(idFieldName), null);
       Change.Id id = new Change.Id(f.numericValue().intValue());
-      // IndexUtils#changeFields ensures either CHANGE or PROJECT is always present.
-      IndexableField project = doc.get(PROJECT.getName()).iterator().next();
-      cd = changeDataFactory.create(db.get(), new Project.NameKey(project.stringValue()), id);
+      IndexableField project = Iterables.getFirst(doc.get(PROJECT.getName()), null);
+      if (project == null) {
+        // Old schema without project field: we can safely assume NoteDb is
+        // disabled.
+        cd = changeDataFactory.createOnlyWhenNoteDbDisabled(db.get(), id);
+      } else {
+        cd = changeDataFactory.create(db.get(), new Project.NameKey(project.stringValue()), id);
+      }
     }
 
     if (fields.contains(PATCH_SET_FIELD)) {
@@ -446,15 +451,6 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
     if (fields.contains(REVIEWER_FIELD)) {
       decodeReviewers(doc, cd);
-    }
-    if (fields.contains(REVIEWER_BY_EMAIL_FIELD)) {
-      decodeReviewersByEmail(doc, cd);
-    }
-    if (fields.contains(PENDING_REVIEWER_FIELD)) {
-      decodePendingReviewers(doc, cd);
-    }
-    if (fields.contains(PENDING_REVIEWER_BY_EMAIL_FIELD)) {
-      decodePendingReviewersByEmail(doc, cd);
     }
     decodeSubmitRecords(
         doc, SUBMIT_RECORD_STRICT_FIELD, ChangeField.SUBMIT_RULE_OPTIONS_STRICT, cd);
@@ -550,28 +546,6 @@ public class LuceneChangeIndex implements ChangeIndex {
     cd.setReviewers(
         ChangeField.parseReviewerFieldValues(
             FluentIterable.from(doc.get(REVIEWER_FIELD)).transform(IndexableField::stringValue)));
-  }
-
-  private void decodeReviewersByEmail(ListMultimap<String, IndexableField> doc, ChangeData cd) {
-    cd.setReviewersByEmail(
-        ChangeField.parseReviewerByEmailFieldValues(
-            FluentIterable.from(doc.get(REVIEWER_BY_EMAIL_FIELD))
-                .transform(IndexableField::stringValue)));
-  }
-
-  private void decodePendingReviewers(ListMultimap<String, IndexableField> doc, ChangeData cd) {
-    cd.setPendingReviewers(
-        ChangeField.parseReviewerFieldValues(
-            FluentIterable.from(doc.get(PENDING_REVIEWER_FIELD))
-                .transform(IndexableField::stringValue)));
-  }
-
-  private void decodePendingReviewersByEmail(
-      ListMultimap<String, IndexableField> doc, ChangeData cd) {
-    cd.setPendingReviewersByEmail(
-        ChangeField.parseReviewerByEmailFieldValues(
-            FluentIterable.from(doc.get(PENDING_REVIEWER_BY_EMAIL_FIELD))
-                .transform(IndexableField::stringValue)));
   }
 
   private void decodeSubmitRecords(

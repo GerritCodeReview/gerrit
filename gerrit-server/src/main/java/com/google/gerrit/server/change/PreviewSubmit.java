@@ -25,18 +25,15 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.LimitedByteArrayOutputStream.LimitExceededException;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeOpRepoManager;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
-import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -45,11 +42,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.transport.BundleWriter;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.kohsuke.args4j.Option;
@@ -82,9 +77,7 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
   }
 
   @Override
-  public BinaryResult apply(RevisionResource rsrc)
-      throws OrmException, RestApiException, UpdateException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+  public BinaryResult apply(RevisionResource rsrc) throws OrmException, RestApiException {
     if (Strings.isNullOrEmpty(format)) {
       throw new BadRequestException("format is not specified");
     }
@@ -101,9 +94,10 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
 
     Change change = rsrc.getChange();
     if (!change.getStatus().isOpen()) {
-      throw new PreconditionFailedException("change is " + ChangeUtil.status(change));
+      throw new PreconditionFailedException("change is " + Submit.status(change));
     }
-    if (!rsrc.getUser().isIdentifiedUser()) {
+    ChangeControl control = rsrc.getControl();
+    if (!control.getUser().isIdentifiedUser()) {
       throw new MethodNotAllowedException("Anonymous users cannot submit");
     }
 
@@ -111,10 +105,10 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
   }
 
   private BinaryResult getBundles(RevisionResource rsrc, ArchiveFormat f)
-      throws OrmException, RestApiException, UpdateException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+      throws OrmException, RestApiException {
     ReviewDb db = dbProvider.get();
-    IdentifiedUser caller = rsrc.getUser().asIdentifiedUser();
+    ChangeControl control = rsrc.getControl();
+    IdentifiedUser caller = control.getUser().asIdentifiedUser();
     Change change = rsrc.getChange();
 
     @SuppressWarnings("resource") // Returned BinaryResult takes ownership and handles closing.
@@ -126,13 +120,7 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
           .setContentType(f.getMimeType())
           .setAttachmentName("submit-preview-" + change.getChangeId() + "." + format);
       return bin;
-    } catch (OrmException
-        | RestApiException
-        | UpdateException
-        | IOException
-        | ConfigInvalidException
-        | RuntimeException
-        | PermissionBackendException e) {
+    } catch (OrmException | RestApiException | RuntimeException e) {
       op.close();
       throw e;
     }
@@ -156,16 +144,14 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
         MergeOpRepoManager orm = mergeOp.getMergeOpRepoManager();
         for (Project.NameKey p : mergeOp.getAllProjects()) {
           OpenRepo or = orm.getRepo(p);
-          BundleWriter bw = new BundleWriter(or.getCodeReviewRevWalk().getObjectReader());
+          BundleWriter bw = new BundleWriter(or.getRepo());
           bw.setObjectCountCallback(null);
-          bw.setPackConfig(new PackConfig(or.getRepo()));
-          Collection<ReceiveCommand> refs = or.getUpdate().getRefUpdates().values();
+          bw.setPackConfig(null);
+          Collection<ReceiveCommand> refs = or.getUpdate().getRefUpdates();
           for (ReceiveCommand r : refs) {
             bw.include(r.getRefName(), r.getNewId());
             ObjectId oldId = r.getOldId();
-            if (!oldId.equals(ObjectId.zeroId())
-                // Probably the client doesn't already have NoteDb data.
-                && !RefNames.isNoteDbMetaRef(r.getRefName())) {
+            if (!oldId.equals(ObjectId.zeroId())) {
               bw.assume(or.getCodeReviewRevWalk().parseCommit(oldId));
             }
           }

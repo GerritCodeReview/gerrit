@@ -20,6 +20,7 @@
  * @param commentFiles
  * @param commentCount
  * @param email
+ * @param fromName
  * @param labels
  * @param patchSet
  * @param patchSetCommentBlocks
@@ -37,17 +38,7 @@
 
   {let $ulStyle kind="css"}
     list-style: none;
-    padding: 0;
-  {/let}
-
-  {let $fileLiStyle kind="css"}
-    margin: 0;
-    padding: 0;
-  {/let}
-
-  {let $commentLiStyle kind="css"}
-    margin: 0;
-    padding: 0 0 0 16px;
+    padding-left: 20px;
   {/let}
 
   {let $voteStyle kind="css"}
@@ -72,30 +63,9 @@
     background-color: #ddd;
   {/let}
 
-  {if $patchSetCommentBlocks}
-    {call .WikiFormat}{param content: $patchSetCommentBlocks /}{/call}
-  {/if}
-
-  {if length($labels) > 0}
-    <p>
-      Patch set {$patchSet.patchSetId}:
-      {foreach $label in $labels}
-        {if $label.value > 0}
-          <span style="{$positiveVoteStyle}">
-            {$label.label}{sp}+{$label.value}
-          </span>
-        {elseif $label.value < 0}
-          <span style="{$negativeVoteStyle}">
-            {$label.label}{sp}{$label.value}
-          </span>
-        {else}
-          <span style="{$neutralVoteStyle}">
-            -{$label.label}
-          </span>
-        {/if}
-      {/foreach}
-    </p>
-  {/if}
+  <p>
+    {$fromName} <strong>posted comments</strong> on this change.
+  </p>
 
   {if $email.changeUrl}
     <p>
@@ -103,22 +73,45 @@
     </p>
   {/if}
 
+  <p>
+    Patch set {$patchSet.patchSetId}:
+    {foreach $label in $labels}
+      {if $label.value > 0}
+        <span style="{$positiveVoteStyle}">
+          {$label.label}{sp}+{$label.value}
+        </span>
+      {elseif $label.value < 0}
+        <span style="{$negativeVoteStyle}">
+          {$label.label}{sp}{$label.value}
+        </span>
+      {else}
+        <span style="{$neutralVoteStyle}">
+          -{$label.label}
+        </span>
+      {/if}
+    {/foreach}
+  </p>
+
+  {if $patchSetCommentBlocks}
+    {call .WikiFormat}{param content: $patchSetCommentBlocks /}{/call}
+  {/if}
+
   {if $commentCount == 1}
-    <p>1 comment:</p>
+    <p>(1 comment)</p>
   {elseif $commentCount > 1}
-    <p>{$commentCount} comments:</p>
+    <p>({$commentCount} comments)</p>
   {/if}
 
   <ul style="{$ulStyle}">
     {foreach $group in $commentFiles}
-      <li style="{$fileLiStyle}">
+      <li>
         <p>
           <a href="{$group.link}">{$group.title}:</a>
         </p>
 
         <ul style="{$ulStyle}">
           {foreach $comment in $group.comments}
-            <li style="{$commentLiStyle}">
+            <li>
               {if $comment.isRobotComment}
                 <p style="{$commentHeaderStyle}">
                   Robot Comment from{sp}

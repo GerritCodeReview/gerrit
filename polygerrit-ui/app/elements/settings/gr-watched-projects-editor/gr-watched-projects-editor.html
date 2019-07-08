@@ -17,35 +17,46 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../../styles/gr-form-styles.html">
-<link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../../styles/gr-settings-styles.html">
 
 <dom-module id="gr-watched-projects-editor">
   <template>
-    <style include="shared-styles"></style>
-    <style include="gr-form-styles">
-      #watchedProjects .notifType {
+    <style>
+      th.projectHeader {
+        width: 11em;
+      }
+      th.notificationHeader {
+        text-align: center;
+      }
+      th.notifType {
         text-align: center;
         padding: 0 0.4em;
       }
-      .notifControl {
+      td.notifControl {
         cursor: pointer;
         text-align: center;
       }
-      .notifControl:hover {
-        outline: 1px solid #ddd;
+      td.notifControl:hover {
+        border: 1px solid #ddd;
       }
       .projectFilter {
         color: #777;
         font-style: italic;
         margin-left: 1em;
       }
+      input {
+        font-size: 1em;
+      }
+      .newProjectInput {
+        width: 10em;
+      }
       .newFilterInput {
-        width: 100%;
+        width: 26em;
       }
     </style>
-    <div class="gr-form-styles">
-      <table id="watchedProjects">
+    <style include="gr-settings-styles"></style>
+    <div class="gr-settings-styles">
+      <table>
         <thead>
           <tr>
             <th class="projectHeader">Project</th>
@@ -81,9 +92,8 @@ limitations under the License.
                       checked$="[[_computeCheckboxChecked(project, type.key)]]">
                 </td>
               </template>
-              <td>
+              <td class="delete-column">
                 <gr-button
-                    link
                     data-index$="[[projectIndex]]"
                     on-tap="_handleRemoveProject">Delete</gr-button>
               </td>
@@ -95,8 +105,10 @@ limitations under the License.
             <th>
               <gr-autocomplete
                   id="newProject"
+                  class="newProjectInput"
+                  is="iron-input"
                   query="[[_query]]"
-                  threshold="1"
+                  threshold="3"
                   placeholder="Project"></gr-autocomplete>
             </th>
             <th colspan$="[[_getTypeCount()]]">
@@ -107,7 +119,7 @@ limitations under the License.
                   placeholder="branch:name, or other search expression">
             </th>
             <th>
-              <gr-button link on-tap="_handleAddProject">Add</gr-button>
+              <gr-button on-tap="_handleAddProject">Add</gr-button>
             </th>
           </tr>
         </tfoot>

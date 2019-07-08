@@ -19,16 +19,16 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwtorm.server.OrmException;
 import java.util.Set;
 
-public class DestinationPredicate extends ChangeOperatorPredicate {
-  protected Set<Branch.NameKey> destinations;
+class DestinationPredicate extends ChangeOperatorPredicate {
+  Set<Branch.NameKey> destinations;
 
-  public DestinationPredicate(Set<Branch.NameKey> destinations, String value) {
+  DestinationPredicate(Set<Branch.NameKey> destinations, String value) {
     super(ChangeQueryBuilder.FIELD_DESTINATION, value);
     this.destinations = destinations;
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
+  public boolean match(final ChangeData object) throws OrmException {
     Change change = object.change();
     if (change == null) {
       return false;

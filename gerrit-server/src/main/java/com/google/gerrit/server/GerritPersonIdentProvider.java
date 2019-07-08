@@ -31,7 +31,7 @@ public class GerritPersonIdentProvider implements Provider<PersonIdent> {
   private final String email;
 
   @Inject
-  public GerritPersonIdentProvider(@GerritServerConfig Config cfg) {
+  public GerritPersonIdentProvider(@GerritServerConfig final Config cfg) {
     StringBuilder name = new StringBuilder();
     PersonIdent.appendSanitized(
         name, firstNonNull(cfg.getString("user", null, "name"), "Gerrit Code Review"));

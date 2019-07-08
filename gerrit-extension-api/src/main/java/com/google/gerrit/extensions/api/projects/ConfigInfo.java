@@ -32,10 +32,6 @@ public class ConfigInfo {
   public InheritedBooleanInfo enableSignedPush;
   public InheritedBooleanInfo requireSignedPush;
   public InheritedBooleanInfo rejectImplicitMerges;
-  public InheritedBooleanInfo privateByDefault;
-  public InheritedBooleanInfo workInProgressByDefault;
-  public InheritedBooleanInfo enableReviewerByEmail;
-  public InheritedBooleanInfo matchAuthorToCommitterDate;
   public MaxObjectSizeLimitInfo maxObjectSizeLimit;
   public SubmitType submitType;
   public ProjectState state;
@@ -44,8 +40,6 @@ public class ConfigInfo {
 
   public Map<String, CommentLinkInfo> commentlinks;
   public ThemeInfo theme;
-
-  public Map<String, List<String>> extensionPanelNames;
 
   public static class InheritedBooleanInfo {
     public Boolean value;

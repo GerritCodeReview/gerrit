@@ -18,10 +18,10 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
-public class EditByPredicate extends ChangeIndexPredicate {
-  protected final Account.Id id;
+class EditByPredicate extends ChangeIndexPredicate {
+  private final Account.Id id;
 
-  public EditByPredicate(Account.Id id) {
+  EditByPredicate(Account.Id id) {
     super(ChangeField.EDITBY, id.toString());
     this.id = id;
   }

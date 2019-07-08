@@ -20,7 +20,6 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
-import com.google.gerrit.server.schema.ReviewDbFactory;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gwtorm.jdbc.JdbcSchema;
@@ -69,7 +68,7 @@ public class QueryShell {
 
   @Inject
   QueryShell(
-      @ReviewDbFactory final SchemaFactory<ReviewDb> dbFactory,
+      final SchemaFactory<ReviewDb> dbFactory,
       @Assisted final InputStream in,
       @Assisted final OutputStream out) {
     this.dbFactory = dbFactory;
@@ -273,7 +272,7 @@ public class QueryShell {
           Identity.create(rs, "COLUMN_NAME"),
           new Function("TYPE") {
             @Override
-            String apply(ResultSet rs) throws SQLException {
+            String apply(final ResultSet rs) throws SQLException {
               String type = rs.getString("TYPE_NAME");
               switch (rs.getInt("DATA_TYPE")) {
                 case java.sql.Types.CHAR:
@@ -345,7 +344,7 @@ public class QueryShell {
     println("");
   }
 
-  private void executeStatement(String sql) {
+  private void executeStatement(final String sql) {
     final long start = TimeUtil.nowMs();
     final boolean hasResultSet;
     try {
@@ -398,7 +397,7 @@ public class QueryShell {
    * @param show Functions to map columns
    * @throws SQLException
    */
-  private void showResultSet(ResultSet rs, boolean alreadyOnRow, long start, Function... show)
+  private void showResultSet(final ResultSet rs, boolean alreadyOnRow, long start, Function... show)
       throws SQLException {
     switch (outputFormat) {
       case JSON_SINGLE:
@@ -621,7 +620,7 @@ public class QueryShell {
     }
   }
 
-  private void warning(String msg) {
+  private void warning(final String msg) {
     switch (outputFormat) {
       case JSON_SINGLE:
       case JSON:
@@ -640,7 +639,7 @@ public class QueryShell {
     }
   }
 
-  private void error(SQLException err) {
+  private void error(final SQLException err) {
     switch (outputFormat) {
       case JSON_SINGLE:
       case JSON:
@@ -719,7 +718,7 @@ public class QueryShell {
   private abstract static class Function {
     final String name;
 
-    Function(String name) {
+    Function(final String name) {
       this.name = name;
     }
 
@@ -727,19 +726,19 @@ public class QueryShell {
   }
 
   private static class Identity extends Function {
-    static Identity create(ResultSet rs, String name) throws SQLException {
+    static Identity create(final ResultSet rs, final String name) throws SQLException {
       return new Identity(rs.findColumn(name), name);
     }
 
     final int colId;
 
-    Identity(int colId, String name) {
+    Identity(final int colId, final String name) {
       super(name);
       this.colId = colId;
     }
 
     @Override
-    String apply(ResultSet rs) throws SQLException {
+    String apply(final ResultSet rs) throws SQLException {
       return rs.getString(colId);
     }
   }

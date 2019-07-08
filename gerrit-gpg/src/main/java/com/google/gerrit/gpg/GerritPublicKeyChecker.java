@@ -15,7 +15,7 @@
 package com.google.gerrit.gpg;
 
 import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GPGKEY;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_GPGKEY;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableMap;
@@ -24,7 +24,7 @@ import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.query.account.InternalAccountQuery;

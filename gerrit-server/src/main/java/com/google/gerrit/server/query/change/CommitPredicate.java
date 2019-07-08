@@ -18,11 +18,11 @@ import static com.google.gerrit.server.index.change.ChangeField.COMMIT;
 import static com.google.gerrit.server.index.change.ChangeField.EXACT_COMMIT;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.index.FieldDef;
 import com.google.gwtorm.server.OrmException;
 
-public class CommitPredicate extends ChangeIndexPredicate {
+class CommitPredicate extends ChangeIndexPredicate {
   static FieldDef<ChangeData, ?> commitField(String id) {
     if (id.length() == OBJECT_ID_STRING_LENGTH) {
       return EXACT_COMMIT;
@@ -30,12 +30,12 @@ public class CommitPredicate extends ChangeIndexPredicate {
     return COMMIT;
   }
 
-  public CommitPredicate(String id) {
+  CommitPredicate(String id) {
     super(commitField(id), id);
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
+  public boolean match(final ChangeData object) throws OrmException {
     String id = getValue().toLowerCase();
     for (PatchSet p : object.patchSets()) {
       if (equals(p, id)) {
@@ -45,7 +45,7 @@ public class CommitPredicate extends ChangeIndexPredicate {
     return false;
   }
 
-  protected boolean equals(PatchSet p, String id) {
+  private boolean equals(PatchSet p, String id) {
     boolean exact = getField() == EXACT_COMMIT;
     String rev = p.getRevision() != null ? p.getRevision().get() : null;
     return (exact && id.equals(rev)) || (!exact && rev != null && rev.startsWith(id));

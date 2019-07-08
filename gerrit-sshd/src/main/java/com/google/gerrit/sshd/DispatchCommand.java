@@ -18,13 +18,10 @@ import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Atomics;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.CapabilityUtils;
 import com.google.gerrit.server.args4j.SubcommandHandler;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -44,10 +41,8 @@ final class DispatchCommand extends BaseCommand {
   }
 
   private final CurrentUser currentUser;
-  private final PermissionBackend permissionBackend;
   private final Map<String, CommandProvider> commands;
   private final AtomicReference<Command> atomicCmd;
-  private final DynamicSet<SshExecuteCommandInterceptor> commandInterceptors;
 
   @Argument(index = 0, required = false, metaVar = "COMMAND", handler = SubcommandHandler.class)
   private String commandName;
@@ -56,16 +51,10 @@ final class DispatchCommand extends BaseCommand {
   private List<String> args = new ArrayList<>();
 
   @Inject
-  DispatchCommand(
-      CurrentUser user,
-      PermissionBackend permissionBackend,
-      DynamicSet<SshExecuteCommandInterceptor> commandInterceptors,
-      @Assisted Map<String, CommandProvider> all) {
-    this.currentUser = user;
-    this.permissionBackend = permissionBackend;
+  DispatchCommand(CurrentUser cu, @Assisted final Map<String, CommandProvider> all) {
+    currentUser = cu;
     commands = all;
     atomicCmd = Atomics.newReference();
-    this.commandInterceptors = commandInterceptors;
   }
 
   Map<String, CommandProvider> getMap() {
@@ -73,7 +62,7 @@ final class DispatchCommand extends BaseCommand {
   }
 
   @Override
-  public void start(Environment env) throws IOException {
+  public void start(final Environment env) throws IOException {
     try {
       parseCommandLine();
       if (Strings.isNullOrEmpty(commandName)) {
@@ -94,27 +83,17 @@ final class DispatchCommand extends BaseCommand {
 
       final Command cmd = p.getProvider().get();
       checkRequiresCapability(cmd);
-      String actualCommandName = commandName;
       if (cmd instanceof BaseCommand) {
         final BaseCommand bc = (BaseCommand) cmd;
-        if (!getName().isEmpty()) {
-          actualCommandName = getName() + " " + commandName;
+        if (getName().isEmpty()) {
+          bc.setName(commandName);
+        } else {
+          bc.setName(getName() + " " + commandName);
         }
-        bc.setName(actualCommandName);
         bc.setArguments(args.toArray(new String[args.size()]));
 
       } else if (!args.isEmpty()) {
         throw die(commandName + " does not take arguments");
-      }
-
-      for (SshExecuteCommandInterceptor commandInterceptor : commandInterceptors) {
-        if (!commandInterceptor.accept(actualCommandName, args)) {
-          throw new UnloggedFailure(
-              126,
-              String.format(
-                  "blocked by %s, contact gerrit administrators for more details",
-                  commandInterceptor.name()));
-        }
       }
 
       provideStateTo(cmd);
@@ -138,13 +117,9 @@ final class DispatchCommand extends BaseCommand {
       pluginName = ((BaseCommand) cmd).getPluginName();
     }
     try {
-      permissionBackend
-          .user(currentUser)
-          .checkAny(GlobalPermission.fromAnnotation(pluginName, cmd.getClass()));
+      CapabilityUtils.checkRequiresCapability(currentUser, pluginName, cmd.getClass());
     } catch (AuthException e) {
       throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, e.getMessage());
-    } catch (PermissionBackendException e) {
-      throw new UnloggedFailure(1, "fatal: permission check unavailable", e);
     }
   }
 

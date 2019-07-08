@@ -31,14 +31,19 @@ public class AddKeySender extends OutgoingEmail {
     AddKeySender create(IdentifiedUser user, List<String> gpgKey);
   }
 
+  private final IdentifiedUser callingUser;
   private final IdentifiedUser user;
   private final AccountSshKey sshKey;
   private final List<String> gpgKeys;
 
   @AssistedInject
   public AddKeySender(
-      EmailArguments ea, @Assisted IdentifiedUser user, @Assisted AccountSshKey sshKey) {
+      EmailArguments ea,
+      IdentifiedUser callingUser,
+      @Assisted IdentifiedUser user,
+      @Assisted AccountSshKey sshKey) {
     super(ea, "addkey");
+    this.callingUser = callingUser;
     this.user = user;
     this.sshKey = sshKey;
     this.gpgKeys = null;
@@ -46,8 +51,12 @@ public class AddKeySender extends OutgoingEmail {
 
   @AssistedInject
   public AddKeySender(
-      EmailArguments ea, @Assisted IdentifiedUser user, @Assisted List<String> gpgKeys) {
+      EmailArguments ea,
+      IdentifiedUser callingUser,
+      @Assisted IdentifiedUser user,
+      @Assisted List<String> gpgKeys) {
     super(ea, "addkey");
+    this.callingUser = callingUser;
     this.user = user;
     this.sshKey = null;
     this.gpgKeys = gpgKeys;
@@ -62,12 +71,12 @@ public class AddKeySender extends OutgoingEmail {
 
   @Override
   protected boolean shouldSendMessage() {
-    if (sshKey == null && (gpgKeys == null || gpgKeys.isEmpty())) {
-      // Don't email if no keys were added.
-      return false;
-    }
-
-    return true;
+    /*
+     * Don't send an email if no keys are added, or an admin is adding a key to
+     * a user.
+     */
+    return (sshKey != null || gpgKeys.size() > 0)
+        && (user.equals(callingUser) || !callingUser.getCapabilities().canAdministrateServer());
   }
 
   @Override

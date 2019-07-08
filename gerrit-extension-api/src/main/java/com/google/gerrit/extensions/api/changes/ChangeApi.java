@@ -14,21 +14,16 @@
 
 package com.google.gerrit.extensions.api.changes;
 
-import com.google.common.collect.Sets;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
-import com.google.gerrit.extensions.common.CommitMessageInput;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
-import com.google.gerrit.extensions.common.PureRevertInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -90,46 +85,6 @@ public interface ChangeApi {
 
   void move(MoveInput in) throws RestApiException;
 
-  void setPrivate(boolean value, @Nullable String message) throws RestApiException;
-
-  default void setPrivate(boolean value) throws RestApiException {
-    setPrivate(value, null);
-  }
-
-  void setWorkInProgress(@Nullable String message) throws RestApiException;
-
-  void setReadyForReview(@Nullable String message) throws RestApiException;
-
-  default void setWorkInProgress() throws RestApiException {
-    setWorkInProgress(null);
-  }
-
-  default void setReadyForReview() throws RestApiException {
-    setReadyForReview(null);
-  }
-
-  /**
-   * Ignore or un-ignore this change.
-   *
-   * @param ignore ignore the change if true
-   */
-  void ignore(boolean ignore) throws RestApiException;
-
-  /**
-   * Check if this change is ignored.
-   *
-   * @return true if the change is ignored
-   */
-  boolean ignored() throws RestApiException;
-
-  /**
-   * Mark this change as reviewed/unreviewed.
-   *
-   * @param reviewed flag to decide if this change should be marked as reviewed ({@code true}) or
-   *     unreviewed ({@code false})
-   */
-  void markAsReviewed(boolean reviewed) throws RestApiException;
-
   /**
    * Create a new change that reverts this change.
    *
@@ -157,7 +112,6 @@ public interface ChangeApi {
       throws RestApiException;
 
   /** Publishes a draft change. */
-  @Deprecated
   void publish() throws RestApiException;
 
   /** Rebase the current revision of a change using default options. */
@@ -175,28 +129,15 @@ public interface ChangeApi {
 
   IncludedInInfo includedIn() throws RestApiException;
 
-  AddReviewerResult addReviewer(AddReviewerInput in) throws RestApiException;
+  void addReviewer(AddReviewerInput in) throws RestApiException;
 
-  AddReviewerResult addReviewer(String in) throws RestApiException;
+  void addReviewer(String in) throws RestApiException;
 
   SuggestedReviewersRequest suggestReviewers() throws RestApiException;
 
   SuggestedReviewersRequest suggestReviewers(String query) throws RestApiException;
 
-  /**
-   * Retrieve reviewers ({@code ReviewerState.REVIEWER} and {@code ReviewerState.CC}) on the change.
-   */
-  List<ReviewerInfo> reviewers() throws RestApiException;
-
   ChangeInfo get(EnumSet<ListChangesOption> options) throws RestApiException;
-
-  default ChangeInfo get(Iterable<ListChangesOption> options) throws RestApiException {
-    return get(Sets.newEnumSet(options, ListChangesOption.class));
-  }
-
-  default ChangeInfo get(ListChangesOption... options) throws RestApiException {
-    return get(Arrays.asList(options));
-  }
 
   /** {@code get} with {@link ListChangesOption} set to all except CHECK. */
   ChangeInfo get() throws RestApiException;
@@ -219,12 +160,6 @@ public interface ChangeApi {
    * @throws RestApiException if the API isn't accessible
    */
   ChangeEditApi edit() throws RestApiException;
-
-  /** Create a new patch set with a new commit message. */
-  void setMessage(String message) throws RestApiException;
-
-  /** Create a new patch set with a new commit message. */
-  void setMessage(CommitMessageInput in) throws RestApiException;
 
   /** Set hashtags on a change */
   void setHashtags(HashtagsInput input) throws RestApiException;
@@ -285,12 +220,6 @@ public interface ChangeApi {
   ChangeInfo check(FixInput fix) throws RestApiException;
 
   void index() throws RestApiException;
-
-  /** Check if this change is a pure revert of the change stored in revertOf. */
-  PureRevertInfo pureRevert() throws RestApiException;
-
-  /** Check if this change is a pure revert of claimedOriginal (SHA1 in 40 digit hex). */
-  PureRevertInfo pureRevert(String claimedOriginal) throws RestApiException;
 
   abstract class SuggestedReviewersRequest {
     private String query;
@@ -378,21 +307,6 @@ public interface ChangeApi {
     }
 
     @Override
-    public void setPrivate(boolean value, @Nullable String message) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void setWorkInProgress(String message) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void setReadyForReview(String message) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
     public ChangeApi revert() throws RestApiException {
       throw new NotImplementedException();
     }
@@ -407,7 +321,6 @@ public interface ChangeApi {
       throw new NotImplementedException();
     }
 
-    @Deprecated
     @Override
     public void rebase() throws RestApiException {
       throw new NotImplementedException();
@@ -439,12 +352,12 @@ public interface ChangeApi {
     }
 
     @Override
-    public AddReviewerResult addReviewer(AddReviewerInput in) throws RestApiException {
+    public void addReviewer(AddReviewerInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public AddReviewerResult addReviewer(String in) throws RestApiException {
+    public void addReviewer(String in) throws RestApiException {
       throw new NotImplementedException();
     }
 
@@ -455,11 +368,6 @@ public interface ChangeApi {
 
     @Override
     public SuggestedReviewersRequest suggestReviewers(String query) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public List<ReviewerInfo> reviewers() throws RestApiException {
       throw new NotImplementedException();
     }
 
@@ -475,16 +383,6 @@ public interface ChangeApi {
 
     @Override
     public ChangeInfo info() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void setMessage(String message) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void setMessage(CommitMessageInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 
@@ -577,31 +475,6 @@ public interface ChangeApi {
 
     @Override
     public ChangeInfo createMergePatchSet(MergePatchSetInput in) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void ignore(boolean ignore) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public boolean ignored() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void markAsReviewed(boolean reviewed) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public PureRevertInfo pureRevert() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public PureRevertInfo pureRevert(String claimedOriginal) throws RestApiException {
       throw new NotImplementedException();
     }
   }

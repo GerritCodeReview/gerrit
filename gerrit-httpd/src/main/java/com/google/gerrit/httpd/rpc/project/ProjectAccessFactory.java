@@ -14,10 +14,6 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
-import static com.google.gerrit.server.permissions.GlobalPermission.ADMINISTRATE_SERVER;
-import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
-import static com.google.gerrit.server.permissions.RefPermission.READ;
-
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupDescription;
@@ -28,28 +24,21 @@ import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.data.WebLinkInfoCommon;
 import com.google.gerrit.common.errors.NoSuchGroupException;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
-import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.RefControl;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -67,32 +56,27 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
 
   private final GroupBackend groupBackend;
   private final ProjectCache projectCache;
-  private final PermissionBackend permissionBackend;
-  private final Provider<CurrentUser> user;
-  private final ProjectControl.GenericFactory projectControlFactory;
+  private final ProjectControl.Factory projectControlFactory;
   private final GroupControl.Factory groupControlFactory;
   private final MetaDataUpdate.Server metaDataUpdateFactory;
   private final AllProjectsName allProjectsName;
 
   private final Project.NameKey projectName;
+  private ProjectControl pc;
   private WebLinks webLinks;
 
   @Inject
   ProjectAccessFactory(
-      GroupBackend groupBackend,
-      ProjectCache projectCache,
-      PermissionBackend permissionBackend,
-      Provider<CurrentUser> user,
-      ProjectControl.GenericFactory projectControlFactory,
-      GroupControl.Factory groupControlFactory,
-      MetaDataUpdate.Server metaDataUpdateFactory,
-      AllProjectsName allProjectsName,
-      WebLinks webLinks,
+      final GroupBackend groupBackend,
+      final ProjectCache projectCache,
+      final ProjectControl.Factory projectControlFactory,
+      final GroupControl.Factory groupControlFactory,
+      final MetaDataUpdate.Server metaDataUpdateFactory,
+      final AllProjectsName allProjectsName,
+      final WebLinks webLinks,
       @Assisted final Project.NameKey name) {
     this.groupBackend = groupBackend;
     this.projectCache = projectCache;
-    this.permissionBackend = permissionBackend;
-    this.user = user;
     this.projectControlFactory = projectControlFactory;
     this.groupControlFactory = groupControlFactory;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
@@ -103,10 +87,8 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
   }
 
   @Override
-  public ProjectAccess call()
-      throws NoSuchProjectException, IOException, ConfigInvalidException,
-          PermissionBackendException {
-    ProjectControl pc = checkProjectControl();
+  public ProjectAccess call() throws NoSuchProjectException, IOException, ConfigInvalidException {
+    pc = open();
 
     // Load the current configuration from the repository, ensuring its the most
     // recent version available. If it differs from what was in the project
@@ -115,23 +97,23 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     ProjectConfig config;
     try (MetaDataUpdate md = metaDataUpdateFactory.create(projectName)) {
       config = ProjectConfig.read(md);
+
       if (config.updateGroupNames(groupBackend)) {
         md.setMessage("Update group names\n");
         config.commit(md);
         projectCache.evict(config.getProject());
-        pc = checkProjectControl();
+        pc = open();
       } else if (config.getRevision() != null
           && !config.getRevision().equals(pc.getProjectState().getConfig().getRevision())) {
         projectCache.evict(config.getProject());
-        pc = checkProjectControl();
+        pc = open();
       }
     }
 
+    final RefControl metaConfigControl = pc.controlForRef(RefNames.REFS_CONFIG);
     List<AccessSection> local = new ArrayList<>();
     Set<String> ownerOf = new HashSet<>();
     Map<AccountGroup.UUID, Boolean> visibleGroups = new HashMap<>();
-    PermissionBackend.ForProject perm = permissionBackend.user(user).project(projectName);
-    boolean checkReadConfig = check(perm, RefNames.REFS_CONFIG, READ);
 
     for (AccessSection section : config.getAccessSections()) {
       String name = section.getName();
@@ -140,19 +122,20 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
           local.add(section);
           ownerOf.add(name);
 
-        } else if (checkReadConfig) {
+        } else if (metaConfigControl.isVisible()) {
           local.add(section);
         }
 
       } else if (RefConfigSection.isValid(name)) {
-        if (pc.controlForRef(name).isOwner()) {
+        RefControl rc = pc.controlForRef(name);
+        if (rc.isOwner()) {
           local.add(section);
           ownerOf.add(name);
 
-        } else if (checkReadConfig) {
+        } else if (metaConfigControl.isVisible()) {
           local.add(section);
 
-        } else if (check(perm, name, READ)) {
+        } else if (rc.isVisible()) {
           // Filter the section to only add rules describing groups that
           // are visible to the current-user. This includes any group the
           // user is a member of, as well as groups they own or that
@@ -194,9 +177,10 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
       }
     }
 
-    if (ownerOf.isEmpty() && isAdmin()) {
+    if (ownerOf.isEmpty() && pc.isOwnerAnyRef()) {
       // Special case: If the section list is empty, this project has no current
-      // access control information. Fall back to site administrators.
+      // access control information. Rely on what ProjectControl determines
+      // is ownership, which probably means falling back to site administrators.
       ownerOf.add(AccessSection.ALL);
     }
 
@@ -209,19 +193,19 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
 
     detail.setInheritsFrom(config.getProject().getParent(allProjectsName));
 
-    if (projectName.equals(allProjectsName)
-        && permissionBackend.user(user).testOrFalse(ADMINISTRATE_SERVER)) {
-      ownerOf.add(AccessSection.GLOBAL_CAPABILITIES);
+    if (projectName.equals(allProjectsName)) {
+      if (pc.isOwner()) {
+        ownerOf.add(AccessSection.GLOBAL_CAPABILITIES);
+      }
     }
 
     detail.setLocal(local);
     detail.setOwnerOf(ownerOf);
     detail.setCanUpload(
-        pc.isOwner()
-            || (checkReadConfig && perm.ref(RefNames.REFS_CONFIG).testOrFalse(CREATE_CHANGE)));
-    detail.setConfigVisible(pc.isOwner() || checkReadConfig);
+        metaConfigControl.isVisible() && (pc.isOwner() || metaConfigControl.canUpload()));
+    detail.setConfigVisible(pc.isOwner() || metaConfigControl.isVisible());
     detail.setGroupInfo(buildGroupInfo(local));
-    detail.setLabelTypes(pc.getProjectState().getLabelTypes());
+    detail.setLabelTypes(pc.getLabelTypes());
     detail.setFileHistoryLinks(getConfigFileLogLinks(projectName.get()));
     return detail;
   }
@@ -251,33 +235,9 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     return Maps.filterEntries(infos, in -> in.getValue() != null);
   }
 
-  private ProjectControl checkProjectControl()
-      throws NoSuchProjectException, IOException, PermissionBackendException {
-    ProjectControl pc = projectControlFactory.controlFor(projectName, user.get());
-    try {
-      permissionBackend.user(user).project(projectName).check(ProjectPermission.ACCESS);
-    } catch (AuthException e) {
-      throw new NoSuchProjectException(projectName);
-    }
-    return pc;
-  }
-
-  private static boolean check(PermissionBackend.ForProject ctx, String ref, RefPermission perm)
-      throws PermissionBackendException {
-    try {
-      ctx.ref(ref).check(perm);
-      return true;
-    } catch (AuthException denied) {
-      return false;
-    }
-  }
-
-  private boolean isAdmin() throws PermissionBackendException {
-    try {
-      permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
-      return true;
-    } catch (AuthException e) {
-      return false;
-    }
+  private ProjectControl open() throws NoSuchProjectException {
+    return projectControlFactory.validateFor( //
+        projectName, //
+        ProjectControl.OWNER | ProjectControl.VISIBLE);
   }
 }

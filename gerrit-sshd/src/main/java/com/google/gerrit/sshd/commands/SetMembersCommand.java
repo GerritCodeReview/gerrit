@@ -18,7 +18,6 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.collect.Streams;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -26,13 +25,12 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.group.AddIncludedGroups;
 import com.google.gerrit.server.group.AddMembers;
-import com.google.gerrit.server.group.AddSubgroups;
+import com.google.gerrit.server.group.DeleteIncludedGroups;
 import com.google.gerrit.server.group.DeleteMembers;
-import com.google.gerrit.server.group.DeleteSubgroups;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.GroupsCollection;
-import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
@@ -88,9 +86,9 @@ public class SetMembersCommand extends SshCommand {
 
   @Inject private DeleteMembers deleteMembers;
 
-  @Inject private AddSubgroups addSubgroups;
+  @Inject private AddIncludedGroups addIncludedGroups;
 
-  @Inject private DeleteSubgroups deleteSubgroups;
+  @Inject private DeleteIncludedGroups deleteIncludedGroups;
 
   @Inject private GroupsCollection groupsCollection;
 
@@ -109,7 +107,7 @@ public class SetMembersCommand extends SshCommand {
           reportMembersAction("removed from", resource, accountsToRemove);
         }
         if (!groupsToRemove.isEmpty()) {
-          deleteSubgroups.apply(resource, fromGroups(groupsToRemove));
+          deleteIncludedGroups.apply(resource, fromGroups(groupsToRemove));
           reportGroupsAction("excluded from", resource, groupsToRemove);
         }
         if (!accountsToAdd.isEmpty()) {
@@ -117,7 +115,7 @@ public class SetMembersCommand extends SshCommand {
           reportMembersAction("added to", resource, accountsToAdd);
         }
         if (!groupsToInclude.isEmpty()) {
-          addSubgroups.apply(resource, fromGroups(groupsToInclude));
+          addIncludedGroups.apply(resource, fromGroups(groupsToInclude));
           reportGroupsAction("included to", resource, groupsToInclude);
         }
       }
@@ -144,16 +142,14 @@ public class SetMembersCommand extends SshCommand {
       String action, GroupResource group, List<AccountGroup.UUID> groupUuidList)
       throws UnsupportedEncodingException, IOException {
     String names =
-        groupUuidList.stream()
-            .map(uuid -> groupCache.get(uuid).map(InternalGroup::getName))
-            .flatMap(Streams::stream)
-            .collect(joining(", "));
+        groupUuidList.stream().map(uuid -> groupCache.get(uuid).getName()).collect(joining(", "));
     out.write(
         String.format("Groups %s group %s: %s\n", action, group.getName(), names).getBytes(ENC));
   }
 
-  private AddSubgroups.Input fromGroups(List<AccountGroup.UUID> accounts) {
-    return AddSubgroups.Input.fromGroups(accounts.stream().map(Object::toString).collect(toList()));
+  private AddIncludedGroups.Input fromGroups(List<AccountGroup.UUID> accounts) {
+    return AddIncludedGroups.Input.fromGroups(
+        accounts.stream().map(Object::toString).collect(toList()));
   }
 
   private AddMembers.Input fromMembers(List<Account.Id> accounts) {

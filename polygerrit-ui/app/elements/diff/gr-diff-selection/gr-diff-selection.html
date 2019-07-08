@@ -14,14 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-diff-selection">
   <template>
-    <style include="shared-styles">
+    <style>
       .contentWrapper ::content .content,
-      .contentWrapper ::content .contextControl,
-      .contentWrapper ::content .blame {
+      .contentWrapper ::content .contextControl {
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
@@ -34,8 +32,7 @@ limitations under the License.
       :host-context(.selected-right:not(.selected-comment)) .contentWrapper ::content .unified .right.lineNum ~ .content .contentText,
       :host-context(.selected-left.selected-comment) .contentWrapper ::content .side-by-side .left + .content .message,
       :host-context(.selected-right.selected-comment) .contentWrapper ::content .side-by-side .right + .content .message :not(.collapsedContent),
-      :host-context(.selected-comment) .contentWrapper ::content .unified .message :not(.collapsedContent),
-      :host-context(.selected-blame) .contentWrapper ::content .blame {
+      :host-context(.selected-comment) .contentWrapper ::content .unified .message :not(.collapsedContent){
         -webkit-user-select: text;
         -moz-user-select: text;
         -ms-user-select: text;

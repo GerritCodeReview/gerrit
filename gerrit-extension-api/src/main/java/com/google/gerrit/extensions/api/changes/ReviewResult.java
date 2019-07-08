@@ -30,12 +30,4 @@ public class ReviewResult {
    * additions were requested.
    */
   @Nullable public Map<String, AddReviewerResult> reviewers;
-
-  /**
-   * Boolean indicating whether the change was moved out of WIP by this review. Either true or null.
-   */
-  @Nullable public Boolean ready;
-
-  /** Error message for non-200 responses. */
-  @Nullable public String error;
 }

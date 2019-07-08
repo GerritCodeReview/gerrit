@@ -14,18 +14,8 @@
 
 package com.google.gerrit.extensions.api.changes;
 
-import java.util.Map;
-
 public class CherryPickInput {
   public String message;
-  // Cherry-pick destination branch, which will be the destination of the newly created change.
   public String destination;
-  // 40-hex digit SHA-1 of the commit which will be the parent commit of the newly created change.
-  public String base;
   public Integer parent;
-
-  public NotifyHandling notify = NotifyHandling.NONE;
-  public Map<RecipientType, NotifyInfo> notifyDetails;
-
-  public boolean keepReviewers;
 }

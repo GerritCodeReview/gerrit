@@ -26,11 +26,10 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
-import com.google.gerrit.extensions.api.groups.Groups.ListRequest;
+import com.google.gerrit.extensions.api.groups.Groups;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo.GroupMemberAuditEventInfo;
@@ -46,18 +45,10 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.account.GroupIncludeCache;
-import com.google.gerrit.server.group.Groups;
-import com.google.gerrit.server.group.GroupsUpdate;
-import com.google.gerrit.server.group.InternalGroup;
-import com.google.gerrit.server.group.ServerInitiated;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -65,16 +56,6 @@ import org.junit.Test;
 
 @NoHttpd
 public class GroupsIT extends AbstractDaemonTest {
-  @Inject @ServerInitiated private Provider<GroupsUpdate> groupsUpdateProvider;
-  @Inject private Groups groups;
-  @Inject private GroupIncludeCache groupIncludeCache;
-
-  @Test
-  public void systemGroupCanBeRetrievedFromIndex() throws Exception {
-    List<GroupInfo> groupInfos = gApi.groups().query("name:Administrators").get();
-    assertThat(groupInfos).isNotEmpty();
-  }
-
   @Test
   public void addToNonExistingGroup_NotFound() throws Exception {
     exception.expect(ResourceNotFoundException.class);
@@ -98,26 +79,6 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void cachedGroupsForMemberAreUpdatedOnMemberAdditionAndRemoval() throws Exception {
-    // Fill the cache for the observed account.
-    groupIncludeCache.getGroupsWithMember(user.getId());
-    String groupName = createGroup("users");
-    AccountGroup.UUID groupUuid = new AccountGroup.UUID(gApi.groups().id(groupName).get().id);
-
-    gApi.groups().id(groupName).addMembers(user.fullName);
-
-    Collection<AccountGroup.UUID> groupsWithMemberAfterAddition =
-        groupIncludeCache.getGroupsWithMember(user.getId());
-    assertThat(groupsWithMemberAfterAddition).contains(groupUuid);
-
-    gApi.groups().id(groupName).removeMembers(user.fullName);
-
-    Collection<AccountGroup.UUID> groupsWithMemberAfterRemoval =
-        groupIncludeCache.getGroupsWithMember(user.getId());
-    assertThat(groupsWithMemberAfterRemoval).doesNotContain(groupUuid);
-  }
-
-  @Test
   public void addExistingMember_OK() throws Exception {
     String g = "Administrators";
     assertMembers(g, admin);
@@ -134,8 +95,8 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void addMultipleMembers() throws Exception {
     String g = createGroup("users");
-    TestAccount u1 = accountCreator.create("u1", "u1@example.com", "Full Name 1");
-    TestAccount u2 = accountCreator.create("u2", "u2@example.com", "Full Name 2");
+    TestAccount u1 = accounts.create("u1", "u1@example.com", "Full Name 1");
+    TestAccount u2 = accounts.create("u2", "u2@example.com", "Full Name 2");
     gApi.groups().id(g).addMembers(u1.username, u2.username);
     assertMembers(g, u1, u2);
   }
@@ -143,10 +104,10 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void addMembersWithAtSign() throws Exception {
     String g = createGroup("users");
-    TestAccount u10 = accountCreator.create("u10", "u10@example.com", "Full Name 10");
+    TestAccount u10 = accounts.create("u10", "u10@example.com", "Full Name 10");
     TestAccount u11_at =
-        accountCreator.create("u11@something", "u11@example.com", "Full Name 11 With At");
-    accountCreator.create("u11", "u11.another@example.com", "Full Name 11 Without At");
+        accounts.create("u11@something", "u11@example.com", "Full Name 11 With At");
+    accounts.create("u11", "u11.another@example.com", "Full Name 11 Without At");
     gApi.groups().id(g).addMembers(u10.username, u11_at.username);
     assertMembers(g, u10, u11_at);
   }
@@ -263,33 +224,14 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createdOnFieldIsPopulatedForNewGroup() throws Exception {
-    Timestamp testStartTime = TimeUtil.nowTs();
-    String newGroupName = name("newGroup");
-    GroupInfo group = gApi.groups().create(newGroupName).get();
-
-    assertThat(group.createdOn).isAtLeast(testStartTime);
-  }
-
-  @Test
-  public void createdOnFieldDefaultsToAuditCreationInstantBeforeSchemaUpgrade() throws Exception {
-    String newGroupName = name("newGroup");
-    GroupInfo newGroup = gApi.groups().create(newGroupName).get();
-    setCreatedOnToNull(new AccountGroup.UUID(newGroup.id));
-
-    GroupInfo updatedGroup = gApi.groups().id(newGroup.id).get();
-    assertThat(updatedGroup.createdOn).isEqualTo(AccountGroup.auditCreationInstantTs());
-  }
-
-  @Test
   public void getGroup() throws Exception {
-    InternalGroup adminGroup = getFromCache("Administrators");
+    AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
     testGetGroup(adminGroup.getGroupUUID().get(), adminGroup);
     testGetGroup(adminGroup.getName(), adminGroup);
     testGetGroup(adminGroup.getId().get(), adminGroup);
   }
 
-  private void testGetGroup(Object id, InternalGroup expectedGroup) throws Exception {
+  private void testGetGroup(Object id, AccountGroup expectedGroup) throws Exception {
     GroupInfo group = gApi.groups().id(id.toString()).get();
     assertGroupInfo(expectedGroup, group);
   }
@@ -506,7 +448,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void listAllGroups() throws Exception {
     List<String> expectedGroups =
-        groups.getAll(db).map(a -> a.getName()).sorted().collect(toList());
+        groupCache.all().stream().map(a -> a.getName()).sorted().collect(toList());
     assertThat(expectedGroups.size()).isAtLeast(2);
     assertThat(gApi.groups().list().getAsMap().keySet())
         .containsExactlyElementsIn(expectedGroups)
@@ -539,7 +481,6 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThat(groups).containsKey("Administrators");
     assertThat(groups).hasSize(1);
     assertBadRequest(gApi.groups().list().withSuggest("adm").withSubstring("foo"));
-    assertBadRequest(gApi.groups().list().withSuggest("adm").withRegex("foo.*"));
     assertBadRequest(gApi.groups().list().withSuggest("adm").withUser("user"));
     assertBadRequest(gApi.groups().list().withSuggest("adm").withOwned(true));
     assertBadRequest(gApi.groups().list().withSuggest("adm").withVisibleToAll(true));
@@ -568,24 +509,8 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void withRegex() throws Exception {
-    Map<String, GroupInfo> groups = gApi.groups().list().withRegex("Admin.*").getAsMap();
-    assertThat(groups).containsKey("Administrators");
-    assertThat(groups).hasSize(1);
-
-    groups = gApi.groups().list().withRegex("admin.*").getAsMap();
-    assertThat(groups).isEmpty();
-
-    groups = gApi.groups().list().withRegex(".*istrators").getAsMap();
-    assertThat(groups).containsKey("Administrators");
-    assertThat(groups).hasSize(1);
-
-    assertBadRequest(gApi.groups().list().withRegex(".*istrators").withSubstring("s"));
-  }
-
-  @Test
   public void allGroupInfoFieldsSetCorrectly() throws Exception {
-    InternalGroup adminGroup = getFromCache("Administrators");
+    AccountGroup adminGroup = getFromCache("Administrators");
     Map<String, GroupInfo> groups = gApi.groups().list().addGroup(adminGroup.getName()).getAsMap();
     assertThat(groups).hasSize(1);
     assertThat(groups).containsKey("Administrators");
@@ -633,7 +558,7 @@ public class GroupsIT extends AbstractDaemonTest {
   // reindex is tested by {@link AbstractQueryGroupsTest#reindex}
   @Test
   public void reindexPermissions() throws Exception {
-    TestAccount groupOwner = accountCreator.user2();
+    TestAccount groupOwner = accounts.user2();
     GroupInput in = new GroupInput();
     in.name = name("group");
     in.members =
@@ -709,15 +634,17 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThat(gApi.groups().id(group).includedGroups()).isEmpty();
   }
 
-  private InternalGroup getFromCache(String name) throws Exception {
-    return groupCache.get(new AccountGroup.NameKey(name)).orElse(null);
+  private AccountGroup getFromCache(String name) throws Exception {
+    return groupCache.get(new AccountGroup.NameKey(name));
   }
 
-  private void setCreatedOnToNull(AccountGroup.UUID groupUuid) throws Exception {
-    groupsUpdateProvider.get().updateGroup(db, groupUuid, group -> group.setCreatedOn(null));
+  private String createAccount(String name, String group) throws Exception {
+    name = name(name);
+    accounts.create(name, group);
+    return name;
   }
 
-  private void assertBadRequest(ListRequest req) throws Exception {
+  private void assertBadRequest(Groups.ListRequest req) throws Exception {
     try {
       req.get();
       fail("Expected BadRequestException");

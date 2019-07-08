@@ -15,7 +15,7 @@
 package com.google.gerrit.rules;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.common.truth.Truth.assert_;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.TimeUtil;
@@ -84,7 +84,7 @@ public abstract class PrologTestCase extends GerritBaseTests {
    *
    * @param env Prolog environment.
    */
-  protected void setUpEnvironment(PrologEnvironment env) throws Exception {}
+  protected void setUpEnvironment(PrologEnvironment env) {}
 
   private PrologMachineCopy newMachine() {
     BufferingPrologControl ctl = new BufferingPrologControl();
@@ -115,7 +115,7 @@ public abstract class PrologTestCase extends GerritBaseTests {
     return env.execute(Prolog.BUILTIN, "clause", head, new VariableTerm());
   }
 
-  public void runPrologBasedTests() throws Exception {
+  public void runPrologBasedTests() {
     int errors = 0;
     long start = TimeUtil.nowMs();
 
@@ -172,7 +172,8 @@ public abstract class PrologTestCase extends GerritBaseTests {
 
   private void call(BufferingPrologControl env, String name) {
     StructureTerm head = SymbolTerm.create(pkg, name, 0);
-    assertWithMessage("Cannot invoke " + pkg + ":" + name)
+    assert_()
+        .withFailureMessage("Cannot invoke " + pkg + ":" + name)
         .that(env.execute(Prolog.BUILTIN, "call", head))
         .isTrue();
   }

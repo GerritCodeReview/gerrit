@@ -15,7 +15,6 @@
 package com.google.gerrit.sshd;
 
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import org.apache.sshd.server.Command;
@@ -28,7 +27,6 @@ public class AliasCommandProvider implements Provider<Command> {
   @CommandName(Commands.ROOT)
   private DispatchCommandProvider root;
 
-  @Inject private PermissionBackend permissionBackend;
   @Inject private CurrentUser currentUser;
 
   public AliasCommandProvider(CommandName command) {
@@ -37,6 +35,6 @@ public class AliasCommandProvider implements Provider<Command> {
 
   @Override
   public Command get() {
-    return new AliasCommand(root, permissionBackend, currentUser, command);
+    return new AliasCommand(root, currentUser, command);
   }
 }

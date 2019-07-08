@@ -28,8 +28,7 @@ class MergeOneOp extends SubmitStrategyOp {
   @Override
   public void updateRepoImpl(RepoContext ctx) throws IntegrationException, IOException {
     PersonIdent caller =
-        ctx.getIdentifiedUser()
-            .newCommitterIdent(args.serverIdent.getWhen(), args.serverIdent.getTimeZone());
+        ctx.getIdentifiedUser().newCommitterIdent(ctx.getWhen(), ctx.getTimeZone());
     if (args.mergeTip.getCurrentTip() == null) {
       throw new IllegalStateException(
           "cannot merge commit "
@@ -37,13 +36,16 @@ class MergeOneOp extends SubmitStrategyOp {
               + " onto a null tip; expected at least one fast-forward prior to"
               + " this operation");
     }
+    // TODO(dborowitz): args.rw is needed because it's a CodeReviewRevWalk.
+    // When hoisting BatchUpdate into MergeOp, we will need to teach
+    // BatchUpdate how to produce CodeReviewRevWalks.
     CodeReviewCommit merged =
         args.mergeUtil.mergeOneCommit(
             caller,
             args.serverIdent,
+            ctx.getRepository(),
             args.rw,
             ctx.getInserter(),
-            ctx.getRepoView().getConfig(),
             args.destBranch,
             args.mergeTip.getCurrentTip(),
             toMerge);

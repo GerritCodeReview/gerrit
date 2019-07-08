@@ -24,26 +24,28 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRange;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
 /**
- * Normalizes votes on labels according to project config.
+ * Normalizes votes on labels according to project config and permissions.
  *
  * <p>Votes are recorded in the database for a user based on the state of the project at that time:
- * what labels are defined for the project. The label definition can change between the time a vote
- * is originally made and a later point, for example when a change is submitted. This class
- * normalizes old votes against current project configuration.
+ * what labels are defined for the project, and what the user is allowed to vote on. Both of those
+ * can change between the time a vote is originally made and a later point, for example when a
+ * change is submitted. This class normalizes old votes against current project configuration.
  */
 @Singleton
 public class LabelNormalizer {
@@ -71,50 +73,53 @@ public class LabelNormalizer {
     }
   }
 
+  private final Provider<ReviewDb> db;
+  private final ChangeControl.GenericFactory changeFactory;
   private final IdentifiedUser.GenericFactory userFactory;
-  private final ProjectCache projectCache;
 
   @Inject
-  LabelNormalizer(IdentifiedUser.GenericFactory userFactory, ProjectCache projectCache) {
+  LabelNormalizer(
+      Provider<ReviewDb> db,
+      ChangeControl.GenericFactory changeFactory,
+      IdentifiedUser.GenericFactory userFactory) {
+    this.db = db;
+    this.changeFactory = changeFactory;
     this.userFactory = userFactory;
-    this.projectCache = projectCache;
   }
 
   /**
-   * @param notes change containing the given approvals.
+   * @param change change containing the given approvals.
    * @param approvals list of approvals.
-   * @return copies of approvals normalized to the defined ranges for the label type. Approvals for
-   *     unknown labels are not included in the output.
+   * @return copies of approvals normalized to the defined ranges for the label type and permissions
+   *     for the user. Approvals for unknown labels are not included in the output, nor are
+   *     approvals where the user has no permissions for that label.
    * @throws OrmException
    */
-  public Result normalize(ChangeNotes notes, Collection<PatchSetApproval> approvals)
-      throws OrmException, IOException {
-    IdentifiedUser user = userFactory.create(notes.getChange().getOwner());
-    return normalize(notes, user, approvals);
+  public Result normalize(Change change, Collection<PatchSetApproval> approvals)
+      throws OrmException {
+    IdentifiedUser user = userFactory.create(change.getOwner());
+    return normalize(changeFactory.controlFor(db.get(), change, user), approvals);
   }
 
   /**
-   * @param notes change notes containing the given approvals.
-   * @param user current user.
+   * @param ctl change control containing the given approvals.
    * @param approvals list of approvals.
-   * @return copies of approvals normalized to the defined ranges for the label type. Approvals for
-   *     unknown labels are not included in the output.
+   * @return copies of approvals normalized to the defined ranges for the label type and permissions
+   *     for the user. Approvals for unknown labels are not included in the output, nor are
+   *     approvals where the user has no permissions for that label.
    */
-  public Result normalize(
-      ChangeNotes notes, CurrentUser user, Collection<PatchSetApproval> approvals)
-      throws IOException {
+  public Result normalize(ChangeControl ctl, Collection<PatchSetApproval> approvals) {
     List<PatchSetApproval> unchanged = Lists.newArrayListWithCapacity(approvals.size());
     List<PatchSetApproval> updated = Lists.newArrayListWithCapacity(approvals.size());
     List<PatchSetApproval> deleted = Lists.newArrayListWithCapacity(approvals.size());
-    LabelTypes labelTypes =
-        projectCache.checkedGet(notes.getProjectName()).getLabelTypes(notes, user);
+    LabelTypes labelTypes = ctl.getLabelTypes();
     for (PatchSetApproval psa : approvals) {
       Change.Id changeId = psa.getKey().getParentKey().getParentKey();
       checkArgument(
-          changeId.equals(notes.getChangeId()),
+          changeId.equals(ctl.getId()),
           "Approval %s does not match change %s",
           psa.getKey(),
-          notes.getChange().getKey());
+          ctl.getChange().getKey());
       if (psa.isLegacySubmit()) {
         unchanged.add(psa);
         continue;
@@ -126,7 +131,9 @@ public class LabelNormalizer {
       }
       PatchSetApproval copy = copy(psa);
       applyTypeFloor(label, copy);
-      if (copy.getValue() != psa.getValue()) {
+      if (!applyRightFloor(ctl, label, copy)) {
+        deleted.add(psa);
+      } else if (copy.getValue() != psa.getValue()) {
         updated.add(copy);
       } else {
         unchanged.add(psa);
@@ -135,8 +142,33 @@ public class LabelNormalizer {
     return Result.create(unchanged, updated, deleted);
   }
 
+  /**
+   * @param ctl change control (for any user).
+   * @param lt label type.
+   * @param id account ID.
+   * @return whether the given account ID has any permissions to vote on this label for this change.
+   */
+  public boolean canVote(ChangeControl ctl, LabelType lt, Account.Id id) {
+    return !getRange(ctl, lt, id).isEmpty();
+  }
+
   private PatchSetApproval copy(PatchSetApproval src) {
     return new PatchSetApproval(src.getPatchSetId(), src);
+  }
+
+  private PermissionRange getRange(ChangeControl ctl, LabelType lt, Account.Id id) {
+    String permission = Permission.forLabel(lt.getName());
+    IdentifiedUser user = userFactory.create(id);
+    return ctl.forUser(user).getRange(permission);
+  }
+
+  private boolean applyRightFloor(ChangeControl ctl, LabelType lt, PatchSetApproval a) {
+    PermissionRange range = getRange(ctl, lt, a.getAccountId());
+    if (range.isEmpty()) {
+      return false;
+    }
+    a.setValue((short) range.squash(a.getValue()));
+    return true;
   }
 
   private void applyTypeFloor(LabelType lt, PatchSetApproval a) {

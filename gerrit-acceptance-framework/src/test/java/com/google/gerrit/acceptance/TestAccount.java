@@ -16,20 +16,21 @@ package com.google.gerrit.acceptance;
 
 import static java.util.stream.Collectors.toList;
 
-import com.google.common.net.InetAddresses;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.mail.Address;
 import com.jcraft.jsch.KeyPair;
 import java.io.ByteArrayOutputStream;
-import java.net.InetSocketAddress;
 import java.util.Arrays;
 import java.util.List;
-import org.apache.http.client.utils.URIBuilder;
 import org.eclipse.jgit.lib.PersonIdent;
 
 public class TestAccount {
   public static List<Account.Id> ids(List<TestAccount> accounts) {
     return accounts.stream().map(a -> a.id).collect(toList());
+  }
+
+  public static List<Account.Id> ids(TestAccount... accounts) {
+    return ids(Arrays.asList(accounts));
   }
 
   public static List<String> names(List<TestAccount> accounts) {
@@ -76,13 +77,12 @@ public class TestAccount {
   }
 
   public String getHttpUrl(GerritServer server) {
-    InetSocketAddress addr = server.getHttpAddress();
-    return new URIBuilder()
-        .setScheme("http")
-        .setUserInfo(username, httpPassword)
-        .setHost(InetAddresses.toUriString(addr.getAddress()))
-        .setPort(addr.getPort())
-        .toString();
+    return String.format(
+        "http://%s:%s@%s:%d",
+        username,
+        httpPassword,
+        server.getHttpAddress().getAddress().getHostAddress(),
+        server.getHttpAddress().getPort());
   }
 
   public Account.Id getId() {

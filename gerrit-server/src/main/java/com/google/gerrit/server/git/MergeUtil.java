@@ -39,13 +39,12 @@ import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.strategy.CommitMergeStatus;
-import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -110,13 +109,14 @@ public class MergeUtil {
     }
 
     public String generate(
-        RevCommit original, RevCommit mergeTip, Branch.NameKey dest, String current) {
+        RevCommit original, RevCommit mergeTip, ChangeControl ctl, String current) {
       checkNotNull(original.getRawBuffer());
       if (mergeTip != null) {
         checkNotNull(mergeTip.getRawBuffer());
       }
       for (ChangeMessageModifier changeMessageModifier : changeMessageModifiers) {
-        current = changeMessageModifier.onSubmit(current, original, mergeTip, dest);
+        current =
+            changeMessageModifier.onSubmit(current, original, mergeTip, ctl.getChange().getDest());
         checkNotNull(
             current,
             changeMessageModifier.getClass().getName()
@@ -192,9 +192,9 @@ public class MergeUtil {
   }
 
   public CodeReviewCommit getFirstFastForward(
-      CodeReviewCommit mergeTip, RevWalk rw, List<CodeReviewCommit> toMerge)
+      final CodeReviewCommit mergeTip, final RevWalk rw, final List<CodeReviewCommit> toMerge)
       throws IntegrationException {
-    for (Iterator<CodeReviewCommit> i = toMerge.iterator(); i.hasNext(); ) {
+    for (final Iterator<CodeReviewCommit> i = toMerge.iterator(); i.hasNext(); ) {
       try {
         final CodeReviewCommit n = i.next();
         if (mergeTip == null || rw.isMergedInto(mergeTip, n)) {
@@ -209,10 +209,11 @@ public class MergeUtil {
   }
 
   public List<CodeReviewCommit> reduceToMinimalMerge(
-      MergeSorter mergeSorter, Collection<CodeReviewCommit> toSort) throws IntegrationException {
+      MergeSorter mergeSorter, Collection<CodeReviewCommit> toSort, Set<CodeReviewCommit> incoming)
+      throws IntegrationException {
     List<CodeReviewCommit> result = new ArrayList<>();
     try {
-      result.addAll(mergeSorter.sort(toSort));
+      result.addAll(mergeSorter.sort(toSort, incoming));
     } catch (IOException e) {
       throw new IntegrationException("Branch head sorting failed", e);
     }
@@ -221,8 +222,8 @@ public class MergeUtil {
   }
 
   public CodeReviewCommit createCherryPickFromCommit(
+      Repository repo,
       ObjectInserter inserter,
-      Config repoConfig,
       RevCommit mergeTip,
       RevCommit originalCommit,
       PersonIdent cherryPickCommitterIdent,
@@ -233,7 +234,7 @@ public class MergeUtil {
       throws MissingObjectException, IncorrectObjectTypeException, IOException,
           MergeIdenticalTreeException, MergeConflictException {
 
-    final ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig);
+    final ThreeWayMerger m = newThreeWayMerger(repo, inserter);
 
     m.setBase(originalCommit.getParent(parentIndex));
     if (m.merge(mergeTip, originalCommit)) {
@@ -248,15 +249,14 @@ public class MergeUtil {
       mergeCommit.setAuthor(originalCommit.getAuthorIdent());
       mergeCommit.setCommitter(cherryPickCommitterIdent);
       mergeCommit.setMessage(commitMsg);
-      matchAuthorToCommitterDate(project, mergeCommit);
       return rw.parseCommit(inserter.insert(mergeCommit));
     }
     throw new MergeConflictException("merge conflict");
   }
 
   public static RevCommit createMergeCommit(
+      Repository repo,
       ObjectInserter inserter,
-      Config repoConfig,
       RevCommit mergeTip,
       RevCommit originalCommit,
       String mergeStrategy,
@@ -271,7 +271,7 @@ public class MergeUtil {
           "'" + originalCommit.getName() + "' has already been merged");
     }
 
-    Merger m = newMerger(inserter, repoConfig, mergeStrategy);
+    Merger m = newMerger(repo, inserter, mergeStrategy);
     if (m.merge(false, mergeTip, originalCommit)) {
       ObjectId tree = m.getResultTreeId();
 
@@ -310,14 +310,12 @@ public class MergeUtil {
    * </ul>
    *
    * @param n
-   * @param notes
-   * @param user
+   * @param ctl
    * @param psId
    * @return new message
    */
-  private String createDetailedCommitMessage(
-      RevCommit n, ChangeNotes notes, CurrentUser user, PatchSet.Id psId) {
-    Change c = notes.getChange();
+  private String createDetailedCommitMessage(RevCommit n, ChangeControl ctl, PatchSet.Id psId) {
+    Change c = ctl.getChange();
     final List<FooterLine> footers = n.getFooterLines();
     final StringBuilder msgbuf = new StringBuilder();
     msgbuf.append(n.getFullMessage());
@@ -357,7 +355,7 @@ public class MergeUtil {
 
     PatchSetApproval submitAudit = null;
 
-    for (PatchSetApproval a : safeGetApprovals(notes, user, psId)) {
+    for (final PatchSetApproval a : safeGetApprovals(ctl, psId)) {
       if (a.getValue() <= 0) {
         // Negative votes aren't counted.
         continue;
@@ -420,12 +418,7 @@ public class MergeUtil {
   }
 
   public String createCommitMessageOnSubmit(CodeReviewCommit n, RevCommit mergeTip) {
-    return createCommitMessageOnSubmit(
-        n,
-        mergeTip,
-        n.notes(),
-        identifiedUserFactory.create(n.notes().getChange().getOwner()),
-        n.getPatchsetId());
+    return createCommitMessageOnSubmit(n, mergeTip, n.getControl(), n.getPatchsetId());
   }
 
   /**
@@ -437,15 +430,14 @@ public class MergeUtil {
    *
    * @param n
    * @param mergeTip
-   * @param notes
-   * @param user
+   * @param ctl
    * @param id
    * @return new message
    */
   public String createCommitMessageOnSubmit(
-      RevCommit n, RevCommit mergeTip, ChangeNotes notes, CurrentUser user, Id id) {
+      RevCommit n, RevCommit mergeTip, ChangeControl ctl, Id id) {
     return commitMessageGenerator.generate(
-        n, mergeTip, notes.getChange().getDest(), createDetailedCommitMessage(n, notes, user, id));
+        n, mergeTip, ctl, createDetailedCommitMessage(n, ctl, id));
   }
 
   private static boolean isCodeReview(LabelId id) {
@@ -456,10 +448,9 @@ public class MergeUtil {
     return "Verified".equalsIgnoreCase(id.get());
   }
 
-  private Iterable<PatchSetApproval> safeGetApprovals(
-      ChangeNotes notes, CurrentUser user, PatchSet.Id psId) {
+  private Iterable<PatchSetApproval> safeGetApprovals(ChangeControl ctl, PatchSet.Id psId) {
     try {
-      return approvalsUtil.byPatchSet(db.get(), notes, user, psId, null, null);
+      return approvalsUtil.byPatchSet(db.get(), ctl, psId);
     } catch (OrmException e) {
       log.error("Can't read approval records for " + psId, e);
       return Collections.emptyList();
@@ -467,7 +458,7 @@ public class MergeUtil {
   }
 
   private static boolean contains(List<FooterLine> footers, FooterKey key, String val) {
-    for (FooterLine line : footers) {
+    for (final FooterLine line : footers) {
       if (line.matches(key) && val.equals(line.getValue())) {
         return true;
       }
@@ -476,7 +467,7 @@ public class MergeUtil {
   }
 
   private static boolean isSignedOffBy(List<FooterLine> footers, String email) {
-    for (FooterLine line : footers) {
+    for (final FooterLine line : footers) {
       if (line.matches(FooterKey.SIGNED_OFF_BY) && email.equals(line.getEmailAddress())) {
         return true;
       }
@@ -485,14 +476,17 @@ public class MergeUtil {
   }
 
   public boolean canMerge(
-      MergeSorter mergeSorter, Repository repo, CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
+      final MergeSorter mergeSorter,
+      final Repository repo,
+      final CodeReviewCommit mergeTip,
+      final CodeReviewCommit toMerge)
       throws IntegrationException {
     if (hasMissingDependencies(mergeSorter, toMerge)) {
       return false;
     }
 
     try (ObjectInserter ins = new InMemoryInserter(repo)) {
-      return newThreeWayMerger(ins, repo.getConfig()).merge(new AnyObjectId[] {mergeTip, toMerge});
+      return newThreeWayMerger(repo, ins).merge(new AnyObjectId[] {mergeTip, toMerge});
     } catch (LargeObjectException e) {
       log.warn("Cannot merge due to LargeObjectException: " + toMerge.name());
       return false;
@@ -548,7 +542,7 @@ public class MergeUtil {
       // that on the current merge tip.
       //
       try (ObjectInserter ins = new InMemoryInserter(repo)) {
-        ThreeWayMerger m = newThreeWayMerger(ins, repo.getConfig());
+        ThreeWayMerger m = newThreeWayMerger(repo, ins);
         m.setBase(toMerge.getParent(0));
         return m.merge(mergeTip, toMerge);
       } catch (IOException e) {
@@ -569,8 +563,8 @@ public class MergeUtil {
         || canMerge(mergeSorter, repo, mergeTip, toMerge);
   }
 
-  public boolean hasMissingDependencies(MergeSorter mergeSorter, CodeReviewCommit toMerge)
-      throws IntegrationException {
+  public boolean hasMissingDependencies(
+      final MergeSorter mergeSorter, final CodeReviewCommit toMerge) throws IntegrationException {
     try {
       return !mergeSorter.sort(Collections.singleton(toMerge)).contains(toMerge);
     } catch (IOException e) {
@@ -581,14 +575,14 @@ public class MergeUtil {
   public CodeReviewCommit mergeOneCommit(
       PersonIdent author,
       PersonIdent committer,
+      Repository repo,
       CodeReviewRevWalk rw,
       ObjectInserter inserter,
-      Config repoConfig,
       Branch.NameKey destBranch,
       CodeReviewCommit mergeTip,
       CodeReviewCommit n)
       throws IntegrationException {
-    ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig);
+    final ThreeWayMerger m = newThreeWayMerger(repo, inserter);
     try {
       if (m.merge(new AnyObjectId[] {mergeTip, n})) {
         return writeMergeCommit(
@@ -663,7 +657,7 @@ public class MergeUtil {
 
     if (merged.size() > 1) {
       msgbuf.append("\n\n* changes:\n");
-      for (CodeReviewCommit c : merged) {
+      for (final CodeReviewCommit c : merged) {
         rw.parseBody(c);
         msgbuf.append("  ");
         msgbuf.append(c.getShortMessage());
@@ -679,7 +673,7 @@ public class MergeUtil {
     mergeCommit.setMessage(msgbuf.toString());
 
     CodeReviewCommit mergeResult = rw.parseCommit(inserter.insert(mergeCommit));
-    mergeResult.setNotes(n.getNotes());
+    mergeResult.setControl(n.getControl());
     return mergeResult;
   }
 
@@ -698,9 +692,9 @@ public class MergeUtil {
     }
 
     if (topics.size() == 1) {
-      return String.format("Merge changes from topic \"%s\"", Iterables.getFirst(topics, null));
+      return String.format("Merge changes from topic '%s'", Iterables.getFirst(topics, null));
     } else if (topics.size() > 1) {
-      return String.format("Merge changes from topics \"%s\"", Joiner.on("\", \"").join(topics));
+      return String.format("Merge changes from topics '%s'", Joiner.on("', '").join(topics));
     } else {
       return String.format(
           "Merge changes %s%s",
@@ -712,8 +706,8 @@ public class MergeUtil {
     }
   }
 
-  public ThreeWayMerger newThreeWayMerger(ObjectInserter inserter, Config repoConfig) {
-    return newThreeWayMerger(inserter, repoConfig, mergeStrategyName());
+  public ThreeWayMerger newThreeWayMerger(final Repository repo, final ObjectInserter inserter) {
+    return newThreeWayMerger(repo, inserter, mergeStrategyName());
   }
 
   public String mergeStrategyName() {
@@ -736,8 +730,8 @@ public class MergeUtil {
   }
 
   public static ThreeWayMerger newThreeWayMerger(
-      ObjectInserter inserter, Config repoConfig, String strategyName) {
-    Merger m = newMerger(inserter, repoConfig, strategyName);
+      Repository repo, final ObjectInserter inserter, String strategyName) {
+    Merger m = newMerger(repo, inserter, strategyName);
     checkArgument(
         m instanceof ThreeWayMerger,
         "merge strategy %s does not support three-way merging",
@@ -745,10 +739,12 @@ public class MergeUtil {
     return (ThreeWayMerger) m;
   }
 
-  public static Merger newMerger(ObjectInserter inserter, Config repoConfig, String strategyName) {
+  public static Merger newMerger(
+      Repository repo, final ObjectInserter inserter, String strategyName) {
     MergeStrategy strategy = MergeStrategy.get(strategyName);
     checkArgument(strategy != null, "invalid merge strategy: %s", strategyName);
-    return strategy.newMerger(
+    Merger m = strategy.newMerger(repo, true);
+    m.setObjectInserter(
         new ObjectInserter.Filter() {
           @Override
           protected ObjectInserter delegate() {
@@ -760,12 +756,15 @@ public class MergeUtil {
 
           @Override
           public void close() {}
-        },
-        repoConfig);
+        });
+    return m;
   }
 
   public void markCleanMerges(
-      RevWalk rw, RevFlag canMergeFlag, CodeReviewCommit mergeTip, Set<RevCommit> alreadyAccepted)
+      final RevWalk rw,
+      final RevFlag canMergeFlag,
+      final CodeReviewCommit mergeTip,
+      final Set<RevCommit> alreadyAccepted)
       throws IntegrationException {
     if (mergeTip == null) {
       // If mergeTip is null here, branchTip was null, indicating a new branch
@@ -865,16 +864,6 @@ public class MergeUtil {
       throw new BadRequestException(e.getMessage());
     } catch (MissingObjectException e) {
       throw new ResourceNotFoundException(e.getMessage());
-    }
-  }
-
-  private static void matchAuthorToCommitterDate(ProjectState project, CommitBuilder commit) {
-    if (project.isMatchAuthorToCommitterDate()) {
-      commit.setAuthor(
-          new PersonIdent(
-              commit.getAuthor(),
-              commit.getCommitter().getWhen(),
-              commit.getCommitter().getTimeZone()));
     }
   }
 }

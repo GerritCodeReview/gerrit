@@ -39,6 +39,6 @@ public class GetChildProject implements RestReadView<ChildProjectResource> {
     if (recursive || rsrc.isDirectChild()) {
       return json.format(rsrc.getChild().getProject());
     }
-    throw new ResourceNotFoundException(rsrc.getChild().getName());
+    throw new ResourceNotFoundException(rsrc.getChild().getProject().getName());
   }
 }

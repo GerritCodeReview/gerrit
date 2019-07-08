@@ -20,7 +20,8 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-ssh-editor.html">
 
 <script>void(0);</script>
@@ -32,11 +33,11 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-ssh-editor tests', () => {
-    let element;
-    let keys;
+  suite('gr-ssh-editor tests', function() {
+    var element;
+    var keys;
 
-    setup(done => {
+    setup(function(done) {
       keys = [{
         seq: 1,
         ssh_public_key: 'ssh-rsa <key 1> comment-one@machine-one',
@@ -54,37 +55,37 @@ limitations under the License.
       }];
 
       stub('gr-rest-api-interface', {
-        getAccountSSHKeys() { return Promise.resolve(keys); },
+        getAccountSSHKeys: function() { return Promise.resolve(keys); },
       });
 
       element = fixture('basic');
 
-      element.loadData().then(() => { flush(done); });
+      element.loadData().then(function() { flush(done); });
     });
 
-    test('renders', () => {
-      const rows = Polymer.dom(element.root).querySelectorAll('tbody tr');
+    test('renders', function() {
+      var rows = Polymer.dom(element.root).querySelectorAll('tbody tr');
 
       assert.equal(rows.length, 2);
 
-      let cells = rows[0].querySelectorAll('td');
+      var cells = rows[0].querySelectorAll('td');
       assert.equal(cells[0].textContent, keys[0].comment);
 
       cells = rows[1].querySelectorAll('td');
       assert.equal(cells[0].textContent, keys[1].comment);
     });
 
-    test('remove key', done => {
-      const lastKey = keys[1];
+    test('remove key', function(done) {
+      var lastKey = keys[1];
 
-      const saveStub = sinon.stub(element.$.restAPI, 'deleteAccountSSHKey',
-          () => { return Promise.resolve(); });
+      var saveStub = sinon.stub(element.$.restAPI, 'deleteAccountSSHKey',
+          function() { return Promise.resolve(); });
 
       assert.equal(element._keysToRemove.length, 0);
       assert.isFalse(element.hasUnsavedChanges);
 
       // Get the delete button for the last row.
-      const button = Polymer.dom(element.root).querySelector(
+      var button = Polymer.dom(element.root).querySelector(
           'tbody tr:last-of-type td:nth-child(4) gr-button');
 
       MockInteractions.tap(button);
@@ -95,7 +96,7 @@ limitations under the License.
       assert.isTrue(element.hasUnsavedChanges);
       assert.isFalse(saveStub.called);
 
-      element.save().then(() => {
+      element.save().then(function() {
         assert.isTrue(saveStub.called);
         assert.equal(saveStub.lastCall.args[0], lastKey.seq);
         assert.equal(element._keysToRemove.length, 0);
@@ -104,11 +105,11 @@ limitations under the License.
       });
     });
 
-    test('show key', () => {
-      const openSpy = sinon.spy(element.$.viewKeyOverlay, 'open');
+    test('show key', function() {
+      var openSpy = sinon.spy(element.$.viewKeyOverlay, 'open');
 
       // Get the show button for the last row.
-      const button = Polymer.dom(element.root).querySelector(
+      var button = Polymer.dom(element.root).querySelector(
           'tbody tr:last-of-type td:nth-child(3) gr-button');
 
       MockInteractions.tap(button);
@@ -117,9 +118,9 @@ limitations under the License.
       assert.isTrue(openSpy.called);
     });
 
-    test('add key', done => {
-      const newKeyString = 'ssh-rsa <key 3> comment-three@machine-three';
-      const newKeyObject = {
+    test('add key', function(done) {
+      var newKeyString = 'ssh-rsa <key 3> comment-three@machine-three';
+      var newKeyObject = {
         seq: 3,
         ssh_public_key: newKeyString,
         encoded_key: '<key 3>',
@@ -128,15 +129,15 @@ limitations under the License.
         valid: true,
       };
 
-      const addStub = sinon.stub(element.$.restAPI, 'addAccountSSHKey',
-          () => { return Promise.resolve(newKeyObject); });
+      var addStub = sinon.stub(element.$.restAPI, 'addAccountSSHKey',
+          function() { return Promise.resolve(newKeyObject); });
 
       element._newKey = newKeyString;
 
       assert.isFalse(element.$.addButton.disabled);
       assert.isFalse(element.$.newKey.disabled);
 
-      element._handleAddKey().then(() => {
+      element._handleAddKey().then(function() {
         assert.isTrue(element.$.addButton.disabled);
         assert.isFalse(element.$.newKey.disabled);
         assert.equal(element._keys.length, 3);
@@ -150,18 +151,18 @@ limitations under the License.
       assert.equal(addStub.lastCall.args[0], newKeyString);
     });
 
-    test('add invalid key', done => {
-      const newKeyString = 'not even close to valid';
+    test('add invalid key', function(done) {
+      var newKeyString = 'not even close to valid';
 
-      const addStub = sinon.stub(element.$.restAPI, 'addAccountSSHKey',
-          () => { return Promise.reject(); });
+      var addStub = sinon.stub(element.$.restAPI, 'addAccountSSHKey',
+          function() { return Promise.reject(); });
 
       element._newKey = newKeyString;
 
       assert.isFalse(element.$.addButton.disabled);
       assert.isFalse(element.$.newKey.disabled);
 
-      element._handleAddKey().then(() => {
+      element._handleAddKey().then(function() {
         assert.isFalse(element.$.addButton.disabled);
         assert.isFalse(element.$.newKey.disabled);
         assert.equal(element._keys.length, 2);

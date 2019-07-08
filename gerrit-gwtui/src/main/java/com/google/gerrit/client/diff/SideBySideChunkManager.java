@@ -219,7 +219,7 @@ class SideBySideChunkManager extends ChunkManager {
    * @param line line to put the padding below.
    * @param len number of lines to pad. Padding is inserted only if {@code len >= 1}.
    */
-  private void addPadding(CodeMirror cm, int line, int len) {
+  private void addPadding(CodeMirror cm, int line, final int len) {
     if (0 < len) {
       Element pad = DOM.createDiv();
       pad.setClassName(SideBySideTable.style.padding());
@@ -245,13 +245,16 @@ class SideBySideChunkManager extends ChunkManager {
   }
 
   @Override
-  Runnable diffChunkNav(CodeMirror cm, Direction dir) {
-    return () -> {
-      int line = cm.extras().hasActiveLine() ? cm.getLineNumber(cm.extras().activeLine()) : 0;
-      int res =
-          Collections.binarySearch(
-              chunks, new DiffChunkInfo(cm.side(), line, 0, false), getDiffChunkComparator());
-      diffChunkNavHelper(chunks, host, res, dir);
+  Runnable diffChunkNav(final CodeMirror cm, final Direction dir) {
+    return new Runnable() {
+      @Override
+      public void run() {
+        int line = cm.extras().hasActiveLine() ? cm.getLineNumber(cm.extras().activeLine()) : 0;
+        int res =
+            Collections.binarySearch(
+                chunks, new DiffChunkInfo(cm.side(), line, 0, false), getDiffChunkComparator());
+        diffChunkNavHelper(chunks, host, res, dir);
+      }
     };
   }
 

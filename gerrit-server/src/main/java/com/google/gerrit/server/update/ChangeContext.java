@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.project.ChangeControl;
 
 /**
  * Context for performing the {@link BatchUpdateOp#updateChange} phase.
@@ -43,24 +44,17 @@ public interface ChangeContext extends Context {
   ChangeUpdate getUpdate(PatchSet.Id psId);
 
   /**
-   * Get the up-to-date notes for this change.
-   *
-   * <p>The change data is read within the same transaction that {@link
-   * BatchUpdateOp#updateChange(ChangeContext)} is executing.
-   *
-   * @return notes for this change.
+   * @return control for this change. The user will be the same as {@link #getUser()}, and the
+   *     change data is read within the same transaction that {@code updateChange} is executing.
    */
-  ChangeNotes getNotes();
+  ChangeControl getControl();
 
   /**
-   * Don't bump the value of {@link Change#getLastUpdatedOn()}.
-   *
-   * <p>If called, don't bump the timestamp before storing to ReviewDb. Only has an effect in
-   * ReviewDb, and the only usage should be to match the behavior of NoteDb. Specifically, in NoteDb
-   * the timestamp is updated if and only if the change meta graph is updated, and is not updated
-   * when only drafts are modified.
+   * @param bump whether to bump the value of {@link Change#getLastUpdatedOn()} field before storing
+   *     to ReviewDb. For NoteDb, the value is always incremented (assuming the update is not
+   *     otherwise a no-op).
    */
-  void dontBumpLastUpdatedOn();
+  void bumpLastUpdatedOn(boolean bump);
 
   /**
    * Instruct {@link BatchUpdate} to delete this change.
@@ -69,8 +63,13 @@ public interface ChangeContext extends Context {
    */
   void deleteChange();
 
-  /** @return change corresponding to {@link #getNotes()}. */
+  /** @return notes corresponding to {@link #getControl()}. */
+  default ChangeNotes getNotes() {
+    return checkNotNull(getControl().getNotes());
+  }
+
+  /** @return change corresponding to {@link #getControl()}. */
   default Change getChange() {
-    return checkNotNull(getNotes().getChange());
+    return checkNotNull(getControl().getChange());
   }
 }

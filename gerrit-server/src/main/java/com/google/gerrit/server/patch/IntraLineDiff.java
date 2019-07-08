@@ -18,9 +18,7 @@ import static com.google.gerrit.server.ioutil.BasicSerialization.readEnum;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeEnum;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
-import static java.util.stream.Collectors.toList;
 
-import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.CodedEnum;
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,29 +54,27 @@ public class IntraLineDiff implements Serializable {
   }
 
   private transient Status status;
-  private transient ImmutableList<Edit> edits;
+  private transient List<Edit> edits;
 
   IntraLineDiff(Status status) {
     this.status = status;
-    this.edits = ImmutableList.of();
+    this.edits = Collections.emptyList();
   }
 
   IntraLineDiff(List<Edit> edits) {
     this.status = Status.EDIT_LIST;
-    this.edits = ImmutableList.copyOf(edits);
+    this.edits = Collections.unmodifiableList(edits);
   }
 
   public Status getStatus() {
     return status;
   }
 
-  public ImmutableList<Edit> getEdits() {
-    // Edits are mutable objects. As we serialize IntraLineDiff asynchronously in H2CacheImpl, we
-    // must ensure that its state isn't modified until it was properly stored in the cache.
-    return deepCopyEdits(edits);
+  public List<Edit> getEdits() {
+    return edits;
   }
 
-  private void writeObject(ObjectOutputStream out) throws IOException {
+  private void writeObject(final ObjectOutputStream out) throws IOException {
     writeEnum(out, status);
     writeVarInt32(out, edits.size());
     for (Edit e : edits) {
@@ -96,7 +92,7 @@ public class IntraLineDiff implements Serializable {
     }
   }
 
-  private void readObject(ObjectInputStream in) throws IOException {
+  private void readObject(final ObjectInputStream in) throws IOException {
     status = readEnum(in, Status.values());
     int editCount = readVarInt32(in);
     Edit[] editArray = new Edit[editCount];
@@ -109,28 +105,10 @@ public class IntraLineDiff implements Serializable {
         for (int j = 0; j < innerCount; j++) {
           inner[j] = readEdit(in);
         }
-        editArray[i] = new ReplaceEdit(editArray[i], asList(inner));
+        editArray[i] = new ReplaceEdit(editArray[i], toList(inner));
       }
     }
-    edits = ImmutableList.copyOf(editArray);
-  }
-
-  private static ImmutableList<Edit> deepCopyEdits(List<Edit> edits) {
-    return edits.stream().map(IntraLineDiff::copy).collect(ImmutableList.toImmutableList());
-  }
-
-  private static Edit copy(Edit edit) {
-    if (edit instanceof ReplaceEdit) {
-      return copy((ReplaceEdit) edit);
-    }
-    return new Edit(edit.getBeginA(), edit.getEndA(), edit.getBeginB(), edit.getEndB());
-  }
-
-  private static ReplaceEdit copy(ReplaceEdit edit) {
-    List<Edit> internalEdits =
-        edit.getInternalEdits().stream().map(IntraLineDiff::copy).collect(toList());
-    return new ReplaceEdit(
-        edit.getBeginA(), edit.getEndA(), edit.getBeginB(), edit.getEndB(), internalEdits);
+    edits = toList(editArray);
   }
 
   private static void writeEdit(OutputStream out, Edit e) throws IOException {
@@ -148,7 +126,7 @@ public class IntraLineDiff implements Serializable {
     return new Edit(beginA, endA, beginB, endB);
   }
 
-  private static List<Edit> asList(Edit[] l) {
+  private static List<Edit> toList(Edit[] l) {
     return Collections.unmodifiableList(Arrays.asList(l));
   }
 }

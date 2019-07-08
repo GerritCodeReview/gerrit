@@ -17,31 +17,19 @@ package com.google.gerrit.server.update;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.collect.ImmutableMultiset.toImmutableMultiset;
 
-import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
-import com.google.common.collect.Multiset;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.config.FactoryModule;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.validators.OnSubmitValidators;
-import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
-import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.NoSuchRefException;
 import com.google.gerrit.server.util.RequestId;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -53,14 +41,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.TimeZone;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,86 +81,43 @@ public abstract class BatchUpdate implements AutoCloseable {
       @Override
       public void configure() {
         factory(ReviewDbBatchUpdate.AssistedFactory.class);
-        factory(NoteDbBatchUpdate.AssistedFactory.class);
       }
     };
   }
 
   @Singleton
   public static class Factory {
-    private final NotesMigration migration;
     private final ReviewDbBatchUpdate.AssistedFactory reviewDbBatchUpdateFactory;
-    private final NoteDbBatchUpdate.AssistedFactory noteDbBatchUpdateFactory;
 
-    // TODO(dborowitz): Make this non-injectable to force all callers to use RetryHelper.
     @Inject
-    Factory(
-        NotesMigration migration,
-        ReviewDbBatchUpdate.AssistedFactory reviewDbBatchUpdateFactory,
-        NoteDbBatchUpdate.AssistedFactory noteDbBatchUpdateFactory) {
-      this.migration = migration;
+    Factory(ReviewDbBatchUpdate.AssistedFactory reviewDbBatchUpdateFactory) {
       this.reviewDbBatchUpdateFactory = reviewDbBatchUpdateFactory;
-      this.noteDbBatchUpdateFactory = noteDbBatchUpdateFactory;
     }
 
     public BatchUpdate create(
         ReviewDb db, Project.NameKey project, CurrentUser user, Timestamp when) {
-      if (migration.disableChangeReviewDb()) {
-        return noteDbBatchUpdateFactory.create(db, project, user, when);
-      }
       return reviewDbBatchUpdateFactory.create(db, project, user, when);
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
     public void execute(
         Collection<BatchUpdate> updates,
         BatchUpdateListener listener,
         @Nullable RequestId requestId,
         boolean dryRun)
         throws UpdateException, RestApiException {
-      checkNotNull(listener);
-      checkDifferentProject(updates);
       // It's safe to downcast all members of the input collection in this case, because the only
       // way a caller could have gotten any BatchUpdates in the first place is to call the create
       // method above, which always returns instances of the type we expect. Just to be safe,
       // copy them into an ImmutableList so there is no chance the callee can pollute the input
       // collection.
-      if (migration.disableChangeReviewDb()) {
-        ImmutableList<NoteDbBatchUpdate> noteDbUpdates =
-            (ImmutableList) ImmutableList.copyOf(updates);
-        NoteDbBatchUpdate.execute(noteDbUpdates, listener, requestId, dryRun);
-      } else {
-        ImmutableList<ReviewDbBatchUpdate> reviewDbUpdates =
-            (ImmutableList) ImmutableList.copyOf(updates);
-        ReviewDbBatchUpdate.execute(reviewDbUpdates, listener, requestId, dryRun);
-      }
-    }
-
-    private static void checkDifferentProject(Collection<BatchUpdate> updates) {
-      Multiset<Project.NameKey> projectCounts =
-          updates.stream().map(u -> u.project).collect(toImmutableMultiset());
-      checkArgument(
-          projectCounts.entrySet().size() == updates.size(),
-          "updates must all be for different projects, got: %s",
-          projectCounts);
+      @SuppressWarnings({"rawtypes", "unchecked"})
+      ImmutableList<ReviewDbBatchUpdate> reviewDbUpdates =
+          (ImmutableList) ImmutableList.copyOf(updates);
+      ReviewDbBatchUpdate.execute(reviewDbUpdates, listener, requestId, dryRun);
     }
   }
 
-  static void setRequestIds(
-      Collection<? extends BatchUpdate> updates, @Nullable RequestId requestId) {
-    if (requestId != null) {
-      for (BatchUpdate u : updates) {
-        checkArgument(
-            u.requestId == null || u.requestId == requestId,
-            "refusing to overwrite RequestId %s in update with %s",
-            u.requestId,
-            requestId);
-        u.setRequestId(requestId);
-      }
-    }
-  }
-
-  static Order getOrder(Collection<? extends BatchUpdate> updates, BatchUpdateListener listener) {
+  protected static Order getOrder(Collection<? extends BatchUpdate> updates) {
     Order o = null;
     for (BatchUpdate u : updates) {
       if (o == null) {
@@ -183,16 +126,10 @@ public abstract class BatchUpdate implements AutoCloseable {
         throw new IllegalArgumentException("cannot mix execution orders");
       }
     }
-    if (o != Order.REPO_BEFORE_DB) {
-      checkArgument(
-          listener == BatchUpdateListener.NONE,
-          "BatchUpdateListener not supported for order %s",
-          o);
-    }
     return o;
   }
 
-  static boolean getUpdateChangesInParallel(Collection<? extends BatchUpdate> updates) {
+  protected static boolean getUpdateChangesInParallel(Collection<? extends BatchUpdate> updates) {
     checkArgument(!updates.isEmpty());
     Boolean p = null;
     for (BatchUpdate u : updates) {
@@ -211,28 +148,6 @@ public abstract class BatchUpdate implements AutoCloseable {
     return p;
   }
 
-  static void wrapAndThrowException(Exception e) throws UpdateException, RestApiException {
-    Throwables.throwIfUnchecked(e);
-
-    // Propagate REST API exceptions thrown by operations; they commonly throw exceptions like
-    // ResourceConflictException to indicate an atomic update failure.
-    Throwables.throwIfInstanceOf(e, UpdateException.class);
-    Throwables.throwIfInstanceOf(e, RestApiException.class);
-
-    // Convert other common non-REST exception types with user-visible messages to corresponding
-    // REST exception types
-    if (e instanceof InvalidChangeOperationException) {
-      throw new ResourceConflictException(e.getMessage(), e);
-    } else if (e instanceof NoSuchChangeException
-        || e instanceof NoSuchRefException
-        || e instanceof NoSuchProjectException) {
-      throw new ResourceNotFoundException(e.getMessage(), e);
-    }
-
-    // Otherwise, wrap in a generic UpdateException, which does not include a user-visible message.
-    throw new UpdateException(e);
-  }
-
   protected GitRepositoryManager repoManager;
 
   protected final Project.NameKey project;
@@ -245,15 +160,18 @@ public abstract class BatchUpdate implements AutoCloseable {
   protected final Map<Change.Id, Change> newChanges = new HashMap<>();
   protected final List<RepoOnlyOp> repoOnlyOps = new ArrayList<>();
 
-  protected RepoView repoView;
+  protected Repository repo;
+  protected ObjectInserter inserter;
+  protected RevWalk revWalk;
+  protected ChainedReceiveCommands commands;
   protected BatchRefUpdate batchRefUpdate;
   protected Order order;
   protected OnSubmitValidators onSubmitValidators;
   protected RequestId requestId;
-  protected PushCertificate pushCert;
   protected String refLogMessage;
 
   private boolean updateChangesInParallel;
+  private boolean closeRepo;
 
   protected BatchUpdate(
       GitRepositoryManager repoManager,
@@ -271,17 +189,18 @@ public abstract class BatchUpdate implements AutoCloseable {
 
   @Override
   public void close() {
-    if (repoView != null) {
-      repoView.close();
+    if (closeRepo) {
+      revWalk.getObjectReader().close();
+      revWalk.close();
+      inserter.close();
+      repo.close();
     }
   }
 
   public abstract void execute(BatchUpdateListener listener)
       throws UpdateException, RestApiException;
 
-  public void execute() throws UpdateException, RestApiException {
-    execute(BatchUpdateListener.NONE);
-  }
+  public abstract void execute() throws UpdateException, RestApiException;
 
   protected abstract Context newContext();
 
@@ -291,17 +210,16 @@ public abstract class BatchUpdate implements AutoCloseable {
   }
 
   public BatchUpdate setRepository(Repository repo, RevWalk revWalk, ObjectInserter inserter) {
-    checkState(this.repoView == null, "repo already set");
-    repoView = new RepoView(repo, revWalk, inserter);
+    checkState(this.repo == null, "repo already set");
+    closeRepo = false;
+    this.repo = checkNotNull(repo, "repo");
+    this.revWalk = checkNotNull(revWalk, "revWalk");
+    this.inserter = checkNotNull(inserter, "inserter");
+    commands = new ChainedReceiveCommands(repo);
     return this;
   }
 
-  public BatchUpdate setPushCertificate(@Nullable PushCertificate pushCert) {
-    this.pushCert = pushCert;
-    return this;
-  }
-
-  public BatchUpdate setRefLogMessage(@Nullable String refLogMessage) {
+  public BatchUpdate setRefLogMessage(String refLogMessage) {
     this.refLogMessage = refLogMessage;
     return this;
   }
@@ -320,46 +238,43 @@ public abstract class BatchUpdate implements AutoCloseable {
     return this;
   }
 
-  /**
-   * Execute {@link BatchUpdateOp#updateChange(ChangeContext)} in parallel for each change.
-   *
-   * <p>This improves performance of writing to multiple changes in separate ReviewDb transactions.
-   * When only NoteDb is used, updates to all changes are written in a single batch ref update, so
-   * parallelization is not used and this option is ignored.
-   */
+  /** Execute {@link BatchUpdateOp#updateChange(ChangeContext)} in parallel for each change. */
   public BatchUpdate updateChangesInParallel() {
     this.updateChangesInParallel = true;
     return this;
   }
 
   protected void initRepository() throws IOException {
-    if (repoView == null) {
-      repoView = new RepoView(repoManager, project);
+    if (repo == null) {
+      this.repo = repoManager.openRepository(project);
+      closeRepo = true;
+      inserter = repo.newObjectInserter();
+      revWalk = new RevWalk(inserter.newReader());
+      commands = new ChainedReceiveCommands(repo);
     }
-  }
-
-  protected RepoView getRepoView() throws IOException {
-    initRepository();
-    return repoView;
   }
 
   protected CurrentUser getUser() {
     return user;
   }
 
-  protected Optional<Account> getAccount() {
-    return user.isIdentifiedUser()
-        ? Optional.of(user.asIdentifiedUser().getAccount())
-        : Optional.empty();
+  protected Repository getRepository() throws IOException {
+    initRepository();
+    return repo;
   }
 
   protected RevWalk getRevWalk() throws IOException {
     initRepository();
-    return repoView.getRevWalk();
+    return revWalk;
   }
 
-  public Map<String, ReceiveCommand> getRefUpdates() {
-    return repoView != null ? repoView.getCommands().getCommands() : ImmutableMap.of();
+  protected ObjectInserter getObjectInserter() throws IOException {
+    initRepository();
+    return inserter;
+  }
+
+  public Collection<ReceiveCommand> getRefUpdates() {
+    return commands.getCommands().values();
   }
 
   public BatchUpdate addOp(Change.Id id, BatchUpdateOp op) {
@@ -375,7 +290,7 @@ public abstract class BatchUpdate implements AutoCloseable {
     return this;
   }
 
-  public BatchUpdate insertChange(InsertChangeOp op) throws IOException {
+  public BatchUpdate insertChange(InsertChangeOp op) {
     Context ctx = newContext();
     Change c = op.createChange(ctx);
     checkArgument(

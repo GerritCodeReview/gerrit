@@ -22,23 +22,19 @@
         type: Array,
         notify: true,
       },
-      showNumber: {
-        type: Boolean,
-        notify: true,
-      },
     },
 
     behaviors: [
       Gerrit.ChangeTableBehavior,
     ],
 
-    _getButtonText(isShown) {
+    _getButtonText: function(isShown) {
       return isShown ? 'Hide' : 'Show';
     },
 
-    _updateDisplayedColumns(displayedColumns, name, checked) {
+    _updateDisplayedColumns: function(displayedColumns, name, checked) {
       if (!checked) {
-        return displayedColumns.filter(column => {
+        return displayedColumns.filter(function(column) {
           return name.toLowerCase() !== column.toLowerCase();
         });
       } else {
@@ -49,20 +45,14 @@
     /**
      * Handles tap on either the checkbox itself or the surrounding table cell.
      */
-    _handleTargetTap(e) {
-      let checkbox = Polymer.dom(e.target).querySelector('input');
+    _handleTargetTap: function(e) {
+      var checkbox = Polymer.dom(e.target).querySelector('input');
       if (checkbox) {
         checkbox.click();
       } else {
         // The target is the checkbox itself.
         checkbox = Polymer.dom(e).rootTarget;
       }
-
-      if (checkbox.name === 'number') {
-        this.showNumber = checkbox.checked;
-        return;
-      }
-
       this.set('displayedColumns',
           this._updateDisplayedColumns(
               this.displayedColumns, checkbox.name, checkbox.checked));

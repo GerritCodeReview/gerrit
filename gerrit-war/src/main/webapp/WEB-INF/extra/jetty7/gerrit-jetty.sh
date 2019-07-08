@@ -2,7 +2,7 @@
 
 export JETTY_HOST=127.0.0.1
 export JETTY_PORT=8081
-export JETTY_USER=gerrit
+export JETTY_USER=gerrit2
 export JETTY_PID=/var/run/jetty$JETTY_PORT.pid
 export JETTY_HOME=/home/$JETTY_USER/jetty
 export JAVA_HOME=/usr/lib/jvm/java-6-sun-1.6.0.07/jre

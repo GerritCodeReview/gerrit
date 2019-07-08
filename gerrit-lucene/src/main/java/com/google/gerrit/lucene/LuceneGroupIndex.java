@@ -16,18 +16,17 @@ package com.google.gerrit.lucene;
 
 import static com.google.gerrit.server.index.group.GroupField.UUID;
 
-import com.google.gerrit.index.QueryOptions;
-import com.google.gerrit.index.Schema;
-import com.google.gerrit.index.query.DataSource;
-import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.IndexUtils;
+import com.google.gerrit.server.index.QueryOptions;
+import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.group.GroupIndex;
+import com.google.gerrit.server.query.DataSource;
+import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
@@ -39,7 +38,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Term;
@@ -57,7 +55,7 @@ import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, InternalGroup>
+public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, AccountGroup>
     implements GroupIndex {
   private static final Logger log = LoggerFactory.getLogger(LuceneGroupIndex.class);
 
@@ -65,7 +63,7 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
 
   private static final String UUID_SORT_FIELD = sortFieldName(UUID);
 
-  private static Term idTerm(InternalGroup group) {
+  private static Term idTerm(AccountGroup group) {
     return idTerm(group.getGroupUUID());
   }
 
@@ -74,15 +72,15 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
   }
 
   private final GerritIndexWriterConfig indexWriterConfig;
-  private final QueryBuilder<InternalGroup> queryBuilder;
+  private final QueryBuilder<AccountGroup> queryBuilder;
   private final Provider<GroupCache> groupCache;
 
-  private static Directory dir(Schema<?> schema, Config cfg, SitePaths sitePaths)
+  private static Directory dir(Schema<AccountGroup> schema, Config cfg, SitePaths sitePaths)
       throws IOException {
     if (LuceneIndexModule.isInMemoryTest(cfg)) {
       return new RAMDirectory();
     }
-    Path indexDir = LuceneVersionManager.getDir(sitePaths, GROUPS, schema);
+    Path indexDir = LuceneVersionManager.getDir(sitePaths, GROUPS + "_", schema);
     return FSDirectory.open(indexDir);
   }
 
@@ -91,7 +89,7 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
       Provider<GroupCache> groupCache,
-      @Assisted Schema<InternalGroup> schema)
+      @Assisted Schema<AccountGroup> schema)
       throws IOException {
     super(
         schema,
@@ -108,9 +106,10 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
   }
 
   @Override
-  public void replace(InternalGroup group) throws IOException {
+  public void replace(AccountGroup group) throws IOException {
     try {
-      replace(idTerm(group), toDocument(group)).get();
+      // No parts of FillArgs are currently required, just use null.
+      replace(idTerm(group), toDocument(group, null)).get();
     } catch (ExecutionException | InterruptedException e) {
       throw new IOException(e);
     }
@@ -126,7 +125,7 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
   }
 
   @Override
-  public DataSource<InternalGroup> getSource(Predicate<InternalGroup> p, QueryOptions opts)
+  public DataSource<AccountGroup> getSource(Predicate<AccountGroup> p, QueryOptions opts)
       throws QueryParseException {
     return new QuerySource(
         opts,
@@ -134,7 +133,7 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
         new Sort(new SortField(UUID_SORT_FIELD, SortField.Type.STRING, false)));
   }
 
-  private class QuerySource implements DataSource<InternalGroup> {
+  private class QuerySource implements DataSource<AccountGroup> {
     private final QueryOptions opts;
     private final Query query;
     private final Sort sort;
@@ -151,28 +150,27 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
     }
 
     @Override
-    public ResultSet<InternalGroup> read() throws OrmException {
+    public ResultSet<AccountGroup> read() throws OrmException {
       IndexSearcher searcher = null;
       try {
         searcher = acquire();
         int realLimit = opts.start() + opts.limit();
         TopFieldDocs docs = searcher.search(query, realLimit, sort);
-        List<InternalGroup> result = new ArrayList<>(docs.scoreDocs.length);
+        List<AccountGroup> result = new ArrayList<>(docs.scoreDocs.length);
         for (int i = opts.start(); i < docs.scoreDocs.length; i++) {
           ScoreDoc sd = docs.scoreDocs[i];
           Document doc = searcher.doc(sd.doc, IndexUtils.groupFields(opts));
-          Optional<InternalGroup> internalGroup = toInternalGroup(doc);
-          internalGroup.ifPresent(result::add);
+          result.add(toAccountGroup(doc));
         }
-        final List<InternalGroup> r = Collections.unmodifiableList(result);
-        return new ResultSet<InternalGroup>() {
+        final List<AccountGroup> r = Collections.unmodifiableList(result);
+        return new ResultSet<AccountGroup>() {
           @Override
-          public Iterator<InternalGroup> iterator() {
+          public Iterator<AccountGroup> iterator() {
             return r.iterator();
           }
 
           @Override
-          public List<InternalGroup> toList() {
+          public List<AccountGroup> toList() {
             return r;
           }
 
@@ -195,7 +193,7 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
     }
   }
 
-  private Optional<InternalGroup> toInternalGroup(Document doc) {
+  private AccountGroup toAccountGroup(Document doc) {
     AccountGroup.UUID uuid = new AccountGroup.UUID(doc.getField(UUID.getName()).stringValue());
     // Use the GroupCache rather than depending on any stored fields in the
     // document (of which there shouldn't be any).

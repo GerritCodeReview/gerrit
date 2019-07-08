@@ -14,29 +14,23 @@
 
 package com.google.gerrit.server.index.account;
 
-import static com.google.gerrit.index.FieldDef.exact;
-import static com.google.gerrit.index.FieldDef.integer;
-import static com.google.gerrit.index.FieldDef.prefix;
-import static com.google.gerrit.index.FieldDef.storedOnly;
-import static com.google.gerrit.index.FieldDef.timestamp;
-import static java.util.stream.Collectors.toSet;
+import static com.google.gerrit.server.index.FieldDef.exact;
+import static com.google.gerrit.server.index.FieldDef.integer;
+import static com.google.gerrit.server.index.FieldDef.prefix;
+import static com.google.gerrit.server.index.FieldDef.timestamp;
 
 import com.google.common.base.Predicates;
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
-import com.google.gerrit.index.FieldDef;
-import com.google.gerrit.index.SchemaUtil;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.index.RefState;
+import com.google.gerrit.server.account.ExternalId;
+import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.SchemaUtil;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.Set;
-import org.eclipse.jgit.lib.ObjectId;
 
 /** Secondary index schemas for accounts. */
 public class AccountField {
@@ -82,17 +76,6 @@ public class AccountField {
                       .transform(String::toLowerCase)
                       .toSet());
 
-  public static final FieldDef<AccountState, String> PREFERRED_EMAIL =
-      prefix("preferredemail")
-          .build(
-              a -> {
-                String preferredEmail = a.getAccount().getPreferredEmail();
-                return preferredEmail != null ? preferredEmail.toLowerCase() : null;
-              });
-
-  public static final FieldDef<AccountState, String> PREFERRED_EMAIL_EXACT =
-      exact("preferredemail_exact").build(a -> a.getAccount().getPreferredEmail());
-
   public static final FieldDef<AccountState, Timestamp> REGISTERED =
       timestamp("registered").build(a -> a.getAccount().getRegisteredOn());
 
@@ -106,43 +89,6 @@ public class AccountField {
                   FluentIterable.from(a.getProjectWatches().keySet())
                       .transform(k -> k.project().get())
                       .toSet());
-
-  /**
-   * All values of all refs that were used in the course of indexing this document, except the
-   * refs/meta/external-ids notes branch which is handled specially (see {@link
-   * #EXTERNAL_ID_STATE}).
-   *
-   * <p>Emitted as UTF-8 encoded strings of the form {@code project:ref/name:[hex sha]}.
-   */
-  public static final FieldDef<AccountState, Iterable<byte[]>> REF_STATE =
-      storedOnly("ref_state")
-          .buildRepeatable(
-              a -> {
-                if (a.getAccount().getMetaId() == null) {
-                  return ImmutableList.of();
-                }
-
-                return ImmutableList.of(
-                    RefState.create(
-                            RefNames.refsUsers(a.getAccount().getId()),
-                            ObjectId.fromString(a.getAccount().getMetaId()))
-                        .toByteArray(a.getAllUsersNameForIndexing()));
-              });
-
-  /**
-   * All note values of all external IDs that were used in the course of indexing this document.
-   *
-   * <p>Emitted as UTF-8 encoded strings of the form {@code [hex sha of external ID]:[hex sha of
-   * note blob]}, or with other words {@code [note ID]:[note data ID]}.
-   */
-  public static final FieldDef<AccountState, Iterable<byte[]>> EXTERNAL_ID_STATE =
-      storedOnly("external_id_state")
-          .buildRepeatable(
-              a ->
-                  a.getExternalIds().stream()
-                      .filter(e -> e.blobId() != null)
-                      .map(e -> e.toByteArray())
-                      .collect(toSet()));
 
   private AccountField() {}
 }

@@ -15,7 +15,7 @@
   'use strict';
 
   // Latency reporting constants.
-  const TIMING = {
+  var TIMING = {
     TYPE: 'timing-report',
     CATEGORY: 'UI Latency',
     // Reported events - alphabetize below.
@@ -24,25 +24,25 @@
   };
 
   // Navigation reporting constants.
-  const NAVIGATION = {
+  var NAVIGATION = {
     TYPE: 'nav-report',
     CATEGORY: 'Location Changed',
     PAGE: 'Page',
   };
 
-  const ERROR = {
+  var ERROR = {
     TYPE: 'error',
     CATEGORY: 'exception',
   };
 
-  const INTERACTION_TYPE = 'interaction';
+  var INTERACTION_TYPE = 'interaction';
 
-  const CHANGE_VIEW_REGEX = /^\/c\/\d+\/?\d*$/;
-  const DIFF_VIEW_REGEX = /^\/c\/\d+\/\d+\/.+$/;
+  var CHANGE_VIEW_REGEX = /^\/c\/\d+\/?\d*$/;
+  var DIFF_VIEW_REGEX = /^\/c\/\d+\/\d+\/.+$/;
 
-  const pending = [];
+  var pending = [];
 
-  const onError = function(oldOnError, msg, url, line, column, error) {
+  var onError = function(oldOnError, msg, url, line, column, error) {
     if (oldOnError) {
       oldOnError(msg, url, line, column, error);
     }
@@ -51,30 +51,23 @@
       column = column || error.columnNumber;
       msg = msg || error.toString();
     }
-    const payload = {
-      url,
-      line,
-      column,
-      error,
+    var payload = {
+      url: url,
+      line: line,
+      column: column,
+      error: error,
     };
     GrReporting.prototype.reporter(ERROR.TYPE, ERROR.CATEGORY, msg, payload);
     return true;
   };
 
-  const catchErrors = function(opt_context) {
-    const context = opt_context || window;
+  var catchErrors = function(opt_context) {
+    var context = opt_context || window;
     context.onerror = onError.bind(null, context.onerror);
-    context.addEventListener('unhandledrejection', e => {
-      const msg = e.reason.message;
-      const payload = {
-        error: e.reason,
-      };
-      GrReporting.prototype.reporter(ERROR.TYPE, ERROR.CATEGORY, msg, payload);
-    });
   };
   catchErrors();
 
-  const GrReporting = Polymer({
+  var GrReporting = Polymer({
     is: 'gr-reporting',
 
     properties: {
@@ -82,7 +75,7 @@
 
       _baselines: {
         type: Array,
-        value() { return {}; },
+        value: function() { return {}; },
       },
     },
 
@@ -94,24 +87,24 @@
       return window.performance.timing;
     },
 
-    now() {
+    now: function() {
       return Math.round(10 * window.performance.now()) / 10;
     },
 
-    reporter(...args) {
-      const report = (Gerrit._arePluginsLoaded() && !pending.length) ?
+    reporter: function() {
+      var report = (Gerrit._arePluginsLoaded() && !pending.length) ?
         this.defaultReporter : this.cachingReporter;
-      report.apply(this, args);
+      report.apply(this, arguments);
     },
 
-    defaultReporter(type, category, eventName, eventValue) {
-      const detail = {
-        type,
-        category,
+    defaultReporter: function(type, category, eventName, eventValue) {
+      var detail = {
+        type: type,
+        category: category,
         name: eventName,
         value: eventValue,
       };
-      document.dispatchEvent(new CustomEvent(type, {detail}));
+      document.dispatchEvent(new CustomEvent(type, {detail: detail}));
       if (type === ERROR.TYPE) {
         console.error(eventValue.error || eventName);
       } else {
@@ -120,15 +113,15 @@
       }
     },
 
-    cachingReporter(type, category, eventName, eventValue) {
+    cachingReporter: function(type, category, eventName, eventValue) {
       if (type === ERROR.TYPE) {
         console.error(eventValue.error || eventName);
       }
       if (Gerrit._arePluginsLoaded()) {
         if (pending.length) {
-          for (const args of pending.splice(0)) {
-            this.reporter(...args);
-          }
+          pending.splice(0).forEach(function(args) {
+            this.reporter.apply(this, args);
+          }, this);
         }
         this.reporter(type, category, eventName, eventValue);
       } else {
@@ -139,8 +132,8 @@
     /**
      * User-perceived app start time, should be reported when the app is ready.
      */
-    appStarted() {
-      const startTime =
+    appStarted: function() {
+      var startTime =
           new Date().getTime() - this.performanceTiming.navigationStart;
       this.reporter(
           TIMING.TYPE, TIMING.CATEGORY, TIMING.APP_STARTED, startTime);
@@ -149,22 +142,22 @@
     /**
      * Page load time, should be reported at any time after navigation.
      */
-    pageLoaded() {
+    pageLoaded: function() {
       if (this.performanceTiming.loadEventEnd === 0) {
         console.error('pageLoaded should be called after window.onload');
         this.async(this.pageLoaded, 100);
       } else {
-        const loadTime = this.performanceTiming.loadEventEnd -
+        var loadTime = this.performanceTiming.loadEventEnd -
             this.performanceTiming.navigationStart;
         this.reporter(
-            TIMING.TYPE, TIMING.CATEGORY, TIMING.PAGE_LOADED, loadTime);
+          TIMING.TYPE, TIMING.CATEGORY, TIMING.PAGE_LOADED, loadTime);
       }
     },
 
-    locationChanged() {
-      let page = '';
-      const pathname = this._getPathname();
-      if (pathname.startsWith('/q/')) {
+    locationChanged: function() {
+      var page = '';
+      var pathname = this._getPathname();
+      if (pathname.indexOf('/q/') === 0) {
         page = this.getBaseUrl() + '/q/';
       } else if (pathname.match(CHANGE_VIEW_REGEX)) { // change view
         page = this.getBaseUrl() + '/c/';
@@ -178,32 +171,32 @@
           NAVIGATION.TYPE, NAVIGATION.CATEGORY, NAVIGATION.PAGE, page);
     },
 
-    pluginsLoaded() {
+    pluginsLoaded: function() {
       this.timeEnd('PluginsLoaded');
     },
 
-    _getPathname() {
+    _getPathname: function() {
       return '/' + window.location.pathname.substring(this.getBaseUrl().length);
     },
 
     /**
      * Reset named timer.
      */
-    time(name) {
+    time: function(name) {
       this._baselines[name] = this.now();
     },
 
     /**
      * Finish named timer and report it to server.
      */
-    timeEnd(name) {
-      const baseTime = this._baselines[name] || 0;
-      const time = Math.round(this.now() - baseTime) + 'ms';
+    timeEnd: function(name) {
+      var baseTime = this._baselines[name] || 0;
+      var time = this.now() - baseTime;
       this.reporter(TIMING.TYPE, TIMING.CATEGORY, name, time);
       delete this._baselines[name];
     },
 
-    reportInteraction(eventName, opt_msg) {
+    reportInteraction: function(eventName, opt_msg) {
       this.reporter(INTERACTION_TYPE, this.category, eventName, opt_msg);
     },
   });
@@ -211,4 +204,5 @@
   window.GrReporting = GrReporting;
   // Expose onerror installation so it would be accessible from tests.
   window.GrReporting._catchErrors = catchErrors;
+
 })();

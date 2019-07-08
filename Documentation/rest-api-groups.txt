@@ -42,8 +42,7 @@ by group name.
       "description": "Gerrit Site Administrators",
       "group_id": 1,
       "owner": "Administrators",
-      "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
-      "created_on": "2013-02-01 09:59:32.126000000"
+      "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
     },
     "Anonymous Users": {
       "id": "global%3AAnonymous-Users",
@@ -53,8 +52,7 @@ by group name.
       "description": "Any user, signed-in or not",
       "group_id": 2,
       "owner": "Administrators",
-      "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
-      "created_on": "2013-02-01 09:59:32.126000000"
+      "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
     },
     "MyProject_Committers": {
       "id": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
@@ -64,8 +62,7 @@ by group name.
       },
       "group_id": 6,
       "owner": "MyProject_Committers",
-      "owner_id": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
-      "created_on": "2013-02-01 09:59:32.126000000"
+      "owner_id": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7"
     },
     "Non-Interactive Users": {
       "id": "5057f3cbd3519d6ab69364429a89ffdffba50f73",
@@ -75,8 +72,7 @@ by group name.
       "description": "Users who perform batch actions on Gerrit",
       "group_id": 4,
       "owner": "Administrators",
-      "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
-      "created_on": "2013-02-01 09:59:32.126000000"
+      "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
     },
     "Project Owners": {
       "id": "global%3AProject-Owners",
@@ -86,8 +82,7 @@ by group name.
       "description": "Any owner of the project",
       "group_id": 5,
       "owner": "Administrators",
-      "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
-      "created_on": "2013-02-01 09:59:32.126000000"
+      "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
     },
     "Registered Users": {
       "id": "global%3ARegistered-Users",
@@ -97,8 +92,7 @@ by group name.
       "description": "Any signed-in user",
       "group_id": 3,
       "owner": "Administrators",
-      "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
-      "created_on": "2013-02-01 09:59:32.126000000"
+      "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
     }
   }
 ----
@@ -116,7 +110,7 @@ client so they are generally disabled by default. Optional fields are:
 
 [[includes]]
 --
-* `INCLUDES`: include list of direct subgroups.
+* `INCLUDES`: include list of directly included groups.
 --
 
 [[members]]
@@ -160,8 +154,7 @@ returned.
       "description":"contains all committers for MyProject",
       "group_id": 551,
       "owner": "MyProject-Owners",
-      "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc",
-      "created_on": "2013-02-01 09:59:32.126000000"
+      "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc"
     }
   }
 ----
@@ -218,58 +211,9 @@ error out.)
       "group_id": 1,
       "owner": "Administrators",
       "owner_id": "59b92f35489e62c80d1ab1bf0c2d17843038df8b",
-      "created_on": "2013-02-01 09:59:32.126000000",
       "id": "59b92f35489e62c80d1ab1bf0c2d17843038df8b"
     }
   }
-----
-
-Regex(r)::
-Limit the results to those groups that match the specified regex.
-+
-Boundary matchers '^' and '$' are implicit. For example: the regex 'test.*' will
-match any groups that start with 'test' and regex '.*test' will match any
-group that end with 'test'.
-+
-The match is case sensitive.
-+
-List all groups that match regex `test.*group`:
-+
-.Request
-----
-  GET /groups/?r=test.*group HTTP/1.0
-----
-+
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  {
-    "test/some-group": {
-      "url": "#/admin/groups/uuid-59b92f35489e62c80d1ab1bf0c2d17843038df8b",
-      "options": {},
-      "description": "Gerrit Site Administrators",
-      "group_id": 1,
-      "owner": "Administrators",
-      "owner_id": "59b92f35489e62c80d1ab1bf0c2d17843038df8b",
-      "created_on": "2013-02-01 09:59:32.126000000",
-      "id": "59b92f35489e62c80d1ab1bf0c2d17843038df8b"
-    }
-    "test/some-other-group": {
-      "url": "#/admin/groups/uuid-99b92f35489e62c80d1ab1bf0c2d17843038df8b",
-      "options": {},
-      "description": "Gerrit Site Administrators",
-      "group_id": 1,
-      "owner": "Administrators",
-      "owner_id": "99b92f35489e62c80d1ab1bf0c2d17843038df8b",
-      "created_on": "2014-02-01 09:59:32.126000000",
-      "id": "99b92f35489e62c80d1ab1bf0c2d17843038df8b"
-    }
-  }
-
 ----
 
 Substring(m)::
@@ -342,7 +286,6 @@ link:#list-groups[List Groups] endpoint.
       "group_id": 20,
       "owner": "MyProject-Test-Group",
       "owner_id": "59b92f35489e62c80d1ab1bf0c2d17843038df8b",
-      "created_on": "2013-02-01 09:59:32.126000000",
       "id": "68236a40ca78de8be630312d8ba50250bc5638ae"
     },
     {
@@ -352,7 +295,6 @@ link:#list-groups[List Groups] endpoint.
       "group_id": 17,
       "owner": "ProjectX-Testers",
       "owner_id": "59b92f35489e62c80d1ab1bf0c2d17843038df8b",
-      "created_on": "2013-02-01 09:59:32.126000000",
       "id": "99a534526313324a2667025c3f4e089199b736aa"
     }
   ]
@@ -420,8 +362,7 @@ describes the group.
     "description": "Gerrit Site Administrators",
     "group_id": 1,
     "owner": "Administrators",
-    "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
-    "created_on": "2013-02-01 09:59:32.126000000"
+    "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
   }
 ----
 
@@ -469,8 +410,7 @@ describes the created group.
     "description":"contains all committers for MyProject",
     "group_id": 551,
     "owner": "MyProject-Owners",
-    "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc",
-    "created_on": "2013-02-01 09:59:32.126000000"
+    "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc"
   }
 ----
 
@@ -511,7 +451,6 @@ describes the group.
     "group_id": 1,
     "owner": "Administrators",
     "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
-    "created_on": "2013-02-01 09:59:32.126000000",
     "members": [
       {
         "_account_id": 1000097,
@@ -761,8 +700,7 @@ describes the owner group.
     "description": "Gerrit Site Administrators",
     "group_id": 1,
     "owner": "Administrators",
-    "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
-    "created_on": "2013-02-01 09:59:32.126000000"
+    "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
   }
 ----
 
@@ -808,8 +746,7 @@ describes the new owner group.
     "description": "Gerrit Site Administrators",
     "group_id": 1,
     "owner": "Administrators",
-    "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
-    "created_on": "2013-02-01 09:59:32.126000000"
+    "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
   }
 ----
 
@@ -846,7 +783,6 @@ newest audit event comes first.
         "group_id": 3,
         "owner": "Administrators",
         "owner_id": "e56678641565e7f59dd5c6878f5bcbc842bf150a",
-        "created_on": "2013-02-01 09:59:32.126000000",
         "id": "fdda826a0815859ab48d22a05a43472f0f55f89a",
         "name": "MyGroup"
       },
@@ -866,7 +802,6 @@ newest audit event comes first.
         "group_id": 3,
         "owner": "Administrators",
         "owner_id": "e56678641565e7f59dd5c6878f5bcbc842bf150a",
-        "created_on": "2013-02-01 09:59:32.126000000",
         "id": "fdda826a0815859ab48d22a05a43472f0f55f89a",
         "name": "MyGroup"
       },
@@ -1129,13 +1064,13 @@ already a member of the group.
   ]
 ----
 
-[[remove-group-member]]
-=== Remove Group Member
+[[delete-group-member]]
+=== Delete Group Member
 --
 'DELETE /groups/link:#group-id[\{group-id\}]/members/link:rest-api-accounts.html#account-id[\{account-id\}]'
 --
 
-Removes a user from a Gerrit internal group.
+Deletes a user from a Gerrit internal group.
 
 .Request
 ----
@@ -1147,15 +1082,15 @@ Removes a user from a Gerrit internal group.
   HTTP/1.1 204 No Content
 ----
 
-[[remove-group-members]]
-=== Remove Group Members
+[[delete-group-members]]
+=== Delete Group Members
 --
 'POST /groups/link:#group-id[\{group-id\}]/members.delete'
 --
 
-Removes one or several users from a Gerrit internal group.
+Delete one or several users from a Gerrit internal group.
 
-The users to be removed from the group must be provided in the request
+The users to be deleted from the group must be provided in the request
 body as a link:#members-input[MembersInput] entity.
 
 .Request
@@ -1176,16 +1111,16 @@ body as a link:#members-input[MembersInput] entity.
   HTTP/1.1 204 No Content
 ----
 
-[[subgroup-endpoints]]
-== Subgroup Endpoints
+[[group-include-endpoints]]
+== Group Include Endpoints
 
-[[list-subgroups]]
-=== List Subgroups
+[[included-groups]]
+=== List Included Groups
 --
 'GET /groups/link:#group-id[\{group-id\}]/groups/'
 --
 
-Lists the direct subgroups of a group.
+Lists the directly included groups of a group.
 
 As result a list of link:#group-info[GroupInfo] entries is returned.
 The entries in the list are sorted by group name and UUID.
@@ -1211,19 +1146,18 @@ The entries in the list are sorted by group name and UUID.
       },
       "group_id": 38,
       "owner": "MyProject-Verifiers",
-      "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc",
-      "created_on": "2013-02-01 09:59:32.126000000"
+      "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc"
     }
   ]
 ----
 
-[[get-subgroup]]
-=== Get Subgroup
+[[get-included-group]]
+=== Get Included Group
 --
 'GET /groups/link:#group-id[\{group-id\}]/groups/link:#group-id[\{group-id\}]'
 --
 
-Retrieves a subgroup.
+Retrieves an included group.
 
 .Request
 ----
@@ -1231,7 +1165,7 @@ Retrieves a subgroup.
 ----
 
 As response a link:#group-info[GroupInfo] entity is returned that
-describes the subgroup.
+describes the included group.
 
 .Response
 ----
@@ -1248,18 +1182,17 @@ describes the subgroup.
     },
     "group_id": 38,
     "owner": "Administrators",
-    "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
-    "created_on": "2013-02-01 09:59:32.126000000"
+    "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
   }
 ----
 
-[[add-subgroup]]
-=== Add Subgroup
+[[include-group]]
+=== Include Group
 --
 'PUT /groups/link:#group-id[\{group-id\}]/groups/link:#group-id[\{group-id\}]'
 --
 
-Adds an internal or external group as subgroup to a Gerrit internal group.
+Includes an internal or external group into a Gerrit internal group.
 External groups must be specified using the UUID.
 
 .Request
@@ -1268,7 +1201,7 @@ External groups must be specified using the UUID.
 ----
 
 As response a link:#group-info[GroupInfo] entity is returned that
-describes the subgroup.
+describes the included group.
 
 .Response
 ----
@@ -1285,16 +1218,15 @@ describes the subgroup.
     },
     "group_id": 8,
     "owner": "Administrators",
-    "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
-    "created_on": "2013-02-01 09:59:32.126000000"
+    "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
   }
 ----
 
-The request also succeeds if the group is already a subgroup of this
-group.
+The request also succeeds if the group is already included in this
+group, but then the HTTP response code is `200 OK`.
 
-[[add-subgroups]]
-=== Add Subgroups
+[[include-groups]]
+=== Include Groups
 --
 'POST /groups/link:#group-id[\{group-id\}]/groups'
 --
@@ -1305,10 +1237,10 @@ OR
 'POST /groups/link:#group-id[\{group-id\}]/groups.add'
 --
 
-Adds one or several groups as subgroups to a Gerrit internal group.
+Includes one or several groups into a Gerrit internal group.
 
-The subgroups to be added must be provided in the request body as a
-link:#groups-input[GroupsInput] entity.
+The groups to be included into the group must be provided in the
+request body as a link:#groups-input[GroupsInput] entity.
 
 .Request
 ----
@@ -1327,8 +1259,8 @@ As response a list of link:#group-info[GroupInfo] entities is
 returned that describes the groups that were specified in the
 link:#groups-input[GroupsInput]. A link:#group-info[GroupInfo] entity
 is returned for each group specified in the input, independently of
-whether the group was newly added as subgroup or whether the
-group was already a subgroup of the group.
+whether the group was newly included into the group or whether the
+group was already included in the group.
 
 .Response
 ----
@@ -1346,8 +1278,7 @@ group was already a subgroup of the group.
       },
       "group_id": 8,
       "owner": "Administrators",
-      "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
-      "created_on": "2013-02-01 09:59:32.126000000"
+      "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
     },
     {
       "id": "5057f3cbd3519d6ab69364429a89ffdffba50f73",
@@ -1357,19 +1288,18 @@ group was already a subgroup of the group.
       },
       "group_id": 10,
       "owner": "MyOtherGroup",
-      "owner_id": "5057f3cbd3519d6ab69364429a89ffdffba50f73",
-      "created_on": "2013-02-01 09:59:32.126000000"
+      "owner_id": "5057f3cbd3519d6ab69364429a89ffdffba50f73"
     }
   ]
 ----
 
-[[remove-subgroup]]
-=== Remove Subgroup
+[[delete-included-group]]
+=== Delete Included Group
 --
 'DELETE /groups/link:#group-id[\{group-id\}]/groups/link:#group-id[\{group-id\}]'
 --
 
-Removes a subgroup from a Gerrit internal group.
+Deletes an included group from a Gerrit internal group.
 
 .Request
 ----
@@ -1381,16 +1311,16 @@ Removes a subgroup from a Gerrit internal group.
   HTTP/1.1 204 No Content
 ----
 
-[[remove-subgroups]]
-=== Remove Subgroups
+[[delete-included-groups]]
+=== Delete Included Groups
 --
 'POST /groups/link:#group-id[\{group-id\}]/groups.delete'
 --
 
-Removes one or several subgroups from a Gerrit internal group.
+Delete one or several included groups from a Gerrit internal group.
 
-The subgroups to be removed must be provided in the request body as a
-link:#groups-input[GroupsInput] entity.
+The groups to be deleted from the group must be provided in the request
+body as a link:#groups-input[GroupsInput] entity.
 
 .Request
 ----
@@ -1487,8 +1417,6 @@ permits users to apply to join the group, or manage their membership.
 |`group_id`    |only for internal groups|The numeric ID of the group.
 |`owner`       |only for internal groups|The name of the owner group.
 |`owner_id`    |only for internal groups|The URL encoded UUID of the owner group.
-|`created_on`  |only for internal groups|The
-link:rest-api.html#timestamp[timestamp] of when the group was created.
 |`_more_groups`|optional, only for internal groups, not set if `false`|
 Whether the query would deliver more results if not limited. +
 Only set on the last group that is returned by a
@@ -1498,9 +1426,9 @@ A list of link:rest-api-accounts.html#account-info[AccountInfo]
 entities describing the direct members. +
 Only set if link:#members[members] are requested.
 |`includes`    |optional, only for internal groups|
-A list of link:#group-info[GroupInfo] entities describing the direct
-subgroups. +
-Only set if link:#includes[subgroups] are requested.
+A list of link:#group-info[GroupInfo] entities describing the directly
+included groups. +
+Only set if link:#includes[included groups] are requested.
 |===========================
 
 The type of a group can be deduced from the group's UUID:

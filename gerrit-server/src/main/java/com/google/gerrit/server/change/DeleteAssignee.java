@@ -16,8 +16,10 @@ package com.google.gerrit.server.change;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -28,14 +30,10 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.DeleteAssignee.Input;
 import com.google.gerrit.server.extensions.events.AssigneeChanged;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.permissions.ChangePermission;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -43,10 +41,10 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class DeleteAssignee
-    extends RetryingRestModifyView<ChangeResource, Input, Response<AccountInfo>> {
+public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
   public static class Input {}
 
+  private final BatchUpdate.Factory batchUpdateFactory;
   private final ChangeMessagesUtil cmUtil;
   private final Provider<ReviewDb> db;
   private final AssigneeChanged assigneeChanged;
@@ -55,13 +53,13 @@ public class DeleteAssignee
 
   @Inject
   DeleteAssignee(
-      RetryHelper retryHelper,
+      BatchUpdate.Factory batchUpdateFactory,
       ChangeMessagesUtil cmUtil,
       Provider<ReviewDb> db,
       AssigneeChanged assigneeChanged,
       IdentifiedUser.GenericFactory userFactory,
       AccountLoader.Factory accountLoaderFactory) {
-    super(retryHelper);
+    this.batchUpdateFactory = batchUpdateFactory;
     this.cmUtil = cmUtil;
     this.db = db;
     this.assigneeChanged = assigneeChanged;
@@ -70,13 +68,10 @@ public class DeleteAssignee
   }
 
   @Override
-  protected Response<AccountInfo> applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input input)
-      throws RestApiException, UpdateException, OrmException, PermissionBackendException {
-    rsrc.permissions().check(ChangePermission.EDIT_ASSIGNEE);
-
+  public Response<AccountInfo> apply(ChangeResource rsrc, Input input)
+      throws RestApiException, UpdateException, OrmException {
     try (BatchUpdate bu =
-        updateFactory.create(db.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+        batchUpdateFactory.create(db.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       Op op = new Op();
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();
@@ -93,6 +88,9 @@ public class DeleteAssignee
 
     @Override
     public boolean updateChange(ChangeContext ctx) throws RestApiException, OrmException {
+      if (!ctx.getControl().canEditAssignee()) {
+        throw new AuthException("Delete Assignee not permitted");
+      }
       change = ctx.getChange();
       ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
       Account.Id currentAssigneeId = change.getAssignee();

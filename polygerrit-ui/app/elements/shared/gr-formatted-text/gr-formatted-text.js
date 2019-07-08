@@ -14,8 +14,7 @@
 (function() {
   'use strict';
 
-  // eslint-disable-next-line no-unused-vars
-  const QUOTE_MARKER_PATTERN = /\n\s?>\s/g;
+  var QUOTE_MARKER_PATTERN = /\n\s?>\s/g;
 
   Polymer({
     is: 'gr-formatted-text',
@@ -36,7 +35,7 @@
       '_contentOrConfigChanged(content, config)',
     ],
 
-    ready() {
+    ready: function() {
       if (this.noTrailingMargin) {
         this.classList.add('noTrailingMargin');
       }
@@ -51,23 +50,23 @@
      *
      * @return {string}
      */
-    getTextContent() {
+    getTextContent: function() {
       return this._blocksToText(this._computeBlocks(this.content));
     },
 
-    _contentChanged(content) {
+    _contentChanged: function(content) {
       // In the case where the config may not be set (perhaps due to the
       // request for it still being in flight), set the content anyway to
       // prevent waiting on the config to display the text.
       if (this.config) { return; }
-      this._contentOrConfigChanged(content);
+      this.$.container.textContent = content;
     },
 
     /**
      * Given a source string, update the DOM inside #container.
      */
-    _contentOrConfigChanged(content) {
-      const container = Polymer.dom(this.$.container);
+    _contentOrConfigChanged: function(content) {
+      var container = Polymer.dom(this.$.container);
 
       // Remove existing content.
       while (container.firstChild) {
@@ -75,9 +74,10 @@
       }
 
       // Add new content.
-      for (const node of this._computeNodes(this._computeBlocks(content))) {
+      this._computeNodes(this._computeBlocks(content))
+          .forEach(function(node) {
         container.appendChild(node);
-      }
+      });
     },
 
     /**
@@ -102,14 +102,14 @@
      * @param {string} content
      * @return {!Array<!Object>}
      */
-    _computeBlocks(content) {
+    _computeBlocks: function(content) {
       if (!content) { return []; }
 
-      const result = [];
-      const split = content.split('\n\n');
-      let p;
+      var result = [];
+      var split = content.split('\n\n');
+      var p;
 
-      for (let i = 0; i < split.length; i++) {
+      for (var i = 0; i < split.length; i++) {
         p = split[i];
         if (!p.length) { continue; }
 
@@ -153,14 +153,14 @@
      *   potential paragraph).
      * @param {!Array<!Object>} out The list of blocks to append to.
      */
-    _makeList(p, out) {
-      let block = null;
-      let inList = false;
-      let inParagraph = false;
-      const lines = p.split('\n');
-      let line;
+    _makeList: function(p, out) {
+      var block = null;
+      var inList = false;
+      var inParagraph = false;
+      var lines = p.split('\n');
+      var line;
 
-      for (let i = 0; i < lines.length; i++) {
+      for (var i = 0; i < lines.length; i++) {
         line = lines[i];
 
         if (line[0] === '-' || line[0] === '*') {
@@ -171,9 +171,7 @@
             if (inParagraph) {
               // Add the finished paragraph block to the result.
               inParagraph = false;
-              if (block !== null) {
-                out.push(block);
-              }
+              out.push(block);
             }
             inList = true;
             block = {type: 'list', items: []};
@@ -195,15 +193,15 @@
         }
         block.items.push(line);
       }
-      if (block !== null) {
+      if (block != null) {
         out.push(block);
       }
     },
 
-    _makeQuote(p) {
-      const quotedLines = p
+    _makeQuote: function(p) {
+      var quotedLines = p
           .split('\n')
-          .map(l => l.replace(/^[ ]?>[ ]?/, ''))
+          .map(function(l) { return l.replace(/^[ ]?>[ ]?/, ''); })
           .join('\n');
       return {
         type: 'quote',
@@ -211,30 +209,26 @@
       };
     },
 
-    _isQuote(p) {
-      return p.startsWith('> ') || p.startsWith(' > ');
+    _isQuote: function(p) {
+      return p.indexOf('> ') === 0 || p.indexOf(' > ') === 0;
     },
 
-    _isPreFormat(p) {
-      return p.includes('\n ') || p.includes('\n\t') ||
-          p.startsWith(' ') || p.startsWith('\t');
+    _isPreFormat: function(p) {
+      return p.indexOf('\n ') !== -1 || p.indexOf('\n\t') !== -1 ||
+          p.indexOf(' ') === 0 || p.indexOf('\t') === 0;
     },
 
-    _isList(p) {
-      return p.includes('\n- ') || p.includes('\n* ') ||
-          p.startsWith('- ') || p.startsWith('* ');
+    _isList: function(p) {
+      return p.indexOf('\n- ') !== -1 || p.indexOf('\n* ') !== -1 ||
+          p.indexOf('- ') === 0 || p.indexOf('* ') === 0;
     },
 
-    /**
-     * @param {string} content
-     * @param {boolean=} opt_isPre
-     */
-    _makeLinkedText(content, opt_isPre) {
-      const text = document.createElement('gr-linked-text');
+    _makeLinkedText: function(content, isPre) {
+      var text = document.createElement('gr-linked-text');
       text.config = this.config;
       text.content = content;
       text.pre = true;
-      if (opt_isPre) {
+      if (isPre) {
         text.classList.add('pre');
       }
       return text;
@@ -245,19 +239,19 @@
      * @param  {!Array<!Object>} blocks
      * @return {!Array<!HTMLElement>}
      */
-    _computeNodes(blocks) {
-      return blocks.map(block => {
+    _computeNodes: function(blocks) {
+      return blocks.map(function(block) {
         if (block.type === 'paragraph') {
-          const p = document.createElement('p');
+          var p = document.createElement('p');
           p.appendChild(this._makeLinkedText(block.text));
           return p;
         }
 
         if (block.type === 'quote') {
-          const bq = document.createElement('blockquote');
-          for (const node of this._computeNodes(block.blocks)) {
+          var bq = document.createElement('blockquote');
+          this._computeNodes(block.blocks).forEach(function(node) {
             bq.appendChild(node);
-          }
+          });
           return bq;
         }
 
@@ -266,19 +260,19 @@
         }
 
         if (block.type === 'list') {
-          const ul = document.createElement('ul');
-          for (const item of block.items) {
-            const li = document.createElement('li');
+          var ul = document.createElement('ul');
+          block.items.forEach(function(item) {
+            var li = document.createElement('li');
             li.appendChild(this._makeLinkedText(item));
             ul.appendChild(li);
-          }
+          }.bind(this));
           return ul;
         }
-      });
+      }.bind(this));
     },
 
-    _blocksToText(blocks) {
-      return blocks.map(block => {
+    _blocksToText: function(blocks) {
+      return blocks.map(function(block) {
         if (block.type === 'paragraph' || block.type === 'pre') {
           return block.text;
         }
@@ -288,7 +282,7 @@
         if (block.type === 'list') {
           return block.items.join('\n');
         }
-      }).join('\n\n');
+      }.bind(this)).join('\n\n');
     },
   });
 })();

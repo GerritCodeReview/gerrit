@@ -150,16 +150,16 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
   @Inject
   SshDaemon(
-      CommandFactory commandFactory,
-      NoShell noShell,
-      PublickeyAuthenticator userAuth,
-      GerritGSSAuthenticator kerberosAuth,
-      KeyPairProvider hostKeyProvider,
-      IdGenerator idGenerator,
-      @GerritServerConfig Config cfg,
-      SshLog sshLog,
-      @SshListenAddresses List<SocketAddress> listen,
-      @SshAdvertisedAddresses List<String> advertised,
+      final CommandFactory commandFactory,
+      final NoShell noShell,
+      final PublickeyAuthenticator userAuth,
+      final GerritGSSAuthenticator kerberosAuth,
+      final KeyPairProvider hostKeyProvider,
+      final IdGenerator idGenerator,
+      @GerritServerConfig final Config cfg,
+      final SshLog sshLog,
+      @SshListenAddresses final List<SocketAddress> listen,
+      @SshAdvertisedAddresses final List<String> advertised,
       MetricMaker metricMaker) {
     setPort(IANA_SSH_PORT /* never used */);
 
@@ -262,7 +262,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     setSessionFactory(
         new SessionFactory(this) {
           @Override
-          protected ServerSessionImpl createSession(IoSession io) throws Exception {
+          protected ServerSessionImpl createSession(final IoSession io) throws Exception {
             connected.incrementAndGet();
             sessionsCreated.increment();
             if (io instanceof MinaSession) {
@@ -397,12 +397,12 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
     final List<PublicKey> keys = myHostKeys();
     final List<HostKey> r = new ArrayList<>();
-    for (PublicKey pub : keys) {
+    for (final PublicKey pub : keys) {
       final Buffer buf = new ByteArrayBuffer();
       buf.putRawPublicKey(pub);
       final byte[] keyBin = buf.getCompactData();
 
-      for (String addr : advertised) {
+      for (final String addr : advertised) {
         try {
           r.add(new HostKey(addr, keyBin));
         } catch (JSchException e) {
@@ -428,7 +428,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   private static void addPublicKey(
-      final Collection<PublicKey> out, KeyPairProvider p, String type) {
+      final Collection<PublicKey> out, final KeyPairProvider p, final String type) {
     final KeyPair pair = p.loadKey(type);
     if (pair != null && pair.getPublic() != null) {
       out.add(pair.getPublic());
@@ -528,7 +528,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   @SuppressWarnings("unchecked")
-  private void initCiphers(Config cfg) {
+  private void initCiphers(final Config cfg) {
     final List<NamedFactory<Cipher>> a = BaseBuilder.setUpDefaultCiphers(true);
 
     for (Iterator<NamedFactory<Cipher>> i = a.iterator(); i.hasNext(); ) {
@@ -566,9 +566,9 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
   @SafeVarargs
   private static <T> List<NamedFactory<T>> filter(
-      final Config cfg, String key, NamedFactory<T>... avail) {
+      final Config cfg, final String key, final NamedFactory<T>... avail) {
     final ArrayList<NamedFactory<T>> def = new ArrayList<>();
-    for (NamedFactory<T> n : avail) {
+    for (final NamedFactory<T> n : avail) {
       if (n == null) {
         break;
       }
@@ -581,7 +581,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     }
 
     boolean didClear = false;
-    for (String setting : want) {
+    for (final String setting : want) {
       String name = setting.trim();
       boolean add = true;
       if (name.startsWith("-")) {
@@ -622,8 +622,8 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   @SafeVarargs
-  private static <T> NamedFactory<T> find(String name, NamedFactory<T>... avail) {
-    for (NamedFactory<T> n : avail) {
+  private static <T> NamedFactory<T> find(final String name, final NamedFactory<T>... avail) {
+    for (final NamedFactory<T> n : avail) {
       if (n != null && name.equals(n.getName())) {
         return n;
       }

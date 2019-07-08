@@ -168,8 +168,8 @@ public class DataSourceProvider implements Provider<DataSource>, LifecycleListen
     }
   }
 
-  private void exportPoolMetrics(BasicDataSource pool) {
-    CallbackMetric1<Boolean, Integer> cnt =
+  private void exportPoolMetrics(final BasicDataSource pool) {
+    final CallbackMetric1<Boolean, Integer> cnt =
         metrics.newCallbackMetric(
             "sql/connection_pool/connections",
             Integer.class,

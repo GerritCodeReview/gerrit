@@ -24,13 +24,9 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.google.gwtorm.server.OrmException;
 
 class CommentEvent extends Event {
-  private static final Logger log = LoggerFactory.getLogger(CommentEvent.class);
-
   public final Comment c;
   private final Change change;
   private final PatchSet ps;
@@ -61,19 +57,10 @@ class CommentEvent extends Event {
   }
 
   @Override
-  void apply(ChangeUpdate update) {
+  void apply(ChangeUpdate update) throws OrmException {
     checkUpdate(update);
     if (c.revId == null) {
-      try {
-        setCommentRevId(c, cache, change, ps);
-      } catch (PatchListNotAvailableException e) {
-        log.warn(
-            "Unable to determine parent commit of patch set {} ({}); omitting inline comment {}",
-            ps.getId(),
-            ps.getRevision(),
-            c);
-        return;
-      }
+      setCommentRevId(c, cache, change, ps);
     }
     update.putComment(PatchLineComment.Status.PUBLISHED, c);
   }

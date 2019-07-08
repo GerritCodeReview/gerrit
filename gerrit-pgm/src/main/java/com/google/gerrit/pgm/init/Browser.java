@@ -29,7 +29,7 @@ public class Browser {
   private final Config cfg;
 
   @Inject
-  Browser(@GerritServerConfig Config cfg) {
+  Browser(@GerritServerConfig final Config cfg) {
     this.cfg = cfg;
   }
 
@@ -37,7 +37,7 @@ public class Browser {
     open(null /* root page */);
   }
 
-  public void open(String link) throws Exception {
+  public void open(final String link) throws Exception {
     String url = cfg.getString("gerrit", null, "canonicalWebUrl");
     if (url == null) {
       url = cfg.getString("httpd", null, "listenUrl");

@@ -26,5 +26,4 @@ public class ProjectInfo {
   public ProjectState state;
   public Map<String, String> branches;
   public List<WebLinkInfo> webLinks;
-  public Map<String, LabelTypeInfo> labels;
 }

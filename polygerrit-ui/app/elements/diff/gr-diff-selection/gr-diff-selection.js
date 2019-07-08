@@ -18,21 +18,19 @@
    * Possible CSS classes indicating the state of selection. Dynamically added/
    * removed based on where the user clicks within the diff.
    */
-  const SelectionClass = {
+  var SelectionClass = {
     COMMENT: 'selected-comment',
     LEFT: 'selected-left',
     RIGHT: 'selected-right',
-    BLAME: 'selected-blame',
   };
 
-  const getNewCache = () => { return {left: null, right: null}; };
+  var getNewCache = function() { return {left: null, right: null}; };
 
   Polymer({
     is: 'gr-diff-selection',
 
     properties: {
       diff: Object,
-      /** @type {?Object} */
       _cachedDiffBuilder: Object,
       _linesCache: {
         type: Object,
@@ -45,11 +43,11 @@
     ],
 
     listeners: {
-      copy: '_handleCopy',
-      down: '_handleDown',
+      'copy': '_handleCopy',
+      'down': '_handleDown',
     },
 
-    attached() {
+    attached: function() {
       this.classList.add(SelectionClass.RIGHT);
     },
 
@@ -61,60 +59,44 @@
       return this._cachedDiffBuilder;
     },
 
-    _diffChanged() {
+    _diffChanged: function() {
       this._linesCache = getNewCache();
     },
 
-    _handleDown(e) {
-      const lineEl = this.diffBuilder.getLineElByChild(e.target);
-      const blameSelected = this._elementDescendedFromClass(e.target, 'blame');
-      if (!lineEl && !blameSelected) { return; }
-
-      const targetClasses = [];
-
-      if (blameSelected) {
-        targetClasses.push(SelectionClass.BLAME);
-      } else {
-        const commentSelected =
-            this._elementDescendedFromClass(e.target, 'gr-diff-comment');
-        const side = this.diffBuilder.getSideByLineEl(lineEl);
-
-        targetClasses.push(side === 'left' ?
-            SelectionClass.LEFT :
-            SelectionClass.RIGHT);
-
-        if (commentSelected) {
-          targetClasses.push(SelectionClass.COMMENT);
-        }
+    _handleDown: function(e) {
+      var lineEl = this.diffBuilder.getLineElByChild(e.target);
+      if (!lineEl) {
+        return;
       }
+      var commentSelected =
+          this._elementDescendedFromClass(e.target, 'gr-diff-comment');
+      var side = this.diffBuilder.getSideByLineEl(lineEl);
+      var targetClasses = [];
+      targetClasses.push(side === 'left' ?
+          SelectionClass.LEFT :
+          SelectionClass.RIGHT);
 
-      this._setClasses(targetClasses);
-    },
-
-    /**
-     * Set the provided list of classes on the element, to the exclusion of all
-     * other SelectionClass values.
-     * @param {!Array<!string>} targetClasses
-     */
-    _setClasses(targetClasses) {
+      if (commentSelected) {
+        targetClasses.push(SelectionClass.COMMENT);
+      }
       // Remove any selection classes that do not belong.
-      for (const key in SelectionClass) {
+      for (var key in SelectionClass) {
         if (SelectionClass.hasOwnProperty(key)) {
-          const className = SelectionClass[key];
-          if (!targetClasses.includes(className)) {
+          var className = SelectionClass[key];
+          if (targetClasses.indexOf(className) === -1) {
             this.classList.remove(SelectionClass[key]);
           }
         }
       }
       // Add new selection classes iff they are not already present.
-      for (const _class of targetClasses) {
-        if (!this.classList.contains(_class)) {
-          this.classList.add(_class);
+      for (var i = 0; i < targetClasses.length; i++) {
+        if (!this.classList.contains(targetClasses[i])) {
+          this.classList.add(targetClasses[i]);
         }
       }
     },
 
-    _getCopyEventTarget(e) {
+    _getCopyEventTarget: function(e) {
       return Polymer.dom(e).rootTarget;
     },
 
@@ -126,7 +108,7 @@
      * @param {!string} className
      * @return {boolean}
      */
-    _elementDescendedFromClass(element, className) {
+    _elementDescendedFromClass: function(element, className) {
       while (!element.classList.contains(className)) {
         if (!element.parentElement ||
             element === this.diffBuilder.diffElement) {
@@ -137,20 +119,20 @@
       return true;
     },
 
-    _handleCopy(e) {
-      let commentSelected = false;
-      const target = this._getCopyEventTarget(e);
+    _handleCopy: function(e) {
+      var commentSelected = false;
+      var target = this._getCopyEventTarget(e);
       if (target.type === 'textarea') { return; }
       if (!this._elementDescendedFromClass(target, 'diff-row')) { return; }
       if (this.classList.contains(SelectionClass.COMMENT)) {
         commentSelected = true;
       }
-      const lineEl = this.diffBuilder.getLineElByChild(target);
+      var lineEl = this.diffBuilder.getLineElByChild(target);
       if (!lineEl) {
         return;
       }
-      const side = this.diffBuilder.getSideByLineEl(lineEl);
-      const text = this._getSelectedText(side, commentSelected);
+      var side = this.diffBuilder.getSideByLineEl(lineEl);
+      var text = this._getSelectedText(side, commentSelected);
       if (text) {
         e.clipboardData.setData('Text', text);
         e.preventDefault();
@@ -162,24 +144,23 @@
      * true, it returns only the text of comments within the selection.
      * Otherwise it returns the text of the selected diff region.
      *
-     * @param {!string} side The side that is selected.
-     * @param {boolean} commentSelected Whether or not a comment is selected.
+     * @param {!string} The side that is selected.
+     * @param {boolean} Whether or not a comment is selected.
      * @return {string} The selected text.
      */
-    _getSelectedText(side, commentSelected) {
-      const sel = window.getSelection();
+    _getSelectedText: function(side, commentSelected) {
+      var sel = window.getSelection();
       if (sel.rangeCount != 1) {
-        return ''; // No multi-select support yet.
+        return; // No multi-select support yet.
       }
       if (commentSelected) {
         return this._getCommentLines(sel, side);
       }
-      const range = GrRangeNormalizer.normalize(sel.getRangeAt(0));
-      const startLineEl =
-          this.diffBuilder.getLineElByChild(range.startContainer);
-      const endLineEl = this.diffBuilder.getLineElByChild(range.endContainer);
-      const startLineNum = parseInt(startLineEl.getAttribute('data-value'), 10);
-      const endLineNum = parseInt(endLineEl.getAttribute('data-value'), 10);
+      var range = GrRangeNormalizer.normalize(sel.getRangeAt(0));
+      var startLineEl = this.diffBuilder.getLineElByChild(range.startContainer);
+      var endLineEl = this.diffBuilder.getLineElByChild(range.endContainer);
+      var startLineNum = parseInt(startLineEl.getAttribute('data-value'), 10);
+      var endLineNum = parseInt(endLineEl.getAttribute('data-value'), 10);
 
       return this._getRangeFromDiff(startLineNum, range.startOffset, endLineNum,
           range.endOffset, side);
@@ -188,16 +169,16 @@
     /**
      * Query the diff object for the selected lines.
      *
-     * @param {number} startLineNum
-     * @param {number} startOffset
-     * @param {number} endLineNum
-     * @param {number} endOffset
+     * @param {int} startLineNum
+     * @param {int} startOffset
+     * @param {int} endLineNum
+     * @param {int} endOffset
      * @param {!string} side The side that is currently selected.
      * @return {string} The selected diff text.
      */
-    _getRangeFromDiff(startLineNum, startOffset, endLineNum, endOffset, side) {
-      const lines =
-          this._getDiffLines(side).slice(startLineNum - 1, endLineNum);
+    _getRangeFromDiff: function(startLineNum, startOffset, endLineNum,
+        endOffset, side) {
+      var lines = this._getDiffLines(side).slice(startLineNum - 1, endLineNum);
       if (lines.length) {
         lines[lines.length - 1] = lines[lines.length - 1]
             .substring(0, endOffset);
@@ -210,15 +191,19 @@
      * Query the diff object for the lines from a particular side.
      *
      * @param {!string} side The side that is currently selected.
-     * @return {!Array<string>} An array of strings indexed by line number.
+     * @return {Array.string} An array of strings indexed by line number.
      */
-    _getDiffLines(side) {
+    _getDiffLines: function(side) {
       if (this._linesCache[side]) {
         return this._linesCache[side];
       }
-      let lines = [];
-      const key = side === 'left' ? 'a' : 'b';
-      for (const chunk of this.diff.content) {
+      var lines = [];
+      var chunk;
+      var key = side === 'left' ? 'a' : 'b';
+      for (var chunkIndex = 0;
+          chunkIndex < this.diff.content.length;
+          chunkIndex++) {
+        chunk = this.diff.content[chunkIndex];
         if (chunk.ab) {
           lines = lines.concat(chunk.ab);
         } else if (chunk[key]) {
@@ -237,16 +222,16 @@
      * @param {!string} side The side that is currently selected.
      * @return {string} The selected comment text.
      */
-    _getCommentLines(sel, side) {
-      const range = GrRangeNormalizer.normalize(sel.getRangeAt(0));
-      const content = [];
+    _getCommentLines: function(sel, side) {
+      var range = GrRangeNormalizer.normalize(sel.getRangeAt(0));
+      var content = [];
       // Query the diffElement for comments.
-      const messages = this.diffBuilder.diffElement.querySelectorAll(
-          `.side-by-side [data-side="${side
-          }"] .message *, .unified .message *`);
+      var messages = this.diffBuilder.diffElement.querySelectorAll(
+          '.side-by-side [data-side="' + side +
+          '"] .message *, .unified .message *');
 
-      for (let i = 0; i < messages.length; i++) {
-        const el = messages[i];
+      for (var i = 0; i < messages.length; i++) {
+        var el = messages[i];
         // Check if the comment element exists inside the selection.
         if (sel.containsNode(el, true)) {
           // Padded elements require newlines for accurate spacing.
@@ -272,15 +257,15 @@
      * of the text content within that selection.
      * Using a domNode that isn't in the selection returns an empty string.
      *
-     * @param {!Node} domNode The root DOM node.
-     * @param {!Selection} sel The selection.
-     * @param {!Range} range The normalized selection range.
+     * @param {Element} domNode The root DOM node.
+     * @param {Selection} sel The selection.
+     * @param {Range} range The normalized selection range.
      * @return {string} The text within the selection.
      */
-    _getTextContentForRange(domNode, sel, range) {
+    _getTextContentForRange: function(domNode, sel, range) {
       if (!sel.containsNode(domNode, true)) { return ''; }
 
-      let text = '';
+      var text = '';
       if (domNode instanceof Text) {
         text = domNode.textContent;
         if (domNode === range.endContainer) {
@@ -290,8 +275,9 @@
           text = text.substring(range.startOffset);
         }
       } else {
-        for (const childNode of domNode.childNodes) {
-          text += this._getTextContentForRange(childNode, sel, range);
+        for (var i = 0; i < domNode.childNodes.length; i++) {
+          text += this._getTextContentForRange(domNode.childNodes[i],
+              sel, range);
         }
       }
       return text;

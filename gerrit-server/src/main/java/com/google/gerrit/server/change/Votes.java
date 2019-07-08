@@ -84,12 +84,9 @@ public class Votes implements ChildCollection<ReviewerResource, VoteResource> {
       Iterable<PatchSetApproval> byPatchSetUser =
           approvalsUtil.byPatchSetUser(
               db.get(),
-              rsrc.getChangeResource().getNotes(),
-              rsrc.getChangeResource().getUser(),
+              rsrc.getControl(),
               rsrc.getChange().currentPatchSetId(),
-              rsrc.getReviewerUser().getAccountId(),
-              null,
-              null);
+              rsrc.getReviewerUser().getAccountId());
       for (PatchSetApproval psa : byPatchSetUser) {
         votes.put(psa.getLabel(), psa.getValue());
       }

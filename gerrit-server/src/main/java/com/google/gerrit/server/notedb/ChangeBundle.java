@@ -68,7 +68,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -234,12 +233,11 @@ public class ChangeBundle {
     // last time this file was updated.
     checkColumns(Change.Id.class, 1);
 
-    checkColumns(
-        Change.class, 1, 2, 3, 4, 5, 7, 8, 10, 12, 13, 14, 17, 18, 19, 20, 21, 22, 23, 101);
+    checkColumns(Change.class, 1, 2, 3, 4, 5, 7, 8, 10, 12, 13, 14, 17, 18, 19, 101);
     checkColumns(ChangeMessage.Key.class, 1, 2);
     checkColumns(ChangeMessage.class, 1, 2, 3, 4, 5, 6, 7);
     checkColumns(PatchSet.Id.class, 1, 2);
-    checkColumns(PatchSet.class, 1, 2, 3, 4, 6, 8, 9);
+    checkColumns(PatchSet.class, 1, 2, 3, 4, 5, 6, 8, 9);
     checkColumns(PatchSetApproval.Key.class, 1, 2, 3);
     checkColumns(PatchSetApproval.class, 1, 2, 3, 6, 7, 8);
     checkColumns(PatchLineComment.Key.class, 1, 2);
@@ -388,8 +386,6 @@ public class ChangeBundle {
     boolean excludeCreatedOn = false;
     boolean excludeCurrentPatchSetId = false;
     boolean excludeTopic = false;
-    Timestamp aCreated = a.getCreatedOn();
-    Timestamp bCreated = b.getCreatedOn();
     Timestamp aUpdated = a.getLastUpdatedOn();
     Timestamp bUpdated = b.getLastUpdatedOn();
 
@@ -400,10 +396,8 @@ public class ChangeBundle {
     String aSubj = Strings.nullToEmpty(a.getSubject());
     String bSubj = Strings.nullToEmpty(b.getSubject());
 
-    // Allow created timestamp in NoteDb to be any of:
-    //  - The created timestamp of the change.
-    //  - The timestamp of the first remaining patch set.
-    //  - The last updated timestamp, if it is less than the created timestamp.
+    // Allow created timestamp in NoteDb to be either the created timestamp of
+    // the change, or the timestamp of the first remaining patch set.
     //
     // Ignore subject if the NoteDb subject starts with the ReviewDb subject.
     // The NoteDb subject is read directly from the commit, whereas the ReviewDb
@@ -439,14 +433,8 @@ public class ChangeBundle {
     //
     // Use max timestamp of all ReviewDb entities when comparing with NoteDb.
     if (bundleA.source == REVIEW_DB && bundleB.source == NOTE_DB) {
-      boolean createdOnMatchesFirstPs =
-          !timestampsDiffer(bundleA, bundleA.getFirstPatchSetTime(), bundleB, bCreated);
-      boolean createdOnMatchesLastUpdatedOn =
-          !timestampsDiffer(bundleA, aUpdated, bundleB, bCreated);
-      boolean createdAfterUpdated = aCreated.compareTo(aUpdated) > 0;
       excludeCreatedOn =
-          createdOnMatchesFirstPs || (createdAfterUpdated && createdOnMatchesLastUpdatedOn);
-
+          !timestampsDiffer(bundleA, bundleA.getFirstPatchSetTime(), bundleB, b.getCreatedOn());
       aSubj = cleanReviewDbSubject(aSubj);
       bSubj = cleanNoteDbSubject(bSubj);
       excludeCurrentPatchSetId = !bundleA.validPatchSetPredicate().apply(a.currentPatchSetId());
@@ -457,14 +445,8 @@ public class ChangeBundle {
           Objects.equals(aTopic, b.getTopic()) || ("".equals(aTopic) && b.getTopic() == null);
       aUpdated = bundleA.getLatestTimestamp();
     } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
-      boolean createdOnMatchesFirstPs =
-          !timestampsDiffer(bundleA, aCreated, bundleB, bundleB.getFirstPatchSetTime());
-      boolean createdOnMatchesLastUpdatedOn =
-          !timestampsDiffer(bundleA, aCreated, bundleB, bUpdated);
-      boolean createdAfterUpdated = bCreated.compareTo(bUpdated) > 0;
       excludeCreatedOn =
-          createdOnMatchesFirstPs || (createdAfterUpdated && createdOnMatchesLastUpdatedOn);
-
+          !timestampsDiffer(bundleA, a.getCreatedOn(), bundleB, bundleB.getFirstPatchSetTime());
       aSubj = cleanNoteDbSubject(aSubj);
       bSubj = cleanReviewDbSubject(bSubj);
       excludeCurrentPatchSetId = !bundleB.validPatchSetPredicate().apply(b.currentPatchSetId());
@@ -668,8 +650,6 @@ public class ChangeBundle {
       List<String> diffs, ChangeBundle bundleA, ChangeBundle bundleB) {
     Map<PatchSet.Id, PatchSet> as = bundleA.patchSets;
     Map<PatchSet.Id, PatchSet> bs = bundleB.patchSets;
-    Optional<PatchSet.Id> minA = as.keySet().stream().min(intKeyOrdering());
-    Optional<PatchSet.Id> minB = bs.keySet().stream().min(intKeyOrdering());
     Set<PatchSet.Id> ids = diffKeySets(diffs, as, bs);
 
     // Old versions of Gerrit had a bug that created patch sets during
@@ -682,14 +662,11 @@ public class ChangeBundle {
     // ignore the createdOn timestamps if both:
     //   * ReviewDb timestamps are non-monotonic.
     //   * NoteDb timestamps are monotonic.
-    //
-    // Allow the timestamp of the first patch set to match the creation time of
-    // the change.
-    boolean excludeAllCreatedOn = false;
+    boolean excludeCreatedOn = false;
     if (bundleA.source == REVIEW_DB && bundleB.source == NOTE_DB) {
-      excludeAllCreatedOn = !createdOnIsMonotonic(as, ids) && createdOnIsMonotonic(bs, ids);
+      excludeCreatedOn = !createdOnIsMonotonic(as, ids) && createdOnIsMonotonic(bs, ids);
     } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
-      excludeAllCreatedOn = createdOnIsMonotonic(as, ids) && !createdOnIsMonotonic(bs, ids);
+      excludeCreatedOn = createdOnIsMonotonic(as, ids) && !createdOnIsMonotonic(bs, ids);
     }
 
     for (PatchSet.Id id : ids) {
@@ -698,16 +675,11 @@ public class ChangeBundle {
       String desc = describe(id);
       String pushCertField = "pushCertificate";
 
-      boolean excludeCreatedOn = excludeAllCreatedOn;
       boolean excludeDesc = false;
       if (bundleA.source == REVIEW_DB && bundleB.source == NOTE_DB) {
         excludeDesc = Objects.equals(trimOrNull(a.getDescription()), b.getDescription());
-        excludeCreatedOn |=
-            Optional.of(id).equals(minB) && b.getCreatedOn().equals(bundleB.change.getCreatedOn());
       } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
         excludeDesc = Objects.equals(a.getDescription(), trimOrNull(b.getDescription()));
-        excludeCreatedOn |=
-            Optional.of(id).equals(minA) && a.getCreatedOn().equals(bundleA.change.getCreatedOn());
       }
 
       List<String> exclude = Lists.newArrayList(pushCertField);

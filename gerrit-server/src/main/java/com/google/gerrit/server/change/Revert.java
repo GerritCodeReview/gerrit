@@ -14,47 +14,42 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
-import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
-
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.extensions.events.ChangeReverted;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.send.RevertedSender;
-import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.ReviewerStateInternal;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ContributorAgreementsChecker;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -79,15 +74,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, ChangeInfo>
-    implements UiAction<ChangeResource> {
+public class Revert
+    implements RestModifyView<ChangeResource, RevertInput>, UiAction<ChangeResource> {
   private static final Logger log = LoggerFactory.getLogger(Revert.class);
 
   private final Provider<ReviewDb> db;
-  private final PermissionBackend permissionBackend;
   private final GitRepositoryManager repoManager;
   private final ChangeInserter.Factory changeInserterFactory;
   private final ChangeMessagesUtil cmUtil;
+  private final BatchUpdate.Factory updateFactory;
   private final Sequences seq;
   private final PatchSetUtil psUtil;
   private final RevertedSender.Factory revertedSenderFactory;
@@ -95,30 +90,26 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
   private final PersonIdent serverIdent;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeReverted changeReverted;
-  private final ContributorAgreementsChecker contributorAgreements;
 
   @Inject
   Revert(
       Provider<ReviewDb> db,
-      PermissionBackend permissionBackend,
       GitRepositoryManager repoManager,
       ChangeInserter.Factory changeInserterFactory,
       ChangeMessagesUtil cmUtil,
-      RetryHelper retryHelper,
+      BatchUpdate.Factory updateFactory,
       Sequences seq,
       PatchSetUtil psUtil,
       RevertedSender.Factory revertedSenderFactory,
       ChangeJson.Factory json,
       @GerritPersonIdent PersonIdent serverIdent,
       ApprovalsUtil approvalsUtil,
-      ChangeReverted changeReverted,
-      ContributorAgreementsChecker contributorAgreements) {
-    super(retryHelper);
+      ChangeReverted changeReverted) {
     this.db = db;
-    this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
     this.changeInserterFactory = changeInserterFactory;
     this.cmUtil = cmUtil;
+    this.updateFactory = updateFactory;
     this.seq = seq;
     this.psUtil = psUtil;
     this.revertedSenderFactory = revertedSenderFactory;
@@ -126,38 +117,41 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
     this.serverIdent = serverIdent;
     this.approvalsUtil = approvalsUtil;
     this.changeReverted = changeReverted;
-    this.contributorAgreements = contributorAgreements;
   }
 
   @Override
-  public ChangeInfo applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource rsrc, RevertInput input)
-      throws IOException, OrmException, RestApiException, UpdateException, NoSuchChangeException,
-          PermissionBackendException, NoSuchProjectException {
-    Change change = rsrc.getChange();
-    if (change.getStatus() != Change.Status.MERGED) {
-      throw new ResourceConflictException("change is " + ChangeUtil.status(change));
+  public ChangeInfo apply(ChangeResource req, RevertInput input)
+      throws IOException, OrmException, RestApiException, UpdateException, NoSuchChangeException {
+    RefControl refControl = req.getControl().getRefControl();
+    ProjectControl projectControl = req.getControl().getProjectControl();
+
+    Capable capable = projectControl.canPushToAtLeastOneRef();
+    if (capable != Capable.OK) {
+      throw new AuthException(capable.getMessage());
     }
 
-    contributorAgreements.check(rsrc.getProject(), rsrc.getUser());
-    permissionBackend.user(rsrc.getUser()).ref(change.getDest()).check(CREATE_CHANGE);
+    Change change = req.getChange();
+    if (!refControl.canUpload()) {
+      throw new AuthException("revert not permitted");
+    } else if (change.getStatus() != Status.MERGED) {
+      throw new ResourceConflictException("change is " + status(change));
+    }
 
-    Change.Id revertId =
-        revert(updateFactory, rsrc.getNotes(), rsrc.getUser(), Strings.emptyToNull(input.message));
-    return json.noOptions().format(rsrc.getProject(), revertId);
+    Change.Id revertedChangeId = revert(req.getControl(), Strings.emptyToNull(input.message));
+    return json.noOptions().format(req.getProject(), revertedChangeId);
   }
 
-  private Change.Id revert(
-      BatchUpdate.Factory updateFactory, ChangeNotes notes, CurrentUser user, String message)
+  private Change.Id revert(ChangeControl ctl, String message)
       throws OrmException, IOException, RestApiException, UpdateException {
-    Change.Id changeIdToRevert = notes.getChangeId();
-    PatchSet.Id patchSetId = notes.getChange().currentPatchSetId();
-    PatchSet patch = psUtil.get(db.get(), notes, patchSetId);
+    Change.Id changeIdToRevert = ctl.getChange().getId();
+    PatchSet.Id patchSetId = ctl.getChange().currentPatchSetId();
+    PatchSet patch = psUtil.get(db.get(), ctl.getNotes(), patchSetId);
     if (patch == null) {
       throw new ResourceNotFoundException(changeIdToRevert.toString());
     }
 
-    Project.NameKey project = notes.getProjectName();
+    Project.NameKey project = ctl.getProject().getNameKey();
+    CurrentUser user = ctl.getUser();
     try (Repository git = repoManager.openRepository(project);
         ObjectInserter oi = git.newObjectInserter();
         ObjectReader reader = oi.newReader();
@@ -182,7 +176,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       revertCommitBuilder.setAuthor(authorIdent);
       revertCommitBuilder.setCommitter(authorIdent);
 
-      Change changeToRevert = notes.getChange();
+      Change changeToRevert = ctl.getChange();
       if (message == null) {
         message =
             MessageFormat.format(
@@ -206,27 +200,21 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
 
       ChangeInserter ins =
           changeInserterFactory
-              .create(changeId, revertCommit, notes.getChange().getDest().get())
+              .create(changeId, revertCommit, ctl.getChange().getDest().get())
+              .setValidatePolicy(CommitValidators.Policy.GERRIT)
               .setTopic(changeToRevert.getTopic());
       ins.setMessage("Uploaded patch set 1.");
 
-      ReviewerSet reviewerSet = approvalsUtil.getReviewers(db.get(), notes);
-
       Set<Account.Id> reviewers = new HashSet<>();
       reviewers.add(changeToRevert.getOwner());
-      reviewers.addAll(reviewerSet.byState(ReviewerStateInternal.REVIEWER));
+      reviewers.addAll(approvalsUtil.getReviewers(db.get(), ctl.getNotes()).all());
       reviewers.remove(user.getAccountId());
       ins.setReviewers(reviewers);
-
-      Set<Account.Id> ccs = new HashSet<>(reviewerSet.byState(ReviewerStateInternal.CC));
-      ccs.remove(user.getAccountId());
-      ins.setExtraCC(ccs);
-      ins.setRevertOf(changeIdToRevert);
 
       try (BatchUpdate bu = updateFactory.create(db.get(), project, user, now)) {
         bu.setRepository(git, revWalk, oi);
         bu.insertChange(ins);
-        bu.addOp(changeId, new NotifyOp(changeToRevert, ins));
+        bu.addOp(changeId, new NotifyOp(ctl.getChange(), ins));
         bu.addOp(changeToRevert.getId(), new PostRevertedMessageOp(computedChangeId));
         bu.execute();
       }
@@ -237,18 +225,17 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
   }
 
   @Override
-  public UiAction.Description getDescription(ChangeResource rsrc) {
-    Change change = rsrc.getChange();
+  public UiAction.Description getDescription(ChangeResource resource) {
     return new UiAction.Description()
         .setLabel("Revert")
         .setTitle("Revert the change")
         .setVisible(
-            and(
-                change.getStatus() == Change.Status.MERGED,
-                permissionBackend
-                    .user(rsrc.getUser())
-                    .ref(change.getDest())
-                    .testCond(CREATE_CHANGE)));
+            resource.getChange().getStatus() == Status.MERGED
+                && resource.getControl().getRefControl().canUpload());
+  }
+
+  private static String status(Change change) {
+    return change != null ? change.getStatus().name().toLowerCase() : "deleted";
   }
 
   private class NotifyOp implements BatchUpdateOp {
@@ -263,12 +250,14 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
     @Override
     public void postUpdate(Context ctx) throws Exception {
       changeReverted.fire(change, ins.getChange(), ctx.getWhen());
+      Change.Id changeId = ins.getChange().getId();
       try {
-        RevertedSender cm = revertedSenderFactory.create(ctx.getProject(), change.getId());
+        RevertedSender cm = revertedSenderFactory.create(ctx.getProject(), changeId);
         cm.setFrom(ctx.getAccountId());
+        cm.setChangeMessage(ins.getChangeMessage().getMessage(), ctx.getWhen());
         cm.send();
       } catch (Exception err) {
-        log.error("Cannot send email for revert change " + change.getId(), err);
+        log.error("Cannot send email for revert change " + changeId, err);
       }
     }
   }

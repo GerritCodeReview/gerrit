@@ -25,6 +25,7 @@ public class PutBranch implements RestModifyView<BranchResource, BranchInput> {
 
   @Override
   public BranchInfo apply(BranchResource rsrc, BranchInput input) throws ResourceConflictException {
-    throw new ResourceConflictException("Branch \"" + rsrc.getRef() + "\" already exists");
+    throw new ResourceConflictException(
+        "Branch \"" + rsrc.getBranchInfo().ref + "\" already exists");
   }
 }

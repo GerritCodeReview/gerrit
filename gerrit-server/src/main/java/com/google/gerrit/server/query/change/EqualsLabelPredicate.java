@@ -16,6 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
@@ -23,28 +24,26 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gerrit.server.permissions.ChangePermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
-public class EqualsLabelPredicate extends ChangeIndexPredicate {
-  protected final ProjectCache projectCache;
-  protected final PermissionBackend permissionBackend;
-  protected final IdentifiedUser.GenericFactory userFactory;
-  protected final Provider<ReviewDb> dbProvider;
-  protected final String label;
-  protected final int expVal;
-  protected final Account.Id account;
-  protected final AccountGroup.UUID group;
+class EqualsLabelPredicate extends ChangeIndexPredicate {
+  private final ProjectCache projectCache;
+  private final ChangeControl.GenericFactory ccFactory;
+  private final IdentifiedUser.GenericFactory userFactory;
+  private final Provider<ReviewDb> dbProvider;
+  private final String label;
+  private final int expVal;
+  private final Account.Id account;
+  private final AccountGroup.UUID group;
 
-  public EqualsLabelPredicate(
-      LabelPredicate.Args args, String label, int expVal, Account.Id account) {
-    super(ChangeField.LABEL, ChangeField.formatLabel(label, expVal, account));
-    this.permissionBackend = args.permissionBackend;
+  EqualsLabelPredicate(LabelPredicate.Args args, String label, int expVal, Account.Id account) {
+    super(args.field, ChangeField.formatLabel(label, expVal, account));
+    this.ccFactory = args.ccFactory;
     this.projectCache = args.projectCache;
     this.userFactory = args.userFactory;
     this.dbProvider = args.dbProvider;
@@ -79,7 +78,7 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
     for (PatchSetApproval p : object.currentApprovals()) {
       if (labelType.matches(p)) {
         hasVote = true;
-        if (match(object, p.getValue(), p.getAccountId())) {
+        if (match(c, p.getValue(), p.getAccountId(), labelType)) {
           return true;
         }
       }
@@ -92,7 +91,7 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
     return false;
   }
 
-  protected static LabelType type(LabelTypes types, String toFind) {
+  private static LabelType type(LabelTypes types, String toFind) {
     if (types.byLabel(toFind) != null) {
       return types.byLabel(toFind);
     }
@@ -105,28 +104,40 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
     return null;
   }
 
-  protected boolean match(ChangeData cd, short value, Account.Id approver) {
-    if (value != expVal) {
-      return false;
-    }
+  private boolean match(Change change, int value, Account.Id approver, LabelType type)
+      throws OrmException {
+    int psVal = value;
+    if (psVal == expVal) {
+      // Double check the value is still permitted for the user.
+      //
+      IdentifiedUser reviewer = userFactory.create(approver);
+      try {
+        ChangeControl cc = ccFactory.controlFor(dbProvider.get(), change, reviewer);
+        if (!cc.isVisible(dbProvider.get())) {
+          // The user can't see the change anymore.
+          //
+          return false;
+        }
+        psVal = cc.getRange(Permission.forLabel(type.getName())).squash(psVal);
+      } catch (NoSuchChangeException e) {
+        // The project has disappeared.
+        //
+        return false;
+      }
 
-    if (account != null && !account.equals(approver)) {
-      return false;
-    }
+      if (account != null && !account.equals(approver)) {
+        return false;
+      }
 
-    IdentifiedUser reviewer = userFactory.create(approver);
-    if (group != null && !reviewer.getEffectiveGroups().contains(group)) {
-      return false;
-    }
+      if (group != null && !reviewer.getEffectiveGroups().contains(group)) {
+        return false;
+      }
 
-    // Check the user has 'READ' permission.
-    try {
-      PermissionBackend.ForChange perm =
-          permissionBackend.user(reviewer).database(dbProvider).change(cd);
-      return perm.test(ChangePermission.READ);
-    } catch (PermissionBackendException e) {
-      return false;
+      if (psVal == expVal) {
+        return true;
+      }
     }
+    return false;
   }
 
   @Override

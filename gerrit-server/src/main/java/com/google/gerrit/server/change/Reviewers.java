@@ -25,14 +25,11 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.account.AccountsCollection;
-import com.google.gerrit.server.mail.Address;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.IOException;
 import java.util.Collection;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class Reviewers implements ChildCollection<ChangeResource, ReviewerResource> {
@@ -71,28 +68,13 @@ public class Reviewers implements ChildCollection<ChangeResource, ReviewerResour
 
   @Override
   public ReviewerResource parse(ChangeResource rsrc, IdString id)
-      throws OrmException, ResourceNotFoundException, AuthException, IOException,
-          ConfigInvalidException {
-    Address address = Address.tryParse(id.get());
+      throws OrmException, ResourceNotFoundException, AuthException {
+    Account.Id accountId = accounts.parse(TopLevelResource.INSTANCE, id).getUser().getAccountId();
 
-    Account.Id accountId = null;
-    try {
-      accountId = accounts.parse(TopLevelResource.INSTANCE, id).getUser().getAccountId();
-    } catch (ResourceNotFoundException e) {
-      if (address == null) {
-        throw e;
-      }
-    }
     // See if the id exists as a reviewer for this change
-    if (accountId != null && fetchAccountIds(rsrc).contains(accountId)) {
+    if (fetchAccountIds(rsrc).contains(accountId)) {
       return resourceFactory.create(rsrc, accountId);
     }
-
-    // See if the address exists as a reviewer on the change
-    if (address != null && rsrc.getNotes().getReviewersByEmail().all().contains(address)) {
-      return new ReviewerResource(rsrc, address);
-    }
-
     throw new ResourceNotFoundException(id);
   }
 

@@ -22,7 +22,6 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import java.util.Collection;
@@ -90,14 +89,6 @@ public class ChangeSet {
 
   public ImmutableCollection<ChangeData> changes() {
     return changeData.values();
-  }
-
-  public ImmutableSet<Project.NameKey> projects() {
-    ImmutableSet.Builder<Project.NameKey> ret = ImmutableSet.builder();
-    for (ChangeData cd : changeData.values()) {
-      ret.add(cd.project());
-    }
-    return ret.build();
   }
 
   public ImmutableSet<Change.Id> nonVisibleIds() {

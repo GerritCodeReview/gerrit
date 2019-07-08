@@ -51,13 +51,11 @@ import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.send.CreateChangeSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
-import com.google.gerrit.server.permissions.ChangePermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
@@ -70,7 +68,6 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -78,7 +75,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.ChangeIdUtil;
 import org.slf4j.Logger;
@@ -86,14 +82,14 @@ import org.slf4j.LoggerFactory;
 
 public class ChangeInserter implements InsertChangeOp {
   public interface Factory {
-    ChangeInserter create(Change.Id cid, ObjectId commitId, String refName);
+    ChangeInserter create(Change.Id cid, RevCommit rc, String refName);
   }
 
   private static final Logger log = LoggerFactory.getLogger(ChangeInserter.class);
 
-  private final PermissionBackend permissionBackend;
-  private final ProjectCache projectCache;
+  private final ProjectControl.GenericFactory projectControlFactory;
   private final IdentifiedUser.GenericFactory userFactory;
+  private final ChangeControl.GenericFactory changeControlFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchSetUtil psUtil;
   private final ApprovalsUtil approvalsUtil;
@@ -103,11 +99,10 @@ public class ChangeInserter implements InsertChangeOp {
   private final CommitValidators.Factory commitValidatorsFactory;
   private final RevisionCreated revisionCreated;
   private final CommentAdded commentAdded;
-  private final NotesMigration migration;
 
   private final Change.Id changeId;
   private final PatchSet.Id psId;
-  private final ObjectId commitId;
+  private final RevCommit commit;
   private final String refName;
 
   // Fields exposed as setters.
@@ -115,35 +110,31 @@ public class ChangeInserter implements InsertChangeOp {
   private String topic;
   private String message;
   private String patchSetDescription;
-  private boolean isPrivate;
-  private boolean workInProgress;
   private List<String> groups = Collections.emptyList();
-  private boolean validate = true;
+  private CommitValidators.Policy validatePolicy = CommitValidators.Policy.GERRIT;
   private NotifyHandling notify = NotifyHandling.ALL;
   private ListMultimap<RecipientType, Account.Id> accountsToNotify = ImmutableListMultimap.of();
   private Set<Account.Id> reviewers;
   private Set<Account.Id> extraCC;
   private Map<String, Short> approvals;
   private RequestScopePropagator requestScopePropagator;
+  private ReceiveCommand updateRefCommand;
   private boolean fireRevisionCreated;
   private boolean sendMail;
   private boolean updateRef;
-  private Change.Id revertOf;
 
   // Fields set during the insertion process.
-  private ReceiveCommand cmd;
   private Change change;
   private ChangeMessage changeMessage;
   private PatchSetInfo patchSetInfo;
   private PatchSet patchSet;
   private String pushCert;
-  private ProjectState projectState;
 
   @Inject
   ChangeInserter(
-      PermissionBackend permissionBackend,
-      ProjectCache projectCache,
+      ProjectControl.GenericFactory projectControlFactory,
       IdentifiedUser.GenericFactory userFactory,
+      ChangeControl.GenericFactory changeControlFactory,
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetUtil psUtil,
       ApprovalsUtil approvalsUtil,
@@ -153,13 +144,12 @@ public class ChangeInserter implements InsertChangeOp {
       CommitValidators.Factory commitValidatorsFactory,
       CommentAdded commentAdded,
       RevisionCreated revisionCreated,
-      NotesMigration migration,
       @Assisted Change.Id changeId,
-      @Assisted ObjectId commitId,
+      @Assisted RevCommit commit,
       @Assisted String refName) {
-    this.permissionBackend = permissionBackend;
-    this.projectCache = projectCache;
+    this.projectControlFactory = projectControlFactory;
     this.userFactory = userFactory;
+    this.changeControlFactory = changeControlFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.psUtil = psUtil;
     this.approvalsUtil = approvalsUtil;
@@ -169,63 +159,57 @@ public class ChangeInserter implements InsertChangeOp {
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.revisionCreated = revisionCreated;
     this.commentAdded = commentAdded;
-    this.migration = migration;
 
     this.changeId = changeId;
     this.psId = new PatchSet.Id(changeId, INITIAL_PATCH_SET_ID);
-    this.commitId = commitId.copy();
+    this.commit = commit;
     this.refName = refName;
     this.reviewers = Collections.emptySet();
     this.extraCC = Collections.emptySet();
     this.approvals = Collections.emptyMap();
+    this.updateRefCommand = null;
     this.fireRevisionCreated = true;
     this.sendMail = true;
     this.updateRef = true;
   }
 
   @Override
-  public Change createChange(Context ctx) throws IOException {
+  public Change createChange(Context ctx) {
     change =
         new Change(
-            getChangeKey(ctx.getRevWalk(), commitId),
+            getChangeKey(commit),
             changeId,
             ctx.getAccountId(),
             new Branch.NameKey(ctx.getProject(), refName),
             ctx.getWhen());
     change.setStatus(MoreObjects.firstNonNull(status, Change.Status.NEW));
     change.setTopic(topic);
-    change.setPrivate(isPrivate);
-    change.setWorkInProgress(workInProgress);
-    change.setReviewStarted(!workInProgress);
-    change.setRevertOf(revertOf);
     return change;
   }
 
-  private static Change.Key getChangeKey(RevWalk rw, ObjectId id) throws IOException {
-    RevCommit commit = rw.parseCommit(id);
-    rw.parseBody(commit);
+  private static Change.Key getChangeKey(RevCommit commit) {
     List<String> idList = commit.getFooterLines(FooterConstants.CHANGE_ID);
     if (!idList.isEmpty()) {
       return new Change.Key(idList.get(idList.size() - 1).trim());
     }
-    ObjectId changeId =
+    ObjectId id =
         ChangeIdUtil.computeChangeId(
             commit.getTree(),
             commit,
             commit.getAuthorIdent(),
             commit.getCommitterIdent(),
             commit.getShortMessage());
-    StringBuilder changeIdStr = new StringBuilder();
-    changeIdStr.append("I").append(ObjectId.toString(changeId));
-    return new Change.Key(changeIdStr.toString());
+    StringBuilder changeId = new StringBuilder();
+    changeId.append("I").append(ObjectId.toString(id));
+    return new Change.Key(changeId.toString());
   }
 
   public PatchSet.Id getPatchSetId() {
     return psId;
   }
 
-  public ObjectId getCommitId() {
-    return commitId;
+  public RevCommit getCommit() {
+    return commit;
   }
 
   public Change getChange() {
@@ -249,8 +233,8 @@ public class ChangeInserter implements InsertChangeOp {
     return this;
   }
 
-  public ChangeInserter setValidate(boolean validate) {
-    this.validate = validate;
+  public ChangeInserter setValidatePolicy(CommitValidators.Policy validate) {
+    this.validatePolicy = checkNotNull(validate);
     return this;
   }
 
@@ -275,15 +259,9 @@ public class ChangeInserter implements InsertChangeOp {
     return this;
   }
 
-  public ChangeInserter setPrivate(boolean isPrivate) {
-    checkState(change == null, "setPrivate(boolean) only valid before creating change");
-    this.isPrivate = isPrivate;
-    return this;
-  }
-
-  public ChangeInserter setWorkInProgress(boolean workInProgress) {
-    this.workInProgress = workInProgress;
-    return this;
+  public ChangeInserter setDraft(boolean draft) {
+    checkState(change == null, "setDraft(boolean) only valid before creating change");
+    return setStatus(draft ? Change.Status.DRAFT : Change.Status.NEW);
   }
 
   public ChangeInserter setStatus(Change.Status status) {
@@ -314,9 +292,8 @@ public class ChangeInserter implements InsertChangeOp {
     return this;
   }
 
-  public ChangeInserter setRevertOf(Change.Id revertOf) {
-    this.revertOf = revertOf;
-    return this;
+  public void setUpdateRefCommand(ReceiveCommand cmd) {
+    updateRefCommand = cmd;
   }
 
   public void setPushCertificate(String cert) {
@@ -333,18 +310,6 @@ public class ChangeInserter implements InsertChangeOp {
     return this;
   }
 
-  /**
-   * Set whether to include the new patch set ref update in this update.
-   *
-   * <p>If false, the caller is responsible for creating the patch set ref <strong>before</strong>
-   * executing the containing {@code BatchUpdate}.
-   *
-   * <p>Should not be used in new code, as it doesn't result in a single atomic batch ref update for
-   * code and NoteDb meta refs.
-   *
-   * @param updateRef whether to update the ref during {@code updateRepo}.
-   */
-  @Deprecated
   public ChangeInserter setUpdateRef(boolean updateRef) {
     this.updateRef = updateRef;
     return this;
@@ -358,28 +323,26 @@ public class ChangeInserter implements InsertChangeOp {
     return changeMessage;
   }
 
-  public ReceiveCommand getCommand() {
-    return cmd;
-  }
-
   @Override
   public void updateRepo(RepoContext ctx) throws ResourceConflictException, IOException {
-    cmd = new ReceiveCommand(ObjectId.zeroId(), commitId, psId.toRefName());
-    projectState = projectCache.checkedGet(ctx.getProject());
     validate(ctx);
     if (!updateRef) {
       return;
     }
-    ctx.addRefUpdate(cmd);
+    if (updateRefCommand == null) {
+      ctx.addRefUpdate(new ReceiveCommand(ObjectId.zeroId(), commit, psId.toRefName()));
+    } else {
+      ctx.addRefUpdate(updateRefCommand);
+    }
   }
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws RestApiException, OrmException, IOException, PermissionBackendException {
+      throws RestApiException, OrmException, IOException {
     change = ctx.getChange(); // Use defensive copy created by ChangeControl.
     ReviewDb db = ctx.getDb();
-    patchSetInfo =
-        patchSetInfoFactory.get(ctx.getRevWalk(), ctx.getRevWalk().parseCommit(commitId), psId);
+    ChangeControl ctl = ctx.getControl();
+    patchSetInfo = patchSetInfoFactory.get(ctx.getRevWalk(), commit, psId);
     ctx.getChange().setCurrentPatchSet(patchSetInfo);
 
     ChangeUpdate update = ctx.getUpdate(psId);
@@ -388,15 +351,11 @@ public class ChangeInserter implements InsertChangeOp {
     update.setBranch(change.getDest().get());
     update.setTopic(change.getTopic());
     update.setPsDescription(patchSetDescription);
-    update.setPrivate(isPrivate);
-    update.setWorkInProgress(workInProgress);
-    if (revertOf != null) {
-      update.setRevertOf(revertOf.get());
-    }
 
+    boolean draft = status == Change.Status.DRAFT;
     List<String> newGroups = groups;
     if (newGroups.isEmpty()) {
-      newGroups = GroupCollector.getDefaultGroups(commitId);
+      newGroups = GroupCollector.getDefaultGroups(commit);
     }
     patchSet =
         psUtil.insert(
@@ -404,7 +363,8 @@ public class ChangeInserter implements InsertChangeOp {
             ctx.getRevWalk(),
             update,
             psId,
-            commitId,
+            commit,
+            draft,
             newGroups,
             pushCert,
             patchSetDescription);
@@ -419,15 +379,7 @@ public class ChangeInserter implements InsertChangeOp {
      */
     update.fixStatus(change.getStatus());
 
-    Set<Account.Id> reviewersToAdd = new HashSet<>(reviewers);
-    if (migration.readChanges()) {
-      approvalsUtil.addCcs(
-          ctx.getNotes(), update, filterOnChangeVisibility(db, ctx.getNotes(), extraCC));
-    } else {
-      reviewersToAdd.addAll(extraCC);
-    }
-
-    LabelTypes labelTypes = projectState.getLabelTypes();
+    LabelTypes labelTypes = ctl.getProjectControl().getLabelTypes();
     approvalsUtil.addReviewers(
         db,
         update,
@@ -435,10 +387,10 @@ public class ChangeInserter implements InsertChangeOp {
         change,
         patchSet,
         patchSetInfo,
-        filterOnChangeVisibility(db, ctx.getNotes(), reviewersToAdd),
+        filterOnChangeVisibility(db, ctx.getNotes(), reviewers),
         Collections.<Account.Id>emptySet());
     approvalsUtil.addApprovalsForNewPatchSet(
-        db, update, labelTypes, patchSet, ctx.getUser(), approvals);
+        db, update, labelTypes, patchSet, ctx.getControl(), approvals);
     // Check if approvals are changing in with this update. If so, add current user to reviewers.
     // Note that this is done separately as addReviewers is filtering out the change owner as
     // reviewer which is needed in several other code paths.
@@ -452,25 +404,21 @@ public class ChangeInserter implements InsertChangeOp {
               ctx.getUser(),
               patchSet.getCreatedOn(),
               message,
-              ChangeMessagesUtil.uploadedPatchSetTag(workInProgress));
+              ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
       cmUtil.addChangeMessage(db, update, changeMessage);
     }
     return true;
   }
 
   private Set<Account.Id> filterOnChangeVisibility(
-      final ReviewDb db, ChangeNotes notes, Set<Account.Id> accounts) {
+      final ReviewDb db, final ChangeNotes notes, Set<Account.Id> accounts) {
     return accounts.stream()
         .filter(
             accountId -> {
               try {
                 IdentifiedUser user = userFactory.create(accountId);
-                return permissionBackend
-                    .user(user)
-                    .change(notes)
-                    .database(db)
-                    .test(ChangePermission.READ);
-              } catch (PermissionBackendException e) {
+                return changeControlFactory.controlFor(notes, user).isVisible(db);
+              } catch (OrmException e) {
                 log.warn(
                     "Failed to check if account {} can see change {}",
                     accountId.get(),
@@ -483,7 +431,7 @@ public class ChangeInserter implements InsertChangeOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) throws OrmException, IOException {
+  public void postUpdate(Context ctx) throws OrmException {
     if (sendMail && (notify != NotifyHandling.NONE || !accountsToNotify.isEmpty())) {
       Runnable sender =
           new Runnable() {
@@ -526,8 +474,9 @@ public class ChangeInserter implements InsertChangeOp {
     if (fireRevisionCreated) {
       revisionCreated.fire(change, patchSet, ctx.getAccount(), ctx.getWhen(), notify);
       if (approvals != null && !approvals.isEmpty()) {
-        List<LabelType> labels =
-            projectState.getLabelTypes(change.getDest(), ctx.getUser()).getLabelTypes();
+        ChangeControl changeControl =
+            changeControlFactory.controlFor(ctx.getDb(), change, ctx.getUser());
+        List<LabelType> labels = changeControl.getLabelTypes().getLabelTypes();
         Map<String, Short> allApprovals = new HashMap<>();
         Map<String, Short> oldApprovals = new HashMap<>();
         for (LabelType lt : labels) {
@@ -547,32 +496,28 @@ public class ChangeInserter implements InsertChangeOp {
   }
 
   private void validate(RepoContext ctx) throws IOException, ResourceConflictException {
-    if (!validate) {
+    if (validatePolicy == CommitValidators.Policy.NONE) {
       return;
     }
 
-    PermissionBackend.ForRef perm =
-        permissionBackend.user(ctx.getUser()).project(ctx.getProject()).ref(refName);
     try {
-      try (CommitReceivedEvent event =
+      RefControl refControl =
+          projectControlFactory.controlFor(ctx.getProject(), ctx.getUser()).controlForRef(refName);
+      String refName = psId.toRefName();
+      CommitReceivedEvent event =
           new CommitReceivedEvent(
-              cmd,
-              projectState.getProject(),
+              new ReceiveCommand(ObjectId.zeroId(), commit.getId(), refName),
+              refControl.getProjectControl().getProject(),
               change.getDest().get(),
-              ctx.getRevWalk().getObjectReader(),
-              commitId,
-              ctx.getIdentifiedUser())) {
-        commitValidatorsFactory
-            .forGerritCommits(
-                perm,
-                new Branch.NameKey(ctx.getProject(), refName),
-                ctx.getIdentifiedUser(),
-                new NoSshInfo(),
-                ctx.getRevWalk())
-            .validate(event);
-      }
+              commit,
+              ctx.getIdentifiedUser());
+      commitValidatorsFactory
+          .create(validatePolicy, refControl, new NoSshInfo(), ctx.getRepository())
+          .validate(event);
     } catch (CommitValidationException e) {
       throw new ResourceConflictException(e.getFullMessage());
+    } catch (NoSuchProjectException e) {
+      throw new ResourceConflictException(e.getMessage());
     }
   }
 }

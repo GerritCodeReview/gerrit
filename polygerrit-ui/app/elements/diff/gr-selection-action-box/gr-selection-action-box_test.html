@@ -20,7 +20,8 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-selection-action-box.html">
 
 <script>void(0);</script>
@@ -35,57 +36,33 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-selection-action-box', () => {
-    let container;
-    let element;
+  suite('gr-selection-action-box', function() {
+    var container;
+    var element;
 
-    setup(() => {
+    setup(function() {
       container = fixture('basic');
       element = container.querySelector('gr-selection-action-box');
       sinon.stub(element, 'fire');
     });
 
-    teardown(() => {
+    teardown(function() {
       element.fire.restore();
     });
 
-    test('ignores regular keys', () => {
+    test('ignores regular keys', function() {
       MockInteractions.pressAndReleaseKeyOn(document.body, 27, null, 'esc');
       assert.isFalse(element.fire.called);
     });
 
-    test('reacts to hotkey', () => {
+    test('reacts to hotkey', function() {
       MockInteractions.pressAndReleaseKeyOn(document.body, 67, null, 'c');
       assert.isTrue(element.fire.called);
     });
 
-    suite('mousedown reacts only to main button', () => {
-      let e;
-
-      setup(() => {
-        e = {
-          button: 0,
-          preventDefault: sinon.stub(),
-          stopPropagation: sinon.stub(),
-        };
-        sinon.stub(element, '_fireCreateComment');
-      });
-
-      test('event handled if main button', () => {
-        element._handleMouseDown(e);
-        assert.isTrue(e.preventDefault.called);
-      });
-
-      test('event ignored if not main button', () => {
-        e.button = 1;
-        element._handleMouseDown(e);
-        assert.isFalse(e.preventDefault.called);
-      });
-    });
-
-    test('event fired contains playload', () => {
-      const side = 'left';
-      const range = {
+    test('event fired contains playload', function() {
+      var side = 'left';
+      var range = {
         startLine: 1,
         startChar: 11,
         endLine: 2,
@@ -97,15 +74,15 @@ limitations under the License.
       assert(element.fire.calledWithExactly(
           'create-comment',
           {
-            side,
-            range,
+            side: side,
+            range: range,
           }));
     });
 
-    suite('placeAbove', () => {
-      let target;
+    suite('placeAbove', function() {
+      var target;
 
-      setup(() => {
+      setup(function() {
         target = container.querySelector('.target');
         sinon.stub(container, 'getBoundingClientRect').returns(
             {top: 1, bottom: 2, left: 3, right: 4, width: 50, height: 6});
@@ -115,25 +92,25 @@ limitations under the License.
             {width: 10, height: 10});
       });
 
-      teardown(() => {
+      teardown(function() {
         element.getBoundingClientRect.restore();
         container.getBoundingClientRect.restore();
         element._getTargetBoundingRect.restore();
       });
 
-      test('placeAbove for Element argument', () => {
+      test('placeAbove for Element argument', function() {
         element.placeAbove(target);
-        assert.equal(element.style.top, '25px');
+        assert.equal(element.style.top, '27px');
         assert.equal(element.style.left, '72px');
       });
 
-      test('placeAbove for Text Node argument', () => {
+      test('placeAbove for Text Node argument', function() {
         element.placeAbove(target.firstChild);
-        assert.equal(element.style.top, '25px');
+        assert.equal(element.style.top, '27px');
         assert.equal(element.style.left, '72px');
       });
 
-      test('uses document.createRange', () => {
+      test('uses document.createRange', function() {
         sinon.spy(document, 'createRange');
         element._getTargetBoundingRect.restore();
         sinon.spy(element, '_getTargetBoundingRect');

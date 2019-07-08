@@ -16,34 +16,15 @@ package com.google.gerrit.server.mail.send;
 
 import static org.apache.commons.validator.routines.DomainValidator.ArrayType.GENERIC_PLUS;
 
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import org.apache.commons.validator.routines.DomainValidator;
 import org.apache.commons.validator.routines.EmailValidator;
-import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-@Singleton
 public class OutgoingEmailValidator {
-  private static final Logger log = LoggerFactory.getLogger(OutgoingEmailValidator.class);
-
-  @Inject
-  OutgoingEmailValidator(@GerritServerConfig Config config) {
-    String[] allowTLD = config.getStringList("sendemail", null, "allowTLD");
-    if (allowTLD.length != 0) {
-      try {
-        DomainValidator.updateTLDOverride(GENERIC_PLUS, allowTLD);
-      } catch (IllegalStateException e) {
-        // Should only happen in tests, where the OutgoingEmailValidator
-        // is instantiated repeatedly.
-        log.error("Failed to update TLD override: " + e.getMessage());
-      }
-    }
+  static {
+    DomainValidator.updateTLDOverride(GENERIC_PLUS, new String[] {"local"});
   }
 
-  public boolean isValid(String addr) {
+  public static boolean isValid(String addr) {
     return EmailValidator.getInstance(true, true).isValid(addr);
   }
 }

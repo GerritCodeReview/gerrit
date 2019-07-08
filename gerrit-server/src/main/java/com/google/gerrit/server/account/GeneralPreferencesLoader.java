@@ -141,6 +141,7 @@ public class GeneralPreferencesLoader {
     }
     if (r.my.isEmpty()) {
       r.my.add(new MenuItem("Changes", "#/dashboard/self", null));
+      r.my.add(new MenuItem("Drafts", "#/q/owner:self+is:draft", null));
       r.my.add(new MenuItem("Draft Comments", "#/q/has:draft", null));
       r.my.add(new MenuItem("Edits", "#/q/has:edit", null));
       r.my.add(new MenuItem("Watched Changes", "#/q/is:watched+is:open", null));

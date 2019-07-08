@@ -102,7 +102,7 @@ public final class Change {
 
     protected Id() {}
 
-    public Id(int id) {
+    public Id(final int id) {
       this.id = id;
     }
 
@@ -130,7 +130,7 @@ public final class Change {
     }
 
     /** Parse a Change.Id out of a string representation. */
-    public static Id parse(String str) {
+    public static Id parse(final String str) {
       final Id r = new Id();
       r.fromString(str);
       return r;
@@ -262,7 +262,7 @@ public final class Change {
 
     protected Key() {}
 
-    public Key(String id) {
+    public Key(final String id) {
       this.id = id;
     }
 
@@ -291,7 +291,7 @@ public final class Change {
     }
 
     /** Parse a Change.Key out of a string representation. */
-    public static Key parse(String str) {
+    public static Key parse(final String str) {
       final Key r = new Key();
       r.fromString(str);
       return r;
@@ -302,6 +302,8 @@ public final class Change {
   private static final char MIN_OPEN = 'a';
   /** Database constant for {@link Status#NEW}. */
   public static final char STATUS_NEW = 'n';
+  /** Database constant for {@link Status#DRAFT}. */
+  public static final char STATUS_DRAFT = 'd';
   /** Maximum database status constant for an open change. */
   private static final char MAX_OPEN = 'z';
 
@@ -339,9 +341,26 @@ public final class Change {
     NEW(STATUS_NEW, ChangeStatus.NEW),
 
     /**
+     * Change is a draft change that only consists of draft patchsets.
+     *
+     * <p>This is a change that is not meant to be submitted or reviewed yet. If the uploader
+     * publishes the change, it becomes a NEW change. Publishing is a one-way action, a change
+     * cannot return to DRAFT status. Draft changes are only visible to the uploader and those
+     * explicitly added as reviewers.
+     *
+     * <p>Changes in the DRAFT state can be moved to:
+     *
+     * <ul>
+     *   <li>{@link #NEW} - when the change is published, it becomes a new change;
+     * </ul>
+     */
+    DRAFT(STATUS_DRAFT, ChangeStatus.DRAFT),
+
+    /**
      * Change is closed, and submitted to its destination branch.
      *
      * <p>Once a change has been merged, it cannot be further modified by adding a replacement patch
+     * set. Draft comments however may be published, supporting a post-submit review.
      */
     MERGED(STATUS_MERGED, ChangeStatus.MERGED),
 
@@ -397,19 +416,11 @@ public final class Change {
       return changeStatus;
     }
 
-    public static Status forCode(char c) {
-      for (Status s : Status.values()) {
+    public static Status forCode(final char c) {
+      for (final Status s : Status.values()) {
         if (s.code == c) {
           return s;
         }
-      }
-
-      // TODO(davido): Remove in 3.0, after all sites upgraded to version,
-      // where DRAFT status was removed. This code path is still needed,
-      // when changes are deserialized from the secondary index, during
-      // the online migration to the new schema version wasn't completed.
-      if (c == 'd') {
-        return Status.NEW;
       }
       return null;
     }
@@ -501,22 +512,6 @@ public final class Change {
   @Column(id = 19, notNull = false)
   protected Account.Id assignee;
 
-  /** Whether the change is private. */
-  @Column(id = 20)
-  protected boolean isPrivate;
-
-  /** Whether the change is work in progress. */
-  @Column(id = 21)
-  protected boolean workInProgress;
-
-  /** Whether the change has started review. */
-  @Column(id = 22)
-  protected boolean reviewStarted;
-
-  /** References a change that this change reverts. */
-  @Column(id = 23, notNull = false)
-  protected Id revertOf;
-
   /** @see com.google.gerrit.server.notedb.NoteDbChangeState */
   @Column(id = 101, notNull = false, length = Integer.MAX_VALUE)
   protected String noteDbState;
@@ -553,11 +548,7 @@ public final class Change {
     originalSubject = other.originalSubject;
     submissionId = other.submissionId;
     topic = other.topic;
-    isPrivate = other.isPrivate;
-    workInProgress = other.workInProgress;
-    reviewStarted = other.reviewStarted;
     noteDbState = other.noteDbState;
-    revertOf = other.revertOf;
   }
 
   /** Legacy 32 bit integer identity for a change. */
@@ -575,7 +566,7 @@ public final class Change {
     return changeKey;
   }
 
-  public void setKey(Change.Key k) {
+  public void setKey(final Change.Key k) {
     changeKey = k;
   }
 
@@ -647,7 +638,7 @@ public final class Change {
     return null;
   }
 
-  public void setCurrentPatchSet(PatchSetInfo ps) {
+  public void setCurrentPatchSet(final PatchSetInfo ps) {
     if (originalSubject == null && subject != null) {
       // Change was created before schema upgrade. Use the last subject
       // associated with this change, as the most recent discussion will
@@ -701,38 +692,6 @@ public final class Change {
 
   public void setTopic(String topic) {
     this.topic = topic;
-  }
-
-  public boolean isPrivate() {
-    return isPrivate;
-  }
-
-  public void setPrivate(boolean isPrivate) {
-    this.isPrivate = isPrivate;
-  }
-
-  public boolean isWorkInProgress() {
-    return workInProgress;
-  }
-
-  public void setWorkInProgress(boolean workInProgress) {
-    this.workInProgress = workInProgress;
-  }
-
-  public boolean hasReviewStarted() {
-    return reviewStarted;
-  }
-
-  public void setReviewStarted(boolean reviewStarted) {
-    this.reviewStarted = reviewStarted;
-  }
-
-  public void setRevertOf(Id revertOf) {
-    this.revertOf = revertOf;
-  }
-
-  public Id getRevertOf() {
-    return this.revertOf;
   }
 
   public String getNoteDbState() {

@@ -42,7 +42,6 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.plugins.JarScanner;
-import com.google.gerrit.server.schema.ReviewDbFactory;
 import com.google.gerrit.server.schema.SchemaUpdater;
 import com.google.gerrit.server.schema.UpdateUI;
 import com.google.gerrit.server.securestore.SecureStore;
@@ -76,7 +75,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import javax.sql.DataSource;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
@@ -135,7 +133,6 @@ public class BaseInit extends SiteProgram {
     init.flags.dev = isDev() && init.site.isNew;
     init.flags.skipPlugins = skipPlugins();
     init.flags.deleteCaches = getDeleteCaches();
-    init.flags.isNew = init.site.isNew;
 
     final SiteRun run;
     try {
@@ -387,7 +384,7 @@ public class BaseInit extends SiteProgram {
         SitePaths site,
         InitFlags flags,
         SchemaUpdater schemaUpdater,
-        @ReviewDbFactory SchemaFactory<ReviewDb> schema,
+        SchemaFactory<ReviewDb> schema,
         GitRepositoryManager repositoryManager) {
       this.ui = ui;
       this.site = site;
@@ -402,25 +399,14 @@ public class BaseInit extends SiteProgram {
       schemaUpdater.update(
           new UpdateUI() {
             @Override
-            public void message(String message) {
-              System.err.println(message);
+            public void message(String msg) {
+              System.err.println(msg);
               System.err.flush();
             }
 
             @Override
-            public boolean yesno(boolean defaultValue, String message) {
-              return ui.yesno(defaultValue, message);
-            }
-
-            @Override
-            public void waitForUser() {
-              ui.waitForUser();
-            }
-
-            @Override
-            public String readString(
-                String defaultValue, Set<String> allowedValues, String message) {
-              return ui.readString(defaultValue, allowedValues, message);
+            public boolean yesno(boolean def, String msg) {
+              return ui.yesno(def, msg);
             }
 
             @Override
@@ -464,11 +450,11 @@ public class BaseInit extends SiteProgram {
     }
   }
 
-  private SiteRun createSiteRun(SiteInit init) {
+  private SiteRun createSiteRun(final SiteInit init) {
     return createSysInjector(init).getInstance(SiteRun.class);
   }
 
-  private Injector createSysInjector(SiteInit init) {
+  private Injector createSysInjector(final SiteInit init) {
     if (sysInjector == null) {
       final List<Module> modules = new ArrayList<>();
       modules.add(

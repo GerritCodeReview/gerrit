@@ -41,16 +41,15 @@ import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.client.KeyMapType;
 import com.google.gerrit.extensions.client.Theme;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -101,7 +100,6 @@ public class EditScreen extends Screen {
     String hideBase();
   }
 
-  @Nullable private Project.NameKey projectKey;
   private final PatchSet.Id revision;
   private final String path;
   private final int startLine;
@@ -132,8 +130,7 @@ public class EditScreen extends Screen {
   private HandlerRegistration closeHandler;
   private int generation;
 
-  public EditScreen(@Nullable Project.NameKey projectKey, Patch.Key patch, int startLine) {
-    this.projectKey = projectKey;
+  public EditScreen(Patch.Key patch, int startLine) {
     this.revision = patch.getParentKey();
     this.path = patch.get();
     this.startLine = startLine - 1;
@@ -191,13 +188,11 @@ public class EditScreen extends Screen {
             }));
 
     ChangeApi.detail(
-        Project.NameKey.asStringOrNull(projectKey),
         revision.getParentKey().get(),
         group1.add(
             new AsyncCallback<ChangeInfo>() {
               @Override
               public void onSuccess(ChangeInfo c) {
-                projectKey = c.projectNameKey();
                 project.setInnerText(c.project());
                 SafeHtml.setInnerHTML(filePath, Header.formatPath(path));
               }
@@ -208,7 +203,6 @@ public class EditScreen extends Screen {
 
     if (revision.get() == 0) {
       ChangeEditApi.getMeta(
-          Project.NameKey.asStringOrNull(projectKey),
           revision,
           path,
           group1.add(
@@ -224,7 +218,6 @@ public class EditScreen extends Screen {
 
       if (prefs.showBase()) {
         ChangeEditApi.get(
-            projectKey,
             revision,
             path,
             true /* base */,
@@ -245,7 +238,7 @@ public class EditScreen extends Screen {
     } else {
       // TODO(davido): We probably want to create dedicated GET EditScreenMeta
       // REST endpoint. Abuse GET diff for now, as it retrieves links we need.
-      DiffApi.diff(Project.NameKey.asStringOrNull(projectKey), revision, path)
+      DiffApi.diff(revision, path)
           .webLinksOnly()
           .get(
               group1.addFinal(
@@ -261,7 +254,6 @@ public class EditScreen extends Screen {
     }
 
     ChangeEditApi.get(
-        projectKey,
         revision,
         path,
         group2.add(
@@ -326,7 +318,12 @@ public class EditScreen extends Screen {
   }
 
   private Runnable gotoLine() {
-    return () -> cmEdit.execCommand("jumpToLine");
+    return new Runnable() {
+      @Override
+      public void run() {
+        cmEdit.execCommand("jumpToLine");
+      }
+    };
   }
 
   @Override
@@ -436,7 +433,6 @@ public class EditScreen extends Screen {
     if (shouldShow) {
       if (baseContent == null) {
         ChangeEditApi.get(
-            projectKey,
             revision,
             path,
             true /* base */,
@@ -476,9 +472,21 @@ public class EditScreen extends Screen {
     cmEdit.setOption(option, value);
   }
 
-  void setTheme(Theme newTheme) {
-    cmBase.operation(() -> cmBase.setOption("theme", newTheme.name().toLowerCase()));
-    cmEdit.operation(() -> cmEdit.setOption("theme", newTheme.name().toLowerCase()));
+  void setTheme(final Theme newTheme) {
+    cmBase.operation(
+        new Runnable() {
+          @Override
+          public void run() {
+            cmBase.setOption("theme", newTheme.name().toLowerCase());
+          }
+        });
+    cmEdit.operation(
+        new Runnable() {
+          @Override
+          public void run() {
+            cmEdit.setOption("theme", newTheme.name().toLowerCase());
+          }
+        });
   }
 
   void setLineLength(int length) {
@@ -496,9 +504,21 @@ public class EditScreen extends Screen {
     cmEdit.setOption("lineNumbers", show);
   }
 
-  void setShowWhitespaceErrors(boolean show) {
-    cmBase.operation(() -> cmBase.setOption("showTrailingSpace", show));
-    cmEdit.operation(() -> cmEdit.setOption("showTrailingSpace", show));
+  void setShowWhitespaceErrors(final boolean show) {
+    cmBase.operation(
+        new Runnable() {
+          @Override
+          public void run() {
+            cmBase.setOption("showTrailingSpace", show);
+          }
+        });
+    cmEdit.operation(
+        new Runnable() {
+          @Override
+          public void run() {
+            cmEdit.setOption("showTrailingSpace", show);
+          }
+        });
   }
 
   void setShowTabs(boolean show) {
@@ -539,7 +559,7 @@ public class EditScreen extends Screen {
   }
 
   private void upToChange() {
-    Gerrit.display(PageLinks.toChangeInEditMode(projectKey, revision.getParentKey()));
+    Gerrit.display(PageLinks.toChangeInEditMode(revision.getParentKey()));
   }
 
   private void initEditor() {
@@ -616,26 +636,42 @@ public class EditScreen extends Screen {
     InlineHyperlink sbs = new InlineHyperlink();
     sbs.setHTML(new ImageResourceRenderer().render(Gerrit.RESOURCES.sideBySideDiff()));
     sbs.setTargetHistoryToken(
-        Dispatcher.toPatch(projectKey, "sidebyside", null, new Patch.Key(revision, path)));
+        Dispatcher.toPatch("sidebyside", null, new Patch.Key(revision, path)));
     sbs.setTitle(PatchUtil.C.sideBySideDiff());
     linkPanel.add(sbs);
 
     InlineHyperlink unified = new InlineHyperlink();
     unified.setHTML(new ImageResourceRenderer().render(Gerrit.RESOURCES.unifiedDiff()));
     unified.setTargetHistoryToken(
-        Dispatcher.toPatch(projectKey, "unified", null, new Patch.Key(revision, path)));
+        Dispatcher.toPatch("unified", null, new Patch.Key(revision, path)));
     unified.setTitle(PatchUtil.C.unifiedDiff());
     linkPanel.add(unified);
   }
 
   private Runnable updateCursorPosition() {
-    return () -> {
-      // The rendering of active lines has to be deferred. Reflow
-      // caused by adding and removing styles chokes Firefox when arrow
-      // key (or j/k) is held down. Performance on Chrome is fine
-      // without the deferral.
-      //
-      Scheduler.get().scheduleDeferred(() -> cmEdit.operation(this::updateActiveLine));
+    return new Runnable() {
+      @Override
+      public void run() {
+        // The rendering of active lines has to be deferred. Reflow
+        // caused by adding and removing styles chokes Firefox when arrow
+        // key (or j/k) is held down. Performance on Chrome is fine
+        // without the deferral.
+        //
+        Scheduler.get()
+            .scheduleDeferred(
+                new ScheduledCommand() {
+                  @Override
+                  public void execute() {
+                    cmEdit.operation(
+                        new Runnable() {
+                          @Override
+                          public void run() {
+                            updateActiveLine();
+                          }
+                        });
+                  }
+                });
+      }
     };
   }
 
@@ -653,35 +689,37 @@ public class EditScreen extends Screen {
   }
 
   private Runnable save() {
-    return () -> {
-      if (!cmEdit.isClean(generation)) {
-        close.setEnabled(false);
-        String text = cmEdit.getValue();
-        if (Patch.COMMIT_MSG.equals(path)) {
-          String trimmed = text.trim() + "\r";
-          if (!trimmed.equals(text)) {
-            text = trimmed;
-            cmEdit.setValue(text);
+    return new Runnable() {
+      @Override
+      public void run() {
+        if (!cmEdit.isClean(generation)) {
+          close.setEnabled(false);
+          String text = cmEdit.getValue();
+          if (Patch.COMMIT_MSG.equals(path)) {
+            String trimmed = text.trim() + "\r";
+            if (!trimmed.equals(text)) {
+              text = trimmed;
+              cmEdit.setValue(text);
+            }
           }
-        }
-        final int g = cmEdit.changeGeneration(false);
-        ChangeEditApi.put(
-            Project.NameKey.asStringOrNull(projectKey),
-            revision.getParentKey().get(),
-            path,
-            text,
-            new GerritCallback<VoidResult>() {
-              @Override
-              public void onSuccess(VoidResult result) {
-                generation = g;
-                setClean(cmEdit.isClean(g));
-              }
+          final int g = cmEdit.changeGeneration(false);
+          ChangeEditApi.put(
+              revision.getParentKey().get(),
+              path,
+              text,
+              new GerritCallback<VoidResult>() {
+                @Override
+                public void onSuccess(VoidResult result) {
+                  generation = g;
+                  setClean(cmEdit.isClean(g));
+                }
 
-              @Override
-              public void onFailure(Throwable caught) {
-                close.setEnabled(true);
-              }
-            });
+                @Override
+                public void onFailure(final Throwable caught) {
+                  close.setEnabled(true);
+                }
+              });
+        }
       }
     };
   }

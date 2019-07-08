@@ -28,8 +28,9 @@ import org.eclipse.jgit.transport.ReceivePack;
 /**
  * Pre-receive hook to check signed pushes.
  *
- * <p>If configured, prior to processing any push using {@code ReceiveCommits}, requires that any
- * push certificate present must be valid.
+ * <p>If configured, prior to processing any push using {@link
+ * com.google.gerrit.server.git.ReceiveCommits}, requires that any push certificate present must be
+ * valid.
  */
 @Singleton
 public class SignedPushPreReceiveHook implements PreReceiveHook {

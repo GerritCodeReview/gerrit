@@ -76,12 +76,12 @@ public class ProjectNode implements TreeNode, Comparable<ProjectNode> {
     return children;
   }
 
-  public void addChild(ProjectNode child) {
+  public void addChild(final ProjectNode child) {
     children.add(child);
   }
 
   @Override
-  public int compareTo(ProjectNode o) {
+  public int compareTo(final ProjectNode o) {
     return project.getNameKey().compareTo(o.project.getNameKey());
   }
 }

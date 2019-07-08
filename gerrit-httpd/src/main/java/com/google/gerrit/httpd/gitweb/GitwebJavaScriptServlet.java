@@ -32,10 +32,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@SuppressWarnings("serial")
 @Singleton
 class GitwebJavaScriptServlet extends HttpServlet {
-  private static final long serialVersionUID = 1L;
-
   private final long modified;
   private final byte[] raw;
 
@@ -58,12 +57,13 @@ class GitwebJavaScriptServlet extends HttpServlet {
   }
 
   @Override
-  protected long getLastModified(HttpServletRequest req) {
+  protected long getLastModified(final HttpServletRequest req) {
     return modified;
   }
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
+  protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+      throws IOException {
     if (raw != null) {
       rsp.setContentType("text/javascript");
       rsp.setContentLength(raw.length);

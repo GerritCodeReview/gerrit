@@ -15,16 +15,14 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../styles/gr-form-styles.html">
-<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
+<link rel="import" href="../../../styles/gr-settings-styles.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-registration-dialog">
   <template>
-    <style include="gr-form-styles"></style>
-    <style include="shared-styles">
+    <style include="gr-settings-styles"></style>
+    <style>
       :host {
         display: block;
       }
@@ -36,25 +34,20 @@ limitations under the License.
         margin-bottom: 1em;
       }
       header {
-        border-bottom: 1px solid #cdcdcd;
-        font-family: var(--font-family-bold);
-        margin-bottom: 1em;
+        border-bottom: 1px solid #ddd;
+        font-weight: bold;
       }
-      .container {
-        padding: .5em 1.5em;
+      header,
+      main,
+      footer {
+        padding: .5em .65em;
       }
       footer {
         display: flex;
-        justify-content: flex-end;
-      }
-      footer gr-button {
-        margin-left: 1em;
-      }
-      input {
-        width: 20em;
+        justify-content: space-between;
       }
     </style>
-    <div class="container gr-form-styles">
+    <main class="gr-settings-styles">
       <header>Please confirm your contact information</header>
       <main>
         <p>
@@ -70,20 +63,15 @@ limitations under the License.
               is="iron-input"
               id="name"
               bind-value="{{_account.name}}"
-              disabled="[[_saving]]">
-        </section>
-        <section>
-          <div class="title">Username</div>
-          <input
-              is="iron-input"
-              id="username"
-              bind-value="{{_account.username}}"
-              disabled="[[_saving]]">
+              disabled="[[_saving]]"
+              on-keydown="_handleNameKeydown">
         </section>
         <section>
           <div class="title">Preferred Email</div>
           <select
+              is="gr-select"
               id="email"
+              bind-value="{{_account.email}}"
               disabled="[[_saving]]">
             <option value="[[_account.email]]">[[_account.email]]</option>
             <template is="dom-repeat" items="[[_account.secondary_emails]]">
@@ -91,26 +79,19 @@ limitations under the License.
             </template>
           </select>
         </section>
-        <hr>
-        <p>
-          More configuration options for Gerrit may be found in the
-          <a on-tap="close" href$="[[_computeSettingsUrl(_account)]]">settings</a>.
-        </p>
       </main>
       <footer>
         <gr-button
-            id="closeButton"
-            link
-            disabled="[[_saving]]"
-            on-tap="_handleClose">Close</gr-button>
-        <gr-button
             id="saveButton"
             primary
-            link
-            disabled="[[_computeSaveDisabled(_account.name, _account.username, _account.email, _saving)]]"
+            disabled="[[_saving]]"
             on-tap="_handleSave">Save</gr-button>
+        <gr-button
+            id="closeButton"
+            disabled="[[_saving]]"
+            on-tap="_handleClose">Close</gr-button>
       </footer>
-    </div>
+    </main>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-registration-dialog.js"></script>

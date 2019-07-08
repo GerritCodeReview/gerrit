@@ -22,7 +22,6 @@
       hasParent: {
         type: Boolean,
         notify: true,
-        value: false,
       },
       patchNum: String,
       parentChange: Object,
@@ -40,31 +39,15 @@
         computed: '_computeConnectedRevisions(change, patchNum, ' +
             '_relatedResponse.changes)',
       },
-      /** @type {?} */
-      _relatedResponse: {
-        type: Object,
-        value() { return {changes: []}; },
-      },
-      _submittedTogether: {
-        type: Array,
-        value() { return []; },
-      },
-      _conflicts: {
-        type: Array,
-        value() { return []; },
-      },
-      _cherryPicks: {
-        type: Array,
-        value() { return []; },
-      },
-      _sameTopic: {
-        type: Array,
-        value() { return []; },
-      },
+      _relatedResponse: Object,
+      _submittedTogether: Array,
+      _conflicts: Array,
+      _cherryPicks: Array,
+      _sameTopic: Array,
     },
 
     behaviors: [
-      Gerrit.PatchSetBehavior,
+      Gerrit.BaseUrlBehavior,
       Gerrit.RESTClientBehavior,
     ],
 
@@ -73,128 +56,118 @@
           '_conflicts, _cherryPicks, _sameTopic)',
     ],
 
-    clear() {
+    clear: function() {
       this.loading = true;
-      this.hidden = true;
     },
 
-    reload() {
+    reload: function() {
       if (!this.change || !this.patchNum) {
         return Promise.resolve();
       }
       this.loading = true;
-      const promises = [
-        this._getRelatedChanges().then(response => {
+      var promises = [
+        this._getRelatedChanges().then(function(response) {
           this._relatedResponse = response;
 
           this.hasParent = this._calculateHasParent(this.change.change_id,
-              response.changes);
-        }),
-        this._getSubmittedTogether().then(response => {
+            response.changes);
+
+        }.bind(this)),
+        this._getSubmittedTogether().then(function(response) {
           this._submittedTogether = response;
-        }),
-        this._getCherryPicks().then(response => {
+        }.bind(this)),
+        this._getCherryPicks().then(function(response) {
           this._cherryPicks = response;
-        }),
+        }.bind(this)),
       ];
 
       // Get conflicts if change is open and is mergeable.
       if (this.changeIsOpen(this.change.status) && this.change.mergeable) {
-        promises.push(this._getConflicts().then(response => {
-          // Because the server doesn't always return a response and the
-          // template expects an array, always return an array.
-          this._conflicts = response ? response : [];
-        }));
+        promises.push(this._getConflicts().then(function(response) {
+          this._conflicts = response;
+        }.bind(this)));
       }
 
-      promises.push(this._getServerConfig().then(config => {
+      promises.push(this._getServerConfig().then(function(config) {
         if (this.change.topic && !config.change.submit_whole_topic) {
-          return this._getChangesWithSameTopic().then(response => {
+          return this._getChangesWithSameTopic().then(function(response) {
             this._sameTopic = response;
-          });
+          }.bind(this));
         } else {
           this._sameTopic = [];
         }
         return this._sameTopic;
-      }));
+      }.bind(this)));
 
-      return Promise.all(promises).then(() => {
+      return Promise.all(promises).then(function() {
         this.loading = false;
-      });
+      }.bind(this));
     },
 
     /**
      * Determines whether or not the given change has a parent change. If there
      * is a relation chain, and the change id is not the last item of the
      * relation chain, there is a parent.
-     * @param  {number} currentChangeId
-     * @param  {!Array} relatedChanges
-     * @return {boolean}
+     * @param  {Number} currentChangeId
+     * @param  {Array} relatedChanges
+     * @return {Boolean}
      */
-    _calculateHasParent(currentChangeId, relatedChanges) {
+    _calculateHasParent: function(currentChangeId, relatedChanges) {
       return relatedChanges.length > 0 &&
           relatedChanges[relatedChanges.length - 1].change_id !==
           currentChangeId;
     },
 
-    _getRelatedChanges() {
+    _getRelatedChanges: function() {
       return this.$.restAPI.getRelatedChanges(this.change._number,
           this.patchNum);
     },
 
-    _getSubmittedTogether() {
+    _getSubmittedTogether: function() {
       return this.$.restAPI.getChangesSubmittedTogether(this.change._number);
     },
 
-    _getServerConfig() {
+    _getServerConfig: function() {
       return this.$.restAPI.getConfig();
     },
 
-    _getConflicts() {
+    _getConflicts: function() {
       return this.$.restAPI.getChangeConflicts(this.change._number);
     },
 
-    _getCherryPicks() {
+    _getCherryPicks: function() {
       return this.$.restAPI.getChangeCherryPicks(this.change.project,
           this.change.change_id, this.change._number);
     },
 
-    _getChangesWithSameTopic() {
-      return this.$.restAPI.getChangesWithSameTopic(this.change.topic,
-          this.change._number);
+    _getChangesWithSameTopic: function() {
+      return this.$.restAPI.getChangesWithSameTopic(this.change.topic);
     },
 
-    /**
-     * @param {number} changeNum
-     * @param {string} project
-     * @param {number=} opt_patchNum
-     * @return {string}
-     */
-    _computeChangeURL(changeNum, project, opt_patchNum) {
-      return Gerrit.Nav.getUrlForChangeById(changeNum, project, opt_patchNum);
+    _computeChangeURL: function(changeNum, patchNum) {
+      var urlStr = this.getBaseUrl() + '/c/' + changeNum;
+      if (patchNum != null) {
+        urlStr += '/' + patchNum;
+      }
+      return urlStr;
     },
 
-    _computeChangeContainerClass(currentChange, relatedChange) {
-      const classes = ['changeContainer'];
+    _computeChangeContainerClass: function(currentChange, relatedChange) {
+      var classes = ['changeContainer'];
       if (relatedChange.change_id === currentChange.change_id) {
         classes.push('thisChange');
       }
       return classes.join(' ');
     },
 
-    _computeLinkClass(change) {
-      const statuses = [];
+    _computeLinkClass: function(change) {
       if (change.status == this.ChangeStatus.ABANDONED) {
-        statuses.push('strikethrough');
+        return 'strikethrough';
       }
-      if (change.submittable) {
-        statuses.push('submittable');
-      }
-      return statuses.join(' ');
     },
 
-    _computeChangeStatusClass(change) {
-      const classes = ['status'];
+    _computeChangeStatusClass: function(change) {
+      var classes = ['status'];
       if (change._revision_number != change._current_revision_number) {
         classes.push('notCurrent');
       } else if (this._isIndirectAncestor(change)) {
@@ -207,12 +180,14 @@
       return classes.join(' ');
     },
 
-    _computeChangeStatus(change) {
+    _computeChangeStatus: function(change) {
       switch (change.status) {
         case this.ChangeStatus.MERGED:
           return 'Merged';
         case this.ChangeStatus.ABANDONED:
           return 'Abandoned';
+        case this.ChangeStatus.DRAFT:
+          return 'Draft';
       }
       if (change._revision_number != change._current_revision_number) {
         return 'Not current';
@@ -224,42 +199,41 @@
       return '';
     },
 
-    _resultsChanged(related, submittedTogether, conflicts,
+    _resultsChanged: function(related, submittedTogether, conflicts,
         cherryPicks, sameTopic) {
-      const results = [
+      var results = [
         related,
         submittedTogether,
         conflicts,
         cherryPicks,
-        sameTopic,
+        sameTopic
       ];
-      for (let i = 0; i < results.length; i++) {
+      for (var i = 0; i < results.length; i++) {
         if (results[i].length > 0) {
           this.hidden = false;
-          this.fire('update', null, {bubbles: false});
           return;
         }
       }
       this.hidden = true;
     },
 
-    _isIndirectAncestor(change) {
-      return !this._connectedRevisions.includes(change.commit.commit);
+    _isIndirectAncestor: function(change) {
+      return this._connectedRevisions.indexOf(change.commit.commit) == -1;
     },
 
-    _computeConnectedRevisions(change, patchNum, relatedChanges) {
-      const connected = [];
-      let changeRevision;
-      for (const rev in change.revisions) {
-        if (this.patchNumEquals(change.revisions[rev]._number, patchNum)) {
+    _computeConnectedRevisions: function(change, patchNum, relatedChanges) {
+      var connected = [];
+      var changeRevision;
+      for (var rev in change.revisions) {
+        if (change.revisions[rev]._number == patchNum) {
           changeRevision = rev;
         }
       }
-      const commits = relatedChanges.map(c => { return c.commit; });
-      let pos = commits.length - 1;
+      var commits = relatedChanges.map(function(c) { return c.commit; });
+      var pos = commits.length - 1;
 
       while (pos >= 0) {
-        const commit = commits[pos].commit;
+        var commit = commits[pos].commit;
         connected.push(commit);
         if (commit == changeRevision) {
           break;
@@ -267,8 +241,8 @@
         pos--;
       }
       while (pos >= 0) {
-        for (let i = 0; i < commits[pos].parents.length; i++) {
-          if (connected.includes(commits[pos].parents[i].commit)) {
+        for (var i = 0; i < commits[pos].parents.length; i++) {
+          if (connected.indexOf(commits[pos].parents[i].commit) != -1) {
             connected.push(commits[pos].commit);
             break;
           }

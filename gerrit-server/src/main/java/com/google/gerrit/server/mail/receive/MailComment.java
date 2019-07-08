@@ -15,7 +15,6 @@
 package com.google.gerrit.server.mail.receive;
 
 import com.google.gerrit.reviewdb.client.Comment;
-import java.util.Objects;
 
 /** A comment parsed from inbound email */
 public class MailComment {
@@ -37,15 +36,5 @@ public class MailComment {
     this.fileName = fileName;
     this.inReplyTo = inReplyTo;
     this.type = type;
-  }
-
-  /**
-   * Checks if the provided comment concerns the same exact spot in the change. This is basically an
-   * equals method except that the message is not checked.
-   */
-  public boolean isSameCommentPath(MailComment c) {
-    return Objects.equals(fileName, c.fileName)
-        && Objects.equals(inReplyTo, c.inReplyTo)
-        && Objects.equals(type, c.type);
   }
 }

@@ -15,29 +15,25 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../shared/gr-account-label/gr-account-label.html">
+<link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <link rel="import" href="../gr-comment-list/gr-comment-list.html">
 
 <dom-module id="gr-message">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
-        border-bottom: 1px solid #ddd;
+        border-top: 1px solid #ddd;
         display: block;
         position: relative;
         cursor: pointer;
       }
       :host(.expanded) {
         cursor: auto;
-      }
-      :host > div {
-        padding: 0 var(--default-horizontal-margin);
       }
       gr-avatar {
         position: absolute;
@@ -49,7 +45,7 @@ limitations under the License.
         display: flex;
         white-space: nowrap;
       }
-      .contentContainer {
+      .showAvatar.expanded .contentContainer {
         margin-left: calc(var(--default-horizontal-margin) + 2.5em);
         padding: 10px 0;
       }
@@ -76,17 +72,17 @@ limitations under the License.
         width: 2.5em;
       }
       .name {
-        font-family: var(--font-family-bold);
+        font-weight: bold;
       }
       .message {
-        --gr-formatted-text-prose-max-width: 80ch;
+        max-width: 80ch;
       }
       .collapsed .message {
         max-width: none;
         overflow: hidden;
         text-overflow: ellipsis;
       }
-      .collapsed .author,
+      .collapsed .name,
       .collapsed .content,
       .collapsed .message,
       .collapsed .updateCategory,
@@ -112,11 +108,11 @@ limitations under the License.
       .collapsed .date {
         position: static;
       }
-      .collapsed .author {
+      .collapsed .name {
         color: var(--default-text-color);
         margin-right: .4em;
       }
-      .expanded .author {
+      .expanded .name {
         cursor: pointer;
       }
       .date {
@@ -126,49 +122,25 @@ limitations under the License.
         top: 10px;
       }
       .replyContainer {
-        padding: .5em 0 0 0;
-      }
-      .positiveVote {
-        box-shadow: inset 0 3.8em #d4ffd4;
-      }
-      .negativeVote {
-        box-shadow: inset 0 3.8em #ffd4d4;
-      }
-      gr-account-label {
-        --gr-account-label-text-style: {
-          font-family: var(--font-family-bold);
-        };
+        padding: .5em 0 1em;
       }
     </style>
-    <div class$="[[_computeClass(_expanded, showAvatar, message)]]">
+    <div class$="[[_computeClass(_expanded, showAvatar)]]">
       <gr-avatar account="[[author]]" image-size="100"></gr-avatar>
       <div class="contentContainer">
-        <div class="author" on-tap="_handleAuthorTap">
-          <span hidden$="[[!showOnBehalfOf]]">
-            <span class="name">[[message.real_author.name]]</span>
-            on behalf of
-          </span>
-          <gr-account-label
-              account="[[author]]"
-              hide-avatar></gr-account-label>
-        </div>
+        <div class="name" on-tap="_handleNameTap">[[author.name]]</div>
         <template is="dom-if" if="[[message.message]]">
           <div class="content">
             <div class="message hideOnOpen">[[message.message]]</div>
             <gr-formatted-text
-                no-trailing-margin
                 class="message hideOnCollapsed"
                 content="[[message.message]]"
-                config="[[_commentLinks]]"></gr-formatted-text>
-            <div class="replyContainer" hidden$="[[!showReplyButton]]" hidden>
-              <gr-button link small on-tap="_handleReplyTap">Reply</gr-button>
-            </div>
+                config="[[projectConfig.commentlinks]]"></gr-formatted-text>
             <gr-comment-list
                 comments="[[comments]]"
                 change-num="[[changeNum]]"
                 patch-num="[[message._revision_number]]"
-                project-name="[[projectName]]"
-                comment-links="[[_commentLinks]]"></gr-comment-list>
+                project-config="[[projectConfig]]"></gr-comment-list>
           </div>
         </template>
         <template is="dom-if" if="[[_computeIsReviewerUpdate(message)]]">
@@ -199,6 +171,9 @@ limitations under the License.
                 date-str="[[message.date]]"></gr-date-formatter>
           </a>
         </template>
+      </div>
+      <div class="replyContainer" hidden$="[[!showReplyButton]]" hidden>
+        <gr-button small on-tap="_handleReplyTap">Reply</gr-button>
       </div>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

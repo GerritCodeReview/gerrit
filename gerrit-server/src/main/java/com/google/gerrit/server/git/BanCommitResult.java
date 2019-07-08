@@ -23,15 +23,15 @@ public class BanCommitResult {
   private final List<ObjectId> alreadyBannedCommits = new ArrayList<>(4);
   private final List<ObjectId> ignoredObjectIds = new ArrayList<>(4);
 
-  public void commitBanned(ObjectId commitId) {
+  public void commitBanned(final ObjectId commitId) {
     newlyBannedCommits.add(commitId);
   }
 
-  public void commitAlreadyBanned(ObjectId commitId) {
+  public void commitAlreadyBanned(final ObjectId commitId) {
     alreadyBannedCommits.add(commitId);
   }
 
-  public void notACommit(ObjectId id) {
+  public void notACommit(final ObjectId id) {
     ignoredObjectIds.add(id);
   }
 

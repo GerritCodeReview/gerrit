@@ -48,7 +48,7 @@ class SearchPanel extends Composite {
     searchBox.addKeyPressHandler(
         new KeyPressHandler() {
           @Override
-          public void onKeyPress(KeyPressEvent event) {
+          public void onKeyPress(final KeyPressEvent event) {
             if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
               if (!suggestionDisplay.isSuggestionSelected) {
                 doSearch();
@@ -92,7 +92,7 @@ class SearchPanel extends Composite {
     body.add(searchButton);
   }
 
-  void setText(String query) {
+  void setText(final String query) {
     searchBox.setText(query);
   }
 
@@ -105,7 +105,7 @@ class SearchPanel extends Composite {
               this,
               new KeyCommand(0, '/', Gerrit.C.keySearch()) {
                 @Override
-                public void onKeyPress(KeyPressEvent event) {
+                public void onKeyPress(final KeyPressEvent event) {
                   event.preventDefault();
                   searchBox.setFocus(true);
                   searchBox.selectAll();
@@ -136,8 +136,7 @@ class SearchPanel extends Composite {
     } else {
       // changes
       if (query.matches("^[1-9][0-9]*$")) {
-        // Query is a change number. Project can't be supplied.
-        Gerrit.display(PageLinks.toChange(null, Change.Id.parse(query)));
+        Gerrit.display(PageLinks.toChange(Change.Id.parse(query)));
       } else {
         Gerrit.display(PageLinks.toChangeQuery(query), QueryScreen.forQuery(query));
       }

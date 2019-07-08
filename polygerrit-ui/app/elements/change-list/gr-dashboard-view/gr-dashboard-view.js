@@ -14,29 +14,6 @@
 (function() {
   'use strict';
 
-  const DEFAULT_SECTIONS = [
-    {
-      name: 'Work in progress',
-      query: 'is:open owner:${user} is:wip',
-      selfOnly: true,
-    },
-    {
-      name: 'Outgoing reviews',
-      query: 'is:open owner:${user} -is:wip',
-    },
-    {
-      name: 'Incoming reviews',
-      query: 'is:open ((reviewer:${user} -owner:${user} -is:ignored) OR ' +
-          'assignee:${user}) -is:wip',
-    },
-    {
-      name: 'Recently closed',
-      query: 'is:closed (owner:${user} OR reviewer:${user} OR ' +
-          'assignee:${user})',
-      suffixForDashboard: '-age:4w limit:10',
-    },
-  ];
-
   Polymer({
     is: 'gr-dashboard-view',
 
@@ -49,18 +26,22 @@
     properties: {
       account: {
         type: Object,
-        value() { return {}; },
+        value: function() { return {}; },
       },
-      /** @type {{ selectedChangeIndex: number }} */
       viewState: Object,
       params: {
         type: Object,
+        observer: '_paramsChanged',
       },
 
       _results: Array,
-      _sectionMetadata: {
+      _groupTitles: {
         type: Array,
-        value() { return DEFAULT_SECTIONS; },
+        value: [
+          'Outgoing reviews',
+          'Incoming reviews',
+          'Recently closed',
+        ],
       },
 
       /**
@@ -72,69 +53,26 @@
       },
     },
 
-    observers: [
-      '_userChanged(params.user)',
-    ],
-
-    behaviors: [
-      Gerrit.RESTClientBehavior,
-    ],
-
-    get options() {
-      return this.listChangesOptionsToHex(
-          this.ListChangesOption.LABELS,
-          this.ListChangesOption.DETAILED_ACCOUNTS,
-          this.ListChangesOption.REVIEWED
-      );
-    },
-
-    _computeTitle(user) {
-      if (user === 'self') {
-        return 'My Reviews';
-      }
-      return 'Dashboard for ' + user;
+    attached: function() {
+      this.fire('title-change', {title: 'My Reviews'});
     },
 
     /**
      * Allows a refresh if menu item is selected again.
      */
-    _userChanged(user) {
-      if (!user) { return; }
-
-      // NOTE: This method may be called before attachment. Fire title-change
-      // in an async so that attachment to the DOM can take place first.
-      this.async(
-          () => this.fire('title-change', {title: this._computeTitle(user)}));
-
+    _paramsChanged: function() {
       this._loading = true;
-      const sections = this._sectionMetadata.filter(
-          section => (user === 'self' || !section.selfOnly));
-      const queries =
-          sections.map(
-              section => this._dashboardQueryForSection(section, user));
-      this.$.restAPI.getChanges(null, queries, null, this.options)
-          .then(results => {
-            this._results = sections.map((section, i) => {
-              return {
-                sectionName: section.name,
-                query: queries[i],
-                results: results[i],
-              };
-            });
-            this._loading = false;
-          }).catch(err => {
-            this._loading = false;
-            console.warn(err.message);
-          });
+      this._getDashboardChanges().then(function(results) {
+        this._results = results;
+        this._loading = false;
+      }.bind(this)).catch(function(err) {
+        this._loading = false;
+        console.warn(err.message);
+      }.bind(this));
     },
 
-    _dashboardQueryForSection(section, user) {
-      const query =
-          section.suffixForDashboard ?
-          section.query + ' ' + section.suffixForDashboard :
-          section.query;
-      return query.replace(/\$\{user\}/g, user);
+    _getDashboardChanges: function() {
+      return this.$.restAPI.getDashboardChanges();
     },
-
   });
 })();

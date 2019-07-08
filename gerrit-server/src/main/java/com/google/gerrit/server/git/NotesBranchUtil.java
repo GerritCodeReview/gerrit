@@ -14,35 +14,41 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.common.base.MoreObjects.firstNonNull;
-
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
+import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
+import org.eclipse.jgit.notes.NoteMapMerger;
 import org.eclipse.jgit.notes.NoteMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.ReceiveCommand;
 
 /** A utility class for updating a notes branch with automatic merge of note trees. */
 public class NotesBranchUtil {
   public interface Factory {
     NotesBranchUtil create(Project.NameKey project, Repository db, ObjectInserter inserter);
   }
+
+  private static final int MAX_LOCK_FAILURE_CALLS = 10;
+  private static final int SLEEP_ON_LOCK_FAILURE_MS = 25;
 
   private final PersonIdent gerritIdent;
   private final GitReferenceUpdated gitRefUpdated;
@@ -64,8 +70,8 @@ public class NotesBranchUtil {
 
   @Inject
   public NotesBranchUtil(
-      @GerritPersonIdent PersonIdent gerritIdent,
-      GitReferenceUpdated gitRefUpdated,
+      @GerritPersonIdent final PersonIdent gerritIdent,
+      final GitReferenceUpdated gitRefUpdated,
       @Assisted Project.NameKey project,
       @Assisted Repository db,
       @Assisted ObjectInserter inserter) {
@@ -80,20 +86,16 @@ public class NotesBranchUtil {
    * Create a new commit in the {@code notesBranch} by updating existing or creating new notes from
    * the {@code notes} map.
    *
-   * <p>Does not retry in the case of lock failure; callers may use {@link
-   * com.google.gerrit.server.update.RetryHelper}.
-   *
    * @param notes map of notes
    * @param notesBranch notes branch to update
    * @param commitAuthor author of the commit in the notes branch
    * @param commitMessage for the commit in the notes branch
-   * @throws LockFailureException if committing the notes failed due to a lock failure on the notes
-   *     branch
-   * @throws IOException if committing the notes failed for any other reason
+   * @throws IOException
+   * @throws ConcurrentRefUpdateException
    */
   public final void commitAllNotes(
       NoteMap notes, String notesBranch, PersonIdent commitAuthor, String commitMessage)
-      throws IOException {
+      throws IOException, ConcurrentRefUpdateException {
     this.overwrite = true;
     commitNotes(notes, notesBranch, commitAuthor, commitMessage);
   }
@@ -103,21 +105,17 @@ public class NotesBranchUtil {
    * {@code notes} map. The notes from the {@code notes} map which already exist in the note-tree of
    * the tip of the {@code notesBranch} will not be updated.
    *
-   * <p>Does not retry in the case of lock failure; callers may use {@link
-   * com.google.gerrit.server.update.RetryHelper}.
-   *
    * @param notes map of notes
    * @param notesBranch notes branch to update
    * @param commitAuthor author of the commit in the notes branch
    * @param commitMessage for the commit in the notes branch
    * @return map with those notes from the {@code notes} that were newly created
-   * @throws LockFailureException if committing the notes failed due to a lock failure on the notes
-   *     branch
-   * @throws IOException if committing the notes failed for any other reason
+   * @throws IOException
+   * @throws ConcurrentRefUpdateException
    */
   public final NoteMap commitNewNotes(
       NoteMap notes, String notesBranch, PersonIdent commitAuthor, String commitMessage)
-      throws IOException {
+      throws IOException, ConcurrentRefUpdateException {
     this.overwrite = false;
     commitNotes(notes, notesBranch, commitAuthor, commitMessage);
     NoteMap newlyCreated = NoteMap.newEmptyMap();
@@ -131,7 +129,7 @@ public class NotesBranchUtil {
 
   private void commitNotes(
       NoteMap notes, String notesBranch, PersonIdent commitAuthor, String commitMessage)
-      throws LockFailureException, IOException {
+      throws IOException, ConcurrentRefUpdateException {
     try {
       revWalk = new RevWalk(db);
       reader = db.newObjectReader();
@@ -211,16 +209,61 @@ public class NotesBranchUtil {
     return revWalk.parseCommit(commitId);
   }
 
-  private void updateRef(String notesBranch) throws LockFailureException, IOException {
+  private void updateRef(String notesBranch)
+      throws IOException, MissingObjectException, IncorrectObjectTypeException,
+          CorruptObjectException, ConcurrentRefUpdateException {
     if (baseCommit != null && oursCommit.getTree().equals(baseCommit.getTree())) {
       // If the trees are identical, there is no change in the notes.
       // Avoid saving this commit as it has no new information.
       return;
     }
-    BatchRefUpdate bru = db.getRefDatabase().newBatchUpdate();
-    bru.addCommand(
-        new ReceiveCommand(firstNonNull(baseCommit, ObjectId.zeroId()), oursCommit, notesBranch));
-    RefUpdateUtil.executeChecked(bru, revWalk);
-    gitRefUpdated.fire(project, bru, null);
+
+    int remainingLockFailureCalls = MAX_LOCK_FAILURE_CALLS;
+    RefUpdate refUpdate = createRefUpdate(notesBranch, oursCommit, baseCommit);
+
+    for (; ; ) {
+      Result result = refUpdate.update();
+
+      if (result == Result.LOCK_FAILURE) {
+        if (--remainingLockFailureCalls > 0) {
+          try {
+            Thread.sleep(SLEEP_ON_LOCK_FAILURE_MS);
+          } catch (InterruptedException e) {
+            // ignore
+          }
+        } else {
+          throw new ConcurrentRefUpdateException(
+              "Failed to lock the ref: " + notesBranch, refUpdate.getRef(), result);
+        }
+
+      } else if (result == Result.REJECTED) {
+        RevCommit theirsCommit = revWalk.parseCommit(refUpdate.getOldObjectId());
+        NoteMap theirs = NoteMap.read(revWalk.getObjectReader(), theirsCommit);
+        NoteMapMerger merger = new NoteMapMerger(db, getNoteMerger(), MergeStrategy.RESOLVE);
+        NoteMap merged = merger.merge(base, ours, theirs);
+        RevCommit mergeCommit =
+            createCommit(merged, gerritIdent, "Merged note commits\n", theirsCommit, oursCommit);
+        refUpdate = createRefUpdate(notesBranch, mergeCommit, theirsCommit);
+        remainingLockFailureCalls = MAX_LOCK_FAILURE_CALLS;
+
+      } else if (result == Result.IO_FAILURE) {
+        throw new IOException("Couldn't update " + notesBranch + ". " + result.name());
+      } else {
+        gitRefUpdated.fire(project, refUpdate, null);
+        break;
+      }
+    }
+  }
+
+  private RefUpdate createRefUpdate(
+      String notesBranch, ObjectId newObjectId, ObjectId expectedOldObjectId) throws IOException {
+    RefUpdate refUpdate = db.updateRef(notesBranch);
+    refUpdate.setNewObjectId(newObjectId);
+    if (expectedOldObjectId == null) {
+      refUpdate.setExpectedOldObjectId(ObjectId.zeroId());
+    } else {
+      refUpdate.setExpectedOldObjectId(expectedOldObjectId);
+    }
+    return refUpdate;
   }
 }

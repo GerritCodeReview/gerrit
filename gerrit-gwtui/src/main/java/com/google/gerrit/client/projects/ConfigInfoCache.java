@@ -16,14 +16,12 @@ package com.google.gerrit.client.projects;
 
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.info.ChangeInfo;
-import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 /** Cache of {@link ConfigInfo} objects by project name. */
@@ -49,10 +47,6 @@ public class ConfigInfoCache {
 
     public ThemeInfo getTheme() {
       return info.theme();
-    }
-
-    public List<String> getExtensionPanelNames(String extensionPoint) {
-      return Natives.asList(info.extensionPanelNames().get(extensionPoint));
     }
   }
 
@@ -93,7 +87,7 @@ public class ConfigInfoCache {
         };
   }
 
-  private void getImpl(String name, AsyncCallback<Entry> cb) {
+  private void getImpl(final String name, final AsyncCallback<Entry> cb) {
     Entry e = cache.get(name);
     if (e != null) {
       cb.onSuccess(e);
@@ -116,14 +110,13 @@ public class ConfigInfoCache {
         });
   }
 
-  private void getImpl(Integer id, AsyncCallback<Entry> cb) {
+  private void getImpl(final Integer id, final AsyncCallback<Entry> cb) {
     String name = changeToProject.get(id);
     if (name != null) {
       getImpl(name, cb);
       return;
     }
-    // TODO(hiesel) Make a preflight request to get project before we deprecate the numeric changeId
-    ChangeApi.change(null, id)
+    ChangeApi.change(id)
         .get(
             new AsyncCallback<ChangeInfo>() {
               @Override

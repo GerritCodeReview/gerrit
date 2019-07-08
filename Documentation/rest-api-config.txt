@@ -52,9 +52,6 @@ As result a link:#server-info[ServerInfo] entity is returned.
 
   )]}'
   {
-    "accounts": {
-      "visibility": "ALL"
-    },
     "auth": {
       "auth_type": "LDAP",
       "use_contributor_agreements": true,
@@ -141,59 +138,6 @@ As result a link:#server-info[ServerInfo] entity is returned.
   }
 ----
 
-[[check-consistency]]
-=== Check Consistency
---
-'POST /config/server/check.consistency'
---
-
-Runs consistency checks and returns detected problems.
-
-Input for the consistency checks that should be run must be provided in
-the request body inside a
-link:#consistency-check-input[ConsistencyCheckInput] entity.
-
-.Request
-----
-  POST /config/server/check.consistency HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
-
-  {
-    "check_accounts": {},
-    "check_account_external_ids": {}
-  }
-----
-
-As result a link:#consistency-check-info[ConsistencyCheckInfo] entity
-is returned that contains detected consistency problems.
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  {
-    "check_accounts_result": {
-      "problems": [
-        {
-          "status": "ERROR",
-          "message": "Account \u00271000024\u0027 has no external ID for its preferred email \u0027foo.bar@example.com\u0027"
-        }
-      ]
-    }
-    "check_account_external_ids_result": {
-      "problems": [
-        {
-          "status": "ERROR",
-          "message": "External ID \u0027uuid:ccb8d323-1361-45aa-8874-41987a660c46\u0027 belongs to account that doesn\u0027t exist: 1000012"
-        }
-      ]
-    }
-  }
-----
-
-
 [[confirm-email]]
 === Confirm Email
 --
@@ -260,6 +204,25 @@ The entries in the map are sorted by cache name.
       "average_get": "2.5ms",
       "hit_ratio": {
         "mem": 94
+      }
+    },
+    "accounts_byemail": {
+      "type": "MEM",
+      "entries": {
+        "mem": 4
+      },
+      "average_get": "771.8us",
+      "hit_ratio": {
+        "mem": 95
+      }
+    },
+    "accounts_byname": {
+      "type": "MEM",
+      "entries": {
+        "mem": 4
+      },
+      "hit_ratio": {
+        "mem": 100
       }
     },
     "adv_bases": {
@@ -333,17 +296,12 @@ The entries in the map are sorted by cache name.
         "mem": 12
       }
     },
-    "groups_bymember": {
+    "groups_byinclude": {
       "type": "MEM",
       "entries": {},
       "hit_ratio": {}
     },
     "groups_byname": {
-      "type": "MEM",
-      "entries": {},
-      "hit_ratio": {}
-    },
-    "groups_bysubgroup": {
       "type": "MEM",
       "entries": {},
       "hit_ratio": {}
@@ -363,7 +321,7 @@ The entries in the map are sorted by cache name.
       "entries": {},
       "hit_ratio": {}
     },
-    groups_subgroups": {
+    groups_members": {
       "type": "MEM",
       "entries": {
         "mem": 4
@@ -464,6 +422,8 @@ The cache names are lexicographically sorted.
   )]}'
   [
     "accounts",
+    "accounts_byemail",
+    "accounts_byname",
     "adv_bases",
     "change_kind",
     "changes",
@@ -472,12 +432,11 @@ The cache names are lexicographically sorted.
     "diff_intraline",
     "git_tags",
     "groups",
-    "groups_bymember",
+    "groups_byinclude",
     "groups_byname",
-    "groups_bysubgroup",
     "groups_byuuid",
     "groups_external",
-    "groups_subgroups",
+    "groups_members",
     "permission_sort",
     "plugin_resources",
     "project_list",
@@ -1021,11 +980,14 @@ PreferencesInfo] is returned.
     "size_bar_in_change_table": true,
     "review_category_strategy": "NONE",
     "mute_common_path_prefixes": true,
-    "publish_comments_on_push": true,
     "my": [
       {
         "url": "#/dashboard/self",
         "name": "Changes"
+      },
+      {
+        "url": "#/q/owner:self+is:draft",
+        "name": "Drafts"
       },
       {
         "url": "#/q/has:draft",
@@ -1100,11 +1062,14 @@ PreferencesInfo] is returned.
     "size_bar_in_change_table": true,
     "review_category_strategy": "NONE",
     "mute_common_path_prefixes": true,
-    "publish_comments_on_push": true,
     "my": [
       {
         "url": "#/dashboard/self",
         "name": "Changes"
+      },
+      {
+        "url": "#/q/owner:self+is:draft",
+        "name": "Drafts"
       },
       {
         "url": "#/q/has:draft",
@@ -1256,20 +1221,6 @@ The ID of the task (hex string).
 [[json-entities]]
 == JSON Entities
 
-[[accounts-config-info]]
-=== AccountsConfigInfo
-The `AccountsConfigInfo` entity contains information about Gerrit
-configuration from the link:config-gerrit.html#accounts[accounts]
-section.
-
-[options="header",cols="1,6"]
-|=============================
-|Field Name           |Description
-|`visibility`         |
-link:config-gerrit.html#accounts.visibility[Visibility setting for
-accounts].
-|=============================
-
 [[auth-info]]
 === AuthInfo
 The `AuthInfo` entity contains information about the authentication
@@ -1394,6 +1345,9 @@ section.
 |`allow_blame`        |not set if `false`|
 link:config-gerrit.html#change.allowBlame[Whether blame on side by side diff is
 allowed].
+|`allow_drafts`       |not set if `false`|
+link:config-gerrit.html#change.allowDrafts[Whether draft workflow is
+allowed].
 |`large_change`       ||
 link:config-gerrit.html#change.largeChange[Number of changed lines from
 which on a change is considered as a large change].
@@ -1409,75 +1363,7 @@ interface should poll for updates to the currently open change].
 |`submit_whole_topic` ||
 link:config-gerrit.html#change.submitWholeTopic[A configuration if
 the whole topic is submitted].
-|`disable_private_changes` |not set if `false`|
-Returns true if private changes are disabled.
 |=============================
-
-[[check-account-external-ids-input]]
-=== CheckAccountExternalIdsInput
-The `CheckAccountExternalIdsInput` entity contains input for the
-account external IDs consistency check.
-
-Currently this entity contains no fields.
-
-[[check-account-external-ids-result-info]]
-=== CheckAccountExternalIdsResultInfo
-The `CheckAccountExternalIdsResultInfo` entity contains the result of
-running the account external IDs consistency check.
-
-[options="header",cols="1,6"]
-|======================
-|Field Name|Description
-|`problems`|A list of link:#consistency-problem-info[
-ConsistencyProblemInfo] entities.
-|======================
-
-[[consistency-check-info]]
-=== ConsistencyCheckInfo
-The `ConsistencyCheckInfo` entity contains the results of running
-consistency checks.
-
-[options="header",cols="1,^1,5"]
-|================================================
-|Field Name                         ||Description
-|`check_accounts_result`            |optional|
-The result of running the account consistency check as a
-link:#check-accounts-result-info[CheckAccountsResultInfo] entity.
-|`check_account_external_ids_result`|optional|
-The result of running the account external ID consistency check as a
-link:#check-account-external-ids-result-info[
-CheckAccountExternalIdsResultInfo] entity.
-|================================================
-
-[[consistency-check-input]]
-=== ConsistencyCheckInput
-The `ConsistencyCheckInput` entity contains information about which
-consistency checks should be run.
-
-[options="header",cols="1,^1,5"]
-|=========================================
-|Field Name                  ||Description
-|`check_accounts`            |optional|
-Input for the account consistency check as
-link:#check-accounts-input[CheckAccountsInput] entity.
-|`check_account_external_ids`|optional|
-Input for the account external ID consistency check as
-link:#check-account-external-ids-input[CheckAccountExternalIdsInput]
-entity.
-|=========================================
-
-[[consistency-problem-info]]
-=== ConsistencyProblemInfo
-The `ConsistencyProblemInfo` entity contains information about a
-consistency problem.
-
-[options="header",cols="1,6"]
-|======================
-|Field Name|Description
-|`status`  |The status of the consistency problem. +
-Possible values are `ERROR` and `WARNING`.
-|`message` |Message describing the consistency problem.
-|======================
 
 [[download-info]]
 === DownloadInfo
@@ -1687,10 +1573,6 @@ the Gerrit server.
 [options="header",cols="1,^1,5"]
 |=======================================
 |Field Name                ||Description
-|`accounts`                ||
-Information about the configuration from the
-link:config-gerrit.html#accounts[accounts] section as
-link:#accounts-config-info[AccountsConfigInfo] entity.
 |`auth`                    ||
 Information about the authentication configuration as
 link:#auth-info[AuthInfo] entity.
@@ -1731,9 +1613,6 @@ the first matched group, `$2` for the second matched group, etc.
 Information about the configuration from the
 link:config-gerrit.html#user[user] section as link:#user-config-info[
 UserConfigInfo] entity.
-|`default_theme`           |optional|
-URL to a default PolyGerrit UI theme plugin, if available.
-Located in `/static/gerrit-theme.html` by default.
 |=======================================
 
 [[sshd-info]]

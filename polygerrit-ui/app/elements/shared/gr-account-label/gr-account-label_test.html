@@ -20,7 +20,6 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
 <script src="../../../scripts/util.js"></script>
 
 <link rel="import" href="gr-account-label.html">
@@ -34,37 +33,32 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-account-label tests', () => {
-    let element;
+  suite('gr-account-label tests', function() {
+    var element;
 
-    setup(() => {
+    setup(function() {
       stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
-        getLoggedIn() { return Promise.resolve(false); },
+        getConfig: function() { return Promise.resolve({}); },
+        getLoggedIn: function() { return Promise.resolve(false); },
       });
       element = fixture('basic');
-      element._config = {
-        user: {
-          anonymous_coward_name: 'Anonymous Coward',
-        },
-      };
     });
 
-    test('null guard', () => {
-      assert.doesNotThrow(() => {
+    test('null guard', function() {
+      assert.doesNotThrow(function() {
         element.account = null;
       });
     });
 
-    test('missing email', () => {
+    test('missing email', function() {
       assert.equal('', element._computeEmailStr({name: 'foo'}));
     });
 
-    test('computed fields', () => {
+    test('computed fields', function() {
       assert.equal(element._computeAccountTitle(
           {
             name: 'Andrew Bonventre',
-            email: 'andybons+gerrit@gmail.com',
+            email: 'andybons+gerrit@gmail.com'
           }),
           'Andrew Bonventre <andybons+gerrit@gmail.com>');
 
@@ -72,16 +66,10 @@ limitations under the License.
           {name: 'Andrew Bonventre'}),
           'Andrew Bonventre');
 
-      assert.equal(element._computeAccountTitle(
-          {
-            email: 'andybons+gerrit@gmail.com',
-          }),
-          'Anonymous <andybons+gerrit@gmail.com>');
-
       assert.equal(element._computeShowEmail(true,
           {
             name: 'Andrew Bonventre',
-            email: 'andybons+gerrit@gmail.com',
+            email: 'andybons+gerrit@gmail.com'
           }), true);
 
       assert.equal(element._computeShowEmail(true,
@@ -101,39 +89,5 @@ limitations under the License.
       assert.equal(element._computeEmailStr({email: 'test'}, ''), 'test');
     });
 
-    suite('_computeName', () => {
-      test('not showing anonymous', () => {
-        const account = {name: 'Wyatt'};
-        assert.deepEqual(element._computeName(account, null), 'Wyatt');
-      });
-
-      test('showing anonymous but no config', () => {
-        const account = {};
-        assert.deepEqual(element._computeName(account, null),
-            'Anonymous');
-      });
-
-      test('test for Anonymous Coward user and replace with Anonymous', () => {
-        const config = {
-          user: {
-            anonymous_coward_name: 'Anonymous Coward',
-          },
-        };
-        const account = {};
-        assert.deepEqual(element._computeName(account, config),
-            'Anonymous');
-      });
-
-      test('test for anonymous_coward_name', () => {
-        const config = {
-          user: {
-            anonymous_coward_name: 'TestAnon',
-          },
-        };
-        const account = {};
-        assert.deepEqual(element._computeName(account, config),
-            'TestAnon');
-      });
-    });
   });
 </script>

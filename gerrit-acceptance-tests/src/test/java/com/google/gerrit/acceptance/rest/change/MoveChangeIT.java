@@ -22,22 +22,18 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.MoveInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
-import java.util.Arrays;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -163,11 +159,11 @@ public class MoveChangeIT extends AbstractDaemonTest {
         new Branch.NameKey(r.getChange().change().getProject(), "blocked_branch");
     createBranch(newBranch);
     block(
-        "refs/for/" + newBranch.get(),
         Permission.PUSH,
-        systemGroupBackend.getGroup(REGISTERED_USERS).getUUID());
+        systemGroupBackend.getGroup(REGISTERED_USERS).getUUID(),
+        "refs/for/" + newBranch.get());
     exception.expect(AuthException.class);
-    exception.expectMessage("move not permitted");
+    exception.expectMessage("Move not permitted");
     move(r.getChangeId(), newBranch.get());
   }
 
@@ -178,12 +174,12 @@ public class MoveChangeIT extends AbstractDaemonTest {
     Branch.NameKey newBranch = new Branch.NameKey(r.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);
     block(
-        r.getChange().change().getDest().get(),
         Permission.ABANDON,
-        systemGroupBackend.getGroup(REGISTERED_USERS).getUUID());
+        systemGroupBackend.getGroup(REGISTERED_USERS).getUUID(),
+        r.getChange().change().getDest().get());
     setApiUser(user);
     exception.expect(AuthException.class);
-    exception.expectMessage("move not permitted");
+    exception.expectMessage("Move not permitted");
     move(r.getChangeId(), newBranch.get());
   }
 
@@ -223,101 +219,12 @@ public class MoveChangeIT extends AbstractDaemonTest {
     Util.allow(
         cfg, Permission.forLabel(patchSetLock.getName()), 0, 1, registeredUsers, "refs/heads/*");
     saveProjectConfig(cfg);
-    grant(project, "refs/heads/*", Permission.LABEL + "Patch-Set-Lock");
+    grant(Permission.LABEL + "Patch-Set-Lock", project, "refs/heads/*");
     revision(r).review(new ReviewInput().label("Patch-Set-Lock", 1));
 
     exception.expect(AuthException.class);
-    exception.expectMessage("move not permitted");
+    exception.expectMessage("Move not permitted");
     move(r.getChangeId(), newBranch.get());
-  }
-
-  @Test
-  public void moveChangeOnlyKeepVetoVotes() throws Exception {
-    // A vote for a label will be kept after moving if the label's function is *WithBlock and the
-    // vote holds the minimum value.
-    createBranch(new Branch.NameKey(project, "foo"));
-
-    String codeReviewLabel = "Code-Review"; // 'Code-Review' uses 'MaxWithBlock' function.
-    String testLabelA = "Label-A";
-    String testLabelB = "Label-B";
-    String testLabelC = "Label-C";
-    configLabel(testLabelA, LabelFunction.ANY_WITH_BLOCK);
-    configLabel(testLabelB, LabelFunction.MAX_NO_BLOCK);
-    configLabel(testLabelC, LabelFunction.NO_BLOCK);
-
-    AccountGroup.UUID registered = SystemGroupBackend.REGISTERED_USERS;
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    Util.allow(cfg, Permission.forLabel(testLabelA), -1, +1, registered, "refs/heads/*");
-    Util.allow(cfg, Permission.forLabel(testLabelB), -1, +1, registered, "refs/heads/*");
-    Util.allow(cfg, Permission.forLabel(testLabelC), -1, +1, registered, "refs/heads/*");
-    saveProjectConfig(cfg);
-
-    String changeId = createChange().getChangeId();
-    gApi.changes().id(changeId).current().review(ReviewInput.reject());
-
-    amendChange(changeId);
-
-    ReviewInput input = new ReviewInput();
-    input.label(testLabelA, -1);
-    input.label(testLabelB, -1);
-    input.label(testLabelC, -1);
-    gApi.changes().id(changeId).current().review(input);
-
-    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().keySet())
-        .containsExactly(codeReviewLabel, testLabelA, testLabelB, testLabelC);
-    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().values())
-        .containsExactly((short) -2, (short) -1, (short) -1, (short) -1);
-
-    // Move the change to the 'foo' branch.
-    assertThat(gApi.changes().id(changeId).get().branch).isEqualTo("master");
-    move(changeId, "foo");
-    assertThat(gApi.changes().id(changeId).get().branch).isEqualTo("foo");
-
-    // 'Code-Review -2' and 'Label-A -1' will be kept.
-    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().values())
-        .containsExactly((short) -2, (short) -1, (short) 0, (short) 0);
-
-    // Move the change back to 'master'.
-    move(changeId, "master");
-    assertThat(gApi.changes().id(changeId).get().branch).isEqualTo("master");
-    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().values())
-        .containsExactly((short) -2, (short) -1, (short) 0, (short) 0);
-  }
-
-  @Test
-  public void moveToBranchWithoutLabel() throws Exception {
-    createBranch(new Branch.NameKey(project, "foo"));
-    String testLabelA = "Label-A";
-    configLabel(testLabelA, LabelFunction.MAX_WITH_BLOCK, Arrays.asList("refs/heads/master"));
-
-    AccountGroup.UUID registered = SystemGroupBackend.REGISTERED_USERS;
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    Util.allow(cfg, Permission.forLabel(testLabelA), -1, +1, registered, "refs/heads/master");
-    saveProjectConfig(cfg);
-
-    String changeId = createChange().getChangeId();
-
-    ReviewInput input = new ReviewInput();
-    input.label(testLabelA, -1);
-    gApi.changes().id(changeId).current().review(input);
-
-    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().keySet())
-        .containsExactly(testLabelA);
-    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().values())
-        .containsExactly((short) -1);
-
-    move(changeId, "foo");
-
-    // TODO(dpursehouse): Assert about state of labels after move
-  }
-
-  @Test
-  public void moveNoDestinationBranchSpecified() throws Exception {
-    PushOneCommit.Result r = createChange();
-
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("destination branch is required");
-    move(r.getChangeId(), null);
   }
 
   private void move(int changeNum, String destination) throws RestApiException {

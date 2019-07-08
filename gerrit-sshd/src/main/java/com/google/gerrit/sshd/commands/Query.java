@@ -24,7 +24,7 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
 @CommandMetaData(name = "query", description = "Query the change database")
-public class Query extends SshCommand {
+class Query extends SshCommand {
   @Inject private OutputStreamQuery processor;
 
   @Option(name = "--format", metaVar = "FMT", usage = "Output display format")

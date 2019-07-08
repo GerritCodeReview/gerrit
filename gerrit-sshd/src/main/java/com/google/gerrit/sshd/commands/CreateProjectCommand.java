@@ -27,7 +27,7 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.SuggestParentCandidates;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -162,7 +162,7 @@ final class CreateProjectCommand extends SshCommand {
   @Inject private SuggestParentCandidates suggestParentCandidates;
 
   @Override
-  protected void run() throws Failure {
+  protected void run() throws UnloggedFailure {
     try {
       if (!suggestParent) {
         if (projectName == null) {
@@ -194,14 +194,14 @@ final class CreateProjectCommand extends SshCommand {
 
         gApi.projects().create(input);
       } else {
-        for (Project.NameKey parent : suggestParentCandidates.getNameKeys()) {
-          stdout.print(parent.get() + '\n');
+        List<Project.NameKey> parentCandidates = suggestParentCandidates.getNameKeys();
+
+        for (Project.NameKey parent : parentCandidates) {
+          stdout.print(parent + "\n");
         }
       }
-    } catch (RestApiException err) {
+    } catch (RestApiException | NoSuchProjectException err) {
       throw die(err);
-    } catch (PermissionBackendException err) {
-      throw new Failure(1, "permissions unavailable", err);
     }
   }
 

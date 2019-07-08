@@ -19,11 +19,10 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-account-chip/gr-account-chip.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-reviewer-list">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         display: block;
       }
@@ -33,9 +32,6 @@ limitations under the License.
       }
       .autocompleteContainer {
         position: relative;
-      }
-      .hiddenReviewers {
-        margin-top: .3em;
       }
       .inputContainer {
         display: flex;
@@ -60,17 +56,13 @@ limitations under the License.
         }
       }
     </style>
-    <template is="dom-repeat" items="[[_displayedReviewers]]" as="reviewer">
+    <template is="dom-repeat" items="[[_reviewers]]" as="reviewer">
       <gr-account-chip class="reviewer" account="[[reviewer]]"
           on-remove="_handleRemove"
+          data-account-id$="[[reviewer._account_id]]"
           removable="[[_computeCanRemoveReviewer(reviewer, mutable)]]">
       </gr-account-chip>
     </template>
-    <gr-button
-        class="hiddenReviewers"
-        link
-        hidden$="[[!_hiddenReviewerCount]]"
-        on-tap="_handleViewAll">and [[_hiddenReviewerCount]] more</gr-button>
     <div class="controlsContainer" hidden$="[[!mutable]]">
       <gr-button
           link

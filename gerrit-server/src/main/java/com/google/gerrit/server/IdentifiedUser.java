@@ -21,6 +21,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
@@ -54,6 +55,7 @@ public class IdentifiedUser extends CurrentUser {
   /** Create an IdentifiedUser, ignoring any per-request state. */
   @Singleton
   public static class GenericFactory {
+    private final CapabilityControl.Factory capabilityControlFactory;
     private final AuthConfig authConfig;
     private final Realm realm;
     private final String anonymousCowardName;
@@ -64,6 +66,7 @@ public class IdentifiedUser extends CurrentUser {
 
     @Inject
     public GenericFactory(
+        @Nullable CapabilityControl.Factory capabilityControlFactory,
         AuthConfig authConfig,
         Realm realm,
         @AnonymousCowardName String anonymousCowardName,
@@ -71,6 +74,7 @@ public class IdentifiedUser extends CurrentUser {
         @DisableReverseDnsLookup Boolean disableReverseDnsLookup,
         AccountCache accountCache,
         GroupBackend groupBackend) {
+      this.capabilityControlFactory = capabilityControlFactory;
       this.authConfig = authConfig;
       this.realm = realm;
       this.anonymousCowardName = anonymousCowardName;
@@ -82,6 +86,7 @@ public class IdentifiedUser extends CurrentUser {
 
     public IdentifiedUser create(AccountState state) {
       return new IdentifiedUser(
+          capabilityControlFactory,
           authConfig,
           realm,
           anonymousCowardName,
@@ -105,6 +110,7 @@ public class IdentifiedUser extends CurrentUser {
     public IdentifiedUser runAs(
         SocketAddress remotePeer, Account.Id id, @Nullable CurrentUser caller) {
       return new IdentifiedUser(
+          capabilityControlFactory,
           authConfig,
           realm,
           anonymousCowardName,
@@ -126,6 +132,7 @@ public class IdentifiedUser extends CurrentUser {
    */
   @Singleton
   public static class RequestFactory {
+    private final CapabilityControl.Factory capabilityControlFactory;
     private final AuthConfig authConfig;
     private final Realm realm;
     private final String anonymousCowardName;
@@ -137,6 +144,7 @@ public class IdentifiedUser extends CurrentUser {
 
     @Inject
     RequestFactory(
+        CapabilityControl.Factory capabilityControlFactory,
         AuthConfig authConfig,
         Realm realm,
         @AnonymousCowardName String anonymousCowardName,
@@ -145,6 +153,7 @@ public class IdentifiedUser extends CurrentUser {
         GroupBackend groupBackend,
         @DisableReverseDnsLookup Boolean disableReverseDnsLookup,
         @RemotePeer Provider<SocketAddress> remotePeerProvider) {
+      this.capabilityControlFactory = capabilityControlFactory;
       this.authConfig = authConfig;
       this.realm = realm;
       this.anonymousCowardName = anonymousCowardName;
@@ -157,6 +166,7 @@ public class IdentifiedUser extends CurrentUser {
 
     public IdentifiedUser create(Account.Id id) {
       return new IdentifiedUser(
+          capabilityControlFactory,
           authConfig,
           realm,
           anonymousCowardName,
@@ -171,6 +181,7 @@ public class IdentifiedUser extends CurrentUser {
 
     public IdentifiedUser runAs(Account.Id id, CurrentUser caller) {
       return new IdentifiedUser(
+          capabilityControlFactory,
           authConfig,
           realm,
           anonymousCowardName,
@@ -208,6 +219,7 @@ public class IdentifiedUser extends CurrentUser {
   private Map<PropertyKey<Object>, Object> properties;
 
   private IdentifiedUser(
+      CapabilityControl.Factory capabilityControlFactory,
       AuthConfig authConfig,
       Realm realm,
       String anonymousCowardName,
@@ -219,6 +231,7 @@ public class IdentifiedUser extends CurrentUser {
       AccountState state,
       @Nullable CurrentUser realUser) {
     this(
+        capabilityControlFactory,
         authConfig,
         realm,
         anonymousCowardName,
@@ -233,6 +246,7 @@ public class IdentifiedUser extends CurrentUser {
   }
 
   private IdentifiedUser(
+      CapabilityControl.Factory capabilityControlFactory,
       AuthConfig authConfig,
       Realm realm,
       String anonymousCowardName,
@@ -243,6 +257,7 @@ public class IdentifiedUser extends CurrentUser {
       @Nullable Provider<SocketAddress> remotePeerProvider,
       Account.Id id,
       @Nullable CurrentUser realUser) {
+    super(capabilityControlFactory);
     this.canonicalUrl = canonicalUrl;
     this.accountCache = accountCache;
     this.groupBackend = groupBackend;
@@ -258,20 +273,6 @@ public class IdentifiedUser extends CurrentUser {
   @Override
   public CurrentUser getRealUser() {
     return realUser;
-  }
-
-  @Override
-  public boolean isImpersonating() {
-    if (realUser == this) {
-      return false;
-    }
-    if (realUser.isIdentifiedUser()) {
-      if (realUser.getAccountId().equals(getAccountId())) {
-        // Impersonating another copy of this user is allowed.
-        return false;
-      }
-    }
-    return true;
   }
 
   public AccountState state() {
@@ -348,7 +349,7 @@ public class IdentifiedUser extends CurrentUser {
     return newRefLogIdent(new Date(), TimeZone.getDefault());
   }
 
-  public PersonIdent newRefLogIdent(Date when, TimeZone tz) {
+  public PersonIdent newRefLogIdent(final Date when, final TimeZone tz) {
     final Account ua = getAccount();
 
     String name = ua.getFullName();
@@ -368,7 +369,7 @@ public class IdentifiedUser extends CurrentUser {
     return new PersonIdent(name, user + "@" + guessHost(), when, tz);
   }
 
-  public PersonIdent newCommitterIdent(Date when, TimeZone tz) {
+  public PersonIdent newCommitterIdent(final Date when, final TimeZone tz) {
     final Account ua = getAccount();
     String name = ua.getFullName();
     String email = ua.getPreferredEmail();
@@ -464,6 +465,7 @@ public class IdentifiedUser extends CurrentUser {
    * @return copy of the identified user
    */
   public IdentifiedUser materializedCopy() {
+    CapabilityControl capabilities = getCapabilities();
     Provider<SocketAddress> remotePeer;
     try {
       remotePeer = Providers.of(remotePeerProvider.get());
@@ -477,6 +479,13 @@ public class IdentifiedUser extends CurrentUser {
           };
     }
     return new IdentifiedUser(
+        new CapabilityControl.Factory() {
+
+          @Override
+          public CapabilityControl create(CurrentUser user) {
+            return capabilities;
+          }
+        },
         authConfig,
         realm,
         anonymousCowardName,
@@ -513,7 +522,7 @@ public class IdentifiedUser extends CurrentUser {
     return host;
   }
 
-  private String getHost(InetAddress in) {
+  private String getHost(final InetAddress in) {
     if (Boolean.FALSE.equals(disableReverseDnsLookup)) {
       return in.getCanonicalHostName();
     }

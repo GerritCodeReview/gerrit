@@ -44,12 +44,12 @@
       role: 'dialog',
     },
 
-    _handleConfirmTap(e) {
+    _handleConfirmTap: function(e) {
       e.preventDefault();
       this.fire('confirm', null, {bubbles: false});
     },
 
-    _handleCancelTap(e) {
+    _handleCancelTap: function(e) {
       e.preventDefault();
       this.fire('cancel', null, {bubbles: false});
     },

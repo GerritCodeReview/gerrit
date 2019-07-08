@@ -17,12 +17,9 @@ package com.google.gerrit.httpd;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Strings.emptyToNull;
 import static com.google.common.net.HttpHeaders.AUTHORIZATION;
-import static com.google.gerrit.extensions.api.lfs.LfsDefinitions.CONTENTTYPE_VND_GIT_LFS_JSON;
-import static com.google.gerrit.httpd.GerritAuthModule.NOT_AUTHORIZED_LFS_URL_REGEX;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
-import com.google.common.base.Strings;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.server.AccessPath;
@@ -34,7 +31,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Locale;
-import java.util.regex.Pattern;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -58,9 +54,6 @@ import org.eclipse.jgit.lib.Config;
  */
 @Singleton
 class ContainerAuthFilter implements Filter {
-  private static final String LFS_AUTH_PREFIX = "Ssh: ";
-  private static final Pattern LFS_ENDPOINT = Pattern.compile(NOT_AUTHORIZED_LFS_URL_REGEX);
-
   private final DynamicItem<WebSession> session;
   private final AccountCache accountCache;
   private final Config config;
@@ -99,11 +92,6 @@ class ContainerAuthFilter implements Filter {
   private boolean verify(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     String username = RemoteUserUtil.getRemoteUser(req, loginHttpHeader);
     if (username == null) {
-      if (isLfsOverSshRequest(req)) {
-        // LFS-over-SSH auth request cannot be authorized by container
-        // therefore let it go through the filter
-        return true;
-      }
       rsp.sendError(SC_FORBIDDEN);
       return false;
     }
@@ -120,13 +108,5 @@ class ContainerAuthFilter implements Filter {
     ws.setAccessPathOk(AccessPath.GIT, true);
     ws.setAccessPathOk(AccessPath.REST_API, true);
     return true;
-  }
-
-  private static boolean isLfsOverSshRequest(HttpServletRequest req) {
-    String hdr = req.getHeader(AUTHORIZATION);
-    return CONTENTTYPE_VND_GIT_LFS_JSON.equals(req.getContentType())
-        && !Strings.isNullOrEmpty(hdr)
-        && hdr.startsWith(LFS_AUTH_PREFIX)
-        && LFS_ENDPOINT.matcher(req.getRequestURI()).matches();
   }
 }

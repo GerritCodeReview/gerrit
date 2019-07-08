@@ -15,7 +15,6 @@
 package com.google.gerrit.client.change;
 
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -23,13 +22,9 @@ class IncludedInAction extends RightSidePopdownAction {
   private final IncludedInBox includedInBox;
 
   IncludedInAction(
-      Project.NameKey project,
-      Change.Id changeId,
-      ChangeScreen.Style style,
-      UIObject relativeTo,
-      Widget includedInButton) {
+      Change.Id changeId, ChangeScreen.Style style, UIObject relativeTo, Widget includedInButton) {
     super(style, relativeTo, includedInButton);
-    this.includedInBox = new IncludedInBox(project, changeId);
+    this.includedInBox = new IncludedInBox(changeId);
   }
 
   @Override

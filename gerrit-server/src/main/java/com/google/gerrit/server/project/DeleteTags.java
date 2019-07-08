@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -38,10 +37,12 @@ public class DeleteTags implements RestModifyView<ProjectResource, DeleteTagsInp
 
   @Override
   public Response<?> apply(ProjectResource project, DeleteTagsInput input)
-      throws OrmException, RestApiException, IOException, PermissionBackendException {
+      throws OrmException, RestApiException, IOException {
+
     if (input == null || input.tags == null || input.tags.isEmpty()) {
       throw new BadRequestException("tags must be specified");
     }
+
     deleteRefFactory.create(project).refs(input.tags).prefix(R_TAGS).delete();
     return Response.none();
   }

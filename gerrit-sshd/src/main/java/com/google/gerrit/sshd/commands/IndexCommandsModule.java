@@ -14,7 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.server.index.VersionManager;
+import com.google.gerrit.server.index.AbstractVersionManager;
 import com.google.gerrit.sshd.CommandModule;
 import com.google.gerrit.sshd.CommandName;
 import com.google.gerrit.sshd.Commands;
@@ -35,7 +35,7 @@ public class IndexCommandsModule extends CommandModule {
     CommandName gerrit = Commands.named("gerrit");
     CommandName index = Commands.named(gerrit, "index");
     command(index).toProvider(new DispatchCommandProvider(index));
-    if (injector.getExistingBinding(Key.get(VersionManager.class)) != null) {
+    if (injector.getExistingBinding(Key.get(AbstractVersionManager.class)) != null) {
       command(index, IndexActivateCommand.class);
       command(index, IndexStartCommand.class);
     }

@@ -1,4 +1,4 @@
-// Copyright (C) 2017 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,70 +14,74 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.common.collect.ImmutableSet.toImmutableSet;
-
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSetMultimap;
-import com.google.common.collect.Streams;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.gerrit.server.query.account.InternalAccountQuery;
-import com.google.gwtorm.server.OrmException;
+import com.google.common.base.Strings;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.AcceptsCreate;
+import com.google.gerrit.extensions.restapi.ChildCollection;
+import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.AccountResource.Email;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.IOException;
 
-/** Class to access accounts by email. */
 @Singleton
-public class Emails {
-  private final ExternalIds externalIds;
-  private final Provider<InternalAccountQuery> queryProvider;
+public class Emails
+    implements ChildCollection<AccountResource, AccountResource.Email>,
+        AcceptsCreate<AccountResource> {
+  private final DynamicMap<RestView<AccountResource.Email>> views;
+  private final GetEmails list;
+  private final Provider<CurrentUser> self;
+  private final CreateEmail.Factory createEmailFactory;
 
   @Inject
-  public Emails(ExternalIds externalIds, Provider<InternalAccountQuery> queryProvider) {
-    this.externalIds = externalIds;
-    this.queryProvider = queryProvider;
+  Emails(
+      DynamicMap<RestView<AccountResource.Email>> views,
+      GetEmails list,
+      Provider<CurrentUser> self,
+      CreateEmail.Factory createEmailFactory) {
+    this.views = views;
+    this.list = list;
+    this.self = self;
+    this.createEmailFactory = createEmailFactory;
   }
 
-  /**
-   * Returns the accounts with the given email.
-   *
-   * <p>Each email should belong to a single account only. This means if more than one account is
-   * returned there is an inconsistency in the external IDs.
-   *
-   * <p>The accounts are retrieved via the external ID cache. Each access to the external ID cache
-   * requires reading the SHA1 of the refs/meta/external-ids branch. If accounts for multiple emails
-   * are needed it is more efficient to use {@link #getAccountsFor(String...)} as this method reads
-   * the SHA1 of the refs/meta/external-ids branch only once (and not once per email).
-   *
-   * <p>In addition accounts are included that have the given email as preferred email even if they
-   * have no external ID for the preferred email. Having accounts with a preferred email that does
-   * not exist as external ID is an inconsistency, but existing functionality relies on still
-   * getting those accounts, which is why they are included. Accounts by preferred email are fetched
-   * from the account index.
-   *
-   * @see #getAccountsFor(String...)
-   */
-  public ImmutableSet<Account.Id> getAccountFor(String email) throws IOException, OrmException {
-    return Streams.concat(
-            externalIds.byEmail(email).stream().map(e -> e.accountId()),
-            queryProvider.get().byPreferredEmail(email).stream().map(a -> a.getAccount().getId()))
-        .collect(toImmutableSet());
+  @Override
+  public RestView<AccountResource> list() {
+    return list;
   }
 
-  /**
-   * Returns the accounts for the given emails.
-   *
-   * @see #getAccountFor(String)
-   */
-  public ImmutableSetMultimap<String, Account.Id> getAccountsFor(String... emails)
-      throws IOException, OrmException {
-    ImmutableSetMultimap.Builder<String, Account.Id> builder = ImmutableSetMultimap.builder();
-    externalIds.byEmails(emails).entries().stream()
-        .forEach(e -> builder.put(e.getKey(), e.getValue().accountId()));
-    queryProvider.get().byPreferredEmail(emails).entries().stream()
-        .forEach(e -> builder.put(e.getKey(), e.getValue().getAccount().getId()));
-    return builder.build();
+  @Override
+  public AccountResource.Email parse(AccountResource rsrc, IdString id)
+      throws ResourceNotFoundException {
+    if (!self.get().hasSameAccountId(rsrc.getUser())
+        && !self.get().getCapabilities().canAdministrateServer()) {
+      throw new ResourceNotFoundException();
+    }
+
+    if ("preferred".equals(id.get())) {
+      String email = rsrc.getUser().getAccount().getPreferredEmail();
+      if (Strings.isNullOrEmpty(email)) {
+        throw new ResourceNotFoundException();
+      }
+      return new AccountResource.Email(rsrc.getUser(), email);
+    } else if (rsrc.getUser().hasEmailAddress(id.get())) {
+      return new AccountResource.Email(rsrc.getUser(), id.get());
+    } else {
+      throw new ResourceNotFoundException();
+    }
+  }
+
+  @Override
+  public DynamicMap<RestView<Email>> views() {
+    return views;
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public CreateEmail create(AccountResource parent, IdString email) {
+    return createEmailFactory.create(email.get());
   }
 }

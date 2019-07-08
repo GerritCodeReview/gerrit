@@ -24,7 +24,7 @@
  * Private template to generate "View Change" buttons.
  * @param email
  */
-{template .ViewChangeButton autoescape="strict" kind="html"}
+{template .ViewChangeButton private="true" autoescape="strict" kind="html"}
   <a href="{$email.changeUrl}">View Change</a>
 {/template}
 
@@ -32,7 +32,7 @@
  * Private template to render PRE block with consistent font-sizing.
  * @param content
  */
-{template .Pre autoescape="strict" kind="html"}
+{template .Pre private="true" autoescape="strict" kind="html"}
   {let $preStyle kind="css"}
     font-family: monospace,monospace; // Use this to avoid browsers scaling down
                                       // monospace text.
@@ -56,7 +56,7 @@
  *
  * @param content
  */
-{template .WikiFormat autoescape="strict" kind="html"}
+{template .WikiFormat private="true" autoescape="strict" kind="html"}
   {let $blockquoteStyle kind="css"}
     border-left: 1px solid #aaa;
     margin: 10px 0;
@@ -85,37 +85,4 @@
       </ul>
     {/if}
   {/foreach}
-{/template}
-
-/**
- * @param diffLines
- */
-{template .UnifiedDiff autoescape="strict" kind="html"}
-  {let $addStyle kind="css"}
-    color: hsl(120, 100%, 40%);
-  {/let}
-
-  {let $removeStyle kind="css"}
-    color: hsl(0, 100%, 40%);
-  {/let}
-
-  {let $preStyle kind="css"}
-    font-family: monospace,monospace; // Use this to avoid browsers scaling down
-                                      // monospace text.
-    white-space: pre-wrap;
-  {/let}
-
-  <pre style="{$preStyle}">
-    {foreach $line in $diffLines}
-      {if $line.type == 'add'}
-        <span style="{$addStyle}">
-      {elseif $line.type == 'remove'}
-        <span style="{$removeStyle}">
-      {else}
-        <span>
-      {/if}
-        {$line.text}
-      </span><br>
-    {/foreach}
-  </pre>
 {/template}

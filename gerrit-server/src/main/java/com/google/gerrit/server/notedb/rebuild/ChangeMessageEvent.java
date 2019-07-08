@@ -15,11 +15,9 @@
 package com.google.gerrit.server.notedb.rebuild;
 
 import com.google.common.base.MoreObjects.ToStringHelper;
-import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gwtorm.server.OrmException;
 import java.sql.Timestamp;
@@ -37,16 +35,10 @@ class ChangeMessageEvent extends Event {
                   "^Change has been successfully (merged|cherry-picked|rebased|pushed).*$"),
           Change.Status.NEW, Pattern.compile("^Restored(\n.*)*$"));
 
-  private static final Pattern PRIVATE_SET_REGEXP = Pattern.compile("^Set private$");
-  private static final Pattern PRIVATE_UNSET_REGEXP = Pattern.compile("^Unset private$");
-
   private static final Pattern TOPIC_SET_REGEXP = Pattern.compile("^Topic set to (.+)$");
   private static final Pattern TOPIC_CHANGED_REGEXP =
       Pattern.compile("^Topic changed from (.+) to (.+)$");
   private static final Pattern TOPIC_REMOVED_REGEXP = Pattern.compile("^Topic (.+) removed$");
-
-  private static final Pattern WIP_SET_REGEXP = Pattern.compile("^Set Work In Progress$");
-  private static final Pattern WIP_UNSET_REGEXP = Pattern.compile("^Set Ready For Review$");
 
   private final Change change;
   private final Change noteDbChange;
@@ -88,9 +80,7 @@ class ChangeMessageEvent extends Event {
   void apply(ChangeUpdate update) throws OrmException {
     checkUpdate(update);
     update.setChangeMessage(message.getMessage());
-    setPrivate(update);
     setTopic(update);
-    setWorkInProgress(update);
 
     if (status.isPresent()) {
       Change.Status s = status.get();
@@ -114,25 +104,6 @@ class ChangeMessageEvent extends Event {
       }
     }
     return Optional.empty();
-  }
-
-  private void setPrivate(ChangeUpdate update) {
-    String msg = message.getMessage();
-    if (msg == null) {
-      return;
-    }
-    Matcher m = PRIVATE_SET_REGEXP.matcher(msg);
-    if (m.matches()) {
-      update.setPrivate(true);
-      noteDbChange.setPrivate(true);
-      return;
-    }
-
-    m = PRIVATE_UNSET_REGEXP.matcher(msg);
-    if (m.matches()) {
-      update.setPrivate(false);
-      noteDbChange.setPrivate(false);
-    }
   }
 
   private void setTopic(ChangeUpdate update) {
@@ -159,22 +130,6 @@ class ChangeMessageEvent extends Event {
     if (TOPIC_REMOVED_REGEXP.matcher(msg).matches()) {
       update.setTopic(null);
       noteDbChange.setTopic(null);
-    }
-  }
-
-  private void setWorkInProgress(ChangeUpdate update) {
-    String msg = Strings.nullToEmpty(message.getMessage());
-    String tag = message.getTag();
-    if (ChangeMessagesUtil.TAG_SET_WIP.equals(tag)
-        || ChangeMessagesUtil.TAG_UPLOADED_WIP_PATCH_SET.equals(tag)
-        || WIP_SET_REGEXP.matcher(msg).matches()) {
-      update.setWorkInProgress(true);
-      noteDbChange.setWorkInProgress(true);
-    } else if (ChangeMessagesUtil.TAG_SET_READY.equals(tag)
-        || ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET.equals(tag)
-        || WIP_UNSET_REGEXP.matcher(msg).matches()) {
-      update.setWorkInProgress(false);
-      noteDbChange.setWorkInProgress(false);
     }
   }
 

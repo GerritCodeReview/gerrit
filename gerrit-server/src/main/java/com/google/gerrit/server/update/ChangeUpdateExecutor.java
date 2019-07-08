@@ -17,11 +17,13 @@ package com.google.gerrit.server.update;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
 
 /**
- * Marker on the global {@link ListeningExecutorService} used by asynchronous {@link BatchUpdate}s.
+ * Marker on the global {@link ListeningExecutorService} used by {@link ReceiveCommits} to create or
+ * replace changes.
  */
 @Retention(RUNTIME)
 @BindingAnnotation

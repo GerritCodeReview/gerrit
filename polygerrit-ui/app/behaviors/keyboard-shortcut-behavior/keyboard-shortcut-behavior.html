@@ -20,53 +20,35 @@ limitations under the License.
 (function(window) {
   'use strict';
 
-  // Must be declared outside behavior implementation to be accessed inside
-  // behavior functions.
-
-  /** @return {!Object} */
-  const getKeyboardEvent = function(e) {
-    e = Polymer.dom(e.detail ? e.detail.keyboardEvent : e);
-    // When e is a keyboardEvent, e.event is not null.
-    if (e.event) { e = e.event; }
-    return e;
+  var getKeyboardEvent = function(e) {
+    return Polymer.dom(e.detail ? e.detail.keyboardEvent : e);
   };
 
-  window.Gerrit = window.Gerrit || {};
-
-  /** @polymerBehavior KeyboardShortcutBehavior */
-  Gerrit.KeyboardShortcutBehavior = [{
-    modifierPressed(e) {
+  var KeyboardShortcutBehaviorImpl = {
+    modifierPressed: function(e) {
       e = getKeyboardEvent(e);
+      // When e is a keyboardEvent, e.event is not null.
+      if (e.event) { e = e.event; }
       return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
     },
 
-    isModifierPressed(e, modifier) {
-      return getKeyboardEvent(e)[modifier];
-    },
-
-    shouldSuppressKeyboardShortcut(e) {
+    shouldSuppressKeyboardShortcut: function(e) {
       e = getKeyboardEvent(e);
-      const tagName = Polymer.dom(e).rootTarget.tagName;
-      if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
+      if (e.path[0].tagName === 'INPUT' || e.path[0].tagName === 'TEXTAREA') {
         return true;
       }
-      for (let i = 0; e.path && i < e.path.length; i++) {
+      for (var i = 0; i < e.path.length; i++) {
         if (e.path[i].tagName === 'GR-OVERLAY') { return true; }
       }
       return false;
     },
+  };
 
-    // Alias for getKeyboardEvent.
-    /** @return {!Object} */
-    getKeyboardEvent(e) {
-      return getKeyboardEvent(e);
-    },
-
-    getRootTarget(e) {
-      return Polymer.dom(getKeyboardEvent(e)).rootTarget;
-    },
-  },
+  window.Gerrit = window.Gerrit || {};
+  /** @polymerBehavior Gerrit.KeyboardShortcutBehavior */
+  window.Gerrit.KeyboardShortcutBehavior = [
     Polymer.IronA11yKeysBehavior,
+    KeyboardShortcutBehaviorImpl,
   ];
 })(window);
 </script>

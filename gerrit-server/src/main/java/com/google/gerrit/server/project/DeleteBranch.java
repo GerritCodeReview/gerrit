@@ -16,14 +16,11 @@ package com.google.gerrit.server.project;
 
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.DeleteBranch.Input;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -38,25 +35,19 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input> {
 
   private final Provider<InternalChangeQuery> queryProvider;
   private final DeleteRef.Factory deleteRefFactory;
-  private final Provider<CurrentUser> user;
-  private final PermissionBackend permissionBackend;
 
   @Inject
-  DeleteBranch(
-      Provider<InternalChangeQuery> queryProvider,
-      DeleteRef.Factory deleteRefFactory,
-      Provider<CurrentUser> user,
-      PermissionBackend permissionBackend) {
+  DeleteBranch(Provider<InternalChangeQuery> queryProvider, DeleteRef.Factory deleteRefFactory) {
     this.queryProvider = queryProvider;
     this.deleteRefFactory = deleteRefFactory;
-    this.user = user;
-    this.permissionBackend = permissionBackend;
   }
 
   @Override
   public Response<?> apply(BranchResource rsrc, Input input)
-      throws RestApiException, OrmException, IOException, PermissionBackendException {
-    permissionBackend.user(user).ref(rsrc.getBranchKey()).check(RefPermission.DELETE);
+      throws RestApiException, OrmException, IOException {
+    if (!rsrc.getControl().controlForRef(rsrc.getBranchKey()).canDelete()) {
+      throw new AuthException("Cannot delete branch");
+    }
 
     if (!queryProvider.get().setLimit(1).byBranchOpen(rsrc.getBranchKey()).isEmpty()) {
       throw new ResourceConflictException("branch " + rsrc.getBranchKey() + " has open changes");

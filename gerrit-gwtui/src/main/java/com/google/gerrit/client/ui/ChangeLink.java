@@ -17,18 +17,17 @@ package com.google.gerrit.client.ui;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 
 public class ChangeLink extends InlineHyperlink {
-  public static String permalink(Change.Id c) {
+  public static String permalink(final Change.Id c) {
     return GWT.getHostPageBaseURL() + c.get();
   }
 
   protected Change.Id cid;
 
-  public ChangeLink(Project.NameKey project, Change.Id c, String text) {
-    super(text, PageLinks.toChange(project, c));
+  public ChangeLink(final String text, final Change.Id c) {
+    super(text, PageLinks.toChange(c));
     getElement().setPropertyString("href", permalink(c));
     cid = c;
   }

@@ -16,12 +16,14 @@ package com.google.gerrit.server.project;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Singleton;
 
 @Singleton
 public class GetDescription implements RestReadView<ProjectResource> {
   @Override
-  public String apply(ProjectResource rsrc) {
-    return Strings.nullToEmpty(rsrc.getProjectState().getProject().getDescription());
+  public String apply(ProjectResource resource) {
+    Project project = resource.getControl().getProject();
+    return Strings.nullToEmpty(project.getDescription());
   }
 }

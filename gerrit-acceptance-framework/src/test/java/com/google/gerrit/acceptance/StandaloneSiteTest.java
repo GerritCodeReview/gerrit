@@ -19,7 +19,6 @@ import static java.util.stream.Collectors.joining;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.Streams;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -33,15 +32,10 @@ import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Injector;
-import com.google.inject.Module;
 import com.google.inject.Provider;
-import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.util.FS;
-import org.eclipse.jgit.util.SystemReader;
 import org.junit.Rule;
 import org.junit.rules.RuleChain;
 import org.junit.rules.TemporaryFolder;
@@ -113,12 +107,8 @@ public abstract class StandaloneSiteTest {
           return new Statement() {
             @Override
             public void evaluate() throws Throwable {
-              try {
-                beforeTest(description);
-                base.evaluate();
-              } finally {
-                afterTest();
-              }
+              beforeTest(description);
+              base.evaluate();
             }
           };
         }
@@ -130,93 +120,31 @@ public abstract class StandaloneSiteTest {
   protected Account.Id adminId;
 
   private GerritServer.Description serverDesc;
-  private SystemReader oldSystemReader;
 
   private void beforeTest(Description description) throws Exception {
-    // SystemReader must be overridden before creating any repos, since they read the user/system
-    // configs at initialization time, and are then stored in the RepositoryCache forever.
-    oldSystemReader = setFakeSystemReader(tempSiteDir.getRoot());
-
     serverDesc = GerritServer.Description.forTestMethod(description, configName);
     sitePaths = new SitePaths(tempSiteDir.getRoot().toPath());
     GerritServer.init(serverDesc, baseConfig, sitePaths.site_path);
   }
 
-  private static SystemReader setFakeSystemReader(File tempDir) {
-    SystemReader oldSystemReader = SystemReader.getInstance();
-    SystemReader.setInstance(
-        new SystemReader() {
-          @Override
-          public String getHostname() {
-            return oldSystemReader.getHostname();
-          }
-
-          @Override
-          public String getenv(String variable) {
-            return oldSystemReader.getenv(variable);
-          }
-
-          @Override
-          public String getProperty(String key) {
-            return oldSystemReader.getProperty(key);
-          }
-
-          @Override
-          public FileBasedConfig openUserConfig(Config parent, FS fs) {
-            return new FileBasedConfig(parent, new File(tempDir, "user.config"), FS.detect());
-          }
-
-          @Override
-          public FileBasedConfig openSystemConfig(Config parent, FS fs) {
-            return new FileBasedConfig(parent, new File(tempDir, "system.config"), FS.detect());
-          }
-
-          @Override
-          public long getCurrentTime() {
-            return oldSystemReader.getCurrentTime();
-          }
-
-          @Override
-          public int getTimezone(long when) {
-            return oldSystemReader.getTimezone(when);
-          }
-        });
-    return oldSystemReader;
-  }
-
-  private void afterTest() throws Exception {
-    SystemReader.setInstance(oldSystemReader);
-    oldSystemReader = null;
-  }
-
   protected ServerContext startServer() throws Exception {
-    return startServer(null);
-  }
-
-  protected ServerContext startServer(@Nullable Module testSysModule, String... additionalArgs)
-      throws Exception {
-    return new ServerContext(startImpl(testSysModule, additionalArgs));
+    return new ServerContext(startImpl());
   }
 
   protected void assertServerStartupFails() throws Exception {
-    try (GerritServer server = startImpl(null)) {
+    try (GerritServer server = startImpl()) {
       fail("expected server startup to fail");
     } catch (GerritServer.StartupException e) {
       // Expected.
     }
   }
 
-  private GerritServer startImpl(@Nullable Module testSysModule, String... additionalArgs)
-      throws Exception {
-    return GerritServer.start(
-        serverDesc, baseConfig, sitePaths.site_path, testSysModule, additionalArgs);
+  private GerritServer startImpl() throws Exception {
+    return GerritServer.start(serverDesc, baseConfig, sitePaths.site_path);
   }
 
   protected static void runGerrit(String... args) throws Exception {
-    // Use invokeProgram with the current classloader, rather than mainImpl, which would create a
-    // new classloader. This is necessary so that static state, particularly the SystemReader, is
-    // shared with the test method.
-    assertThat(GerritLauncher.invokeProgram(StandaloneSiteTest.class.getClassLoader(), args))
+    assertThat(GerritLauncher.mainImpl(args))
         .named("gerrit.war " + Arrays.stream(args).collect(joining(" ")))
         .isEqualTo(0);
   }

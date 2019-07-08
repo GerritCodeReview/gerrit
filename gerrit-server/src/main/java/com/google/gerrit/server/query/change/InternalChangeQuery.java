@@ -15,25 +15,25 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.index.query.Predicate.and;
-import static com.google.gerrit.index.query.Predicate.not;
-import static com.google.gerrit.index.query.Predicate.or;
+import static com.google.gerrit.server.query.Predicate.and;
+import static com.google.gerrit.server.query.Predicate.not;
+import static com.google.gerrit.server.query.Predicate.or;
 import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.google.gerrit.index.IndexConfig;
-import com.google.gerrit.index.query.InternalQuery;
-import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.query.InternalQuery;
+import com.google.gerrit.server.query.Predicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -46,12 +46,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
-/**
- * Query wrapper for the change index.
- *
- * <p>Instances are one-time-use. Other singleton classes should inject a Provider rather than
- * holding on to a single instance.
- */
 public class InternalChangeQuery extends InternalQuery<ChangeData> {
   private static Predicate<ChangeData> ref(Branch.NameKey branch) {
     return new RefPredicate(branch.get());
@@ -66,7 +60,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
   }
 
   private static Predicate<ChangeData> status(Change.Status status) {
-    return ChangeStatusPredicate.forStatus(status);
+    return new ChangeStatusPredicate(status);
   }
 
   private static Predicate<ChangeData> commit(String id) {
@@ -175,7 +169,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
   }
 
   private Iterable<ChangeData> byCommitsOnBranchNotMergedFromDatabase(
-      Repository repo, ReviewDb db, Branch.NameKey branch, Collection<String> hashes)
+      Repository repo, final ReviewDb db, final Branch.NameKey branch, Collection<String> hashes)
       throws OrmException, IOException {
     Set<Change.Id> changeIds = Sets.newHashSetWithExpectedSize(hashes.size());
     String lastPrefix = null;

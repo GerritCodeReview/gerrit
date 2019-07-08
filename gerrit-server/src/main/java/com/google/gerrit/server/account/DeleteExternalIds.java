@@ -14,70 +14,70 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
 import static java.util.stream.Collectors.toMap;
-import static java.util.stream.Collectors.toSet;
 
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
-@Singleton
 public class DeleteExternalIds implements RestModifyView<AccountResource, List<String>> {
-  private final PermissionBackend permissionBackend;
-  private final AccountManager accountManager;
-  private final ExternalIds externalIds;
+  private final AccountByEmailCache accountByEmailCache;
+  private final AccountCache accountCache;
+  private final ExternalIdsUpdate.User externalIdsUpdateFactory;
   private final Provider<CurrentUser> self;
+  private final Provider<ReviewDb> dbProvider;
 
   @Inject
   DeleteExternalIds(
-      PermissionBackend permissionBackend,
-      AccountManager accountManager,
-      ExternalIds externalIds,
-      Provider<CurrentUser> self) {
-    this.permissionBackend = permissionBackend;
-    this.accountManager = accountManager;
-    this.externalIds = externalIds;
+      AccountByEmailCache accountByEmailCache,
+      AccountCache accountCache,
+      ExternalIdsUpdate.User externalIdsUpdateFactory,
+      Provider<CurrentUser> self,
+      Provider<ReviewDb> dbProvider) {
+    this.accountByEmailCache = accountByEmailCache;
+    this.accountCache = accountCache;
+    this.externalIdsUpdateFactory = externalIdsUpdateFactory;
     this.self = self;
+    this.dbProvider = dbProvider;
   }
 
   @Override
-  public Response<?> apply(AccountResource resource, List<String> extIds)
-      throws RestApiException, IOException, OrmException, ConfigInvalidException,
-          PermissionBackendException {
+  public Response<?> apply(AccountResource resource, List<String> externalIds)
+      throws RestApiException, IOException, OrmException, ConfigInvalidException {
     if (!self.get().hasSameAccountId(resource.getUser())) {
-      permissionBackend.user(self).check(GlobalPermission.ACCESS_DATABASE);
+      throw new AuthException("not allowed to delete external IDs");
     }
 
-    if (extIds == null || extIds.size() == 0) {
+    if (externalIds == null || externalIds.size() == 0) {
       throw new BadRequestException("external IDs are required");
     }
 
+    Account.Id accountId = resource.getUser().getAccountId();
     Map<ExternalId.Key, ExternalId> externalIdMap =
-        externalIds.byAccount(resource.getUser().getAccountId()).stream()
+        dbProvider.get().accountExternalIds().byAccount(resource.getUser().getAccountId()).toList()
+            .stream()
+            .map(ExternalId::from)
             .collect(toMap(i -> i.key(), i -> i));
 
     List<ExternalId> toDelete = new ArrayList<>();
     ExternalId.Key last = resource.getUser().getLastLoginExternalIdKey();
-    for (String externalIdStr : extIds) {
+    for (String externalIdStr : externalIds) {
       ExternalId id = externalIdMap.get(ExternalId.Key.parse(externalIdStr));
 
       if (id == null) {
@@ -94,11 +94,12 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
       }
     }
 
-    try {
-      accountManager.unlink(
-          resource.getUser().getAccountId(), toDelete.stream().map(e -> e.key()).collect(toSet()));
-    } catch (AccountException e) {
-      throw new ResourceConflictException(e.getMessage());
+    if (!toDelete.isEmpty()) {
+      externalIdsUpdateFactory.create().delete(dbProvider.get(), toDelete);
+      accountCache.evict(accountId);
+      for (ExternalId e : toDelete) {
+        accountByEmailCache.evict(e.email());
+      }
     }
 
     return Response.none();

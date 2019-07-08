@@ -75,7 +75,7 @@ public class SetPreferences implements RestModifyView<ConfigResource, GeneralPre
   }
 
   private GeneralPreferencesInfo writeToGit(GeneralPreferencesInfo i)
-      throws RepositoryNotFoundException, IOException, ConfigInvalidException, BadRequestException {
+      throws RepositoryNotFoundException, IOException, ConfigInvalidException {
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
       VersionedAccountPreferences p = VersionedAccountPreferences.forDefault();
       p.load(md);
@@ -85,7 +85,7 @@ public class SetPreferences implements RestModifyView<ConfigResource, GeneralPre
       com.google.gerrit.server.account.SetPreferences.storeUrlAliases(p, i.urlAliases);
       p.commit(md);
 
-      accountCache.evictAllNoReindex();
+      accountCache.evictAll();
 
       GeneralPreferencesInfo r =
           loadSection(

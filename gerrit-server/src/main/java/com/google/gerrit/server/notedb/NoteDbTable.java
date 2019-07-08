@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.notedb;
 
-public enum NoteDbTable {
+enum NoteDbTable {
   ACCOUNTS,
   CHANGES;
 
-  public String key() {
+  String key() {
     return name().toLowerCase();
   }
 

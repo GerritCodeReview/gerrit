@@ -16,7 +16,6 @@ package com.google.gerrit.common;
 
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -29,13 +28,9 @@ import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.ProjectEvent;
 import com.google.gerrit.server.events.RefEvent;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.permissions.ChangePermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
-import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -63,7 +58,6 @@ public class EventBroker implements EventDispatcher {
   /** Listeners to receive all changes as they happen. */
   protected final DynamicSet<EventListener> unrestrictedListeners;
 
-  private final PermissionBackend permissionBackend;
   protected final ProjectCache projectCache;
 
   protected final ChangeNotes.Factory notesFactory;
@@ -74,27 +68,23 @@ public class EventBroker implements EventDispatcher {
   public EventBroker(
       DynamicSet<UserScopedEventListener> listeners,
       DynamicSet<EventListener> unrestrictedListeners,
-      PermissionBackend permissionBackend,
       ProjectCache projectCache,
       ChangeNotes.Factory notesFactory,
       Provider<ReviewDb> dbProvider) {
     this.listeners = listeners;
     this.unrestrictedListeners = unrestrictedListeners;
-    this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
     this.notesFactory = notesFactory;
     this.dbProvider = dbProvider;
   }
 
   @Override
-  public void postEvent(Change change, ChangeEvent event)
-      throws OrmException, PermissionBackendException {
+  public void postEvent(Change change, ChangeEvent event) throws OrmException {
     fireEvent(change, event);
   }
 
   @Override
-  public void postEvent(Branch.NameKey branchName, RefEvent event)
-      throws PermissionBackendException {
+  public void postEvent(Branch.NameKey branchName, RefEvent event) {
     fireEvent(branchName, event);
   }
 
@@ -104,7 +94,7 @@ public class EventBroker implements EventDispatcher {
   }
 
   @Override
-  public void postEvent(Event event) throws OrmException, PermissionBackendException {
+  public void postEvent(Event event) throws OrmException {
     fireEvent(event);
   }
 
@@ -114,8 +104,7 @@ public class EventBroker implements EventDispatcher {
     }
   }
 
-  protected void fireEvent(Change change, ChangeEvent event)
-      throws OrmException, PermissionBackendException {
+  protected void fireEvent(Change change, ChangeEvent event) throws OrmException {
     for (UserScopedEventListener listener : listeners) {
       if (isVisibleTo(change, listener.getUser())) {
         listener.onEvent(event);
@@ -133,8 +122,7 @@ public class EventBroker implements EventDispatcher {
     fireEventForUnrestrictedListeners(event);
   }
 
-  protected void fireEvent(Branch.NameKey branchName, RefEvent event)
-      throws PermissionBackendException {
+  protected void fireEvent(Branch.NameKey branchName, RefEvent event) {
     for (UserScopedEventListener listener : listeners) {
       if (isVisibleTo(branchName, listener.getUser())) {
         listener.onEvent(event);
@@ -143,7 +131,7 @@ public class EventBroker implements EventDispatcher {
     fireEventForUnrestrictedListeners(event);
   }
 
-  protected void fireEvent(Event event) throws OrmException, PermissionBackendException {
+  protected void fireEvent(Event event) throws OrmException {
     for (UserScopedEventListener listener : listeners) {
       if (isVisibleTo(event, listener.getUser())) {
         listener.onEvent(event);
@@ -153,16 +141,14 @@ public class EventBroker implements EventDispatcher {
   }
 
   protected boolean isVisibleTo(Project.NameKey project, CurrentUser user) {
-    try {
-      permissionBackend.user(user).project(project).check(ProjectPermission.ACCESS);
-      return true;
-    } catch (AuthException | PermissionBackendException e) {
+    ProjectState pe = projectCache.get(project);
+    if (pe == null) {
       return false;
     }
+    return pe.controlFor(user).isVisible();
   }
 
-  protected boolean isVisibleTo(Change change, CurrentUser user)
-      throws OrmException, PermissionBackendException {
+  protected boolean isVisibleTo(Change change, CurrentUser user) throws OrmException {
     if (change == null) {
       return false;
     }
@@ -170,25 +156,21 @@ public class EventBroker implements EventDispatcher {
     if (pe == null) {
       return false;
     }
+    ProjectControl pc = pe.controlFor(user);
     ReviewDb db = dbProvider.get();
-    return permissionBackend
-        .user(user)
-        .change(notesFactory.createChecked(db, change))
-        .database(db)
-        .test(ChangePermission.READ);
+    return pc.controlFor(db, change).isVisible(db);
   }
 
-  protected boolean isVisibleTo(Branch.NameKey branchName, CurrentUser user)
-      throws PermissionBackendException {
+  protected boolean isVisibleTo(Branch.NameKey branchName, CurrentUser user) {
     ProjectState pe = projectCache.get(branchName.getParentKey());
     if (pe == null) {
       return false;
     }
-    return permissionBackend.user(user).ref(branchName).test(RefPermission.READ);
+    ProjectControl pc = pe.controlFor(user);
+    return pc.controlForRef(branchName).isVisible();
   }
 
-  protected boolean isVisibleTo(Event event, CurrentUser user)
-      throws OrmException, PermissionBackendException {
+  protected boolean isVisibleTo(Event event, CurrentUser user) throws OrmException {
     if (event instanceof RefEvent) {
       RefEvent refEvent = (RefEvent) event;
       String ref = refEvent.getRefName();

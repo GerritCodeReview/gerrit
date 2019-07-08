@@ -14,17 +14,18 @@
 
 package com.google.gerrit.sshd;
 
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
-import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gerrit.server.ssh.SshKeyCreator;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
@@ -90,33 +91,39 @@ public class SshKeyCacheImpl implements SshKeyCache {
   }
 
   static class Loader extends CacheLoader<String, Iterable<SshKeyCacheEntry>> {
-    private final ExternalIds externalIds;
+    private final SchemaFactory<ReviewDb> schema;
     private final VersionedAuthorizedKeys.Accessor authorizedKeys;
 
     @Inject
-    Loader(ExternalIds externalIds, VersionedAuthorizedKeys.Accessor authorizedKeys) {
-      this.externalIds = externalIds;
+    Loader(SchemaFactory<ReviewDb> schema, VersionedAuthorizedKeys.Accessor authorizedKeys) {
+      this.schema = schema;
       this.authorizedKeys = authorizedKeys;
     }
 
     @Override
     public Iterable<SshKeyCacheEntry> load(String username) throws Exception {
-      ExternalId user = externalIds.get(ExternalId.Key.create(SCHEME_USERNAME, username));
-      if (user == null) {
-        return NO_SUCH_USER;
-      }
-
-      List<SshKeyCacheEntry> kl = new ArrayList<>(4);
-      for (AccountSshKey k : authorizedKeys.getKeys(user.accountId())) {
-        if (k.isValid()) {
-          add(kl, k);
+      try (ReviewDb db = schema.open()) {
+        ExternalId user =
+            ExternalId.from(
+                db.accountExternalIds()
+                    .get(
+                        ExternalId.Key.create(SCHEME_USERNAME, username).asAccountExternalIdKey()));
+        if (user == null) {
+          return NO_SUCH_USER;
         }
-      }
 
-      if (kl.isEmpty()) {
-        return NO_KEYS;
+        List<SshKeyCacheEntry> kl = new ArrayList<>(4);
+        for (AccountSshKey k : authorizedKeys.getKeys(user.accountId())) {
+          if (k.isValid()) {
+            add(kl, k);
+          }
+        }
+
+        if (kl.isEmpty()) {
+          return NO_KEYS;
+        }
+        return Collections.unmodifiableList(kl);
       }
-      return Collections.unmodifiableList(kl);
     }
 
     private void add(List<SshKeyCacheEntry> kl, AccountSshKey k) {

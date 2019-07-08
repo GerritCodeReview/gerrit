@@ -19,8 +19,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -31,7 +29,10 @@ import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.data.QueryStatsAttribute;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
+import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.QueryResult;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -55,12 +56,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Change query implementation that outputs to a stream in the style of an SSH command.
- *
- * <p>Instances are one-time-use. Other singleton classes should inject a Provider rather than
- * holding on to a single instance.
- */
+/** Change query implementation that outputs to a stream in the style of an SSH command. */
 public class OutputStreamQuery {
   private static final Logger log = LoggerFactory.getLogger(OutputStreamQuery.class);
 
@@ -78,7 +74,6 @@ public class OutputStreamQuery {
   private final EventFactory eventFactory;
   private final TrackingFooters trackingFooters;
   private final CurrentUser user;
-  private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
 
   private OutputFormat outputFormat = OutputFormat.TEXT;
   private boolean includePatchSets;
@@ -102,8 +97,7 @@ public class OutputStreamQuery {
       ChangeQueryProcessor queryProcessor,
       EventFactory eventFactory,
       TrackingFooters trackingFooters,
-      CurrentUser user,
-      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
+      CurrentUser user) {
     this.db = db;
     this.repoManager = repoManager;
     this.queryBuilder = queryBuilder;
@@ -111,11 +105,10 @@ public class OutputStreamQuery {
     this.eventFactory = eventFactory;
     this.trackingFooters = trackingFooters;
     this.user = user;
-    this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
   }
 
   void setLimit(int n) {
-    queryProcessor.setUserProvidedLimit(n);
+    queryProcessor.setLimit(n);
   }
 
   public void setStart(int n) {
@@ -235,12 +228,14 @@ public class OutputStreamQuery {
   private ChangeAttribute buildChangeAttribute(
       ChangeData d, Map<Project.NameKey, Repository> repos, Map<Project.NameKey, RevWalk> revWalks)
       throws OrmException, IOException {
-    LabelTypes labelTypes = d.getLabelTypes();
+    ChangeControl cc = d.changeControl().forUser(user);
+
+    LabelTypes labelTypes = cc.getLabelTypes();
     ChangeAttribute c = eventFactory.asChangeAttribute(db, d.change());
     eventFactory.extend(c, d.change());
 
     if (!trackingFooters.isEmpty()) {
-      eventFactory.addTrackingIds(c, d.trackingFooters());
+      eventFactory.addTrackingIds(c, trackingFooters.extract(d.commitFooters()));
     }
 
     if (includeAllReviewers) {
@@ -249,7 +244,7 @@ public class OutputStreamQuery {
 
     if (includeSubmitRecords) {
       eventFactory.addSubmitRecords(
-          c, submitRuleEvaluatorFactory.create(user, d).setAllowClosed(true).evaluate());
+          c, new SubmitRuleEvaluator(d).setAllowClosed(true).setAllowDraft(true).evaluate());
     }
 
     if (includeCommitMessage) {
@@ -274,7 +269,7 @@ public class OutputStreamQuery {
           db,
           rw,
           c,
-          d.patchSets(),
+          d.visiblePatchSets(),
           includeApprovals ? d.approvals().asMap() : null,
           includeFiles,
           d.change(),
@@ -283,7 +278,7 @@ public class OutputStreamQuery {
 
     if (includeCurrentPatchSet) {
       PatchSet current = d.currentPatchSet();
-      if (current != null) {
+      if (current != null && cc.isPatchVisible(current, d.db())) {
         c.currentPatchSet = eventFactory.asPatchSetAttribute(db, rw, d.change(), current);
         eventFactory.addApprovals(c.currentPatchSet, d.currentApprovals(), labelTypes);
 
@@ -303,7 +298,7 @@ public class OutputStreamQuery {
             db,
             rw,
             c,
-            d.patchSets(),
+            d.visiblePatchSets(),
             includeApprovals ? d.approvals().asMap() : null,
             includeFiles,
             d.change(),
@@ -318,7 +313,6 @@ public class OutputStreamQuery {
       eventFactory.addDependencies(rw, c, d.change(), d.currentPatchSet());
     }
 
-    c.plugins = queryProcessor.create(d);
     return c;
   }
 

@@ -14,11 +14,9 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_EXTERNAL;
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
-
-import com.google.gerrit.server.account.externalids.ExternalId;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_EXTERNAL;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_GERRIT;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_MAILTO;
 
 /**
  * Information for {@link AccountManager#authenticate(AuthRequest)}.
@@ -63,8 +61,6 @@ public class AuthRequest {
   private boolean skipAuthentication;
   private String authPlugin;
   private String authProvider;
-  private boolean authProvidesAccountActiveStatus;
-  private boolean active;
 
   public AuthRequest(ExternalId.Key externalId) {
     this.externalId = externalId;
@@ -91,7 +87,7 @@ public class AuthRequest {
     return password;
   }
 
-  public void setPassword(String pass) {
+  public void setPassword(final String pass) {
     password = pass;
   }
 
@@ -99,7 +95,7 @@ public class AuthRequest {
     return displayName;
   }
 
-  public void setDisplayName(String name) {
+  public void setDisplayName(final String name) {
     displayName = name != null && name.length() > 0 ? name : null;
   }
 
@@ -107,7 +103,7 @@ public class AuthRequest {
     return emailAddress;
   }
 
-  public void setEmailAddress(String email) {
+  public void setEmailAddress(final String email) {
     emailAddress = email != null && email.length() > 0 ? email : null;
   }
 
@@ -115,7 +111,7 @@ public class AuthRequest {
     return userName;
   }
 
-  public void setUserName(String user) {
+  public void setUserName(final String user) {
     userName = user;
   }
 
@@ -141,21 +137,5 @@ public class AuthRequest {
 
   public void setAuthProvider(String authProvider) {
     this.authProvider = authProvider;
-  }
-
-  public boolean authProvidesAccountActiveStatus() {
-    return authProvidesAccountActiveStatus;
-  }
-
-  public void setAuthProvidesAccountActiveStatus(boolean authProvidesAccountActiveStatus) {
-    this.authProvidesAccountActiveStatus = authProvidesAccountActiveStatus;
-  }
-
-  public boolean isActive() {
-    return active;
-  }
-
-  public void setActive(Boolean isActive) {
-    this.active = isActive;
   }
 }

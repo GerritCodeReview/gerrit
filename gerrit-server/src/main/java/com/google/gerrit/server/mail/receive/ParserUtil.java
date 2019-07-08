@@ -14,9 +14,7 @@
 
 package com.google.gerrit.server.mail.receive;
 
-import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.Comment;
-import java.util.List;
 import java.util.StringJoiner;
 import java.util.regex.Pattern;
 
@@ -25,8 +23,6 @@ public class ParserUtil {
       Pattern.compile(
           "[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+"
               + "(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})");
-
-  private ParserUtil() {}
 
   /**
    * Trims the quotation that email clients add Example: On Sun, Nov 20, 2016 at 10:33 PM,
@@ -79,28 +75,6 @@ public class ParserUtil {
   /** Generate the fully qualified filepath */
   public static String filePath(String changeUrl, Comment comment) {
     return changeUrl + "/" + comment.key.patchSetId + "/" + comment.key.filename;
-  }
-
-  /**
-   * When parsing mail content, we need to append comments prematurely since we are parsing
-   * block-by-block and never know what comes next. This can result in a comment being parsed as two
-   * comments when it spans multiple blocks. This method takes care of merging those blocks or
-   * adding a new comment to the list of appropriate.
-   */
-  public static void appendOrAddNewComment(MailComment comment, List<MailComment> comments) {
-    if (comments.isEmpty()) {
-      comments.add(comment);
-      return;
-    }
-    MailComment lastComment = Iterables.getLast(comments);
-
-    if (comment.isSameCommentPath(lastComment)) {
-      // Merge the two comments
-      lastComment.message += "\n\n" + comment.message;
-      return;
-    }
-
-    comments.add(comment);
   }
 
   private static boolean containsQuotationPattern(String s) {

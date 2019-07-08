@@ -19,7 +19,7 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
 <link rel="import" href="gr-storage.html">
 
 <script>void(0);</script>
@@ -31,44 +31,43 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-storage tests', () => {
-    let element;
+  suite('gr-storage tests', function() {
+    var element;
 
     function mockStorage(opt_quotaExceeded) {
       return {
-        getItem(key) { return this[key]; },
-        removeItem(key) { delete this[key]; },
-        setItem(key, value) {
-          // eslint-disable-next-line no-throw-literal
+        getItem: function(key) { return this[key]; },
+        removeItem: function(key) { delete this[key]; },
+        setItem: function(key, value) {
           if (opt_quotaExceeded) { throw {code: 22}; /* Quota exceeded */ }
           this[key] = value;
         },
       };
     }
 
-    setup(() => {
+    setup(function() {
       element = fixture('basic');
       element._storage = mockStorage();
     });
 
-    test('storing, retrieving and erasing drafts', () => {
-      const changeNum = 1234;
-      const patchNum = 5;
-      const path = 'my_source_file.js';
-      const line = 123;
-      const location = {
-        changeNum,
-        patchNum,
-        path,
-        line,
+    test('storing, retrieving and erasing drafts', function() {
+      var changeNum = 1234;
+      var patchNum = 5;
+      var path = 'my_source_file.js';
+      var line = 123;
+      var location = {
+        changeNum: changeNum,
+        patchNum: patchNum,
+        path: path,
+        line: line,
       };
 
       // The key is in the expected format.
-      const key = element._getDraftKey(location);
+      var key = element._getDraftKey(location);
       assert.equal(key, ['draft', changeNum, patchNum, path, line].join(':'));
 
       // There should be no draft initially.
-      const draft = element.getDraftComment(location);
+      var draft = element.getDraftComment(location);
       assert.isNotOk(draft);
 
       // Setting the draft stores it under the expected key.
@@ -83,24 +82,24 @@ limitations under the License.
       assert.isNotOk(element._storage.getItem(key));
     });
 
-    test('automatically removes old drafts', () => {
-      const changeNum = 1234;
-      const patchNum = 5;
-      const path = 'my_source_file.js';
-      const line = 123;
-      const location = {
-        changeNum,
-        patchNum,
-        path,
-        line,
+    test('automatically removes old drafts', function() {
+      var changeNum = 1234;
+      var patchNum = 5;
+      var path = 'my_source_file.js';
+      var line = 123;
+      var location = {
+        changeNum: changeNum,
+        patchNum: patchNum,
+        path: path,
+        line: line,
       };
 
-      const key = element._getDraftKey(location);
+      var key = element._getDraftKey(location);
 
       // Make sure that the call to cleanup doesn't get throttled.
       element._lastCleanup = 0;
 
-      const cleanupSpy = sinon.spy(element, '_cleanupDrafts');
+      var cleanupSpy = sinon.spy(element, '_cleanupDrafts');
 
       // Create a message with a timestamp that is a second behind the max age.
       element._storage.setItem(key, JSON.stringify({
@@ -109,7 +108,7 @@ limitations under the License.
       }));
 
       // Getting the draft should cause it to be removed.
-      const draft = element.getDraftComment(location);
+      var draft = element.getDraftComment(location);
 
       assert.isTrue(cleanupSpy.called);
       assert.isNotOk(draft);
@@ -118,18 +117,18 @@ limitations under the License.
       cleanupSpy.restore();
     });
 
-    test('_getDraftKey', () => {
-      const changeNum = 1234;
-      const patchNum = 5;
-      const path = 'my_source_file.js';
-      const line = 123;
-      const location = {
-        changeNum,
-        patchNum,
-        path,
-        line,
+    test('_getDraftKey', function() {
+      var changeNum = 1234;
+      var patchNum = 5;
+      var path = 'my_source_file.js';
+      var line = 123;
+      var location = {
+        changeNum: changeNum,
+        patchNum: patchNum,
+        path: path,
+        line: line,
       };
-      let expectedResult = 'draft:1234:5:my_source_file.js:123';
+      var expectedResult = 'draft:1234:5:my_source_file.js:123';
       assert.equal(element._getDraftKey(location), expectedResult);
       location.range = {
         start_character: 1,
@@ -141,21 +140,21 @@ limitations under the License.
       assert.equal(element._getDraftKey(location), expectedResult);
     });
 
-    test('exceeded quota disables storage', () => {
+    test('exceeded quota disables storage', function() {
       element._storage = mockStorage(true);
       assert.isFalse(element._exceededQuota);
 
-      const changeNum = 1234;
-      const patchNum = 5;
-      const path = 'my_source_file.js';
-      const line = 123;
-      const location = {
-        changeNum,
-        patchNum,
-        path,
-        line,
+      var changeNum = 1234;
+      var patchNum = 5;
+      var path = 'my_source_file.js';
+      var line = 123;
+      var location = {
+        changeNum: changeNum,
+        patchNum: patchNum,
+        path: path,
+        line: line,
       };
-      const key = element._getDraftKey(location);
+      var key = element._getDraftKey(location);
       element.setDraftComment(location, 'my comment');
       assert.isTrue(element._exceededQuota);
       assert.isNotOk(element._storage.getItem(key));

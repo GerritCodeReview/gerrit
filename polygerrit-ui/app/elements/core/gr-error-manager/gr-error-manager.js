@@ -14,13 +14,12 @@
 (function() {
   'use strict';
 
-  const HIDE_ALERT_TIMEOUT_MS = 5000;
-  const CHECK_SIGN_IN_INTERVAL_MS = 60 * 1000;
-  const STALE_CREDENTIAL_THRESHOLD_MS = 10 * 60 * 1000;
-  const SIGN_IN_WIDTH_PX = 690;
-  const SIGN_IN_HEIGHT_PX = 500;
-  const TOO_MANY_FILES = 'too many files to find conflicts';
-  const AUTHENTICATION_REQUIRED = 'Authentication required\n';
+  var HIDE_ALERT_TIMEOUT_MS = 5000;
+  var CHECK_SIGN_IN_INTERVAL_MS = 60*1000;
+  var STALE_CREDENTIAL_THRESHOLD_MS = 10*60*1000;
+  var SIGN_IN_WIDTH_PX = 690;
+  var SIGN_IN_HEIGHT_PX = 500;
+  var TOO_MANY_FILES = 'too many files to find conflicts';
 
   Polymer({
     is: 'gr-error-manager',
@@ -36,9 +35,7 @@
        */
       knownAccountId: Number,
 
-      /** @type {?Object} */
-      _alertElement: Object,
-      /** @type {?number} */
+      _alertElement: Element,
       _hideAlertHandle: Number,
       _refreshingCredentials: {
         type: Boolean,
@@ -50,123 +47,91 @@
        */
       _lastCredentialCheck: {
         type: Number,
-        value() { return Date.now(); },
-      },
+        value: function() { return Date.now(); },
+      }
     },
 
-    attached() {
+    attached: function() {
       this.listen(document, 'server-error', '_handleServerError');
       this.listen(document, 'network-error', '_handleNetworkError');
-      this.listen(document, 'auth-error', '_handleAuthError');
       this.listen(document, 'show-alert', '_handleShowAlert');
       this.listen(document, 'visibilitychange', '_handleVisibilityChange');
-      this.listen(document, 'show-auth-required', '_handleAuthRequired');
     },
 
-    detached() {
+    detached: function() {
       this._clearHideAlertHandle();
       this.unlisten(document, 'server-error', '_handleServerError');
       this.unlisten(document, 'network-error', '_handleNetworkError');
-      this.unlisten(document, 'auth-error', '_handleAuthError');
-      this.unlisten(document, 'show-auth-required', '_handleAuthRequired');
       this.unlisten(document, 'visibilitychange', '_handleVisibilityChange');
     },
 
-    _shouldSuppressError(msg) {
-      return msg.includes(TOO_MANY_FILES);
+    _shouldSuppressError: function(msg) {
+      return msg.indexOf(TOO_MANY_FILES) > -1;
     },
 
-    _handleAuthRequired() {
-      this._showAuthErrorAlert(
-          'Log in is required to perform that action.', 'Log in.');
+    _handleServerError: function(e) {
+      if (e.detail.response.status === 403) {
+        this._getLoggedIn().then(function(loggedIn) {
+          if (loggedIn) {
+            // The app was logged at one point and is now getting auth errors.
+            // This indicates the auth token is no longer valid.
+            this._showAuthErrorAlert();
+          }
+        }.bind(this));
+      } else {
+        e.detail.response.text().then(function(text) {
+          if (!this._shouldSuppressError(text)) {
+            this._showAlert('Server error: ' + text);
+          }
+        }.bind(this));
+      }
     },
 
-    _handleAuthError() {
-      this._showAuthErrorAlert('Auth error', 'Refresh credentials.');
+    _handleShowAlert: function(e) {
+      this._showAlert(e.detail.message);
     },
 
-    _handleServerError(e) {
-      Promise.all([
-        e.detail.response.text(), this._getLoggedIn(),
-      ]).then(values => {
-        const text = values[0];
-        const loggedIn = values[1];
-        if (e.detail.response.status === 403 &&
-            loggedIn &&
-            text === AUTHENTICATION_REQUIRED) {
-          // The app was logged at one point and is now getting auth errors.
-          // This indicates the auth token is no longer valid.
-          this._handleAuthError();
-        } else if (!this._shouldSuppressError(text)) {
-          this._showAlert('Server error: ' + text);
-        }
-        console.error(text);
-      });
-    },
-
-    _handleShowAlert(e) {
-      this._showAlert(e.detail.message, e.detail.action, e.detail.callback,
-          e.detail.dismissOnNavigation);
-    },
-
-    _handleNetworkError(e) {
+    _handleNetworkError: function(e) {
       this._showAlert('Server unavailable');
       console.error(e.detail.error.message);
     },
 
-    _getLoggedIn() {
+    _getLoggedIn: function() {
       return this.$.restAPI.getLoggedIn();
     },
 
-    /**
-     * @param {string} text
-     * @param {?string=} opt_actionText
-     * @param {?Function=} opt_actionCallback
-     * @param {?boolean=} opt_dismissOnNavigation
-     */
-    _showAlert(text, opt_actionText, opt_actionCallback,
-        opt_dismissOnNavigation) {
-      if (this._alertElement) {
-        this._hideAlert();
-      }
+    _showAlert: function(text) {
+      if (this._alertElement) { return; }
 
       this._clearHideAlertHandle();
-      if (opt_dismissOnNavigation) {
-        // Persist alert until navigation.
-        this.listen(document, 'location-change', '_hideAlert');
-      } else {
-        this._hideAlertHandle =
-          this.async(this._hideAlert, HIDE_ALERT_TIMEOUT_MS);
-      }
-      const el = this._createToastAlert();
-      el.show(text, opt_actionText, opt_actionCallback);
+      this._hideAlertHandle =
+        this.async(this._hideAlert, HIDE_ALERT_TIMEOUT_MS);
+      var el = this._createToastAlert();
+      el.show(text);
       this._alertElement = el;
     },
 
-    _hideAlert() {
+    _hideAlert: function() {
       if (!this._alertElement) { return; }
 
       this._alertElement.hide();
       this._alertElement = null;
-
-      // Remove listener for page navigation, if it exists.
-      this.unlisten(document, 'location-change', '_hideAlert');
     },
 
-    _clearHideAlertHandle() {
+    _clearHideAlertHandle: function() {
       if (this._hideAlertHandle != null) {
         this.cancelAsync(this._hideAlertHandle);
         this._hideAlertHandle = null;
       }
     },
 
-    _showAuthErrorAlert(errorText, actionText) {
+    _showAuthErrorAlert: function() {
       // TODO(viktard): close alert if it's not for auth error.
       if (this._alertElement) { return; }
 
       this._alertElement = this._createToastAlert();
-      this._alertElement.show(errorText, actionText,
-          this._createLoginPopup.bind(this));
+      this._alertElement.show('Auth error', 'Refresh credentials.');
+      this.listen(this._alertElement, 'action', '_createLoginPopup');
 
       this._refreshingCredentials = true;
       this._requestCheckLoggedIn();
@@ -175,40 +140,46 @@
       }
     },
 
-    _createToastAlert() {
-      const el = document.createElement('gr-alert');
+    _createToastAlert: function() {
+      var el = document.createElement('gr-alert');
       el.toast = true;
       return el;
     },
 
-    _handleVisibilityChange() {
+    _handleVisibilityChange: function() {
       // Ignore when the page is transitioning to hidden (or hidden is
       // undefined).
       if (document.hidden !== false) { return; }
 
-      // If not currently refreshing credentials and the credentials are old,
-      // request them to confirm their validity or (display an auth toast if it
-      // fails).
-      const timeSinceLastCheck = Date.now() - this._lastCredentialCheck;
-      if (!this._refreshingCredentials &&
-          this.knownAccountId !== undefined &&
+      // If we're currently in a credential refresh, flush the debouncer so that
+      // it can be checked immediately.
+      if (this._refreshingCredentials) {
+        this.flushDebouncer('checkLoggedIn');
+        return;
+      }
+
+      // If the credentials are old, request them to confirm their validity or
+      // (display an auth toast if it fails).
+      var timeSinceLastCheck = Date.now() - this._lastCredentialCheck;
+      if (this.knownAccountId !== undefined &&
           timeSinceLastCheck > STALE_CREDENTIAL_THRESHOLD_MS) {
         this._lastCredentialCheck = Date.now();
         this.$.restAPI.checkCredentials();
       }
     },
 
-    _requestCheckLoggedIn() {
+    _requestCheckLoggedIn: function() {
       this.debounce(
-          'checkLoggedIn', this._checkSignedIn, CHECK_SIGN_IN_INTERVAL_MS);
+        'checkLoggedIn', this._checkSignedIn, CHECK_SIGN_IN_INTERVAL_MS);
     },
 
-    _checkSignedIn() {
-      this.$.restAPI.checkCredentials().then(account => {
-        const isLoggedIn = !!account;
+    _checkSignedIn: function() {
+      this.$.restAPI.checkCredentials().then(function(account) {
+        var isLoggedIn = !!account;
         this._lastCredentialCheck = Date.now();
         if (this._refreshingCredentials) {
           if (isLoggedIn) {
+
             // If the credentials were refreshed but the account is different
             // then reload the page completely.
             if (account._account_id !== this.knownAccountId) {
@@ -221,19 +192,17 @@
             this._requestCheckLoggedIn();
           }
         }
-      });
+      }.bind(this));
     },
 
-    _reloadPage() {
+    _reloadPage: function() {
       window.location.reload();
     },
 
-    _createLoginPopup() {
-      const left = window.screenLeft +
-          (window.outerWidth - SIGN_IN_WIDTH_PX) / 2;
-      const top = window.screenTop +
-          (window.outerHeight - SIGN_IN_HEIGHT_PX) / 2;
-      const options = [
+    _createLoginPopup: function() {
+      var left = window.screenLeft + (window.outerWidth - SIGN_IN_WIDTH_PX) / 2;
+      var top = window.screenTop + (window.outerHeight - SIGN_IN_HEIGHT_PX) / 2;
+      var options = [
         'width=' + SIGN_IN_WIDTH_PX,
         'height=' + SIGN_IN_HEIGHT_PX,
         'left=' + left,
@@ -241,18 +210,13 @@
       ];
       window.open(this.getBaseUrl() +
           '/login/%3FcloseAfterLogin', '_blank', options.join(','));
-      this.listen(window, 'focus', '_handleWindowFocus');
     },
 
-    _handleCredentialRefreshed() {
-      this.unlisten(window, 'focus', '_handleWindowFocus');
+    _handleCredentialRefreshed: function() {
       this._refreshingCredentials = false;
+      this.unlisten(this._alertElement, 'action', '_createLoginPopup');
       this._hideAlert();
       this._showAlert('Credentials refreshed.');
-    },
-
-    _handleWindowFocus() {
-      this.flushDebouncer('checkLoggedIn');
     },
   });
 })();

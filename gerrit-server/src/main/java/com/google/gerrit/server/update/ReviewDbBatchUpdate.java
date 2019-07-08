@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.update;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Comparator.comparing;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
-import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Throwables;
@@ -29,6 +29,7 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
@@ -56,12 +57,18 @@ import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.MismatchedStateException;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.NoSuchRefException;
 import com.google.gerrit.server.util.RequestId;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -77,6 +84,7 @@ import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -109,14 +117,19 @@ class ReviewDbBatchUpdate extends BatchUpdate {
   }
 
   class ContextImpl implements Context {
+    private Repository repoWrapper;
+
     @Override
-    public RepoView getRepoView() throws IOException {
-      return ReviewDbBatchUpdate.this.getRepoView();
+    public Repository getRepository() throws IOException {
+      if (repoWrapper == null) {
+        repoWrapper = new ReadOnlyRepository(ReviewDbBatchUpdate.this.getRepository());
+      }
+      return repoWrapper;
     }
 
     @Override
     public RevWalk getRevWalk() throws IOException {
-      return getRepoView().getRevWalk();
+      return ReviewDbBatchUpdate.this.getRevWalk();
     }
 
     @Override
@@ -152,19 +165,24 @@ class ReviewDbBatchUpdate extends BatchUpdate {
 
   private class RepoContextImpl extends ContextImpl implements RepoContext {
     @Override
+    public Repository getRepository() throws IOException {
+      return ReviewDbBatchUpdate.this.getRepository();
+    }
+
+    @Override
     public ObjectInserter getInserter() throws IOException {
-      return getRepoView().getInserterWrapper();
+      return ReviewDbBatchUpdate.this.getObjectInserter();
     }
 
     @Override
     public void addRefUpdate(ReceiveCommand cmd) throws IOException {
       initRepository();
-      repoView.getCommands().add(cmd);
+      commands.add(cmd);
     }
   }
 
   private class ChangeContextImpl extends ContextImpl implements ChangeContext {
-    private final ChangeNotes notes;
+    private final ChangeControl ctl;
     private final Map<PatchSet.Id, ChangeUpdate> updates;
     private final ReviewDbWrapper dbWrapper;
     private final Repository threadLocalRepo;
@@ -174,8 +192,8 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     private boolean bumpLastUpdatedOn = true;
 
     protected ChangeContextImpl(
-        ChangeNotes notes, ReviewDbWrapper dbWrapper, Repository repo, RevWalk rw) {
-      this.notes = checkNotNull(notes);
+        ChangeControl ctl, ReviewDbWrapper dbWrapper, Repository repo, RevWalk rw) {
+      this.ctl = ctl;
       this.dbWrapper = dbWrapper;
       this.threadLocalRepo = repo;
       this.threadLocalRevWalk = rw;
@@ -189,6 +207,11 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     }
 
     @Override
+    public Repository getRepository() {
+      return threadLocalRepo;
+    }
+
+    @Override
     public RevWalk getRevWalk() {
       return threadLocalRevWalk;
     }
@@ -197,8 +220,8 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     public ChangeUpdate getUpdate(PatchSet.Id psId) {
       ChangeUpdate u = updates.get(psId);
       if (u == null) {
-        u = changeUpdateFactory.create(notes, user, when);
-        if (newChanges.containsKey(notes.getChangeId())) {
+        u = changeUpdateFactory.create(ctl, when);
+        if (newChanges.containsKey(ctl.getId())) {
           u.setAllowWriteToNewRef(true);
         }
         u.setPatchSetId(psId);
@@ -208,13 +231,14 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     }
 
     @Override
-    public ChangeNotes getNotes() {
-      return notes;
+    public ChangeControl getControl() {
+      checkNotNull(ctl);
+      return ctl;
     }
 
     @Override
-    public void dontBumpLastUpdatedOn() {
-      bumpLastUpdatedOn = false;
+    public void bumpLastUpdatedOn(boolean bump) {
+      bumpLastUpdatedOn = bump;
     }
 
     @Override
@@ -248,9 +272,18 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     if (updates.isEmpty()) {
       return;
     }
-    setRequestIds(updates, requestId);
+    if (requestId != null) {
+      for (BatchUpdate u : updates) {
+        checkArgument(
+            u.requestId == null || u.requestId == requestId,
+            "refusing to overwrite RequestId %s in update with %s",
+            u.requestId,
+            requestId);
+        u.setRequestId(requestId);
+      }
+    }
     try {
-      Order order = getOrder(updates, listener);
+      Order order = getOrder(updates);
       boolean updateChangesInParallel = getUpdateChangesInParallel(updates);
       switch (order) {
         case REPO_BEFORE_DB:
@@ -271,40 +304,66 @@ class ReviewDbBatchUpdate extends BatchUpdate {
           for (ReviewDbBatchUpdate u : updates) {
             u.reindexChanges(u.executeChangeOps(updateChangesInParallel, dryrun));
           }
+          listener.afterUpdateChanges();
           for (ReviewDbBatchUpdate u : updates) {
             u.executeUpdateRepo();
           }
+          listener.afterUpdateRepos();
           for (ReviewDbBatchUpdate u : updates) {
             u.executeRefUpdates(dryrun);
           }
+          listener.afterUpdateRefs();
           break;
         default:
           throw new IllegalStateException("invalid execution order: " + order);
       }
 
-      ChangeIndexer.allAsList(
-              updates.stream().flatMap(u -> u.indexFutures.stream()).collect(toList()))
-          .get();
+      @SuppressWarnings("deprecation")
+      List<com.google.common.util.concurrent.CheckedFuture<?, IOException>> indexFutures =
+          new ArrayList<>();
+      for (ReviewDbBatchUpdate u : updates) {
+        indexFutures.addAll(u.indexFutures);
+      }
+      ChangeIndexer.allAsList(indexFutures).get();
 
-      // Fire ref update events only after all mutations are finished, since callers may assume a
-      // patch set ref being created means the change was created, or a branch advancing meaning
-      // some changes were closed.
-      updates.stream()
-          .filter(u -> u.batchRefUpdate != null)
-          .forEach(
-              u -> u.gitRefUpdated.fire(u.project, u.batchRefUpdate, u.getAccount().orElse(null)));
-
+      for (ReviewDbBatchUpdate u : updates) {
+        if (u.batchRefUpdate != null) {
+          // Fire ref update events only after all mutations are finished, since
+          // callers may assume a patch set ref being created means the change
+          // was created, or a branch advancing meaning some changes were
+          // closed.
+          u.gitRefUpdated.fire(
+              u.project,
+              u.batchRefUpdate,
+              u.getUser().isIdentifiedUser() ? u.getUser().asIdentifiedUser().getAccount() : null);
+        }
+      }
       if (!dryrun) {
         for (ReviewDbBatchUpdate u : updates) {
           u.executePostOps();
         }
       }
+    } catch (UpdateException | RestApiException e) {
+      // Propagate REST API exceptions thrown by operations; they commonly throw
+      // exceptions like ResourceConflictException to indicate an atomic update
+      // failure.
+      throw e;
+
+      // Convert other common non-REST exception types with user-visible
+      // messages to corresponding REST exception types
+    } catch (InvalidChangeOperationException e) {
+      throw new ResourceConflictException(e.getMessage(), e);
+    } catch (NoSuchChangeException | NoSuchRefException | NoSuchProjectException e) {
+      throw new ResourceNotFoundException(e.getMessage(), e);
+
     } catch (Exception e) {
-      wrapAndThrowException(e);
+      Throwables.throwIfUnchecked(e);
+      throw new UpdateException(e);
     }
   }
 
   private final AllUsersName allUsers;
+  private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeIndexer indexer;
   private final ChangeNotes.Factory changeNotesFactory;
   private final ChangeUpdate.Factory changeUpdateFactory;
@@ -321,10 +380,11 @@ class ReviewDbBatchUpdate extends BatchUpdate {
   private final List<com.google.common.util.concurrent.CheckedFuture<?, IOException>> indexFutures =
       new ArrayList<>();
 
-  @Inject
+  @AssistedInject
   ReviewDbBatchUpdate(
       @GerritServerConfig Config cfg,
       AllUsersName allUsers,
+      ChangeControl.GenericFactory changeControlFactory,
       ChangeIndexer indexer,
       ChangeNotes.Factory changeNotesFactory,
       @ChangeUpdateExecutor ListeningExecutorService changeUpdateExector,
@@ -342,6 +402,7 @@ class ReviewDbBatchUpdate extends BatchUpdate {
       @Assisted Timestamp when) {
     super(repoManager, serverIdent, project, user, when);
     this.allUsers = allUsers;
+    this.changeControlFactory = changeControlFactory;
     this.changeNotesFactory = changeNotesFactory;
     this.changeUpdateExector = changeUpdateExector;
     this.changeUpdateFactory = changeUpdateFactory;
@@ -353,6 +414,11 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     this.updateManagerFactory = updateManagerFactory;
     this.db = db;
     skewMs = NoteDbChangeState.getReadOnlySkew(cfg);
+  }
+
+  @Override
+  public void execute() throws UpdateException, RestApiException {
+    execute(BatchUpdateListener.NONE);
   }
 
   @Override
@@ -378,18 +444,20 @@ class ReviewDbBatchUpdate extends BatchUpdate {
         op.updateRepo(ctx);
       }
 
-      if (onSubmitValidators != null && !getRefUpdates().isEmpty()) {
-        // Validation of refs has to take place here and not at the beginning of executeRefUpdates.
-        // Otherwise, failing validation in a second BatchUpdate object will happen *after* the
-        // first update's executeRefUpdates has finished, hence after first repo's refs have been
-        // updated, which is too late.
-        onSubmitValidators.validate(
-            project, ctx.getRevWalk().getObjectReader(), repoView.getCommands());
+      if (onSubmitValidators != null && commands != null && !commands.isEmpty()) {
+        try (ObjectReader reader = ctx.getInserter().newReader()) {
+          // Validation of refs has to take place here and not at the beginning
+          // executeRefUpdates. Otherwise failing validation in a second BatchUpdate object will
+          // happen *after* first object's executeRefUpdates has finished, hence after first repo's
+          // refs have been updated, which is too late.
+          onSubmitValidators.validate(
+              project, new ReadOnlyRepository(getRepository()), reader, commands.getCommands());
+        }
       }
 
-      if (repoView != null) {
+      if (inserter != null) {
         logDebug("Flushing inserter");
-        repoView.getInserter().flush();
+        inserter.flush();
       } else {
         logDebug("No objects to flush");
       }
@@ -400,31 +468,24 @@ class ReviewDbBatchUpdate extends BatchUpdate {
   }
 
   private void executeRefUpdates(boolean dryrun) throws IOException, RestApiException {
-    if (getRefUpdates().isEmpty()) {
+    if (commands == null || commands.isEmpty()) {
       logDebug("No ref updates to execute");
       return;
     }
     // May not be opened if the caller added ref updates but no new objects.
-    // TODO(dborowitz): Really?
     initRepository();
-    batchRefUpdate = repoView.getRepository().getRefDatabase().newBatchUpdate();
-    batchRefUpdate.setPushCertificate(pushCert);
+    batchRefUpdate = repo.getRefDatabase().newBatchUpdate();
     batchRefUpdate.setRefLogMessage(refLogMessage, true);
-    batchRefUpdate.setAllowNonFastForwards(true);
-    repoView.getCommands().addTo(batchRefUpdate);
     if (user.isIdentifiedUser()) {
       batchRefUpdate.setRefLogIdent(user.asIdentifiedUser().newRefLogIdent(when, tz));
     }
+    commands.addTo(batchRefUpdate);
     logDebug("Executing batch of {} ref updates", batchRefUpdate.getCommands().size());
     if (dryrun) {
       return;
     }
 
-    // Force BatchRefUpdate to read newly referenced objects using a new RevWalk, rather than one
-    // that might have access to unflushed objects.
-    try (RevWalk updateRw = new RevWalk(repoView.getRepository())) {
-      batchRefUpdate.execute(updateRw, NullProgressMonitor.INSTANCE);
-    }
+    batchRefUpdate.execute(revWalk, NullProgressMonitor.INSTANCE);
     boolean ok = true;
     for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {
       if (cmd.getResult() != ReceiveCommand.Result.OK) {
@@ -449,11 +510,11 @@ class ReviewDbBatchUpdate extends BatchUpdate {
 
       tasks = new ArrayList<>(ops.keySet().size());
       try {
-        if (notesMigration.commitChangeWrites() && repoView != null) {
+        if (notesMigration.commitChangeWrites() && repo != null) {
           // A NoteDb change may have been rebuilt since the repo was originally
           // opened, so make sure we see that.
           logDebug("Preemptively scanning for repo changes");
-          repoView.getRepository().scanForRepoChanges();
+          repo.scanForRepoChanges();
         }
         if (!ops.isEmpty() && notesMigration.failChangeWrites()) {
           // Fail fast before attempting any writes if changes are read-only, as
@@ -521,10 +582,9 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     // updates on the change repo first.
     logDebug("Executing NoteDb updates for {} changes", tasks.size());
     try {
-      initRepository();
-      BatchRefUpdate changeRefUpdate = repoView.getRepository().getRefDatabase().newBatchUpdate();
+      BatchRefUpdate changeRefUpdate = getRepository().getRefDatabase().newBatchUpdate();
       boolean hasAllUsersCommands = false;
-      try (ObjectInserter ins = repoView.getRepository().newObjectInserter()) {
+      try (ObjectInserter ins = getRepository().newObjectInserter()) {
         int objs = 0;
         for (ChangeTask task : tasks) {
           if (task.noteDbResult == null) {
@@ -631,8 +691,7 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     public Void call() throws Exception {
       taskId = id.toString() + "-" + Thread.currentThread().getId();
       if (Thread.currentThread() == mainThread) {
-        initRepository();
-        Repository repo = repoView.getRepository();
+        Repository repo = getRepository();
         try (RevWalk rw = new RevWalk(repo)) {
           call(ReviewDbBatchUpdate.this.db, repo, rw);
         }
@@ -780,7 +839,8 @@ class ReviewDbBatchUpdate extends BatchUpdate {
         NoteDbChangeState.checkNotReadOnly(c, skewMs);
       }
       ChangeNotes notes = changeNotesFactory.createForBatchUpdate(c, !isNew);
-      return new ChangeContextImpl(notes, new BatchUpdateReviewDb(db), repo, rw);
+      ChangeControl ctl = changeControlFactory.controlFor(notes, user);
+      return new ChangeContextImpl(ctl, new BatchUpdateReviewDb(db), repo, rw);
     }
 
     private NoteDbUpdateManager stageNoteDbUpdate(ChangeContextImpl ctx, boolean deleted)
@@ -790,10 +850,7 @@ class ReviewDbBatchUpdate extends BatchUpdate {
           updateManagerFactory
               .create(ctx.getProject())
               .setChangeRepo(
-                  ctx.threadLocalRepo,
-                  ctx.threadLocalRevWalk,
-                  null,
-                  new ChainedReceiveCommands(ctx.threadLocalRepo));
+                  ctx.getRepository(), ctx.getRevWalk(), null, new ChainedReceiveCommands(repo));
       if (ctx.getUser().isIdentifiedUser()) {
         updateManager.setRefLogIdent(
             ctx.getUser().asIdentifiedUser().newRefLogIdent(ctx.getWhen(), tz));

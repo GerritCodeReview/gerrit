@@ -55,7 +55,6 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.RepositoryCaseMismatchException;
 import com.google.gerrit.server.group.GroupsCollection;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
@@ -91,6 +90,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
   private final Provider<GroupsCollection> groupsCollection;
   private final DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners;
   private final ProjectJson json;
+  private final ProjectControl.GenericFactory projectControlFactory;
   private final GitRepositoryManager repoManager;
   private final DynamicSet<NewProjectCreatedListener> createdListeners;
   private final ProjectCache projectCache;
@@ -111,6 +111,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       Provider<GroupsCollection> groupsCollection,
       ProjectJson json,
       DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners,
+      ProjectControl.GenericFactory projectControlFactory,
       GitRepositoryManager repoManager,
       DynamicSet<NewProjectCreatedListener> createdListeners,
       ProjectCache projectCache,
@@ -128,6 +129,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     this.groupsCollection = groupsCollection;
     this.projectCreationValidationListeners = projectCreationValidationListeners;
     this.json = json;
+    this.projectControlFactory = projectControlFactory;
     this.repoManager = repoManager;
     this.createdListeners = createdListeners;
     this.projectCache = projectCache;
@@ -146,8 +148,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
   @Override
   public Response<ProjectInfo> apply(TopLevelResource resource, ProjectInput input)
       throws BadRequestException, UnprocessableEntityException, ResourceConflictException,
-          ResourceNotFoundException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+          ResourceNotFoundException, IOException, ConfigInvalidException {
     if (input == null) {
       input = new ProjectInput();
     }
@@ -160,7 +161,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
 
     String parentName =
         MoreObjects.firstNonNull(Strings.emptyToNull(input.parent), allProjects.get());
-    args.newParent = projectsCollection.get().parse(parentName, false).getNameKey();
+    args.newParent = projectsCollection.get().parse(parentName, false).getControl();
     args.createEmptyCommit = input.createEmptyCommit;
     args.permissionsOnly = input.permissionsOnly;
     args.projectDescription = Strings.emptyToNull(input.description);
@@ -186,10 +187,6 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
             input.createNewChangeForAllNotInTarget, InheritableBoolean.INHERIT);
     args.changeIdRequired =
         MoreObjects.firstNonNull(input.requireChangeId, InheritableBoolean.INHERIT);
-    args.enableSignedPush =
-        MoreObjects.firstNonNull(input.enableSignedPush, InheritableBoolean.INHERIT);
-    args.requireSignedPush =
-        MoreObjects.firstNonNull(input.requireSignedPush, InheritableBoolean.INHERIT);
     try {
       args.maxObjectSizeLimit = ProjectConfig.validMaxObjectSizeLimit(input.maxObjectSizeLimit);
     } catch (ConfigInvalidException e) {
@@ -204,18 +201,24 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       }
     }
 
-    ProjectState projectState = createProject(args);
+    Project p = createProject(args);
+
     if (input.pluginConfigValues != null) {
-      ConfigInput in = new ConfigInput();
-      in.pluginConfigValues = input.pluginConfigValues;
-      putConfig.get().apply(projectState, in);
+      try {
+        ProjectControl projectControl =
+            projectControlFactory.controlFor(p.getNameKey(), identifiedUser.get());
+        ConfigInput in = new ConfigInput();
+        in.pluginConfigValues = input.pluginConfigValues;
+        putConfig.get().apply(projectControl, in);
+      } catch (NoSuchProjectException e) {
+        throw new ResourceNotFoundException(p.getName());
+      }
     }
 
-    return Response.created(json.format(projectState));
+    return Response.created(json.format(p));
   }
 
-  // TODO(dpursehouse): Add @UsedAt annotation
-  public ProjectState createProject(CreateProjectArgs args)
+  private Project createProject(CreateProjectArgs args)
       throws BadRequestException, ResourceConflictException, IOException, ConfigInvalidException {
     final Project.NameKey nameKey = args.getProject();
     try {
@@ -240,7 +243,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
 
         fire(nameKey, head);
 
-        return projectCache.get(nameKey);
+        return projectCache.get(nameKey).getProject();
       }
     } catch (RepositoryCaseMismatchException e) {
       throw new ResourceConflictException(
@@ -274,10 +277,8 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       newProject.setCreateNewChangeForAllNotInTarget(args.newChangeForAllNotInTarget);
       newProject.setRequireChangeID(args.changeIdRequired);
       newProject.setMaxObjectSizeLimit(args.maxObjectSizeLimit);
-      newProject.setEnableSignedPush(args.enableSignedPush);
-      newProject.setRequireSignedPush(args.requireSignedPush);
       if (args.newParent != null) {
-        newProject.setParentName(args.newParent);
+        newProject.setParentName(args.newParent.getProject().getNameKey());
       }
 
       if (!args.ownerIds.isEmpty()) {
@@ -349,8 +350,6 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
           case REJECTED:
           case REJECTED_CURRENT_BRANCH:
           case RENAMED:
-          case REJECTED_MISSING_OBJECT:
-          case REJECTED_OTHER_REASON:
           default:
             {
               throw new IOException(

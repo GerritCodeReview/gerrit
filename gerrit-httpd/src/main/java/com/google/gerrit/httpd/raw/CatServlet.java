@@ -24,10 +24,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
-import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.permissions.ChangePermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -38,7 +35,6 @@ import java.util.Optional;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.eclipse.jgit.lib.ObjectId;
 
 /**
  * Exports a single version of a patch as a normal file download.
@@ -48,35 +44,32 @@ import org.eclipse.jgit.lib.ObjectId;
  * this site, and will execute it with the site's own protection domain. This opens a massive
  * security hole so we package the content into a zip file.
  */
+@SuppressWarnings("serial")
 @Singleton
 public class CatServlet extends HttpServlet {
-  private static final long serialVersionUID = 1L;
-
   private final Provider<ReviewDb> requestDb;
   private final Provider<CurrentUser> userProvider;
+  private final ChangeControl.GenericFactory changeControl;
   private final ChangeEditUtil changeEditUtil;
   private final PatchSetUtil psUtil;
-  private final ChangeNotes.Factory changeNotesFactory;
-  private final PermissionBackend permissionBackend;
 
   @Inject
   CatServlet(
       Provider<ReviewDb> sf,
+      ChangeControl.GenericFactory ccf,
       Provider<CurrentUser> usrprv,
       ChangeEditUtil ceu,
-      PatchSetUtil psu,
-      ChangeNotes.Factory cnf,
-      PermissionBackend pb) {
+      PatchSetUtil psu) {
     requestDb = sf;
+    changeControl = ccf;
     userProvider = usrprv;
     changeEditUtil = ceu;
     psUtil = psu;
-    changeNotesFactory = cnf;
-    permissionBackend = pb;
   }
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
+  protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+      throws IOException {
     String keyStr = req.getPathInfo();
 
     // We shouldn't have to do this extra decode pass, but somehow we
@@ -126,33 +119,34 @@ public class CatServlet extends HttpServlet {
     final Change.Id changeId = patchKey.getParentKey().getParentKey();
     String revision;
     try {
-      ChangeNotes notes = changeNotesFactory.createChecked(changeId);
-      permissionBackend
-          .user(userProvider)
-          .change(notes)
-          .database(requestDb)
-          .check(ChangePermission.READ);
+      final ReviewDb db = requestDb.get();
+      final ChangeControl control = changeControl.validateFor(db, changeId, userProvider.get());
       if (patchKey.getParentKey().get() == 0) {
         // change edit
-        Optional<ChangeEdit> edit = changeEditUtil.byChange(notes);
-        if (edit.isPresent()) {
-          revision = ObjectId.toString(edit.get().getEditCommit());
-        } else {
+        try {
+          Optional<ChangeEdit> edit = changeEditUtil.byChange(control.getChange());
+          if (edit.isPresent()) {
+            revision = edit.get().getRevision().get();
+          } else {
+            rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+          }
+        } catch (AuthException e) {
           rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
           return;
         }
       } else {
-        PatchSet patchSet = psUtil.get(requestDb.get(), notes, patchKey.getParentKey());
+        PatchSet patchSet = psUtil.get(db, control.getNotes(), patchKey.getParentKey());
         if (patchSet == null) {
           rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
           return;
         }
         revision = patchSet.getRevision().get();
       }
-    } catch (NoSuchChangeException | AuthException e) {
+    } catch (NoSuchChangeException e) {
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;
-    } catch (OrmException | PermissionBackendException e) {
+    } catch (OrmException e) {
       getServletContext().log("Cannot query database", e);
       rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       return;

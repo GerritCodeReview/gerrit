@@ -166,19 +166,16 @@ public interface Accounts {
       return this;
     }
 
-    /** Set an option on the request, appending to existing options. */
     public QueryRequest withOption(ListAccountsOption options) {
       this.options.add(options);
       return this;
     }
 
-    /** Set options on the request, appending to existing options. */
     public QueryRequest withOptions(ListAccountsOption... options) {
       this.options.addAll(Arrays.asList(options));
       return this;
     }
 
-    /** Set options on the request, replacing existing options. */
     public QueryRequest withOptions(EnumSet<ListAccountsOption> options) {
       this.options = options;
       return this;

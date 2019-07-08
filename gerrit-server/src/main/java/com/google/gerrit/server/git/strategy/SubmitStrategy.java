@@ -18,13 +18,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
-import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -33,7 +32,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.change.RebaseChangeOp;
-import com.google.gerrit.server.change.Submit.TestSubmitInput;
 import com.google.gerrit.server.extensions.events.ChangeMerged;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
@@ -45,26 +43,27 @@ import com.google.gerrit.server.git.MergeOp.CommitStatus;
 import com.google.gerrit.server.git.MergeSorter;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.MergeUtil;
-import com.google.gerrit.server.git.RebaseSorter;
 import com.google.gerrit.server.git.SubmoduleOp;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.validators.OnSubmitValidators;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.RequestId;
-import com.google.inject.Inject;
 import com.google.inject.Module;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 
@@ -93,12 +92,14 @@ public abstract class SubmitStrategy {
           CodeReviewRevWalk rw,
           IdentifiedUser caller,
           MergeTip mergeTip,
+          ObjectInserter inserter,
+          Repository repo,
           RevFlag canMergeFlag,
           ReviewDb db,
           Set<RevCommit> alreadyAccepted,
           Set<CodeReviewCommit> incoming,
           RequestId submissionId,
-          SubmitInput submitInput,
+          NotifyHandling notifyHandling,
           ListMultimap<RecipientType, Account.Id> accountsToNotify,
           SubmoduleOp submoduleOp,
           boolean dryrun);
@@ -106,6 +107,8 @@ public abstract class SubmitStrategy {
 
     final AccountCache accountCache;
     final ApprovalsUtil approvalsUtil;
+    final BatchUpdate.Factory batchUpdateFactory;
+    final ChangeControl.GenericFactory changeControlFactory;
     final ChangeMerged changeMerged;
     final ChangeMessagesUtil cmUtil;
     final EmailMerge.Factory mergedSenderFactory;
@@ -118,32 +121,36 @@ public abstract class SubmitStrategy {
     final RebaseChangeOp.Factory rebaseFactory;
     final OnSubmitValidators.Factory onSubmitValidatorsFactory;
     final TagCache tagCache;
-    final Provider<InternalChangeQuery> queryProvider;
+    final InternalChangeQuery internalChangeQuery;
 
     final Branch.NameKey destBranch;
     final CodeReviewRevWalk rw;
     final CommitStatus commitStatus;
     final IdentifiedUser caller;
     final MergeTip mergeTip;
+    final ObjectInserter inserter;
+    final Repository repo;
     final RevFlag canMergeFlag;
     final ReviewDb db;
     final Set<RevCommit> alreadyAccepted;
+    final Set<CodeReviewCommit> incoming;
     final RequestId submissionId;
     final SubmitType submitType;
-    final SubmitInput submitInput;
+    final NotifyHandling notifyHandling;
     final ListMultimap<RecipientType, Account.Id> accountsToNotify;
     final SubmoduleOp submoduleOp;
 
     final ProjectState project;
     final MergeSorter mergeSorter;
-    final RebaseSorter rebaseSorter;
     final MergeUtil mergeUtil;
     final boolean dryrun;
 
-    @Inject
+    @AssistedInject
     Arguments(
         AccountCache accountCache,
         ApprovalsUtil approvalsUtil,
+        BatchUpdate.Factory batchUpdateFactory,
+        ChangeControl.GenericFactory changeControlFactory,
         ChangeMerged changeMerged,
         ChangeMessagesUtil cmUtil,
         EmailMerge.Factory mergedSenderFactory,
@@ -157,24 +164,28 @@ public abstract class SubmitStrategy {
         RebaseChangeOp.Factory rebaseFactory,
         OnSubmitValidators.Factory onSubmitValidatorsFactory,
         TagCache tagCache,
-        Provider<InternalChangeQuery> queryProvider,
+        InternalChangeQuery internalChangeQuery,
         @Assisted Branch.NameKey destBranch,
         @Assisted CommitStatus commitStatus,
         @Assisted CodeReviewRevWalk rw,
         @Assisted IdentifiedUser caller,
         @Assisted MergeTip mergeTip,
+        @Assisted ObjectInserter inserter,
+        @Assisted Repository repo,
         @Assisted RevFlag canMergeFlag,
         @Assisted ReviewDb db,
         @Assisted Set<RevCommit> alreadyAccepted,
         @Assisted Set<CodeReviewCommit> incoming,
         @Assisted RequestId submissionId,
         @Assisted SubmitType submitType,
-        @Assisted SubmitInput submitInput,
+        @Assisted NotifyHandling notifyHandling,
         @Assisted ListMultimap<RecipientType, Account.Id> accountsToNotify,
         @Assisted SubmoduleOp submoduleOp,
         @Assisted boolean dryrun) {
       this.accountCache = accountCache;
       this.approvalsUtil = approvalsUtil;
+      this.batchUpdateFactory = batchUpdateFactory;
+      this.changeControlFactory = changeControlFactory;
       this.changeMerged = changeMerged;
       this.mergedSenderFactory = mergedSenderFactory;
       this.repoManager = repoManager;
@@ -185,7 +196,7 @@ public abstract class SubmitStrategy {
       this.projectCache = projectCache;
       this.rebaseFactory = rebaseFactory;
       this.tagCache = tagCache;
-      this.queryProvider = queryProvider;
+      this.internalChangeQuery = internalChangeQuery;
 
       this.serverIdent = serverIdent;
       this.destBranch = destBranch;
@@ -193,12 +204,15 @@ public abstract class SubmitStrategy {
       this.rw = rw;
       this.caller = caller;
       this.mergeTip = mergeTip;
+      this.inserter = inserter;
+      this.repo = repo;
       this.canMergeFlag = canMergeFlag;
       this.db = db;
       this.alreadyAccepted = alreadyAccepted;
+      this.incoming = incoming;
       this.submissionId = submissionId;
       this.submitType = submitType;
-      this.submitInput = submitInput;
+      this.notifyHandling = notifyHandling;
       this.accountsToNotify = accountsToNotify;
       this.submoduleOp = submoduleOp;
       this.dryrun = dryrun;
@@ -208,10 +222,7 @@ public abstract class SubmitStrategy {
               projectCache.get(destBranch.getParentKey()),
               "project not found: %s",
               destBranch.getParentKey());
-      this.mergeSorter = new MergeSorter(rw, alreadyAccepted, canMergeFlag, incoming);
-      this.rebaseSorter =
-          new RebaseSorter(
-              rw, mergeTip.getInitialTip(), alreadyAccepted, canMergeFlag, queryProvider, incoming);
+      this.mergeSorter = new MergeSorter(rw, alreadyAccepted, canMergeFlag);
       this.mergeUtil = mergeUtilFactory.create(project);
       this.onSubmitValidatorsFactory = onSubmitValidatorsFactory;
     }
@@ -249,21 +260,12 @@ public abstract class SubmitStrategy {
     List<CodeReviewCommit> difference = new ArrayList<>(Sets.difference(toMerge, added));
     Collections.reverse(difference);
     for (CodeReviewCommit c : difference) {
-      Change.Id id = c.change().getId();
-      bu.addOp(id, new ImplicitIntegrateOp(args, c));
-      maybeAddTestHelperOp(bu, id);
+      bu.addOp(c.change().getId(), new ImplicitIntegrateOp(args, c));
     }
 
     // Then ops for explicitly merged changes
     for (SubmitStrategyOp op : ops) {
       bu.addOp(op.getId(), op);
-      maybeAddTestHelperOp(bu, op.getId());
-    }
-  }
-
-  private void maybeAddTestHelperOp(BatchUpdate bu, Change.Id changeId) {
-    if (args.submitInput instanceof TestSubmitInput) {
-      bu.addOp(changeId, new TestHelperOp(changeId, args));
     }
   }
 

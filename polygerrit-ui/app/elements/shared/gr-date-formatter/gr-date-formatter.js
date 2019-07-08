@@ -14,12 +14,12 @@
 (function() {
   'use strict';
 
-  const Duration = {
+  var Duration = {
     HOUR: 1000 * 60 * 60,
     DAY: 1000 * 60 * 60 * 24,
   };
 
-  const TimeFormats = {
+  var TimeFormats = {
     TIME_12: 'h:mm A', // 2:14 PM
     TIME_12_WITH_SEC: 'h:mm:ss A', // 2:14:00 PM
     TIME_24: 'HH:mm', // 14:14
@@ -61,16 +61,16 @@
       Gerrit.TooltipBehavior,
     ],
 
-    attached() {
+    attached: function() {
       this._loadPreferences();
     },
 
-    _getUtcOffsetString() {
+    _getUtcOffsetString: function() {
       return ' UTC' + moment().format('Z');
     },
 
-    _loadPreferences() {
-      return this._getLoggedIn().then(loggedIn => {
+    _loadPreferences: function() {
+      return this._getLoggedIn().then(function(loggedIn) {
         if (!loggedIn) {
           this._timeFormat = TimeFormats.TIME_24;
           this._relative = false;
@@ -80,12 +80,12 @@
           this._loadTimeFormat(),
           this._loadRelative(),
         ]);
-      });
+      }.bind(this));
     },
 
-    _loadTimeFormat() {
-      return this._getPreferences().then(preferences => {
-        const timeFormat = preferences && preferences.time_format;
+    _loadTimeFormat: function() {
+      return this._getPreferences().then(function(preferences) {
+        var timeFormat = preferences && preferences.time_format;
         switch (timeFormat) {
           case 'HHMM_12':
             this._timeFormat = TimeFormats.TIME_12;
@@ -96,55 +96,55 @@
           default:
             throw Error('Invalid time format: ' + timeFormat);
         }
-      });
+      }.bind(this));
     },
 
-    _loadRelative() {
-      return this._getPreferences().then(prefs => {
+    _loadRelative: function() {
+      return this._getPreferences().then(function(prefs) {
         // prefs.relative_date_in_change_table is not set when false.
         this._relative = !!(prefs && prefs.relative_date_in_change_table);
-      });
+      }.bind(this));
     },
 
-    _getLoggedIn() {
+    _getLoggedIn: function() {
       return this.$.restAPI.getLoggedIn();
     },
 
-    _getPreferences() {
+    _getPreferences: function() {
       return this.$.restAPI.getPreferences();
     },
 
     /**
      * Return true if date is within 24 hours and on the same day.
      */
-    _isWithinDay(now, date) {
-      const diff = -date.diff(now);
+    _isWithinDay: function(now, date) {
+      var diff = -date.diff(now);
       return diff < Duration.DAY && date.day() === now.getDay();
     },
 
     /**
      * Returns true if date is from one to six months.
      */
-    _isWithinHalfYear(now, date) {
-      const diff = -date.diff(now);
+    _isWithinHalfYear: function(now, date) {
+      var diff = -date.diff(now);
       return (date.day() !== now.getDay() || diff >= Duration.DAY) &&
           diff < 180 * Duration.DAY;
     },
 
-    _computeDateStr(dateStr, timeFormat, relative) {
+    _computeDateStr: function(dateStr, timeFormat, relative) {
       if (!dateStr) { return ''; }
-      const date = moment(util.parseDate(dateStr));
+      var date = moment(util.parseDate(dateStr));
       if (!date.isValid()) { return ''; }
       if (relative) {
-        const dateFromNow = date.fromNow();
+        var dateFromNow = date.fromNow();
         if (dateFromNow === 'a few seconds ago') {
           return 'just now';
         } else {
           return dateFromNow;
         }
       }
-      const now = new Date();
-      let format = TimeFormats.MONTH_DAY_YEAR;
+      var now = new Date();
+      var format = TimeFormats.MONTH_DAY_YEAR;
       if (this._isWithinDay(now, date)) {
         format = timeFormat;
       } else if (this._isWithinHalfYear(now, date)) {
@@ -153,17 +153,17 @@
       return date.format(format);
     },
 
-    _timeToSecondsFormat(timeFormat) {
+    _timeToSecondsFormat: function(timeFormat) {
       return timeFormat === TimeFormats.TIME_12 ?
           TimeFormats.TIME_12_WITH_SEC :
           TimeFormats.TIME_24_WITH_SEC;
     },
 
-    _computeFullDateStr(dateStr, timeFormat) {
+    _computeFullDateStr: function(dateStr, timeFormat) {
       if (!dateStr) { return ''; }
-      const date = moment(util.parseDate(dateStr));
+      var date = moment(util.parseDate(dateStr));
       if (!date.isValid()) { return ''; }
-      let format = TimeFormats.MONTH_DAY_YEAR + ', ';
+      var format = TimeFormats.MONTH_DAY_YEAR + ', ';
       format += this._timeToSecondsFormat(timeFormat);
       return date.format(format) + this._getUtcOffsetString();
     },

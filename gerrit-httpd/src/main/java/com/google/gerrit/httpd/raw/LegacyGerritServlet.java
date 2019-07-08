@@ -34,10 +34,9 @@ import javax.servlet.http.HttpServletResponse;
  * as it would lose any history token that appears in the URL. Instead we send an HTML page which
  * instructs the browser to replace the URL, but preserve the history token.
  */
+@SuppressWarnings("serial")
 @Singleton
 public class LegacyGerritServlet extends HttpServlet {
-  private static final long serialVersionUID = 1L;
-
   private final byte[] raw;
   private final byte[] compressed;
 
@@ -54,7 +53,8 @@ public class LegacyGerritServlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
+  protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+      throws IOException {
     final byte[] tosend;
     if (RPCServletUtils.acceptsGzipEncoding(req)) {
       rsp.setHeader("Content-Encoding", "gzip");

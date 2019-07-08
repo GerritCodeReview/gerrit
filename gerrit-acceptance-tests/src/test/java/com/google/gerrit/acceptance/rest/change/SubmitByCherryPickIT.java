@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -389,9 +388,6 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
   @Test
   public void repairChangeStateAfterFailure() throws Exception {
-    // In NoteDb-only mode, repo and meta updates are atomic (at least in InMemoryRepository).
-    assume().that(notesMigration.disableChangeReviewDb()).isFalse();
-
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
@@ -400,11 +396,10 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     testRepo.reset(initialHead);
     PushOneCommit.Result change2 = createChange("Change 2", "b.txt", "other content");
     Change.Id id2 = change2.getChange().getId();
-    TestSubmitInput failInput = new TestSubmitInput();
-    failInput.failAfterRefUpdates = true;
+    SubmitInput failAfterRefUpdates = new TestSubmitInput(new SubmitInput(), true);
     submit(
         change2.getChangeId(),
-        failInput,
+        failAfterRefUpdates,
         ResourceConflictException.class,
         "Failing after ref updates");
     RevCommit headAfterFailedSubmit = getRemoteHead();

@@ -17,14 +17,13 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../shared/gr-account-chip/gr-account-chip.html">
 <link rel="import" href="../gr-account-entry/gr-account-entry.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-account-list">
   <template>
-    <style include="shared-styles">
+    <style>
       gr-account-chip {
         display: inline-block;
-        margin: .2em .2em .2em 0;
+        margin: 0 .2em .2em 0;
       }
       gr-account-entry {
         display: flex;
@@ -37,29 +36,17 @@ limitations under the License.
       .pending-add {
         font-style: italic;
       }
-      .list {
-        align-items: center;
-        display: flex;
-        flex-wrap: wrap;
-        @apply --account-list-style;
-      }
     </style>
-    <!--
-      NOTE(Issue 6419): Nest the inner dom-repeat template in a div rather than
-      as a direct child of the dom-module's template.
-    -->
-    <div class="list">
-      <template id="chips" is="dom-repeat" items="[[accounts]]" as="account">
-        <gr-account-chip
-            account="[[account]]"
-            class$="[[_computeChipClass(account)]]"
-            data-account-id$="[[account._account_id]]"
-            removable="[[_computeRemovable(account)]]"
-            on-keydown="_handleChipKeydown"
-            tabindex="-1">
-        </gr-account-chip>
-      </template>
-    </div>
+    <template id="chips" is="dom-repeat" items="[[accounts]]" as="account">
+      <gr-account-chip
+          account="[[account]]"
+          class$="[[_computeChipClass(account)]]"
+          data-account-id$="[[account._account_id]]"
+          removable="[[_computeRemovable(account)]]"
+          on-keydown="_handleChipKeydown"
+          tabindex$="[[index]]">
+      </gr-account-chip>
+    </template>
     <gr-account-entry
         borderless
         hidden$="[[_computeEntryHidden(maxCount, accounts.*, readonly)]]"

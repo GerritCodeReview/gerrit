@@ -204,7 +204,7 @@ public class AccessSectionEditor extends Composite
     }
   }
 
-  void setEditing(boolean editing) {
+  void setEditing(final boolean editing) {
     this.editing = editing;
   }
 
@@ -236,7 +236,7 @@ public class AccessSectionEditor extends Composite
     }
   }
 
-  private void addPermission(String permissionName, List<String> permissionList) {
+  private void addPermission(final String permissionName, final List<String> permissionList) {
     if (value.getPermission(permissionName) != null) {
       return;
     }

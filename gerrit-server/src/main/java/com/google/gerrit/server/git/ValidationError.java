@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import java.util.Objects;
+
 /** Indicates a problem with Git based data. */
 public class ValidationError {
   private final String message;
@@ -41,5 +43,22 @@ public class ValidationError {
 
   public interface Sink {
     void error(ValidationError error);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+    if (o instanceof ValidationError) {
+      ValidationError that = (ValidationError) o;
+      return Objects.equals(this.message, that.message);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(message);
   }
 }

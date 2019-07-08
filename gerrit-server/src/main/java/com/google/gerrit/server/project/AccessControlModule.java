@@ -46,5 +46,8 @@ public class AccessControlModule extends FactoryModule {
         .annotatedWith(GitReceivePackGroups.class)
         .toProvider(GitReceivePackGroupsProvider.class)
         .in(SINGLETON);
+
+    bind(ChangeControl.Factory.class);
+    factory(ProjectControl.AssistedFactory.class);
   }
 }

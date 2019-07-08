@@ -14,8 +14,7 @@
 (function(window) {
   'use strict';
 
-  function GrChangeActionsInterface(plugin, el) {
-    this.plugin = plugin;
+  function GrChangeActionsInterface(el) {
     this._el = el;
     this.RevisionActions = el.RevisionActions;
     this.ChangeActions = el.ChangeActions;
@@ -23,25 +22,15 @@
   }
 
   GrChangeActionsInterface.prototype.addPrimaryActionKey = function(key) {
-    if (this._el.primaryActionKeys.includes(key)) { return; }
+    if (this._el.primaryActionKeys.indexOf(key) !== -1) { return; }
 
     this._el.push('primaryActionKeys', key);
   };
 
   GrChangeActionsInterface.prototype.removePrimaryActionKey = function(key) {
-    this._el.primaryActionKeys = this._el.primaryActionKeys.filter(k => {
+    this._el.primaryActionKeys = this._el.primaryActionKeys.filter(function(k) {
       return k !== key;
     });
-  };
-
-  GrChangeActionsInterface.prototype.setActionOverflow = function(type, key,
-      overflow) {
-    return this._el.setActionOverflow(type, key, overflow);
-  };
-
-  GrChangeActionsInterface.prototype.setActionPriority = function(type, key,
-      priority) {
-    return this._el.setActionPriority(type, key, priority);
   };
 
   GrChangeActionsInterface.prototype.setActionHidden = function(type, key,
@@ -72,11 +61,6 @@
 
   GrChangeActionsInterface.prototype.setEnabled = function(key, enabled) {
     this._el.setActionButtonProp(key, 'enabled', enabled);
-  };
-
-  GrChangeActionsInterface.prototype.getActionDetails = function(action) {
-    return this._el.getActionDetails(action) ||
-      this._el.getActionDetails(this.plugin.getPluginName() + '~' + action);
   };
 
   window.GrChangeActionsInterface = GrChangeActionsInterface;

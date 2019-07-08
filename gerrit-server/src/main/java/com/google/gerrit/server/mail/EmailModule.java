@@ -16,38 +16,20 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.server.mail.send.AbandonedSender;
-import com.google.gerrit.server.mail.send.AddKeySender;
-import com.google.gerrit.server.mail.send.AddReviewerSender;
 import com.google.gerrit.server.mail.send.CommentSender;
-import com.google.gerrit.server.mail.send.CreateChangeSender;
-import com.google.gerrit.server.mail.send.DeleteKeySender;
 import com.google.gerrit.server.mail.send.DeleteReviewerSender;
 import com.google.gerrit.server.mail.send.DeleteVoteSender;
-import com.google.gerrit.server.mail.send.HttpPasswordUpdateSender;
-import com.google.gerrit.server.mail.send.MergedSender;
-import com.google.gerrit.server.mail.send.RegisterNewEmailSender;
-import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.mail.send.RestoredSender;
 import com.google.gerrit.server.mail.send.RevertedSender;
-import com.google.gerrit.server.mail.send.SetAssigneeSender;
 
 public class EmailModule extends FactoryModule {
   @Override
   protected void configure() {
     factory(AbandonedSender.Factory.class);
-    factory(AddKeySender.Factory.class);
-    factory(AddReviewerSender.Factory.class);
     factory(CommentSender.Factory.class);
-    factory(CreateChangeSender.Factory.class);
-    factory(DeleteKeySender.Factory.class);
     factory(DeleteReviewerSender.Factory.class);
     factory(DeleteVoteSender.Factory.class);
-    factory(HttpPasswordUpdateSender.Factory.class);
-    factory(MergedSender.Factory.class);
-    factory(RegisterNewEmailSender.Factory.class);
-    factory(ReplacePatchSetSender.Factory.class);
     factory(RestoredSender.Factory.class);
     factory(RevertedSender.Factory.class);
-    factory(SetAssigneeSender.Factory.class);
   }
 }

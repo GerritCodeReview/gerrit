@@ -56,15 +56,6 @@ public interface Changes {
    */
   ChangeApi id(String project, String branch, String id) throws RestApiException;
 
-  /**
-   * Look up a change by project and numeric ID.
-   *
-   * @param project project name.
-   * @param id change number.
-   * @see #id(int)
-   */
-  ChangeApi id(String project, int id) throws RestApiException;
-
   ChangeApi create(ChangeInput in) throws RestApiException;
 
   QueryRequest query();
@@ -94,19 +85,16 @@ public interface Changes {
       return this;
     }
 
-    /** Set an option on the request, appending to existing options. */
     public QueryRequest withOption(ListChangesOption options) {
       this.options.add(options);
       return this;
     }
 
-    /** Set options on the request, appending to existing options. */
     public QueryRequest withOptions(ListChangesOption... options) {
       this.options.addAll(Arrays.asList(options));
       return this;
     }
 
-    /** Set options on the request, replacing existing options. */
     public QueryRequest withOptions(EnumSet<ListChangesOption> options) {
       this.options = options;
       return this;
@@ -161,11 +149,6 @@ public interface Changes {
 
     @Override
     public ChangeApi id(String project, String branch, String id) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public ChangeApi id(String project, int id) throws RestApiException {
       throw new NotImplementedException();
     }
 

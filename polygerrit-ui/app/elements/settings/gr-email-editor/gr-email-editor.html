@@ -18,41 +18,38 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-email-editor">
   <template>
-    <style include="shared-styles"></style>
-    <style include="gr-form-styles">
+    <style>
       th {
         color: #666;
         text-align: left;
       }
-      #emailTable .emailColumn {
-        min-width: 32.5em;
-        width: auto;
+      th.emailHeader {
+        width: 32.5em;
       }
-      #emailTable .preferredHeader {
+      th.preferredHeader {
         text-align: center;
         width: 6em;
       }
-      #emailTable .preferredControl {
+      tbody tr:nth-child(even) {
+        background-color: #f4f4f4;
+      }
+      td.preferredControl {
         cursor: pointer;
-        height: auto;
         text-align: center;
       }
-      #emailTable .preferredControl .preferredRadio {
-        height: auto;
-      }
-      .preferredControl:hover {
-        outline: 1px solid #d1d2d3;
+      td.preferredControl:hover {
+        border: 1px solid #ddd;
       }
     </style>
-    <div class="gr-form-styles">
-      <table id="emailTable">
+    <style include="gr-settings-styles"></style>
+    <div class="gr-settings-styles">
+      <table>
         <thead>
           <tr>
-            <th class="emailColumn">Email</th>
+            <th class="emailHeader">Email</th>
             <th class="preferredHeader">Preferred</th>
             <th></th>
           </tr>
@@ -60,11 +57,10 @@ limitations under the License.
         <tbody>
           <template is="dom-repeat" items="[[_emails]]">
             <tr>
-              <td class="emailColumn">[[item.email]]</td>
+              <td>[[item.email]]</td>
               <td class="preferredControl" on-tap="_handlePreferredControlTap">
                 <input
                     is="iron-input"
-                    class="preferredRadio"
                     type="radio"
                     on-change="_handlePreferredChange"
                     name="preferred"

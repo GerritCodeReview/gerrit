@@ -77,7 +77,7 @@ public class AutoMerger {
   public RevCommit merge(
       Repository repo,
       RevWalk rw,
-      ObjectInserter ins,
+      final ObjectInserter ins,
       RevCommit merge,
       ThreeWayMergeStrategy mergeStrategy)
       throws IOException {

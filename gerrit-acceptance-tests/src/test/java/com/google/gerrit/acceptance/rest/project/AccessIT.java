@@ -14,9 +14,6 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth8.assertThat;
-import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
-import static org.junit.Assert.fail;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
@@ -29,11 +26,7 @@ import com.google.gerrit.extensions.api.access.PermissionInfo;
 import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
-import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
-import com.google.gerrit.extensions.client.ChangeStatus;
-import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -41,7 +34,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
-import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import java.util.HashMap;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -54,12 +46,12 @@ import org.junit.Test;
 
 public class AccessIT extends AbstractDaemonTest {
 
-  private static final String PROJECT_NAME = "newProject";
+  private final String PROJECT_NAME = "newProject";
 
-  private static final String REFS_ALL = Constants.R_REFS + "*";
-  private static final String REFS_HEADS = Constants.R_HEADS + "*";
+  private final String REFS_ALL = Constants.R_REFS + "*";
+  private final String REFS_HEADS = Constants.R_HEADS + "*";
 
-  private static final String LABEL_CODE_REVIEW = "Code-Review";
+  private final String LABEL_CODE_REVIEW = "Code-Review";
 
   private String newProjectName;
   private ProjectApi pApi;
@@ -92,69 +84,6 @@ public class AccessIT extends AbstractDaemonTest {
     RevCommit updatedHead = getRemoteHead(p, RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(
         p.get(), RefNames.REFS_CONFIG, null, initialHead, initialHead, updatedHead);
-  }
-
-  @Test
-  public void createAccessChange() throws Exception {
-    // User can see the branch
-    setApiUser(user);
-    gApi.projects().name(newProjectName).branch("refs/heads/master").get();
-
-    ProjectAccessInput accessInput = newProjectAccessInput();
-
-    AccessSectionInfo accessSection = newAccessSectionInfo();
-
-    // Deny read to registered users.
-    PermissionInfo read = newPermissionInfo();
-    PermissionRuleInfo pri = new PermissionRuleInfo(PermissionRuleInfo.Action.DENY, false);
-    read.rules.put(SystemGroupBackend.REGISTERED_USERS.get(), pri);
-    read.exclusive = true;
-    accessSection.permissions.put(Permission.READ, read);
-    accessInput.add.put(REFS_HEADS, accessSection);
-
-    setApiUser(user);
-    ChangeInfo out = pApi.accessChange(accessInput);
-
-    assertThat(out.project).isEqualTo(newProjectName);
-    assertThat(out.branch).isEqualTo(RefNames.REFS_CONFIG);
-    assertThat(out.status).isEqualTo(ChangeStatus.NEW);
-    assertThat(out.submitted).isNull();
-
-    setApiUser(admin);
-
-    ChangeInfo c = gApi.changes().id(out._number).get(MESSAGES);
-    assertThat(c.messages.stream().map(m -> m.message)).containsExactly("Uploaded patch set 1");
-
-    ReviewInput reviewIn = new ReviewInput();
-    reviewIn.label("Code-Review", (short) 2);
-    gApi.changes().id(out._number).current().review(reviewIn);
-    gApi.changes().id(out._number).current().submit();
-
-    // check that the change took effect.
-    setApiUser(user);
-    try {
-      BranchInfo info = gApi.projects().name(newProjectName).branch("refs/heads/master").get();
-      fail("wanted failure, got " + newGson().toJson(info));
-    } catch (ResourceNotFoundException e) {
-      // OK.
-    }
-
-    // Restore.
-    accessInput.add.clear();
-    accessInput.remove.put(REFS_HEADS, accessSection);
-    setApiUser(user);
-
-    pApi.accessChange(accessInput);
-
-    setApiUser(admin);
-    out = pApi.accessChange(accessInput);
-
-    gApi.changes().id(out._number).current().review(reviewIn);
-    gApi.changes().id(out._number).current().submit();
-
-    // Now it works again.
-    setApiUser(user);
-    gApi.projects().name(newProjectName).branch("refs/heads/master").get();
   }
 
   @Test
@@ -279,51 +208,6 @@ public class AccessIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void permissionsGroupMap() throws Exception {
-    // Add initial permission set
-    ProjectAccessInput accessInput = newProjectAccessInput();
-    AccessSectionInfo accessSection = newAccessSectionInfo();
-
-    PermissionInfo push = newPermissionInfo();
-    PermissionRuleInfo pri = new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
-    push.rules.put(SystemGroupBackend.PROJECT_OWNERS.get(), pri);
-    accessSection.permissions.put(Permission.PUSH, push);
-
-    PermissionInfo read = newPermissionInfo();
-    pri = new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
-    read.rules.put(SystemGroupBackend.ANONYMOUS_USERS.get(), pri);
-    accessSection.permissions.put(Permission.READ, read);
-
-    accessInput.add.put(REFS_ALL, accessSection);
-    ProjectAccessInfo result = pApi.access(accessInput);
-    assertThat(result.groups.keySet())
-        .containsExactly(
-            SystemGroupBackend.PROJECT_OWNERS.get(), SystemGroupBackend.ANONYMOUS_USERS.get());
-
-    // Check the name, which is what the UI cares about; exhaustive
-    // coverage of GroupInfo should be in groups REST API tests.
-    assertThat(result.groups.get(SystemGroupBackend.PROJECT_OWNERS.get()).name)
-        .isEqualTo("Project Owners");
-    // Strip the ID, since it is in the key.
-    assertThat(result.groups.get(SystemGroupBackend.PROJECT_OWNERS.get()).id).isNull();
-
-    // Get call returns groups too.
-    ProjectAccessInfo loggedInResult = pApi.access();
-    assertThat(loggedInResult.groups.keySet())
-        .containsExactly(
-            SystemGroupBackend.PROJECT_OWNERS.get(), SystemGroupBackend.ANONYMOUS_USERS.get());
-    assertThat(loggedInResult.groups.get(SystemGroupBackend.PROJECT_OWNERS.get()).name)
-        .isEqualTo("Project Owners");
-    assertThat(loggedInResult.groups.get(SystemGroupBackend.PROJECT_OWNERS.get()).id).isNull();
-
-    // PROJECT_OWNERS is invisible to anonymous user, so we strip it.
-    setApiUserAnonymous();
-    ProjectAccessInfo anonResult = pApi.access();
-    assertThat(anonResult.groups.keySet())
-        .containsExactly(SystemGroupBackend.ANONYMOUS_USERS.get());
-  }
-
-  @Test
   public void updateParentAsUser() throws Exception {
     // Create child
     String newParentProjectName = createProject(PROJECT_NAME + "PA").get();
@@ -334,7 +218,7 @@ public class AccessIT extends AbstractDaemonTest {
 
     setApiUser(user);
     exception.expect(AuthException.class);
-    exception.expectMessage("administrate server not permitted");
+    exception.expectMessage("not administrator");
     gApi.projects().name(newProjectName).access(accessInput);
   }
 
@@ -395,8 +279,7 @@ public class AccessIT extends AbstractDaemonTest {
 
   @Test
   public void addNonGlobalCapabilityToGlobalCapabilities() throws Exception {
-    InternalGroup adminGroup =
-        groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null);
+    AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
 
     ProjectAccessInput accessInput = newProjectAccessInput();
     AccessSectionInfo accessSectionInfo = newAccessSectionInfo();
@@ -425,8 +308,7 @@ public class AccessIT extends AbstractDaemonTest {
 
   @Test
   public void removeGlobalCapabilityAsAdmin() throws Exception {
-    InternalGroup adminGroup =
-        groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null);
+    AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
 
     ProjectAccessInput accessInput = newProjectAccessInput();
     AccessSectionInfo accessSectionInfo = newAccessSectionInfo();
@@ -522,34 +404,6 @@ public class AccessIT extends AbstractDaemonTest {
             .asString();
     cfg.fromText(config);
     assertThat(cfg.getString(access, refsFor, unknownPermission)).isEqualTo(registeredUsers);
-  }
-
-  @Test
-  public void addAccessSectionForInvalidRef() throws Exception {
-    ProjectAccessInput accessInput = newProjectAccessInput();
-    AccessSectionInfo accessSectionInfo = createDefaultAccessSectionInfo();
-
-    // 'refs/heads/stable_*' is invalid, correct would be '^refs/heads/stable_.*'
-    String invalidRef = Constants.R_HEADS + "stable_*";
-    accessInput.add.put(invalidRef, accessSectionInfo);
-
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("Invalid Name: " + invalidRef);
-    pApi.access(accessInput);
-  }
-
-  @Test
-  public void createAccessChangeWithAccessSectionForInvalidRef() throws Exception {
-    ProjectAccessInput accessInput = newProjectAccessInput();
-    AccessSectionInfo accessSectionInfo = createDefaultAccessSectionInfo();
-
-    // 'refs/heads/stable_*' is invalid, correct would be '^refs/heads/stable_.*'
-    String invalidRef = Constants.R_HEADS + "stable_*";
-    accessInput.add.put(invalidRef, accessSectionInfo);
-
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("Invalid Name: " + invalidRef);
-    pApi.accessChange(accessInput);
   }
 
   private ProjectAccessInput newProjectAccessInput() {

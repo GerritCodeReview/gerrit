@@ -20,7 +20,8 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-main-header.html">
 
 <script>void(0);</script>
@@ -32,73 +33,109 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-main-header tests', () => {
-    let element;
-    let sandbox;
+  suite('gr-main-header tests', function() {
+    var element;
+    var sandbox;
 
-    setup(() => {
+    setup(function() {
       sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
-        probePath(path) { return Promise.resolve(false); },
+        getConfig: function() { return Promise.resolve({}); },
+        probePath: function(path) { return Promise.resolve(false); },
       });
       stub('gr-main-header', {
-        _loadAccount() {},
+        _loadAccount: function() {},
       });
       element = fixture('basic');
     });
 
-    teardown(() => {
+    teardown(function() {
       sandbox.restore();
     });
 
-    test('fix my menu item', () => {
+    test('fix my menu item', function() {
       assert.deepEqual([
+        {url: '#/q/owner:self+is:draft'},
         {url: 'https://awesometown.com/#hashyhash'},
         {url: 'url', target: '_blank'},
-      ].map(element._fixMyMenuItem), [
+      ].map(element._fixMyMenuItem),
+      [
+        {url: '/q/owner:self+is:draft', external: true},
         {url: 'https://awesometown.com/#hashyhash', external: true},
         {url: 'url', external: true},
       ]);
     });
 
-    test('filter unsupported urls', () => {
+    test('filter unsupported urls', function() {
       assert.deepEqual([
+        {url: '/q/owner:self+is:draft'},
         {url: '/c/331788/'},
         {url: '/groups/self'},
         {url: 'https://awesometown.com/#hashyhash'},
-      ].filter(element._isSupportedLink), [
+      ].filter(element._isSupportedLink),
+      [
+        {url: '/q/owner:self+is:draft'},
         {url: '/c/331788/'},
         {url: 'https://awesometown.com/#hashyhash'},
       ]);
     });
 
+    test('_loadAccountCapabilities admin', function(done) {
+      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', function() {
+        return Promise.resolve({
+          createGroup: true,
+          createProject: true,
+          viewPlugins: true,
+        });
+      });
+      element._loadAccountCapabilities().then(function() {
+        assert.equal(element._adminLinks.length, 5);
+        done();
+      });
+    });
 
-    test('user links', () => {
-      const defaultLinks = [{
+    test('_loadAccountCapabilities non admin', function(done) {
+      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', function() {
+        return Promise.resolve({});
+      });
+      element._loadAccountCapabilities().then(function() {
+        assert.equal(element._adminLinks.length, 2);
+        done();
+      });
+    });
+
+    test('user links', function() {
+      var defaultLinks = [{
         title: 'Faves',
         links: [{
           name: 'Pinterest',
           url: 'https://pinterest.com',
         }],
       }];
-      const userLinks = [{
+      var userLinks = [{
         name: 'Facebook',
         url: 'https://facebook.com',
       }];
+      var adminLinks = [{
+        url: '/admin/groups',
+        name: 'Groups',
+      }];
 
-      // When no admin links are passed, it should use the default.
-      assert.deepEqual(element._computeLinks(defaultLinks, []), defaultLinks);
       assert.deepEqual(
-          element._computeLinks(defaultLinks, userLinks),
+          element._computeLinks(defaultLinks, [], []), defaultLinks);
+      assert.deepEqual(
+          element._computeLinks(defaultLinks, userLinks, adminLinks),
           defaultLinks.concat({
             title: 'Your',
             links: userLinks,
+          }, {
+            title: 'Admin',
+            links: adminLinks,
           }));
     });
 
-    test('documentation links', () => {
-      const docLinks = [
+    test('documentation links', function() {
+      var docLinks = [
         {
           name: 'Table of Contents',
           url: '/index.html',

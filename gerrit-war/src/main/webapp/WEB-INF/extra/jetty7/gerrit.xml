@@ -42,16 +42,16 @@
 <!--  PostgreSQL
         <Set name="driverClassName">org.postgresql.Driver</Set>
         <Set name="url">jdbc:postgresql:reviewdb</Set>
-        <Set name="username">gerrit</Set>
+        <Set name="username">gerrit2</Set>
         <Set name="password">secretkey</Set>
 -->
 <!--  MySQL
         <Set name="driverClassName">com.mysql.jdbc.Driver</Set>
-        <Set name="url">jdbc:mysql://localhost/reviewdb?user=gerrit&amp;password=secretkey</Set>
+        <Set name="url">jdbc:mysql://localhost/reviewdb?user=gerrit2&amp;password=secretkey</Set>
 -->
 <!--  MariaDB
         <Set name="driverClassName">org.mariadb.jdbc.Driver</Set>
-        <Set name="url">jdbc:mariadb://localhost/reviewdb?user=gerrit&amp;password=secretkey</Set>
+        <Set name="url">jdbc:mariadb://localhost/reviewdb?user=gerrit2&amp;password=secretkey</Set>
 -->
 <!--  H2
         <Set name="driverClassName">org.h2.Driver</Set>

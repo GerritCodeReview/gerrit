@@ -46,7 +46,7 @@ GROUPS_URL = BASE_URL + "groups/"
 PLUGINS_URL = BASE_URL + "plugins/"
 PROJECTS_URL = BASE_URL + "projects/"
 
-ADMIN_BASIC_AUTH = requests.auth.HTTPBasicAuth("admin", "secret")
+ADMIN_DIGEST = requests.auth.HTTPDigestAuth("admin", "secret")
 
 # GROUP_ADMIN stores a GroupInfo for the admin group (see Gerrit rest docs)
 # In addition, GROUP_ADMIN["name"] stores the admin group"s name.
@@ -151,8 +151,8 @@ def clean(json_string):
   return json_string
 
 
-def basic_auth(user):
-  return requests.auth.HTTPBasicAuth(user["username"], user["http_password"])
+def digest_auth(user):
+  return requests.auth.HTTPDigestAuth(user["username"], user["http_password"])
 
 
 def fetch_admin_group():
@@ -160,7 +160,7 @@ def fetch_admin_group():
   # Get admin group
   r = json.loads(clean(requests.get(GROUPS_URL + "?suggest=ad&p=All-Projects",
                                     headers=HEADERS,
-                                    auth=ADMIN_BASIC_AUTH).text))
+                                    auth=ADMIN_DIGEST).text))
   admin_group_name = r.keys()[0]
   GROUP_ADMIN = r[admin_group_name]
   GROUP_ADMIN["name"] = admin_group_name
@@ -225,7 +225,7 @@ def create_gerrit_groups():
     requests.put(GROUPS_URL + g["name"],
                  json.dumps(g),
                  headers=HEADERS,
-                 auth=ADMIN_BASIC_AUTH)
+                 auth=ADMIN_DIGEST)
   return [g["name"] for g in groups]
 
 
@@ -247,7 +247,7 @@ def create_gerrit_projects(owner_groups):
     requests.put(PROJECTS_URL + p["name"],
                  json.dumps(p),
                  headers=HEADERS,
-                 auth=ADMIN_BASIC_AUTH)
+                 auth=ADMIN_DIGEST)
   return [p["name"] for p in projects]
 
 
@@ -256,7 +256,7 @@ def create_gerrit_users(gerrit_users):
     requests.put(ACCOUNTS_URL + user["username"],
                  json.dumps(user),
                  headers=HEADERS,
-                 auth=ADMIN_BASIC_AUTH)
+                 auth=ADMIN_DIGEST)
 
 
 def create_change(user, project_name):
@@ -270,7 +270,7 @@ def create_change(user, project_name):
   requests.post(CHANGES_URL,
                 json.dumps(change),
                 headers=HEADERS,
-                auth=basic_auth(user))
+                auth=digest_auth(user))
 
 
 def clean_up():

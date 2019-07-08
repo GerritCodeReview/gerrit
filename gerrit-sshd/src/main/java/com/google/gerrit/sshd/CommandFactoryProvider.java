@@ -62,11 +62,11 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
 
   @Inject
   CommandFactoryProvider(
-      @CommandName(Commands.ROOT) DispatchCommandProvider d,
-      @GerritServerConfig Config cfg,
-      WorkQueue workQueue,
-      SshLog l,
-      SshScope s,
+      @CommandName(Commands.ROOT) final DispatchCommandProvider d,
+      @GerritServerConfig final Config cfg,
+      final WorkQueue workQueue,
+      final SshLog l,
+      final SshScope s,
       SchemaFactory<ReviewDb> sf,
       DynamicItem<SshCreateCommandInterceptor> i) {
     dispatcher = d;
@@ -97,7 +97,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
   public CommandFactory get() {
     return new CommandFactory() {
       @Override
-      public Command createCommand(String requestCommand) {
+      public Command createCommand(final String requestCommand) {
         String c = requestCommand;
         SshCreateCommandInterceptor interceptor = createCommandInterceptor.get();
         if (interceptor != null) {
@@ -121,7 +121,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
     private final AtomicBoolean logged;
     private final AtomicReference<Future<?>> task;
 
-    Trampoline(String cmdLine) {
+    Trampoline(final String cmdLine) {
       commandLine = cmdLine;
       argv = split(cmdLine);
       logged = new AtomicBoolean();
@@ -129,33 +129,33 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
     }
 
     @Override
-    public void setInputStream(InputStream in) {
+    public void setInputStream(final InputStream in) {
       this.in = in;
     }
 
     @Override
-    public void setOutputStream(OutputStream out) {
+    public void setOutputStream(final OutputStream out) {
       this.out = out;
     }
 
     @Override
-    public void setErrorStream(OutputStream err) {
+    public void setErrorStream(final OutputStream err) {
       this.err = err;
     }
 
     @Override
-    public void setExitCallback(ExitCallback callback) {
+    public void setExitCallback(final ExitCallback callback) {
       this.exit = callback;
     }
 
     @Override
-    public void setSession(ServerSession session) {
+    public void setSession(final ServerSession session) {
       final SshSession s = session.getAttribute(SshSession.KEY);
       this.ctx = sshScope.newContext(schemaFactory, s, commandLine);
     }
 
     @Override
-    public void start(Environment env) throws IOException {
+    public void start(final Environment env) throws IOException {
       this.env = env;
       final Context ctx = this.ctx;
       task.set(
@@ -212,7 +212,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
       }
     }
 
-    private int translateExit(int rc) {
+    private int translateExit(final int rc) {
       switch (rc) {
         case BaseCommand.STATUS_NOT_ADMIN:
           return 1;
@@ -228,7 +228,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
       }
     }
 
-    private void log(int rc) {
+    private void log(final int rc) {
       if (logged.compareAndSet(false, true)) {
         log.onExecute(cmd, rc, ctx.getSession());
       }
@@ -239,7 +239,13 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
       Future<?> future = task.getAndSet(null);
       if (future != null) {
         future.cancel(true);
-        destroyExecutor.execute(this::onDestroy);
+        destroyExecutor.execute(
+            new Runnable() {
+              @Override
+              public void run() {
+                onDestroy();
+              }
+            });
       }
     }
 

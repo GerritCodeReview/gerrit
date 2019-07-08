@@ -20,7 +20,7 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
 <link rel="import" href="gr-dashboard-view.html">
 
 <script>void(0);</script>
@@ -32,69 +32,24 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-dashboard-view tests', () => {
-    let element;
-    let sandbox;
+  suite('gr-dashboard-view tests', function() {
+    var element;
 
-    setup(() => {
+    setup(function() {
       element = fixture('basic');
-      sandbox = sinon.sandbox.create();
-      getChangesStub = sandbox.stub(element.$.restAPI, 'getChanges',
-          () => Promise.resolve());
     });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+    test('content is refreshed with same dropdown selected twice', function() {
+      var getChangesStub = sinon.stub(element, '_getDashboardChanges',
+          function() {
+        return Promise.resolve();
+      });
 
-    test('nothing happens when user param is falsy', () => {
-      element.params = {};
-      flushAsynchronousOperations();
-      assert.equal(getChangesStub.callCount, 0);
+      element.params = {view: 'gr-dashboard-view'};
 
-      element.params = {user: ''};
-      flushAsynchronousOperations();
-      assert.equal(getChangesStub.callCount, 0);
-    });
-
-    test('content is refreshed when user param is updated', () => {
-      element.params = {user: 'self'};
-      flushAsynchronousOperations();
       assert.equal(getChangesStub.callCount, 1);
-    });
-
-    test('viewing another user\'s dashboard omits selfOnly sections', () => {
-      element._sectionMetadata = [
-        {query: '1'},
-        {query: '2', selfOnly: true},
-      ];
-
-      element.params = {user: 'self'};
-      flushAsynchronousOperations();
-      assert.isTrue(
-          getChangesStub.calledWith(null, ['1', '2'], null, element.options));
-
-      element.params = {user: 'user'};
-      flushAsynchronousOperations();
-      assert.isTrue(
-          getChangesStub.calledWith(null, ['1'], null, element.options));
-    });
-
-    test('_dashboardQueryForSection', () => {
-      const query = 'query for ${user}';
-      const suffixForDashboard = 'suffix for ${user}';
-      assert.equal(
-          element._dashboardQueryForSection({query}, 'user'),
-          'query for user');
-      assert.equal(
-          element._dashboardQueryForSection(
-              {query, suffixForDashboard}, 'user'),
-          'query for user suffix for user');
-    });
-
-    test('_computeTitle', () => {
-      assert.equal(element._computeTitle('self'), 'My Reviews');
-      assert.equal(element._computeTitle('not self'), 'Dashboard for not self');
+      element.params = {view: 'gr-dashboard-view'};
+      assert.equal(getChangesStub.callCount, 2);
     });
   });
 </script>

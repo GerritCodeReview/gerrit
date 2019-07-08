@@ -20,11 +20,12 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <!--
-This must refer to the element this interface is wrapping around. Otherwise
-breaking changes to gr-reply-dialog won’t be noticed.
--->
+     This must refer to the element this interface is wrapping around. Otherwise
+     breaking changes to gr-reply-dialog won’t be noticed.
+   -->
 <link rel="import" href="../../change/gr-reply-dialog/gr-reply-dialog.html">
 
 <script>void(0);</script>
@@ -36,41 +37,37 @@ breaking changes to gr-reply-dialog won’t be noticed.
 </test-fixture>
 
 <script>
-  suite('gr-change-reply-js-api tests', () => {
-    let element;
-    let sandbox;
-    let changeReply;
+  suite('gr-change-reply-js-api tests', function() {
+    var element;
+    var sandbox;
+    var changeReply;
 
-    setup(() => {
+    setup(function() {
       stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
-        getAccount() { return Promise.resolve(null); },
+        getConfig: function() { return Promise.resolve({}); },
+        getAccount: function() { return Promise.resolve(null); },
       });
       element = fixture('basic');
       sandbox = sinon.sandbox.create();
-      let plugin;
-      Gerrit.install(p => { plugin = p; }, '0.1',
+      var plugin;
+      Gerrit.install(function(p) { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
       changeReply = plugin.changeReply();
     });
 
-    teardown(() => {
+    teardown(function() {
       changeReply = null;
       sandbox.restore();
     });
 
-    test('calls', () => {
-      sandbox.stub(element, 'getLabelValue').returns('+123');
-      assert.equal(changeReply.getLabelValue('My-Label'), '+123');
-
-      sandbox.stub(element, 'setLabelValue');
+    test('calls', function() {
+      var setLabelValueStub = sinon.stub(element, 'setLabelValue');
       changeReply.setLabelValue('My-Label', '+1337');
-      assert.isTrue(
-          element.setLabelValue.calledWithExactly('My-Label', '+1337'));
+      assert(setLabelValueStub.calledWithExactly('My-Label', '+1337'));
 
-      sandbox.stub(element, 'send');
-      changeReply.send(false);
-      assert.isTrue(element.send.calledWithExactly(false));
+      var sendStub = sinon.stub(element, 'send');
+      changeReply.send();
+      assert(sendStub.calledWithExactly());
     });
   });
 </script>

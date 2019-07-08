@@ -14,42 +14,25 @@
 (function() {
   'use strict';
 
-  const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
-
-  const SubmitTypeLabel = {
+  var SubmitTypeLabel = {
     FAST_FORWARD_ONLY: 'Fast Forward Only',
     MERGE_IF_NECESSARY: 'Merge if Necessary',
     REBASE_IF_NECESSARY: 'Rebase if Necessary',
     MERGE_ALWAYS: 'Always Merge',
-    REBASE_ALWAYS: 'Rebase Always',
     CHERRY_PICK: 'Cherry Pick',
   };
 
   Polymer({
     is: 'gr-change-metadata',
 
-    /**
-     * Fired when the change topic is changed.
-     *
-     * @event topic-changed
-     */
-
     properties: {
-      /** @type {?} */
       change: Object,
       commitInfo: Object,
       mutable: Boolean,
-      /**
-       * @type {{ note_db_enabled: string }}
-       */
       serverConfig: Object,
       _topicReadOnly: {
         type: Boolean,
         computed: '_computeTopicReadOnly(mutable, change)',
-      },
-      _hashtagReadOnly: {
-        type: Boolean,
-        computed: '_computeHashtagReadOnly(mutable, change)',
       },
       _showReviewersByState: {
         type: Boolean,
@@ -61,14 +44,10 @@
       },
 
       _assignee: Array,
-      _isWip: {
-        type: Boolean,
-        computed: '_computeIsWip(change)',
-      },
-      _newHashtag: String,
     },
 
     behaviors: [
+      Gerrit.BaseUrlBehavior,
       Gerrit.RESTClientBehavior,
     ],
 
@@ -77,15 +56,15 @@
       '_assigneeChanged(_assignee.*)',
     ],
 
-    _changeChanged(change) {
+    _changeChanged: function(change) {
       this._assignee = change.assignee ? [change.assignee] : [];
     },
 
-    _assigneeChanged(assigneeRecord) {
+    _assigneeChanged: function(assigneeRecord) {
       if (!this.change) { return; }
-      const assignee = assigneeRecord.base;
+      var assignee = assigneeRecord.base;
       if (assignee.length) {
-        const acct = assignee[0];
+        var acct = assignee[0];
         if (this.change.assignee &&
             acct._account_id === this.change.assignee._account_id) { return; }
         this.set(['change', 'assignee'], acct);
@@ -97,7 +76,7 @@
       }
     },
 
-    _computeHideStrategy(change) {
+    _computeHideStrategy: function(change) {
       return !this.changeIsOpen(change.status);
     },
 
@@ -105,7 +84,7 @@
      * This is a whitelist of web link types that provide direct links to
      * the commit in the url property.
      */
-    _isCommitWebLink(link) {
+    _isCommitWebLink: function(link) {
       return link.name === 'gitiles' || link.name === 'gitweb';
     },
 
@@ -115,34 +94,34 @@
      * an existential check can be used to hide or show the webLinks
      * section.
      */
-    _computeWebLinks(commitInfo) {
-      if (!commitInfo || !commitInfo.web_links) { return null; }
+    _computeWebLinks: function(commitInfo) {
+      if (!commitInfo || !commitInfo.web_links) { return null }
       // We are already displaying these types of links elsewhere,
       // don't include in the metadata links section.
-      const webLinks = commitInfo.web_links.filter(
-          l => { return !this._isCommitWebLink(l); });
+      var webLinks = commitInfo.web_links.filter(
+          function(l) {return !this._isCommitWebLink(l); }.bind(this));
 
       return webLinks.length ? webLinks : null;
     },
 
-    _computeStrategy(change) {
+    _computeStrategy: function(change) {
       return SubmitTypeLabel[change.submit_type];
     },
 
-    _computeLabelNames(labels) {
+    _computeLabelNames: function(labels) {
       return Object.keys(labels).sort();
     },
 
-    _computeLabelValues(labelName, _labels) {
-      const result = [];
-      const labels = _labels.base;
-      const t = labels[labelName];
+    _computeLabelValues: function(labelName, _labels) {
+      var result = [];
+      var labels = _labels.base;
+      var t = labels[labelName];
       if (!t) { return result; }
-      const approvals = t.all || [];
-      for (const label of approvals) {
+      var approvals = t.all || [];
+      approvals.forEach(function(label) {
         if (label.value && label.value != labels[labelName].default_value) {
-          let labelClassName;
-          let labelValPrefix = '';
+          var labelClassName;
+          var labelValPrefix = '';
           if (label.value > 0) {
             labelValPrefix = '+';
             labelClassName = 'approved';
@@ -155,69 +134,29 @@
             account: label,
           });
         }
-      }
+      });
       return result;
     },
 
-    _computeValueTooltip(change, score, labelName) {
-      if (!change.labels[labelName] ||
-          !change.labels[labelName].values ||
-          !change.labels[labelName].values[score]) { return ''; }
-      return change.labels[labelName].values[score];
+    _computeValueTooltip: function(score, labelName) {
+      var values = this.change.labels[labelName].values;
+      return values[score];
     },
 
-    _handleTopicChanged(e, topic) {
-      const lastTopic = this.change.topic;
+    _handleTopicChanged: function(e, topic) {
       if (!topic.length) { topic = null; }
-      this.$.restAPI.setChangeTopic(this.change._number, topic)
-          .then(newTopic => {
-            this.set(['change', 'topic'], newTopic);
-            if (newTopic !== lastTopic) {
-              this.dispatchEvent(
-                  new CustomEvent('topic-changed', {bubbles: true}));
-            }
-          });
+      this.$.restAPI.setChangeTopic(this.change._number, topic);
     },
 
-    _handleHashtagChanged(e) {
-      const lastHashtag = this.change.hashtag;
-      if (!this._newHashtag.length) { return; }
-      this.$.restAPI.setChangeHashtag(
-          this.change._number, {add: [this._newHashtag]}).then(newHashtag => {
-            this.set(['change', 'hashtags'], newHashtag);
-            if (newHashtag !== lastHashtag) {
-              this.dispatchEvent(
-                  new CustomEvent('hashtag-changed', {bubbles: true}));
-            }
-            this._newHashtag = '';
-          });
-    },
-
-    _computeTopicReadOnly(mutable, change) {
+    _computeTopicReadOnly: function(mutable, change) {
       return !mutable || !change.actions.topic || !change.actions.topic.enabled;
     },
 
-    _computeHashtagReadOnly(mutable, change) {
-      return !mutable ||
-          !change.actions.hashtags ||
-          !change.actions.hashtags.enabled;
+    _computeTopicPlaceholder: function(_topicReadOnly) {
+      return _topicReadOnly ? 'No Topic' : 'Click to add topic';
     },
 
-    _computeAssigneeReadOnly(mutable, change) {
-      return !mutable ||
-          !change.actions.assignee ||
-          !change.actions.assignee.enabled;
-    },
-
-    _computeTopicPlaceholder(_topicReadOnly) {
-      return _topicReadOnly ? 'No Topic' : 'Add Topic';
-    },
-
-    _computeHashtagPlaceholder(_hashtagReadOnly) {
-      return _hashtagReadOnly ? '' : HASHTAG_ADD_MESSAGE;
-    },
-
-    _computeShowReviewersByState(serverConfig) {
+    _computeShowReviewersByState: function(serverConfig) {
       return !!serverConfig.note_db_enabled;
     },
 
@@ -231,9 +170,9 @@
      * @param {boolean} mutable this.mutable describes whether the
      *     change-metadata section is modifiable by the current user.
      */
-    _computeCanDeleteVote(reviewer, mutable) {
+    _computeCanDeleteVote: function(reviewer, mutable) {
       if (!mutable) { return false; }
-      for (let i = 0; i < this.change.removable_reviewers.length; i++) {
+      for (var i = 0; i < this.change.removable_reviewers.length; i++) {
         if (this.change.removable_reviewers[i]._account_id ===
             reviewer._account_id) {
           return true;
@@ -242,146 +181,60 @@
       return false;
     },
 
-    /**
-     * Closure annotation for Polymer.prototype.splice is off.
-     * For now, supressing annotations.
-     *
-     * TODO(beckysiegel) submit Polymer PR
-     *
-     * @suppress {checkTypes} */
-    _onDeleteVote(e) {
+    _onDeleteVote: function(e) {
       e.preventDefault();
-      const target = Polymer.dom(e).rootTarget;
-      target.disabled = true;
-      const labelName = target.labelName;
-      const accountID = parseInt(target.getAttribute('data-account-id'), 10);
+      var target = Polymer.dom(e).rootTarget;
+      var labelName = target.labelName;
+      var accountID = parseInt(target.getAttribute('data-account-id'), 10);
       this._xhrPromise =
-          this.$.restAPI.deleteVote(this.change._number, accountID, labelName)
-          .then(response => {
-            target.disabled = false;
-            if (!response.ok) { return response; }
-            const label = this.change.labels[labelName];
-            const labels = label.all || [];
-            for (let i = 0; i < labels.length; i++) {
-              if (labels[i]._account_id === accountID) {
-                for (const key in label) {
-                  if (label.hasOwnProperty(key) &&
-                      label[key]._account_id === accountID) {
-                    // Remove special label field, keeping change label values
-                    // in sync with the backend.
-                    this.set(['change.labels', labelName, key], null);
-                  }
-                }
-                this.splice(['change.labels', labelName, 'all'], i, 1);
-                break;
-              }
-            }
-          }).catch(err => {
-            target.disabled = false;
-            return;
-          });
+          this.$.restAPI.deleteVote(this.change.id, accountID, labelName)
+          .then(function(response) {
+        if (!response.ok) { return response; }
+
+        var labels = this.change.labels[labelName].all || [];
+        for (var i = 0; i < labels.length; i++) {
+          if (labels[i]._account_id === accountID) {
+            this.splice(['change.labels', labelName, 'all'], i, 1);
+            break;
+          }
+        }
+      }.bind(this));
     },
 
-    _computeShowLabelStatus(change) {
-      const isNewChange = change.status === this.ChangeStatus.NEW;
-      const hasLabels = Object.keys(change.labels).length > 0;
+    _computeShowLabelStatus: function(change) {
+      var isNewChange = change.status === this.ChangeStatus.NEW;
+      var hasLabels = Object.keys(change.labels).length > 0;
       return isNewChange && hasLabels;
     },
 
-    _computeMissingLabels(labels) {
-      const missingLabels = [];
-      for (const label in labels) {
-        if (!labels.hasOwnProperty(label)) { continue; }
-        const obj = labels[label];
+    _computeSubmitStatus: function(labels) {
+      var missingLabels = [];
+      var output = '';
+      for (var label in labels) {
+        var obj = labels[label];
         if (!obj.optional && !obj.approved) {
           missingLabels.push(label);
         }
       }
-      return missingLabels;
-    },
-
-    _computeMissingLabelsHeader(labels) {
-      return 'Needs label' +
-          (this._computeMissingLabels(labels).length > 1 ? 's' : '') + ':';
-    },
-
-    _showMissingLabels(labels) {
-      return !!this._computeMissingLabels(labels).length;
-    },
-
-    _showMissingRequirements(labels, workInProgress) {
-      return workInProgress || this._showMissingLabels(labels);
-    },
-
-    _computeProjectURL(project) {
-      return Gerrit.Nav.getUrlForProject(project);
-    },
-
-    _computeBranchURL(project, branch) {
-      return Gerrit.Nav.getUrlForBranch(branch, project,
-          this.change.status == this.ChangeStatus.NEW ? 'open' :
-              this.change.status.toLowerCase());
-    },
-
-    _computeTopicURL(topic) {
-      return Gerrit.Nav.getUrlForTopic(topic);
-    },
-
-    _computeHashtagURL(hashtag) {
-      return Gerrit.Nav.getUrlForHashtag(hashtag);
-    },
-
-    _handleTopicRemoved(e) {
-      const target = Polymer.dom(e).rootTarget;
-      target.disabled = true;
-      this.$.restAPI.setChangeTopic(this.change._number, null).then(() => {
-        target.disabled = false;
-        this.set(['change', 'topic'], '');
-        this.dispatchEvent(
-            new CustomEvent('topic-changed', {bubbles: true}));
-      }).catch(err => {
-        target.disabled = false;
-        return;
-      });
-    },
-
-    _handleHashtagRemoved(e) {
-      e.preventDefault();
-      const target = Polymer.dom(e).rootTarget;
-      target.disabled = true;
-      this.$.restAPI.setChangeHashtag(this.change._number,
-          {remove: [target.text]})
-          .then(newHashtag => {
-            target.disabled = false;
-            this.set(['change', 'hashtags'], newHashtag);
-          }).catch(err => {
-            target.disabled = false;
-            return;
-          });
-    },
-
-    _computeIsWip(change) {
-      return !!change.work_in_progress;
-    },
-
-    _computeShowUploaderHide(change) {
-      return this._computeShowUploader(change) ? '' : 'hideDisplay';
-    },
-
-    _computeShowUploader(change) {
-      if (!change.current_revision ||
-          !change.revisions[change.current_revision]) {
-        return null;
+      if (missingLabels.length) {
+        output += 'Needs ';
+        output += missingLabels.join(' and ');
+        output += missingLabels.length > 1 ? ' labels' : ' label';
+      } else {
+        output = 'Ready to submit';
       }
+      return output;
+    },
 
-      const rev = change.revisions[change.current_revision];
+    _computeTopicHref: function(topic) {
+      var encodedTopic = encodeURIComponent('\"' + topic + '\"');
+      return this.getBaseUrl() + '/q/topic:' + encodeURIComponent(encodedTopic) +
+          '+(status:open OR status:merged)';
+    },
 
-      if (!rev || !rev.uploader ||
-        change.owner._account_id === rev.uploader._account_id) {
-        return null;
-      }
-
-      return rev.uploader;
+    _handleTopicRemoved: function() {
+      this.set(['change', 'topic'], '');
+      this.$.restAPI.setChangeTopic(this.change._number, null);
     },
   });
 })();

@@ -15,7 +15,7 @@
 package com.google.gerrit.server.api.groups;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
+import static com.google.gerrit.server.account.CapabilityUtils.checkRequiresCapability;
 
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
@@ -32,12 +32,12 @@ import com.google.gerrit.server.group.CreateGroup;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.group.ListGroups;
 import com.google.gerrit.server.group.QueryGroups;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectsCollection;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.List;
 import java.util.SortedMap;
 
@@ -49,7 +49,6 @@ class GroupsImpl implements Groups {
   private final Provider<ListGroups> listGroups;
   private final Provider<QueryGroups> queryGroups;
   private final Provider<CurrentUser> user;
-  private final PermissionBackend permissionBackend;
   private final CreateGroup.Factory createGroup;
   private final GroupApiImpl.Factory api;
 
@@ -61,7 +60,6 @@ class GroupsImpl implements Groups {
       Provider<ListGroups> listGroups,
       Provider<QueryGroups> queryGroups,
       Provider<CurrentUser> user,
-      PermissionBackend permissionBackend,
       CreateGroup.Factory createGroup,
       GroupApiImpl.Factory api) {
     this.accounts = accounts;
@@ -70,7 +68,6 @@ class GroupsImpl implements Groups {
     this.listGroups = listGroups;
     this.queryGroups = queryGroups;
     this.user = user;
-    this.permissionBackend = permissionBackend;
     this.createGroup = createGroup;
     this.api = api;
   }
@@ -92,13 +89,12 @@ class GroupsImpl implements Groups {
     if (checkNotNull(in, "GroupInput").name == null) {
       throw new BadRequestException("GroupInput must specify name");
     }
+    checkRequiresCapability(user, null, CreateGroup.class);
     try {
-      CreateGroup impl = createGroup.create(in.name);
-      permissionBackend.user(user).checkAny(GlobalPermission.fromAnnotation(impl.getClass()));
-      GroupInfo info = impl.apply(TopLevelResource.INSTANCE, in);
+      GroupInfo info = createGroup.create(in.name).apply(TopLevelResource.INSTANCE, in);
       return id(info.id);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot create group " + in.name, e);
+    } catch (OrmException | IOException e) {
+      throw new RestApiException("Cannot create group " + in.name, e);
     }
   }
 
@@ -120,8 +116,8 @@ class GroupsImpl implements Groups {
     for (String project : req.getProjects()) {
       try {
         list.addProject(projects.parse(tlr, IdString.fromDecoded(project)).getControl());
-      } catch (Exception e) {
-        throw asRestApiException("Error looking up project " + project, e);
+      } catch (IOException e) {
+        throw new RestApiException("Error looking up project " + project, e);
       }
     }
 
@@ -134,8 +130,8 @@ class GroupsImpl implements Groups {
     if (req.getUser() != null) {
       try {
         list.setUser(accounts.parse(req.getUser()).getAccountId());
-      } catch (Exception e) {
-        throw asRestApiException("Error looking up user " + req.getUser(), e);
+      } catch (OrmException e) {
+        throw new RestApiException("Error looking up user " + req.getUser(), e);
       }
     }
 
@@ -143,12 +139,11 @@ class GroupsImpl implements Groups {
     list.setLimit(req.getLimit());
     list.setStart(req.getStart());
     list.setMatchSubstring(req.getSubstring());
-    list.setMatchRegex(req.getRegex());
     list.setSuggest(req.getSuggest());
     try {
       return list.apply(tlr);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot list groups", e);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot list groups", e);
     }
   }
 
@@ -177,8 +172,8 @@ class GroupsImpl implements Groups {
         myQueryGroups.addOption(option);
       }
       return myQueryGroups.apply(TopLevelResource.INSTANCE);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot query groups", e);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot query groups", e);
     }
   }
 }

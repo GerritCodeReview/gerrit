@@ -49,14 +49,11 @@ public class DefaultChangeReportFormatter implements ChangeReportFormatter {
             .append(ChangeUtil.formatChangeUrl(url, input.change()))
             .append(" ")
             .append(ChangeUtil.cropSubject(input.subject()));
+    if (input.isDraft()) {
+      m.append(" [DRAFT]");
+    }
     if (input.isEdit()) {
       m.append(" [EDIT]");
-    }
-    if (input.isPrivate()) {
-      m.append(" [PRIVATE]");
-    }
-    if (input.isWorkInProgress()) {
-      m.append(" [WIP]");
     }
     return m.toString();
   }

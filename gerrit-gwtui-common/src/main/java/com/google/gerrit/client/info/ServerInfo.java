@@ -60,6 +60,8 @@ public class ServerInfo extends JavaScriptObject {
   protected ServerInfo() {}
 
   public static class ChangeConfigInfo extends JavaScriptObject {
+    public final native boolean allowDrafts() /*-{ return this.allow_drafts || false; }-*/;
+
     public final native boolean allowBlame() /*-{ return this.allow_blame || false; }-*/;
 
     public final native int largeChange() /*-{ return this.large_change || 0; }-*/;

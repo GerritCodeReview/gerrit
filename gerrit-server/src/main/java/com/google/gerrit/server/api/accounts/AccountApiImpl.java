@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.api.accounts;
 
-import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import com.google.gerrit.common.RawInputUtil;
+import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
@@ -33,12 +33,12 @@ import com.google.gerrit.extensions.common.AgreementInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
-import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AddSshKey;
@@ -55,7 +55,6 @@ import com.google.gerrit.server.account.GetDiffPreferences;
 import com.google.gerrit.server.account.GetEditPreferences;
 import com.google.gerrit.server.account.GetEmails;
 import com.google.gerrit.server.account.GetExternalIds;
-import com.google.gerrit.server.account.GetGroups;
 import com.google.gerrit.server.account.GetPreferences;
 import com.google.gerrit.server.account.GetSshKeys;
 import com.google.gerrit.server.account.GetWatchedProjects;
@@ -63,8 +62,6 @@ import com.google.gerrit.server.account.Index;
 import com.google.gerrit.server.account.PostWatchedProjects;
 import com.google.gerrit.server.account.PutActive;
 import com.google.gerrit.server.account.PutAgreement;
-import com.google.gerrit.server.account.PutHttpPassword;
-import com.google.gerrit.server.account.PutName;
 import com.google.gerrit.server.account.PutStatus;
 import com.google.gerrit.server.account.SetDiffPreferences;
 import com.google.gerrit.server.account.SetEditPreferences;
@@ -77,9 +74,11 @@ import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public class AccountApiImpl implements AccountApi {
   interface Factory {
@@ -121,9 +120,6 @@ public class AccountApiImpl implements AccountApi {
   private final GetExternalIds getExternalIds;
   private final DeleteExternalIds deleteExternalIds;
   private final PutStatus putStatus;
-  private final GetGroups getGroups;
-  private final PutName putName;
-  private final PutHttpPassword putHttpPassword;
 
   @Inject
   AccountApiImpl(
@@ -161,9 +157,6 @@ public class AccountApiImpl implements AccountApi {
       GetExternalIds getExternalIds,
       DeleteExternalIds deleteExternalIds,
       PutStatus putStatus,
-      GetGroups getGroups,
-      PutName putName,
-      PutHttpPassword putPassword,
       @Assisted AccountResource account) {
     this.account = account;
     this.accountLoaderFactory = ailf;
@@ -200,9 +193,6 @@ public class AccountApiImpl implements AccountApi {
     this.getExternalIds = getExternalIds;
     this.deleteExternalIds = deleteExternalIds;
     this.putStatus = putStatus;
-    this.getGroups = getGroups;
-    this.putName = putName;
-    this.putHttpPassword = putPassword;
   }
 
   @Override
@@ -212,8 +202,8 @@ public class AccountApiImpl implements AccountApi {
       AccountInfo ai = accountLoader.get(account.getUser().getAccountId());
       accountLoader.fill();
       return ai;
-    } catch (Exception e) {
-      throw asRestApiException("Cannot parse account", e);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot parse change", e);
     }
   }
 
@@ -231,8 +221,8 @@ public class AccountApiImpl implements AccountApi {
       } else {
         deleteActive.apply(account, new DeleteActive.Input());
       }
-    } catch (Exception e) {
-      throw asRestApiException("Cannot set active", e);
+    } catch (OrmException | IOException e) {
+      throw new RestApiException("Cannot set active", e);
     }
   }
 
@@ -244,19 +234,15 @@ public class AccountApiImpl implements AccountApi {
 
   @Override
   public GeneralPreferencesInfo getPreferences() throws RestApiException {
-    try {
-      return getPreferences.apply(account);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot get preferences", e);
-    }
+    return getPreferences.apply(account);
   }
 
   @Override
   public GeneralPreferencesInfo setPreferences(GeneralPreferencesInfo in) throws RestApiException {
     try {
       return setPreferences.apply(account, in);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot set preferences", e);
+    } catch (IOException | ConfigInvalidException e) {
+      throw new RestApiException("Cannot set preferences", e);
     }
   }
 
@@ -264,8 +250,8 @@ public class AccountApiImpl implements AccountApi {
   public DiffPreferencesInfo getDiffPreferences() throws RestApiException {
     try {
       return getDiffPreferences.apply(account);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot query diff preferences", e);
+    } catch (IOException | ConfigInvalidException e) {
+      throw new RestApiException("Cannot query diff preferences", e);
     }
   }
 
@@ -273,8 +259,8 @@ public class AccountApiImpl implements AccountApi {
   public DiffPreferencesInfo setDiffPreferences(DiffPreferencesInfo in) throws RestApiException {
     try {
       return setDiffPreferences.apply(account, in);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot set diff preferences", e);
+    } catch (IOException | ConfigInvalidException e) {
+      throw new RestApiException("Cannot set diff preferences", e);
     }
   }
 
@@ -282,8 +268,8 @@ public class AccountApiImpl implements AccountApi {
   public EditPreferencesInfo getEditPreferences() throws RestApiException {
     try {
       return getEditPreferences.apply(account);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot query edit preferences", e);
+    } catch (IOException | ConfigInvalidException e) {
+      throw new RestApiException("Cannot query edit preferences", e);
     }
   }
 
@@ -291,8 +277,8 @@ public class AccountApiImpl implements AccountApi {
   public EditPreferencesInfo setEditPreferences(EditPreferencesInfo in) throws RestApiException {
     try {
       return setEditPreferences.apply(account, in);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot set edit preferences", e);
+    } catch (IOException | ConfigInvalidException e) {
+      throw new RestApiException("Cannot set edit preferences", e);
     }
   }
 
@@ -300,8 +286,8 @@ public class AccountApiImpl implements AccountApi {
   public List<ProjectWatchInfo> getWatchedProjects() throws RestApiException {
     try {
       return getWatchedProjects.apply(account);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot get watched projects", e);
+    } catch (OrmException | IOException | ConfigInvalidException e) {
+      throw new RestApiException("Cannot get watched projects", e);
     }
   }
 
@@ -310,8 +296,8 @@ public class AccountApiImpl implements AccountApi {
       throws RestApiException {
     try {
       return postWatchedProjects.apply(account, in);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot update watched projects", e);
+    } catch (OrmException | IOException | ConfigInvalidException e) {
+      throw new RestApiException("Cannot update watched projects", e);
     }
   }
 
@@ -319,8 +305,8 @@ public class AccountApiImpl implements AccountApi {
   public void deleteWatchedProjects(List<ProjectWatchInfo> in) throws RestApiException {
     try {
       deleteWatchedProjects.apply(account, in);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot delete watched projects", e);
+    } catch (OrmException | IOException | ConfigInvalidException e) {
+      throw new RestApiException("Cannot delete watched projects", e);
     }
   }
 
@@ -330,8 +316,8 @@ public class AccountApiImpl implements AccountApi {
       ChangeResource rsrc = changes.parse(TopLevelResource.INSTANCE, IdString.fromUrl(changeId));
       starredChangesCreate.setChange(rsrc);
       starredChangesCreate.apply(account, new StarredChanges.EmptyInput());
-    } catch (Exception e) {
-      throw asRestApiException("Cannot star change", e);
+    } catch (OrmException | IOException e) {
+      throw new RestApiException("Cannot star change", e);
     }
   }
 
@@ -342,8 +328,8 @@ public class AccountApiImpl implements AccountApi {
       AccountResource.StarredChange starredChange =
           new AccountResource.StarredChange(account.getUser(), rsrc);
       starredChangesDelete.apply(starredChange, new StarredChanges.EmptyInput());
-    } catch (Exception e) {
-      throw asRestApiException("Cannot unstar change", e);
+    } catch (OrmException | IOException e) {
+      throw new RestApiException("Cannot unstar change", e);
     }
   }
 
@@ -352,8 +338,8 @@ public class AccountApiImpl implements AccountApi {
     try {
       AccountResource.Star rsrc = stars.parse(account, IdString.fromUrl(changeId));
       starsPost.apply(rsrc, input);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot post stars", e);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot post stars", e);
     }
   }
 
@@ -362,8 +348,8 @@ public class AccountApiImpl implements AccountApi {
     try {
       AccountResource.Star rsrc = stars.parse(account, IdString.fromUrl(changeId));
       return starsGet.apply(rsrc);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot get stars", e);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot get stars", e);
     }
   }
 
@@ -371,17 +357,8 @@ public class AccountApiImpl implements AccountApi {
   public List<ChangeInfo> getStarredChanges() throws RestApiException {
     try {
       return stars.list().apply(account);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot get starred changes", e);
-    }
-  }
-
-  @Override
-  public List<GroupInfo> getGroups() throws RestApiException {
-    try {
-      return getGroups.apply(account);
     } catch (OrmException e) {
-      throw asRestApiException("Cannot get groups", e);
+      throw new RestApiException("Cannot get starred changes", e);
     }
   }
 
@@ -395,8 +372,8 @@ public class AccountApiImpl implements AccountApi {
     AccountResource.Email rsrc = new AccountResource.Email(account.getUser(), input.email);
     try {
       createEmailFactory.create(input.email).apply(rsrc, input);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot add email", e);
+    } catch (EmailException | OrmException | IOException | ConfigInvalidException e) {
+      throw new RestApiException("Cannot add email", e);
     }
   }
 
@@ -405,8 +382,8 @@ public class AccountApiImpl implements AccountApi {
     AccountResource.Email rsrc = new AccountResource.Email(account.getUser(), email);
     try {
       deleteEmail.apply(rsrc, null);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot delete email", e);
+    } catch (OrmException | IOException | ConfigInvalidException e) {
+      throw new RestApiException("Cannot delete email", e);
     }
   }
 
@@ -415,8 +392,8 @@ public class AccountApiImpl implements AccountApi {
     PutStatus.Input in = new PutStatus.Input(status);
     try {
       putStatus.apply(account, in);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot set status", e);
+    } catch (OrmException | IOException e) {
+      throw new RestApiException("Cannot set status", e);
     }
   }
 
@@ -424,8 +401,8 @@ public class AccountApiImpl implements AccountApi {
   public List<SshKeyInfo> listSshKeys() throws RestApiException {
     try {
       return getSshKeys.apply(account);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot list SSH keys", e);
+    } catch (OrmException | IOException | ConfigInvalidException e) {
+      throw new RestApiException("Cannot list SSH keys", e);
     }
   }
 
@@ -435,8 +412,8 @@ public class AccountApiImpl implements AccountApi {
     in.raw = RawInputUtil.create(key);
     try {
       return addSshKey.apply(account, in).value();
-    } catch (Exception e) {
-      throw asRestApiException("Cannot add SSH key", e);
+    } catch (OrmException | IOException | ConfigInvalidException e) {
+      throw new RestApiException("Cannot add SSH key", e);
     }
   }
 
@@ -446,8 +423,8 @@ public class AccountApiImpl implements AccountApi {
       AccountResource.SshKey sshKeyRes =
           sshKeys.parse(account, IdString.fromDecoded(Integer.toString(seq)));
       deleteSshKey.apply(sshKeyRes, null);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot delete SSH key", e);
+    } catch (OrmException | IOException | ConfigInvalidException e) {
+      throw new RestApiException("Cannot delete SSH key", e);
     }
   }
 
@@ -455,8 +432,8 @@ public class AccountApiImpl implements AccountApi {
   public Map<String, GpgKeyInfo> listGpgKeys() throws RestApiException {
     try {
       return gpgApiAdapter.listGpgKeys(account);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot list GPG keys", e);
+    } catch (GpgException e) {
+      throw new RestApiException("Cannot list GPG keys", e);
     }
   }
 
@@ -465,8 +442,8 @@ public class AccountApiImpl implements AccountApi {
       throws RestApiException {
     try {
       return gpgApiAdapter.putGpgKeys(account, add, delete);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot add GPG key", e);
+    } catch (GpgException e) {
+      throw new RestApiException("Cannot add GPG key", e);
     }
   }
 
@@ -474,8 +451,8 @@ public class AccountApiImpl implements AccountApi {
   public GpgKeyApi gpgKey(String id) throws RestApiException {
     try {
       return gpgApiAdapter.gpgKey(account, IdString.fromDecoded(id));
-    } catch (Exception e) {
-      throw asRestApiException("Cannot get PGP key", e);
+    } catch (GpgException e) {
+      throw new RestApiException("Cannot get PGP key", e);
     }
   }
 
@@ -490,8 +467,8 @@ public class AccountApiImpl implements AccountApi {
       AgreementInput input = new AgreementInput();
       input.name = agreementName;
       putAgreement.apply(account, input);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot sign agreement", e);
+    } catch (IOException | OrmException e) {
+      throw new RestApiException("Cannot sign agreement", e);
     }
   }
 
@@ -499,8 +476,8 @@ public class AccountApiImpl implements AccountApi {
   public void index() throws RestApiException {
     try {
       index.apply(account, new Index.Input());
-    } catch (Exception e) {
-      throw asRestApiException("Cannot index account", e);
+    } catch (IOException e) {
+      throw new RestApiException("Cannot index account", e);
     }
   }
 
@@ -508,8 +485,8 @@ public class AccountApiImpl implements AccountApi {
   public List<AccountExternalIdInfo> getExternalIds() throws RestApiException {
     try {
       return getExternalIds.apply(account);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot get external IDs", e);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot get external IDs", e);
     }
   }
 
@@ -517,46 +494,8 @@ public class AccountApiImpl implements AccountApi {
   public void deleteExternalIds(List<String> externalIds) throws RestApiException {
     try {
       deleteExternalIds.apply(account, externalIds);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot delete external IDs", e);
-    }
-  }
-
-  @Override
-  public void setName(String name) throws RestApiException {
-    PutName.Input input = new PutName.Input();
-    input.name = name;
-    try {
-      putName.apply(account, input);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot set account name", e);
-    }
-  }
-
-  @Override
-  public String generateHttpPassword() throws RestApiException {
-    PutHttpPassword.Input input = new PutHttpPassword.Input();
-    input.generate = true;
-    try {
-      // Response should never be 'none' for a generated password, but
-      // let's make sure.
-      Response<String> result = putHttpPassword.apply(account, input);
-      return result.isNone() ? null : result.value();
-    } catch (Exception e) {
-      throw asRestApiException("Cannot generate HTTP password", e);
-    }
-  }
-
-  @Override
-  public String setHttpPassword(String password) throws RestApiException {
-    PutHttpPassword.Input input = new PutHttpPassword.Input();
-    input.generate = false;
-    input.httpPassword = password;
-    try {
-      Response<String> result = putHttpPassword.apply(account, input);
-      return result.isNone() ? null : result.value();
-    } catch (Exception e) {
-      throw asRestApiException("Cannot generate HTTP password", e);
+    } catch (IOException | OrmException | ConfigInvalidException e) {
+      throw new RestApiException("Cannot delete external IDs", e);
     }
   }
 }

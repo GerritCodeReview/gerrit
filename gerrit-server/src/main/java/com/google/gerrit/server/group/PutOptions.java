@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.group;
 
-import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -24,30 +22,32 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Collections;
 
 @Singleton
 public class PutOptions implements RestModifyView<GroupResource, GroupOptionsInfo> {
+  private final GroupCache groupCache;
   private final Provider<ReviewDb> db;
-  private final Provider<GroupsUpdate> groupsUpdateProvider;
 
   @Inject
-  PutOptions(Provider<ReviewDb> db, @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider) {
+  PutOptions(GroupCache groupCache, Provider<ReviewDb> db) {
+    this.groupCache = groupCache;
     this.db = db;
-    this.groupsUpdateProvider = groupsUpdateProvider;
   }
 
   @Override
   public GroupOptionsInfo apply(GroupResource resource, GroupOptionsInfo input)
       throws MethodNotAllowedException, AuthException, BadRequestException,
           ResourceNotFoundException, OrmException, IOException {
-    GroupDescription.Internal internalGroup =
-        resource.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
-    if (!resource.getControl().isOwner()) {
+    if (resource.toAccountGroup() == null) {
+      throw new MethodNotAllowedException();
+    } else if (!resource.getControl().isOwner()) {
       throw new AuthException("Not group owner");
     }
 
@@ -58,19 +58,17 @@ public class PutOptions implements RestModifyView<GroupResource, GroupOptionsInf
       input.visibleToAll = false;
     }
 
-    if (internalGroup.isVisibleToAll() != input.visibleToAll) {
-      AccountGroup.UUID groupUuid = internalGroup.getGroupUUID();
-      try {
-        groupsUpdateProvider
-            .get()
-            .updateGroup(db.get(), groupUuid, group -> group.setVisibleToAll(input.visibleToAll));
-      } catch (NoSuchGroupException e) {
-        throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
-      }
+    AccountGroup group = db.get().accountGroups().get(resource.toAccountGroup().getId());
+    if (group == null) {
+      throw new ResourceNotFoundException();
     }
 
+    group.setVisibleToAll(input.visibleToAll);
+    db.get().accountGroups().update(Collections.singleton(group));
+    groupCache.evict(group);
+
     GroupOptionsInfo options = new GroupOptionsInfo();
-    if (input.visibleToAll) {
+    if (group.isVisibleToAll()) {
       options.visibleToAll = true;
     }
     return options;

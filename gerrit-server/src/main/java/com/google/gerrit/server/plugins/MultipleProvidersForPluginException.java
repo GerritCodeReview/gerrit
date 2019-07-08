@@ -16,8 +16,8 @@ package com.google.gerrit.server.plugins;
 
 import static java.util.stream.Collectors.joining;
 
-import com.google.common.collect.Streams;
 import java.nio.file.Path;
+import java.util.stream.StreamSupport;
 
 class MultipleProvidersForPluginException extends IllegalArgumentException {
   private static final long serialVersionUID = 1L;
@@ -31,7 +31,7 @@ class MultipleProvidersForPluginException extends IllegalArgumentException {
   }
 
   private static String providersListToString(Iterable<ServerPluginProvider> providersHandlers) {
-    return Streams.stream(providersHandlers)
+    return StreamSupport.stream(providersHandlers.spliterator(), false)
         .map(ServerPluginProvider::getProviderPluginName)
         .collect(joining(", "));
   }

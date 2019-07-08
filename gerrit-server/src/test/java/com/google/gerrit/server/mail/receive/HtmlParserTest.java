@@ -21,9 +21,6 @@ import java.util.List;
 import org.junit.Ignore;
 import org.junit.Test;
 
-/**
- * Abstract parser test for HTML messages. Payload will be added through concrete implementations.
- */
 @Ignore
 public abstract class HtmlParserTest extends AbstractParserTest {
   @Test
@@ -106,23 +103,6 @@ public abstract class HtmlParserTest extends AbstractParserTest {
     assertThat(parsedComments).hasSize(2);
     assertFileComment("This is a nice file", parsedComments.get(0), comments.get(1).key.filename);
     assertInlineComment("Also have a comment here.", parsedComments.get(1), comments.get(3));
-  }
-
-  @Test
-  public void commentsSpanningMultipleBlocks() {
-    String htmlMessage =
-        "This is a very long test comment. <div><br></div><div>Now this is a new paragraph yay.</div>";
-    String txtMessage = "This is a very long test comment.\n\nNow this is a new paragraph yay.";
-    MailMessage.Builder b = newMailMessageBuilder();
-    b.htmlContent(newHtmlBody(htmlMessage, null, null, htmlMessage, htmlMessage, null, null));
-
-    List<Comment> comments = defaultComments();
-    List<MailComment> parsedComments = HtmlParser.parse(b.build(), comments, CHANGE_URL);
-
-    assertThat(parsedComments).hasSize(3);
-    assertChangeMessage(txtMessage, parsedComments.get(0));
-    assertFileComment(txtMessage, parsedComments.get(1), comments.get(1).key.filename);
-    assertInlineComment(txtMessage, parsedComments.get(2), comments.get(3));
   }
 
   /**

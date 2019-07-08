@@ -18,10 +18,10 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
-public class SubmittablePredicate extends ChangeIndexPredicate {
-  protected final SubmitRecord.Status status;
+class SubmittablePredicate extends ChangeIndexPredicate {
+  private final SubmitRecord.Status status;
 
-  public SubmittablePredicate(SubmitRecord.Status status) {
+  SubmittablePredicate(SubmitRecord.Status status) {
     super(ChangeField.SUBMIT_RECORD, status.name());
     this.status = status;
   }

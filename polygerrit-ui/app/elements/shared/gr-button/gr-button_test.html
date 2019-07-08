@@ -20,7 +20,8 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-button.html">
 
 <script>void(0);</script>
@@ -32,85 +33,63 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-select tests', () => {
-    let element;
-    let sandbox;
+  suite('gr-select tests', function() {
+    var element;
+    var sandbox;
 
-    const addSpyOn = function(eventName) {
-      const spy = sandbox.spy();
+    var addSpyOn = function(eventName) {
+      var spy = sandbox.spy();
       element.addEventListener(eventName, spy);
       return spy;
     };
 
-    setup(() => {
+    setup(function() {
       element = fixture('basic');
       sandbox = sinon.sandbox.create();
     });
 
-    teardown(() => {
+    teardown(function() {
       sandbox.restore();
     });
 
-    test('disabled is set by disabled or loading', () => {
-      assert.isFalse(element.$$('paper-button').disabled);
-      element.disabled = true;
-      assert.isTrue(element.$$('paper-button').disabled);
-      element.disabled = false;
-      assert.isFalse(element.$$('paper-button').disabled);
-      element.loading = true;
-      assert.isTrue(element.$$('paper-button').disabled);
-    });
-
-    for (const eventName of ['tap', 'click']) {
-      test('dispatches ' + eventName + ' event', () => {
-        const spy = addSpyOn(eventName);
+    ['tap', 'click'].forEach(function(eventName) {
+      test('dispatches ' + eventName + ' event', function() {
+        var spy = addSpyOn(eventName);
         MockInteractions.tap(element);
         assert.isTrue(spy.calledOnce);
       });
-    }
+    });
 
     // Keycodes: 32 for Space, 13 for Enter.
-    for (const key of [32, 13]) {
-      test('dispatches tap event on keycode ' + key, () => {
-        const tapSpy = sandbox.spy();
+    [32, 13].forEach(function(key) {
+      test('dispatches tap event on keycode ' + key, function() {
+        var tapSpy = sandbox.spy();
         element.addEventListener('tap', tapSpy);
         MockInteractions.pressAndReleaseKeyOn(element, key);
         assert.isTrue(tapSpy.calledOnce);
-      });
+      })});
 
-      test('dispatches no tap event with modifier on keycode ' + key, () => {
-        const tapSpy = sandbox.spy();
-        element.addEventListener('tap', tapSpy);
-        MockInteractions.pressAndReleaseKeyOn(element, key, 'shift');
-        MockInteractions.pressAndReleaseKeyOn(element, key, 'ctrl');
-        MockInteractions.pressAndReleaseKeyOn(element, key, 'meta');
-        MockInteractions.pressAndReleaseKeyOn(element, key, 'alt');
-        assert.isFalse(tapSpy.calledOnce);
-      });
-    }
-
-    suite('disabled', () => {
-      setup(() => {
+    suite('disabled', function() {
+      setup(function() {
         element.disabled = true;
       });
 
-      for (const eventName of ['tap', 'click']) {
-        test('stops ' + eventName + ' event', () => {
-          const spy = addSpyOn(eventName);
+      ['tap', 'click'].forEach(function(eventName) {
+        test('stops ' + eventName + ' event', function() {
+          var spy = addSpyOn(eventName);
           MockInteractions.tap(element);
           assert.isFalse(spy.called);
         });
-      }
+      });
 
       // Keycodes: 32 for Space, 13 for Enter.
-      for (const key of [32, 13]) {
-        test('stops tap event on keycode ' + key, () => {
-          const tapSpy = sandbox.spy();
+      [32, 13].forEach(function(key) {
+        test('stops tap event on keycode ' + key, function() {
+          var tapSpy = sandbox.spy();
           element.addEventListener('tap', tapSpy);
           MockInteractions.pressAndReleaseKeyOn(element, key);
           assert.isFalse(tapSpy.called);
-        });
-      }
+        })});
     });
   });
 </script>

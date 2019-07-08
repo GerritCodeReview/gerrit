@@ -22,12 +22,10 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -52,35 +50,31 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
   }
 
   private final Provider<IdentifiedUser> identifiedUser;
-  private final PermissionBackend permissionBackend;
   private final GitRepositoryManager repoManager;
+  private final Provider<ReviewDb> db;
   private final GitReferenceUpdated referenceUpdated;
   private final RefValidationHelper refCreationValidator;
-  private final CreateRefControl createRefControl;
   private String ref;
 
   @Inject
   CreateBranch(
       Provider<IdentifiedUser> identifiedUser,
-      PermissionBackend permissionBackend,
       GitRepositoryManager repoManager,
+      Provider<ReviewDb> db,
       GitReferenceUpdated referenceUpdated,
       RefValidationHelper.Factory refHelperFactory,
-      CreateRefControl createRefControl,
       @Assisted String ref) {
     this.identifiedUser = identifiedUser;
-    this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
+    this.db = db;
     this.referenceUpdated = referenceUpdated;
     this.refCreationValidator = refHelperFactory.create(ReceiveCommand.Type.CREATE);
-    this.createRefControl = createRefControl;
     this.ref = ref;
   }
 
   @Override
   public BranchInfo apply(ProjectResource rsrc, BranchInput input)
-      throws BadRequestException, AuthException, ResourceConflictException, IOException,
-          PermissionBackendException, NoSuchProjectException {
+      throws BadRequestException, AuthException, ResourceConflictException, IOException {
     if (input == null) {
       input = new BranchInput();
     }
@@ -105,6 +99,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
     }
 
     final Branch.NameKey name = new Branch.NameKey(rsrc.getNameKey(), ref);
+    final RefControl refControl = rsrc.getControl().controlForRef(name);
     try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
       ObjectId revid = RefUtil.parseBaseRevision(repo, rsrc.getNameKey(), input.revision);
       RevWalk rw = RefUtil.verifyConnected(repo, revid);
@@ -121,7 +116,9 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
         }
       }
 
-      createRefControl.checkCreateRef(identifiedUser, repo, name, object);
+      if (!refControl.canCreate(db.get(), repo, object)) {
+        throw new AuthException("Cannot create \"" + ref + "\"");
+      }
 
       try {
         final RefUpdate u = repo.updateRef(ref);
@@ -164,8 +161,6 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
           case REJECTED:
           case REJECTED_CURRENT_BRANCH:
           case RENAMED:
-          case REJECTED_MISSING_OBJECT:
-          case REJECTED_OTHER_REASON:
           default:
             {
               throw new IOException(result.name());
@@ -175,10 +170,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
         BranchInfo info = new BranchInfo();
         info.ref = ref;
         info.revision = revid.getName();
-        info.canDelete =
-            permissionBackend.user(identifiedUser).ref(name).testOrFalse(RefPermission.DELETE)
-                ? true
-                : null;
+        info.canDelete = refControl.canDelete() ? true : null;
         return info;
       } catch (IOException err) {
         log.error("Cannot create branch \"" + name + "\"", err);

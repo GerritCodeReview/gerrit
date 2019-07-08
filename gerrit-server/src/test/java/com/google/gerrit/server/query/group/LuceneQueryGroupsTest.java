@@ -14,25 +14,12 @@
 
 package com.google.gerrit.server.query.group;
 
-import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
-import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.InMemoryModule;
-import com.google.gerrit.testutil.IndexVersions;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import java.util.List;
-import java.util.Map;
 import org.eclipse.jgit.lib.Config;
 
 public class LuceneQueryGroupsTest extends AbstractQueryGroupsTest {
-  @ConfigSuite.Configs
-  public static Map<String, Config> againstPreviousIndexVersion() {
-    // the current schema version is already tested by the inherited default config suite
-    List<Integer> schemaVersions = IndexVersions.getWithoutLatest(GroupSchemaDefinitions.INSTANCE);
-    return IndexVersions.asConfigMap(
-        GroupSchemaDefinitions.INSTANCE, schemaVersions, "againstIndexVersion", defaultConfig());
-  }
-
   @Override
   protected Injector createInjector() {
     Config luceneConfig = new Config(config);

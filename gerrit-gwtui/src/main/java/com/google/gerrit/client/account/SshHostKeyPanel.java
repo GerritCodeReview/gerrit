@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 
 class SshHostKeyPanel extends Composite {
-  SshHostKeyPanel(SshHostKey info) {
+  SshHostKeyPanel(final SshHostKey info) {
     final FlowPanel body = new FlowPanel();
     body.setStyleName(Gerrit.RESOURCES.css().sshHostKeyPanel());
     body.add(new SmallHeading(Util.C.sshHostKeyTitle()));

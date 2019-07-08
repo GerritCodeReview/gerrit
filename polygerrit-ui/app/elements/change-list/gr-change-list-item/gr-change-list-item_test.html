@@ -20,9 +20,9 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
 <script src="../../../scripts/util.js"></script>
 
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-change-list-item.html">
 
 <script>void(0);</script>
@@ -34,18 +34,32 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-change-list-item tests', () => {
-    let element;
+  suite('gr-change-list-item tests', function() {
+    var element;
 
-    setup(() => {
+    setup(function() {
       stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
-        getLoggedIn() { return Promise.resolve(false); },
+        getConfig: function() { return Promise.resolve({}); },
+        getLoggedIn: function() { return Promise.resolve(false); },
       });
       element = fixture('basic');
     });
 
-    test('computed fields', () => {
+    test('change status', function() {
+      var getStatusForChange = function(change) {
+        element.change = change;
+        return element.$$('.cell.status').textContent.trim();
+      };
+
+      assert.equal(getStatusForChange({mergeable: true}), '');
+      assert.equal(getStatusForChange({mergeable: false}), 'Merge Conflict');
+      assert.equal(getStatusForChange({status: 'NEW'}), '');
+      assert.equal(getStatusForChange({status: 'MERGED'}), 'Merged');
+      assert.equal(getStatusForChange({status: 'ABANDONED'}), 'Abandoned');
+      assert.equal(getStatusForChange({status: 'DRAFT'}), 'Draft');
+    });
+
+    test('computed fields', function() {
       assert.equal(element._computeLabelClass({labels: {}}),
           'cell label u-gray-background');
       assert.equal(element._computeLabelClass(
@@ -85,19 +99,19 @@ limitations under the License.
           'Code-Review'), 'Code-Review\nby Diffy');
       assert.equal(element._computeLabelTitle(
           {labels: {'Code-Review': {recommended: {name: 'Diffy'},
-            rejected: {name: 'Admin'}}}}, 'Code-Review'),
+          rejected: {name: 'Admin'}}}}, 'Code-Review'),
           'Code-Review\nby Admin');
       assert.equal(element._computeLabelTitle(
           {labels: {'Code-Review': {approved: {name: 'Diffy'},
-            rejected: {name: 'Admin'}}}}, 'Code-Review'),
+          rejected: {name: 'Admin'}}}}, 'Code-Review'),
           'Code-Review\nby Admin');
       assert.equal(element._computeLabelTitle(
           {labels: {'Code-Review': {recommended: {name: 'Diffy'},
-            disliked: {name: 'Admin'}, value: -1}}}, 'Code-Review'),
+          disliked: {name: 'Admin'}, value: -1}}}, 'Code-Review'),
           'Code-Review\nby Admin');
       assert.equal(element._computeLabelTitle(
           {labels: {'Code-Review': {approved: {name: 'Diffy'},
-            disliked: {name: 'Admin'}, value: -1}}}, 'Code-Review'),
+          disliked: {name: 'Admin'}, value: -1}}}, 'Code-Review'),
           'Code-Review\nby Diffy');
 
       assert.equal(element._computeLabelValue({labels: {}}), '');
@@ -112,14 +126,25 @@ limitations under the License.
           {labels: {Verified: {approved: true}}}, 'Verified'), '✓');
       assert.equal(element._computeLabelValue(
           {labels: {Verified: {rejected: true}}}, 'Verified'), '✕');
+
+      assert.equal(element._computeProjectURL('combustible/stuff'),
+          '/q/status:open+project:combustible%252Fstuff');
+
+      assert.equal(element._computeProjectBranchURL(
+          'combustible-stuff', 'le/mons'),
+          '/q/status:open+project:combustible-stuff+branch:le%252Fmons');
+
+      element.change = {_number: 42};
+      assert.equal(element.changeURL, '/c/42/');
+      element.change = {_number: 43};
+      assert.equal(element.changeURL, '/c/43/');
     });
 
-    test('no hidden columns', () => {
+    test('no hidden columns', function() {
       element.visibleChangeTableColumns = [
         'Subject',
         'Status',
         'Owner',
-        'Assignee',
         'Project',
         'Branch',
         'Updated',
@@ -128,18 +153,17 @@ limitations under the License.
 
       flushAsynchronousOperations();
 
-      for (const column of element.columnNames) {
-        const elementClass = '.' + column.toLowerCase();
+      element.columnNames.forEach(function(column) {
+        var elementClass = '.' + column.toLowerCase();
         assert.isFalse(element.$$(elementClass).hidden);
-      }
+      });
     });
 
-    test('no hidden columns', () => {
+    test('no hidden columns', function() {
       element.visibleChangeTableColumns = [
         'Subject',
         'Status',
         'Owner',
-        'Assignee',
         'Project',
         'Branch',
         'Updated',
@@ -148,18 +172,17 @@ limitations under the License.
 
       flushAsynchronousOperations();
 
-      for (const column of element.columnNames) {
-        const elementClass = '.' + column.toLowerCase();
+      element.columnNames.forEach(function(column) {
+        var elementClass = '.' + column.toLowerCase();
         assert.isFalse(element.$$(elementClass).hidden);
-      }
+      });
     });
 
-    test('project column hidden', () => {
+    test('project column hidden', function() {
       element.visibleChangeTableColumns = [
         'Subject',
         'Status',
         'Owner',
-        'Assignee',
         'Branch',
         'Updated',
         'Size',
@@ -167,35 +190,25 @@ limitations under the License.
 
       flushAsynchronousOperations();
 
-      for (const column of element.columnNames) {
-        const elementClass = '.' + column.toLowerCase();
+      element.columnNames.forEach(function(column) {
+        var elementClass = '.' + column.toLowerCase();
         if (column === 'Project') {
           assert.isTrue(element.$$(elementClass).hidden);
         } else {
           assert.isFalse(element.$$(elementClass).hidden);
         }
-      }
+      });
     });
 
-    test('random column does not exist', () => {
+    test('random column does not exist', function() {
       element.visibleChangeTableColumns = [
         'Bad',
       ];
 
       flushAsynchronousOperations();
-      const elementClass = '.bad';
+      var elementClass = '.bad';
       assert.isNotOk(element.$$(elementClass));
     });
 
-    test('assignee only displayed if there is one', () => {
-      assert.isNotOk(element.$$('.assignee gr-account-link'));
-      element.change = {
-        assignee: {
-          name: 'test',
-        },
-      };
-      flushAsynchronousOperations();
-      assert.isOk(element.$$('.assignee gr-account-link'));
-    });
   });
 </script>

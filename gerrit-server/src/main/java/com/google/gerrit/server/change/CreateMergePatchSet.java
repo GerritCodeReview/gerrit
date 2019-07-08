@@ -22,11 +22,13 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -40,15 +42,10 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeIdenticalTreeException;
 import com.google.gerrit.server.git.MergeUtil;
-import com.google.gerrit.server.permissions.ChangePermission;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.CommitsCollection;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -68,60 +65,64 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.ChangeIdUtil;
 
 @Singleton
-public class CreateMergePatchSet
-    extends RetryingRestModifyView<ChangeResource, MergePatchSetInput, Response<ChangeInfo>> {
+public class CreateMergePatchSet implements RestModifyView<ChangeResource, MergePatchSetInput> {
+
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
-  private final CommitsCollection commits;
   private final TimeZone serverTimeZone;
   private final Provider<CurrentUser> user;
   private final ChangeJson.Factory jsonFactory;
   private final PatchSetUtil psUtil;
   private final MergeUtil.Factory mergeUtilFactory;
+  private final BatchUpdate.Factory batchUpdateFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
-  private final ProjectCache projectCache;
 
   @Inject
   CreateMergePatchSet(
       Provider<ReviewDb> db,
       GitRepositoryManager gitManager,
-      CommitsCollection commits,
       @GerritPersonIdent PersonIdent myIdent,
       Provider<CurrentUser> user,
       ChangeJson.Factory json,
       PatchSetUtil psUtil,
       MergeUtil.Factory mergeUtilFactory,
-      RetryHelper retryHelper,
-      PatchSetInserter.Factory patchSetInserterFactory,
-      ProjectCache projectCache) {
-    super(retryHelper);
+      BatchUpdate.Factory batchUpdateFactory,
+      PatchSetInserter.Factory patchSetInserterFactory) {
     this.db = db;
     this.gitManager = gitManager;
-    this.commits = commits;
     this.serverTimeZone = myIdent.getTimeZone();
     this.user = user;
     this.jsonFactory = json;
     this.psUtil = psUtil;
     this.mergeUtilFactory = mergeUtilFactory;
+    this.batchUpdateFactory = batchUpdateFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
-    this.projectCache = projectCache;
   }
 
   @Override
-  protected Response<ChangeInfo> applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource rsrc, MergePatchSetInput in)
+  public Response<ChangeInfo> apply(ChangeResource req, MergePatchSetInput in)
       throws OrmException, IOException, InvalidChangeOperationException, RestApiException,
-          UpdateException, PermissionBackendException {
-    rsrc.permissions().database(db).check(ChangePermission.ADD_PATCH_SET);
+          UpdateException {
+    if (in.merge == null) {
+      throw new BadRequestException("merge field is required");
+    }
 
     MergeInput merge = in.merge;
-    if (merge == null || Strings.isNullOrEmpty(merge.source)) {
+    if (Strings.isNullOrEmpty(merge.source)) {
       throw new BadRequestException("merge.source must be non-empty");
     }
 
-    PatchSet ps = psUtil.current(db.get(), rsrc.getNotes());
-    ProjectState projectState = projectCache.checkedGet(rsrc.getProject());
-    Change change = rsrc.getChange();
+    ChangeControl ctl = req.getControl();
+    if (!ctl.isVisible(db.get())) {
+      throw new InvalidChangeOperationException("Base change not found: " + req.getId());
+    }
+    PatchSet ps = psUtil.current(db.get(), ctl.getNotes());
+    if (!ctl.canAddPatchSet(db.get())) {
+      throw new AuthException("cannot add patch set");
+    }
+
+    ProjectControl projectControl = ctl.getProjectControl();
+    Change change = ctl.getChange();
     Project.NameKey project = change.getProject();
     Branch.NameKey dest = change.getDest();
     try (Repository git = gitManager.openRepository(project);
@@ -130,19 +131,21 @@ public class CreateMergePatchSet
         RevWalk rw = new RevWalk(reader)) {
 
       RevCommit sourceCommit = MergeUtil.resolveCommit(git, rw, merge.source);
-      if (!commits.canRead(projectState, git, sourceCommit)) {
+      if (!projectControl.canReadCommit(db.get(), git, sourceCommit)) {
         throw new ResourceNotFoundException(
             "cannot find source commit: " + merge.source + " to merge.");
       }
 
       RevCommit currentPsCommit = rw.parseCommit(ObjectId.fromString(ps.getRevision().get()));
+
       Timestamp now = TimeUtil.nowTs();
       IdentifiedUser me = user.get().asIdentifiedUser();
       PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
+
       RevCommit newCommit =
           createMergeCommit(
               in,
-              projectState,
+              projectControl,
               dest,
               git,
               oi,
@@ -153,16 +156,14 @@ public class CreateMergePatchSet
               ObjectId.fromString(change.getKey().get().substring(1)));
 
       PatchSet.Id nextPsId = ChangeUtil.nextPatchSetId(ps.getId());
-      PatchSetInserter psInserter =
-          patchSetInserterFactory.create(rsrc.getNotes(), nextPsId, newCommit);
-      try (BatchUpdate bu = updateFactory.create(db.get(), project, me, now)) {
+      PatchSetInserter psInserter = patchSetInserterFactory.create(ctl, nextPsId, newCommit);
+      try (BatchUpdate bu = batchUpdateFactory.create(db.get(), project, me, now)) {
         bu.setRepository(git, rw, oi);
         bu.addOp(
-            rsrc.getId(),
+            ctl.getId(),
             psInserter
                 .setMessage("Uploaded patch set " + nextPsId.get() + ".")
-                .setNotify(NotifyHandling.NONE)
-                .setCheckAddPatchSetPermission(false)
+                .setDraft(ps.isDraft())
                 .setNotify(NotifyHandling.NONE));
         bu.execute();
       }
@@ -174,7 +175,7 @@ public class CreateMergePatchSet
 
   private RevCommit createMergeCommit(
       MergePatchSetInput in,
-      ProjectState projectState,
+      ProjectControl projectControl,
       Branch.NameKey dest,
       Repository git,
       ObjectInserter oi,
@@ -212,9 +213,9 @@ public class CreateMergePatchSet
     String mergeStrategy =
         MoreObjects.firstNonNull(
             Strings.emptyToNull(in.merge.strategy),
-            mergeUtilFactory.create(projectState).mergeStrategyName());
+            mergeUtilFactory.create(projectControl.getProjectState()).mergeStrategyName());
 
     return MergeUtil.createMergeCommit(
-        oi, git.getConfig(), mergeTip, sourceCommit, mergeStrategy, author, commitMsg, rw);
+        git, oi, mergeTip, sourceCommit, mergeStrategy, author, commitMsg, rw);
   }
 }

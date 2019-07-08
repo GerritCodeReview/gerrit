@@ -32,7 +32,7 @@ public class AccountGroupSuggestOracle extends SuggestAfterTypingNCharsOracle {
   private Project.NameKey projectName;
 
   @Override
-  public void _onRequestSuggestions(Request req, Callback callback) {
+  public void _onRequestSuggestions(final Request req, final Callback callback) {
     GroupMap.suggestAccountGroupForProject(
         projectName == null ? null : projectName.get(),
         req.getQuery(),
@@ -58,7 +58,7 @@ public class AccountGroupSuggestOracle extends SuggestAfterTypingNCharsOracle {
   private static class AccountGroupSuggestion implements SuggestOracle.Suggestion {
     private final GroupInfo info;
 
-    AccountGroupSuggestion(GroupInfo k) {
+    AccountGroupSuggestion(final GroupInfo k) {
       info = k;
     }
 

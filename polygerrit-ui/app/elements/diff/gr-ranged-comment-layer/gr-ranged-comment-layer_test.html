@@ -20,9 +20,9 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
 <script src="../gr-diff/gr-diff-line.js"></script>
 
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-ranged-comment-layer.html">
 
 <script>void(0);</script>
@@ -34,12 +34,12 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-ranged-comment-layer', () => {
-    let element;
-    let sandbox;
+  suite('gr-ranged-comment-layer', function() {
+    var element;
+    var sandbox;
 
-    setup(() => {
-      const initialComments = {
+    setup(function() {
+      var initialComments = {
         left: [
           {
             id: '12345',
@@ -97,17 +97,17 @@ limitations under the License.
       element.comments = initialComments;
     });
 
-    teardown(() => {
+    teardown(function() {
       sandbox.restore();
     });
 
-    suite('annotate', () => {
-      let sandbox;
-      let el;
-      let line;
-      let annotateElementStub;
+    suite('annotate', function() {
+      var sandbox;
+      var el;
+      var line;
+      var annotateElementStub;
 
-      setup(() => {
+      setup(function() {
         sandbox = sinon.sandbox.create();
         annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
         el = document.createElement('div');
@@ -116,11 +116,11 @@ limitations under the License.
         line.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit,';
       });
 
-      teardown(() => {
+      teardown(function() {
         sandbox.restore();
       });
 
-      test('type=Remove no-comment', () => {
+      test('type=Remove no-comment', function() {
         line.type = GrDiffLine.Type.REMOVE;
         line.beforeNumber = 40;
 
@@ -129,58 +129,58 @@ limitations under the License.
         assert.isFalse(annotateElementStub.called);
       });
 
-      test('type=Remove has-comment', () => {
+      test('type=Remove has-comment', function() {
         line.type = GrDiffLine.Type.REMOVE;
         line.beforeNumber = 36;
-        const expectedStart = 6;
-        const expectedLength = line.text.length - expectedStart;
+        var expectedStart = 6;
+        var expectedLength = line.text.length - expectedStart;
 
         element.annotate(el, line);
 
         assert.isTrue(annotateElementStub.called);
-        const lastCall = annotateElementStub.lastCall;
+        var lastCall = annotateElementStub.lastCall;
         assert.equal(lastCall.args[0], el);
         assert.equal(lastCall.args[1], expectedStart);
         assert.equal(lastCall.args[2], expectedLength);
         assert.equal(lastCall.args[3], 'range');
       });
 
-      test('type=Remove has-comment hovering', () => {
+      test('type=Remove has-comment hovering', function() {
         line.type = GrDiffLine.Type.REMOVE;
         line.beforeNumber = 36;
         element.set(['comments', 'left', 0, '__hovering'], true);
 
-        const expectedStart = 6;
-        const expectedLength = line.text.length - expectedStart;
+        var expectedStart = 6;
+        var expectedLength = line.text.length - expectedStart;
 
         element.annotate(el, line);
 
         assert.isTrue(annotateElementStub.called);
-        const lastCall = annotateElementStub.lastCall;
+        var lastCall = annotateElementStub.lastCall;
         assert.equal(lastCall.args[0], el);
         assert.equal(lastCall.args[1], expectedStart);
         assert.equal(lastCall.args[2], expectedLength);
         assert.equal(lastCall.args[3], 'rangeHighlight');
       });
 
-      test('type=Both has-comment', () => {
+      test('type=Both has-comment', function() {
         line.type = GrDiffLine.Type.BOTH;
         line.beforeNumber = 36;
 
-        const expectedStart = 6;
-        const expectedLength = line.text.length - expectedStart;
+        var expectedStart = 6;
+        var expectedLength = line.text.length - expectedStart;
 
         element.annotate(el, line);
 
         assert.isTrue(annotateElementStub.called);
-        const lastCall = annotateElementStub.lastCall;
+        var lastCall = annotateElementStub.lastCall;
         assert.equal(lastCall.args[0], el);
         assert.equal(lastCall.args[1], expectedStart);
         assert.equal(lastCall.args[2], expectedLength);
         assert.equal(lastCall.args[3], 'range');
       });
 
-      test('type=Both has-comment off side', () => {
+      test('type=Both has-comment off side', function() {
         line.type = GrDiffLine.Type.BOTH;
         line.beforeNumber = 36;
         el.setAttribute('data-side', 'right');
@@ -190,18 +190,18 @@ limitations under the License.
         assert.isFalse(annotateElementStub.called);
       });
 
-      test('type=Add has-comment', () => {
+      test('type=Add has-comment', function() {
         line.type = GrDiffLine.Type.ADD;
         line.afterNumber = 12;
         el.setAttribute('data-side', 'right');
 
-        const expectedStart = 0;
-        const expectedLength = 22;
+        var expectedStart = 0;
+        var expectedLength = 22;
 
         element.annotate(el, line);
 
         assert.isTrue(annotateElementStub.called);
-        const lastCall = annotateElementStub.lastCall;
+        var lastCall = annotateElementStub.lastCall;
         assert.equal(lastCall.args[0], el);
         assert.equal(lastCall.args[1], expectedStart);
         assert.equal(lastCall.args[2], expectedLength);
@@ -209,9 +209,9 @@ limitations under the License.
       });
     });
 
-    test('_handleCommentChange overwrite', () => {
-      const handlerSpy = sandbox.spy(element, '_handleCommentChange');
-      const mapSpy = sandbox.spy(element, '_computeCommentMap');
+    test('_handleCommentChange overwrite', function() {
+      var handlerSpy = sandbox.spy(element, '_handleCommentChange');
+      var mapSpy = sandbox.spy(element, '_computeCommentMap');
 
       element.set('comments', {left: [], right: []});
 
@@ -222,10 +222,10 @@ limitations under the License.
       assert.equal(Object.keys(element._commentMap.right).length, 0);
     });
 
-    test('_handleCommentChange hovering', () => {
-      const handlerSpy = sandbox.spy(element, '_handleCommentChange');
-      const mapSpy = sandbox.spy(element, '_computeCommentMap');
-      const notifyStub = sinon.stub();
+    test('_handleCommentChange hovering', function() {
+      var handlerSpy = sandbox.spy(element, '_handleCommentChange');
+      var mapSpy = sandbox.spy(element, '_computeCommentMap');
+      var notifyStub = sinon.stub();
       element.addListener(notifyStub);
 
       element.set(['comments', 'right', 0, '__hovering'], true);
@@ -234,16 +234,16 @@ limitations under the License.
       assert.isTrue(mapSpy.called);
 
       assert.isTrue(notifyStub.called);
-      const lastCall = notifyStub.lastCall;
+      var lastCall = notifyStub.lastCall;
       assert.equal(lastCall.args[0], 10);
       assert.equal(lastCall.args[1], 12);
       assert.equal(lastCall.args[2], 'right');
     });
 
-    test('_handleCommentChange splice out', () => {
-      const handlerSpy = sandbox.spy(element, '_handleCommentChange');
-      const mapSpy = sandbox.spy(element, '_computeCommentMap');
-      const notifyStub = sinon.stub();
+    test('_handleCommentChange splice out', function() {
+      var handlerSpy = sandbox.spy(element, '_handleCommentChange');
+      var mapSpy = sandbox.spy(element, '_computeCommentMap');
+      var notifyStub = sinon.stub();
       element.addListener(notifyStub);
 
       element.splice('comments.right', 0, 1);
@@ -252,16 +252,16 @@ limitations under the License.
       assert.isTrue(mapSpy.called);
 
       assert.isTrue(notifyStub.called);
-      const lastCall = notifyStub.lastCall;
+      var lastCall = notifyStub.lastCall;
       assert.equal(lastCall.args[0], 10);
       assert.equal(lastCall.args[1], 12);
       assert.equal(lastCall.args[2], 'right');
     });
 
-    test('_handleCommentChange splice in', () => {
-      const handlerSpy = sandbox.spy(element, '_handleCommentChange');
-      const mapSpy = sandbox.spy(element, '_computeCommentMap');
-      const notifyStub = sinon.stub();
+    test('_handleCommentChange splice in', function() {
+      var handlerSpy = sandbox.spy(element, '_handleCommentChange');
+      var mapSpy = sandbox.spy(element, '_computeCommentMap');
+      var notifyStub = sinon.stub();
       element.addListener(notifyStub);
 
       element.splice('comments.left', element.comments.left.length, 0, {
@@ -280,16 +280,16 @@ limitations under the License.
       assert.isTrue(mapSpy.called);
 
       assert.isTrue(notifyStub.called);
-      const lastCall = notifyStub.lastCall;
+      var lastCall = notifyStub.lastCall;
       assert.equal(lastCall.args[0], 250);
       assert.equal(lastCall.args[1], 275);
       assert.equal(lastCall.args[2], 'left');
     });
 
-    test('_computeCommentMap creates maps correctly', () => {
+    test('_computeCommentMap creates maps correctly', function() {
       // There is only one ranged comment on the left, but it spans ll.36-39.
-      const leftKeys = [];
-      for (let i = 36; i <= 39; i++) { leftKeys.push('' + i); }
+      var leftKeys = [];
+      for (var i = 36; i <= 39; i++) { leftKeys.push('' + i); }
       assert.deepEqual(Object.keys(element._commentMap.left).sort(),
           leftKeys.sort());
 
@@ -311,8 +311,8 @@ limitations under the License.
 
       // The right has two ranged comments, one spanning ll.10-12 and the other
       // on line 100.
-      const rightKeys = [];
-      for (let i = 10; i <= 12; i++) { rightKeys.push('' + i); }
+      var rightKeys = [];
+      for (i = 10; i <= 12; i++) { rightKeys.push('' + i); }
       rightKeys.push('55', '100');
       assert.deepEqual(Object.keys(element._commentMap.right).sort(),
           rightKeys.sort());
@@ -334,14 +334,14 @@ limitations under the License.
       assert.equal(element._commentMap.right[100][0].end, 15);
     });
 
-    test('_getRangesForLine normalizes invalid ranges', () => {
-      const line = {
+    test('_getRangesForLine normalizes invalid ranges', function() {
+      var line = {
         afterNumber: 55,
-        text: '_getRangesForLine normalizes invalid ranges',
+        text: '_getRangesForLine normalizes invalid ranges'
       };
-      const ranges = element._getRangesForLine(line, 'right');
+      var ranges = element._getRangesForLine(line, 'right');
       assert.equal(ranges.length, 1);
-      const range = ranges[0];
+      var range = ranges[0];
       assert.isTrue(range.start < range.end, 'start and end are normalized');
       assert.equal(range.end, line.text.length);
     });

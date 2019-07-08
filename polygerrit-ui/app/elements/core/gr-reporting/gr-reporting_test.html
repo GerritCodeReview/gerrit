@@ -20,7 +20,7 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
+
 <link rel="import" href="gr-reporting.html">
 
 <script>void(0);</script>
@@ -32,15 +32,15 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-reporting tests', () => {
-    let element;
-    let sandbox;
-    let clock;
-    let fakePerformance;
+  suite('gr-reporting tests', function() {
+    var element;
+    var sandbox;
+    var clock;
+    var fakePerformance;
 
-    const NOW_TIME = 100;
+    var NOW_TIME = 100;
 
-    setup(() => {
+    setup(function() {
       sandbox = sinon.sandbox.create();
       clock = sinon.useFakeTimers(NOW_TIME);
       element = fixture('basic');
@@ -49,15 +49,15 @@ limitations under the License.
         loadEventEnd: 2,
       };
       sinon.stub(element, 'performanceTiming',
-          {get() { return fakePerformance; }});
+          {get: function() {return fakePerformance;}});
       sandbox.stub(element, 'reporter');
     });
-    teardown(() => {
+    teardown(function() {
       sandbox.restore();
       clock.restore();
     });
 
-    test('appStarted', () => {
+    test('appStarted', function() {
       element.appStarted();
       assert.isTrue(
           element.reporter.calledWithExactly(
@@ -66,7 +66,7 @@ limitations under the License.
       ));
     });
 
-    test('pageLoaded', () => {
+    test('pageLoaded', function() {
       element.pageLoaded();
       assert.isTrue(
           element.reporter.calledWithExactly(
@@ -75,8 +75,8 @@ limitations under the License.
       );
     });
 
-    test('time and timeEnd', () => {
-      const nowStub = sandbox.stub(element, 'now').returns(0);
+    test('time and timeEnd', function() {
+      var nowStub = sandbox.stub(element, 'now').returns(0);
       element.time('foo');
       nowStub.returns(1);
       element.time('bar');
@@ -85,42 +85,42 @@ limitations under the License.
       nowStub.returns(3.123);
       element.timeEnd('foo');
       assert.isTrue(element.reporter.calledWithExactly(
-          'timing-report', 'UI Latency', 'foo', '3ms'
+          'timing-report', 'UI Latency', 'foo', 3.123
       ));
       assert.isTrue(element.reporter.calledWithExactly(
-          'timing-report', 'UI Latency', 'bar', '1ms'
+          'timing-report', 'UI Latency', 'bar', 1
       ));
     });
 
-    suite('plugins', () => {
-      setup(() => {
+    suite('plugins', function() {
+      setup(function() {
         element.reporter.restore();
         sandbox.stub(element, 'defaultReporter');
         sandbox.stub(Gerrit, '_arePluginsLoaded');
       });
 
-      test('pluginsLoaded reports time', () => {
+      test('pluginsLoaded reports time', function() {
         Gerrit._arePluginsLoaded.returns(true);
         sandbox.stub(element, 'now').returns(42);
         element.pluginsLoaded();
         assert.isTrue(element.defaultReporter.calledWithExactly(
-            'timing-report', 'UI Latency', 'PluginsLoaded', '42ms'
+            'timing-report', 'UI Latency', 'PluginsLoaded', 42
         ));
       });
 
-      test('caches reports if plugins are not loaded', () => {
+      test('caches reports if plugins are not loaded', function() {
         Gerrit._arePluginsLoaded.returns(false);
         element.timeEnd('foo');
         assert.isFalse(element.defaultReporter.called);
       });
 
-      test('reports if plugins are loaded', () => {
+      test('reports if plugins are loaded', function() {
         Gerrit._arePluginsLoaded.returns(true);
         element.timeEnd('foo');
         assert.isTrue(element.defaultReporter.called);
       });
 
-      test('reports cached events preserving order', () => {
+      test('reports cached events preserving order', function() {
         Gerrit._arePluginsLoaded.returns(false);
         element.timeEnd('foo');
         Gerrit._arePluginsLoaded.returns(true);
@@ -134,38 +134,38 @@ limitations under the License.
       });
     });
 
-    suite('location changed', () => {
-      let pathnameStub;
-      setup(() => {
+    suite('location changed', function() {
+      var pathnameStub;
+      setup(function() {
         pathnameStub = sinon.stub(element, '_getPathname');
       });
 
-      teardown(() => {
+      teardown(function() {
         pathnameStub.restore();
       });
 
-      test('search', () => {
+      test('search', function() {
         pathnameStub.returns('/q/foo');
         element.locationChanged();
         assert.isTrue(element.reporter.calledWithExactly(
             'nav-report', 'Location Changed', 'Page', '/q/'));
       });
 
-      test('change view', () => {
+      test('change view', function() {
         pathnameStub.returns('/c/42/');
         element.locationChanged();
         assert.isTrue(element.reporter.calledWithExactly(
             'nav-report', 'Location Changed', 'Page', '/c/'));
       });
 
-      test('change view', () => {
+      test('change view', function() {
         pathnameStub.returns('/c/41/2');
         element.locationChanged();
         assert.isTrue(element.reporter.calledWithExactly(
             'nav-report', 'Location Changed', 'Page', '/c/'));
       });
 
-      test('diff view', () => {
+      test('diff view', function() {
         pathnameStub.returns('/c/41/2/file.txt');
         element.locationChanged();
         assert.isTrue(element.reporter.calledWithExactly(
@@ -173,50 +173,37 @@ limitations under the License.
       });
     });
 
-    suite('exception logging', () => {
-      let fakeWindow;
-      let reporter;
+    suite('exception logging', function() {
+      var fakeWindow;
+      var reporter;
 
-      const emulateThrow = function(msg, url, line, column, error) {
+      var emulateThrow = function(msg, url, line, column, error) {
         return fakeWindow.onerror(msg, url, line, column, error);
       };
 
-      setup(() => {
+      setup(function() {
         reporter = sandbox.stub(GrReporting.prototype, 'reporter');
-        fakeWindow = {
-          handlers: {},
-          addEventListener(type, handler) {
-            this.handlers[type] = handler;
-          },
-        };
+        fakeWindow = {};
         sandbox.stub(console, 'error');
         window.GrReporting._catchErrors(fakeWindow);
       });
 
-      test('is reported', () => {
-        const error = new Error('bar');
+      test('is reported', function() {
+        var error = new Error('bar');
         emulateThrow('bar', 'http://url', 4, 2, error);
-        assert.isTrue(reporter.calledWith('error', 'exception', 'bar'));
-        const payload = reporter.lastCall.args[3];
+        assert.isTrue(
+            reporter.calledWith('error', 'exception', 'bar'));
+        var payload = reporter.lastCall.args[3];
         assert.deepEqual(payload, {
           url: 'http://url',
           line: 4,
           column: 2,
-          error,
+          error: error,
         });
       });
 
-      test('prevent default event handler', () => {
+      test('prevent default event handler', function() {
         assert.isTrue(emulateThrow());
-      });
-
-      test('unhandled rejection', () => {
-        fakeWindow.handlers['unhandledrejection']({
-          reason: {
-            message: 'bar',
-          },
-        });
-        assert.isTrue(reporter.calledWith('error', 'exception', 'bar'));
       });
     });
   });

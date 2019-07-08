@@ -16,13 +16,13 @@ package com.google.gerrit.server.index.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.index.FieldDef.exact;
-import static com.google.gerrit.index.FieldDef.fullText;
-import static com.google.gerrit.index.FieldDef.intRange;
-import static com.google.gerrit.index.FieldDef.integer;
-import static com.google.gerrit.index.FieldDef.prefix;
-import static com.google.gerrit.index.FieldDef.storedOnly;
-import static com.google.gerrit.index.FieldDef.timestamp;
+import static com.google.gerrit.server.index.FieldDef.exact;
+import static com.google.gerrit.server.index.FieldDef.fullText;
+import static com.google.gerrit.server.index.FieldDef.intRange;
+import static com.google.gerrit.server.index.FieldDef.integer;
+import static com.google.gerrit.server.index.FieldDef.prefix;
+import static com.google.gerrit.server.index.FieldDef.storedOnly;
+import static com.google.gerrit.server.index.FieldDef.timestamp;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
@@ -34,25 +34,25 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 import com.google.gerrit.common.data.SubmitRecord;
-import com.google.gerrit.index.FieldDef;
-import com.google.gerrit.index.SchemaUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.OutputFormat;
-import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.StarredChangesUtil;
-import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.index.RefState;
+import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.FieldDef.FillArgs;
+import com.google.gerrit.server.index.SchemaUtil;
+import com.google.gerrit.server.index.change.StalenessChecker.RefState;
 import com.google.gerrit.server.index.change.StalenessChecker.RefStatePattern;
-import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
@@ -73,12 +73,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.Stream;
-import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.revwalk.FooterLine;
 
 /**
  * Fields indexed on change documents.
@@ -145,13 +142,10 @@ public class ChangeField {
           .buildRepeatable(cd -> firstNonNull(cd.currentFilePaths(), ImmutableList.of()));
 
   public static Set<String> getFileParts(ChangeData cd) throws OrmException {
-    List<String> paths;
-    try {
-      paths = cd.currentFilePaths();
-    } catch (IOException e) {
-      throw new OrmException(e);
+    List<String> paths = cd.currentFilePaths();
+    if (paths == null) {
+      return ImmutableSet.of();
     }
-
     Splitter s = Splitter.on('/').omitEmptyStrings();
     Set<String> r = new HashSet<>();
     for (String path : paths) {
@@ -190,29 +184,6 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> REVIEWER =
       exact("reviewer2").stored().buildRepeatable(cd -> getReviewerFieldValues(cd.reviewers()));
 
-  /** Reviewer(s) associated with the change that do not have a gerrit account. */
-  public static final FieldDef<ChangeData, Iterable<String>> REVIEWER_BY_EMAIL =
-      exact("reviewer_by_email")
-          .stored()
-          .buildRepeatable(cd -> getReviewerByEmailFieldValues(cd.reviewersByEmail()));
-
-  /** Reviewer(s) modified during change's current WIP phase. */
-  public static final FieldDef<ChangeData, Iterable<String>> PENDING_REVIEWER =
-      exact(ChangeQueryBuilder.FIELD_PENDING_REVIEWER)
-          .stored()
-          .buildRepeatable(cd -> getReviewerFieldValues(cd.pendingReviewers()));
-
-  /** Reviewer(s) by email modified during change's current WIP phase. */
-  public static final FieldDef<ChangeData, Iterable<String>> PENDING_REVIEWER_BY_EMAIL =
-      exact(ChangeQueryBuilder.FIELD_PENDING_REVIEWER_BY_EMAIL)
-          .stored()
-          .buildRepeatable(cd -> getReviewerByEmailFieldValues(cd.pendingReviewersByEmail()));
-
-  /** References a change that this change reverts. */
-  public static final FieldDef<ChangeData, Integer> REVERT_OF =
-      integer(ChangeQueryBuilder.FIELD_REVERTOF)
-          .build(cd -> cd.change().getRevertOf() != null ? cd.change().getRevertOf().get() : null);
-
   @VisibleForTesting
   static List<String> getReviewerFieldValues(ReviewerSet reviewers) {
     List<String> r = new ArrayList<>(reviewers.asTable().size() * 2);
@@ -227,27 +198,6 @@ public class ChangeField {
 
   public static String getReviewerFieldValue(ReviewerStateInternal state, Account.Id id) {
     return state.toString() + ',' + id;
-  }
-
-  @VisibleForTesting
-  static List<String> getReviewerByEmailFieldValues(ReviewerByEmailSet reviewersByEmail) {
-    List<String> r = new ArrayList<>(reviewersByEmail.asTable().size() * 2);
-    for (Table.Cell<ReviewerStateInternal, Address, Timestamp> c :
-        reviewersByEmail.asTable().cellSet()) {
-      String v = getReviewerByEmailFieldValue(c.getRowKey(), c.getColumnKey());
-      r.add(v);
-      if (c.getColumnKey().getName() != null) {
-        // Add another entry without the name to provide search functionality on the email
-        Address emailOnly = new Address(c.getColumnKey().getEmail());
-        r.add(getReviewerByEmailFieldValue(c.getRowKey(), emailOnly));
-      }
-      r.add(v + ',' + c.getValue().getTime());
-    }
-    return r;
-  }
-
-  public static String getReviewerByEmailFieldValue(ReviewerStateInternal state, Address adr) {
-    return state.toString() + ',' + adr;
   }
 
   public static ReviewerSet parseReviewerFieldValues(Iterable<String> values) {
@@ -268,25 +218,6 @@ public class ChangeField {
           new Timestamp(Long.valueOf(v.substring(l + 1, v.length()))));
     }
     return ReviewerSet.fromTable(b.build());
-  }
-
-  public static ReviewerByEmailSet parseReviewerByEmailFieldValues(Iterable<String> values) {
-    ImmutableTable.Builder<ReviewerStateInternal, Address, Timestamp> b = ImmutableTable.builder();
-    for (String v : values) {
-      int f = v.indexOf(',');
-      if (f < 0) {
-        continue;
-      }
-      int l = v.lastIndexOf(',');
-      if (l == f) {
-        continue;
-      }
-      b.put(
-          ReviewerStateInternal.valueOf(v.substring(0, f)),
-          Address.parse(v.substring(f + 1, l)),
-          new Timestamp(Long.valueOf(v.substring(l + 1, v.length()))));
-    }
-    return ReviewerByEmailSet.fromTable(b.build());
   }
 
   /** Commit ID of any patch set on the change, using prefix match. */
@@ -310,10 +241,22 @@ public class ChangeField {
   /** Tracking id extracted from a footer. */
   public static final FieldDef<ChangeData, Iterable<String>> TR =
       exact(ChangeQueryBuilder.FIELD_TR)
-          .buildRepeatable(cd -> ImmutableSet.copyOf(cd.trackingFooters().values()));
+          .buildRepeatable(
+              (ChangeData cd, FillArgs a) -> {
+                List<FooterLine> footers = cd.commitFooters();
+                if (footers == null) {
+                  return ImmutableSet.of();
+                }
+                return Sets.newHashSet(a.trackingFooters.extract(footers).values());
+              });
+
+  /** List of labels on the current patch set. */
+  @Deprecated
+  public static final FieldDef<ChangeData, Iterable<String>> LABEL =
+      exact(ChangeQueryBuilder.FIELD_LABEL).buildRepeatable(cd -> getLabels(cd, false));
 
   /** List of labels on the current patch set including change owner votes. */
-  public static final FieldDef<ChangeData, Iterable<String>> LABEL =
+  public static final FieldDef<ChangeData, Iterable<String>> LABEL2 =
       exact("label2").buildRepeatable(cd -> getLabels(cd, true));
 
   private static Iterable<String> getLabels(ChangeData cd, boolean owners) throws OrmException {
@@ -337,34 +280,8 @@ public class ChangeField {
     return SchemaUtil.getPersonParts(cd.getAuthor());
   }
 
-  public static Set<String> getAuthorNameAndEmail(ChangeData cd) throws OrmException, IOException {
-    return getNameAndEmail(cd.getAuthor());
-  }
-
   public static Set<String> getCommitterParts(ChangeData cd) throws OrmException, IOException {
     return SchemaUtil.getPersonParts(cd.getCommitter());
-  }
-
-  public static Set<String> getCommitterNameAndEmail(ChangeData cd)
-      throws OrmException, IOException {
-    return getNameAndEmail(cd.getCommitter());
-  }
-
-  private static Set<String> getNameAndEmail(PersonIdent person) {
-    if (person == null) {
-      return ImmutableSet.of();
-    }
-
-    String name = person.getName().toLowerCase(Locale.US);
-    String email = person.getEmailAddress().toLowerCase(Locale.US);
-
-    StringBuilder nameEmailBuilder = new StringBuilder();
-    PersonIdent.appendSanitized(nameEmailBuilder, name);
-    nameEmailBuilder.append(" <");
-    PersonIdent.appendSanitized(nameEmailBuilder, email);
-    nameEmailBuilder.append('>');
-
-    return ImmutableSet.of(name, email, nameEmailBuilder.toString());
   }
 
   /**
@@ -374,22 +291,12 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> AUTHOR =
       fullText(ChangeQueryBuilder.FIELD_AUTHOR).buildRepeatable(ChangeField::getAuthorParts);
 
-  /** The exact name, email address and NameEmail of the author. */
-  public static final FieldDef<ChangeData, Iterable<String>> EXACT_AUTHOR =
-      exact(ChangeQueryBuilder.FIELD_EXACTAUTHOR)
-          .buildRepeatable(ChangeField::getAuthorNameAndEmail);
-
   /**
    * The exact email address, or any part of the committer name or email address, in the current
    * patch set.
    */
   public static final FieldDef<ChangeData, Iterable<String>> COMMITTER =
       fullText(ChangeQueryBuilder.FIELD_COMMITTER).buildRepeatable(ChangeField::getCommitterParts);
-
-  /** The exact name, email address, and NameEmail of the committer. */
-  public static final FieldDef<ChangeData, Iterable<String>> EXACT_COMMITTER =
-      exact(ChangeQueryBuilder.FIELD_EXACTCOMMITTER)
-          .buildRepeatable(ChangeField::getCommitterNameAndEmail);
 
   public static final ProtobufCodec<Change> CHANGE_CODEC = CodecFactory.encoder(Change.class);
 
@@ -431,11 +338,16 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> COMMENT =
       fullText(ChangeQueryBuilder.FIELD_COMMENT)
           .buildRepeatable(
-              cd ->
-                  Stream.concat(
-                          cd.publishedComments().stream().map(c -> c.message),
-                          cd.messages().stream().map(ChangeMessage::getMessage))
-                      .collect(toSet()));
+              cd -> {
+                Set<String> r = new HashSet<>();
+                for (Comment c : cd.publishedComments()) {
+                  r.add(c.message);
+                }
+                for (ChangeMessage m : cd.messages()) {
+                  r.add(m.getMessage());
+                }
+                return r;
+              });
 
   /** Number of unresolved comments of the change. */
   public static final FieldDef<ChangeData, Integer> UNRESOLVED_COMMENT_COUNT =
@@ -473,30 +385,22 @@ public class ChangeField {
       intRange(ChangeQueryBuilder.FIELD_DELTA)
           .build(cd -> cd.changedLines().map(c -> c.insertions + c.deletions).orElse(null));
 
-  /** Determines if this change is private. */
-  public static final FieldDef<ChangeData, String> PRIVATE =
-      exact(ChangeQueryBuilder.FIELD_PRIVATE).build(cd -> cd.change().isPrivate() ? "1" : "0");
-
-  /** Determines if this change is work in progress. */
-  public static final FieldDef<ChangeData, String> WIP =
-      exact(ChangeQueryBuilder.FIELD_WIP).build(cd -> cd.change().isWorkInProgress() ? "1" : "0");
-
-  /** Determines if this change has started review. */
-  public static final FieldDef<ChangeData, String> STARTED =
-      exact(ChangeQueryBuilder.FIELD_STARTED)
-          .build(cd -> cd.change().hasReviewStarted() ? "1" : "0");
-
   /** Users who have commented on this change. */
   public static final FieldDef<ChangeData, Iterable<Integer>> COMMENTBY =
       integer(ChangeQueryBuilder.FIELD_COMMENTBY)
           .buildRepeatable(
-              cd ->
-                  Stream.concat(
-                          cd.messages().stream().map(ChangeMessage::getAuthor),
-                          cd.publishedComments().stream().map(c -> c.author.getId()))
-                      .filter(Objects::nonNull)
-                      .map(Account.Id::get)
-                      .collect(toSet()));
+              cd -> {
+                Set<Integer> r = new HashSet<>();
+                for (ChangeMessage m : cd.messages()) {
+                  if (m.getAuthor() != null) {
+                    r.add(m.getAuthor().get());
+                  }
+                }
+                for (Comment c : cd.publishedComments()) {
+                  r.add(c.author.getId().get());
+                }
+                return r;
+              });
 
   /** Star labels on this change in the format: &lt;account-id&gt;:&lt;label&gt; */
   public static final FieldDef<ChangeData, Iterable<String>> STAR =
@@ -519,8 +423,13 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> GROUP =
       exact(ChangeQueryBuilder.FIELD_GROUP)
           .buildRepeatable(
-              cd ->
-                  cd.patchSets().stream().flatMap(ps -> ps.getGroups().stream()).collect(toSet()));
+              cd -> {
+                Set<String> r = Sets.newHashSetWithExpectedSize(1);
+                for (PatchSet ps : cd.patchSets()) {
+                  r.addAll(ps.getGroups());
+                }
+                return r;
+              });
 
   public static final ProtobufCodec<PatchSet> PATCH_SET_CODEC =
       CodecFactory.encoder(PatchSet.class);
@@ -560,13 +469,17 @@ public class ChangeField {
                 if (reviewedBy.isEmpty()) {
                   return ImmutableSet.of(NOT_REVIEWED);
                 }
-                return reviewedBy.stream().map(Account.Id::get).collect(toList());
+                List<Integer> result = new ArrayList<>(reviewedBy.size());
+                for (Account.Id id : reviewedBy) {
+                  result.add(id.get());
+                }
+                return result;
               });
 
   // Submit rule options in this class should never use fastEvalLabels. This
   // slows down indexing slightly but produces correct search results.
   public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_LENIENT =
-      SubmitRuleOptions.defaults().allowClosed(true).build();
+      SubmitRuleOptions.defaults().allowClosed(true).allowDraft(true).build();
 
   public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_STRICT =
       SubmitRuleOptions.defaults().build();
@@ -701,7 +614,7 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<byte[]>> REF_STATE =
       storedOnly("ref_state")
           .buildRepeatable(
-              cd -> {
+              (cd, a) -> {
                 List<byte[]> result = new ArrayList<>();
                 Project.NameKey project = cd.change().getProject();
 
@@ -710,7 +623,7 @@ public class ChangeField {
                     .forEach(r -> result.add(RefState.of(r).toByteArray(project)));
                 cd.starRefs()
                     .values()
-                    .forEach(r -> result.add(RefState.of(r.ref()).toByteArray(allUsers(cd))));
+                    .forEach(r -> result.add(RefState.of(r.ref()).toByteArray(a.allUsers)));
 
                 if (PrimaryStorage.of(cd.change()) == PrimaryStorage.NOTE_DB) {
                   ChangeNotes notes = cd.notes();
@@ -723,7 +636,7 @@ public class ChangeField {
                           .toByteArray(project));
                   cd.draftRefs()
                       .values()
-                      .forEach(r -> result.add(RefState.of(r).toByteArray(allUsers(cd))));
+                      .forEach(r -> result.add(RefState.of(r).toByteArray(a.allUsers)));
                 }
 
                 return result;
@@ -738,7 +651,7 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<byte[]>> REF_STATE_PATTERN =
       storedOnly("ref_state_pattern")
           .buildRepeatable(
-              cd -> {
+              (cd, a) -> {
                 Change.Id id = cd.getId();
                 Project.NameKey project = cd.change().getProject();
                 List<byte[]> result = new ArrayList<>(3);
@@ -748,11 +661,11 @@ public class ChangeField {
                         .toByteArray(project));
                 result.add(
                     RefStatePattern.create(RefNames.refsStarredChangesPrefix(id) + "*")
-                        .toByteArray(allUsers(cd)));
+                        .toByteArray(a.allUsers));
                 if (PrimaryStorage.of(cd.change()) == PrimaryStorage.NOTE_DB) {
                   result.add(
                       RefStatePattern.create(RefNames.refsDraftCommentsPrefix(id) + "*")
-                          .toByteArray(allUsers(cd)));
+                          .toByteArray(a.allUsers));
                 }
                 return result;
               });
@@ -785,9 +698,5 @@ public class ChangeField {
 
   private static <T> FieldDef.Getter<ChangeData, T> changeGetter(Function<Change, T> func) {
     return in -> in.change() != null ? func.apply(in.change()) : null;
-  }
-
-  private static AllUsersName allUsers(ChangeData cd) {
-    return cd.getAllUsersNameForIndexing();
   }
 }

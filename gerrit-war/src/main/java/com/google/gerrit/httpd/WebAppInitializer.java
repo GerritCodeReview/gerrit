@@ -34,7 +34,6 @@ import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.server.LibModuleLoader;
 import com.google.gerrit.server.ModuleOverloader;
 import com.google.gerrit.server.StartupChecks;
-import com.google.gerrit.server.account.AccountDeactivator;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.cache.h2.H2CacheModule;
 import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
@@ -52,23 +51,20 @@ import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.events.StreamEventsApiListener;
 import com.google.gerrit.server.git.GarbageCollectionModule;
 import com.google.gerrit.server.git.GitRepositoryManagerModule;
+import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.git.receive.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
-import com.google.gerrit.server.index.OnlineUpgrader;
-import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.receive.MailReceiver;
 import com.google.gerrit.server.mail.send.SmtpEmailSender;
 import com.google.gerrit.server.mime.MimeUtil2Module;
-import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.notedb.ConfigNotesMigration;
 import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
 import com.google.gerrit.server.plugins.PluginRestApiModule;
-import com.google.gerrit.server.project.DefaultPermissionBackendModule;
 import com.google.gerrit.server.schema.DataSourceModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DataSourceType;
@@ -297,7 +293,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
       modules.add(new GerritServerConfigModule());
     }
     modules.add(new DatabaseModule());
-    modules.add(new NotesMigration.Module());
+    modules.add(new ConfigNotesMigration.Module());
     modules.add(new DropWizardMetricMaker.ApiModule());
     return Guice.createInjector(PRODUCTION, modules);
   }
@@ -324,12 +320,26 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new SearchingChangeCacheImpl.Module());
     modules.add(new InternalAccountDirectory.Module());
-    modules.add(new DefaultPermissionBackendModule());
     modules.add(new DefaultMemoryCacheModule());
     modules.add(new H2CacheModule());
     modules.add(cfgInjector.getInstance(MailReceiver.Module.class));
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
+
+    // Plugin module needs to be inserted *before* the index module.
+    // There is the concept of LifecycleModule, in Gerrit's own extension
+    // to Guice, which has these:
+    //  listener().to(SomeClassImplementingLifecycleListener.class);
+    // and the start() methods of each such listener are executed in the
+    // order they are declared.
+    // Makes sure that PluginLoader.start() is executed before the
+    // LuceneIndexModule.start() so that plugins get loaded and the respective
+    // Guice modules installed so that the on-line reindexing will happen
+    // with the proper classes (e.g. group backends, custom Prolog
+    // predicates) and the associated rules ready to be evaluated.
+    modules.add(new PluginModule());
+    modules.add(new PluginRestApiModule());
+
     modules.add(new RestCacheAdminModule());
     modules.add(new GpgModule(config));
     modules.add(new StartupChecks.Module());
@@ -338,12 +348,6 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     // work queue can get stuck waiting on index futures that will never return.
     modules.add(createIndexModule());
 
-    modules.add(new PluginModule());
-    if (VersionManager.getOnlineUpgrade(config)) {
-      modules.add(new OnlineUpgrader.Module());
-    }
-
-    modules.add(new PluginRestApiModule());
     modules.add(new WorkQueue.Module());
     modules.add(
         new CanonicalWebUrlModule() {
@@ -362,7 +366,6 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
         });
     modules.add(new GarbageCollectionModule());
     modules.add(new ChangeCleanupRunner.Module());
-    modules.add(new AccountDeactivator.Module());
     return cfgInjector.createChildInjector(
         ModuleOverloader.override(modules, LibModuleLoader.loadModules(cfgInjector)));
   }
@@ -370,9 +373,9 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
   private Module createIndexModule() {
     switch (indexType) {
       case LUCENE:
-        return LuceneIndexModule.latestVersion();
+        return LuceneIndexModule.latestVersionWithOnlineUpgrade();
       case ELASTICSEARCH:
-        return ElasticIndexModule.latestVersion();
+        return ElasticIndexModule.latestVersionWithOnlineUpgrade();
       default:
         throw new IllegalStateException("unsupported index.type = " + indexType);
     }

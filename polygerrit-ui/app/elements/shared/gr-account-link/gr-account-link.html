@@ -16,13 +16,11 @@ limitations under the License.
 
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../gr-account-label/gr-account-label.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-account-link">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         display: inline-block;
       }
@@ -37,7 +35,7 @@ limitations under the License.
       }
     </style>
     <span>
-      <a href$="[[_computeOwnerLink(account)]]" tabindex="-1">
+      <a href$="[[_computeOwnerLink(account)]]">
         <gr-account-label account="[[account]]"
             avatar-image-size="[[avatarImageSize]]"
             show-email="[[_computeShowEmail(account)]]"></gr-account-label>

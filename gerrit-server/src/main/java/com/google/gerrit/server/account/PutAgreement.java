@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.ContributorAgreement;
-import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.AgreementInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -44,6 +43,7 @@ import org.eclipse.jgit.lib.Config;
 @Singleton
 public class PutAgreement implements RestModifyView<AccountResource, AgreementInput> {
   private final ProjectCache projectCache;
+  private final GroupCache groupCache;
   private final Provider<IdentifiedUser> self;
   private final AgreementSignup agreementSignup;
   private final AddMembers addMembers;
@@ -52,11 +52,13 @@ public class PutAgreement implements RestModifyView<AccountResource, AgreementIn
   @Inject
   PutAgreement(
       ProjectCache projectCache,
+      GroupCache groupCache,
       Provider<IdentifiedUser> self,
       AgreementSignup agreementSignup,
       AddMembers addMembers,
       @GerritServerConfig Config config) {
     this.projectCache = projectCache;
+    this.groupCache = groupCache;
     this.self = self;
     this.agreementSignup = agreementSignup;
     this.addMembers = addMembers;
@@ -90,12 +92,13 @@ public class PutAgreement implements RestModifyView<AccountResource, AgreementIn
       throw new ResourceConflictException("autoverify group uuid not found");
     }
 
-    Account account = self.get().getAccount();
-    try {
-      addMembers.addMembers(uuid, ImmutableList.of(account.getId()));
-    } catch (NoSuchGroupException e) {
+    AccountGroup group = groupCache.get(uuid);
+    if (group == null) {
       throw new ResourceConflictException("autoverify group not found");
     }
+
+    Account account = self.get().getAccount();
+    addMembers.addMembers(group.getId(), ImmutableList.of(account.getId()));
     agreementSignup.fire(account, agreementName);
 
     return Response.ok(agreementName);

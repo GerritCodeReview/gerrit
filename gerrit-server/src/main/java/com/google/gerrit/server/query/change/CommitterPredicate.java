@@ -22,7 +22,7 @@ import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 
 public class CommitterPredicate extends ChangeIndexPredicate {
-  public CommitterPredicate(String value) {
+  CommitterPredicate(String value) {
     super(COMMITTER, FIELD_COMMITTER, value.toLowerCase());
   }
 

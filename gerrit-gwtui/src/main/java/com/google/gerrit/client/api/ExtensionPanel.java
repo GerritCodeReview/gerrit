@@ -22,10 +22,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,58 +32,18 @@ public class ExtensionPanel extends FlowPanel {
   private final List<Context> contexts;
 
   public ExtensionPanel(GerritUiExtensionPoint extensionPoint) {
-    this(extensionPoint, new ArrayList<String>());
-  }
-
-  public ExtensionPanel(GerritUiExtensionPoint extensionPoint, List<String> panelNames) {
     this.extensionPoint = extensionPoint;
-    this.contexts = create(panelNames);
+    this.contexts = create();
   }
 
-  private List<Context> create(List<String> panelNames) {
+  private List<Context> create() {
     List<Context> contexts = new ArrayList<>();
-    for (Definition def : getOrderedDefs(panelNames)) {
+    for (Definition def : Natives.asList(Definition.get(extensionPoint.name()))) {
       SimplePanel p = new SimplePanel();
       add(p);
       contexts.add(Context.create(def, p));
     }
     return contexts;
-  }
-
-  private List<Definition> getOrderedDefs(List<String> panelNames) {
-    if (panelNames == null) {
-      panelNames = Collections.emptyList();
-    }
-    Map<String, List<Definition>> defsOrderedByName = new LinkedHashMap<>();
-    for (String name : panelNames) {
-      defsOrderedByName.put(name, new ArrayList<Definition>());
-    }
-    for (Definition def : Natives.asList(Definition.get(extensionPoint.name()))) {
-      addDef(def, defsOrderedByName);
-    }
-    List<Definition> orderedDefs = new ArrayList<>();
-    for (List<Definition> defList : defsOrderedByName.values()) {
-      orderedDefs.addAll(defList);
-    }
-    return orderedDefs;
-  }
-
-  private static void addDef(Definition def, Map<String, List<Definition>> defsOrderedByName) {
-    String panelName = def.getPanelName();
-    if (panelName.equals(def.getPluginName() + ".undefined")) {
-      /* Handle a partially undefined panel name from the
-      javascript layer by generating a random panel name.
-      This maintains support for panels that do not provide a name. */
-      panelName =
-          def.getPluginName() + "." + Long.toHexString(Double.doubleToLongBits(Math.random()));
-    }
-    if (defsOrderedByName.containsKey(panelName)) {
-      defsOrderedByName.get(panelName).add(def);
-    } else if (defsOrderedByName.containsKey(def.getPluginName())) {
-      defsOrderedByName.get(def.getPluginName()).add(def);
-    } else {
-      defsOrderedByName.put(panelName, Collections.singletonList(def));
-    }
   }
 
   public void put(GerritUiExtensionPoint.Key key, String value) {
@@ -146,10 +103,9 @@ public class ExtensionPanel extends FlowPanel {
     static final JavaScriptObject TYPE = init();
 
     private static native JavaScriptObject init() /*-{
-      function PanelDefinition(n, c, x) {
+      function PanelDefinition(n, c) {
         this.pluginName = n;
         this.onLoad = c;
-        this.name = x;
       };
       return PanelDefinition;
     }-*/;
@@ -157,10 +113,6 @@ public class ExtensionPanel extends FlowPanel {
     static native JsArray<Definition> get(String i) /*-{ return $wnd.Gerrit.panels[i] || [] }-*/;
 
     protected Definition() {}
-
-    public final native String getPanelName() /*-{ return this.pluginName + "." + this.name; }-*/;
-
-    public final native String getPluginName() /*-{ return this.pluginName; }-*/;
   }
 
   static class Context extends JavaScriptObject {

@@ -22,8 +22,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwtorm.client.KeyUtil;
 
 public class PageLinks {
-  public static final String PROJECT_CHANGE_DELIMITER = "/+/";
-
   public static final String SETTINGS = "/settings/";
   public static final String SETTINGS_PREFERENCES = "/settings/preferences";
   public static final String SETTINGS_DIFF_PREFERENCES = "/settings/diff-preferences";
@@ -53,21 +51,20 @@ public class PageLinks {
   public static final String MY_GROUPS = "/groups/self";
   public static final String DOCUMENTATION = "/Documentation/";
 
-  public static String toChangeInEditMode(@Nullable Project.NameKey project, Change.Id c) {
-    return toChangeNoSlash(project, c) + ",edit/";
+  public static String toChangeInEditMode(Change.Id c) {
+    return "/c/" + c + ",edit/";
   }
 
-  public static String toChange(@Nullable Project.NameKey project, Change.Id c) {
-    return toChangeNoSlash(project, c) + "/";
+  public static String toChange(final Change.Id c) {
+    return "/c/" + c + "/";
   }
 
-  public static String toChange(@Nullable Project.NameKey project, Change.Id c, String p) {
-    return toChange(project, c) + p;
+  public static String toChange(Change.Id c, String p) {
+    return "/c/" + c + "/" + p;
   }
 
-  public static String toChange(
-      @Nullable Project.NameKey project, Change.Id c, String b, String p) {
-    String u = toChange(project, c);
+  public static String toChange(Change.Id c, String b, String p) {
+    String u = "/c/" + c + "/";
     if (b != null) {
       u += b + "..";
     }
@@ -75,22 +72,15 @@ public class PageLinks {
     return u;
   }
 
-  public static String toChangeId(@Nullable Project.NameKey project, Change.Id c) {
-    if (project == null) {
-      return String.valueOf(c.get());
-    }
-    return project.get() + PROJECT_CHANGE_DELIMITER + c.get();
+  public static String toChange(final PatchSet.Id ps) {
+    return "/c/" + ps.getParentKey() + "/" + ps.getId();
   }
 
-  public static String toChange(@Nullable Project.NameKey project, PatchSet.Id ps) {
-    return toChange(project, ps.getParentKey()) + ps.getId();
-  }
-
-  public static String toProject(Project.NameKey p) {
+  public static String toProject(final Project.NameKey p) {
     return ADMIN_PROJECTS + p.get();
   }
 
-  public static String toProjectAcceess(Project.NameKey p) {
+  public static String toProjectAcceess(final Project.NameKey p) {
     return "/admin/projects/" + p.get() + ",access";
   }
 
@@ -110,7 +100,7 @@ public class PageLinks {
     return toChangeQuery(op("assignee", fullname));
   }
 
-  public static String toCustomDashboard(String params) {
+  public static String toCustomDashboard(final String params) {
     return "/dashboard/?" + params;
   }
 
@@ -142,6 +132,7 @@ public class PageLinks {
     switch (status) {
       case ABANDONED:
         return toChangeQuery(status(status) + " " + op("topic", topic));
+      case DRAFT:
       case MERGED:
       case NEW:
         return toChangeQuery(
@@ -168,17 +159,11 @@ public class PageLinks {
         return "status:abandoned";
       case MERGED:
         return "status:merged";
+      case DRAFT:
       case NEW:
       default:
         return "status:open";
     }
-  }
-
-  private static String toChangeNoSlash(@Nullable Project.NameKey project, Change.Id c) {
-    if (project != null) {
-      return "/c/" + project.get() + PROJECT_CHANGE_DELIMITER + c;
-    }
-    return "/c/" + c;
   }
 
   public static String op(String op, int value) {

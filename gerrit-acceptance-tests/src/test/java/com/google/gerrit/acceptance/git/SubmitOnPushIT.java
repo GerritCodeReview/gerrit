@@ -53,7 +53,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Test
   public void submitOnPush() throws Exception {
-    grant(project, "refs/for/refs/heads/master", Permission.SUBMIT);
+    grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
     PushOneCommit.Result r = pushTo("refs/for/master%submit");
     r.assertOkStatus();
     r.assertChange(Change.Status.MERGED, null, admin);
@@ -63,9 +63,9 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Test
   public void submitOnPushWithTag() throws Exception {
-    grant(project, "refs/for/refs/heads/master", Permission.SUBMIT);
-    grant(project, "refs/tags/*", Permission.CREATE);
-    grant(project, "refs/tags/*", Permission.PUSH);
+    grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
+    grant(Permission.CREATE, project, "refs/tags/*");
+    grant(Permission.PUSH, project, "refs/tags/*");
     PushOneCommit.Tag tag = new PushOneCommit.Tag("v1.0");
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     push.setTag(tag);
@@ -79,8 +79,8 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Test
   public void submitOnPushWithAnnotatedTag() throws Exception {
-    grant(project, "refs/for/refs/heads/master", Permission.SUBMIT);
-    grant(project, "refs/tags/*", Permission.PUSH);
+    grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
+    grant(Permission.PUSH, project, "refs/tags/*");
     PushOneCommit.AnnotatedTag tag =
         new PushOneCommit.AnnotatedTag("v1.0", "annotation", admin.getIdent());
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
@@ -95,7 +95,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Test
   public void submitOnPushToRefsMetaConfig() throws Exception {
-    grant(project, "refs/for/refs/meta/config", Permission.SUBMIT);
+    grant(Permission.SUBMIT, project, "refs/for/refs/meta/config");
 
     git().fetch().setRefSpecs(new RefSpec("refs/meta/config:refs/meta/config")).call();
     testRepo.reset(RefNames.REFS_CONFIG);
@@ -113,7 +113,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     push("refs/heads/master", "one change", "a.txt", "some content");
     testRepo.reset(objectId);
 
-    grant(project, "refs/for/refs/heads/master", Permission.SUBMIT);
+    grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
     PushOneCommit.Result r =
         push("refs/for/master%submit", "other change", "a.txt", "other content");
     r.assertErrorStatus();
@@ -129,7 +129,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     push(master, "one change", "a.txt", "some content");
     testRepo.reset(objectId);
 
-    grant(project, "refs/for/refs/heads/master", Permission.SUBMIT);
+    grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
     PushOneCommit.Result r =
         push("refs/for/master%submit", "other change", "b.txt", "other content");
     r.assertOkStatus();
@@ -142,7 +142,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     PushOneCommit.Result r =
         push("refs/for/master", PushOneCommit.SUBJECT, "a.txt", "some content");
 
-    grant(project, "refs/for/refs/heads/master", Permission.SUBMIT);
+    grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
     r =
         push(
             "refs/for/master%submit",
@@ -158,7 +158,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   @Test
   public void submitOnPushNotAllowed_Error() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master%submit");
-    r.assertErrorStatus("update by submit not permitted");
+    r.assertErrorStatus("submit not allowed");
   }
 
   @Test
@@ -170,7 +170,13 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
         push(
             "refs/for/master%submit",
             PushOneCommit.SUBJECT, "a.txt", "other content", r.getChangeId());
-    r.assertErrorStatus("update by submit not permitted");
+    r.assertErrorStatus("submit not allowed");
+  }
+
+  @Test
+  public void submitOnPushingDraft_Error() throws Exception {
+    PushOneCommit.Result r = pushTo("refs/for/master%draft,submit");
+    r.assertErrorStatus("cannot submit draft");
   }
 
   @Test
@@ -182,7 +188,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Test
   public void mergeOnPushToBranch() throws Exception {
-    grant(project, "refs/heads/master", Permission.PUSH);
+    grant(Permission.PUSH, project, "refs/heads/master");
     PushOneCommit.Result r =
         push("refs/for/master", PushOneCommit.SUBJECT, "a.txt", "some content");
     r.assertOkStatus();
@@ -207,9 +213,9 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     enableCreateNewChangeForAllNotInTarget();
     String master = "refs/heads/master";
     String other = "refs/heads/other";
-    grant(project, master, Permission.PUSH);
-    grant(project, other, Permission.CREATE);
-    grant(project, other, Permission.PUSH);
+    grant(Permission.PUSH, project, master);
+    grant(Permission.CREATE, project, other);
+    grant(Permission.PUSH, project, other);
     RevCommit masterRev = getRemoteHead();
     pushCommitTo(masterRev, other);
     PushOneCommit.Result r = createChange();
@@ -244,7 +250,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Test
   public void mergeOnPushToBranchWithNewPatchset() throws Exception {
-    grant(project, "refs/heads/master", Permission.PUSH);
+    grant(Permission.PUSH, project, "refs/heads/master");
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
     RevCommit c1 = r.getCommit();
@@ -279,7 +285,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Test
   public void mergeOnPushToBranchWithOldPatchset() throws Exception {
-    grant(project, "refs/heads/master", Permission.PUSH);
+    grant(Permission.PUSH, project, "refs/heads/master");
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
     RevCommit c1 = r.getCommit();
@@ -306,7 +312,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Test
   public void mergeMultipleOnPushToBranchWithNewPatchset() throws Exception {
-    grant(project, "refs/heads/master", Permission.PUSH);
+    grant(Permission.PUSH, project, "refs/heads/master");
 
     // Create 2 changes.
     ObjectId initialHead = getRemoteHead();

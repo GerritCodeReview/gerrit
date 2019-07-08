@@ -22,7 +22,9 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -30,12 +32,10 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.group.Groups;
 import com.google.gerrit.server.mail.EmailSettings;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
-import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -52,10 +52,8 @@ import org.eclipse.jgit.lib.PersonIdent;
 public class EmailArguments {
   final GitRepositoryManager server;
   final ProjectCache projectCache;
-  final PermissionBackend permissionBackend;
   final GroupBackend groupBackend;
   final GroupIncludeCache groupIncludes;
-  final Groups groups;
   final AccountCache accountCache;
   final PatchListCache patchListCache;
   final ApprovalsUtil approvalsUtil;
@@ -63,6 +61,7 @@ public class EmailArguments {
   final EmailSender emailSender;
   final PatchSetInfoFactory patchSetInfoFactory;
   final IdentifiedUser.GenericFactory identifiedUserFactory;
+  final CapabilityControl.Factory capabilityControlFactory;
   final ChangeNotes.Factory changeNotesFactory;
   final AnonymousUser anonymousUser;
   final String anonymousCowardName;
@@ -79,14 +78,13 @@ public class EmailArguments {
   final SoyTofu soyTofu;
   final EmailSettings settings;
   final DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners;
+  final StarredChangesUtil starredChangesUtil;
   final Provider<InternalAccountQuery> accountQueryProvider;
-  final OutgoingEmailValidator validator;
 
   @Inject
   EmailArguments(
       GitRepositoryManager server,
       ProjectCache projectCache,
-      PermissionBackend permissionBackend,
       GroupBackend groupBackend,
       GroupIncludeCache groupIncludes,
       AccountCache accountCache,
@@ -96,11 +94,11 @@ public class EmailArguments {
       EmailSender emailSender,
       PatchSetInfoFactory patchSetInfoFactory,
       GenericFactory identifiedUserFactory,
+      CapabilityControl.Factory capabilityControlFactory,
       ChangeNotes.Factory changeNotesFactory,
       AnonymousUser anonymousUser,
       @AnonymousCowardName String anonymousCowardName,
       GerritPersonIdentProvider gerritPersonIdentProvider,
-      Groups groups,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       AllProjectsName allProjectsName,
       ChangeQueryBuilder queryBuilder,
@@ -112,11 +110,10 @@ public class EmailArguments {
       @SshAdvertisedAddresses List<String> sshAddresses,
       SitePaths site,
       DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners,
-      Provider<InternalAccountQuery> accountQueryProvider,
-      OutgoingEmailValidator validator) {
+      StarredChangesUtil starredChangesUtil,
+      Provider<InternalAccountQuery> accountQueryProvider) {
     this.server = server;
     this.projectCache = projectCache;
-    this.permissionBackend = permissionBackend;
     this.groupBackend = groupBackend;
     this.groupIncludes = groupIncludes;
     this.accountCache = accountCache;
@@ -126,11 +123,11 @@ public class EmailArguments {
     this.emailSender = emailSender;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.identifiedUserFactory = identifiedUserFactory;
+    this.capabilityControlFactory = capabilityControlFactory;
     this.changeNotesFactory = changeNotesFactory;
     this.anonymousUser = anonymousUser;
     this.anonymousCowardName = anonymousCowardName;
     this.gerritPersonIdent = gerritPersonIdentProvider.get();
-    this.groups = groups;
     this.urlProvider = urlProvider;
     this.allProjectsName = allProjectsName;
     this.queryBuilder = queryBuilder;
@@ -142,7 +139,7 @@ public class EmailArguments {
     this.sshAddresses = sshAddresses;
     this.site = site;
     this.outgoingEmailValidationListeners = outgoingEmailValidationListeners;
+    this.starredChangesUtil = starredChangesUtil;
     this.accountQueryProvider = accountQueryProvider;
-    this.validator = validator;
   }
 }

@@ -14,21 +14,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../behaviors/gr-change-table-behavior/gr-change-table-behavior.html">
-<link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../styles/gr-change-list-styles.html">
-<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-change-list-item/gr-change-list-item.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-change-list">
   <template>
-    <style include="shared-styles">
+    <style>
       #changeList {
         border-collapse: collapse;
         width: 100%;
@@ -38,20 +34,6 @@ limitations under the License.
       }
       th {
         text-align: left;
-      }
-      .groupHeader {
-        background-color: #eee;
-        border-top: 1em solid #fff;
-      }
-      .groupHeader a {
-        color: #000;
-        text-decoration: none;
-      }
-      .groupHeader a:hover {
-        text-decoration: underline;
-      }
-      .headerRow + tr {
-        border: none;
       }
     </style>
     <style include="gr-change-list-styles"></style>
@@ -72,19 +54,17 @@ limitations under the License.
           </th>
         </template>
       </tr>
-      <template is="dom-repeat" items="[[sections]]" as="changeSection"
-          index-as="sectionIndex">
-        <template is="dom-if" if="[[changeSection.sectionName]]">
+      <template is="dom-repeat" items="[[groups]]" as="changeGroup"
+          index-as="groupIndex">
+        <template is="dom-if" if="[[_groupTitle(groupIndex)]]">
           <tr class="groupHeader">
             <td class="cell"
                 colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
-              <a href$="[[_sectionHref(changeSection.query)]]">
-                [[changeSection.sectionName]]
-              </a>
+              [[_groupTitle(groupIndex)]]
             </td>
           </tr>
         </template>
-        <template is="dom-if" if="[[!changeSection.results.length]]">
+        <template is="dom-if" if="[[!changeGroup.length]]">
           <tr class="noChanges">
             <td class="cell"
                 colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
@@ -92,9 +72,9 @@ limitations under the License.
             </td>
           </tr>
         </template>
-        <template is="dom-repeat" items="[[changeSection.results]]" as="change">
+        <template is="dom-repeat" items="[[changeGroup]]" as="change">
           <gr-change-list-item
-              selected$="[[_computeItemSelected(sectionIndex, index, selectedIndex)]]"
+              selected$="[[_computeItemSelected(index, groupIndex, selectedIndex)]]"
               assigned$="[[_computeItemAssigned(account, change)]]"
               needs-review$="[[_computeItemNeedsReview(account, change, showReviewedState)]]"
               change="[[change]]"

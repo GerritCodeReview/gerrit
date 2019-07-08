@@ -36,7 +36,6 @@ import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
@@ -68,7 +67,6 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  * numbers.
  */
 public class RepoSequence {
-  @FunctionalInterface
   public interface Seed {
     int get() throws OrmException;
   }
@@ -87,11 +85,9 @@ public class RepoSequence {
   private static final Retryer<RefUpdate.Result> RETRYER = retryerBuilder().build();
 
   private final GitRepositoryManager repoManager;
-  private final GitReferenceUpdated gitRefUpdated;
   private final Project.NameKey projectName;
   private final String refName;
   private final Seed seed;
-  private final int floor;
   private final int batchSize;
   private final Runnable afterReadRef;
   private final Retryer<RefUpdate.Result> retryer;
@@ -106,68 +102,23 @@ public class RepoSequence {
 
   public RepoSequence(
       GitRepositoryManager repoManager,
-      GitReferenceUpdated gitRefUpdated,
       Project.NameKey projectName,
       String name,
       Seed seed,
       int batchSize) {
-    this(
-        repoManager,
-        gitRefUpdated,
-        projectName,
-        name,
-        seed,
-        batchSize,
-        Runnables.doNothing(),
-        RETRYER,
-        0);
-  }
-
-  public RepoSequence(
-      GitRepositoryManager repoManager,
-      GitReferenceUpdated gitRefUpdated,
-      Project.NameKey projectName,
-      String name,
-      Seed seed,
-      int batchSize,
-      int floor) {
-    this(
-        repoManager,
-        gitRefUpdated,
-        projectName,
-        name,
-        seed,
-        batchSize,
-        Runnables.doNothing(),
-        RETRYER,
-        floor);
+    this(repoManager, projectName, name, seed, batchSize, Runnables.doNothing(), RETRYER);
   }
 
   @VisibleForTesting
   RepoSequence(
       GitRepositoryManager repoManager,
-      GitReferenceUpdated gitRefUpdated,
       Project.NameKey projectName,
       String name,
       Seed seed,
       int batchSize,
       Runnable afterReadRef,
       Retryer<RefUpdate.Result> retryer) {
-    this(repoManager, gitRefUpdated, projectName, name, seed, batchSize, afterReadRef, retryer, 0);
-  }
-
-  RepoSequence(
-      GitRepositoryManager repoManager,
-      GitReferenceUpdated gitRefUpdated,
-      Project.NameKey projectName,
-      String name,
-      Seed seed,
-      int batchSize,
-      Runnable afterReadRef,
-      Retryer<RefUpdate.Result> retryer,
-      int floor) {
     this.repoManager = checkNotNull(repoManager, "repoManager");
-    this.gitRefUpdated = checkNotNull(gitRefUpdated, "gitRefUpdated");
     this.projectName = checkNotNull(projectName, "projectName");
 
     checkArgument(
@@ -179,7 +130,6 @@ public class RepoSequence {
     this.refName = RefNames.REFS_SEQUENCES + name;
 
     this.seed = checkNotNull(seed, "seed");
-    this.floor = floor;
 
     checkArgument(batchSize > 0, "expected batchSize > 0, got: %s", batchSize);
     this.batchSize = batchSize;
@@ -262,13 +212,9 @@ public class RepoSequence {
   }
 
   private void checkResult(RefUpdate.Result result) throws OrmException {
-    if (!refUpdated(result)) {
+    if (result != RefUpdate.Result.NEW && result != RefUpdate.Result.FORCED) {
       throw new OrmException("failed to update " + refName + ": " + result);
     }
-  }
-
-  private boolean refUpdated(RefUpdate.Result result) {
-    return result == RefUpdate.Result.NEW || result == RefUpdate.Result.FORCED;
   }
 
   private class TryAcquire implements Callable<RefUpdate.Result> {
@@ -287,17 +233,15 @@ public class RepoSequence {
     @Override
     public RefUpdate.Result call() throws Exception {
       Ref ref = repo.exactRef(refName);
-      int nextCandidate;
       afterReadRef.run();
       ObjectId oldId;
       if (ref == null) {
         oldId = ObjectId.zeroId();
-        nextCandidate = seed.get();
+        next = seed.get();
       } else {
         oldId = ref.getObjectId();
-        nextCandidate = parse(oldId);
+        next = parse(oldId);
       }
-      next = Math.max(floor, nextCandidate);
       return store(repo, rw, oldId, next + count);
     }
 
@@ -330,11 +274,7 @@ public class RepoSequence {
     }
     ru.setNewObjectId(newId);
     ru.setForceUpdate(true); // Required for non-commitish updates.
-    RefUpdate.Result result = ru.update(rw);
-    if (refUpdated(result)) {
-      gitRefUpdated.fire(projectName, ru, null);
-    }
-    return result;
+    return ru.update(rw);
   }
 
   public static ReceiveCommand storeNew(ObjectInserter ins, String name, int val)

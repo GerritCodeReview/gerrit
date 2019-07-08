@@ -53,3 +53,7 @@ for project in ['gerrit-acceptance-framework', 'gerrit-extension-api',
 
 src_pattern = re.compile(r'^(GERRIT_VERSION = ")([-.\w]+)(")$', re.MULTILINE)
 replace_in_file('version.bzl', src_pattern)
+
+src_pattern = re.compile(r'^(\s*-DarchetypeVersion=)([-.\w]+)(\s*\\)$',
+                         re.MULTILINE)
+replace_in_file(os.path.join('Documentation', 'dev-plugins.txt'), src_pattern)

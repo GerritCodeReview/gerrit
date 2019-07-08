@@ -70,10 +70,10 @@ For more details, see link:cmd-hook-commit-msg.html[commit-msg].
 Change Upload
 --------------
 
-During upload by pushing to `+refs/for/*+` or `+refs/heads/*+`,
-Gerrit will try to find an existing review the uploaded commit
-relates to. For an existing review to match, the following properties
-have to match:
+During upload by pushing to `+refs/for/*+`, `+refs/drafts/*+` or
+`+refs/heads/*+`, Gerrit will try to find an existing review the
+uploaded commit relates to. For an existing review to match, the
+following properties have to match:
 
 * Change-Id
 * Repository name
@@ -104,7 +104,7 @@ message if additional revisions to a change are required.
 By default, Gerrit will prevent pushing for review if no Change-Id is provided,
 with the following message:
 
-  ! [remote rejected] HEAD -> refs/for/master (missing Change-Id in commit
+  ! [remote rejected] HEAD -> refs/publish/master (missing Change-Id in commit
   message footer)
 
 However, repositories can be configured to allow commits without Change-Ids

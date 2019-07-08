@@ -22,20 +22,15 @@ import static org.junit.Assert.fail;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
-import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.extensions.api.projects.ConfigInfo;
-import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.Projects.ListRequest;
 import com.google.gerrit.extensions.api.projects.Projects.ListRequest.FilterType;
-import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.Util;
 import com.google.inject.Inject;
 import java.util.List;
@@ -43,7 +38,6 @@ import java.util.Map;
 import org.junit.Test;
 
 @NoHttpd
-@Sandboxed
 public class ListProjectsIT extends AbstractDaemonTest {
 
   @Inject private AllUsersName allUsers;
@@ -93,7 +87,6 @@ public class ListProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void listProjectsWithLimit() throws Exception {
-    ProjectCacheImpl projectCacheImpl = (ProjectCacheImpl) projectCache;
     for (int i = 0; i < 5; i++) {
       createProject("someProject" + i);
     }
@@ -101,12 +94,9 @@ public class ListProjectsIT extends AbstractDaemonTest {
     String p = name("");
     // 5, plus p which was automatically created.
     int n = 6;
-    projectCacheImpl.evictAllByName();
     for (int i = 1; i <= n + 2; i++) {
       assertThatNameList(gApi.projects().list().withPrefix(p).withLimit(i).get())
           .hasSize(Math.min(i, n));
-      assertThat(projectCacheImpl.sizeAllByName())
-          .isAtMost((long) (i + 2)); // 2 = AllProjects + AllUsers
     }
   }
 
@@ -196,56 +186,6 @@ public class ListProjectsIT extends AbstractDaemonTest {
     assertThat(result).containsKey(allProjects.get());
 
     assertThatNameList(filter(gApi.projects().list().withType(FilterType.ALL).get()))
-        .containsExactly(allProjects, allUsers, project)
-        .inOrder();
-  }
-
-  @Test
-  public void listParentCandidates() throws Exception {
-    Map<String, ProjectInfo> result =
-        gApi.projects().list().withType(FilterType.PARENT_CANDIDATES).getAsMap();
-    assertThat(result).hasSize(1);
-    assertThat(result).containsKey(allProjects.get());
-
-    // Create a new project with 'project' as parent
-    Project.NameKey testProject = createProject(name("test"), project);
-
-    // Parent candidates are All-Projects and 'project'
-    assertThatNameList(filter(gApi.projects().list().withType(FilterType.PARENT_CANDIDATES).get()))
-        .containsExactly(allProjects, project)
-        .inOrder();
-
-    // All projects are listed
-    assertThatNameList(filter(gApi.projects().list().get()))
-        .containsExactly(allProjects, allUsers, testProject, project)
-        .inOrder();
-  }
-
-  @Test
-  public void listWithHiddenProject() throws Exception {
-    Project.NameKey hidden = createProject("project-to-hide");
-
-    // The project is included because it was not hidden yet
-    assertThatNameList(gApi.projects().list().get())
-        .containsExactly(allProjects, allUsers, project, hidden)
-        .inOrder();
-
-    // Hide the project
-    ConfigInput input = new ConfigInput();
-    input.state = ProjectState.HIDDEN;
-    ConfigInfo info = gApi.projects().name(hidden.get()).config(input);
-    assertThat(info.state).isEqualTo(input.state);
-
-    // Project is still accessible directly
-    gApi.projects().name(hidden.get()).get();
-
-    // But is not included in the list
-    assertThatNameList(gApi.projects().list().get())
-        .containsExactly(allProjects, allUsers, project)
-        .inOrder();
-
-    // ALL filter applies to type, and doesn't include hidden state
-    assertThatNameList(gApi.projects().list().withType(FilterType.ALL).get())
         .containsExactly(allProjects, allUsers, project)
         .inOrder();
   }

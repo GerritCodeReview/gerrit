@@ -20,18 +20,20 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.AbstractFuture;
+import com.google.common.util.concurrent.AsyncFunction;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.google.gerrit.index.FieldDef;
-import com.google.gerrit.index.FieldType;
-import com.google.gerrit.index.Index;
-import com.google.gerrit.index.Schema;
-import com.google.gerrit.index.Schema.Values;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.FieldDef.FillArgs;
+import com.google.gerrit.server.index.FieldType;
+import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexUtils;
+import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.Schema.Values;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Set;
@@ -96,7 +98,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     this.sitePaths = sitePaths;
     this.dir = dir;
     this.name = name;
-    String index = Joiner.on('_').skipNulls().join(name, subIndex);
+    final String index = Joiner.on('_').skipNulls().join(name, subIndex);
     IndexWriter delegateWriter;
     long commitPeriod = writerConfig.getCommitWithinMs();
 
@@ -119,25 +121,28 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
       @SuppressWarnings("unused") // Error handling within Runnable.
       Future<?> possiblyIgnoredError =
           autoCommitExecutor.scheduleAtFixedRate(
-              () -> {
-                try {
-                  if (autoCommitWriter.hasUncommittedChanges()) {
-                    autoCommitWriter.manualFlush();
-                    autoCommitWriter.commit();
-                  }
-                } catch (IOException e) {
-                  log.error("Error committing " + index + " Lucene index", e);
-                } catch (OutOfMemoryError e) {
-                  log.error("Error committing " + index + " Lucene index", e);
+              new Runnable() {
+                @Override
+                public void run() {
                   try {
-                    autoCommitWriter.close();
-                  } catch (IOException e2) {
-                    log.error(
-                        "SEVERE: Error closing "
-                            + index
-                            + " Lucene index after OOM;"
-                            + " index may be corrupted.",
-                        e);
+                    if (autoCommitWriter.hasUncommittedChanges()) {
+                      autoCommitWriter.manualFlush();
+                      autoCommitWriter.commit();
+                    }
+                  } catch (IOException e) {
+                    log.error("Error committing " + index + " Lucene index", e);
+                  } catch (OutOfMemoryError e) {
+                    log.error("Error committing " + index + " Lucene index", e);
+                    try {
+                      autoCommitWriter.close();
+                    } catch (IOException e2) {
+                      log.error(
+                          "SEVERE: Error closing "
+                              + index
+                              + " Lucene index after OOM;"
+                              + " index may be corrupted.",
+                          e);
+                    }
                   }
                 }
               },
@@ -242,27 +247,48 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     }
   }
 
-  ListenableFuture<?> insert(Document doc) {
-    return submit(() -> writer.addDocument(doc));
+  ListenableFuture<?> insert(final Document doc) {
+    return submit(
+        new Callable<Long>() {
+          @Override
+          public Long call() throws IOException, InterruptedException {
+            return writer.addDocument(doc);
+          }
+        });
   }
 
-  ListenableFuture<?> replace(Term term, Document doc) {
-    return submit(() -> writer.updateDocument(term, doc));
+  ListenableFuture<?> replace(final Term term, final Document doc) {
+    return submit(
+        new Callable<Long>() {
+          @Override
+          public Long call() throws IOException, InterruptedException {
+            return writer.updateDocument(term, doc);
+          }
+        });
   }
 
-  ListenableFuture<?> delete(Term term) {
-    return submit(() -> writer.deleteDocuments(term));
+  ListenableFuture<?> delete(final Term term) {
+    return submit(
+        new Callable<Long>() {
+          @Override
+          public Long call() throws IOException, InterruptedException {
+            return writer.deleteDocuments(term);
+          }
+        });
   }
 
   private ListenableFuture<?> submit(Callable<Long> task) {
     ListenableFuture<Long> future = Futures.nonCancellationPropagating(writerThread.submit(task));
     return Futures.transformAsync(
         future,
-        gen -> {
-          // Tell the reopen thread a future is waiting on this
-          // generation so it uses the min stale time when refreshing.
-          reopenThread.waitForGeneration(gen, 0);
-          return new NrtFuture(gen);
+        new AsyncFunction<Long, Void>() {
+          @Override
+          public ListenableFuture<Void> apply(Long gen) throws InterruptedException {
+            // Tell the reopen thread a future is waiting on this
+            // generation so it uses the min stale time when refreshing.
+            reopenThread.waitForGeneration(gen, 0);
+            return new NrtFuture(gen);
+          }
         },
         directExecutor());
   }
@@ -284,9 +310,9 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     searcherManager.release(searcher);
   }
 
-  Document toDocument(V obj) {
+  Document toDocument(V obj, FillArgs fillArgs) {
     Document result = new Document();
-    for (Values<V> vs : schema.buildFields(obj)) {
+    for (Values<V> vs : schema.buildFields(obj, fillArgs)) {
       if (vs.getValues() != null) {
         add(result, vs);
       }

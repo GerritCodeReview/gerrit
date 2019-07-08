@@ -46,12 +46,11 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
   private final Account.Id ownerId;
   private final boolean mine;
   private ChangeTable table;
-  private ChangeTable.Section workInProgress;
   private ChangeTable.Section outgoing;
   private ChangeTable.Section incoming;
   private ChangeTable.Section closed;
 
-  public AccountDashboardScreen(Account.Id id) {
+  public AccountDashboardScreen(final Account.Id id) {
     ownerId = id;
     mine = Gerrit.isSignedIn() && ownerId.equals(Gerrit.getUserAccount().getId());
   }
@@ -65,7 +64,7 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
             keysNavigation.add(
                 new KeyCommand(0, 'R', Util.C.keyReloadSearch()) {
                   @Override
-                  public void onKeyPress(KeyPressEvent event) {
+                  public void onKeyPress(final KeyPressEvent event) {
                     Gerrit.display(getToken());
                   }
                 });
@@ -73,15 +72,11 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
         };
     table.addStyleName(Gerrit.RESOURCES.css().accountDashboard());
 
-    workInProgress = new ChangeTable.Section();
     outgoing = new ChangeTable.Section();
     incoming = new ChangeTable.Section();
     closed = new ChangeTable.Section();
 
     String who = mine ? "self" : ownerId.toString();
-    workInProgress.setTitleWidget(
-        new InlineHyperlink(
-            Util.C.workInProgress(), PageLinks.toChangeQuery(queryWorkInProgress(who))));
     outgoing.setTitleWidget(
         new InlineHyperlink(Util.C.outgoingReviews(), PageLinks.toChangeQuery(queryOutgoing(who))));
     incoming.setTitleWidget(
@@ -90,7 +85,6 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
     closed.setTitleWidget(
         new InlineHyperlink(Util.C.recentlyClosed(), PageLinks.toChangeQuery(queryClosed(who))));
 
-    table.addSection(workInProgress);
     table.addSection(outgoing);
     table.addSection(incoming);
     table.addSection(closed);
@@ -98,12 +92,8 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
     table.setSavePointerId("owner:" + ownerId);
   }
 
-  private static String queryWorkInProgress(String who) {
-    return "is:open is:wip owner:" + who;
-  }
-
   private static String queryOutgoing(String who) {
-    return "is:open -is:wip owner:" + who;
+    return "is:open owner:" + who;
   }
 
   private static String queryIncoming(String who) {
@@ -111,7 +101,7 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
         + who
         + " -owner:"
         + who
-        + " -is:ignored) OR assignee:"
+        + " -star:ignore) OR assignee:"
         + who
         + ")";
   }
@@ -133,7 +123,6 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
           }
         },
         mine ? MY_DASHBOARD_OPTIONS : DashboardTable.OPTIONS,
-        queryWorkInProgress(who),
         queryOutgoing(who),
         queryIncoming(who),
         queryClosed(who) + " -age:4w limit:10");
@@ -153,10 +142,9 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
       return;
     }
 
-    ChangeList wip = result.get(0);
-    ChangeList out = result.get(1);
-    ChangeList in = result.get(2);
-    ChangeList done = result.get(3);
+    ChangeList out = result.get(0);
+    ChangeList in = result.get(1);
+    ChangeList done = result.get(2);
 
     if (mine) {
       setWindowTitle(Util.C.myDashboardTitle());
@@ -179,8 +167,7 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
 
     Collections.sort(Natives.asList(out), outComparator());
 
-    table.updateColumnsForLabels(wip, out, in, done);
-    workInProgress.display(wip);
+    table.updateColumnsForLabels(out, in, done);
     outgoing.display(out);
     incoming.display(in);
     closed.display(done);

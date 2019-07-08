@@ -58,7 +58,7 @@ public class GetArchive implements RestReadView<RevisionResource> {
       throw new MethodNotAllowedException("zip format is disabled");
     }
     boolean close = true;
-    final Repository repo = repoManager.openRepository(rsrc.getProject());
+    final Repository repo = repoManager.openRepository(rsrc.getControl().getProject().getNameKey());
     try {
       final RevCommit commit;
       String name;

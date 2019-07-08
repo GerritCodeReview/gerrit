@@ -206,37 +206,6 @@ the implicit merge check.
 Default is `INHERIT`, which means that this property is inherited from
 the parent project.
 
-[[change-section]]
-=== Change section
-
-The change section includes configuration for project-specific change settings:
-
-[[change.privateByDefault]]change.privateByDefault::
-+
-Controls whether all new changes in the project are set as private by default.
-+
-Note that a new change will be public if the `is_private` field in
-link:rest-api-changes.html#change-input[ChangeInput] is set to `false` explicitly
-when calling the link:rest-api-changes.html#create-change[CreateChange] REST API
-or the `remove-private` link:user-upload.html#private[PushOption] is used during
-the Git push.
-+
-Default is `INHERIT`, which means that this property is inherited from
-the parent project.
-
-[[change.workInProgressByDefault]]change.workInProgressByDefault::
-+
-Controls whether all new changes in the project are set as WIP by default.
-+
-Note that a new change will be ready if the `workInProgress` field in
-link:rest-api-changes.html#change-input[ChangeInput] is set to `false` explicitly
-when calling the link:rest-api-changes.html#create-change[CreateChange] REST API
-or the `ready` link:user-upload.html#wip[PushOption] is used during
-the Git push.
-+
-Default is `INHERIT`, which means that this property is inherited from
-the parent project.
-
 [[submit-section]]
 === Submit section
 
@@ -249,12 +218,6 @@ are 'true', 'false', or 'INHERIT'.  Default is 'INHERIT'.
 - 'action': defines the link:project-configuration.html#submit_type[submit type].  Valid
 values are 'fast forward only', 'merge if necessary', 'rebase if necessary',
 'merge always' and 'cherry pick'.  The default is 'merge if necessary'.
-
-- 'matchAuthorToCommitterDate': Defines whether to the author date will be changed to match the
-submitter date upon submit, so that git log shows when the change was submitted instead of when the
-author last committed. Valid values are 'true', 'false', or 'INHERIT'. The default is 'INHERIT'.
-This option only takes effect in submit strategies which already modify the commit, i.e.
-Cherry Pick, Rebase Always, and (perhaps) Rebase If Necessary.
 
 Merge strategy
 
@@ -335,22 +298,6 @@ Branches not listed in this section will not be included in the mergeability
 check. If the `branchOrder` section is not defined then the mergeability of a
 change into other branches will not be done.
 
-[[reviewer-section]]
-=== reviewer section
-
-Defines config options to adjust a project's reviewer workflow such as enabling
-reviewers and CCs by email.
-
-[[reviewer.enableByEmail]]reviewer.enableByEmail::
-+
-A boolean indicating if reviewers and CCs that do not currently have a Gerrit
-account can be added to a change by providing their email address.
-
-This setting only takes affect for changes that are readable by anonymous users.
-
-Default is `INHERIT`, which means that this property is inherited from
-the parent project. If the property is not set in any parent project, the
-default value is `FALSE`.
 
 [[file-groups]]
 == The file +groups+

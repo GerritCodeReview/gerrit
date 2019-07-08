@@ -46,7 +46,7 @@ Only subscribe to specific event types:
 
 ----
   $ ssh -p 29418 review.example.com gerrit stream-events \
-      -s patchset-created -s ref-replicated
+      -s draft-published -s patchset-created -s ref-replicated
 ----
 
 == SCHEMA
@@ -153,6 +153,21 @@ comment:: Review comment cover message.
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
 
+=== Draft Published
+
+Sent when a draft change has been published.
+
+type:: "draft-published"
+
+change:: link:json.html#change[change attribute]
+
+patchSet:: link:json.html#patchSet[patchSet attribute]
+
+uploader:: link:json.html#account[account attribute]
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
 === Dropped Output
 
 Sent to notify a client that events have been dropped.
@@ -161,8 +176,7 @@ type:: "dropped-output"
 
 === Hashtags Changed
 
-Sent when the link:intro-user.html#hashtags[hashtags] have been added to or
-removed from a change.
+Sent when the hashtags have been added to or removed from a change.
 
 type:: "hashtags-changed"
 
@@ -196,6 +210,11 @@ created.
 
 Sent when a new change has been uploaded, or a new patch set has been uploaded
 to an existing change.
+
+Note that this event is also sent for changes or patch sets uploaded as draft,
+but is only visible to the change owner, any existing reviewers, and users who
+belong to a group that is granted the
+link:access-control.html#category_view_drafts[View Drafts] capability.
 
 type:: "patchset-created"
 
@@ -268,37 +287,6 @@ change:: link:json.html#change[change attribute]
 changer:: link:json.html#account[account attribute]
 
 oldTopic:: Topic name before it was changed.
-
-eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
-created.
-
-=== Work In Progress State Changed
-
-Sent when the link:intro-user.html#wip[WIP] state of the change has changed.
-
-type:: wip-state-changed
-
-change:: link:json.html#change[change attribute]
-
-patchSet:: link:json.html#patchSet[patchSet attribute]
-
-changer:: link:json.html#account[account attribute]
-
-eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
-created.
-
-=== Private State Changed
-
-Sent when the link:intro-user.html#private-changes[private] state of the
-change has changed.
-
-type:: private-state-changed
-
-change:: link:json.html#change[change attribute]
-
-patchSet:: link:json.html#patchSet[patchSet attribute]
-
-changer:: link:json.html#account[account attribute]
 
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.

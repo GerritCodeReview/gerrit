@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -26,16 +25,13 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.ReviewersUtil;
 import com.google.gerrit.server.ReviewersUtil.VisibilityControl;
+import com.google.gerrit.server.account.AccountVisibility;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.List;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
@@ -48,51 +44,50 @@ public class SuggestChangeReviewers extends SuggestReviewers
       usage = "exclude groups from query")
   boolean excludeGroups;
 
-  private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> self;
-  private final ProjectCache projectCache;
 
   @Inject
   SuggestChangeReviewers(
       AccountVisibility av,
       GenericFactory identifiedUserFactory,
       Provider<ReviewDb> dbProvider,
-      PermissionBackend permissionBackend,
       Provider<CurrentUser> self,
       @GerritServerConfig Config cfg,
-      ReviewersUtil reviewersUtil,
-      ProjectCache projectCache) {
+      ReviewersUtil reviewersUtil) {
     super(av, identifiedUserFactory, dbProvider, cfg, reviewersUtil);
-    this.permissionBackend = permissionBackend;
     this.self = self;
-    this.projectCache = projectCache;
   }
 
   @Override
   public List<SuggestedReviewerInfo> apply(ChangeResource rsrc)
-      throws AuthException, BadRequestException, OrmException, IOException, ConfigInvalidException {
+      throws AuthException, BadRequestException, OrmException, IOException {
     if (!self.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
     return reviewersUtil.suggestReviewers(
         rsrc.getNotes(),
         this,
-        projectCache.checkedGet(rsrc.getProject()),
+        rsrc.getControl().getProjectControl(),
         getVisibility(rsrc),
         excludeGroups);
   }
 
-  private VisibilityControl getVisibility(ChangeResource rsrc) {
-    // Use the destination reference, not the change, as drafts may deny
-    // anyone who is not already a reviewer.
-    // TODO(hiesel) Replace this with a check on the change resource once support for drafts was
-    // removed
-    PermissionBackend.ForRef perm = permissionBackend.user(self).ref(rsrc.getChange().getDest());
+  private VisibilityControl getVisibility(final ChangeResource rsrc) {
+    if (rsrc.getControl().getRefControl().isVisibleByRegisteredUsers()) {
+      return new VisibilityControl() {
+        @Override
+        public boolean isVisibleTo(Account.Id account) throws OrmException {
+          return true;
+        }
+      };
+    }
     return new VisibilityControl() {
       @Override
       public boolean isVisibleTo(Account.Id account) throws OrmException {
         IdentifiedUser who = identifiedUserFactory.create(account);
-        return perm.user(who).testOrFalse(RefPermission.READ);
+        // we can't use changeControl directly as it won't suggest reviewers
+        // to drafts
+        return rsrc.getControl().forUser(who).isRefVisible();
       }
     };
   }

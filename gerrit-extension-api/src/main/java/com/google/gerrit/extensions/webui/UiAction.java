@@ -14,8 +14,6 @@
 
 package com.google.gerrit.extensions.webui;
 
-import com.google.gerrit.common.Nullable;
-import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 
@@ -29,7 +27,6 @@ public interface UiAction<R extends RestResource> extends RestView<R> {
    *     properties. If null the action will assumed unavailable and not presented. This is usually
    *     the same as {@code setVisible(false)}.
    */
-  @Nullable
   Description getDescription(R resource);
 
   /** Describes an action invokable through the web interface. */
@@ -38,8 +35,8 @@ public interface UiAction<R extends RestResource> extends RestView<R> {
     private String id;
     private String label;
     private String title;
-    private BooleanCondition visible = BooleanCondition.TRUE;
-    private BooleanCondition enabled = BooleanCondition.TRUE;
+    private boolean visible = true;
+    private boolean enabled = true;
 
     public String getMethod() {
       return method;
@@ -80,10 +77,6 @@ public interface UiAction<R extends RestResource> extends RestView<R> {
     }
 
     public boolean isVisible() {
-      return getVisibleCondition().value();
-    }
-
-    public BooleanCondition getVisibleCondition() {
       return visible;
     }
 
@@ -92,33 +85,16 @@ public interface UiAction<R extends RestResource> extends RestView<R> {
      * action description may not be sent to the client.
      */
     public Description setVisible(boolean visible) {
-      return setVisible(BooleanCondition.valueOf(visible));
-    }
-
-    /**
-     * Set if the action's button is visible on screen for the current client. If not visible the
-     * action description may not be sent to the client.
-     */
-    public Description setVisible(BooleanCondition visible) {
       this.visible = visible;
       return this;
     }
 
     public boolean isEnabled() {
-      return getEnabledCondition().value();
-    }
-
-    public BooleanCondition getEnabledCondition() {
-      return BooleanCondition.and(enabled, visible);
+      return enabled && isVisible();
     }
 
     /** Set if the button should be invokable (true), or greyed out (false). */
     public Description setEnabled(boolean enabled) {
-      return setEnabled(BooleanCondition.valueOf(enabled));
-    }
-
-    /** Set if the button should be invokable (true), or greyed out (false). */
-    public Description setEnabled(BooleanCondition enabled) {
       this.enabled = enabled;
       return this;
     }

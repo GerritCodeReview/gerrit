@@ -36,22 +36,23 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
-import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
+import com.google.gerrit.server.account.ExternalId;
+import com.google.gerrit.server.account.ExternalIdsUpdate;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryModule;
-import com.google.gerrit.testutil.NoteDbMode;
+import com.google.gerrit.testutil.TestNotesMigration;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -70,7 +71,7 @@ import org.junit.Test;
 
 /** Unit tests for {@link GerritPublicKeyChecker}. */
 public class GerritPublicKeyCheckerTest {
-  @Inject private AccountsUpdate.Server accountsUpdate;
+  @Inject private AccountCache accountCache;
 
   @Inject private AccountManager accountManager;
 
@@ -104,8 +105,7 @@ public class GerritPublicKeyCheckerTest {
         ImmutableList.of(
             Fingerprint.toString(keyB().getPublicKey().getFingerprint()),
             Fingerprint.toString(keyD().getPublicKey().getFingerprint())));
-    Injector injector =
-        Guice.createInjector(new InMemoryModule(cfg, NoteDbMode.newNotesMigrationFromEnv()));
+    Injector injector = Guice.createInjector(new InMemoryModule(cfg, new TestNotesMigration()));
 
     lifecycle = new LifecycleManager();
     lifecycle.add(injector);
@@ -115,8 +115,10 @@ public class GerritPublicKeyCheckerTest {
     db = schemaFactory.open();
     schemaCreator.create(db);
     userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
+    Account userAccount = db.accounts().get(userId);
     // Note: does not match any key in TestKeys.
-    accountsUpdate.create().update(userId, a -> a.setPreferredEmail("user@example.com"));
+    userAccount.setPreferredEmail("user@example.com");
+    db.accounts().update(ImmutableList.of(userAccount));
     user = reloadUser();
 
     requestContext.setContext(
@@ -148,7 +150,8 @@ public class GerritPublicKeyCheckerTest {
     return userFactory.create(id);
   }
 
-  private IdentifiedUser reloadUser() {
+  private IdentifiedUser reloadUser() throws IOException {
+    accountCache.evict(userId);
     user = userFactory.create(userId);
     return user;
   }
@@ -220,7 +223,7 @@ public class GerritPublicKeyCheckerTest {
   @Test
   public void noExternalIds() throws Exception {
     ExternalIdsUpdate externalIdsUpdate = externalIdsUpdateFactory.create();
-    externalIdsUpdate.deleteAll(user.getAccountId());
+    externalIdsUpdate.deleteAll(db, user.getAccountId());
     reloadUser();
 
     TestKey key = validKeyWithSecondUserId();
@@ -234,7 +237,7 @@ public class GerritPublicKeyCheckerTest {
     assertProblems(
         checker.check(key.getPublicKey()), Status.BAD, "Key is not associated with any users");
     externalIdsUpdate.insert(
-        ExternalId.create(toExtIdKey(key.getPublicKey()), user.getAccountId()));
+        db, ExternalId.create(toExtIdKey(key.getPublicKey()), user.getAccountId()));
     reloadUser();
     assertProblems(checker.check(key.getPublicKey()), Status.BAD, "No identities found for user");
   }
@@ -402,7 +405,7 @@ public class GerritPublicKeyCheckerTest {
     cb.setCommitter(ident);
     assertThat(store.save(cb)).isAnyOf(NEW, FAST_FORWARD, FORCED);
 
-    externalIdsUpdateFactory.create().insert(newExtIds);
+    externalIdsUpdateFactory.create().insert(db, newExtIds);
   }
 
   private TestKey add(TestKey k, IdentifiedUser user) throws Exception {
@@ -427,7 +430,7 @@ public class GerritPublicKeyCheckerTest {
   private void addExternalId(String scheme, String id, String email) throws Exception {
     externalIdsUpdateFactory
         .create()
-        .insert(ExternalId.createWithEmail(scheme, id, user.getAccountId(), email));
+        .insert(db, ExternalId.createWithEmail(scheme, id, user.getAccountId(), email));
     reloadUser();
   }
 }

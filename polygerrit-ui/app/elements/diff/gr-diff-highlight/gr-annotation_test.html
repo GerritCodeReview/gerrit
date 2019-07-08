@@ -20,9 +20,9 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
-<link rel="import" href="../../../test/common-test-setup.html"/>
 <script src="gr-annotation.js"></script>
 
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 
 <script>void(0);</script>
 
@@ -33,18 +33,18 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('annotation', () => {
-    let str;
-    let parent;
-    let textNode;
+  suite('annotation', function() {
+    var str;
+    var parent;
+    var textNode;
 
-    setup(() => {
+    setup(function() {
       parent = fixture('basic');
       textNode = parent.childNodes[0];
       str = textNode.textContent;
     });
 
-    test('_annotateText Case 1', () => {
+    test('_annotateText Case 1', function() {
       GrAnnotation._annotateText(textNode, 0, str.length, 'foobar');
 
       assert.equal(parent.childNodes.length, 1);
@@ -54,10 +54,10 @@ limitations under the License.
       assert.equal(parent.childNodes[0].childNodes[0].textContent, str);
     });
 
-    test('_annotateText Case 2', () => {
-      const length = 12;
-      const substr = str.substr(0, length);
-      const remainder = str.substr(length);
+    test('_annotateText Case 2', function() {
+      var length = 12;
+      var substr = str.substr(0, length);
+      var remainder = str.substr(length);
 
       GrAnnotation._annotateText(textNode, 0, length, 'foobar');
 
@@ -72,11 +72,11 @@ limitations under the License.
       assert.equal(parent.childNodes[1].textContent, remainder);
     });
 
-    test('_annotateText Case 3', () => {
-      const index = 12;
-      const length = str.length - index;
-      const remainder = str.substr(0, index);
-      const substr = str.substr(index);
+    test('_annotateText Case 3', function() {
+      var index = 12;
+      var length = str.length - index;
+      var remainder = str.substr(0, index);
+      var substr = str.substr(index);
 
       GrAnnotation._annotateText(textNode, index, length, 'foobar');
 
@@ -91,13 +91,13 @@ limitations under the License.
       assert.equal(parent.childNodes[1].childNodes[0].textContent, substr);
     });
 
-    test('_annotateText Case 4', () => {
-      const index = str.indexOf('dolor');
-      const length = 'dolor '.length;
+    test('_annotateText Case 4', function() {
+      var index = str.indexOf('dolor');
+      var length = 'dolor '.length;
 
-      const remainderPre = str.substr(0, index);
-      const substr = str.substr(index, length);
-      const remainderPost = str.substr(index + length);
+      var remainderPre = str.substr(0, index);
+      var substr = str.substr(index, length);
+      var remainderPost = str.substr(index + length);
 
       GrAnnotation._annotateText(textNode, index, length, 'foobar');
 
@@ -115,42 +115,42 @@ limitations under the License.
       assert.equal(parent.childNodes[2].textContent, remainderPost);
     });
 
-    test('_annotateElement design doc example', () => {
-      const layers = [
+    test('_annotateElement design doc example', function() {
+      var layers = [
         'amet, ',
         'inceptos ',
         'amet, ',
-        'et, suspendisse ince',
+        'et, suspendisse ince'
       ];
 
       // Apply the layers successively.
-      layers.forEach((layer, i) => {
+      layers.forEach(function(layer, i) {
         GrAnnotation.annotateElement(
-            parent, str.indexOf(layer), layer.length, `layer-${i + 1}`);
+            parent, str.indexOf(layer), layer.length, 'layer-' + (i + 1));
       });
 
       assert.equal(parent.textContent, str);
 
       // Layer 1:
-      const layer1 = parent.querySelectorAll('.layer-1');
+      var layer1 = parent.querySelectorAll('.layer-1');
       assert.equal(layer1.length, 1);
       assert.equal(layer1[0].textContent, layers[0]);
       assert.equal(layer1[0].parentElement, parent);
 
       // Layer 2:
-      const layer2 = parent.querySelectorAll('.layer-2');
+      var layer2 = parent.querySelectorAll('.layer-2');
       assert.equal(layer2.length, 1);
       assert.equal(layer2[0].textContent, layers[1]);
       assert.equal(layer2[0].parentElement, parent);
 
       // Layer 3:
-      const layer3 = parent.querySelectorAll('.layer-3');
+      var layer3 = parent.querySelectorAll('.layer-3');
       assert.equal(layer3.length, 1);
       assert.equal(layer3[0].textContent, layers[2]);
       assert.equal(layer3[0].parentElement, layer1[0]);
 
       // Layer 4:
-      const layer4 = parent.querySelectorAll('.layer-4');
+      var layer4 = parent.querySelectorAll('.layer-4');
       assert.equal(layer4.length, 3);
 
       assert.equal(layer4[0].textContent, 'et, ');
@@ -168,13 +168,13 @@ limitations under the License.
           layers[3]);
     });
 
-    test('splitTextNode', () => {
-      const helloString = 'hello';
-      const asciiString = 'ASCII';
-      const unicodeString = 'Unic💢de';
+    test('splitTextNode', function() {
+      var helloString = 'hello';
+      var asciiString = 'ASCII';
+      var unicodeString = 'Unic💢de';
 
-      let node;
-      let tail;
+      var node;
+      var tail;
 
       // Non-unicode path:
       node = document.createTextNode(helloString + asciiString);

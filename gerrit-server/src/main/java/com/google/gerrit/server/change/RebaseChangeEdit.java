@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -62,6 +61,7 @@ public class RebaseChangeEdit
     throw new NotImplementedException();
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public Rebase post(ChangeResource parent) throws RestApiException {
     return rebase;
@@ -82,11 +82,10 @@ public class RebaseChangeEdit
 
     @Override
     public Response<?> apply(ChangeResource rsrc, Rebase.Input in)
-        throws AuthException, ResourceConflictException, IOException, OrmException,
-            PermissionBackendException {
+        throws AuthException, ResourceConflictException, IOException, OrmException {
       Project.NameKey project = rsrc.getProject();
       try (Repository repository = repositoryManager.openRepository(project)) {
-        editModifier.rebaseEdit(repository, rsrc.getNotes());
+        editModifier.rebaseEdit(repository, rsrc.getControl());
       } catch (InvalidChangeOperationException e) {
         throw new ResourceConflictException(e.getMessage());
       }

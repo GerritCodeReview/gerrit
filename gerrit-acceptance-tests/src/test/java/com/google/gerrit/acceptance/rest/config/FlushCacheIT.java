@@ -15,35 +15,27 @@
 package com.google.gerrit.acceptance.rest.config;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.config.ListCaches.CacheInfo;
-import com.google.gerrit.server.group.InternalGroup;
 import org.junit.Test;
 
 public class FlushCacheIT extends AbstractDaemonTest {
 
   @Test
   public void flushCache() throws Exception {
-    InternalGroup group = groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null);
-    assertWithMessage("Precondition: The group 'Administrators' was loaded by the group cache")
-        .that(group)
-        .isNotNull();
-
-    RestResponse r = adminRestSession.get("/config/server/caches/groups_byname");
+    RestResponse r = adminRestSession.get("/config/server/caches/groups");
     CacheInfo result = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertThat(result.entries.mem).isGreaterThan((long) 0);
 
-    r = adminRestSession.post("/config/server/caches/groups_byname/flush");
+    r = adminRestSession.post("/config/server/caches/groups/flush");
     r.assertOK();
     r.consume();
 
-    r = adminRestSession.get("/config/server/caches/groups_byname");
+    r = adminRestSession.get("/config/server/caches/groups");
     result = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertThat(result.entries.mem).isNull();
   }

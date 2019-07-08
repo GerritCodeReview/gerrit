@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29cd23ec_56171053",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-07-08T21:14:14Z",
+      "side": 1,
+      "message": "At this stage of the init, based on our latest internal deployment testing, this is true even for a slave. That\u0027s because the config is not done initializing yet, again at this Init stage.\n\nI\u0027m about to propose a change to no longer (re)throw this exception, but only catch it still and issue the warning below (console and log). But first I want to fully test the change locally this time. Feedback welcome meanwhile if any. We can otherwise wait for the change review.",
+      "range": {
+        "startLine": 150,
+        "startChar": 13,
+        "endLine": 150,
+        "endChar": 60
+      },
+      "revId": "f9620af532bae32dfcc365d1839c836aa94bace0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

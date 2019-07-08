@@ -858,7 +858,11 @@ read access to `refs/meta/config`.
         "title": "Say hello in different languages",
         "enabled": true
       }
-    }
+    },
+    "notify_teams": [
+      "team.mailinglist@example.com",
+      "paranoid.manager@example.com"
+    ]
   }
 ----
 
@@ -890,7 +894,11 @@ link:#config-input[ConfigInput] entity.
     "require_change_id": "TRUE",
     "max_object_size_limit": "10m",
     "submit_type": "REBASE_IF_NECESSARY",
-    "state": "ACTIVE"
+    "state": "ACTIVE",
+    "notify_teams": [
+      "team.mailinglist@example.com",
+      "paranoid.manager@example.com"
+    ]
   }
 ----
 
@@ -957,7 +965,11 @@ ConfigInfo] entity.
       "inherited_value": "REBASE_IF_NECESSARY"
     },
     "state": "ACTIVE",
-    "commentlinks": {}
+    "commentlinks": {},
+    "notify_teams": [
+      "team.mailinglist@example.com",
+      "paranoid.manager@example.com"
+     ]
   }
 ----
 
@@ -3146,6 +3158,8 @@ information is a map of view names to
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
 empty commits should be rejected when a change is merged.
 link:rest-api-changes.html#action-info[ActionInfo] entities.
+|`notify_teams`                            |optional|
+List of emails that will be CC for all changes of the project.
 |=======================================================
 
 [[config-input]]
@@ -3214,6 +3228,9 @@ of parameter names to values.
 |`reject_empty_commit`                     |optional|
 Whether empty commits should be rejected when a change is merged.
 Can be `TRUE`, `FALSE` or `INHERIT`. +
+If not set, this setting is not updated.
+|`notify_teams`                            |optional|
+List of emails that will be CC for all changes of the project. +
 If not set, this setting is not updated.
 |======================================================
 

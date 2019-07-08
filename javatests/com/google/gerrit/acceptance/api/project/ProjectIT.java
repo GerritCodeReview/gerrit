@@ -60,6 +60,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.project.CommentLinkInfoImpl;
 import com.google.inject.Inject;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -327,6 +328,8 @@ public class ProjectIT extends AbstractDaemonTest {
     assertThat(info.defaultSubmitType.inheritedValue).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
     assertThat(info.defaultSubmitType.configuredValue).isEqualTo(input.submitType);
     assertThat(info.state).isEqualTo(input.state);
+    assertThat(info.notifyTeams).hasSize(1);
+    assertThat(info.notifyTeams.get(0)).isEqualTo("example@example.com");
   }
 
   @SuppressWarnings("deprecation")
@@ -357,6 +360,8 @@ public class ProjectIT extends AbstractDaemonTest {
     assertThat(info.defaultSubmitType.inheritedValue).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
     assertThat(info.defaultSubmitType.configuredValue).isEqualTo(input.submitType);
     assertThat(info.state).isEqualTo(input.state);
+    assertThat(info.notifyTeams).hasSize(1);
+    assertThat(info.notifyTeams.get(0)).isEqualTo("example@example.com");
   }
 
   @Test
@@ -690,6 +695,8 @@ public class ProjectIT extends AbstractDaemonTest {
     input.maxObjectSizeLimit = "5m";
     input.submitType = SubmitType.CHERRY_PICK;
     input.state = ProjectState.HIDDEN;
+    input.notifyTeams = new ArrayList<>();
+    input.notifyTeams.add("example@example.com");
     return input;
   }
 

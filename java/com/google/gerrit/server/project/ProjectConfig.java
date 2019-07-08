@@ -143,6 +143,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private static final String KEY_FILTER = "filter";
   private static final String KEY_TYPE = "type";
   private static final String KEY_HEADER = "header";
+  private static final String NOTIFY_TEAMS = "notifyTeams";
 
   private static final String CAPABILITY = "capability";
 
@@ -607,6 +608,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     loadPluginSections(rc);
     loadReceiveSection(rc);
     loadExtensionPanelSections(rc);
+    p.setNotifyTeams(Arrays.asList(rc.getStringList(NOTIFY, null, NOTIFY_TEAMS)));
   }
 
   private void loadAccountsSection(Config rc) {
@@ -1156,6 +1158,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     saveLabelSections(rc);
     saveCommentLinkSections(rc);
     saveSubscribeSections(rc);
+    rc.setStringList(NOTIFY, null, NOTIFY_TEAMS, p.getNotifyTeams());
 
     saveConfig(PROJECT_CONFIG, rc);
     saveGroupList();

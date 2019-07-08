@@ -103,6 +103,7 @@ public class ConfigInfoImpl extends ConfigInfo {
     }
 
     this.extensionPanelNames = projectState.getConfig().getExtensionPanelSections();
+    this.notifyTeams = p.getNotifyTeams();
   }
 
   private MaxObjectSizeLimitInfo getMaxObjectSizeLimit(ProjectState projectState, Project p) {

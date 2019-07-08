@@ -51,6 +51,8 @@ public class ConfigInfo {
 
   public Map<String, List<String>> extensionPanelNames;
 
+  public List<String> notifyTeams;
+
   public static class InheritedBooleanInfo {
     public Boolean value;
     public InheritableBoolean configuredValue;

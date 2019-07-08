@@ -1437,7 +1437,8 @@ public class RestApiServlet extends HttpServlet {
   private RequestInfo createRequestInfo(HttpServletRequest req, TraceContext traceContext) {
     String requestUri = requestUri(req);
     RequestInfo.Builder requestInfo =
-        RequestInfo.builder(RequestInfo.RequestType.REST, globals.currentUser.get(), traceContext);
+        RequestInfo.builder(RequestInfo.RequestType.REST, globals.currentUser.get(), traceContext)
+            .requestUri(requestUri);
     parseProjectName(requestUri).ifPresent(requestInfo::project);
     parseChangeId(requestUri)
         .flatMap(this::getProjectNameForChangeId)

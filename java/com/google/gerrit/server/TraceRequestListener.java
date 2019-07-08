@@ -81,6 +81,7 @@ public class TraceRequestListener implements RequestListener {
         TraceConfig.Builder traceConfig = TraceConfig.builder();
         traceConfig.traceId(traceId);
         traceConfig.requestTypes(parseRequestTypes(traceId));
+        traceConfig.requestUriPatterns(parseRequestUriPatterns(traceId));
         traceConfig.accountIds(parseAccounts(traceId));
         traceConfig.projectPatterns(parseProjectPatterns(traceId));
         traceConfigs.add(traceConfig.build());
@@ -108,6 +109,22 @@ public class TraceRequestListener implements RequestListener {
       }
     }
     return requestTypes.build();
+  }
+
+  private ImmutableSet<Pattern> parseRequestUriPatterns(String traceId) {
+    ImmutableSet.Builder<Pattern> requestUriPatterns = ImmutableSet.builder();
+    String[] requestUriPatternRegExs = cfg.getStringList("tracing", traceId, "requestUriPattern");
+    for (String requestUriPatternRegEx : requestUriPatternRegExs) {
+      try {
+        requestUriPatterns.add(Pattern.compile(requestUriPatternRegEx));
+      } catch (PatternSyntaxException e) {
+        throw new IllegalArgumentException(
+            String.format(
+                "Invalid tracing config ('tracing.%s.requestUriPattern = %s'): %s",
+                traceId, requestUriPatternRegEx, e.getMessage()));
+      }
+    }
+    return requestUriPatterns.build();
   }
 
   private ImmutableSet<Account.Id> parseAccounts(String traceId) {
@@ -159,6 +176,9 @@ public class TraceRequestListener implements RequestListener {
     /** request types that should be traced */
     abstract ImmutableSet<RequestInfo.RequestType> requestTypes();
 
+    /** pattern matching request URIs */
+    abstract ImmutableSet<Pattern> requestUriPatterns();
+
     /** accounts IDs matching calling user */
     abstract ImmutableSet<Account.Id> accountIds();
 
@@ -173,6 +193,18 @@ public class TraceRequestListener implements RequestListener {
       if (!requestTypes().isEmpty()
           && !requestTypes().stream().anyMatch(type -> type.equals(requestInfo.requestType()))) {
         return false;
+      }
+
+      if (!requestUriPatterns().isEmpty()) {
+        if (!requestInfo.requestUri().isPresent()) {
+          // request has no request URI
+          return false;
+        }
+
+        if (!requestUriPatterns().stream()
+            .anyMatch(p -> p.matcher(requestInfo.requestUri().get()).matches())) {
+          return false;
+        }
       }
 
       if (!accountIds().isEmpty()) {
@@ -207,6 +239,8 @@ public class TraceRequestListener implements RequestListener {
       abstract Builder traceId(String traceId);
 
       abstract Builder requestTypes(ImmutableSet<RequestInfo.RequestType> requestTypes);
+
+      abstract Builder requestUriPatterns(ImmutableSet<Pattern> requestUriPatterns);
 
       abstract Builder accountIds(ImmutableSet<Account.Id> accountIds);
 

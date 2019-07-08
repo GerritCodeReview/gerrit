@@ -35,6 +35,15 @@ public abstract class RequestInfo {
    */
   public abstract RequestType requestType();
 
+  /**
+   * Request URI.
+   *
+   * <p>Only set if request type is {@link RequestType#REST}.
+   *
+   * <p>Never includes the "/a" prefix.
+   */
+  public abstract Optional<String> requestUri();
+
   /** The user that has sent the request. */
   public abstract CurrentUser callingUser();
 
@@ -59,6 +68,8 @@ public abstract class RequestInfo {
   @AutoValue.Builder
   public abstract static class Builder {
     public abstract Builder requestType(RequestType requestType);
+
+    public abstract Builder requestUri(String requestUri);
 
     public abstract Builder callingUser(CurrentUser callingUser);
 

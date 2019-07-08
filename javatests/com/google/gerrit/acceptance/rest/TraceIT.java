@@ -499,6 +499,43 @@ public class TraceIT extends AbstractDaemonTest {
     assertThat(projectCreationListener.tags.get("project")).containsExactly("new22");
   }
 
+  @Test
+  @GerritConfig(name = "tracing.issue123.requestUriPattern", value = "/projects/.*")
+  public void traceRequestUri() throws Exception {
+    RestResponse response = adminRestSession.put("/projects/new23");
+    assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
+    assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+    assertThat(projectCreationListener.traceId).isEqualTo("issue123");
+    assertThat(projectCreationListener.isLoggingForced).isTrue();
+    assertThat(projectCreationListener.tags.get("project")).containsExactly("new23");
+  }
+
+  @Test
+  @GerritConfig(name = "tracing.issue123.requestUriPattern", value = "/projects/.*/foo")
+  public void traceRequestUriNoMatch() throws Exception {
+    RestResponse response = adminRestSession.put("/projects/new23");
+    assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
+    assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+    assertThat(projectCreationListener.traceId).isNull();
+    assertThat(projectCreationListener.isLoggingForced).isFalse();
+
+    // The logging tag with the project name is also set if tracing is off.
+    assertThat(projectCreationListener.tags.get("project")).containsExactly("new23");
+  }
+
+  @Test
+  @GerritConfig(name = "tracing.issue123.requestUriPattern", value = "][")
+  public void traceRequestUriInvalidRegEx() throws Exception {
+    RestResponse response = adminRestSession.put("/projects/new24");
+    assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
+    assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+    assertThat(projectCreationListener.traceId).isNull();
+    assertThat(projectCreationListener.isLoggingForced).isFalse();
+
+    // The logging tag with the project name is also set if tracing is off.
+    assertThat(projectCreationListener.tags.get("project")).containsExactly("new24");
+  }
+
   private void assertForceLogging(boolean expected) {
     assertThat(LoggingContext.getInstance().shouldForceLogging(null, null, false))
         .isEqualTo(expected);

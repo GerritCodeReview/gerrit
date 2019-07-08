@@ -47,9 +47,16 @@
     _applyStyle(name) {
       if (this._stylesApplied.includes(name)) { return; }
       this._stylesApplied.push(name);
+      // Hybrid custom-style syntax:
+      // https://polymer-library.polymer-project.org/2.0/docs/devguide/style-shadow-dom
       const s = document.createElement('style', 'custom-style');
       s.setAttribute('include', name);
-      Polymer.dom(this.root).appendChild(s);
+      const cs = document.createElement('custom-style');
+      cs.appendChild(s);
+      // When using Shadow DOM <custom-style> must be added to the <body>.
+      // Within <gr-external-style> itself the styles would have no effect.
+      const topEl = document.getElementsByTagName('body')[0];
+      topEl.insertBefore(cs, topEl.firstChild);
     },
 
     _importAndApply() {

@@ -17,27 +17,35 @@ package com.google.gerrit.server.restapi.project;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
+import com.google.gerrit.extensions.api.projects.NotifyConfigInfo;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.extensions.webui.UiActions;
+import com.google.gerrit.server.git.NotifyConfig;
 import com.google.gerrit.server.project.BooleanProjectConfigTransformations;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.ProjectState.EffectiveMaxObjectSizeLimit;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -103,6 +111,29 @@ public class ConfigInfoImpl extends ConfigInfo {
     }
 
     this.extensionPanelNames = projectState.getConfig().getExtensionPanelSections();
+    this.notifyConfigs = new HashMap<>();
+    Collection<NotifyConfig> notifyConfigs = projectState.getConfig().getNotifyConfigs();
+    for (NotifyConfig notifyConfig : notifyConfigs) {
+      NotifyConfigInfo notifyConfigInfo = new NotifyConfigInfo();
+      notifyConfigInfo.name = notifyConfig.getName();
+      notifyConfigInfo.filter = notifyConfig.getFilter();
+      notifyConfigInfo.header = notifyConfig.getHeader();
+      notifyConfigInfo.notifyAbandonedChanges = notifyConfig.isNotify(NotifyType.ABANDONED_CHANGES);
+      notifyConfigInfo.notifyAllComments = notifyConfig.isNotify(NotifyType.ALL_COMMENTS);
+      notifyConfigInfo.notifyNewChanges = notifyConfig.isNotify(NotifyType.NEW_CHANGES);
+      notifyConfigInfo.notifyNewPatchSets = notifyConfig.isNotify(NotifyType.NEW_PATCHSETS);
+      notifyConfigInfo.notifySubmittedChanges = notifyConfig.isNotify(NotifyType.SUBMITTED_CHANGES);
+      for (Address email : notifyConfig.getAddresses()) {
+        notifyConfigInfo.addEmail(email.getEmail());
+      }
+      for (GroupReference group : notifyConfig.getGroups()) {
+        GroupInfo groupInfo = new GroupInfo();
+        groupInfo.id = group.getUUID().get();
+        groupInfo.name = group.getName();
+        notifyConfigInfo.addGroup(groupInfo);
+      }
+      this.notifyConfigs.put(notifyConfig.getName(), notifyConfigInfo);
+    }
   }
 
   private MaxObjectSizeLimitInfo getMaxObjectSizeLimit(ProjectState projectState, Project p) {

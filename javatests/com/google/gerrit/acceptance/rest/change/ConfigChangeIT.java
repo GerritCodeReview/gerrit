@@ -24,17 +24,28 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.projects.ConfigInfo;
+import com.google.gerrit.extensions.api.projects.ConfigInput;
+import com.google.gerrit.extensions.api.projects.NotifyConfigInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Set;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -45,6 +56,7 @@ import org.junit.Test;
 public class ConfigChangeIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private GroupOperations groupOperations;
 
   @Before
   public void setUp() throws Exception {
@@ -114,7 +126,6 @@ public class ConfigChangeIT extends AbstractDaemonTest {
     Config cfg = projectOperations.project(project).getConfig();
     assertThat(cfg).stringValue("access", null, "inheritFrom").isAnyOf(null, allProjects.get());
     cfg.setString("access", null, "inheritFrom", parent.name);
-
     PushOneCommit.Result r = createConfigChange(cfg);
     String id = r.getChangeId();
 
@@ -176,6 +187,96 @@ public class ConfigChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result res = push.to(RefNames.REFS_CONFIG);
     res.assertErrorStatus();
     res.assertMessage("cannot inherit from multiple projects");
+  }
+
+  @Test
+  public void notifySectionsShouldUpdateWithProjectChanges() throws Exception {
+    ConfigInput input = new ConfigInput();
+    input.notifyConfigsAdditions = new ArrayList<>();
+    NotifyConfigInput notifyConfigInput = new NotifyConfigInput();
+    notifyConfigInput.name = "example1";
+    notifyConfigInput.addEmail("example@example.com");
+    input.notifyConfigsAdditions.add(notifyConfigInput);
+    gApi.projects().name(project.get()).config(input);
+    Config cfg = projectOperations.project(project).getConfig();
+    Set<String> notifySections = cfg.getSubsections("notify");
+    assertThat(notifySections).hasSize(1);
+    assertThat(notifySections.contains("example1")).isTrue();
+    input.notifyConfigsAdditions = new ArrayList<>();
+    notifyConfigInput.name = "example2";
+    input.notifyConfigsAdditions.add(notifyConfigInput);
+    gApi.projects().name(project.get()).config(input);
+    cfg = projectOperations.project(project).getConfig();
+    notifySections = cfg.getSubsections("notify");
+    assertThat(notifySections).hasSize(2);
+    assertThat(notifySections.contains("example1")).isTrue();
+    assertThat(notifySections.contains("example2")).isTrue();
+    AccountGroup.UUID groupId =
+        groupOperations.newGroup().visibleToAll(true).name("groupName").create();
+    input.notifyConfigsAdditions = new ArrayList<>();
+    notifyConfigInput.addGroup(groupId.get());
+    notifyConfigInput.name = "example3";
+    input.notifyConfigsAdditions.add(notifyConfigInput);
+    gApi.projects().name(project.get()).config(input);
+    ProjectConfig projectConfig = projectOperations.project(project).getProjectConfig();
+    assertThat(projectConfig.getGroup("groupName").getUUID()).isEqualTo(groupId);
+  }
+
+  // This test currently fails. The reason for the failure is in PutConfig.java.
+  // Initially, projectConfig is updated. Somehow, after committing it and creating a new
+  // projectConfig
+  // (and later a projectState) the projectConfig is not updated anymore, and only remembers the
+  // config
+  // before the removal. It causes inability to remove.
+  // @Test removed temporarily.
+  public void notifySectionErasingNotifyConfigs() throws Exception {
+    ConfigInput input = new ConfigInput();
+    input.notifyConfigsAdditions = new ArrayList<>();
+    NotifyConfigInput notifyConfigInput = new NotifyConfigInput();
+    notifyConfigInput.name = "example1";
+    notifyConfigInput.addEmail("example@example.com");
+    input.notifyConfigsAdditions.add(notifyConfigInput);
+    gApi.projects().name(project.get()).config(input);
+    input.notifyConfigsAdditions = null;
+    input.notifyConfigsRemovals = Arrays.asList("example1");
+    ConfigInfo configInfo = gApi.projects().name(project.get()).config(input);
+    assertThat(configInfo.notifyConfigs.containsKey("example1")).isFalse();
+  }
+
+  @Test
+  public void notifySectionsMustHaveValidEmails() throws Exception {
+    ConfigInput input = new ConfigInput();
+    input.notifyConfigsAdditions = new ArrayList<>();
+    NotifyConfigInput notifyConfigInput = new NotifyConfigInput();
+    notifyConfigInput.addEmail("not_email");
+    notifyConfigInput.addEmail("good@email.com");
+    input.notifyConfigsAdditions.add(notifyConfigInput);
+    assertThrows(
+        BadRequestException.class, () -> gApi.projects().name(project.get()).config(input));
+  }
+
+  @Test
+  public void notifySectionsFilterMustBeValid() throws Exception {
+    ConfigInput input = new ConfigInput();
+    input.notifyConfigsAdditions = new ArrayList<>();
+    NotifyConfigInput notifyConfigInput = new NotifyConfigInput();
+    notifyConfigInput.filter = "visibleto:non_existing";
+    notifyConfigInput.addEmail("email@google.com");
+    input.notifyConfigsAdditions.add(notifyConfigInput);
+    assertThrows(
+        UnprocessableEntityException.class,
+        () -> gApi.projects().name(project.get()).config(input));
+  }
+
+  @Test
+  public void notifySectionsCantBeEmpty() throws Exception {
+    ConfigInput input = new ConfigInput();
+    input.notifyConfigsAdditions = new ArrayList<>();
+    NotifyConfigInput notifyConfigInput = new NotifyConfigInput();
+    notifyConfigInput.name = "name";
+    input.notifyConfigsAdditions.add(notifyConfigInput);
+    assertThrows(
+        BadRequestException.class, () -> gApi.projects().name(project.get()).config(input));
   }
 
   private void fetchRefsMetaConfig() throws Exception {

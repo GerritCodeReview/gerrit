@@ -19,8 +19,10 @@ import static java.util.Objects.requireNonNull;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /** Projects match a source code repository managed by Gerrit */
@@ -30,85 +32,17 @@ public final class Project {
 
   /** Default submit type for root project (All-Projects). */
   public static final SubmitType DEFAULT_ALL_PROJECTS_SUBMIT_TYPE = SubmitType.MERGE_IF_NECESSARY;
-
-  public static NameKey nameKey(String name) {
-    return new NameKey(name);
-  }
-
-  /**
-   * Project name key.
-   *
-   * <p>This class has subclasses such as {@code AllProjectsName}, which make Guice injection more
-   * convenient. Subclasses must compare equal if they have the same name, regardless of the
-   * specific class. This implies that subclasses may not add additional fields.
-   *
-   * <p>Because of this unusual subclassing behavior, this class is not an {@code @AutoValue},
-   * unlike other key types in this package. However, this is strictly an implementation detail; its
-   * interface and semantics are otherwise analogous to the {@code @AutoValue} types.
-   */
-  public static class NameKey implements Comparable<NameKey> {
-    /** Parse a Project.NameKey out of a string representation. */
-    public static NameKey parse(String str) {
-      return nameKey(KeyUtil.decode(str));
-    }
-
-    public static String asStringOrNull(NameKey key) {
-      return key == null ? null : key.get();
-    }
-
-    private final String name;
-
-    protected NameKey(String name) {
-      this.name = requireNonNull(name);
-    }
-
-    public String get() {
-      return name;
-    }
-
-    @Override
-    public final int hashCode() {
-      return get().hashCode();
-    }
-
-    @Override
-    public final boolean equals(Object b) {
-      if (b instanceof NameKey) {
-        return get().equals(((NameKey) b).get());
-      }
-      return false;
-    }
-
-    @Override
-    public final int compareTo(NameKey o) {
-      return get().compareTo(o.get());
-    }
-
-    @Override
-    public final String toString() {
-      return KeyUtil.encode(get());
-    }
-  }
-
   protected NameKey name;
-
   protected String description;
-
   protected Map<BooleanProjectConfig, InheritableBoolean> booleanConfigs;
-
   protected SubmitType submitType;
-
   protected ProjectState state;
-
   protected NameKey parent;
-
   protected String maxObjectSizeLimit;
-
   protected String defaultDashboardId;
-
   protected String localDefaultDashboardId;
-
   protected String configRefState;
+  protected List<String> notifyTeams;
 
   protected Project() {}
 
@@ -116,10 +50,13 @@ public final class Project {
     name = nameKey;
     submitType = SubmitType.MERGE_IF_NECESSARY;
     state = ProjectState.ACTIVE;
-
     booleanConfigs = new HashMap<>();
     Arrays.stream(BooleanProjectConfig.values())
         .forEach(c -> booleanConfigs.put(c, InheritableBoolean.INHERIT));
+  }
+
+  public static NameKey nameKey(String name) {
+    return new NameKey(name);
   }
 
   public Project.NameKey getNameKey() {
@@ -142,16 +79,16 @@ public final class Project {
     return maxObjectSizeLimit;
   }
 
+  public void setMaxObjectSizeLimit(String limit) {
+    maxObjectSizeLimit = limit;
+  }
+
   public InheritableBoolean getBooleanConfig(BooleanProjectConfig config) {
     return booleanConfigs.get(config);
   }
 
   public void setBooleanConfig(BooleanProjectConfig config, InheritableBoolean val) {
     booleanConfigs.replace(config, val);
-  }
-
-  public void setMaxObjectSizeLimit(String limit) {
-    maxObjectSizeLimit = limit;
   }
 
   /**
@@ -243,5 +180,70 @@ public final class Project {
   /** Sets the {@code ObjectId} as 40 digit hex of {@code refs/meta/config}'s HEAD. */
   public void setConfigRefState(String state) {
     configRefState = state;
+  }
+
+  public List<String> getNotifyTeams() {
+    return notifyTeams;
+  }
+
+  public void setNotifyTeams(List<String> notifyTeams) {
+    if (notifyTeams != null) {
+      this.notifyTeams = new ArrayList<>(notifyTeams);
+    }
+  }
+
+  /**
+   * Project name key.
+   *
+   * <p>This class has subclasses such as {@code AllProjectsName}, which make Guice injection more
+   * convenient. Subclasses must compare equal if they have the same name, regardless of the
+   * specific class. This implies that subclasses may not add additional fields.
+   *
+   * <p>Because of this unusual subclassing behavior, this class is not an {@code @AutoValue},
+   * unlike other key types in this package. However, this is strictly an implementation detail; its
+   * interface and semantics are otherwise analogous to the {@code @AutoValue} types.
+   */
+  public static class NameKey implements Comparable<NameKey> {
+    private final String name;
+
+    protected NameKey(String name) {
+      this.name = requireNonNull(name);
+    }
+
+    /** Parse a Project.NameKey out of a string representation. */
+    public static NameKey parse(String str) {
+      return nameKey(KeyUtil.decode(str));
+    }
+
+    public static String asStringOrNull(NameKey key) {
+      return key == null ? null : key.get();
+    }
+
+    public String get() {
+      return name;
+    }
+
+    @Override
+    public final int hashCode() {
+      return get().hashCode();
+    }
+
+    @Override
+    public final boolean equals(Object b) {
+      if (b instanceof NameKey) {
+        return get().equals(((NameKey) b).get());
+      }
+      return false;
+    }
+
+    @Override
+    public final int compareTo(NameKey o) {
+      return get().compareTo(o.get());
+    }
+
+    @Override
+    public final String toString() {
+      return KeyUtil.encode(get());
+    }
   }
 }

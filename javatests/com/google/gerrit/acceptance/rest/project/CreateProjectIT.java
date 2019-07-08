@@ -438,6 +438,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     assertThat(cfg.defaultSubmitType.value).isEqualTo(SubmitType.REBASE_IF_NECESSARY);
     assertThat(cfg.defaultSubmitType.configuredValue).isEqualTo(SubmitType.INHERIT);
     assertThat(cfg.defaultSubmitType.inheritedValue).isEqualTo(SubmitType.REBASE_IF_NECESSARY);
+    assertThat(cfg.notifyTeams).isNull();
   }
 
   @SuppressWarnings("deprecation")

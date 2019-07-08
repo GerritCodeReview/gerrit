@@ -87,6 +87,12 @@ final class SetAccountCommand extends SshCommand {
   @Option(name = "--inactive", usage = "set account's state to inactive")
   private boolean inactive;
 
+  @Option(
+      name = "--reason",
+      metaVar = "REASON",
+      usage = "Sets the reason for why you've set the account as inactive or inactive.")
+  private String reason;
+
   @Option(name = "--add-email", metaVar = "EMAIL", usage = "email addresses to add to the account")
   private List<String> addEmails = new ArrayList<>();
 
@@ -249,10 +255,10 @@ final class SetAccountCommand extends SshCommand {
       }
 
       if (active) {
-        putActive.apply(rsrc, null);
+        putActive.apply(rsrc, null, reason);
       } else if (inactive) {
         try {
-          deleteActive.apply(rsrc, null);
+          deleteActive.apply(rsrc, null, reason);
         } catch (ResourceNotFoundException e) {
           // user is already inactive
         }

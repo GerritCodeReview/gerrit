@@ -20,6 +20,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ConfigValue;
+import com.google.gerrit.extensions.api.projects.NotifyConfigInfo;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -152,7 +153,17 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       if (input.pluginConfigValues != null) {
         setPluginConfigValues(projectState, projectConfig, input.pluginConfigValues);
       }
-
+      if (input.notifyConfigsRemovals != null) {
+        for (String name : input.notifyConfigsRemovals) {
+          p.removeNotifyConfigs(name);
+        }
+      }
+      if (input.notifyConfigsAdditions != null) {
+        for (NotifyConfigInfo notifyConfig : input.notifyConfigsAdditions) {
+          isValidNotifyConfig(notifyConfig);
+          p.putNotifyConfigs(notifyConfig);
+        }
+      }
       md.setMessage("Modified project settings\n");
       try {
         projectConfig.commit(md);
@@ -166,7 +177,6 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
         logger.atWarning().withCause(e).log("Failed to update config of project %s.", projectName);
         throw new ResourceConflictException("Cannot update " + projectName);
       }
-
       ProjectState state = projectStateFactory.create(projectConfigFactory.read(md));
       return new ConfigInfoImpl(
           serverEnableSignedPush,
@@ -183,6 +193,13 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       throw new ResourceConflictException("Cannot read project " + projectName, err);
     } catch (IOException err) {
       throw new ResourceConflictException("Cannot update project " + projectName, err);
+    }
+  }
+
+  private void isValidNotifyConfig(NotifyConfigInfo notifyConfig) throws ResourceConflictException {
+    if (notifyConfig.addresses.stream().allMatch(str -> str.contains("@") && str.contains("."))) {
+    } else {
+      throw new ResourceConflictException("Email invalid " + notifyConfig.toString());
     }
   }
 

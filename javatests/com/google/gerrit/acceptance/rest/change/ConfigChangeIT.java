@@ -24,17 +24,26 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.projects.ConfigInfo;
+import com.google.gerrit.extensions.api.projects.ConfigInput;
+import com.google.gerrit.extensions.api.projects.NotifyConfigInfo;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
+import java.util.ArrayList;
+import java.util.Set;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -45,6 +54,7 @@ import org.junit.Test;
 public class ConfigChangeIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private GroupOperations groupOperations;
 
   @Before
   public void setUp() throws Exception {
@@ -114,7 +124,6 @@ public class ConfigChangeIT extends AbstractDaemonTest {
     Config cfg = projectOperations.project(project).getConfig();
     assertThat(cfg).stringValue("access", null, "inheritFrom").isAnyOf(null, allProjects.get());
     cfg.setString("access", null, "inheritFrom", parent.name);
-
     PushOneCommit.Result r = createConfigChange(cfg);
     String id = r.getChangeId();
 
@@ -176,6 +185,55 @@ public class ConfigChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result res = push.to(RefNames.REFS_CONFIG);
     res.assertErrorStatus();
     res.assertMessage("cannot inherit from multiple projects");
+  }
+
+  @Test
+  public void notifySectionsShouldUpdateWithProjectChanges() throws Exception {
+    ConfigInput input = new ConfigInput();
+    input.notifyConfigsAdditions = new ArrayList<>();
+    NotifyConfigInfo notifyConfigInfo = new NotifyConfigInfo();
+    notifyConfigInfo.name = "example1";
+    notifyConfigInfo.addEmail("example@example.com");
+    input.notifyConfigsAdditions.add(notifyConfigInfo);
+    ConfigInfo info = gApi.projects().name(project.get()).config(input);
+    Config cfg = projectOperations.project(project).getConfig();
+    Set<String> notifySections = cfg.getSubsections("notify");
+    assertThat(notifySections).hasSize(1);
+    assertThat(notifySections.contains("example1")).isTrue();
+    notifyConfigInfo.name = "example2";
+    input.notifyConfigsAdditions.add(notifyConfigInfo);
+    gApi.projects().name(project.get()).config(input);
+    cfg = projectOperations.project(project).getConfig();
+    notifySections = cfg.getSubsections("notify");
+    assertThat(notifySections).hasSize(2);
+    assertThat(notifySections.contains("example1")).isTrue();
+    assertThat(notifySections.contains("example2")).isTrue();
+    GroupInfo groupInfo = new GroupInfo();
+    AccountGroup.UUID groupId = groupOperations.newGroup().name("groupName").create();
+    groupInfo.id = groupId.get();
+    groupInfo.name = "groupName";
+    notifyConfigInfo.addGroup(groupInfo);
+    notifyConfigInfo.name = "example3";
+    input.notifyConfigsAdditions.add(notifyConfigInfo);
+    gApi.projects().name(project.get()).config(input);
+    ProjectConfig projectConfig = projectOperations.project(project).getProjectConfig();
+    assertThat(projectConfig.getGroup("groupName").getUUID()).isEqualTo(groupId);
+  }
+
+  @Test
+  public void notifySectionsMustBeValidToUpdateProjectChanges() throws Exception {
+    ConfigInput input = new ConfigInput();
+    input.notifyConfigsAdditions = new ArrayList<>();
+    NotifyConfigInfo notifyConfigInfo = new NotifyConfigInfo();
+    notifyConfigInfo.name = "example1";
+    notifyConfigInfo.addEmail("not@email");
+    input.notifyConfigsAdditions.add(notifyConfigInfo);
+    assertThrows(
+        ResourceConflictException.class, () -> gApi.projects().name(project.get()).config(input));
+    notifyConfigInfo.addEmail("not.email");
+    input.notifyConfigsAdditions.add(notifyConfigInfo);
+    assertThrows(
+        ResourceConflictException.class, () -> gApi.projects().name(project.get()).config(input));
   }
 
   private void fetchRefsMetaConfig() throws Exception {

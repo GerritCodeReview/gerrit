@@ -52,6 +52,24 @@
       "revId": "633ee2f5207ff7b4ea87a4b521c34985c85a37a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "861b2508_a9934c44",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-07-08T09:28:46Z",
+      "side": 1,
+      "message": "Removed completely",
+      "parentUuid": "fec77f3e_bb4331a1",
+      "revId": "633ee2f5207ff7b4ea87a4b521c34985c85a37a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

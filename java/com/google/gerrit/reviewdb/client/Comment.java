@@ -185,7 +185,9 @@ public class Comment {
   }
 
   public Key key;
+  /** The line number (1-based) to which the comment refers, or 0 for a file comment. */
   public int lineNbr;
+
   public Identity author;
   protected Identity realAuthor;
   public Timestamp writtenOn;

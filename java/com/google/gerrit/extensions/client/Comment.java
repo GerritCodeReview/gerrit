@@ -30,7 +30,9 @@ public abstract class Comment {
   public String path;
   public Side side;
   public Integer parent;
-  public Integer line; // value 0 or null indicates a file comment, normal lines start at 1
+  /** Value 0 or null indicates a file comment, normal lines start at 1. */
+  public Integer line;
+
   public Range range;
   public String inReplyTo;
   public Timestamp updated;

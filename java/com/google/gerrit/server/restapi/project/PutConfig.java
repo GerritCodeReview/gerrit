@@ -17,11 +17,14 @@ package com.google.gerrit.server.restapi.project;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ConfigValue;
+import com.google.gerrit.extensions.api.projects.NotifyConfigInfo;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -29,16 +32,22 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.mail.Address;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.EnableSignedPush;
+import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.extensions.webui.UiActions;
+import com.google.gerrit.server.git.NotifyConfig;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
@@ -53,6 +62,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -78,6 +88,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
   private final Provider<CurrentUser> user;
   private final PermissionBackend permissionBackend;
   private final ProjectConfig.Factory projectConfigFactory;
+  private GroupResolver groupResolver;
 
   @Inject
   PutConfig(
@@ -92,7 +103,8 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       DynamicMap<RestView<ProjectResource>> views,
       Provider<CurrentUser> user,
       PermissionBackend permissionBackend,
-      ProjectConfig.Factory projectConfigFactory) {
+      ProjectConfig.Factory projectConfigFactory,
+      GroupResolver groupResolver) {
     this.serverEnableSignedPush = serverEnableSignedPush;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.projectCache = projectCache;
@@ -105,6 +117,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
     this.user = user;
     this.permissionBackend = permissionBackend;
     this.projectConfigFactory = projectConfigFactory;
+    this.groupResolver = groupResolver;
   }
 
   @Override
@@ -118,7 +131,8 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
   }
 
   public ConfigInfo apply(ProjectState projectState, ConfigInput input)
-      throws ResourceNotFoundException, BadRequestException, ResourceConflictException {
+      throws ResourceNotFoundException, BadRequestException, ResourceConflictException,
+          UnprocessableEntityException {
     Project.NameKey projectName = projectState.getNameKey();
     if (input == null) {
       throw new BadRequestException("config is required");
@@ -152,7 +166,45 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       if (input.pluginConfigValues != null) {
         setPluginConfigValues(projectState, projectConfig, input.pluginConfigValues);
       }
-
+      if (input.notifyConfigsRemovals != null) {
+        for (String name : input.notifyConfigsRemovals) {
+          projectConfig.removeNotifyConfig(name);
+        }
+      }
+      if (input.notifyConfigsAdditions != null) {
+        for (NotifyConfigInfo notifyConfig : input.notifyConfigsAdditions) {
+          isValidNotifyConfig(notifyConfig);
+          NotifyConfig toInsert = new NotifyConfig();
+          toInsert.setName(notifyConfig.name);
+          toInsert.setHeader(notifyConfig.header);
+          toInsert.setFilter(notifyConfig.filter);
+          EnumSet<NotifyType> notifyTypes = EnumSet.noneOf(NotifyType.class);
+          if (toBoolean(notifyConfig.notifyAbandonedChanges)) {
+            notifyTypes.add(NotifyType.ABANDONED_CHANGES);
+          }
+          if (toBoolean(notifyConfig.notifyAllComments)) {
+            notifyTypes.add(NotifyType.ALL_COMMENTS);
+          }
+          if (toBoolean(notifyConfig.notifyNewChanges)) {
+            notifyTypes.add(NotifyType.NEW_CHANGES);
+          }
+          if (toBoolean(notifyConfig.notifyNewPatchSets)) {
+            notifyTypes.add(NotifyType.NEW_PATCHSETS);
+          }
+          if (toBoolean(notifyConfig.notifySubmittedChanges)) {
+            notifyTypes.add(NotifyType.SUBMITTED_CHANGES);
+          }
+          toInsert.setTypes(notifyTypes);
+          for (String email : notifyConfig.addresses) {
+            toInsert.addEmail(new Address(notifyConfig.name, email));
+          }
+          for (GroupInfo groupInfo : notifyConfig.groups) {
+            toInsert.addEmail(
+                new GroupReference(AccountGroup.UUID.parse(groupInfo.id), groupInfo.name));
+          }
+          projectConfig.putNotifyConfig(toInsert.getName(), toInsert);
+        }
+      }
       md.setMessage("Modified project settings\n");
       try {
         projectConfig.commit(md);
@@ -166,7 +218,6 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
         logger.atWarning().withCause(e).log("Failed to update config of project %s.", projectName);
         throw new ResourceConflictException("Cannot update " + projectName);
       }
-
       ProjectState state = projectStateFactory.create(projectConfigFactory.read(md));
       return new ConfigInfoImpl(
           serverEnableSignedPush,
@@ -183,6 +234,17 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       throw new ResourceConflictException("Cannot read project " + projectName, err);
     } catch (IOException err) {
       throw new ResourceConflictException("Cannot update project " + projectName, err);
+    }
+  }
+
+  private boolean toBoolean(Boolean b) {
+    return b == null ? false : b;
+  }
+
+  private void isValidNotifyConfig(NotifyConfigInfo notifyConfig) throws ResourceConflictException {
+    if (notifyConfig.addresses.stream().allMatch(str -> str.contains("@") && str.contains("."))) {
+    } else {
+      throw new ResourceConflictException("Email invalid " + notifyConfig.toString());
     }
   }
 

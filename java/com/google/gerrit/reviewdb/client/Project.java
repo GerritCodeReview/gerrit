@@ -244,4 +244,15 @@ public final class Project {
   public void setConfigRefState(String state) {
     configRefState = state;
   }
+
+  /**
+   * public Map<String, NotifyConfig> getNotifyConfigs() { return notifyConfigs; }
+   *
+   * <p>public NotifyConfig getNotifyConfig(String name) { return notifyConfigs.get(name); }
+   *
+   * <p>public void putNotifyConfigs(NotifyConfig notifyConfig) {
+   * this.notifyConfigs.put(notifyConfig.getName(), notifyConfig); }
+   *
+   * <p>public void removeNotifyConfigs(String name) { this.notifyConfigs.remove(name); }
+   */
 }

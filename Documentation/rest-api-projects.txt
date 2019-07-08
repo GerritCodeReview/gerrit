@@ -858,8 +858,37 @@ read access to `refs/meta/config`.
         "title": "Say hello in different languages",
         "enabled": true
       }
-    }
-  }
+    },
+    "notify_configs": [
+      {
+        "name": "example_name",
+        "emails": [
+          "team.mailinglist@example.com",
+          "paranoid.manager@example.com"
+        ],
+        "groups": [
+          {
+            "url": "#/admin/groups/uuid-c2ce4749a32ceb82cd6adcce65b8216e12afb41c",
+            "options": {},
+            "description": "Users who perform batch actions on Gerrit",
+            "group_id": 1,
+            "owner": "Administrators",
+            "owner_id": "d5b7124af4de52924ed397913e2c3b37bf186948",
+            "created_on": "2009-06-08 23:31:00.000000000",
+            "name": "Non-Interactive Users"
+          },
+          {
+           "options": {},
+           "name": "Anonymous Users"
+          }
+        ],
+        "type:" [
+          "all"
+        ],
+        "header": "TO",
+        "filter": "visibleto:example_name"
+      }
+    ]
 ----
 
 [[set-config]]
@@ -890,7 +919,37 @@ link:#config-input[ConfigInput] entity.
     "require_change_id": "TRUE",
     "max_object_size_limit": "10m",
     "submit_type": "REBASE_IF_NECESSARY",
-    "state": "ACTIVE"
+    "state": "ACTIVE",
+    "notify_configs": [
+      {
+        "name": "example_name",
+        "emails": [
+          "team.mailinglist@example.com",
+          "paranoid.manager@example.com"
+        ],
+        "groups": [
+          {
+            "url": "#/admin/groups/uuid-c2ce4749a32ceb82cd6adcce65b8216e12afb41c",
+            "options": {},
+            "description": "Users who perform batch actions on Gerrit",
+            "group_id": 1,
+            "owner": "Administrators",
+            "owner_id": "d5b7124af4de52924ed397913e2c3b37bf186948",
+            "created_on": "2009-06-08 23:31:00.000000000",
+            "name": "Non-Interactive Users"
+          },
+          {
+           "options": {},
+           "name": "Anonymous Users"
+          }
+        ],
+        "type:" [
+          "all"
+        ],
+        "header": "TO",
+        "filter": "visibleto:example_name"
+      }
+    ]
   }
 ----
 
@@ -957,7 +1016,37 @@ ConfigInfo] entity.
       "inherited_value": "REBASE_IF_NECESSARY"
     },
     "state": "ACTIVE",
-    "commentlinks": {}
+    "commentlinks": {},
+    "notify_configs": [
+      {
+        "name": "example_name",
+        "emails": [
+          "team.mailinglist@example.com",
+          "paranoid.manager@example.com"
+        ],
+        "groups": [
+          {
+            "url": "#/admin/groups/uuid-c2ce4749a32ceb82cd6adcce65b8216e12afb41c",
+            "options": {},
+            "description": "Users who perform batch actions on Gerrit",
+            "group_id": 1,
+            "owner": "Administrators",
+            "owner_id": "d5b7124af4de52924ed397913e2c3b37bf186948",
+            "created_on": "2009-06-08 23:31:00.000000000",
+            "name": "Non-Interactive Users"
+          },
+          {
+           "options": {},
+           "name": "Anonymous Users"
+          }
+        ],
+        "type:" [
+          "all"
+        ],
+        "header": "TO",
+        "filter": "visibleto:example_name"
+      }
+    ]
   }
 ----
 
@@ -3146,6 +3235,8 @@ information is a map of view names to
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
 empty commits should be rejected when a change is merged.
 link:rest-api-changes.html#action-info[ActionInfo] entities.
+|`notify_configs`                              |optional|
+Map of 'NotifyConfigInfo' name to 'NotifyConfigInfo'.
 |=======================================================
 
 [[config-input]]
@@ -3215,6 +3306,40 @@ of parameter names to values.
 Whether empty commits should be rejected when a change is merged.
 Can be `TRUE`, `FALSE` or `INHERIT`. +
 If not set, this setting is not updated.
+|`notify_configs_additions`                |optional|
+List of 'NotifyConfigInfo' to add to ConfigInfo.
+|`notify_configs_removals`                 |optional|
+List of 'NotifyConfigInfo' names to remove from ConfigInfo.
+|======================================================
+
+[[notify-config-info]]
+=== NotifyConfigInfo
+The 'NotifyConfigInfo' entity describes a new notify configuration.
+[options="header",cols="1,^2,4"]
+|======================================================
+|Field Name                               ||Description
+|`name`
+Name of the entity, e.g developers.
+|`emails`
+List of emails that receive the notifications.
+|`type`                                   |optional|
+List of types of notifications that are sent. +
+Possible types are: +
+'new_changes' (only newly created changes), +
+'new_patchsets' (only newly created patch sets), +
+'all_comments' (only comments on existing changes), +
+'submitted_changes' (only changes that have been submitted), +
+'abandoned_changes' (only changes that have been abandoned), +
+'all' (all notifications). +
+If not specified, all is used.
+|`header`                                 |optional|
+Email header that is used to send notifications.
+Possible headers are: 'TO', 'CC', 'BCC'.
+|`filter`                                 |optional|
+When sending email to a bare email address in a notify block, Gerrit Code Review +
+ignores read access controls and assumes the administrator has set the filtering +
+options correctly. Project owners can implement security filtering by adding the +
+link:user-search.html#_magical_operators['visibleto:groupname' predicate] to the filter expression.
 |======================================================
 
 [[config-parameter-info]]

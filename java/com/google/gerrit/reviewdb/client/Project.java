@@ -16,6 +16,7 @@ package com.google.gerrit.reviewdb.client;
 
 import static java.util.Objects.requireNonNull;
 
+import com.google.gerrit.extensions.api.projects.NotifyConfigInfo;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -109,6 +110,8 @@ public final class Project {
   protected String localDefaultDashboardId;
 
   protected String configRefState;
+
+  protected Map<String, NotifyConfigInfo> notifyConfigs = new HashMap<>();
 
   protected Project() {}
 
@@ -243,5 +246,21 @@ public final class Project {
   /** Sets the {@code ObjectId} as 40 digit hex of {@code refs/meta/config}'s HEAD. */
   public void setConfigRefState(String state) {
     configRefState = state;
+  }
+
+  public Map<String, NotifyConfigInfo> getNotifyConfigs() {
+    return notifyConfigs;
+  }
+
+  public NotifyConfigInfo getNotifyConfig(String name) {
+    return notifyConfigs.get(name);
+  }
+
+  public void putNotifyConfigs(NotifyConfigInfo notifyConfigInfo) {
+    this.notifyConfigs.put(notifyConfigInfo.name, notifyConfigInfo);
+  }
+
+  public void removeNotifyConfigs(String name) {
+    this.notifyConfigs.remove(name);
   }
 }

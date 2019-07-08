@@ -99,7 +99,7 @@ public class ProjectConfigTest {
   public void setUp() throws Exception {
     sitePaths = new SitePaths(temporaryFolder.newFolder().toPath());
     Files.createDirectories(sitePaths.etc_dir);
-    factory = new ProjectConfig.Factory(sitePaths, ALL_PROJECTS);
+    factory = new ProjectConfig.Factory(sitePaths, ALL_PROJECTS, null);
     db = new InMemoryRepository(new DfsRepositoryDescription("repo"));
     tr = new TestRepository<>(db);
   }

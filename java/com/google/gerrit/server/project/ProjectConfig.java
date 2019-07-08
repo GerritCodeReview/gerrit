@@ -44,8 +44,12 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.exceptions.InvalidNameException;
+import com.google.gerrit.extensions.api.projects.NotifyConfigInfo;
+import com.google.gerrit.extensions.api.projects.NotifyConfigInfo.Header;
+import com.google.gerrit.extensions.api.projects.NotifyConfigInfo.NotifyType;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
+import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
@@ -53,7 +57,6 @@ import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.GroupBackend;
-import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.PluginConfig;
@@ -174,7 +177,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private static final String KEY_PANEL = "panel";
 
   private static final Pattern EXCLUSIVE_PERMISSIONS_SPLIT_PATTERN = Pattern.compile("[, \t]{1,}");
-
   // Don't use an assisted factory, since instances created by an assisted factory retain references
   // to their enclosing injector. Instances of ProjectConfig are cached for a long time in the
   // ProjectCache, so this would retain lots more memory.
@@ -600,6 +602,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     loadAccessSections(rc);
     loadBranchOrderSection(rc);
     loadNotifySections(rc);
+    loadNotifySectionsFromProject(project);
     loadLabelSections(rc);
     loadCommentLinkSections(rc);
     loadSubscribeSections(rc);
@@ -707,7 +710,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       EnumSet<NotifyType> types = EnumSet.noneOf(NotifyType.class);
       types.addAll(ConfigUtil.getEnumList(rc, NOTIFY, sectionName, KEY_TYPE, NotifyType.ALL));
       n.setTypes(types);
-      n.setHeader(rc.getEnum(NOTIFY, sectionName, KEY_HEADER, NotifyConfig.Header.BCC));
+      n.setHeader(rc.getEnum(NOTIFY, sectionName, KEY_HEADER, Header.BCC));
 
       for (String dst : rc.getStringList(NOTIFY, sectionName, KEY_EMAIL)) {
         String groupName = GroupReference.extractGroupName(dst);
@@ -739,6 +742,27 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         }
       }
       notifySections.put(sectionName, n);
+    }
+  }
+
+  private void loadNotifySectionsFromProject(Project project) {
+    if (project.getNotifyConfigs() == null) {
+      return;
+    }
+    for (NotifyConfigInfo notifyValue : project.getNotifyConfigs().values()) {
+      NotifyConfig toInsert = new NotifyConfig();
+      toInsert.setName(notifyValue.name);
+      toInsert.setFilter(notifyValue.filter);
+      toInsert.setHeader(notifyValue.header);
+      for (String email : notifyValue.addresses) {
+        toInsert.addEmail(new Address(notifyValue.name, email));
+      }
+      for (GroupInfo group : notifyValue.groups) {
+        GroupReference ref = new GroupReference(AccountGroup.UUID.parse(group.id), group.name);
+        toInsert.addEmail(ref);
+        groupsByName.put(ref.getName(), ref);
+      }
+      notifySections.put(notifyValue.name, toInsert);
     }
   }
 
@@ -1150,7 +1174,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     saveAccountsSection(rc, keepGroups);
     saveContributorAgreements(rc, keepGroups);
     saveAccessSections(rc, keepGroups);
-    saveNotifySections(rc, keepGroups);
+    saveNotifySections(rc, keepGroups, null);
+    saveNotifySections(rc, keepGroups, project);
     savePluginSections(rc, keepGroups);
     groupList.retainUUIDs(keepGroups);
     saveLabelSections(rc);
@@ -1250,8 +1275,53 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     }
   }
 
-  private void saveNotifySections(Config rc, Set<AccountGroup.UUID> keepGroups) {
-    for (NotifyConfig nc : sort(notifySections.values())) {
+  private boolean toBoolean(Boolean b) {
+    return b == null ? false : b;
+  }
+
+  private void saveNotifySections(Config rc, Set<AccountGroup.UUID> keepGroups, Project project) {
+    List<NotifyConfig> notifyValues = new ArrayList<>();
+    if (project == null) {
+      notifyValues = sort(notifySections.values());
+    } else {
+      if (project.getNotifyConfigs() == null) {
+        return;
+      }
+      List<NotifyConfigInfo> notifyValuesTemp = sort(project.getNotifyConfigs().values());
+      for (NotifyConfigInfo notifyValue : notifyValuesTemp) {
+        NotifyConfig toInsert = new NotifyConfig();
+        toInsert.setName(notifyValue.name);
+        toInsert.setFilter(notifyValue.filter);
+        toInsert.setHeader(notifyValue.header);
+        EnumSet<NotifyType> notifyTypes = EnumSet.noneOf(NotifyType.class);
+        if (toBoolean(notifyValue.notifyAbandonedChanges)) {
+          notifyTypes.add(NotifyType.ABANDONED_CHANGES);
+        }
+        if (toBoolean(notifyValue.notifyAllComments)) {
+          notifyTypes.add(NotifyType.ALL_COMMENTS);
+        }
+        if (toBoolean(notifyValue.notifyNewChanges)) {
+          notifyTypes.add(NotifyType.NEW_CHANGES);
+        }
+        if (toBoolean(notifyValue.notifyNewPatchSets)) {
+          notifyTypes.add(NotifyType.NEW_PATCHSETS);
+        }
+        if (toBoolean(notifyValue.notifySubmittedChanges)) {
+          notifyTypes.add(NotifyType.SUBMITTED_CHANGES);
+        }
+        toInsert.setTypes(notifyTypes);
+        for (String email : notifyValue.addresses) {
+          toInsert.addEmail(new Address(notifyValue.name, email));
+        }
+        for (GroupInfo group : notifyValue.groups) {
+          GroupReference ref = new GroupReference(AccountGroup.UUID.parse(group.id), group.name);
+          toInsert.addEmail(ref);
+          resolve(ref);
+        }
+        notifyValues.add(toInsert);
+      }
+    }
+    for (NotifyConfig nc : notifyValues) {
       nc.getGroups().stream()
           .map(GroupReference::getUUID)
           .filter(Objects::nonNull)
@@ -1265,7 +1335,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       // Separate stream operation so that emails list contains 2 sorted sub-lists.
       nc.getAddresses().stream().map(Address::toString).sorted().forEach(email::add);
 
-      set(rc, NOTIFY, nc.getName(), KEY_HEADER, nc.getHeader(), NotifyConfig.Header.BCC);
+      set(rc, NOTIFY, nc.getName(), KEY_HEADER, nc.getHeader(), Header.BCC);
       if (email.isEmpty()) {
         rc.unset(NOTIFY, nc.getName(), KEY_EMAIL);
       } else {

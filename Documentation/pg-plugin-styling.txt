@@ -25,7 +25,7 @@ Plugins should provide Style Module, for example:
   <dom-module id="some-style">
     <template>
       <style>
-        :root {
+        html {
           --css-mixin-name: {
             property: value;
           }

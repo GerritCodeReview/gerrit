@@ -42,6 +42,6 @@ public class PutActive implements RestModifyView<AccountResource, Input> {
   @Override
   public Response<String> apply(AccountResource rsrc, Input input)
       throws RestApiException, OrmException, IOException, ConfigInvalidException {
-    return setInactiveFlag.activate(rsrc.getUser().getAccountId());
+    return setInactiveFlag.activate(rsrc.getUser().getAccountId(), input.reason);
   }
 }

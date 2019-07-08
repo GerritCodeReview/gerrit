@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.extensions.api.accounts.ActiveInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -47,14 +48,14 @@ public class SetInactiveFlag {
     this.accountsUpdateProvider = accountsUpdateProvider;
   }
 
-  public Response<?> deactivate(Account.Id accountId)
+  public Response<?> deactivate(Account.Id accountId, ActiveInput input)
       throws RestApiException, IOException, ConfigInvalidException, OrmException {
     AtomicBoolean alreadyInactive = new AtomicBoolean(false);
     AtomicReference<Optional<RestApiException>> exception = new AtomicReference<>(Optional.empty());
     accountsUpdateProvider
         .get()
         .update(
-            "Deactivate Account via API",
+            commitMessage("Deactivate Account via API", input),
             accountId,
             (a, u) -> {
               if (!a.getAccount().isActive()) {
@@ -80,14 +81,14 @@ public class SetInactiveFlag {
     return Response.none();
   }
 
-  public Response<String> activate(Account.Id accountId)
+  public Response<String> activate(Account.Id accountId, ActiveInput input)
       throws RestApiException, IOException, ConfigInvalidException, OrmException {
     AtomicBoolean alreadyActive = new AtomicBoolean(false);
     AtomicReference<Optional<RestApiException>> exception = new AtomicReference<>(Optional.empty());
     accountsUpdateProvider
         .get()
         .update(
-            "Activate Account via API",
+            commitMessage("Activate Account via API", input),
             accountId,
             (a, u) -> {
               if (a.getAccount().isActive()) {
@@ -108,5 +109,13 @@ public class SetInactiveFlag {
       throw exception.get().get();
     }
     return alreadyActive.get() ? Response.ok("") : Response.created("");
+  }
+
+  private String commitMessage(String firstMessage, ActiveInput input) {
+    String msg = firstMessage;
+    if (input.reason != null) {
+      msg += "\n\n" + input.reason;
+    }
+    return msg;
   }
 }

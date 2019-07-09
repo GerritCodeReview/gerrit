@@ -1513,4 +1513,45 @@ limitations under the License.
       assert.equal(reportStub.lastCall.args[0], 'type-key');
     });
   });
+
+  suite('getChangeRevisionActions returns no actions', () => {
+    let element;
+    let sandbox;
+
+    setup(() => {
+      stub('gr-rest-api-interface', {
+        getChangeRevisionActions() {
+          return Promise.resolve({});
+        },
+        send(method, url, payload) {
+          return Promise.reject(new Error('error'));
+        },
+        getProjectConfig() { return Promise.resolve({}); },
+      });
+
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(Promise.resolve());
+
+      element = fixture('basic');
+
+      sandbox.stub(element.$.confirmCherrypick.$.restAPI,
+          'getRepoBranches').returns(Promise.resolve([]));
+      sandbox.stub(element.$.confirmMove.$.restAPI,
+          'getRepoBranches').returns(Promise.resolve([]));
+
+      return element.reload();
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('confirmSubmitDialog action must be changed to null', () => {
+      assert.strictEqual(element.$.confirmSubmitDialog.action, null);
+    });
+
+    test('confirmRebase dialog rebase-on-current must be changed to null', () => {
+      assert.strictEqual(element.$.confirmRebase.rebaseOnCurrent, null);
+    });
+  });
 </script>

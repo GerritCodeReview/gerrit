@@ -5,6 +5,12 @@
       "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-codestyle/42189/consoleText",
       "created": "2019-07-09T10:45:50Z",
       "updated": "2019-07-09T10:45:50Z"
+    },
+    "gerritforge:reviewdb-a6a0e4682515f3521897c5f950d1394f4619d928": {
+      "state": "SUCCESSFUL",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/69198/consoleText",
+      "created": "2019-07-09T10:45:51Z",
+      "updated": "2019-07-09T10:45:51Z"
     }
   }
 }

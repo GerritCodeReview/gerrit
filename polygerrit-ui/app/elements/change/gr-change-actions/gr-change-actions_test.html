@@ -1513,4 +1513,50 @@ limitations under the License.
       assert.equal(reportStub.lastCall.args[0], 'type-key');
     });
   });
+
+  suite('getChangeRevisionActions returns only some actions', () => {
+    let element;
+    let sandbox;
+    let changeRevisionActions;
+
+    setup(() => {
+      stub('gr-rest-api-interface', {
+        getChangeRevisionActions() {
+          return Promise.resolve(changeRevisionActions);
+        },
+        send(method, url, payload) {
+          return Promise.reject(new Error('error'));
+        },
+        getProjectConfig() { return Promise.resolve({}); },
+      });
+
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(Promise.resolve());
+
+      element = fixture('basic');
+      // getChangeRevisionActions is not called without
+      // set the following properies
+      element.change = {};
+      element.changeNum = '42';
+      element.latestPatchNum = '2';
+
+
+      sandbox.stub(element.$.confirmCherrypick.$.restAPI,
+          'getRepoBranches').returns(Promise.resolve([]));
+      sandbox.stub(element.$.confirmMove.$.restAPI,
+          'getRepoBranches').returns(Promise.resolve([]));
+      return element.reload();
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('confirmSubmitDialog and confirmRebase properties are changed', () => {
+      changeRevisionActions = {};
+      element.reload();
+      assert.strictEqual(element.$.confirmSubmitDialog.action, null);
+      assert.strictEqual(element.$.confirmRebase.rebaseOnCurrent, null);
+    });
+  });
 </script>

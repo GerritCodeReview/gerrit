@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30f5fec4_9559f0ce",
+        "filename": "java/com/google/gerrit/extensions/api/accounts/AccountApi.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-09T02:52:42Z",
+      "side": 1,
+      "message": "1. Adding this breaks the API for existing callers that don\u0027t set a reason.  It would be better to leave this method as it is, add a second method that takes the reason, and then add a default implementation on this one that delegates to the new one with null.\n\n2. It would be better to pass the ActiveInput class rather than the String. Then if any new members are added, the interface doesn\u0027t need to be changed again.\n\n3. The new parameter should be annotated as @Nullable.",
+      "range": {
+        "startLine": 44,
+        "startChar": 31,
+        "endLine": 44,
+        "endChar": 46
+      },
+      "revId": "98580e1653ade15b1b03363a16a121172901edef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

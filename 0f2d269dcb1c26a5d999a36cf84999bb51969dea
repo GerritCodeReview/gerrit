@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85289e61_216a6d70",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-09T21:20:02Z",
+      "side": 1,
+      "message": "Needs to be split up so that it\u0027s like:\n\n      // If property binds directly to [[revisionActions.submit]] it is not\n      // updated when revisionActions doesn\u0027t contain submit action.\n\nSame for the below.",
+      "range": {
+        "startLine": 274,
+        "startChar": 6,
+        "endLine": 274,
+        "endChar": 135
+      },
+      "revId": "0f2d269dcb1c26a5d999a36cf84999bb51969dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

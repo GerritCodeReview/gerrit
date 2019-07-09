@@ -592,7 +592,7 @@
       if (editPatchsetLoaded) {
         // Only show actions that mutate an edit if an actual edit patch set
         // is loaded.
-        if (this.changeIsOpen(this.change.status)) {
+        if (this.changeIsOpen(this.change)) {
           if (editBasedOnCurrentPatchSet) {
             if (!this.actions.publishEdit) {
               this.set('actions.publishEdit', PUBLISH_EDIT);
@@ -614,7 +614,7 @@
         this._deleteAndNotify('deleteEdit');
       }
 
-      if (this.changeIsOpen(this.change.status)) {
+      if (this.changeIsOpen(this.change)) {
         // Only show edit button if there is no edit patchset loaded and the
         // file list is not in edit mode.
         if (editPatchsetLoaded || editMode) {

@@ -70,7 +70,6 @@ public class ServerInfoIT extends AbstractDaemonTest {
   // gerrit
   @GerritConfig(name = "gerrit.allProjects", value = "Root")
   @GerritConfig(name = "gerrit.allUsers", value = "Users")
-  @GerritConfig(name = "gerrit.reportBugText", value = "REPORT BUG")
   @GerritConfig(name = "gerrit.reportBugUrl", value = "https://example.com/report")
 
   // suggest
@@ -112,7 +111,6 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.gerrit.allProjects).isEqualTo("Root");
     assertThat(i.gerrit.allUsers).isEqualTo("Users");
     assertThat(i.gerrit.reportBugUrl).isEqualTo("https://example.com/report");
-    assertThat(i.gerrit.reportBugText).isEqualTo("REPORT BUG");
 
     // plugin
     assertThat(i.plugin.jsResourcePaths).isEmpty();
@@ -179,7 +177,6 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.gerrit.allProjects).isEqualTo(AllProjectsNameProvider.DEFAULT);
     assertThat(i.gerrit.allUsers).isEqualTo(AllUsersNameProvider.DEFAULT);
     assertThat(i.gerrit.reportBugUrl).isNull();
-    assertThat(i.gerrit.reportBugText).isNull();
 
     // plugin
     assertThat(i.plugin.jsResourcePaths).isEmpty();

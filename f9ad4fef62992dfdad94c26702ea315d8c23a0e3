@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2822d4b_cecad073",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-09T14:53:08Z",
+      "side": 1,
+      "message": "Should we do src \u0026\u0026 src....? only in case src becomes undefined",
+      "range": {
+        "startLine": 532,
+        "startChar": 8,
+        "endLine": 532,
+        "endChar": 11
+      },
+      "revId": "f9ad4fef62992dfdad94c26702ea315d8c23a0e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

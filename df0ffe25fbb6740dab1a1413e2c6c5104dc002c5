@@ -46,6 +46,30 @@
       "revId": "df0ffe25fbb6740dab1a1413e2c6c5104dc002c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "043c4a04_98cc8e9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-07-09T13:33:05Z",
+      "side": 1,
+      "message": "There are two different aspects here. For one, we must complete ReviewDb and GWT UI migration to NoteDb and PG UI. That why we have to wipe out any occurences of ReviewDb and client in package names as a legacy division between client and server parts, a left over of GWT UI heritage. This is what this series is all about. Only this small step and nothing else.\n\nFor anther there is a lot of place for refactoring in the code base.  Identifying new entities and putting the new and the existing entities in their dedicated packages. Obviously, this should happen in follow up changes.",
+      "parentUuid": "2c46f27c_b98bcaf3",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 48
+      },
+      "revId": "df0ffe25fbb6740dab1a1413e2c6c5104dc002c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -72,10 +72,6 @@ limitations under the License.
         padding: 0 var(--default-horizontal-margin);
         border-bottom: 1px solid var(--border-color);
       }
-      gr-main-header.shadow {
-        /* Make it obvious for shadow dom testing */
-        border-bottom: 1px solid pink;
-      }
       footer {
         background-color: var(--footer-background-color);
         border-top: 1px solid var(--border-color);
@@ -125,7 +121,6 @@ limitations under the License.
       <gr-main-header
           id="mainHeader"
           search-query="{{params.query}}"
-          class$="[[_computeShadowClass(_isShadowDom)]]"
           on-mobile-search="_mobileSearchToggle">
       </gr-main-header>
     </gr-fixed-panel>
@@ -191,7 +186,7 @@ limitations under the License.
         <div class="errorMoreInfo">[[_lastError.moreInfo]]</div>
       </div>
     </main>
-    <footer r="contentinfo" class$="[[_computeShadowClass(_isShadowDom)]]">
+    <footer r="contentinfo">
       <div>
         Powered by <a href="https://www.gerritcodereview.com/" rel="noopener"
         target="_blank">Gerrit Code Review</a>

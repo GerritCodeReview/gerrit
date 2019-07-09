@@ -73,7 +73,6 @@
       _lastError: Object,
       _lastSearchPage: String,
       _path: String,
-      _isShadowDom: Boolean,
       _pluginScreenName: {
         type: String,
         computed: '_computePluginScreenName(params)',
@@ -123,7 +122,6 @@
 
     ready() {
       this.$.reporting.appStarted(document.visibilityState === 'hidden');
-      this._isShadowDom = Polymer.Settings.useShadow;
       this.$.router.start();
 
       this.$.restAPI.getAccount().then(account => {
@@ -401,10 +399,6 @@
     _handleRegistrationDialogClose(e) {
       this.params.justRegistered = false;
       this.$.registrationOverlay.close();
-    },
-
-    _computeShadowClass(isShadowDom) {
-      return isShadowDom ? 'shadow' : '';
     },
 
     _goToOpenedChanges() {

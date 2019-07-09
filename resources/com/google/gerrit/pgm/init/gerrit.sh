@@ -63,7 +63,7 @@ test $# -gt 0 || usage
 running() {
   test -f $1 || return 1
   PID=`cat $1`
-  ps -p $PID >/dev/null 2>/dev/null || return 1
+  ps -o pid | grep -w $PID >/dev/null 2>/dev/null || return 1
   return 0
 }
 

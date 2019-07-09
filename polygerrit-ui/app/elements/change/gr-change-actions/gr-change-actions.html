@@ -176,7 +176,7 @@ limitations under the License.
           on-cancel="_handleConfirmDialogCancel"
           branch="[[change.branch]]"
           has-parent="[[hasParent]]"
-          rebase-on-current="[[revisionActions.rebase.rebaseOnCurrent]]"
+          rebase-on-current="[[_revisionRebaseAction.rebaseOnCurrent]]"
           hidden></gr-confirm-rebase-dialog>
       <gr-confirm-cherrypick-dialog id="confirmCherrypick"
           class="confirmDialog"
@@ -216,7 +216,7 @@ limitations under the License.
           id="confirmSubmitDialog"
           class="confirmDialog"
           change="[[change]]"
-          action="[[revisionActions.submit]]"
+          action="[[_revisionSubmitAction]]"
           on-cancel="_handleConfirmDialogCancel"
           on-confirm="_handleSubmitConfirm" hidden></gr-confirm-submit-dialog>
       <gr-dialog id="createFollowUpDialog"

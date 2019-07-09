@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a680ae9_9854b711",
+        "filename": "java/com/google/gerrit/server/index/OnlineReindexMode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-07-09T23:03:54Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "a47d8b2759f47f34f65ee10da96596e4c18be3ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68385b3f_bfe41293",
+        "filename": "java/com/google/gerrit/server/index/OnlineReindexMode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-07-09T23:03:54Z",
+      "side": 1,
+      "message": "Can we call this isActive or something similar? I believe it would read better in conditional statements: \n\nif ((!opts.allowClosed() || OnlineReindexMode.isActive()) .... \nVS\nif ((!opts.allowClosed() || OnlineReindexMode.get()) ....",
+      "range": {
+        "startLine": 22,
+        "startChar": 24,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "a47d8b2759f47f34f65ee10da96596e4c18be3ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

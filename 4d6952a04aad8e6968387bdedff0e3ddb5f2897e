@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1dc28383_b4afb833",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-09T00:00:50Z",
+      "side": 1,
+      "message": "closing parenthesis should be here.",
+      "range": {
+        "startLine": 10,
+        "startChar": 54,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "4d6952a04aad8e6968387bdedff0e3ddb5f2897e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b20b4ae4_47a84858",
+        "filename": "java/com/google/gerrit/extensions/common/ActiveInput.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-09T00:00:50Z",
+      "side": 1,
+      "message": "Should be in the account package?",
+      "range": {
+        "startLine": 15,
+        "startChar": 37,
+        "endLine": 15,
+        "endChar": 43
+      },
+      "revId": "4d6952a04aad8e6968387bdedff0e3ddb5f2897e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a690e342_342c8cc4",
+        "filename": "java/com/google/gerrit/server/account/SetInactiveFlag.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-09T00:00:50Z",
+      "side": 1,
+      "message": "Code is repeated from above with only the prefix changing.  Factor it to a method.",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 95,
+        "endChar": 5
+      },
+      "revId": "4d6952a04aad8e6968387bdedff0e3ddb5f2897e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "090a4574_907240cb",
+        "filename": "java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-09T00:00:50Z",
+      "side": 1,
+      "message": "\"reason for setting the account active/inactive\"\n\nnote all lower case and no trailing period, for consistency with other messages.",
+      "range": {
+        "startLine": 93,
+        "startChar": 14,
+        "endLine": 93,
+        "endChar": 87
+      },
+      "revId": "4d6952a04aad8e6968387bdedff0e3ddb5f2897e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

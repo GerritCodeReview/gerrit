@@ -271,6 +271,20 @@
         type: Object,
         value() { return {}; },
       },
+      // If property binds directly to [[revisionActions.submit]] it is not
+      // updated when revisionActions doesn't contain submit action.
+      /** @type {?} */
+      _revisionSubmitAction: {
+        type: Object,
+        computed: '_getSubmitAction(revisionActions)',
+      },
+      // If property binds directly to [[revisionActions.rebase]] it is not
+      // updated when revisionActions doesn't contain rebase action.
+      /** @type {?} */
+      _revisionRebaseAction: {
+        type: Object,
+        computed: '_getRebaseAction(revisionActions)',
+      },
       privateByDefault: String,
 
       _loading: {
@@ -413,6 +427,28 @@
     ready() {
       this.$.jsAPI.addElement(this.$.jsAPI.Element.CHANGE_ACTIONS, this);
       this._handleLoadingComplete();
+    },
+
+    _getSubmitAction(revisionActions) {
+      return this._getRevisionAction(revisionActions, 'submit', null);
+    },
+
+    _getRebaseAction(revisionActions) {
+      return this._getRevisionAction(revisionActions, 'rebase',
+        {rebaseOnCurrent: null}
+      );
+    },
+
+    _getRevisionAction(revisionActions, actionName, emptyActionValue) {
+      if (!revisionActions) {
+        return undefined;
+      }
+      if (revisionActions[actionName] === undefined) {
+        // Return null to fire an event when reveisionActions was loaded
+        // but doesn't contain actionName. undefined doesn't fire an event
+        return emptyActionValue;
+      }
+      return revisionActions[actionName];
     },
 
     reload() {

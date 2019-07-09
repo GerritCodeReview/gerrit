@@ -645,6 +645,7 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
       String expectMessageContains, PrepareBuilder b, RunMigration m) throws Exception {
     try {
       migrate(b, m);
+      assert_().fail("expected MigrationException");
     } catch (MigrationException e) {
       assertThat(e).hasMessageThat().contains(expectMessageContains);
     }

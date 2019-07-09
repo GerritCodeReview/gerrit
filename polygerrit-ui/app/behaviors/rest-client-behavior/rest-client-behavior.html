@@ -123,8 +123,9 @@ limitations under the License.
       return this.getBaseUrl() + '/c/' + changeNum;
     },
 
-    changeIsOpen(status) {
-      return status === this.ChangeStatus.NEW;
+    changeIsOpen(change) {
+      if (!change && !change.status) { return false; }
+      return change.status === this.ChangeStatus.NEW;
     },
 
     /**

@@ -238,7 +238,7 @@
     _computeItemNeedsReview(account, change, showReviewedState) {
       return showReviewedState && !change.reviewed &&
           !change.work_in_progress &&
-          this.changeIsOpen(change.status) &&
+          this.changeIsOpen(change) &&
           (!account || account._account_id != change.owner._account_id);
     },
 

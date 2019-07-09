@@ -249,7 +249,7 @@
       if (!draftSection || !draftSection.results.length) { return; }
 
       const closedChanges = draftSection.results
-          .filter(change => !this.changeIsOpen(change.status));
+          .filter(change => !this.changeIsOpen(change));
       if (!closedChanges.length) { return; }
 
       this._showDraftsBanner = true;

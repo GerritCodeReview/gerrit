@@ -63,7 +63,7 @@ java_package_configuration(
         "-Xep:JUnit3FloatingPointComparisonWithoutDelta:WARN",
         "-Xep:JUnitAmbiguousTestClass:WARN",
         "-Xep:LiteralClassName:WARN",
-        "-Xep:MissingFail:WARN",
+        "-Xep:MissingFail:ERROR",
         "-Xep:MissingOverride:WARN",
         "-Xep:MutableConstantField:WARN",
         "-Xep:NarrowingCompoundAssignment:WARN",

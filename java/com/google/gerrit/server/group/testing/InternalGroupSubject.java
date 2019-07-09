@@ -22,7 +22,10 @@ import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.IterableSubject;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.InternalGroup;
+import java.sql.Timestamp;
+import org.eclipse.jgit.lib.ObjectId;
 
 public class InternalGroupSubject extends Subject {
 
@@ -41,12 +44,12 @@ public class InternalGroupSubject extends Subject {
     this.group = group;
   }
 
-  public ComparableSubject groupUuid() {
+  public ComparableSubject<AccountGroup.UUID> groupUuid() {
     isNotNull();
     return check("getGroupUUID()").that(group.getGroupUUID());
   }
 
-  public ComparableSubject nameKey() {
+  public ComparableSubject<AccountGroup.NameKey> nameKey() {
     isNotNull();
     return check("getNameKey()").that(group.getNameKey());
   }
@@ -66,7 +69,7 @@ public class InternalGroupSubject extends Subject {
     return check("getDescription()").that(group.getDescription());
   }
 
-  public ComparableSubject ownerGroupUuid() {
+  public ComparableSubject<AccountGroup.UUID> ownerGroupUuid() {
     isNotNull();
     return check("getOwnerGroupUUID()").that(group.getOwnerGroupUUID());
   }
@@ -76,7 +79,7 @@ public class InternalGroupSubject extends Subject {
     return check("isVisibleToAll()").that(group.isVisibleToAll());
   }
 
-  public ComparableSubject createdOn() {
+  public ComparableSubject<Timestamp> createdOn() {
     isNotNull();
     return check("getCreatedOn()").that(group.getCreatedOn());
   }
@@ -91,7 +94,7 @@ public class InternalGroupSubject extends Subject {
     return check("getSubgroups()").that(group.getSubgroups());
   }
 
-  public ComparableSubject refState() {
+  public ComparableSubject<ObjectId> refState() {
     isNotNull();
     return check("getRefState()").that(group.getRefState());
   }

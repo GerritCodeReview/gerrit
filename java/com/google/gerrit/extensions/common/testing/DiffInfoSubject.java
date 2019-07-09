@@ -21,6 +21,7 @@ import static com.google.gerrit.truth.ListSubject.elements;
 import com.google.common.truth.ComparableSubject;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.Subject;
+import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.DiffInfo.ContentEntry;
 import com.google.gerrit.truth.ListSubject;
@@ -45,7 +46,7 @@ public class DiffInfoSubject extends Subject {
         .thatCustom(diffInfo.content, ContentEntrySubject.contentEntries());
   }
 
-  public ComparableSubject changeType() {
+  public ComparableSubject<ChangeType> changeType() {
     isNotNull();
     return check("changeType").that(diffInfo.changeType);
   }

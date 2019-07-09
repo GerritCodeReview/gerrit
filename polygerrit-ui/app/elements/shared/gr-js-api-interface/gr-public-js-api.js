@@ -528,7 +528,10 @@
     // HTML import polyfill adds __importElement pointing to the import tag.
     const script = document.currentScript &&
         (document.currentScript.__importElement || document.currentScript);
-    const src = opt_src || (script && (script.src || script.baseURI));
+    let src = opt_src || (script && (script.src || script.baseURI));
+    if (src && src.startsWith('data:') && script && script.baseURI) {
+      src = script.baseURI;
+    }
     const name = getPluginNameFromUrl(src);
 
     if (opt_version && opt_version !== API_VERSION) {

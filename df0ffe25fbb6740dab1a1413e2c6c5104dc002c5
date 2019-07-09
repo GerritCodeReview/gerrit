@@ -22,6 +22,30 @@
       "revId": "df0ffe25fbb6740dab1a1413e2c6c5104dc002c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c46f27c_b98bcaf3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-09T13:18:01Z",
+      "side": 1,
+      "message": "By the way, I\u0027m still waiting on a reply here. It would be good if we could agree on the general direction before we do further reviews of this chain of changes.",
+      "parentUuid": "4edd5c4d_6ad92f92",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 48
+      },
+      "revId": "df0ffe25fbb6740dab1a1413e2c6c5104dc002c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

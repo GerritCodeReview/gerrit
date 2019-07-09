@@ -75,6 +75,7 @@ func main() {
 	http.HandleFunc("/config/", handleProxy)
 	http.HandleFunc("/projects/", handleProxy)
 	http.HandleFunc("/static/", handleProxy)
+	http.HandleFunc("/login/", handleProxy)
 	http.HandleFunc("/accounts/self/detail", handleAccountDetail)
 
 	if len(*plugins) > 0 {

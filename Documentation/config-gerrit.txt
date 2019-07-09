@@ -2046,14 +2046,6 @@ URL to direct users to when they need to report a bug.
 By default unset, meaning no bug report URL will be displayed. Administrators
 should set this to the URL of their issue tracker, if necessary.
 
-[[gerrit.reportBugText]]gerrit.reportBugText::
-+
-Text to be displayed in the link to the bug report URL.
-+
-Only used when `gerrit.reportBugUrl` is set.
-+
-Defaults to "Report Bug".
-
 [[gerrit.enableReverseDnsLookup]]gerrit.enableReverseDnsLookup::
 +
 Enable reverse DNS lookup during computing ref log entry for identified user,

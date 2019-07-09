@@ -21,6 +21,5 @@ public class GerritInfo {
   public String docUrl;
   public Boolean editGpgKeys;
   public String reportBugUrl;
-  public String reportBugText;
   public String primaryWeblinkName;
 }

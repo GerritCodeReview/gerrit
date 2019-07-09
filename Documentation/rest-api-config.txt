@@ -1799,9 +1799,6 @@ Gerrit base path even if this value is unset.)
 Whether to enable the web UI for editing GPG keys.
 |`report_bug_url`    |optional|
 link:config-gerrit.html#gerrit.reportBugUrl[URL to report bugs].
-|`report_bug_text`   |optional, not set if default|
-link:config-gerrit.html#gerrit.reportBugText[Display text for report
-bugs link].
 |=================================
 
 [[hit-ration-info]]

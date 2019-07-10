@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec16fff2_7ca2d590",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-07-10T06:35:36Z",
+      "side": 1,
+      "message": "Your commit messages are often very short and lack context. It would be great, if you could describe the problem that you are fixing in more detail. In this case I assume that the CSS rule lacks specificity in Polymer 2, but it would be nice to have this written down. And what is the CSS rule that is taking precedence in Polymer 2 but not in Polymer 1?",
+      "revId": "324b880363be629585ca94b78b821618f7aeafd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

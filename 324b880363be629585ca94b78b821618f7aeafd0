@@ -16,6 +16,24 @@
       "revId": "324b880363be629585ca94b78b821618f7aeafd0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20514fe7_df2b1147",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-10T12:15:58Z",
+      "side": 1,
+      "message": "The css rule that is taking precedence in Polymer 2 is https://github.com/GerritCodeReview/gerrit/blob/master/polygerrit-ui/app/styles/gr-form-styles.html#L39.",
+      "parentUuid": "ec16fff2_7ca2d590",
+      "revId": "324b880363be629585ca94b78b821618f7aeafd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

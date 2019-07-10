@@ -2,6 +2,149 @@
   "comments": [
     {
       "key": {
+        "uuid": "14524632_b64e2871",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-10T07:09:18Z",
+      "side": 1,
+      "message": "Please break lines so they are at most 72 chars long:\nhttps://www.gerritcodereview.com/dev-contributing.html#commit-message",
+      "revId": "0f2d269dcb1c26a5d999a36cf84999bb51969dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "705d5cc9_ed95c40d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-10T07:09:18Z",
+      "side": 1,
+      "message": "bound",
+      "range": {
+        "startLine": 9,
+        "startChar": 92,
+        "endLine": 9,
+        "endChar": 98
+      },
+      "revId": "0f2d269dcb1c26a5d999a36cf84999bb51969dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf889c7a_54a6fd08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-10T07:09:18Z",
+      "side": 1,
+      "message": "the",
+      "range": {
+        "startLine": 9,
+        "startChar": 229,
+        "endLine": 9,
+        "endChar": 230
+      },
+      "revId": "0f2d269dcb1c26a5d999a36cf84999bb51969dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b4f705f_e9143a24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-10T07:09:18Z",
+      "side": 1,
+      "message": "a",
+      "range": {
+        "startLine": 9,
+        "startChar": 355,
+        "endLine": 9,
+        "endChar": 356
+      },
+      "revId": "0f2d269dcb1c26a5d999a36cf84999bb51969dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c628e1f9_d2170fa2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-10T07:09:18Z",
+      "side": 1,
+      "message": "the",
+      "range": {
+        "startLine": 9,
+        "startChar": 290,
+        "endLine": 9,
+        "endChar": 291
+      },
+      "revId": "0f2d269dcb1c26a5d999a36cf84999bb51969dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60c5166e_a2e2889d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-10T07:09:18Z",
+      "side": 1,
+      "message": "I suppose some bug triggered this change? If it\u0027s in Monorail, Can you add it here using the `Bug: Issue 123456` Syntax?",
+      "revId": "0f2d269dcb1c26a5d999a36cf84999bb51969dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a18c88a9_46791f05",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-10T07:09:18Z",
+      "side": 1,
+      "message": "Is it possible to write a unit test that demonstrates the problem and ensures this does not regress?",
+      "revId": "0f2d269dcb1c26a5d999a36cf84999bb51969dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "85289e61_216a6d70",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 1
@@ -18,6 +161,29 @@
         "startChar": 6,
         "endLine": 274,
         "endChar": 135
+      },
+      "revId": "0f2d269dcb1c26a5d999a36cf84999bb51969dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fce95d74_53fd4f09",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-10T07:09:18Z",
+      "side": 1,
+      "message": "Can you repeat here that null, unlike undefined, causes the observer to fire? I know you have a comment at the top, but I had to read the docs (https://polymer-library.polymer-project.org/1.0/docs/devguide/observers#computed-properties) to understand why you differentiate between undefined and null here.",
+      "range": {
+        "startLine": 432,
+        "startChar": 6,
+        "endLine": 434,
+        "endChar": 7
       },
       "revId": "0f2d269dcb1c26a5d999a36cf84999bb51969dea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

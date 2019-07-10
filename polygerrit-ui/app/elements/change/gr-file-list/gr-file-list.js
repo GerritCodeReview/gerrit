@@ -817,7 +817,7 @@
 
     _computeFiles(filesByPath, changeComments, patchRange, reviewed, loading) {
       // Await all promises resolving from reload. @See Issue 9057
-      if (loading) { return; }
+      if (loading || !changeComments) { return; }
 
       const commentedPaths = changeComments.getPaths(patchRange);
       const files = Object.assign({}, filesByPath);

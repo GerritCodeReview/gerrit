@@ -16,6 +16,24 @@
       "revId": "fe64947b1fa23019ff845348efb24601b0e4ffdb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae0c4eab_e674a131",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior/rest-client-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-07-10T06:30:17Z",
+      "side": 1,
+      "message": "I would simply\nreturn change \u0026\u0026 change.status \u003d\u003d\u003d this.ChangeStatus.NEW;",
+      "parentUuid": "00b9c9a3_d688f9f6",
+      "revId": "fe64947b1fa23019ff845348efb24601b0e4ffdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

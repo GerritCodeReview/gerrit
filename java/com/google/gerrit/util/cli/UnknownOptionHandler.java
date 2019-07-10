@@ -26,6 +26,22 @@ import com.google.gerrit.common.Nullable;
  */
 public interface UnknownOptionHandler {
   /**
+   * Checks whether the given option name matches the naming pattern of options that are defined by
+   * plugins that were defined by registering a {@link
+   * com.google.gerrit.server.DynamicOptions.DynamicBean}.
+   *
+   * @param optionName name of the option
+   * @return {@code true} if it's a plugin option, otherwise {@code false}
+   */
+  public static boolean isPluginOption(String optionName) {
+    // Options from plugins have the following name pattern: '--<plugin-name>--<option-name>'
+    if (optionName.startsWith("--")) {
+      optionName = optionName.substring(2);
+    }
+    return optionName.contains("--");
+  }
+
+  /**
    * Whether an unknown option should be accepted.
    *
    * <p>If an unknown option is not accepted, the parsing of the command-line options fails and the

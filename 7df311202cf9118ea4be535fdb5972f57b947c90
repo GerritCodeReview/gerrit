@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "92b3840e_05b30592",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-07-10T18:38:43Z",
+      "side": 1,
+      "message": "retrieving",
+      "range": {
+        "startLine": 13,
+        "startChar": 14,
+        "endLine": 13,
+        "endChar": 23
+      },
+      "revId": "7df311202cf9118ea4be535fdb5972f57b947c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a317bc99_c407e7b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-07-10T18:38:43Z",
+      "side": 1,
+      "message": "existing",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 6
+      },
+      "revId": "7df311202cf9118ea4be535fdb5972f57b947c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a8843cfb_7a8bcc4f",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2
@@ -180,6 +226,63 @@
         "endLine": 47,
         "endChar": 13
       },
+      "revId": "7df311202cf9118ea4be535fdb5972f57b947c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d274a9ba_a54b6f0e",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetTree.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-07-10T18:38:43Z",
+      "side": 1,
+      "message": "Why is caching limited to 7 days ? Aren\u0027t git trees immutable ?",
+      "revId": "7df311202cf9118ea4be535fdb5972f57b947c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f8adac9_fe92e25d",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetTree.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-07-10T18:38:43Z",
+      "side": 1,
+      "message": "both walks are already closed when the enclosing try block is left since RevWalk and TreeWalk implement AutoClosable",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 17
+      },
+      "revId": "7df311202cf9118ea4be535fdb5972f57b947c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "006a9ac4_4c2b8699",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetTree.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-07-10T18:38:43Z",
+      "side": 1,
+      "message": "looks like you could use the TreeWalk of the caller instead of creating a new one for each subtree",
       "revId": "7df311202cf9118ea4be535fdb5972f57b947c90",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

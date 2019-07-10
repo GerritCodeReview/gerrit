@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6cb1ca45_7dfacf72",
+        "filename": "plugins/hooks",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-10T16:05:45Z",
+      "side": 0,
+      "message": "Is this plugin update intentional?",
+      "revId": "4fb02184fdf9abe5a409f467c6f6f96e8c659b84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

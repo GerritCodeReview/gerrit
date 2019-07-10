@@ -325,26 +325,32 @@ public class CmdLineParser {
 
   public void parseOptionMap(ListMultimap<String, String> params) throws CmdLineException {
     logger.atFinest().log("Command-line parameters: %s", params.keySet());
-    List<String> tmp = Lists.newArrayListWithCapacity(2 * params.size());
+    List<String> knownArgs = Lists.newArrayListWithCapacity(2 * params.size());
     for (String key : params.keySet()) {
       String name = makeOption(key);
 
-      if (isBoolean(name)) {
-        boolean on = false;
-        for (String value : params.get(key)) {
-          on = toBoolean(key, value);
-        }
-        if (on) {
-          tmp.add(name);
+      if (isKnownOption(name)) {
+        if (isBoolean(name)) {
+          boolean on = false;
+          for (String value : params.get(key)) {
+            on = toBoolean(key, value);
+          }
+          if (on) {
+            knownArgs.add(name);
+          }
+        } else {
+          for (String value : params.get(key)) {
+            knownArgs.add(name);
+            knownArgs.add(value);
+          }
         }
       } else {
         for (String value : params.get(key)) {
-          tmp.add(name);
-          tmp.add(value);
+          parser.handleUnknownOption(name, value);
         }
       }
     }
-    parser.parseArgument(tmp.toArray(new String[tmp.size()]));
+    parser.parseArgument(knownArgs.toArray(new String[knownArgs.size()]));
   }
 
   public boolean isBoolean(String name) {
@@ -368,6 +374,10 @@ public class CmdLineParser {
       }
     }
     return name;
+  }
+
+  private boolean isKnownOption(String name) {
+    return findHandler(name) != null;
   }
 
   @SuppressWarnings("rawtypes")
@@ -437,6 +447,8 @@ public class CmdLineParser {
   }
 
   public class MyParser extends org.kohsuke.args4j.CmdLineParser {
+    private final Object bean;
+
     boolean help;
 
     @SuppressWarnings("rawtypes")
@@ -464,9 +476,20 @@ public class CmdLineParser {
 
     MyParser(Object bean) {
       super(bean, ParserProperties.defaults().withAtSyntax(false));
+      this.bean = bean;
       parseAdditionalOptions(bean, new HashSet<>());
       addOptionsWithMetRequirements();
       ensureOptionsInitialized();
+    }
+
+    public void handleUnknownOption(String name, String value) throws CmdLineException {
+      if (bean instanceof UnknownOptionHandler
+          && ((UnknownOptionHandler) bean).accept(name, Strings.emptyToNull(value))) {
+        return;
+      }
+
+      // Parse argument to trigger a CmdLineException for the unknown option.
+      parseArgument(name, value);
     }
 
     public int addOptionsWithMetRequirements() {

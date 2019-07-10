@@ -197,7 +197,9 @@
     const reporting = document.createElement('gr-reporting');
 
     window.addEventListener('load', () => {
-      reporting.pageLoaded();
+      setTimeout(() => {
+        reporting.pageLoaded();
+      }, 0);
     });
 
     window.addEventListener('WebComponentsReady', () => {

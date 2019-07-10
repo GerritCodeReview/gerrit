@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef02b93e_3f9a0745",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-07-10T20:35:21Z",
+      "side": 1,
+      "message": "I would remove the comment. It is not really ensuring Polymer 1 compatibility, but just helping with identifying the element in a test.",
+      "revId": "e93882dd7e6999e692b330a0a7447605fe5af23d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55ceda02_1230c2f7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-07-10T20:35:21Z",
+      "side": 1,
+      "message": "What about this?\n\nconst inputElement \u003d Polymer.Element ? element.$.maxGitObjSizeIronInput : element.$.maxGitObjSizeInput;\ninputElement.bindValue \u003d configInputObj.max_object_size_limit;",
+      "range": {
+        "startLine": 367,
+        "startChar": 10,
+        "endLine": 373,
+        "endChar": 11
+      },
+      "revId": "e93882dd7e6999e692b330a0a7447605fe5af23d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

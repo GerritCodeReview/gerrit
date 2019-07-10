@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ff40f69_30919715",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-10T07:16:35Z",
+      "side": 1,
+      "message": "(Optional) This condition is a bit messy because you have the fallback to script.baseURI twice. I wonder if these would be nicer?\n\nconst src \u003d opt_src || (script \u0026\u0026 (script.src \u0026\u0026 !script.src.startsWith(\u0027data:\u0027) ? script.src : script.baseURI));\n\nor \n\nlet src \u003d opt_src || script \u0026\u0026 script.src;\nif (!src || src.startsWith(\u0027data:\u0027)) src \u003d script.baseURI;",
+      "range": {
+        "startLine": 531,
+        "startChar": 8,
+        "endLine": 532,
+        "endChar": 69
+      },
+      "revId": "beec0d013d16c23cae02e2b26aa0bfda66b0462a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

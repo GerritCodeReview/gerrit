@@ -111,6 +111,46 @@
     },
     {
       "key": {
+        "uuid": "b38e9f0a_834c7f35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-07-10T07:28:41Z",
+      "side": 1,
+      "message": "bound",
+      "range": {
+        "startLine": 9,
+        "startChar": 92,
+        "endLine": 9,
+        "endChar": 98
+      },
+      "revId": "0f2d269dcb1c26a5d999a36cf84999bb51969dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be6eb323_d18b08ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-07-10T07:28:41Z",
+      "side": 1,
+      "message": "Needs to be formatted to 72 chars per line.\n\nSorry for not having automation point this out.\n\nMore docs: https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#commit-message",
+      "revId": "0f2d269dcb1c26a5d999a36cf84999bb51969dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "60c5166e_a2e2889d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -122,6 +162,23 @@
       "writtenOn": "2019-07-10T07:09:18Z",
       "side": 1,
       "message": "I suppose some bug triggered this change? If it\u0027s in Monorail, Can you add it here using the `Bug: Issue 123456` Syntax?",
+      "revId": "0f2d269dcb1c26a5d999a36cf84999bb51969dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c38a1069_2773f737",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-07-10T07:28:41Z",
+      "side": 1,
+      "message": "You can reference the issue in a line above Change-Id like so:\nBug: Issue 11120",
       "revId": "0f2d269dcb1c26a5d999a36cf84999bb51969dea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.server.plugins.DelegatingClassLoader;
 import com.google.gerrit.util.cli.CmdLineParser;
+import com.google.gerrit.util.cli.UnknownOptionHandler;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Provider;
@@ -26,10 +28,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.WeakHashMap;
 
 /** Helper class to define and parse options from plugins on ssh and RestAPI commands. */
 public class DynamicOptions {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   /**
    * To provide additional options, bind a DynamicBean. For example:
    *
@@ -151,7 +156,7 @@ public class DynamicOptions {
    * }
    * </pre>
    */
-  public interface BeanReceiver {
+  public interface BeanReceiver extends UnknownOptionHandler {
     void setDynamicBean(String plugin, DynamicBean dynamicBean);
 
     /**
@@ -163,6 +168,17 @@ public class DynamicOptions {
      */
     default Class<? extends BeanReceiver> getExportedBeanReceiver() {
       return getClass();
+    }
+
+    @Override
+    default boolean accept(String name, Optional<String> value) {
+      // Ignore unknown plugin options, so that callers who set a plugin option do not fail if the
+      // plugin is disabled.
+      boolean isPluginOption = UnknownOptionHandler.isPluginOption(name);
+      if (isPluginOption) {
+        logger.atFine().log("Unknown plugin option %s is ignored.", name);
+      }
+      return isPluginOption;
     }
   }
 

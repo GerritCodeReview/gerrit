@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "e4c5d9da_783e4da5",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1235,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-10T16:10:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46902cff_518b9cd8",
+      "range": {
+        "startLine": 1235,
+        "startChar": 5,
+        "endLine": 1235,
+        "endChar": 6
+      },
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8902e00_ac073fbb",
         "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 2
@@ -62,6 +86,30 @@
       "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13386d7b_f678f986",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1237,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-10T16:10:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8902e00_ac073fbb",
+      "range": {
+        "startLine": 1237,
+        "startChar": 21,
+        "endLine": 1237,
+        "endChar": 22
+      },
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +159,54 @@
     },
     {
       "key": {
+        "uuid": "72c9ffe0_68ae0b6f",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1240,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-10T16:10:09Z",
+      "side": 1,
+      "message": "I guess I could, I tried that now. The problem is that the headers use \"To\", \"Cc\" and the enum uses \"TO\" and \"CC\" so the .toString() doesn\u0027t work.\nAnyway, I created a workaround, I guess it\u0027s clearer now.",
+      "parentUuid": "67182ff4_cbb974b3",
+      "range": {
+        "startLine": 1240,
+        "startChar": 62,
+        "endLine": 1240,
+        "endChar": 68
+      },
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04b62ad8_242b84d6",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1240,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-10T16:10:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5924596e_e95769ee",
+      "range": {
+        "startLine": 1240,
+        "startChar": 17,
+        "endLine": 1240,
+        "endChar": 39
+      },
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "933f6b8f_12a87dae",
         "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 2
@@ -131,6 +227,30 @@
       "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "089f37cf_3378d564",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1255,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-10T16:10:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "933f6b8f_12a87dae",
+      "range": {
+        "startLine": 1249,
+        "startChar": 4,
+        "endLine": 1255,
+        "endChar": 59
+      },
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -157,6 +277,30 @@
     },
     {
       "key": {
+        "uuid": "f429f959_54016131",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1264,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-10T16:10:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "559ab330_fa65eb93",
+      "range": {
+        "startLine": 1234,
+        "startChar": 1,
+        "endLine": 1264,
+        "endChar": 3
+      },
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51d2e5c8_44d841f4",
         "filename": "java/com/google/gerrit/extensions/api/changes/NotifyInfo.java",
         "patchSetId": 2
@@ -177,6 +321,30 @@
       "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fde92634_0947bd19",
+        "filename": "java/com/google/gerrit/extensions/api/changes/NotifyInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-10T16:10:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51d2e5c8_44d841f4",
+      "range": {
+        "startLine": 24,
+        "startChar": 51,
+        "endLine": 24,
+        "endChar": 88
+      },
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -203,6 +371,30 @@
     },
     {
       "key": {
+        "uuid": "fd998be2_ccf8b30e",
+        "filename": "java/com/google/gerrit/extensions/api/changes/NotifyInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-10T16:10:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcd3deb8_acd6cdf3",
+      "range": {
+        "startLine": 25,
+        "startChar": 12,
+        "endLine": 25,
+        "endChar": 16
+      },
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5247d617_96f433d2",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 2
@@ -217,6 +409,24 @@
       "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abfab7f8_d5b5a205",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-10T16:10:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5247d617_96f433d2",
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -243,6 +453,30 @@
     },
     {
       "key": {
+        "uuid": "71f78ada_9d59ed10",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2660,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-10T16:10:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "737848c0_c00d9ff9",
+      "range": {
+        "startLine": 2660,
+        "startChar": 30,
+        "endLine": 2660,
+        "endChar": 42
+      },
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98f6fe61_f79a25e9",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 2
@@ -263,6 +497,30 @@
       "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "861e378e_537f0a67",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2665,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-10T16:10:09Z",
+      "side": 1,
+      "message": "This is useful, thanks!",
+      "parentUuid": "98f6fe61_f79a25e9",
+      "range": {
+        "startLine": 2661,
+        "startChar": 4,
+        "endLine": 2665,
+        "endChar": 22
+      },
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -289,6 +547,30 @@
     },
     {
       "key": {
+        "uuid": "390805c2_a6f958a6",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-10T16:10:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b39b23b4_7d75b44d",
+      "range": {
+        "startLine": 364,
+        "startChar": 14,
+        "endLine": 364,
+        "endChar": 45
+      },
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe9e75e7_68c93488",
         "filename": "javatests/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
         "patchSetId": 2
@@ -300,6 +582,30 @@
       "writtenOn": "2019-07-05T12:20:58Z",
       "side": 1,
       "message": "The message is for a change creation (change has been uploaded and reviewer is asked to review it), not for a change review (reviewer commented and people are informed about the review comments). Can you make these comment less ambiguous?\n\nI think having a need for this comment also indicates the the method should have a better name.",
+      "range": {
+        "startLine": 387,
+        "startChar": 66,
+        "endLine": 387,
+        "endChar": 72
+      },
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42818ab2_e22a72a7",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-10T16:10:09Z",
+      "side": 1,
+      "message": "I am not sure what you mean.\nThat comment is not exactly necessary, but it does make sure the reader understands that there are 2 messages that should be sent.\nI believe \"submitNoReviewSendNotifications\" implies that with the \u0027s\u0027 in the end, although that is not very clear. I think the new name implies it even better (what you offered, but with \"change\" at first).\nSince you think it\u0027s ambiguous and the name now seem to explain it properly, I\u0027ll remove that comment.",
+      "parentUuid": "fe9e75e7_68c93488",
       "range": {
         "startLine": 387,
         "startChar": 66,

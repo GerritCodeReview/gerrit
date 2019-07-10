@@ -16,6 +16,24 @@
       "revId": "2f07967e8146b25027554343562405550528431d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a9f8dca_fd5a8062",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-07-10T09:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa065a8c_ff5ea394",
+      "revId": "2f07967e8146b25027554343562405550528431d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

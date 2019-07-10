@@ -364,8 +364,13 @@ limitations under the License.
               configInputObj.private_by_default;
           element.$.matchAuthoredDateWithCommitterDateSelect.bindValue =
               configInputObj.match_author_to_committer_date;
-          element.$.maxGitObjSizeInput.bindValue =
-              configInputObj.max_object_size_limit;
+          if (Polymer.Element) {
+            element.$.maxGitObjSizeIronInput.bindValue =
+                configInputObj.max_object_size_limit;
+          } else {
+            element.$.maxGitObjSizeInput.bindValue =
+                configInputObj.max_object_size_limit;
+          }
           element.$.contributorAgreementSelect.bindValue =
               configInputObj.use_contributor_agreements;
           element.$.useSignedOffBySelect.bindValue =

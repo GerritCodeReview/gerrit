@@ -271,9 +271,12 @@ limitations under the License.
                 <span class="title">Maximum Git object size limit</span>
                 <span class="value">
                   <iron-input
+                      id="maxGitObjSizeIronInput"
                       bind-value="{{_repoConfig.max_object_size_limit.configured_value}}"
                       type="text"
                       disabled$="[[_readOnly]]">
+                    <!-- id="maxGitObjSizeInput" is there to ensure we keep
+                         Polymer 1 backwords compatibility -->
                     <input
                         id="maxGitObjSizeInput"
                         bind-value="{{_repoConfig.max_object_size_limit.configured_value}}"

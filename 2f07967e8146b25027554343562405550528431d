@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa065a8c_ff5ea394",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-07-10T04:14:44Z",
+      "side": 1,
+      "message": "This would also return 0 if e.g. the $PID is 7 but only a process with pid 75 exists.",
+      "revId": "2f07967e8146b25027554343562405550528431d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

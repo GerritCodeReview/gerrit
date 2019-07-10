@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dbca168c_b74d3eec",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-10T20:37:50Z",
+      "side": 1,
+      "message": "Thanks, done!",
+      "parentUuid": "ef02b93e_3f9a0745",
+      "revId": "e93882dd7e6999e692b330a0a7447605fe5af23d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55ceda02_1230c2f7",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo_test.html",
         "patchSetId": 5
@@ -39,6 +57,30 @@
       "revId": "e93882dd7e6999e692b330a0a7447605fe5af23d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d8e884f_1830581c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-10T20:37:50Z",
+      "side": 1,
+      "message": "Ah, that is much better :)\n\nThanks!",
+      "parentUuid": "55ceda02_1230c2f7",
+      "range": {
+        "startLine": 367,
+        "startChar": 10,
+        "endLine": 373,
+        "endChar": 11
+      },
+      "revId": "e93882dd7e6999e692b330a0a7447605fe5af23d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

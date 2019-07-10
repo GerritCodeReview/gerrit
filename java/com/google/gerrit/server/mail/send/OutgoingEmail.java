@@ -34,7 +34,7 @@ import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
-import com.google.template.soy.data.SanitizedContent;
+import com.google.template.soy.jbcsrc.api.SoySauce;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -54,6 +54,7 @@ import org.eclipse.jgit.util.SystemReader;
 
 /** Sends an email to one or more interested parties. */
 public abstract class OutgoingEmail {
+  private static final String SOY_TEMPLATE_NAMESPACE = "com.google.gerrit.server.mail.template.";
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   protected String messageClass;
@@ -536,21 +537,19 @@ public abstract class OutgoingEmail {
     return args.instanceNameProvider.get();
   }
 
-  private String soyTemplate(String name, SanitizedContent.ContentKind kind) {
-    return args.soySauce
-        .renderTemplate("com.google.gerrit.server.mail.template." + name)
-        .setExpectedContentKind(kind)
-        .setData(soyContext)
-        .render()
-        .get();
-  }
-
+  /** Renders a soy template of kind="text". */
   protected String textTemplate(String name) {
-    return soyTemplate(name, SanitizedContent.ContentKind.TEXT);
+    return configureRenderer(name).renderText().get();
   }
 
+  /** Renders a soy template of kind="html". */
   protected String soyHtmlTemplate(String name) {
-    return soyTemplate(name, SanitizedContent.ContentKind.HTML);
+    return configureRenderer(name).renderHtml().get().toString();
+  }
+
+  /** Configures a soy renderer for the given template name and rendering data map. */
+  private SoySauce.Renderer configureRenderer(String templateName) {
+    return args.soySauce.renderTemplate(SOY_TEMPLATE_NAMESPACE + templateName).setData(soyContext);
   }
 
   protected void removeUser(Account user) {

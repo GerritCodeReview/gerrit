@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "009a4cf6_43261589",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-07-10T20:26:42Z",
+      "side": 1,
+      "message": "What about changing the ids to \"maxGitObjSizeIronInput\" and \"maxGitObjSizeInput\"? I find maxGitObjSizeInput2 for the Polymer *1* test confusing. :-)",
+      "revId": "7bab9e5cf8504047fd8716faf903ecfcf66e187a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "944243db_081e4e19",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-07-10T20:26:42Z",
+      "side": 1,
+      "message": "Let\u0027s user if(Polymer.Element) as in this test: https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls_test.html#194\n\nJust a matter of being consistent. Note that you could also use the querySelector approach here, but I don\u0027t mind having two ids for looking up the elements. Both work and are fine.",
+      "revId": "7bab9e5cf8504047fd8716faf903ecfcf66e187a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

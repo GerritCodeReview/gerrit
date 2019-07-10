@@ -315,6 +315,7 @@
     _computeConnectedRevisions(change, patchNum, relatedChanges) {
       const connected = [];
       let changeRevision;
+      if (!change) { return []; }
       for (const rev in change.revisions) {
         if (this.patchNumEquals(change.revisions[rev]._number, patchNum)) {
           changeRevision = rev;

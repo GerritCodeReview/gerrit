@@ -121,7 +121,7 @@
       ];
 
       // Get conflicts if change is open and is mergeable.
-      if (this.changeIsOpen(this.change.status) && this.mergeable) {
+      if (this.changeIsOpen(this.change) && this.mergeable) {
         promises.push(this._getConflicts().then(response => {
           // Because the server doesn't always return a response and the
           // template expects an array, always return an array.

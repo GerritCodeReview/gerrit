@@ -177,7 +177,7 @@
     },
 
     _computeHideStrategy(change) {
-      return !this.changeIsOpen(change.status);
+      return !this.changeIsOpen(change);
     },
 
     /**

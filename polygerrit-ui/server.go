@@ -40,9 +40,9 @@ import (
 var (
 	plugins    = flag.String("plugins", "", "comma seperated plugin paths to serve")
 	port       = flag.String("port", ":8081", "Port to serve HTTP requests on")
-	host       = flag.String("host", "gerrit-review.googlesource.com", "Host to proxy requests to")
+	host       = flag.String("host", "polymer2-gerrit-review.googlesource.com", "Host to proxy requests to")
 	scheme     = flag.String("scheme", "https", "URL scheme")
-	cdnPattern = regexp.MustCompile("https://cdn.googlesource.com/polygerrit_ui/[0-9.]*")
+	cdnPattern = regexp.MustCompile("https://cdn.googlesource.com/polygerrit_ui/585.0/elements")
 )
 
 func main() {
@@ -71,11 +71,11 @@ func main() {
 
 	http.HandleFunc("/index.html", handleIndex)
 	http.HandleFunc("/changes/", handleProxy)
-	http.HandleFunc("/accounts/", handleProxy)
+	//http.HandleFunc("/accounts/", handleProxy)
 	http.HandleFunc("/config/", handleProxy)
 	http.HandleFunc("/projects/", handleProxy)
-	http.HandleFunc("/static/", handleProxy)
-	http.HandleFunc("/accounts/self/detail", handleAccountDetail)
+  http.HandleFunc("/static/", handleProxy)
+	// http.HandleFunc("/accounts/self/detail", handleAccountDetail)
 
 	if len(*plugins) > 0 {
 		http.Handle("/plugins/", http.StripPrefix("/plugins/",
@@ -111,6 +111,26 @@ func handleIndex(writer http.ResponseWriter, originalRequest *http.Request) {
 }
 
 func handleProxy(writer http.ResponseWriter, originalRequest *http.Request) {
+  path := originalRequest.URL.Path
+  editPattern := regexp.MustCompile("/changes/.*/edit/");
+  if (editPattern.MatchString(path)) {
+    log.Println("Match edit/")
+    writer.WriteHeader(http.StatusNoContent)
+    return
+  }
+  filesPattern := regexp.MustCompile("/changes/.*/files");
+  if (filesPattern.MatchString(path) && strings.Contains(originalRequest.URL.RawQuery, "reviewed")) {
+    log.Println("Match files/reviewed")
+    http.ServeFile(writer, originalRequest, "json-empty-array")
+  }
+  draftsPattern := regexp.MustCompile("/changes/.*/drafts");
+  if (draftsPattern.MatchString(path)) {
+    log.Println("Match drafts/")
+    http.ServeFile(writer, originalRequest, "json-empty-object")
+    return
+  }
+
+
 	patchedRequest := &http.Request{
 		Method: "GET",
 		URL: &url.URL{
@@ -170,7 +190,7 @@ func setJsonPropByPath(json map[string]interface{}, path []string, value interfa
 func patchResponse(req *http.Request, res *http.Response) io.Reader {
 	switch req.URL.EscapedPath() {
 	case "/":
-		return replaceCdn(res.Body)
+	  return replaceCdn(res.Body)
 	case "/config/server/info":
 		return injectLocalPlugins(res.Body)
 	default:
@@ -183,7 +203,7 @@ func replaceCdn(reader io.Reader) io.Reader {
 	buf.ReadFrom(reader)
 	original := buf.String()
 
-	replaced := cdnPattern.ReplaceAllString(original, "")
+	replaced := cdnPattern.ReplaceAllString(original, "/elements")
 
 	return strings.NewReader(replaced)
 }

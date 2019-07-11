@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "194fffac_60af956c",
+        "filename": "java/com/google/gerrit/server/git/receive/LazyPostReceiveHookChain.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-07-11T07:22:45Z",
+      "side": 1,
+      "message": "nit: missing JavaDoc",
+      "revId": "c2b3ddf45b276cce5ecf5ea10a1c5f2e655aa789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "950d3361_9bbe6d3f",
+        "filename": "java/com/google/gerrit/server/git/receive/LazyPostReceiveHookChain.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-07-11T07:22:45Z",
+      "side": 1,
+      "message": "optional: Don\u0027t use throwOnError here as you don\u0027t really need the exception in generates. Instead, work on the Aggregated return\n\nAggregated a \u003d qb...requestTokens();\nif (a.error()) {\n  logger...\n  throw new RuntimeException(..)\n}",
+      "range": {
+        "startLine": 65,
+        "startChar": 13,
+        "endLine": 65,
+        "endChar": 25
+      },
+      "revId": "c2b3ddf45b276cce5ecf5ea10a1c5f2e655aa789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a44bac8c_a45b2f58",
+        "filename": "java/com/google/gerrit/server/quota/QuotaGroupDefinitions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-07-11T07:22:45Z",
+      "side": 1,
+      "message": "nit: Missing JavaDoc",
+      "revId": "c2b3ddf45b276cce5ecf5ea10a1c5f2e655aa789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "634175fd_3a6fcf6e",
+        "filename": "javatests/com/google/gerrit/acceptance/server/quota/DefaultQuotaBackendIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-07-11T07:22:45Z",
+      "side": 1,
+      "message": "Same as below: Could we use the REST API do create a change and spare this extra work?",
+      "revId": "c2b3ddf45b276cce5ecf5ea10a1c5f2e655aa789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e58a40d_a0f875ab",
+        "filename": "javatests/com/google/gerrit/acceptance/server/quota/RestApiQuotaIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-07-11T07:22:45Z",
+      "side": 1,
+      "message": "Setting and resetting the mock like this is a little cumbersome. Could we use the REST API instead to create a change?",
+      "revId": "c2b3ddf45b276cce5ecf5ea10a1c5f2e655aa789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

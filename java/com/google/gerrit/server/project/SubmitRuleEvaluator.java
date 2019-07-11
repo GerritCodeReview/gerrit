@@ -20,6 +20,7 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.index.OnlineReindexMode;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.PrologRule;
@@ -102,7 +103,7 @@ public class SubmitRuleEvaluator {
       return ruleError("Error looking up change " + cd.getId(), e);
     }
 
-    if (!opts.allowClosed() && change.isClosed()) {
+    if ((!opts.allowClosed() || OnlineReindexMode.isActive()) && change.isClosed()) {
       SubmitRecord rec = new SubmitRecord();
       rec.status = SubmitRecord.Status.CLOSED;
       return Collections.singletonList(rec);

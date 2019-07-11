@@ -222,12 +222,14 @@
     },
 
     _showAddTopic(changeRecord, settingTopic) {
-      const hasTopic = !!changeRecord && !!changeRecord.base.topic;
+      const hasTopic = !!changeRecord &&
+          !!changeRecord.base && !!changeRecord.base.topic;
       return !hasTopic && !settingTopic;
     },
 
     _showTopicChip(changeRecord, settingTopic) {
-      const hasTopic = !!changeRecord && !!changeRecord.base.topic;
+      const hasTopic = !!changeRecord &&
+          !!changeRecord.base && !!changeRecord.base.topic;
       return hasTopic && !settingTopic;
     },
 
@@ -406,7 +408,7 @@
      * @return {Object|null} either an accound or null.
      */
     _getNonOwnerRole(change, role) {
-      if (!change.current_revision ||
+      if (!change || !change.current_revision ||
           !change.revisions[change.current_revision]) {
         return null;
       }

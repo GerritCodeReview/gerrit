@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf5d4c7f_9d53e1ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-11T18:01:01Z",
+      "side": 1,
+      "message": "Missing: to",
+      "range": {
+        "startLine": 13,
+        "startChar": 9,
+        "endLine": 13,
+        "endChar": 10
+      },
+      "revId": "2c0459725ecc1b8db3453ecd31b7c3c888668580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f33b4329_19e5cfbb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-11T18:01:01Z",
+      "side": 1,
+      "message": "Can you please create this change?",
+      "range": {
+        "startLine": 21,
+        "startChar": 40,
+        "endLine": 21,
+        "endChar": 69
+      },
+      "revId": "2c0459725ecc1b8db3453ecd31b7c3c888668580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8fd7282_96104573",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-11T18:01:01Z",
+      "side": 1,
+      "message": "Nit: Both this test and the next start with \"diffStatShould\" but have the exact the opposite expectation after the \"should\". Isn\u0027t this a bit confusing for other readers?",
+      "range": {
+        "startLine": 266,
+        "startChar": 14,
+        "endLine": 266,
+        "endChar": 28
+      },
+      "revId": "2c0459725ecc1b8db3453ecd31b7c3c888668580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

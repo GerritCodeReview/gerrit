@@ -283,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "2106baa7_d1f69a97",
+        "filename": "java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-11T18:01:01Z",
+      "side": 1,
+      "message": "I\u0027m remembering this differently. ;-)\n\nAnyway, can you please try it? I\u0027m pretty sure it works if the right generic types are used.",
+      "parentUuid": "4db96e7f_1abe0325",
+      "range": {
+        "startLine": 175,
+        "startChar": 2,
+        "endLine": 188,
+        "endChar": 3
+      },
+      "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "57d1aaa7_274606b9",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 7
@@ -374,6 +398,30 @@
       "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3162ba98_9f07a1d4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 4473,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-11T18:01:01Z",
+      "side": 1,
+      "message": "Can you provide some reasons why it\u0027s better to comment it? Just by looking at this test, it\u0027s not even clear that the option needs to be added here. Of course, we do intend to adjust the frontend in the future but in which way and how this relates to this test will only be apparent when we have the frontend change. (By the way, we don\u0027t need to explicitly \"help the frontend\". The frontend code contains an explicit comment to adjust this test and hence there are already some pointers.)\n\nA note regarding TODOs in general: If you add a TODO, please add your name to it. Otherwise, it\u0027s even more likely that the TODO will never be addressed because nobody feels responsible for it.",
+      "parentUuid": "83a13999_b2bb6d3c",
+      "range": {
+        "startLine": 4473,
+        "startChar": 7,
+        "endLine": 4473,
+        "endChar": 77
+      },
+      "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c3eeb567_07966b80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-11T23:13:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b106fb6_d3abbc43",
+      "revId": "856a0f07e76795ec289358491edfed78daabc837",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c50e281_839becc1",
         "filename": "gerrit-gwtui/BUILD",
         "patchSetId": 3
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "86bbc672_1e34b17d",
+        "filename": "gerrit-gwtui/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-11T23:13:39Z",
+      "side": 1,
+      "message": "It\u0027s based on the name in core, see L31",
+      "parentUuid": "2c50e281_839becc1",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 24
+      },
+      "revId": "856a0f07e76795ec289358491edfed78daabc837",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e790ba83_4fd8f9c7",
         "filename": "gerrit-gwtui/BUILD",
         "patchSetId": 3
@@ -53,6 +95,30 @@
       "writtenOn": "2019-07-11T20:54:59Z",
       "side": 1,
       "message": "Is this restrictive enough for resources? Might be; humble question.",
+      "range": {
+        "startLine": 28,
+        "startChar": 27,
+        "endLine": 28,
+        "endChar": 36
+      },
+      "revId": "856a0f07e76795ec289358491edfed78daabc837",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6387ccb_f384004a",
+        "filename": "gerrit-gwtui/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-11T23:13:39Z",
+      "side": 1,
+      "message": "This is how it\u0027s done in gerrit-gwtui-common/BUILD",
+      "parentUuid": "e790ba83_4fd8f9c7",
       "range": {
         "startLine": 28,
         "startChar": 27,

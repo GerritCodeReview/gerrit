@@ -249,6 +249,24 @@
     },
     {
       "key": {
+        "uuid": "672358cc_9c83c710",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetTree.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1084892
+      },
+      "writtenOn": "2019-07-11T21:13:41Z",
+      "side": 1,
+      "message": "Yes, tree objects are immutable. So do commits.\nI followed what is used in GetCommit:\nserver/restapi/change/GetCommit.java:\n\nWould it better if I remove it?",
+      "parentUuid": "d274a9ba_a54b6f0e",
+      "revId": "7df311202cf9118ea4be535fdb5972f57b947c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1f8adac9_fe92e25d",
         "filename": "java/com/google/gerrit/server/restapi/change/GetTree.java",
         "patchSetId": 2
@@ -272,6 +290,30 @@
     },
     {
       "key": {
+        "uuid": "f5ebc6aa_b2d27977",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetTree.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1084892
+      },
+      "writtenOn": "2019-07-11T21:13:41Z",
+      "side": 1,
+      "message": "Will fix it.",
+      "parentUuid": "1f8adac9_fe92e25d",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 17
+      },
+      "revId": "7df311202cf9118ea4be535fdb5972f57b947c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "006a9ac4_4c2b8699",
         "filename": "java/com/google/gerrit/server/restapi/change/GetTree.java",
         "patchSetId": 2
@@ -283,6 +325,24 @@
       "writtenOn": "2019-07-10T18:38:43Z",
       "side": 1,
       "message": "looks like you could use the TreeWalk of the caller instead of creating a new one for each subtree",
+      "revId": "7df311202cf9118ea4be535fdb5972f57b947c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "137b97a9_63c47488",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetTree.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1084892
+      },
+      "writtenOn": "2019-07-11T21:13:41Z",
+      "side": 1,
+      "message": "Will fix it.",
+      "parentUuid": "006a9ac4_4c2b8699",
       "revId": "7df311202cf9118ea4be535fdb5972f57b947c90",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

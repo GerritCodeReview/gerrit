@@ -627,9 +627,7 @@ public class RestApiServlet extends HttpServlet {
         Throwable t = e.getCause();
         if (t instanceof LockFailureException) {
           logger.atSevere().withCause(t).log("Error in %s %s", req.getMethod(), uriForLogging(req));
-          responseBytes =
-              replyError(
-                  req, res, status = SC_SERVICE_UNAVAILABLE, messageOr(t, "Lock failure"), e);
+          responseBytes = replyError(req, res, status = SC_SERVICE_UNAVAILABLE, "Lock failure", e);
         } else {
           status = SC_INTERNAL_SERVER_ERROR;
           responseBytes = handleException(e, req, res);

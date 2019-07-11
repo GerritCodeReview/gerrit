@@ -22,6 +22,30 @@
       "revId": "f9620af532bae32dfcc365d1839c836aa94bace0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a2affb0_dac06b32",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1047632
+      },
+      "writtenOn": "2019-07-11T05:54:17Z",
+      "side": 1,
+      "message": "Isn\u0027t the logic wrong? I would think that the exception should be re-thrown if NOT container.slave. I get a init failure on a master, but see the message \"Couldn\u0027t upgrade schema. Expected if slave...\", and no info on the root cause.",
+      "parentUuid": "29cd23ec_56171053",
+      "range": {
+        "startLine": 150,
+        "startChar": 13,
+        "endLine": 150,
+        "endChar": 60
+      },
+      "revId": "f9620af532bae32dfcc365d1839c836aa94bace0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

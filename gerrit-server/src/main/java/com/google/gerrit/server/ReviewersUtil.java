@@ -18,8 +18,6 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.GroupBaseInfo;
@@ -275,10 +273,9 @@ public class ReviewersUtil {
 
   private List<GroupReference> suggestAccountGroups(
       SuggestReviewers suggestReviewers, ProjectState projectState) {
-    return Lists.newArrayList(
-        Iterables.limit(
-            groupBackend.suggest(suggestReviewers.getQuery(), projectState),
-            suggestReviewers.getLimit()));
+    return groupBackend.suggest(suggestReviewers.getQuery(), projectState).stream()
+        .limit(suggestReviewers.getLimit())
+        .collect(toList());
   }
 
   private static class GroupAsReviewer {

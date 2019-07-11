@@ -15,10 +15,10 @@
 package com.google.gerrit.server.group;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.data.GroupDescription;
@@ -304,12 +304,12 @@ public class ListGroups implements RestReadView<TopLevelResource> {
           "You should only have no more than one --project and -n with --suggest");
     }
     List<GroupReference> groupRefs =
-        Lists.newArrayList(
-            Iterables.limit(
-                groupBackend.suggest(
-                    suggest,
-                    projects.stream().findFirst().map(pc -> pc.getProjectState()).orElse(null)),
-                limit <= 0 ? 10 : Math.min(limit, 10)));
+        groupBackend
+            .suggest(
+                suggest, projects.stream().findFirst().map(pc -> pc.getProjectState()).orElse(null))
+            .stream()
+            .limit(limit <= 0 ? 10 : Math.min(limit, 10))
+            .collect(toList());
 
     List<GroupInfo> groupInfos = Lists.newArrayListWithCapacity(groupRefs.size());
     for (GroupReference ref : groupRefs) {

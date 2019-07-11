@@ -88,7 +88,7 @@ limitations under the License.
               </template>
               <template is="dom-if" if="[[_isString(option.info.type)]]">
                 <iron-input
-                    value="[[option.info.value]]"
+                    bind-value="[[option.info.value]]"
                     on-input="_handleStringChange"
                     data-option-key$="[[option._key]]"
                     disabled$="[[_computeDisabled(option.info.editable)]]">

@@ -34,6 +34,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.index.IndexExecutor;
+import com.google.gerrit.server.index.OnlineReindexMode;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
 import com.google.gerrit.server.project.ProjectCache;
@@ -214,6 +215,8 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     @Override
     public Void call() throws Exception {
       try (Repository repo = repoManager.openRepository(project)) {
+        OnlineReindexMode.begin();
+
         // Order of scanning changes is undefined. This is ok if we assume that packfile locality is
         // not important for indexing, since sites should have a fully populated DiffSummary cache.
         // It does mean that reindexing after invalidating the DiffSummary cache will be expensive,
@@ -222,6 +225,8 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         notesFactory.scan(repo, project).forEach(r -> index(r));
       } catch (RepositoryNotFoundException rnfe) {
         logger.atSevere().log(rnfe.getMessage());
+      } finally {
+        OnlineReindexMode.end();
       }
       return null;
     }

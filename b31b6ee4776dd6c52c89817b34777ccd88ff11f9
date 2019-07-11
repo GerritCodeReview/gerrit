@@ -22,6 +22,23 @@
       "revId": "b31b6ee4776dd6c52c89817b34777ccd88ff11f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95d5525e_fb5d34a6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-11T23:56:46Z",
+      "side": 1,
+      "message": "Probably add \"/** @type {?} */\" above this (same for _revisionSubmitAction)\n\nTests are failing with:\n\nError from file: interface-test.js\ninitializing variable\nfound   : module$exports$polygerrit$polygerrit-ui$app$elements$change$gr-change-actions$gr-change-actions$js\nrequired: module$contents$_tmp$tmp_4054le3X2WZmhjmt_html_interface_23\nmissing : []\nmismatch: [_revisionRebaseAction]",
+      "revId": "b31b6ee4776dd6c52c89817b34777ccd88ff11f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

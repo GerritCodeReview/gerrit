@@ -22,6 +22,30 @@
       "revId": "c930714b5461b8d34217d3f735a994b2b6fea5b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22b04258_a53eb19a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1245,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-11T06:21:36Z",
+      "side": 1,
+      "message": "I think the use of ImmutableSet in the base version was not necessary.  The allMembers set is initialized as a regular set (see L1241) and that\u0027s what gets returned in the else block below.",
+      "parentUuid": "8b0ccf28_2b4f48d1",
+      "range": {
+        "startLine": 1245,
+        "startChar": 61,
+        "endLine": 1245,
+        "endChar": 68
+      },
+      "revId": "c930714b5461b8d34217d3f735a994b2b6fea5b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

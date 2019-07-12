@@ -27,17 +27,26 @@ limitations under the License.
   <template>
     <style include="shared-styles"></style>
     <style include="gr-form-styles">
-      td {
-        width: 5em;
+      tr th.emailAddressHeader,
+      tr th.identityHeader {
+        width: 15em;
+        padding: 0px 10px;
+      }
+      tr td.statusColumn,
+      tr td.emailAddressColumn,
+      tr td.identityColumn {
+        word-break: break-word;
+      }
+      tr td.emailAddressColumn,
+      tr td.identityColumn {
+        padding: 4px 10px;
+        width: 15em;
       }
       .deleteButton {
         float: right;
       }
       .deleteButton:not(.show) {
         display: none;
-      }
-      .statusColumn {
-        white-space: nowrap;
       }
     </style>
     <div class="gr-form-styles">
@@ -53,12 +62,12 @@ limitations under the License.
         <tbody>
           <template is="dom-repeat" items="[[_identities]]" filter="filterIdentities">
             <tr>
-              <td class$="statusColumn">
+              <td class="statusColumn">
                 [[_computeIsTrusted(item.trusted)]]
               </td>
-              <td>[[item.email_address]]</td>
-              <td>[[_computeIdentity(item.identity)]]</td>
-              <td>
+              <td class="emailAddressColumn">[[item.email_address]]</td>
+              <td class="identityColumn">[[_computeIdentity(item.identity)]]</td>
+              <td class="deleteColumn">
                 <gr-button
                     link
                     class$="deleteButton [[_computeHideDeleteClass(item.can_delete)]]"

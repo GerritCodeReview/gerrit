@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8af213f8_04851e04",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-12T09:56:33Z",
+      "side": 1,
+      "message": "I think, \"change creation\" would be better here, since this email informs about a new change. The email is the same no matter if the change was created by push, via the REST API and somehow else.",
+      "range": {
+        "startLine": 368,
+        "startChar": 54,
+        "endLine": 368,
+        "endChar": 58
+      },
+      "revId": "f145696dbd4c27ba7e887d4c8dd12684b91b5ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6e4fe1b_2f2d4937",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-12T09:56:33Z",
+      "side": 1,
+      "message": "Please annotate this with @Nullable if null is an allowed value for this parameter and also document in the Javadoc what passing in null means.",
+      "range": {
+        "startLine": 373,
+        "startChar": 69,
+        "endLine": 373,
+        "endChar": 82
+      },
+      "revId": "f145696dbd4c27ba7e887d4c8dd12684b91b5ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fc259fb_d3769280",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-12T09:56:33Z",
+      "side": 1,
+      "message": "I guess you wanted to name this \u0027recipientType\"?\n\nMaybe even better name it \"expectedRecipientType\".",
+      "range": {
+        "startLine": 373,
+        "startChar": 83,
+        "endLine": 373,
+        "endChar": 95
+      },
+      "revId": "f145696dbd4c27ba7e887d4c8dd12684b91b5ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51a7648c_c24e4fc3",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-12T09:56:33Z",
+      "side": 1,
+      "message": "Please move the private methods below the test methods. We usually define private methods at the end of a class (after the public methods). For tiny private methods is also okay to define them right after the public method that is using it. That\u0027s a convention that we agreed on as team and we should follow it for newly written code, although not all existing code applies to it.",
+      "revId": "f145696dbd4c27ba7e887d4c8dd12684b91b5ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1fef626_aec40298",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-12T09:56:33Z",
+      "side": 1,
+      "message": "Do we need this as a separate method? It looks like it\u0027s only called from the assertChangeAndSubmitWithNotify method above. I think this can just be inlined.",
+      "revId": "f145696dbd4c27ba7e887d4c8dd12684b91b5ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b56af70_f8aba6b2",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-12T09:56:33Z",
+      "side": 1,
+      "message": "better: assertAddress",
+      "range": {
+        "startLine": 390,
+        "startChar": 15,
+        "endLine": 390,
+        "endChar": 27
+      },
+      "revId": "f145696dbd4c27ba7e887d4c8dd12684b91b5ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e3e34ed_2f4532ad",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-12T09:56:33Z",
+      "side": 1,
+      "message": "Why \"changeAndSubmitWithNotifyOption\" and not just \u0027submitWithNotifyOption\u0027?\n\nIf you want to make this clearer, what about \u0027pushForSubmitWithNotifyOption\u0027 (I suggested \u0027submitWithNotifyOption\u0027 because the class name already gives enough context to understand that this is about submit on push)?",
+      "range": {
+        "startLine": 406,
+        "startChar": 14,
+        "endLine": 406,
+        "endChar": 45
+      },
+      "revId": "f145696dbd4c27ba7e887d4c8dd12684b91b5ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

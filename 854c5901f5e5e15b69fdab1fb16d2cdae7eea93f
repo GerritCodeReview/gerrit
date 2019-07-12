@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "370706d8_ee06bbcc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-12T09:56:33Z",
+      "side": 1,
+      "message": "Ping. Still not addressed.",
+      "parentUuid": "3729e320_cd3eb5dc",
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "46902cff_518b9cd8",
         "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 2
@@ -606,6 +624,30 @@
       "side": 1,
       "message": "I am not sure what you mean.\nThat comment is not exactly necessary, but it does make sure the reader understands that there are 2 messages that should be sent.\nI believe \"submitNoReviewSendNotifications\" implies that with the \u0027s\u0027 in the end, although that is not very clear. I think the new name implies it even better (what you offered, but with \"change\" at first).\nSince you think it\u0027s ambiguous and the name now seem to explain it properly, I\u0027ll remove that comment.",
       "parentUuid": "fe9e75e7_68c93488",
+      "range": {
+        "startLine": 387,
+        "startChar": 66,
+        "endLine": 387,
+        "endChar": 72
+      },
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ac692a8_6e7752a9",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-12T09:56:33Z",
+      "side": 1,
+      "message": "I hoped we could name the method in a way so that readers don\u0027t need any comment to understand it. TBH \u0027assertChangeAndSubmitWithNotify\u0027 doesn\u0027t give me that clarity. How about naming it\n\u0027assertThatEmailsForChangeCreationAndSubmitWereSent\u0027?",
+      "parentUuid": "42818ab2_e22a72a7",
       "range": {
         "startLine": 387,
         "startChar": 66,

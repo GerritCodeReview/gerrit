@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "735e7aca_7b4eff55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-07-12T16:59:54Z",
+      "side": 1,
+      "message": "Add a blank line before the Change-Id line.",
+      "revId": "d0f776173e20c92f163383b627476d6ac8fad577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

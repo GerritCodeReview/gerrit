@@ -86,6 +86,9 @@
    * implements the same behavior as the template parsing for imperative slots.
    */
   Gerrit.slotToContent = function(slot) {
+    if (Polymer.Element) {
+      return slot;
+    }
     const content = document.createElement('content');
     content.name = slot.name;
     content.setAttribute('select', `[slot='${slot.name}']`);

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6267694d_d9c938c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-12T08:49:37Z",
+      "side": 1,
+      "message": "I\u0027m not liking this very much, but I agree it\u0027s better than having AllUsersName in AccountState just for this.",
+      "range": {
+        "startLine": 14,
+        "startChar": 52,
+        "endLine": 18,
+        "endChar": 0
+      },
+      "revId": "bf249aad0ca2a49bcb6dda3aaed3b03cdd66e098",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d859fb16_93af18f1",
+        "filename": "java/com/google/gerrit/server/index/account/AccountField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-12T08:49:37Z",
+      "side": 1,
+      "message": "staleness",
+      "range": {
+        "startLine": 151,
+        "startChar": 55,
+        "endLine": 151,
+        "endChar": 63
+      },
+      "revId": "bf249aad0ca2a49bcb6dda3aaed3b03cdd66e098",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68549ad2_a0290f00",
+        "filename": "java/com/google/gerrit/server/index/account/StalenessChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-12T08:49:37Z",
+      "side": 1,
+      "message": "nit: looks like this should fit in one line",
+      "range": {
+        "startLine": 111,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 58
+      },
+      "revId": "bf249aad0ca2a49bcb6dda3aaed3b03cdd66e098",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

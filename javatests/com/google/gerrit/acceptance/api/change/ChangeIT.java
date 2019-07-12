@@ -3468,6 +3468,42 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void notifyConfigForDirectoryTriggersEmail() throws Exception {
+    // Configure notifications on project level.
+    RevCommit oldHead = projectOperations.project(project).getHead("master");
+    GitUtil.fetch(testRepo, RefNames.REFS_CONFIG + ":config");
+    testRepo.reset("config");
+    PushOneCommit push =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Configure Notifications",
+            "project.config",
+            "[notify \"my=notify-config\"]\n"
+                + "  email = foo@test.com\n"
+                + "  filter = dir:\\\"foo/bar/baz\\\"");
+    push.to(RefNames.REFS_CONFIG);
+    testRepo.reset(oldHead);
+
+    // Push a change that matches the filter.
+    sender.clear();
+    push =
+        pushFactory.create(
+            admin.newIdent(), testRepo, "Test change", "foo/bar/baz/test.txt", "some content");
+    PushOneCommit.Result r = push.to("refs/for/master");
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(Address.parse("foo@test.com"));
+
+    // Comment on the change.
+    sender.clear();
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.message = "some message";
+    gApi.changes().id(r.getChangeId()).current().review(reviewInput);
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(Address.parse("foo@test.com"));
+  }
+
+  @Test
   public void checkLabelsForMergedChangeWithNonAuthorCodeReview() throws Exception {
     // Configure Non-Author-Code-Review
     RevCommit oldHead = projectOperations.project(project).getHead("master");

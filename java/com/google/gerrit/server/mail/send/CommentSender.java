@@ -17,7 +17,6 @@ package com.google.gerrit.server.mail.send;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Ordering;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.FilenameComparator;
 import com.google.gerrit.exceptions.EmailException;
@@ -135,7 +134,6 @@ public class CommentSender extends ReplyToChangeSender {
         paths.add(c.key.filename);
       }
     }
-    changeData.setCurrentFilePaths(Ordering.natural().sortedCopy(paths));
   }
 
   public void setPatchSetComment(String comment) {

@@ -4483,7 +4483,8 @@ public class ChangeIT extends AbstractDaemonTest {
             ListChangesOption.MESSAGES,
             ListChangesOption.SUBMITTABLE,
             ListChangesOption.WEB_LINKS,
-            ListChangesOption.SKIP_MERGEABLE);
+            ListChangesOption.SKIP_MERGEABLE,
+            ListChangesOption.SKIP_DIFFSTAT);
 
     PushOneCommit.Result change = createChange();
     int number = gApi.changes().id(change.getChangeId()).get(options)._number;

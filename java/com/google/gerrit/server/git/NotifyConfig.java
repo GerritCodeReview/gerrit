@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.mail.Address;
@@ -113,6 +114,13 @@ public class NotifyConfig implements Comparable<NotifyConfig> {
 
   @Override
   public String toString() {
-    return "NotifyConfig[" + name + " = " + addresses + " + " + groups + "]";
+    return MoreObjects.toStringHelper(this)
+        .add("name", name)
+        .add("addresses", addresses)
+        .add("groups", groups)
+        .add("header", header)
+        .add("types", types)
+        .add("filter", filter)
+        .toString();
   }
 }

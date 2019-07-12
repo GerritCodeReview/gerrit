@@ -287,7 +287,8 @@ public class PatchListLoader implements Callable<PatchList> {
     }
 
     List<DiffEntry> relevantDiffEntries =
-        diffEntries.stream()
+        diffEntries
+            .stream()
             .filter(diffEntry -> isTouched(touchedFilePaths, diffEntry))
             .collect(toImmutableList());
 
@@ -396,7 +397,8 @@ public class PatchListLoader implements Callable<PatchList> {
   }
 
   private static Set<Edit> getContentEdits(Set<ContextAwareEdit> editsDueToRebase) {
-    return editsDueToRebase.stream()
+    return editsDueToRebase
+        .stream()
         .map(ContextAwareEdit::toEdit)
         .filter(Optional::isPresent)
         .map(Optional::get)

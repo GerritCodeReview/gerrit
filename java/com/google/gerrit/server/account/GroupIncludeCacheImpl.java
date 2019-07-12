@@ -156,7 +156,10 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
       try (TraceTimer timer =
           TraceContext.newTimer(
               "Loading groups with member", Metadata.builder().accountId(memberId.get()).build())) {
-        return groupQueryProvider.get().byMember(memberId).stream()
+        return groupQueryProvider
+            .get()
+            .byMember(memberId)
+            .stream()
             .map(InternalGroup::getGroupUUID)
             .collect(toImmutableSet());
       }
@@ -177,7 +180,10 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
       try (TraceTimer timer =
           TraceContext.newTimer(
               "Loading parent groups", Metadata.builder().groupUuid(key.get()).build())) {
-        return groupQueryProvider.get().bySubgroup(key).stream()
+        return groupQueryProvider
+            .get()
+            .bySubgroup(key)
+            .stream()
             .map(InternalGroup::getGroupUUID)
             .collect(toImmutableList());
       }

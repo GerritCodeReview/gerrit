@@ -58,7 +58,9 @@ public class ListCapabilities implements RestReadView<ConfigResource> {
 
   private static ImmutableMap<String, CapabilityInfo> convertToPermissionInfos(
       ImmutableMap<String, String> permissionIdNames) {
-    return permissionIdNames.entrySet().stream()
+    return permissionIdNames
+        .entrySet()
+        .stream()
         .collect(
             toImmutableMap(Map.Entry::getKey, e -> new CapabilityInfo(e.getKey(), e.getValue())));
   }

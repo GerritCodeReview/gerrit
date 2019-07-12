@@ -85,7 +85,10 @@ public class Emails {
   public ImmutableSetMultimap<String, Account.Id> getAccountsFor(String... emails)
       throws IOException {
     ImmutableSetMultimap.Builder<String, Account.Id> builder = ImmutableSetMultimap.builder();
-    externalIds.byEmails(emails).entries().stream()
+    externalIds
+        .byEmails(emails)
+        .entries()
+        .stream()
         .forEach(e -> builder.put(e.getKey(), e.getValue().accountId()));
     executeIndexQuery(() -> queryProvider.get().byPreferredEmail(emails).entries().stream())
         .forEach(e -> builder.put(e.getKey(), e.getValue().getAccount().getId()));

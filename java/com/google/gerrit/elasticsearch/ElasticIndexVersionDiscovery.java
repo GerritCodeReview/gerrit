@@ -54,8 +54,11 @@ class ElasticIndexVersionDiscovery {
     }
 
     return new JsonParser()
-        .parse(AbstractElasticIndex.getContent(response)).getAsJsonObject().entrySet().stream()
-            .map(e -> e.getKey().replace(name, ""))
-            .collect(toList());
+        .parse(AbstractElasticIndex.getContent(response))
+        .getAsJsonObject()
+        .entrySet()
+        .stream()
+        .map(e -> e.getKey().replace(name, ""))
+        .collect(toList());
   }
 }

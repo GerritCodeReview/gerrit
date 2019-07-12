@@ -27,7 +27,8 @@ public class ModuleOverloader {
 
     // group candidates by annotation existence
     Map<Boolean, List<Module>> grouped =
-        overrideCandidates.stream()
+        overrideCandidates
+            .stream()
             .collect(
                 Collectors.groupingBy(m -> m.getClass().getAnnotation(ModuleImpl.class) != null));
 
@@ -43,14 +44,16 @@ public class ModuleOverloader {
     }
 
     // swipe cache implementation with alternative provided in lib
-    return modules.stream()
+    return modules
+        .stream()
         .map(
             m -> {
               ModuleImpl a = m.getClass().getAnnotation(ModuleImpl.class);
               if (a == null) {
                 return m;
               }
-              return overrides.stream()
+              return overrides
+                  .stream()
                   .filter(
                       o ->
                           o.getClass()

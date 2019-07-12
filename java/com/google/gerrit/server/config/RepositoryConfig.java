@@ -61,7 +61,8 @@ public class RepositoryConfig {
   }
 
   public ImmutableList<Path> getAllBasePaths() {
-    return cfg.getSubsections(SECTION_NAME).stream()
+    return cfg.getSubsections(SECTION_NAME)
+        .stream()
         .map(sub -> cfg.getString(SECTION_NAME, sub, BASE_PATH_NAME))
         .filter(Objects::nonNull)
         .map(Paths::get)
@@ -89,7 +90,8 @@ public class RepositoryConfig {
    */
   @Nullable
   private String findSubSection(String project) {
-    return cfg.getSubsections(SECTION_NAME).stream()
+    return cfg.getSubsections(SECTION_NAME)
+        .stream()
         .filter(ss -> isMatch(ss, project))
         .max(comparing(String::length))
         .orElse(null);

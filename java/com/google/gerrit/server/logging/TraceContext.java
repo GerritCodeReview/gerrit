@@ -134,7 +134,10 @@ public class TraceContext implements AutoCloseable {
     }
 
     Optional<String> existingTraceId =
-        LoggingContext.getInstance().getTagsAsMap().get(RequestId.Type.TRACE_ID.name()).stream()
+        LoggingContext.getInstance()
+            .getTagsAsMap()
+            .get(RequestId.Type.TRACE_ID.name())
+            .stream()
             .findAny();
     if (existingTraceId.isPresent()) {
       // request tracing was already started, no need to generate a new trace ID

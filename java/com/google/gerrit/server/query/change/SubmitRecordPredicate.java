@@ -30,7 +30,8 @@ public class SubmitRecordPredicate extends ChangeIndexPredicate {
       return new SubmitRecordPredicate(status.name() + ',' + lowerLabel);
     }
     return Predicate.or(
-        accounts.stream()
+        accounts
+            .stream()
             .map(a -> new SubmitRecordPredicate(status.name() + ',' + lowerLabel + ',' + a.get()))
             .collect(toList()));
   }

@@ -39,8 +39,7 @@ public class AccountFieldTest {
     Account account = new Account(Account.id(1), TimeUtil.nowTs());
     String metaId = "0e39795bb25dc914118224995c53c5c36923a461";
     account.setMetaId(metaId);
-    List<String> values =
-        toStrings(AccountField.REF_STATE.get(AccountState.forAccount(allUsersName, account)));
+    List<String> values = toStrings(AccountField.REF_STATE.get(AccountState.forAccount(account)));
     assertThat(values).hasSize(1);
     String expectedValue =
         allUsersName.get() + ":" + RefNames.refsUsers(account.getId()) + ":" + metaId;
@@ -68,7 +67,7 @@ public class AccountFieldTest {
     List<String> values =
         toStrings(
             AccountField.EXTERNAL_ID_STATE.get(
-                AccountState.forAccount(null, account, ImmutableSet.of(extId1, extId2))));
+                AccountState.forAccount(account, ImmutableSet.of(extId1, extId2))));
     String expectedValue1 = extId1.key().sha1().name() + ":" + extId1.blobId().name();
     String expectedValue2 = extId2.key().sha1().name() + ":" + extId2.blobId().name();
     assertThat(values).containsExactly(expectedValue1, expectedValue2);

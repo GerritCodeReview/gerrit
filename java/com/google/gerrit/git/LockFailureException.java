@@ -36,7 +36,9 @@ public class LockFailureException extends IOException {
   public LockFailureException(String message, BatchRefUpdate batchRefUpdate) {
     super(message);
     refs =
-        batchRefUpdate.getCommands().stream()
+        batchRefUpdate
+            .getCommands()
+            .stream()
             .filter(c -> c.getResult() == ReceiveCommand.Result.LOCK_FAILURE)
             .map(ReceiveCommand::getRefName)
             .collect(toImmutableList());

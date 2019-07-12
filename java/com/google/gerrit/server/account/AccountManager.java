@@ -455,7 +455,8 @@ public class AccountManager {
               }
 
               if (filteredExtIdsByScheme.size() > 1
-                  || !filteredExtIdsByScheme.stream()
+                  || !filteredExtIdsByScheme
+                      .stream()
                       .anyMatch(e -> e.key().equals(who.getExternalIdKey()))) {
                 u.deleteExternalIds(filteredExtIdsByScheme);
               }
@@ -512,7 +513,8 @@ public class AccountManager {
             (a, u) -> {
               u.deleteExternalIds(extIds);
               if (a.getAccount().getPreferredEmail() != null
-                  && extIds.stream()
+                  && extIds
+                      .stream()
                       .anyMatch(e -> a.getAccount().getPreferredEmail().equals(e.email()))) {
                 u.setPreferredEmail(null);
               }

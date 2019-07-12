@@ -624,7 +624,9 @@ public final class GerritLauncher {
    * @return true if any thread has a stack frame in {@code org.eclipse.jdt}.
    */
   public static boolean isRunningInEclipse() {
-    return Thread.getAllStackTraces().values().stream()
+    return Thread.getAllStackTraces()
+        .values()
+        .stream()
         .flatMap(Arrays::stream)
         .anyMatch(e -> e.getClassName().startsWith("org.eclipse.jdt."));
   }

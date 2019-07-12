@@ -375,7 +375,9 @@ class DefaultRefFilter {
   private static Map<String, Ref> getTaggableRefsMap(Repository repo)
       throws PermissionBackendException {
     try {
-      return repo.getRefDatabase().getRefs().stream()
+      return repo.getRefDatabase()
+          .getRefs()
+          .stream()
           .filter(
               r ->
                   !RefNames.isGerritRef(r.getName())

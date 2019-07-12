@@ -85,7 +85,8 @@ public class SerializedClassSubject extends Subject {
     isConcrete();
     check("fields()")
         .that(
-            FieldUtils.getAllFieldsList(clazz).stream()
+            FieldUtils.getAllFieldsList(clazz)
+                .stream()
                 .filter(f -> !Modifier.isStatic(f.getModifiers()))
                 .collect(toImmutableMap(Field::getName, Field::getGenericType)))
         .containsExactlyEntriesIn(expectedFields);

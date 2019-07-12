@@ -64,7 +64,9 @@ public class PluginChangeFieldsIT extends AbstractPluginFieldsTest {
 
   private String changeQueryCmd(Change.Id id, ImmutableListMultimap<String, String> pluginOptions) {
     return "gerrit query --format json "
-        + pluginOptions.entries().stream()
+        + pluginOptions
+            .entries()
+            .stream()
             .flatMap(e -> Stream.of("--" + e.getKey(), e.getValue()))
             .collect(joining(" "))
         + " "

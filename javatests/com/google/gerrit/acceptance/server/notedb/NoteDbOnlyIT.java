@@ -280,7 +280,11 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
   }
 
   private List<String> getMessages(Change.Id id) throws Exception {
-    return gApi.changes().id(id.get()).get(MESSAGES).messages.stream()
+    return gApi.changes()
+        .id(id.get())
+        .get(MESSAGES)
+        .messages
+        .stream()
         .map(m -> m.message)
         .collect(toList());
   }

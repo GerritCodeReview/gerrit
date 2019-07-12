@@ -296,7 +296,9 @@ public class PatchListCacheIT extends AbstractDaemonTest {
 
   private static PatchListEntry getEntryFor(PatchList patchList, String filePath) {
     Optional<PatchListEntry> patchListEntry =
-        patchList.getPatches().stream()
+        patchList
+            .getPatches()
+            .stream()
             .filter(entry -> entry.getNewName().equals(filePath))
             .findAny();
     return patchListEntry.orElseThrow(

@@ -34,7 +34,8 @@ public class RefOperationValidationException extends ValidationException {
 
   @Override
   public String getMessage() {
-    return messages.stream()
+    return messages
+        .stream()
         .map(ValidationMessage::getMessage)
         .collect(joining("\n", super.getMessage() + "\n", ""));
   }

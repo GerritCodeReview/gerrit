@@ -377,7 +377,8 @@ public abstract class QueryProcessor<T> {
   }
 
   private static Optional<QueryParseException> findQueryParseException(Throwable t) {
-    return Throwables.getCausalChain(t).stream()
+    return Throwables.getCausalChain(t)
+        .stream()
         .filter(c -> c instanceof QueryParseException)
         .map(QueryParseException.class::cast)
         .findFirst();

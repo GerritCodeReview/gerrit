@@ -198,7 +198,8 @@ public abstract class CallerFinder {
   public LazyArg<String> findCaller() {
     return lazy(
         () ->
-            targets().stream()
+            targets()
+                .stream()
                 .map(t -> findCallerOf(t, skip() + 1))
                 .filter(Optional::isPresent)
                 .findFirst()

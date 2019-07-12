@@ -53,7 +53,8 @@ public class InitLogging implements InitStep {
   }
 
   private static boolean isSet(List<String> javaOptions, String javaOptionName) {
-    return javaOptions.stream()
+    return javaOptions
+        .stream()
         .anyMatch(
             o ->
                 o.startsWith("-D" + javaOptionName + "=")

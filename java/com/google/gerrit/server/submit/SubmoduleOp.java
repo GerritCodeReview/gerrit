@@ -446,7 +446,9 @@ public class SubmoduleOp {
     int count = 0;
 
     List<SubmoduleSubscription> subscriptions =
-        targets.get(subscriber).stream()
+        targets
+            .get(subscriber)
+            .stream()
             .sorted(comparing(SubmoduleSubscription::getPath))
             .collect(toList());
     for (SubmoduleSubscription s : subscriptions) {

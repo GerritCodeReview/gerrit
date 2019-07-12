@@ -364,7 +364,8 @@ public class PushPermissionsIT extends AbstractDaemonTest {
   }
 
   private static void removeAllBranchPermissions(ProjectConfig cfg, String... permissions) {
-    cfg.getAccessSections().stream()
+    cfg.getAccessSections()
+        .stream()
         .filter(
             s ->
                 s.getName().startsWith("refs/heads/")

@@ -64,7 +64,10 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
 
     Account.Id accountId = rsrc.getUser().getAccountId();
     AccountState account = accounts.get(accountId).orElseThrow(ResourceNotFoundException::new);
-    return account.getProjectWatches().entrySet().stream()
+    return account
+        .getProjectWatches()
+        .entrySet()
+        .stream()
         .map(e -> toProjectWatchInfo(e.getKey(), e.getValue()))
         .sorted(
             comparing((ProjectWatchInfo pwi) -> pwi.project)

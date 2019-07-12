@@ -1252,12 +1252,14 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private void saveNotifySections(Config rc, Set<AccountGroup.UUID> keepGroups) {
     for (NotifyConfig nc : sort(notifySections.values())) {
-      nc.getGroups().stream()
+      nc.getGroups()
+          .stream()
           .map(GroupReference::getUUID)
           .filter(Objects::nonNull)
           .forEach(keepGroups::add);
       List<String> email =
-          nc.getGroups().stream()
+          nc.getGroups()
+              .stream()
               .map(gr -> new PermissionRule(gr).asString(false))
               .sorted()
               .collect(toList());

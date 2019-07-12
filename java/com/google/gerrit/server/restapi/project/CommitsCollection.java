@@ -123,7 +123,9 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
     // If we have already checked change refs using the change index, spare any further checks for
     // changes.
     List<Ref> refs =
-        repo.getRefDatabase().getRefs().stream()
+        repo.getRefDatabase()
+            .getRefs()
+            .stream()
             .filter(r -> !r.getName().startsWith(RefNames.REFS_CHANGES))
             .collect(toImmutableList());
     return reachable.fromRefs(project, repo, commit, refs);

@@ -173,7 +173,8 @@ public class IncludedInResolver {
    */
   private static ImmutableSortedSet<String> getMatchingRefNames(
       Set<String> matchingRefs, Collection<Ref> allRefs) {
-    return allRefs.stream()
+    return allRefs
+        .stream()
         .map(Ref::getName)
         .filter(matchingRefs::contains)
         .map(Repository::shortenRefName)

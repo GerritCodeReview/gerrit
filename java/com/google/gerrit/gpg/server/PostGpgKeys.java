@@ -303,7 +303,8 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
     if (accountStates.size() > 1) {
       String msg = "GPG key " + extIdKey.get() + " associated with multiple accounts: [";
       msg =
-          accountStates.stream()
+          accountStates
+              .stream()
               .map(a -> a.getAccount().getId().toString())
               .collect(joining(", ", msg, "]"));
       throw new IllegalStateException(msg);

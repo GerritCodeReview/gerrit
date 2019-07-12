@@ -248,7 +248,8 @@ public class AddReviewersOp implements BatchUpdateOp {
     }
     if (!addedReviewers.isEmpty()) {
       List<AccountState> reviewers =
-          addedReviewers.stream()
+          addedReviewers
+              .stream()
               .map(r -> accountCache.get(r.accountId()))
               .flatMap(Streams::stream)
               .collect(toList());

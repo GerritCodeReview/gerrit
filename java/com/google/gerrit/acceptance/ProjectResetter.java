@@ -260,7 +260,9 @@ public class ProjectResetter implements AutoCloseable {
         refsPatternByProject.asMap().entrySet()) {
       try (Repository repo = repoManager.openRepository(e.getKey())) {
         Collection<Ref> nonRestoredRefs =
-            repo.getRefDatabase().getRefs().stream()
+            repo.getRefDatabase()
+                .getRefs()
+                .stream()
                 .filter(
                     r ->
                         !keptRefsByProject.containsEntry(e.getKey(), r.getName())
@@ -313,7 +315,9 @@ public class ProjectResetter implements AutoCloseable {
 
   private Set<Project.NameKey> projectsWithConfigChanges(
       Multimap<Project.NameKey, String> projects) {
-    return projects.entries().stream()
+    return projects
+        .entries()
+        .stream()
         .filter(e -> e.getValue().equals(RefNames.REFS_CONFIG))
         .map(Map.Entry::getKey)
         .collect(toSet());

@@ -271,7 +271,9 @@ public class GetAccess implements RestReadView<ProjectResource> {
     info.configVisible = canReadConfig || canWriteConfig;
 
     info.groups =
-        groups.entrySet().stream()
+        groups
+            .entrySet()
+            .stream()
             .filter(e -> e.getValue() != null)
             .collect(toMap(e -> e.getKey().get(), Map.Entry::getValue));
 

@@ -647,7 +647,8 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   private static <T> List<T> decodeProtos(
       ListMultimap<String, IndexableField> doc, String fieldName, ProtoConverter<?, T> converter) {
-    return doc.get(fieldName).stream()
+    return doc.get(fieldName)
+        .stream()
         .map(IndexableField::binaryValue)
         .map(bytesRef -> parseProtoFrom(bytesRef, converter))
         .collect(toImmutableList());
@@ -662,7 +663,8 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   private static List<byte[]> copyAsBytes(Collection<IndexableField> fields) {
-    return fields.stream()
+    return fields
+        .stream()
         .map(
             f -> {
               BytesRef ref = f.binaryValue();

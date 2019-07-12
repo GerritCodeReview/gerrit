@@ -162,7 +162,9 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
    */
   public boolean canRunAsync() {
     return put.isEmpty()
-        && delete.values().stream()
+        && delete
+            .values()
+            .stream()
             .allMatch(r -> r == DeleteReason.PUBLISHED || r == DeleteReason.FIXED);
   }
 

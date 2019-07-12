@@ -224,7 +224,8 @@ public class DynamicSet<T> implements Iterable<T> {
    * @return sorted set of active plugins that supply at least one item.
    */
   public ImmutableSortedSet<String> plugins() {
-    return items.stream()
+    return items
+        .stream()
         .map(i -> i.get().getPluginName())
         .collect(toImmutableSortedSet(naturalOrder()));
   }
@@ -236,7 +237,8 @@ public class DynamicSet<T> implements Iterable<T> {
    * @return items exported by a plugin.
    */
   public ImmutableSet<Provider<T>> byPlugin(String pluginName) {
-    return items.stream()
+    return items
+        .stream()
         .filter(i -> i.get().getPluginName().equals(pluginName))
         .map(i -> i.get().getProvider())
         .collect(toImmutableSet());

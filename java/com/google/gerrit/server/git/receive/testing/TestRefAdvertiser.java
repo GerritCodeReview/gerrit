@@ -67,7 +67,9 @@ public class TestRefAdvertiser extends RefAdvertiser {
     } else {
       ObjectId id = ObjectId.fromString(lineParts.get(0));
       Ref ref =
-          repo.getRefDatabase().getRefs().stream()
+          repo.getRefDatabase()
+              .getRefs()
+              .stream()
               .filter(r -> r.getObjectId().equals(id))
               .findAny()
               .orElseThrow(

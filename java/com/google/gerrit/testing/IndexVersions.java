@@ -131,7 +131,8 @@ public class IndexVersions {
       List<Integer> schemaVersions,
       String testSuiteNamePrefix,
       Config baseConfig) {
-    return schemaVersions.stream()
+    return schemaVersions
+        .stream()
         .collect(
             toMap(
                 i -> testSuiteNamePrefix + i,

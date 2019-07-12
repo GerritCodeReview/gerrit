@@ -183,7 +183,10 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
   public void byParentOfAllProjects() throws Exception {
     Set<String> excludedProjects = ImmutableSet.of(allProjects.get(), allUsers.get());
     ProjectInfo[] projects =
-        gApi.projects().list().get().stream()
+        gApi.projects()
+            .list()
+            .get()
+            .stream()
             .filter(p -> !excludedProjects.contains(p.name))
             .toArray(s -> new ProjectInfo[s]);
     assertQuery("parent:" + allProjects.get(), projects);

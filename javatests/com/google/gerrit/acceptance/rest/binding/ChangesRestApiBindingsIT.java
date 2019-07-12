@@ -488,7 +488,8 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
 
   private static List<String> getFixIds(List<RobotCommentInfo> robotComments) {
     assertThatList(robotComments).isNotNull();
-    return robotComments.stream()
+    return robotComments
+        .stream()
         .map(robotCommentInfo -> robotCommentInfo.fixSuggestions)
         .filter(Objects::nonNull)
         .flatMap(List::stream)

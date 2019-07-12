@@ -110,7 +110,9 @@ public class CreateGroupPermissionSyncer implements ChangeMergedListener {
           config.getAccessSection(RefNames.REFS_GROUPS + "*", true);
       if (createGroupsGlobal.isEmpty()) {
         createGroupAccessSection.setPermissions(
-            createGroupAccessSection.getPermissions().stream()
+            createGroupAccessSection
+                .getPermissions()
+                .stream()
                 .filter(p -> !Permission.CREATE.equals(p.getName()))
                 .collect(toList()));
         config.replace(createGroupAccessSection);

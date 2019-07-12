@@ -84,7 +84,9 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
   @Override
   public void advertiseRefs(BaseReceivePack rp) throws ServiceMayNotContinueException {
     Map<String, Ref> advertisedRefs = HookUtil.ensureAllRefsAdvertised(rp);
-    advertisedRefs.keySet().stream()
+    advertisedRefs
+        .keySet()
+        .stream()
         .filter(ReceiveCommitsAdvertiseRefsHook::skip)
         .collect(toImmutableList())
         .forEach(r -> advertisedRefs.remove(r));

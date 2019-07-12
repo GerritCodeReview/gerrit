@@ -47,7 +47,8 @@ public class CapabilitiesIT extends AbstractDaemonTest {
   @Test
   public void capabilitiesUser() throws Exception {
     ImmutableList<String> all =
-        GlobalCapability.getAllNames().stream()
+        GlobalCapability.getAllNames()
+            .stream()
             .filter(c -> !ADMINISTRATE_SERVER.equals(c) && !PRIORITY.equals(c))
             .collect(toImmutableList());
     TestProjectUpdate.Builder allowBuilder = projectOperations.allProjectsForUpdate();

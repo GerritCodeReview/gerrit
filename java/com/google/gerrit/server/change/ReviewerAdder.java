@@ -548,7 +548,8 @@ public class ReviewerAdder {
     }
 
     public ImmutableList<ReviewerAddition> getFailures() {
-      return additions.stream()
+      return additions
+          .stream()
           .filter(a -> a.isFailure() && !a.isIgnorableFailure())
           .collect(toImmutableList());
     }
@@ -578,7 +579,8 @@ public class ReviewerAdder {
               a ->
                   checkArgument(
                       a.op != null && a.op.getResult() != null, "missing result on %s", a));
-      return additions().stream()
+      return additions()
+          .stream()
           .map(a -> a.op.getResult())
           .map(func)
           .flatMap(Collection::stream)
@@ -586,7 +588,8 @@ public class ReviewerAdder {
     }
 
     private ImmutableList<ReviewerAddition> additions() {
-      return additions.stream()
+      return additions
+          .stream()
           .filter(
               a -> {
                 if (a.isFailure()) {

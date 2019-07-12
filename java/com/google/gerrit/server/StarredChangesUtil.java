@@ -299,7 +299,9 @@ public class StarredChangesUtil {
 
   private static Set<String> getRefNames(Repository repo, String prefix) throws IOException {
     RefDatabase refDb = repo.getRefDatabase();
-    return refDb.getRefsByPrefix(prefix).stream()
+    return refDb
+        .getRefsByPrefix(prefix)
+        .stream()
         .map(r -> r.getName().substring(prefix.length()))
         .collect(toSet());
   }
@@ -426,7 +428,8 @@ public class StarredChangesUtil {
   }
 
   public static Set<Integer> getStarredPatchSets(Set<String> labels, String label) {
-    return labels.stream()
+    return labels
+        .stream()
         .filter(l -> l.startsWith(label + "/"))
         .filter(l -> Ints.tryParse(l.substring(label.length() + 1)) != null)
         .map(l -> Integer.valueOf(l.substring(label.length() + 1)))

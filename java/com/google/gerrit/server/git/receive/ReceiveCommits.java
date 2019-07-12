@@ -753,11 +753,14 @@ class ReceiveCommits {
     Collections.reverse(orderedCommits);
 
     Map<String, CreateRequest> created =
-        newChanges.stream()
+        newChanges
+            .stream()
             .filter(r -> r.change != null)
             .collect(Collectors.toMap(r -> r.commit.name(), r -> r));
     Map<String, ReplaceRequest> updated =
-        replaceByChange.values().stream()
+        replaceByChange
+            .values()
+            .stream()
             .filter(r -> r.inputCommand.getResult() == OK)
             .collect(Collectors.toMap(r -> r.newCommitId.name(), r -> r));
 
@@ -880,9 +883,12 @@ class ReceiveCommits {
           throw asRestApiException(e);
         }
 
-        replaceByChange.values().stream()
+        replaceByChange
+            .values()
+            .stream()
             .forEach(req -> resultChangeIds.add(ResultChangeIds.Key.REPLACED, req.ontoChange));
-        newChanges.stream()
+        newChanges
+            .stream()
             .forEach(req -> resultChangeIds.add(ResultChangeIds.Key.CREATED, req.changeId));
 
         if (magicBranchCmd != null) {
@@ -1982,7 +1988,8 @@ class ReceiveCommits {
       List<Comment> drafts =
           commentsUtil.draftByChangeAuthor(notesFactory.createChecked(change), user.getAccountId());
       ImmutableList<CommentForValidation> draftsForValidation =
-          drafts.stream()
+          drafts
+              .stream()
               .map(
                   comment ->
                       CommentForValidation.create(

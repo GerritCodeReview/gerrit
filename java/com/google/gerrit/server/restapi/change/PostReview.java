@@ -787,7 +787,8 @@ public class PostReview
   private static void ensureRangesDoNotOverlap(
       String commentPath, List<FixReplacementInfo> fixReplacementInfos) throws BadRequestException {
     List<Range> sortedRanges =
-        fixReplacementInfos.stream()
+        fixReplacementInfos
+            .stream()
             .map(fixReplacementInfo -> fixReplacementInfo.range)
             .sorted()
             .collect(toList());
@@ -1083,19 +1084,25 @@ public class PostReview
     }
 
     private Set<CommentSetEntry> readExistingComments(ChangeContext ctx) {
-      return commentsUtil.publishedByChange(ctx.getNotes()).stream()
+      return commentsUtil
+          .publishedByChange(ctx.getNotes())
+          .stream()
           .map(CommentSetEntry::create)
           .collect(toSet());
     }
 
     private Set<CommentSetEntry> readExistingRobotComments(ChangeContext ctx) {
-      return commentsUtil.robotCommentsByChange(ctx.getNotes()).stream()
+      return commentsUtil
+          .robotCommentsByChange(ctx.getNotes())
+          .stream()
           .map(CommentSetEntry::create)
           .collect(toSet());
     }
 
     private Map<String, Comment> changeDrafts(ChangeContext ctx) {
-      return commentsUtil.draftByChangeAuthor(ctx.getNotes(), user.getAccountId()).stream()
+      return commentsUtil
+          .draftByChangeAuthor(ctx.getNotes(), user.getAccountId())
+          .stream()
           .collect(
               Collectors.toMap(
                   c -> c.key.uuid,
@@ -1106,7 +1113,9 @@ public class PostReview
     }
 
     private Map<String, Comment> patchSetDrafts(ChangeContext ctx) {
-      return commentsUtil.draftByPatchSetAuthor(psId, user.getAccountId(), ctx.getNotes()).stream()
+      return commentsUtil
+          .draftByPatchSetAuthor(psId, user.getAccountId(), ctx.getNotes())
+          .stream()
           .collect(Collectors.toMap(c -> c.key.uuid, c -> c));
     }
 
@@ -1301,7 +1310,8 @@ public class PostReview
       if (!reduced.isEmpty()) {
         throw new ResourceConflictException(
             "Cannot reduce vote on labels for closed change: "
-                + reduced.stream()
+                + reduced
+                    .stream()
                     .map(PatchSetApproval::label)
                     .distinct()
                     .sorted()

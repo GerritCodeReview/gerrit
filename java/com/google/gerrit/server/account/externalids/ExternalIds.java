@@ -71,7 +71,8 @@ public class ExternalIds {
 
   /** Returns the external IDs of the specified account that have the given scheme. */
   public Set<ExternalId> byAccount(Account.Id accountId, String scheme) throws IOException {
-    return byAccount(accountId).stream()
+    return byAccount(accountId)
+        .stream()
         .filter(e -> e.key().isScheme(scheme))
         .collect(toImmutableSet());
   }
@@ -84,7 +85,8 @@ public class ExternalIds {
   /** Returns the external IDs of the specified account that have the given scheme. */
   public Set<ExternalId> byAccount(Account.Id accountId, String scheme, ObjectId rev)
       throws IOException {
-    return byAccount(accountId, rev).stream()
+    return byAccount(accountId, rev)
+        .stream()
         .filter(e -> e.key().isScheme(scheme))
         .collect(toImmutableSet());
   }

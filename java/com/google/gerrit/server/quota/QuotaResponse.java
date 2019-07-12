@@ -101,7 +101,8 @@ public abstract class QuotaResponse {
     }
 
     public String errorMessage() {
-      return error().stream()
+      return error()
+          .stream()
           .map(QuotaResponse::message)
           .flatMap(Streams::stream)
           .collect(Collectors.joining(", "));

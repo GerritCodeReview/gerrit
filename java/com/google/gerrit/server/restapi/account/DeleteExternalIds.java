@@ -75,7 +75,9 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
     }
 
     Map<ExternalId.Key, ExternalId> externalIdMap =
-        externalIds.byAccount(resource.getUser().getAccountId()).stream()
+        externalIds
+            .byAccount(resource.getUser().getAccountId())
+            .stream()
             .collect(toMap(ExternalId::key, Function.identity()));
 
     List<ExternalId> toDelete = new ArrayList<>();

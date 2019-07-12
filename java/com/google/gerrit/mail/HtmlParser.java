@@ -78,7 +78,8 @@ public class HtmlParser {
     for (Element e : d.body().getAllElements()) {
       String elementName = e.tagName();
       boolean isInBlockQuote =
-          e.parents().stream()
+          e.parents()
+              .stream()
               .anyMatch(
                   p ->
                       p.tagName().equals("blockquote")

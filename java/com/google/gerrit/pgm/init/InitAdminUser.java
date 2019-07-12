@@ -20,7 +20,6 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.extensions.client.AuthType;
-import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
@@ -29,7 +28,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
@@ -49,7 +47,6 @@ import org.apache.commons.validator.routines.EmailValidator;
 public class InitAdminUser implements InitStep {
   private final InitFlags flags;
   private final ConsoleUI ui;
-  private final AllUsersNameOnInitProvider allUsers;
   private final AccountsOnInit accounts;
   private final VersionedAuthorizedKeysOnInit.Factory authorizedKeysFactory;
   private final ExternalIdsOnInit externalIds;
@@ -62,7 +59,6 @@ public class InitAdminUser implements InitStep {
   InitAdminUser(
       InitFlags flags,
       ConsoleUI ui,
-      AllUsersNameOnInitProvider allUsers,
       AccountsOnInit accounts,
       VersionedAuthorizedKeysOnInit.Factory authorizedKeysFactory,
       ExternalIdsOnInit externalIds,
@@ -70,7 +66,6 @@ public class InitAdminUser implements InitStep {
       GroupsOnInit groupsOnInit) {
     this.flags = flags;
     this.ui = ui;
-    this.allUsers = allUsers;
     this.accounts = accounts;
     this.authorizedKeysFactory = authorizedKeysFactory;
     this.externalIds = externalIds;
@@ -140,7 +135,7 @@ public class InitAdminUser implements InitStep {
           authorizedKeys.save("Add SSH key for initial admin user\n");
         }
 
-        AccountState as = AccountState.forAccount(new AllUsersName(allUsers.get()), a, extIds);
+        AccountState as = AccountState.forAccount(a, extIds);
         for (AccountIndex accountIndex : accountIndexCollection.getWriteIndexes()) {
           accountIndex.replace(as);
         }

@@ -296,7 +296,8 @@ public class GroupNameNotes extends VersionedMetaData {
   private static ImmutableBiMap<AccountGroup.UUID, String> toBiMap(
       Collection<GroupReference> groupReferences) {
     try {
-      return groupReferences.stream()
+      return groupReferences
+          .stream()
           .collect(toImmutableBiMap(GroupReference::getUUID, GroupReference::getName));
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException(UNIQUE_REF_ERROR, e);

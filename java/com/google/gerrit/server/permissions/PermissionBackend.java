@@ -505,7 +505,9 @@ public abstract class PermissionBackend {
     }
 
     private static Set<LabelPermission.WithValue> valuesOf(LabelType label) {
-      return label.getValues().stream()
+      return label
+          .getValues()
+          .stream()
           .map((v) -> new LabelPermission.WithValue(label, v))
           .collect(toSet());
     }

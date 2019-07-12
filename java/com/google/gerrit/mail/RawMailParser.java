@@ -85,7 +85,10 @@ public class RawMailParser {
     }
 
     // Add additional headers
-    mimeMessage.getHeader().getFields().stream()
+    mimeMessage
+        .getHeader()
+        .getFields()
+        .stream()
         .filter(f -> !MAIN_HEADERS.contains(f.getName().toLowerCase()))
         .forEach(f -> messageBuilder.addAdditionalHeader(f.getName() + ": " + f.getBody()));
 

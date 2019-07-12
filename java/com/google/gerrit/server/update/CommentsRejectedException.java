@@ -32,7 +32,8 @@ public class CommentsRejectedException extends Exception {
   @Override
   public String getMessage() {
     return "One or more comments were rejected in validation: "
-        + commentValidationFailures.stream()
+        + commentValidationFailures
+            .stream()
             .map(CommentValidationFailure::getMessage)
             .collect(Collectors.joining("; "));
   }

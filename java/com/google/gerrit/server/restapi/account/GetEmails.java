@@ -48,7 +48,9 @@ public class GetEmails implements RestReadView<AccountResource> {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
     }
-    return rsrc.getUser().getEmailAddresses().stream()
+    return rsrc.getUser()
+        .getEmailAddresses()
+        .stream()
         .filter(Objects::nonNull)
         .map(e -> toEmailInfo(rsrc, e))
         .sorted(comparing((EmailInfo e) -> e.email))

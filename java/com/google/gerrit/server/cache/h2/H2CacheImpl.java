@@ -348,7 +348,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
             }
           }
         } catch (Exception e) {
-          if (Throwables.getCausalChain(e).stream()
+          if (Throwables.getCausalChain(e)
+              .stream()
               .anyMatch(InvalidClassException.class::isInstance)) {
             // If deserialization failed using default Java serialization, this means we are using
             // the old serialVersionUID-based invalidation strategy. In that case, authors are

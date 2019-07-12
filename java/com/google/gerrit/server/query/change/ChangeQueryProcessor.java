@@ -137,7 +137,9 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
     return PluginDefinedAttributesFactories.createAll(
         cd,
         this,
-        attributeFactoriesByPlugin.entries().stream()
+        attributeFactoriesByPlugin
+            .entries()
+            .stream()
             .map(e -> new Extension<>(e.getKey(), e::getValue)));
   }
 

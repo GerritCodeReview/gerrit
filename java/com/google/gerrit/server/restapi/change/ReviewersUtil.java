@@ -244,7 +244,9 @@ public class ReviewersUtil {
                         ImmutableSet.of(AccountField.ID.getName())))
                 .readRaw();
         List<Account.Id> matches =
-            result.toList().stream()
+            result
+                .toList()
+                .stream()
                 .map(f -> Account.id(f.getValue(AccountField.ID).intValue()))
                 .collect(toList());
         logger.atFine().log("Matches: %s", matches);
@@ -305,7 +307,8 @@ public class ReviewersUtil {
 
     try (Timer0.Context ctx = metrics.loadAccountsLatency.start()) {
       List<SuggestedReviewerInfo> reviewer =
-          accountIds.stream()
+          accountIds
+              .stream()
               .map(accountLoader::get)
               .filter(Objects::nonNull)
               .map(
@@ -355,7 +358,9 @@ public class ReviewersUtil {
 
   private List<GroupReference> suggestAccountGroups(
       SuggestReviewers suggestReviewers, ProjectState projectState) {
-    return groupBackend.suggest(suggestReviewers.getQuery(), projectState).stream()
+    return groupBackend
+        .suggest(suggestReviewers.getQuery(), projectState)
+        .stream()
         .limit(suggestReviewers.getLimit())
         .collect(toList());
   }
@@ -425,7 +430,8 @@ public class ReviewersUtil {
   }
 
   private static String formatSuggestedReviewers(List<SuggestedReviewerInfo> suggestedReviewers) {
-    return suggestedReviewers.stream()
+    return suggestedReviewers
+        .stream()
         .map(
             r -> {
               if (r.account != null) {

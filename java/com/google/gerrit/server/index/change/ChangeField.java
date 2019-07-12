@@ -208,7 +208,8 @@ public class ChangeField {
    * multiple times in the stream (once per file).
    */
   private static Stream<String> extensions(ChangeData cd) {
-    return cd.currentFilePaths().stream()
+    return cd.currentFilePaths()
+        .stream()
         // Use case-insensitive file extensions even though other file fields are case-sensitive.
         // If we want to find "all Java files", we want to match both .java and .JAVA, even if we
         // normally care about case sensitivity. (Whether we should change the existing file/path
@@ -221,7 +222,8 @@ public class ChangeField {
       exact(ChangeQueryBuilder.FIELD_FOOTER).buildRepeatable(ChangeField::getFooters);
 
   public static Set<String> getFooters(ChangeData cd) {
-    return cd.commitFooters().stream()
+    return cd.commitFooters()
+        .stream()
         .map(f -> f.toString().toLowerCase(Locale.US))
         .collect(toSet());
   }
@@ -812,7 +814,8 @@ public class ChangeField {
 
   @VisibleForTesting
   static List<SubmitRecord> parseSubmitRecords(Collection<String> values) {
-    return values.stream()
+    return values
+        .stream()
         .map(v -> GSON.fromJson(v, StoredSubmitRecord.class).toSubmitRecord())
         .collect(toList());
   }

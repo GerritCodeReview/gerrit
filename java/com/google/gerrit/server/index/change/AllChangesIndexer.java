@@ -133,7 +133,9 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     // refs may exist for changes whose metadata was never successfully stored. But that's ok, as
     // the estimate is just used as a heuristic for sorting projects.
     long size =
-        repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_CHANGES).stream()
+        repo.getRefDatabase()
+            .getRefsByPrefix(RefNames.REFS_CHANGES)
+            .stream()
             .map(r -> Change.Id.fromRef(r.getName()))
             .filter(Objects::nonNull)
             .distinct()

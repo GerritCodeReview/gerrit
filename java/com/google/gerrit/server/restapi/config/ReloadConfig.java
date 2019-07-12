@@ -54,7 +54,10 @@ public class ReloadConfig implements RestModifyView<ConfigResource, Input> {
     if (updates.isEmpty()) {
       return Collections.emptyMap();
     }
-    return updates.asMap().entrySet().stream()
+    return updates
+        .asMap()
+        .entrySet()
+        .stream()
         .collect(
             Collectors.toMap(
                 e -> e.getKey().name().toLowerCase(), e -> toEntryInfos(e.getValue())));
@@ -62,7 +65,8 @@ public class ReloadConfig implements RestModifyView<ConfigResource, Input> {
 
   private static List<ConfigUpdateEntryInfo> toEntryInfos(
       Collection<ConfigUpdateEntry> updateEntries) {
-    return updateEntries.stream()
+    return updateEntries
+        .stream()
         .map(ReloadConfig::toConfigUpdateEntryInfo)
         .collect(toImmutableList());
   }

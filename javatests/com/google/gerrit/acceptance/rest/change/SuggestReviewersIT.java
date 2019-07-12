@@ -128,7 +128,8 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     assertThat(reviewers.get(0).account).isNotNull();
     assertThat(ImmutableList.of(reviewers.get(0).account._accountId))
         .containsAnyIn(
-            ImmutableList.of(user1, user2, user3).stream()
+            ImmutableList.of(user1, user2, user3)
+                .stream()
                 .map(u -> u.id().get())
                 .collect(toList()));
   }
@@ -595,7 +596,8 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
       List<TestAccount> expectedUsers,
       List<AccountGroup.UUID> expectedGroups) {
     List<Integer> actualAccountIds =
-        actual.stream()
+        actual
+            .stream()
             .filter(i -> i.account != null)
             .map(i -> i.account._accountId)
             .collect(toList());

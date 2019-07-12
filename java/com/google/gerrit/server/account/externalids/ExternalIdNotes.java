@@ -783,7 +783,8 @@ public class ExternalIdNotes extends VersionedMetaData {
       noteMapUpdates.clear();
       if (!footers.isEmpty()) {
         commit.setMessage(
-            footers.stream()
+            footers
+                .stream()
                 .sorted()
                 .collect(joining("\n", commit.getMessage().trim() + "\n\n", "")));
       }

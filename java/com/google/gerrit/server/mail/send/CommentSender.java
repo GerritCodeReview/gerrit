@@ -453,7 +453,8 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   private List<Map<String, Object>> commentBlocksToSoyData(List<CommentFormatter.Block> blocks) {
-    return blocks.stream()
+    return blocks
+        .stream()
         .map(
             b -> {
               Map<String, Object> map = new HashMap<>();

@@ -109,7 +109,8 @@ public class ConfigRestApiBindingsIT extends AbstractDaemonTest {
     r.consume();
 
     Optional<String> id =
-        result.stream()
+        result
+            .stream()
             .filter(t -> "Log File Compressor".equals(t.command))
             .map(t -> t.id)
             .findFirst();

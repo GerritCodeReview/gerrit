@@ -306,7 +306,8 @@ public class ListGroups implements RestReadView<TopLevelResource> {
 
   private Stream<GroupReference> getAllExistingGroups() throws IOException, ConfigInvalidException {
     if (!projects.isEmpty()) {
-      return projects.stream()
+      return projects
+          .stream()
           .map(ProjectState::getAllGroups)
           .flatMap(Collection::stream)
           .distinct();
@@ -320,7 +321,9 @@ public class ListGroups implements RestReadView<TopLevelResource> {
           "You should only have no more than one --project and -n with --suggest");
     }
     List<GroupReference> groupRefs =
-        groupBackend.suggest(suggest, projects.stream().findFirst().orElse(null)).stream()
+        groupBackend
+            .suggest(suggest, projects.stream().findFirst().orElse(null))
+            .stream()
             .limit(limit <= 0 ? 10 : Math.min(limit, 10))
             .collect(toList());
 

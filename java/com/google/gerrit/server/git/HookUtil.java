@@ -40,7 +40,10 @@ public class HookUtil {
     }
     try {
       refs =
-          rp.getRepository().getRefDatabase().getRefs().stream()
+          rp.getRepository()
+              .getRefDatabase()
+              .getRefs()
+              .stream()
               .collect(toMap(Ref::getName, r -> r));
     } catch (ServiceMayNotContinueException e) {
       throw e;

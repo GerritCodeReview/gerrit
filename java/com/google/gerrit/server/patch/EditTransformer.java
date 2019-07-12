@@ -89,7 +89,8 @@ class EditTransformer {
    * @return the transformed edits per file path
    */
   public Multimap<String, ContextAwareEdit> getEditsPerFilePath() {
-    return edits.stream()
+    return edits
+        .stream()
         .collect(
             toMultimap(
                 ContextAwareEdit::getNewFilePath, Function.identity(), ArrayListMultimap::create));
@@ -111,7 +112,9 @@ class EditTransformer {
         transformingEntries.stream().collect(groupingBy(EditTransformer::getOldFilePath));
 
     edits =
-        editsPerFilePath.entrySet().stream()
+        editsPerFilePath
+            .entrySet()
+            .stream()
             .flatMap(
                 pathAndEdits -> {
                   List<PatchListEntry> transEntries =
@@ -134,11 +137,12 @@ class EditTransformer {
     }
 
     // TODO(aliceks): Find a way to prevent an explosion of the number of entries.
-    return transformingEntries.stream()
+    return transformingEntries
+        .stream()
         .flatMap(
             transEntry ->
                 transformEdits(
-                    sideStrategy, originalEdits, transEntry.getEdits(), transEntry.getNewName())
+                        sideStrategy, originalEdits, transEntry.getEdits(), transEntry.getNewName())
                     .stream());
   }
 

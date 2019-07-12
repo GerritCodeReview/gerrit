@@ -82,7 +82,8 @@ public abstract class ExternalId implements Serializable {
    *     ExternalId#SCHEME_USERNAME} scheme
    */
   public static Optional<String> getUserName(Collection<ExternalId> extIds) {
-    return extIds.stream()
+    return extIds
+        .stream()
         .filter(e -> e.isScheme(SCHEME_USERNAME))
         .map(e -> e.key().id())
         .filter(u -> !Strings.isNullOrEmpty(u))

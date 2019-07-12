@@ -470,7 +470,8 @@ public class ConsistencyChecker {
               String.format(
                   "Multiple patch sets for expected merged commit %s: %s",
                   commit.name(),
-                  thisCommitPsIds.stream()
+                  thisCommitPsIds
+                      .stream()
                       .sorted(comparing(PatchSet.Id::get))
                       .collect(toImmutableList())));
           break;

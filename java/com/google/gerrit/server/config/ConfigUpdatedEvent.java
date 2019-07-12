@@ -97,7 +97,8 @@ public class ConfigUpdatedEvent {
   private Multimap<UpdateResult, ConfigUpdateEntry> createUpdate(
       Set<ConfigKey> entries, UpdateResult updateResult) {
     Multimap<UpdateResult, ConfigUpdateEntry> updates = ArrayListMultimap.create();
-    entries.stream()
+    entries
+        .stream()
         .filter(this::isValueUpdated)
         .map(e -> new ConfigUpdateEntry(e, getString(e, oldConfig), getString(e, newConfig)))
         .forEach(e -> updates.put(updateResult, e));

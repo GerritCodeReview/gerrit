@@ -75,7 +75,8 @@ public class DeleteWatchedProjects
             accountId,
             u ->
                 u.deleteProjectWatches(
-                    input.stream()
+                    input
+                        .stream()
                         .filter(Objects::nonNull)
                         .map(w -> ProjectWatchKey.create(Project.nameKey(w.project), w.filter))
                         .collect(toList())));

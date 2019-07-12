@@ -201,7 +201,8 @@ public class DeleteRef {
       ImmutableSet<String> refs =
           prefix == null
               ? refsToDelete
-              : refsToDelete.stream()
+              : refsToDelete
+                  .stream()
                   .map(ref -> ref.startsWith(R_REFS) ? ref : prefix + ref)
                   .collect(toImmutableSet());
       for (String ref : refs) {

@@ -132,7 +132,8 @@ public class SetMembersCommand extends SshCommand {
       String action, GroupResource group, List<Account.Id> accountIdList)
       throws UnsupportedEncodingException, IOException {
     String names =
-        accountIdList.stream()
+        accountIdList
+            .stream()
             .map(
                 accountId -> {
                   Optional<AccountState> accountState = accountCache.get(accountId);
@@ -151,7 +152,8 @@ public class SetMembersCommand extends SshCommand {
       String action, GroupResource group, List<AccountGroup.UUID> groupUuidList)
       throws UnsupportedEncodingException, IOException {
     String names =
-        groupUuidList.stream()
+        groupUuidList
+            .stream()
             .map(uuid -> groupCache.get(uuid).map(InternalGroup::getName))
             .flatMap(Streams::stream)
             .collect(joining(", "));

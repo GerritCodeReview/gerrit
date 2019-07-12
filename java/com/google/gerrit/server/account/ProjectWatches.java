@@ -202,7 +202,9 @@ public class ProjectWatches {
   private static ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> immutableCopyOf(
       Map<ProjectWatchKey, Set<NotifyType>> projectWatches) {
     ImmutableMap.Builder<ProjectWatchKey, ImmutableSet<NotifyType>> b = ImmutableMap.builder();
-    projectWatches.entrySet().stream()
+    projectWatches
+        .entrySet()
+        .stream()
         .forEach(e -> b.put(e.getKey(), ImmutableSet.copyOf(e.getValue())));
     return b.build();
   }

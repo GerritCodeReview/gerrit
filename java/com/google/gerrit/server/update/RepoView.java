@@ -136,7 +136,9 @@ public class RepoView {
    */
   public Map<String, ObjectId> getRefs(String prefix) throws IOException {
     Map<String, ObjectId> result =
-        repo.getRefDatabase().getRefsByPrefix(prefix).stream()
+        repo.getRefDatabase()
+            .getRefsByPrefix(prefix)
+            .stream()
             .collect(toMap(r -> r.getName().substring(prefix.length()), Ref::getObjectId));
 
     // First, overwrite any cached reads from the underlying RepoRefCache. If any of these differ,

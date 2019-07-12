@@ -416,7 +416,10 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
     ImmutableList<PatchSetApproval> approvals =
-        notes.getApprovals().get(c.currentPatchSetId()).stream()
+        notes
+            .getApprovals()
+            .get(c.currentPatchSetId())
+            .stream()
             .sorted(comparing(a -> a.accountId().get()))
             .collect(toImmutableList());
     assertThat(approvals).hasSize(2);

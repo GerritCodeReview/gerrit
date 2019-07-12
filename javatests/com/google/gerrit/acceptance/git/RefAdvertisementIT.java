@@ -1485,7 +1485,9 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   private static Map<String, Ref> getAllRefs(Repository repo) throws IOException {
-    return repo.getRefDatabase().getRefs().stream()
+    return repo.getRefDatabase()
+        .getRefs()
+        .stream()
         .collect(toMap(Ref::getName, Function.identity()));
   }
 }

@@ -65,7 +65,8 @@ public class HttpResponse {
   }
 
   public ImmutableList<String> getHeaders(String name) {
-    return Arrays.asList(response.getHeaders(name)).stream()
+    return Arrays.asList(response.getHeaders(name))
+        .stream()
         .map(Header::getValue)
         .collect(toImmutableList());
   }

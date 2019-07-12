@@ -612,7 +612,8 @@ public class ChangeJson {
     if (has(TRACKING_IDS)) {
       ListMultimap<String, String> set = trackingFooters.extract(cd.commitFooters());
       out.trackingIds =
-          set.entries().stream()
+          set.entries()
+              .stream()
               .map(e -> new TrackingIdInfo(e.getKey(), e.getValue()))
               .collect(toList());
     }
@@ -752,14 +753,16 @@ public class ChangeJson {
   }
 
   private Collection<AccountInfo> toAccountInfo(Collection<Account.Id> accounts) {
-    return accounts.stream()
+    return accounts
+        .stream()
         .map(accountLoader::get)
         .sorted(AccountInfoComparator.ORDER_NULLS_FIRST)
         .collect(toList());
   }
 
   private Collection<AccountInfo> toAccountInfoByEmail(Collection<Address> addresses) {
-    return addresses.stream()
+    return addresses
+        .stream()
         .map(a -> new AccountInfo(a.getName(), a.getEmail()))
         .sorted(AccountInfoComparator.ORDER_NULLS_FIRST)
         .collect(toList());

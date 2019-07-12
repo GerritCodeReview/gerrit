@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "19d05e26_b62b7d48",
+        "filename": "java/com/google/gerrit/util/cli/CmdLineParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-12T14:37:23Z",
+      "side": 1,
+      "message": "Even better. Thanks. :-)",
+      "parentUuid": "3a52ca14_e5153bf4",
+      "range": {
+        "startLine": 333,
+        "startChar": 6,
+        "endLine": 333,
+        "endChar": 28
+      },
+      "revId": "3bb56dcd565a5f90848186a3cac553e366060614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55cb1299_026c84c3",
         "filename": "java/com/google/gerrit/util/cli/CmdLineParser.java",
         "patchSetId": 1

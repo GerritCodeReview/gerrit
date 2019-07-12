@@ -403,6 +403,30 @@
     },
     {
       "key": {
+        "uuid": "74ec68ce_7042daa8",
+        "filename": "java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-12T08:57:46Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "ab5e3da7_f1bf1385",
+      "range": {
+        "startLine": 175,
+        "startChar": 2,
+        "endLine": 188,
+        "endChar": 3
+      },
+      "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57d1aaa7_274606b9",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 7

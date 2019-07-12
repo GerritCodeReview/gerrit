@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70b776c1_02e521b4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-12T08:57:46Z",
+      "side": 1,
+      "message": "This field should be private just like the other fields for the caches are.",
+      "range": {
+        "startLine": 227,
+        "startChar": 2,
+        "endLine": 227,
+        "endChar": 52
+      },
+      "revId": "e1054567bef98f768459b814035988fc3c8c68f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7adc0d5c_375a736d",
+        "filename": "plugins/codemirror-editor",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-12T08:57:46Z",
+      "side": 1,
+      "message": "This and the other submodule updates: I think those updates were unintentional. Please remove them.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "e1054567bef98f768459b814035988fc3c8c68f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

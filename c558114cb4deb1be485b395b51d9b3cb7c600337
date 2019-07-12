@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e1a2a63_0049ae77",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-12T11:00:47Z",
+      "side": 1,
+      "message": "Please keep the previous import of com.google.inject.name.Named instead of this one. Background: We decided to use Guice\u0027s variants of the Java annotations due to some issues with the javax ones. I think it was something about versioning conflicts.",
+      "range": {
+        "startLine": 195,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 26
+      },
+      "revId": "c558114cb4deb1be485b395b51d9b3cb7c600337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8a1f1d4_a6a5cafe",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 4487,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-12T11:00:47Z",
+      "side": 1,
+      "message": "As discussed offline, this was unintentionally added. Please remove it again.",
+      "range": {
+        "startLine": 4487,
+        "startChar": 4,
+        "endLine": 4487,
+        "endChar": 70
+      },
+      "revId": "c558114cb4deb1be485b395b51d9b3cb7c600337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

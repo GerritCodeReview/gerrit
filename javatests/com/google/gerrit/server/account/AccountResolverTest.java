@@ -27,7 +27,6 @@ import com.google.gerrit.server.account.AccountResolver.Result;
 import com.google.gerrit.server.account.AccountResolver.Searcher;
 import com.google.gerrit.server.account.AccountResolver.StringSearcher;
 import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.util.time.TimeUtil;
 import java.util.Arrays;
 import java.util.function.Predicate;
@@ -329,14 +328,13 @@ public class AccountResolverTest {
   }
 
   private AccountState newAccount(int id) {
-    return AccountState.forAccount(
-        new AllUsersName("All-Users"), new Account(Account.id(id), TimeUtil.nowTs()));
+    return AccountState.forAccount(new Account(Account.id(id), TimeUtil.nowTs()));
   }
 
   private AccountState newInactiveAccount(int id) {
     Account a = new Account(Account.id(id), TimeUtil.nowTs());
     a.setActive(false);
-    return AccountState.forAccount(new AllUsersName("All-Users"), a);
+    return AccountState.forAccount(a);
   }
 
   private static ImmutableSet<Account.Id> ids(int... ids) {

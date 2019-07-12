@@ -32,6 +32,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.inject.Inject;
@@ -106,7 +107,11 @@ public class StalenessChecker {
 
     for (Map.Entry<Project.NameKey, RefState> e :
         RefState.parseStates(result.get().getValue(AccountField.REF_STATE)).entries()) {
-      try (Repository repo = repoManager.openRepository(e.getKey())) {
+      // Custom All-Users repository names are not indexed. Instead, the default name is used.
+      // Therefore, defer to the currently configured All-Users name.
+      Project.NameKey repoName =
+          e.getKey().get().equals(AllUsersNameProvider.DEFAULT) ? allUsersName : e.getKey();
+      try (Repository repo = repoManager.openRepository(repoName)) {
         if (!e.getValue().match(repo)) {
           // Ref was modified since the account was indexed.
           return true;

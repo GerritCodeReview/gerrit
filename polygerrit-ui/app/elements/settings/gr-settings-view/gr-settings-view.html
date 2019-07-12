@@ -424,10 +424,10 @@ limitations under the License.
         <fieldset>
           <gr-group-list id="groupList"></gr-group-list>
         </fieldset>
-        <h2 id="Identities">Identities</h2>
-        <fieldset>
+        <div>
+          <h2 id="Identities">Identities</h2>
           <gr-identities id="identities"></gr-identities>
-        </fieldset>
+        </div>
         <template is="dom-if" if="[[_serverConfig.auth.use_contributor_agreements]]">
           <h2 id="Agreements">Agreements</h2>
           <fieldset>

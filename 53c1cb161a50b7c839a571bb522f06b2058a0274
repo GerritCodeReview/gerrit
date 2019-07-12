@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6a3dc5fe_4657deb6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-12T09:13:07Z",
+      "side": 1,
+      "message": "I know. I updated the commit message to make this more clear.",
+      "parentUuid": "0811aa9b_3d8eabe4",
+      "revId": "53c1cb161a50b7c839a571bb522f06b2058a0274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8517a29_0e2ac8cf",
         "filename": "java/com/google/gerrit/server/update/RetryHelper.java",
         "patchSetId": 3
@@ -39,6 +57,30 @@
       "revId": "53c1cb161a50b7c839a571bb522f06b2058a0274",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "703fb278_442fb1b7",
+        "filename": "java/com/google/gerrit/server/update/RetryHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-12T09:13:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8517a29_0e2ac8cf",
+      "range": {
+        "startLine": 199,
+        "startChar": 86,
+        "endLine": 199,
+        "endChar": 90
+      },
+      "revId": "53c1cb161a50b7c839a571bb522f06b2058a0274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

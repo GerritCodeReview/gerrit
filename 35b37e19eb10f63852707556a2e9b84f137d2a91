@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a20d105_9fd9deb4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-07-12T15:08:57Z",
+      "side": 1,
+      "message": "I would favor an approach that does not leave the decision of accepting unknown options to the command, but rather to put that policy decision into the control of the calling application. So, for example if I have a plugin option named --plugin--option, then I could as a caller do something like \"--ignore-if-missing --plugin-option\". This prevents callers who expect an option to exist from silently having their option ignored.\n\nI am also worried that this approach does not seem to be adaptable to being able to ignore options that have values since it is impossible for the application to know whether a non existing option will take values or not, and how many. If we leave this up to the caller, the call will know this information even if a plugin is not installed, so the caller could do something like \"--ignore-if-missing --ignore-if-missing-value --plugin-option value\".",
+      "revId": "35b37e19eb10f63852707556a2e9b84f137d2a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdea66ad_59a93489",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-07-12T15:08:57Z",
+      "side": 1,
+      "message": "We have had a need for this in the past. One plugin would like info in the WUI from another plugin if it happens to be installed, but wanted to be able to just ignore that data if it wasn\u0027t there. So we wanted queries to not fail given potentially non-existing options.",
+      "revId": "35b37e19eb10f63852707556a2e9b84f137d2a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

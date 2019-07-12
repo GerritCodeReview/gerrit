@@ -330,7 +330,7 @@ public class CmdLineParser {
       String name = makeOption(key);
 
       if (isKnownOption(name)) {
-        if (isBoolean(name)) {
+        if (isBooleanOption(name)) {
           boolean on = false;
           for (String value : params.get(key)) {
             on = toBoolean(key, value);
@@ -353,16 +353,16 @@ public class CmdLineParser {
     parser.parseArgument(knownArgs.toArray(new String[knownArgs.size()]));
   }
 
-  public boolean isBoolean(String name) {
-    return findHandler(makeOption(name)) instanceof BooleanOptionHandler;
-  }
-
   public void parseWithPrefix(String prefix, Object bean) {
     parser.parseWithPrefix(prefix, bean);
   }
 
   public void drainOptionQueue() {
     parser.addOptionsWithMetRequirements();
+  }
+
+  private boolean isBooleanOption(String name) {
+    return findHandler(makeOption(name)) instanceof BooleanOptionHandler;
   }
 
   private String makeOption(String name) {

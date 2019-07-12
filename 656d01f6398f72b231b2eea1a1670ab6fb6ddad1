@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "da28b433_79d66f33",
+        "filename": "java/com/google/gerrit/server/logging/PerformanceLogRecord.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-12T11:40:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0981dfbb_63c7982d",
+      "range": {
+        "startLine": 23,
+        "startChar": 64,
+        "endLine": 23,
+        "endChar": 72
+      },
+      "revId": "656d01f6398f72b231b2eea1a1670ab6fb6ddad1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a4af6b0_b61473ff",
         "filename": "java/com/google/gerrit/server/update/RetryHelper.java",
         "patchSetId": 9
@@ -45,6 +69,30 @@
       "revId": "656d01f6398f72b231b2eea1a1670ab6fb6ddad1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c377f56_34a14f63",
+        "filename": "java/com/google/gerrit/server/update/RetryHelper.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-12T11:40:51Z",
+      "side": 1,
+      "message": "Thanks for this suggestion. Much nicer like this.\n\nDone.",
+      "parentUuid": "0a4af6b0_b61473ff",
+      "range": {
+        "startLine": 118,
+        "startChar": 18,
+        "endLine": 118,
+        "endChar": 96
+      },
+      "revId": "656d01f6398f72b231b2eea1a1670ab6fb6ddad1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

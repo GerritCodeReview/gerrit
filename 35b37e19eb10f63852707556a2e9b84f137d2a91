@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b533ac3d_41198f36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-12T16:18:55Z",
+      "side": 1,
+      "message": "\u003e I would favor an approach that does not leave the decision of accepting unknown options to the command, but rather to put that policy decision into the control of the calling application. So, for example if I have a plugin option named --plugin--option, then I could as a caller do something like \"--ignore-if-missing --plugin-option\". This prevents callers who expect an option to exist from silently having their option ignored.\n\nIs there a specific worst case scenario you\u0027re thinking of? For REST requests, we also ignore unknown parameters in the JSON body input. So, we already have that situation.\n\nPutting the decision into the control of the caller does not sound like a good idea to me. Quite some callers would not know about this or forget it and hence they would not specify the --ignore-if-missing option even though they should. This causes unforeseen issues if the plugin vanishes unexpectedly and the dependent caller breaks because of this. Such callers should rather be written in a way that they are resilient enough to deal with this situation. If they really have a strong dependency on the plugin, they need to ensure it via other means.\n\nIf we really do want to support the case that callers can control the behavior via an option, I would do it exactly the other way around and add an option which makes plugin parameters mandatory to be resolved. Thus, callers would need to explicitly think about this behavior. However, this would add another complexity to our system and hence I would rather like to avoid it.\n\n\u003e \n\u003e I am also worried that this approach does not seem to be adaptable to being able to ignore options that have values since it is impossible for the application to know whether a non existing option will take values or not, and how many. If we leave this up to the caller, the call will know this information even if a plugin is not installed, so the caller could do something like \"--ignore-if-missing --ignore-if-missing-value --plugin-option value\".\n\nI don\u0027t understand why you think that options with values are an issue. Our parsing framework automatically identifies which options and which values belong together. The check for known options is independent of that.",
+      "parentUuid": "6a20d105_9fd9deb4",
+      "revId": "35b37e19eb10f63852707556a2e9b84f137d2a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fdea66ad_59a93489",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2019-07-12T15:08:57Z",
       "side": 1,
       "message": "We have had a need for this in the past. One plugin would like info in the WUI from another plugin if it happens to be installed, but wanted to be able to just ignore that data if it wasn\u0027t there. So we wanted queries to not fail given potentially non-existing options.",
+      "revId": "35b37e19eb10f63852707556a2e9b84f137d2a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71357e4c_2ee34366",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-12T16:18:55Z",
+      "side": 1,
+      "message": "What does WUI stand for?",
+      "parentUuid": "fdea66ad_59a93489",
       "revId": "35b37e19eb10f63852707556a2e9b84f137d2a91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

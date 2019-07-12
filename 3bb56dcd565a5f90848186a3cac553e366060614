@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "803f0d1f_4f11c757",
+        "filename": "java/com/google/gerrit/util/cli/CmdLineParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-12T13:26:26Z",
+      "side": 1,
+      "message": "If the option is unknown (but is actually a boolean flag), we never end up in the isBoolean(name) if-branch, do we? I was wondering about this until I checked more of the code. If my assessment is right, could we maybe add a clarifying comment?",
+      "range": {
+        "startLine": 333,
+        "startChar": 6,
+        "endLine": 333,
+        "endChar": 28
+      },
+      "revId": "3bb56dcd565a5f90848186a3cac553e366060614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55cb1299_026c84c3",
+        "filename": "java/com/google/gerrit/util/cli/CmdLineParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-12T13:26:26Z",
+      "side": 1,
+      "message": "Thanks for adding this comment. It\u0027s very helpful.",
+      "range": {
+        "startLine": 486,
+        "startChar": 6,
+        "endLine": 486,
+        "endChar": 77
+      },
+      "revId": "3bb56dcd565a5f90848186a3cac553e366060614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "594429ed_a56211b5",
+        "filename": "java/com/google/gerrit/util/cli/UnknownOptionHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-12T13:26:26Z",
+      "side": 1,
+      "message": "option",
+      "range": {
+        "startLine": 23,
+        "startChar": 61,
+        "endLine": 23,
+        "endChar": 68
+      },
+      "revId": "3bb56dcd565a5f90848186a3cac553e366060614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e225f433_2409f0d7",
+        "filename": "java/com/google/gerrit/util/cli/UnknownOptionHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-12T13:26:26Z",
+      "side": 1,
+      "message": "Nit: I\u0027m wondering whether we should use an Optional here. For return values, the official recommendation would be to use an Optional but for method parameters, the general opinion is less clear. Personally, I use Optional method parameters when I already have an Optional object and need to pass it to a private method. For externally facing methods, I typically prefer @Nullable as callers shouldn\u0027t need to explicitly construct an Optional instance. Most of the time, it\u0027s also better to rather use overloading (e.g. one method which accepts the parameter, another one without). In addition, you would in theory also need to check whether the passed Optional is null and hence you don\u0027t gain anything.\n\nAnyway, these are just some inputs for thought. If you want to keep the Optional as method parameter, it\u0027s also fine with me.",
+      "range": {
+        "startLine": 41,
+        "startChar": 30,
+        "endLine": 41,
+        "endChar": 46
+      },
+      "revId": "3bb56dcd565a5f90848186a3cac553e366060614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29157be8_893eb456",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/UnknownOptionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-12T13:26:26Z",
+      "side": 1,
+      "message": "Nice tests.",
+      "range": {
+        "startLine": 33,
+        "startChar": 13,
+        "endLine": 33,
+        "endChar": 28
+      },
+      "revId": "3bb56dcd565a5f90848186a3cac553e366060614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

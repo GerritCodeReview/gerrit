@@ -134,9 +134,7 @@ public class Accounts {
   private Optional<AccountState> read(Repository allUsersRepository, Account.Id accountId)
       throws IOException, ConfigInvalidException {
     return AccountState.fromAccountConfig(
-        allUsersName,
-        externalIds,
-        new AccountConfig(accountId, allUsersName, allUsersRepository).load());
+        externalIds, new AccountConfig(accountId, allUsersName, allUsersRepository).load());
   }
 
   public static Stream<Account.Id> readUserRefs(Repository repo) throws IOException {

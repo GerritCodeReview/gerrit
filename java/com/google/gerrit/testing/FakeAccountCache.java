@@ -20,8 +20,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.util.time.TimeUtil;
 import java.util.HashMap;
 import java.util.Map;
@@ -78,6 +76,6 @@ public class FakeAccountCache implements AccountCache {
   }
 
   private static AccountState newState(Account account) {
-    return AccountState.forAccount(new AllUsersName(AllUsersNameProvider.DEFAULT), account);
+    return AccountState.forAccount(account);
   }
 }

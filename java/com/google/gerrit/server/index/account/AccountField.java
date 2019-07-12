@@ -31,6 +31,8 @@ import com.google.gerrit.index.SchemaUtil;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.AllUsersNameProvider;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Collections;
@@ -144,7 +146,11 @@ public class AccountField {
                     RefState.create(
                             RefNames.refsUsers(a.getAccount().getId()),
                             ObjectId.fromString(a.getAccount().getMetaId()))
-                        .toByteArray(a.getAllUsersNameForIndexing()));
+                        // We use the default AllUsers name to avoid having to pass around that
+                        // variable just for indexing.
+                        // This field is only used for staleness detection which will discover the
+                        // default name and replace it with the actually configured name.
+                        .toByteArray(new AllUsersName(AllUsersNameProvider.DEFAULT)));
               });
 
   /**

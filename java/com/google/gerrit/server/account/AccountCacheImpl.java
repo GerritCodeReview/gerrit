@@ -26,7 +26,6 @@ import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
@@ -69,18 +68,15 @@ public class AccountCacheImpl implements AccountCache {
     };
   }
 
-  private final AllUsersName allUsersName;
   private final ExternalIds externalIds;
   private final LoadingCache<Account.Id, Optional<AccountState>> byId;
   private final ExecutorService executor;
 
   @Inject
   AccountCacheImpl(
-      AllUsersName allUsersName,
       ExternalIds externalIds,
       @Named(BYID_NAME) LoadingCache<Account.Id, Optional<AccountState>> byId,
       @FanOutExecutor ExecutorService executor) {
-    this.allUsersName = allUsersName;
     this.externalIds = externalIds;
     this.byId = byId;
     this.executor = executor;
@@ -171,7 +167,7 @@ public class AccountCacheImpl implements AccountCache {
   private AccountState missing(Account.Id accountId) {
     Account account = new Account(accountId, TimeUtil.nowTs());
     account.setActive(false);
-    return AccountState.forAccount(allUsersName, account);
+    return AccountState.forAccount(account);
   }
 
   static class ByIdLoader extends CacheLoader<Account.Id, Optional<AccountState>> {

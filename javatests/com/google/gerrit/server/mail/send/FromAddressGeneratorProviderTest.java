@@ -25,8 +25,6 @@ import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.util.time.TimeUtil;
 import java.util.Arrays;
 import java.util.List;
@@ -383,6 +381,6 @@ public class FromAddressGeneratorProviderTest {
     final Account account = new Account(userId, TimeUtil.nowTs());
     account.setFullName(name);
     account.setPreferredEmail(email);
-    return AccountState.forAccount(new AllUsersName(AllUsersNameProvider.DEFAULT), account);
+    return AccountState.forAccount(account);
   }
 }

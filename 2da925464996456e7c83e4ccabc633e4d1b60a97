@@ -22,6 +22,30 @@
       "revId": "2da925464996456e7c83e4ccabc633e4d1b60a97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68b4d5a8_a449f7a1",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/TraceIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-12T09:28:18Z",
+      "side": 1,
+      "message": "This is just an arbitrary extension point that is invoked when a REST call for a change is done, so that we can check that the logging tag with the project name is set, when this extension point is invoked after a /changes/\u003cid\u003e/... REST call is done. This tests that /changes/\u003cid\u003e/... properly populates the project field in RequestInfo.\n\nIt\u0027s only used by a single test, so I moved the registration of this listener to that test. I hope that makes it clearer how it\u0027s used.\n\nThere was also a bug in that test. It\u0027s supposed to do a /changes/\u003cid\u003e/... REST call that triggers a change index, so that we can do the assertion of the logging tag in our test ChangeIndexedListener, but the test did a GET request that didn\u0027t result in an index. This is fixed now. FYI the test passed before, because the test setup (change creation) triggered the extension.",
+      "parentUuid": "007bca38_e47a1025",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 68
+      },
+      "revId": "2da925464996456e7c83e4ccabc633e4d1b60a97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

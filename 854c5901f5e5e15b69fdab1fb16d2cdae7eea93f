@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "995cb3dc_7bc8349e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-12T12:59:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "370706d8_ee06bbcc",
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46902cff_518b9cd8",
         "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 2
@@ -577,6 +595,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "b39b23b4_7d75b44d",
+      "range": {
+        "startLine": 364,
+        "startChar": 14,
+        "endLine": 364,
+        "endChar": 45
+      },
+      "revId": "854c5901f5e5e15b69fdab1fb16d2cdae7eea93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d923494_0fb5da57",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-12T12:59:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "390805c2_a6f958a6",
       "range": {
         "startLine": 364,
         "startChar": 14,

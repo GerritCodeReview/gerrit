@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ed58f0a2_8730b50d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-12T08:48:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf5d4c7f_9d53e1ec",
+      "range": {
+        "startLine": 13,
+        "startChar": 9,
+        "endLine": 13,
+        "endChar": 10
+      },
+      "revId": "2c0459725ecc1b8db3453ecd31b7c3c888668580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f33b4329_19e5cfbb",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -68,6 +92,30 @@
       "revId": "2c0459725ecc1b8db3453ecd31b7c3c888668580",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd10ca32_68d9bfbb",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-12T08:48:41Z",
+      "side": 1,
+      "message": "I don\u0027t see any alternative, that still involves the \"should\" rule. In my opinion this rule is pretty useful, once people get used to it. Assuming the person reading it will read the entire name of the test, there is no reason to get confused, since \"Compute\" and \"Skip\" are two different expectations.",
+      "parentUuid": "e8fd7282_96104573",
+      "range": {
+        "startLine": 266,
+        "startChar": 14,
+        "endLine": 266,
+        "endChar": 28
+      },
+      "revId": "2c0459725ecc1b8db3453ecd31b7c3c888668580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

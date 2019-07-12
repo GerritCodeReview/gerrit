@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "337303cf_18372c9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-12T08:48:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43792d0b_07a9e33f",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8133d383_5335c957",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "b4c5c09c_b2305fa3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-12T08:48:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72371ec6_2aad1ede",
+      "range": {
+        "startLine": 9,
+        "startChar": 2,
+        "endLine": 9,
+        "endChar": 3
+      },
+      "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a253360d_eaf53b2b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -92,6 +140,30 @@
       "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1f907f1_097d6f71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-12T08:48:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a253360d_eaf53b2b",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 79
+      },
+      "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -307,6 +379,30 @@
     },
     {
       "key": {
+        "uuid": "ab5e3da7_f1bf1385",
+        "filename": "java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-12T08:48:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2106baa7_d1f69a97",
+      "range": {
+        "startLine": 175,
+        "startChar": 2,
+        "endLine": 188,
+        "endChar": 3
+      },
+      "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57d1aaa7_274606b9",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 7
@@ -342,6 +438,30 @@
       "side": 1,
       "message": "I like the \"should\" system :)",
       "parentUuid": "57d1aaa7_274606b9",
+      "range": {
+        "startLine": 294,
+        "startChar": 14,
+        "endLine": 294,
+        "endChar": 40
+      },
+      "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7a6b3e3_5b55ac5a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-12T08:48:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d8e564e_38ea6da8",
       "range": {
         "startLine": 294,
         "startChar": 14,
@@ -422,6 +542,30 @@
       "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9345ce52_56f62eee",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 4473,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-12T08:48:41Z",
+      "side": 1,
+      "message": "In case there are enough pointers that tell the developers to change this test, then the comment is unnecessary. Although, I don\u0027t see why it hurts :)",
+      "parentUuid": "3162ba98_9f07a1d4",
+      "range": {
+        "startLine": 4473,
+        "startChar": 7,
+        "endLine": 4473,
+        "endChar": 77
+      },
+      "revId": "7a2789c55ce173d56453438dabfeef83ab0ab417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

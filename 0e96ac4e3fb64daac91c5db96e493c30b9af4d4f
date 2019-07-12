@@ -16,6 +16,24 @@
       "revId": "0e96ac4e3fb64daac91c5db96e493c30b9af4d4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4dc2413_38d2ad47",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-07-12T06:25:37Z",
+      "side": 1,
+      "message": "Thanks. I have created a separate issue for that: https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d11177",
+      "parentUuid": "e64d91c8_7f901098",
+      "revId": "0e96ac4e3fb64daac91c5db96e493c30b9af4d4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

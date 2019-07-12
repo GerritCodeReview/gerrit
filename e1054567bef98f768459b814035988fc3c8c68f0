@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9ce1c913_edb7ffcf",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-12T09:08:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70b776c1_02e521b4",
+      "range": {
+        "startLine": 227,
+        "startChar": 2,
+        "endLine": 227,
+        "endChar": 52
+      },
+      "revId": "e1054567bef98f768459b814035988fc3c8c68f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7adc0d5c_375a736d",
         "filename": "plugins/codemirror-editor",
         "patchSetId": 9
@@ -45,6 +69,30 @@
       "revId": "e1054567bef98f768459b814035988fc3c8c68f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "243d2c77_b5424703",
+        "filename": "plugins/codemirror-editor",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-12T09:08:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7adc0d5c_375a736d",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "e1054567bef98f768459b814035988fc3c8c68f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

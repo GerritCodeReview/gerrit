@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f60d4bf4_25f22f50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-12T15:06:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47a668e4_6f4b50c0",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 11
+      },
+      "revId": "845e9fd597dc30fcd70374567404ee9a74c2eb8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b50b9f20_aee83d3d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "845e9fd597dc30fcd70374567404ee9a74c2eb8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2559e140_b9719946",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-12T15:06:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b50b9f20_aee83d3d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 22
+      },
+      "revId": "845e9fd597dc30fcd70374567404ee9a74c2eb8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "dd592211_9e0b0176",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-12T15:06:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae287df8_1fd069c6",
+      "range": {
+        "startLine": 486,
+        "startChar": 79,
+        "endLine": 486,
+        "endChar": 81
+      },
+      "revId": "845e9fd597dc30fcd70374567404ee9a74c2eb8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e177399c_939b94cb",
         "filename": "javatests/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
         "patchSetId": 4
@@ -91,6 +163,30 @@
       "revId": "845e9fd597dc30fcd70374567404ee9a74c2eb8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4553ae15_b8e12aed",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-12T15:06:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e177399c_939b94cb",
+      "range": {
+        "startLine": 489,
+        "startChar": 38,
+        "endLine": 489,
+        "endChar": 52
+      },
+      "revId": "845e9fd597dc30fcd70374567404ee9a74c2eb8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

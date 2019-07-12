@@ -231,6 +231,24 @@
     },
     {
       "key": {
+        "uuid": "69a54342_43f92f47",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-12T15:06:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3340fab9_56fa402d",
+      "revId": "f145696dbd4c27ba7e887d4c8dd12684b91b5ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b56af70_f8aba6b2",
         "filename": "javatests/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
         "patchSetId": 3

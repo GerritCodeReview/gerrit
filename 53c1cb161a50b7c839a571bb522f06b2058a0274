@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0811aa9b_3d8eabe4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-07-12T07:36:41Z",
+      "side": 1,
+      "message": "There is a change of this performing write actions twice:\n1) User posts change message (for example)\n2) Gerrit writes comment to storage (succeeds)\n3) Gerrit prepares response (fails with 500 for some reason)\n4) Gerrit retries, succeeds with write fails again after resulting in having a duplicate change message\n\nFrom what I see now this risk surface is rather small and I would expect this to happen extremely rarely if at all, so it seems fine. It is worth to explain that risk more though in the commit message.",
+      "revId": "53c1cb161a50b7c839a571bb522f06b2058a0274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8517a29_0e2ac8cf",
+        "filename": "java/com/google/gerrit/server/update/RetryHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-07-12T07:36:41Z",
+      "side": 1,
+      "message": "Please set the default to false so that we can proctor the rollout.",
+      "range": {
+        "startLine": 199,
+        "startChar": 86,
+        "endLine": 199,
+        "endChar": 90
+      },
+      "revId": "53c1cb161a50b7c839a571bb522f06b2058a0274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

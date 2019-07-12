@@ -38,6 +38,7 @@ import com.google.gerrit.server.config.ReceiveCommitsExecutor;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
@@ -199,12 +200,12 @@ public class AsyncReceiveCommits implements PreReceiveHook {
           metricMaker.newHistogram(
               "receivecommits/changes_per_push",
               new Description("number of changes uploaded in a single push.").setCumulative(),
-              Field.ofEnum(PushType.class, "type")
+              Field.ofEnum(PushType.class, "type", Metadata.Builder::pushType)
                   .description("type of push (create/replace, autoclose)")
                   .build());
 
       Field<PushType> pushTypeField =
-          Field.ofEnum(PushType.class, "type")
+          Field.ofEnum(PushType.class, "type", Metadata.Builder::pushType)
               .description("type of push (create/replace, autoclose, normal)")
               .build();
 

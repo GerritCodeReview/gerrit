@@ -34,6 +34,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -98,7 +99,8 @@ public class ChangeFinder {
             new Description("Total number of API calls per identifier type.")
                 .setRate()
                 .setUnit("requests"),
-            Field.ofEnum(ChangeIdType.class, "change_id_type").build());
+            Field.ofEnum(ChangeIdType.class, "change_id_type", Metadata.Builder::changeIdType)
+                .build());
     List<ChangeIdType> configuredChangeIdTypes =
         ConfigUtil.getEnumList(config, "change", "api", "allowedIdentifier", ChangeIdType.ALL);
     // Ensure that PROJECT_NUMERIC_ID can't be removed

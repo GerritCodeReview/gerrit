@@ -42,6 +42,7 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.GroupAuditService;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.group.GroupIndexer;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.update.RetryHelper;
@@ -266,8 +267,9 @@ public class GroupsUpdate {
     try (TraceTimer timer =
         TraceContext.newTimer(
             "Creating group",
-            "groupName",
-            groupUpdate.getName().orElseGet(groupCreation::getNameKey))) {
+            Metadata.builder()
+                .groupName(groupUpdate.getName().orElseGet(groupCreation::getNameKey).get())
+                .build())) {
       InternalGroup createdGroup = createGroupInNoteDbWithRetry(groupCreation, groupUpdate);
       evictCachesOnGroupCreation(createdGroup);
       dispatchAuditEventsOnGroupCreation(createdGroup);
@@ -287,7 +289,9 @@ public class GroupsUpdate {
    */
   public void updateGroup(AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
       throws DuplicateKeyException, IOException, NoSuchGroupException, ConfigInvalidException {
-    try (TraceTimer timer = TraceContext.newTimer("Updating group", "groupUuid", groupUuid)) {
+    try (TraceTimer timer =
+        TraceContext.newTimer(
+            "Updating group", Metadata.builder().groupUuid(groupUuid.get()).build())) {
       Optional<Timestamp> updatedOn = groupUpdate.getUpdatedOn();
       if (!updatedOn.isPresent()) {
         updatedOn = Optional.of(TimeUtil.nowTs());

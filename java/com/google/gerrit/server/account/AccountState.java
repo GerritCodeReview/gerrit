@@ -36,7 +36,6 @@ import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.gerrit.server.config.AllUsersName;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
@@ -56,16 +55,14 @@ public class AccountState {
   /**
    * Creates an AccountState from the given account config.
    *
-   * @param allUsersName the name of the All-Users repository
    * @param externalIds class to access external IDs
    * @param accountConfig the account config, must already be loaded
    * @return the account state, {@link Optional#empty()} if the account doesn't exist
    * @throws IOException if accessing the external IDs fails
    */
   public static Optional<AccountState> fromAccountConfig(
-      AllUsersName allUsersName, ExternalIds externalIds, AccountConfig accountConfig)
-      throws IOException {
-    return fromAccountConfig(allUsersName, externalIds, accountConfig, null);
+      ExternalIds externalIds, AccountConfig accountConfig) throws IOException {
+    return fromAccountConfig(externalIds, accountConfig, null);
   }
 
   /**
@@ -78,7 +75,6 @@ public class AccountState {
    * updated the revision of the external IDs branch in account config is outdated. Hence after
    * updating external IDs the external ID notes must be provided.
    *
-   * @param allUsersName the name of the All-Users repository
    * @param externalIds class to access external IDs
    * @param accountConfig the account config, must already be loaded
    * @param extIdNotes external ID notes, must already be loaded, may be {@code null}
@@ -86,10 +82,7 @@ public class AccountState {
    * @throws IOException if accessing the external IDs fails
    */
   public static Optional<AccountState> fromAccountConfig(
-      AllUsersName allUsersName,
-      ExternalIds externalIds,
-      AccountConfig accountConfig,
-      @Nullable ExternalIdNotes extIdNotes)
+      ExternalIds externalIds, AccountConfig accountConfig, @Nullable ExternalIdNotes extIdNotes)
       throws IOException {
     if (!accountConfig.getLoadedAccount().isPresent()) {
       return Optional.empty();
@@ -115,39 +108,29 @@ public class AccountState {
 
     return Optional.of(
         new AccountState(
-            allUsersName,
-            account,
-            extIds,
-            projectWatches,
-            generalPreferences,
-            diffPreferences,
-            editPreferences));
+            account, extIds, projectWatches, generalPreferences, diffPreferences, editPreferences));
   }
 
   /**
    * Creates an AccountState for a given account with no external IDs, no project watches and
    * default preferences.
    *
-   * @param allUsersName the name of the All-Users repository
    * @param account the account
    * @return the account state
    */
-  public static AccountState forAccount(AllUsersName allUsersName, Account account) {
-    return forAccount(allUsersName, account, ImmutableSet.of());
+  public static AccountState forAccount(Account account) {
+    return forAccount(account, ImmutableSet.of());
   }
 
   /**
    * Creates an AccountState for a given account with no project watches and default preferences.
    *
-   * @param allUsersName the name of the All-Users repository
    * @param account the account
    * @param extIds the external IDs
    * @return the account state
    */
-  public static AccountState forAccount(
-      AllUsersName allUsersName, Account account, Collection<ExternalId> extIds) {
+  public static AccountState forAccount(Account account, Collection<ExternalId> extIds) {
     return new AccountState(
-        allUsersName,
         account,
         ImmutableSet.copyOf(extIds),
         ImmutableMap.of(),
@@ -156,7 +139,6 @@ public class AccountState {
         EditPreferencesInfo.defaults());
   }
 
-  private final AllUsersName allUsersName;
   private final Account account;
   private final ImmutableSet<ExternalId> externalIds;
   private final Optional<String> userName;
@@ -167,14 +149,12 @@ public class AccountState {
   private Cache<IdentifiedUser.PropertyKey<Object>, Object> properties;
 
   private AccountState(
-      AllUsersName allUsersName,
       Account account,
       ImmutableSet<ExternalId> externalIds,
       ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches,
       GeneralPreferencesInfo generalPreferences,
       DiffPreferencesInfo diffPreferences,
       EditPreferencesInfo editPreferences) {
-    this.allUsersName = allUsersName;
     this.account = account;
     this.externalIds = externalIds;
     this.userName = ExternalId.getUserName(externalIds);
@@ -182,10 +162,6 @@ public class AccountState {
     this.generalPreferences = generalPreferences;
     this.diffPreferences = diffPreferences;
     this.editPreferences = editPreferences;
-  }
-
-  public AllUsersName getAllUsersNameForIndexing() {
-    return allUsersName;
   }
 
   /** Get the cached account metadata. */

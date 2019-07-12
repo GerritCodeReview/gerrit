@@ -321,7 +321,7 @@ public class AccountsUpdate {
               AccountConfig accountConfig = read(r, accountId);
               Account account =
                   accountConfig.getNewAccount(new Timestamp(committerIdent.getWhen().getTime()));
-              AccountState accountState = AccountState.forAccount(allUsersName, account);
+              AccountState accountState = AccountState.forAccount(account);
               InternalAccountUpdate.Builder updateBuilder = InternalAccountUpdate.builder();
               updater.update(accountState, updateBuilder);
 
@@ -377,7 +377,7 @@ public class AccountsUpdate {
         r -> {
           AccountConfig accountConfig = read(r, accountId);
           Optional<AccountState> account =
-              AccountState.fromAccountConfig(allUsersName, externalIds, accountConfig);
+              AccountState.fromAccountConfig(externalIds, accountConfig);
           if (!account.isPresent()) {
             return null;
           }
@@ -592,8 +592,7 @@ public class AccountsUpdate {
     }
 
     public AccountState getAccount() throws IOException {
-      return AccountState.fromAccountConfig(allUsersName, externalIds, accountConfig, extIdNotes)
-          .get();
+      return AccountState.fromAccountConfig(externalIds, accountConfig, extIdNotes).get();
     }
 
     public ExternalIdNotes getExternalIdNotes() {

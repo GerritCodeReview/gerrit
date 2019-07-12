@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "b3047a02_9ae00683",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-07-12T16:37:02Z",
+      "side": 1,
+      "message": "\u003e For REST requests, we also ignore unknown parameters in the JSON body input. So, we already have that situation.\n\nI would favor fixing that, \"explicit over implicit\", ignoring unexpected data silently leads to many hidden bugs.\n\n\u003e Quite some callers would not know about this or forget it and hence they would not specify the --ignore-if-missing option even though they should. This causes unforeseen issues if the plugin vanishes unexpectedly and the dependent caller breaks because of this. \n\nIf the plugin is not written to handle missing options it will have unforseen issues one way or another. By not failing silently, the unforseen issue will be an explicit failure of the command. By silently ignoring the missing option, the unforseen failure has the chance of becoming corrupted data or bad unexpected behavior. Failure is generally favored over wrong behavior.\n\n\u003e Such callers should rather be written in a way that they are resilient enough to deal with this situation.\n\nBut if the callers are not aware of the fact that it could disappear they won\u0027t get written that way. By forcing the caller to indicate explicitly that they have been written to handle the situation of a missing option, it makes it safe to ignore the missing option silently for that case.\n\n\u003e I don\u0027t understand why you think that options with values are an issue. Our parsing framework automatically identifies which options and which values belong together. The check for known options is independent of that.\n\nHow can the framework know how many \"arguments\" an option in a plugin that is not installed has?",
+      "parentUuid": "b533ac3d_41198f36",
+      "revId": "35b37e19eb10f63852707556a2e9b84f137d2a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fdea66ad_59a93489",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "What does WUI stand for?",
       "parentUuid": "fdea66ad_59a93489",
+      "revId": "35b37e19eb10f63852707556a2e9b84f137d2a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0d51057_9f2c4d1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-07-12T16:37:02Z",
+      "side": 1,
+      "message": "Web User Interface. In other words, we have plugins that want to display data form other plugins on the change page, and we want that plugin to degrade nicely if the other plugin is not installed. Basically the plugin does a change query with an option telling the other plugin to add its attributes to the change output. But if the attributes aren\u0027t there it\u0027s ok, but we still need the query to succeed to provide other change data without having to retry the query without the option now. However, we have scripts that also need that data, and those scripts should outright fail if the option is not there. i.e. those scripts should never be run against a server without that plugin installed and they expect a hard failure, not a silent coverup.",
+      "parentUuid": "71357e4c_2ee34366",
       "revId": "35b37e19eb10f63852707556a2e9b84f137d2a91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

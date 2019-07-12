@@ -97,6 +97,12 @@ limitations under the License.
 
       // Skip mergeability data.
       SKIP_MERGEABLE: 22,
+
+      /**
+      * Skip diffstat computation that compute the insertions field (number of lines inserted) and
+      * deletions field (number of lines deleted)
+      */
+      SKIP_DIFFSTAT: 23,
     },
 
     listChangesOptionsToHex(...args) {

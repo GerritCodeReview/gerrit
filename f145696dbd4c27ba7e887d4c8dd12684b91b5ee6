@@ -213,6 +213,24 @@
     },
     {
       "key": {
+        "uuid": "3340fab9_56fa402d",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-12T13:16:32Z",
+      "side": 1,
+      "message": "\u003e What do you mean by inline? \n\nI mean that this method is not needed, and you can simply copy/paste the content of this method to the one place where this method is called.",
+      "parentUuid": "ba9e068d_32e7aeb9",
+      "revId": "f145696dbd4c27ba7e887d4c8dd12684b91b5ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4b56af70_f8aba6b2",
         "filename": "javatests/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
         "patchSetId": 3

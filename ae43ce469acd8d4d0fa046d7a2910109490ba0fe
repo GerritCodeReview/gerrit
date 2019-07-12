@@ -331,6 +331,30 @@
     },
     {
       "key": {
+        "uuid": "78d6ec53_542e6abe",
+        "filename": "java/com/google/gerrit/server/logging/Metadata.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-12T09:59:56Z",
+      "side": 1,
+      "message": "Thanks. It\u0027s much clearer now.",
+      "parentUuid": "58bb10ae_339b8cd4",
+      "range": {
+        "startLine": 47,
+        "startChar": 9,
+        "endLine": 47,
+        "endChar": 26
+      },
+      "revId": "ae43ce469acd8d4d0fa046d7a2910109490ba0fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84d1800e_81b3fe19",
         "filename": "java/com/google/gerrit/server/logging/Metadata.java",
         "patchSetId": 5

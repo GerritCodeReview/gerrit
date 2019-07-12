@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0981dfbb_63c7982d",
+        "filename": "java/com/google/gerrit/server/logging/PerformanceLogRecord.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-12T09:59:56Z",
+      "side": 1,
+      "message": "providing",
+      "range": {
+        "startLine": 23,
+        "startChar": 64,
+        "endLine": 23,
+        "endChar": 72
+      },
+      "revId": "656d01f6398f72b231b2eea1a1670ab6fb6ddad1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a4af6b0_b61473ff",
+        "filename": "java/com/google/gerrit/server/update/RetryHelper.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-12T09:59:56Z",
+      "side": 1,
+      "message": "For enums, we always to the mapping from fieldValue to fieldValue.name(). I\u0027m wondering if we shouldn\u0027t change the method signature of Field#ofEnum to allow to specify BiConsumer\u003cMetadata.Builder, String\u003e instead and do the mapping to the BiConsumer\u003cMetadata.Builder, E\u003e within the implementation via:\n\n  BiConsumer\u003cMetadata.Builder, E\u003e mapper \u003d (metadataBuilder, fieldValue) -\u003e metadataMapper.accept(metadataBuilder, fieldValue.name());\n\nWhat do you think?",
+      "range": {
+        "startLine": 118,
+        "startChar": 18,
+        "endLine": 118,
+        "endChar": 96
+      },
+      "revId": "656d01f6398f72b231b2eea1a1670ab6fb6ddad1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -19,7 +19,10 @@ java_binary(
 java_library2(
     name = "gwtui-api-lib",
     srcs = SRCS,
-    exported_deps = ["//gerrit-gwtui-common:client-lib"],
+    exported_deps = [
+        "//gerrit-gwtui:client-lib",
+        "//gerrit-gwtui-common:client-lib",
+    ],
     resources = glob(["src/main/**/*"]),
     deps = DEPS + [
         "//java/org/eclipse/jgit:libclient-src.jar",

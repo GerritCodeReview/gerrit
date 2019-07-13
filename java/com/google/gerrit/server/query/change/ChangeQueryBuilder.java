@@ -24,8 +24,6 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Enums;
 import com.google.common.base.Splitter;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.GroupDescription;
@@ -1334,7 +1332,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     int maxTerms = args.indexConfig.maxTerms();
     if (allMembers.size() > maxTerms) {
       // limit the number of query terms otherwise Gerrit will barf
-      accounts = ImmutableSet.copyOf(Iterables.limit(allMembers, maxTerms));
+      accounts = allMembers.stream().limit(maxTerms).collect(toSet());
     } else {
       accounts = allMembers;
     }

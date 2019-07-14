@@ -348,6 +348,13 @@ limitations under the License.
       },
 
       /**
+       * Navigate to the user's dashboard
+       */
+      navigateToUserDashboard() {
+        return this._navigate(this.getUrlForUserDashboard('self'));
+      },
+
+      /**
        * @param {!Object} change The change object.
        * @param {number=} opt_patchNum
        * @param {number|string=} opt_basePatchNum The string 'PARENT' can be

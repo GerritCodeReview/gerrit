@@ -112,9 +112,11 @@
     keyboardShortcuts() {
       return {
         [this.Shortcut.OPEN_SHORTCUT_HELP_DIALOG]: '_showKeyboardShortcuts',
+        [this.Shortcut.GO_TO_USER_DASHBOARD]: '_goToUserDashboard',
         [this.Shortcut.GO_TO_OPENED_CHANGES]: '_goToOpenedChanges',
         [this.Shortcut.GO_TO_MERGED_CHANGES]: '_goToMergedChanges',
         [this.Shortcut.GO_TO_ABANDONED_CHANGES]: '_goToAbandonedChanges',
+        [this.Shortcut.GO_TO_WATCHED_CHANGES]: '_goToWatchedChanges',
       };
     },
 
@@ -181,11 +183,15 @@
       this.bindShortcut(
           this.Shortcut.OPEN_SHORTCUT_HELP_DIALOG, '?');
       this.bindShortcut(
+          this.Shortcut.GO_TO_USER_DASHBOARD, this.GO_KEY, 'i');
+      this.bindShortcut(
           this.Shortcut.GO_TO_OPENED_CHANGES, this.GO_KEY, 'o');
       this.bindShortcut(
           this.Shortcut.GO_TO_MERGED_CHANGES, this.GO_KEY, 'm');
       this.bindShortcut(
           this.Shortcut.GO_TO_ABANDONED_CHANGES, this.GO_KEY, 'a');
+      this.bindShortcut(
+          this.Shortcut.GO_TO_WATCHED_CHANGES, this.GO_KEY, 'w');
 
       this.bindShortcut(
           this.Shortcut.CURSOR_NEXT_CHANGE, 'j');
@@ -414,6 +420,10 @@
       return isShadowDom ? 'shadow' : '';
     },
 
+    _goToUserDashboard() {
+      Gerrit.Nav.navigateToUserDashboard();
+    },
+
     _goToOpenedChanges() {
       Gerrit.Nav.navigateToStatusSearch('open');
     },
@@ -424,6 +434,10 @@
 
     _goToAbandonedChanges() {
       Gerrit.Nav.navigateToStatusSearch('abandoned');
+    },
+
+    _goToWatchedChanges() {
+      Gerrit.Nav.navigateToSearchQuery('is:watched');
     },
 
     _computePluginScreenName({plugin, screen}) {

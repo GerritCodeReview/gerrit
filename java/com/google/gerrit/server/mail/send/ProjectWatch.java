@@ -97,7 +97,7 @@ public class ProjectWatch {
       for (NotifyConfig nc : state.getConfig().getNotifyConfigs()) {
         if (nc.isNotify(type)) {
           try {
-            add(matching, nc);
+            add(matching, state.getNameKey(), nc);
           } catch (QueryParseException e) {
             logger.atWarning().log(
                 "Project %s has invalid notify %s filter \"%s\": %s",
@@ -146,17 +146,27 @@ public class ProjectWatch {
     }
   }
 
-  private void add(Watchers matching, NotifyConfig nc) throws QueryParseException {
-    for (GroupReference ref : nc.getGroups()) {
-      CurrentUser user = new SingleGroupUser(ref.getUUID());
+  private void add(Watchers matching, Project.NameKey projectName, NotifyConfig nc)
+      throws QueryParseException {
+    logger.atFine().log("Checking watchers for notify config %s from project %s", nc, projectName);
+    for (GroupReference groupRef : nc.getGroups()) {
+      CurrentUser user = new SingleGroupUser(groupRef.getUUID());
       if (filterMatch(user, nc.getFilter())) {
-        deliverToMembers(matching.list(nc.getHeader()), ref.getUUID());
+        deliverToMembers(matching.list(nc.getHeader()), groupRef.getUUID());
+        logger.atFine().log("Added watchers for group %s", groupRef);
+      } else {
+        logger.atFine().log("The filter did not match for group %s; skip notification", groupRef);
       }
     }
 
     if (!nc.getAddresses().isEmpty()) {
       if (filterMatch(null, nc.getFilter())) {
         matching.list(nc.getHeader()).emails.addAll(nc.getAddresses());
+        logger.atFine().log("Added watchers for these addresses: %s", nc.getAddresses());
+      } else {
+        logger.atFine().log(
+            "The filter did not match; skip notification for these addresses: %s",
+            nc.getAddresses());
       }
     }
   }
@@ -172,19 +182,24 @@ public class ProjectWatch {
       AccountGroup.UUID uuid = q.remove(q.size() - 1);
       GroupDescription.Basic group = args.groupBackend.get(uuid);
       if (group == null) {
+        logger.atFine().log("group %s not found, skip notification", uuid);
         continue;
       }
       if (!Strings.isNullOrEmpty(group.getEmailAddress())) {
         // If the group has an email address, do not expand membership.
         matching.emails.add(new Address(group.getEmailAddress()));
+        logger.atFine().log(
+            "notify group email address %s; skip expanding to members", group.getEmailAddress());
         continue;
       }
 
       if (!(group instanceof GroupDescription.Internal)) {
         // Non-internal groups cannot be expanded by the server.
+        logger.atFine().log("group %s is not an internal group, skip notification", uuid);
         continue;
       }
 
+      logger.atFine().log("adding the members of group %s as watchers", uuid);
       GroupDescription.Internal ig = (GroupDescription.Internal) group;
       matching.accounts.addAll(ig.getMembers());
       for (AccountGroup.UUID m : ig.getSubgroups()) {
@@ -201,8 +216,9 @@ public class ProjectWatch {
       ProjectWatchKey key,
       Set<NotifyType> watchedTypes,
       NotifyType type) {
-    IdentifiedUser user = args.identifiedUserFactory.create(accountId);
+    logger.atFine().log("Checking project watch %s of account %s", key, accountId);
 
+    IdentifiedUser user = args.identifiedUserFactory.create(accountId);
     try {
       if (filterMatch(user, key.filter())) {
         // If we are set to notify on this type, add the user.
@@ -210,10 +226,13 @@ public class ProjectWatch {
         if (watchedTypes.contains(type)) {
           matching.bcc.accounts.add(accountId);
         }
+        logger.atFine().log("Added account %s as watcher", accountId);
         return true;
       }
+      logger.atFine().log("The filter did not match for account %s; skip notification", accountId);
     } catch (QueryParseException e) {
       // Ignore broken filter expressions.
+      logger.atWarning().log("Account %s has invalid filter in project watch %s", accountId, key);
     }
     return false;
   }

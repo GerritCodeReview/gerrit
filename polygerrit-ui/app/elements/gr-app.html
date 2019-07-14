@@ -1,6 +1,6 @@
 <!--
 @license
-Copyright (C) 2015 The Android Open Source Project
+Copyright (C) 2019 The Android Open Source Project
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,24 +15,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <script>
-  // This must be set prior to loading Polymer for the first time.
-  if (localStorage.getItem('USE_SHADOW_DOM') === 'true') {
-    window.Polymer = {
-      dom: 'shadow',
-      passiveTouchGestures: true,
-      lazyRegister: true,
-    };
-  } else if (!window.Polymer) {
-    window.Polymer = {
-      passiveTouchGestures: true,
-      lazyRegister: true,
-    };
-  }
   window.Gerrit = window.Gerrit || {};
 </script>
 
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/bower_components/polymer-resin/standalone/polymer-resin.html">
+<link rel="import" href="/bower_components/polymer/lib/legacy/legacy-data-mixin.html">
 <link rel="import" href="../behaviors/safe-types-behavior/safe-types-behavior.html">
 <script>
   security.polymer_resin.install({

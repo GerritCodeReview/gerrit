@@ -147,8 +147,6 @@ public class CreateProject
     args.newChangeForAllNotInTarget =
         MoreObjects.firstNonNull(
             input.createNewChangeForAllNotInTarget, InheritableBoolean.INHERIT);
-    args.changeIdRequired =
-        MoreObjects.firstNonNull(input.requireChangeId, InheritableBoolean.INHERIT);
     args.rejectEmptyCommit =
         MoreObjects.firstNonNull(input.rejectEmptyCommit, InheritableBoolean.INHERIT);
     args.enableSignedPush =

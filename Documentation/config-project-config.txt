@@ -157,32 +157,6 @@ is the author of the commit. Its main purpose is to improve tracking of who
 did  what, especially with patches. Default is `INHERIT`, which means that this
 property is inherited from the parent project.
 
-[[receive.requireChangeId]]receive.requireChangeId::
-+
-The `Require Change-Id in commit message` option defines whether a
-link:user-changeid.html[Change-Id] in the commit message is required
-for pushing a commit for review. If this option is set, trying to push
-a commit for review that doesn't contain a Change-Id in the commit
-message fails with link:error-missing-changeid.html[missing Change-Id
-in commit message footer].
-
-It is recommended to set this option and use a
-link:user-changeid.html#create[commit-msg hook] (or other client side
-tooling like EGit) to automatically generate Change-Id's for new
-commits. This way the Change-Id is automatically in place when changes
-are reworked or rebased and uploading new patch sets gets easy.
-
-If this option is not set, commits can be uploaded without a Change-Id,
-but then users have to remember to copy the assigned Change-Id from the
-change screen and insert it manually into the commit message when they
-want to upload a second patch set.
-
-Default is `INHERIT`, which means that this property is inherited from
-the parent project. The global default for new hosts is `true`
-
-This option is deprecated and future releases will behave as if this
-is always `true`.
-
 [[receive.maxObjectSizeLimit]]receive.maxObjectSizeLimit::
 +
 Maximum allowed Git object size that receive-pack will accept. If an object

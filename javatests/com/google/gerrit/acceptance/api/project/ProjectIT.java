@@ -316,7 +316,6 @@ public class ProjectIT extends AbstractDaemonTest {
     assertThat(info.useSignedOffBy.configuredValue).isEqualTo(input.useSignedOffBy);
     assertThat(info.createNewChangeForAllNotInTarget.configuredValue)
         .isEqualTo(input.createNewChangeForAllNotInTarget);
-    assertThat(info.requireChangeId.configuredValue).isEqualTo(input.requireChangeId);
     assertThat(info.rejectImplicitMerges.configuredValue).isEqualTo(input.rejectImplicitMerges);
     assertThat(info.enableReviewerByEmail.configuredValue).isEqualTo(input.enableReviewerByEmail);
     assertThat(info.createNewChangeForAllNotInTarget.configuredValue)
@@ -346,7 +345,6 @@ public class ProjectIT extends AbstractDaemonTest {
     assertThat(info.useSignedOffBy.configuredValue).isEqualTo(input.useSignedOffBy);
     assertThat(info.createNewChangeForAllNotInTarget.configuredValue)
         .isEqualTo(input.createNewChangeForAllNotInTarget);
-    assertThat(info.requireChangeId.configuredValue).isEqualTo(input.requireChangeId);
     assertThat(info.rejectImplicitMerges.configuredValue).isEqualTo(input.rejectImplicitMerges);
     assertThat(info.enableReviewerByEmail.configuredValue).isEqualTo(input.enableReviewerByEmail);
     assertThat(info.createNewChangeForAllNotInTarget.configuredValue)
@@ -683,7 +681,6 @@ public class ProjectIT extends AbstractDaemonTest {
     input.useContentMerge = InheritableBoolean.TRUE;
     input.useSignedOffBy = InheritableBoolean.TRUE;
     input.createNewChangeForAllNotInTarget = InheritableBoolean.TRUE;
-    input.requireChangeId = InheritableBoolean.TRUE;
     input.rejectImplicitMerges = InheritableBoolean.TRUE;
     input.enableReviewerByEmail = InheritableBoolean.TRUE;
     input.createNewChangeForAllNotInTarget = InheritableBoolean.TRUE;

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "104566d9_5155822d",
+        "filename": "java/com/google/gerrit/server/TraceRequestListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-07-15T10:51:42Z",
+      "side": 1,
+      "message": "I would avoid this entirely for keeping it simple. If admins specify an Account.Id to match that doesn\u0027t exist, that\u0027s OK. It will just never match any request.\n\nIt\u0027s kinda nice to have this be flexible and also allow specifying an email, but the issue is that this class is a singleton and not listening for changes on accounts. So when Gerrit starts, an email might be assigned to person1, but when this gets triggered later on, that might not be the case anymore.",
+      "range": {
+        "startLine": 116,
+        "startChar": 4,
+        "endLine": 134,
+        "endChar": 5
+      },
+      "revId": "dd51e3fcba43dd0db3d308301840ac6ea7fb3a96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

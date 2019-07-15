@@ -232,7 +232,8 @@ public class ProjectWatch {
       logger.atFine().log("The filter did not match for account %s; skip notification", accountId);
     } catch (QueryParseException e) {
       // Ignore broken filter expressions.
-      logger.atWarning().log("Account %s has invalid filter in project watch %s", accountId, key);
+      logger.atWarning().log(
+          "Account %s has invalid filter in project watch %s: %s", accountId, key, e.getMessage());
     }
     return false;
   }

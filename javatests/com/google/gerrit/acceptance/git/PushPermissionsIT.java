@@ -61,8 +61,6 @@ public class PushPermissionsIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     try (ProjectConfigUpdate u = updateProject(allProjects)) {
       ProjectConfig cfg = u.getConfig();
-      cfg.getProject()
-          .setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE);
 
       // Remove push-related permissions, so they can be added back individually by test methods.
       removeAllBranchPermissions(
@@ -249,6 +247,13 @@ public class PushPermissionsIT extends AbstractDaemonTest {
 
   @Test
   public void updateBySubmitDenied() throws Exception {
+    try (ProjectConfigUpdate u = updateProject(allProjects)) {
+      ProjectConfig cfg = u.getConfig();
+      cfg.getProject()
+          .setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE);
+      u.save();
+    }
+
     projectOperations
         .project(project)
         .forUpdate()

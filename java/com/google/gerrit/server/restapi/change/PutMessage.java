@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
@@ -111,10 +110,7 @@ public class PutMessage
     String sanitizedCommitMessage = CommitMessageUtil.checkAndSanitizeCommitMessage(input.message);
 
     ensureCanEditCommitMessage(resource.getNotes());
-    ensureChangeIdIsCorrect(
-        projectCache.checkedGet(resource.getProject()).is(BooleanProjectConfig.REQUIRE_CHANGE_ID),
-        resource.getChange().getKey().get(),
-        sanitizedCommitMessage);
+    ensureChangeIdIsCorrect(resource.getChange().getKey().get(), sanitizedCommitMessage);
 
     try (Repository repository = repositoryManager.openRepository(resource.getProject());
         RevWalk revWalk = new RevWalk(repository);
@@ -193,8 +189,7 @@ public class PutMessage
     }
   }
 
-  private static void ensureChangeIdIsCorrect(
-      boolean requireChangeId, String currentChangeId, String newCommitMessage)
+  private static void ensureChangeIdIsCorrect(String currentChangeId, String newCommitMessage)
       throws ResourceConflictException, BadRequestException {
     RevCommit revCommit =
         RevCommit.parse(
@@ -204,7 +199,7 @@ public class PutMessage
     CommitMessageUtil.checkAndSanitizeCommitMessage(revCommit.getShortMessage());
 
     List<String> changeIdFooters = revCommit.getFooterLines(FooterConstants.CHANGE_ID);
-    if (requireChangeId && changeIdFooters.isEmpty()) {
+    if (changeIdFooters.isEmpty()) {
       throw new ResourceConflictException("missing Change-Id footer");
     }
     if (!changeIdFooters.isEmpty() && !changeIdFooters.get(0).equals(currentChangeId)) {

@@ -86,8 +86,8 @@ public abstract class Metadata {
   // Boolean: one or more
   public abstract Optional<Boolean> multiple();
 
-  // Name of a metadata file in NoteDb.
-  public abstract Optional<String> noteDbFileName();
+  // Path of a metadata file in NoteDb.
+  public abstract Optional<String> noteDbFilePath();
 
   // Name of a metadata ref in NoteDb.
   public abstract Optional<String> noteDbRefName();
@@ -174,7 +174,7 @@ public abstract class Metadata {
 
     public abstract Builder multiple(boolean multiple);
 
-    public abstract Builder noteDbFileName(@Nullable String noteDbFileName);
+    public abstract Builder noteDbFilePath(@Nullable String noteDbFilePath);
 
     public abstract Builder noteDbRefName(@Nullable String noteDbRefName);
 

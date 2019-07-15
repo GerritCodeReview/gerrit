@@ -505,7 +505,7 @@ public abstract class VersionedMetaData {
                     .projectName(projectName.get())
                     .noteDbRefName(getRefName())
                     .revision(revision.name())
-                    .noteDbFileName(fileName)
+                    .noteDbFilePath(fileName)
                     .build());
         TreeWalk tw = TreeWalk.forPath(reader, fileName, revision.getTree())) {
       if (tw != null) {
@@ -585,7 +585,7 @@ public abstract class VersionedMetaData {
             Metadata.builder()
                 .projectName(projectName.get())
                 .noteDbRefName(getRefName())
-                .noteDbFileName(fileName)
+                .noteDbFilePath(fileName)
                 .build())) {
       DirCacheEditor editor = newTree.editor();
       if (raw != null && 0 < raw.length) {

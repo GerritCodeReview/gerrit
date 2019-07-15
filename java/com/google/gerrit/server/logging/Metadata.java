@@ -56,6 +56,9 @@ public abstract class Metadata {
   // The value of the @Export annotation which was used to register a plugin extension.
   public abstract Optional<String> exportValue();
 
+  // Path of a file in a repository.
+  public abstract Optional<String> filePath();
+
   // Garbage collector name.
   public abstract Optional<String> garbageCollectorName();
 
@@ -86,8 +89,8 @@ public abstract class Metadata {
   // Boolean: one or more
   public abstract Optional<Boolean> multiple();
 
-  // Name of a metadata file in NoteDb.
-  public abstract Optional<String> noteDbFileName();
+  // Path of a metadata file in NoteDb.
+  public abstract Optional<String> noteDbFilePath();
 
   // Name of a metadata ref in NoteDb.
   public abstract Optional<String> noteDbRefName();
@@ -97,6 +100,9 @@ public abstract class Metadata {
 
   // Name of a "table" in NoteDb (if set, always CHANGES).
   public abstract Optional<String> noteDbTable();
+
+  // The ID of a patch set.
+  public abstract Optional<Integer> patchSetId();
 
   // Plugin metadata that doesn't fit into any other category.
   public abstract ImmutableList<PluginMetadata> pluginMetadata();
@@ -154,6 +160,8 @@ public abstract class Metadata {
 
     public abstract Builder exportValue(@Nullable String exportValue);
 
+    public abstract Builder filePath(@Nullable String filePath);
+
     public abstract Builder garbageCollectorName(@Nullable String garbageCollectorName);
 
     public abstract Builder gitOperation(@Nullable String gitOperation);
@@ -174,13 +182,15 @@ public abstract class Metadata {
 
     public abstract Builder multiple(boolean multiple);
 
-    public abstract Builder noteDbFileName(@Nullable String noteDbFileName);
+    public abstract Builder noteDbFilePath(@Nullable String noteDbFilePath);
 
     public abstract Builder noteDbRefName(@Nullable String noteDbRefName);
 
     public abstract Builder noteDbSequenceType(@Nullable String noteDbSequenceType);
 
     public abstract Builder noteDbTable(@Nullable String noteDbTable);
+
+    public abstract Builder patchSetId(int patchSetId);
 
     abstract ImmutableList.Builder<PluginMetadata> pluginMetadataBuilder();
 

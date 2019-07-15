@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27889871_1ac593a7",
+        "filename": "java/com/google/gerrit/server/TraceRequestListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-07-15T10:52:34Z",
+      "side": 1,
+      "message": "Can we put this in a util? It seems like parsing regexes this way is used multiple times.",
+      "revId": "e2e6d17bcf7ae64902674afd98f09a1032b6e8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

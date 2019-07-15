@@ -60,8 +60,9 @@ The following submit types are supported:
 [[fast_forward_only]]
 * Fast Forward Only
 +
-With this method no merge commits are produced. All merges must
-be handled on the client, prior to uploading to Gerrit for review.
+With this method Gerrit does not create merge commits on submitting a
+change. Merge commits may still be submitted, but they must be created
+on the client prior to uploading to Gerrit for review.
 +
 To submit a change, the change must be a strict superset of the
 destination branch.  That is, the change must already contain the

@@ -122,5 +122,47 @@ limitations under the License.
       MockInteractions.tap(deleteBtn);
       assert.isTrue(deleteItem.called);
     });
+
+    test('_computeHideLinkAnotherIdentity', () => {
+      let serverConfig;
+
+      serverConfig = {
+        auth: {
+          git_basic_auth_policy: 'OAUTH',
+        },
+      };
+      assert.isTrue(element._computeHideLinkAnotherIdentity(serverConfig));
+
+      serverConfig = {
+        auth: {
+          git_basic_auth_policy: 'OpenID',
+        },
+      };
+      assert.isTrue(element._computeHideLinkAnotherIdentity(serverConfig));
+
+      serverConfig = {
+        auth: {
+          git_basic_auth_policy: 'HTTP_LDAP',
+        },
+      };
+      assert.isFalse(element._computeHideLinkAnotherIdentity(serverConfig));
+
+      serverConfig = {
+        auth: {
+          git_basic_auth_policy: 'LDAP',
+        },
+      };
+      assert.isFalse(element._computeHideLinkAnotherIdentity(serverConfig));
+
+      serverConfig = {
+        auth: {
+          git_basic_auth_policy: 'HTTP',
+        },
+      };
+      assert.isFalse(element._computeHideLinkAnotherIdentity(serverConfig));
+
+      serverConfig = {};
+      assert.isFalse(element._computeHideLinkAnotherIdentity(serverConfig));
+    });
   });
 </script>

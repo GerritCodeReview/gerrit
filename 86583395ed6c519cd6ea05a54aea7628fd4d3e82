@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "4826103e_728c1f30",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1449,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-15T10:59:51Z",
+      "side": 1,
+      "message": "OK, I think we could pull up the splitting of the path (l. 358) to before the trace context is opened, then check if the first entry in the list is \"projects\" or \"changes\" and then use the second entry as project name or change ID. Does this sound good?",
+      "parentUuid": "4d45e1ec_3fdcc03a",
+      "revId": "86583395ed6c519cd6ea05a54aea7628fd4d3e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "399d7b16_99d3604c",
         "filename": "java/com/google/gerrit/server/RequestInfo.java",
         "patchSetId": 2

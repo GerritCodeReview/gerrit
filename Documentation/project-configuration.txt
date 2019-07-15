@@ -114,7 +114,7 @@ If the change being submitted is a strict superset of the destination
 branch, then the branch is fast-forwarded to the change.  If not,
 then the change is automatically rebased and then the branch is
 fast-forwarded to the change.
-
++
 When Gerrit tries to do a merge, by default the merge will only
 succeed if there is no path conflict.  A path conflict occurs when
 the same file has also been changed on the other side of the merge.
@@ -126,7 +126,7 @@ Basically, the same as Rebase If Necessary, but it creates a new patchset even
 if fast forward is possible AND like Cherry Pick it ensures footers such as
 Change-Id, Reviewed-On, and others are present in resulting commit that is
 merged.
-
++
 Thus, Rebase Always can be considered similar to Cherry Pick, but with
 the important distinction that Rebase Always does not ignore dependencies.
 

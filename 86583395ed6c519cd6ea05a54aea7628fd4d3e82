@@ -159,6 +159,24 @@
       "revId": "86583395ed6c519cd6ea05a54aea7628fd4d3e82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ccfe7a4_871aaed0",
+        "filename": "java/com/google/gerrit/server/RequestInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-07-15T13:12:54Z",
+      "side": 1,
+      "message": "I\u0027d go with a string",
+      "parentUuid": "7f91b330_5f2b15d0",
+      "revId": "86583395ed6c519cd6ea05a54aea7628fd4d3e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

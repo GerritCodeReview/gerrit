@@ -17,13 +17,23 @@
 (function() {
   'use strict';
 
+  const AUTH = [
+    'OPENID',
+    'OAUTH',
+  ];
+
   Polymer({
     is: 'gr-identities',
 
     properties: {
       _identities: Object,
       _idName: String,
+      serverConfig: Object,
     },
+
+    behaviors: [
+      Gerrit.BaseUrlBehavior,
+    ],
 
     loadData() {
       return this.$.restAPI.getExternalIds().then(id => {
@@ -62,6 +72,25 @@
 
     filterIdentities(item) {
       return !item.identity.startsWith('username:');
+    },
+
+    _computeHideLinkAnotherIdentity(config) {
+      if (config && config.auth &&
+          config.auth.git_basic_auth_policy) {
+        return AUTH.includes(
+            config.auth.git_basic_auth_policy.toUpperCase());
+      }
+
+      return false;
+    },
+
+    _computeLinkAnotherIdentity() {
+      const baseUrl = this.getBaseUrl() || '';
+      const pathname = window.location.pathname;
+      if (baseUrl) {
+        pathname = '/' + pathname.substring(baseUrl.length);
+      }
+      return baseUrl + '/login/' + encodeURIComponent(pathname) + '?link';
     },
   });
 })();

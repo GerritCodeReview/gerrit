@@ -67,6 +67,7 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
@@ -2587,6 +2588,16 @@ class ReceiveCommits {
       try (MergeOp op = mergeOpProvider.get()) {
         SubmitInput submitInput = new SubmitInput();
         submitInput.notify = magicBranch.notifyHandling;
+        submitInput.notifyDetails = new HashMap<>();
+        submitInput.notifyDetails.put(
+            RecipientType.TO,
+            new NotifyInfo(magicBranch.notifyTo.stream().map(Object::toString).collect(toList())));
+        submitInput.notifyDetails.put(
+            RecipientType.CC,
+            new NotifyInfo(magicBranch.notifyCc.stream().map(Object::toString).collect(toList())));
+        submitInput.notifyDetails.put(
+            RecipientType.BCC,
+            new NotifyInfo(magicBranch.notifyBcc.stream().map(Object::toString).collect(toList())));
         op.merge(tipChange, user, false, submitInput, false);
       }
     }

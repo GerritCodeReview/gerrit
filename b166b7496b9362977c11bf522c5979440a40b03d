@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37b7c811_3f98de09",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/TraceIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-07-15T10:41:32Z",
+      "side": 1,
+      "message": "Can you add a JavaDoc here that explains how the test work?\n\nIt took me a while to figure out that the testing model is basically:\n1) Register a (plugin) listener that is implemented in this class\n2) Do a call (e.g. REST)\n3) When receiving the call in the plugin, record logging info\n4) Assert on the logging info",
+      "revId": "b166b7496b9362977c11bf522c5979440a40b03d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

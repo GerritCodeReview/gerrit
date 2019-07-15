@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "66ae67d7_42af6f12",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3232,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-15T10:36:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c55bb8b_c9c92f26",
+      "range": {
+        "startLine": 3232,
+        "startChar": 0,
+        "endLine": 3232,
+        "endChar": 53
+      },
+      "revId": "6e39b93eb365a77414a6243e08159e81686fa693",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "008a001c_97fd3354",
         "filename": "java/com/google/gerrit/reviewdb/client/Project.java",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "6e39b93eb365a77414a6243e08159e81686fa693",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84d759c2_d459b37e",
+        "filename": "java/com/google/gerrit/reviewdb/client/Project.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-15T10:36:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "008a001c_97fd3354",
+      "revId": "6e39b93eb365a77414a6243e08159e81686fa693",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "f84ef913_23cc267c",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1449,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-15T11:21:02Z",
+      "side": 1,
+      "message": "\u003e In any case though, I would use ChangeFinder to resolve from String to Change(.id) because\n\u003e it is well tested and cached.\n\nThis can be done. I didn\u0027t do it because this means we will do an index query even if the project name is already part of the change ID. But if we are not concerned about an unnecessary index query I can use ChangeFinder.",
+      "parentUuid": "02c70296_73100433",
+      "revId": "86583395ed6c519cd6ea05a54aea7628fd4d3e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "399d7b16_99d3604c",
         "filename": "java/com/google/gerrit/server/RequestInfo.java",
         "patchSetId": 2

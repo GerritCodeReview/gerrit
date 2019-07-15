@@ -17,12 +17,18 @@
 (function() {
   'use strict';
 
+  const AUTH = [
+    'OPENID',
+    'OAUTH',
+  ];
+
   Polymer({
     is: 'gr-identities',
 
     properties: {
       _identities: Object,
       _idName: String,
+      serverConfig: Object,
     },
 
     loadData() {
@@ -63,5 +69,20 @@
     filterIdentities(item) {
       return !item.identity.startsWith('username:');
     },
+
+    _computeHideLinkAnotherIdentity(config) {
+      if (config && config.auth &&
+          config.auth.git_basic_auth_policy) {
+        return AUTH.includes(
+            config.auth.git_basic_auth_policy.toUpperCase());
+      }
+
+      return false;
+    },
+
+    _computeLinkAnotherIdentity() {
+      const path = window.location.pathname;
+      return `/login${path}?link`;
+    }
   });
 })();

@@ -414,7 +414,7 @@ limitations under the License.
         </fieldset>
         <h2 id="Identities">Identities</h2>
         <fieldset>
-          <gr-identities id="identities"></gr-identities>
+          <gr-identities id="identities" server-config$="[[_serverConfig]]"></gr-identities>
         </fieldset>
         <template is="dom-if" if="[[_serverConfig.auth.use_contributor_agreements]]">
           <h2 id="Agreements">Agreements</h2>

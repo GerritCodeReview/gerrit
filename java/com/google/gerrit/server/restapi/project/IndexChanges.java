@@ -20,7 +20,7 @@ import com.google.common.io.ByteStreams;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Project;
@@ -38,7 +38,7 @@ import org.eclipse.jgit.util.io.NullOutputStream;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @Singleton
-public class IndexChanges implements RestModifyView<ProjectResource, ProjectInput> {
+public class IndexChanges implements RestModifyView<ProjectResource, Input> {
 
   private final Provider<AllChangesIndexer> allChangesIndexerProvider;
   private final ChangeIndexer indexer;
@@ -55,7 +55,7 @@ public class IndexChanges implements RestModifyView<ProjectResource, ProjectInpu
   }
 
   @Override
-  public Response.Accepted apply(ProjectResource resource, ProjectInput input) {
+  public Response.Accepted apply(ProjectResource resource, Input input) {
     Project.NameKey project = resource.getNameKey();
     Task mpt =
         new MultiProgressMonitor(ByteStreams.nullOutputStream(), "Reindexing project")

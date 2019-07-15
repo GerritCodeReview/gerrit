@@ -16,6 +16,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog.html">
@@ -48,9 +49,12 @@ limitations under the License.
       .deleteButton:not(.show) {
         display: none;
       }
+      #space {
+        margin-bottom: 1em;
+      }
     </style>
     <div class="gr-form-styles">
-      <fieldset>
+      <fieldset id="space">
         <table>
           <thead>
             <tr>
@@ -84,6 +88,13 @@ limitations under the License.
           </tbody>
         </table>
       </fieldset>
+      <dom-if if="[[_computeHideLinkAnotherIdentity(serverConfig)]]">
+        <fieldset>
+          <a href="[[_computeLinkAnotherIdentity()]]">
+            <gr-button id="linkAnotherIdentity" link>Link Another Identity</gr-button>
+          </a>
+        </fieldset>
+      </dom-if>
     </div>
     <gr-overlay id="overlay" with-backdrop>
       <gr-confirm-delete-item-dialog

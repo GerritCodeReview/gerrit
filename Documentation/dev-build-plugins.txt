@@ -128,16 +128,25 @@ CUSTOM_PLUGINS_TEST_DEPS = [
 ----
 
 If the plugin(s) being bundled in the release have external dependencies, include them
-in `plugins/external_plugin_deps`. You should alias `external_plugin_deps()` so it
-can be imported for multiple plugins. For example:
+in `plugins/external_plugin_deps`. Create symbolik link from plugin's own
+`external_plugin_deps()` file in plugins directory and prefix the file with
+plugin name, e.g.:
 
 ----
-load(":my-plugin/external_plugin_deps.bzl", my_plugin="external_plugin_deps")
-load(":my-other-plugin/external_plugin_deps.bzl", my_other_plugin="external_plugin_deps")
+  $ cd plugins
+  $ ln -s ../../oauth/external_plugin_deps.bzl oauth_external_plugin_deps.bzl
+  $ ln -s ../../uploadvalidator/external_plugin_deps.bzl uploadvalidator_external_plugin_deps.bzl
+----
+
+Now the plugin specific dependency files can be imported:
+
+----
+load(":oauth_external_plugin_deps.bzl", oauth_deps="external_plugin_deps")
+load(":uploadvalidator_external_plugin_deps.bzl", uploadvalidator_deps="external_plugin_deps")
 
 def external_plugin_deps():
-  my_plugin()
-  my_other_plugin()
+  oauth_deps()
+  uploadvalidator_deps()
 ----
 
 [NOTE]

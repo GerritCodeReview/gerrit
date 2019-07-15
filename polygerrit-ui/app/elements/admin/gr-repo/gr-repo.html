@@ -154,21 +154,6 @@ limitations under the License.
                   </gr-select>
                 </span>
               </section>
-              <section>
-                <span class="title">Require Change-Id in commit message</span>
-                <span class="value">
-                  <gr-select
-                      id="requireChangeIdSelect"
-                      bind-value="{{_repoConfig.require_change_id.configured_value}}">
-                    <select disabled$="[[_readOnly]]">
-                      <template is="dom-repeat"
-                          items="[[_formatBooleanSelect(_repoConfig.require_change_id)]]">
-                        <option value="[[item.value]]">[[item.label]]</option>
-                      </template>
-                    </select>
-                  </gr-select>
-                </span>
-              </section>
               <section
                    id="enableSignedPushSettings"
                    class$="repositorySettings [[_computeRepositoriesClass(_repoConfig.enable_signed_push)]]">

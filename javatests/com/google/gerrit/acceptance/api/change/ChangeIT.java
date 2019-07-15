@@ -3777,24 +3777,6 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void changeCommitMessageWithNoChangeIdSucceedsIfChangeIdNotRequired() throws Exception {
-    ConfigInput configInput = new ConfigInput();
-    configInput.requireChangeId = InheritableBoolean.FALSE;
-    gApi.projects().name(project.get()).config(configInput);
-
-    PushOneCommit.Result r = createChange();
-    r.assertOkStatus();
-    assertThat(getCommitMessage(r.getChangeId()))
-        .isEqualTo("test commit\n\nChange-Id: " + r.getChangeId() + "\n");
-
-    String newMessage = "modified commit\n";
-    gApi.changes().id(r.getChangeId()).setMessage(newMessage);
-    RevisionApi rApi = gApi.changes().id(r.getChangeId()).current();
-    assertThat(rApi.files().keySet()).containsExactly("/COMMIT_MSG", "a.txt");
-    assertThat(getCommitMessage(r.getChangeId())).isEqualTo(newMessage);
-  }
-
-  @Test
   public void changeCommitMessageWithNoChangeIdFails() throws Exception {
     PushOneCommit.Result r = createChange();
     assertThat(getCommitMessage(r.getChangeId()))

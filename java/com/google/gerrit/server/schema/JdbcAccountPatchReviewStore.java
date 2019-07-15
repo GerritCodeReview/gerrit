@@ -34,6 +34,9 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.ThreadSettingsConfig;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -212,7 +215,15 @@ public abstract class JdbcAccountPatchReviewStore
 
   @Override
   public boolean markReviewed(PatchSet.Id psId, Account.Id accountId, String path) {
-    try (Connection con = ds.getConnection();
+    try (TraceTimer ignored =
+            TraceContext.newTimer(
+                "Mark file as reviewed",
+                Metadata.builder()
+                    .patchSetId(psId.get())
+                    .accountId(accountId.get())
+                    .filePath(path)
+                    .build());
+        Connection con = ds.getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
                 "INSERT INTO account_patch_reviews "
@@ -239,7 +250,15 @@ public abstract class JdbcAccountPatchReviewStore
       return;
     }
 
-    try (Connection con = ds.getConnection();
+    try (TraceTimer ignored =
+            TraceContext.newTimer(
+                "Mark files as reviewed",
+                Metadata.builder()
+                    .patchSetId(psId.get())
+                    .accountId(accountId.get())
+                    .resourceCount(paths.size())
+                    .build());
+        Connection con = ds.getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
                 "INSERT INTO account_patch_reviews "
@@ -264,7 +283,15 @@ public abstract class JdbcAccountPatchReviewStore
 
   @Override
   public void clearReviewed(PatchSet.Id psId, Account.Id accountId, String path) {
-    try (Connection con = ds.getConnection();
+    try (TraceTimer ignored =
+            TraceContext.newTimer(
+                "Clear reviewed flag",
+                Metadata.builder()
+                    .patchSetId(psId.get())
+                    .accountId(accountId.get())
+                    .filePath(path)
+                    .build());
+        Connection con = ds.getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
                 "DELETE FROM account_patch_reviews "
@@ -282,7 +309,11 @@ public abstract class JdbcAccountPatchReviewStore
 
   @Override
   public void clearReviewed(PatchSet.Id psId) {
-    try (Connection con = ds.getConnection();
+    try (TraceTimer ignored =
+            TraceContext.newTimer(
+                "Clear all reviewed flags of patch set",
+                Metadata.builder().patchSetId(psId.get()).build());
+        Connection con = ds.getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
                 "DELETE FROM account_patch_reviews "
@@ -297,7 +328,11 @@ public abstract class JdbcAccountPatchReviewStore
 
   @Override
   public void clearReviewed(Change.Id changeId) {
-    try (Connection con = ds.getConnection();
+    try (TraceTimer ignored =
+            TraceContext.newTimer(
+                "Clear all reviewed flags of change",
+                Metadata.builder().changeId(changeId.get()).build());
+        Connection con = ds.getConnection();
         PreparedStatement stmt =
             con.prepareStatement("DELETE FROM account_patch_reviews WHERE change_id = ?")) {
       stmt.setInt(1, changeId.get());
@@ -309,7 +344,11 @@ public abstract class JdbcAccountPatchReviewStore
 
   @Override
   public Optional<PatchSetWithReviewedFiles> findReviewed(PatchSet.Id psId, Account.Id accountId) {
-    try (Connection con = ds.getConnection();
+    try (TraceTimer ignored =
+            TraceContext.newTimer(
+                "Find reviewed flags",
+                Metadata.builder().patchSetId(psId.get()).accountId(accountId.get()).build());
+        Connection con = ds.getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
                 "SELECT patch_set_id, file_name FROM account_patch_reviews APR1 "

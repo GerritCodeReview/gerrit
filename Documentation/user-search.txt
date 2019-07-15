@@ -53,7 +53,7 @@ age:'AGE'::
 +
 Amount of time that has expired since the change was last updated
 with a review comment or new patch set.  The age must be specified
-to include a unit suffix, for example `age:2d`:
+to include a unit suffix, for example `-age:2d`:
 +
 * s, sec, second, seconds
 * m, min, minute, minutes
@@ -62,6 +62,9 @@ to include a unit suffix, for example `age:2d`:
 * w, week, weeks (`1 week` is treated as `7 days`)
 * mon, month, months (`1 month` is treated as `30 days`)
 * y, year, years (`1 year` is treated as `365 days`)
+
+`age` can be used both forward looking `age:2d` and backwards
+looking `-age:2d`.
 
 [[assignee]]
 assignee:'USER'::

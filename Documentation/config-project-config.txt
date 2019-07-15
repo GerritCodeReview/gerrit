@@ -248,7 +248,7 @@ are 'true', 'false', or 'INHERIT'.  Default is 'INHERIT'.
 
 - 'action': defines the link:project-configuration.html#submit_type[submit type].  Valid
 values are 'fast forward only', 'merge if necessary', 'rebase if necessary',
-'merge always' and 'cherry pick'.  The default is 'merge if necessary'.
+'rebase always', 'merge always' and 'cherry pick'.  The default is 'merge if necessary'.
 
 - 'matchAuthorToCommitterDate': Defines whether to the author date will be changed to match the
 submitter date upon submit, so that git log shows when the change was submitted instead of when the

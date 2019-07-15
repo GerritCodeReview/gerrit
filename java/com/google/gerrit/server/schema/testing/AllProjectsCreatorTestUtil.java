@@ -40,7 +40,6 @@ public class AllProjectsCreatorTestUtil {
           "[receive]",
           "  requireContributorAgreement = false",
           "  requireSignedOffBy = false",
-          "  requireChangeId = true",
           "  enableSignedPush = false");
   private static final ImmutableList<String> DEFAULT_ALL_PROJECTS_SUBMIT_SECTION =
       ImmutableList.of("[submit]", "  mergeContent = true");

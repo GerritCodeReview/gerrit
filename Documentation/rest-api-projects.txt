@@ -824,11 +824,6 @@ read access to `refs/meta/config`.
       "configured_value": "INHERIT",
       "inherited_value": false
     },
-    "require_change_id": {
-      "value": false,
-      "configured_value": "FALSE",
-      "inherited_value": true
-    },
     "max_object_size_limit": {
       "value": "15m",
       "configured_value": "15m",
@@ -887,7 +882,6 @@ link:#config-input[ConfigInput] entity.
     "enable_signed_push": "INHERIT",
     "require_signed_push": "INHERIT",
     "reject_implicit_merges": "INHERIT",
-    "require_change_id": "TRUE",
     "max_object_size_limit": "10m",
     "submit_type": "REBASE_IF_NECESSARY",
     "state": "ACTIVE"
@@ -924,11 +918,6 @@ ConfigInfo] entity.
       "value": true,
       "configured_value": "INHERIT",
       "inherited_value": false
-    },
-    "require_change_id": {
-      "value": true,
-      "configured_value": "TRUE",
-      "inherited_value": true
     },
     "enable_signed_push": {
       "value": true,
@@ -3094,12 +3083,6 @@ the uploader in the commit message.
 |`create_new_change_for_all_not_in_target` |optional|
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
 a new change is created for every commit not in target branch.
-|`require_change_id`                       |optional|
-link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether a
-valid link:user-changeid.html[Change-Id] footer in any commit uploaded
-for review is required. This does not apply to commits pushed directly
-to a branch or tag. This property is deprecated and will be removed in
-a future release.
 |`enable_signed_push`|optional, not set if signed push is disabled|
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
 signed push validation is enabled on the project.
@@ -3180,14 +3163,6 @@ Whether a new change will be created for every commit not in target
 branch. +
 Can be `TRUE`, `FALSE` or `INHERIT`. +
 If not set, this setting is not updated.
-|`require_change_id`                       |optional|
-Whether a valid link:user-changeid.html[Change-Id] footer in any commit
-uploaded for review is required. This does not apply to commits pushed
-directly to a branch or tag. +
-Can be `TRUE`, `FALSE` or `INHERIT`. +
-If not set, this setting is not updated.
-This property is deprecated and will be removed in
-a future release.
 |`reject_implicit_merges`                  |optional|
 Whether a check for implicit merges will be performed when changes
 are pushed for review. +
@@ -3553,11 +3528,6 @@ for the project (`TRUE`, `FALSE`, `INHERIT`).
 Whether content merge should be enabled for the project (`TRUE`,
 `FALSE`, `INHERIT`). +
 `FALSE`, if the `submit_type` is `FAST_FORWARD_ONLY`.
-|`require_change_id`                           |`INHERIT` if not set|
-Whether the usage of Change-Ids is required for the project (`TRUE`,
-`FALSE`, `INHERIT`).
-This property is deprecated and will be removed in
-a future release.
 |`enable_signed_push`                           |`INHERIT` if not set|
 Whether signed push validation is enabled on the project  (`TRUE`,
 `FALSE`, `INHERIT`).

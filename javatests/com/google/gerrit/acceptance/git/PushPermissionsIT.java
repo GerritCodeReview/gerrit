@@ -30,10 +30,8 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.common.ChangeInput;
-import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -61,8 +59,6 @@ public class PushPermissionsIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     try (ProjectConfigUpdate u = updateProject(allProjects)) {
       ProjectConfig cfg = u.getConfig();
-      cfg.getProject()
-          .setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE);
 
       // Remove push-related permissions, so they can be added back individually by test methods.
       removeAllBranchPermissions(
@@ -255,7 +251,8 @@ public class PushPermissionsIT extends AbstractDaemonTest {
         .add(allow(Permission.PUSH).ref("refs/for/refs/heads/*").group(REGISTERED_USERS))
         .update();
 
-    ObjectId commit = testRepo.branch("HEAD").commit().create();
+    ObjectId commit =
+        testRepo.branch("HEAD").commit().message("test commit").insertChangeId().create();
     assertThat(push("HEAD:refs/for/master")).onlyRef("refs/for/master").isOk();
     gApi.changes().id(commit.name()).current().review(ReviewInput.approve());
 

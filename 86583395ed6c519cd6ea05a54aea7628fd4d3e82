@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4d45e1ec_3fdcc03a",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1449,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-15T10:48:14Z",
+      "side": 1,
+      "message": "The problem is that we need the RequestIds at the very beginning of the request and RestApiServlet parses URL segments one by one. This way the project name is discovered too late for our purpose. Of course we could do all the parsing upfront, but I would rather not want to touch/rewrite the parsing logic of this class. Also the parse methods of the collection classes check the visibility of the resources which we don\u0027t want for computing the RequestIds, so I\u0027m not sure they are a good fit for this use case. WDYT?",
+      "parentUuid": "a8dc3955_ab6a514b",
+      "revId": "86583395ed6c519cd6ea05a54aea7628fd4d3e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "399d7b16_99d3604c",
         "filename": "java/com/google/gerrit/server/RequestInfo.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2019-07-15T10:35:37Z",
       "side": 1,
       "message": "What about requests that are neither of these?\n\nFor example, one implements a plugin with a GraphQL API and uses the Java API to call out to Gerrit?\n\nOr RPC for usage inside of Google?",
+      "revId": "86583395ed6c519cd6ea05a54aea7628fd4d3e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f91b330_5f2b15d0",
+        "filename": "java/com/google/gerrit/server/RequestInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-15T10:48:14Z",
+      "side": 1,
+      "message": "Good point. What do you suggest? Should request type be a string or do you prefer an additional enum value like OTHER?",
+      "parentUuid": "399d7b16_99d3604c",
       "revId": "86583395ed6c519cd6ea05a54aea7628fd4d3e82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

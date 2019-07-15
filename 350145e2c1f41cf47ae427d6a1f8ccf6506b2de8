@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "f2cc1d8e_52027148",
+        "filename": "plugins/plugin-manager",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-15T13:45:58Z",
+      "side": 1,
+      "message": "Is this intended?",
+      "revId": "350145e2c1f41cf47ae427d6a1f8ccf6506b2de8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8cf1206d_0ea578dd",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo_test.html",
         "patchSetId": 3

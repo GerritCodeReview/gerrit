@@ -99,9 +99,9 @@ public class ProjectWatch {
           try {
             add(matching, state.getNameKey(), nc);
           } catch (QueryParseException e) {
-            logger.atWarning().log(
-                "Project %s has invalid notify %s filter \"%s\": %s",
-                state.getName(), nc.getName(), nc.getFilter(), e.getMessage());
+            logger.atWarning().withCause(e).log(
+                "Project %s has invalid notify %s filter \"%s\"",
+                state.getName(), nc.getName(), nc.getFilter());
           }
         }
       }
@@ -232,7 +232,8 @@ public class ProjectWatch {
       logger.atFine().log("The filter did not match for account %s; skip notification", accountId);
     } catch (QueryParseException e) {
       // Ignore broken filter expressions.
-      logger.atWarning().log("Account %s has invalid filter in project watch %s", accountId, key);
+      logger.atWarning().withCause(e).log(
+          "Account %s has invalid filter in project watch %s", accountId, key);
     }
     return false;
   }

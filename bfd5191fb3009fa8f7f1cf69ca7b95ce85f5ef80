@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c86eb081_0f06edda",
+        "filename": "java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-15T07:43:43Z",
+      "side": 1,
+      "message": "For posterity: It\u0027s a deliberate decision that only the number of file paths is recorded. A change can potentially have many files. For investigations, it\u0027s likely more helpful to know how many files were affected than having to wade through a large number of file paths.",
+      "range": {
+        "startLine": 259,
+        "startChar": 20,
+        "endLine": 259,
+        "endChar": 48
+      },
+      "revId": "bfd5191fb3009fa8f7f1cf69ca7b95ce85f5ef80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

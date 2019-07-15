@@ -330,7 +330,7 @@ public class AccountsUpdate {
               ExternalIdNotes extIdNotes =
                   createExternalIdNotes(r, accountConfig.getExternalIdsRev(), accountId, update);
               UpdatedAccount updatedAccounts =
-                  new UpdatedAccount(allUsersName, externalIds, message, accountConfig, extIdNotes);
+                  new UpdatedAccount(externalIds, message, accountConfig, extIdNotes);
               updatedAccounts.setCreated(true);
               return updatedAccounts;
             })
@@ -390,7 +390,7 @@ public class AccountsUpdate {
           ExternalIdNotes extIdNotes =
               createExternalIdNotes(r, accountConfig.getExternalIdsRev(), accountId, update);
           UpdatedAccount updatedAccounts =
-              new UpdatedAccount(allUsersName, externalIds, message, accountConfig, extIdNotes);
+              new UpdatedAccount(externalIds, message, accountConfig, extIdNotes);
           return updatedAccounts;
         });
   }
@@ -561,7 +561,6 @@ public class AccountsUpdate {
   }
 
   private static class UpdatedAccount {
-    private final AllUsersName allUsersName;
     private final ExternalIds externalIds;
     private final String message;
     private final AccountConfig accountConfig;
@@ -570,13 +569,11 @@ public class AccountsUpdate {
     private boolean created;
 
     private UpdatedAccount(
-        AllUsersName allUsersName,
         ExternalIds externalIds,
         String message,
         AccountConfig accountConfig,
         ExternalIdNotes extIdNotes) {
       checkState(!Strings.isNullOrEmpty(message), "message for account update must be set");
-      this.allUsersName = requireNonNull(allUsersName);
       this.externalIds = requireNonNull(externalIds);
       this.message = requireNonNull(message);
       this.accountConfig = requireNonNull(accountConfig);

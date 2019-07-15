@@ -39,9 +39,6 @@ public class BooleanProjectConfigTransformations {
               BooleanProjectConfig.USE_CONTENT_MERGE,
               new Mapper(i -> i.useContentMerge, (i, v) -> i.useContentMerge = v))
           .put(
-              BooleanProjectConfig.REQUIRE_CHANGE_ID,
-              new Mapper(i -> i.requireChangeId, (i, v) -> i.requireChangeId = v))
-          .put(
               BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET,
               new Mapper(
                   i -> i.createNewChangeForAllNotInTarget,

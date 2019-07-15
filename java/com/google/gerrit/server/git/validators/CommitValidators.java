@@ -307,10 +307,8 @@ public class CommitValidators {
                   Type.ERROR));
           throw new CommitValidationException(CHANGE_ID_ABOVE_FOOTER_MSG, messages);
         }
-        if (projectState.is(BooleanProjectConfig.REQUIRE_CHANGE_ID)) {
-          messages.add(getMissingChangeIdErrorMsg(MISSING_CHANGE_ID_MSG));
-          throw new CommitValidationException(MISSING_CHANGE_ID_MSG, messages);
-        }
+        messages.add(getMissingChangeIdErrorMsg(MISSING_CHANGE_ID_MSG));
+        throw new CommitValidationException(MISSING_CHANGE_ID_MSG, messages);
       } else if (idList.size() > 1) {
         throw new CommitValidationException(MULTIPLE_CHANGE_ID_MSG, messages);
       } else {

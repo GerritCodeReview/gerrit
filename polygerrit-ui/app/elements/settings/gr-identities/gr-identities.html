@@ -84,6 +84,13 @@ limitations under the License.
           </tbody>
         </table>
       </fieldset>
+      <dom-if if="[[_computeHideLinkAnotherIdentity(serverConfig)]]">
+        <fieldset>
+          <a href="[[_computeLinkAnotherIdentity()]]">
+            <gr-button id="linkAnotherIdentity" link>Link Another Identity</gr-button>
+          </a>
+        </fieldset>
+      </dom-if>
     </div>
     <gr-overlay id="overlay" with-backdrop>
       <gr-confirm-delete-item-dialog

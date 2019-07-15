@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8dc3955_ab6a514b",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1449,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-07-15T10:35:37Z",
+      "side": 1,
+      "message": "This implements a new variant for parsing request IDs that we already have a parser for. Each collection (Change, Project) can parse out it\u0027s respective ID from an IdString which the RestApiServlet is capable of parsing out of the URL. I think we should reuse this.",
+      "revId": "86583395ed6c519cd6ea05a54aea7628fd4d3e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "399d7b16_99d3604c",
+        "filename": "java/com/google/gerrit/server/RequestInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-07-15T10:35:37Z",
+      "side": 1,
+      "message": "What about requests that are neither of these?\n\nFor example, one implements a plugin with a GraphQL API and uses the Java API to call out to Gerrit?\n\nOr RPC for usage inside of Google?",
+      "revId": "86583395ed6c519cd6ea05a54aea7628fd4d3e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

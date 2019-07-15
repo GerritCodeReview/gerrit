@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "9342442a_3a406291",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1449,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-07-15T11:23:23Z",
+      "side": 1,
+      "message": "ChangeFinder should do an index query only if the project is not already in the URL. What makes you think it is not doing that?",
+      "parentUuid": "f84ef913_23cc267c",
+      "revId": "86583395ed6c519cd6ea05a54aea7628fd4d3e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "399d7b16_99d3604c",
         "filename": "java/com/google/gerrit/server/RequestInfo.java",
         "patchSetId": 2

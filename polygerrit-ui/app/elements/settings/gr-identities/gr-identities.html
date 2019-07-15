@@ -48,9 +48,12 @@ limitations under the License.
       .deleteButton:not(.show) {
         display: none;
       }
+      #space {
+        margin-bottom: 1em;
+      }
     </style>
     <div class="gr-form-styles">
-      <fieldset>
+      <fieldset id="space">
         <table>
           <thead>
             <tr>
@@ -84,6 +87,13 @@ limitations under the License.
           </tbody>
         </table>
       </fieldset>
+      <dom-if if="[[_computeHideLinkAnotherIdentity(serverConfig)]]">
+        <fieldset>
+          <a href="[[_computeLinkAnotherIdentity()]]">
+            <gr-button id="linkAnotherIdentity" link>Link Another Identity</gr-button>
+          </a>
+        </fieldset>
+      </dom-if>
     </div>
     <gr-overlay id="overlay" with-backdrop>
       <gr-confirm-delete-item-dialog

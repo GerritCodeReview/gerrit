@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "555e9f1e_c83ac0cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-15T15:37:36Z",
+      "side": 1,
+      "message": "Martin, thanks for your comments. I think this triggered a valuable discussion.\nI just discussed this with Alice on the whiteboard and I think we have now a better understanding of the possible approaches and their pros and cons. Unfortunately I\u0027m on a run and can write our reply only tomorrow. But I\u0027m confident that we will find a solution that works for all of us.",
+      "parentUuid": "b3047a02_9ae00683",
+      "revId": "35b37e19eb10f63852707556a2e9b84f137d2a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fdea66ad_59a93489",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

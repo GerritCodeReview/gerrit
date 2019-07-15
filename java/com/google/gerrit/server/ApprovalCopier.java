@@ -73,48 +73,26 @@ public class ApprovalCopier {
 
   Iterable<PatchSetApproval> getForPatchSet(
       ChangeNotes notes, PatchSet.Id psId, @Nullable RevWalk rw, @Nullable Config repoConfig) {
-    return getForPatchSet(notes, psId, rw, repoConfig, Collections.emptyList());
-  }
 
-  Iterable<PatchSetApproval> getForPatchSet(
-      ChangeNotes notes,
-      PatchSet.Id psId,
-      @Nullable RevWalk rw,
-      @Nullable Config repoConfig,
-      Iterable<PatchSetApproval> dontCopy) {
     PatchSet ps = psUtil.get(notes, psId);
     if (ps == null) {
       return Collections.emptyList();
     }
-    return getForPatchSet(notes, ps, rw, repoConfig, dontCopy);
-  }
 
-  private Iterable<PatchSetApproval> getForPatchSet(
-      ChangeNotes notes,
-      PatchSet ps,
-      @Nullable RevWalk rw,
-      @Nullable Config repoConfig,
-      Iterable<PatchSetApproval> dontCopy) {
-    requireNonNull(ps, "ps should not be null");
     ChangeData cd = changeDataFactory.create(notes);
     try {
       ProjectState project = projectCache.checkedGet(cd.change().getDest().project());
       ListMultimap<PatchSet.Id, PatchSetApproval> all = cd.approvals();
       requireNonNull(all, "all should not be null");
 
-      Table<String, Account.Id, PatchSetApproval> wontCopy = HashBasedTable.create();
-      for (PatchSetApproval psa : dontCopy) {
-        wontCopy.put(psa.label(), psa.accountId(), psa);
-      }
-
       Table<String, Account.Id, PatchSetApproval> byUser = HashBasedTable.create();
       for (PatchSetApproval psa : all.get(ps.id())) {
-        if (!wontCopy.contains(psa.label(), psa.accountId())) {
-          byUser.put(psa.label(), psa.accountId(), psa);
-        }
+        byUser.put(psa.label(), psa.accountId(), psa);
       }
 
       TreeMap<Integer, PatchSet> patchSets = getPatchSets(cd);
+
+      Table<String, Account.Id, PatchSetApproval> wontCopy = HashBasedTable.create();
 
       // Walk patch sets strictly less than current in descending order.
       Collection<PatchSet> allPrior =

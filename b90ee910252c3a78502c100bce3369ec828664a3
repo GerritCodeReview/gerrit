@@ -16,6 +16,24 @@
       "revId": "b90ee910252c3a78502c100bce3369ec828664a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "708d8c21_b502b911",
+        "filename": "java/com/google/gerrit/server/mail/send/ProjectWatch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-15T10:34:59Z",
+      "side": 1,
+      "message": "Not sure if the stacktrace provides additional value, but it also cannot harm.\n\nDone.",
+      "parentUuid": "c6fd03fa_ea93b487",
+      "revId": "b90ee910252c3a78502c100bce3369ec828664a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

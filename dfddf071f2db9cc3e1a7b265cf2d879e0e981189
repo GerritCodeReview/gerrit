@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "620e1f2f_21ad34b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-16T16:05:32Z",
+      "side": 1,
+      "message": "Here and also in the other reverted change: This sounds as if the reverted change introduced a critical behavior, which it didn\u0027t. The reason for rollback is just what you wrote in the next paragraph. Could you please remove this part so that others don\u0027t get a wrong impression?",
+      "range": {
+        "startLine": 11,
+        "startChar": 23,
+        "endLine": 13,
+        "endChar": 19
+      },
+      "revId": "dfddf071f2db9cc3e1a7b265cf2d879e0e981189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

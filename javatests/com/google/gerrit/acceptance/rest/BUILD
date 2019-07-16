@@ -6,6 +6,5 @@ acceptance_tests(
     labels = ["rest"],
     deps = [
         "//java/com/google/gerrit/server/logging",
-        "//java/com/google/gerrit/util/cli",
     ],
 )

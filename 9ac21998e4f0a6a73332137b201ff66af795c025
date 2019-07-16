@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aaa0296a_5594ac1a",
+        "filename": "java/com/google/gerrit/acceptance/EventRecorder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-07-16T13:40:14Z",
+      "side": 1,
+      "message": "@VisibleForTesting",
+      "revId": "9ac21998e4f0a6a73332137b201ff66af795c025",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

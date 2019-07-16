@@ -287,10 +287,12 @@ public class CheckProjectIT extends AbstractDaemonTest {
             .branch("HEAD")
             .commit()
             .message("A change")
+            .insertChangeId()
             .author(admin.newIdent())
             .committer(new PersonIdent(admin.newIdent(), testRepo.getDate()))
             .create();
     pushHead(testRepo, "refs/for/master");
+
     return commit;
   }
 

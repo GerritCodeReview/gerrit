@@ -16,6 +16,24 @@
       "revId": "b166b7496b9362977c11bf522c5979440a40b03d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "260f95c8_d318c6db",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/TraceIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-16T07:35:14Z",
+      "side": 1,
+      "message": "Done in predecessor change: https://gerrit-review.googlesource.com/c/gerrit/+/231532",
+      "parentUuid": "37b7c811_3f98de09",
+      "revId": "b166b7496b9362977c11bf522c5979440a40b03d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

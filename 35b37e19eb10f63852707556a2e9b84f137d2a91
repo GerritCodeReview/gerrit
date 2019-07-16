@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "692130a7_807a49e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-07-16T19:02:39Z",
+      "side": 1,
+      "message": "I am not sure, but it seems like you might be making assumptions based on the RESTAPI, because for SSH many of these things seem like they don\u0027t quite make sense.\n\nQ1) #1 \"for most callers extra data from plugins is optional, with this approach these callers don\u0027t need to be changed to make them resilient against disabled plugins\"\n\nHow can this be true since it isn\u0027t even supported to make things optional? I don\u0027t believe I have any plugins where this is currently optional (as mentioned, I would like to build one, but no such thing is currently possible).\n\nQ1) #3 \"+by default callers are resilient against disabled plugins\"\n\nI don\u0027t understand this?\n\nQ1) #1 \u0026 #3 \"(but we think this is a minority of callers)\"\n\nThis doesn\u0027t make sense to me, why would callers have written code that way already since it wasn\u0027t supported? Literally none of our existing callers that expect data would expect a silent failure.\n\nQ1) I think that you missed the problem of missing behavior, for example in the manifest plugin we have options provided by the batch plugin that tell it to place updates in a batch, if this option is supplied and ignored, it will write data to the wrong place. So \"missing data\" is the \"lighter\" of the two problems, \"missing behavior\" is a much bigger problem.\n\nQ1) I think for #1 and #3 you should add that \"Ignoring options is generally an extremely risky approach and out of the ordinary approach and it goes against modern principles of design, and thus will be counter intuitive to most callers\".\n\nQ2) Not that I would propose.\n\nQ3) Correct\n\nQ4) No because I can\u0027t likely educate unknown users to plan for missing options, most people expect missing options to create an error message. I don\u0027t think any of my users would even imagine planning ahead to add a switch to suddenly get an error message for a situation they don\u0027t expect (a plugin not being installed) in the first place.\n\n\n. As for implementations, I think #1 is not a good API and will lead to many bugs.\n\n. --ignore-unknown is fine. \n\n. I don\u0027t think --ignore-unknown-with-value\u003d\u003coption-name\u003e will cover the situation when there is more than one value for an option.  For example we have many manifest plugin options that take 3 arguments, a project, a branch, and a file. So maybe something like --ignore-unknown-1  --ignore-unknown-2 ...? I think its fine to let whoever needs these implement them.",
+      "parentUuid": "03eba637_1bd634af",
+      "revId": "35b37e19eb10f63852707556a2e9b84f137d2a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fdea66ad_59a93489",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

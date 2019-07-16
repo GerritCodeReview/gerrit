@@ -41,7 +41,6 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.base.Strings;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.MultimapBuilder;
 import com.google.common.flogger.FluentLogger;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -311,16 +310,6 @@ public class CmdLineParser {
       tmp.add(str);
     }
     parser.parseArgument(tmp.toArray(new String[tmp.size()]));
-  }
-
-  public void parseOptionMap(Map<String, String[]> parameters) throws CmdLineException {
-    ListMultimap<String, String> map = MultimapBuilder.hashKeys().arrayListValues().build();
-    for (Map.Entry<String, String[]> ent : parameters.entrySet()) {
-      for (String val : ent.getValue()) {
-        map.put(ent.getKey(), val);
-      }
-    }
-    parseOptionMap(map);
   }
 
   public void parseOptionMap(ListMultimap<String, String> params) throws CmdLineException {

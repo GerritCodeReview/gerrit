@@ -74,11 +74,7 @@ public class IndexServlet extends HttpServlet {
       ImmutableMap<String, Object> templateData =
           IndexHtmlUtil.templateData(
               gerritApi, canonicalUrl, cdnPath, faviconPath, parameterMap, urlOrdainer);
-      renderer =
-          soySauce
-              .renderTemplate("com.google.gerrit.httpd.raw.Index")
-              .setExpectedContentKind(SanitizedContent.ContentKind.HTML)
-              .setData(templateData);
+      renderer = soySauce.renderTemplate("com.google.gerrit.httpd.raw.Index").setData(templateData);
     } catch (URISyntaxException | RestApiException e) {
       throw new IOException(e);
     }
@@ -87,7 +83,7 @@ public class IndexServlet extends HttpServlet {
     rsp.setContentType("text/html");
     rsp.setStatus(SC_OK);
     try (OutputStream w = rsp.getOutputStream()) {
-      w.write(renderer.render().get().getBytes(UTF_8));
+      w.write(renderer.renderHtml().get().toString().getBytes(UTF_8));
     }
   }
 }

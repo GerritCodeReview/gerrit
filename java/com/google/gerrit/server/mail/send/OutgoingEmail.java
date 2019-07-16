@@ -34,7 +34,7 @@ import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
-import com.google.template.soy.data.SanitizedContent;
+import com.google.template.soy.jbcsrc.api.SoySauce.Renderer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -536,21 +536,18 @@ public abstract class OutgoingEmail {
     return args.instanceNameProvider.get();
   }
 
-  private String soyTemplate(String name, SanitizedContent.ContentKind kind) {
+  private Renderer renderer(String templateName) {
     return args.soySauce
-        .renderTemplate("com.google.gerrit.server.mail.template." + name)
-        .setExpectedContentKind(kind)
-        .setData(soyContext)
-        .render()
-        .get();
+        .renderTemplate("com.google.gerrit.server.mail.template." + templateName)
+        .setData(soyContext);
   }
 
-  protected String textTemplate(String name) {
-    return soyTemplate(name, SanitizedContent.ContentKind.TEXT);
+  protected String textTemplate(String templateName) {
+    return renderer(templateName).renderText().get();
   }
 
-  protected String soyHtmlTemplate(String name) {
-    return soyTemplate(name, SanitizedContent.ContentKind.HTML);
+  protected String soyHtmlTemplate(String templateName) {
+    return renderer(templateName).renderHtml().get().toString();
   }
 
   protected void removeUser(Account user) {

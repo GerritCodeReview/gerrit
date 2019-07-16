@@ -424,8 +424,6 @@
       if (window.VERSION_INFO) {
         console.log(`UI Version Info: ${window.VERSION_INFO}`);
       }
-      const renderTime = new Date(window.performance.timing.loadEventStart);
-      console.log(`Document loaded at: ${renderTime}`);
       console.log(`Please file bugs and feedback at: ${this._feedbackUrl}`);
       console.groupEnd();
     },

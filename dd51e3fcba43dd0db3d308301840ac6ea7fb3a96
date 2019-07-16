@@ -22,6 +22,30 @@
       "revId": "dd51e3fcba43dd0db3d308301840ac6ea7fb3a96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "342cecd2_ade859bf",
+        "filename": "java/com/google/gerrit/server/TraceRequestListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-16T09:24:07Z",
+      "side": 1,
+      "message": "\u003e It\u0027s kinda nice to have this be flexible and also allow specifying an email, but the issue\n\u003e is that this class is a singleton and not listening for changes on accounts. So when Gerrit\n\u003e starts, an email might be assigned to person1, but when this gets triggered later on, that\n\u003e might not be the case anymore.\n\nGood point, I changed this so that now only account IDs are supported.\n\n\u003e I would avoid this entirely for keeping it simple. If admins specify an Account.Id to match\n\u003e that doesn\u0027t exist, that\u0027s OK. It will just never match any request.\n\nOK, I removed as much validation as possible. We still need to error out if an invalid account ID is specified. If we don\u0027t do this we would have an empty trace config that would match every request.",
+      "parentUuid": "104566d9_5155822d",
+      "range": {
+        "startLine": 116,
+        "startChar": 4,
+        "endLine": 134,
+        "endChar": 5
+      },
+      "revId": "dd51e3fcba43dd0db3d308301840ac6ea7fb3a96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -61,29 +61,6 @@ public class UnknownOptionIT extends AbstractDaemonTest {
     assertThat(response.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
   }
 
-  @Test
-  public void unknownPluginOptionIsIgnoredIfRestEndpointSupportsDynamicOptions() throws Exception {
-    String changeId = createChange().getChangeId();
-    RestResponse response = adminRestSession.get("/changes/" + changeId + "?foo--bar");
-    assertThat(response.getStatusCode()).isEqualTo(SC_OK);
-  }
-
-  @Test
-  public void unknownNonPluginOptionCausesFailureIfRestEndpointSupportsDynamicOptions()
-      throws Exception {
-    String changeId = createChange().getChangeId();
-    RestResponse response = adminRestSession.get("/changes/" + changeId + "?foo-bar");
-    assertThat(response.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
-  }
-
-  @Test
-  public void unknownPluginOptionCausesFailureIfRestEndpointDoesNotSupportDynamicOptions()
-      throws Exception {
-    String changeId = createChange().getChangeId();
-    RestResponse response = adminRestSession.get("/changes/" + changeId + "/comments?foo--bar");
-    assertThat(response.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
-  }
-
   private static class MyChangeView implements RestReadView<ChangeResource>, UnknownOptionHandler {
     @Override
     public Response<String> apply(ChangeResource resource) {

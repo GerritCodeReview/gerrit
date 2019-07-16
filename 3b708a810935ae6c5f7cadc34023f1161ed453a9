@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2da55173_71e5f20e",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-16T08:50:45Z",
+      "side": 1,
+      "message": "I already had a change ready for this class but was waiting for the release to reach maven central. It\u0027s https://gerrit-review.googlesource.com/c/gerrit/+/231001. I like the implementation suggested in there a bit better (e.g. it has Javadoc descriptions) but I can also throw it away if you think that\u0027s easier.",
+      "revId": "3b708a810935ae6c5f7cadc34023f1161ed453a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

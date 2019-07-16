@@ -1,5 +1,11 @@
 {
   "checks": {
+    "gerritforge:codestyle-a6a0e4682515f3521897c5f950d1394f4619d928": {
+      "state": "SUCCESSFUL",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-codestyle/42360/consoleText",
+      "created": "2019-07-16T00:34:23Z",
+      "updated": "2019-07-16T00:34:23Z"
+    },
     "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "SUCCESSFUL",
       "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/69434/consoleText",

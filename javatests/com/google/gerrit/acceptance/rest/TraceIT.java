@@ -53,6 +53,21 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+/**
+ * This test tests the tracing of requests.
+ *
+ * <p>To verify that tracing is working we do:
+ *
+ * <ul>
+ *   <li>Register a plugin extension that we know is invoked when the request is done. Within the
+ *       implementation of this plugin extension we access the status of the thread local state in
+ *       the {@link LoggingContext} and store it locally in the plugin extension class.
+ *   <li>Do a request (e.g. REST) that triggers the plugin extension.
+ *   <li>When the plugin extension is invoked it records the current logging context.
+ *   <li>After the request is done the test verifies that logging context that was recorded by the
+ *       plugin extension has the expected state.
+ * </ul>
+ */
 public class TraceIT extends AbstractDaemonTest {
   @Rule public final Expect expect = Expect.create();
 

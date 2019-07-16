@@ -321,7 +321,7 @@ are 'true', 'false', or 'INHERIT'.  Default is 'INHERIT'.
 
 - 'action': defines the link:#submit-type[submit type].  Valid
 values are 'fast forward only', 'merge if necessary', 'rebase if necessary',
-'merge always' and 'cherry pick'.  The default is 'merge if necessary'.
+'rebase always', 'merge always' and 'cherry pick'.  The default is 'merge if necessary'.
 
 - 'matchAuthorToCommitterDate': Defines whether to the author date will be changed to match the
 submitter date upon submit, so that git log shows when the change was submitted instead of when the
@@ -494,8 +494,9 @@ is equivalent to link:#merge_if_necessary[Merge If Necessary].
 [[fast_forward_only]]
 * Fast Forward Only
 +
-With this method no merge commits are produced. All merges must
-be handled on the client, prior to uploading to Gerrit for review.
+With this method Gerrit does not create merge commits on submitting a
+change. Merge commits may still be submitted, but they must be created
+on the client prior to uploading to Gerrit for review.
 +
 To submit a change, the change must be a strict superset of the
 destination branch.  That is, the change must already contain the
@@ -545,7 +546,7 @@ If the change being submitted is a strict superset of the destination
 branch, then the branch is fast-forwarded to the change.  If not,
 then the change is automatically rebased and then the branch is
 fast-forwarded to the change.
-
++
 When Gerrit tries to do a merge, by default the merge will only
 succeed if there is no path conflict.  A path conflict occurs when
 the same file has also been changed on the other side of the merge.
@@ -557,7 +558,7 @@ Basically, the same as Rebase If Necessary, but it creates a new patchset even
 if fast forward is possible AND like Cherry Pick it ensures footers such as
 Change-Id, Reviewed-On, and others are present in resulting commit that is
 merged.
-
++
 Thus, Rebase Always can be considered similar to Cherry Pick, but with
 the important distinction that Rebase Always does not ignore dependencies.
 

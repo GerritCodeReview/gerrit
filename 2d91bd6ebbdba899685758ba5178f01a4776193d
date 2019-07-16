@@ -22,6 +22,30 @@
       "revId": "2d91bd6ebbdba899685758ba5178f01a4776193d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b293a8a_a0e436da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-16T09:31:40Z",
+      "side": 1,
+      "message": "Yes. I haven\u0027t written this change but just migrated it from an internal suggestion. The original author was replaced by this entry.",
+      "parentUuid": "c6c03b00_72fe9b13",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 62
+      },
+      "revId": "2d91bd6ebbdba899685758ba5178f01a4776193d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

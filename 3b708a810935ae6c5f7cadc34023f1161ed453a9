@@ -16,6 +16,24 @@
       "revId": "3b708a810935ae6c5f7cadc34023f1161ed453a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79c60b64_cbff9347",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-16T09:06:57Z",
+      "side": 1,
+      "message": "Sorry, I had seen your WIP change before but then forgot about it before I did this upgrade.\n\nI prefer your version.  I\u0027ve reset this file back to the base version in this commit, and then applied yours on top.",
+      "parentUuid": "2da55173_71e5f20e",
+      "revId": "3b708a810935ae6c5f7cadc34023f1161ed453a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

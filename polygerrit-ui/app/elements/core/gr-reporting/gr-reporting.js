@@ -201,8 +201,11 @@
       if (type === ERROR.TYPE && category === ERROR.CATEGORY) {
         console.error(eventValue.error || eventName);
       } else {
-        console.log(eventName + (eventValue !== undefined ?
-            (': ' + eventValue) : ''));
+        if (eventValue !== undefined) {
+          console.log(`Reporting: ${eventName}: ${eventValue}`);
+        } else {
+          console.log(`Reporting: ${eventName}`);
+        }
       }
     },
 

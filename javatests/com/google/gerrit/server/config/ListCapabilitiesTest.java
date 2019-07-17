@@ -73,7 +73,7 @@ public class ListCapabilitiesTest {
   @Test
   public void list() throws Exception {
     Map<String, CapabilityInfo> m =
-        injector.getInstance(ListCapabilities.class).apply(new ConfigResource());
+        injector.getInstance(ListCapabilities.class).apply(new ConfigResource()).value();
     for (String id : GlobalCapability.getAllNames()) {
       assertThat(m).containsKey(id);
       assertThat(m.get(id).id).isEqualTo(id);

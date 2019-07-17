@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.common.GroupOptionsInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.UserInitiated;
@@ -42,7 +43,7 @@ public class PutOptions implements RestModifyView<GroupResource, GroupOptionsInf
   }
 
   @Override
-  public GroupOptionsInfo apply(GroupResource resource, GroupOptionsInfo input)
+  public Response<GroupOptionsInfo> apply(GroupResource resource, GroupOptionsInfo input)
       throws NotInternalGroupException, AuthException, BadRequestException,
           ResourceNotFoundException, IOException, ConfigInvalidException {
     GroupDescription.Internal internalGroup =
@@ -73,6 +74,6 @@ public class PutOptions implements RestModifyView<GroupResource, GroupOptionsInf
     if (input.visibleToAll) {
       options.visibleToAll = true;
     }
-    return options;
+    return Response.ok(options);
   }
 }

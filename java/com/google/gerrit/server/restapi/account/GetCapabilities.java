@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CurrentUser;
@@ -77,7 +78,7 @@ public class GetCapabilities implements RestReadView<AccountResource> {
   }
 
   @Override
-  public Map<String, Object> apply(AccountResource resource)
+  public Response<Map<String, Object>> apply(AccountResource resource)
       throws RestApiException, PermissionBackendException {
     permissionBackend.checkUsesDefaultCapabilities();
     PermissionBackend.WithUser perm = permissionBackend.currentUser();
@@ -95,7 +96,7 @@ public class GetCapabilities implements RestReadView<AccountResource> {
     addRanges(have, limits);
     addPriority(have, limits);
 
-    return have;
+    return Response.ok(have);
   }
 
   private Set<GlobalOrPluginPermission> permissionsToTest() {
@@ -168,9 +169,9 @@ public class GetCapabilities implements RestReadView<AccountResource> {
     }
 
     @Override
-    public BinaryResult apply(Capability resource) throws ResourceNotFoundException {
+    public Response<BinaryResult> apply(Capability resource) throws ResourceNotFoundException {
       permissionBackend.checkUsesDefaultCapabilities();
-      return BinaryResult.create("ok\n");
+      return Response.ok(BinaryResult.create("ok\n"));
     }
   }
 }

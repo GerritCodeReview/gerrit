@@ -98,7 +98,7 @@ class GroupsImpl implements Groups {
           .currentUser()
           .checkAny(GlobalPermission.fromAnnotation(createGroup.getClass()));
       GroupInfo info =
-          createGroup.apply(TopLevelResource.INSTANCE, IdString.fromDecoded(in.name), in);
+          createGroup.apply(TopLevelResource.INSTANCE, IdString.fromDecoded(in.name), in).value();
       return id(info.id);
     } catch (Exception e) {
       throw asRestApiException("Cannot create group " + in.name, e);
@@ -154,7 +154,7 @@ class GroupsImpl implements Groups {
     list.setMatchRegex(req.getRegex());
     list.setSuggest(req.getSuggest());
     try {
-      return list.apply(tlr);
+      return list.apply(tlr).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot list groups", e);
     }
@@ -184,7 +184,7 @@ class GroupsImpl implements Groups {
       for (ListGroupsOption option : r.getOptions()) {
         myQueryGroups.addOption(option);
       }
-      return myQueryGroups.apply(TopLevelResource.INSTANCE);
+      return myQueryGroups.apply(TopLevelResource.INSTANCE).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot query groups", e);
     }

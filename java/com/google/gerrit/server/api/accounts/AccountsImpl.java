@@ -133,7 +133,7 @@ public class AccountsImpl implements Accounts {
       myQueryAccounts.setSuggest(true);
       myQueryAccounts.setQuery(r.getQuery());
       myQueryAccounts.setLimit(r.getLimit());
-      return myQueryAccounts.apply(TopLevelResource.INSTANCE);
+      return myQueryAccounts.apply(TopLevelResource.INSTANCE).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve suggested accounts", e);
     }
@@ -164,7 +164,7 @@ public class AccountsImpl implements Accounts {
       for (ListAccountsOption option : r.getOptions()) {
         myQueryAccounts.addOption(option);
       }
-      return myQueryAccounts.apply(TopLevelResource.INSTANCE);
+      return myQueryAccounts.apply(TopLevelResource.INSTANCE).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve suggested accounts", e);
     }

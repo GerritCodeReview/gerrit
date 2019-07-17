@@ -53,7 +53,7 @@ import java.util.List;
 @Singleton
 public class DeleteChangeMessage
     extends RetryingRestModifyView<
-        ChangeMessageResource, DeleteChangeMessageInput, Response<ChangeMessageInfo>> {
+        ChangeMessageResource, DeleteChangeMessageInput, ChangeMessageInfo> {
 
   private final Provider<CurrentUser> userProvider;
   private final PermissionBackend permissionBackend;
@@ -146,7 +146,7 @@ public class DeleteChangeMessage
 
   @Singleton
   public static class DefaultDeleteChangeMessage
-      extends RetryingRestModifyView<ChangeMessageResource, Input, Response<ChangeMessageInfo>> {
+      extends RetryingRestModifyView<ChangeMessageResource, Input, ChangeMessageInfo> {
     private final DeleteChangeMessage deleteChangeMessage;
 
     @Inject

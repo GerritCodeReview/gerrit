@@ -17,6 +17,7 @@ package com.google.gerrit.server.update;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
 import com.google.gerrit.extensions.restapi.RestResource;
@@ -31,7 +32,7 @@ public abstract class RetryingRestCollectionModifyView<
   }
 
   @Override
-  public final O apply(P parentResource, I input)
+  public final Response<O> apply(P parentResource, I input)
       throws AuthException, BadRequestException, ResourceConflictException, Exception {
     RetryHelper.Options retryOptions =
         RetryHelper.options()
@@ -42,6 +43,6 @@ public abstract class RetryingRestCollectionModifyView<
         (updateFactory) -> applyImpl(updateFactory, parentResource, input), retryOptions);
   }
 
-  protected abstract O applyImpl(BatchUpdate.Factory updateFactory, P parentResource, I input)
-      throws Exception;
+  protected abstract Response<O> applyImpl(
+      BatchUpdate.Factory updateFactory, P parentResource, I input) throws Exception;
 }

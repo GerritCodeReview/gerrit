@@ -42,8 +42,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class DeleteAssignee
-    extends RetryingRestModifyView<ChangeResource, Input, Response<AccountInfo>> {
+public class DeleteAssignee extends RetryingRestModifyView<ChangeResource, Input, AccountInfo> {
 
   private final ChangeMessagesUtil cmUtil;
   private final AssigneeChanged assigneeChanged;

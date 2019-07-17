@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
@@ -63,7 +64,7 @@ public class SetHead implements RestModifyView<ProjectResource, HeadInput> {
   }
 
   @Override
-  public String apply(ProjectResource rsrc, HeadInput input)
+  public Response<String> apply(ProjectResource rsrc, HeadInput input)
       throws AuthException, ResourceNotFoundException, BadRequestException,
           UnprocessableEntityException, IOException, PermissionBackendException {
     if (input == null || Strings.isNullOrEmpty(input.ref)) {
@@ -109,7 +110,7 @@ public class SetHead implements RestModifyView<ProjectResource, HeadInput> {
 
         fire(rsrc.getNameKey(), oldHead, newHead);
       }
-      return ref;
+      return Response.ok(ref);
     } catch (RepositoryNotFoundException e) {
       throw new ResourceNotFoundException(rsrc.getName());
     }

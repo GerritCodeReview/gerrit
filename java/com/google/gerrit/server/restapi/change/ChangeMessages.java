@@ -54,7 +54,7 @@ public class ChangeMessages implements ChildCollection<ChangeResource, ChangeMes
       throws ResourceNotFoundException, PermissionBackendException {
     String uuid = id.get();
 
-    List<ChangeMessageInfo> changeMessages = listChangeMessages.apply(parent);
+    List<ChangeMessageInfo> changeMessages = listChangeMessages.apply(parent).value();
     int index = -1;
     for (int i = 0; i < changeMessages.size(); ++i) {
       ChangeMessageInfo changeMessage = changeMessages.get(i);

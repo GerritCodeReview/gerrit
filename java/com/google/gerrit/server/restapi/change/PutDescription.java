@@ -39,7 +39,7 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class PutDescription
-    extends RetryingRestModifyView<RevisionResource, DescriptionInput, Response<String>>
+    extends RetryingRestModifyView<RevisionResource, DescriptionInput, String>
     implements UiAction<RevisionResource> {
   private final ChangeMessagesUtil cmUtil;
   private final PatchSetUtil psUtil;

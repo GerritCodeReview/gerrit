@@ -44,6 +44,6 @@ public class ChildProjectApiImpl implements ChildProjectApi {
   @Override
   public ProjectInfo get(boolean recursive) throws RestApiException {
     getChildProject.setRecursive(recursive);
-    return getChildProject.apply(rsrc);
+    return getChildProject.apply(rsrc).value();
   }
 }

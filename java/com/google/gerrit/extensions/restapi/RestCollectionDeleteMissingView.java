@@ -37,13 +37,28 @@ public interface RestCollectionDeleteMissingView<P extends RestResource, C exten
   /**
    * Process the view operation by deleting the resource.
    *
+   * <p>The returned response defines the status code that is returned to the client. For
+   * RestCollectionDeleteMissingViews this is usually {code 204 No Content} because a resource is
+   * deleted, but other 2XX or 3XX status codes are also possible (e.g. {code 200 OK}, {@code 302
+   * Found} for a redirect).
+   *
+   * <p>The returned response usually does not have any value (status code {code 204 No Content}).
+   * If a value in the returned response is set it is automatically converted to JSON unless it is a
+   * {@link BinaryResult}.
+   *
+   * <p>Further properties like caching behavior (see {@link CacheControl}) can be optionally set on
+   * the returned response.
+   *
+   * <p>Throwing a subclass of {@link RestApiException} results in a 4XX response to the client. For
+   * any other exception the client will get a {@code 500 Internal Server Error} response.
+   *
    * @param parentResource parent resource of the resource that should be deleted
-   * @param input input after parsing from request.
-   * @return result to return to the client. Use {@link BinaryResult} to avoid automatic conversion
-   *     to JSON.
+   * @param id the ID of the child resource that should be deleted
+   * @param input input after parsing from request
+   * @return response to return to the client
    * @throws RestApiException if the resource creation is rejected
    * @throws Exception the implementation of the view failed. The exception will be logged and HTTP
    *     500 Internal Server Error will be returned to the client.
    */
-  Object apply(P parentResource, IdString id, I input) throws Exception;
+  Response<?> apply(P parentResource, IdString id, I input) throws Exception;
 }

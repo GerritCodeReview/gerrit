@@ -17,16 +17,30 @@ package com.google.gerrit.extensions.restapi;
 /**
  * RestView to read a resource without modification.
  *
+ * <p>RestReadViews are invoked by the HTTP GET method.
+ *
  * @param <R> type of resource the view reads.
  */
 public interface RestReadView<R extends RestResource> extends RestView<R> {
   /**
    * Process the view operation by reading from the resource.
    *
-   * @param resource resource to read.
-   * @return result to return to the client. Use {@link BinaryResult} to avoid automatic conversion
-   *     to JSON.
-   * @throws AuthException the client is not permitted to access this view.
+   * <p>The value of the returned response is automatically converted to JSON unless it is a {@link
+   * BinaryResult}.
+   *
+   * <p>The returned response defines the status code that is returned to the client. For
+   * RestReadViews this is usually {code 200 OK}, but other 2XX or 3XX status codes are also
+   * possible (e.g. {@link Response.Redirect} can be returned for {@code 302 Found}).
+   *
+   * <p>Further properties like caching behavior (see {@link CacheControl}) can be optionally set on
+   * the returned response.
+   *
+   * <p>Throwing a subclass of {@link RestApiException} results in a 4XX response to the client. For
+   * any other exception the client will get a {@code 500 Internal Server Error} response.
+   *
+   * @param resource resource to read
+   * @return response to return to the client
+   * @throws AuthException the caller is not permitted to access this view.
    * @throws BadRequestException the request was incorrectly specified and cannot be handled by this
    *     view.
    * @throws ResourceConflictException the resource state does not permit this view to make the
@@ -34,6 +48,6 @@ public interface RestReadView<R extends RestResource> extends RestView<R> {
    * @throws Exception the implementation of the view failed. The exception will be logged and HTTP
    *     500 Internal Server Error will be returned to the client.
    */
-  Object apply(R resource)
+  Response<?> apply(R resource)
       throws AuthException, BadRequestException, ResourceConflictException, Exception;
 }

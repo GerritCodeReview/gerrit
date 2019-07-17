@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.server.CommentsUtil;
@@ -48,13 +49,14 @@ public class ListRevisionDrafts implements RestReadView<RevisionResource> {
   }
 
   @Override
-  public Map<String, List<CommentInfo>> apply(RevisionResource rsrc)
+  public Response<Map<String, List<CommentInfo>>> apply(RevisionResource rsrc)
       throws PermissionBackendException {
-    return commentJson
-        .get()
-        .setFillAccounts(includeAuthorInfo())
-        .newCommentFormatter()
-        .format(listComments(rsrc));
+    return Response.ok(
+        commentJson
+            .get()
+            .setFillAccounts(includeAuthorInfo())
+            .newCommentFormatter()
+            .format(listComments(rsrc)));
   }
 
   public ImmutableList<CommentInfo> getComments(RevisionResource rsrc)

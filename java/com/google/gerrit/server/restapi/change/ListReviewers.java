@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
@@ -44,7 +45,7 @@ public class ListReviewers implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public List<ReviewerInfo> apply(ChangeResource rsrc) throws PermissionBackendException {
+  public Response<List<ReviewerInfo>> apply(ChangeResource rsrc) throws PermissionBackendException {
     Map<String, ReviewerResource> reviewers = new LinkedHashMap<>();
     for (Account.Id accountId : approvalsUtil.getReviewers(rsrc.getNotes()).all()) {
       if (!reviewers.containsKey(accountId.toString())) {
@@ -56,6 +57,6 @@ public class ListReviewers implements RestReadView<ChangeResource> {
         reviewers.put(adr.toString(), new ReviewerResource(rsrc, adr));
       }
     }
-    return json.format(reviewers.values());
+    return Response.ok(json.format(reviewers.values()));
   }
 }

@@ -39,8 +39,7 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
-public class PostPrivate
-    extends RetryingRestModifyView<ChangeResource, SetPrivateOp.Input, Response<String>>
+public class PostPrivate extends RetryingRestModifyView<ChangeResource, SetPrivateOp.Input, String>
     implements UiAction<ChangeResource> {
   private final PermissionBackend permissionBackend;
   private final SetPrivateOp.Factory setPrivateOpFactory;

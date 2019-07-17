@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.project;
 
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.project.ChildProjectResource;
 import com.google.gerrit.server.project.ProjectJson;
@@ -37,9 +38,9 @@ public class GetChildProject implements RestReadView<ChildProjectResource> {
   }
 
   @Override
-  public ProjectInfo apply(ChildProjectResource rsrc) throws ResourceNotFoundException {
+  public Response<ProjectInfo> apply(ChildProjectResource rsrc) throws ResourceNotFoundException {
     if (recursive || rsrc.isDirectChild()) {
-      return json.format(rsrc.getChild().getProject());
+      return Response.ok(json.format(rsrc.getChild().getProject()));
     }
     throw new ResourceNotFoundException(rsrc.getChild().getName());
   }

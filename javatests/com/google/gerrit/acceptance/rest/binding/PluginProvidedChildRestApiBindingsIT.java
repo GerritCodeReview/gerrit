@@ -24,6 +24,7 @@ import com.google.gerrit.acceptance.rest.util.RestCall;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
@@ -107,7 +108,8 @@ public class PluginProvidedChildRestApiBindingsIT extends AbstractDaemonTest {
 
     @Override
     public RestView<RevisionResource> list() throws RestApiException {
-      return (RestReadView<RevisionResource>) resource -> ImmutableList.of("one", "two");
+      return (RestReadView<RevisionResource>)
+          resource -> Response.ok(ImmutableList.of("one", "two"));
     }
 
     @Override
@@ -125,24 +127,24 @@ public class PluginProvidedChildRestApiBindingsIT extends AbstractDaemonTest {
   static class TestPostOnCollection
       implements RestCollectionModifyView<RevisionResource, TestPluginResource, String> {
     @Override
-    public Object apply(RevisionResource parentResource, String input) throws Exception {
-      return "test";
+    public Response<String> apply(RevisionResource parentResource, String input) throws Exception {
+      return Response.ok("test");
     }
   }
 
   @Singleton
   static class TestPost implements RestModifyView<TestPluginResource, String> {
     @Override
-    public String apply(TestPluginResource resource, String input) throws Exception {
-      return "test";
+    public Response<String> apply(TestPluginResource resource, String input) throws Exception {
+      return Response.ok("test");
     }
   }
 
   @Singleton
   static class TestGet implements RestReadView<TestPluginResource> {
     @Override
-    public String apply(TestPluginResource resource) throws Exception {
-      return "test";
+    public Response<String> apply(TestPluginResource resource) throws Exception {
+      return Response.ok("test");
     }
   }
 

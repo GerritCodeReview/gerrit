@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.change.FileResource;
@@ -40,11 +41,12 @@ public class DownloadContent implements RestReadView<FileResource> {
   }
 
   @Override
-  public BinaryResult apply(FileResource rsrc)
+  public Response<BinaryResult> apply(FileResource rsrc)
       throws ResourceNotFoundException, IOException, NoSuchChangeException {
     String path = rsrc.getPatchKey().fileName();
     RevisionResource rev = rsrc.getRevision();
-    return fileContentUtil.downloadContent(
-        projectCache.checkedGet(rev.getProject()), rev.getPatchSet().commitId(), path, parent);
+    return Response.ok(
+        fileContentUtil.downloadContent(
+            projectCache.checkedGet(rev.getProject()), rev.getPatchSet().commitId(), path, parent));
   }
 }

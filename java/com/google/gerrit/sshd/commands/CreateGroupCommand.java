@@ -128,7 +128,9 @@ final class CreateGroupCommand extends SshCommand {
     }
 
     GroupInfo group =
-        createGroup.apply(TopLevelResource.INSTANCE, IdString.fromDecoded(groupName), input);
+        createGroup
+            .apply(TopLevelResource.INSTANCE, IdString.fromDecoded(groupName), input)
+            .value();
     return groups.parse(TopLevelResource.INSTANCE, IdString.fromUrl(group.id));
   }
 

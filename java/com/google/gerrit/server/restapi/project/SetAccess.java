@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
@@ -80,7 +81,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
   }
 
   @Override
-  public ProjectAccessInfo apply(ProjectResource rsrc, ProjectAccessInput input)
+  public Response<ProjectAccessInfo> apply(ProjectResource rsrc, ProjectAccessInput input)
       throws ResourceNotFoundException, ResourceConflictException, IOException, AuthException,
           BadRequestException, UnprocessableEntityException, PermissionBackendException {
     MetaDataUpdate.User metaDataUpdateUser = metaDataUpdateFactory.get();
@@ -138,6 +139,6 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
       throw new ResourceConflictException(rsrc.getName());
     }
 
-    return getAccess.apply(rsrc.getNameKey());
+    return Response.ok(getAccess.apply(rsrc.getNameKey()));
   }
 }

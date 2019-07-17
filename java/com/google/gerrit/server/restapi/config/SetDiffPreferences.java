@@ -21,6 +21,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.Preferences;
@@ -54,7 +55,8 @@ public class SetDiffPreferences implements RestModifyView<ConfigResource, DiffPr
   }
 
   @Override
-  public DiffPreferencesInfo apply(ConfigResource configResource, DiffPreferencesInfo input)
+  public Response<DiffPreferencesInfo> apply(
+      ConfigResource configResource, DiffPreferencesInfo input)
       throws BadRequestException, IOException, ConfigInvalidException {
     if (input == null) {
       throw new BadRequestException("input must be provided");
@@ -66,7 +68,7 @@ public class SetDiffPreferences implements RestModifyView<ConfigResource, DiffPr
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
       DiffPreferencesInfo updatedPrefs = Preferences.updateDefaultDiffPreferences(md, input);
       accountCache.evictAll();
-      return updatedPrefs;
+      return Response.ok(updatedPrefs);
     }
   }
 

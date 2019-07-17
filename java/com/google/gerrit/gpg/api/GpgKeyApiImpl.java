@@ -46,7 +46,7 @@ public class GpgKeyApiImpl implements GpgKeyApi {
   @Override
   public GpgKeyInfo get() throws RestApiException {
     try {
-      return get.apply(rsrc);
+      return get.apply(rsrc).value();
     } catch (IOException e) {
       throw new RestApiException("Cannot get GPG key", e);
     }

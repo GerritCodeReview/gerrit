@@ -254,7 +254,7 @@ class RevisionApiImpl implements RevisionApi {
   public BinaryResult submitPreview(String format) throws RestApiException {
     try {
       submitPreview.setFormat(format);
-      return submitPreview.apply(revision);
+      return submitPreview.apply(revision).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get submit preview", e);
     }
@@ -263,7 +263,7 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public ChangeApi rebase(RebaseInput in) throws RestApiException {
     try {
-      return changes.id(rebase.apply(revision, in)._number);
+      return changes.id(rebase.apply(revision, in).value()._number);
     } catch (Exception e) {
       throw asRestApiException("Cannot rebase ps", e);
     }
@@ -282,7 +282,7 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public ChangeApi cherryPick(CherryPickInput in) throws RestApiException {
     try {
-      return changes.id(cherryPick.apply(revision, in)._number);
+      return changes.id(cherryPick.apply(revision, in).value()._number);
     } catch (Exception e) {
       throw asRestApiException("Cannot cherry pick", e);
     }
@@ -291,7 +291,7 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public CherryPickChangeInfo cherryPickAsInfo(CherryPickInput in) throws RestApiException {
     try {
-      return cherryPick.apply(revision, in);
+      return cherryPick.apply(revision, in).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot cherry pick", e);
     }
@@ -336,7 +336,7 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public MergeableInfo mergeable() throws RestApiException {
     try {
-      return mergeable.apply(revision);
+      return mergeable.apply(revision).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot check mergeability", e);
     }
@@ -346,7 +346,7 @@ class RevisionApiImpl implements RevisionApi {
   public MergeableInfo mergeableOtherBranches() throws RestApiException {
     try {
       mergeable.setOtherBranches(true);
-      return mergeable.apply(revision);
+      return mergeable.apply(revision).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot check mergeability", e);
     }
@@ -400,7 +400,7 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public Map<String, List<CommentInfo>> comments() throws RestApiException {
     try {
-      return listComments.apply(revision);
+      return listComments.apply(revision).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve comments", e);
     }
@@ -409,7 +409,7 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public Map<String, List<RobotCommentInfo>> robotComments() throws RestApiException {
     try {
-      return listRobotComments.apply(revision);
+      return listRobotComments.apply(revision).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve robot comments", e);
     }
@@ -427,7 +427,7 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public Map<String, List<CommentInfo>> drafts() throws RestApiException {
     try {
-      return listDrafts.apply(revision);
+      return listDrafts.apply(revision).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve drafts", e);
     }
@@ -504,7 +504,7 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public BinaryResult patch() throws RestApiException {
     try {
-      return getPatch.apply(revision);
+      return getPatch.apply(revision).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get patch", e);
     }
@@ -513,7 +513,7 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public BinaryResult patch(String path) throws RestApiException {
     try {
-      return getPatch.setPath(path).apply(revision);
+      return getPatch.setPath(path).apply(revision).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get patch", e);
     }
@@ -531,7 +531,7 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public SubmitType submitType() throws RestApiException {
     try {
-      return getSubmitType.apply(revision);
+      return getSubmitType.apply(revision).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get submit type", e);
     }
@@ -540,7 +540,7 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public SubmitType testSubmitType(TestSubmitRuleInput in) throws RestApiException {
     try {
-      return testSubmitType.apply(revision, in);
+      return testSubmitType.apply(revision, in).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot test submit type", e);
     }
@@ -549,7 +549,7 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public List<TestSubmitRuleInfo> testSubmitRule(TestSubmitRuleInput in) throws RestApiException {
     try {
-      return testSubmitRule.get().apply(revision, in);
+      return testSubmitRule.get().apply(revision, in).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot test submit rule", e);
     }
@@ -575,7 +575,7 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public RelatedChangesInfo related() throws RestApiException {
     try {
-      return getRelated.apply(revision);
+      return getRelated.apply(revision).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get related changes", e);
     }
@@ -624,7 +624,7 @@ class RevisionApiImpl implements RevisionApi {
 
   @Override
   public String description() throws RestApiException {
-    return getDescription.apply(revision);
+    return getDescription.apply(revision).value();
   }
 
   @Override

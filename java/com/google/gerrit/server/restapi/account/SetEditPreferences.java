@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
@@ -54,7 +55,7 @@ public class SetEditPreferences implements RestModifyView<AccountResource, EditP
   }
 
   @Override
-  public EditPreferencesInfo apply(AccountResource rsrc, EditPreferencesInfo input)
+  public Response<EditPreferencesInfo> apply(AccountResource rsrc, EditPreferencesInfo input)
       throws RestApiException, RepositoryNotFoundException, IOException, ConfigInvalidException,
           PermissionBackendException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
@@ -66,10 +67,11 @@ public class SetEditPreferences implements RestModifyView<AccountResource, EditP
     }
 
     Account.Id id = rsrc.getUser().getAccountId();
-    return accountsUpdateProvider
-        .get()
-        .update("Set Edit Preferences via API", id, u -> u.setEditPreferences(input))
-        .map(AccountState::getEditPreferences)
-        .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString())));
+    return Response.ok(
+        accountsUpdateProvider
+            .get()
+            .update("Set Edit Preferences via API", id, u -> u.setEditPreferences(input))
+            .map(AccountState::getEditPreferences)
+            .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString()))));
   }
 }

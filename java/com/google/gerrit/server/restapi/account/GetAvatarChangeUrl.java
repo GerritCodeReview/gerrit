@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.account;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.avatar.AvatarProvider;
@@ -33,7 +34,7 @@ public class GetAvatarChangeUrl implements RestReadView<AccountResource> {
   }
 
   @Override
-  public String apply(AccountResource rsrc) throws ResourceNotFoundException {
+  public Response<String> apply(AccountResource rsrc) throws ResourceNotFoundException {
     AvatarProvider impl = avatarProvider.get();
     if (impl == null) {
       throw new ResourceNotFoundException();
@@ -43,6 +44,6 @@ public class GetAvatarChangeUrl implements RestReadView<AccountResource> {
     if (Strings.isNullOrEmpty(url)) {
       throw new ResourceNotFoundException();
     }
-    return url;
+    return Response.ok(url);
   }
 }

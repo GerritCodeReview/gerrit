@@ -240,7 +240,7 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public AccountDetailInfo detail() throws RestApiException {
     try {
-      return getDetail.apply(account);
+      return getDetail.apply(account).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get detail", e);
     }
@@ -274,7 +274,7 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public GeneralPreferencesInfo getPreferences() throws RestApiException {
     try {
-      return getPreferences.apply(account);
+      return getPreferences.apply(account).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get preferences", e);
     }
@@ -283,7 +283,7 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public GeneralPreferencesInfo setPreferences(GeneralPreferencesInfo in) throws RestApiException {
     try {
-      return setPreferences.apply(account, in);
+      return setPreferences.apply(account, in).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot set preferences", e);
     }
@@ -292,7 +292,7 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public DiffPreferencesInfo getDiffPreferences() throws RestApiException {
     try {
-      return getDiffPreferences.apply(account);
+      return getDiffPreferences.apply(account).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot query diff preferences", e);
     }
@@ -301,7 +301,7 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public DiffPreferencesInfo setDiffPreferences(DiffPreferencesInfo in) throws RestApiException {
     try {
-      return setDiffPreferences.apply(account, in);
+      return setDiffPreferences.apply(account, in).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot set diff preferences", e);
     }
@@ -310,7 +310,7 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public EditPreferencesInfo getEditPreferences() throws RestApiException {
     try {
-      return getEditPreferences.apply(account);
+      return getEditPreferences.apply(account).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot query edit preferences", e);
     }
@@ -319,7 +319,7 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public EditPreferencesInfo setEditPreferences(EditPreferencesInfo in) throws RestApiException {
     try {
-      return setEditPreferences.apply(account, in);
+      return setEditPreferences.apply(account, in).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot set edit preferences", e);
     }
@@ -328,7 +328,7 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public List<ProjectWatchInfo> getWatchedProjects() throws RestApiException {
     try {
-      return getWatchedProjects.apply(account);
+      return getWatchedProjects.apply(account).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get watched projects", e);
     }
@@ -338,7 +338,7 @@ public class AccountApiImpl implements AccountApi {
   public List<ProjectWatchInfo> setWatchedProjects(List<ProjectWatchInfo> in)
       throws RestApiException {
     try {
-      return postWatchedProjects.apply(account, in);
+      return postWatchedProjects.apply(account, in).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot update watched projects", e);
     }
@@ -389,7 +389,7 @@ public class AccountApiImpl implements AccountApi {
   public SortedSet<String> getStars(String changeId) throws RestApiException {
     try {
       AccountResource.Star rsrc = stars.parse(account, IdString.fromUrl(changeId));
-      return starsGet.apply(rsrc);
+      return starsGet.apply(rsrc).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get stars", e);
     }
@@ -398,7 +398,7 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public List<ChangeInfo> getStarredChanges() throws RestApiException {
     try {
-      return stars.list().apply(account);
+      return stars.list().apply(account).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get starred changes", e);
     }
@@ -407,7 +407,7 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public List<GroupInfo> getGroups() throws RestApiException {
     try {
-      return getGroups.apply(account);
+      return getGroups.apply(account).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get groups", e);
     }
@@ -416,7 +416,7 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public List<EmailInfo> getEmails() throws RestApiException {
     try {
-      return getEmails.apply(account);
+      return getEmails.apply(account).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get emails", e);
     }
@@ -475,7 +475,7 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public List<SshKeyInfo> listSshKeys() throws RestApiException {
     try {
-      return getSshKeys.apply(account);
+      return getSshKeys.apply(account).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot list SSH keys", e);
     }
@@ -534,7 +534,7 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public List<AgreementInfo> listAgreements() throws RestApiException {
     try {
-      return getAgreements.apply(account);
+      return getAgreements.apply(account).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get agreements", e);
     }
@@ -563,7 +563,7 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public List<AccountExternalIdInfo> getExternalIds() throws RestApiException {
     try {
-      return getExternalIds.apply(account);
+      return getExternalIds.apply(account).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get external IDs", e);
     }
@@ -582,7 +582,7 @@ public class AccountApiImpl implements AccountApi {
   public List<DeletedDraftCommentInfo> deleteDraftComments(DeleteDraftCommentsInput input)
       throws RestApiException {
     try {
-      return deleteDraftComments.apply(account, input);
+      return deleteDraftComments.apply(account, input).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot delete draft comments", e);
     }

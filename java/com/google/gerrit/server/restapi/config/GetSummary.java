@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.config;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.SitePath;
@@ -69,7 +70,7 @@ public class GetSummary implements RestReadView<ConfigResource> {
   }
 
   @Override
-  public SummaryInfo apply(ConfigResource rsrc) {
+  public Response<SummaryInfo> apply(ConfigResource rsrc) {
     if (gc) {
       System.gc();
       System.runFinalization();
@@ -83,7 +84,7 @@ public class GetSummary implements RestReadView<ConfigResource> {
     if (jvm) {
       summary.jvmSummary = getJvmSummary();
     }
-    return summary;
+    return Response.ok(summary);
   }
 
   private TaskSummaryInfo getTaskSummary() {

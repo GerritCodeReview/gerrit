@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.group;
 
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.inject.Singleton;
@@ -22,7 +23,7 @@ import com.google.inject.Singleton;
 public class GetName implements RestReadView<GroupResource> {
 
   @Override
-  public String apply(GroupResource resource) {
-    return resource.getName();
+  public Response<String> apply(GroupResource resource) {
+    return Response.ok(resource.getName());
   }
 }

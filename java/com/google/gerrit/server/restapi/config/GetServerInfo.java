@@ -35,6 +35,7 @@ import com.google.gerrit.extensions.common.UserConfigInfo;
 import com.google.gerrit.extensions.config.CloneCommand;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.server.EnableSignedPush;
@@ -138,7 +139,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   }
 
   @Override
-  public ServerInfo apply(ConfigResource rsrc) throws PermissionBackendException {
+  public Response<ServerInfo> apply(ConfigResource rsrc) throws PermissionBackendException {
     ServerInfo info = new ServerInfo();
     info.accounts = getAccountsInfo();
     info.auth = getAuthInfo();
@@ -156,7 +157,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
 
     info.user = getUserInfo();
     info.receive = getReceiveInfo();
-    return info;
+    return Response.ok(info);
   }
 
   private AccountsInfo getAccountsInfo() {

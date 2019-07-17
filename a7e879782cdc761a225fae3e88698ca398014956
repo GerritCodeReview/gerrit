@@ -16,6 +16,24 @@
       "revId": "a7e879782cdc761a225fae3e88698ca398014956",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4574f491_b052ecc8",
+        "filename": "java/com/google/gerrit/server/account/Preferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2019-07-17T06:19:09Z",
+      "side": 0,
+      "message": "Well, you\u0027ll need to decide if it\u0027s needed in \"Your\" menu. I think that Groups are not accessed often, so having them in the user\u0027s preferences is enough.\n\nThis is filtered out anyway. See polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html:\n\n_isSupportedLink(linkObj) {\n  // Groups are not yet supported.\n  return !linkObj.url.startsWith(\u0027/groups\u0027);\n},\n\nSo either you need to unfilter it and fix the link here, or remove it from the menu. Adding and filtering it makes no sense.",
+      "parentUuid": "bb79ae72_148f7753",
+      "revId": "a7e879782cdc761a225fae3e88698ca398014956",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

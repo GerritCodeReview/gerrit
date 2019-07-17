@@ -30,7 +30,6 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OptionUtil;
 import com.google.gerrit.server.account.AccountLimits;
@@ -40,7 +39,6 @@ import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -79,7 +77,7 @@ public class GetCapabilities implements RestReadView<AccountResource> {
   }
 
   @Override
-  public Object apply(AccountResource resource)
+  public Map<String, Object> apply(AccountResource resource)
       throws RestApiException, PermissionBackendException {
     permissionBackend.checkUsesDefaultCapabilities();
     PermissionBackend.WithUser perm = permissionBackend.currentUser();
@@ -97,9 +95,7 @@ public class GetCapabilities implements RestReadView<AccountResource> {
     addRanges(have, limits);
     addPriority(have, limits);
 
-    return OutputFormat.JSON
-        .newGson()
-        .toJsonTree(have, new TypeToken<Map<String, Object>>() {}.getType());
+    return have;
   }
 
   private Set<GlobalOrPluginPermission> permissionsToTest() {

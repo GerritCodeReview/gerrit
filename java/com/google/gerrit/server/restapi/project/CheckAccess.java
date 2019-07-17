@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.api.config.AccessCheckInfo;
 import com.google.gerrit.extensions.api.config.AccessCheckInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
@@ -59,7 +60,7 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
   }
 
   @Override
-  public AccessCheckInfo apply(ProjectResource rsrc, AccessCheckInput input)
+  public Response<AccessCheckInfo> apply(ProjectResource rsrc, AccessCheckInput input)
       throws PermissionBackendException, RestApiException, IOException, ConfigInvalidException {
     permissionBackend.user(rsrc.getUser()).check(GlobalPermission.VIEW_ACCESS);
 
@@ -83,7 +84,7 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
     } catch (AuthException e) {
       info.message = String.format("user %s cannot see project %s", match, rsrc.getName());
       info.status = HttpServletResponse.SC_FORBIDDEN;
-      return info;
+      return Response.ok(info);
     }
 
     RefPermission refPerm;
@@ -114,7 +115,7 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
             String.format(
                 "user %s lacks permission %s for %s in project %s",
                 match, input.permission, input.ref, rsrc.getName());
-        return info;
+        return Response.ok(info);
       }
     } else {
       // We say access is okay if there are no refs, but this warrants a warning,
@@ -126,6 +127,6 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
       }
     }
     info.status = HttpServletResponse.SC_OK;
-    return info;
+    return Response.ok(info);
   }
 }

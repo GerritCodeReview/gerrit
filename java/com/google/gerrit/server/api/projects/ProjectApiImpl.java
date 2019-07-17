@@ -368,13 +368,13 @@ public class ProjectApiImpl implements ProjectApi {
 
   @Override
   public String description() throws RestApiException {
-    return getDescription.apply(checkExists());
+    return getDescription.apply(checkExists()).value();
   }
 
   @Override
   public ProjectAccessInfo access() throws RestApiException {
     try {
-      return getAccess.apply(checkExists());
+      return getAccess.apply(checkExists()).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get access rights", e);
     }
@@ -383,7 +383,7 @@ public class ProjectApiImpl implements ProjectApi {
   @Override
   public ProjectAccessInfo access(ProjectAccessInput p) throws RestApiException {
     try {
-      return setAccess.apply(checkExists(), p);
+      return setAccess.apply(checkExists(), p).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot put access rights", e);
     }
@@ -401,7 +401,7 @@ public class ProjectApiImpl implements ProjectApi {
   @Override
   public AccessCheckInfo checkAccess(AccessCheckInput in) throws RestApiException {
     try {
-      return checkAccess.apply(checkExists(), in);
+      return checkAccess.apply(checkExists(), in).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot check access rights", e);
     }
@@ -410,7 +410,7 @@ public class ProjectApiImpl implements ProjectApi {
   @Override
   public CheckProjectResultInfo check(CheckProjectInput in) throws RestApiException {
     try {
-      return check.apply(checkExists(), in);
+      return check.apply(checkExists(), in).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot check project", e);
     }
@@ -427,13 +427,13 @@ public class ProjectApiImpl implements ProjectApi {
 
   @Override
   public ConfigInfo config() throws RestApiException {
-    return getConfig.apply(checkExists());
+    return getConfig.apply(checkExists()).value();
   }
 
   @Override
   public ConfigInfo config(ConfigInput in) throws RestApiException {
     try {
-      return putConfig.apply(checkExists(), in);
+      return putConfig.apply(checkExists(), in).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot list tags", e);
     }
@@ -445,7 +445,7 @@ public class ProjectApiImpl implements ProjectApi {
       @Override
       public List<BranchInfo> get() throws RestApiException {
         try {
-          return listBranches.get().request(this).apply(checkExists());
+          return listBranches.get().request(this).apply(checkExists()).value();
         } catch (Exception e) {
           throw asRestApiException("Cannot list branches", e);
         }
@@ -459,7 +459,7 @@ public class ProjectApiImpl implements ProjectApi {
       @Override
       public List<TagInfo> get() throws RestApiException {
         try {
-          return listTags.get().request(this).apply(checkExists());
+          return listTags.get().request(this).apply(checkExists()).value();
         } catch (Exception e) {
           throw asRestApiException("Cannot list tags", e);
         }
@@ -475,7 +475,7 @@ public class ProjectApiImpl implements ProjectApi {
   @Override
   public List<ProjectInfo> children(boolean recursive) throws RestApiException {
     try {
-      return children.list().withRecursive(recursive).apply(checkExists());
+      return children.list().withRecursive(recursive).apply(checkExists()).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot list children", e);
     }
@@ -484,7 +484,7 @@ public class ProjectApiImpl implements ProjectApi {
   @Override
   public List<ProjectInfo> children(int limit) throws RestApiException {
     try {
-      return children.list().withLimit(limit).apply(checkExists());
+      return children.list().withLimit(limit).apply(checkExists()).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot list children", e);
     }
@@ -574,7 +574,7 @@ public class ProjectApiImpl implements ProjectApi {
       @Override
       public List<DashboardInfo> get() throws RestApiException {
         try {
-          List<?> r = listDashboards.get().apply(checkExists());
+          List<?> r = listDashboards.get().apply(checkExists()).value();
           if (r.isEmpty()) {
             return Collections.emptyList();
           }
@@ -592,7 +592,7 @@ public class ProjectApiImpl implements ProjectApi {
   @Override
   public String head() throws RestApiException {
     try {
-      return getHead.apply(checkExists());
+      return getHead.apply(checkExists()).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get HEAD", e);
     }
@@ -612,7 +612,7 @@ public class ProjectApiImpl implements ProjectApi {
   @Override
   public String parent() throws RestApiException {
     try {
-      return getParent.apply(checkExists());
+      return getParent.apply(checkExists()).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get parent", e);
     }

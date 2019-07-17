@@ -154,11 +154,36 @@ public abstract class Response<T> {
   }
 
   /** An HTTP redirect to another location. */
-  public static final class Redirect {
+  public static final class Redirect extends Response<Object> {
     private final String location;
 
     private Redirect(String url) {
       this.location = url;
+    }
+
+    @Override
+    public boolean isNone() {
+      return false;
+    }
+
+    @Override
+    public int statusCode() {
+      return 302;
+    }
+
+    @Override
+    public Object value() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public CacheControl caching() {
+      return CacheControl.NONE;
+    }
+
+    @Override
+    public Response<Object> caching(CacheControl c) {
+      throw new UnsupportedOperationException();
     }
 
     public String location() {
@@ -182,11 +207,36 @@ public abstract class Response<T> {
   }
 
   /** Accepted as task for asynchronous execution. */
-  public static final class Accepted {
+  public static final class Accepted extends Response<Object> {
     private final String location;
 
     private Accepted(String url) {
       this.location = url;
+    }
+
+    @Override
+    public boolean isNone() {
+      return false;
+    }
+
+    @Override
+    public int statusCode() {
+      return 202;
+    }
+
+    @Override
+    public Object value() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public CacheControl caching() {
+      return CacheControl.NONE;
+    }
+
+    @Override
+    public Response<Object> caching(CacheControl c) {
+      throw new UnsupportedOperationException();
     }
 
     public String location() {

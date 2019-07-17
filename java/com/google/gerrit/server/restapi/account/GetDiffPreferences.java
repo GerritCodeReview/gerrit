@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.account;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
@@ -48,16 +49,17 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
   }
 
   @Override
-  public DiffPreferencesInfo apply(AccountResource rsrc)
+  public Response<DiffPreferencesInfo> apply(AccountResource rsrc)
       throws RestApiException, ConfigInvalidException, IOException, PermissionBackendException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }
 
     Account.Id id = rsrc.getUser().getAccountId();
-    return accountCache
-        .get(id)
-        .map(AccountState::getDiffPreferences)
-        .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString())));
+    return Response.ok(
+        accountCache
+            .get(id)
+            .map(AccountState::getDiffPreferences)
+            .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString()))));
   }
 }

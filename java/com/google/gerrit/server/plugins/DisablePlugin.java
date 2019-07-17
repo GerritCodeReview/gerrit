@@ -18,6 +18,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.PluginInfo;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -44,7 +45,7 @@ public class DisablePlugin implements RestModifyView<PluginResource, Input> {
   }
 
   @Override
-  public PluginInfo apply(PluginResource resource, Input input) throws RestApiException {
+  public Response<PluginInfo> apply(PluginResource resource, Input input) throws RestApiException {
     try {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     } catch (PermissionBackendException e) {
@@ -56,6 +57,6 @@ public class DisablePlugin implements RestModifyView<PluginResource, Input> {
       throw new MethodNotAllowedException("Plugin " + name + " is mandatory");
     }
     loader.disablePlugins(ImmutableSet.of(name));
-    return ListPlugins.toPluginInfo(loader.get(name));
+    return Response.ok(ListPlugins.toPluginInfo(loader.get(name)));
   }
 }

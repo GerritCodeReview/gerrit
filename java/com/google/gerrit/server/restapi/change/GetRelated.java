@@ -22,6 +22,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.RelatedChangeAndCommitInfo;
 import com.google.gerrit.extensions.api.changes.RelatedChangesInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.reviewdb.client.Change;
@@ -68,12 +69,12 @@ public class GetRelated implements RestReadView<RevisionResource> {
   }
 
   @Override
-  public RelatedChangesInfo apply(RevisionResource rsrc)
+  public Response<RelatedChangesInfo> apply(RevisionResource rsrc)
       throws RepositoryNotFoundException, IOException, NoSuchProjectException,
           PermissionBackendException {
     RelatedChangesInfo relatedChangesInfo = new RelatedChangesInfo();
     relatedChangesInfo.changes = getRelated(rsrc);
-    return relatedChangesInfo;
+    return Response.ok(relatedChangesInfo);
   }
 
   private List<RelatedChangeAndCommitInfo> getRelated(RevisionResource rsrc)

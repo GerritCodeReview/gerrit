@@ -127,7 +127,7 @@ class ChangesImpl implements Changes {
     dynamicOptionParser.parseDynamicOptions(qc, q.getPluginOptions());
 
     try {
-      List<?> result = qc.apply(TopLevelResource.INSTANCE);
+      List<?> result = qc.apply(TopLevelResource.INSTANCE).value();
       if (result.isEmpty()) {
         return ImmutableList.of();
       }

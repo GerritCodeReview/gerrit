@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
@@ -60,7 +61,7 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
   }
 
   @Override
-  public GeneralPreferencesInfo apply(AccountResource rsrc, GeneralPreferencesInfo input)
+  public Response<GeneralPreferencesInfo> apply(AccountResource rsrc, GeneralPreferencesInfo input)
       throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
@@ -70,11 +71,12 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
     Preferences.validateMy(input.my);
     Account.Id id = rsrc.getUser().getAccountId();
 
-    return accountsUpdateProvider
-        .get()
-        .update("Set General Preferences via API", id, u -> u.setGeneralPreferences(input))
-        .map(AccountState::getGeneralPreferences)
-        .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString())));
+    return Response.ok(
+        accountsUpdateProvider
+            .get()
+            .update("Set General Preferences via API", id, u -> u.setGeneralPreferences(input))
+            .map(AccountState::getGeneralPreferences)
+            .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString()))));
   }
 
   private void checkDownloadScheme(String downloadScheme) throws BadRequestException {

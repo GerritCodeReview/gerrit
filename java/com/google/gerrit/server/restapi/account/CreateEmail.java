@@ -97,11 +97,11 @@ public class CreateEmail
       throw new MethodNotAllowedException("realm does not allow adding emails");
     }
 
-    return apply(rsrc.getUser(), id, input);
+    return Response.created(apply(rsrc.getUser(), id, input));
   }
 
   /** To be used from plugins that want to create emails without permission checks. */
-  public Response<EmailInfo> apply(IdentifiedUser user, IdString id, EmailInput input)
+  public EmailInfo apply(IdentifiedUser user, IdString id, EmailInput input)
       throws RestApiException, EmailException, MethodNotAllowedException, IOException,
           ConfigInvalidException, PermissionBackendException {
     String email = id.get().trim();
@@ -146,6 +146,6 @@ public class CreateEmail
         throw e;
       }
     }
-    return Response.created(info);
+    return info;
   }
 }

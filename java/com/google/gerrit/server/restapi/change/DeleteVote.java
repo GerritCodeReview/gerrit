@@ -64,7 +64,7 @@ import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
-public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteInput, Response<?>> {
+public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteInput, Object> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final ApprovalsUtil approvalsUtil;
@@ -102,7 +102,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
   }
 
   @Override
-  protected Response<?> applyImpl(
+  protected Response<Object> applyImpl(
       BatchUpdate.Factory updateFactory, VoteResource rsrc, DeleteVoteInput input)
       throws RestApiException, UpdateException, IOException, ConfigInvalidException {
     if (input == null) {

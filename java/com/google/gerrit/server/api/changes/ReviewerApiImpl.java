@@ -54,7 +54,7 @@ public class ReviewerApiImpl implements ReviewerApi {
   @Override
   public Map<String, Short> votes() throws RestApiException {
     try {
-      return listVotes.apply(reviewer);
+      return listVotes.apply(reviewer).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot list votes", e);
     }

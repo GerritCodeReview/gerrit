@@ -48,7 +48,7 @@ class ChangeMessageApiImpl implements ChangeMessageApi {
   @Override
   public ChangeMessageInfo get() throws RestApiException {
     try {
-      return getChangeMessage.apply(changeMessageResource);
+      return getChangeMessage.apply(changeMessageResource).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve change message", e);
     }

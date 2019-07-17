@@ -48,7 +48,7 @@ import java.util.Collections;
 
 @Singleton
 public class CreateDraftComment
-    extends RetryingRestModifyView<RevisionResource, DraftInput, Response<CommentInfo>> {
+    extends RetryingRestModifyView<RevisionResource, DraftInput, CommentInfo> {
   private final Provider<CommentJson> commentJson;
   private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;

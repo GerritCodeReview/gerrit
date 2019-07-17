@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -91,7 +92,7 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
   }
 
   @Override
-  public List<GroupInfo> apply(GroupResource resource, Input input)
+  public Response<List<GroupInfo>> apply(GroupResource resource, Input input)
       throws NotInternalGroupException, AuthException, UnprocessableEntityException,
           ResourceNotFoundException, IOException, ConfigInvalidException,
           PermissionBackendException {
@@ -118,7 +119,7 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
     } catch (NoSuchGroupException e) {
       throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
     }
-    return result;
+    return Response.ok(result);
   }
 
   private void addSubgroups(
@@ -142,15 +143,15 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
     }
 
     @Override
-    public GroupInfo apply(GroupResource resource, IdString id, Input input)
+    public Response<GroupInfo> apply(GroupResource resource, IdString id, Input input)
         throws AuthException, MethodNotAllowedException, ResourceNotFoundException, IOException,
             ConfigInvalidException, PermissionBackendException {
       AddSubgroups.Input in = new AddSubgroups.Input();
       in.groups = ImmutableList.of(id.get());
       try {
-        List<GroupInfo> list = addSubgroups.apply(resource, in);
+        List<GroupInfo> list = addSubgroups.apply(resource, in).value();
         if (list.size() == 1) {
-          return list.get(0);
+          return Response.created(list.get(0));
         }
         throw new IllegalStateException();
       } catch (UnprocessableEntityException e) {
@@ -169,7 +170,7 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
     }
 
     @Override
-    public GroupInfo apply(SubgroupResource resource, Input input)
+    public Response<GroupInfo> apply(SubgroupResource resource, Input input)
         throws PermissionBackendException {
       // Do nothing, the group is already included.
       return get.get().apply(resource);

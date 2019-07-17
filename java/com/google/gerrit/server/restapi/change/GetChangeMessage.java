@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.ChangeMessageResource;
 import com.google.inject.Singleton;
@@ -23,7 +24,7 @@ import com.google.inject.Singleton;
 @Singleton
 public class GetChangeMessage implements RestReadView<ChangeMessageResource> {
   @Override
-  public ChangeMessageInfo apply(ChangeMessageResource resource) {
-    return resource.getChangeMessage();
+  public Response<ChangeMessageInfo> apply(ChangeMessageResource resource) {
+    return Response.ok(resource.getChangeMessage());
   }
 }

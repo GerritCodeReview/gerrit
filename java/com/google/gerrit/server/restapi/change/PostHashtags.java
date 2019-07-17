@@ -33,8 +33,7 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class PostHashtags
-    extends RetryingRestModifyView<
-        ChangeResource, HashtagsInput, Response<ImmutableSortedSet<String>>>
+    extends RetryingRestModifyView<ChangeResource, HashtagsInput, ImmutableSortedSet<String>>
     implements UiAction<ChangeResource> {
   private final SetHashtagsOp.Factory hashtagsFactory;
 

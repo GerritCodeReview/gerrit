@@ -67,7 +67,7 @@ public class DashboardApiImpl implements DashboardApi {
   @Override
   public DashboardInfo get(boolean inherited) throws RestApiException {
     try {
-      return get.get().setInherited(inherited).apply(resource());
+      return get.get().setInherited(inherited).apply(resource()).value();
     } catch (IOException | PermissionBackendException | ConfigInvalidException e) {
       throw asRestApiException("Cannot read dashboard", e);
     }

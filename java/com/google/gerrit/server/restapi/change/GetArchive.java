@@ -20,6 +20,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.change.RevisionResource;
@@ -48,7 +49,7 @@ public class GetArchive implements RestReadView<RevisionResource> {
   }
 
   @Override
-  public BinaryResult apply(RevisionResource rsrc)
+  public Response<BinaryResult> apply(RevisionResource rsrc)
       throws BadRequestException, IOException, MethodNotAllowedException {
     if (Strings.isNullOrEmpty(format)) {
       throw new BadRequestException("format is not specified");
@@ -94,7 +95,7 @@ public class GetArchive implements RestReadView<RevisionResource> {
       bin.disableGzip().setContentType(f.getMimeType()).setAttachmentName(name);
 
       close = false;
-      return bin;
+      return Response.ok(bin);
     } finally {
       if (close) {
         repo.close();

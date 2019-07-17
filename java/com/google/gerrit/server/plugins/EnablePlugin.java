@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.PluginInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.inject.Inject;
@@ -39,7 +40,7 @@ public class EnablePlugin implements RestModifyView<PluginResource, Input> {
   }
 
   @Override
-  public PluginInfo apply(PluginResource resource, Input input) throws RestApiException {
+  public Response<PluginInfo> apply(PluginResource resource, Input input) throws RestApiException {
     loader.checkRemoteAdminEnabled();
     String name = resource.getName();
     try {
@@ -52,6 +53,6 @@ public class EnablePlugin implements RestModifyView<PluginResource, Input> {
       pw.flush();
       throw new ResourceConflictException(buf.toString());
     }
-    return ListPlugins.toPluginInfo(loader.get(name));
+    return Response.ok(ListPlugins.toPluginInfo(loader.get(name)));
   }
 }

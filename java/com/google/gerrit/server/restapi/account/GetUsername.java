@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.account;
 
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.inject.Inject;
@@ -27,7 +28,8 @@ public class GetUsername implements RestReadView<AccountResource> {
   public GetUsername() {}
 
   @Override
-  public String apply(AccountResource rsrc) throws AuthException, ResourceNotFoundException {
-    return rsrc.getUser().getUserName().orElseThrow(ResourceNotFoundException::new);
+  public Response<String> apply(AccountResource rsrc)
+      throws AuthException, ResourceNotFoundException {
+    return Response.ok(rsrc.getUser().getUserName().orElseThrow(ResourceNotFoundException::new));
   }
 }

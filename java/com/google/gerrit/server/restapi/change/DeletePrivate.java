@@ -36,7 +36,7 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class DeletePrivate
-    extends RetryingRestModifyView<ChangeResource, SetPrivateOp.Input, Response<String>> {
+    extends RetryingRestModifyView<ChangeResource, SetPrivateOp.Input, String> {
   private final PermissionBackend permissionBackend;
   private final SetPrivateOp.Factory setPrivateOpFactory;
 

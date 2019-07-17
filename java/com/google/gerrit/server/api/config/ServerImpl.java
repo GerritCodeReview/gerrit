@@ -83,7 +83,7 @@ public class ServerImpl implements Server {
   @Override
   public ServerInfo getInfo() throws RestApiException {
     try {
-      return getServerInfo.apply(new ConfigResource());
+      return getServerInfo.apply(new ConfigResource()).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get server info", e);
     }
@@ -92,7 +92,7 @@ public class ServerImpl implements Server {
   @Override
   public GeneralPreferencesInfo getDefaultPreferences() throws RestApiException {
     try {
-      return getPreferences.apply(new ConfigResource());
+      return getPreferences.apply(new ConfigResource()).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get default general preferences", e);
     }
@@ -102,7 +102,7 @@ public class ServerImpl implements Server {
   public GeneralPreferencesInfo setDefaultPreferences(GeneralPreferencesInfo in)
       throws RestApiException {
     try {
-      return setPreferences.apply(new ConfigResource(), in);
+      return setPreferences.apply(new ConfigResource(), in).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot set default general preferences", e);
     }
@@ -111,7 +111,7 @@ public class ServerImpl implements Server {
   @Override
   public DiffPreferencesInfo getDefaultDiffPreferences() throws RestApiException {
     try {
-      return getDiffPreferences.apply(new ConfigResource());
+      return getDiffPreferences.apply(new ConfigResource()).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get default diff preferences", e);
     }
@@ -121,7 +121,7 @@ public class ServerImpl implements Server {
   public DiffPreferencesInfo setDefaultDiffPreferences(DiffPreferencesInfo in)
       throws RestApiException {
     try {
-      return setDiffPreferences.apply(new ConfigResource(), in);
+      return setDiffPreferences.apply(new ConfigResource(), in).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot set default diff preferences", e);
     }
@@ -130,7 +130,7 @@ public class ServerImpl implements Server {
   @Override
   public EditPreferencesInfo getDefaultEditPreferences() throws RestApiException {
     try {
-      return getEditPreferences.apply(new ConfigResource());
+      return getEditPreferences.apply(new ConfigResource()).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get default edit preferences", e);
     }
@@ -140,7 +140,7 @@ public class ServerImpl implements Server {
   public EditPreferencesInfo setDefaultEditPreferences(EditPreferencesInfo in)
       throws RestApiException {
     try {
-      return setEditPreferences.apply(new ConfigResource(), in);
+      return setEditPreferences.apply(new ConfigResource(), in).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot set default edit preferences", e);
     }
@@ -149,7 +149,7 @@ public class ServerImpl implements Server {
   @Override
   public ConsistencyCheckInfo checkConsistency(ConsistencyCheckInput in) throws RestApiException {
     try {
-      return checkConsistency.get().apply(new ConfigResource(), in);
+      return checkConsistency.get().apply(new ConfigResource(), in).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot check consistency", e);
     }

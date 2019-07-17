@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.plugins.Plugins;
 import com.google.gerrit.extensions.common.PluginInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
@@ -111,7 +112,8 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
   }
 
   @Override
-  public SortedMap<String, PluginInfo> apply(TopLevelResource resource) throws BadRequestException {
+  public Response<SortedMap<String, PluginInfo>> apply(TopLevelResource resource)
+      throws BadRequestException {
     Stream<Plugin> s = Streams.stream(pluginLoader.getPlugins(all));
     if (matchPrefix != null) {
       checkMatchOptions(matchSubstring == null && matchRegex == null);
@@ -132,7 +134,7 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     if (limit > 0) {
       s = s.limit(limit);
     }
-    return new TreeMap<>(s.collect(toMap(Plugin::getName, ListPlugins::toPluginInfo)));
+    return Response.ok(new TreeMap<>(s.collect(toMap(Plugin::getName, ListPlugins::toPluginInfo))));
   }
 
   private void checkMatchOptions(boolean cond) throws BadRequestException {

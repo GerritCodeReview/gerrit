@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.ChangeJson;
@@ -107,14 +108,14 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public Object apply(ChangeResource resource)
+  public Response<Object> apply(ChangeResource resource)
       throws AuthException, BadRequestException, ResourceConflictException, IOException,
           PermissionBackendException {
     SubmittedTogetherInfo info = applyInfo(resource);
     if (options.isEmpty()) {
-      return info.changes;
+      return Response.ok(info.changes);
     }
-    return info;
+    return Response.ok(info);
   }
 
   public SubmittedTogetherInfo applyInfo(ChangeResource resource)

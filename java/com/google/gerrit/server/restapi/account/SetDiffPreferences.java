@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
@@ -53,7 +54,7 @@ public class SetDiffPreferences implements RestModifyView<AccountResource, DiffP
   }
 
   @Override
-  public DiffPreferencesInfo apply(AccountResource rsrc, DiffPreferencesInfo input)
+  public Response<DiffPreferencesInfo> apply(AccountResource rsrc, DiffPreferencesInfo input)
       throws RestApiException, ConfigInvalidException, RepositoryNotFoundException, IOException,
           PermissionBackendException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
@@ -65,10 +66,11 @@ public class SetDiffPreferences implements RestModifyView<AccountResource, DiffP
     }
 
     Account.Id id = rsrc.getUser().getAccountId();
-    return accountsUpdateProvider
-        .get()
-        .update("Set Diff Preferences via API", id, u -> u.setDiffPreferences(input))
-        .map(AccountState::getDiffPreferences)
-        .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString())));
+    return Response.ok(
+        accountsUpdateProvider
+            .get()
+            .update("Set Diff Preferences via API", id, u -> u.setDiffPreferences(input))
+            .map(AccountState::getDiffPreferences)
+            .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString()))));
   }
 }

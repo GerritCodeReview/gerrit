@@ -59,7 +59,7 @@ public class PluginsImpl implements Plugins {
     return new ListRequest() {
       @Override
       public SortedMap<String, PluginInfo> getAsMap() throws RestApiException {
-        return listProvider.get().request(this).apply(TopLevelResource.INSTANCE);
+        return listProvider.get().request(this).apply(TopLevelResource.INSTANCE).value();
       }
     };
   }

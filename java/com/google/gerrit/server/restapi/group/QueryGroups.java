@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.index.query.QueryParseException;
@@ -94,7 +95,7 @@ public class QueryGroups implements RestReadView<TopLevelResource> {
   }
 
   @Override
-  public List<GroupInfo> apply(TopLevelResource resource)
+  public Response<List<GroupInfo>> apply(TopLevelResource resource)
       throws BadRequestException, MethodNotAllowedException, PermissionBackendException {
     if (Strings.isNullOrEmpty(query)) {
       throw new BadRequestException("missing query field");
@@ -124,7 +125,7 @@ public class QueryGroups implements RestReadView<TopLevelResource> {
       if (!groupInfos.isEmpty() && result.more()) {
         groupInfos.get(groupInfos.size() - 1)._moreGroups = true;
       }
-      return groupInfos;
+      return Response.ok(groupInfos);
     } catch (QueryParseException e) {
       throw new BadRequestException(e.getMessage());
     }

@@ -141,7 +141,7 @@ public class SetReviewersCommand extends SshCommand {
       input.confirmed = true;
       String error;
       try {
-        error = postReviewers.apply(changeRsrc, input).error;
+        error = postReviewers.apply(changeRsrc, input).value().error;
       } catch (Exception e) {
         error = String.format("could not add %s: %s", reviewer, e.getMessage());
       }

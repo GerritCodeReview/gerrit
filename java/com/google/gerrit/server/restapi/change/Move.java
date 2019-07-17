@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.BranchNameKey;
@@ -114,7 +115,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
   }
 
   @Override
-  protected ChangeInfo applyImpl(
+  protected Response<ChangeInfo> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, MoveInput input)
       throws RestApiException, UpdateException, PermissionBackendException, IOException {
     if (!moveEnabled) {
@@ -157,7 +158,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       u.addOp(change.getId(), op);
       u.execute();
     }
-    return json.noOptions().format(op.getChange());
+    return Response.ok(json.noOptions().format(op.getChange()));
   }
 
   private class Op implements BatchUpdateOp {

@@ -30,7 +30,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 
 @Singleton
-public class Index extends RetryingRestModifyView<ChangeResource, Input, Response<?>> {
+public class Index extends RetryingRestModifyView<ChangeResource, Input, Object> {
   private final PermissionBackend permissionBackend;
   private final ChangeIndexer indexer;
 
@@ -42,7 +42,7 @@ public class Index extends RetryingRestModifyView<ChangeResource, Input, Respons
   }
 
   @Override
-  protected Response<?> applyImpl(
+  protected Response<Object> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input input)
       throws IOException, AuthException, PermissionBackendException {
     permissionBackend.currentUser().check(GlobalPermission.MAINTAIN_SERVER);

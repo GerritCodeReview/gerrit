@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -37,8 +38,8 @@ public class ChangeIncludedIn implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public IncludedInInfo apply(ChangeResource rsrc) throws RestApiException, IOException {
+  public Response<IncludedInInfo> apply(ChangeResource rsrc) throws RestApiException, IOException {
     PatchSet ps = psUtil.current(rsrc.getNotes());
-    return includedIn.apply(rsrc.getProject(), ps.commitId().name());
+    return Response.ok(includedIn.apply(rsrc.getProject(), ps.commitId().name()));
   }
 }

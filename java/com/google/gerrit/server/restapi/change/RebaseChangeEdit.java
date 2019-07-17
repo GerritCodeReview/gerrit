@@ -33,7 +33,7 @@ import java.io.IOException;
 import org.eclipse.jgit.lib.Repository;
 
 @Singleton
-public class RebaseChangeEdit extends RetryingRestModifyView<ChangeResource, Input, Response<?>> {
+public class RebaseChangeEdit extends RetryingRestModifyView<ChangeResource, Input, Object> {
   private final GitRepositoryManager repositoryManager;
   private final ChangeEditModifier editModifier;
 
@@ -48,7 +48,8 @@ public class RebaseChangeEdit extends RetryingRestModifyView<ChangeResource, Inp
   }
 
   @Override
-  protected Response<?> applyImpl(BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input in)
+  protected Response<Object> applyImpl(
+      BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input in)
       throws AuthException, ResourceConflictException, IOException, PermissionBackendException {
     Project.NameKey project = rsrc.getProject();
     try (Repository repository = repositoryManager.openRepository(project)) {

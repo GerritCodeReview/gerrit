@@ -49,7 +49,7 @@ import java.util.Optional;
 
 @Singleton
 public class PutDraftComment
-    extends RetryingRestModifyView<DraftCommentResource, DraftInput, Response<CommentInfo>> {
+    extends RetryingRestModifyView<DraftCommentResource, DraftInput, CommentInfo> {
 
   private final DeleteDraftComment delete;
   private final CommentsUtil commentsUtil;

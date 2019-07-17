@@ -19,6 +19,7 @@ import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.config.CapabilityConstants;
 import com.google.gerrit.server.config.ConfigResource;
@@ -43,13 +44,14 @@ public class ListCapabilities implements RestReadView<ConfigResource> {
   }
 
   @Override
-  public Map<String, CapabilityInfo> apply(ConfigResource resource)
+  public Response<Map<String, CapabilityInfo>> apply(ConfigResource resource)
       throws ResourceNotFoundException, IllegalAccessException, NoSuchFieldException {
     permissionBackend.checkUsesDefaultCapabilities();
-    return ImmutableMap.<String, CapabilityInfo>builder()
-        .putAll(collectCoreCapabilities())
-        .putAll(collectPluginCapabilities())
-        .build();
+    return Response.ok(
+        ImmutableMap.<String, CapabilityInfo>builder()
+            .putAll(collectCoreCapabilities())
+            .putAll(collectPluginCapabilities())
+            .build());
   }
 
   public Map<String, CapabilityInfo> collectPluginCapabilities() {

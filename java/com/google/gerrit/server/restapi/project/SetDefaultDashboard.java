@@ -119,9 +119,9 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
       cache.evict(rsrc.getProjectState().getProject());
 
       if (target != null) {
-        DashboardInfo info = get.get().apply(target);
-        info.isDefault = true;
-        return Response.ok(info);
+        Response<DashboardInfo> response = get.get().apply(target);
+        response.value().isDefault = true;
+        return response;
       }
       return Response.none();
     } catch (RepositoryNotFoundException notFound) {

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.config;
 
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.account.Preferences;
 import com.google.gerrit.server.config.AllUsersName;
@@ -38,10 +39,10 @@ public class GetPreferences implements RestReadView<ConfigResource> {
   }
 
   @Override
-  public GeneralPreferencesInfo apply(ConfigResource rsrc)
+  public Response<GeneralPreferencesInfo> apply(ConfigResource rsrc)
       throws IOException, ConfigInvalidException {
     try (Repository git = gitMgr.openRepository(allUsersName)) {
-      return Preferences.readDefaultGeneralPreferences(allUsersName, git);
+      return Response.ok(Preferences.readDefaultGeneralPreferences(allUsersName, git));
     }
   }
 }

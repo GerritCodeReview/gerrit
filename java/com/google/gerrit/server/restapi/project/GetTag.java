@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.gerrit.extensions.api.projects.TagInfo;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.project.TagResource;
 import com.google.inject.Singleton;
@@ -23,7 +24,7 @@ import com.google.inject.Singleton;
 public class GetTag implements RestReadView<TagResource> {
 
   @Override
-  public TagInfo apply(TagResource resource) {
-    return resource.getTagInfo();
+  public Response<TagInfo> apply(TagResource resource) {
+    return Response.ok(resource.getTagInfo());
   }
 }

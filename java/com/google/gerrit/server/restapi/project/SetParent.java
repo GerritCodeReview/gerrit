@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
@@ -84,11 +85,11 @@ public class SetParent
   }
 
   @Override
-  public String apply(ProjectResource rsrc, ParentInput input)
+  public Response<String> apply(ProjectResource rsrc, ParentInput input)
       throws AuthException, ResourceConflictException, ResourceNotFoundException,
           UnprocessableEntityException, IOException, PermissionBackendException,
           BadRequestException {
-    return apply(rsrc, input, true);
+    return Response.ok(apply(rsrc, input, true));
   }
 
   public String apply(ProjectResource rsrc, ParentInput input, boolean checkIfAdmin)

@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
@@ -123,11 +124,11 @@ public class GetAccess implements RestReadView<ProjectResource> {
     if (state == null) {
       throw new ResourceNotFoundException(nameKey.get());
     }
-    return apply(new ProjectResource(state, user.get()));
+    return apply(new ProjectResource(state, user.get())).value();
   }
 
   @Override
-  public ProjectAccessInfo apply(ProjectResource rsrc)
+  public Response<ProjectAccessInfo> apply(ProjectResource rsrc)
       throws ResourceNotFoundException, ResourceConflictException, IOException,
           PermissionBackendException {
     // Load the current configuration from the repository, ensuring it's the most
@@ -275,7 +276,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
             .filter(e -> e.getValue() != null)
             .collect(toMap(e -> e.getKey().get(), Map.Entry::getValue));
 
-    return info;
+    return Response.ok(info);
   }
 
   private void loadGroup(Map<AccountGroup.UUID, GroupInfo> groups, AccountGroup.UUID id) {

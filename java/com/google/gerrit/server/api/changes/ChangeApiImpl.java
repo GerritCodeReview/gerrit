@@ -351,7 +351,7 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public ChangeApi revert(RevertInput in) throws RestApiException {
     try {
-      return changeApi.id(revert.apply(change, in)._number);
+      return changeApi.id(revert.apply(change, in).value()._number);
     } catch (Exception e) {
       throw asRestApiException("Cannot revert change", e);
     }
@@ -401,7 +401,7 @@ class ChangeApiImpl implements ChangeApi {
 
   @Override
   public String topic() throws RestApiException {
-    return getTopic.apply(change);
+    return getTopic.apply(change).value();
   }
 
   @Override
@@ -418,7 +418,7 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public IncludedInInfo includedIn() throws RestApiException {
     try {
-      return includedIn.apply(change);
+      return includedIn.apply(change).value();
     } catch (Exception e) {
       throw asRestApiException("Could not extract IncludedIn data", e);
     }
@@ -427,7 +427,7 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public AddReviewerResult addReviewer(AddReviewerInput in) throws RestApiException {
     try {
-      return postReviewers.apply(change, in);
+      return postReviewers.apply(change, in).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot add change reviewer", e);
     }
@@ -448,7 +448,7 @@ class ChangeApiImpl implements ChangeApi {
     try {
       suggestReviewers.setQuery(r.getQuery());
       suggestReviewers.setLimit(r.getLimit());
-      return suggestReviewers.apply(change);
+      return suggestReviewers.apply(change).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve suggested reviewers", e);
     }
@@ -457,7 +457,7 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public List<ReviewerInfo> reviewers() throws RestApiException {
     try {
-      return listReviewers.apply(change);
+      return listReviewers.apply(change).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve reviewers", e);
     }
@@ -512,7 +512,7 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public AccountInfo setAssignee(AssigneeInput input) throws RestApiException {
     try {
-      return putAssignee.apply(change, input);
+      return putAssignee.apply(change, input).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot set assignee", e);
     }
@@ -550,7 +550,7 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public Map<String, List<CommentInfo>> comments() throws RestApiException {
     try {
-      return listComments.apply(change);
+      return listComments.apply(change).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get comments", e);
     }
@@ -559,7 +559,7 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public Map<String, List<RobotCommentInfo>> robotComments() throws RestApiException {
     try {
-      return listChangeRobotComments.apply(change);
+      return listChangeRobotComments.apply(change).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get robot comments", e);
     }
@@ -568,7 +568,7 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public Map<String, List<CommentInfo>> drafts() throws RestApiException {
     try {
-      return listDrafts.apply(change);
+      return listDrafts.apply(change).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get drafts", e);
     }
@@ -653,7 +653,7 @@ class ChangeApiImpl implements ChangeApi {
     try {
       GetPureRevert getPureRevert = getPureRevertProvider.get();
       getPureRevert.setClaimedOriginal(claimedOriginal);
-      return getPureRevert.apply(change);
+      return getPureRevert.apply(change).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot compute pure revert", e);
     }
@@ -662,7 +662,7 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public List<ChangeMessageInfo> messages() throws RestApiException {
     try {
-      return changeMessages.list().apply(change);
+      return changeMessages.list().apply(change).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot list change messages", e);
     }

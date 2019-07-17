@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.common.CherryPickChangeInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.BranchNameKey;
@@ -75,7 +76,7 @@ public class CherryPick
   }
 
   @Override
-  public CherryPickChangeInfo applyImpl(
+  public Response<CherryPickChangeInfo> applyImpl(
       BatchUpdate.Factory updateFactory, RevisionResource rsrc, CherryPickInput input)
       throws IOException, UpdateException, RestApiException, PermissionBackendException,
           ConfigInvalidException, NoSuchProjectException {
@@ -109,7 +110,7 @@ public class CherryPick
               .format(rsrc.getProject(), cherryPickResult.changeId(), CherryPickChangeInfo::new);
       changeInfo.containsGitConflicts =
           !cherryPickResult.filesWithGitConflicts().isEmpty() ? true : null;
-      return changeInfo;
+      return Response.ok(changeInfo);
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());
     } catch (IntegrationException | NoSuchChangeException e) {

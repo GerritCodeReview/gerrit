@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
@@ -65,7 +66,7 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
   }
 
   @Override
-  public List<ProjectInfo> apply(ProjectResource rsrc)
+  public Response<List<ProjectInfo>> apply(ProjectResource rsrc)
       throws PermissionBackendException, RestApiException {
     if (limit < 0) {
       throw new BadRequestException("limit must be a positive number");
@@ -75,10 +76,10 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
     }
     rsrc.getProjectState().checkStatePermitsRead();
     if (recursive) {
-      return childProjects.list(rsrc.getNameKey());
+      return Response.ok(childProjects.list(rsrc.getNameKey()));
     }
 
-    return directChildProjects(rsrc.getNameKey());
+    return Response.ok(directChildProjects(rsrc.getNameKey()));
   }
 
   private List<ProjectInfo> directChildProjects(Project.NameKey parent) throws RestApiException {

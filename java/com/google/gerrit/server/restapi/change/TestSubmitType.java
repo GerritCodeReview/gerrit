@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput.Filters;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.RevisionResource;
@@ -50,7 +51,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
   }
 
   @Override
-  public SubmitType apply(RevisionResource rsrc, TestSubmitRuleInput input)
+  public Response<SubmitType> apply(RevisionResource rsrc, TestSubmitRuleInput input)
       throws AuthException, BadRequestException {
     if (input == null) {
       input = new TestSubmitRuleInput();
@@ -75,7 +76,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
       throw new BadRequestException(String.format("rule produced invalid result: %s", rec));
     }
 
-    return rec.type;
+    return Response.ok(rec.type);
   }
 
   public static class Get implements RestReadView<RevisionResource> {
@@ -87,7 +88,8 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
     }
 
     @Override
-    public SubmitType apply(RevisionResource resource) throws AuthException, BadRequestException {
+    public Response<SubmitType> apply(RevisionResource resource)
+        throws AuthException, BadRequestException {
       return test.apply(resource, null);
     }
   }

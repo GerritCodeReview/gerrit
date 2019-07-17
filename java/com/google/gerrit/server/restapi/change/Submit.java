@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -173,7 +174,7 @@ public class Submit
   }
 
   @Override
-  public Output apply(RevisionResource rsrc, SubmitInput input)
+  public Response<Output> apply(RevisionResource rsrc, SubmitInput input)
       throws RestApiException, RepositoryNotFoundException, IOException, PermissionBackendException,
           UpdateException, ConfigInvalidException {
     input.onBehalfOf = Strings.emptyToNull(input.onBehalfOf);
@@ -186,7 +187,7 @@ public class Submit
     }
     projectCache.checkedGet(rsrc.getProject()).checkStatePermitsWrite();
 
-    return new Output(mergeChange(rsrc, submitter, input));
+    return Response.ok(new Output(mergeChange(rsrc, submitter, input)));
   }
 
   public Change mergeChange(RevisionResource rsrc, IdentifiedUser submitter, SubmitInput input)
@@ -463,7 +464,7 @@ public class Submit
     }
 
     @Override
-    public ChangeInfo apply(ChangeResource rsrc, SubmitInput input)
+    public Response<ChangeInfo> apply(ChangeResource rsrc, SubmitInput input)
         throws RestApiException, RepositoryNotFoundException, IOException,
             PermissionBackendException, UpdateException, ConfigInvalidException {
       PatchSet ps = psUtil.current(rsrc.getNotes());
@@ -471,8 +472,8 @@ public class Submit
         throw new ResourceConflictException("current revision is missing");
       }
 
-      Output out = submit.apply(new RevisionResource(rsrc, ps), input);
-      return json.noOptions().format(out.change);
+      Output out = submit.apply(new RevisionResource(rsrc, ps), input).value();
+      return Response.ok(json.noOptions().format(out.change));
     }
   }
 }

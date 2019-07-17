@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -147,14 +148,14 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
   }
 
   @Override
-  public List<AccountInfo> apply(TopLevelResource rsrc)
+  public Response<List<AccountInfo>> apply(TopLevelResource rsrc)
       throws RestApiException, PermissionBackendException {
     if (Strings.isNullOrEmpty(query)) {
       throw new BadRequestException("missing query field");
     }
 
     if (suggest && (!suggestConfig || query.length() < suggestFrom)) {
-      return Collections.emptyList();
+      return Response.ok(Collections.emptyList());
     }
 
     Set<FillOptions> fillOptions = EnumSet.of(FillOptions.ID);
@@ -220,10 +221,10 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       if (!sorted.isEmpty() && result.more()) {
         sorted.get(sorted.size() - 1)._moreAccounts = true;
       }
-      return sorted;
+      return Response.ok(sorted);
     } catch (QueryParseException e) {
       if (suggest) {
-        return ImmutableList.of();
+        return Response.ok(ImmutableList.of());
       }
       throw new BadRequestException(e.getMessage());
     }

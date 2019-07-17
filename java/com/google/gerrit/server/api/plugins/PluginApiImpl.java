@@ -53,7 +53,7 @@ public class PluginApiImpl implements PluginApi {
 
   @Override
   public PluginInfo get() throws RestApiException {
-    return getStatus.apply(resource);
+    return getStatus.apply(resource).value();
   }
 
   @Override

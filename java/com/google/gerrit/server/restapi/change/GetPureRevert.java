@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.common.PureRevertInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.PureRevert;
@@ -46,9 +47,9 @@ public class GetPureRevert implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public PureRevertInfo apply(ChangeResource rsrc)
+  public Response<PureRevertInfo> apply(ChangeResource rsrc)
       throws ResourceConflictException, IOException, BadRequestException, AuthException {
     boolean isPureRevert = pureRevert.get(rsrc.getNotes(), Optional.ofNullable(claimedOriginal));
-    return new PureRevertInfo(isPureRevert);
+    return Response.ok(new PureRevertInfo(isPureRevert));
   }
 }

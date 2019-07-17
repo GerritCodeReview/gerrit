@@ -90,7 +90,7 @@ public class BranchApiImpl implements BranchApi {
   @Override
   public BranchInfo get() throws RestApiException {
     try {
-      return getBranch.apply(resource());
+      return getBranch.apply(resource()).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot read branch", e);
     }
@@ -109,7 +109,7 @@ public class BranchApiImpl implements BranchApi {
   public BinaryResult file(String path) throws RestApiException {
     try {
       FileResource resource = filesCollection.parse(resource(), IdString.fromDecoded(path));
-      return getContent.apply(resource);
+      return getContent.apply(resource).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve file", e);
     }
@@ -118,7 +118,7 @@ public class BranchApiImpl implements BranchApi {
   @Override
   public List<ReflogEntryInfo> reflog() throws RestApiException {
     try {
-      return getReflog.apply(resource());
+      return getReflog.apply(resource()).value();
     } catch (IOException | PermissionBackendException e) {
       throw new RestApiException("Cannot retrieve reflog", e);
     }

@@ -19,6 +19,7 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
@@ -67,7 +68,7 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
   }
 
   @Override
-  protected ChangeInfo applyImpl(
+  protected Response<ChangeInfo> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, AbandonInput input)
       throws RestApiException, UpdateException, PermissionBackendException, IOException,
           ConfigInvalidException {
@@ -84,7 +85,7 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
             rsrc.getUser(),
             input.message,
             notifyResolver.resolve(notify, input.notifyDetails));
-    return json.noOptions().format(change);
+    return Response.ok(json.noOptions().format(change));
   }
 
   private NotifyHandling defaultNotify(Change change) {

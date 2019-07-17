@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -86,7 +87,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
   }
 
   @Override
-  public MergeableInfo apply(RevisionResource resource)
+  public Response<MergeableInfo> apply(RevisionResource resource)
       throws AuthException, ResourceConflictException, BadRequestException, IOException {
     Change change = resource.getChange();
     PatchSet ps = resource.getPatchSet();
@@ -96,7 +97,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
     } else if (!ps.id().equals(change.currentPatchSetId())) {
       // Only the current revision is mergeable. Others always fail.
-      return result;
+      return Response.ok(result);
     }
 
     ChangeData cd = changeDataFactory.create(resource.getNotes());
@@ -129,7 +130,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
         }
       }
     }
-    return result;
+    return Response.ok(result);
   }
 
   private SubmitType getSubmitType(ChangeData cd) {

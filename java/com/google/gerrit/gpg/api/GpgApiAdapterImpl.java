@@ -65,7 +65,7 @@ public class GpgApiAdapterImpl implements GpgApiAdapter {
   public Map<String, GpgKeyInfo> listGpgKeys(AccountResource account)
       throws RestApiException, GpgException {
     try {
-      return gpgKeys.get().list().apply(account);
+      return gpgKeys.get().list().apply(account).value();
     } catch (PGPException | IOException e) {
       throw new GpgException(e);
     }
@@ -79,7 +79,7 @@ public class GpgApiAdapterImpl implements GpgApiAdapter {
     in.add = add;
     in.delete = delete;
     try {
-      return postGpgKeys.get().apply(account, in);
+      return postGpgKeys.get().apply(account, in).value();
     } catch (PGPException | IOException | ConfigInvalidException e) {
       throw new GpgException(e);
     }

@@ -35,6 +35,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
@@ -303,16 +304,17 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   }
 
   @Override
-  public Object apply(TopLevelResource resource)
+  public Response<Object> apply(TopLevelResource resource)
       throws BadRequestException, PermissionBackendException {
     if (format == OutputFormat.TEXT) {
       ByteArrayOutputStream buf = new ByteArrayOutputStream();
       displayToStream(buf);
-      return BinaryResult.create(buf.toByteArray())
-          .setContentType("text/plain")
-          .setCharacterEncoding(UTF_8);
+      return Response.ok(
+          BinaryResult.create(buf.toByteArray())
+              .setContentType("text/plain")
+              .setCharacterEncoding(UTF_8));
     }
-    return apply();
+    return Response.ok(apply());
   }
 
   public SortedMap<String, ProjectInfo> apply()

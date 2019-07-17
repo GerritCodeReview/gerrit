@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput.Filters;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.RevisionResource;
@@ -68,7 +69,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
   }
 
   @Override
-  public List<TestSubmitRuleInfo> apply(RevisionResource rsrc, TestSubmitRuleInput input)
+  public Response<List<TestSubmitRuleInfo>> apply(RevisionResource rsrc, TestSubmitRuleInput input)
       throws AuthException, PermissionBackendException, BadRequestException {
     if (input == null) {
       input = new TestSubmitRuleInput();
@@ -106,7 +107,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
       out.add(newSubmitRuleInfo(r, accounts));
     }
     accounts.fill();
-    return out;
+    return Response.ok(out);
   }
 
   private static TestSubmitRuleInfo newSubmitRuleInfo(SubmitRecord r, AccountLoader accounts) {

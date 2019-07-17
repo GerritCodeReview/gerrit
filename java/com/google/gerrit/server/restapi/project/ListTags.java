@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
@@ -116,7 +117,7 @@ public class ListTags implements RestReadView<ProjectResource> {
   }
 
   @Override
-  public ImmutableList<TagInfo> apply(ProjectResource resource)
+  public Response<ImmutableList<TagInfo>> apply(ProjectResource resource)
       throws IOException, ResourceNotFoundException, RestApiException, PermissionBackendException {
     resource.getProjectState().checkStatePermitsRead();
 
@@ -137,12 +138,13 @@ public class ListTags implements RestReadView<ProjectResource> {
 
     tags.sort(comparing(t -> t.ref));
 
-    return new RefFilter<TagInfo>(Constants.R_TAGS)
-        .start(start)
-        .limit(limit)
-        .subString(matchSubstring)
-        .regex(matchRegex)
-        .filter(tags);
+    return Response.ok(
+        new RefFilter<TagInfo>(Constants.R_TAGS)
+            .start(start)
+            .limit(limit)
+            .subString(matchSubstring)
+            .regex(matchRegex)
+            .filter(tags));
   }
 
   public TagInfo get(ProjectResource resource, IdString id)

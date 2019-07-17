@@ -94,7 +94,7 @@ final class ShowQueue extends SshCommand {
 
     List<TaskInfo> tasks;
     try {
-      tasks = listTasks.apply(new ConfigResource());
+      tasks = listTasks.apply(new ConfigResource()).value();
     } catch (AuthException e) {
       throw die(e);
     } catch (PermissionBackendException e) {

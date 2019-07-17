@@ -92,6 +92,8 @@ public class PutUsername implements RestModifyView<AccountResource, UsernameInpu
     }
 
     if (Strings.isNullOrEmpty(input.username)) {
+      // A username is not set yet and in the input no username was specified. Hence there is
+      // nothing to do.
       return input.username;
     }
 

@@ -401,7 +401,6 @@ public class Preferences {
       my.add(new MenuItem("Edits", "#/q/has:edit", null));
       my.add(new MenuItem("Watched Changes", "#/q/is:watched+is:open", null));
       my.add(new MenuItem("Starred Changes", "#/q/is:starred", null));
-      my.add(new MenuItem("Groups", "#/groups/self", null));
     }
     return my;
   }

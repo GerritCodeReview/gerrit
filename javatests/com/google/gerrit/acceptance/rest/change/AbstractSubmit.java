@@ -502,6 +502,54 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitWholeTopicWithMultipleTopics() throws Throwable {
+    assume().that(isSubmitWholeTopicEnabled()).isTrue();
+    String topic1 = "test-topic-1";
+    String topic2 = "test-topic-2";
+    PushOneCommit.Result change1 = createChange("Change 1", "a.txt", "content", topic2);
+    PushOneCommit.Result change2 = createChange("Change 2", "b.txt", "content", topic2);
+    PushOneCommit.Result change3 = createChange("Change 3", "c.txt", "content", topic1);
+    PushOneCommit.Result change4 = createChange("Change 4", "c.txt", "content", topic1);
+    approve(change1.getChangeId());
+    approve(change2.getChangeId());
+    approve(change3.getChangeId());
+    approve(change4.getChangeId());
+    submit(change4.getChangeId());
+    String expectedTopic1 = name(topic1);
+    String expectedTopic2 = name(topic2);
+    change1.assertChange(Change.Status.MERGED, expectedTopic2, admin);
+    change2.assertChange(Change.Status.MERGED, expectedTopic2, admin);
+    change3.assertChange(Change.Status.MERGED, expectedTopic1, admin);
+    change4.assertChange(Change.Status.MERGED, expectedTopic1, admin);
+
+    // Check for the exact change to have the correct submitter.
+    assertSubmitter(change4);
+    // Also check submitters for changes submitted via the topic relationship.
+    assertSubmitter(change3);
+    assertSubmitter(change1);
+    assertSubmitter(change2);
+
+    // Check that the repo has the expected commits
+    List<RevCommit> log = getRemoteLog();
+    List<String> commitsInRepo = log.stream().map(RevCommit::getShortMessage).collect(toList());
+    int expectedCommitCount =
+        getSubmitType() == SubmitType.MERGE_ALWAYS
+            ? 6 // initial commit + 4 commits + merge commit
+            : 5; // initial commit + 4 commits
+    assertThat(log).hasSize(expectedCommitCount);
+
+    assertThat(commitsInRepo)
+        .containsAtLeast(
+            "Initial empty repository", "Change 1", "Change 2", "Change 3", "Change 4");
+    if (getSubmitType() == SubmitType.MERGE_ALWAYS) {
+      assertThat(commitsInRepo)
+          .contains(
+              String.format(
+                  "Merge changes from topics \"%s\", \"%s\"", expectedTopic1, expectedTopic2));
+    }
+  }
+
+  @Test
   public void submitReusingOldTopic() throws Throwable {
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
 

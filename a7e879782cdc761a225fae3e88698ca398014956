@@ -34,6 +34,24 @@
       "revId": "a7e879782cdc761a225fae3e88698ca398014956",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69726ca5_1b93fbbd",
+        "filename": "java/com/google/gerrit/server/account/Preferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-17T06:24:15Z",
+      "side": 0,
+      "message": "That\u0027s filtering the currently used URL.  If it gets changed to /settings/#Groups it won\u0027t match that filter.\n\nI\u0027ve already removed that link from my own menu on gerrit-review, but over on android-review I have the default and it gets redirected.\n\nSo I would say the change should be to replace this link with /settings/#Group, and remove that filtering from PG.",
+      "parentUuid": "4574f491_b052ecc8",
+      "revId": "a7e879782cdc761a225fae3e88698ca398014956",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

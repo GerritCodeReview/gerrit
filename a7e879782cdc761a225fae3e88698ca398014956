@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb79ae72_148f7753",
+        "filename": "java/com/google/gerrit/server/account/Preferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-17T06:12:54Z",
+      "side": 0,
+      "message": "Shouldn\u0027t this be replaced with a link to \"/settings/#Groups\" which is what the current URL gets redirected to?",
+      "revId": "a7e879782cdc761a225fae3e88698ca398014956",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

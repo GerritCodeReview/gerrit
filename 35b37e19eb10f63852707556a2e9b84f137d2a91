@@ -127,6 +127,24 @@
     },
     {
       "key": {
+        "uuid": "3e9b428c_a7a6c096",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-17T14:33:04Z",
+      "side": 1,
+      "message": "We discussed this again and we see a possibility that we may not need this feature of ignoring unknown plugin options. Hence we are likely not going to implement this.",
+      "parentUuid": "93899b7a_f037fb18",
+      "revId": "35b37e19eb10f63852707556a2e9b84f137d2a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fdea66ad_59a93489",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

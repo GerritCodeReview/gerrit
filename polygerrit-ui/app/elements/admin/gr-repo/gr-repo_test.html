@@ -57,10 +57,6 @@ limitations under the License.
         value: false,
         configured_value: 'FALSE',
       },
-      require_change_id: {
-        value: false,
-        configured_value: 'FALSE',
-      },
       enable_signed_push: {
         value: false,
         configured_value: 'FALSE',
@@ -322,7 +318,6 @@ limitations under the License.
           use_content_merge: 'TRUE',
           use_signed_off_by: 'TRUE',
           create_new_change_for_all_not_in_target: 'TRUE',
-          require_change_id: 'TRUE',
           enable_signed_push: 'TRUE',
           require_signed_push: 'TRUE',
           reject_implicit_merges: 'TRUE',
@@ -352,8 +347,6 @@ limitations under the License.
               configInputObj.use_content_merge;
           element.$.newChangeSelect.bindValue =
               configInputObj.create_new_change_for_all_not_in_target;
-          element.$.requireChangeIdSelect.bindValue =
-              configInputObj.require_change_id;
           element.$.enableSignedPush.bindValue =
               configInputObj.enable_signed_push;
           element.$.requireSignedPush.bindValue =

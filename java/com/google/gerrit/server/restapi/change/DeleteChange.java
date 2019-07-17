@@ -36,7 +36,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class DeleteChange extends RetryingRestModifyView<ChangeResource, Input, Response<?>>
+public class DeleteChange extends RetryingRestModifyView<ChangeResource, Input, Object>
     implements UiAction<ChangeResource> {
 
   private final DeleteChangeOp.Factory opFactory;
@@ -48,7 +48,7 @@ public class DeleteChange extends RetryingRestModifyView<ChangeResource, Input, 
   }
 
   @Override
-  protected Response<?> applyImpl(
+  protected Response<Object> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input input)
       throws RestApiException, UpdateException, PermissionBackendException {
     if (!isChangeDeletable(rsrc)) {

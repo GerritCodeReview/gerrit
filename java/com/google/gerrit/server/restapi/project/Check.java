@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.api.projects.CheckProjectResultInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -40,9 +41,9 @@ public class Check implements RestModifyView<ProjectResource, CheckProjectInput>
   }
 
   @Override
-  public CheckProjectResultInfo apply(ProjectResource rsrc, CheckProjectInput input)
+  public Response<CheckProjectResultInfo> apply(ProjectResource rsrc, CheckProjectInput input)
       throws AuthException, BadRequestException, ResourceConflictException, Exception {
     permissionBackend.user(rsrc.getUser()).check(GlobalPermission.ADMINISTRATE_SERVER);
-    return projectsConsistencyChecker.check(rsrc.getNameKey(), input);
+    return Response.ok(projectsConsistencyChecker.check(rsrc.getNameKey(), input));
   }
 }

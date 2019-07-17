@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.account;
 
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResource;
@@ -32,10 +33,10 @@ public class GetAccount implements RestReadView<AccountResource> {
   }
 
   @Override
-  public AccountInfo apply(AccountResource rsrc) throws PermissionBackendException {
+  public Response<AccountInfo> apply(AccountResource rsrc) throws PermissionBackendException {
     AccountLoader loader = infoFactory.create(true);
     AccountInfo info = loader.get(rsrc.getUser().getAccountId());
     loader.fill();
-    return info;
+    return Response.ok(info);
   }
 }

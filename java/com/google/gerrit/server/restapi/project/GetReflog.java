@@ -19,6 +19,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.projects.ReflogEntryInfo;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CommonConverters;
@@ -89,7 +90,7 @@ public class GetReflog implements RestReadView<BranchResource> {
   }
 
   @Override
-  public List<ReflogEntryInfo> apply(BranchResource rsrc)
+  public Response<List<ReflogEntryInfo>> apply(BranchResource rsrc)
       throws RestApiException, IOException, PermissionBackendException {
     permissionBackend
         .user(rsrc.getUser())
@@ -123,7 +124,7 @@ public class GetReflog implements RestReadView<BranchResource> {
           }
         }
       }
-      return Lists.transform(entries, this::newReflogEntryInfo);
+      return Response.ok(Lists.transform(entries, this::newReflogEntryInfo));
     }
   }
 

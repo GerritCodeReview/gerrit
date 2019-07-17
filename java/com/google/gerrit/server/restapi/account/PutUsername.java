@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -71,7 +72,7 @@ public class PutUsername implements RestModifyView<AccountResource, UsernameInpu
   }
 
   @Override
-  public String apply(AccountResource rsrc, UsernameInput input)
+  public Response<String> apply(AccountResource rsrc, UsernameInput input)
       throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
@@ -106,7 +107,7 @@ public class PutUsername implements RestModifyView<AccountResource, UsernameInpu
       // If we are using this identity, don't report the exception.
       Optional<ExternalId> other = externalIds.get(key);
       if (other.isPresent() && other.get().accountId().equals(accountId)) {
-        return input.username;
+        return Response.ok(input.username);
       }
 
       // Otherwise, someone else has this identity.
@@ -114,6 +115,6 @@ public class PutUsername implements RestModifyView<AccountResource, UsernameInpu
     }
 
     sshKeyCache.evict(input.username);
-    return input.username;
+    return Response.ok(input.username);
   }
 }

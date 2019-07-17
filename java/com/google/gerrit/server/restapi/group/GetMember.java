@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.group;
 
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.group.MemberResource;
@@ -32,10 +33,10 @@ public class GetMember implements RestReadView<MemberResource> {
   }
 
   @Override
-  public AccountInfo apply(MemberResource rsrc) throws PermissionBackendException {
+  public Response<AccountInfo> apply(MemberResource rsrc) throws PermissionBackendException {
     AccountLoader loader = infoFactory.create(true);
     AccountInfo info = loader.get(rsrc.getMember().getAccountId());
     loader.fill();
-    return info;
+    return Response.ok(info);
   }
 }

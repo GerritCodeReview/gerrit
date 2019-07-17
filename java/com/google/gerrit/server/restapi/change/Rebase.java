@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
@@ -97,7 +98,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
   }
 
   @Override
-  protected ChangeInfo applyImpl(
+  protected Response<ChangeInfo> applyImpl(
       BatchUpdate.Factory updateFactory, RevisionResource rsrc, RebaseInput input)
       throws UpdateException, RestApiException, IOException, PermissionBackendException {
     // Not allowed to rebase if the current patch set is locked.
@@ -130,7 +131,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
               .setFireRevisionCreated(true));
       bu.execute();
     }
-    return json.create(OPTIONS).format(change.getProject(), change.getId());
+    return Response.ok(json.create(OPTIONS).format(change.getProject(), change.getId()));
   }
 
   private ObjectId findBaseRev(
@@ -264,14 +265,15 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
     }
 
     @Override
-    protected ChangeInfo applyImpl(
+    protected Response<ChangeInfo> applyImpl(
         BatchUpdate.Factory updateFactory, ChangeResource rsrc, RebaseInput input)
         throws UpdateException, RestApiException, IOException, PermissionBackendException {
       PatchSet ps = psUtil.current(rsrc.getNotes());
       if (ps == null) {
         throw new ResourceConflictException("current revision is missing");
       }
-      return rebase.applyImpl(updateFactory, new RevisionResource(rsrc, ps), input);
+      return Response.ok(
+          rebase.applyImpl(updateFactory, new RevisionResource(rsrc, ps), input).value());
     }
   }
 }

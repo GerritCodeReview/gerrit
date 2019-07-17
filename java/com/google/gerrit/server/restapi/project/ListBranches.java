@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -127,15 +128,16 @@ public class ListBranches implements RestReadView<ProjectResource> {
   }
 
   @Override
-  public ImmutableList<BranchInfo> apply(ProjectResource rsrc)
+  public Response<ImmutableList<BranchInfo>> apply(ProjectResource rsrc)
       throws RestApiException, IOException, PermissionBackendException {
     rsrc.getProjectState().checkStatePermitsRead();
-    return new RefFilter<BranchInfo>(Constants.R_HEADS)
-        .subString(matchSubstring)
-        .regex(matchRegex)
-        .start(start)
-        .limit(limit)
-        .filter(allBranches(rsrc));
+    return Response.ok(
+        new RefFilter<BranchInfo>(Constants.R_HEADS)
+            .subString(matchSubstring)
+            .regex(matchRegex)
+            .start(start)
+            .limit(limit)
+            .filter(allBranches(rsrc)));
   }
 
   BranchInfo toBranchInfo(BranchResource rsrc)

@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.BinaryResult;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.cache.PersistentCache;
 import com.google.gerrit.server.config.ConfigResource;
@@ -69,21 +70,22 @@ public class ListCaches implements RestReadView<ConfigResource> {
   }
 
   @Override
-  public Object apply(ConfigResource rsrc) {
+  public Response<Object> apply(ConfigResource rsrc) {
     if (format == null) {
-      return getCacheInfos();
+      return Response.ok(getCacheInfos());
     }
     Stream<String> cacheNames =
         Streams.stream(cacheMap)
             .map(e -> cacheNameOf(e.getPluginName(), e.getExportName()))
             .sorted();
     if (OutputFormat.TEXT_LIST.equals(format)) {
-      return BinaryResult.create(cacheNames.collect(joining("\n")))
-          .base64()
-          .setContentType("text/plain")
-          .setCharacterEncoding(UTF_8);
+      return Response.ok(
+          BinaryResult.create(cacheNames.collect(joining("\n")))
+              .base64()
+              .setContentType("text/plain")
+              .setCharacterEncoding(UTF_8));
     }
-    return cacheNames.collect(toImmutableList());
+    return Response.ok(cacheNames.collect(toImmutableList()));
   }
 
   public enum CacheType {

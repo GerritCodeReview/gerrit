@@ -54,7 +54,7 @@ class DraftApiImpl implements DraftApi {
   @Override
   public CommentInfo get() throws RestApiException {
     try {
-      return getDraft.apply(draft);
+      return getDraft.apply(draft).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve draft", e);
     }

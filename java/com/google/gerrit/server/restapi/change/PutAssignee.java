@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.IdentifiedUser;
@@ -71,7 +72,7 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
   }
 
   @Override
-  protected AccountInfo applyImpl(
+  protected Response<AccountInfo> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, AssigneeInput input)
       throws RestApiException, UpdateException, IOException, PermissionBackendException,
           ConfigInvalidException {
@@ -102,7 +103,7 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
       bu.addOp(rsrc.getId(), reviewersAddition.op);
 
       bu.execute();
-      return accountLoaderFactory.create(true).fillOne(assignee.getAccountId());
+      return Response.ok(accountLoaderFactory.create(true).fillOne(assignee.getAccountId()));
     }
   }
 

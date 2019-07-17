@@ -46,7 +46,7 @@ class CommentApiImpl implements CommentApi {
   @Override
   public CommentInfo get() throws RestApiException {
     try {
-      return getComment.apply(comment);
+      return getComment.apply(comment).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve comment", e);
     }
@@ -55,7 +55,7 @@ class CommentApiImpl implements CommentApi {
   @Override
   public CommentInfo delete(DeleteCommentInput input) throws RestApiException {
     try {
-      return deleteComment.apply(comment, input);
+      return deleteComment.apply(comment, input).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot delete comment", e);
     }

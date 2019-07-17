@@ -21,6 +21,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.Preferences;
@@ -54,7 +55,7 @@ public class SetPreferences implements RestModifyView<ConfigResource, GeneralPre
   }
 
   @Override
-  public GeneralPreferencesInfo apply(ConfigResource rsrc, GeneralPreferencesInfo input)
+  public Response<GeneralPreferencesInfo> apply(ConfigResource rsrc, GeneralPreferencesInfo input)
       throws BadRequestException, IOException, ConfigInvalidException {
     if (!hasSetFields(input)) {
       throw new BadRequestException("unsupported option");
@@ -63,7 +64,7 @@ public class SetPreferences implements RestModifyView<ConfigResource, GeneralPre
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
       GeneralPreferencesInfo updatedPrefs = Preferences.updateDefaultGeneralPreferences(md, input);
       accountCache.evictAll();
-      return updatedPrefs;
+      return Response.ok(updatedPrefs);
     }
   }
 

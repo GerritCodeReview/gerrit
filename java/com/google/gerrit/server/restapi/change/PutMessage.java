@@ -60,8 +60,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 @Singleton
-public class PutMessage
-    extends RetryingRestModifyView<ChangeResource, CommitMessageInput, Response<?>> {
+public class PutMessage extends RetryingRestModifyView<ChangeResource, CommitMessageInput, String> {
 
   private final GitRepositoryManager repositoryManager;
   private final Provider<CurrentUser> userProvider;

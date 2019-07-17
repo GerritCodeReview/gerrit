@@ -20,6 +20,7 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
@@ -81,7 +82,7 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
   }
 
   @Override
-  protected ChangeInfo applyImpl(
+  protected Response<ChangeInfo> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, RestoreInput input)
       throws RestApiException, UpdateException, PermissionBackendException, IOException {
     // Not allowed to restore if the current patch set is locked.
@@ -95,7 +96,7 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
         updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       u.addOp(rsrc.getId(), op).execute();
     }
-    return json.noOptions().format(op.change);
+    return Response.ok(json.noOptions().format(op.change));
   }
 
   private class Op implements BatchUpdateOp {

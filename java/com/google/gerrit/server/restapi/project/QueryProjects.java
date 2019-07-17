@@ -19,6 +19,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.index.project.ProjectData;
@@ -86,9 +87,9 @@ public class QueryProjects implements RestReadView<TopLevelResource> {
   }
 
   @Override
-  public List<ProjectInfo> apply(TopLevelResource resource)
+  public Response<List<ProjectInfo>> apply(TopLevelResource resource)
       throws BadRequestException, MethodNotAllowedException {
-    return apply();
+    return Response.ok(apply());
   }
 
   public List<ProjectInfo> apply() throws BadRequestException, MethodNotAllowedException {

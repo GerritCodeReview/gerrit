@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -111,7 +112,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   }
 
   @Override
-  public List<AccountInfo> apply(GroupResource resource, Input input)
+  public Response<List<AccountInfo>> apply(GroupResource resource, Input input)
       throws AuthException, NotInternalGroupException, UnprocessableEntityException, IOException,
           ConfigInvalidException, ResourceNotFoundException, PermissionBackendException {
     GroupDescription.Internal internalGroup =
@@ -139,7 +140,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     } catch (NoSuchGroupException e) {
       throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
     }
-    return toAccountInfoList(newMemberIds);
+    return Response.ok(toAccountInfoList(newMemberIds));
   }
 
   Account findAccount(String nameOrEmailOrId)
@@ -221,15 +222,15 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     }
 
     @Override
-    public AccountInfo apply(GroupResource resource, IdString id, Input input)
+    public Response<AccountInfo> apply(GroupResource resource, IdString id, Input input)
         throws AuthException, MethodNotAllowedException, ResourceNotFoundException, IOException,
             ConfigInvalidException, PermissionBackendException {
       AddMembers.Input in = new AddMembers.Input();
       in._oneMember = id.get();
       try {
-        List<AccountInfo> list = put.apply(resource, in);
+        List<AccountInfo> list = put.apply(resource, in).value();
         if (list.size() == 1) {
-          return list.get(0);
+          return Response.created(list.get(0));
         }
         throw new IllegalStateException();
       } catch (UnprocessableEntityException e) {
@@ -248,7 +249,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     }
 
     @Override
-    public AccountInfo apply(MemberResource resource, Input input)
+    public Response<AccountInfo> apply(MemberResource resource, Input input)
         throws PermissionBackendException {
       // Do nothing, the user is already a member.
       return get.apply(resource);

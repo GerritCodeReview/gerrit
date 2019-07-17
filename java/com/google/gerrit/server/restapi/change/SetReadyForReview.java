@@ -39,7 +39,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class SetReadyForReview extends RetryingRestModifyView<ChangeResource, Input, Response<?>>
+public class SetReadyForReview extends RetryingRestModifyView<ChangeResource, Input, String>
     implements UiAction<ChangeResource> {
   private final WorkInProgressOp.Factory opFactory;
 
@@ -50,7 +50,7 @@ public class SetReadyForReview extends RetryingRestModifyView<ChangeResource, In
   }
 
   @Override
-  protected Response<?> applyImpl(
+  protected Response<String> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input input)
       throws RestApiException, UpdateException, PermissionBackendException {
     rsrc.permissions().check(ChangePermission.TOGGLE_WORK_IN_PROGRESS_STATE);

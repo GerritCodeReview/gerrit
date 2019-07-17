@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
 import com.google.gerrit.server.WebLinks;
@@ -78,7 +79,7 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
   }
 
   @Override
-  public TagInfo apply(ProjectResource resource, IdString id, TagInput input)
+  public Response<TagInfo> apply(ProjectResource resource, IdString id, TagInput input)
       throws RestApiException, IOException, PermissionBackendException, NoSuchProjectException {
     String ref = id.get();
     if (input == null) {
@@ -140,7 +141,8 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
             result.getObjectId(),
             resource.getUser().asIdentifiedUser().state());
         try (RevWalk w = new RevWalk(repo)) {
-          return ListTags.createTagInfo(perm, result, w, resource.getProjectState(), links);
+          return Response.created(
+              ListTags.createTagInfo(perm, result, w, resource.getProjectState(), links));
         }
       }
     } catch (InvalidRevisionException e) {

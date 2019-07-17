@@ -34,17 +34,14 @@ import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
-import static javax.servlet.http.HttpServletResponse.SC_ACCEPTED;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
-import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_METHOD_NOT_ALLOWED;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_IMPLEMENTED;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_MODIFIED;
-import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 import static javax.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
@@ -308,7 +305,7 @@ public class RestApiServlet extends HttpServlet {
     res.setHeader("X-Content-Type-Options", "nosniff");
     int status = SC_OK;
     long responseBytes = -1;
-    Object result = null;
+    Response<?> response = null;
     QueryParams qp = null;
     Object inputRequestBody = null;
     RestResource rsrc = TopLevelResource.INSTANCE;
@@ -394,7 +391,6 @@ public class RestApiServlet extends HttpServlet {
                 RestView<RestResource> createView = rc.views().get(PluginName.GERRIT, "CREATE./");
                 if (createView != null) {
                   viewData = new ViewData(null, createView);
-                  status = SC_CREATED;
                   path.add(id);
                 } else {
                   throw e;
@@ -404,7 +400,6 @@ public class RestApiServlet extends HttpServlet {
                     rc.views().get(PluginName.GERRIT, "DELETE_MISSING./");
                 if (deleteView != null) {
                   viewData = new ViewData(null, deleteView);
-                  status = SC_NO_CONTENT;
                   path.add(id);
                 } else {
                   throw e;
@@ -466,7 +461,6 @@ public class RestApiServlet extends HttpServlet {
                 RestView<RestResource> createView = c.views().get(PluginName.GERRIT, "CREATE./");
                 if (createView != null) {
                   viewData = new ViewData(null, createView);
-                  status = SC_CREATED;
                   path.add(id);
                 } else {
                   throw e;
@@ -476,7 +470,6 @@ public class RestApiServlet extends HttpServlet {
                     c.views().get(PluginName.GERRIT, "DELETE_MISSING./");
                 if (deleteView != null) {
                   viewData = new ViewData(null, deleteView);
-                  status = SC_NO_CONTENT;
                   path.add(id);
                 } else {
                   throw e;
@@ -502,7 +495,7 @@ public class RestApiServlet extends HttpServlet {
           }
 
           if (viewData.view instanceof RestReadView<?> && isRead(req)) {
-            result = ((RestReadView<RestResource>) viewData.view).apply(rsrc);
+            response = ((RestReadView<RestResource>) viewData.view).apply(rsrc);
           } else if (viewData.view instanceof RestModifyView<?, ?>) {
             @SuppressWarnings("unchecked")
             RestModifyView<RestResource, Object> m =
@@ -510,7 +503,7 @@ public class RestApiServlet extends HttpServlet {
 
             Type type = inputType(m);
             inputRequestBody = parseRequest(req, type);
-            result = m.apply(rsrc, inputRequestBody);
+            response = m.apply(rsrc, inputRequestBody);
             if (inputRequestBody instanceof RawInput) {
               try (InputStream is = req.getInputStream()) {
                 ServletUtils.consumeRequestBody(is);
@@ -523,7 +516,7 @@ public class RestApiServlet extends HttpServlet {
 
             Type type = inputType(m);
             inputRequestBody = parseRequest(req, type);
-            result = m.apply(rsrc, path.get(0), inputRequestBody);
+            response = m.apply(rsrc, path.get(0), inputRequestBody);
             if (inputRequestBody instanceof RawInput) {
               try (InputStream is = req.getInputStream()) {
                 ServletUtils.consumeRequestBody(is);
@@ -536,7 +529,7 @@ public class RestApiServlet extends HttpServlet {
 
             Type type = inputType(m);
             inputRequestBody = parseRequest(req, type);
-            result = m.apply(rsrc, path.get(0), inputRequestBody);
+            response = m.apply(rsrc, path.get(0), inputRequestBody);
             if (inputRequestBody instanceof RawInput) {
               try (InputStream is = req.getInputStream()) {
                 ServletUtils.consumeRequestBody(is);
@@ -549,7 +542,7 @@ public class RestApiServlet extends HttpServlet {
 
             Type type = inputType(m);
             inputRequestBody = parseRequest(req, type);
-            result = m.apply(rsrc, inputRequestBody);
+            response = m.apply(rsrc, inputRequestBody);
             if (inputRequestBody instanceof RawInput) {
               try (InputStream is = req.getInputStream()) {
                 ServletUtils.consumeRequestBody(is);
@@ -559,36 +552,32 @@ public class RestApiServlet extends HttpServlet {
             throw new ResourceNotFoundException();
           }
 
-          if (result instanceof Response) {
-            @SuppressWarnings("rawtypes")
-            Response<?> r = (Response) result;
-            status = r.statusCode();
-            configureCaching(req, res, rsrc, viewData.view, r.caching());
-          } else if (result instanceof Response.Redirect) {
+          if (response instanceof Response.Redirect) {
             CacheHeaders.setNotCacheable(res);
-            String location = ((Response.Redirect) result).location();
+            String location = ((Response.Redirect) response).location();
             res.sendRedirect(location);
             logger.atFinest().log("REST call redirected to: %s", location);
             return;
-          } else if (result instanceof Response.Accepted) {
+          } else if (response instanceof Response.Accepted) {
             CacheHeaders.setNotCacheable(res);
-            res.setStatus(SC_ACCEPTED);
-            res.setHeader(HttpHeaders.LOCATION, ((Response.Accepted) result).location());
-            logger.atFinest().log("REST call succeeded: %d", SC_ACCEPTED);
+            res.setStatus(response.statusCode());
+            res.setHeader(HttpHeaders.LOCATION, ((Response.Accepted) response).location());
+            logger.atFinest().log("REST call succeeded: %d", response.statusCode());
             return;
-          } else {
-            CacheHeaders.setNotCacheable(res);
           }
+
+          status = response.statusCode();
+          configureCaching(req, res, rsrc, viewData.view, response.caching());
           res.setStatus(status);
           logger.atFinest().log("REST call succeeded: %d", status);
         }
 
-        if (result != Response.none()) {
-          result = Response.unwrap(result);
-          if (result instanceof BinaryResult) {
-            responseBytes = replyBinaryResult(req, res, (BinaryResult) result);
+        if (response != Response.none()) {
+          Object value = Response.unwrap(response);
+          if (value instanceof BinaryResult) {
+            responseBytes = replyBinaryResult(req, res, (BinaryResult) value);
           } else {
-            responseBytes = replyJson(req, res, false, qp.config(), result);
+            responseBytes = replyJson(req, res, false, qp.config(), value);
           }
         }
       } catch (MalformedJsonException | JsonParseException e) {
@@ -677,7 +666,7 @@ public class RestApiServlet extends HttpServlet {
                 qp != null ? qp.params() : ImmutableListMultimap.of(),
                 inputRequestBody,
                 status,
-                result,
+                response,
                 rsrc,
                 viewData == null ? null : viewData.view));
       }

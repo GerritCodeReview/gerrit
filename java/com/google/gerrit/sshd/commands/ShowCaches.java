@@ -178,7 +178,8 @@ final class ShowCaches extends SshCommand {
     if (showJvm) {
       sshSummary();
 
-      SummaryInfo summary = getSummary.setGc(gc).setJvm(showJVM).apply(new ConfigResource());
+      SummaryInfo summary =
+          getSummary.setGc(gc).setJvm(showJVM).apply(new ConfigResource()).value();
       taskSummary(summary.taskSummary);
       memSummary(summary.memSummary);
       threadSummary(summary.threadSummary);

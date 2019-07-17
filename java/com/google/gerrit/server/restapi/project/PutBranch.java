@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.project;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.project.BranchResource;
 import com.google.inject.Singleton;
@@ -25,7 +26,8 @@ import com.google.inject.Singleton;
 public class PutBranch implements RestModifyView<BranchResource, BranchInput> {
 
   @Override
-  public BranchInfo apply(BranchResource rsrc, BranchInput input) throws ResourceConflictException {
+  public Response<BranchInfo> apply(BranchResource rsrc, BranchInput input)
+      throws ResourceConflictException {
     throw new ResourceConflictException("Branch \"" + rsrc.getRef() + "\" already exists");
   }
 }

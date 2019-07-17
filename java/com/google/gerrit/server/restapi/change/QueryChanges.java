@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.index.query.QueryParseException;
@@ -113,7 +114,7 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
   }
 
   @Override
-  public List<?> apply(TopLevelResource rsrc)
+  public Response<List<?>> apply(TopLevelResource rsrc)
       throws BadRequestException, AuthException, PermissionBackendException {
     List<List<ChangeInfo>> out;
     try {
@@ -124,7 +125,7 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
       logger.atFine().withCause(e).log("Reject change query with 400 Bad Request: %s", queries);
       throw new BadRequestException(e.getMessage(), e);
     }
-    return out.size() == 1 ? out.get(0) : out;
+    return Response.ok(out.size() == 1 ? out.get(0) : out);
   }
 
   private List<List<ChangeInfo>> query() throws QueryParseException, PermissionBackendException {

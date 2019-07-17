@@ -15,6 +15,7 @@
 package com.google.gerrit.metrics.dropwizard;
 
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -36,10 +37,10 @@ class GetMetric implements RestReadView<MetricResource> {
   }
 
   @Override
-  public MetricJson apply(MetricResource resource)
+  public Response<MetricJson> apply(MetricResource resource)
       throws AuthException, PermissionBackendException {
     permissionBackend.currentUser().check(GlobalPermission.VIEW_CACHES);
-    return new MetricJson(
-        resource.getMetric(), metrics.getAnnotations(resource.getName()), dataOnly);
+    return Response.ok(
+        new MetricJson(resource.getMetric(), metrics.getAnnotations(resource.getName()), dataOnly));
   }
 }

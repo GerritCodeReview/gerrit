@@ -21,6 +21,7 @@ import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.extensions.api.accounts.UsernameInput;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -71,9 +72,9 @@ public class PutUsername implements RestModifyView<AccountResource, UsernameInpu
 
   @Override
   public String apply(AccountResource rsrc, UsernameInput input)
-      throws AuthException, MethodNotAllowedException, UnprocessableEntityException,
-          ResourceConflictException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+      throws AuthException, BadRequestException, MethodNotAllowedException,
+          UnprocessableEntityException, ResourceConflictException, IOException,
+          ConfigInvalidException, PermissionBackendException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }
@@ -82,17 +83,13 @@ public class PutUsername implements RestModifyView<AccountResource, UsernameInpu
       throw new MethodNotAllowedException("realm does not allow editing username");
     }
 
-    if (input == null) {
-      input = new UsernameInput();
-    }
-
     Account.Id accountId = rsrc.getUser().getAccountId();
     if (!externalIds.byAccount(accountId, SCHEME_USERNAME).isEmpty()) {
       throw new MethodNotAllowedException("Username cannot be changed.");
     }
 
-    if (Strings.isNullOrEmpty(input.username)) {
-      return input.username;
+    if (input == null || Strings.isNullOrEmpty(input.username)) {
+      throw new BadRequestException("input required");
     }
 
     if (!ExternalId.isValidUsername(input.username)) {

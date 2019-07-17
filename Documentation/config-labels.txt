@@ -297,12 +297,13 @@ Defaults to false.
 [[label_copyAllScoresOnTrivialRebase]]
 === `label.Label-Name.copyAllScoresOnTrivialRebase`
 
-If true, all scores for the label are copied forward when a new patch
-set is uploaded that is a trivial rebase. A new patch set is considered
-as trivial rebase if the commit message is the same as in the previous
-patch set and if it has the same code delta as the previous patch set.
-This is the case if the change was rebased onto a different parent, or
-if the parent did not change at all.
+If true, all scores for the label are copied forward when a new patch set is
+uploaded that is a trivial rebase. A new patch set is considered to be trivial
+rebase if the commit message is the same as in the previous patch set and if it
+has the same diff (including context lines) as the previous patch set. This is
+the case if the change was rebased onto a different parent and that rebase did
+not require git to perform any conflict resolution, or if the parent did not
+change at all.
 
 This can be used to enable sticky approvals, reducing turn-around for
 trivial rebases prior to submitting a change.
@@ -313,13 +314,13 @@ Defaults to false.
 [[label_copyAllScoresIfNoCodeChange]]
 === `label.Label-Name.copyAllScoresIfNoCodeChange`
 
-If true, all scores for the label are copied forward when a new patch
-set is uploaded that has the same parent tree as the previous patch
-set and the same code delta as the previous patch set. This means only
-the commit message is different. This can be used to enable sticky
-approvals on labels that only depend on the code, reducing turn-around
-if only the commit message is changed prior to submitting a change.
-For the Verified label that is optionally installed by the
+If true, all scores for the label are copied forward when a new patch set is
+uploaded that has the same parent tree as the previous patch set and the same
+code diff (including context lines) as the previous patch set. This means only
+the commit message is different; the change hasn't even been rebased. This can
+be used to enable sticky approvals on labels that only depend on the code,
+reducing turn-around if only the commit message is changed prior to submitting a
+change. For the Verified label that is optionally installed by the
 link:pgm-init.html[init] site program this is enabled by default.
 
 Defaults to false.

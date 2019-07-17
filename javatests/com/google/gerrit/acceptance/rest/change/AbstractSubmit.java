@@ -502,6 +502,81 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitWholeTopicWithMultipleTopics() throws Throwable {
+    assume().that(isSubmitWholeTopicEnabled()).isTrue();
+    String topic1 = "test-topic-1";
+    String topic2 = "test-topic-2";
+    PushOneCommit.Result change1 = createChange("Change 1", "a.txt", "content", topic2);
+    PushOneCommit.Result change2 = createChange("Change 2", "b.txt", "content", topic2);
+    PushOneCommit.Result change3 = createChange("Change 3", "c.txt", "content", topic1);
+    PushOneCommit.Result change4 = createChange("Change 4", "d.txt", "content", topic1);
+    approve(change1.getChangeId());
+    approve(change2.getChangeId());
+    approve(change3.getChangeId());
+    approve(change4.getChangeId());
+    submit(change4.getChangeId());
+    String expectedTopic1 = name(topic1);
+    String expectedTopic2 = name(topic2);
+    if (getSubmitType() == SubmitType.CHERRY_PICK) {
+      change1.assertChange(Change.Status.NEW, expectedTopic2, admin);
+      change2.assertChange(Change.Status.NEW, expectedTopic2, admin);
+
+    } else {
+      change1.assertChange(Change.Status.MERGED, expectedTopic2, admin);
+      change2.assertChange(Change.Status.MERGED, expectedTopic2, admin);
+    }
+
+    // Check for the exact change to have the correct submitter.
+    assertSubmitter(change4);
+    // Also check submitters for changes submitted via the topic relationship.
+    assertSubmitter(change3);
+    if (getSubmitType() != SubmitType.CHERRY_PICK) {
+      assertSubmitter(change1);
+      assertSubmitter(change2);
+    }
+
+    // Check that the repo has the expected commits
+    List<RevCommit> log = getRemoteLog();
+    List<String> commitsInRepo = log.stream().map(RevCommit::getShortMessage).collect(toList());
+    int expectedCommitCount;
+    switch (getSubmitType()) {
+      case MERGE_ALWAYS:
+        // initial commit + 4 commits + merge commit
+        expectedCommitCount = 6;
+        break;
+      case CHERRY_PICK:
+        // initial commit + 2 commits
+        expectedCommitCount = 3;
+        break;
+      case FAST_FORWARD_ONLY:
+      case INHERIT:
+      case MERGE_IF_NECESSARY:
+      case REBASE_ALWAYS:
+      case REBASE_IF_NECESSARY:
+      default:
+        // initial commit + 4 commits
+        expectedCommitCount = 5;
+        break;
+    }
+    assertThat(log).hasSize(expectedCommitCount);
+
+    if (getSubmitType() == SubmitType.CHERRY_PICK) {
+      assertThat(commitsInRepo).containsAtLeast("Initial empty repository", "Change 3", "Change 4");
+      assertThat(commitsInRepo).doesNotContain("Change 1");
+      assertThat(commitsInRepo).doesNotContain("Change 2");
+    } else if (getSubmitType() == SubmitType.MERGE_ALWAYS) {
+      assertThat(commitsInRepo)
+          .contains(
+              String.format(
+                  "Merge changes from topics \"%s\", \"%s\"", expectedTopic1, expectedTopic2));
+    } else {
+      assertThat(commitsInRepo)
+          .containsAtLeast(
+              "Initial empty repository", "Change 1", "Change 2", "Change 3", "Change 4");
+    }
+  }
+
+  @Test
   public void submitReusingOldTopic() throws Throwable {
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
 

@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -97,14 +98,14 @@ public class Stars implements ChildCollection<AccountResource, AccountResource.S
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<ChangeInfo> apply(AccountResource rsrc)
+    public Response<List<ChangeInfo>> apply(AccountResource rsrc)
         throws BadRequestException, AuthException, PermissionBackendException {
       if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed to list stars of another account");
       }
       QueryChanges query = changes.list();
       query.addQuery("has:stars");
-      return (List<ChangeInfo>) query.apply(TopLevelResource.INSTANCE);
+      return Response.ok((List<ChangeInfo>) query.apply(TopLevelResource.INSTANCE).value());
     }
   }
 
@@ -120,11 +121,12 @@ public class Stars implements ChildCollection<AccountResource, AccountResource.S
     }
 
     @Override
-    public SortedSet<String> apply(AccountResource.Star rsrc) throws AuthException {
+    public Response<SortedSet<String>> apply(AccountResource.Star rsrc) throws AuthException {
       if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed to get stars of another account");
       }
-      return starredChangesUtil.getLabels(self.get().getAccountId(), rsrc.getChange().getId());
+      return Response.ok(
+          starredChangesUtil.getLabels(self.get().getAccountId(), rsrc.getChange().getId()));
     }
   }
 
@@ -140,18 +142,19 @@ public class Stars implements ChildCollection<AccountResource, AccountResource.S
     }
 
     @Override
-    public Collection<String> apply(AccountResource.Star rsrc, StarsInput in)
+    public Response<Collection<String>> apply(AccountResource.Star rsrc, StarsInput in)
         throws AuthException, BadRequestException {
       if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed to update stars of another account");
       }
       try {
-        return starredChangesUtil.star(
-            self.get().getAccountId(),
-            rsrc.getChange().getProject(),
-            rsrc.getChange().getId(),
-            in.add,
-            in.remove);
+        return Response.ok(
+            starredChangesUtil.star(
+                self.get().getAccountId(),
+                rsrc.getChange().getProject(),
+                rsrc.getChange().getId(),
+                in.add,
+                in.remove));
       } catch (IllegalLabelException e) {
         throw new BadRequestException(e.getMessage());
       }

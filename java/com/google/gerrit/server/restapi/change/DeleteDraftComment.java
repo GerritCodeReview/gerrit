@@ -42,7 +42,7 @@ import java.util.Optional;
 
 @Singleton
 public class DeleteDraftComment
-    extends RetryingRestModifyView<DraftCommentResource, Input, Response<CommentInfo>> {
+    extends RetryingRestModifyView<DraftCommentResource, Input, CommentInfo> {
 
   private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;

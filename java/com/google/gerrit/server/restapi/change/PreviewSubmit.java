@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.PreconditionFailedException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
@@ -80,7 +81,7 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
   }
 
   @Override
-  public BinaryResult apply(RevisionResource rsrc)
+  public Response<BinaryResult> apply(RevisionResource rsrc)
       throws RestApiException, UpdateException, IOException, ConfigInvalidException,
           PermissionBackendException {
     if (Strings.isNullOrEmpty(format)) {
@@ -105,7 +106,7 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
       throw new MethodNotAllowedException("Anonymous users cannot submit");
     }
 
-    return getBundles(rsrc, f);
+    return Response.ok(getBundles(rsrc, f));
   }
 
   private BinaryResult getBundles(RevisionResource rsrc, ArchiveFormat f)

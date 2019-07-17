@@ -41,7 +41,7 @@ public class RobotCommentApiImpl implements RobotCommentApi {
   @Override
   public RobotCommentInfo get() throws RestApiException {
     try {
-      return getComment.apply(comment);
+      return getComment.apply(comment).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve robot comment", e);
     }

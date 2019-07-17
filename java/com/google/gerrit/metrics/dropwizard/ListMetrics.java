@@ -16,6 +16,7 @@ package com.google.gerrit.metrics.dropwizard;
 
 import com.codahale.metrics.Metric;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -50,7 +51,7 @@ class ListMetrics implements RestReadView<ConfigResource> {
   }
 
   @Override
-  public Map<String, MetricJson> apply(ConfigResource resource)
+  public Response<Map<String, MetricJson>> apply(ConfigResource resource)
       throws AuthException, PermissionBackendException {
     permissionBackend.currentUser().check(GlobalPermission.VIEW_CACHES);
 
@@ -75,7 +76,7 @@ class ListMetrics implements RestReadView<ConfigResource> {
       }
     }
 
-    return out;
+    return Response.ok(out);
   }
 
   private MetricJson toJson(String q, Metric m) {

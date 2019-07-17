@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -75,7 +76,7 @@ public class CheckMergeability implements RestReadView<BranchResource> {
   }
 
   @Override
-  public MergeableInfo apply(BranchResource resource)
+  public Response<MergeableInfo> apply(BranchResource resource)
       throws IOException, BadRequestException, ResourceNotFoundException {
     if (!(submitType.equals(SubmitType.MERGE_ALWAYS)
         || submitType.equals(SubmitType.MERGE_IF_NECESSARY))) {
@@ -106,7 +107,7 @@ public class CheckMergeability implements RestReadView<BranchResource> {
         result.mergeable = true;
         result.commitMerged = true;
         result.contentMerged = true;
-        return result;
+        return Response.ok(result);
       }
 
       if (m.merge(false, targetCommit, sourceCommit)) {
@@ -122,6 +123,6 @@ public class CheckMergeability implements RestReadView<BranchResource> {
     } catch (IllegalArgumentException e) {
       throw new BadRequestException(e.getMessage());
     }
-    return result;
+    return Response.ok(result);
   }
 }

@@ -119,7 +119,7 @@ class GroupApiImpl implements GroupApi {
   @Override
   public GroupInfo get() throws RestApiException {
     try {
-      return getGroup.apply(rsrc);
+      return getGroup.apply(rsrc).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve group", e);
     }
@@ -128,7 +128,7 @@ class GroupApiImpl implements GroupApi {
   @Override
   public GroupInfo detail() throws RestApiException {
     try {
-      return getDetail.apply(rsrc);
+      return getDetail.apply(rsrc).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve group", e);
     }
@@ -136,7 +136,7 @@ class GroupApiImpl implements GroupApi {
 
   @Override
   public String name() throws RestApiException {
-    return getName.apply(rsrc);
+    return getName.apply(rsrc).value();
   }
 
   @Override
@@ -153,7 +153,7 @@ class GroupApiImpl implements GroupApi {
   @Override
   public GroupInfo owner() throws RestApiException {
     try {
-      return getOwner.apply(rsrc);
+      return getOwner.apply(rsrc).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get group owner", e);
     }
@@ -172,7 +172,7 @@ class GroupApiImpl implements GroupApi {
 
   @Override
   public String description() throws RestApiException {
-    return getDescription.apply(rsrc);
+    return getDescription.apply(rsrc).value();
   }
 
   @Override
@@ -188,7 +188,7 @@ class GroupApiImpl implements GroupApi {
 
   @Override
   public GroupOptionsInfo options() throws RestApiException {
-    return getOptions.apply(rsrc);
+    return getOptions.apply(rsrc).value();
   }
 
   @Override
@@ -209,7 +209,7 @@ class GroupApiImpl implements GroupApi {
   public List<AccountInfo> members(boolean recursive) throws RestApiException {
     listMembers.setRecursive(recursive);
     try {
-      return listMembers.apply(rsrc);
+      return listMembers.apply(rsrc).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot list group members", e);
     }
@@ -236,7 +236,7 @@ class GroupApiImpl implements GroupApi {
   @Override
   public List<GroupInfo> includedGroups() throws RestApiException {
     try {
-      return listSubgroups.apply(rsrc);
+      return listSubgroups.apply(rsrc).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot list subgroups", e);
     }
@@ -263,7 +263,7 @@ class GroupApiImpl implements GroupApi {
   @Override
   public List<? extends GroupAuditEventInfo> auditLog() throws RestApiException {
     try {
-      return getAuditLog.apply(rsrc);
+      return getAuditLog.apply(rsrc).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get audit log", e);
     }

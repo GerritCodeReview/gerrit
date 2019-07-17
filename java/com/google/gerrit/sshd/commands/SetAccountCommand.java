@@ -282,7 +282,7 @@ final class SetAccountCommand extends SshCommand {
   private void deleteSshKeys(List<String> sshKeys)
       throws RestApiException, RepositoryNotFoundException, IOException, ConfigInvalidException,
           PermissionBackendException {
-    List<SshKeyInfo> infos = getSshKeys.apply(rsrc);
+    List<SshKeyInfo> infos = getSshKeys.apply(rsrc).value();
     if (sshKeys.contains("ALL")) {
       for (SshKeyInfo i : infos) {
         deleteSshKey(i);
@@ -321,7 +321,7 @@ final class SetAccountCommand extends SshCommand {
   private void deleteEmail(String email)
       throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
     if (email.equals("ALL")) {
-      List<EmailInfo> emails = getEmails.apply(rsrc);
+      List<EmailInfo> emails = getEmails.apply(rsrc).value();
       for (EmailInfo e : emails) {
         deleteEmail.apply(new AccountResource.Email(user.asIdentifiedUser(), e.email), new Input());
       }
@@ -332,7 +332,7 @@ final class SetAccountCommand extends SshCommand {
 
   private void putPreferred(String email)
       throws RestApiException, IOException, PermissionBackendException, ConfigInvalidException {
-    for (EmailInfo e : getEmails.apply(rsrc)) {
+    for (EmailInfo e : getEmails.apply(rsrc).value()) {
       if (e.email.equals(email)) {
         putPreferred.apply(new AccountResource.Email(user.asIdentifiedUser(), email), null);
         return;

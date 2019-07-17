@@ -41,7 +41,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class PutTopic extends RetryingRestModifyView<ChangeResource, TopicInput, Response<String>>
+public class PutTopic extends RetryingRestModifyView<ChangeResource, TopicInput, String>
     implements UiAction<ChangeResource> {
   private final ChangeMessagesUtil cmUtil;
   private final TopicEdited topicEdited;

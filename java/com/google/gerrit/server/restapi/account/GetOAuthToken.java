@@ -18,6 +18,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResource;
@@ -50,7 +51,7 @@ public class GetOAuthToken implements RestReadView<AccountResource> {
   }
 
   @Override
-  public OAuthTokenInfo apply(AccountResource rsrc)
+  public Response<OAuthTokenInfo> apply(AccountResource rsrc)
       throws AuthException, ResourceNotFoundException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       throw new AuthException("not allowed to get access token");
@@ -66,7 +67,7 @@ public class GetOAuthToken implements RestReadView<AccountResource> {
     accessTokenInfo.providerId = accessToken.getProviderId();
     accessTokenInfo.expiresAt = Long.toString(accessToken.getExpiresAt());
     accessTokenInfo.type = BEARER_TYPE;
-    return accessTokenInfo;
+    return Response.ok(accessTokenInfo);
   }
 
   private static String getHostName(String canonicalWebUrl) {

@@ -18,6 +18,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectResource;
@@ -42,11 +43,11 @@ public class GetStatistics implements RestReadView<ProjectResource> {
   }
 
   @Override
-  public RepositoryStatistics apply(ProjectResource rsrc)
+  public Response<RepositoryStatistics> apply(ProjectResource rsrc)
       throws ResourceNotFoundException, ResourceConflictException {
     try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
       GarbageCollectCommand gc = Git.wrap(repo).gc();
-      return new RepositoryStatistics(gc.getStatistics());
+      return Response.ok(new RepositoryStatistics(gc.getStatistics()));
     } catch (GitAPIException | JGitInternalException e) {
       throw new ResourceConflictException(e.getMessage());
     } catch (IOException e) {

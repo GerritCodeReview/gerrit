@@ -377,7 +377,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     }
 
     @Override
-    public FileInfo apply(ChangeEditResource rsrc) {
+    public Response<FileInfo> apply(ChangeEditResource rsrc) {
       FileInfo r = new FileInfo();
       ChangeEdit edit = rsrc.getChangeEdit();
       Change change = edit.getChange();
@@ -392,7 +392,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
               edit.getRefName(),
               rsrc.getPath());
       r.webLinks = links.isEmpty() ? null : links;
-      return r;
+      return Response.ok(r);
     }
 
     public static class FileInfo {
@@ -416,7 +416,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     }
 
     @Override
-    public Object apply(ChangeResource rsrc, Input input)
+    public Response<Object> apply(ChangeResource rsrc, Input input)
         throws AuthException, IOException, BadRequestException, ResourceConflictException,
             PermissionBackendException {
       if (input == null || Strings.isNullOrEmpty(input.message)) {
@@ -451,7 +451,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     }
 
     @Override
-    public BinaryResult apply(ChangeResource rsrc)
+    public Response<BinaryResult> apply(ChangeResource rsrc)
         throws AuthException, IOException, ResourceNotFoundException {
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getNotes(), rsrc.getUser());
       String msg;
@@ -466,9 +466,10 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
           msg = edit.get().getEditCommit().getFullMessage();
         }
 
-        return BinaryResult.create(msg)
-            .setContentType(FileContentUtil.TEXT_X_GERRIT_COMMIT_MESSAGE)
-            .base64();
+        return Response.ok(
+            BinaryResult.create(msg)
+                .setContentType(FileContentUtil.TEXT_X_GERRIT_COMMIT_MESSAGE)
+                .base64());
       }
       throw new ResourceNotFoundException();
     }

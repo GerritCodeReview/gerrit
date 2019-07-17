@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.index.query.Predicate;
@@ -107,7 +108,7 @@ public class DeleteDraftComments
   }
 
   @Override
-  public ImmutableList<DeletedDraftCommentInfo> apply(
+  public Response<ImmutableList<DeletedDraftCommentInfo>> apply(
       AccountResource rsrc, DeleteDraftCommentsInput input)
       throws RestApiException, UpdateException {
     CurrentUser user = userProvider.get();
@@ -147,7 +148,8 @@ public class DeleteDraftComments
     // allowing partial failure would have little value.
     BatchUpdate.execute(updates.values(), BatchUpdateListener.NONE, false);
 
-    return ops.stream().map(Op::getResult).filter(Objects::nonNull).collect(toImmutableList());
+    return Response.ok(
+        ops.stream().map(Op::getResult).filter(Objects::nonNull).collect(toImmutableList()));
   }
 
   private Predicate<ChangeData> predicate(Account.Id accountId, DeleteDraftCommentsInput input)

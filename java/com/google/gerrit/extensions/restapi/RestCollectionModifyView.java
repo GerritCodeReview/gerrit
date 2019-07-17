@@ -28,5 +28,28 @@ package com.google.gerrit.extensions.restapi;
 public interface RestCollectionModifyView<P extends RestResource, C extends RestResource, I>
     extends RestCollectionView<P, C, I> {
 
-  Object apply(P parentResource, I input) throws Exception;
+  /**
+   * Process the modification on the collection resource.
+   *
+   * <p>The value of the returned response is automatically converted to JSON unless it is a {@link
+   * BinaryResult}.
+   *
+   * <p>The returned response defines the status code that is returned to the client. For
+   * RestCollectionModifyViews this is usually {code 200 OK}, but other 2XX or 3XX status codes are
+   * also possible (e.g. {code 201 Created} if a resource was created, {code 202 Accepted} if a
+   * background task was scheduled, {@code 204 No Content} if no content is returned, {@code 302
+   * Found} for a redirect).
+   *
+   * <p>Further properties like caching behavior (see {@link CacheControl}) can be optionally set on
+   * the returned response.
+   *
+   * <p>Throwing a subclass of {@link RestApiException} results in a 4XX response to the client. For
+   * any other exception the client will get a {@code 500 Internal Server Error} response.
+   *
+   * @param parentResource the collection resource on which the modification is done
+   * @return response to return to the client
+   * @throws Exception the implementation of the view failed. The exception will be logged and HTTP
+   *     500 Internal Server Error will be returned to the client.
+   */
+  Response<?> apply(P parentResource, I input) throws Exception;
 }

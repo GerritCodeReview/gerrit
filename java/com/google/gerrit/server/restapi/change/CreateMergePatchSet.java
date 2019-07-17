@@ -76,7 +76,7 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 
 @Singleton
 public class CreateMergePatchSet
-    extends RetryingRestModifyView<ChangeResource, MergePatchSetInput, Response<ChangeInfo>> {
+    extends RetryingRestModifyView<ChangeResource, MergePatchSetInput, ChangeInfo> {
   private final GitRepositoryManager gitManager;
   private final CommitsCollection commits;
   private final TimeZone serverTimeZone;

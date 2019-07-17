@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -122,7 +123,7 @@ public class CreateGroup
   }
 
   @Override
-  public GroupInfo apply(TopLevelResource resource, IdString id, GroupInput input)
+  public Response<GroupInfo> apply(TopLevelResource resource, IdString id, GroupInput input)
       throws AuthException, BadRequestException, UnprocessableEntityException,
           ResourceConflictException, IOException, ConfigInvalidException, ResourceNotFoundException,
           PermissionBackendException {
@@ -165,7 +166,7 @@ public class CreateGroup
       throw new ResourceConflictException(e.getMessage(), e);
     }
 
-    return json.format(new InternalGroupDescription(createGroup(args)));
+    return Response.created(json.format(new InternalGroupDescription(createGroup(args))));
   }
 
   private AccountGroup.UUID owner(GroupInput input) throws UnprocessableEntityException {

@@ -18,6 +18,7 @@ import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
@@ -62,7 +63,7 @@ public class ListTasks implements RestReadView<ConfigResource> {
   }
 
   @Override
-  public List<TaskInfo> apply(ConfigResource resource)
+  public Response<List<TaskInfo>> apply(ConfigResource resource)
       throws AuthException, PermissionBackendException {
     CurrentUser user = self.get();
     if (!user.isIdentifiedUser()) {
@@ -72,7 +73,7 @@ public class ListTasks implements RestReadView<ConfigResource> {
     List<TaskInfo> allTasks = getTasks();
     try {
       permissionBackend.user(user).check(GlobalPermission.VIEW_QUEUE);
-      return allTasks;
+      return Response.ok(allTasks);
     } catch (AuthException e) {
       // Fall through to filter tasks.
     }
@@ -102,7 +103,7 @@ public class ListTasks implements RestReadView<ConfigResource> {
         }
       }
     }
-    return visibleTasks;
+    return Response.ok(visibleTasks);
   }
 
   private List<TaskInfo> getTasks() {

@@ -20,6 +20,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -59,7 +60,7 @@ public class GetPatch implements RestReadView<RevisionResource> {
   }
 
   @Override
-  public BinaryResult apply(RevisionResource rsrc)
+  public Response<BinaryResult> apply(RevisionResource rsrc)
       throws ResourceConflictException, IOException, ResourceNotFoundException {
     final Repository repo = repoManager.openRepository(rsrc.getProject());
     boolean close = true;
@@ -130,7 +131,7 @@ public class GetPatch implements RestReadView<RevisionResource> {
         }
 
         close = false;
-        return bin;
+        return Response.ok(bin);
       } finally {
         if (close) {
           rw.close();

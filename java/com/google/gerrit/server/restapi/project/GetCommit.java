@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.git.CommitUtil;
 import com.google.gerrit.server.project.CommitResource;
@@ -25,7 +26,7 @@ import java.io.IOException;
 public class GetCommit implements RestReadView<CommitResource> {
 
   @Override
-  public CommitInfo apply(CommitResource rsrc) throws IOException {
-    return CommitUtil.toCommitInfo(rsrc.getCommit());
+  public Response<CommitInfo> apply(CommitResource rsrc) throws IOException {
+    return Response.ok(CommitUtil.toCommitInfo(rsrc.getCommit()));
   }
 }

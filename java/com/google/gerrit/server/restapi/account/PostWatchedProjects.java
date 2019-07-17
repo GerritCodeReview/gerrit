@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.account;
 
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.IdentifiedUser;
@@ -64,7 +65,7 @@ public class PostWatchedProjects
   }
 
   @Override
-  public List<ProjectWatchInfo> apply(AccountResource rsrc, List<ProjectWatchInfo> input)
+  public Response<List<ProjectWatchInfo>> apply(AccountResource rsrc, List<ProjectWatchInfo> input)
       throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
@@ -77,7 +78,7 @@ public class PostWatchedProjects
             "Update Project Watches via API",
             rsrc.getUser().getAccountId(),
             u -> u.updateProjectWatches(projectWatches));
-    return getWatchedProjects.apply(rsrc);
+    return Response.ok(getWatchedProjects.apply(rsrc).value());
   }
 
   private Map<ProjectWatchKey, Set<NotifyType>> asMap(List<ProjectWatchInfo> input)

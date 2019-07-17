@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.account;
 
 import com.google.gerrit.extensions.common.EmailInfo;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.inject.Inject;
@@ -26,10 +27,10 @@ public class GetEmail implements RestReadView<AccountResource.Email> {
   public GetEmail() {}
 
   @Override
-  public EmailInfo apply(AccountResource.Email rsrc) {
+  public Response<EmailInfo> apply(AccountResource.Email rsrc) {
     EmailInfo e = new EmailInfo();
     e.email = rsrc.getEmail();
     e.preferred(rsrc.getUser().getAccount().getPreferredEmail());
-    return e;
+    return Response.ok(e);
   }
 }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.ReviewerJson;
 import com.google.gerrit.server.change.ReviewerResource;
@@ -33,7 +34,8 @@ public class GetReviewer implements RestReadView<ReviewerResource> {
   }
 
   @Override
-  public List<ReviewerInfo> apply(ReviewerResource rsrc) throws PermissionBackendException {
-    return json.format(rsrc);
+  public Response<List<ReviewerInfo>> apply(ReviewerResource rsrc)
+      throws PermissionBackendException {
+    return Response.ok(json.format(rsrc));
   }
 }

@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
@@ -54,7 +55,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
   }
 
   @Override
-  public GeneralPreferencesInfo apply(AccountResource rsrc)
+  public Response<GeneralPreferencesInfo> apply(AccountResource rsrc)
       throws RestApiException, PermissionBackendException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
@@ -66,7 +67,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
             .get(id)
             .map(AccountState::getGeneralPreferences)
             .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString())));
-    return unsetDownloadSchemeIfUnsupported(preferencesInfo);
+    return Response.ok(unsetDownloadSchemeIfUnsupported(preferencesInfo));
   }
 
   private GeneralPreferencesInfo unsetDownloadSchemeIfUnsupported(

@@ -145,6 +145,24 @@
     },
     {
       "key": {
+        "uuid": "e07624dc_6905b4f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-17T16:25:00Z",
+      "side": 1,
+      "message": "\u003e OK, are you saying that you have one plugin that defines a command, and another\n\u003e plugin adds options to it?\n\nActually in this case this change wouldn\u0027t have been a big issue for you. Your plugin could have simply overwritten UnknownOptionHandler#accept(...) and always return false from it.",
+      "parentUuid": "3e9b428c_a7a6c096",
+      "revId": "35b37e19eb10f63852707556a2e9b84f137d2a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fdea66ad_59a93489",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

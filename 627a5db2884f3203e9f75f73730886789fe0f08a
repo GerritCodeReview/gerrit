@@ -190,6 +190,30 @@
       "revId": "627a5db2884f3203e9f75f73730886789fe0f08a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "923aa5c4_c61d594a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-07-18T15:49:09Z",
+      "side": 1,
+      "message": "\u003e I agree with Edwin here. Thanks for improving the original proposal and adjusting the voting buttons to not show when locking is in place. I just think that this is not sufficient. As Edwin pointed out, the label in general is not clear enough, especially for users who are not (yet) that familiar with Gerrit.\n\nI can understand the concern about users clearly knowing when a change is label locked. We\u0027ve had this feature on our fork for almost 5 years now, so I can\u0027t perfectly recall how users reacted to it at first. We chose a simple name for the label \"Approval Lock\" and that seemed to be pretty self-explanatory for most users. We\u0027re very open to ideas on how to improve this further though.\n\n\u003e \n\u003e Can you also provide more details why the label locking mechanism is necessary? I saw some explanations above regarding CI integration. What I would like to understand is in which way exactly this is relevant (e.g. should reviewer votes be frozen and if so, why; or is this rather relevant to freeze labels used for CI integration). If we understand the user case better, it\u0027s easier to discuss a solution for it.\n\nSure. The problem we had before adding this lock was that sometimes users would modify labels such that a change was no longer submittable, but we were already running CI on that change which expected to be able to submit the change on success.\n\nSo the timeline would look something like this:\n\n1) change 1 uploaded for review\n2) change 1 reviewed (Code-Review +2)\n3) CI finds changes with Code-Review +2 and no V-1/CR-2 (i.e. will be submittable after CI gives V+1)\n4) CI starts on change 1 (CI runs for 1-2 hours)\n5) user who gave Code-Review +2 looks at change 1 again, finds an issue, and modifies their Code-Review +2 to be a Code-Review -1\n6) CI completes and marks the change V+1\n7) CI tries to submit the change and it fails\n\nNow I\u0027d like to point out that the \"resolution\" we picked here is not the only way to solve this in a CI system. The CI system could just fail, or it could detect labels changing (mid-way or at the end) and fail gracefully. Our customers chose to highly value CI job time and therefore wanted a way to ensure step 7 wouldn\u0027t fail due to some user action. Further supporting that, often we found that the user acting in step 5 did so without realizing the impact to CI. Those users have actually been quite happy that they\u0027re prevented from accidentally breaking CI now (since they too value CI job time).\n\nTo make sure I\u0027m answering all your questions, I would summarize the need as being able to partially (the CI user needs to be able to do step 6) freeze labels that control submitability of a change.\n\nI apologize for not providing that background up front. Hopefully it helps understand the use case we\u0027ve found.",
+      "parentUuid": "b276cc48_ebcdedaf",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "627a5db2884f3203e9f75f73730886789fe0f08a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

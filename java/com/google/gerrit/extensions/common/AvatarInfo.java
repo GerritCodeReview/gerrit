@@ -21,7 +21,7 @@ public class AvatarInfo {
    * <p>The web UI prefers avatar images to be square, both the height and width of the image should
    * be this size. The height is the more important dimension to match than the width.
    */
-  public static final int DEFAULT_SIZE = 26;
+  public static final int DEFAULT_SIZE = 32;
 
   public String url;
   public Integer height;

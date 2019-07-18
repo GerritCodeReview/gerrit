@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5687240f_a4693fff",
+        "filename": "java/com/google/gerrit/server/TraceRequestListener.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-07-18T07:26:06Z",
+      "side": 1,
+      "message": "At first I that that this is dangerous because it would prevent Gerrit from starting up when it fires but then I saw that you are catching this exception in the caller.\n\nI am a tiny bit worried that this code might get worked on in the future and the aforementioned catch will go away without us noticing. Would it make sense to use a checked excetption here instead? (e.g. JGit\u0027s ConfigInvalidException)",
+      "range": {
+        "startLine": 91,
+        "startChar": 18,
+        "endLine": 91,
+        "endChar": 42
+      },
+      "revId": "dbd3c3a4bb5507113f93f8ff6437d51ddec7f31a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5be9fa0_d6168a3e",
+        "filename": "java/com/google/gerrit/server/TraceRequestListener.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-07-18T07:26:06Z",
+      "side": 1,
+      "message": "Can you add a one-line comment to why these checks are implemented the way they are?\n\nI thought about proposing using \u0027nonematch\u0027 or just \u0027anymatch\u0027 but then it appeared to me that this is required because of the requirement that \u0027we honor all configured filters by \u0027anding them together.",
+      "revId": "dbd3c3a4bb5507113f93f8ff6437d51ddec7f31a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e92b960b_c7e5aa8a",
+        "filename": "java/com/google/gerrit/server/TraceRequestListener.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-07-18T07:26:06Z",
+      "side": 1,
+      "message": "nit: !anymatch \u003d\u003d nonematch\n!(at least one) \u003d\u003d is zero",
+      "range": {
+        "startLine": 138,
+        "startChar": 15,
+        "endLine": 138,
+        "endChar": 23
+      },
+      "revId": "dbd3c3a4bb5507113f93f8ff6437d51ddec7f31a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

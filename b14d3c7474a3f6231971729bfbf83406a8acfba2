@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "963188e9_df910f70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-18T07:02:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce1eb05d_1bf6f47d",
+      "range": {
+        "startLine": 12,
+        "startChar": 33,
+        "endLine": 12,
+        "endChar": 34
+      },
+      "revId": "b14d3c7474a3f6231971729bfbf83406a8acfba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7683e7f3_f0ba97ee",
         "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2019-07-17T14:55:17Z",
       "side": 1,
       "message": "Much nicer I think!",
+      "revId": "b14d3c7474a3f6231971729bfbf83406a8acfba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "317cf30d_ae62358d",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1437,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-18T07:02:16Z",
+      "side": 1,
+      "message": "I agree. Thanks for bringing me to this idea!",
+      "parentUuid": "7683e7f3_f0ba97ee",
       "revId": "b14d3c7474a3f6231971729bfbf83406a8acfba2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

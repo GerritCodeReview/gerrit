@@ -227,7 +227,8 @@
       },
       _changeStatuses: {
         type: String,
-        computed: '_computeChangeStatusChips(_change, _mergeable)',
+        computed:
+          '_computeChangeStatusChips(_change, _mergeable, _submitEnabled)',
       },
       _commitCollapsed: {
         type: Boolean,
@@ -249,7 +250,10 @@
         observer: '_updateToggleContainerClass',
       },
       _parentIsCurrent: Boolean,
-      _submitEnabled: Boolean,
+      _submitEnabled: {
+        type: Boolean,
+        computed: '_isSubmitEnabled(_currentRevisionActions)',
+      },
 
       /** @type {?} */
       _mergeable: {
@@ -464,7 +468,7 @@
       this._editingCommitMessage = false;
     },
 
-    _computeChangeStatusChips(change, mergeable) {
+    _computeChangeStatusChips(change, mergeable, submitEnabled) {
       // Polymer 2: check for undefined
       if ([
         change,
@@ -483,7 +487,7 @@
       const options = {
         includeDerived: true,
         mergeable: !!mergeable,
-        submitEnabled: this._submitEnabled,
+        submitEnabled: !!submitEnabled,
       };
       return this.changeStatuses(change, options);
     },
@@ -1208,18 +1212,6 @@
       return this.$.restAPI.getPreferences();
     },
 
-    _updateRebaseAction(revisionActions) {
-      if (revisionActions && revisionActions.rebase) {
-        revisionActions.rebase.rebaseOnCurrent =
-            !!revisionActions.rebase.enabled;
-        this._parentIsCurrent = !revisionActions.rebase.enabled;
-        revisionActions.rebase.enabled = true;
-      } else {
-        this._parentIsCurrent = true;
-      }
-      return revisionActions;
-    },
-
     _prepareCommitMsgForLinkify(msg) {
       // TODO(wyatta) switch linkify sequence, see issue 5526.
       // This is a zero-with space. It is added to prevent the linkify library
@@ -1285,8 +1277,6 @@
               this._latestCommitMessage = null;
             }
 
-            // Update the submit enabled based on current revision.
-            this._submitEnabled = this._isSubmitEnabled(currentRevision);
 
             const lineHeight = getComputedStyle(this).lineHeight;
 
@@ -1303,8 +1293,6 @@
                 currentRevision.commit.commit = latestRevisionSha;
               }
               this._commitInfo = currentRevision.commit;
-              this._currentRevisionActions =
-                      this._updateRebaseAction(currentRevision.actions);
               this._selectedRevision = currentRevision;
               // TODO: Fetch and process files.
             } else {
@@ -1316,9 +1304,9 @@
           });
     },
 
-    _isSubmitEnabled(currentRevision) {
-      return !!(currentRevision.actions && currentRevision.actions.submit &&
-          currentRevision.actions.submit.enabled);
+    _isSubmitEnabled(revisionActions) {
+      return !!(revisionActions && revisionActions.submit &&
+        revisionActions.submit.enabled);
     },
 
     _getEdit() {

@@ -26,6 +26,8 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.RequestInfo;
+import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.audit.HttpAuditEvent;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
@@ -35,6 +37,7 @@ import com.google.gerrit.server.git.UploadPackInitializer;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.group.GroupAuditService;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -339,6 +342,7 @@ public class GitOverHttpServlet extends GitServlet {
     private final Provider<CurrentUser> userProvider;
     private final GroupAuditService groupAuditService;
     private final Metrics metrics;
+    private final PluginSetContext<RequestListener> requestListeners;
 
     @Inject
     UploadFilter(
@@ -346,12 +350,14 @@ public class GitOverHttpServlet extends GitServlet {
         PermissionBackend permissionBackend,
         Provider<CurrentUser> userProvider,
         GroupAuditService groupAuditService,
-        Metrics metrics) {
+        Metrics metrics,
+        PluginSetContext<RequestListener> requestListeners) {
       this.uploadValidatorsFactory = uploadValidatorsFactory;
       this.permissionBackend = permissionBackend;
       this.userProvider = userProvider;
       this.groupAuditService = groupAuditService;
       this.metrics = metrics;
+      this.requestListeners = requestListeners;
     }
 
     @Override
@@ -369,7 +375,14 @@ public class GitOverHttpServlet extends GitServlet {
       HttpServletRequest httpRequest = (HttpServletRequest) request;
       String sessionId = httpRequest.getSession().getId();
 
-      try {
+      try (TraceContext traceContext = TraceContext.open()) {
+        RequestInfo requestInfo =
+            RequestInfo.builder(
+                    RequestInfo.RequestType.GIT_UPLOAD, userProvider.get(), traceContext)
+                .project(state.getNameKey())
+                .build();
+        requestListeners.runEach(l -> l.onRequest(requestInfo));
+
         try {
           perm.check(ProjectPermission.RUN_UPLOAD_PACK);
         } catch (AuthException e) {

@@ -16,16 +16,20 @@ package com.google.gerrit.acceptance.rest;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.apache.http.HttpStatus.SC_CREATED;
+import static org.apache.http.HttpStatus.SC_OK;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.truth.Expect;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.httpd.restapi.ParameterParser;
@@ -53,11 +57,27 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+/**
+ * This test tests the tracing of requests.
+ *
+ * <p>To verify that tracing is working we do:
+ *
+ * <ul>
+ *   <li>Register a plugin extension that we know is invoked when the request is done. Within the
+ *       implementation of this plugin extension we access the status of the thread local state in
+ *       the {@link LoggingContext} and store it locally in the plugin extension class.
+ *   <li>Do a request (e.g. REST) that triggers the plugin extension.
+ *   <li>When the plugin extension is invoked it records the current logging context.
+ *   <li>After the request is done the test verifies that logging context that was recorded by the
+ *       plugin extension has the expected state.
+ * </ul>
+ */
 public class TraceIT extends AbstractDaemonTest {
   @Rule public final Expect expect = Expect.create();
 
   @Inject private DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners;
   @Inject private DynamicSet<CommitValidationListener> commitValidationListeners;
+  @Inject private DynamicSet<ChangeIndexedListener> changeIndexedListeners;
   @Inject private DynamicSet<PerformanceLogger> performanceLoggers;
   @Inject private WorkQueue workQueue;
 
@@ -94,6 +114,29 @@ public class TraceIT extends AbstractDaemonTest {
     assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
     assertThat(projectCreationListener.traceId).isNull();
     assertThat(projectCreationListener.isLoggingForced).isFalse();
+
+    // The logging tag with the project name is also set if tracing is off.
+    assertThat(projectCreationListener.tags.get("project")).containsExactly("new1");
+  }
+
+  @Test
+  public void restCallForChangeSetsProjectTag() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    TraceChangeIndexedListener changeIndexedListener = new TraceChangeIndexedListener();
+    RegistrationHandle registrationHandle =
+        changeIndexedListeners.add("gerrit", changeIndexedListener);
+    try {
+      RestResponse response =
+          adminRestSession.post(
+              "/changes/" + changeId + "/revisions/current/review", ReviewInput.approve());
+      assertThat(response.getStatusCode()).isEqualTo(SC_OK);
+
+      // The logging tag with the project name is also set if tracing is off.
+      assertThat(changeIndexedListener.tags.get("project")).containsExactly(project.get());
+    } finally {
+      registrationHandle.remove();
+    }
   }
 
   @Test
@@ -104,6 +147,7 @@ public class TraceIT extends AbstractDaemonTest {
     assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNotNull();
     assertThat(projectCreationListener.traceId).isNotNull();
     assertThat(projectCreationListener.isLoggingForced).isTrue();
+    assertThat(projectCreationListener.tags.get("project")).containsExactly("new2");
   }
 
   @Test
@@ -114,6 +158,7 @@ public class TraceIT extends AbstractDaemonTest {
     assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isEqualTo("issue/123");
     assertThat(projectCreationListener.traceId).isEqualTo("issue/123");
     assertThat(projectCreationListener.isLoggingForced).isTrue();
+    assertThat(projectCreationListener.tags.get("project")).containsExactly("new3");
   }
 
   @Test
@@ -125,6 +170,7 @@ public class TraceIT extends AbstractDaemonTest {
     assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNotNull();
     assertThat(projectCreationListener.traceId).isNotNull();
     assertThat(projectCreationListener.isLoggingForced).isTrue();
+    assertThat(projectCreationListener.tags.get("project")).containsExactly("new4");
   }
 
   @Test
@@ -136,6 +182,7 @@ public class TraceIT extends AbstractDaemonTest {
     assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isEqualTo("issue/123");
     assertThat(projectCreationListener.traceId).isEqualTo("issue/123");
     assertThat(projectCreationListener.isLoggingForced).isTrue();
+    assertThat(projectCreationListener.tags.get("project")).containsExactly("new5");
   }
 
   @Test
@@ -148,6 +195,7 @@ public class TraceIT extends AbstractDaemonTest {
     assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isEqualTo("issue/123");
     assertThat(projectCreationListener.traceId).isEqualTo("issue/123");
     assertThat(projectCreationListener.isLoggingForced).isTrue();
+    assertThat(projectCreationListener.tags.get("project")).containsExactly("new6");
 
     // trace ID only specified by trace request parameter
     response =
@@ -157,6 +205,7 @@ public class TraceIT extends AbstractDaemonTest {
     assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isEqualTo("issue/123");
     assertThat(projectCreationListener.traceId).isEqualTo("issue/123");
     assertThat(projectCreationListener.isLoggingForced).isTrue();
+    assertThat(projectCreationListener.tags.get("project")).containsExactly("new7");
 
     // same trace ID specified by trace header and trace request parameter
     response =
@@ -167,6 +216,7 @@ public class TraceIT extends AbstractDaemonTest {
     assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isEqualTo("issue/123");
     assertThat(projectCreationListener.traceId).isEqualTo("issue/123");
     assertThat(projectCreationListener.isLoggingForced).isTrue();
+    assertThat(projectCreationListener.tags.get("project")).containsExactly("new8");
 
     // different trace IDs specified by trace header and trace request parameter
     response =
@@ -178,6 +228,7 @@ public class TraceIT extends AbstractDaemonTest {
         .containsExactly("issue/123", "issue/456");
     assertThat(projectCreationListener.traceIds).containsExactly("issue/123", "issue/456");
     assertThat(projectCreationListener.isLoggingForced).isTrue();
+    assertThat(projectCreationListener.tags.get("project")).containsExactly("new9");
   }
 
   @Test
@@ -187,6 +238,9 @@ public class TraceIT extends AbstractDaemonTest {
     r.assertOkStatus();
     assertThat(commitValidationListener.traceId).isNull();
     assertThat(commitValidationListener.isLoggingForced).isFalse();
+
+    // The logging tag with the project name is also set if tracing is off.
+    assertThat(commitValidationListener.tags.get("project")).containsExactly(project.get());
   }
 
   @Test
@@ -197,6 +251,7 @@ public class TraceIT extends AbstractDaemonTest {
     r.assertOkStatus();
     assertThat(commitValidationListener.traceId).isNotNull();
     assertThat(commitValidationListener.isLoggingForced).isTrue();
+    assertThat(commitValidationListener.tags.get("project")).containsExactly(project.get());
   }
 
   @Test
@@ -207,6 +262,7 @@ public class TraceIT extends AbstractDaemonTest {
     r.assertOkStatus();
     assertThat(commitValidationListener.traceId).isEqualTo("issue/123");
     assertThat(commitValidationListener.isLoggingForced).isTrue();
+    assertThat(commitValidationListener.tags.get("project")).containsExactly(project.get());
   }
 
   @Test
@@ -216,6 +272,9 @@ public class TraceIT extends AbstractDaemonTest {
     r.assertOkStatus();
     assertThat(commitValidationListener.traceId).isNull();
     assertThat(commitValidationListener.isLoggingForced).isFalse();
+
+    // The logging tag with the project name is also set if tracing is off.
+    assertThat(commitValidationListener.tags.get("project")).containsExactly(project.get());
   }
 
   @Test
@@ -226,6 +285,7 @@ public class TraceIT extends AbstractDaemonTest {
     r.assertOkStatus();
     assertThat(commitValidationListener.traceId).isNotNull();
     assertThat(commitValidationListener.isLoggingForced).isTrue();
+    assertThat(commitValidationListener.tags.get("project")).containsExactly(project.get());
   }
 
   @Test
@@ -236,6 +296,7 @@ public class TraceIT extends AbstractDaemonTest {
     r.assertOkStatus();
     assertThat(commitValidationListener.traceId).isEqualTo("issue/123");
     assertThat(commitValidationListener.isLoggingForced).isTrue();
+    assertThat(commitValidationListener.tags.get("project")).containsExactly(project.get());
   }
 
   @Test
@@ -316,6 +377,7 @@ public class TraceIT extends AbstractDaemonTest {
     String traceId;
     ImmutableSet<String> traceIds;
     Boolean isLoggingForced;
+    ImmutableSetMultimap<String, String> tags;
 
     @Override
     public void validateNewProject(CreateProjectArgs args) throws ValidationException {
@@ -323,12 +385,14 @@ public class TraceIT extends AbstractDaemonTest {
           Iterables.getFirst(LoggingContext.getInstance().getTagsAsMap().get("TRACE_ID"), null);
       this.traceIds = LoggingContext.getInstance().getTagsAsMap().get("TRACE_ID");
       this.isLoggingForced = LoggingContext.getInstance().shouldForceLogging(null, null, false);
+      this.tags = LoggingContext.getInstance().getTagsAsMap();
     }
   }
 
   private static class TraceValidatingCommitValidationListener implements CommitValidationListener {
     String traceId;
     Boolean isLoggingForced;
+    ImmutableSetMultimap<String, String> tags;
 
     @Override
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
@@ -336,8 +400,21 @@ public class TraceIT extends AbstractDaemonTest {
       this.traceId =
           Iterables.getFirst(LoggingContext.getInstance().getTagsAsMap().get("TRACE_ID"), null);
       this.isLoggingForced = LoggingContext.getInstance().shouldForceLogging(null, null, false);
+      this.tags = LoggingContext.getInstance().getTagsAsMap();
       return ImmutableList.of();
     }
+  }
+
+  private static class TraceChangeIndexedListener implements ChangeIndexedListener {
+    ImmutableSetMultimap<String, String> tags;
+
+    @Override
+    public void onChangeIndexed(String projectName, int id) {
+      this.tags = LoggingContext.getInstance().getTagsAsMap();
+    }
+
+    @Override
+    public void onChangeDeleted(int id) {}
   }
 
   private static class TestPerformanceLogger implements PerformanceLogger {

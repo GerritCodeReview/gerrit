@@ -243,6 +243,15 @@ public class TraceContext implements AutoCloseable {
     return this;
   }
 
+  public boolean isTracing() {
+    return LoggingContext.getInstance().isLoggingForced();
+  }
+
+  public Optional<String> getTraceId() {
+    return LoggingContext.getInstance().getTagsAsMap().get(RequestId.Type.TRACE_ID.name()).stream()
+        .findFirst();
+  }
+
   @Override
   public void close() {
     for (Table.Cell<String, String, Boolean> cell : tags.cellSet()) {

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "94291b06_c5ebe51c",
+        "filename": "java/com/google/gerrit/server/TraceRequestListener.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-18T08:16:17Z",
+      "side": 1,
+      "message": "I agree that ConfigInvalidException is a better fit here.\n\nDone.",
+      "parentUuid": "5687240f_a4693fff",
+      "range": {
+        "startLine": 91,
+        "startChar": 18,
+        "endLine": 91,
+        "endChar": 42
+      },
+      "revId": "dbd3c3a4bb5507113f93f8ff6437d51ddec7f31a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5be9fa0_d6168a3e",
         "filename": "java/com/google/gerrit/server/TraceRequestListener.java",
         "patchSetId": 4
@@ -39,6 +63,24 @@
       "revId": "dbd3c3a4bb5507113f93f8ff6437d51ddec7f31a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea864934_3a7dd168",
+        "filename": "java/com/google/gerrit/server/TraceRequestListener.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-18T08:16:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5be9fa0_d6168a3e",
+      "revId": "dbd3c3a4bb5507113f93f8ff6437d51ddec7f31a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "dbd3c3a4bb5507113f93f8ff6437d51ddec7f31a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fb59d21_1e5c09ae",
+        "filename": "java/com/google/gerrit/server/TraceRequestListener.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-18T08:16:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e92b960b_c7e5aa8a",
+      "range": {
+        "startLine": 138,
+        "startChar": 15,
+        "endLine": 138,
+        "endChar": 23
+      },
+      "revId": "dbd3c3a4bb5507113f93f8ff6437d51ddec7f31a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

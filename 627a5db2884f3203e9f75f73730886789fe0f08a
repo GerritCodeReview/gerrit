@@ -166,6 +166,30 @@
       "revId": "627a5db2884f3203e9f75f73730886789fe0f08a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b276cc48_ebcdedaf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-18T14:39:32Z",
+      "side": 1,
+      "message": "I agree with Edwin here. Thanks for improving the original proposal and adjusting the voting buttons to not show when locking is in place. I just think that this is not sufficient. As Edwin pointed out, the label in general is not clear enough, especially for users who are not (yet) that familiar with Gerrit.\n\nCan you also provide more details why the label locking mechanism is necessary? I saw some explanations above regarding CI integration. What I would like to understand is in which way exactly this is relevant (e.g. should reviewer votes be frozen and if so, why; or is this rather relevant to freeze labels used for CI integration). If we understand the user case better, it\u0027s easier to discuss a solution for it.",
+      "parentUuid": "bcb84bab_74ad9b62",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "627a5db2884f3203e9f75f73730886789fe0f08a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc2f5a0c_f5baa925",
+        "filename": "java/com/google/gerrit/server/restapi/account/PutUsername.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-18T06:43:37Z",
+      "side": 1,
+      "message": "Should the method just return here, or even throw an exception, when the input is not given?\n\nIf we just create a new input here its username member will always be null and it will return null at L97.  Then it\u0027s not necessary to have checked if the username is already set (L89-92).",
+      "revId": "99abe90931e9c35636171dce5106a0407261b8b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

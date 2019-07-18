@@ -36,7 +36,6 @@ import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.google.protobuf.ByteString;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -50,6 +49,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.util.io.DisabledOutputStream;
 
 /** Computes and caches if a change is a pure revert of another change. */
 @Singleton
@@ -190,7 +190,7 @@ public class PureRevertCache {
           // Any differences between claimed original's parent and the rebase result indicate that
           // the
           // claimedRevert is not a pure revert but made content changes
-          try (DiffFormatter df = new DiffFormatter(new ByteArrayOutputStream())) {
+          try (DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE)) {
             df.setReader(oi.newReader(), repo.getConfig());
             List<DiffEntry> entries =
                 df.scan(claimedOriginalCommit.getParent(0), merger.getResultTreeId());

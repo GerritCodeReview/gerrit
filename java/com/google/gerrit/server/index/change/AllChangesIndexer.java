@@ -19,12 +19,14 @@ import static com.google.common.util.concurrent.Futures.successfulAsList;
 import static com.google.common.util.concurrent.Futures.transform;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.index.SiteIndexer;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -45,6 +47,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.Callable;
@@ -194,22 +197,38 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
   public Callable<Void> reindexProject(
       ChangeIndexer indexer, Project.NameKey project, Task done, Task failed) {
-    return new ProjectIndexer(indexer, project, done, failed);
+    return new ProjectIndexer(indexer, project, null, done, failed);
+  }
+
+  public Callable<Void> reindexChanges(
+      ChangeIndexer indexer,
+      Project.NameKey project,
+      Set<Integer> changes,
+      Task done,
+      Task failed) {
+    if (changes == null || changes.isEmpty()) {
+      throw new IllegalArgumentException("changes cannot be empty");
+    }
+    return new ProjectIndexer(
+        indexer, project, changes.stream().map(Change.Id::new).collect(toSet()), done, failed);
   }
 
   private class ProjectIndexer implements Callable<Void> {
     private final ChangeIndexer indexer;
     private final Project.NameKey project;
+    private final Set<Change.Id> changes;
     private final ProgressMonitor done;
     private final ProgressMonitor failed;
 
     private ProjectIndexer(
         ChangeIndexer indexer,
         Project.NameKey project,
+        @Nullable Set<Change.Id> changes,
         ProgressMonitor done,
         ProgressMonitor failed) {
       this.indexer = indexer;
       this.project = project;
+      this.changes = changes;
       this.done = done;
       this.failed = failed;
     }
@@ -225,7 +244,11 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         // It does mean that reindexing after invalidating the DiffSummary cache will be expensive,
         // but the goal is to invalidate that cache as infrequently as we possibly can. And besides,
         // we don't have concrete proof that improving packfile locality would help.
-        notesFactory.scan(repo, db, project).forEach(r -> index(db, r));
+        if (changes == null) {
+          notesFactory.scan(repo, db, project).forEach(r -> index(db, r));
+        } else {
+          notesFactory.scan(repo, db, project, changes).forEach(r -> index(db, r));
+        }
       } catch (RepositoryNotFoundException rnfe) {
         logger.atSevere().log(rnfe.getMessage());
       } finally {

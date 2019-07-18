@@ -1419,6 +1419,23 @@ returns immediately.
   Content-Disposition: attachment
 ----
 
+It is also possible to index only some of the changes beloning to a project
+by specifying numeric change-ids in the request body:
+
+.Request
+----
+  POST /projects/MyProject/index.changes HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {changes: [12345, 12346]}
+----
+
+.Response
+----
+  HTTP/1.1 202 Accepted
+  Content-Disposition: attachment
+----
+
 [[check]]
 === Check project consistency
 

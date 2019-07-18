@@ -285,7 +285,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       if (args.migration.readChanges()) {
         for (Project.NameKey project : projectCache.all()) {
           try (Repository repo = args.repoManager.openRepository(project)) {
-            scanNoteDb(repo, db, project)
+            scanNoteDb(db, project, scanChangeIds(repo))
                 .filter(r -> !r.error().isPresent())
                 .map(ChangeNotesResult::notes)
                 .filter(predicate)
@@ -305,16 +305,25 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     public Stream<ChangeNotesResult> scan(Repository repo, ReviewDb db, Project.NameKey project)
         throws IOException {
-      return args.migration.readChanges() ? scanNoteDb(repo, db, project) : scanReviewDb(repo, db);
+      return doScan(db, project, scanChangeIds(repo));
     }
 
-    private Stream<ChangeNotesResult> scanReviewDb(Repository repo, ReviewDb db)
+    public Stream<ChangeNotesResult> scan(
+        Repository repo, ReviewDb db, Project.NameKey project, Collection<Change.Id> changes)
         throws IOException {
+      return doScan(db, project, scanChangeIds(repo, changes));
+    }
+
+    private Stream<ChangeNotesResult> doScan(ReviewDb db, Project.NameKey project, ScanResult sr) {
+      return args.migration.readChanges() ? scanNoteDb(db, project, sr) : scanReviewDb(db, sr);
+    }
+
+    private Stream<ChangeNotesResult> scanReviewDb(ReviewDb db, ScanResult sr) {
       // Scan IDs that might exist in ReviewDb, assuming that each change has at least one patch set
       // ref. Not all changes might exist: some patch set refs might have been written where the
       // corresponding ReviewDb write failed. These will be silently filtered out by the batch get
       // call below, which is intended.
-      Set<Change.Id> ids = scanChangeIds(repo).fromPatchSetRefs();
+      Set<Change.Id> ids = sr.fromPatchSetRefs();
 
       // A batch size of N may overload get(Iterable), so use something smaller, but still >1.
       return Streams.stream(Iterators.partition(ids.iterator(), 30))
@@ -332,8 +341,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
 
     private Stream<ChangeNotesResult> scanNoteDb(
-        Repository repo, ReviewDb db, Project.NameKey project) throws IOException {
-      ScanResult sr = scanChangeIds(repo);
+        ReviewDb db, Project.NameKey project, ScanResult sr) {
       PrimaryStorage defaultStorage = args.migration.changePrimaryStorage();
 
       return sr.all().stream()
@@ -393,11 +401,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     /** Result of {@link #scan(Repository, ReviewDb, Project.NameKey)}. */
     @AutoValue
     public abstract static class ChangeNotesResult {
-      static ChangeNotesResult error(Change.Id id, OrmException e) {
+      public static ChangeNotesResult error(Change.Id id, OrmException e) {
         return new AutoValue_ChangeNotes_Factory_ChangeNotesResult(id, Optional.of(e), null);
       }
 
-      static ChangeNotesResult notes(ChangeNotes notes) {
+      public static ChangeNotesResult notes(ChangeNotes notes) {
         return new AutoValue_ChangeNotes_Factory_ChangeNotesResult(
             notes.getChangeId(), Optional.empty(), notes);
       }
@@ -442,6 +450,21 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         Change.Id id = Change.Id.fromRef(r.getName());
         if (id != null) {
           (r.getName().endsWith(RefNames.META_SUFFIX) ? fromMeta : fromPs).add(id);
+        }
+      }
+      return new AutoValue_ChangeNotes_Factory_ScanResult(fromPs.build(), fromMeta.build());
+    }
+
+    private static ScanResult scanChangeIds(Repository repo, Collection<Change.Id> ids)
+        throws IOException {
+      ImmutableSet.Builder<Change.Id> fromPs = ImmutableSet.builder();
+      ImmutableSet.Builder<Change.Id> fromMeta = ImmutableSet.builder();
+      for (Change.Id cid : ids) {
+        for (Ref r : repo.getRefDatabase().getRefsByPrefix(cid.toRefPrefix())) {
+          Change.Id id = Change.Id.fromRef(r.getName());
+          if (id != null) {
+            (r.getName().endsWith(RefNames.META_SUFFIX) ? fromMeta : fromPs).add(id);
+          }
         }
       }
       return new AutoValue_ChangeNotes_Factory_ScanResult(fromPs.build(), fromMeta.build());

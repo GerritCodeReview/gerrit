@@ -16,6 +16,24 @@
       "revId": "99abe90931e9c35636171dce5106a0407261b8b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa254476_b3c85bc1",
+        "filename": "java/com/google/gerrit/server/restapi/account/PutUsername.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-18T07:30:05Z",
+      "side": 1,
+      "message": "OK, done. But I think it\u0027s better to have this check after checking for an existing user name, because then a user who attempts to delete a username (by having an empty input) gets \"Username cannot be changed.\" as error message instead of \"input required\", which is more understandable.",
+      "parentUuid": "fc2f5a0c_f5baa925",
+      "revId": "99abe90931e9c35636171dce5106a0407261b8b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

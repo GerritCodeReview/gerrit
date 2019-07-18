@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "e2ee9063_71b6b53b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-18T15:39:35Z",
+      "side": 1,
+      "message": "If you want to add further details (especially for why this is useful), you could write:\n\"As a consequence, showing the change screen won\u0027t be unnecessarily blocked on the diff computation for the latest patch set anymore.\"",
+      "range": {
+        "startLine": 11,
+        "startChar": 69,
+        "endLine": 11,
+        "endChar": 70
+      },
+      "revId": "d0f776173e20c92f163383b627476d6ac8fad577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a278695c_96109324",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-18T15:39:35Z",
+      "side": 1,
+      "message": "I just did a quick check how we test in the frontend that the SKIP_MERGEABLE option is passed and didn\u0027t find any tests for it. Maybe writing a test is not easily possible. If you don\u0027t have an idea for testing either, I would probably remove this sentence.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 38
+      },
+      "revId": "d0f776173e20c92f163383b627476d6ac8fad577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "735e7aca_7b4eff55",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -34,6 +80,24 @@
       "revId": "d0f776173e20c92f163383b627476d6ac8fad577",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "670ec339_be2b12cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-18T15:39:35Z",
+      "side": 1,
+      "message": "Did you maybe forget to upload a newer patch set? There hasn\u0027t been any modification since Ben\u0027s comment.",
+      "parentUuid": "9076cf2f_4fd34e2e",
+      "revId": "d0f776173e20c92f163383b627476d6ac8fad577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

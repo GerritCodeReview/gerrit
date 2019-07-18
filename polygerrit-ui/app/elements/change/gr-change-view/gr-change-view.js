@@ -192,7 +192,6 @@
       _filesExpanded: String,
       _basePatchNum: String,
       _selectedRevision: Object,
-      _currentRevisionActions: Object,
       _allPatchSets: {
         type: Array,
         computed: 'computeAllPatchSets(_change, _change.revisions.*)',
@@ -249,7 +248,6 @@
         observer: '_updateToggleContainerClass',
       },
       _parentIsCurrent: Boolean,
-      _submitEnabled: Boolean,
 
       /** @type {?} */
       _mergeable: {
@@ -1208,18 +1206,6 @@
       return this.$.restAPI.getPreferences();
     },
 
-    _updateRebaseAction(revisionActions) {
-      if (revisionActions && revisionActions.rebase) {
-        revisionActions.rebase.rebaseOnCurrent =
-            !!revisionActions.rebase.enabled;
-        this._parentIsCurrent = !revisionActions.rebase.enabled;
-        revisionActions.rebase.enabled = true;
-      } else {
-        this._parentIsCurrent = true;
-      }
-      return revisionActions;
-    },
-
     _prepareCommitMsgForLinkify(msg) {
       // TODO(wyatta) switch linkify sequence, see issue 5526.
       // This is a zero-with space. It is added to prevent the linkify library
@@ -1285,8 +1271,6 @@
               this._latestCommitMessage = null;
             }
 
-            // Update the submit enabled based on current revision.
-            this._submitEnabled = this._isSubmitEnabled(currentRevision);
 
             const lineHeight = getComputedStyle(this).lineHeight;
 
@@ -1303,8 +1287,6 @@
                 currentRevision.commit.commit = latestRevisionSha;
               }
               this._commitInfo = currentRevision.commit;
-              this._currentRevisionActions =
-                      this._updateRebaseAction(currentRevision.actions);
               this._selectedRevision = currentRevision;
               // TODO: Fetch and process files.
             } else {
@@ -1314,11 +1296,6 @@
                       parseInt(this._patchRange.patchNum, 10));
             }
           });
-    },
-
-    _isSubmitEnabled(currentRevision) {
-      return !!(currentRevision.actions && currentRevision.actions.submit &&
-          currentRevision.actions.submit.enabled);
     },
 
     _getEdit() {

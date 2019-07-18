@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "035e71c2_4d8b67c5",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-07-18T06:27:57Z",
+      "side": 1,
+      "message": "Earlier in the document, it is recommended to clone or link the plugin into the gerrit/plugins-directory and not alongside the gerrit-repository as it is done here. I think we should do the same here (removing `../../`) or at least mention, where the plugins are located for this example.",
+      "revId": "615c7a13a3b9bcfcfcca8232a0113e38f9702bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

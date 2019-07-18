@@ -150,20 +150,19 @@ public class InternalAccountDirectory extends AccountDirectory {
     if (options.contains(FillOptions.AVATARS)) {
       AvatarProvider ap = avatar.get();
       if (ap != null) {
-        info.avatars = new ArrayList<>(3);
+        info.avatars = new ArrayList<>();
         IdentifiedUser user = userFactory.create(account.getId());
 
-        // GWT UI uses DEFAULT_SIZE (26px).
+        // PolyGerrit UI uses the following sizes for avatars:
+        // - 32px for avatars on next to names e.g. on the dashboard. This is also Gerrit's default.
+        // - 56px for the user's own avatar in the menu
+        // - 100ox for other user's avatars on dashboards
+        // - 120px for the user's own profile settings page
         addAvatar(ap, info, user, AvatarInfo.DEFAULT_SIZE);
-
-        // PolyGerrit UI prefers 32px and 100px.
         if (!info.avatars.isEmpty()) {
-          if (32 != AvatarInfo.DEFAULT_SIZE) {
-            addAvatar(ap, info, user, 32);
-          }
-          if (100 != AvatarInfo.DEFAULT_SIZE) {
-            addAvatar(ap, info, user, 100);
-          }
+          addAvatar(ap, info, user, 56);
+          addAvatar(ap, info, user, 100);
+          addAvatar(ap, info, user, 120);
         }
       }
     }

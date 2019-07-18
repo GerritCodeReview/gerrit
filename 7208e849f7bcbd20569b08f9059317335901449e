@@ -1,0 +1,303 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "beae68ba_2b913218",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3190,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-18T13:55:34Z",
+      "side": 1,
+      "message": "Maybe better name this \"notify_configs\"?",
+      "range": {
+        "startLine": 3190,
+        "startChar": 2,
+        "endLine": 3190,
+        "endChar": 12
+      },
+      "revId": "7208e849f7bcbd20569b08f9059317335901449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5a78f08_cdfbec8d",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3191,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-18T13:55:34Z",
+      "side": 1,
+      "message": "Name this NotifyConfigInfo?",
+      "range": {
+        "startLine": 3191,
+        "startChar": 8,
+        "endLine": 3191,
+        "endChar": 24
+      },
+      "revId": "7208e849f7bcbd20569b08f9059317335901449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "838a7993_ddebcb94",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3191,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-18T13:55:34Z",
+      "side": 1,
+      "message": "I think it would be better if this was a map of notify config name to NotifyConfigInfo.",
+      "range": {
+        "startLine": 3191,
+        "startChar": 0,
+        "endLine": 3191,
+        "endChar": 7
+      },
+      "revId": "7208e849f7bcbd20569b08f9059317335901449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07b3bf7b_99d69de4",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3263,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-18T13:55:34Z",
+      "side": 1,
+      "message": "Having a single list here is not optimal, since it makes adding a new notify configuration difficult.\nIf this field is set, you overwrite all existing notification configs. This means if a user just wants to add a new entry, but not lose the existing entries, the user must first retrieve all existing entries, then add the new entry, and then set all entries in this field. This is not only difficult to use, but it\u0027s also not safe against races, since somebody else can add entries after you read the entries but before you have sent the update request.\n\nThis is why I suggested to have separate fields for additions and removals, similar to what ProjectAccessInput has [1].\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#project-access-input",
+      "range": {
+        "startLine": 3261,
+        "startChar": 0,
+        "endLine": 3263,
+        "endChar": 40
+      },
+      "revId": "7208e849f7bcbd20569b08f9059317335901449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a1ba0a3_87aa7ff9",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3268,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-18T13:55:34Z",
+      "side": 1,
+      "message": "\"notify configuration\"?",
+      "range": {
+        "startLine": 3268,
+        "startChar": 46,
+        "endLine": 3268,
+        "endChar": 80
+      },
+      "revId": "7208e849f7bcbd20569b08f9059317335901449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afd8c603_304b2c2d",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3270,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-18T13:55:34Z",
+      "side": 1,
+      "message": "I think this is an implementation details that shouldn\u0027t be mentioned in the end user documentation. Maybe just drop this?",
+      "range": {
+        "startLine": 3269,
+        "startChar": 0,
+        "endLine": 3270,
+        "endChar": 34
+      },
+      "revId": "7208e849f7bcbd20569b08f9059317335901449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ae1ecac_ae42f087",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3278,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-18T13:55:34Z",
+      "side": 1,
+      "message": "I think you are missing a field for groups here.\n\nIn the notify config you can specify an email or a Gerrit group as recipient, see [1].\n\nBoth of them are stored in the \u0027notify.\u003cname\u003e.email\u0027 field:\n\n- Email -\u003e notify.\u003cname\u003e.email \u003d \u003cEmail\u003e\n- Gerrit group -\u003e notify.\u003cname\u003e.email \u003d group \u003cgroup-UUID\u003e\n\nI think it\u0027s not very nice that in the persistence layer both cases are mapped to a single field, but at least in the REST API we should do better and have 2 seperate fields for this.\n\n[1] https://gerrit-review.googlesource.com/Documentation/user-notify.html#notify.name.email",
+      "range": {
+        "startLine": 3277,
+        "startChar": 0,
+        "endLine": 3278,
+        "endChar": 46
+      },
+      "revId": "7208e849f7bcbd20569b08f9059317335901449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "119ee253_28c2848d",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3288,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-18T13:55:34Z",
+      "side": 1,
+      "message": "For project watches of users we also need to know for which events notifications should be sent. There we have a set of boolean fields to enable/disable notifications for the events, see [1]. Maybe a list of types (as you did it here) is nicer, but for the sake of consistency I think it\u0027s better to use boolean fields here too. I think this way we can also avoid moving the NotifyType enum into the extensions package.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#project-watch-info",
+      "range": {
+        "startLine": 3279,
+        "startChar": 0,
+        "endLine": 3288,
+        "endChar": 30
+      },
+      "revId": "7208e849f7bcbd20569b08f9059317335901449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "147e84b5_1b040742",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3290,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-18T13:55:34Z",
+      "side": 1,
+      "message": "This part is not clear to me. Maybe say: \"Email header that is used to send notifications.\"",
+      "range": {
+        "startLine": 3290,
+        "startChar": 18,
+        "endLine": 3290,
+        "endChar": 41
+      },
+      "revId": "7208e849f7bcbd20569b08f9059317335901449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "063d0d8f_83cb0405",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3291,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-18T13:55:34Z",
+      "side": 1,
+      "message": "This one should be uppercase too.",
+      "range": {
+        "startLine": 3291,
+        "startChar": 23,
+        "endLine": 3291,
+        "endChar": 25
+      },
+      "revId": "7208e849f7bcbd20569b08f9059317335901449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80a2bc40_9f423fbb",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3296,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-18T13:55:34Z",
+      "side": 1,
+      "message": "Maybe add an anchor to the description of this operator at [1] and then add a link to it here.\n\n[1] https://gerrit-review.googlesource.com/Documentation/user-search.html#_magical_operators",
+      "range": {
+        "startLine": 3296,
+        "startChar": 0,
+        "endLine": 3296,
+        "endChar": 21
+      },
+      "revId": "7208e849f7bcbd20569b08f9059317335901449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04f5d0a5_248eafb3",
+        "filename": "java/com/google/gerrit/extensions/api/projects/NotifyConfigTemp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-18T13:55:34Z",
+      "side": 1,
+      "message": "I think this class should follow the example of the other Info classes and just have public fields (e.g. see ProjectWatchInfo). Then you can remove the getters and setters below.",
+      "range": {
+        "startLine": 40,
+        "startChar": 1,
+        "endLine": 45,
+        "endChar": 53
+      },
+      "revId": "7208e849f7bcbd20569b08f9059317335901449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4324bdf_e99974e0",
+        "filename": "java/com/google/gerrit/reviewdb/client/Project.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-18T13:55:34Z",
+      "side": 1,
+      "message": "If null for notifyIds is allowed please annotate the method parameter with @Nullable",
+      "range": {
+        "startLine": 257,
+        "startChar": 8,
+        "endLine": 257,
+        "endChar": 17
+      },
+      "revId": "7208e849f7bcbd20569b08f9059317335901449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

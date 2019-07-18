@@ -376,6 +376,7 @@ limitations under the License.
         };
         assert.isTrue(fetchChangesStub.called);
         element._handleRebaseConfirm({detail: {base: '1234'}});
+        rebaseAction.rebaseOnCurrent = true;
         assert.deepEqual(fireActionStub.lastCall.args,
           ['/rebase', rebaseAction, true, {base: '1234'}]);
         done();
@@ -1557,6 +1558,59 @@ limitations under the License.
       element.reload();
       assert.strictEqual(element.$.confirmSubmitDialog.action, null);
       assert.strictEqual(element.$.confirmRebase.rebaseOnCurrent, null);
+    });
+
+    test('_updateRebaseAction sets _parentIsCurrent on no rebase', () => {
+      const currentRevisionActions = {
+        cherrypick: {
+          enabled: true,
+          label: 'Cherry Pick',
+          method: 'POST',
+          title: 'cherrypick',
+        },
+      };
+      element._parentIsCurrent = undefined;
+      element._updateRebaseAction(currentRevisionActions);
+      assert.isTrue(element._parentIsCurrent);
+    });
+
+    test('_updateRebaseAction', () => {
+      const currentRevisionActions = {
+        cherrypick: {
+          enabled: true,
+          label: 'Cherry Pick',
+          method: 'POST',
+          title: 'cherrypick',
+        },
+        rebase: {
+          enabled: true,
+          label: 'Rebase',
+          method: 'POST',
+          title: 'Rebase onto tip of branch or parent change',
+        },
+      };
+      element._parentIsCurrent = undefined;
+
+      // Rebase enabled should always end up true.
+      // When rebase is enabled initially, rebaseOnCurrent should be set to
+      // true.
+      assert.equal(element._updateRebaseAction(currentRevisionActions),
+          currentRevisionActions);
+
+      assert.isTrue(currentRevisionActions.rebase.enabled);
+      assert.isTrue(currentRevisionActions.rebase.rebaseOnCurrent);
+      assert.isFalse(element._parentIsCurrent);
+
+      delete currentRevisionActions.rebase.enabled;
+
+      // When rebase is not enabled initially, rebaseOnCurrent should be set to
+      // false.
+      assert.equal(element._updateRebaseAction(currentRevisionActions),
+          currentRevisionActions);
+
+      assert.isTrue(currentRevisionActions.rebase.enabled);
+      assert.isFalse(currentRevisionActions.rebase.rebaseOnCurrent);
+      assert.isTrue(element._parentIsCurrent);
     });
   });
 </script>

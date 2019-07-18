@@ -530,65 +530,11 @@ limitations under the License.
       assert.equal(result, 'CC=\u200Btest@google.com');
     }),
 
-    test('_updateRebaseAction', () => {
-      const currentRevisionActions = {
-        cherrypick: {
-          enabled: true,
-          label: 'Cherry Pick',
-          method: 'POST',
-          title: 'cherrypick',
-        },
-        rebase: {
-          enabled: true,
-          label: 'Rebase',
-          method: 'POST',
-          title: 'Rebase onto tip of branch or parent change',
-        },
-      };
-      element._parentIsCurrent = undefined;
-
-      // Rebase enabled should always end up true.
-      // When rebase is enabled initially, rebaseOnCurrent should be set to
-      // true.
-      assert.equal(element._updateRebaseAction(currentRevisionActions),
-          currentRevisionActions);
-
-      assert.isTrue(currentRevisionActions.rebase.enabled);
-      assert.isTrue(currentRevisionActions.rebase.rebaseOnCurrent);
-      assert.isFalse(element._parentIsCurrent);
-
-      delete currentRevisionActions.rebase.enabled;
-
-      // When rebase is not enabled initially, rebaseOnCurrent should be set to
-      // false.
-      assert.equal(element._updateRebaseAction(currentRevisionActions),
-          currentRevisionActions);
-
-      assert.isTrue(currentRevisionActions.rebase.enabled);
-      assert.isFalse(currentRevisionActions.rebase.rebaseOnCurrent);
-      assert.isTrue(element._parentIsCurrent);
-    });
-
     test('_isSubmitEnabled', () => {
       assert.isFalse(element._isSubmitEnabled({}));
-      assert.isFalse(element._isSubmitEnabled({actions: {}}));
-      assert.isFalse(element._isSubmitEnabled({actions: {submit: {}}}));
+      assert.isFalse(element._isSubmitEnabled({submit: {}}));
       assert.isTrue(element._isSubmitEnabled(
-          {actions: {submit: {enabled: true}}}));
-    });
-
-    test('_updateRebaseAction sets _parentIsCurrent on no rebase', () => {
-      const currentRevisionActions = {
-        cherrypick: {
-          enabled: true,
-          label: 'Cherry Pick',
-          method: 'POST',
-          title: 'cherrypick',
-        },
-      };
-      element._parentIsCurrent = undefined;
-      element._updateRebaseAction(currentRevisionActions);
-      assert.isTrue(element._parentIsCurrent);
+          {submit: {enabled: true}}));
     });
 
     test('_reload is called when an approved label is removed', () => {

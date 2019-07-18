@@ -2663,10 +2663,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     return cds.get(0);
   }
 
-  private static void pushForReviewOk(TestRepository<?> testRepo) throws GitAPIException {
-    pushForReview(testRepo, RemoteRefUpdate.Status.OK, null);
-  }
-
   private static void pushForReviewRejected(TestRepository<?> testRepo, String expectedMessage)
       throws GitAPIException {
     pushForReview(testRepo, RemoteRefUpdate.Status.REJECTED_OTHER_REASON, expectedMessage);

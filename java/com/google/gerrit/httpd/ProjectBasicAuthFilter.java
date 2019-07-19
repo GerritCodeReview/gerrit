@@ -36,6 +36,7 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.Locale;
 import java.util.Optional;
 import javax.servlet.Filter;
@@ -47,7 +48,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
-import org.apache.commons.codec.binary.Base64;
 
 /**
  * Authenticates the current user by HTTP basic authentication.
@@ -109,7 +109,7 @@ class ProjectBasicAuthFilter implements Filter {
       return true;
     }
 
-    final byte[] decoded = Base64.decodeBase64(hdr.substring(LIT_BASIC.length()));
+    final byte[] decoded = Base64.getDecoder().decode(hdr.substring(LIT_BASIC.length()));
     String usernamePassword = new String(decoded, encoding(req));
     int splitPos = usernamePassword.indexOf(':');
     if (splitPos < 1) {

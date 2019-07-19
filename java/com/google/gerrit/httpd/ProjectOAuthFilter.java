@@ -40,6 +40,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Base64;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -53,7 +54,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -225,7 +225,7 @@ class ProjectOAuthFilter implements Filter {
 
   private AuthInfo extractAuthInfo(String hdr, String encoding)
       throws UnsupportedEncodingException {
-    byte[] decoded = Base64.decodeBase64(hdr.substring(BASIC.length()));
+    byte[] decoded = Base64.getDecoder().decode(hdr.substring(BASIC.length()));
     String usernamePassword = new String(decoded, encoding);
     int splitPos = usernamePassword.indexOf(':');
     if (splitPos < 1 || splitPos == usernamePassword.length() - 1) {

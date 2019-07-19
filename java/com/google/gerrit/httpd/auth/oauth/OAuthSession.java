@@ -41,11 +41,11 @@ import com.google.inject.servlet.SessionScoped;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.Optional;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @SessionScoped
@@ -244,7 +244,7 @@ class OAuthSession {
   private static String generateRandomState() {
     byte[] state = new byte[32];
     randomState.nextBytes(state);
-    return Base64.encodeBase64URLSafeString(state);
+    return Base64.getUrlEncoder().encodeToString(state);
   }
 
   @Override

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1d1f737b_f50b5a77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-19T07:20:00Z",
+      "side": 1,
+      "message": "I think this could also be clearer, maybe: \"Add REST API to configure notifications on project level\"?",
+      "revId": "7208e849f7bcbd20569b08f9059317335901449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "beae68ba_2b913218",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 6
@@ -295,6 +312,23 @@
         "endLine": 257,
         "endChar": 17
       },
+      "revId": "7208e849f7bcbd20569b08f9059317335901449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dc033e7_08b939f8",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-19T07:20:00Z",
+      "side": 1,
+      "message": "I think at this point we also want to do some validation of the user provided input, e.g. did the user provide a well-formed email? Is the provided filter parseable and valid? It would be also good to cover these conditions by tests.",
       "revId": "7208e849f7bcbd20569b08f9059317335901449e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

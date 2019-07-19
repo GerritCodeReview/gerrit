@@ -4,7 +4,6 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/util/ssl",
-        "//lib/commons:codec",
         "//lib/commons:net",
     ],
 )

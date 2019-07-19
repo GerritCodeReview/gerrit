@@ -17,7 +17,6 @@ java_library(
         "//java/com/google/gerrit/server/audit",
         "//lib:guava",
         "//lib:servlet-api-3_1",
-        "//lib/commons:codec",
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-servlet",

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4e7bf364_e9b80a68",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-07-19T09:38:07Z",
+      "side": 1,
+      "message": "This is a kind of optional parameter, if not specified (null) means all changes.\nIf you don\u0027t like using null for this case, then maybe using Optional.empty() is\na better choice than Collections.emptySet()?",
+      "parentUuid": "b3f6d29d_f186a07b",
+      "range": {
+        "startLine": 199,
+        "startChar": 48,
+        "endLine": 199,
+        "endChar": 52
+      },
+      "revId": "a645287ce45297ed0c9a306d2a015cf342899e61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "30c838a2_fb46a777",
         "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2019-07-19T08:54:09Z",
       "side": 1,
       "message": "When the above change is applied, this should be:\n\n  if (changes.isEmpty()) {",
+      "range": {
+        "startLine": 243,
+        "startChar": 8,
+        "endLine": 243,
+        "endChar": 30
+      },
+      "revId": "a645287ce45297ed0c9a306d2a015cf342899e61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16f0bad9_7fd0d5a6",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-07-19T09:38:07Z",
+      "side": 1,
+      "message": "With the proposed Optional this would look like:\n\n  if (changes.isPresent()) {\n    ...\n  else {\n    ... \n  }",
+      "parentUuid": "30c838a2_fb46a777",
       "range": {
         "startLine": 243,
         "startChar": 8,

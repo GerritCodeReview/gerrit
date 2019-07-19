@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "501039f8_428f2343",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-19T09:38:50Z",
+      "side": 1,
+      "message": "Our internal recommendation actually is to use BaseEncoding from Guava as it\u0027s supposed to be more flexible than Java 8\u0027s Base64 class. Would it be possible to switch to BaseEncoding everywhere instead? Or do you think that we don\u0027t need the additional flexibility?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 56
+      },
+      "revId": "a42df7b5929b2be43bbd5ffa6e98490411c3f331",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

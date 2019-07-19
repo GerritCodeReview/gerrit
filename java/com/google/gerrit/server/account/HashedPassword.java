@@ -17,10 +17,10 @@ package com.google.gerrit.server.account;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Splitter;
-import com.google.common.io.BaseEncoding;
 import com.google.common.primitives.Ints;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.List;
 import org.apache.commons.codec.DecoderException;
 import org.bouncycastle.crypto.generators.BCrypt;
@@ -33,7 +33,8 @@ import org.bouncycastle.util.Arrays;
 public class HashedPassword {
   private static final String ALGORITHM_PREFIX = "bcrypt:";
   private static final SecureRandom secureRandom = new SecureRandom();
-  private static final BaseEncoding codec = BaseEncoding.base64();
+  private static final Base64.Encoder encoder = Base64.getEncoder();
+  private static final Base64.Decoder decoder = Base64.getDecoder();
 
   // bcrypt uses 2^cost rounds. Since we use a generated random password, no need
   // for a high cost.
@@ -63,11 +64,11 @@ public class HashedPassword {
       throw new DecoderException("cost should be 4..31 inclusive, got " + cost);
     }
 
-    byte[] salt = codec.decode(fields.get(2));
+    byte[] salt = decoder.decode(fields.get(2));
     if (salt.length != 16) {
       throw new DecoderException("salt should be 16 bytes, got " + salt.length);
     }
-    return new HashedPassword(codec.decode(fields.get(3)), salt, cost);
+    return new HashedPassword(decoder.decode(fields.get(3)), salt, cost);
   }
 
   private static byte[] hashPassword(String password, byte[] salt, int cost) {
@@ -109,7 +110,12 @@ public class HashedPassword {
    * @return one-line string encoding the hash and salt.
    */
   public String encode() {
-    return ALGORITHM_PREFIX + cost + ":" + codec.encode(salt) + ":" + codec.encode(hashed);
+    return ALGORITHM_PREFIX
+        + cost
+        + ":"
+        + encoder.encodeToString(salt)
+        + ":"
+        + encoder.encodeToString(hashed);
   }
 
   public boolean checkPassword(String password) {

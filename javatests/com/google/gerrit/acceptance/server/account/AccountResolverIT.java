@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.server.account;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.server.account.AccountResolver.InputFormat.ACCOUNT_ID;
 import static com.google.gerrit.server.account.AccountResolver.InputFormat.NAME_OR_EMAIL;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
@@ -120,6 +121,8 @@ public class AccountResolverIT extends AbstractDaemonTest {
 
     assertThat(resolve(existingId)).containsExactly(existingId);
     assertThat(resolve(nonexistentId)).isEmpty();
+    assertThat(resolveByAccountId(existingId)).containsExactly(existingId);
+    assertThat(resolveByAccountId(nonexistentId)).isEmpty();
 
     assertThat(resolveByNameOrEmail(existingId)).containsExactly(idWithExistingIdAsFullname);
   }
@@ -295,9 +298,11 @@ public class AccountResolverIT extends AbstractDaemonTest {
     // Admin can see all accounts. Use a variety of searches, including with/without
     // callerMayAssumeCandidatesAreVisible.
     assertThat(resolve(id1)).containsExactly(id1);
+    assertThat(resolveByAccountId(id1)).containsExactly(id1);
     assertThat(resolve("John Doe")).containsExactly(id1);
     assertThat(resolve("johndoe@example.com")).containsExactly(id1);
     assertThat(resolve(id2)).containsExactly(id2);
+    assertThat(resolveByAccountId(id2)).containsExactly(id2);
     assertThat(resolve("Jane Doe")).containsExactly(id2);
     assertThat(resolve("janedoe@example.com")).containsExactly(id2);
     assertThat(resolve("doe")).containsExactly(id1, id2);
@@ -305,24 +310,26 @@ public class AccountResolverIT extends AbstractDaemonTest {
     // id2 can't see id1, and vice versa.
     requestScopeOperations.setApiUser(id1);
     assertThat(resolve(id1)).containsExactly(id1);
+    assertThat(resolveByAccountId(id1)).containsExactly(id1);
     assertThat(resolve("John Doe")).containsExactly(id1);
     assertThat(resolve("johndoe@example.com")).containsExactly(id1);
     assertThat(resolve(id2)).isEmpty();
+    assertThat(resolveByAccountId(id2)).isEmpty();
     assertThat(resolve("Jane Doe")).isEmpty();
     assertThat(resolve("janedoe@example.com")).isEmpty();
     assertThat(resolve("doe")).containsExactly(id1);
 
     requestScopeOperations.setApiUser(id2);
     assertThat(resolve(id1)).isEmpty();
+    assertThat(resolveByAccountId(id1)).isEmpty();
     assertThat(resolve("John Doe")).isEmpty();
     assertThat(resolve("johndoe@example.com")).isEmpty();
     assertThat(resolve(id2)).containsExactly(id2);
+    assertThat(resolveByAccountId(id2)).containsExactly(id2);
     assertThat(resolve("Jane Doe")).containsExactly(id2);
     assertThat(resolve("janedoe@example.com")).containsExactly(id2);
     assertThat(resolve("doe")).containsExactly(id2);
   }
-
-  // TODO(dborowitz): Tests for ACCOUNT_ID
 
   private ImmutableSet<Account.Id> resolve(Object input) throws Exception {
     return resolveAsResult(input).asIdSet();
@@ -334,6 +341,10 @@ public class AccountResolverIT extends AbstractDaemonTest {
 
   private ImmutableSet<Account.Id> resolveByNameOrEmail(Object input) throws Exception {
     return accountResolver.resolve(input.toString(), NAME_OR_EMAIL).asIdSet();
+  }
+
+  private ImmutableSet<Account.Id> resolveByAccountId(Object input) throws Exception {
+    return accountResolver.resolve(input.toString(), ACCOUNT_ID).asIdSet();
   }
 
   private void setPreferredEmailBypassingUniquenessCheck(Account.Id id, String email)

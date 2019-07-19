@@ -16,7 +16,6 @@ package com.google.gerrit.server.mail.send;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.io.BaseEncoding;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.Version;
@@ -35,6 +34,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -295,7 +295,7 @@ public class SmtpEmailSender implements EmailSender {
     // suffice, something is seriously wrong.
     for (int i = 0; i < 2; i++) {
       rng.nextBytes(bytes);
-      String boundary = BaseEncoding.base64().encode(bytes);
+      String boundary = Base64.getEncoder().encodeToString(bytes);
       String encBoundary = "--" + boundary;
       if (textBody.contains(encBoundary) || htmlBody.contains(encBoundary)) {
         continue;

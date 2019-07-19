@@ -30,9 +30,9 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.Optional;
 import java.util.regex.Pattern;
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
@@ -233,7 +233,7 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
     try {
       MessageDigest hash = MessageDigest.getInstance("MD5");
       byte[] bytes = hash.digest(data.getBytes(UTF_8));
-      return Base64.encodeBase64URLSafeString(bytes);
+      return Base64.getUrlEncoder().encodeToString(bytes);
     } catch (NoSuchAlgorithmException e) {
       throw new RuntimeException("No MD5 available", e);
     }

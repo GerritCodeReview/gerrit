@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da6f1270_f5d04b08",
+        "filename": "javatests/com/google/gerrit/acceptance/server/account/AccountResolverIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-19T05:16:45Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/231852",
+      "range": {
+        "startLine": 325,
+        "startChar": 2,
+        "endLine": 325,
+        "endChar": 42
+      },
+      "revId": "671eb9123a6c7ff926439ad1f920b56fcb352e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

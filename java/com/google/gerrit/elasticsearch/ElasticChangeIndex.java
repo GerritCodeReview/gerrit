@@ -18,7 +18,6 @@ import static com.google.gerrit.server.index.change.ChangeIndexRewriter.CLOSED_S
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STATUSES;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
-import static org.apache.commons.codec.binary.Base64.decodeBase64;
 
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableListMultimap;
@@ -60,11 +59,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpStatus;
 import org.elasticsearch.client.Response;
 
@@ -214,7 +213,8 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
     ChangeData cd =
         changeDataFactory.create(
-            parseProtoFrom(Base64.decodeBase64(c.getAsString()), ChangeProtoConverter.INSTANCE));
+            parseProtoFrom(
+                Base64.getDecoder().decode(c.getAsString()), ChangeProtoConverter.INSTANCE));
 
     // Any decoding that is done here must also be done in {@link LuceneChangeIndex}.
 
@@ -397,8 +397,9 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
   private Iterable<byte[]> getByteArray(JsonObject source, String name) {
     JsonElement element = source.get(name);
+    Base64.Decoder decoder = Base64.getDecoder();
     return element != null
-        ? Iterables.transform(element.getAsJsonArray(), e -> Base64.decodeBase64(e.getAsString()))
+        ? Iterables.transform(element.getAsJsonArray(), e -> decoder.decode(e.getAsString()))
         : Collections.emptyList();
   }
 
@@ -408,9 +409,10 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     if (records == null) {
       return;
     }
+    Base64.Decoder decoder = Base64.getDecoder();
     ChangeField.parseSubmitRecords(
         FluentIterable.from(records)
-            .transform(i -> new String(decodeBase64(i.toString()), UTF_8))
+            .transform(i -> new String(decoder.decode(i.toString()), UTF_8))
             .toList(),
         opts,
         out);

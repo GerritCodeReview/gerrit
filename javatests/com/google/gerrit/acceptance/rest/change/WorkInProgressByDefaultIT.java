@@ -19,7 +19,6 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
-import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -29,13 +28,11 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class WorkInProgressByDefaultIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
-  @Inject private RequestScopeOperations requestScopeOperations;
 
   private Project.NameKey project1;
   private Project.NameKey project2;
@@ -44,14 +41,6 @@ public class WorkInProgressByDefaultIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     project1 = projectOperations.newProject().create();
     project2 = projectOperations.newProject().parent(project1).create();
-  }
-
-  @After
-  public void tearDown() throws Exception {
-    requestScopeOperations.setApiUser(admin.id());
-    GeneralPreferencesInfo prefs = gApi.accounts().id(admin.id().get()).getPreferences();
-    prefs.workInProgressByDefault = false;
-    gApi.accounts().id(admin.id().get()).setPreferences(prefs);
   }
 
   @Test

@@ -28,103 +28,107 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
-import org.junit.Before;
 import org.junit.Test;
 
 public class WorkInProgressByDefaultIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
 
-  private Project.NameKey project1;
-  private Project.NameKey project2;
-
-  @Before
-  public void setUp() throws Exception {
-    project1 = projectOperations.newProject().create();
-    project2 = projectOperations.newProject().parent(project1).create();
-  }
-
   @Test
   public void createChangeWithWorkInProgressByDefaultForProjectDisabled() throws Exception {
+    Project.NameKey project = projectOperations.newProject().create();
     ChangeInfo info =
-        gApi.changes().create(new ChangeInput(project2.get(), "master", "empty change")).get();
+        gApi.changes().create(new ChangeInput(project.get(), "master", "empty change")).get();
     assertThat(info.workInProgress).isNull();
   }
 
   @Test
   public void createChangeWithWorkInProgressByDefaultForProjectEnabled() throws Exception {
-    setWorkInProgressByDefaultForProject(project2);
-    ChangeInput input = new ChangeInput(project2.get(), "master", "empty change");
+    Project.NameKey project = projectOperations.newProject().create();
+    setWorkInProgressByDefaultForProject(project);
+    ChangeInput input = new ChangeInput(project.get(), "master", "empty change");
     assertThat(gApi.changes().create(input).get().workInProgress).isTrue();
   }
 
   @Test
   public void createChangeWithWorkInProgressByDefaultForUserEnabled() throws Exception {
+    Project.NameKey project = projectOperations.newProject().create();
     setWorkInProgressByDefaultForUser();
-    ChangeInput input = new ChangeInput(project2.get(), "master", "empty change");
+    ChangeInput input = new ChangeInput(project.get(), "master", "empty change");
     assertThat(gApi.changes().create(input).get().workInProgress).isTrue();
   }
 
   @Test
   public void createChangeBypassWorkInProgressByDefaultForProjectEnabled() throws Exception {
-    setWorkInProgressByDefaultForProject(project2);
-    ChangeInput input = new ChangeInput(project2.get(), "master", "empty change");
+    Project.NameKey project = projectOperations.newProject().create();
+    setWorkInProgressByDefaultForProject(project);
+    ChangeInput input = new ChangeInput(project.get(), "master", "empty change");
     input.workInProgress = false;
     assertThat(gApi.changes().create(input).get().workInProgress).isNull();
   }
 
   @Test
   public void createChangeBypassWorkInProgressByDefaultForUserEnabled() throws Exception {
+    Project.NameKey project = projectOperations.newProject().create();
     setWorkInProgressByDefaultForUser();
-    ChangeInput input = new ChangeInput(project2.get(), "master", "empty change");
+    ChangeInput input = new ChangeInput(project.get(), "master", "empty change");
     input.workInProgress = false;
     assertThat(gApi.changes().create(input).get().workInProgress).isNull();
   }
 
   @Test
   public void createChangeWithWorkInProgressByDefaultForProjectInherited() throws Exception {
-    setWorkInProgressByDefaultForProject(project1);
+    Project.NameKey parentProject = projectOperations.newProject().create();
+    Project.NameKey childProject = projectOperations.newProject().parent(parentProject).create();
+    setWorkInProgressByDefaultForProject(parentProject);
     ChangeInfo info =
-        gApi.changes().create(new ChangeInput(project2.get(), "master", "empty change")).get();
+        gApi.changes().create(new ChangeInput(childProject.get(), "master", "empty change")).get();
     assertThat(info.workInProgress).isTrue();
   }
 
   @Test
   public void pushWithWorkInProgressByDefaultForProjectEnabled() throws Exception {
-    setWorkInProgressByDefaultForProject(project2);
-    assertThat(createChange(project2).getChange().change().isWorkInProgress()).isTrue();
+    Project.NameKey project = projectOperations.newProject().create();
+    setWorkInProgressByDefaultForProject(project);
+    assertThat(createChange(project).getChange().change().isWorkInProgress()).isTrue();
   }
 
   @Test
   public void pushWithWorkInProgressByDefaultForUserEnabled() throws Exception {
+    Project.NameKey project = projectOperations.newProject().create();
     setWorkInProgressByDefaultForUser();
-    assertThat(createChange(project2).getChange().change().isWorkInProgress()).isTrue();
+    assertThat(createChange(project).getChange().change().isWorkInProgress()).isTrue();
   }
 
   @Test
   public void pushBypassWorkInProgressByDefaultForProjectEnabled() throws Exception {
-    setWorkInProgressByDefaultForProject(project2);
+    Project.NameKey project = projectOperations.newProject().create();
+    setWorkInProgressByDefaultForProject(project);
     assertThat(
-            createChange(project2, "refs/for/master%ready").getChange().change().isWorkInProgress())
+            createChange(project, "refs/for/master%ready").getChange().change().isWorkInProgress())
         .isFalse();
   }
 
   @Test
   public void pushBypassWorkInProgressByDefaultForUserEnabled() throws Exception {
+    Project.NameKey project = projectOperations.newProject().create();
     setWorkInProgressByDefaultForUser();
     assertThat(
-            createChange(project2, "refs/for/master%ready").getChange().change().isWorkInProgress())
+            createChange(project, "refs/for/master%ready").getChange().change().isWorkInProgress())
         .isFalse();
   }
 
   @Test
   public void pushWithWorkInProgressByDefaultForProjectDisabled() throws Exception {
-    assertThat(createChange(project2).getChange().change().isWorkInProgress()).isFalse();
+    Project.NameKey project = projectOperations.newProject().create();
+    assertThat(createChange(project).getChange().change().isWorkInProgress()).isFalse();
   }
 
   @Test
   public void pushWorkInProgressByDefaultForProjectInherited() throws Exception {
-    setWorkInProgressByDefaultForProject(project1);
-    assertThat(createChange(project2).getChange().change().isWorkInProgress()).isTrue();
+    Project.NameKey parentProject = projectOperations.newProject().create();
+    Project.NameKey childProject = projectOperations.newProject().parent(parentProject).create();
+    setWorkInProgressByDefaultForProject(parentProject);
+    assertThat(createChange(childProject).getChange().change().isWorkInProgress()).isTrue();
   }
 
   private void setWorkInProgressByDefaultForProject(Project.NameKey p) throws Exception {

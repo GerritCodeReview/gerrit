@@ -39,7 +39,6 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
-import org.apache.commons.codec.DecoderException;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -195,7 +194,7 @@ public class AccountState {
       if (!Strings.isNullOrEmpty(hashedStr)) {
         try {
           return HashedPassword.decode(hashedStr).checkPassword(password);
-        } catch (DecoderException e) {
+        } catch (HashedPassword.DecoderException e) {
           logger.atSevere().log("DecoderException for user %s: %s ", username, e.getMessage());
           return false;
         }

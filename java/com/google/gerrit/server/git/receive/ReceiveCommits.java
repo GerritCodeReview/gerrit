@@ -2466,15 +2466,13 @@ class ReceiveCommits {
 
     private void setChangeId(int id) {
       try (TraceTimer traceTimer = newTimer(CreateRequest.class, "setChangeId")) {
-        possiblyOverrideWorkInProgress();
-
         changeId = Change.id(id);
         ins =
             changeInserterFactory
                 .create(changeId, commit, refName)
                 .setTopic(magicBranch.topic)
                 .setPrivate(setChangeAsPrivate)
-                .setWorkInProgress(magicBranch.workInProgress)
+                .setWorkInProgress(shouldSetWorkInProgressOnNewChange())
                 // Changes already validated in validateNewCommits.
                 .setValidate(false);
 
@@ -2488,14 +2486,17 @@ class ReceiveCommits {
       }
     }
 
-    private void possiblyOverrideWorkInProgress() {
+    private boolean shouldSetWorkInProgressOnNewChange() {
       // When wip or ready explicitly provided, leave it as is.
-      if (magicBranch.workInProgress || magicBranch.ready) {
-        return;
+      if (magicBranch.workInProgress) {
+        return true;
       }
-      magicBranch.workInProgress =
-          projectState.is(BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT)
-              || firstNonNull(user.state().getGeneralPreferences().workInProgressByDefault, false);
+      if (magicBranch.ready) {
+        return false;
+      }
+
+      return projectState.is(BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT)
+          || firstNonNull(user.state().getGeneralPreferences().workInProgressByDefault, false);
     }
 
     private void addOps(BatchUpdate bu) throws RestApiException {

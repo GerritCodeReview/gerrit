@@ -1388,10 +1388,13 @@ class ReceiveCommits {
   static class MagicBranchInput {
     private static final Splitter COMMAS = Splitter.on(',').omitEmptyStrings();
 
+    private final IdentifiedUser user;
+    private final ProjectState projectState;
+    private final boolean defaultPublishComments;
+
     boolean deprecatedTopicSeen;
     final ReceiveCommand cmd;
     final LabelTypes labelTypes;
-    private final boolean defaultPublishComments;
     /**
      * Result of running {@link CommentValidator}-s on drafts that are published with the commit
      * (which happens iff {@code --publish-comments} is set). Remains {@code true} if none are
@@ -1555,7 +1558,10 @@ class ReceiveCommits {
     @Option(name = "--create-cod-token", usage = "create a token for consistency-on-demand")
     private boolean createCodToken;
 
-    MagicBranchInput(IdentifiedUser user, ReceiveCommand cmd, LabelTypes labelTypes) {
+    MagicBranchInput(
+        IdentifiedUser user, ProjectState projectState, ReceiveCommand cmd, LabelTypes labelTypes) {
+      this.user = user;
+      this.projectState = projectState;
       this.deprecatedTopicSeen = false;
       this.cmd = cmd;
       this.draft = cmd.getRefName().startsWith(MagicBranch.NEW_DRAFT_CHANGE);
@@ -1668,9 +1674,24 @@ class ReceiveCommits {
       return ref.substring(0, split);
     }
 
+    public boolean shouldSetWorkInProgressOnNewChanges() {
+      // When wip or ready explicitly provided, leave it as is.
+      if (workInProgress) {
+        return true;
+      }
+      if (ready) {
+        return false;
+      }
+
+      return projectState.is(BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT)
+          || firstNonNull(user.state().getGeneralPreferences().workInProgressByDefault, false);
+    }
+
     NotifyResolver.Result getNotifyForNewChange() {
       return NotifyResolver.Result.create(
-          firstNonNull(notifyHandling, workInProgress ? NotifyHandling.OWNER : NotifyHandling.ALL),
+          firstNonNull(
+              notifyHandling,
+              shouldSetWorkInProgressOnNewChanges() ? NotifyHandling.OWNER : NotifyHandling.ALL),
           ImmutableSetMultimap.<RecipientType, Account.Id>builder()
               .putAll(RecipientType.TO, notifyTo)
               .putAll(RecipientType.CC, notifyCc)
@@ -1699,7 +1720,7 @@ class ReceiveCommits {
   private void parseMagicBranch(ReceiveCommand cmd) throws PermissionBackendException {
     try (TraceTimer traceTimer = newTimer("parseMagicBranch")) {
       logger.atFine().log("Found magic branch %s", cmd.getRefName());
-      MagicBranchInput magicBranch = new MagicBranchInput(user, cmd, labelTypes);
+      MagicBranchInput magicBranch = new MagicBranchInput(user, projectState, cmd, labelTypes);
 
       String ref;
       magicBranch.cmdLineParser = optionParserFactory.create(magicBranch);
@@ -2466,15 +2487,13 @@ class ReceiveCommits {
 
     private void setChangeId(int id) {
       try (TraceTimer traceTimer = newTimer(CreateRequest.class, "setChangeId")) {
-        possiblyOverrideWorkInProgress();
-
         changeId = Change.id(id);
         ins =
             changeInserterFactory
                 .create(changeId, commit, refName)
                 .setTopic(magicBranch.topic)
                 .setPrivate(setChangeAsPrivate)
-                .setWorkInProgress(magicBranch.workInProgress)
+                .setWorkInProgress(magicBranch.shouldSetWorkInProgressOnNewChanges())
                 // Changes already validated in validateNewCommits.
                 .setValidate(false);
 
@@ -2486,16 +2505,6 @@ class ReceiveCommits {
           ins.setPushCertificate(receivePack.getPushCertificate().toTextWithSignature());
         }
       }
-    }
-
-    private void possiblyOverrideWorkInProgress() {
-      // When wip or ready explicitly provided, leave it as is.
-      if (magicBranch.workInProgress || magicBranch.ready) {
-        return;
-      }
-      magicBranch.workInProgress =
-          projectState.is(BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT)
-              || firstNonNull(user.state().getGeneralPreferences().workInProgressByDefault, false);
     }
 
     private void addOps(BatchUpdate bu) throws RestApiException {

@@ -15,8 +15,11 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
+import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
@@ -28,6 +31,8 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.PushResult;
 import org.junit.Test;
 
 public class WorkInProgressByDefaultIT extends AbstractDaemonTest {
@@ -129,6 +134,62 @@ public class WorkInProgressByDefaultIT extends AbstractDaemonTest {
     Project.NameKey childProject = projectOperations.newProject().parent(parentProject).create();
     setWorkInProgressByDefaultForProject(parentProject);
     assertThat(createChange(childProject).getChange().change().isWorkInProgress()).isTrue();
+  }
+
+  @Test
+  public void pushNewPatchSetWithWorkInProgressByDefaultForUserEnabled() throws Exception {
+    Project.NameKey project = projectOperations.newProject().create();
+
+    // Create change.
+    TestRepository<InMemoryRepository> testRepo = cloneProject(project);
+    PushOneCommit.Result result =
+        pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master");
+    result.assertOkStatus();
+
+    String changeId = result.getChangeId();
+    assertThat(gApi.changes().id(changeId).get().workInProgress).isNull();
+
+    setWorkInProgressByDefaultForUser();
+
+    // Create new patch set on existing change, this shoudn't mark the change as WIP.
+    result = pushFactory.create(admin.newIdent(), testRepo, changeId).to("refs/for/master");
+    result.assertOkStatus();
+    assertThat(gApi.changes().id(changeId).get().workInProgress).isNull();
+  }
+
+  @Test
+  public void pushNewPatchSetAndNewChangeAtOnceWithWorkInProgressByDefaultForUserEnabled()
+      throws Exception {
+    Project.NameKey project = projectOperations.newProject().create();
+
+    // Create change.
+    TestRepository<InMemoryRepository> testRepo = cloneProject(project);
+    RevCommit initialHead = getHead(testRepo.getRepository(), "HEAD");
+    RevCommit commit1a =
+        testRepo.commit().parent(initialHead).message("Change 1").insertChangeId().create();
+    String changeId1 = GitUtil.getChangeId(testRepo, commit1a).get();
+    testRepo.reset(commit1a);
+    PushResult result = pushHead(testRepo, "refs/for/master", false);
+    assertPushOk(result, "refs/for/master");
+    assertThat(gApi.changes().id(changeId1).get().workInProgress).isNull();
+
+    setWorkInProgressByDefaultForUser();
+
+    // Create a new patch set on the existing change and in the same push create a new successor
+    // change.
+    RevCommit commit1b = testRepo.amend(commit1a).create();
+    testRepo.reset(commit1b);
+    RevCommit commit2 =
+        testRepo.commit().parent(commit1b).message("Change 2").insertChangeId().create();
+    String changeId2 = GitUtil.getChangeId(testRepo, commit2).get();
+    testRepo.reset(commit2);
+    result = pushHead(testRepo, "refs/for/master", false);
+    assertPushOk(result, "refs/for/master");
+
+    // Check that the existing change (changeId1) is not marked as WIP, but only the newly created
+    // change (changeId2).
+    assertThat(gApi.changes().id(changeId1).get().workInProgress).isNull();
+    assertThat(gApi.changes().id(changeId2).get().workInProgress).isTrue();
   }
 
   private void setWorkInProgressByDefaultForProject(Project.NameKey p) throws Exception {

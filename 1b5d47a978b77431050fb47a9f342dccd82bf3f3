@@ -16,6 +16,24 @@
       "revId": "1b5d47a978b77431050fb47a9f342dccd82bf3f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61240419_4aa9fe45",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2019-07-21T15:24:29Z",
+      "side": 0,
+      "message": "Can the value ever be undefined? How?",
+      "parentUuid": "8bb10f32_ed03a3ad",
+      "revId": "1b5d47a978b77431050fb47a9f342dccd82bf3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

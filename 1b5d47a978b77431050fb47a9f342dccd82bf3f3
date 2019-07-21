@@ -34,6 +34,24 @@
       "revId": "1b5d47a978b77431050fb47a9f342dccd82bf3f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acddc6f6_46d47283",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-21T16:02:54Z",
+      "side": 0,
+      "message": "I wouldn\u0027t think so (but just in case).",
+      "parentUuid": "61240419_4aa9fe45",
+      "revId": "1b5d47a978b77431050fb47a9f342dccd82bf3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "a42df7b5929b2be43bbd5ffa6e98490411c3f331",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b7faa99_df13bc18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-21T23:42:14Z",
+      "side": 1,
+      "message": "We don\u0027t need any of the additional functionality for base 64. However there are some usages of the guava class still in the code, mostly for other encodings. I think it will be OK to migrate all the others to guava instead of Java 8.",
+      "parentUuid": "501039f8_428f2343",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 56
+      },
+      "revId": "a42df7b5929b2be43bbd5ffa6e98490411c3f331",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

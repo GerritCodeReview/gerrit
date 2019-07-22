@@ -2678,7 +2678,7 @@ public class MyPluginRules implements SubmitRule {
     // Implement your submitability logic here
 
     // Assuming we want to prevent this change from being submitted:
-    SubmitRecord record;
+    SubmitRecord record = new SubmitRecord();
     record.status = Status.NOT_READY;
     return record;
   }

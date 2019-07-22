@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
@@ -364,6 +365,7 @@ public class ChangeData {
     return allUsersName;
   }
 
+  @VisibleForTesting
   public void setCurrentFilePaths(List<String> filePaths) {
     PatchSet ps = currentPatchSet();
     if (ps != null) {

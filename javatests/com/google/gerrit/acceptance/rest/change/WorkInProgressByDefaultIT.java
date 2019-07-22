@@ -151,7 +151,7 @@ public class WorkInProgressByDefaultIT extends AbstractDaemonTest {
 
     setWorkInProgressByDefaultForUser();
 
-    // Create new patch set on existing change, this shoudn't mark the change as WIP.
+    // Create new patch set on existing change, this shouldn't mark the change as WIP.
     result = pushFactory.create(admin.newIdent(), testRepo, changeId).to("refs/for/master");
     result.assertOkStatus();
     assertThat(gApi.changes().id(changeId).get().workInProgress).isNull();

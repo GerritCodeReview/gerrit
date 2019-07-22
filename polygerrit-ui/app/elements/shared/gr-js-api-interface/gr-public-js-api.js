@@ -552,6 +552,7 @@
       if (!existingPlugin) {
         Gerrit._pluginInstalled(src);
       }
+      getReporting().pluginLoaded(name);
     } catch (e) {
       Gerrit._pluginInstallError(`${e.name}: ${e.message}`);
     }

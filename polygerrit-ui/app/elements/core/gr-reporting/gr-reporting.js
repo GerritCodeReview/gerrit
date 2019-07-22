@@ -87,10 +87,12 @@
     STARTUP_DIFF_VIEW_DISPLAYED: 'StartupDiffViewDisplayed',
     STARTUP_FILE_LIST_DISPLAYED: 'StartupFileListDisplayed',
     WEB_COMPONENTS_READY: 'WebComponentsReady',
+    CLEARCUT_LOADED: 'ClearcutLoaded',
   };
 
   const STARTUP_TIMERS = {};
   STARTUP_TIMERS[TIMER.PLUGINS_LOADED] = 0;
+  STARTUP_TIMERS[TIMER.CLEARCUT_LOADED] = 0;
   STARTUP_TIMERS[TIMER.STARTUP_CHANGE_DISPLAYED] = 0;
   STARTUP_TIMERS[TIMER.STARTUP_CHANGE_LOAD_FULL] = 0;
   STARTUP_TIMERS[TIMER.STARTUP_DASHBOARD_DISPLAYED] = 0;
@@ -169,13 +171,13 @@
       return window.performance.now();
     },
 
-    _arePluginsLoaded() {
+    _isClearcutLoaded() {
       return this._baselines &&
-        !this._baselines.hasOwnProperty(TIMER.PLUGINS_LOADED);
+        !this._baselines.hasOwnProperty(TIMER.CLEARCUT_LOADED);
     },
 
     reporter(...args) {
-      const report = (this._arePluginsLoaded() && !pending.length) ?
+      const report = (this._isClearcutLoaded() && !pending.length) ?
         this.defaultReporter : this.cachingReporter;
       report.apply(this, args);
     },
@@ -223,7 +225,7 @@
       if (type === ERROR.TYPE && category === ERROR.CATEGORY) {
         console.error(eventValue.error || eventName);
       }
-      if (this._arePluginsLoaded()) {
+      if (this._isClearcutLoaded()) {
         if (pending.length) {
           for (const args of pending.splice(0)) {
             this.reporter(...args);
@@ -324,6 +326,12 @@
 
     reportExtension(name) {
       this.reporter(EXTENSION.TYPE, EXTENSION.DETECTED, name);
+    },
+
+    pluginLoaded(name) {
+      if (name === 'clearcut') {
+        this.timeEnd(TIMER.CLEARCUT_LOADED);
+      }
     },
 
     pluginsLoaded(pluginsList) {

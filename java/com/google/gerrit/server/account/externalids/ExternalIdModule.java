@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.account.externalids;
 
-import com.google.gerrit.server.account.externalids.ExternalIdCacheImpl.Loader;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.serialize.ObjectIdCacheSerializer;
 import com.google.inject.TypeLiteral;
@@ -32,8 +31,8 @@ public class ExternalIdModule extends CacheModule {
         // object after a short period of time, since it may be a potentially large amount of
         // memory.
         .maximumWeight(2)
-        .expireFromMemoryAfterAccess(Duration.ofMinutes(1))
-        .loader(Loader.class)
+        .expireFromMemoryAfterAccess(Duration.ofMinutes(5))
+        .loader(ExternalIdCacheLoader.class)
         .diskLimit(-1)
         .version(1)
         .keySerializer(ObjectIdCacheSerializer.INSTANCE)

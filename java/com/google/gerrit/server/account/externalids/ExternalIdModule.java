@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.account.externalids;
 
-import com.google.gerrit.server.account.externalids.ExternalIdCacheImpl.Loader;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.serialize.ObjectIdCacheSerializer;
 import com.google.inject.TypeLiteral;
@@ -31,9 +30,13 @@ public class ExternalIdModule extends CacheModule {
         // from the cache. Extend the cache size by 1 to cover this case, but expire the extra
         // object after a short period of time, since it may be a potentially large amount of
         // memory.
+        // When loading a new value because the primary data advanced, we want to leverage the old
+        // cache state to recompute only what changed. This doesn't affect cache size though as
+        // Guava calls the loader first and evicts later on.
+        // memory.
         .maximumWeight(2)
-        .expireFromMemoryAfterAccess(Duration.ofMinutes(1))
-        .loader(Loader.class)
+        .expireFromMemoryAfterAccess(Duration.ofMinutes(5))
+        .loader(ExternalIdCacheLoader.class)
         .diskLimit(-1)
         .version(1)
         .keySerializer(ObjectIdCacheSerializer.INSTANCE)

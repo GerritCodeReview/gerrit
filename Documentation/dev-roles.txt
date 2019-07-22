@@ -199,6 +199,7 @@ Maintainers can:
 * create events in the
   link:https://calendar.google.com/calendar?cid=Z29vZ2xlLmNvbV91YmIxcGxhNmlqNzg1b3FianI2MWg0dmRpc0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t[
   community calendar]
+* discuss with other maintainers on the maintainer mailing list
 
 In addition, maintainers from Google can:
 

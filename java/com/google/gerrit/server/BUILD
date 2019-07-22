@@ -8,6 +8,11 @@ GERRIT_GLOBAL_MODULE_SRC = [
     "config/GerritGlobalModule.java",
 ]
 
+TESTING_SRC = [
+    "account/externalids/testing/ExternalIdInserter.java",
+    "account/externalids/testing/ExternalIdTestUtil.java",
+]
+
 java_library(
     name = "constants",
     srcs = CONSTANTS_SRC,
@@ -24,7 +29,7 @@ java_library(
     name = "server",
     srcs = glob(
         ["**/*.java"],
-        exclude = CONSTANTS_SRC + GERRIT_GLOBAL_MODULE_SRC,
+        exclude = CONSTANTS_SRC + GERRIT_GLOBAL_MODULE_SRC + TESTING_SRC,
     ),
     resource_strip_prefix = "resources",
     resources = ["//resources/com/google/gerrit/server"],

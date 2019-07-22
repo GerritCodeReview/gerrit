@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a9969f7d_268d6035",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-22T07:06:59Z",
+      "side": 1,
+      "message": "Every maintainer (active or inactive) has the right to vote, but if any of them doesn\u0027t vote the maintainer election should not be stalled forever.\n\nI think this issue already got improved a bit since we asked some of the inactive maintainers to step down.",
+      "parentUuid": "86d7bdc0_9d837543",
+      "range": {
+        "startLine": 23,
+        "startChar": 17,
+        "endLine": 23,
+        "endChar": 49
+      },
+      "revId": "9842f5864f23c32b27460c5d1efbdf4e70623f79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d5e627a_db211ba9",
         "filename": "Documentation/dev-roles.txt",
         "patchSetId": 2
@@ -69,6 +93,30 @@
       "revId": "9842f5864f23c32b27460c5d1efbdf4e70623f79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b613811_e6b1e064",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-22T07:06:59Z",
+      "side": 1,
+      "message": "I clarified this a bit.",
+      "parentUuid": "3845d762_f719b925",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 8
+      },
+      "revId": "9842f5864f23c32b27460c5d1efbdf4e70623f79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

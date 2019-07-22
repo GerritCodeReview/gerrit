@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "a5f0d828_58fbdece",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-22T01:52:02Z",
+      "side": 1,
+      "message": "Generally it\u0027s not good practise to pass null for a collection type (see [1] for example). I\u0027d rather just pass the empty set.\n\nIs there any potential for the other reindexChanges to be called with a set (with intention of indexing a specific set of change) but the set is empty and thus triggers reindexing of all changes? In that case it might be better to wrap with Optional, but otherwise I don\u0027t think it adds any value over just passing the set.\n\n[1] http://www.informit.com/articles/article.aspx?p\u003d2133373\u0026seqNum\u003d5",
+      "parentUuid": "4e7bf364_e9b80a68",
+      "range": {
+        "startLine": 199,
+        "startChar": 48,
+        "endLine": 199,
+        "endChar": 52
+      },
+      "revId": "a645287ce45297ed0c9a306d2a015cf342899e61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "30c838a2_fb46a777",
         "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
         "patchSetId": 1

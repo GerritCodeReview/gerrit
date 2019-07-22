@@ -138,6 +138,10 @@ excluding reindexing
 * `notedb/stage_update_latency`: Latency for staging updates to NoteDb by table.
 * `notedb/read_latency`: NoteDb read latency by table.
 * `notedb/parse_latency`: NoteDb parse latency by table.
+* `notedb/external_id_cache_load_count`: Total number of times the external ID
+  cache loader was called.
+* `notedb/external_id_partial_read_latency`: Latency for generating a new external ID
+  cache state from a prior state.
 * `notedb/external_id_update_count`: Total number of external ID updates.
 * `notedb/read_all_external_ids_latency`: Latency for reading all
 external ID's from NoteDb.

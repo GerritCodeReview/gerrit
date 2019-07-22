@@ -54,7 +54,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import org.apache.james.mime4j.dom.field.FieldName;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
@@ -127,13 +126,6 @@ public class CommentSender extends ReplyToChangeSender {
 
   public void setComments(List<Comment> comments) {
     inlineComments = comments;
-
-    Set<String> paths = new HashSet<>();
-    for (Comment c : comments) {
-      if (!Patch.isMagic(c.key.filename)) {
-        paths.add(c.key.filename);
-      }
-    }
   }
 
   public void setPatchSetComment(String comment) {

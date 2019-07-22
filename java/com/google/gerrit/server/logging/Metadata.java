@@ -86,8 +86,11 @@ public abstract class Metadata {
   // The name of the implementation method.
   public abstract Optional<String> methodName();
 
-  // Boolean: one or more
+  // One or more resources
   public abstract Optional<Boolean> multiple();
+
+  // Partial or full computation
+  public abstract Optional<Boolean> partial();
 
   // Path of a metadata file in NoteDb.
   public abstract Optional<String> noteDbFilePath();
@@ -181,6 +184,8 @@ public abstract class Metadata {
     public abstract Builder methodName(@Nullable String methodName);
 
     public abstract Builder multiple(boolean multiple);
+
+    public abstract Builder partial(boolean partial);
 
     public abstract Builder noteDbFilePath(@Nullable String noteDbFilePath);
 

@@ -874,6 +874,12 @@ It is not recommended to change the in-memory attributes of this cache
 away from the defaults. The cache may be persisted by setting
 `diskLimit`, which is only recommended if cold start performance is
 problematic.
++
+`external_ids_map` supports computing the new cache value based on a
+previously cached state. This applies modifications based on the Git
+diff and is almost always faster.
+`cache.external_ids_map.enablePartialReloads` turns this behavior on
+or off. The default is `false`.
 
 cache `"git_tags"`::
 +

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba4ad602_122b9a06",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-07-22T07:10:46Z",
+      "side": 1,
+      "message": "nit: lines too long",
+      "revId": "116d6e405f6cea28fc84e5e07de4779d6883dfb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ba0c941_d851b5fe",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-07-22T07:10:46Z",
+      "side": 1,
+      "message": "missing `.`",
+      "range": {
+        "startLine": 41,
+        "startChar": 85,
+        "endLine": 41,
+        "endChar": 86
+      },
+      "revId": "116d6e405f6cea28fc84e5e07de4779d6883dfb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

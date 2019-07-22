@@ -154,6 +154,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.change.ChangeETagComputation;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -217,6 +218,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Inject private IndexConfig indexConfig;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private DynamicSet<ChangeETagComputation> changeETagComputations;
 
   @Inject
   @Named("diff")
@@ -2150,6 +2152,34 @@ public class ChangeIT extends AbstractDaemonTest {
     accountOperations.account(admin.id()).forUpdate().status("new status").update();
     rsrc = parseResource(r);
     assertThat(rsrc.getETag()).isNotEqualTo(oldETag);
+  }
+
+  @Test
+  public void pluginCanContributeToETagComputation() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String oldETag = parseResource(r).getETag();
+
+    RegistrationHandle registrationHandle = changeETagComputations.add("gerrit", id -> "foo");
+    try {
+      assertThat(parseResource(r).getETag()).isNotEqualTo(oldETag);
+    } finally {
+      registrationHandle.remove();
+    }
+
+    assertThat(parseResource(r).getETag()).isEqualTo(oldETag);
+  }
+
+  @Test
+  public void returningNullFromETagComputationDoesNotBreakGerrit() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String oldETag = parseResource(r).getETag();
+
+    RegistrationHandle registrationHandle = changeETagComputations.add("gerrit", id -> null);
+    try {
+      assertThat(parseResource(r).getETag()).isEqualTo(oldETag);
+    } finally {
+      registrationHandle.remove();
+    }
   }
 
   @Test

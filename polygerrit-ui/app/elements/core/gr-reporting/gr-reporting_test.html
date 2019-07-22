@@ -266,7 +266,7 @@ limitations under the License.
         sandbox.stub(element, 'now').returns(42);
         element.pluginsLoaded();
         assert.isTrue(element.defaultReporter.calledWithExactly(
-            'timing-report', 'UI Latency', 'PluginsLoaded', 42, undefined
+            'timing-report', 'UI Latency', 'PluginsLoaded', 42
         ));
       });
 
@@ -284,6 +284,11 @@ limitations under the License.
 
       test('reports if plugins are loaded', () => {
         element.pluginsLoaded();
+        assert.isTrue(element.defaultReporter.called);
+      });
+
+      test('reports if metrics plugin xyz is loaded', () => {
+        element.pluginLoaded('metrics-xyz');
         assert.isTrue(element.defaultReporter.called);
       });
 

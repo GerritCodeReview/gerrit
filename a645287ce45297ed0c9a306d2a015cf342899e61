@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "deb7d0e5_7e8b3fea",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-07-22T08:50:43Z",
+      "side": 1,
+      "message": "[1] is for return values but I agree with it also for the parameters.\n\nHowever, there is a big difference if we are talking about public API methods or about\nprivate methods, which are implementation details encapsulated inside a class.\nObviously, this is the latter case. Here I need to distinguish between the \"changes\"\nparameter being present or not:\n* If it is present then we index only changes from the given collection\n* If is is not present then we index all changes\n\nUsing empty collection to represent an absent parameter is unintuitive IMHO.\nOptional is better as its purpose is clearly to represent an optional parameter.\nIn the case of private methods, null may also be acceptable to represent an absent value.",
+      "parentUuid": "a5f0d828_58fbdece",
+      "range": {
+        "startLine": 199,
+        "startChar": 48,
+        "endLine": 199,
+        "endChar": 52
+      },
+      "revId": "a645287ce45297ed0c9a306d2a015cf342899e61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "30c838a2_fb46a777",
         "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
         "patchSetId": 1

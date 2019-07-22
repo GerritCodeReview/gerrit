@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e2c2c26_868fece5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-22T23:59:14Z",
+      "side": 1,
+      "message": "nit: too many spaces",
+      "range": {
+        "startLine": 12,
+        "startChar": 26,
+        "endLine": 12,
+        "endChar": 28
+      },
+      "revId": "1d75733117be1b9fe4282b1382b778503fdc4674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7e8363d_b71c1e8d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 970,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-22T23:59:14Z",
+      "side": 1,
+      "message": "to prevent callers using ETags from potentially seeing outdated plugin attributes",
+      "range": {
+        "startLine": 969,
+        "startChar": 13,
+        "endLine": 970,
+        "endChar": 11
+      },
+      "revId": "1d75733117be1b9fe4282b1382b778503fdc4674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "461cabc8_8b288afe",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2723,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-22T23:59:14Z",
+      "side": 1,
+      "message": "to prevent callers using ETags from potentially seeing outdated submittability information",
+      "range": {
+        "startLine": 2722,
+        "startChar": 73,
+        "endLine": 2723,
+        "endChar": 78
+      },
+      "revId": "1d75733117be1b9fe4282b1382b778503fdc4674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d0942b5_b7a0e05f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2744,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-22T23:59:14Z",
+      "side": 1,
+      "message": "remove the parentheses from this sentence?",
+      "range": {
+        "startLine": 2743,
+        "startChar": 40,
+        "endLine": 2744,
+        "endChar": 28
+      },
+      "revId": "1d75733117be1b9fe4282b1382b778503fdc4674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "020f3617_2456a7d8",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2748,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-22T23:59:14Z",
+      "side": 1,
+      "message": "remove \"change\" here?  it\u0027s already referred to explicitly as \"change ETag\" earlier in the sentence so this seems a bit repetitive.",
+      "range": {
+        "startLine": 2748,
+        "startChar": 9,
+        "endLine": 2748,
+        "endChar": 20
+      },
+      "revId": "1d75733117be1b9fe4282b1382b778503fdc4674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eec45d8c_db36f177",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2752,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-22T23:59:14Z",
+      "side": 1,
+      "message": "perform?",
+      "range": {
+        "startLine": 2752,
+        "startChar": 32,
+        "endLine": 2752,
+        "endChar": 34
+      },
+      "revId": "1d75733117be1b9fe4282b1382b778503fdc4674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "eed03693_90bcbb36",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 871,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-23T13:38:18Z",
+      "side": 1,
+      "message": "Should this be changed? I guess the cache should hold up to 10 entries now if we want to consider the last 10 parent commits to find a predecessor version.",
+      "range": {
+        "startLine": 868,
+        "startChar": 0,
+        "endLine": 871,
+        "endChar": 8
+      },
+      "revId": "e4599d9d6d0676b20d1ae9f8f1021e723d6af917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9519ce1e_ea859476",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-23T13:38:18Z",
+      "side": 1,
+      "message": "Should this setting also be documented separately?",
+      "range": {
+        "startLine": 884,
+        "startChar": 24,
+        "endLine": 884,
+        "endChar": 44
+      },
+      "revId": "e4599d9d6d0676b20d1ae9f8f1021e723d6af917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "98154586_f380a651",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
         "patchSetId": 1
@@ -48,6 +94,29 @@
     },
     {
       "key": {
+        "uuid": "f0e8d5fb_2518c7ec",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-23T13:38:18Z",
+      "side": 1,
+      "message": "[optional] I wonder if these should be configurable for fine-tuning",
+      "range": {
+        "startLine": 64,
+        "startChar": 2,
+        "endLine": 67,
+        "endChar": 49
+      },
+      "revId": "e4599d9d6d0676b20d1ae9f8f1021e723d6af917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3f6966d3_7e6a07b8",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
         "patchSetId": 1
@@ -64,6 +133,92 @@
         "startChar": 91,
         "endLine": 105,
         "endChar": 95
+      },
+      "revId": "e4599d9d6d0676b20d1ae9f8f1021e723d6af917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e355798_00dcf491",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-23T13:38:18Z",
+      "side": 1,
+      "message": "I think I\u0027m missing something here. I thought we just have one cache (ExternalIdCacheImpl) which is not persisted. Where is the persistent cache?",
+      "range": {
+        "startLine": 118,
+        "startChar": 59,
+        "endLine": 119,
+        "endChar": 40
+      },
+      "revId": "e4599d9d6d0676b20d1ae9f8f1021e723d6af917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50803928_45ec3857",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-23T13:38:18Z",
+      "side": 1,
+      "message": "name this extIdRef for better readability",
+      "range": {
+        "startLine": 138,
+        "startChar": 10,
+        "endLine": 138,
+        "endChar": 15
+      },
+      "revId": "e4599d9d6d0676b20d1ae9f8f1021e723d6af917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7189cc07_847f75e1",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-23T13:38:18Z",
+      "side": 1,
+      "message": "RevWalk must be closed.",
+      "revId": "e4599d9d6d0676b20d1ae9f8f1021e723d6af917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18aded97_061cbbce",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-23T13:38:18Z",
+      "side": 1,
+      "message": "This returns null if there are no more commits to traverse. I see that cannot happen here, because below we fall back to loading all ext ids if there is no parent commit, but when I read the code top-down, I stumble over this. Can you add a comment, or rewrite this part to make it more readable?",
+      "range": {
+        "startLine": 151,
+        "startChar": 31,
+        "endLine": 151,
+        "endChar": 40
       },
       "revId": "e4599d9d6d0676b20d1ae9f8f1021e723d6af917",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -94,6 +249,29 @@
     },
     {
       "key": {
+        "uuid": "f4e3395e_4c83d13f",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-23T13:38:18Z",
+      "side": 1,
+      "message": "Do we need this warning if there was no parent? This just means that there were less then 10 commits on the external ID ref and none of the states was cached yet. If we need a warning in this case, I would prefer if it was more specific to this case so that it\u0027s more understandable.",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 36
+      },
+      "revId": "e4599d9d6d0676b20d1ae9f8f1021e723d6af917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6e322e64_fbde90c5",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
         "patchSetId": 1
@@ -105,6 +283,29 @@
       "writtenOn": "2019-07-22T14:32:51Z",
       "side": 1,
       "message": "from the javadoc , this seems to be for patch style diffs, which potentially does more work than necessary.\n\nWouldn\u0027t it be more appropriate to use a TreeWalk with two trees, with setRecursive and setTreeFilter(ANY_DIFF). This is what DiffFormatter does on the inside.",
+      "range": {
+        "startLine": 170,
+        "startChar": 6,
+        "endLine": 170,
+        "endChar": 19
+      },
+      "revId": "e4599d9d6d0676b20d1ae9f8f1021e723d6af917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb27a23f_e1415b7e",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-23T13:38:18Z",
+      "side": 1,
+      "message": "DiffFormatter must be closed.",
       "range": {
         "startLine": 170,
         "startChar": 6,
@@ -134,6 +335,103 @@
         "endLine": 173,
         "endChar": 49
       },
+      "revId": "e4599d9d6d0676b20d1ae9f8f1021e723d6af917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "779e64be_15930f38",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-23T13:38:18Z",
+      "side": 1,
+      "message": "Instead of measuring the time manually use reloadDifferential.start() to open a context.",
+      "revId": "e4599d9d6d0676b20d1ae9f8f1021e723d6af917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5efed62_845c22df",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-23T13:38:18Z",
+      "side": 1,
+      "message": "I think this is wrong. If the SHA1 of the external ID is e4599d9d6d0676b20d1ae9f8f1021e723d6af917 and it\u0027s stored sharded with 2 levels the path is:\n\n  e4/59/9d9d6d0676b20d1ae9f8f1021e723d6af917\n\nTo get the ObjectId, you need to remove all slashes of the path, and not just take the last path segment, don\u0027t you?",
+      "range": {
+        "startLine": 256,
+        "startChar": 4,
+        "endLine": 257,
+        "endChar": 81
+      },
+      "revId": "e4599d9d6d0676b20d1ae9f8f1021e723d6af917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85c4feb5_b917610c",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-23T13:38:18Z",
+      "side": 1,
+      "message": "Is this needed?\n\nexternalIdCache is injected and is the cache that uses this loader to load missing values, so when the loader is invoked isn\u0027t the result automatically added to the cache?\n\nI guess this is about persistence, but externalIdCache is an in-memory cache without persistence, isn\u0027t it?",
+      "revId": "e4599d9d6d0676b20d1ae9f8f1021e723d6af917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c88479b1_ceaef39c",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-23T13:38:18Z",
+      "side": 1,
+      "message": "I think this needs to be updated.",
+      "range": {
+        "startLine": 27,
+        "startChar": 7,
+        "endLine": 33,
+        "endChar": 25
+      },
+      "revId": "e4599d9d6d0676b20d1ae9f8f1021e723d6af917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "682bb35e_60b63828",
+        "filename": "java/com/google/gerrit/server/logging/Metadata.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-23T13:38:18Z",
+      "side": 1,
+      "message": "I actually did regret that \"Boolean: one or more\" comment because the return type already tells you that it\u0027s Boolean. This is why internally I changed it to \"One or more resources.\" but I was too lazy to clean it up here. But before we are now applying this comment pattern to further metadata fields, I would prefer to get it fixed. Could you do that?",
       "revId": "e4599d9d6d0676b20d1ae9f8f1021e723d6af917",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

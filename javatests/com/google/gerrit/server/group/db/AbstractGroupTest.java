@@ -123,9 +123,9 @@ public class AbstractGroupTest {
   }
 
   private static Optional<Account> getAccount(Account.Id id) {
-    Account account = new Account(id, TimeUtil.nowTs());
+    Account.Builder account = Account.builder(id, TimeUtil.nowTs());
     account.setFullName("Account " + id);
-    return Optional.of(account);
+    return Optional.of(account.build());
   }
 
   private Optional<GroupDescription.Basic> getGroup(AccountGroup.UUID uuid) {

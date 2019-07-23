@@ -60,22 +60,21 @@ public class AccountsOnInit {
     this.allUsers = allUsers.get();
   }
 
-  public void insert(Account account) throws IOException {
+  public void insert(Account.Builder account) throws IOException {
     File path = getPath();
     if (path != null) {
       try (Repository repo = new FileRepository(path);
           ObjectInserter oi = repo.newObjectInserter()) {
         PersonIdent ident =
-            new PersonIdent(
-                new GerritPersonIdentProvider(flags.cfg).get(), account.getRegisteredOn());
+            new PersonIdent(new GerritPersonIdentProvider(flags.cfg).get(), account.registeredOn());
 
         Config accountConfig = new Config();
         AccountProperties.writeToAccountConfig(
             InternalAccountUpdate.builder()
-                .setActive(account.isActive())
-                .setFullName(account.getFullName())
-                .setPreferredEmail(account.getPreferredEmail())
-                .setStatus(account.getStatus())
+                .setActive(!account.inactive())
+                .setFullName(account.fullName())
+                .setPreferredEmail(account.preferredEmail())
+                .setStatus(account.status())
                 .build(),
             accountConfig);
 
@@ -103,7 +102,7 @@ public class AccountsOnInit {
         ObjectId id = oi.insert(cb);
         oi.flush();
 
-        String refName = RefNames.refsUsers(account.getId());
+        String refName = RefNames.refsUsers(account.id());
         RefUpdate ru = repo.updateRef(refName);
         ru.setExpectedOldObjectId(ObjectId.zeroId());
         ru.setNewObjectId(id);
@@ -114,7 +113,7 @@ public class AccountsOnInit {
           throw new IOException(
               String.format("Failed to update ref %s: %s", refName, result.name()));
         }
-        account.setMetaId(id.name());
+        account.setMetaId(id.name()).build();
       }
     }
   }

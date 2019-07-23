@@ -130,7 +130,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
         throw new UnprocessableEntityException(
             String.format("Account Inactive: %s", nameOrEmailOrId));
       }
-      newMemberIds.add(a.getId());
+      newMemberIds.add(a.id());
     }
 
     AccountGroup.UUID groupUuid = internalGroup.getGroupUUID();

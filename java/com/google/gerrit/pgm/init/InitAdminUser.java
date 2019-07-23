@@ -111,10 +111,10 @@ public class InitAdminUser implements InitStep {
         }
         externalIds.insert("Add external IDs for initial admin user", extIds);
 
-        Account a = new Account(id, TimeUtil.nowTs());
-        a.setFullName(name);
-        a.setPreferredEmail(email);
+        Account.Builder a =
+            Account.builder(id, TimeUtil.nowTs()).setFullName(name).setPreferredEmail(email);
         accounts.insert(a);
+        Account persistedAccount = a.build();
 
         // Only two groups should exist at this point in time and hence iterating over all of them
         // is cheap.
@@ -127,7 +127,7 @@ public class InitAdminUser implements InitStep {
           throw new NoSuchGroupException("Administrators");
         }
         GroupReference adminGroup = adminGroupReference.get();
-        groupsOnInit.addGroupMember(adminGroup.getUUID(), a);
+        groupsOnInit.addGroupMember(adminGroup.getUUID(), persistedAccount);
 
         if (sshKey != null) {
           VersionedAuthorizedKeysOnInit authorizedKeys = authorizedKeysFactory.create(id).load();
@@ -135,7 +135,7 @@ public class InitAdminUser implements InitStep {
           authorizedKeys.save("Add SSH key for initial admin user\n");
         }
 
-        AccountState as = AccountState.forAccount(a, extIds);
+        AccountState as = AccountState.forAccount(persistedAccount, extIds);
         for (AccountIndex accountIndex : accountIndexCollection.getWriteIndexes()) {
           accountIndex.replace(as);
         }

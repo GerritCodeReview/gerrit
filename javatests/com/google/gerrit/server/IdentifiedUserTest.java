@@ -98,8 +98,11 @@ public class IdentifiedUserTest {
     Injector injector = Guice.createInjector(mod);
     injector.injectMembers(this);
 
-    Account account = new Account(Account.id(1), TimeUtil.nowTs());
-    Account.Id ownerId = account.getId();
+    Account account =
+        Account.builder(Account.id(1), TimeUtil.nowTs())
+            .setMetaId("1234567812345678123456781234567812345678")
+            .build();
+    Account.Id ownerId = account.id();
 
     identifiedUser = identifiedUserFactory.create(ownerId);
 

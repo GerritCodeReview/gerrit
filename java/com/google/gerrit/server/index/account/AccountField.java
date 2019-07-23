@@ -44,7 +44,7 @@ import org.eclipse.jgit.lib.ObjectId;
 /** Secondary index schemas for accounts. */
 public class AccountField {
   public static final FieldDef<AccountState, Integer> ID =
-      integer("id").stored().build(a -> a.getAccount().getId().get());
+      integer("id").stored().build(a -> a.getAccount().id().get());
 
   /**
    * External IDs.
@@ -77,10 +77,10 @@ public class AccountField {
    */
   public static final FieldDef<AccountState, Iterable<String>> NAME_PART_NO_SECONDARY_EMAIL =
       prefix("name2")
-          .buildRepeatable(a -> getNameParts(a, Arrays.asList(a.getAccount().getPreferredEmail())));
+          .buildRepeatable(a -> getNameParts(a, Arrays.asList(a.getAccount().preferredEmail())));
 
   public static final FieldDef<AccountState, String> FULL_NAME =
-      exact("full_name").build(a -> a.getAccount().getFullName());
+      exact("full_name").build(a -> a.getAccount().fullName());
 
   public static final FieldDef<AccountState, String> ACTIVE =
       exact("inactive").build(a -> a.getAccount().isActive() ? "1" : "0");
@@ -97,7 +97,7 @@ public class AccountField {
               a ->
                   FluentIterable.from(a.getExternalIds())
                       .transform(ExternalId::email)
-                      .append(Collections.singleton(a.getAccount().getPreferredEmail()))
+                      .append(Collections.singleton(a.getAccount().preferredEmail()))
                       .filter(Objects::nonNull)
                       .transform(String::toLowerCase)
                       .toSet());
@@ -106,15 +106,15 @@ public class AccountField {
       prefix("preferredemail")
           .build(
               a -> {
-                String preferredEmail = a.getAccount().getPreferredEmail();
+                String preferredEmail = a.getAccount().preferredEmail();
                 return preferredEmail != null ? preferredEmail.toLowerCase() : null;
               });
 
   public static final FieldDef<AccountState, String> PREFERRED_EMAIL_EXACT =
-      exact("preferredemail_exact").build(a -> a.getAccount().getPreferredEmail());
+      exact("preferredemail_exact").build(a -> a.getAccount().preferredEmail());
 
   public static final FieldDef<AccountState, Timestamp> REGISTERED =
-      timestamp("registered").build(a -> a.getAccount().getRegisteredOn());
+      timestamp("registered").build(a -> a.getAccount().registeredOn());
 
   public static final FieldDef<AccountState, String> USERNAME =
       exact("username").build(a -> a.getUserName().map(String::toLowerCase).orElse(""));
@@ -138,14 +138,14 @@ public class AccountField {
       storedOnly("ref_state")
           .buildRepeatable(
               a -> {
-                if (a.getAccount().getMetaId() == null) {
+                if (a.getAccount().metaId() == null) {
                   return ImmutableList.of();
                 }
 
                 return ImmutableList.of(
                     RefState.create(
-                            RefNames.refsUsers(a.getAccount().getId()),
-                            ObjectId.fromString(a.getAccount().getMetaId()))
+                            RefNames.refsUsers(a.getAccount().id()),
+                            ObjectId.fromString(a.getAccount().metaId()))
                         // We use the default AllUsers name to avoid having to pass around that
                         // variable just for indexing.
                         // This field is only used for staleness detection which will discover the
@@ -169,7 +169,7 @@ public class AccountField {
                       .collect(toSet()));
 
   private static final Set<String> getNameParts(AccountState a, Iterable<String> emails) {
-    String fullName = a.getAccount().getFullName();
+    String fullName = a.getAccount().fullName();
     Set<String> parts = SchemaUtil.getNameParts(fullName, emails);
 
     // Additional values not currently added by getPersonParts.

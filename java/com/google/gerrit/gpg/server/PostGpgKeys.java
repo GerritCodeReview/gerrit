@@ -137,7 +137,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
         ExternalId.Key extIdKey = toExtIdKey(key.getFingerprint());
         Account account = getAccountByExternalId(extIdKey);
         if (account != null) {
-          if (!account.getId().equals(rsrc.getUser().getAccountId())) {
+          if (!account.id().equals(rsrc.getUser().getAccountId())) {
             throw new ResourceConflictException("GPG key already associated with another account");
           }
         } else {
@@ -257,7 +257,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
             } catch (EmailException e) {
               logger.atSevere().withCause(e).log(
                   "Cannot send GPG key added message to %s",
-                  rsrc.getUser().getAccount().getPreferredEmail());
+                  rsrc.getUser().getAccount().preferredEmail());
             }
           }
           if (!toRemove.isEmpty()) {
@@ -267,8 +267,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
                   .send();
             } catch (EmailException e) {
               logger.atSevere().withCause(e).log(
-                  "Cannot send GPG key deleted message to %s",
-                  user.getAccount().getPreferredEmail());
+                  "Cannot send GPG key deleted message to %s", user.getAccount().preferredEmail());
             }
           }
           break;
@@ -304,7 +303,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
       String msg = "GPG key " + extIdKey.get() + " associated with multiple accounts: [";
       msg =
           accountStates.stream()
-              .map(a -> a.getAccount().getId().toString())
+              .map(a -> a.getAccount().id().toString())
               .collect(joining(", ", msg, "]"));
       throw new IllegalStateException(msg);
     }

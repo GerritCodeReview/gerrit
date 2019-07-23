@@ -72,7 +72,7 @@ public class AuditLogFormatter {
   }
 
   private static Optional<Account> getAccount(ImmutableSet<Account> accounts, Account.Id id) {
-    return accounts.stream().filter(account -> account.getId().equals(id)).findAny();
+    return accounts.stream().filter(account -> account.id().equals(id)).findAny();
   }
 
   public static AuditLogFormatter createPartiallyWorkingFallBack() {
@@ -119,7 +119,7 @@ public class AuditLogFormatter {
    * @return a {@code PersonIdent} which can be used for the author of a commit
    */
   public PersonIdent getParsableAuthorIdent(Account account, PersonIdent personIdent) {
-    return getParsableAuthorIdent(account.getName(), account.getId(), personIdent);
+    return getParsableAuthorIdent(account.getName(), account.id(), personIdent);
   }
 
   /**

@@ -184,14 +184,14 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     checkLoaded();
     this.loadedAccountProperties =
         Optional.of(
-            new AccountProperties(account.getId(), account.getRegisteredOn(), new Config(), null));
+            new AccountProperties(account.id(), account.registeredOn(), new Config(), null));
     this.accountUpdate =
         Optional.of(
             InternalAccountUpdate.builder()
                 .setActive(account.isActive())
-                .setFullName(account.getFullName())
-                .setPreferredEmail(account.getPreferredEmail())
-                .setStatus(account.getStatus())
+                .setFullName(account.fullName())
+                .setPreferredEmail(account.preferredEmail())
+                .setStatus(account.status())
                 .build());
     return this;
   }

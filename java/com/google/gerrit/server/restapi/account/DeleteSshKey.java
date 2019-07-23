@@ -74,7 +74,7 @@ public class DeleteSshKey implements RestModifyView<AccountResource.SshKey, Inpu
       deleteKeySenderFactory.create(user, rsrc.getSshKey()).send();
     } catch (EmailException e) {
       logger.atSevere().withCause(e).log(
-          "Cannot send SSH key deletion message to %s", user.getAccount().getPreferredEmail());
+          "Cannot send SSH key deletion message to %s", user.getAccount().preferredEmail());
     }
     user.getUserName().ifPresent(sshKeyCache::evict);
 

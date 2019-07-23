@@ -95,7 +95,7 @@ public class AccountState {
             : accountConfig.getExternalIdsRev();
     ImmutableSet<ExternalId> extIds =
         extIdsRev.isPresent()
-            ? ImmutableSet.copyOf(externalIds.byAccount(account.getId(), extIdsRev.get()))
+            ? ImmutableSet.copyOf(externalIds.byAccount(account.id(), extIdsRev.get()))
             : ImmutableSet.of();
 
     // Don't leak references to AccountConfig into the AccountState, since it holds a reference to
@@ -292,7 +292,7 @@ public class AccountState {
   @Override
   public String toString() {
     MoreObjects.ToStringHelper h = MoreObjects.toStringHelper(this);
-    h.addValue(getAccount().getId());
+    h.addValue(getAccount().id());
     return h.toString();
   }
 }

@@ -108,7 +108,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
   @Override
   public boolean updateChange(ChangeContext ctx)
       throws AuthException, ResourceNotFoundException, PermissionBackendException, IOException {
-    Account.Id reviewerId = reviewer.getAccount().getId();
+    Account.Id reviewerId = reviewer.getAccount().id();
     // Check of removing this reviewer (even if there is no vote processed by the loop below) is OK
     removeReviewerControl.checkRemoveReviewer(ctx.getNotes(), ctx.getUser(), reviewerId);
 
@@ -125,7 +125,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
     }
 
     StringBuilder msg = new StringBuilder();
-    msg.append("Removed reviewer " + reviewer.getAccount().getFullName());
+    msg.append("Removed reviewer " + reviewer.getAccount().fullName());
     StringBuilder removedVotesMsg = new StringBuilder();
     removedVotesMsg.append(" with the following votes:\n\n");
     List<PatchSetApproval> del = new ArrayList<>();
@@ -212,13 +212,13 @@ public class DeleteReviewerOp implements BatchUpdateOp {
       NotifyResolver.Result notify)
       throws EmailException {
     Account.Id userId = user.get().getAccountId();
-    if (userId.equals(reviewer.getAccount().getId())) {
+    if (userId.equals(reviewer.getAccount().id())) {
       // The user knows they removed themselves, don't bother emailing them.
       return;
     }
     DeleteReviewerSender cm = deleteReviewerSenderFactory.create(projectName, change.getId());
     cm.setFrom(userId);
-    cm.addReviewers(Collections.singleton(reviewer.getAccount().getId()));
+    cm.addReviewers(Collections.singleton(reviewer.getAccount().id()));
     cm.setChangeMessage(changeMessage.getMessage(), changeMessage.getWrittenOn());
     cm.setNotify(notify);
     cm.send();

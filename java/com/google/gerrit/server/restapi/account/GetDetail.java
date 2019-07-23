@@ -38,8 +38,8 @@ public class GetDetail implements RestReadView<AccountResource> {
   @Override
   public AccountDetailInfo apply(AccountResource rsrc) throws PermissionBackendException {
     Account a = rsrc.getUser().getAccount();
-    AccountDetailInfo info = new AccountDetailInfo(a.getId().get());
-    info.registeredOn = a.getRegisteredOn();
+    AccountDetailInfo info = new AccountDetailInfo(a.id().get());
+    info.registeredOn = a.registeredOn();
     info.inactive = !a.isActive() ? true : null;
     directory.fillAccountInfo(Collections.singleton(info), EnumSet.allOf(FillOptions.class));
     return info;

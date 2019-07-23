@@ -96,8 +96,8 @@ public class ChangeNoteUtil {
   @VisibleForTesting
   public PersonIdent newIdent(Account author, Date when, PersonIdent serverIdent) {
     return new PersonIdent(
-        "Gerrit User " + author.getId(),
-        author.getId().get() + "@" + serverId,
+        "Gerrit User " + author.id(),
+        author.id().get() + "@" + serverId,
         when,
         serverIdent.getTimeZone());
   }

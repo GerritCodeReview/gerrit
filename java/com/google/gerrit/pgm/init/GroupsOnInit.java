@@ -155,7 +155,7 @@ public class GroupsOnInit {
 
   private static InternalGroupUpdate getMemberAdditionUpdate(Account account) {
     return InternalGroupUpdate.builder()
-        .setMemberModification(members -> Sets.union(members, ImmutableSet.of(account.getId())))
+        .setMemberModification(members -> Sets.union(members, ImmutableSet.of(account.id())))
         .build();
   }
 

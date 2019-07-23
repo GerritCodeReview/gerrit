@@ -104,7 +104,7 @@ public class AddSshKey
         addKeyFactory.create(user, sshKey).send();
       } catch (EmailException e) {
         logger.atSevere().withCause(e).log(
-            "Cannot send SSH key added message to %s", user.getAccount().getPreferredEmail());
+            "Cannot send SSH key added message to %s", user.getAccount().preferredEmail());
       }
 
       user.getUserName().ifPresent(sshKeyCache::evict);

@@ -234,7 +234,7 @@ public class IdentifiedUser extends CurrentUser {
         groupBackend,
         enableReverseDnsLookup,
         remotePeerProvider,
-        state.getAccount().getId(),
+        state.getAccount().id(),
         realUser);
     this.state = state;
   }
@@ -330,8 +330,7 @@ public class IdentifiedUser extends CurrentUser {
   @Override
   public String getLoggableName() {
     return getUserName()
-        .orElseGet(
-            () -> firstNonNull(getAccount().getPreferredEmail(), "a/" + getAccountId().get()));
+        .orElseGet(() -> firstNonNull(getAccount().preferredEmail(), "a/" + getAccountId().get()));
   }
 
   /**
@@ -403,29 +402,29 @@ public class IdentifiedUser extends CurrentUser {
   public PersonIdent newRefLogIdent(Date when, TimeZone tz) {
     final Account ua = getAccount();
 
-    String name = ua.getFullName();
+    String name = ua.fullName();
     if (name == null || name.isEmpty()) {
-      name = ua.getPreferredEmail();
+      name = ua.preferredEmail();
     }
     if (name == null || name.isEmpty()) {
       name = anonymousCowardName;
     }
 
-    String user = getUserName().orElse("") + "|account-" + ua.getId().toString();
+    String user = getUserName().orElse("") + "|account-" + ua.id().toString();
     return new PersonIdent(name, user + "@" + guessHost(), when, tz);
   }
 
   public PersonIdent newCommitterIdent(Date when, TimeZone tz) {
     final Account ua = getAccount();
-    String name = ua.getFullName();
-    String email = ua.getPreferredEmail();
+    String name = ua.fullName();
+    String email = ua.preferredEmail();
 
     if (email == null || email.isEmpty()) {
       // No preferred email is configured. Use a generic identity so we
       // don't leak an address the user may have given us, but doesn't
       // necessarily want to publish through Git records.
       //
-      String user = getUserName().orElseGet(() -> "account-" + ua.getId().toString());
+      String user = getUserName().orElseGet(() -> "account-" + ua.id().toString());
 
       String host;
       if (canonicalUrl.get() != null) {

@@ -105,7 +105,7 @@ class RunAsFilter implements Filter {
 
       Account.Id target;
       try {
-        target = accountResolver.resolve(runas).asUnique().getAccount().getId();
+        target = accountResolver.resolve(runas).asUnique().getAccount().id();
       } catch (UnprocessableEntityException e) {
         replyError(req, res, SC_FORBIDDEN, "no account matches " + RUN_AS, null);
         return;

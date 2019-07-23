@@ -1657,6 +1657,24 @@
       });
     },
 
+    getChecks() {
+      const url = "/a/plugins/checks/checkers/";
+      return this._fetchSharedCacheURL({
+        url,
+        anonymizedUrl: '/plugins/*/checks?*',
+        reportUrlAsIs: true,
+      });
+    },
+
+    createChecker(check) {
+      const url = "/plugins/checks/checkers/";
+      return this._send({
+        method: 'POST',
+        url,
+        body: check,
+      })
+    },
+
     setRepoHead(repo, ref) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.

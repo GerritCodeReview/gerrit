@@ -286,6 +286,30 @@
       "revId": "627a5db2884f3203e9f75f73730886789fe0f08a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c739ad9_d54e8967",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-07-23T18:45:15Z",
+      "side": 1,
+      "message": "\u003e \u003e I don\u0027t understand the resistance to at least having this *optional* feature available now.\n\n\u003e to borrow from the python zen: There should be one-- and preferably only one --obvious way to do it.\n\nWe believe this is the most obvious way. We have yet to hear of a better approach.\n\n\u003e \u003e or do you have an alternate proposal for us to consider?\n\n\u003e qt\u0027s state-based approach.\n\nWithout a detailed explanation of a proposed approach that would solve our specific use case, I cannot consider this an alternate proposal.",
+      "parentUuid": "07569feb_249fc9cb",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "627a5db2884f3203e9f75f73730886789fe0f08a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

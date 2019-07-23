@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "982b42e5_9e92d43c",
+        "filename": "java/com/google/gerrit/server/config/ThreadSettingsConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1086562
+      },
+      "writtenOn": "2019-07-23T15:21:34Z",
+      "side": 1,
+      "message": "Don\u0027t you want max?",
+      "revId": "1a3911618b7035933fbc5b56ab2b34ae55e51343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

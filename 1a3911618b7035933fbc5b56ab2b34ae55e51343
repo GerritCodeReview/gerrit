@@ -16,6 +16,24 @@
       "revId": "1a3911618b7035933fbc5b56ab2b34ae55e51343",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8001c983_380c5716",
+        "filename": "java/com/google/gerrit/server/config/ThreadSettingsConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1086560
+      },
+      "writtenOn": "2019-07-23T15:26:55Z",
+      "side": 1,
+      "message": "Indeed - I had it `Math.max` before, but tricked myself.\n\nWe want whatever is bigger, 2 * cores, or 4, so `Math.max` is correct.",
+      "parentUuid": "982b42e5_9e92d43c",
+      "revId": "1a3911618b7035933fbc5b56ab2b34ae55e51343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

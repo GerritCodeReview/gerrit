@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1845d690_8b739229",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-07-23T11:36:43Z",
+      "side": 1,
+      "message": "Good idea",
+      "parentUuid": "1971432c_afa2b637",
+      "revId": "ea599bfdf1f1bc516d84c7ba643c648b857c92d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e651f97_cdc283b5",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "ea599bfdf1f1bc516d84c7ba643c648b857c92d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60e3c98a_1cd47001",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-07-23T11:36:43Z",
+      "side": 1,
+      "message": "Ok, I moved it to place where we set we installed plugin.",
+      "parentUuid": "5e651f97_cdc283b5",
+      "revId": "ea599bfdf1f1bc516d84c7ba643c648b857c92d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

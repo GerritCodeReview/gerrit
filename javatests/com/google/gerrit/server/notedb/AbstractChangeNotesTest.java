@@ -120,14 +120,14 @@ public abstract class AbstractChangeNotesTest {
     tr = new TestRepository<>(repo);
     rw = tr.getRevWalk();
     accountCache = new FakeAccountCache();
-    Account co = new Account(Account.id(1), TimeUtil.nowTs());
+    Account.Builder co = Account.builder(Account.id(1), TimeUtil.nowTs());
     co.setFullName("Change Owner");
     co.setPreferredEmail("change@owner.com");
-    accountCache.put(co);
-    Account ou = new Account(Account.id(2), TimeUtil.nowTs());
+    accountCache.put(co.build());
+    Account.Builder ou = Account.builder(Account.id(2), TimeUtil.nowTs());
     ou.setFullName("Other Account");
     ou.setPreferredEmail("other@account.com");
-    accountCache.put(ou);
+    accountCache.put(ou.build());
     assertableFanOutExecutor = new AssertableExecutorService();
 
     injector =
@@ -169,8 +169,8 @@ public abstract class AbstractChangeNotesTest {
 
     injector.injectMembers(this);
     repoManager.createRepository(allUsers);
-    changeOwner = userFactory.create(co.getId());
-    otherUser = userFactory.create(ou.getId());
+    changeOwner = userFactory.create(Account.id(1));
+    otherUser = userFactory.create(Account.id(2));
     otherUserId = otherUser.getAccountId();
     internalUser = new InternalUser();
   }

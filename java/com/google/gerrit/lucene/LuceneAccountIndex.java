@@ -62,7 +62,7 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
   private static final String ID_SORT_FIELD = sortFieldName(ID);
 
   private static Term idTerm(AccountState as) {
-    return idTerm(as.getAccount().getId());
+    return idTerm(as.getAccount().id());
   }
 
   private static Term idTerm(Account.Id id) {

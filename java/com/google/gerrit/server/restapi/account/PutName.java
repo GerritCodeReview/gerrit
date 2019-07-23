@@ -84,8 +84,8 @@ public class PutName implements RestModifyView<AccountResource, NameInput> {
             .get()
             .update("Set Full Name via API", user.getAccountId(), u -> u.setFullName(newName))
             .orElseThrow(() -> new ResourceNotFoundException("account not found"));
-    return Strings.isNullOrEmpty(accountState.getAccount().getFullName())
+    return Strings.isNullOrEmpty(accountState.getAccount().fullName())
         ? Response.none()
-        : Response.ok(accountState.getAccount().getFullName());
+        : Response.ok(accountState.getAccount().fullName());
   }
 }

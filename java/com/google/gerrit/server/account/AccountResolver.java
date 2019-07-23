@@ -113,7 +113,7 @@ public class AccountResolver {
   }
 
   private static String formatForException(Result result, AccountState state) {
-    return state.getAccount().getId()
+    return state.getAccount().id()
         + ": "
         + state.getAccount().getNameEmail(result.accountResolver().anonymousCowardName);
   }
@@ -135,7 +135,7 @@ public class AccountResolver {
     }
 
     private ImmutableList<AccountState> canonicalize(List<AccountState> list) {
-      TreeSet<AccountState> set = new TreeSet<>(comparing(a -> a.getAccount().getId().get()));
+      TreeSet<AccountState> set = new TreeSet<>(comparing(a -> a.getAccount().id().get()));
       set.addAll(requireNonNull(list));
       return ImmutableList.copyOf(set);
     }
@@ -160,7 +160,7 @@ public class AccountResolver {
     }
 
     public ImmutableSet<Account.Id> asIdSet() {
-      return list.stream().map(a -> a.getAccount().getId()).collect(toImmutableSet());
+      return list.stream().map(a -> a.getAccount().id()).collect(toImmutableSet());
     }
 
     public AccountState asUnique() throws UnresolvableAccountException {
@@ -192,7 +192,7 @@ public class AccountResolver {
         return self.get().asIdentifiedUser();
       }
       return userFactory.runAs(
-          null, list.get(0).getAccount().getId(), requireNonNull(caller).getRealUser());
+          null, list.get(0).getAccount().id(), requireNonNull(caller).getRealUser());
     }
 
     @VisibleForTesting
@@ -349,7 +349,7 @@ public class AccountResolver {
       String name = nameOrEmail.substring(0, lt - 1);
       ImmutableList<AccountState> nameMatches =
           allMatches.stream()
-              .filter(a -> name.equals(a.getAccount().getFullName()))
+              .filter(a -> name.equals(a.getAccount().fullName()))
               .collect(toImmutableList());
       return !nameMatches.isEmpty() ? nameMatches.stream() : allMatches.stream();
     }

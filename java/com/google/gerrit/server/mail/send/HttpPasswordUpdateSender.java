@@ -59,7 +59,7 @@ public class HttpPasswordUpdateSender extends OutgoingEmail {
   }
 
   public String getEmail() {
-    return user.getAccount().getPreferredEmail();
+    return user.getAccount().preferredEmail();
   }
 
   public String getUserNameEmail() {

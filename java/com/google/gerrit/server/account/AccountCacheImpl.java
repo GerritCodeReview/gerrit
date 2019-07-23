@@ -129,7 +129,7 @@ public class AccountCacheImpl implements AccountCache {
     }
     for (Future<Optional<AccountState>> f : futures) {
       try {
-        f.get().ifPresent(s -> accountStates.put(s.getAccount().getId(), s));
+        f.get().ifPresent(s -> accountStates.put(s.getAccount().id(), s));
       } catch (InterruptedException | ExecutionException e) {
         logger.atSevere().withCause(e).log("Cannot load AccountState");
       }
@@ -165,9 +165,9 @@ public class AccountCacheImpl implements AccountCache {
   }
 
   private AccountState missing(Account.Id accountId) {
-    Account account = new Account(accountId, TimeUtil.nowTs());
+    Account.Builder account = Account.builder(accountId, TimeUtil.nowTs());
     account.setActive(false);
-    return AccountState.forAccount(account);
+    return AccountState.forAccount(account.build());
   }
 
   static class ByIdLoader extends CacheLoader<Account.Id, Optional<AccountState>> {

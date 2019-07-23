@@ -58,7 +58,7 @@ public class LegacyChangeNoteWrite {
   @VisibleForTesting
   public PersonIdent newIdent(Account author, Date when, PersonIdent serverIdent) {
     return new PersonIdent(
-        author.toString(), author.getId().get() + "@" + serverId, when, serverIdent.getTimeZone());
+        author.toString(), author.id().get() + "@" + serverId, when, serverIdent.getTimeZone());
   }
 
   public String getServerId() {

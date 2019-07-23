@@ -209,7 +209,7 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       }
       QueryResult<AccountState> result = queryProcessor.query(queryPred);
       for (AccountState accountState : result.entities()) {
-        Account.Id id = accountState.getAccount().getId();
+        Account.Id id = accountState.getAccount().id();
         matches.put(id, accountLoader.get(id));
       }
 

@@ -87,10 +87,10 @@ public class AccountValidator {
       messages.add("cannot deactivate own account");
     }
 
-    String newPreferredEmail = newAccount.get().getPreferredEmail();
+    String newPreferredEmail = newAccount.get().preferredEmail();
     if (newPreferredEmail != null
         && (!oldAccount.isPresent()
-            || !newPreferredEmail.equals(oldAccount.get().getPreferredEmail()))) {
+            || !newPreferredEmail.equals(oldAccount.get().preferredEmail()))) {
       if (!emailValidator.isValid(newPreferredEmail)) {
         messages.add(
             String.format(

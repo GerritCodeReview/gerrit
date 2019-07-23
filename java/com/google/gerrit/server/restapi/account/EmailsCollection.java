@@ -63,7 +63,7 @@ public class EmailsCollection implements ChildCollection<AccountResource, Accoun
     }
 
     if ("preferred".equals(id.get())) {
-      String email = rsrc.getUser().getAccount().getPreferredEmail();
+      String email = rsrc.getUser().getAccount().preferredEmail();
       if (Strings.isNullOrEmpty(email)) {
         throw new ResourceNotFoundException(id);
       }

@@ -105,7 +105,7 @@ public class InternalAccountDirectory extends AccountDirectory {
       AccountState state = accountStates.get(id);
       if (state != null) {
         if (!options.contains(FillOptions.SECONDARY_EMAILS)
-            || Objects.equals(currentUserId, state.getAccount().getId())
+            || Objects.equals(currentUserId, state.getAccount().id())
             || canModifyAccount) {
           fill(info, accountStates.get(id), options);
         } else {
@@ -122,19 +122,19 @@ public class InternalAccountDirectory extends AccountDirectory {
   private void fill(AccountInfo info, AccountState accountState, Set<FillOptions> options) {
     Account account = accountState.getAccount();
     if (options.contains(FillOptions.ID)) {
-      info._accountId = account.getId().get();
+      info._accountId = account.id().get();
     } else {
       // Was previously set to look up account for filling.
       info._accountId = null;
     }
     if (options.contains(FillOptions.NAME)) {
-      info.name = Strings.emptyToNull(account.getFullName());
+      info.name = Strings.emptyToNull(account.fullName());
       if (info.name == null) {
         info.name = accountState.getUserName().orElse(null);
       }
     }
     if (options.contains(FillOptions.EMAIL)) {
-      info.email = account.getPreferredEmail();
+      info.email = account.preferredEmail();
     }
     if (options.contains(FillOptions.SECONDARY_EMAILS)) {
       info.secondaryEmails = getSecondaryEmails(account, accountState.getExternalIds());
@@ -144,14 +144,14 @@ public class InternalAccountDirectory extends AccountDirectory {
     }
 
     if (options.contains(FillOptions.STATUS)) {
-      info.status = account.getStatus();
+      info.status = account.status();
     }
 
     if (options.contains(FillOptions.AVATARS)) {
       AvatarProvider ap = avatar.get();
       if (ap != null) {
         info.avatars = new ArrayList<>();
-        IdentifiedUser user = userFactory.create(account.getId());
+        IdentifiedUser user = userFactory.create(account.id());
 
         // PolyGerrit UI uses the following sizes for avatars:
         // - 32px for avatars next to names e.g. on the dashboard. This is also Gerrit's default.
@@ -170,7 +170,7 @@ public class InternalAccountDirectory extends AccountDirectory {
 
   public List<String> getSecondaryEmails(Account account, Collection<ExternalId> externalIds) {
     return ExternalId.getEmails(externalIds)
-        .filter(e -> !e.equals(account.getPreferredEmail()))
+        .filter(e -> !e.equals(account.preferredEmail()))
         .sorted()
         .collect(toList());
   }

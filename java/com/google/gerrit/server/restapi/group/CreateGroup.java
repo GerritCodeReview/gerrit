@@ -148,7 +148,7 @@ public class CreateGroup
           throw new UnprocessableEntityException(
               String.format("Account Inactive: %s", nameOrEmailOrId));
         }
-        members.add(a.getId());
+        members.add(a.id());
       }
       args.initialMembers = members;
     } else {

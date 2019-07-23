@@ -30,6 +30,6 @@ public class GetAccountDetailIT extends AbstractDaemonTest {
     AccountDetailInfo info = newGson().fromJson(r.getReader(), AccountDetailInfo.class);
     assertAccountInfo(admin, info);
     Account account = getAccount(admin.id());
-    assertThat(info.registeredOn).isEqualTo(account.getRegisteredOn());
+    assertThat(info.registeredOn).isEqualTo(account.registeredOn());
   }
 }

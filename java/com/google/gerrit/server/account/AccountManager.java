@@ -195,18 +195,18 @@ public class AccountManager {
 
     if (authRequest.isActive()) {
       try {
-        setInactiveFlag.activate(account.getId());
+        setInactiveFlag.activate(account.id());
       } catch (Exception e) {
-        throw new AccountException("Unable to activate account " + account.getId(), e);
+        throw new AccountException("Unable to activate account " + account.id(), e);
       }
     } else {
       try {
-        setInactiveFlag.deactivate(account.getId());
+        setInactiveFlag.deactivate(account.id());
       } catch (Exception e) {
-        throw new AccountException("Unable to deactivate account " + account.getId(), e);
+        throw new AccountException("Unable to deactivate account " + account.id(), e);
       }
     }
-    return byIdCache.get(account.getId()).map(AccountState::getAccount);
+    return byIdCache.get(account.id()).map(AccountState::getAccount);
   }
 
   private boolean shouldUpdateActiveStatus(AuthRequest authRequest) {
@@ -229,20 +229,20 @@ public class AccountManager {
       checkEmailNotUsed(extIdWithNewEmail);
       accountUpdates.add(u -> u.replaceExternalId(extId, extIdWithNewEmail));
 
-      if (oldEmail != null && oldEmail.equals(user.getAccount().getPreferredEmail())) {
+      if (oldEmail != null && oldEmail.equals(user.getAccount().preferredEmail())) {
         accountUpdates.add(u -> u.setPreferredEmail(newEmail));
       }
     }
 
     if (!Strings.isNullOrEmpty(who.getDisplayName())
-        && !Objects.equals(user.getAccount().getFullName(), who.getDisplayName())) {
+        && !Objects.equals(user.getAccount().fullName(), who.getDisplayName())) {
       accountUpdates.add(u -> u.setFullName(who.getDisplayName()));
       if (realm.allowsEdit(AccountFieldName.FULL_NAME)) {
         accountUpdates.add(a -> a.setFullName(who.getDisplayName()));
       } else {
         logger.atWarning().log(
             "Not changing already set display name '%s' to '%s'",
-            user.getAccount().getFullName(), who.getDisplayName());
+            user.getAccount().fullName(), who.getDisplayName());
       }
     }
 
@@ -420,7 +420,7 @@ public class AccountManager {
               to,
               (a, u) -> {
                 u.addExternalId(newExtId);
-                if (who.getEmailAddress() != null && a.getAccount().getPreferredEmail() == null) {
+                if (who.getEmailAddress() != null && a.getAccount().preferredEmail() == null) {
                   u.setPreferredEmail(who.getEmailAddress());
                 }
               });
@@ -511,9 +511,9 @@ public class AccountManager {
             from,
             (a, u) -> {
               u.deleteExternalIds(extIds);
-              if (a.getAccount().getPreferredEmail() != null
+              if (a.getAccount().preferredEmail() != null
                   && extIds.stream()
-                      .anyMatch(e -> a.getAccount().getPreferredEmail().equals(e.email()))) {
+                      .anyMatch(e -> a.getAccount().preferredEmail().equals(e.email()))) {
                 u.setPreferredEmail(null);
               }
             });

@@ -62,7 +62,7 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
     Account.Id accountId;
     try {
       try {
-        accountId = accountResolver.resolve(token).asUnique().getAccount().getId();
+        accountId = accountResolver.resolve(token).asUnique().getAccount().id();
       } catch (UnprocessableEntityException e) {
         switch (authType) {
           case HTTP_LDAP:

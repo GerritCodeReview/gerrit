@@ -85,7 +85,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
       throw new StorageException(
           String.format(
               "Failed to replace account %s in index %s: %s",
-              as.getAccount().getId(), indexName, statusCode));
+              as.getAccount().id(), indexName, statusCode));
     }
   }
 
@@ -108,7 +108,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
 
   @Override
   protected String getId(AccountState as) {
-    return as.getAccount().getId().toString();
+    return as.getAccount().id().toString();
   }
 
   @Override

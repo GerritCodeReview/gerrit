@@ -84,7 +84,7 @@ public class AccountResolverTest {
     @Override
     public String toString() {
       return accounts.stream()
-          .map(a -> a.getAccount().getId().toString())
+          .map(a -> a.getAccount().id().toString())
           .collect(joining(",", pattern + "(", ")"));
     }
   }
@@ -238,8 +238,8 @@ public class AccountResolverTest {
     AccountState account = newAccount(1);
     ImmutableList<Searcher<?>> searchers =
         ImmutableList.of(new TestSearcher("foo", false, account));
-    assertThat(search("foo", searchers, allVisible()).asUnique().getAccount().getId())
-        .isEqualTo(account.getAccount().getId());
+    assertThat(search("foo", searchers, allVisible()).asUnique().getAccount().id())
+        .isEqualTo(account.getAccount().id());
   }
 
   @Test
@@ -328,13 +328,13 @@ public class AccountResolverTest {
   }
 
   private AccountState newAccount(int id) {
-    return AccountState.forAccount(new Account(Account.id(id), TimeUtil.nowTs()));
+    return AccountState.forAccount(Account.create(Account.id(id), TimeUtil.nowTs()));
   }
 
   private AccountState newInactiveAccount(int id) {
-    Account a = new Account(Account.id(id), TimeUtil.nowTs());
+    Account.Builder a = Account.builder(Account.id(id), TimeUtil.nowTs());
     a.setActive(false);
-    return AccountState.forAccount(a);
+    return AccountState.forAccount(a.build());
   }
 
   private static ImmutableSet<Account.Id> ids(int... ids) {
@@ -348,12 +348,12 @@ public class AccountResolverTest {
   private static Supplier<Predicate<AccountState>> only(int... ids) {
     ImmutableSet<Account.Id> idSet =
         Arrays.stream(ids).mapToObj(Account::id).collect(toImmutableSet());
-    return () -> a -> idSet.contains(a.getAccount().getId());
+    return () -> a -> idSet.contains(a.getAccount().id());
   }
 
   private static ImmutableSet<Account.Id> filteredInactiveIds(Result result) {
     return result.filteredInactive().stream()
-        .map(a -> a.getAccount().getId())
+        .map(a -> a.getAccount().id())
         .collect(toImmutableSet());
   }
 }

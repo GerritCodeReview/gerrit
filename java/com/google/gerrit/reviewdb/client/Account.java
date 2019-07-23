@@ -20,6 +20,7 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.primitives.Ints;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import java.sql.Timestamp;
 import java.util.Optional;
@@ -43,7 +44,8 @@ import java.util.Optional;
  *   <li>{@link DiffPreferencesInfo}: user's preferences for rendering side-to-side and unified diff
  * </ul>
  */
-public final class Account {
+@AutoValue
+public abstract class Account {
   public static Id id(int id) {
     return new AutoValue_Account_Id(id);
   }
@@ -118,28 +120,32 @@ public final class Account {
     }
   }
 
-  private Id accountId;
+  public abstract Id id();
 
   /** Date and time the user registered with the review server. */
-  private Timestamp registeredOn;
+  public abstract Timestamp registeredOn();
 
   /** Full name of the user ("Given-name Surname" style). */
-  private String fullName;
+  @Nullable
+  public abstract String fullName();
 
   /** Email address the user prefers to be contacted through. */
-  private String preferredEmail;
+  @Nullable
+  public abstract String preferredEmail();
 
   /**
    * Is this user inactive? This is used to avoid showing some users (eg. former employees) in
    * auto-suggest.
    */
-  private boolean inactive;
+  public abstract boolean inactive();
 
   /** The user-settable status of this account (e.g. busy, OOO, available) */
-  private String status;
+  @Nullable
+  public abstract String status();
 
   /** ID of the user branch from which the account was read. */
-  private String metaId;
+  @Nullable
+  public abstract String metaId();
 
   protected Account() {}
 
@@ -149,38 +155,21 @@ public final class Account {
    * @param newId unique id, see {@link com.google.gerrit.server.notedb.Sequences#nextAccountId()}.
    * @param registeredOn when the account was registered.
    */
-  public Account(Account.Id newId, Timestamp registeredOn) {
-    this.accountId = newId;
-    this.registeredOn = registeredOn;
+  public static Account create(Account.Id newId, Timestamp registeredOn) {
+    return builder(newId, registeredOn).build();
   }
 
-  /** Get local id of this account, to link with in other entities */
-  public Account.Id getId() {
-    return accountId;
-  }
-
-  /** Get the full name of the user ("Given-name Surname" style). */
-  public String getFullName() {
-    return fullName;
-  }
-
-  /** Set the full name of the user ("Given-name Surname" style). */
-  public void setFullName(String name) {
-    if (name != null && !name.trim().isEmpty()) {
-      fullName = name.trim();
-    } else {
-      fullName = null;
-    }
-  }
-
-  /** Email address the user prefers to be contacted through. */
-  public String getPreferredEmail() {
-    return preferredEmail;
-  }
-
-  /** Set the email address the user prefers to be contacted through. */
-  public void setPreferredEmail(String addr) {
-    preferredEmail = addr;
+  /**
+   * Create a new account.
+   *
+   * @param newId unique id, see {@link com.google.gerrit.server.notedb.Sequences#nextAccountId()}.
+   * @param registeredOn when the account was registered.
+   */
+  public static Account.Builder builder(Account.Id newId, Timestamp registeredOn) {
+    return new AutoValue_Account.Builder()
+        .setInactive(false)
+        .setId(newId)
+        .setRegisteredOn(registeredOn);
   }
 
   /**
@@ -196,13 +185,13 @@ public final class Account {
    *     generic string containing the accountId.
    */
   public String getName() {
-    if (fullName != null) {
-      return fullName;
+    if (fullName() != null) {
+      return fullName();
     }
-    if (preferredEmail != null) {
-      return preferredEmail;
+    if (preferredEmail() != null) {
+      return preferredEmail();
     }
-    return getName(accountId);
+    return getName(id());
   }
 
   public static String getName(Account.Id accountId) {
@@ -222,57 +211,51 @@ public final class Account {
    * </ul>
    */
   public String getNameEmail(String anonymousCowardName) {
-    String name = fullName != null ? fullName : anonymousCowardName;
+    String name = fullName() != null ? fullName() : anonymousCowardName;
     StringBuilder b = new StringBuilder();
     b.append(name);
-    if (preferredEmail != null) {
+    if (preferredEmail() != null) {
       b.append(" <");
-      b.append(preferredEmail);
+      b.append(preferredEmail());
       b.append(">");
     } else {
       b.append(" (");
-      b.append(accountId.get());
+      b.append(id().get());
       b.append(")");
     }
     return b.toString();
   }
 
-  /** Get the date and time the user first registered. */
-  public Timestamp getRegisteredOn() {
-    return registeredOn;
-  }
-
-  public String getMetaId() {
-    return metaId;
-  }
-
-  public void setMetaId(String metaId) {
-    this.metaId = metaId;
-  }
-
   public boolean isActive() {
-    return !inactive;
+    return !inactive();
   }
 
-  public void setActive(boolean active) {
-    inactive = !active;
-  }
+  public abstract Builder toBuilder();
 
-  public String getStatus() {
-    return status;
-  }
+  @AutoValue.Builder
+  public abstract static class Builder {
+    abstract Builder setId(Id id);
 
-  public void setStatus(String status) {
-    this.status = status;
-  }
+    abstract Builder setRegisteredOn(Timestamp registeredOn);
 
-  @Override
-  public boolean equals(Object o) {
-    return o instanceof Account && ((Account) o).getId().equals(getId());
-  }
+    @Nullable
+    public abstract Builder setFullName(String fullName);
 
-  @Override
-  public int hashCode() {
-    return getId().get();
+    @Nullable
+    public abstract Builder setPreferredEmail(String preferredEmail);
+
+    public abstract Builder setInactive(boolean inactive);
+
+    public Builder setActive(boolean active) {
+      return setInactive(!active);
+    }
+
+    @Nullable
+    public abstract Builder setStatus(String status);
+
+    @Nullable
+    public abstract Builder setMetaId(String metaId);
+
+    public abstract Account build();
   }
 }

@@ -105,7 +105,7 @@ public class DeleteAssignee
     }
 
     public Account.Id getDeletedAssignee() {
-      return deletedAssignee != null ? deletedAssignee.getAccount().getId() : null;
+      return deletedAssignee != null ? deletedAssignee.getAccount().id() : null;
     }
 
     private void addMessage(

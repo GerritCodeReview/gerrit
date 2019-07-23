@@ -44,8 +44,8 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     ChangeUpdate update = newUpdateForNewChange(c, changeOwner);
     update.putApproval("Verified", (short) 1);
     update.putApproval("Code-Review", (short) -1);
-    update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
-    update.putReviewer(otherUser.getAccount().getId(), CC);
+    update.putReviewer(changeOwner.getAccount().id(), REVIEWER);
+    update.putReviewer(otherUser.getAccount().id(), CC);
     update.commit();
     assertThat(update.getRefName()).isEqualTo("refs/changes/01/1/meta");
 
@@ -199,10 +199,10 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
 
   @Test
   public void anonymousUser() throws Exception {
-    Account anon = new Account(Account.id(3), TimeUtil.nowTs());
+    Account anon = Account.create(Account.id(3), TimeUtil.nowTs());
     accountCache.put(anon);
     Change c = newChange();
-    ChangeUpdate update = newUpdate(c, userFactory.create(anon.getId()));
+    ChangeUpdate update = newUpdate(c, userFactory.create(anon.id()));
     update.setChangeMessage("Comment on the change.");
     update.commit();
 
@@ -241,7 +241,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   public void noChangeMessage() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
+    update.putReviewer(changeOwner.getAccount().id(), REVIEWER);
     update.commit();
 
     assertBodyEquals(

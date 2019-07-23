@@ -112,7 +112,7 @@ public class AbandonOp implements BatchUpdateOp {
     try {
       ReplyToChangeSender cm = abandonedSenderFactory.create(ctx.getProject(), change.getId());
       if (accountState != null) {
-        cm.setFrom(accountState.getAccount().getId());
+        cm.setFrom(accountState.getAccount().id());
       }
       cm.setChangeMessage(message.getMessage(), ctx.getWhen());
       cm.setNotify(notify);

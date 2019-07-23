@@ -1,0 +1,135 @@
+<!--
+@license
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
+<link rel="import" href="../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.html">
+<link rel="import" href="/bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../../styles/gr-form-styles.html">
+<link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../../shared/gr-select/gr-select.html">
+<link rel="import" href="../../shared/gr-repo-chip/gr-repo-chip.html">
+
+<dom-module id="gr-create-checks-dialog">
+  <template>
+    <style include="shared-styles"></style>
+    <style include="gr-form-styles">
+      :host {
+        display: inline-block;
+      }
+      input {
+        width: 20em;
+      }
+      gr-autocomplete {
+        border: none;
+        --gr-autocomplete: {
+          border: 1px solid var(--border-color);
+          border-radius: 2px;
+          font-size: var(--font-size-normal);
+          height: 2em;
+          padding: 0 .15em;
+          width: 20em;
+        }
+      }
+    </style>
+
+    <div class="gr-form-styles">
+      <div id="form">
+        <section>
+          <span class="title">Name</span>
+          <iron-input autocomplete="on"
+                      bind-value="{{_name}}">
+            <input is="iron-input"
+                   id="checkerNameInput"
+                   autocomplete="on"
+                   bind-value="{{_name}}">
+          </iron-input>
+        </section>
+        <section>
+          <span class="title">Description</span>
+          <iron-input autocomplete="on"
+                      bind-value="{{_description}}">
+            <input is="iron-input"
+                   id="checkerDescriptionInput"
+                   autocomplete="on"
+                   bind-value="{{_description}}">
+          </iron-input>
+        </section>
+        <section>
+          <span class="title">Repository</span>
+              <div class="list">
+                <template id="chips" is="dom-repeat" items="[[repos]]" as="repo">
+                  <gr-repo-chip
+                      repo="[[repo]]"
+                      on-keydown="_handleChipKeydown"
+                      tabindex="-1">
+                  </gr-repo-chip>
+                </template>
+              </div>
+
+            <gr-autocomplete
+              id="input"
+              threshold="[[suggestFrom]]"
+              query="[[query]]"
+              on-commit="_handleInputCommit"
+              clear-on-commit
+              warn-uncommitted
+              text="{{_inputText}}">
+            </gr-autocomplete>
+  
+          <!-- <iron-input autocomplete="on"
+                      bind-value="{{_repository}}">
+            <input is="iron-input"
+                   id="checkerRepositoryInput"
+                   autocomplete="on"
+                   bind-value="{{_repository}}">
+          </iron-input> -->
+        </section>
+
+        <section>
+          <span class="title">Scheme</span>
+          <iron-input autocomplete="on"
+                      bind-value="{{_scheme}}">
+            <input is="iron-input"
+                   id="checkerSchemaInput"
+                   autocomplete="on"
+                   bind-value="{{_scheme}}">
+          </iron-input>
+        </section>
+        <section>
+          <span class="title">ID</span>
+          <iron-input autocomplete="on"
+                      bind-value="{{_id}}">
+            <input is="iron-input"
+                   id="checkerIdInput"
+                   autocomplete="on"
+                   bind-value="{{_id}}">
+          </iron-input>
+        </section>
+        <section>
+          <span class="title"> UUID {{_uuid}}</span>
+        </section>
+      </div>
+    </div>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+  </template>
+  <script src="gr-create-checks-dialog.js"></script>
+</dom-module>

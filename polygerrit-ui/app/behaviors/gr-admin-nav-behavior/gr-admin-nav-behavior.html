@@ -39,7 +39,15 @@ limitations under the License.
     noBaseUrl: true,
     url: '/admin/plugins',
     view: 'gr-plugin-list',
-  }];
+  }, {
+    name: 'Checks',
+    section: 'Checks',
+    noBaseUrl: true,
+    url: '/admin/checks',
+    viewableToAll: true,
+    view: 'gr-checks-list'
+  }
+];
 
   window.Gerrit = window.Gerrit || {};
 

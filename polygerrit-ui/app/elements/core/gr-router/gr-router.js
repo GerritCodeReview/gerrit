@@ -76,6 +76,11 @@
     // Matches /admin/repos/<repos>,access.
     REPO_DASHBOARDS: /^\/admin\/repos\/(.+),dashboards$/,
 
+    // Matches /admin/checks[,<offset>][/].
+    CHECKS_LIST_OFFSET: /^\/admin\/checks(,(\d+))?(\/)?$/,
+    CHECKS_LIST_FILTER: '/admin/checks/q/filter::filter',
+    CHECKS_LIST_FILTER_OFFSET: '/admin/checks/q/filter::filter,:offset',
+
     // Matches /admin/repos[,<offset>][/].
     REPO_LIST_OFFSET: /^\/admin\/repos(,(\d+))?(\/)?$/,
     REPO_LIST_FILTER: '/admin/repos/q/filter::filter',
@@ -817,6 +822,15 @@
       this._mapRoute(RoutePattern.REPO_LIST_FILTER,
           '_handleRepoListFilterRoute');
 
+      this._mapRoute(RoutePattern.CHECKS_LIST_OFFSET,
+            '_handleChecksListOffsetRoute'); 
+
+      this._mapRoute(RoutePattern.CHECKS_LIST_FILTER,
+        '_handleChecksListFilterRoute');
+                
+      this._mapRoute(RoutePattern.CHECKS_LIST_FILTER_OFFSET,
+            '_handleChecksListFilterOffsetRoute');    
+
       this._mapRoute(RoutePattern.REPO, '_handleRepoRoute');
 
       this._mapRoute(RoutePattern.PLUGINS, '_handlePassThroughRoute');
@@ -1236,6 +1250,33 @@
         view: Gerrit.Nav.View.ADMIN,
         adminView: 'gr-repo-list',
         filter: data.params.filter || null,
+      });
+    },
+
+    _handleChecksListOffsetRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-checks-list',
+        offset: data.params[1] || 0,
+        filter: null,
+        openCreateModal: data.hash === 'create',
+      });
+    },
+
+    _handleChecksListFilterRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-checks-list',
+        filter: data.params.filter || null,
+      });
+    },
+
+    _handleChecksListFilterOffsetRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-checks-list',
+        offset: data.params.offset,
+        filter: data.params.filter,
       });
     },
 

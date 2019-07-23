@@ -673,6 +673,7 @@
       delete _pluginsPending[name];
       _pluginsInstalled.push(name);
       Gerrit._setPluginsCount(_pluginsPendingCount - 1);
+      getReporting().pluginLoaded(name);
       console.log(`Plugin ${name} installed.`);
     }
   };

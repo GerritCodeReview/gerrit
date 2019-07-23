@@ -87,10 +87,12 @@
     STARTUP_DIFF_VIEW_DISPLAYED: 'StartupDiffViewDisplayed',
     STARTUP_FILE_LIST_DISPLAYED: 'StartupFileListDisplayed',
     WEB_COMPONENTS_READY: 'WebComponentsReady',
+    METRICS_PLUGIN_LOADED: 'MetricsPluginLoaded',
   };
 
   const STARTUP_TIMERS = {};
   STARTUP_TIMERS[TIMER.PLUGINS_LOADED] = 0;
+  STARTUP_TIMERS[TIMER.METRICS_PLUGIN_LOADED] = 0;
   STARTUP_TIMERS[TIMER.STARTUP_CHANGE_DISPLAYED] = 0;
   STARTUP_TIMERS[TIMER.STARTUP_CHANGE_LOAD_FULL] = 0;
   STARTUP_TIMERS[TIMER.STARTUP_DASHBOARD_DISPLAYED] = 0;
@@ -174,8 +176,13 @@
         !this._baselines.hasOwnProperty(TIMER.PLUGINS_LOADED);
     },
 
+    _isMetricsPluginLoaded() {
+      return this._arePluginsLoaded() || this._baselines &&
+        !this._baselines.hasOwnProperty(TIMER.METRICS_PLUGIN_LOADED);
+    },
+
     reporter(...args) {
-      const report = (this._arePluginsLoaded() && !pending.length) ?
+      const report = (this._isMetricsPluginLoaded() && !pending.length) ?
         this.defaultReporter : this.cachingReporter;
       report.apply(this, args);
     },
@@ -223,7 +230,7 @@
       if (type === ERROR.TYPE && category === ERROR.CATEGORY) {
         console.error(eventValue.error || eventName);
       }
-      if (this._arePluginsLoaded()) {
+      if (this._isMetricsPluginLoaded()) {
         if (pending.length) {
           for (const args of pending.splice(0)) {
             this.reporter(...args);
@@ -326,6 +333,12 @@
       this.reporter(EXTENSION.TYPE, EXTENSION.DETECTED, name);
     },
 
+    pluginLoaded(name) {
+      if (name.startsWith('metrics-')) {
+        this.timeEnd(TIMER.METRICS_PLUGIN_LOADED);
+      }
+    },
+
     pluginsLoaded(pluginsList) {
       this.timeEnd(TIMER.PLUGINS_LOADED);
       this.reporter(
@@ -346,8 +359,8 @@
     timeEnd(name) {
       if (!this._baselines.hasOwnProperty(name)) { return; }
       const baseTime = this._baselines[name];
-      this._reportTiming(name, this.now() - baseTime);
       delete this._baselines[name];
+      this._reportTiming(name, this.now() - baseTime);
 
       // Finalize the interval. Either from a registered start mark or
       // the navigation start time (if baseTime is 0).

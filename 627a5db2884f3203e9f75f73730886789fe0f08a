@@ -214,6 +214,30 @@
       "revId": "627a5db2884f3203e9f75f73730886789fe0f08a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "174de39a_d8fd2f70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-23T13:39:03Z",
+      "side": 1,
+      "message": "Thanks for providing the details on your specific use case. Running CI in vain, especially if it takes some hours, can be very frustrating for users and admins alike. Besides the valuable CI job time you already mentioned, I can also imagine that users are annoyed if they have to wait for CI to finish again if they unintentionally interrupted it (or just did it for some minor reason). In addition, the interrupts could also mean that the load on the CI system is unnecessarily higher in general and hence waiting time per change is higher, which might also lead to unhappy users. Hence, I\u0027m highly in favor of finding a solution for it.\n\nThat said, I think that the label locking approach suggested in this change solves this use case only partially. Labels are just one aspect which can prevent a change from being submitted. Besides merge conflicts, which could happen if other changes are merged in the meantime, I\u0027m most concerned about other submit rules. We don\u0027t have many in core Gerrit yet but I think this will change in the future. In addition, plugins are allowed to bring their own submit rules. Hence, the situation you described could still occur and might even be more severe (e.g. a user adds an unresolved comment and submit is now blocked as the plugin requires that all comments must be resolved before submit). It would be good if we found a solution which encompasses those aspects as well and which provides a good overall user experience.",
+      "parentUuid": "923aa5c4_c61d594a",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "627a5db2884f3203e9f75f73730886789fe0f08a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

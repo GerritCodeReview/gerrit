@@ -34,6 +34,7 @@ limitations under the License.
 <link rel="import" href="../gr-group-audit-log/gr-group-audit-log.html">
 <link rel="import" href="../gr-group-members/gr-group-members.html">
 <link rel="import" href="../gr-plugin-list/gr-plugin-list.html">
+<link rel="import" href="../gr-checks-list/gr-checks-list.html">
 <link rel="import" href="../gr-repo/gr-repo.html">
 <link rel="import" href="../gr-repo-access/gr-repo-access.html">
 <link rel="import" href="../gr-repo-commands/gr-repo-commands.html">
@@ -106,6 +107,7 @@ limitations under the License.
             </template>
           </template>
         </template>
+        <gr-endpoint-decorator name = "checks-nav-button"></gr-endpoint-decorator>
       </ul>
     </gr-page-nav>
     <template is="dom-if" if="[[_subsectionLinks.length]]">
@@ -139,6 +141,11 @@ limitations under the License.
         <gr-plugin-list class="table" params="[[params]]"></gr-plugin-list>
       </main>
     </template>
+    <template is="dom-if" if="[[_showChecksList]]" restamp="true">
+        <main class="table">
+          <gr-checks-list class="table" params="[[params]]"></gr-checks-list>
+        </main>
+      </template>  
     <template is="dom-if" if="[[_showRepoMain]]" restamp="true">
       <main class="breadcrumbs">
         <gr-repo repo="[[params.repo]]"></gr-repo>

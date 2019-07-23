@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "01bc59ec_a6b3581e",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-07-23T19:57:30Z",
+      "side": 1,
+      "message": "Turns out we were previously relying on a lifecycle starting to create the schema in our tests. That doesn\u0027t work when everything injects a CQB and it needs All-Projects created when the constructor runs.\n\nI need to go back and see if the lifecycle listener can be removed now (assuming no one sees a problem with this approach).",
+      "revId": "fa773402ae274e8515382b3afdbc2b5e8f1092d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c505a175_cb49548d",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-07-23T19:57:30Z",
+      "side": 1,
+      "message": "schema has to be created before we do injection otherwise All-Projects doesn\u0027t exist and we can\u0027t create a CQB.",
+      "revId": "fa773402ae274e8515382b3afdbc2b5e8f1092d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

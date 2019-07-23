@@ -146,7 +146,6 @@ public class AccountState {
   private final GeneralPreferencesInfo generalPreferences;
   private final DiffPreferencesInfo diffPreferences;
   private final EditPreferencesInfo editPreferences;
-  private Cache<IdentifiedUser.PropertyKey<Object>, Object> properties;
 
   private AccountState(
       Account account,
@@ -232,61 +231,6 @@ public class AccountState {
   /** The edit preferences of the account. */
   public EditPreferencesInfo getEditPreferences() {
     return editPreferences;
-  }
-
-  /**
-   * Lookup a previously stored property.
-   *
-   * <p>All properties are automatically cleared when the account cache invalidates the {@code
-   * AccountState}. This method is thread-safe.
-   *
-   * @param key unique property key.
-   * @return previously stored value, or {@code null}.
-   */
-  @Nullable
-  public <T> T get(PropertyKey<T> key) {
-    Cache<PropertyKey<Object>, Object> p = properties(false);
-    if (p != null) {
-      @SuppressWarnings("unchecked")
-      T value = (T) p.getIfPresent(key);
-      return value;
-    }
-    return null;
-  }
-
-  /**
-   * Store a property for later retrieval.
-   *
-   * <p>This method is thread-safe.
-   *
-   * @param key unique property key.
-   * @param value value to store; or {@code null} to clear the value.
-   */
-  public <T> void put(PropertyKey<T> key, @Nullable T value) {
-    Cache<PropertyKey<Object>, Object> p = properties(value != null);
-    if (p != null) {
-      @SuppressWarnings("unchecked")
-      PropertyKey<Object> k = (PropertyKey<Object>) key;
-      if (value != null) {
-        p.put(k, value);
-      } else {
-        p.invalidate(k);
-      }
-    }
-  }
-
-  private synchronized Cache<PropertyKey<Object>, Object> properties(boolean allocate) {
-    if (properties == null && allocate) {
-      properties =
-          CacheBuilder.newBuilder()
-              .concurrencyLevel(1)
-              .initialCapacity(16)
-              // Use weakKeys to ensure plugins that garbage collect will also
-              // eventually release data held in any still live AccountState.
-              .weakKeys()
-              .build();
-    }
-    return properties;
   }
 
   @Override

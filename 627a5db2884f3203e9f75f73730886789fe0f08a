@@ -238,6 +238,30 @@
       "revId": "627a5db2884f3203e9f75f73730886789fe0f08a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73052469_6b1842a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-07-23T15:39:21Z",
+      "side": 1,
+      "message": "\u003e That said, I think that the label locking approach suggested in this change solves this use case only partially. Labels are just one aspect which can prevent a change from being submitted. Besides merge conflicts, which could happen if other changes are merged in the meantime, I\u0027m most concerned about other submit rules. We don\u0027t have many in core Gerrit yet but I think this will change in the future. In addition, plugins are allowed to bring their own submit rules. Hence, the situation you described could still occur and might even be more severe (e.g. a user adds an unresolved comment and submit is now blocked as the plugin requires that all comments must be resolved before submit). It would be good if we found a solution which encompasses those aspects as well and which provides a good overall user experience.\n\nWhile I appreciate that there could be situations in the future that would require improvements to this solution, I don\u0027t understand the resistance to at least having this *optional* feature available now. No one has to use label locking if they don\u0027t want to. I\u0027m all for a solution that can be as future proof as possible, but without such a proposal from anyone, your reasoning sounds a bit like perfect being the enemy of good. Rarely do we need perfect.\n\nCan this change please move forward or do you have an alternate proposal for us to consider?",
+      "parentUuid": "174de39a_d8fd2f70",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "627a5db2884f3203e9f75f73730886789fe0f08a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

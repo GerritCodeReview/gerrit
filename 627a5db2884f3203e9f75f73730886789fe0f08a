@@ -310,6 +310,30 @@
       "revId": "627a5db2884f3203e9f75f73730886789fe0f08a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e1a52c2_54880567",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-07-23T19:54:16Z",
+      "side": 1,
+      "message": "While I don\u0027t know what the precise state based approach you would be suggesting would look like, I don\u0027t see how a \"Change State\" based approach can meet our needs of preventing teams from stomping on each other. Do you believe it can?\n\nI believe that with a \"Change State\" based model, if you want to give the ability for more than one actor (user, team, CI system...) to lock changes, then any actors with the ability to unlock those changes would be able to unlock any other actor\u0027s locks. This leaves it up to the actors to play nice and to not interfere with each other. We do not want to submit our users to this conflict.\n\nLabels provide a much finer grained access control since by default only the user locking a change can unlock it. Yet label locks also can be used to simulate a model without user ownership, if this is desired by using the \"LabelAs\" permission.  The \"LabelAs\" permission would allow groups to be given the lock/unlock permission by giving those groups the ability to \"LabelAs\" for the locking label. This would likely be very similar to the way that such groups would be given the permission to lock/unlock changes if a change\u0027s state were used to lock changes.  \n\nThus a label based approach can be used to provide both a fine grained user based ownership lock model, or a more role based lock model similar to what a \"change state\" based model would likely provide. It does this without interfering with the state model which would affect many internal state transitions in Gerrit (and likely be the cause many of the issues), and it does so without affecting many external queries written across many organizations across the world. A label based approach puts the admin in charge of the policies and does not dictate a single narrow approach that only meets some users needs.\n\nI don\u0027t believe that any alternate approach that does not provide user or group based ownership of locks will likely meet our needs.",
+      "parentUuid": "9c739ad9_d54e8967",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "627a5db2884f3203e9f75f73730886789fe0f08a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

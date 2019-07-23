@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1971432c_afa2b637",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-07-23T10:07:34Z",
+      "side": 1,
+      "message": "May be use \"metrics-\" instead? (to avoid unexpected collision).\nHow hard it will be to introduce some properties/metadata/info for plugin? In this case it will be possible to make checks based on plugin metadata instead of name.",
+      "revId": "ea599bfdf1f1bc516d84c7ba643c648b857c92d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e651f97_cdc283b5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-07-23T10:07:34Z",
+      "side": 1,
+      "message": "Not sure, that plugin is loaded completely at this point.\ncallback(plugin); - it seems, some async code is possible here. I.e. plugin might be not initialized completely here.",
+      "revId": "ea599bfdf1f1bc516d84c7ba643c648b857c92d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

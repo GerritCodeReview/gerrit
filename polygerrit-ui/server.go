@@ -187,28 +187,27 @@ func rewriteHostPage(reader io.Reader) io.Reader {
 	// server instead.
 	replaced := cdnPattern.ReplaceAllString(original, "")
 
-	// Modify window.INITIAL_DATA so that it has the same effect as injectLocalPlugins. To achieve
-	// this let's add JavaScript lines at the end of the <script>...</script> snippet that also
-	// contains window.INITIAL_DATA=...
-	// Here we rely on the fact that the <script> snippet that we want to append to is the first one.
+
+  // Modify window.INITIAL_DATA so that it has the same effect as injectLocalPlugins. To achieve
+  // this let's add JavaScript lines at the end of the <script>...</script> snippet that also
+  // contains window.INITIAL_DATA=...
+  // Here we rely on the fact that the <script> snippet that we want to append to is the first one.
 	if len(*plugins) > 0 {
-		insertionPoint := strings.Index(replaced, "</script>")
-		builder := new(strings.Builder)
-		builder.WriteString(
-			"window.INITIAL_DATA['/config/server/info'].plugin.html_resource_paths = []; ")
-		builder.WriteString(
-			"window.INITIAL_DATA['/config/server/info'].plugin.js_resource_paths = []; ")
-		for _, p := range strings.Split(*plugins, ",") {
-			if filepath.Ext(p) == ".html" {
-				builder.WriteString(
-					"window.INITIAL_DATA['/config/server/info'].plugin.html_resource_paths.push('" + p + "'); ")
-			}
-			if filepath.Ext(p) == ".js" {
-				builder.WriteString(
-					"window.INITIAL_DATA['/config/server/info'].plugin.js_resource_paths.push('" + p + "'); ")
-			}
-		}
-		replaced = replaced[:insertionPoint] + builder.String() + replaced[insertionPoint:]
+    insertionPoint := strings.Index(replaced, "</script>")
+    pluginScriptBuffer := new(bytes.Buffer)
+    for _, p := range strings.Split(*plugins, ",") {
+      var lp = "\"" + p;
+	  lp = lp + "\"";
+      if strings.HasSuffix(p, ".html") {
+        pluginScriptBuffer.WriteString(
+          "window.INITIAL_DATA['/config/server/info'].plugin.html_resource_paths.push(" + lp + "); ");
+      }
+      if strings.HasSuffix(p, ".js") {
+        pluginScriptBuffer.WriteString(
+          "window.INITIAL_DATA['/config/server/info'].plugin.js_resource_paths.push(" + lp + "); ");
+      }
+    }
+    replaced = replaced[:insertionPoint] + pluginScriptBuffer.String() + replaced[insertionPoint:];
 	}
 
 	return strings.NewReader(replaced)

@@ -16,6 +16,24 @@
       "revId": "4531a1a0659434c1a177a1b7026bb22015d72619",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4af0634f_8fa17c58",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 1539,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-07-23T16:09:44Z",
+      "side": 1,
+      "message": "Sorry, it was some experiment. Forgot to delete these lines.\nOnly the line element\u003dfixture(\u0027basic\u0027); must be here.\nI\u0027ve updated code and remove these lines.",
+      "parentUuid": "5fad1775_49ffe2c6",
+      "revId": "4531a1a0659434c1a177a1b7026bb22015d72619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

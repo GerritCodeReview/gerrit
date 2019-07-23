@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fad1775_49ffe2c6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 1539,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-23T15:30:22Z",
+      "side": 1,
+      "message": "I see you are following the pattern of the other tests, but I have to admit I do not understand why this works. How does actions change revisionActions?",
+      "revId": "4531a1a0659434c1a177a1b7026bb22015d72619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

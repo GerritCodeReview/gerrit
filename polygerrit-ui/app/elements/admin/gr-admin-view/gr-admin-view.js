@@ -177,6 +177,9 @@
       this.set('_showRepoList', isAdminView &&
           params.adminView === 'gr-repo-list');
 
+      this.set('_showChecksList', isAdminView &&
+          params.adminView === 'gr-checks-list');
+
       this.set('_showPluginList', isAdminView &&
           params.adminView === 'gr-plugin-list');
 

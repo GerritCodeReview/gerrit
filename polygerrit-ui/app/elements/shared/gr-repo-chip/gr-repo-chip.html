@@ -1,0 +1,31 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="../gr-button/gr-button.html">
+<link rel="import" href="../gr-icons/gr-icons.html">
+<link rel="import" href="../gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../../../styles/shared-styles.html">
+
+<dom-module id="gr-repo-chip">
+  <template>
+    <style>
+      iron-icon {
+        height: 1.2rem;
+        width: 1.2rem;
+      }
+      :host {
+        display: inline-block;
+      }
+    </style>
+    <span> {{repo.name}} </span>
+    <gr-button
+      id="remove"
+      link
+      hidden$="[[!removable]]"
+      tabindex="-1"
+      aria-label="Remove"
+      class$="remove [[_getBackgroundClass(transparentBackground)]]"
+      on-tap="_handleRemoveTap">
+      <iron-icon icon="gr-icons:close"></iron-icon>
+    </gr-button>
+  </template>
+  <script src="gr-repo-chip.js"></script>
+</dom-module>

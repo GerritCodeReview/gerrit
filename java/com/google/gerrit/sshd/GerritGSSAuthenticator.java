@@ -77,6 +77,6 @@ class GerritGSSAuthenticator extends GSSAuthenticator {
         sshScope,
         sshLog,
         sd,
-        SshUtil.createUser(sd, userFactory, account.get().getId()));
+        SshUtil.createUser(sd, userFactory, account.get().id()));
   }
 }

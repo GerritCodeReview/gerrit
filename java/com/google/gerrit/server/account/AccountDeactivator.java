@@ -108,7 +108,7 @@ public class AccountDeactivator implements Runnable {
     logger.atFine().log("processing account %s", userName);
     try {
       if (realm.accountBelongsToRealm(accountState.getExternalIds()) && !realm.isActive(userName)) {
-        sif.deactivate(accountState.getAccount().getId());
+        sif.deactivate(accountState.getAccount().id());
         logger.atInfo().log("deactivated account %s", userName);
         return true;
       }
@@ -117,7 +117,7 @@ public class AccountDeactivator implements Runnable {
     } catch (Exception e) {
       logger.atSevere().withCause(e).log(
           "Error deactivating account: %s (%s) %s",
-          userName, accountState.getAccount().getId(), e.getMessage());
+          userName, accountState.getAccount().id(), e.getMessage());
     }
     return false;
   }

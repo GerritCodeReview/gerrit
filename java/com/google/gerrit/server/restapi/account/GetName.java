@@ -23,6 +23,6 @@ import com.google.inject.Singleton;
 public class GetName implements RestReadView<AccountResource> {
   @Override
   public String apply(AccountResource rsrc) {
-    return Strings.nullToEmpty(rsrc.getUser().getAccount().getFullName());
+    return Strings.nullToEmpty(rsrc.getUser().getAccount().fullName());
   }
 }

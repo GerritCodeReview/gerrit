@@ -1275,7 +1275,7 @@ public class GroupConfigTest {
         getPrefilledGroupCreationBuilder().setGroupUUID(groupUuid).build();
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder()
-            .setMemberModification(members -> ImmutableSet.of(account13.getId(), account7.getId()))
+            .setMemberModification(members -> ImmutableSet.of(account13.id(), account7.id()))
             .build();
 
     GroupConfig groupConfig = GroupConfig.createForNewGroup(projectName, repository, groupCreation);
@@ -1325,7 +1325,7 @@ public class GroupConfigTest {
 
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder()
-            .setMemberModification(members -> ImmutableSet.of(account13.getId(), account7.getId()))
+            .setMemberModification(members -> ImmutableSet.of(account13.id(), account7.id()))
             .build();
     updateGroup(groupUuid, groupUpdate, auditLogFormatter);
 
@@ -1347,13 +1347,13 @@ public class GroupConfigTest {
 
     InternalGroupUpdate groupUpdate1 =
         InternalGroupUpdate.builder()
-            .setMemberModification(members -> ImmutableSet.of(account13.getId(), account7.getId()))
+            .setMemberModification(members -> ImmutableSet.of(account13.id(), account7.id()))
             .build();
     updateGroup(groupUuid, groupUpdate1, auditLogFormatter);
 
     InternalGroupUpdate groupUpdate2 =
         InternalGroupUpdate.builder()
-            .setMemberModification(members -> ImmutableSet.of(account7.getId()))
+            .setMemberModification(members -> ImmutableSet.of(account7.id()))
             .build();
     updateGroup(groupUuid, groupUpdate2, auditLogFormatter);
 
@@ -1447,7 +1447,7 @@ public class GroupConfigTest {
     InternalGroupUpdate groupUpdate1 =
         InternalGroupUpdate.builder()
             .setName(AccountGroup.nameKey("Old name"))
-            .setMemberModification(members -> ImmutableSet.of(account7.getId()))
+            .setMemberModification(members -> ImmutableSet.of(account7.id()))
             .setSubgroupModification(subgroups -> ImmutableSet.of(group2.getGroupUUID()))
             .build();
     updateGroup(groupUuid, groupUpdate1, auditLogFormatter);
@@ -1455,7 +1455,7 @@ public class GroupConfigTest {
     InternalGroupUpdate groupUpdate2 =
         InternalGroupUpdate.builder()
             .setName(AccountGroup.nameKey("New name"))
-            .setMemberModification(members -> ImmutableSet.of(account13.getId()))
+            .setMemberModification(members -> ImmutableSet.of(account13.id()))
             .setSubgroupModification(subgroups -> ImmutableSet.of(group1.getGroupUUID()))
             .build();
     updateGroup(groupUuid, groupUpdate2, auditLogFormatter);
@@ -1581,9 +1581,9 @@ public class GroupConfigTest {
   }
 
   private static Account createAccount(Account.Id id, String name) {
-    Account account = new Account(id, TimeUtil.nowTs());
+    Account.Builder account = Account.builder(id, TimeUtil.nowTs());
     account.setFullName(name);
-    return account;
+    return account.build();
   }
 
   private static GroupDescription.Basic createGroup(AccountGroup.UUID uuid, String name) {

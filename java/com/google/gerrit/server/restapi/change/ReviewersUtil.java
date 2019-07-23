@@ -405,7 +405,7 @@ public class ReviewersUtil {
 
       // require that at least one member in the group can see the change
       for (Account account : members) {
-        if (visibilityControl.isVisibleTo(account.getId())) {
+        if (visibilityControl.isVisibleTo(account.id())) {
           if (needsConfirmation) {
             result.allowedWithConfirmation = true;
           } else {

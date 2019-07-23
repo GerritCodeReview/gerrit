@@ -140,7 +140,7 @@ public class SetMembersCommand extends SshCommand {
                     return "n/a";
                   }
                   return MoreObjects.firstNonNull(
-                      accountState.get().getAccount().getPreferredEmail(), "n/a");
+                      accountState.get().getAccount().preferredEmail(), "n/a");
                 })
             .collect(joining(", "));
     out.write(

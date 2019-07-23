@@ -163,8 +163,8 @@ class ProjectOAuthFilter implements Filter {
 
     Account account = who.get().getAccount();
     AuthRequest authRequest = AuthRequest.forExternalUser(authInfo.username);
-    authRequest.setEmailAddress(account.getPreferredEmail());
-    authRequest.setDisplayName(account.getFullName());
+    authRequest.setEmailAddress(account.preferredEmail());
+    authRequest.setDisplayName(account.fullName());
     authRequest.setPassword(authInfo.tokenOrSecret);
     authRequest.setAuthPlugin(authInfo.pluginName);
     authRequest.setAuthProvider(authInfo.exportName);

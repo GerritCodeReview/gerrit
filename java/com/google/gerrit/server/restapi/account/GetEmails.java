@@ -58,7 +58,7 @@ public class GetEmails implements RestReadView<AccountResource> {
   private static EmailInfo toEmailInfo(AccountResource rsrc, String email) {
     EmailInfo e = new EmailInfo();
     e.email = email;
-    e.preferred(rsrc.getUser().getAccount().getPreferredEmail());
+    e.preferred(rsrc.getUser().getAccount().preferredEmail());
     return e;
   }
 }

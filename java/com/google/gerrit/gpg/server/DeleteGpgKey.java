@@ -105,7 +105,7 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
           } catch (EmailException e) {
             logger.atSevere().withCause(e).log(
                 "Cannot send GPG key deletion message to %s",
-                rsrc.getUser().getAccount().getPreferredEmail());
+                rsrc.getUser().getAccount().preferredEmail());
           }
           break;
         case FORCED:

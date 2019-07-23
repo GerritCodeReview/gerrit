@@ -515,8 +515,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void multipleReviewers() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
-    update.putReviewer(otherUser.getAccount().getId(), REVIEWER);
+    update.putReviewer(changeOwner.getAccount().id(), REVIEWER);
+    update.putReviewer(otherUser.getAccount().id(), REVIEWER);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -534,8 +534,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void reviewerTypes() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
-    update.putReviewer(otherUser.getAccount().getId(), CC);
+    update.putReviewer(changeOwner.getAccount().id(), REVIEWER);
+    update.putReviewer(otherUser.getAccount().id(), CC);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -553,7 +553,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void oneReviewerMultipleTypes() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putReviewer(otherUser.getAccount().getId(), REVIEWER);
+    update.putReviewer(otherUser.getAccount().id(), REVIEWER);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -562,7 +562,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
         .isEqualTo(ReviewerSet.fromTable(ImmutableTable.of(REVIEWER, Account.id(2), ts)));
 
     update = newUpdate(c, otherUser);
-    update.putReviewer(otherUser.getAccount().getId(), CC);
+    update.putReviewer(otherUser.getAccount().id(), CC);
     update.commit();
 
     notes = newNotes(c);
@@ -575,7 +575,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void removeReviewer() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putReviewer(otherUser.getAccount().getId(), REVIEWER);
+    update.putReviewer(otherUser.getAccount().id(), REVIEWER);
     update.commit();
 
     update = newUpdate(c, changeOwner);
@@ -589,17 +589,17 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeNotes notes = newNotes(c);
     List<PatchSetApproval> psas = notes.getApprovals().get(c.currentPatchSetId());
     assertThat(psas).hasSize(2);
-    assertThat(psas.get(0).accountId()).isEqualTo(changeOwner.getAccount().getId());
-    assertThat(psas.get(1).accountId()).isEqualTo(otherUser.getAccount().getId());
+    assertThat(psas.get(0).accountId()).isEqualTo(changeOwner.getAccount().id());
+    assertThat(psas.get(1).accountId()).isEqualTo(otherUser.getAccount().id());
 
     update = newUpdate(c, changeOwner);
-    update.removeReviewer(otherUser.getAccount().getId());
+    update.removeReviewer(otherUser.getAccount().id());
     update.commit();
 
     notes = newNotes(c);
     psas = notes.getApprovals().get(c.currentPatchSetId());
     assertThat(psas).hasSize(1);
-    assertThat(psas.get(0).accountId()).isEqualTo(changeOwner.getAccount().getId());
+    assertThat(psas.get(0).accountId()).isEqualTo(changeOwner.getAccount().id());
   }
 
   @Test
@@ -1211,11 +1211,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     List<PatchSetApproval> psas = notes.getApprovals().get(c.currentPatchSetId());
     assertThat(psas).hasSize(2);
 
-    assertThat(psas.get(0).accountId()).isEqualTo(changeOwner.getAccount().getId());
+    assertThat(psas.get(0).accountId()).isEqualTo(changeOwner.getAccount().id());
     assertThat(psas.get(0).label()).isEqualTo("Verified");
     assertThat(psas.get(0).value()).isEqualTo((short) 1);
 
-    assertThat(psas.get(1).accountId()).isEqualTo(otherUser.getAccount().getId());
+    assertThat(psas.get(1).accountId()).isEqualTo(otherUser.getAccount().id());
     assertThat(psas.get(1).label()).isEqualTo("Code-Review");
     assertThat(psas.get(1).value()).isEqualTo((short) 2);
   }
@@ -1336,14 +1336,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void changeMessageOnePatchSet() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
+    update.putReviewer(changeOwner.getAccount().id(), REVIEWER);
     update.setChangeMessage("Just a little code change.\n");
     update.commit();
 
     ChangeNotes notes = newNotes(c);
     ChangeMessage cm = Iterables.getOnlyElement(notes.getChangeMessages());
     assertThat(cm.getMessage()).isEqualTo("Just a little code change.\n");
-    assertThat(cm.getAuthor()).isEqualTo(changeOwner.getAccount().getId());
+    assertThat(cm.getAuthor()).isEqualTo(changeOwner.getAccount().id());
     assertThat(cm.getPatchSetId()).isEqualTo(c.currentPatchSetId());
   }
 
@@ -1351,7 +1351,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void noChangeMessage() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
+    update.putReviewer(changeOwner.getAccount().id(), REVIEWER);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -1368,7 +1368,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeNotes notes = newNotes(c);
     ChangeMessage cm1 = Iterables.getOnlyElement(notes.getChangeMessages());
     assertThat(cm1.getMessage()).isEqualTo("Testing trailing double newline\n\n");
-    assertThat(cm1.getAuthor()).isEqualTo(changeOwner.getAccount().getId());
+    assertThat(cm1.getAuthor()).isEqualTo(changeOwner.getAccount().id());
   }
 
   @Test
@@ -1387,14 +1387,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                 + "Testing paragraph 2\n"
                 + "\n"
                 + "Testing paragraph 3");
-    assertThat(cm1.getAuthor()).isEqualTo(changeOwner.getAccount().getId());
+    assertThat(cm1.getAuthor()).isEqualTo(changeOwner.getAccount().id());
   }
 
   @Test
   public void changeMessagesMultiplePatchSets() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
+    update.putReviewer(changeOwner.getAccount().id(), REVIEWER);
     update.setChangeMessage("This is the change message for the first PS.");
     update.commit();
     PatchSet.Id ps1 = c.currentPatchSetId();
@@ -1412,12 +1412,12 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeMessage cm1 = notes.getChangeMessages().get(0);
     assertThat(cm1.getPatchSetId()).isEqualTo(ps1);
     assertThat(cm1.getMessage()).isEqualTo("This is the change message for the first PS.");
-    assertThat(cm1.getAuthor()).isEqualTo(changeOwner.getAccount().getId());
+    assertThat(cm1.getAuthor()).isEqualTo(changeOwner.getAccount().id());
 
     ChangeMessage cm2 = notes.getChangeMessages().get(1);
     assertThat(cm2.getPatchSetId()).isEqualTo(ps2);
     assertThat(cm2.getMessage()).isEqualTo("This is the change message for the second PS.");
-    assertThat(cm2.getAuthor()).isEqualTo(changeOwner.getAccount().getId());
+    assertThat(cm2.getAuthor()).isEqualTo(changeOwner.getAccount().id());
     assertThat(cm2.getPatchSetId()).isEqualTo(ps2);
   }
 
@@ -1425,14 +1425,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void changeMessageMultipleInOnePatchSet() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
+    update.putReviewer(changeOwner.getAccount().id(), REVIEWER);
     update.setChangeMessage("First change message.\n");
     update.commit();
 
     PatchSet.Id ps1 = c.currentPatchSetId();
 
     update = newUpdate(c, changeOwner);
-    update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
+    update.putReviewer(changeOwner.getAccount().id(), REVIEWER);
     update.setChangeMessage("Second change message.\n");
     update.commit();
 
@@ -1441,10 +1441,10 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     List<ChangeMessage> cm = notes.getChangeMessages();
     assertThat(cm).hasSize(2);
     assertThat(cm.get(0).getMessage()).isEqualTo("First change message.\n");
-    assertThat(cm.get(0).getAuthor()).isEqualTo(changeOwner.getAccount().getId());
+    assertThat(cm.get(0).getAuthor()).isEqualTo(changeOwner.getAccount().id());
     assertThat(cm.get(0).getPatchSetId()).isEqualTo(ps1);
     assertThat(cm.get(1).getMessage()).isEqualTo("Second change message.\n");
-    assertThat(cm.get(1).getAuthor()).isEqualTo(changeOwner.getAccount().getId());
+    assertThat(cm.get(1).getAuthor()).isEqualTo(changeOwner.getAccount().id());
     assertThat(cm.get(1).getPatchSetId()).isEqualTo(ps1);
   }
 
@@ -1681,11 +1681,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
   @Test
   public void patchLineCommentNotesFormatWeirdUser() throws Exception {
-    Account account = new Account(Account.id(3), TimeUtil.nowTs());
+    Account.Builder account = Account.builder(Account.id(3), TimeUtil.nowTs());
     account.setFullName("Weird\n\u0002<User>\n");
     account.setPreferredEmail(" we\r\nird@ex>ample<.com");
-    accountCache.put(account);
-    IdentifiedUser user = userFactory.create(account.getId());
+    accountCache.put(account.build());
+    IdentifiedUser user = userFactory.create(Account.id(3));
 
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, user);
@@ -2936,8 +2936,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void pendingReviewers() throws Exception {
     Address adr1 = new Address("Foo Bar1", "foo.bar1@gerritcodereview.com");
     Address adr2 = new Address("Foo Bar2", "foo.bar2@gerritcodereview.com");
-    Account.Id ownerId = changeOwner.getAccount().getId();
-    Account.Id otherUserId = otherUser.getAccount().getId();
+    Account.Id ownerId = changeOwner.getAccount().id();
+    Account.Id otherUserId = otherUser.getAccount().id();
 
     ChangeNotes notes = newNotes(newChange());
     assertThat(notes.getPendingReviewers().asTable()).isEmpty();

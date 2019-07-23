@@ -118,7 +118,7 @@ class ContainerAuthFilter implements Filter {
       return false;
     }
     WebSession ws = session.get();
-    ws.setUserAccountId(who.get().getAccount().getId());
+    ws.setUserAccountId(who.get().getAccount().id());
     ws.setAccessPathOk(AccessPath.GIT, true);
     ws.setAccessPathOk(AccessPath.REST_API, true);
     return true;

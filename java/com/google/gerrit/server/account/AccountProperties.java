@@ -88,15 +88,16 @@ public class AccountProperties {
   }
 
   private void parse() {
-    account = new Account(accountId, registeredOn);
-    account.setActive(accountConfig.getBoolean(ACCOUNT, null, KEY_ACTIVE, true));
-    account.setFullName(get(accountConfig, KEY_FULL_NAME));
+    Account.Builder accountBuilder = Account.builder(accountId, registeredOn);
+    accountBuilder.setActive(accountConfig.getBoolean(ACCOUNT, null, KEY_ACTIVE, true));
+    accountBuilder.setFullName(get(accountConfig, KEY_FULL_NAME));
 
     String preferredEmail = get(accountConfig, KEY_PREFERRED_EMAIL);
-    account.setPreferredEmail(preferredEmail);
+    accountBuilder.setPreferredEmail(preferredEmail);
 
-    account.setStatus(get(accountConfig, KEY_STATUS));
-    account.setMetaId(metaId != null ? metaId.name() : null);
+    accountBuilder.setStatus(get(accountConfig, KEY_STATUS));
+    accountBuilder.setMetaId(metaId != null ? metaId.name() : null);
+    account = accountBuilder.build();
   }
 
   Config save(InternalAccountUpdate accountUpdate) {

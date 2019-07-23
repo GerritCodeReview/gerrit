@@ -157,16 +157,16 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
       String displayName;
       if (accountState.get().getUserName().isPresent()) {
         displayName = accountState.get().getUserName().get();
-      } else if (account.getFullName() != null && !account.getFullName().isEmpty()) {
-        displayName = account.getFullName();
-      } else if (account.getPreferredEmail() != null) {
-        displayName = account.getPreferredEmail();
+      } else if (account.fullName() != null && !account.fullName().isEmpty()) {
+        displayName = account.fullName();
+      } else if (account.preferredEmail() != null) {
+        displayName = account.preferredEmail();
       } else {
         displayName = accountId.toString();
       }
 
       Element linkElement = doc.createElement("a");
-      linkElement.setAttribute("href", "?account_id=" + account.getId().toString());
+      linkElement.setAttribute("href", "?account_id=" + account.id().toString());
       linkElement.setTextContent(displayName);
       userlistElement.appendChild(linkElement);
       userlistElement.appendChild(doc.createElement("br"));
@@ -176,7 +176,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
   }
 
   private Optional<AuthResult> auth(Optional<AccountState> account) {
-    return account.map(a -> new AuthResult(a.getAccount().getId(), null, false));
+    return account.map(a -> new AuthResult(a.getAccount().id(), null, false));
   }
 
   private AuthResult auth(Account.Id account) {
@@ -196,7 +196,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
       getServletContext().log("Multiple accounts with username " + userName + " found");
       return null;
     }
-    return auth(accountStates.get(0).getAccount().getId());
+    return auth(accountStates.get(0).getAccount().id());
   }
 
   private Optional<AuthResult> byPreferredEmail(String email) {

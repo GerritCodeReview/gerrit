@@ -192,7 +192,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
 
     Optional<AccountState> accountState = accounts.get(accountId);
     assertThat(accountState).isPresent();
-    assertThat(accountState.get().getAccount().getPreferredEmail()).isEqualTo(newEmail);
+    assertThat(accountState.get().getAccount().preferredEmail()).isEqualTo(newEmail);
   }
 
   @Test
@@ -217,7 +217,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
 
     Optional<AccountState> accountState = accounts.get(accountId);
     assertThat(accountState).isPresent();
-    assertThat(accountState.get().getAccount().getFullName()).isEqualTo(newName);
+    assertThat(accountState.get().getAccount().fullName()).isEqualTo(newName);
   }
 
   @Test
@@ -433,7 +433,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
     // Verify that the preferred email was not updated.
     Optional<AccountState> accountState = accounts.get(accountId);
     assertThat(accountState).isPresent();
-    assertThat(accountState.get().getAccount().getPreferredEmail()).isEqualTo(email);
+    assertThat(accountState.get().getAccount().preferredEmail()).isEqualTo(email);
   }
 
   @Test

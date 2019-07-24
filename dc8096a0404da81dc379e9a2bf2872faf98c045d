@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e14046a_271d2ef5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-07-24T22:09:11Z",
+      "side": 1,
+      "message": "This explanation is mentioned as an afterthought after the previous paragraph. I am not sure it is obvious that this problem should only happen in normal installations on the master on startup (I think that is what you are implying?) To make it more obvious what use case you are trying to improve I think that you want to start line 14 with something like \"Prior to this commit, on servers where an update does not originate (on other masters or slaves) and on server startup, the cache loader would...\"",
+      "revId": "dc8096a0404da81dc379e9a2bf2872faf98c045d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec94dea1_cbbd2ba6",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-07-24T22:09:11Z",
+      "side": 1,
+      "message": "If I understand correctly, this history traversal is because we don\u0027t know what our own cached version is? It seems like we should be able to fix this somehow with a lot less code and less expense. Could we:\n\n1) store the sha1 of latest version somewhere\n2) only store one value cached value with an bogus key (\"latest\")\n3) grab any of the stored values and assume that it will be good enough for a diff since we are expiring them pretty quickly\n4) grab all the values and check which is the latest?",
+      "revId": "dc8096a0404da81dc379e9a2bf2872faf98c045d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

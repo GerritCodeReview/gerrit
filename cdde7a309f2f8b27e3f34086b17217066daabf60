@@ -46,6 +46,30 @@
       "revId": "cdde7a309f2f8b27e3f34086b17217066daabf60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7cb0d42_5f856a4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-07-24T14:41:10Z",
+      "side": 1,
+      "message": "\u003e Are there other use cases apart from this?\n\nYes. Some people e.g. in Android like to upload changes intended for external projects (e.g. kernel) without a Change-Id. It feels silly to me because if they amend there is no way to re-upload to the same change nowadays, but we may have some work to do to talk to them and help them understand the change / adjust their workflow.",
+      "parentUuid": "1965906b_b6197969",
+      "range": {
+        "startLine": 20,
+        "startChar": 14,
+        "endLine": 22,
+        "endChar": 0
+      },
+      "revId": "cdde7a309f2f8b27e3f34086b17217066daabf60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

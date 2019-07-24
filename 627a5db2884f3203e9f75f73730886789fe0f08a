@@ -358,6 +358,30 @@
       "revId": "627a5db2884f3203e9f75f73730886789fe0f08a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e674a85_de94d0de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-07-24T16:30:01Z",
+      "side": 1,
+      "message": "Yes it is because you simply assert that I don\u0027t want what I want. We have many teams and many CI systems, and we even have humans who want to run manual merge at times on the same branches that their CI systems control. Just because an actor can lock does not mean we want that actor able to unlock some other actors lock.",
+      "parentUuid": "b0e1572d_193e3ba4",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "627a5db2884f3203e9f75f73730886789fe0f08a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

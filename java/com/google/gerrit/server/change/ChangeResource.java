@@ -38,6 +38,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
@@ -75,6 +76,7 @@ public class ChangeResource implements RestResource, HasETag {
   private final PermissionBackend permissionBackend;
   private final StarredChangesUtil starredChangesUtil;
   private final ProjectCache projectCache;
+  private final PluginSetContext<ChangeETagComputation> changeETagComputation;
   private final ChangeNotes notes;
   private final CurrentUser user;
 
@@ -86,6 +88,7 @@ public class ChangeResource implements RestResource, HasETag {
       PermissionBackend permissionBackend,
       StarredChangesUtil starredChangesUtil,
       ProjectCache projectCache,
+      PluginSetContext<ChangeETagComputation> changeETagComputation,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user) {
     this.accountCache = accountCache;
@@ -94,6 +97,7 @@ public class ChangeResource implements RestResource, HasETag {
     this.permissionBackend = permissionBackend;
     this.starredChangesUtil = starredChangesUtil;
     this.projectCache = projectCache;
+    this.changeETagComputation = changeETagComputation;
     this.notes = notes;
     this.user = user;
   }
@@ -202,6 +206,13 @@ public class ChangeResource implements RestResource, HasETag {
       h.putString(starredChangesUtil.getObjectId(user.getAccountId(), getId()).name(), UTF_8);
     }
     prepareETag(h, user);
+    changeETagComputation.runEach(
+        c -> {
+          String pluginETag = c.getETag(notes.getProjectName(), notes.getChangeId());
+          if (pluginETag != null) {
+            h.putString(pluginETag, UTF_8);
+          }
+        });
     return h.hash().toString();
   }
 

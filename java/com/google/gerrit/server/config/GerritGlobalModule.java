@@ -102,6 +102,7 @@ import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.change.AbandonOp;
 import com.google.gerrit.server.change.AccountPatchReviewStore;
 import com.google.gerrit.server.change.ChangeAttributeFactory;
+import com.google.gerrit.server.change.ChangeETagComputation;
 import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
@@ -388,6 +389,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), PerformanceLogger.class);
     DynamicSet.setOf(binder(), RequestListener.class);
     DynamicSet.bind(binder(), RequestListener.class).to(TraceRequestListener.class);
+    DynamicSet.setOf(binder(), ChangeETagComputation.class);
 
     DynamicMap.mapOf(binder(), MailFilter.class);
     bind(MailFilter.class).annotatedWith(Exports.named("ListMailFilter")).to(ListMailFilter.class);

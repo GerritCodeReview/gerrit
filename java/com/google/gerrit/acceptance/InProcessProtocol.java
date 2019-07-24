@@ -14,6 +14,10 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.gerrit.server.git.receive.LazyPostReceiveHookChain.affectsSize;
+import static com.google.gerrit.server.quota.QuotaGroupDefinitions.REPOSITORY_SIZE_GROUP;
+
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.InProcessProtocol.Context;
 import com.google.gerrit.common.data.Capable;
@@ -40,6 +44,9 @@ import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.quota.QuotaBackend;
+import com.google.gerrit.server.quota.QuotaException;
+import com.google.gerrit.server.quota.QuotaResponse;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -263,6 +270,7 @@ class InProcessProtocol extends TestProtocol<Context> {
     private final DynamicSet<PostReceiveHook> postReceiveHooks;
     private final ThreadLocalRequestContext threadContext;
     private final PermissionBackend permissionBackend;
+    private final QuotaBackend quotaBackend;
 
     @Inject
     Receive(
@@ -273,7 +281,8 @@ class InProcessProtocol extends TestProtocol<Context> {
         PluginSetContext<ReceivePackInitializer> receivePackInitializers,
         DynamicSet<PostReceiveHook> postReceiveHooks,
         ThreadLocalRequestContext threadContext,
-        PermissionBackend permissionBackend) {
+        PermissionBackend permissionBackend,
+        QuotaBackend quotaBackend) {
       this.userProvider = userProvider;
       this.projectCache = projectCache;
       this.factory = factory;
@@ -282,6 +291,7 @@ class InProcessProtocol extends TestProtocol<Context> {
       this.postReceiveHooks = postReceiveHooks;
       this.threadContext = threadContext;
       this.permissionBackend = permissionBackend;
+      this.quotaBackend = quotaBackend;
     }
 
     @Override
@@ -321,10 +331,35 @@ class InProcessProtocol extends TestProtocol<Context> {
 
         receivePackInitializers.runEach(
             initializer -> initializer.init(projectState.getNameKey(), rp));
+        QuotaResponse.Aggregated availableTokens =
+            quotaBackend
+                .user(identifiedUser)
+                .project(req.project)
+                .availableTokens(REPOSITORY_SIZE_GROUP);
+        availableTokens.throwOnError();
+        availableTokens.availableTokens().ifPresent(v -> rp.setMaxObjectSizeLimit(v));
 
-        rp.setPostReceiveHook(PostReceiveHookChain.newChain(Lists.newArrayList(postReceiveHooks)));
+        ImmutableList<PostReceiveHook> hooks =
+            ImmutableList.<PostReceiveHook>builder()
+                .add(
+                    (pack, commands) -> {
+                      if (affectsSize(pack, commands)) {
+                        try {
+                          quotaBackend
+                              .user(identifiedUser)
+                              .project(req.project)
+                              .requestTokens(REPOSITORY_SIZE_GROUP, pack.getPackSize())
+                              .throwOnError();
+                        } catch (QuotaException e) {
+                          throw new RuntimeException(e);
+                        }
+                      }
+                    })
+                .addAll(postReceiveHooks)
+                .build();
+        rp.setPostReceiveHook(PostReceiveHookChain.newChain(hooks));
         return rp;
-      } catch (IOException | PermissionBackendException e) {
+      } catch (IOException | PermissionBackendException | QuotaException e) {
         throw new RuntimeException(e);
       }
     }

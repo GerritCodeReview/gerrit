@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46320e41_03f1bdf8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-24T10:59:04Z",
+      "side": 1,
+      "message": "How difficult would it be to fix this class to generate a change-id, or append the existing change-id, rather than revert this whole change?\n\nAre there other use cases apart from this?",
+      "range": {
+        "startLine": 20,
+        "startChar": 14,
+        "endLine": 22,
+        "endChar": 0
+      },
+      "revId": "cdde7a309f2f8b27e3f34086b17217066daabf60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

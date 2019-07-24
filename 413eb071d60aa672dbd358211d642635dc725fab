@@ -22,6 +22,30 @@
       "revId": "413eb071d60aa672dbd358211d642635dc725fab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51e3e378_88d458fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2750,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-24T07:11:40Z",
+      "side": 1,
+      "message": "Plugin validation is only skipped for plugins that don\u0027t override shouldValidateAllCommits.  This is handled by the skipValidation flag that gets passed in to CommitValidators at L2718.\n\nNote there are already tests that cover skipping commit validation. This particular case was overlooked in the tests though.",
+      "parentUuid": "9b7318a9_d121c0bb",
+      "range": {
+        "startLine": 2748,
+        "startChar": 8,
+        "endLine": 2750,
+        "endChar": 51
+      },
+      "revId": "413eb071d60aa672dbd358211d642635dc725fab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

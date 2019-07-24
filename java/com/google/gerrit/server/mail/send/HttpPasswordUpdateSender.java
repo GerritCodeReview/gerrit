@@ -31,8 +31,8 @@ public class HttpPasswordUpdateSender extends OutgoingEmail {
 
   @AssistedInject
   public HttpPasswordUpdateSender(
-      EmailArguments ea, @Assisted IdentifiedUser user, @Assisted String operation) {
-    super(ea, "HttpPasswordUpdate");
+      EmailArguments args, @Assisted IdentifiedUser user, @Assisted String operation) {
+    super(args, "HttpPasswordUpdate");
     this.user = user;
     this.operation = operation;
   }

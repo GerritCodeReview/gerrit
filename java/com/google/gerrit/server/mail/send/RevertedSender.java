@@ -24,13 +24,13 @@ import com.google.inject.assistedinject.Assisted;
 /** Send notice about a change being reverted. */
 public class RevertedSender extends ReplyToChangeSender {
   public interface Factory {
-    RevertedSender create(Project.NameKey project, Change.Id id);
+    RevertedSender create(Project.NameKey project, Change.Id changeId);
   }
 
   @Inject
   public RevertedSender(
-      EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id) {
-    super(ea, "revert", ChangeEmail.newChangeData(ea, project, id));
+      EmailArguments args, @Assisted Project.NameKey project, @Assisted Change.Id changeId) {
+    super(args, "revert", ChangeEmail.newChangeData(args, project, changeId));
   }
 
   @Override

@@ -71,10 +71,10 @@ public abstract class OutgoingEmail {
   protected Account.Id fromId;
   protected NotifyResolver.Result notify = NotifyResolver.Result.all();
 
-  protected OutgoingEmail(EmailArguments ea, String mc) {
-    args = ea;
-    messageClass = mc;
-    headers = new LinkedHashMap<>();
+  protected OutgoingEmail(EmailArguments args, String messageClass) {
+    this.args = args;
+    this.messageClass = messageClass;
+    this.headers = new LinkedHashMap<>();
   }
 
   public void setFrom(Account.Id id) {

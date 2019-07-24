@@ -32,7 +32,7 @@ import java.util.Set;
 /** Send notice of new patch sets for reviewers. */
 public class ReplacePatchSetSender extends ReplyToChangeSender {
   public interface Factory {
-    ReplacePatchSetSender create(Project.NameKey project, Change.Id id);
+    ReplacePatchSetSender create(Project.NameKey project, Change.Id changeId);
   }
 
   private final Set<Account.Id> reviewers = new HashSet<>();
@@ -40,8 +40,8 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
 
   @Inject
   public ReplacePatchSetSender(
-      EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id) {
-    super(ea, "newpatchset", newChangeData(ea, project, id));
+      EmailArguments args, @Assisted Project.NameKey project, @Assisted Change.Id changeId) {
+    super(args, "newpatchset", newChangeData(args, project, changeId));
   }
 
   public void addReviewers(Collection<Account.Id> cc) {

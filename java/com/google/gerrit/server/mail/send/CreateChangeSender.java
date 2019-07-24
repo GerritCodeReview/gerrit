@@ -34,18 +34,18 @@ public class CreateChangeSender extends NewChangeSender {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
-    CreateChangeSender create(Project.NameKey project, Change.Id id);
+    CreateChangeSender create(Project.NameKey project, Change.Id changeId);
   }
 
   private final PermissionBackend permissionBackend;
 
   @Inject
   public CreateChangeSender(
-      EmailArguments ea,
+      EmailArguments args,
       PermissionBackend permissionBackend,
       @Assisted Project.NameKey project,
-      @Assisted Change.Id id) {
-    super(ea, newChangeData(ea, project, id));
+      @Assisted Change.Id changeId) {
+    super(args, newChangeData(args, project, changeId));
     this.permissionBackend = permissionBackend;
   }
 

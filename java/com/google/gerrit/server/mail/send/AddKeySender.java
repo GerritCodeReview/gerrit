@@ -37,8 +37,8 @@ public class AddKeySender extends OutgoingEmail {
 
   @AssistedInject
   public AddKeySender(
-      EmailArguments ea, @Assisted IdentifiedUser user, @Assisted AccountSshKey sshKey) {
-    super(ea, "addkey");
+      EmailArguments args, @Assisted IdentifiedUser user, @Assisted AccountSshKey sshKey) {
+    super(args, "addkey");
     this.user = user;
     this.sshKey = sshKey;
     this.gpgKeys = null;
@@ -46,8 +46,8 @@ public class AddKeySender extends OutgoingEmail {
 
   @AssistedInject
   public AddKeySender(
-      EmailArguments ea, @Assisted IdentifiedUser user, @Assisted List<String> gpgKeys) {
-    super(ea, "addkey");
+      EmailArguments args, @Assisted IdentifiedUser user, @Assisted List<String> gpgKeys) {
+    super(args, "addkey");
     this.user = user;
     this.sshKey = null;
     this.gpgKeys = gpgKeys;

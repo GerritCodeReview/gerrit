@@ -63,7 +63,7 @@ public class CommentSender extends ReplyToChangeSender {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
-    CommentSender create(Project.NameKey project, Change.Id id);
+    CommentSender create(Project.NameKey project, Change.Id changeId);
   }
 
   private class FileCommentGroup {
@@ -111,12 +111,12 @@ public class CommentSender extends ReplyToChangeSender {
 
   @Inject
   public CommentSender(
-      EmailArguments ea,
+      EmailArguments args,
       CommentsUtil commentsUtil,
       @GerritServerConfig Config cfg,
       @Assisted Project.NameKey project,
-      @Assisted Change.Id id) {
-    super(ea, "comment", newChangeData(ea, project, id));
+      @Assisted Change.Id changeId) {
+    super(args, "comment", newChangeData(args, project, changeId));
     this.commentsUtil = commentsUtil;
     this.incomingEmailEnabled =
         cfg.getEnum("receiveemail", null, "protocol", Protocol.NONE).ordinal()

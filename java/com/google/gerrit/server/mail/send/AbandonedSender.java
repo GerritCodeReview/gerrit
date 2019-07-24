@@ -25,13 +25,13 @@ import com.google.inject.assistedinject.Assisted;
 public class AbandonedSender extends ReplyToChangeSender {
   public interface Factory extends ReplyToChangeSender.Factory<AbandonedSender> {
     @Override
-    AbandonedSender create(Project.NameKey project, Change.Id change);
+    AbandonedSender create(Project.NameKey project, Change.Id changeId);
   }
 
   @Inject
   public AbandonedSender(
-      EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id) {
-    super(ea, "abandon", ChangeEmail.newChangeData(ea, project, id));
+      EmailArguments args, @Assisted Project.NameKey project, @Assisted Change.Id changeId) {
+    super(args, "abandon", ChangeEmail.newChangeData(args, project, changeId));
   }
 
   @Override

@@ -26,8 +26,8 @@ public abstract class ReplyToChangeSender extends ChangeEmail {
     T create(Project.NameKey project, Change.Id id);
   }
 
-  protected ReplyToChangeSender(EmailArguments ea, String mc, ChangeData cd) {
-    super(ea, mc, cd);
+  protected ReplyToChangeSender(EmailArguments args, String messageClass, ChangeData changeData) {
+    super(args, messageClass, changeData);
   }
 
   @Override

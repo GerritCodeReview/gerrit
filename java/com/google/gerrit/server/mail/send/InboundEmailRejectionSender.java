@@ -46,8 +46,11 @@ public class InboundEmailRejectionSender extends OutgoingEmail {
 
   @Inject
   public InboundEmailRejectionSender(
-      EmailArguments ea, @Assisted Address to, @Assisted String threadId, @Assisted Error reason) {
-    super(ea, "error");
+      EmailArguments args,
+      @Assisted Address to,
+      @Assisted String threadId,
+      @Assisted Error reason) {
+    super(args, "error");
     this.to = requireNonNull(to);
     this.threadId = requireNonNull(threadId);
     this.reason = requireNonNull(reason);

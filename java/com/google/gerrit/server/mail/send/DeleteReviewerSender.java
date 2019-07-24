@@ -36,13 +36,13 @@ public class DeleteReviewerSender extends ReplyToChangeSender {
 
   public interface Factory extends ReplyToChangeSender.Factory<DeleteReviewerSender> {
     @Override
-    DeleteReviewerSender create(Project.NameKey project, Change.Id change);
+    DeleteReviewerSender create(Project.NameKey project, Change.Id changeId);
   }
 
   @Inject
   public DeleteReviewerSender(
-      EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id) {
-    super(ea, "deleteReviewer", newChangeData(ea, project, id));
+      EmailArguments args, @Assisted Project.NameKey project, @Assisted Change.Id changeId) {
+    super(args, "deleteReviewer", newChangeData(args, project, changeId));
   }
 
   public void addReviewers(Collection<Account.Id> cc) {

@@ -24,18 +24,18 @@ import com.google.inject.assistedinject.Assisted;
 
 public class SetAssigneeSender extends ChangeEmail {
   public interface Factory {
-    SetAssigneeSender create(Project.NameKey project, Change.Id id, Account.Id assignee);
+    SetAssigneeSender create(Project.NameKey project, Change.Id changeId, Account.Id assignee);
   }
 
   private final Account.Id assignee;
 
   @Inject
   public SetAssigneeSender(
-      EmailArguments ea,
+      EmailArguments args,
       @Assisted Project.NameKey project,
-      @Assisted Change.Id id,
+      @Assisted Change.Id changeId,
       @Assisted Account.Id assignee) {
-    super(ea, "setassignee", newChangeData(ea, project, id));
+    super(args, "setassignee", newChangeData(args, project, changeId));
     this.assignee = assignee;
   }
 

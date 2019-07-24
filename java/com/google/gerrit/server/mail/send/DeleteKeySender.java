@@ -38,8 +38,8 @@ public class DeleteKeySender extends OutgoingEmail {
 
   @AssistedInject
   public DeleteKeySender(
-      EmailArguments ea, @Assisted IdentifiedUser user, @Assisted AccountSshKey sshKey) {
-    super(ea, "deletekey");
+      EmailArguments args, @Assisted IdentifiedUser user, @Assisted AccountSshKey sshKey) {
+    super(args, "deletekey");
     this.user = user;
     this.gpgKeyFingerprints = Collections.emptyList();
     this.sshKey = sshKey;
@@ -47,8 +47,10 @@ public class DeleteKeySender extends OutgoingEmail {
 
   @AssistedInject
   public DeleteKeySender(
-      EmailArguments ea, @Assisted IdentifiedUser user, @Assisted List<String> gpgKeyFingerprints) {
-    super(ea, "deletekey");
+      EmailArguments args,
+      @Assisted IdentifiedUser user,
+      @Assisted List<String> gpgKeyFingerprints) {
+    super(args, "deletekey");
     this.user = user;
     this.gpgKeyFingerprints = gpgKeyFingerprints;
     this.sshKey = null;

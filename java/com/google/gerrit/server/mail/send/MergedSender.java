@@ -32,15 +32,15 @@ import com.google.inject.assistedinject.Assisted;
 /** Send notice about a change successfully merged. */
 public class MergedSender extends ReplyToChangeSender {
   public interface Factory {
-    MergedSender create(Project.NameKey project, Change.Id id);
+    MergedSender create(Project.NameKey project, Change.Id changeId);
   }
 
   private final LabelTypes labelTypes;
 
   @Inject
   public MergedSender(
-      EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id) {
-    super(ea, "merged", newChangeData(ea, project, id));
+      EmailArguments args, @Assisted Project.NameKey project, @Assisted Change.Id changeId) {
+    super(args, "merged", newChangeData(args, project, changeId));
     labelTypes = changeData.getLabelTypes();
   }
 

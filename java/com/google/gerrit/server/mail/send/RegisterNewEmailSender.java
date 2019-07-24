@@ -36,14 +36,14 @@ public class RegisterNewEmailSender extends OutgoingEmail {
 
   @Inject
   public RegisterNewEmailSender(
-      EmailArguments ea,
-      EmailTokenVerifier etv,
+      EmailArguments args,
+      EmailTokenVerifier tokenVerifier,
       IdentifiedUser callingUser,
       @Assisted final String address) {
-    super(ea, "registernewemail");
-    tokenVerifier = etv;
-    user = callingUser;
-    addr = address;
+    super(args, "registernewemail");
+    this.tokenVerifier = tokenVerifier;
+    this.user = callingUser;
+    this.addr = address;
   }
 
   @Override

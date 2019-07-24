@@ -25,13 +25,13 @@ import com.google.inject.assistedinject.Assisted;
 public class DeleteVoteSender extends ReplyToChangeSender {
   public interface Factory extends ReplyToChangeSender.Factory<DeleteVoteSender> {
     @Override
-    DeleteVoteSender create(Project.NameKey project, Change.Id change);
+    DeleteVoteSender create(Project.NameKey project, Change.Id changeId);
   }
 
   @Inject
   protected DeleteVoteSender(
-      EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id) {
-    super(ea, "deleteVote", newChangeData(ea, project, id));
+      EmailArguments args, @Assisted Project.NameKey project, @Assisted Change.Id changeId) {
+    super(args, "deleteVote", newChangeData(args, project, changeId));
   }
 
   @Override

@@ -35,8 +35,8 @@ public abstract class NotificationEmail extends OutgoingEmail {
 
   protected BranchNameKey branch;
 
-  protected NotificationEmail(EmailArguments ea, String mc, BranchNameKey branch) {
-    super(ea, mc);
+  protected NotificationEmail(EmailArguments args, String messageClass, BranchNameKey branch) {
+    super(args, messageClass);
     this.branch = branch;
   }
 

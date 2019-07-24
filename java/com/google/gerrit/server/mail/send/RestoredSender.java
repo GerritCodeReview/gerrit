@@ -25,13 +25,13 @@ import com.google.inject.assistedinject.Assisted;
 public class RestoredSender extends ReplyToChangeSender {
   public interface Factory extends ReplyToChangeSender.Factory<RestoredSender> {
     @Override
-    RestoredSender create(Project.NameKey project, Change.Id id);
+    RestoredSender create(Project.NameKey project, Change.Id changeId);
   }
 
   @Inject
   public RestoredSender(
-      EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id) {
-    super(ea, "restore", ChangeEmail.newChangeData(ea, project, id));
+      EmailArguments args, @Assisted Project.NameKey project, @Assisted Change.Id changeId) {
+    super(args, "restore", ChangeEmail.newChangeData(args, project, changeId));
   }
 
   @Override

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3df1fb49_64af3e2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-07-24T17:05:18Z",
+      "side": 1,
+      "message": "\u003e this seems like the wrong approach to me. instead of creating clunky namespaced names to avoid collisions, there should be a central registry of plugins and namespace resources they claim. then you can use short and handy names to start with, and have consistency across gerrit installations.\n\u003e \n\u003e this obviously would not cover internal plugins, but your approach just shifts the problem, too: you\u0027ll still need to change your aliases if upstream introduces a collision - unless you remap the new upstream names, but that would border on sadism.\n\nAs you might expect, our use cases here do involve internal plugins. The onus is on the admins picking the alias names to pick ones they don\u0027t think they\u0027ll need to rename later.\n\nThis feature is valuable to us and we don\u0027t believe it harms anyone else\u0027s use cases. Please let me know if you have technical reasons against this approach.",
+      "parentUuid": "502200bb_ec78c50a",
+      "revId": "fa773402ae274e8515382b3afdbc2b5e8f1092d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "01bc59ec_a6b3581e",
         "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
         "patchSetId": 8

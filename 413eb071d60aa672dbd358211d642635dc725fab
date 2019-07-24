@@ -70,6 +70,30 @@
       "revId": "413eb071d60aa672dbd358211d642635dc725fab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70c1d6c0_2bbf5dab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2750,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-24T07:46:23Z",
+      "side": 1,
+      "message": "I\u0027ve just had the same discussion with Jacek about the non-intuitiveness of this option.  I will check the documentation and see if it\u0027s possible to clarify.  I\u0027ll do this in a follow-up later.",
+      "parentUuid": "8435e138_530e41c5",
+      "range": {
+        "startLine": 2748,
+        "startChar": 8,
+        "endLine": 2750,
+        "endChar": 51
+      },
+      "revId": "413eb071d60aa672dbd358211d642635dc725fab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

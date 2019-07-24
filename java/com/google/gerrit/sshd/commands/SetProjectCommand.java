@@ -56,6 +56,9 @@ final class SetProjectCommand extends SshCommand {
   @Option(name = "--content-merge", usage = "allow automatic conflict resolving within files")
   private InheritableBoolean contentMerge;
 
+  @Option(name = "--change-id", usage = "if change-id is required")
+  private InheritableBoolean requireChangeID;
+
   @Option(
       name = "--use-contributor-agreements",
       aliases = {"--ca"},
@@ -101,6 +104,22 @@ final class SetProjectCommand extends SshCommand {
   }
 
   @Option(
+      name = "--require-change-id",
+      aliases = {"--id"},
+      usage = "if change-id is required")
+  void setRequireChangeId(@SuppressWarnings("unused") boolean on) {
+    requireChangeID = InheritableBoolean.TRUE;
+  }
+
+  @Option(
+      name = "--no-change-id",
+      aliases = {"--nid"},
+      usage = "if change-id is not required")
+  void setNoChangeId(@SuppressWarnings("unused") boolean on) {
+    requireChangeID = InheritableBoolean.FALSE;
+  }
+
+  @Option(
       name = "--project-state",
       aliases = {"--ps"},
       usage = "project's visibility state")
@@ -114,6 +133,7 @@ final class SetProjectCommand extends SshCommand {
   @Override
   protected void run() throws Failure {
     ConfigInput configInput = new ConfigInput();
+    configInput.requireChangeId = requireChangeID;
     configInput.submitType = submitType;
     configInput.useContentMerge = contentMerge;
     configInput.useContributorAgreements = contributorAgreements;

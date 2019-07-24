@@ -25,6 +25,7 @@ public class ConfigInput {
   public InheritableBoolean useContentMerge;
   public InheritableBoolean useSignedOffBy;
   public InheritableBoolean createNewChangeForAllNotInTarget;
+  public InheritableBoolean requireChangeId;
   public InheritableBoolean enableSignedPush;
   public InheritableBoolean requireSignedPush;
   public InheritableBoolean rejectImplicitMerges;

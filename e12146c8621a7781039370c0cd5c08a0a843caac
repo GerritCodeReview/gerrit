@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42367257_ec84941f",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-07-24T07:23:25Z",
+      "side": 1,
+      "message": "This puts us again in the position where a single maintainer can block the whole process. I would add an ESC escalation path as last resort.",
+      "range": {
+        "startLine": 214,
+        "startChar": 65,
+        "endLine": 215,
+        "endChar": 22
+      },
+      "revId": "e12146c8621a7781039370c0cd5c08a0a843caac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

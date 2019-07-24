@@ -33,6 +33,8 @@ public abstract class AllProjectsInput {
   public static final ImmutableMap<BooleanProjectConfig, InheritableBoolean>
       DEFAULT_BOOLEAN_PROJECT_CONFIGS =
           ImmutableMap.of(
+              BooleanProjectConfig.REQUIRE_CHANGE_ID,
+              InheritableBoolean.TRUE,
               BooleanProjectConfig.USE_CONTENT_MERGE,
               InheritableBoolean.TRUE,
               BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS,

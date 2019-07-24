@@ -86,6 +86,24 @@
     },
     {
       "key": {
+        "uuid": "b8248b95_9e053a19",
+        "filename": "java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-24T08:09:13Z",
+      "side": 1,
+      "message": "Sure :)",
+      "parentUuid": "431929eb_c52c1547",
+      "revId": "e43e6c59d3730c1bd62534aaac78e1b3d8179940",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e70570c_daf58262",
         "filename": "java/com/google/gerrit/reviewdb/client/Account.java",
         "patchSetId": 1

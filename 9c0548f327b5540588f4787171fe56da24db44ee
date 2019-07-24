@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9d6d435_aac611b1",
+        "filename": "java/com/google/gerrit/pgm/init/InitAdminUser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-24T08:09:13Z",
+      "side": 1,
+      "message": "Thanks for changing this, but I think it\u0027s nicer if the created account would be returned by the insert method. Something like:\n\n  Account account \u003d accounts.insert(Account.builder(id, TimeUtil.nowTs()).setFullName(name).setPreferredEmail(email));\n\nSorry if my previous comment about this was confusing.",
+      "range": {
+        "startLine": 116,
+        "startChar": 8,
+        "endLine": 118,
+        "endChar": 0
+      },
+      "revId": "9c0548f327b5540588f4787171fe56da24db44ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

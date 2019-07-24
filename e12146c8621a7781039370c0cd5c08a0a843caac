@@ -22,6 +22,30 @@
       "revId": "e12146c8621a7781039370c0cd5c08a0a843caac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3faaf9ef_18adb94b",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-24T07:33:59Z",
+      "side": 1,
+      "message": "Good point.  Maybe the escalation should be to the community managers rather than ESC, though?",
+      "parentUuid": "42367257_ec84941f",
+      "range": {
+        "startLine": 214,
+        "startChar": 65,
+        "endLine": 215,
+        "endChar": 22
+      },
+      "revId": "e12146c8621a7781039370c0cd5c08a0a843caac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

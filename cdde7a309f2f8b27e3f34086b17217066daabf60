@@ -22,6 +22,30 @@
       "revId": "cdde7a309f2f8b27e3f34086b17217066daabf60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1965906b_b6197969",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-07-24T13:20:30Z",
+      "side": 1,
+      "message": "it would be easy, but our motto is to rollback first, and then ask questions.",
+      "parentUuid": "46320e41_03f1bdf8",
+      "range": {
+        "startLine": 20,
+        "startChar": 14,
+        "endLine": 22,
+        "endChar": 0
+      },
+      "revId": "cdde7a309f2f8b27e3f34086b17217066daabf60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

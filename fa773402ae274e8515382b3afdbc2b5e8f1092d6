@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "6d30dc22_af8044de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-07-24T23:22:43Z",
+      "side": 1,
+      "message": "I don\u0027t think hard coding would do what you\u0027re implying, or I\u0027m not following you. We use this feature from plugins and since plugin operators always include the plugin name, there\u0027s no way for a plugin to alias its operators to not include the name (i.e. alias \u0027customplugin_bugnumber:\u0027 to \u0027bugnumber:\u0027).\n\nAs you haven\u0027t given any technical reasons against this, please either provide helpful review feedback or stop commenting.",
+      "parentUuid": "6c817745_a5e55c51",
+      "revId": "fa773402ae274e8515382b3afdbc2b5e8f1092d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "01bc59ec_a6b3581e",
         "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
         "patchSetId": 8
@@ -69,6 +87,24 @@
       "revId": "fa773402ae274e8515382b3afdbc2b5e8f1092d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d97b8fd9_b0629aa5",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-07-24T23:22:43Z",
+      "side": 1,
+      "message": "Looks like it works when the listener is removed. Done.",
+      "parentUuid": "01bc59ec_a6b3581e",
+      "revId": "fa773402ae274e8515382b3afdbc2b5e8f1092d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

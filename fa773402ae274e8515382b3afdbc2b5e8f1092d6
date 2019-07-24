@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "6c817745_a5e55c51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2019-07-24T17:44:38Z",
+      "side": 1,
+      "message": "that doesn\u0027t answer the question: why do you make it an admin task while it could be hard-coded without apparent downsides? the limitation to internal scope presses this question even harder, as you have even more control in that context.\n\nthe harm is that once this feature is available, people will unthinkingly use it \"to provide convenience\" and thereby make different gerrit installations have incompatible user interfaces (and thus terrible usability) for no good reason whatsoever. i already pointed that out in my first comment on this change.",
+      "parentUuid": "3df1fb49_64af3e2d",
+      "revId": "fa773402ae274e8515382b3afdbc2b5e8f1092d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "01bc59ec_a6b3581e",
         "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
         "patchSetId": 8

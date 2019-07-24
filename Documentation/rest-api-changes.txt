@@ -849,8 +849,10 @@ returned that describes the resulting change.
 Creates a new patch set with a new commit message.
 
 The new commit message must be provided in the request body inside a
-link:#commit-message-input[CommitMessageInput] entity and contain the change ID footer if
-link:project-configuration.html#require-change-id[Require Change-Id] was specified.
+link:#commit-message-input[CommitMessageInput] entity. If a Change-Id
+footer is specified, it must match the current Change-Id footer. If
+the Change-Id footer is absent, the current Change-Id is added to the
+message.
 
 .Request
 ----

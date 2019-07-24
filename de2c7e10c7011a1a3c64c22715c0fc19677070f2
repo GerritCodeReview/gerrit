@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7224f74_8cefa737",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-07-24T22:26:46Z",
+      "side": 1,
+      "message": "I think this is problematic, this gives google the power to override vetos on maintainers which means that google can make anyone they want a maintainer.",
+      "revId": "de2c7e10c7011a1a3c64c22715c0fc19677070f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

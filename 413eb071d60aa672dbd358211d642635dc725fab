@@ -46,6 +46,30 @@
       "revId": "413eb071d60aa672dbd358211d642635dc725fab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8435e138_530e41c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2750,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-24T07:41:27Z",
+      "side": 1,
+      "message": "Ah, shouldValidateAllCommits() means do validation even if skip-validation was set.\nFrom a users perspective I find this rather non-intuitive, I say skip-validation and it validates anyway :( OK, in this case this change is fine, of course.",
+      "parentUuid": "51e3e378_88d458fd",
+      "range": {
+        "startLine": 2748,
+        "startChar": 8,
+        "endLine": 2750,
+        "endChar": 51
+      },
+      "revId": "413eb071d60aa672dbd358211d642635dc725fab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

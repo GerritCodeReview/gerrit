@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf64a34b_2c39bc28",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-24T23:50:41Z",
+      "side": 1,
+      "message": "Change this to \"Change-Id\" for consistency with the next line.",
+      "range": {
+        "startLine": 852,
+        "startChar": 60,
+        "endLine": 852,
+        "endChar": 69
+      },
+      "revId": "cc802157d17910373d588466db24d823d09379aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "365d554a_4aebec62",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-24T23:50:41Z",
+      "side": 1,
+      "message": "This should mention that if the Change-Id footer is not specified, and the project requires the Change-Id, the footer will be added with the current Change-Id.",
+      "revId": "cc802157d17910373d588466db24d823d09379aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "911ce2c0_6935cd6c",
+        "filename": "java/com/google/gerrit/server/restapi/change/PutMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-24T23:50:41Z",
+      "side": 1,
+      "message": "It should only do this when requireChangeId is true.",
+      "range": {
+        "startLine": 212,
+        "startChar": 4,
+        "endLine": 212,
+        "endChar": 36
+      },
+      "revId": "cc802157d17910373d588466db24d823d09379aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

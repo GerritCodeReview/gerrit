@@ -334,6 +334,30 @@
       "revId": "627a5db2884f3203e9f75f73730886789fe0f08a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0e1572d_193e3ba4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2019-07-24T06:22:59Z",
+      "side": 1,
+      "message": "this is getting a bit repetitive ...\n\n*why* do you want \"multiple actors\"? please rebut my previous claims in detail.\n\nand yes, introducing new states *is* invasive - as it _should_ be, which i also already pointed out in https://gerrit-review.googlesource.com/c/plugins/batch/+/91439/17#message-f4d931694a44eb44bbba5858e3557bc936b1df2c .",
+      "parentUuid": "0e1a52c2_54880567",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "627a5db2884f3203e9f75f73730886789fe0f08a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

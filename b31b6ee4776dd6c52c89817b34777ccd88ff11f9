@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8b70c4e6_99a8a38d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-07-24T10:56:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8c1f583_db62338a",
+      "range": {
+        "startLine": 13,
+        "startChar": 24,
+        "endLine": 13,
+        "endChar": 25
+      },
+      "revId": "b31b6ee4776dd6c52c89817b34777ccd88ff11f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95d5525e_fb5d34a6",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 2

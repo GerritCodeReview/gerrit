@@ -59,7 +59,6 @@ public class NotifyResolver {
 
     public abstract NotifyHandling handling();
 
-    // TODO(dborowitz): Should be ImmutableSetMultimap.
     public abstract ImmutableSetMultimap<RecipientType, Account.Id> accounts();
 
     public Result withHandling(NotifyHandling notifyHandling) {

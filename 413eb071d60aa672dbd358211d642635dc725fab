@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b7318a9_d121c0bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2750,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-24T06:38:41Z",
+      "side": 1,
+      "message": "If skipValidation wouldn\u0027t we expect that the validation done by plugins is also skipped?",
+      "range": {
+        "startLine": 2748,
+        "startChar": 8,
+        "endLine": 2750,
+        "endChar": 51
+      },
+      "revId": "413eb071d60aa672dbd358211d642635dc725fab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -111,10 +111,13 @@ public class PutMessage
     String sanitizedCommitMessage = CommitMessageUtil.checkAndSanitizeCommitMessage(input.message);
 
     ensureCanEditCommitMessage(resource.getNotes());
-    ensureChangeIdIsCorrect(
-        projectCache.checkedGet(resource.getProject()).is(BooleanProjectConfig.REQUIRE_CHANGE_ID),
-        resource.getChange().getKey().get(),
-        sanitizedCommitMessage);
+    sanitizedCommitMessage =
+        ensureChangeIdIsCorrect(
+            projectCache
+                .checkedGet(resource.getProject())
+                .is(BooleanProjectConfig.REQUIRE_CHANGE_ID),
+            resource.getChange().getKey().get(),
+            sanitizedCommitMessage);
 
     try (Repository repository = repositoryManager.openRepository(resource.getProject());
         RevWalk revWalk = new RevWalk(repository);
@@ -193,7 +196,7 @@ public class PutMessage
     }
   }
 
-  private static void ensureChangeIdIsCorrect(
+  private static String ensureChangeIdIsCorrect(
       boolean requireChangeId, String currentChangeId, String newCommitMessage)
       throws ResourceConflictException, BadRequestException {
     RevCommit revCommit =
@@ -204,14 +207,21 @@ public class PutMessage
     CommitMessageUtil.checkAndSanitizeCommitMessage(revCommit.getShortMessage());
 
     List<String> changeIdFooters = revCommit.getFooterLines(FooterConstants.CHANGE_ID);
-    if (requireChangeId && changeIdFooters.isEmpty()) {
-      throw new ResourceConflictException("missing Change-Id footer");
-    }
     if (!changeIdFooters.isEmpty() && !changeIdFooters.get(0).equals(currentChangeId)) {
       throw new ResourceConflictException("wrong Change-Id footer");
     }
-    if (changeIdFooters.size() > 1) {
+
+    if (requireChangeId && revCommit.getFooterLines().isEmpty()) {
+      // sanitization always adds '\n' at the end.
+      newCommitMessage += "\n";
+    }
+
+    if (requireChangeId && changeIdFooters.isEmpty()) {
+      newCommitMessage += FooterConstants.CHANGE_ID.getName() + ": " + currentChangeId + "\n";
+    } else if (changeIdFooters.size() > 1) {
       throw new ResourceConflictException("multiple Change-Id footers");
     }
+
+    return newCommitMessage;
   }
 }

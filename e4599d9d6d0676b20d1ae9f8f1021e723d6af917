@@ -612,6 +612,30 @@
     },
     {
       "key": {
+        "uuid": "8878e5aa_2c50cb0d",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-07-24T11:20:24Z",
+      "side": 1,
+      "message": "that is true, but now you have to deal with the RENAME/COPY case below, and make the reader look into DiffFormatter. At a minimum, you have to document/comment all the assumptions you make.\n\n\n\nI think you over estimate how hard it is to walk a tree.  IIRC, it\u0027s \n\ntry (tw \u003d new TreeWalk(repo)) {\ntw.setFilter(ANY_DIFF)\ntw.setRecursive(true)\ntw.reset(tree1, tree2)\nwhile (true) {\n   if !tw.next() { break }\n\n   .. tw.getPathString\n   id \u003d tw.getObjectId(1)\n   if (id !\u003d zeroId) {\n     ..\n     \n   }\n}\n}\n\n\nregarding the comment in your doc I made earlier, I was thinking this code would look like:\n\n\n  oldExtIdByBlob \u003d new Map\u003cObjectId, ExternalId\u003e();\n  oldExtIdByAccount \u003d new Map\u003cAccount.Id, ExternalId\u003e();\n  oldExtIdByEmail \u003d new Map\u003cAccount.Id, ExternalId\u003e();\n  // populate these from the old  cache entry\n\n\n  newExtIdByAccount \u003d new Map\u003cAccount.Id, ExternalId\u003e();\n  newExtIdByEmail \u003d new Map\u003cAccount.Id, ExternalId\u003e();\n\n  try (tw \u003d new TreeWalk(repo)) {\n  tw.setRecursive(true)\n  tw.reset(tree1, tree2)\n  while (true) {\n    if !tw.next() { break }\n\n    .. tw.getPathString\n    blobId \u003d tw.getObjectId(1)\n    if (id !\u003d zeroId) {\n      extId \u003d oldExtIdByBlob(blobId);\n      if (extId \u003d\u003d null) {\n        // completely new; read from git. \n      } else {\n         newExtIdByAccount.put(extId.account, extId)\n         newExtIdByEmail.put(extId.email, extId)\n      }\n    }\n  }\n}\n\nI guess the diffing appraoch avoids looping over unchanged parts of the tree, which is probably also somewhat expensive if there is sharding.",
+      "parentUuid": "5b8f7739_d542fb2e",
+      "range": {
+        "startLine": 170,
+        "startChar": 6,
+        "endLine": 170,
+        "endChar": 19
+      },
+      "revId": "e4599d9d6d0676b20d1ae9f8f1021e723d6af917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a738372d_305bfce9",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
         "patchSetId": 1
@@ -657,6 +681,53 @@
       "revId": "e4599d9d6d0676b20d1ae9f8f1021e723d6af917",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6055de88_d1437a55",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-07-24T11:20:24Z",
+      "side": 1,
+      "message": "hmm ok. But why do you have the fallback at all?\n\nyou could you not probably use the zeroId tree as the \u0027old\u0027 in case there was no previous value.",
+      "parentUuid": "5f5f4ebb_f83187ba",
+      "range": {
+        "startLine": 173,
+        "startChar": 9,
+        "endLine": 173,
+        "endChar": 49
+      },
+      "revId": "e4599d9d6d0676b20d1ae9f8f1021e723d6af917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "836b7581_23289f0c",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-07-24T11:20:24Z",
+      "side": 1,
+      "message": "if we rely on this, we should throw ISE here.",
+      "range": {
+        "startLine": 202,
+        "startChar": 54,
+        "endLine": 202,
+        "endChar": 77
+      },
+      "revId": "e4599d9d6d0676b20d1ae9f8f1021e723d6af917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

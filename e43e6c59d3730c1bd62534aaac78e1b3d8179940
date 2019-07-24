@@ -42,6 +42,29 @@
     },
     {
       "key": {
+        "uuid": "6e70570c_daf58262",
+        "filename": "java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-24T01:51:36Z",
+      "side": 1,
+      "message": "Why is this nullable?  Shouldn\u0027t there always be a user branch?",
+      "range": {
+        "startLine": 147,
+        "startChar": 2,
+        "endLine": 148,
+        "endChar": 34
+      },
+      "revId": "e43e6c59d3730c1bd62534aaac78e1b3d8179940",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e41e74ab_5e7afe5d",
         "filename": "javatests/com/google/gerrit/server/index/account/AccountFieldTest.java",
         "patchSetId": 1

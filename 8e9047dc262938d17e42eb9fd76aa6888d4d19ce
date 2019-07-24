@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "790cec09_89b90f1c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-24T02:03:15Z",
+      "side": 1,
+      "message": "It\u0027s not enough to simply assert the number of messages; we need to make sure the correct notification was sent.\n\nIn this case does it even make sense to send both the new mail validation email, and the new \"email modified\" notification to the same email address?",
+      "revId": "8e9047dc262938d17e42eb9fd76aa6888d4d19ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

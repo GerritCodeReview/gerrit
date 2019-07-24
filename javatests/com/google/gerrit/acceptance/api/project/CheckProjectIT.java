@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.api.projects.CheckProjectInput;
 import com.google.gerrit.extensions.api.projects.CheckProjectInput.AutoCloseableChangesCheckInput;
 import com.google.gerrit.extensions.api.projects.CheckProjectResultInfo;
 import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -65,7 +66,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
 
   @Test
   public void detectAutoCloseableChangeByCommit() throws Exception {
-    RevCommit commit = pushCommitForReview();
+    RevCommit commit = pushCommitWithoutChangeIdForReview();
     ChangeInfo change =
         Iterables.getOnlyElement(gApi.changes().query("commit:" + commit.name()).get());
 
@@ -89,7 +90,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
 
   @Test
   public void fixAutoCloseableChangeByCommit() throws Exception {
-    RevCommit commit = pushCommitForReview();
+    RevCommit commit = pushCommitWithoutChangeIdForReview();
     ChangeInfo change =
         Iterables.getOnlyElement(gApi.changes().query("commit:" + commit.name()).get());
 
@@ -279,7 +280,8 @@ public class CheckProjectIT extends AbstractDaemonTest {
                 + ProjectsConsistencyChecker.AUTO_CLOSE_MAX_COMMITS_LIMIT);
   }
 
-  private RevCommit pushCommitForReview() throws Exception {
+  private RevCommit pushCommitWithoutChangeIdForReview() throws Exception {
+    setRequireChangeId(InheritableBoolean.FALSE);
     RevCommit commit =
         testRepo
             .branch("HEAD")

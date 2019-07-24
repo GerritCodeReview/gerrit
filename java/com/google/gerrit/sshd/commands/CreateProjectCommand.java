@@ -91,6 +91,9 @@ final class CreateProjectCommand extends SshCommand {
   @Option(name = "--content-merge", usage = "allow automatic conflict resolving within files")
   private InheritableBoolean contentMerge = InheritableBoolean.INHERIT;
 
+  @Option(name = "--change-id", usage = "if change-id is required")
+  private InheritableBoolean requireChangeID = InheritableBoolean.INHERIT;
+
   @Option(name = "--reject-empty-commit", usage = "if empty commits should be rejected on submit")
   private InheritableBoolean rejectEmptyCommit = InheritableBoolean.INHERIT;
 
@@ -118,6 +121,14 @@ final class CreateProjectCommand extends SshCommand {
   @Option(name = "--use-content-merge", usage = "allow automatic conflict resolving within files")
   void setUseContentMerge(@SuppressWarnings("unused") boolean on) {
     contentMerge = InheritableBoolean.TRUE;
+  }
+
+  @Option(
+      name = "--require-change-id",
+      aliases = {"--id"},
+      usage = "if change-id is required")
+  void setRequireChangeId(@SuppressWarnings("unused") boolean on) {
+    requireChangeID = InheritableBoolean.TRUE;
   }
 
   @Option(
@@ -175,6 +186,7 @@ final class CreateProjectCommand extends SshCommand {
         input.useContributorAgreements = contributorAgreements;
         input.useSignedOffBy = signedOffBy;
         input.useContentMerge = contentMerge;
+        input.requireChangeId = requireChangeID;
         input.createNewChangeForAllNotInTarget = createNewChangeForAllNotInTarget;
         input.branches = branch;
         input.createEmptyCommit = createEmptyCommit;

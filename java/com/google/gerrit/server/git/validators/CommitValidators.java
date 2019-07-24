@@ -146,7 +146,12 @@ public class CommitValidators {
               new CommitterUploaderValidator(user, perm, urlFormatter.get()),
               new SignedOffByValidator(user, perm, projectState),
               new ChangeIdValidator(
-                  user, urlFormatter.get(), installCommitMsgHookCommand, sshInfo, change),
+                  projectState,
+                  user,
+                  urlFormatter.get(),
+                  installCommitMsgHookCommand,
+                  sshInfo,
+                  change),
               new ConfigValidator(projectConfigFactory, branch, user, rw, allUsers, allProjects),
               new BannedCommitsValidator(rejectCommits),
               new PluginCommitValidationListener(pluginValidators, skipValidation),
@@ -173,7 +178,12 @@ public class CommitValidators {
               new AuthorUploaderValidator(user, perm, urlFormatter.get()),
               new SignedOffByValidator(user, perm, projectCache.checkedGet(branch.project())),
               new ChangeIdValidator(
-                  user, urlFormatter.get(), installCommitMsgHookCommand, sshInfo, change),
+                  projectState,
+                  user,
+                  urlFormatter.get(),
+                  installCommitMsgHookCommand,
+                  sshInfo,
+                  change),
               new ConfigValidator(projectConfigFactory, branch, user, rw, allUsers, allProjects),
               new PluginCommitValidationListener(pluginValidators),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
@@ -247,6 +257,7 @@ public class CommitValidators {
 
     private static final Pattern CHANGE_ID = Pattern.compile(CHANGE_ID_PATTERN);
 
+    private final ProjectState projectState;
     private final UrlFormatter urlFormatter;
     private final String installCommitMsgHookCommand;
     private final SshInfo sshInfo;
@@ -254,11 +265,13 @@ public class CommitValidators {
     private final Change change;
 
     public ChangeIdValidator(
+        ProjectState projectState,
         IdentifiedUser user,
         UrlFormatter urlFormatter,
         String installCommitMsgHookCommand,
         SshInfo sshInfo,
         Change change) {
+      this.projectState = projectState;
       this.urlFormatter = urlFormatter;
       this.installCommitMsgHookCommand = installCommitMsgHookCommand;
       this.sshInfo = sshInfo;
@@ -294,8 +307,10 @@ public class CommitValidators {
                   Type.ERROR));
           throw new CommitValidationException(CHANGE_ID_ABOVE_FOOTER_MSG, messages);
         }
-        messages.add(getMissingChangeIdErrorMsg(MISSING_CHANGE_ID_MSG));
-        throw new CommitValidationException(MISSING_CHANGE_ID_MSG, messages);
+        if (projectState.is(BooleanProjectConfig.REQUIRE_CHANGE_ID)) {
+          messages.add(getMissingChangeIdErrorMsg(MISSING_CHANGE_ID_MSG));
+          throw new CommitValidationException(MISSING_CHANGE_ID_MSG, messages);
+        }
       } else if (idList.size() > 1) {
         throw new CommitValidationException(MULTIPLE_CHANGE_ID_MSG, messages);
       } else {

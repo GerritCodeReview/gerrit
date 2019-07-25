@@ -198,6 +198,24 @@
     },
     {
       "key": {
+        "uuid": "f7c20fba_fd13a242",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-07-25T19:03:12Z",
+      "side": 1,
+      "message": "Thanks for clarifying. There is something I still don\u0027t understand about your replicated setup. Why are you trying to make cache updates on other nodes fast and incremental if you have a cache that gets replicated already? Perhaps this is a situation where trying to replicate the cache creates more problems than it solves? After all, the update is likely small, a single externalId or email, and that can get replicates quickly via git and then reloaded quickly into the remote cache.  Wheres as making an update to the cache which holds all the data and then replicating that requires replicating all of the cache which is likely much slower since it likely is not an incremental update, doesn\u0027t it require replicating the entire cache?",
+      "parentUuid": "1a1b56ae_a24ab654",
+      "revId": "dc8096a0404da81dc379e9a2bf2872faf98c045d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0ee95e4a_f4fc810c",
         "filename": "javatests/com/google/gerrit/server/account/externalids/ExternalIDCacheLoaderTest.java",
         "patchSetId": 4

@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "3b5189e3_57cc385d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-07-25T16:58:05Z",
+      "side": 1,
+      "message": "\u003e \u003e since plugin operators always include the plugin name, there\u0027s no way for a plugin to alias its operators to not include the name\n\u003e\n\u003e wouldn\u0027t it make more sense to address this limitation directly instead of working around it?\n\nThis limitation is by design. This is a name-spacing design specifically intended to avoid operator name collisions. While name-spacing can make some things more wordy, its strength is to provide a more expandable system. The plan when this was introduced was to follow this up someday with support for aliasing so that admins could install the plugins they like, and then alias the operators from those that they really like to shorter names if desired while avoid name collisions. This change is the follow up for that original intent. Think of the approach as being similar to python\u0027s \"import X as Y\" feature, a feature which I think make python\u0027s name-spacing a bit friendlier than java\u0027s name-spacing.\n\nThis approach is consistent with other features enabled by plugins, for example, currently plugins cannot provide top level ssh commands, they must prefix the commands with the plugin name. If admins want to currently promote any plugin command to a top level gerrit command, they can do that by defining an alias for the command. Other name-spaced domains for plugins include \"has:...\" operands, and I plan to upload a solution for \"is:...\" operands soon also (we just finally needed that one internally). Plugins switches \"--plugin-switch\" that are added to other commands are also name-spaced by the plugin. \n\nAt first some of this seems a bit odd, however we have found that with internal plugins that work together this name-spacing quickly becomes an advantage, it ends up creating more object oriented APIs (for us the plugin names tend to represent objects), and it makes it intuitive to make the plugins work together. I suspect that we have pushed plugin interactions further than most, so I understand if it is not obvious to everyone what advantages name-spacing brings. We have plugins that add switches to commands from other plugins, and our system would likely be pretty messy without the name-spacing. That being said, we have some very common operators that we would like to promote to being first class citizens (something we do not want to do for most operators, especially if they are mainly building blocks for other operators), and aliases would help here. I hope we can soon add aliases for the other name-spacing features also (I have a change for has:... operand aliasing too).\n\nThat being said, removing plugins name-spacing would not prevent different installations of Gerrit from having different operators, this simply isn\u0027t possible.  Each admin can install different plugins, and any admin can recompile any of the plugins, and/or Gerrit itself to alter things. I personally think this is a moot point.\n\nAs a maintainer, I strongly believe that Gerrit\u0027s configurability, while often seen as a downside for new adopters, is its strength with its current customers. If we attempt to dumb Gerrit down, we are unlikely to take the hords of users away from the easier simpler less powerful solutions out there, and we are very likely to loose the customers that we have. An aliasing feature need not be used by those who don\u0027t want it, and I will generally favor adding new features that provide more power to Gerrit and plugins, it is likely how we will stay ahead of, or differentiate ourselves from the competition.\n\nIf the community in general would like to make it possible to make plugins provide non name-spaced operators, then it would make sense to revisit this. If you think that is the case, then please bring this up with the ESC. However, let\u0027s please focus any more review of this feature on the code, and not whether plugins should be name-spaced or not.",
+      "parentUuid": "d5c6a7c2_08d8edfb",
+      "revId": "fa773402ae274e8515382b3afdbc2b5e8f1092d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "01bc59ec_a6b3581e",
         "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
         "patchSetId": 8

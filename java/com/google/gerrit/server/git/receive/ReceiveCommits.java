@@ -3048,6 +3048,9 @@ class ReceiveCommits {
       int limit = receiveConfig.maxBatchCommits;
       int n = 0;
       for (RevCommit c; (c = walk.next()) != null; ) {
+        // Even if skipValidation is set, we still get here when at least one plugin
+        // commit validator requires to validate all commits. In this case, however,
+        // we don't need to check the commit limit.
         if (++n > limit && !skipValidation) {
           logger.atFine().log("Number of new commits exceeds limit of %d", limit);
           reject(

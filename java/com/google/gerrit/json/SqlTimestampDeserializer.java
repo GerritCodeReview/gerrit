@@ -44,7 +44,15 @@ class SqlTimestampDeserializer implements JsonDeserializer<Timestamp>, JsonSeria
       throw new JsonParseException("Expected string for timestamp type");
     }
 
-    return JavaSqlTimestampHelper.parseTimestamp(p.getAsString());
+    String input = p.getAsString();
+    if (input.trim().isEmpty()) {
+      // Magic timestamp to indicate no timestamp. (-> null object)
+      // Always create a new object as timestamps are mutable. Don't use TimeUtil.never() to not
+      // introduce an undesired dependency.
+      return new Timestamp(0);
+    }
+
+    return JavaSqlTimestampHelper.parseTimestamp(input);
   }
 
   @Override

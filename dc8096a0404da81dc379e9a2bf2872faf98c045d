@@ -162,6 +162,24 @@
     },
     {
       "key": {
+        "uuid": "8f40fc97_27156327",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-07-25T18:21:54Z",
+      "side": 1,
+      "message": "Most of the work that we do is motivated by our deployment at Google, where we store the cache in bigtable which replicates globally, but without guarantees, so it has to work for that case too.\n\nI suppose clustered deployments (like the gerrit on kubernetes that folks are working on) would use a similar setup.",
+      "parentUuid": "45f35f0f_e9c00516",
+      "revId": "dc8096a0404da81dc379e9a2bf2872faf98c045d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ee95e4a_f4fc810c",
         "filename": "javatests/com/google/gerrit/server/account/externalids/ExternalIDCacheLoaderTest.java",
         "patchSetId": 4

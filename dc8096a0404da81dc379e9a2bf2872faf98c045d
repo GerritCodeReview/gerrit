@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "7d253a71_0fa3bf65",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-07-25T17:41:20Z",
+      "side": 1,
+      "message": "Storing cache data keyed by SHA1 is a feature. It means we can persist and replicate the data in the cache across tasks and datacenters without having to worry about race conditions.  If we store something in cache that is mutable, we\u0027d have to notify replicas that new data is available, which is more work, and creates problems if for some reason, a replica misses an update.\n\nIf you store something somewhere under the key \"latest\", how does a remote task know whether or not that entry is up to date wrt to the external-IDs ref?  \n\n\u003e grab all the values and check which is the latest?\n\nthe data in the cache may replicate slower to a different data center than the ext-ID ref; the latest value you get out of the cache may be completely irrelevant to the external ID we\u0027re trying to resolve.\n\n\nmaybe I don\u0027t understand your suggestions, though.",
+      "parentUuid": "4c9199e3_2b1d0efc",
+      "revId": "dc8096a0404da81dc379e9a2bf2872faf98c045d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ee95e4a_f4fc810c",
         "filename": "javatests/com/google/gerrit/server/account/externalids/ExternalIDCacheLoaderTest.java",
         "patchSetId": 4

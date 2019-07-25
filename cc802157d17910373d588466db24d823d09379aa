@@ -131,6 +131,30 @@
       "revId": "cc802157d17910373d588466db24d823d09379aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42e84946_d2137801",
+        "filename": "java/com/google/gerrit/server/restapi/change/PutMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-07-25T11:30:30Z",
+      "side": 1,
+      "message": "on 2nd thought, it looks like this will be much more work than I thought: requireChangeId also work if you push fresh changes, and rewriting the commit message would change the commit SHA1, leading to broken commit chains.\n\n(or we\u0027d have to rewrite them recursively.)",
+      "parentUuid": "aabb64fb_1139e7bd",
+      "range": {
+        "startLine": 212,
+        "startChar": 4,
+        "endLine": 212,
+        "endChar": 36
+      },
+      "revId": "cc802157d17910373d588466db24d823d09379aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

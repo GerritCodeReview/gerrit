@@ -94,6 +94,29 @@
       "revId": "413eb071d60aa672dbd358211d642635dc725fab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03b3b5e4_043456ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2751,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-25T01:20:03Z",
+      "side": 1,
+      "message": "On stable-2.16 this additional condition already exists, but the conditions are the other way around:\n\n if (++n \u003e limit \u0026\u0026 !skipValidation) {\n\nthis is so that the count still increments, and the log at L2776 shows the correct value.",
+      "range": {
+        "startLine": 2751,
+        "startChar": 8,
+        "endLine": 2751,
+        "endChar": 45
+      },
+      "revId": "413eb071d60aa672dbd358211d642635dc725fab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

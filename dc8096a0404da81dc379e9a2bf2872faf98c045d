@@ -144,6 +144,24 @@
     },
     {
       "key": {
+        "uuid": "45f35f0f_e9c00516",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-07-25T18:07:52Z",
+      "side": 1,
+      "message": "Yes, I think you did understand my suggestion. My suggestion is based on the assumptions that H2 caches are local to a server.\n\nIt seems to me that the intent to build incremental updates based on the extId ref changing would be base on the idea that it  should be cheap enough to perform an H2 cache update and that there would be no point in replicating this update elsewhere.",
+      "parentUuid": "a15e759d_8c54e3ad",
+      "revId": "dc8096a0404da81dc379e9a2bf2872faf98c045d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ee95e4a_f4fc810c",
         "filename": "javatests/com/google/gerrit/server/account/externalids/ExternalIDCacheLoaderTest.java",
         "patchSetId": 4

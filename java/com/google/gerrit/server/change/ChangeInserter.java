@@ -203,6 +203,8 @@ public class ChangeInserter implements InsertChangeOp {
     if (!idList.isEmpty()) {
       return Change.key(idList.get(idList.size() - 1).trim());
     }
+    // A Change-Id is computed for the review, but not appended to the commit message.
+    // This can happen if requireChangeId is false.
     ObjectId changeId =
         ChangeIdUtil.computeChangeId(
             commit.getTree(),

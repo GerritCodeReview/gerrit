@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "5d066eeb_c55d6add",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2019-07-25T20:23:40Z",
+      "side": 1,
+      "message": "i understand the thinking behind namespacing from an engineering pov, but for users it is clearly counterproductive - they don\u0027t care whether any particular function is provided by a plugin or not. and rather than adding a layer to paper over counterproductive namespacing, it is arguably better to avoid it in relevant places to start with.\n\ni don\u0027t understand how your internal case is in any way special; it\u0027s all an organizational problem to maintain a namespace registry.\n\nof course, i mean to avoid syntax fragmentation regarding some particular functionality, so disjoint sets of plugins are of no concern.\nthe argument about being able to patch gerrit makes no sense, because it takes the matter ad absurdum. the question is what upstream can reasonably do to provide a consistent UX.\n\ni think it\u0027s very pertinent to discuss the assumptions before adding even more code that goes into the wrong direction. ;)\nif you think you need ESC input for that, add the missing relevant people to the review.",
+      "parentUuid": "3b5189e3_57cc385d",
+      "revId": "fa773402ae274e8515382b3afdbc2b5e8f1092d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "01bc59ec_a6b3581e",
         "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
         "patchSetId": 8

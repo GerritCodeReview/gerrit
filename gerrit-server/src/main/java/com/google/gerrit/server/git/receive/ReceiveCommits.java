@@ -2748,7 +2748,7 @@ class ReceiveCommits {
         // Even if skipValidation is set, we still get here when at least one plugin
         // commit validator requires to validate all commits. In this case, however,
         // we don't need to check the commit limit.
-        if (!skipValidation && ++n > limit) {
+        if (++n > limit && !skipValidation) {
           logDebug("Number of new commits exceeds limit of {}", limit);
           addMessage(
               "Cannot push more than "

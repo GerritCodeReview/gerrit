@@ -4441,7 +4441,8 @@ Number of threads to use when executing SSH command requests.
 If additional requests are received while all threads are busy they
 are queued and serviced in a first-come-first-served order.
 +
-By default, 2x the number of CPUs available to the JVM.
+By default, 2x the number of CPUs available to the JVM (but at least 4
+threads).
 +
 [NOTE]
 When SSH daemon is enabled then this setting also defines the max number of

@@ -2252,6 +2252,34 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @GerritConfig(name = "receive.maxBatchCommits", value = "2")
   @Test
   public void maxBatchCommits() throws Exception {
+    testMaxBatchCommits();
+  }
+
+  @GerritConfig(name = "receive.maxBatchCommits", value = "2")
+  @Test
+  public void maxBatchCommitsWithDefaultValidator() throws Exception {
+    TestValidator validator = new TestValidator();
+    RegistrationHandle handle = commitValidators.add("test-validator", validator);
+    try {
+      testMaxBatchCommits();
+    } finally {
+      handle.remove();
+    }
+  }
+
+  @GerritConfig(name = "receive.maxBatchCommits", value = "2")
+  @Test
+  public void maxBatchCommitsWithValidateAllCommitsValidator() throws Exception {
+    TestValidator validator = new TestValidator(true);
+    RegistrationHandle handle = commitValidators.add("test-validator", validator);
+    try {
+      testMaxBatchCommits();
+    } finally {
+      handle.remove();
+    }
+  }
+
+  private void testMaxBatchCommits() throws Exception {
     List<RevCommit> commits = new ArrayList<>();
     commits.addAll(initChanges(2));
     String master = "refs/heads/master";

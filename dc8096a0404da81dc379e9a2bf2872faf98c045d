@@ -216,6 +216,24 @@
     },
     {
       "key": {
+        "uuid": "9347a3b9_5f9b8975",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-07-25T19:08:13Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think Google-specific deployment should dictate design for the open source product.\n\nall of the persistent caches in Gerrit are immutable so we could persist them in bigtable. It\u0027s been like this since Google started running Gerrit in datacenters, around 2012 or so.\n\nIf you are concerned about this design choice, you are a bit late with speaking up.",
+      "parentUuid": "1a1b56ae_a24ab654",
+      "revId": "dc8096a0404da81dc379e9a2bf2872faf98c045d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0ee95e4a_f4fc810c",
         "filename": "javatests/com/google/gerrit/server/account/externalids/ExternalIDCacheLoaderTest.java",
         "patchSetId": 4

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8bec4232_26b0f4fa",
+        "filename": "java/com/google/gerrit/sshd/commands/LsUserRefs.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-07-25T13:21:16Z",
+      "side": 1,
+      "message": "This is the *wrong* identity: it should be the user of the current context (ctx.getUser()) as it was before.",
+      "range": {
+        "startLine": 98,
+        "startChar": 22,
+        "endLine": 98,
+        "endChar": 26
+      },
+      "revId": "77fd024638c74ad357edee5c308164eaf1e7f999",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

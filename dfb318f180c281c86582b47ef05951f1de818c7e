@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "daa29364_e374efa6",
+        "filename": "java/com/google/gerrit/server/util/time/TimeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-07-25T17:12:31Z",
+      "side": 1,
+      "message": "Instead of 0, which maps to 1970-01-01, we could also use a date way in the past so that this sticks out much more (e.g. 1600-01-01). What do you think?",
+      "range": {
+        "startLine": 56,
+        "startChar": 25,
+        "endLine": 56,
+        "endChar": 26
+      },
+      "revId": "dfb318f180c281c86582b47ef05951f1de818c7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

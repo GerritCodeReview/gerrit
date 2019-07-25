@@ -61,9 +61,9 @@ public class AccountOperationsImpl implements AccountOperations {
   private Account.Id createAccount(TestAccountCreation accountCreation) throws Exception {
     AccountsUpdate.AccountUpdater accountUpdater =
         (account, updateBuilder) ->
-            fillBuilder(updateBuilder, accountCreation, account.getAccount().getId());
+            fillBuilder(updateBuilder, accountCreation, account.getAccount().id());
     AccountState createdAccount = createAccount(accountUpdater);
-    return createdAccount.getAccount().getId();
+    return createdAccount.getAccount().id();
   }
 
   private AccountState createAccount(AccountsUpdate.AccountUpdater accountUpdater)
@@ -131,9 +131,9 @@ public class AccountOperationsImpl implements AccountOperations {
     private TestAccount toTestAccount(AccountState accountState) {
       Account account = accountState.getAccount();
       return TestAccount.builder()
-          .accountId(account.getId())
-          .preferredEmail(Optional.ofNullable(account.getPreferredEmail()))
-          .fullname(Optional.ofNullable(account.getFullName()))
+          .accountId(account.id())
+          .preferredEmail(Optional.ofNullable(account.preferredEmail()))
+          .fullname(Optional.ofNullable(account.fullName()))
           .username(accountState.getUserName())
           .active(accountState.getAccount().isActive())
           .build();

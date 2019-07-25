@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm.init;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
@@ -60,63 +61,59 @@ public class AccountsOnInit {
     this.allUsers = allUsers.get();
   }
 
-  public void insert(Account account) throws IOException {
+  public Account insert(Account.Builder account) throws IOException {
     File path = getPath();
-    if (path != null) {
-      try (Repository repo = new FileRepository(path);
-          ObjectInserter oi = repo.newObjectInserter()) {
-        PersonIdent ident =
-            new PersonIdent(
-                new GerritPersonIdentProvider(flags.cfg).get(), account.getRegisteredOn());
+    try (Repository repo = new FileRepository(path);
+        ObjectInserter oi = repo.newObjectInserter()) {
+      PersonIdent ident =
+          new PersonIdent(new GerritPersonIdentProvider(flags.cfg).get(), account.registeredOn());
 
-        Config accountConfig = new Config();
-        AccountProperties.writeToAccountConfig(
-            InternalAccountUpdate.builder()
-                .setActive(account.isActive())
-                .setFullName(account.getFullName())
-                .setPreferredEmail(account.getPreferredEmail())
-                .setStatus(account.getStatus())
-                .build(),
-            accountConfig);
+      Config accountConfig = new Config();
+      AccountProperties.writeToAccountConfig(
+          InternalAccountUpdate.builder()
+              .setActive(!account.inactive())
+              .setFullName(account.fullName())
+              .setPreferredEmail(account.preferredEmail())
+              .setStatus(account.status())
+              .build(),
+          accountConfig);
 
-        DirCache newTree = DirCache.newInCore();
-        DirCacheEditor editor = newTree.editor();
-        final ObjectId blobId =
-            oi.insert(Constants.OBJ_BLOB, accountConfig.toText().getBytes(UTF_8));
-        editor.add(
-            new PathEdit(AccountProperties.ACCOUNT_CONFIG) {
-              @Override
-              public void apply(DirCacheEntry ent) {
-                ent.setFileMode(FileMode.REGULAR_FILE);
-                ent.setObjectId(blobId);
-              }
-            });
-        editor.finish();
+      DirCache newTree = DirCache.newInCore();
+      DirCacheEditor editor = newTree.editor();
+      final ObjectId blobId = oi.insert(Constants.OBJ_BLOB, accountConfig.toText().getBytes(UTF_8));
+      editor.add(
+          new PathEdit(AccountProperties.ACCOUNT_CONFIG) {
+            @Override
+            public void apply(DirCacheEntry ent) {
+              ent.setFileMode(FileMode.REGULAR_FILE);
+              ent.setObjectId(blobId);
+            }
+          });
+      editor.finish();
 
-        ObjectId treeId = newTree.writeTree(oi);
+      ObjectId treeId = newTree.writeTree(oi);
 
-        CommitBuilder cb = new CommitBuilder();
-        cb.setTreeId(treeId);
-        cb.setCommitter(ident);
-        cb.setAuthor(ident);
-        cb.setMessage("Create Account");
-        ObjectId id = oi.insert(cb);
-        oi.flush();
+      CommitBuilder cb = new CommitBuilder();
+      cb.setTreeId(treeId);
+      cb.setCommitter(ident);
+      cb.setAuthor(ident);
+      cb.setMessage("Create Account");
+      ObjectId id = oi.insert(cb);
+      oi.flush();
 
-        String refName = RefNames.refsUsers(account.getId());
-        RefUpdate ru = repo.updateRef(refName);
-        ru.setExpectedOldObjectId(ObjectId.zeroId());
-        ru.setNewObjectId(id);
-        ru.setRefLogIdent(ident);
-        ru.setRefLogMessage("Create Account", false);
-        Result result = ru.update();
-        if (result != Result.NEW) {
-          throw new IOException(
-              String.format("Failed to update ref %s: %s", refName, result.name()));
-        }
-        account.setMetaId(id.name());
+      String refName = RefNames.refsUsers(account.id());
+      RefUpdate ru = repo.updateRef(refName);
+      ru.setExpectedOldObjectId(ObjectId.zeroId());
+      ru.setNewObjectId(id);
+      ru.setRefLogIdent(ident);
+      ru.setRefLogMessage("Create Account", false);
+      Result result = ru.update();
+      if (result != Result.NEW) {
+        throw new IOException(String.format("Failed to update ref %s: %s", refName, result.name()));
       }
+      account.setMetaId(id.name()).build();
     }
+    return account.build();
   }
 
   public boolean hasAnyAccount() throws IOException {
@@ -133,6 +130,8 @@ public class AccountsOnInit {
   private File getPath() {
     Path basePath = site.resolve(flags.cfg.getString("gerrit", null, "basePath"));
     checkArgument(basePath != null, "gerrit.basePath must be configured");
-    return FileKey.resolve(basePath.resolve(allUsers).toFile(), FS.DETECTED);
+    File file = FileKey.resolve(basePath.resolve(allUsers).toFile(), FS.DETECTED);
+    checkState(file != null, "%s does not exist", file.getAbsolutePath());
+    return file;
   }
 }

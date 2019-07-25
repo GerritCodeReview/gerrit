@@ -222,9 +222,9 @@ public class ChangeResource implements RestResource, HasETag {
   }
 
   private void hashAccount(Hasher h, AccountState accountState, byte[] buf) {
-    h.putInt(accountState.getAccount().getId().get());
+    h.putInt(accountState.getAccount().id().get());
     h.putString(
-        MoreObjects.firstNonNull(accountState.getAccount().getMetaId(), ZERO_ID_STRING), UTF_8);
+        MoreObjects.firstNonNull(accountState.getAccount().metaId(), ZERO_ID_STRING), UTF_8);
     accountState.getExternalIds().stream().forEach(e -> hashObjectId(h, e.blobId(), buf));
   }
 }

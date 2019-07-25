@@ -1326,7 +1326,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   private Set<Account.Id> getMembers(AccountGroup.UUID g) throws IOException {
     Set<Account.Id> accounts;
     Set<Account.Id> allMembers =
-        args.groupMembers.listAccounts(g).stream().map(Account::getId).collect(toSet());
+        args.groupMembers.listAccounts(g).stream().map(Account::id).collect(toSet());
     int maxTerms = args.indexConfig.maxTerms();
     if (allMembers.size() > maxTerms) {
       // limit the number of query terms otherwise Gerrit will barf

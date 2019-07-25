@@ -66,7 +66,7 @@ public class ProjectWatch {
     Set<Account.Id> projectWatchers = new HashSet<>();
 
     for (AccountState a : args.accountQueryProvider.get().byWatchedProject(project)) {
-      Account.Id accountId = a.getAccount().getId();
+      Account.Id accountId = a.getAccount().id();
       for (Map.Entry<ProjectWatchKey, ImmutableSet<NotifyType>> e :
           a.getProjectWatches().entrySet()) {
         if (project.equals(e.getKey().project())
@@ -81,7 +81,7 @@ public class ProjectWatch {
       for (Map.Entry<ProjectWatchKey, ImmutableSet<NotifyType>> e :
           a.getProjectWatches().entrySet()) {
         if (args.allProjectsName.equals(e.getKey().project())) {
-          Account.Id accountId = a.getAccount().getId();
+          Account.Id accountId = a.getAccount().id();
           if (!projectWatchers.contains(accountId)) {
             add(matching, accountId, e.getKey(), e.getValue(), type);
           }

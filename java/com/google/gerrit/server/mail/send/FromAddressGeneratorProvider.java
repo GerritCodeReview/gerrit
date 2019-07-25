@@ -124,8 +124,8 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
       String senderName;
       if (fromId != null) {
         Optional<Account> a = accountCache.get(fromId).map(AccountState::getAccount);
-        String fullName = a.map(Account::getFullName).orElse(null);
-        String userEmail = a.map(Account::getPreferredEmail).orElse(null);
+        String fullName = a.map(Account::fullName).orElse(null);
+        String userEmail = a.map(Account::preferredEmail).orElse(null);
         if (canRelay(userEmail)) {
           return new Address(fullName, userEmail);
         }
@@ -208,8 +208,7 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
       final String senderName;
 
       if (fromId != null) {
-        String fullName =
-            accountCache.get(fromId).map(a -> a.getAccount().getFullName()).orElse(null);
+        String fullName = accountCache.get(fromId).map(a -> a.getAccount().fullName()).orElse(null);
         if (fullName == null || "".equals(fullName)) {
           fullName = anonymousCowardName;
         }

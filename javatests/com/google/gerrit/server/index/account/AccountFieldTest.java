@@ -36,20 +36,24 @@ public class AccountFieldTest {
   @Test
   public void refStateFieldValues() throws Exception {
     AllUsersName allUsersName = new AllUsersName(AllUsersNameProvider.DEFAULT);
-    Account account = new Account(Account.id(1), TimeUtil.nowTs());
+    Account.Builder account = Account.builder(Account.id(1), TimeUtil.nowTs());
     String metaId = "0e39795bb25dc914118224995c53c5c36923a461";
     account.setMetaId(metaId);
-    List<String> values = toStrings(AccountField.REF_STATE.get(AccountState.forAccount(account)));
+    List<String> values =
+        toStrings(AccountField.REF_STATE.get(AccountState.forAccount(account.build())));
     assertThat(values).hasSize(1);
     String expectedValue =
-        allUsersName.get() + ":" + RefNames.refsUsers(account.getId()) + ":" + metaId;
+        allUsersName.get() + ":" + RefNames.refsUsers(account.id()) + ":" + metaId;
     assertThat(Iterables.getOnlyElement(values)).isEqualTo(expectedValue);
   }
 
   @Test
   public void externalIdStateFieldValues() throws Exception {
     Account.Id id = Account.id(1);
-    Account account = new Account(id, TimeUtil.nowTs());
+    Account account =
+        Account.builder(id, TimeUtil.nowTs())
+            .setMetaId("1234567812345678123456781234567812345678")
+            .build();
     ExternalId extId1 =
         ExternalId.create(
             ExternalId.Key.create(ExternalId.SCHEME_MAILTO, "foo.bar@example.com"),

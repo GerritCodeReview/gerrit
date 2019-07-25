@@ -85,7 +85,7 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
             "Set Preferred Email via API",
             user.getAccountId(),
             (a, u) -> {
-              if (preferredEmail.equals(a.getAccount().getPreferredEmail())) {
+              if (preferredEmail.equals(a.getAccount().preferredEmail())) {
                 alreadyPreferred.set(true);
               } else {
                 // check if the user has a matching email
@@ -128,7 +128,7 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
                     }
 
                     // claim the email now
-                    u.addExternalId(ExternalId.createEmail(a.getAccount().getId(), preferredEmail));
+                    u.addExternalId(ExternalId.createEmail(a.getAccount().id(), preferredEmail));
                     matchingEmail = preferredEmail;
                   } else {
                     // Realm says that the email doesn't belong to the user. This can only happen as

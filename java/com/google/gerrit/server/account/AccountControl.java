@@ -133,7 +133,7 @@ public class AccountControl {
         new OtherUser() {
           @Override
           Account.Id getId() {
-            return otherUser.getAccount().getId();
+            return otherUser.getAccount().id();
           }
 
           @Override

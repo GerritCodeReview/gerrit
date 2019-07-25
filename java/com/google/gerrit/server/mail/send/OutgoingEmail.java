@@ -144,7 +144,7 @@ public abstract class OutgoingEmail {
           } else if (useHtml() && prefs.getEmailFormat() == EmailFormat.PLAINTEXT) {
             removeUser(thisUserAccount);
             smtpRcptToPlaintextOnly.add(
-                new Address(thisUserAccount.getFullName(), thisUserAccount.getPreferredEmail()));
+                new Address(thisUserAccount.fullName(), thisUserAccount.preferredEmail()));
           }
         }
         if (smtpRcptTo.isEmpty() && smtpRcptToPlaintextOnly.isEmpty()) {
@@ -250,8 +250,8 @@ public abstract class OutgoingEmail {
     StringBuilder f = new StringBuilder();
     Optional<Account> account = args.accountCache.get(fromId).map(AccountState::getAccount);
     if (account.isPresent()) {
-      String name = account.get().getFullName();
-      String email = account.get().getPreferredEmail();
+      String name = account.get().fullName();
+      String email = account.get().preferredEmail();
       if ((name != null && !name.isEmpty()) || (email != null && !email.isEmpty())) {
         f.append("From");
         if (name != null && !name.isEmpty()) {
@@ -327,9 +327,9 @@ public abstract class OutgoingEmail {
     Optional<Account> account = args.accountCache.get(accountId).map(AccountState::getAccount);
     String name = null;
     if (account.isPresent()) {
-      name = account.get().getFullName();
+      name = account.get().fullName();
       if (name == null) {
-        name = account.get().getPreferredEmail();
+        name = account.get().preferredEmail();
       }
     }
     if (name == null) {
@@ -348,8 +348,8 @@ public abstract class OutgoingEmail {
   protected String getNameEmailFor(Account.Id accountId) {
     Optional<Account> account = args.accountCache.get(accountId).map(AccountState::getAccount);
     if (account.isPresent()) {
-      String name = account.get().getFullName();
-      String email = account.get().getPreferredEmail();
+      String name = account.get().fullName();
+      String email = account.get().preferredEmail();
       if (name != null && email != null) {
         return name + " <" + email + ">";
       } else if (name != null) {
@@ -375,8 +375,8 @@ public abstract class OutgoingEmail {
     }
 
     Account account = accountState.get().getAccount();
-    String name = account.getFullName();
-    String email = account.getPreferredEmail();
+    String name = account.fullName();
+    String email = account.preferredEmail();
     if (name != null && email != null) {
       return name + " <" + email + ">";
     } else if (email != null) {
@@ -511,11 +511,11 @@ public abstract class OutgoingEmail {
     }
 
     Account account = accountState.get();
-    String e = account.getPreferredEmail();
+    String e = account.preferredEmail();
     if (!account.isActive() || e == null) {
       return null;
     }
-    return new Address(account.getFullName(), e);
+    return new Address(account.fullName(), e);
   }
 
   protected void setupSoyContext() {
@@ -553,7 +553,7 @@ public abstract class OutgoingEmail {
   }
 
   protected void removeUser(Account user) {
-    String fromEmail = user.getPreferredEmail();
+    String fromEmail = user.preferredEmail();
     for (Iterator<Address> j = smtpRcptTo.iterator(); j.hasNext(); ) {
       if (j.next().getEmail().equals(fromEmail)) {
         j.remove();

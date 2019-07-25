@@ -131,7 +131,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
           .send();
     } catch (EmailException e) {
       logger.atSevere().withCause(e).log(
-          "Cannot send HttpPassword update message to %s", user.getAccount().getPreferredEmail());
+          "Cannot send HttpPassword update message to %s", user.getAccount().preferredEmail());
     }
 
     return Strings.isNullOrEmpty(newPassword) ? Response.none() : Response.ok(newPassword);

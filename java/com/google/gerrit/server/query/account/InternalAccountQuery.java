@@ -82,7 +82,7 @@ public class InternalAccountQuery extends InternalQuery<AccountState, InternalAc
     }
 
     return query(AccountPredicates.preferredEmail(email)).stream()
-        .filter(a -> a.getAccount().getPreferredEmail().equals(email))
+        .filter(a -> a.getAccount().preferredEmail().equals(email))
         .collect(toList());
   }
 
@@ -117,7 +117,7 @@ public class InternalAccountQuery extends InternalQuery<AccountState, InternalAc
       String email = emailList.get(i);
       Set<AccountState> matchingAccounts =
           r.get(i).stream()
-              .filter(a -> a.getAccount().getPreferredEmail().equals(email))
+              .filter(a -> a.getAccount().preferredEmail().equals(email))
               .collect(toSet());
       accountsByEmail.putAll(email, matchingAccounts);
     }

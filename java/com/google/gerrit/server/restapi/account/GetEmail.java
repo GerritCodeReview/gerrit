@@ -29,7 +29,7 @@ public class GetEmail implements RestReadView<AccountResource.Email> {
   public EmailInfo apply(AccountResource.Email rsrc) {
     EmailInfo e = new EmailInfo();
     e.email = rsrc.getEmail();
-    e.preferred(rsrc.getUser().getAccount().getPreferredEmail());
+    e.preferred(rsrc.getUser().getAccount().preferredEmail());
     return e;
   }
 }

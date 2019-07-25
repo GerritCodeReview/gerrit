@@ -340,7 +340,7 @@ public class ReviewerAdder {
 
     for (Account member : members) {
       if (isValidReviewer(notes.getChange().getDest(), member)) {
-        reviewers.add(member.getId());
+        reviewers.add(member.id());
       }
     }
 
@@ -375,7 +375,7 @@ public class ReviewerAdder {
       // Check ref permission instead of change permission, since change permissions take into
       // account the private bit, whereas adding a user as a reviewer is explicitly allowing them to
       // see private changes.
-      permissionBackend.absentUser(member.getId()).ref(branch).check(RefPermission.READ);
+      permissionBackend.absentUser(member.id()).ref(branch).check(RefPermission.READ);
       return true;
     } catch (AuthException e) {
       return false;

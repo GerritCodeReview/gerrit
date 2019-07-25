@@ -539,21 +539,21 @@ public class MergeUtil {
 
       final Account acc = identifiedUserFactory.create(a.accountId()).getAccount();
       final StringBuilder identbuf = new StringBuilder();
-      if (acc.getFullName() != null && acc.getFullName().length() > 0) {
+      if (acc.fullName() != null && acc.fullName().length() > 0) {
         if (identbuf.length() > 0) {
           identbuf.append(' ');
         }
-        identbuf.append(acc.getFullName());
+        identbuf.append(acc.fullName());
       }
-      if (acc.getPreferredEmail() != null && acc.getPreferredEmail().length() > 0) {
-        if (isSignedOffBy(footers, acc.getPreferredEmail())) {
+      if (acc.preferredEmail() != null && acc.preferredEmail().length() > 0) {
+        if (isSignedOffBy(footers, acc.preferredEmail())) {
           continue;
         }
         if (identbuf.length() > 0) {
           identbuf.append(' ');
         }
         identbuf.append('<');
-        identbuf.append(acc.getPreferredEmail());
+        identbuf.append(acc.preferredEmail());
         identbuf.append('>');
       }
       if (identbuf.length() == 0) {

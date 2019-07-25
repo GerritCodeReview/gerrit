@@ -76,7 +76,7 @@ public class LsUserRefs extends SshCommand {
   protected void run() throws Failure {
     Account.Id userAccountId;
     try {
-      userAccountId = accountResolver.resolve(userName).asUnique().getAccount().getId();
+      userAccountId = accountResolver.resolve(userName).asUnique().getAccount().id();
     } catch (UnprocessableEntityException e) {
       stdout.println(e.getMessage());
       stdout.flush();

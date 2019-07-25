@@ -40,7 +40,10 @@ public class FakeAccountCache implements AccountCache {
     if (state != null) {
       return state;
     }
-    return newState(new Account(accountId, TimeUtil.nowTs()));
+    return newState(
+        Account.builder(accountId, TimeUtil.nowTs())
+            .setMetaId("1234567812345678123456781234567812345678")
+            .build());
   }
 
   @Override
@@ -72,7 +75,7 @@ public class FakeAccountCache implements AccountCache {
 
   public synchronized void put(Account account) {
     AccountState state = newState(account);
-    byId.put(account.getId(), state);
+    byId.put(account.id(), state);
   }
 
   private static AccountState newState(Account account) {

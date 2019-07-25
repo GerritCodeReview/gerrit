@@ -302,7 +302,7 @@ class LdapRealm extends AbstractRealm {
 
   @Override
   public void onCreateAccount(AuthRequest who, Account account) {
-    usernameCache.put(who.getLocalUser(), Optional.of(account.getId()));
+    usernameCache.put(who.getLocalUser(), Optional.of(account.id()));
   }
 
   @Override

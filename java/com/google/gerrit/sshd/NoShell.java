@@ -145,7 +145,7 @@ class NoShell implements Factory<Command> {
       msg.append("\r\n");
 
       Account account = user.getAccount();
-      String name = account.getFullName();
+      String name = account.fullName();
       if (name == null || name.isEmpty()) {
         name = user.getUserName().orElse(anonymousCowardName);
       }

@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "4c9199e3_2b1d0efc",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-07-25T17:14:02Z",
+      "side": 1,
+      "message": "I am assuming that you believe the walking is expensive since you are limiting it. I am also assuming that storing an older cached version was a miss-design in the first place, because of the race introduced by storing the value by it sha1 which is being fetched externally to the loader instead of just asking for the latest version. Eliminate this pattern, and I believe you will eliminate a bunch of old code and a bunch of new code and the race and the latency expense of walking.",
+      "parentUuid": "a0ba27a6_657baeee",
+      "revId": "dc8096a0404da81dc379e9a2bf2872faf98c045d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ee95e4a_f4fc810c",
         "filename": "javatests/com/google/gerrit/server/account/externalids/ExternalIDCacheLoaderTest.java",
         "patchSetId": 4

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "aaf62e6d_c0b58ce9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-07-25T13:58:08Z",
+      "side": 1,
+      "message": "Will update tomorrow",
+      "parentUuid": "5e14046a_271d2ef5",
+      "revId": "dc8096a0404da81dc379e9a2bf2872faf98c045d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ec94dea1_cbbd2ba6",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
         "patchSetId": 4
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "a0ba27a6_657baeee",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-07-25T13:58:08Z",
+      "side": 1,
+      "message": "Asking the cache about what it has (e.g. through #asMap) relies on how it\u0027s configured. If the size is \u003e 1 we\u0027d get two entries and then have to figure out which version is the more current one (your #1) that would require extra logic for storing that. I like the loader approach because it\u0027s simple and follows common patterns (just a LoadingCache with not much extras on the side).\n\nThis is also about what is most probable: In the most likely case, we have the n-1 version cached, so the RevWalk isn\u0027t really performing a RevWalk, it\u0027s just parsing the current commit which is has to do anyway and parsing the parent (which it also has to do anyway), so essentially it\u0027s free :-)",
+      "parentUuid": "b65343bf_78a04a0a",
+      "revId": "dc8096a0404da81dc379e9a2bf2872faf98c045d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ee95e4a_f4fc810c",
         "filename": "javatests/com/google/gerrit/server/account/externalids/ExternalIDCacheLoaderTest.java",
         "patchSetId": 4
@@ -65,6 +101,24 @@
       "writtenOn": "2019-07-25T11:38:22Z",
       "side": 1,
       "message": "should you have a test that creates 15 updates, so we have coverage for the code path where you can\u0027t find the thing?",
+      "revId": "dc8096a0404da81dc379e9a2bf2872faf98c045d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e5cd7ec_17a47e05",
+        "filename": "javatests/com/google/gerrit/server/account/externalids/ExternalIDCacheLoaderTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-07-25T13:58:08Z",
+      "side": 1,
+      "message": "This is already there: fallsBackToFullReloadOnManyUpdatesOnBranch\n\nI can add another test where we don\u0027t use the barrier (say 5 updates) but just don\u0027t have an old state cached.",
+      "parentUuid": "0ee95e4a_f4fc810c",
       "revId": "dc8096a0404da81dc379e9a2bf2872faf98c045d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

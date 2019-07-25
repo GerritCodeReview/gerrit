@@ -221,7 +221,9 @@ limitations under the License.
       <div>
         <a class="feedback"
             href$="[[_feedbackUrl]]"
-            rel="noopener" target="_blank">Send feedback</a>
+            rel="noopener"
+            target="_blank"
+            hidden$="[[!_showFeedbackUrl(_feedbackUrl)]]">Send feedback</a>
         <template is="dom-if" if="[[_computeShowGwtUiLink(_serverConfig)]]">
           |
           <a id="gwtLink" href$="[[computeGwtUrl(_path)]]" rel="external">Switch to Old UI</a>

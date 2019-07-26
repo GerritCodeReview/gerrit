@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "954484a8_9ce710bc",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-07-26T20:28:51Z",
+      "side": 1,
+      "message": "I think this should be calls to commitId() instead.",
+      "range": {
+        "startLine": 219,
+        "startChar": 75,
+        "endLine": 220,
+        "endChar": 85
+      },
+      "revId": "34abb20bcb08565ae32756c3c3ee5dd9a9883094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "de2c7e10c7011a1a3c64c22715c0fc19677070f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00bb4cd2_968b7ace",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-26T11:41:33Z",
+      "side": 1,
+      "message": "One of the main reasons why the ESC was established is to have an instance which can make decisions if there is disagreement. Like with everything else, consensus is preferred and overruling opinions should be an exception. I actually think that the term \"unjustified\" puts the barrier for overruling quite high here.",
+      "parentUuid": "d7224f74_8cefa737",
+      "revId": "de2c7e10c7011a1a3c64c22715c0fc19677070f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -22,6 +22,53 @@
       "revId": "dfb318f180c281c86582b47ef05951f1de818c7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b7ca115_65e4d83a",
+        "filename": "java/com/google/gerrit/server/util/time/TimeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-26T00:18:21Z",
+      "side": 1,
+      "message": "Does it matter, if the point of this is that we don\u0027t need to care about what the underlying value is?\n\nOr are there cases where the actual timestamp is going to be visible?",
+      "parentUuid": "daa29364_e374efa6",
+      "range": {
+        "startLine": 56,
+        "startChar": 25,
+        "endLine": 56,
+        "endChar": 26
+      },
+      "revId": "dfb318f180c281c86582b47ef05951f1de818c7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "000f37ba_81122b9c",
+        "filename": "javatests/com/google/gerrit/json/SqlTimestampDeserializerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-26T00:18:21Z",
+      "side": 1,
+      "message": "nit: We usually import this static.",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 20
+      },
+      "revId": "dfb318f180c281c86582b47ef05951f1de818c7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

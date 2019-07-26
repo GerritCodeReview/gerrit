@@ -38,10 +38,12 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
+import java.util.List;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
@@ -199,6 +201,19 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
     assertThat(cd.patchSets()).hasSize(1);
     assertThat(cd.patchSet(psId).commitId()).isEqualTo(c);
+  }
+
+  @Test
+  public void correctNewRevOnMergeByPushToBranch() throws Exception {
+    grant(project, "refs/heads/master", Permission.PUSH);
+    push("refs/for/master", PushOneCommit.SUBJECT, "one.txt", "One");
+    PushOneCommit.Result r = push("refs/for/master", PushOneCommit.SUBJECT, "two.txt", "Two");
+    startEventRecorder();
+    git().push().setRefSpecs(new RefSpec(r.getCommit().name() + ":refs/heads/master")).call();
+    List<ChangeMergedEvent> changeMergedEvents =
+        eventRecorder.getChangeMergedEvents(project.get(), "refs/heads/master", 2);
+    assertThat(changeMergedEvents.get(0).newRev).isEqualTo(r.getPatchSet().getRevision().get());
+    assertThat(changeMergedEvents.get(1).newRev).isEqualTo(r.getPatchSet().getRevision().get());
   }
 
   @Test

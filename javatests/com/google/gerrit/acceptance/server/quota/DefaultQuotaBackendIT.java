@@ -22,6 +22,8 @@ import static org.easymock.EasyMock.resetToStrict;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.extensions.annotations.Exports;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.IdentifiedUser;
@@ -93,7 +95,7 @@ public class DefaultQuotaBackendIT extends AbstractDaemonTest {
 
   @Test
   public void requestTokenForUserAndChange() throws Exception {
-    Change.Id changeId = createChange().getChange().getId();
+    Change.Id changeId = retrieveChangeId();
     QuotaRequestContext ctx =
         QuotaRequestContext.builder()
             .user(identifiedAdmin)
@@ -126,6 +128,58 @@ public class DefaultQuotaBackendIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void availableTokensForUserAndAccount() {
+    QuotaRequestContext ctx =
+        QuotaRequestContext.builder().user(identifiedAdmin).account(user.id()).build();
+    QuotaResponse r = QuotaResponse.ok(10L);
+    expect(quotaEnforcer.availableTokens("testGroup", ctx)).andReturn(r);
+    replay(quotaEnforcer);
+    assertThat(quotaBackend.user(identifiedAdmin).account(user.id()).availableTokens("testGroup"))
+        .isEqualTo(singletonAggregation(r));
+  }
+
+  @Test
+  public void availableTokensForUserAndProject() {
+    QuotaRequestContext ctx =
+        QuotaRequestContext.builder().user(identifiedAdmin).project(project).build();
+    QuotaResponse r = QuotaResponse.ok(10L);
+    expect(quotaEnforcer.availableTokens("testGroup", ctx)).andReturn(r);
+    replay(quotaEnforcer);
+    assertThat(quotaBackend.user(identifiedAdmin).project(project).availableTokens("testGroup"))
+        .isEqualTo(singletonAggregation(r));
+  }
+
+  @Test
+  public void availableTokensForUserAndChange() throws Exception {
+    Change.Id changeId = retrieveChangeId();
+    QuotaRequestContext ctx =
+        QuotaRequestContext.builder()
+            .user(identifiedAdmin)
+            .change(changeId)
+            .project(project)
+            .build();
+    QuotaResponse r = QuotaResponse.ok(10L);
+    expect(quotaEnforcer.availableTokens("testGroup", ctx)).andReturn(r);
+    replay(quotaEnforcer);
+    assertThat(
+            quotaBackend
+                .user(identifiedAdmin)
+                .change(changeId, project)
+                .availableTokens("testGroup"))
+        .isEqualTo(singletonAggregation(r));
+  }
+
+  @Test
+  public void availableTokens() {
+    QuotaRequestContext ctx = QuotaRequestContext.builder().user(identifiedAdmin).build();
+    QuotaResponse r = QuotaResponse.ok(10L);
+    expect(quotaEnforcer.availableTokens("testGroup", ctx)).andReturn(r);
+    replay(quotaEnforcer);
+    assertThat(quotaBackend.user(identifiedAdmin).availableTokens("testGroup"))
+        .isEqualTo(singletonAggregation(r));
+  }
+
+  @Test
   public void requestTokenError() throws Exception {
     QuotaRequestContext ctx = QuotaRequestContext.builder().user(identifiedAdmin).build();
     expect(quotaEnforcer.requestTokens("testGroup", ctx, 1))
@@ -139,6 +193,20 @@ public class DefaultQuotaBackendIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void availableTokensError() throws Exception {
+    QuotaRequestContext ctx = QuotaRequestContext.builder().user(identifiedAdmin).build();
+    expect(quotaEnforcer.availableTokens("testGroup", ctx))
+        .andReturn(QuotaResponse.error("failed"));
+    replay(quotaEnforcer);
+    QuotaResponse.Aggregated result =
+        quotaBackend.user(identifiedAdmin).availableTokens("testGroup");
+    assertThat(result).isEqualTo(singletonAggregation(QuotaResponse.error("failed")));
+    exception.expect(QuotaException.class);
+    exception.expectMessage("failed");
+    result.throwOnError();
+  }
+
+  @Test
   public void requestTokenPluginThrowsAndRethrows() {
     QuotaRequestContext ctx = QuotaRequestContext.builder().user(identifiedAdmin).build();
     expect(quotaEnforcer.requestTokens("testGroup", ctx, 1)).andThrow(new NullPointerException());
@@ -146,6 +214,23 @@ public class DefaultQuotaBackendIT extends AbstractDaemonTest {
     assertThrows(
         NullPointerException.class,
         () -> quotaBackend.user(identifiedAdmin).requestToken("testGroup"));
+  }
+
+  @Test
+  public void availableTokensPluginThrowsAndRethrows() {
+    QuotaRequestContext ctx = QuotaRequestContext.builder().user(identifiedAdmin).build();
+    expect(quotaEnforcer.availableTokens("testGroup", ctx)).andThrow(new NullPointerException());
+    replay(quotaEnforcer);
+
+    exception.expect(NullPointerException.class);
+    quotaBackend.user(identifiedAdmin).availableTokens("testGroup");
+  }
+
+  private Change.Id retrieveChangeId() throws Exception {
+    // use REST API so that repository size quota doesn't have to be stubbed
+    ChangeInfo changeInfo =
+        gApi.changes().create(new ChangeInput(project.get(), "master", "test")).get();
+    return new Change.Id(changeInfo._number);
   }
 
   private static QuotaResponse.Aggregated singletonAggregation(QuotaResponse response) {

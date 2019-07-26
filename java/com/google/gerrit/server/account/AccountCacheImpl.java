@@ -98,7 +98,7 @@ public class AccountCacheImpl implements AccountCache {
       return byId.get(accountId);
     } catch (ExecutionException e) {
       logger.atWarning().withCause(e).log("Cannot load AccountState for ID %s", accountId);
-      return null;
+      return Optional.empty();
     }
   }
 
@@ -146,7 +146,7 @@ public class AccountCacheImpl implements AccountCache {
           .orElseGet(Optional::empty);
     } catch (IOException | ConfigInvalidException e) {
       logger.atWarning().withCause(e).log("Cannot load AccountState for username %s", username);
-      return null;
+      return Optional.empty();
     }
   }
 

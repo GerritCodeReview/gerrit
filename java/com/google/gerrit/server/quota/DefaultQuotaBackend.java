@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.plugincontext.PluginSetEntryContext;
+import com.google.gerrit.server.quota.QuotaResponse.Aggregated;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -100,6 +101,20 @@ public class DefaultQuotaBackend implements QuotaBackend {
     return QuotaResponse.Aggregated.create(ImmutableList.copyOf(responses));
   }
 
+  private static QuotaResponse.Aggregated availableTokens(
+      PluginSetContext<QuotaEnforcer> quotaEnforcers,
+      String quotaGroup,
+      QuotaRequestContext requestContext) {
+    // PluginSets can change their content when plugins (de-)register. Copy the currently registered
+    // plugins so that we can iterate twice on a stable list.
+    List<PluginSetEntryContext<QuotaEnforcer>> enforcers = ImmutableList.copyOf(quotaEnforcers);
+    List<QuotaResponse> responses = new ArrayList<>(enforcers.size());
+    for (PluginSetEntryContext<QuotaEnforcer> enforcer : enforcers) {
+      responses.add(enforcer.call(p -> p.availableTokens(quotaGroup, requestContext)));
+    }
+    return QuotaResponse.Aggregated.create(responses);
+  }
+
   private static void refillAfterErrorOrException(
       List<PluginSetEntryContext<QuotaEnforcer>> enforcers,
       List<QuotaResponse> collectedResponses,
@@ -157,6 +172,11 @@ public class DefaultQuotaBackend implements QuotaBackend {
     public QuotaResponse.Aggregated dryRun(String quotaGroup, long numTokens) {
       return DefaultQuotaBackend.request(
           quotaEnforcers, quotaGroup, requestContext, numTokens, false);
+    }
+
+    @Override
+    public Aggregated availableTokens(String quotaGroup) {
+      return DefaultQuotaBackend.availableTokens(quotaEnforcers, quotaGroup, requestContext);
     }
   }
 }

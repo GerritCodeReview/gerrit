@@ -2952,6 +2952,7 @@ class ReceiveCommits {
                     projectState,
                     notes.getChange().getDest(),
                     checkMergedInto,
+                    checkMergedInto ? inputCommand.getNewId().name() : null,
                     priorPatchSet,
                     priorCommit,
                     psId,
@@ -3187,6 +3188,9 @@ class ReceiveCommits {
         int limit = receiveConfig.maxBatchCommits;
         int n = 0;
         for (RevCommit c; (c = walk.next()) != null; ) {
+          // Even if skipValidation is set, we still get here when at least one plugin
+          // commit validator requires to validate all commits. In this case, however,
+          // we don't need to check the commit limit.
           if (++n > limit && !skipValidation) {
             logger.atFine().log("Number of new commits exceeds limit of %d", limit);
             reject(
@@ -3263,7 +3267,8 @@ class ReceiveCommits {
                       bu.addOp(notes.get().getChangeId(), setPrivateOpFactory.create(false, null));
                       bu.addOp(
                           psId.changeId(),
-                          mergedByPushOpFactory.create(requestScopePropagator, psId, refName));
+                          mergedByPushOpFactory.create(
+                              requestScopePropagator, psId, refName, newTip.getId().getName()));
                       continue COMMIT;
                     }
                   }
@@ -3297,7 +3302,8 @@ class ReceiveCommits {
                   bu.addOp(
                       id,
                       mergedByPushOpFactory
-                          .create(requestScopePropagator, req.psId, refName)
+                          .create(
+                              requestScopePropagator, req.psId, refName, newTip.getId().getName())
                           .setPatchSetProvider(req.replaceOp::getPatchSet));
                   bu.addOp(id, new ChangeProgressOp(progress));
                   ids.add(id);

@@ -52,7 +52,10 @@ public class MergedByPushOp implements BatchUpdateOp {
 
   public interface Factory {
     MergedByPushOp create(
-        RequestScopePropagator requestScopePropagator, PatchSet.Id psId, String refName);
+        RequestScopePropagator requestScopePropagator,
+        PatchSet.Id psId,
+        @Assisted("refName") String refName,
+        @Assisted("mergeResultRevId") String mergeResultRevId);
   }
 
   private final RequestScopePropagator requestScopePropagator;
@@ -65,6 +68,7 @@ public class MergedByPushOp implements BatchUpdateOp {
 
   private final PatchSet.Id psId;
   private final String refName;
+  private final String mergeResultRevId;
 
   private Change change;
   private boolean correctBranch;
@@ -82,7 +86,8 @@ public class MergedByPushOp implements BatchUpdateOp {
       ChangeMerged changeMerged,
       @Assisted RequestScopePropagator requestScopePropagator,
       @Assisted PatchSet.Id psId,
-      @Assisted String refName) {
+      @Assisted("refName") String refName,
+      @Assisted("mergeResultRevId") String mergeResultRevId) {
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.cmUtil = cmUtil;
     this.mergedSenderFactory = mergedSenderFactory;
@@ -92,6 +97,7 @@ public class MergedByPushOp implements BatchUpdateOp {
     this.requestScopePropagator = requestScopePropagator;
     this.psId = psId;
     this.refName = refName;
+    this.mergeResultRevId = mergeResultRevId;
   }
 
   public String getMergedIntoRef() {
@@ -192,8 +198,7 @@ public class MergedByPushOp implements BatchUpdateOp {
                   }
                 }));
 
-    changeMerged.fire(
-        change, patchSet, ctx.getAccount(), patchSet.getRevision().get(), ctx.getWhen());
+    changeMerged.fire(change, patchSet, ctx.getAccount(), mergeResultRevId, ctx.getWhen());
   }
 
   private PatchSetInfo getPatchSetInfo(ChangeContext ctx) throws IOException {

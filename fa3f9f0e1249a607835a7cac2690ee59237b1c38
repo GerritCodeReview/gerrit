@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e0d2cbf2_8b81acef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-07-26T17:30:37Z",
+      "side": 1,
+      "message": "\u003e Would it makes sense to have a solution that is not limited to change queries, but which can potentially work for all indexes, e.g. project, account and group queries too?\n\nI think this solution could be extended to that if someone wanted it. The underlying functionality is in QueryBuilder which I believe is shared across all types of queries. Someone would just need to define the config syntax and add the setupAliases() method to each of the subclasses.\n\nThinking about how that config would look, it might make sense to do that up front as we could do something like:\n\n [operator-alias \"change\"]\n   oldage \u003d age\n [operator-alias \"project\"]\n   aliasedquery \u003d original\n\nI don\u0027t know what the right syntax would be, but maybe you have other suggestions.\n\nIf we have a future-proof syntax, then I think it at least makes sense to use that syntax even if support for aliasing the non-change operators isn\u0027t implemented here.",
+      "parentUuid": "91c7d458_a62adc15",
+      "revId": "fa3f9f0e1249a607835a7cac2690ee59237b1c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "36799797_22f548fe",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -30,6 +48,30 @@
       "writtenOn": "2019-07-26T11:10:21Z",
       "side": 1,
       "message": "Could you mentioned in what way this is consistent with the existing possibilities to define aliases (e.g. aliases for SSH commands [1] or URLs [2])? E.g why are the query operator aliases defined in All-Projects whereas the other aliases are defined in gerrit.config.\n\nFor REST endpoints that are contributed by plugins we also another mechanism. If the view name of the REST endpoint is unique, the prefix with the plugin name can be omitted. Would something similar work here too?\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#ssh-alias\n[2] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#urlAlias",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 29
+      },
+      "revId": "fa3f9f0e1249a607835a7cac2690ee59237b1c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e893f57_265fdfdf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-07-26T17:30:37Z",
+      "side": 1,
+      "message": "\u003e Could you mentioned in what way this is consistent with the existing possibilities to define aliases (e.g. aliases for SSH commands [1] or URLs [2])? E.g why are the query operator aliases defined in All-Projects whereas the other aliases are defined in gerrit.config.\n\nIt was done in All-Projects to support easily updating them without server downtime (just like plugins can be) and we implemented this long before there was any kind of reload support for gerrit.config. I don\u0027t recall everything about why SSH command aliases were done in the server config, but I thought it had something to do with Guice bindings and they couldn\u0027t be changed dynamically anyway. I don\u0027t believe it was because dynamic support was undesirable.\n\nDo we have additional guidance on what kinds of things should go into gerrit.config vs All-Projects project.config?\n\n\u003e \n\u003e For REST endpoints that are contributed by plugins we also another mechanism. If the view name of the REST endpoint is unique, the prefix with the plugin name can be omitted. Would something similar work here too?\n\nHuh, I didn\u0027t know that. Where is that documented?\n\nIt could be helpful, but I actually worry that would exacerbate Oswald\u0027s concerns. We don\u0027t currently, plan, or intend to alias every query operator provided by plugins. We\u0027re quite ok with folks having to type a bit extra for them (though suggestions for plugin operators would be nice). We alias very specific things that we expect are used often, or as a way to deprecate an operator (with a very easy rollback if someone has issues with it).\n\n\u003e \n\u003e [1] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#ssh-alias\n\u003e [2] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#urlAlias",
+      "parentUuid": "36799797_22f548fe",
       "range": {
         "startLine": 9,
         "startChar": 0,

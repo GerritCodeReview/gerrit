@@ -22,6 +22,30 @@
       "revId": "44531cc4b49982facba0192c2bf975fb7af16a5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14dd1a5e_68a1ca96",
+        "filename": "Documentation/config-validation.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-07-26T11:57:58Z",
+      "side": 1,
+      "message": "also Git when auto publish is used",
+      "parentUuid": "8d319c37_e6fd0eab",
+      "range": {
+        "startLine": 131,
+        "startChar": 4,
+        "endLine": 131,
+        "endChar": 11
+      },
+      "revId": "44531cc4b49982facba0192c2bf975fb7af16a5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

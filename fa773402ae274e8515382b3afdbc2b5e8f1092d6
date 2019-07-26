@@ -145,6 +145,24 @@
     },
     {
       "key": {
+        "uuid": "6e67131d_48b876a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2019-07-26T15:34:12Z",
+      "side": 1,
+      "message": "\u003e having aliases for query operators is consistent ...\n\nobviously\n\n\u003e ... and a natural next step\n\nnot necessarily. if the consensus were that the previous approach was misguided, the natural next step would be to implement a better solution, deprecate the existing functionality, and definitely *not* add instantly deprecated functionality just for consistency.\n\na psychological argument against accepting the patch is that it is likely to remove the incentive for the contributors to even consider implementing alternatives.\n\n\u003e as long as defining aliases is limited to admins I have no big concerns\n\nthat is in fact the more critical case, as users are confronted with a situation they cannot do anything about.\nallowing users to define aliases which override global settings would alleviate the problem to a degree. however, i still maintain that it\u0027s a problem that users shouldn\u0027t have to face to start with. you have UX experts on the team - what do they say?",
+      "parentUuid": "4c64454f_8385e6da",
+      "revId": "fa773402ae274e8515382b3afdbc2b5e8f1092d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "01bc59ec_a6b3581e",
         "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
         "patchSetId": 8

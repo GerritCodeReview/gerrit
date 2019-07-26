@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91c7d458_a62adc15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-26T11:10:21Z",
+      "side": 1,
+      "message": "Would it makes sense to have a solution that is not limited to change queries, but which can potentially work for all indexes, e.g. project, account and group queries too?\n\nI\u0027m aware that plugins currently can only add operators for change queries, but this is just because this wasn\u0027t implemented for the other indexes yet.",
+      "revId": "fa3f9f0e1249a607835a7cac2690ee59237b1c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36799797_22f548fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-26T11:10:21Z",
+      "side": 1,
+      "message": "Could you mentioned in what way this is consistent with the existing possibilities to define aliases (e.g. aliases for SSH commands [1] or URLs [2])? E.g why are the query operator aliases defined in All-Projects whereas the other aliases are defined in gerrit.config.\n\nFor REST endpoints that are contributed by plugins we also another mechanism. If the view name of the REST endpoint is unique, the prefix with the plugin name can be omitted. Would something similar work here too?\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#ssh-alias\n[2] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#urlAlias",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 29
+      },
+      "revId": "fa3f9f0e1249a607835a7cac2690ee59237b1c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

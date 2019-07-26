@@ -101,6 +101,7 @@ public class ReplaceOp implements BatchUpdateOp {
         ProjectState projectState,
         BranchNameKey dest,
         boolean checkMergedInto,
+        @Nullable String mergeResultRevId,
         @Assisted("priorPatchSetId") PatchSet.Id priorPatchSetId,
         @Assisted("priorCommitId") ObjectId priorCommit,
         @Assisted("patchSetId") PatchSet.Id patchSetId,
@@ -133,6 +134,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private final ProjectState projectState;
   private final BranchNameKey dest;
   private final boolean checkMergedInto;
+  private final String mergeResultRevId;
   private final PatchSet.Id priorPatchSetId;
   private final ObjectId priorCommitId;
   private final PatchSet.Id patchSetId;
@@ -177,6 +179,7 @@ public class ReplaceOp implements BatchUpdateOp {
       @Assisted ProjectState projectState,
       @Assisted BranchNameKey dest,
       @Assisted boolean checkMergedInto,
+      @Assisted @Nullable String mergeResultRevId,
       @Assisted("priorPatchSetId") PatchSet.Id priorPatchSetId,
       @Assisted("priorCommitId") ObjectId priorCommitId,
       @Assisted("patchSetId") PatchSet.Id patchSetId,
@@ -205,6 +208,7 @@ public class ReplaceOp implements BatchUpdateOp {
     this.projectState = projectState;
     this.dest = dest;
     this.checkMergedInto = checkMergedInto;
+    this.mergeResultRevId = mergeResultRevId;
     this.priorPatchSetId = priorPatchSetId;
     this.priorCommitId = priorCommitId.copy();
     this.patchSetId = patchSetId;
@@ -231,7 +235,8 @@ public class ReplaceOp implements BatchUpdateOp {
       String mergedInto = findMergedInto(ctx, dest.branch(), commit);
       if (mergedInto != null) {
         mergedByPushOp =
-            mergedByPushOpFactory.create(requestScopePropagator, patchSetId, mergedInto);
+            mergedByPushOpFactory.create(
+                requestScopePropagator, patchSetId, mergedInto, mergeResultRevId);
       }
     }
 

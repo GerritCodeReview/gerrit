@@ -112,7 +112,8 @@ patchSet:: link:json.html#patchSet[patchSet attribute]
 
 submitter:: link:json.html#account[account attribute]
 
-newRev:: The resulting revision of the merge.
+newRev:: The state (revision) of the target branch after the operation that
+closed the change was completed.
 
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.

@@ -33,6 +33,7 @@ import com.google.gerrit.server.quota.QuotaRequestContext;
 import com.google.gerrit.server.quota.QuotaResponse;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import java.util.OptionalLong;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
@@ -122,5 +123,35 @@ public class MultipleQuotaPluginsIT extends AbstractDaemonTest {
         .isEqualTo(
             QuotaResponse.Aggregated.create(
                 ImmutableList.of(QuotaResponse.error("fail"), QuotaResponse.noOp())));
+  }
+
+  @Test
+  public void minimumAvailableTokens() {
+    QuotaRequestContext ctx = QuotaRequestContext.builder().user(identifiedAdmin).build();
+    expect(quotaEnforcerA.availableTokens("testGroup", ctx)).andReturn(QuotaResponse.ok(20L));
+    expect(quotaEnforcerB.availableTokens("testGroup", ctx)).andReturn(QuotaResponse.ok(10L));
+
+    replay(quotaEnforcerA);
+    replay(quotaEnforcerB);
+
+    OptionalLong tokens =
+        quotaBackend.user(identifiedAdmin).availableTokens("testGroup").availableTokens();
+    assertThat(tokens.isPresent()).isTrue();
+    assertThat(tokens.getAsLong()).isEqualTo(10L);
+  }
+
+  @Test
+  public void ignoreNoOpForAvailableTokens() {
+    QuotaRequestContext ctx = QuotaRequestContext.builder().user(identifiedAdmin).build();
+    expect(quotaEnforcerA.availableTokens("testGroup", ctx)).andReturn(QuotaResponse.noOp());
+    expect(quotaEnforcerB.availableTokens("testGroup", ctx)).andReturn(QuotaResponse.ok(20L));
+
+    replay(quotaEnforcerA);
+    replay(quotaEnforcerB);
+
+    OptionalLong tokens =
+        quotaBackend.user(identifiedAdmin).availableTokens("testGroup").availableTokens();
+    assertThat(tokens.isPresent()).isTrue();
+    assertThat(tokens.getAsLong()).isEqualTo(20L);
   }
 }

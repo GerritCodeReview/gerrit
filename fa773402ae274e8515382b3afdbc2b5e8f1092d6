@@ -127,6 +127,24 @@
     },
     {
       "key": {
+        "uuid": "4c64454f_8385e6da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-26T11:14:56Z",
+      "side": 1,
+      "message": "Since we already support aliases for other things (SSH commands [1], URLs [2]) I think having aliases for query operators is consistent and a natural next step. I agree that aliases can be confusing and hence should be used with care. But as long as defining aliases is limited to admins I have no big concerns regarding this.\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#ssh-alias\n[2] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#urlAlias",
+      "parentUuid": "5d066eeb_c55d6add",
+      "revId": "fa773402ae274e8515382b3afdbc2b5e8f1092d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "01bc59ec_a6b3581e",
         "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
         "patchSetId": 8

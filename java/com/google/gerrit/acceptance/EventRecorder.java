@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.LinkedListMultimap;
@@ -109,7 +110,8 @@ public class EventRecorder {
     return events;
   }
 
-  private ImmutableList<ChangeMergedEvent> getChangeMergedEvents(
+  @VisibleForTesting
+  public ImmutableList<ChangeMergedEvent> getChangeMergedEvents(
       String project, String branch, int expectedSize) {
     String key = refEventKey(ChangeMergedEvent.TYPE, project, branch);
     if (expectedSize == 0) {

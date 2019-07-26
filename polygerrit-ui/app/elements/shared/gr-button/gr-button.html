@@ -27,7 +27,7 @@ limitations under the License.
     <style include="shared-styles">
       /* general styles for all buttons */
       :host {
-        --background-color: var(--button-background-color, var(--default-button-background-color));
+        --background-colors: var(--button-background-color, var(--default-button-background-color));
         --text-color: var(--default-button-text-color);
         display: inline-block;
         position: relative;
@@ -43,7 +43,7 @@ limitations under the License.
           bold font elsewhere on macOS. */
         -webkit-font-smoothing: initial;
         align-items: center;
-        background-color: var(--background-color);
+        background-color: var(--background-colors);
         color: var(--text-color);
         display: flex;
         font-family: inherit;
@@ -57,18 +57,18 @@ limitations under the License.
         background: linear-gradient(
           rgba(0, 0, 0, .12),
           rgba(0, 0, 0, .12)
-        ), var(--background-color);
+        ), var(--background-colors);
       }
 
       :host([primary]) {
-        --background-color: var(--primary-button-background-color);
+        --background-colors: var(--primary-button-background-color);
         --text-color: var(--primary-button-text-color);
       }
       :host([link][primary]) {
         --text-color: var(--primary-button-background-color);
       }
       :host([secondary]) {
-        --background-color: var(--secondary-button-text-color);
+        --background-colors: var(--secondary-button-text-color);
         --text-color: var(--secondary-button-background-color);
       }
       :host([link][secondary]) {
@@ -78,19 +78,19 @@ limitations under the License.
       /* Keep below color definition for primary so that this takes precedence
         when disabled. */
       :host([disabled]) {
-        --background-color: var(--table-subheader-background-color);
+        --background-colors: var(--table-subheader-background-color);
         --text-color: var(--deemphasized-text-color);
         cursor: default;
       }
 
       /* Styles for link buttons specifically */
       :host([link]) {
-        --background-color: transparent;
+        --background-colors: transparent;
         --margin: 0;
         --padding: 5px 4px;
       }
       :host([disabled][link]) {
-        --background-color: transparent;
+        --background-colors: transparent;
       }
 
       /* Styles for the optional down arrow */

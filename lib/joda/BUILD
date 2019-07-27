@@ -1,3 +1,5 @@
+load("@rules_java//java:defs.bzl", "java_library")
+
 java_library(
     name = "joda-time",
     data = ["//lib:LICENSE-Apache2.0"],

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f8d2f17_fe7e07e5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-27T12:49:07Z",
+      "side": 1,
+      "message": "That variable does not seem to be set anywhere - is that on purpose?\nCan you attach imgur screenshots before and after to the CL description? I looked at the Polymer 2 avatar and did not see what was wrong with it.",
+      "revId": "53a198b6a055ae88551f4ef600f1f7f35a3de4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6e273f3_ad5b4455",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-27T17:02:56Z",
+      "side": 1,
+      "message": "Why do you use id instead of class here? It seems all you do is attaching some styles, and in those cases I think `class` is preferable (does not break using the component multiple times etc.).",
+      "range": {
+        "startLine": 57,
+        "startChar": 16,
+        "endLine": 57,
+        "endChar": 18
+      },
+      "revId": "838ad2ee0ef47058491ab92ead5970096c0d8596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2857499_8aa91038",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-27T17:02:56Z",
+      "side": 1,
+      "message": "I am not completely sure how often this gets recomputed - would it be more efficient to use a computed property instead of a method here?",
+      "range": {
+        "startLine": 87,
+        "startChar": 20,
+        "endLine": 87,
+        "endChar": 51
+      },
+      "revId": "838ad2ee0ef47058491ab92ead5970096c0d8596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2888fd26_2d9c1376",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-27T17:02:56Z",
+      "side": 1,
+      "message": "Comment removed by: Ole Rehmsen; Reason: Somehow this comment was created twice.",
+      "range": {
+        "startLine": 89,
+        "startChar": 6,
+        "endLine": 98,
+        "endChar": 7
+      },
+      "revId": "838ad2ee0ef47058491ab92ead5970096c0d8596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0c6a31b_f68af231",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-27T17:02:56Z",
+      "side": 1,
+      "message": "There is quite a bit of copy pasta here. I wonder if it gets better if you do\n\nconst baseUrl \u003d this.getBaseUrl() || \u0027\u0027;\nconst pathname \u003d window.location.pathname;\nif (baseUrl) {\n  pathname \u003d \u0027/\u0027 + pathname.substring(baseUrl.length);\n}\nreturn baseUrl + \u0027/login/\u0027 + encodeURIComponent(pathname) + \u0027?link\u0027;",
+      "range": {
+        "startLine": 89,
+        "startChar": 6,
+        "endLine": 98,
+        "endChar": 7
+      },
+      "revId": "838ad2ee0ef47058491ab92ead5970096c0d8596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "198012ba_8aaf8064",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-27T17:02:56Z",
+      "side": 1,
+      "message": "Doesn\u0027t the $ mean that you set the attribute, not the property? Why is that needed?",
+      "range": {
+        "startLine": 417,
+        "startChar": 54,
+        "endLine": 417,
+        "endChar": 55
+      },
+      "revId": "838ad2ee0ef47058491ab92ead5970096c0d8596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

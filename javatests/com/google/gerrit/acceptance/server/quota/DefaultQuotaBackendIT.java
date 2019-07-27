@@ -37,9 +37,7 @@ import com.google.inject.Module;
 import java.util.Collections;
 import org.easymock.EasyMock;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class DefaultQuotaBackendIT extends AbstractDaemonTest {
 
@@ -47,8 +45,6 @@ public class DefaultQuotaBackendIT extends AbstractDaemonTest {
 
   private IdentifiedUser identifiedAdmin;
   @Inject private QuotaBackend quotaBackend;
-
-  @Rule public ExpectedException exception = ExpectedException.none();
 
   @Override
   public Module createModule() {
@@ -205,9 +201,8 @@ public class DefaultQuotaBackendIT extends AbstractDaemonTest {
     QuotaResponse.Aggregated result =
         quotaBackend.user(identifiedAdmin).availableTokens("testGroup");
     assertThat(result).isEqualTo(singletonAggregation(QuotaResponse.error("failed")));
-    exception.expect(QuotaException.class);
-    exception.expectMessage("failed");
-    result.throwOnError();
+    QuotaException thrown = assertThrows(QuotaException.class, () -> result.throwOnError());
+    assertThat(thrown).hasMessageThat().contains("failed");
   }
 
   @Test
@@ -215,6 +210,7 @@ public class DefaultQuotaBackendIT extends AbstractDaemonTest {
     QuotaRequestContext ctx = QuotaRequestContext.builder().user(identifiedAdmin).build();
     expect(quotaEnforcer.requestTokens("testGroup", ctx, 1)).andThrow(new NullPointerException());
     replay(quotaEnforcer);
+
     assertThrows(
         NullPointerException.class,
         () -> quotaBackend.user(identifiedAdmin).requestToken("testGroup"));
@@ -226,8 +222,9 @@ public class DefaultQuotaBackendIT extends AbstractDaemonTest {
     expect(quotaEnforcer.availableTokens("testGroup", ctx)).andThrow(new NullPointerException());
     replay(quotaEnforcer);
 
-    exception.expect(NullPointerException.class);
-    quotaBackend.user(identifiedAdmin).availableTokens("testGroup");
+    assertThrows(
+        NullPointerException.class,
+        () -> quotaBackend.user(identifiedAdmin).availableTokens("testGroup"));
   }
 
   private Change.Id retrieveChangeId() throws Exception {

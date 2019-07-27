@@ -1,3 +1,4 @@
+load("@rules_java//java:defs.bzl", "java_binary", "java_library")
 load("//tools/bzl:javadoc.bzl", "java_doc")
 
 PLUGIN_API = [

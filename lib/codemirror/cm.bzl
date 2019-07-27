@@ -1,3 +1,4 @@
+load("@rules_java//java:defs.bzl", "java_import")
 load("//tools/bzl:genrule2.bzl", "genrule2")
 
 CM_CSS = [
@@ -362,8 +363,7 @@ def pkg_cm():
             ],
             outs = ["codemirror%s.jar" % suffix],
         )
-
-        native.java_import(
+        java_import(
             name = "codemirror" + suffix,
             jars = [":jar%s" % suffix],
             visibility = ["//visibility:public"],

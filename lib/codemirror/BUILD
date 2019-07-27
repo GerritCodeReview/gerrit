@@ -1,3 +1,4 @@
+load("@rules_java//java:defs.bzl", "java_library")
 load("//lib/codemirror:cm.bzl", "pkg_cm")
 
 # This library is only used to insert a license statement into

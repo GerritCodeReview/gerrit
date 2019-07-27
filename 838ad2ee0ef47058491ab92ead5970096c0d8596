@@ -25,6 +25,54 @@
     },
     {
       "key": {
+        "uuid": "fe62cfa6_2a18a860",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-27T17:36:32Z",
+      "side": 1,
+      "message": "I was following gr-gpg-editor. But thanks, i\u0027ve changed it to a class now.",
+      "parentUuid": "e6e273f3_ad5b4455",
+      "range": {
+        "startLine": 57,
+        "startChar": 16,
+        "endLine": 57,
+        "endChar": 18
+      },
+      "revId": "838ad2ee0ef47058491ab92ead5970096c0d8596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cbb876c_4ce697e5",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-27T17:36:32Z",
+      "side": 1,
+      "message": "I was following gr-gpg-editor. But thanks, i\u0027ve changed it to a class now.",
+      "parentUuid": "e6e273f3_ad5b4455",
+      "range": {
+        "startLine": 57,
+        "startChar": 16,
+        "endLine": 57,
+        "endChar": 18
+      },
+      "revId": "838ad2ee0ef47058491ab92ead5970096c0d8596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a2857499_8aa91038",
         "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.html",
         "patchSetId": 9
@@ -36,6 +84,30 @@
       "writtenOn": "2019-07-27T17:02:56Z",
       "side": 1,
       "message": "I am not completely sure how often this gets recomputed - would it be more efficient to use a computed property instead of a method here?",
+      "range": {
+        "startLine": 87,
+        "startChar": 20,
+        "endLine": 87,
+        "endChar": 51
+      },
+      "revId": "838ad2ee0ef47058491ab92ead5970096c0d8596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ad00692_8012e861",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-27T17:36:32Z",
+      "side": 1,
+      "message": "It should really only be set once, but this can only be set if you use OPENID or OpenID. Hence why i used a function so i can check the auth type against a list of auths to check for.",
+      "parentUuid": "a2857499_8aa91038",
       "range": {
         "startLine": 87,
         "startChar": 20,
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "95448c94_750d4592",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-27T17:36:32Z",
+      "side": 1,
+      "message": "Thanks, done!",
+      "parentUuid": "a0c6a31b_f68af231",
+      "range": {
+        "startLine": 89,
+        "startChar": 6,
+        "endLine": 98,
+        "endChar": 7
+      },
+      "revId": "838ad2ee0ef47058491ab92ead5970096c0d8596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "198012ba_8aaf8064",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
         "patchSetId": 9
@@ -114,6 +210,30 @@
       "revId": "838ad2ee0ef47058491ab92ead5970096c0d8596",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3951fca_f640519b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-27T17:36:32Z",
+      "side": 1,
+      "message": "Ah right.\n\n$ is used i think for elements such as \u003ca\u003e for example (where it\u0027s not created using polymer)",
+      "parentUuid": "198012ba_8aaf8064",
+      "range": {
+        "startLine": 417,
+        "startChar": 54,
+        "endLine": 417,
+        "endChar": 55
+      },
+      "revId": "838ad2ee0ef47058491ab92ead5970096c0d8596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

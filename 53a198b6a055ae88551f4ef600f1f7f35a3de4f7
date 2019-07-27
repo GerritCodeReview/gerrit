@@ -16,6 +16,24 @@
       "revId": "53a198b6a055ae88551f4ef600f1f7f35a3de4f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e344a603_f66b1618",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-27T13:35:49Z",
+      "side": 1,
+      "message": "From what i could tell --background-color is set in gr-button. I\u0027m not sure if it\u0027s conflicting. But in the developer tools (safari) i saw var(--background-color, ) (it didn\u0027t show #f1f2f3 until i clicked on it to edit). when i changed this to --avatar-background-color it fixed it so that i saw var(--background-color, #f1f2f3);.\n\nPolymer 1 screenshot:\n\nhttps://imgur.com/a/XzAgg0W\n\nPolymer 2 screenshot:\n\nhttps://imgur.com/a/2gZDx5Z",
+      "parentUuid": "4f8d2f17_fe7e07e5",
+      "revId": "53a198b6a055ae88551f4ef600f1f7f35a3de4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

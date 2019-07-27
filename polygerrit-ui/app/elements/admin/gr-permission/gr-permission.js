@@ -37,7 +37,6 @@
 
   Polymer({
     is: 'gr-permission',
-    _legacyUndefinedCheck: true,
 
     properties: {
       labels: Object,

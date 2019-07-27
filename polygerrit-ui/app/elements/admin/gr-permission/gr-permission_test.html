@@ -329,8 +329,17 @@ limitations under the License.
           name: 'ldap/tests tests'}});
         assert.equal(element._rules.length, 3);
         assert.equal(Object.keys(element._groupsWithRules).length, 3);
-        assert.deepEqual(element.permission.value.rules['ldap:CN=test test'],
-            {action: 'ALLOW', min: -2, max: 2, added: true});
+        if (Polymer.Element) {
+          // Under Polymer 2 gr-rule-editor.js#_handleValueChange get's
+          // fully loaded before this change, thus `modified: true` get's managed
+          // to be added. Under Polymer 1 it was a mix hence why it was not
+          // added in time for when this test ran.
+          assert.deepEqual(element.permission.value.rules['ldap:CN=test test'],
+              {action: 'ALLOW', min: -2, max: 2, modified: true, added: true});
+        } else {
+          assert.deepEqual(element.permission.value.rules['ldap:CN=test test'],
+              {action: 'ALLOW', min: -2, max: 2, added: true});
+        }
         // New rule should be removed if cancel from editing.
         element.editing = false;
         assert.equal(element._rules.length, 2);

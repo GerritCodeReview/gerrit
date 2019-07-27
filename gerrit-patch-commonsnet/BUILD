@@ -1,3 +1,5 @@
+load("@rules_java//java:defs.bzl", "java_library")
+
 java_library(
     name = "commons-net",
     srcs = glob(["src/main/java/org/apache/commons/net/**/*.java"]),

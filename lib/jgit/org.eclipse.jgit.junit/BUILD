@@ -1,3 +1,4 @@
+load("@rules_java//java:defs.bzl", "java_library")
 load("//lib/jgit:jgit.bzl", "jgit_dep")
 
 java_library(

@@ -178,7 +178,8 @@
     },
 
     _computeLabel(permission, labels) {
-      if (!permission.value.label) { return; }
+      if (!labels || !permission ||
+          !permission.value || !permission.value.label) { return; }
 
       const labelName = permission.value.label;
 

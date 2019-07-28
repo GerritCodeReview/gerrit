@@ -38,7 +38,11 @@
       if (!repo) { return Promise.resolve(); }
 
       const errFn = response => {
-        this.fire('page-error', {response});
+        this.dispatchEvent(new CustomEvent('page-error', {
+          bubbles: true,
+          composed: true,
+          detail: {response},
+        }));
       };
 
       this.$.restAPI.getRepoDashboards(this.repo, errFn).then(res => {

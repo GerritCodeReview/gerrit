@@ -45,7 +45,13 @@
       const originalTitle = message.split('\n')[0];
       const revertTitle = `Revert "${originalTitle}"`;
       if (!commitHash) {
-        this.fire('show-alert', {message: ERR_COMMIT_NOT_FOUND});
+        this.dispatchEvent(new CustomEvent('show-alert', {
+          bubbles: true,
+          composed: true,
+          detail: {
+            message: ERR_COMMIT_NOT_FOUND,
+          },
+        }));
         return;
       }
       const revertCommitText = `This reverts commit ${commitHash}.`;
@@ -56,12 +62,18 @@
 
     _handleConfirmTap(e) {
       e.preventDefault();
-      this.fire('confirm', null, {bubbles: false});
+      this.dispatchEvent(new CustomEvent('confirm', {
+        bubbles: false,
+        composed: true,
+      }));
     },
 
     _handleCancelTap(e) {
       e.preventDefault();
-      this.fire('cancel', null, {bubbles: false});
+      this.dispatchEvent(new CustomEvent('cancel', {
+        bubbles: false,
+        composed: true,
+      }));
     },
   });
 })();

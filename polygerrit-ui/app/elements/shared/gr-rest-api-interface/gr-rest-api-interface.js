@@ -1,3 +1,4 @@
+
 /**
  * @license
  * Copyright (C) 2016 The Android Open Source Project
@@ -297,8 +298,16 @@
         req.anonymizedUrl || req.url,
       ].join(' '));
       if (req.anonymizedUrl) {
-        this.fire('rpc-log',
-            {status, method, elapsed, anonymizedUrl: req.anonymizedUrl});
+        this.dispatchEvent(new CustomEvent('rpc-log', {
+          bubbles: true,
+          composed: true,
+          detail: {
+            status,
+            method,
+            elapsed,
+            anonymizedUrl: req.anonymizedUrl,
+          },
+        }));
       }
     },
 
@@ -331,7 +340,13 @@
         if (req.errFn) {
           req.errFn.call(undefined, null, err);
         } else {
-          this.fire('network-error', {error: err});
+          this.dispatchEvent(new CustomEvent('network-error', {
+            bubbles: true,
+            composed: true,
+            detail: {
+              error: err,
+            },
+          }));
         }
         throw err;
       });
@@ -353,7 +368,14 @@
             req.errFn.call(null, response);
             return;
           }
-          this.fire('server-error', {request: req, response});
+          this.dispatchEvent(new CustomEvent('server-error', {
+            bubbles: true,
+            composed: true,
+            detail: {
+              request: req,
+              response,
+            },
+          }));
           return;
         }
         return response && this.getResponseObject(response);
@@ -1119,7 +1141,10 @@
       return this._fetchRawJSON(req).then(res => {
         if (!res) { return; }
         if (res.status === 403) {
-          this.fire('auth-error');
+          this.dispatchEvent(new CustomEvent('auth-error', {
+            bubbles: true,
+            composed: true,
+          }));
           this._cache.delete('/accounts/self/detail');
         } else if (res.ok) {
           return this.getResponseObject(res);
@@ -1401,7 +1426,14 @@
             if (opt_errFn) {
               opt_errFn.call(null, response);
             } else {
-              this.fire('server-error', {request: req, response});
+              this.dispatchEvent(new CustomEvent('server-error', {
+                bubbles: true,
+                composed: true,
+                detail: {
+                  request: req,
+                  response,
+                },
+              }));
             }
             return;
           }
@@ -2027,7 +2059,13 @@
       // 404s indicate the file does not exist yet in the revision, so suppress
       // them.
       const suppress404s = res => {
-        if (res && res.status !== 404) { this.fire('server-error', {res}); }
+        if (res && res.status !== 404) {
+          this.dispatchEvent(new CustomEvent('server-error', {
+            bubbles: true,
+            composed: true,
+            detail: {res},
+          }));
+        }
         return res;
       };
       const promise = this.patchNumEquals(patchNum, this.EDIT_NAME) ?
@@ -2224,11 +2262,24 @@
           if (req.errFn) {
             return req.errFn.call(undefined, response);
           }
-          this.fire('server-error', {request: fetchReq, response});
+          this.dispatchEvent(new CustomEvent('server-error', {
+            bubbles: true,
+            composed: true,
+            detail: {
+              request: fetchReq,
+              response,
+            },
+          }));
         }
         return response;
       }).catch(err => {
-        this.fire('network-error', {error: err});
+        this.dispatchEvent(new CustomEvent('network-error', {
+          bubbles: true,
+          composed: true,
+          detail: {
+            error: err,
+          },
+        }));
         if (req.errFn) {
           return req.errFn.call(undefined, null, err);
         } else {
@@ -2917,7 +2968,11 @@
 
       const onError = response => {
         // Fire a page error so that the visual 404 is displayed.
-        this.fire('page-error', {response});
+        this.dispatchEvent(new CustomEvent('page-error', {
+          bubbles: true,
+          composed: true,
+          detail: {response},
+        }));
       };
 
       return this.getChange(changeNum, onError).then(change => {

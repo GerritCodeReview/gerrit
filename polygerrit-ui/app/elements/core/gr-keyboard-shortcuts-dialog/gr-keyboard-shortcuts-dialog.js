@@ -70,7 +70,10 @@
 
     _handleCloseTap(e) {
       e.preventDefault();
-      this.fire('close', null, {bubbles: false});
+      this.dispatchEvent(new CustomEvent('close', {
+        bubbles: false,
+        composed: true,
+      }));
     },
 
     _onDirectoryUpdated(directory) {

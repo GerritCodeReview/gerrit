@@ -54,9 +54,16 @@ limitations under the License.
     test('does not show auth error on 403 by default', done => {
       const showAuthErrorStub = sandbox.stub(element, '_showAuthErrorAlert');
       const responseText = Promise.resolve('server says no.');
-      element.fire('server-error',
-          {response: {status: 403, text() { return responseText; }}}
-      );
+      element.dispatchEvent(new CustomEvent('server-error', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          response: {
+            status: 403,
+            text() { return responseText; },
+          },
+        },
+      }));
       Promise.all([
         element.$.restAPI.getLoggedIn.lastCall.returnValue,
         responseText,
@@ -69,9 +76,16 @@ limitations under the License.
     test('shows auth error on 403 and Authentication required', done => {
       const showAuthErrorStub = sandbox.stub(element, '_showAuthErrorAlert');
       const responseText = Promise.resolve('Authentication required\n');
-      element.fire('server-error',
-          {response: {status: 403, text() { return responseText; }}}
-      );
+      element.dispatchEvent(new CustomEvent('server-error', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          response: {
+            status: 403,
+            text() { return responseText; },
+          },
+        },
+      }));
       Promise.all([
         element.$.restAPI.getLoggedIn.lastCall.returnValue,
         responseText,
@@ -83,7 +97,10 @@ limitations under the License.
 
     test('show logged in error', () => {
       sandbox.stub(element, '_showAuthErrorAlert');
-      element.fire('show-auth-required');
+      element.dispatchEvent(new CustomEvent('show-auth-required', {
+        bubbles: true,
+        composed: true,
+      }));
       assert.isTrue(element._showAuthErrorAlert.calledWithExactly(
           'Log in is required to perform that action.', 'Log in.'));
     });
@@ -91,7 +108,16 @@ limitations under the License.
     test('show normal Error', done => {
       const showErrorStub = sandbox.stub(element, '_showErrorDialog');
       const textSpy = sandbox.spy(() => { return Promise.resolve('ZOMG'); });
-      element.fire('server-error', {response: {status: 500, text: textSpy}});
+      element.dispatchEvent(new CustomEvent('server-error', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          response: {
+            status: 500,
+            text: textSpy,
+          },
+        },
+      }));
 
       assert.isTrue(textSpy.called);
       Promise.all([
@@ -131,7 +157,16 @@ limitations under the License.
       const textSpy = sandbox.spy(() => {
         return Promise.resolve('too many files to find conflicts');
       });
-      element.fire('server-error', {response: {status: 500, text: textSpy}});
+      element.dispatchEvent(new CustomEvent('server-error', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          response: {
+            status: 500,
+            text: textSpy,
+          },
+        },
+      }));
 
       assert.isTrue(textSpy.called);
       Promise.all([
@@ -146,7 +181,13 @@ limitations under the License.
     test('show network error', done => {
       const consoleErrorStub = sandbox.stub(console, 'error');
       const showAlertStub = sandbox.stub(element, '_showAlert');
-      element.fire('network-error', {error: new Error('ZOMG')});
+      element.dispatchEvent(new CustomEvent('network-error', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          error: new Error('ZOMG'),
+        },
+      }));
       flush(() => {
         assert.isTrue(showAlertStub.calledOnce);
         assert.isTrue(showAlertStub.lastCall.calledWithExactly(
@@ -163,9 +204,16 @@ limitations under the License.
       const toastSpy = sandbox.spy(element, '_createToastAlert');
       const windowOpen = sandbox.stub(window, 'open');
       const responseText = Promise.resolve('Authentication required\n');
-      element.fire('server-error',
-          {response: {status: 403, text() { return responseText; }}}
-      );
+      element.dispatchEvent(new CustomEvent('server-error', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          response: {
+            status: 403,
+            text() { return responseText; },
+          },
+        },
+      }));
       Promise.all([
         element.$.restAPI.getLoggedIn.lastCall.returnValue,
         responseText,
@@ -208,7 +256,11 @@ limitations under the License.
     test('show alert', () => {
       const alertObj = {message: 'foo'};
       sandbox.stub(element, '_showAlert');
-      element.fire('show-alert', alertObj);
+      element.dispatchEvent(new CustomEvent('show-alert', {
+        bubbles: true,
+        composed: true,
+        detail: alertObj,
+      }));
       assert.isTrue(element._showAlert.calledOnce);
       assert.equal(element._showAlert.lastCall.args[0], 'foo');
       assert.isNotOk(element._showAlert.lastCall.args[1]);
@@ -309,14 +361,21 @@ limitations under the License.
       const reportStub = sandbox.stub(element.$.reporting, 'reportErrorDialog');
 
       const message = 'test message';
-      element.fire('show-error', {message});
+      element.dispatchEvent(new CustomEvent('show-error', {
+        bubbles: true,
+        composed: true,
+        detail: {message},
+      }));
       flushAsynchronousOperations();
 
       assert.isTrue(openStub.called);
       assert.isTrue(reportStub.called);
       assert.equal(element.$.errorDialog.text, message);
 
-      element.$.errorDialog.fire('dismiss');
+      element.$.errorDialog.dispatchEvent(new CustomEvent('dismiss', {
+        bubbles: true,
+        composed: true,
+      }));
       flushAsynchronousOperations();
 
       assert.isTrue(closeStub.called);

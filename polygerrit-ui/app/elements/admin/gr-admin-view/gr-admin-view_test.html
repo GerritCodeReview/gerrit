@@ -280,7 +280,14 @@ limitations under the License.
       element.params = {group: 1, view: Gerrit.Nav.View.GROUP};
       element._groupName = 'oldName';
       flushAsynchronousOperations();
-      element.$$('gr-group').fire('name-changed', {name: newName});
+      element.$$('gr-group')
+          .dispatchEvent(new CustomEvent('name-changed', {
+            bubbles: true,
+            composed: true,
+            detail: {
+              name: newName,
+            },
+          }));
     });
 
     test('dropdown displays if there is a subsection', () => {

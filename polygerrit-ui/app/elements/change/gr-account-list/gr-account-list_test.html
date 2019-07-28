@@ -109,7 +109,13 @@ limitations under the License.
       assert.isTrue(chips[2].classList.contains('pendingAdd'));
 
       // Removed accounts are taken out of the list.
-      element.fire('remove', {account: existingReviewer1});
+      element.dispatchEvent(new CustomEvent('remove', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          account: existingReviewer1,
+        },
+      }));
       flushAsynchronousOperations();
       chips = getChips();
       assert.equal(chips.length, 2);
@@ -117,8 +123,20 @@ limitations under the License.
       assert.isTrue(chips[1].classList.contains('pendingAdd'));
 
       // Invalid remove is ignored.
-      element.fire('remove', {account: existingReviewer1});
-      element.fire('remove', {account: newAccount});
+      element.dispatchEvent(new CustomEvent('remove', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          account: existingReviewer1,
+        },
+      }));
+      element.dispatchEvent(new CustomEvent('remove', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          account: newAccount,
+        },
+      }));
       flushAsynchronousOperations();
       chips = getChips();
       assert.equal(chips.length, 1);
@@ -140,7 +158,13 @@ limitations under the License.
       assert.isTrue(chips[1].classList.contains('pendingAdd'));
 
       // Removed groups are taken out of the list.
-      element.fire('remove', {account: newGroup});
+      element.dispatchEvent(new CustomEvent('remove', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          account: newGroup,
+        },
+      }));
       flushAsynchronousOperations();
       chips = getChips();
       assert.equal(chips.length, 1);

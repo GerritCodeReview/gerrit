@@ -318,7 +318,10 @@
 
     _onMobileSearchTap(e) {
       e.preventDefault();
-      this.fire('mobile-search', null, {bubbles: false});
+      this.dispatchEvent(new CustomEvent('mobile-search', {
+        bubbles: false,
+        composed: true,
+      }));
     },
 
     _computeLinkGroupClass(linkGroup) {

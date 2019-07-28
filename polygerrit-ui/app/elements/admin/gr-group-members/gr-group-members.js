@@ -72,7 +72,13 @@
     attached() {
       this._loadGroupDetails();
 
-      this.fire('title-change', {title: 'Members'});
+      this.dispatchEvent(new CustomEvent('title-change', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          title: 'Members',
+        },
+      }));
     },
 
     _loadGroupDetails() {
@@ -81,7 +87,11 @@
       const promises = [];
 
       const errFn = response => {
-        this.fire('page-error', {response});
+        this.dispatchEvent(new CustomEvent('page-error', {
+          bubbles: true,
+          composed: true,
+          detail: {response},
+        }));
       };
 
       return this.$.restAPI.getGroupConfig(this.groupId, errFn)

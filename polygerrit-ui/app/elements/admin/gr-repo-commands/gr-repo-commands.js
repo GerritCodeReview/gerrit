@@ -45,14 +45,24 @@
     attached() {
       this._loadRepo();
 
-      this.fire('title-change', {title: 'Repo Commands'});
+      this.dispatchEvent(new CustomEvent('title-change', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          title: 'Repo Commands',
+        },
+      }));
     },
 
     _loadRepo() {
       if (!this.repo) { return Promise.resolve(); }
 
       const errFn = response => {
-        this.fire('page-error', {response});
+        this.dispatchEvent(new CustomEvent('page-error', {
+          bubbles: true,
+          composed: true,
+          detail: {response},
+        }));
       };
 
       return this.$.restAPI.getProjectConfig(this.repo, errFn)

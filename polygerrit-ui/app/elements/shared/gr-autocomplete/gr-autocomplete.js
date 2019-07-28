@@ -327,14 +327,24 @@
           // immediately followed by a commit keystroke. @see Issue 8655
           this._suggestions = [];
       }
-      this.fire('input-keydown', {keyCode: e.keyCode, input: this.$.input});
+      this.dispatchEvent(new CustomEvent('input-keydown', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          keyCode: e.keyCode,
+          input: this.$.input,
+        },
+      }));
     },
 
     _cancel() {
       if (this._suggestions.length) {
         this.set('_suggestions', []);
       } else {
-        this.fire('cancel');
+        this.dispatchEvent(new CustomEvent('cancel', {
+          bubbles: true,
+          composed: true,
+        }));
       }
     },
 
@@ -410,7 +420,11 @@
 
       this._suggestions = [];
       if (!opt_silent) {
-        this.fire('commit', {value});
+        this.dispatchEvent(new CustomEvent('commit', {
+          bubbles: true,
+          composed: true,
+          detail: {value},
+        }));
       }
 
       this._textChangedSinceCommit = false;

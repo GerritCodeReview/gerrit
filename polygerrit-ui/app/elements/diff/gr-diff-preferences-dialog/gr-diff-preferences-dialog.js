@@ -58,7 +58,10 @@
 
     _handleSaveDiffPreferences() {
       this.$.diffPreferences.save().then(() => {
-        this.fire('reload-diff-preference', null, {bubbles: false});
+        this.dispatchEvent(new CustomEvent('reload-diff-preference', {
+          bubbles: false,
+          composed: true,
+        }));
 
         this.$.diffPrefsOverlay.close();
       });

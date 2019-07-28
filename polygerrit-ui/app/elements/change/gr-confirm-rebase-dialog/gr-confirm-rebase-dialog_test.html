@@ -94,11 +94,17 @@ limitations under the License.
 
     test('input cleared on cancel or submit', () => {
       element._text = '123';
-      element.$.confirmDialog.fire('confirm');
+      element.$.confirmDialog.dispatchEvent(new CustomEvent('confirm', {
+        bubbles: true,
+        composed: true,
+      }));
       assert.equal(element._text, '');
 
       element._text = '123';
-      element.$.confirmDialog.fire('cancel');
+      element.$.confirmDialog.dispatchEvent(new CustomEvent('cancel', {
+        bubbles: true,
+        composed: true,
+      }));
       assert.equal(element._text, '');
     });
 

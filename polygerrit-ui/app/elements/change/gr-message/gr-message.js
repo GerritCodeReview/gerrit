@@ -235,7 +235,13 @@
 
     _handleReplyTap(e) {
       e.preventDefault();
-      this.fire('reply', {message: this.message});
+      this.dispatchEvent(new CustomEvent('reply', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          message: this.message,
+        },
+      }));
     },
 
     _projectNameChanged(name) {

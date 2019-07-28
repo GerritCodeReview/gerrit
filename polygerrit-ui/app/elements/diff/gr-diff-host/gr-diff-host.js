@@ -349,7 +349,13 @@
           this.path, true)
           .then(blame => {
             if (!blame.length) {
-              this.fire('show-alert', {message: MSG_EMPTY_BLAME});
+              this.dispatchEvent(new CustomEvent('show-alert', {
+                bubbles: true,
+                composed: true,
+                detail: {
+                  message: MSG_EMPTY_BLAME,
+                },
+              }));
               return Promise.reject(MSG_EMPTY_BLAME);
             }
 
@@ -416,7 +422,11 @@
       // Loading the diff may respond with 409 if the file is too large. In this
       // case, use a toast error..
       if (response.status === 409) {
-        this.fire('server-error', {response});
+        this.dispatchEvent(new CustomEvent('server-error', {
+          bubbles: true,
+          composed: true,
+          detail: {response},
+        }));
         return;
       }
 
@@ -429,7 +439,11 @@
         return;
       }
 
-      this.fire('page-error', {response});
+      this.dispatchEvent(new CustomEvent('page-error', {
+        bubbles: true,
+        composed: true,
+        detail: {response},
+      }));
     },
 
     /**

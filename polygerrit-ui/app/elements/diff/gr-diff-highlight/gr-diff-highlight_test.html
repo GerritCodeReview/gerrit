@@ -230,11 +230,15 @@ limitations under the License.
 
       test('on create-range-comment action box is removed', () => {
         sandbox.stub(element, '_removeActionBox');
-        element.fire('create-range-comment', {
-          comment: {
-            range: {},
+        element.dispatchEvent(new CustomEvent('create-range-comment', {
+          bubbles: true,
+          composed: true,
+          detail: {
+            comment: {
+              range: {},
+            },
           },
-        });
+        }));
         assert.isTrue(element._removeActionBox.called);
       });
     });

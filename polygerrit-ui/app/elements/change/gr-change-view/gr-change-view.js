@@ -873,7 +873,11 @@
               this.computeLatestPatchNum(this._allPatchSets));
 
       const title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
-      this.fire('title-change', {title});
+      this.dispatchEvent(new CustomEvent('title-change', {
+        bubbles: true,
+        composed: true,
+        detail: {title},
+      }));
     },
 
     /**
@@ -1019,7 +1023,10 @@
       }
       this._getLoggedIn().then(isLoggedIn => {
         if (!isLoggedIn) {
-          this.fire('show-auth-required');
+          this.dispatchEvent(new CustomEvent('show-auth-required', {
+            bubbles: true,
+            composed: true,
+          }));
           return;
         }
 
@@ -1149,7 +1156,11 @@
     },
 
     _handleGetChangeDetailError(response) {
-      this.fire('page-error', {response});
+      this.dispatchEvent(new CustomEvent('page-error', {
+        bubbles: true,
+        composed: true,
+        detail: {response},
+      }));
     },
 
     _getLoggedIn() {
@@ -1658,16 +1669,20 @@
           }
 
           this._cancelUpdateCheckTimer();
-          this.fire('show-alert', {
-            message: toastMessage,
-            // Persist this alert.
-            dismissOnNavigation: true,
-            action: 'Reload',
-            callback: function() {
-              // Load the current change without any patch range.
-              Gerrit.Nav.navigateToChange(this._change);
-            }.bind(this),
-          });
+          this.dispatchEvent(new CustomEvent('show-alert', {
+            bubbles: true,
+            composed: true,
+            detail: {
+              message: toastMessage,
+              // Persist this alert.
+              dismissOnNavigation: true,
+              action: 'Reload',
+              callback: function() {
+                // Load the current change without any patch range.
+                Gerrit.Nav.navigateToChange(this._change);
+              }.bind(this),
+            },
+          }));
         });
       }, this._serverConfig.change.update_delay * 1000);
     },

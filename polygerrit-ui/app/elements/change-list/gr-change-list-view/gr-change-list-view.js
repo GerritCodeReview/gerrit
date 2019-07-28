@@ -150,7 +150,13 @@
 
       // NOTE: This method may be called before attachment. Fire title-change
       // in an async so that attachment to the DOM can take place first.
-      this.async(() => this.fire('title-change', {title: this._query}));
+      this.async(() => this.dispatchEvent(new CustomEvent('title-change', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          title: this._query,
+        },
+      })));
 
       this._getPreferences().then(prefs => {
         this._changesPerPage = prefs.changes_per_page;

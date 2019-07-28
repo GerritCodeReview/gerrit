@@ -183,10 +183,14 @@ limitations under the License.
       sandbox.stub(element.$.restAPI, 'saveGroupName')
           .returns(Promise.resolve({status: 200}));
 
-      const showStub = sandbox.stub(element, 'fire');
+      const showStub = sandbox.stub(element, 'dispatchEvent');
       element._handleSaveName()
           .then(() => {
+            const firedEvent = showStub.getCalls()
+                .map(c => { return c.args[0]; });
             assert.isTrue(showStub.called);
+            assert.equal(firedEvent[0].type, 'name-changed');
+            assert.equal(firedEvent[0].detail.name, 'test-group');
             done();
           });
     });

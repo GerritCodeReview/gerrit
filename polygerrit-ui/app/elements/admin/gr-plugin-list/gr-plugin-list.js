@@ -69,7 +69,13 @@
     ],
 
     attached() {
-      this.fire('title-change', {title: 'Plugins'});
+      this.dispatchEvent(new CustomEvent('title-change', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          title: 'Plugins',
+        },
+      }));
     },
 
     _paramsChanged(params) {
@@ -83,7 +89,11 @@
 
     _getPlugins(filter, pluginsPerPage, offset) {
       const errFn = response => {
-        this.fire('page-error', {response});
+        this.dispatchEvent(new CustomEvent('page-error', {
+          bubbles: true,
+          composed: true,
+          detail: {response},
+        }));
       };
       return this.$.restAPI.getPlugins(filter, pluginsPerPage, offset, errFn)
           .then(plugins => {

@@ -64,7 +64,10 @@
     },
 
     _createNewItem() {
-      this.fire('create-clicked');
+      this.dispatchEvent(new CustomEvent('create-clicked', {
+        bubbles: true,
+        composed: true,
+      }));
     },
 
     _computeNavLink(offset, direction, itemsPerPage, filter, path) {

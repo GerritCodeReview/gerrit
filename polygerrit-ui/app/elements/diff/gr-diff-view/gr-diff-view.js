@@ -288,7 +288,13 @@
       if (this._editMode) { return; }
       this.$.reviewed.checked = reviewed;
       this._saveReviewedState(reviewed).catch(err => {
-        this.fire('show-alert', {message: ERR_REVIEW_STATUS});
+        this.dispatchEvent(new CustomEvent('show-alert', {
+          bubbles: true,
+          composed: true,
+          detail: {
+            message: ERR_REVIEW_STATUS,
+          },
+        }));
         throw err;
       });
     },
@@ -607,8 +613,13 @@
       // null). Fire title-change in an async so that, if attachment to the DOM
       // has been queued, the event can bubble up to the handler in gr-app.
       this.async(() => {
-        this.fire('title-change',
-            {title: this.computeTruncatedPath(this._path)});
+        this.dispatchEvent(new CustomEvent('title-change', {
+          bubbles: true,
+          composed: true,
+          detail: {
+            title: this.computeTruncatedPath(this._path),
+          },
+        }));
       });
 
       // When navigating away from the page, there is a possibility that the
@@ -719,8 +730,13 @@
 
     _pathChanged(path) {
       if (path) {
-        this.fire('title-change',
-            {title: this.computeTruncatedPath(path)});
+        this.dispatchEvent(new CustomEvent('title-change', {
+          bubbles: true,
+          composed: true,
+          detail: {
+            title: this.computeTruncatedPath(path),
+          },
+        }));
       }
 
       if (this._fileList.length == 0) { return; }
@@ -980,11 +996,23 @@
       }
 
       this._isBlameLoading = true;
-      this.fire('show-alert', {message: MSG_LOADING_BLAME});
+      this.dispatchEvent(new CustomEvent('show-alert', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          message: MSG_LOADING_BLAME,
+        },
+      }));
       this.$.diffHost.loadBlame()
           .then(() => {
             this._isBlameLoading = false;
-            this.fire('show-alert', {message: MSG_LOADED_BLAME});
+            this.dispatchEvent(new CustomEvent('show-alert', {
+              bubbles: true,
+              composed: true,
+              detail: {
+                message: MSG_LOADED_BLAME,
+              },
+            }));
           })
           .catch(() => {
             this._isBlameLoading = false;

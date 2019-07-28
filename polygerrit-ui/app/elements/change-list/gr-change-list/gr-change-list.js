@@ -283,7 +283,10 @@
       }
 
       e.preventDefault();
-      this.fire('next-page');
+      this.dispatchEvent(new CustomEvent('next-page', {
+        bubbles: true,
+        composed: true,
+      }));
     },
 
     _prevPage(e) {
@@ -293,7 +296,10 @@
       }
 
       e.preventDefault();
-      this.fire('previous-page');
+      this.dispatchEvent(new CustomEvent('previous-page', {
+        bubbles: true,
+        composed: true,
+      }));
     },
 
     _toggleChangeReviewed(e) {

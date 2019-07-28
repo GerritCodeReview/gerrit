@@ -120,7 +120,11 @@
       this._items = [];
       Polymer.dom.flush();
       const errFn = response => {
-        this.fire('page-error', {response});
+        this.dispatchEvent(new CustomEvent('page-error', {
+          bubbles: true,
+          composed: true,
+          detail: {response},
+        }));
       };
       if (detailType === DETAIL_TYPES.BRANCHES) {
         return this.$.restAPI.getRepoBranches(

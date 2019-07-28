@@ -244,7 +244,11 @@
       if (this.ccsOnly) {
         value.ccsOnly = true;
       }
-      this.fire('show-reply-dialog', {value});
+      this.dispatchEvent(new CustomEvent('show-reply-dialog', {
+        bubbles: true,
+        composed: true,
+        detail: {value},
+      }));
     },
 
     _handleViewAll(e) {

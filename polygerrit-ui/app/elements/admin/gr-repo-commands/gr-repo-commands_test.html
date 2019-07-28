@@ -62,13 +62,21 @@ limitations under the License.
 
       test('_handleCreateChange called when confirm fired', () => {
         sandbox.stub(element, '_handleCreateChange');
-        element.$.createChangeDialog.fire('confirm');
+        element.$.createChangeDialog
+            .dispatchEvent(new CustomEvent('confirm', {
+              bubbles: true,
+              composed: true,
+            }));
         assert.isTrue(element._handleCreateChange.called);
       });
 
       test('_handleCloseCreateChange called when cancel fired', () => {
         sandbox.stub(element, '_handleCloseCreateChange');
-        element.$.createChangeDialog.fire('cancel');
+        element.$.createChangeDialog
+            .dispatchEvent(new CustomEvent('cancel', {
+              bubbles: true,
+              composed: true,
+            }));
         assert.isTrue(element._handleCloseCreateChange.called);
       });
     });

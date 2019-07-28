@@ -506,7 +506,11 @@ limitations under the License.
     suite('create new', () => {
       test('_handleCreateClicked called when create-click fired', () => {
         sandbox.stub(element, '_handleCreateClicked');
-        element.$$('gr-list-view').fire('create-clicked');
+        element.$$('gr-list-view')
+            .dispatchEvent(new CustomEvent('create-clicked', {
+              bubbles: true,
+              composed: true,
+            }));
         assert.isTrue(element._handleCreateClicked.called);
       });
 
@@ -518,13 +522,21 @@ limitations under the License.
 
       test('_handleCreateItem called when confirm fired', () => {
         sandbox.stub(element, '_handleCreateItem');
-        element.$.createDialog.fire('confirm');
+        element.$.createDialog
+            .dispatchEvent(new CustomEvent('confirm', {
+              bubbles: true,
+              composed: true,
+            }));
         assert.isTrue(element._handleCreateItem.called);
       });
 
       test('_handleCloseCreate called when cancel fired', () => {
         sandbox.stub(element, '_handleCloseCreate');
-        element.$.createDialog.fire('cancel');
+        element.$.createDialog
+            .dispatchEvent(new CustomEvent('cancel', {
+              bubbles: true,
+              composed: true,
+            }));
         assert.isTrue(element._handleCloseCreate.called);
       });
     });

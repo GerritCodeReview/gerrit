@@ -69,14 +69,20 @@ limitations under the License.
       instance.onTap(() => {
         done();
       });
-      element.fire('tap');
+      element.dispatchEvent(new CustomEvent('tap', {
+        bubbles: true,
+        composed: true,
+      }));
     });
 
     test('onTap() cancel', () => {
       const tapStub = sandbox.stub();
       element.parentElement.addEventListener('tap', tapStub);
       instance.onTap(() => false);
-      element.fire('tap');
+      element.dispatchEvent(new CustomEvent('tap', {
+        bubbles: true,
+        composed: true,
+      }));
       flushAsynchronousOperations();
       assert.isFalse(tapStub.called);
     });
@@ -85,14 +91,20 @@ limitations under the License.
       instance.captureTap(() => {
         done();
       });
-      element.fire('tap');
+      element.dispatchEvent(new CustomEvent('tap', {
+        bubbles: true,
+        composed: true,
+      }));
     });
 
     test('captureTap() cancels tap()', () => {
       const tapStub = sandbox.stub();
       element.addEventListener('tap', tapStub);
       instance.captureTap(() => false);
-      element.fire('tap');
+      element.dispatchEvent(new CustomEvent('tap', {
+        bubbles: true,
+        composed: true,
+      }));
       flushAsynchronousOperations();
       assert.isFalse(tapStub.called);
     });
@@ -101,7 +113,10 @@ limitations under the License.
       instance.on('foo', () => {
         done();
       });
-      element.fire('foo');
+      element.dispatchEvent(new CustomEvent('foo', {
+        bubbles: true,
+        composed: true,
+      }));
     });
   });
 </script>

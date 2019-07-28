@@ -463,7 +463,13 @@
         this.revisionActions = revisionActions;
         this._handleLoadingComplete();
       }).catch(err => {
-        this.fire('show-alert', {message: ERR_REVISION_ACTIONS});
+        this.dispatchEvent(new CustomEvent('show-alert', {
+          bubbles: true,
+          composed: true,
+          detail: {
+            message: ERR_REVISION_ACTIONS,
+          },
+        }));
         this._loading = false;
         throw err;
       });
@@ -888,7 +894,13 @@
       const key = el.getAttribute('data-action-key');
       if (key.startsWith(ADDITIONAL_ACTION_KEY_PREFIX) ||
           key.indexOf('~') !== -1) {
-        this.fire(`${key}-tap`, {node: el});
+        this.dispatchEvent(new CustomEvent(`${key}-tap`, {
+          bubbles: true,
+          composed: true,
+          detail: {
+            node: el,
+          },
+        }));
         return;
       }
       const type = el.getAttribute('data-action-type');
@@ -901,7 +913,13 @@
       const key = e.detail.action.__key;
       if (key.startsWith(ADDITIONAL_ACTION_KEY_PREFIX) ||
           key.indexOf('~') !== -1) {
-        this.fire(`${key}-tap`, {node: el});
+        this.dispatchEvent(new CustomEvent(`${key}-tap`, {
+          bubbles: true,
+          composed: true,
+          detail: {
+            node: el,
+          },
+        }));
         return;
       }
       this._handleAction(e.detail.action.__type, e.detail.action.__key);
@@ -1041,11 +1059,23 @@
       const el = this.$.confirmCherrypick;
       if (!el.branch) {
         // TODO(davido): Fix error handling
-        this.fire('show-alert', {message: ERR_BRANCH_EMPTY});
+        this.dispatchEvent(new CustomEvent('show-alert', {
+          bubbles: true,
+          composed: true,
+          detail: {
+            message: ERR_BRANCH_EMPTY,
+          },
+        }));
         return;
       }
       if (!el.message) {
-        this.fire('show-alert', {message: ERR_COMMIT_EMPTY});
+        this.dispatchEvent(new CustomEvent('show-alert', {
+          bubbles: true,
+          composed: true,
+          detail: {
+            message: ERR_COMMIT_EMPTY,
+          },
+        }));
         return;
       }
       this.$.overlay.close();
@@ -1066,7 +1096,13 @@
     _handleMoveConfirm() {
       const el = this.$.confirmMove;
       if (!el.branch) {
-        this.fire('show-alert', {message: ERR_BRANCH_EMPTY});
+        this.dispatchEvent(new CustomEvent('show-alert', {
+          bubbles: true,
+          composed: true,
+          detail: {
+            message: ERR_BRANCH_EMPTY,
+          },
+        }));
         return;
       }
       this.$.overlay.close();
@@ -1229,8 +1265,13 @@
         }
       }
       return response.text().then(errText => {
-        this.fire('show-error',
-            {message: `Could not perform action: ${errText}`});
+        this.dispatchEvent(new CustomEvent('show-error', {
+          bubbles: true,
+          composed: true,
+          detail: {
+            message: `Could not perform action: ${errText}`,
+          },
+        }));
         if (!errText.startsWith('Change is already up to date')) {
           throw Error(errText);
         }
@@ -1254,7 +1295,9 @@
       return this.fetchChangeUpdates(this.change, this.$.restAPI)
           .then(result => {
             if (!result.isLatest) {
-              this.fire('show-alert', {
+              this.dispatchEvent(new CustomEvent('show-alert', {
+                bubbles: true,
+                composed: true,
                 message: 'Cannot set label: a newer patch has been ' +
                     'uploaded to this change.',
                 action: 'Reload',
@@ -1262,7 +1305,7 @@
                   // Load the current change without any patch range.
                   Gerrit.Nav.navigateToChange(this.change);
                 },
-              });
+              }));
 
               // Because this is not a network error, call the cleanup function
               // but not the error handler.
@@ -1296,7 +1339,10 @@
     },
 
     _handleDownloadTap() {
-      this.fire('download-tap', null, {bubbles: false});
+      this.dispatchEvent(new CustomEvent('download-tap', {
+        bubbles: false,
+        composed: true,
+      }));
     },
 
     _handleDeleteTap() {

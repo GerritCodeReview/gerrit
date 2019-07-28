@@ -348,12 +348,19 @@
         // is empty to see that it's at the end of a line.
         const content = domRange.cloneContents().querySelector('.contentText');
         if (isMouseUp && this._getLength(content) === 0) {
-          this.fire('create-range-comment', {side: start.side, range: {
-            start_line: start.line,
-            start_character: 0,
-            end_line: start.line,
-            end_character: start.column,
-          }});
+          this.dispatchEvent(new CustomEvent('create-range-comment', {
+            bubbles: true,
+            composed: true,
+            detail: {
+              side: start.side,
+              range: {
+                start_line: start.line,
+                start_character: 0,
+                end_line: start.line,
+                end_character: start.column,
+              },
+            },
+          }));
         }
         return;
       }

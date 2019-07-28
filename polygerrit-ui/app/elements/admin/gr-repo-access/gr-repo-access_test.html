@@ -304,7 +304,10 @@ limitations under the License.
             .display, 'none');
 
         // Save button should be enabled after access is modified
-        element.fire('access-modified');
+        element.dispatchEvent(new CustomEvent('access-modified', {
+          bubbles: true,
+          composed: true,
+        }));
         if (shouldShowSaveReview) {
           assert.isFalse(element.$.saveReviewBtn.disabled);
         }
@@ -328,7 +331,11 @@ limitations under the License.
       test('removing an added section', () => {
         element.editing = true;
         assert.equal(element._sections.length, 1);
-        element.$$('gr-access-section').fire('added-section-removed');
+        element.$$('gr-access-section').dispatchEvent(
+            new CustomEvent('added-section-removed', {
+              bubbles: true,
+              composed: true,
+            }));
         flushAsynchronousOperations();
         assert.equal(element._sections.length, 0);
       });
@@ -356,7 +363,10 @@ limitations under the License.
 
       test('_handleAccessModified called with event fired', () => {
         sandbox.spy(element, '_handleAccessModified');
-        element.fire('access-modified');
+        element.dispatchEvent(new CustomEvent('access-modified', {
+          bubbles: true,
+          composed: true,
+        }));
         assert.isTrue(element._handleAccessModified.called);
       });
 
@@ -365,9 +375,17 @@ limitations under the License.
           id: 'test-project',
         };
         flushAsynchronousOperations();
-        element.$$('#editInheritFromInput').fire('commit');
+        element.$$('#editInheritFromInput').dispatchEvent(
+            new CustomEvent('commit', {
+              bubbles: true,
+              composed: true,
+              detail: {},
+            }));
         sandbox.spy(element, '_handleAccessModified');
-        element.fire('access-modified');
+        element.dispatchEvent(new CustomEvent('access-modified', {
+          bubbles: true,
+          composed: true,
+        }));
         assert.isTrue(element._handleAccessModified.called);
       });
 

@@ -535,7 +535,11 @@ limitations under the License.
         test('removing an added permission', () => {
           element.editing = true;
           assert.equal(element._permissions.length, 1);
-          element.$$('gr-permission').fire('added-permission-removed');
+          element.$$('gr-permission')
+              .dispatchEvent(new CustomEvent('added-permission-removed', {
+                bubbles: true,
+                composed: true,
+              }));
           flushAsynchronousOperations();
           assert.equal(element._permissions.length, 0);
         });

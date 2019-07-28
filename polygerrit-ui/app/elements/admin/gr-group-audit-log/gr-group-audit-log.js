@@ -37,7 +37,13 @@
     ],
 
     attached() {
-      this.fire('title-change', {title: 'Audit Log'});
+      this.dispatchEvent(new CustomEvent('title-change', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          title: 'Audit Log',
+        },
+      }));
     },
 
     ready() {
@@ -48,7 +54,11 @@
       if (!this.groupId) { return ''; }
 
       const errFn = response => {
-        this.fire('page-error', {response});
+        this.dispatchEvent(new CustomEvent('page-error', {
+          bubbles: true,
+          composed: true,
+          detail: {response},
+        }));
       };
 
       return this.$.restAPI.getGroupAuditLog(this.groupId, errFn)

@@ -105,7 +105,11 @@
 
     _getProjectDashboard(project, dashboard) {
       const errFn = response => {
-        this.fire('page-error', {response});
+        this.dispatchEvent(new CustomEvent('page-error', {
+          bubbles: true,
+          composed: true,
+          detail: {response},
+        }));
       };
       return this.$.restAPI.getDashboard(
           project, dashboard, errFn).then(response => {
@@ -150,7 +154,11 @@
       // NOTE: This method may be called before attachment. Fire title-change
       // in an async so that attachment to the DOM can take place first.
       const title = params.title || this._computeTitle(user);
-      this.async(() => this.fire('title-change', {title}));
+      this.async(() => this.dispatchEvent(new CustomEvent('title-change', {
+        bubbles: true,
+        composed: true,
+        detail: {title},
+      })));
       return this._reload();
     },
 

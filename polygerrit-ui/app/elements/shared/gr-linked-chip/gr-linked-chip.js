@@ -48,7 +48,10 @@
 
     _handleRemoveTap(e) {
       e.preventDefault();
-      this.fire('remove');
+      this.dispatchEvent(new CustomEvent('remove', {
+        bubbles: true,
+        composed: true,
+      }));
     },
   });
 })();

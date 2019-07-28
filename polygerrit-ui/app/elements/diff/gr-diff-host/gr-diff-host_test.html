@@ -90,7 +90,11 @@ limitations under the License.
       test('creating a draft', () => {
         const comment = {__draft: true, __draftID: 'tempID', side: 'PARENT',
           __commentSide: 'left'};
-        element.fire('comment-update', {comment});
+        element.dispatchEvent(new CustomEvent('comment-update', {
+          bubbles: true,
+          composed: true,
+          detail: {comment},
+        }));
         assert.include(element.comments.left, comment);
       });
 
@@ -108,7 +112,11 @@ limitations under the License.
             diffCommentsModifiedStub);
         element.comments.left.push(comment);
         comment.id = id;
-        element.fire('comment-discard', {comment});
+        element.dispatchEvent(new CustomEvent('comment-discard', {
+          bubbles: true,
+          composed: true,
+          detail: {comment},
+        }));
         const drafts = element.comments.left.filter(item => {
           return item.__draftID === draftID;
         });
@@ -130,7 +138,11 @@ limitations under the License.
             diffCommentsModifiedStub);
         element.comments.left.push(comment);
         comment.id = id;
-        element.fire('comment-save', {comment});
+        element.dispatchEvent(new CustomEvent('comment-save', {
+          bubbles: true,
+          composed: true,
+          detail: {comment},
+        }));
         const drafts = element.comments.left.filter(item => {
           return item.__draftID === draftID;
         });

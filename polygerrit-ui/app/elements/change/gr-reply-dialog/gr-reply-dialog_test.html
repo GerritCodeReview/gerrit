@@ -759,16 +759,66 @@ limitations under the License.
       });
 
       // Remove and add to other field.
-      reviewers.fire('remove', {account: reviewer1});
-      ccs.$.entry.fire('add', {value: {account: reviewer1}});
-      ccs.fire('remove', {account: cc1});
-      ccs.fire('remove', {account: cc3});
-      reviewers.$.entry.fire('add', {value: {account: cc1}});
+      reviewers.dispatchEvent(new CustomEvent('remove', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          account: reviewer1,
+        },
+      }));
+      ccs.$.entry.dispatchEvent(new CustomEvent('add', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          value: {
+            account: reviewer1,
+          },
+        },
+      }));
+      ccs.dispatchEvent(new CustomEvent('remove', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          account: cc1,
+        },
+      }));
+      ccs.dispatchEvent(new CustomEvent('remove', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          account: cc3,
+        },
+      }));
+      reviewers.$.entry.dispatchEvent(new CustomEvent('add', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          value: {
+            account: cc1,
+          },
+        },
+      }));
 
       // Add to other field without removing from former field.
       // (Currently not possible in UI, but this is a good consistency check).
-      reviewers.$.entry.fire('add', {value: {account: cc2}});
-      ccs.$.entry.fire('add', {value: {account: reviewer2}});
+      reviewers.$.entry.dispatchEvent(new CustomEvent('add', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          value: {
+            account: cc2,
+          },
+        },
+      }));
+      ccs.$.entry.dispatchEvent(new CustomEvent('add', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          value: {
+            account: reviewer2,
+          },
+        },
+      }));
       const mapReviewer = function(reviewer, opt_state) {
         const result = {reviewer: reviewer._account_id, confirmed: undefined};
         if (opt_state) {

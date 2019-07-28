@@ -42,7 +42,13 @@
     attached() {
       this.loadData();
 
-      this.fire('title-change', {title: 'New Contributor Agreement'});
+      this.dispatchEvent(new CustomEvent('title-change', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          title: 'New Contributor Agreement',
+        },
+      }));
     },
 
     loadData() {

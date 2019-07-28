@@ -82,7 +82,10 @@ limitations under the License.
 
       // Now change the value.
       element.nativeSelect.value = '3';
-      element.fire('change');
+      element.dispatchEvent(new CustomEvent('change', {
+        bubbles: true,
+        composed: true,
+      }));
 
       // It should be updated.
       assert.equal(element.nativeSelect.value, '3');

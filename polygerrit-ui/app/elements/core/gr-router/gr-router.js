@@ -732,10 +732,14 @@
         // Fire asynchronously so that the URL is changed by the time the event
         // is processed.
         this.async(() => {
-          this.fire('location-change', {
-            hash: window.location.hash,
-            pathname: window.location.pathname,
-          });
+          this.dispatchEvent(new CustomEvent('location-change', {
+            bubbles: true,
+            composed: true,
+            detail: {
+              hash: window.location.hash,
+              pathname: window.location.pathname,
+            },
+          }));
         }, 1);
         next();
       });

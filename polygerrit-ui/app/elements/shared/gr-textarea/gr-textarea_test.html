@@ -169,7 +169,11 @@ limitations under the License.
 
     test('emoji dropdown is closed when iron-overlay-closed is fired', () => {
       const resetSpy = sandbox.spy(element, '_resetEmojiDropdown');
-      element.$.emojiSuggestions.fire('dropdown-closed');
+      element.$.emojiSuggestions
+          .dispatchEvent(new CustomEvent('dropdown-closed', {
+            bubbles: true,
+            composed: true,
+          }));
       assert.isTrue(resetSpy.called);
     });
 

@@ -654,7 +654,8 @@ limitations under the License.
     });
 
     test('draft saving/editing', done => {
-      const fireStub = sinon.stub(element, 'fire');
+      let event;
+      const dispatchEventStub = sandbox.stub(element, 'dispatchEvent');
       const cancelDebounce = sandbox.stub(element, 'cancelDebouncer');
 
       element.draft = true;
@@ -662,14 +663,14 @@ limitations under the License.
       element._messageText = 'good news, everyone!';
       element.flushDebouncer('fire-update');
       element.flushDebouncer('store');
-      assert(fireStub.calledWith('comment-update'),
-          'comment-update should be sent');
-      assert.isTrue(fireStub.calledOnce);
+      event = dispatchEventStub.lastCall.args[0];
+      assert.equal(event.type, 'comment-update');
+      assert.isTrue(dispatchEventStub.calledOnce);
 
       element._messageText = 'good news, everyone!';
       element.flushDebouncer('fire-update');
       element.flushDebouncer('store');
-      assert.isTrue(fireStub.calledOnce,
+      assert.isTrue(dispatchEventStub.calledOnce,
           'No events should fire for text editing');
 
       MockInteractions.tap(element.$$('.save'));
@@ -678,11 +679,10 @@ limitations under the License.
           'Element should be disabled when creating draft.');
 
       element._xhrPromise.then(draft => {
-        assert(fireStub.calledWith('comment-save'),
-            'comment-save should be sent');
+        event = dispatchEventStub.lastCall.args[0];
+        assert.equal(event.type, 'comment-save');
         assert(cancelDebounce.calledWith('store'));
-
-        assert.deepEqual(fireStub.lastCall.args[1], {
+        assert.deepEqual(event.detail, {
           comment: {
             __commentSide: 'right',
             __draft: true,
@@ -695,6 +695,7 @@ limitations under the License.
           },
           patchNum: 1,
         });
+
         assert.isFalse(element.disabled,
             'Element should be enabled when done creating draft.');
         assert.equal(draft.message, 'saved!');
@@ -712,7 +713,7 @@ limitations under the License.
               'Element should be enabled when done updating draft.');
           assert.equal(draft.message, 'saved!');
           assert.isFalse(element.editing);
-          fireStub.restore();
+          dispatchEventStub.restore();
           done();
         });
       });

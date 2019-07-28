@@ -404,8 +404,13 @@ limitations under the License.
         assert.isTrue(drafts[0].unresolved);
         done();
       });
-      commentEl.fire('create-fix-comment', {comment: commentEl.comment},
-          {bubbles: false});
+      commentEl.dispatchEvent(new CustomEvent('create-fix-comment', {
+        bubbles: false,
+        composed: true,
+        detail: {
+          comment: commentEl.comment,
+        },
+      }));
     });
 
     test('discard', done => {
@@ -436,8 +441,13 @@ limitations under the License.
             element.path);
         done();
       });
-      draftEl.fire('comment-discard', {comment: draftEl.comment},
-          {bubbles: false});
+      draftEl.dispatchEvent(new CustomEvent('comment-discard', {
+        bubbles: false,
+        composed: true,
+        detail: {
+          comment: draftEl.comment,
+        },
+      }));
     });
 
     test('discard with a single comment still fires event with previous rootId',
@@ -465,8 +475,13 @@ limitations under the License.
                 element.path);
             done();
           });
-          draftEl.fire('comment-discard', {comment: draftEl.comment},
-          {bubbles: false});
+          draftEl.dispatchEvent(new CustomEvent('comment-discard', {
+            bubbles: false,
+            composed: true,
+            detail: {
+              comment: draftEl.comment,
+            },
+          }));
         });
 
     test('first editing comment does not add __otherEditing attribute', () => {
@@ -543,8 +558,13 @@ limitations under the License.
         storageStub.restore();
         done();
       });
-      draftEl.fire('comment-discard', {comment: draftEl.comment},
-          {bubbles: false});
+      draftEl.dispatchEvent(new CustomEvent('comment-discard', {
+        bubbles: false,
+        composed: true,
+        detail: {
+          comment: draftEl.comment,
+        },
+      }));
     });
 
     test('comment-update', () => {
@@ -553,7 +573,13 @@ limitations under the License.
         id: element.comments[0].id,
         foo: 'bar',
       };
-      commentEl.fire('comment-update', {comment: updatedComment});
+      commentEl.dispatchEvent(new CustomEvent('comment-update', {
+        bubbles: false,
+        composed: true,
+        detail: {
+          comment: updatedComment,
+        },
+      }));
       assert.strictEqual(element.comments[0], updatedComment);
     });
 

@@ -52,7 +52,10 @@ limitations under the License.
       const confirmHandler = sandbox.stub();
       element.addEventListener('confirm', confirmHandler);
       sandbox.stub(element, '_confirm');
-      element.$$('gr-dialog').fire('confirm');
+      element.$$('gr-dialog').dispatchEvent(new CustomEvent('confirm', {
+        bubbles: true,
+        composed: true,
+      }));
       assert.isTrue(confirmHandler.called);
       assert.isTrue(element._confirm.called);
     });
@@ -61,7 +64,10 @@ limitations under the License.
       const cancelHandler = sandbox.stub();
       element.addEventListener('cancel', cancelHandler);
       sandbox.stub(element, '_handleCancelTap');
-      element.$$('gr-dialog').fire('cancel');
+      element.$$('gr-dialog').dispatchEvent(new CustomEvent('cancel', {
+        bubbles: true,
+        composed: true,
+      }));
       assert.isTrue(cancelHandler.called);
       assert.isTrue(element._handleCancelTap.called);
     });

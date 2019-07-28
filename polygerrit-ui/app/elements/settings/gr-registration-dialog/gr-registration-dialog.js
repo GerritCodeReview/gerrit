@@ -96,7 +96,10 @@
 
       return Promise.all(promises).then(() => {
         this._saving = false;
-        this.fire('account-detail-update');
+        this.dispatchEvent(new CustomEvent('account-detail-update', {
+          bubbles: true,
+          composed: true,
+        }));
       });
     },
 
@@ -112,7 +115,10 @@
 
     close() {
       this._saving = true; // disable buttons indefinitely
-      this.fire('close');
+      this.dispatchEvent(new CustomEvent('close', {
+        bubbles: true,
+        composed: true,
+      }));
     },
 
     _computeSaveDisabled(name, email, saving) {

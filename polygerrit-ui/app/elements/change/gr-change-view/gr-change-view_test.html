@@ -200,7 +200,11 @@ limitations under the License.
           },
         };
         sandbox.spy(element, '_handleHideBackgroundContent');
-        element.$.replyDialog.fire('fullscreen-overlay-opened');
+        element.$.replyDialog
+            .dispatchEvent(new CustomEvent('fullscreen-overlay-opened', {
+              bubbles: true,
+              composed: true,
+            }));
         assert.isTrue(element._handleHideBackgroundContent.called);
         assert.isTrue(element.$.mainContent.classList.contains('overlayOpen'));
         assert.equal(getComputedStyle(element.$.actions).display, 'flex');
@@ -222,7 +226,11 @@ limitations under the License.
           },
         };
         sandbox.spy(element, '_handleShowBackgroundContent');
-        element.$.replyDialog.fire('fullscreen-overlay-closed');
+        element.$.replyDialog
+            .dispatchEvent(new CustomEvent('fullscreen-overlay-closed', {
+              bubbles: true,
+              composed: true,
+            }));
         assert.isTrue(element._handleShowBackgroundContent.called);
         assert.isFalse(element.$.mainContent.classList.contains('overlayOpen'));
       });
@@ -230,14 +238,22 @@ limitations under the License.
       test('expand all messages when expand-diffs fired', () => {
         const handleExpand =
             sandbox.stub(element.$.fileList, 'expandAllDiffs');
-        element.$.fileListHeader.fire('expand-diffs');
+        element.$.fileListHeader
+            .dispatchEvent(new CustomEvent('expand-diffs', {
+              bubbles: true,
+              composed: true,
+            }));
         assert.isTrue(handleExpand.called);
       });
 
       test('collapse all messages when collapse-diffs fired', () => {
         const handleCollapse =
         sandbox.stub(element.$.fileList, 'collapseAllDiffs');
-        element.$.fileListHeader.fire('collapse-diffs');
+        element.$.fileListHeader
+            .dispatchEvent(new CustomEvent('collapse-diffs', {
+              bubbles: true,
+              composed: true,
+            }));
         assert.isTrue(handleCollapse.called);
       });
 
@@ -351,18 +367,25 @@ limitations under the License.
             .returns(Promise.resolve({drafts}));
       });
 
-      test('drafts are reloaded when reload-drafts fired', done => {
-        element.$.fileList.fire('reload-drafts', {
-          resolve: () => {
-            assert.isTrue(reloadStub.called);
-            assert.deepEqual(element._diffDrafts, drafts);
-            done();
-          },
-        });
+      test('drafts are reloaded when reload-drafts fired', () => {
+        element.$.fileList
+            .dispatchEvent(new CustomEvent('reload-diffs', {
+              bubbles: true,
+              composed: true,
+              detail: {
+                resolve: () => {
+                  assert.isTrue(reloadStub.called);
+                  assert.deepEqual(element._diffDrafts, drafts);
+                },
+              },
+            }));
       });
 
       test('drafts are reloaded when comment-refresh fired', () => {
-        element.fire('comment-refresh');
+        element.dispatchEvent(new CustomEvent('comment-refresh', {
+          bubbles: true,
+          composed: true,
+        }));
         assert.isTrue(reloadStub.called);
       });
     });
@@ -370,7 +393,10 @@ limitations under the License.
     test('diff comments modified', () => {
       sandbox.spy(element, '_handleReloadCommentThreads');
       return element._reloadComments().then(() => {
-        element.fire('diff-comments-modified');
+        element.dispatchEvent(new CustomEvent('diff-comments-modified', {
+          bubbles: true,
+          composed: true,
+        }));
         assert.isTrue(element._handleReloadCommentThreads.called);
       });
     });
@@ -381,7 +407,11 @@ limitations under the License.
       flushAsynchronousOperations();
 
       return element._reloadComments().then(() => {
-        element.threadList.fire('thread-list-modified');
+        element.threadList
+            .dispatchEvent(new CustomEvent('thread-list-modified', {
+              bubbles: true,
+              composed: true,
+            }));
         assert.isTrue(element._handleReloadDiffComments.called);
 
         let draftStub = sinon.stub(element._changeComments, 'computeDraftCount')
@@ -468,7 +498,10 @@ limitations under the License.
 
     test('download tap calls _handleOpenDownloadDialog', () => {
       sandbox.stub(element, '_handleOpenDownloadDialog');
-      element.$.actions.fire('download-tap');
+      element.$.actions.dispatchEvent(new CustomEvent('download-tap', {
+        bubbles: true,
+        composed: true,
+      }));
       assert.isTrue(element._handleOpenDownloadDialog.called);
     });
 
@@ -514,7 +547,11 @@ limitations under the License.
     test('diff preferences open when open-diff-prefs is fired', () => {
       const overlayOpenStub = sandbox.stub(element.$.fileList,
           'openDiffPrefs');
-      element.$.fileListHeader.fire('open-diff-prefs');
+      element.$.fileListHeader
+          .dispatchEvent(new CustomEvent('open-diff-prefs', {
+            bubbles: true,
+            composed: true,
+          }));
       assert.isTrue(overlayOpenStub.called);
     });
 
@@ -1108,8 +1145,15 @@ limitations under the License.
         'event', done => {
       flush(() => {
         const openStub = sandbox.stub(element, '_openReplyDialog');
-        element.messagesList.fire('reply',
-            {message: {message: 'text'}});
+        element.messagesList.dispatchEvent(new CustomEvent('reply', {
+          bubbles: true,
+          composed: true,
+          detail: {
+            message: {
+              message: 'text',
+            },
+          },
+        }));
         assert(openStub.lastCall.calledWithExactly(
             element.$.replyDialog.FocusTarget.BODY),
             '_openReplyDialog should have been passed BODY');

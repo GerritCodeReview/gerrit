@@ -479,11 +479,15 @@
     },
 
     _selectLine(el) {
-      this.fire('line-selected', {
-        side: el.classList.contains('left') ? DiffSide.LEFT : DiffSide.RIGHT,
-        number: el.getAttribute('data-value'),
-        path: this.path,
-      });
+      this.dispatchEvent(new CustomEvent('line-selected', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          side: el.classList.contains('left') ? DiffSide.LEFT : DiffSide.RIGHT,
+          number: el.getAttribute('data-value'),
+          path: this.path,
+        },
+      }));
     },
 
     addDraftAtLine(el) {
@@ -495,7 +499,11 @@
       if (value !== GrDiffLine.FILE) {
         lineNum = parseInt(value, 10);
         if (isNaN(lineNum)) {
-          this.fire('show-alert', {message: ERR_INVALID_LINE + value});
+          this.dispatchEvent(new CustomEvent('show-alert', {
+            bubbles: true,
+            composed: true,
+            detail: {message: ERR_INVALID_LINE + value},
+          }));
           return;
         }
       }
@@ -516,7 +524,10 @@
     /** @return {boolean} */
     _isValidElForComment(el) {
       if (!this.loggedIn) {
-        this.fire('show-auth-required');
+        this.dispatchEvent(new CustomEvent('show-auth-required', {
+          bubbles: true,
+          composed: true,
+        }));
         return false;
       }
       const patchNum = el.classList.contains(DiffSide.LEFT) ?
@@ -528,10 +539,18 @@
           this.patchNumEquals(this.patchRange.patchNum, this.EDIT_NAME);
 
       if (isEdit) {
-        this.fire('show-alert', {message: ERR_COMMENT_ON_EDIT});
+        this.dispatchEvent(new CustomEvent('show-alert', {
+          bubbles: true,
+          composed: true,
+          detail: {message: ERR_COMMENT_ON_EDIT},
+        }));
         return false;
       } else if (isEditBase) {
-        this.fire('show-alert', {message: ERR_COMMENT_ON_EDIT_BASE});
+        this.dispatchEvent(new CustomEvent('show-alert', {
+          bubbles: true,
+          composed: true,
+          detail: {message: ERR_COMMENT_ON_EDIT_BASE},
+        }));
         return false;
       }
       return true;

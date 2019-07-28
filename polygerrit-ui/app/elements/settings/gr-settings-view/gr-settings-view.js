@@ -158,7 +158,13 @@
     ],
 
     attached() {
-      this.fire('title-change', {title: 'Settings'});
+      this.dispatchEvent(new CustomEvent('title-change', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          title: 'Settings',
+        },
+      }));
 
       this._isDark = !!window.localStorage.getItem('dark-theme');
 
@@ -204,7 +210,11 @@
         promises.push(this.$.restAPI.confirmEmail(this.params.emailToken).then(
             message => {
               if (message) {
-                this.fire('show-alert', {message});
+                this.dispatchEvent(new CustomEvent('show-alert', {
+                  bubbles: true,
+                  composed: true,
+                  detail: {message},
+                }));
               }
               this.$.emailEditor.loadData();
             }));

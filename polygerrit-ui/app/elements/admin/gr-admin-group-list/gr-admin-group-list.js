@@ -73,7 +73,13 @@
 
     attached() {
       this._getCreateGroupCapability();
-      this.fire('title-change', {title: 'Groups'});
+      this.dispatchEvent(new CustomEvent('title-change', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          title: 'Groups',
+        },
+      }));
       this._maybeOpenCreateOverlay(this.params);
     },
 

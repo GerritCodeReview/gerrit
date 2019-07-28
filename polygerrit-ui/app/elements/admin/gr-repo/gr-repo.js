@@ -116,7 +116,13 @@
     attached() {
       this._loadRepo();
 
-      this.fire('title-change', {title: this.repo});
+      this.dispatchEvent(new CustomEvent('title-change', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          title: this.repo,
+        },
+      }));
     },
 
     _computePluginData(configRecord) {
@@ -134,7 +140,11 @@
       const promises = [];
 
       const errFn = response => {
-        this.fire('page-error', {response});
+        this.dispatchEvent(new CustomEvent('page-error', {
+          bubbles: true,
+          composed: true,
+          detail: {response},
+        }));
       };
 
       promises.push(this._getLoggedIn().then(loggedIn => {

@@ -57,7 +57,10 @@
       return new Promise(resolve => {
         Polymer.IronOverlayBehaviorImpl.open.apply(this, args);
         if (this._isMobile()) {
-          this.fire('fullscreen-overlay-opened');
+          this.dispatchEvent(new CustomEvent('fullscreen-overlay-opened', {
+            bubbles: true,
+            composed: true,
+          }));
           this._fullScreenOpen = true;
         }
         this._awaitOpen(resolve);
@@ -70,7 +73,10 @@
 
     _close() {
       if (this._fullScreenOpen) {
-        this.fire('fullscreen-overlay-closed');
+        this.dispatchEvent(new CustomEvent('fullscreen-overlay-closed', {
+          bubbles: true,
+          composed: true,
+        }));
         this._fullScreenOpen = false;
       }
     },

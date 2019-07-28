@@ -839,7 +839,13 @@
           this._shownFiles.length : 0;
 
       const filesShown = files.base.slice(0, numFilesShown);
-      this.fire('files-shown-changed', {length: filesShown.length});
+      this.dispatchEvent(new CustomEvent('files-shown-changed', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          length: filesShown.length,
+        },
+      }));
 
       // Start the timer for the rendering work hwere because this is where the
       // _shownFiles property is being set, and _shownFiles is used in the
@@ -997,7 +1003,11 @@
       let iter = 0;
 
       return (new Promise(resolve => {
-        this.fire('reload-drafts', {resolve});
+        this.dispatchEvent(new CustomEvent('reload-drafts', {
+          bubbles: true,
+          composed: true,
+          detail: {resolve},
+        }));
       })).then(() => {
         return this.asyncForeach(paths, (path, cancel) => {
           this._cancelForEachDiff = cancel;

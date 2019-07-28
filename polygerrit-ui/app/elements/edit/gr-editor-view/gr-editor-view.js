@@ -117,7 +117,11 @@
       // has been queued, the event can bubble up to the handler in gr-app.
       this.async(() => {
         const title = `Editing ${this.computeTruncatedPath(this._path)}`;
-        this.fire('title-change', {title});
+        this.dispatchEvent(new CustomEvent('title-change', {
+          bubbles: true,
+          composed: true,
+          detail: {title},
+        }));
       });
 
       const promises = [];

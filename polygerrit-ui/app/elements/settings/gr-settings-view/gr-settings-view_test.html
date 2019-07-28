@@ -179,7 +179,10 @@ limitations under the License.
 
       const publishOnPush =
           valueOf('Publish comments on push', 'preferences').firstElementChild;
-      diffSelect.fire('change');
+      diffSelect.dispatchEvent(new CustomEvent('change', {
+        bubbles: true,
+        composed: true,
+      }));
 
       MockInteractions.tap(publishOnPush);
 
@@ -512,10 +515,10 @@ limitations under the License.
       });
 
       test('show-alert is fired when email is confirmed', done => {
-        sandbox.spy(element, 'fire');
+        const dispatchEventStub = sandbox.stub(element, 'dispatchEvent');
         element._loadingPromise.then(() => {
-          assert.isTrue(
-              element.fire.calledWith('show-alert', {message: 'bar'}));
+          const event = dispatchEventStub.lastCall.args[0];
+          assert.equal(event.type, 'show-alert');
           done();
         });
         resolveConfirm('bar');

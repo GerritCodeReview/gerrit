@@ -108,7 +108,13 @@
     },
 
     _handleInputCommit(e) {
-      this.fire('add', {value: e.detail.value});
+      this.dispatchEvent(new CustomEvent('add', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          value: e.detail.value,
+        },
+      }));
       this.$.input.focus();
     },
 

@@ -107,12 +107,18 @@
 
     _expandAllDiffs() {
       this._expanded = true;
-      this.fire('expand-diffs');
+      this.dispatchEvent(new CustomEvent('expand-diffs', {
+        bubbles: true,
+        composed: true
+      }));
     },
 
     _collapseAllDiffs() {
       this._expanded = false;
-      this.fire('collapse-diffs');
+      this.dispatchEvent(new CustomEvent('collapse-diffs', {
+        bubbles: true,
+        composed: true
+      }));
     },
 
     _computeExpandedClass(filesExpanded) {
@@ -206,12 +212,18 @@
 
     _handlePrefsTap(e) {
       e.preventDefault();
-      this.fire('open-diff-prefs');
+      this.dispatchEvent(new CustomEvent('open-diff-prefs', {
+        bubbles: true,
+        composed: true
+      }));
     },
 
     _handleIncludedInTap(e) {
       e.preventDefault();
-      this.fire('open-included-in-dialog');
+      this.dispatchEvent(new CustomEvent('open-included-in-dialog', {
+        bubbles: true,
+        composed: true
+      }));
     },
 
     _handleDownloadTap(e) {

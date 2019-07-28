@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <!--
 @license
@@ -171,24 +172,41 @@ limitations under the License.
     });
 
     test('_handleAddTap passes mode with event', () => {
-      const fireStub = sandbox.stub(element, 'fire');
       const e = {preventDefault() {}};
+      const dispatchEventStub = sandbox.stub(element, 'dispatchEvent');
 
       element.ccsOnly = false;
       element.reviewersOnly = false;
       element._handleAddTap(e);
-      assert.isTrue(fireStub.calledWith('show-reply-dialog', {value: {}}));
+      const firedEvent = dispatchEventStub.getCalls()
+        .map(c => { return c.args[0]; });
+      assert.equal(firedEvent[0].type, 'show-reply-dialog');
+      assert.deepEqual(firedEvent[0].detail, {value: {}});
+    });
+
+    test('_handleAddTap passes mode with event for reviewer', () => {
+      const e = {preventDefault() {}};
+      const dispatchEventStub = sandbox.stub(element, 'dispatchEvent');
 
       element.reviewersOnly = true;
       element._handleAddTap(e);
-      assert.isTrue(fireStub.lastCall.calledWith('show-reply-dialog',
-          {value: {reviewersOnly: true}}));
+      const firedEvent = dispatchEventStub.getCalls()
+        .map(c => { return c.args[0]; });
+      assert.equal(firedEvent[0].type, 'show-reply-dialog');
+      assert.deepEqual(firedEvent[0].detail, {value: {reviewersOnly: true}});
+    });
+
+    test('_handleAddTap passes mode with event for ccs', () => {
+      const e = {preventDefault() {}};
+      const dispatchEventStub = sandbox.stub(element, 'dispatchEvent');
 
       element.ccsOnly = true;
       element.reviewersOnly = false;
       element._handleAddTap(e);
-      assert.isTrue(fireStub.lastCall.calledWith('show-reply-dialog',
-          {value: {ccsOnly: true}}));
+      const firedEvent = dispatchEventStub.getCalls()
+        .map(c => { return c.args[0]; });
+      assert.equal(firedEvent[0].type, 'show-reply-dialog');
+      assert.deepEqual(firedEvent[0].detail, {value: {ccsOnly: true}});
     });
 
     test('no show all reviewers button with 6 reviewers', () => {

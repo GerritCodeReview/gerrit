@@ -118,7 +118,14 @@
     },
 
     _fireCreateComment() {
-      this.fire('create-range-comment', {side: this.side, range: this.range});
+      this.dispatchEvent(new CustomEvent('create-range-comment', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          side: this.side,
+          range: this.range,
+        },
+      }));
     },
   });
 })();

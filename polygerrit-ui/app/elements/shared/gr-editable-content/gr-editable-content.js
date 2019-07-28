@@ -119,13 +119,22 @@
 
     _handleSave(e) {
       e.preventDefault();
-      this.fire('editable-content-save', {content: this._newContent});
+      this.dispatchEvent(new CustomEvent('editable-content-save', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          content: this._newContent,
+        },
+      }));
     },
 
     _handleCancel(e) {
       e.preventDefault();
       this.editing = false;
-      this.fire('editable-content-cancel');
+      this.dispatchEvent(new CustomEvent('editable-content-cancel', {
+        bubbles: true,
+        composed: true,
+      }));
     },
   });
 })();

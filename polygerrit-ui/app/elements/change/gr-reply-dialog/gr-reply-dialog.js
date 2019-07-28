@@ -272,7 +272,10 @@
       if (this.$.restAPI.hasPendingDiffDrafts()) {
         this._savingComments = true;
         this.$.restAPI.awaitPendingDiffDrafts().then(() => {
-          this.fire('comment-refresh');
+          this.dispatchEvent(new CustomEvent('comment-refresh', {
+            bubbles: true,
+            composed: true,
+          }));
           this._savingComments = false;
         });
       }
@@ -339,7 +342,11 @@
               this.splice('_ccs', index, 1);
               const message = (account.name || account.email || key) +
                   ' moved from CC to reviewer.';
-              this.fire('show-alert', {message});
+              this.dispatchEvent(new CustomEvent('show-alert', {
+                bubbles: true,
+                composed: true,
+                detail: {message},
+              }));
             }
           }
         }
@@ -476,7 +483,11 @@
           return {};
         }
         if (!response.ok) {
-          this.fire('server-error', {response});
+          this.dispatchEvent(new CustomEvent('server-error', {
+            bubbles: true,
+            composed: true,
+            detail: {response},
+          }));
           return {};
         }
 
@@ -489,7 +500,10 @@
         }).then(() => {
           this.draft = '';
           this._includeComments = true;
-          this.fire('send', null, {bubbles: false});
+          this.dispatchEvent(new CustomEvent('send', {
+            bubbles: false,
+            composed: true,
+          }));
           return accountAdditions;
         });
       }).then(result => {
@@ -521,7 +535,11 @@
               // *does* support moving from WIP->ready when posting a
               // review. Only alert user for non-409 failures.
               if (response.status !== 409) {
-                this.fire('server-error', {response});
+                this.dispatchEvent(new CustomEvent('server-error', {
+                  bubbles: true,
+                  composed: true,
+                  detail: {response},
+                }));
               }
             });
       });
@@ -594,7 +612,11 @@
             text() { return Promise.resolve(errors.join(', ')); },
           };
         }
-        this.fire('server-error', {response});
+        this.dispatchEvent(new CustomEvent('server-error', {
+          bubbles: true,
+          composed: true,
+          detail: {response},
+        }));
         return null; // Means that the error has been handled.
       });
     },
@@ -703,7 +725,10 @@
     },
 
     cancel() {
-      this.fire('cancel', null, {bubbles: false});
+      this.dispatchEvent(new CustomEvent('cancel', {
+        bubbles: false,
+        composed: true,
+      }));
       this.$.textarea.closeDropdown();
       this._purgeReviewersPendingRemove(true);
       this._rebuildReviewerArrays(this.change.reviewers, this._owner);
@@ -824,7 +849,10 @@
     },
 
     _handleHeightChanged(e) {
-      this.fire('autogrow');
+      this.dispatchEvent(new CustomEvent('autogrow', {
+        bubbles: true,
+        composed: true,
+      }));
     },
 
     _handleLabelsChanged() {

@@ -55,13 +55,15 @@ limitations under the License.
     });
 
     test('ignores regular keys', () => {
+      const dispatchEventStub = sandbox.stub(element, 'dispatchEvent');
       MockInteractions.pressAndReleaseKeyOn(document.body, 27, null, 'esc');
-      assert.isFalse(element.fire.called);
+      assert.isFalse(dispatchEventStub.called);
     });
 
     test('reacts to hotkey', () => {
+      const dispatchEventStub = sandbox.stub(element, 'dispatchEvent');
       MockInteractions.pressAndReleaseKeyOn(document.body, 67, null, 'c');
-      assert.isTrue(element.fire.called);
+      assert.isTrue(dispatchEventStub.called);
     });
 
     suite('mousedown reacts only to main button', () => {
@@ -96,15 +98,15 @@ limitations under the License.
         end_line: 2,
         end_character: 42,
       };
+      const dispatchEventStub = sandbox.stub(element, 'dispatchEvent');
       element.side = 'left';
       element.range = range;
       MockInteractions.pressAndReleaseKeyOn(document.body, 67, null, 'c');
-      assert(element.fire.calledWithExactly(
-          'create-range-comment',
-          {
-            side,
-            range,
-          }));
+      const firedEvent = dispatchEventStub.getCalls()
+          .map(c => { return c.args[0]; });
+      assert.equal(firedEvent[0].type, 'create-range-comment');
+      assert.equal(firedEvent[0].detail.side, side);
+      assert.equal(firedEvent[0].detail.range, range);
     });
 
     suite('placeAbove', () => {

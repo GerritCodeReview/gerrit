@@ -69,7 +69,13 @@
 
     _handleRemoveTap(e) {
       e.preventDefault();
-      this.fire('remove', {account: this.account});
+      this.dispatchEvent(new CustomEvent('remove', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          account: this.account,
+        },
+      }));
     },
 
     _getHasAvatars() {

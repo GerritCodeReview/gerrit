@@ -511,12 +511,12 @@ limitations under the License.
         resolveConfirm();
       });
 
-      test('show-alert is fired when email is confirmed', done => {
-        sandbox.spy(element, 'fire');
+      test('show-alert is fired when email is confirmed', () => {
+        sandbox.spy(element, 'dispatchEvent');
         element._loadingPromise.then(() => {
-          assert.isTrue(
-              element.fire.calledWith('show-alert', {message: 'bar'}));
-          done();
+          assert.equal(element.dispatchEvent.args[0].type, 'show-alert');
+          assert.equal(
+              element.dispatchEvent.args[0].detail, {message: 'bar'});
         });
         resolveConfirm('bar');
       });

@@ -451,7 +451,7 @@
 
     _computeMainClass(ownerOf, canUpload, editing) {
       const classList = [];
-      if (ownerOf.length > 0 || canUpload) {
+      if (ownerOf && ownerOf.length > 0 || canUpload) {
         classList.push('admin');
       }
       if (editing) {

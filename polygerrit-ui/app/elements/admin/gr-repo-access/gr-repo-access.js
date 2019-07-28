@@ -237,7 +237,7 @@
     },
 
     _computeWebLinkClass(weblinks) {
-      return weblinks.length ? 'show' : '';
+      return weblinks && weblinks.length ? 'show' : '';
     },
 
     _computeShowInherit(inheritsFrom) {
@@ -446,12 +446,12 @@
     },
 
     _computeSaveBtnClass(ownerOf) {
-      return ownerOf.length < 0 ? 'invisible' : '';
+      return ownerOf && ownerOf.length === 0 ? 'invisible' : '';
     },
 
     _computeMainClass(ownerOf, canUpload, editing) {
       const classList = [];
-      if (ownerOf.length > 0 || canUpload) {
+      if (ownerOf && ownerOf.length > 0 || canUpload) {
         classList.push('admin');
       }
       if (editing) {

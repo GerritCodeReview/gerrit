@@ -118,19 +118,23 @@
     _handleTab(e) {
       e.preventDefault();
       e.stopPropagation();
-      this.fire('item-selected', {
+      this.dispatchEvent(new CustomEvent('item-selected', {
+        bubbles: true,
+        composed: true,
         trigger: 'tab',
         selected: this.$.cursor.target,
-      });
+      }));
     },
 
     _handleEnter(e) {
       e.preventDefault();
       e.stopPropagation();
-      this.fire('item-selected', {
+      this.dispatchEvent(new CustomEvent('item-selected', {
+        bubbles: true,
+        composed: true,
         trigger: 'enter',
         selected: this.$.cursor.target,
-      });
+      }));
     },
 
     _handleEscape() {
@@ -146,14 +150,19 @@
         if (!selected || selected === this) { return; }
         selected = selected.parentElement;
       }
-      this.fire('item-selected', {
+      this.dispatchEvent(new CustomEvent('item-selected', {
+        bubbles: true,
+        composed: true,
         trigger: 'tap',
         selected,
-      });
+      }));
     },
 
     _fireClose() {
-      this.fire('dropdown-closed');
+      this.dispatchEvent(new CustomEvent('dropdown-closed', {
+        bubbles: true,
+        composed: true,
+      }));
     },
 
     getCursorTarget() {

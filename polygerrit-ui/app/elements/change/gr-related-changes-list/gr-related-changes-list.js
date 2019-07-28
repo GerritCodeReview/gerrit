@@ -301,7 +301,10 @@
       for (let i = 0; i < results.length; i++) {
         if (results[i] && results[i].length > 0) {
           this.hidden = false;
-          this.fire('update', null, {bubbles: false});
+          this.dispatchEvent(new CustomEvent('update', {
+            bubbles: false,
+            composed: true
+          }));
           return;
         }
       }

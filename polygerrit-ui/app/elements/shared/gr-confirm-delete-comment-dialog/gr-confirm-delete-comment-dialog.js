@@ -43,12 +43,19 @@
 
     _handleConfirmTap(e) {
       e.preventDefault();
-      this.fire('confirm', {reason: this.message}, {bubbles: false});
+      this.dispatchEvent(new CustomEvent('confirm', {
+        bubbles: false,
+        composed: true,
+        reason: this.message
+      }));
     },
 
     _handleCancelTap(e) {
       e.preventDefault();
-      this.fire('cancel', null, {bubbles: false});
+      this.dispatchEvent(new CustomEvent('cancel', {
+        bubbles: false,
+        composed: true
+      }));
     },
   });
 })();

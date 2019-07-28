@@ -304,12 +304,18 @@
     },
 
     _fireSave() {
-      this.fire('comment-save', this._getEventPayload());
+      this.dispatchEvent(new CustomEvent('comment-save', Object.assign(
+        this._getEventPayload(),
+        {bubbles: true, composed: true}
+      )));
     },
 
     _fireUpdate() {
       this.debounce('fire-update', () => {
-        this.fire('comment-update', this._getEventPayload());
+        this.dispatchEvent(new CustomEvent('comment-update', Object.assign(
+          this._getEventPayload(),
+          {bubbles: true, composed: true}
+        )));
       });
     },
 
@@ -456,7 +462,10 @@
 
     _fireDiscard() {
       this.cancelDebouncer('fire-update');
-      this.fire('comment-discard', this._getEventPayload());
+      this.dispatchEvent(new CustomEvent('comment-discard', Object.assign(
+        this._getEventPayload(),
+        {bubbles: true, composed: true}
+      )));
     },
 
     _handleFix() {
@@ -625,7 +634,10 @@
       // the parent by ref.
       const payload = this._getEventPayload();
       payload.comment.unresolved = !this.$.resolvedCheckbox.checked;
-      this.fire('comment-update', payload);
+      this.dispatchEvent(new CustomEvent('comment-update', Object.assign(
+        payload,
+        {bubbles: true, composed: true}
+      )));
       if (!this.editing) {
         // Save the resolved state immediately.
         this.save(payload.comment);

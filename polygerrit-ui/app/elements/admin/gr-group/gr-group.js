@@ -106,7 +106,11 @@
       const promises = [];
 
       const errFn = response => {
-        this.fire('page-error', {response});
+        this.dispatchEvent(new CustomEvent('page-error', {
+          bubbles: true,
+          composed: true,
+          detail: {response},
+        }));
       };
 
       return this.$.restAPI.getGroupConfig(this.groupId, errFn)
@@ -134,7 +138,13 @@
             }
             this._groupConfig = config;
 
-            this.fire('title-change', {title: config.name});
+            this.dispatchEvent(new CustomEvent('title-change', {
+              bubbles: true,
+              composed: true,
+              detail: {
+                title: config.name,
+              },
+            }));
 
             return Promise.all(promises).then(() => {
               this._loading = false;
@@ -155,8 +165,14 @@
           .then(config => {
             if (config.status === 200) {
               this._groupName = this._groupConfig.name;
-              this.fire('name-changed', {name: this._groupConfig.name,
-                external: this._groupIsExtenral});
+              this.dispatchEvent(new CustomEvent('name-changed', {
+                bubbles: true,
+                composed: true,
+                detail: {
+                  name: this._groupConfig.name,
+                  external: this._groupIsExtenral,
+                },
+              }));
               this._rename = false;
             }
           });

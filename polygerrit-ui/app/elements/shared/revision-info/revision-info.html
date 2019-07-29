@@ -24,7 +24,10 @@ limitations under the License.
      *     call that includes revision information.
      */
     function RevisionInfo(change) {
-      this._change = change;
+      this._change = change ? change : {};
+      if(!this._change.revisions) {
+         this._change.revisions = [];
+      }
     }
 
     /**

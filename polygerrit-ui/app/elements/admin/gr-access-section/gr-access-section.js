@@ -123,6 +123,9 @@
 
     _computePermissions(name, capabilities, labels) {
       let allPermissions;
+      if (!this.section || !this.section.value) {
+        return [];
+      }
       if (name === GLOBAL_NAME) {
         allPermissions = this.toSortedArray(capabilities);
       } else {
@@ -147,6 +150,7 @@
 
     _computeLabelOptions(labels) {
       const labelOptions = [];
+      if (!labels) { return []; }
       for (const labelName of Object.keys(labels)) {
         labelOptions.push({
           id: 'label-' + labelName,
@@ -226,7 +230,7 @@
     },
 
     _isEditEnabled(canUpload, ownerOf, sectionId) {
-      return canUpload || ownerOf.indexOf(sectionId) >= 0;
+      return canUpload || (ownerOf && ownerOf.indexOf(sectionId) >= 0);
     },
 
     _computeSectionClass(editing, canUpload, ownerOf, editingRef, deleted) {

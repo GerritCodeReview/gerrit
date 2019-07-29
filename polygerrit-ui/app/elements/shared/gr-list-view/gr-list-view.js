@@ -21,7 +21,6 @@
 
   Polymer({
     is: 'gr-list-view',
-    _legacyUndefinedCheck: true,
 
     properties: {
       createNew: Boolean,

@@ -1,4 +1,4 @@
-/**
+d/**
  * @license
  * Copyright (C) 2016 The Android Open Source Project
  *
@@ -573,7 +573,7 @@
        * @param {string=} actionName
        */
     _deleteAndNotify(actionName) {
-      if (this.actions[actionName]) {
+      if (this.actions && this.actions[actionName]) {
         delete this.actions[actionName];
         this.notifyPath('actions.' + actionName);
       }
@@ -589,7 +589,7 @@
         this._deleteAndNotify('edit');
         return;
       }
-      if (editPatchsetLoaded) {
+      if (this.actions && editPatchsetLoaded) {
         // Only show actions that mutate an edit if an actual edit patch set
         // is loaded.
         if (this.changeIsOpen(this.change)) {
@@ -614,7 +614,7 @@
         this._deleteAndNotify('deleteEdit');
       }
 
-      if (this.changeIsOpen(this.change)) {
+      if (this.actions && this.changeIsOpen(this.change)) {
         // Only show edit button if there is no edit patchset loaded and the
         // file list is not in edit mode.
         if (editPatchsetLoaded || editMode) {

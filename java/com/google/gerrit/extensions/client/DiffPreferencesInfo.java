@@ -38,7 +38,7 @@ public class DiffPreferencesInfo {
     IGNORE_NONE,
     IGNORE_TRAILING,
     IGNORE_LEADING_AND_TRAILING,
-    IGNORE_ALL;
+    IGNORE_ALL
   }
 
   public Integer context;
@@ -74,18 +74,12 @@ public class DiffPreferencesInfo {
     i.fontSize = DEFAULT_FONT_SIZE;
     i.lineLength = DEFAULT_LINE_LENGTH;
     i.cursorBlinkRate = 0;
-    i.ignoreWhitespace = Whitespace.IGNORE_NONE;
-    i.theme = Theme.DEFAULT;
     i.expandAllComments = false;
     i.intralineDifference = true;
     i.manualReview = false;
-    i.retainHeader = false;
     i.showLineEndings = true;
     i.showTabs = true;
     i.showWhitespaceErrors = true;
-    i.skipDeleted = false;
-    i.skipUnchanged = false;
-    i.skipUncommented = false;
     i.syntaxHighlighting = true;
     i.hideTopMenu = false;
     i.autoHideDiffTableHeader = true;
@@ -94,6 +88,12 @@ public class DiffPreferencesInfo {
     i.hideEmptyPane = false;
     i.matchBrackets = false;
     i.lineWrapping = false;
+    i.theme = Theme.DEFAULT;
+    i.ignoreWhitespace = Whitespace.IGNORE_NONE;
+    i.retainHeader = false;
+    i.skipDeleted = false;
+    i.skipUnchanged = false;
+    i.skipUncommented = false;
     return i;
   }
 }

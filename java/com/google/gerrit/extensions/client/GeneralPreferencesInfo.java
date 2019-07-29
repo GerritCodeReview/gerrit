@@ -151,14 +151,14 @@ public class GeneralPreferencesInfo {
   public ReviewCategoryStrategy reviewCategoryStrategy;
   public Boolean muteCommonPathPrefixes;
   public Boolean signedOffBy;
-  public List<MenuItem> my;
-  public List<String> changeTable;
-  public Map<String, String> urlAliases;
   public EmailStrategy emailStrategy;
   public EmailFormat emailFormat;
   public DefaultBase defaultBaseForMerges;
   public Boolean publishCommentsOnPush;
   public Boolean workInProgressByDefault;
+  public List<MenuItem> my;
+  public List<String> changeTable;
+  public Map<String, String> urlAliases;
 
   public boolean isShowInfoInReviewCategory() {
     return getReviewCategoryStrategy() != ReviewCategoryStrategy.NONE;
@@ -211,9 +211,6 @@ public class GeneralPreferencesInfo {
     p.changesPerPage = DEFAULT_PAGESIZE;
     p.showSiteHeader = true;
     p.useFlashClipboard = true;
-    p.emailStrategy = EmailStrategy.ENABLED;
-    p.emailFormat = EmailFormat.HTML_PLAINTEXT;
-    p.reviewCategoryStrategy = ReviewCategoryStrategy.NONE;
     p.downloadScheme = null;
     p.downloadCommand = DownloadCommand.CHECKOUT;
     p.dateFormat = DateFormat.STD;
@@ -224,8 +221,11 @@ public class GeneralPreferencesInfo {
     p.diffView = DiffView.SIDE_BY_SIDE;
     p.sizeBarInChangeTable = true;
     p.legacycidInChangeTable = false;
+    p.reviewCategoryStrategy = ReviewCategoryStrategy.NONE;
     p.muteCommonPathPrefixes = true;
     p.signedOffBy = false;
+    p.emailStrategy = EmailStrategy.ENABLED;
+    p.emailFormat = EmailFormat.HTML_PLAINTEXT;
     p.defaultBaseForMerges = DefaultBase.FIRST_PARENT;
     p.publishCommentsOnPush = false;
     p.workInProgressByDefault = false;

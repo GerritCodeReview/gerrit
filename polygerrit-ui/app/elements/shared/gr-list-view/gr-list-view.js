@@ -21,7 +21,6 @@
 
   Polymer({
     is: 'gr-list-view',
-    _legacyUndefinedCheck: true,
 
     properties: {
       createNew: Boolean,
@@ -68,6 +67,11 @@
     },
 
     _computeNavLink(offset, direction, itemsPerPage, filter, path) {
+      // If path is undefined lets return an empty string to fail fast
+      // Also check if offset, itemsPerPage and direction are undefined.
+      if (!path || !offset || !itemsPerPage || !direction) {
+        return '';
+      }
       // Offset could be a string when passed from the router.
       offset = +(offset || 0);
       const newOffset = Math.max(0, offset + (itemsPerPage * direction));

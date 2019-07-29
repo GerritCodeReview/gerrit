@@ -22,6 +22,30 @@
       "revId": "73f43939a0631cbe4d54bf3130d68ba3197947a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6032ab8_69ae4d44",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-29T16:33:45Z",
+      "side": 1,
+      "message": "From what i can tell, it\u0027s being added here https://github.com/GerritCodeReview/gerrit/blob/master/polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js#L239\n\nI\u0027m not exactly *sure* why under Polymer 2 \u0027modified: true\u0027 is added where as under Polymer 1 it\u0027s not.\n\nI belive that the reason why `modified: true` manages to get added under Polymer 2 is because\ngr-rule-editor.js#_handleValueChange is loaded first (by that i mean based on Polymer 1 vs Polymer 2, i see\nthat _handleValueChange is loaded multiple times before under Polymer 2 where as under Polymer 1 it\u0027s a mix.).\n\nSo basically the order of things loading has changed hence why `modified: true` manages to get added under\nPolymer 2 compared to Polymer 1.\n\n(Notice how gr-rule-editor.js gets loaded before gr-permission_test.html is ran under Polymer 2, compared to Polymer 1 mix.)\n\nI\u0027ve added a little comment to explain why i\u0027ve adjusted the test to add `modified: true`.\n\nThis is what i get under Polymer 1 when adding some console.log statements:\n\n2VM759 gr-rule-editor.js:243 test [object Object]\nVM759 gr-rule-editor.js:243 test undefined\nVM759 gr-rule-editor.js:243 test [object Object]\ngr-permission_test.html:338 {min: -2, max: 2, action: \"ALLOW\", added: true}\ngr-permission_test.html:339 test [object Object]\nVM759 gr-rule-editor.js:243 test [object Object]\nVM759 gr-rule-editor.js:250 {action: \"ALLOW\", force: false, min: -2, max: 2, modified: true}\nVM759 gr-rule-editor.js:243 test [object Object]\nVM759 gr-rule-editor.js:250 {action: \"ALLOW\", force: false, min: -2, max: 2, modified: true}\n\nThis is what i get under Polymer 2 when adding some console.log statements:\n\nVM516 gr-rule-editor.js:243 test [object Object]\nVM516 gr-rule-editor.js:243 test [object Object]\ntest undefined\nVM516 gr-rule-editor.js:243 test [object Object]\nVM516 gr-rule-editor.js:243 test [object Object]\nVM516 gr-rule-editor.js:250 {min: -2, max: 2, action: \"ALLOW\", modified: true}\nVM519 gr-permission_test.html:338 {min: -2, max: 2, action: \"ALLOW\", modified: true, added: true}\nVM519 gr-permission_test.html:339 test [object Object]\nmulti.js:23 expected { Object (min, max, ...) } to deeply equal { Object (action, min, ...) }  Function.assert.deepEqual at /components/chai/chai.js:2083        Context.\u003canonymous\u003e at gr-permission_test.html:340",
+      "parentUuid": "eb55c730_3199257b",
+      "range": {
+        "startLine": 334,
+        "startChar": 49,
+        "endLine": 334,
+        "endChar": 63
+      },
+      "revId": "73f43939a0631cbe4d54bf3130d68ba3197947a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

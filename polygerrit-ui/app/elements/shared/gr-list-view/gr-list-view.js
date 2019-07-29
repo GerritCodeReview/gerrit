@@ -91,7 +91,7 @@
 
     _hideNextArrow(loading, items) {
       let lastPage = false;
-      if (items.length < this.itemsPerPage + 1) {
+      if (items && items.length < this.itemsPerPage + 1) {
         lastPage = true;
       }
       return loading || lastPage || !items || !items.length;

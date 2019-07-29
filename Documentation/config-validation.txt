@@ -122,6 +122,15 @@ Plugins implementing the `AccountActivationValidationListener` interface can
 perform validation when an account is activated or deactivated via the Gerrit
 REST API or the Java extension API.
 
+[[review-comment-validation]]
+== Review comment validation
+
+
+The `CommentValidator` interface allows plugins to validate all review comments,
+i.e. inline comments, file comments and the review message. This works for the
+REST API, for `git push` when `--publish-comments` is used and for comments sent
+via email.
+
 
 GERRIT
 ------

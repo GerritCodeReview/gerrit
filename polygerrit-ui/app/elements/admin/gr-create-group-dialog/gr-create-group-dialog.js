@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-create-group-dialog',
-    _legacyUndefinedCheck: true,
 
     properties: {
       params: Object,

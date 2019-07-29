@@ -475,8 +475,8 @@
     },
 
     _computeHideEditCommitMessage(loggedIn, editing, change, editMode) {
-      if (!loggedIn || editing || change.status === this.ChangeStatus.MERGED ||
-          editMode) {
+      if (!loggedIn || editing ||
+          change && change.status === this.ChangeStatus.MERGED || editMode) {
         return true;
       }
 
@@ -505,7 +505,8 @@
     },
 
     _computeTotalCommentCounts(unresolvedCount, changeComments) {
-      const draftCount = changeComments.computeDraftCount();
+      const draftCount = changeComments ?
+            changeComments.computeDraftCount() : [];
       const unresolvedString = GrCountStringFormatter.computeString(
           unresolvedCount, 'unresolved');
       const draftString = GrCountStringFormatter.computePluralString(
@@ -774,7 +775,11 @@
       // selected file index.
       const patchRangeState = this.viewState.patchRange;
       if (this.viewState.changeNum !== this._changeNum ||
+          this._patchRange &&
+          this._patchRange.basePatchNum &&
           patchRangeState.basePatchNum !== this._patchRange.basePatchNum ||
+          this._patchRange &&
+          this._patchRange.patchNum &&
           patchRangeState.patchNum !== this._patchRange.patchNum) {
         this._resetFileListViewState();
       }

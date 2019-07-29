@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbbb069f_22f3815b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-07-29T20:42:58Z",
+      "side": 1,
+      "message": "s/peviously/previously/",
+      "range": {
+        "startLine": 22,
+        "startChar": 53,
+        "endLine": 22,
+        "endChar": 62
+      },
+      "revId": "e742d57ce9eb032fb31cfe44f5bb4d1881d24def",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26b2f40e_632b74d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-07-29T20:42:58Z",
+      "side": 1,
+      "message": "This would be clearer if it specified that the tip (as seen by that server) of refs/meta/external-ids is always what is requested. We never expect arbitrary SHA1 values to be requested.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 67
+      },
+      "revId": "e742d57ce9eb032fb31cfe44f5bb4d1881d24def",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1d506b2_bd7d435e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 878,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-07-29T20:42:58Z",
+      "side": 1,
+      "message": "I don\u0027t see a reference to a \"cache GC task\" in the docs and I don\u0027t believe I\u0027m otherwise familiar with it. Can you clarify what that is please?",
+      "range": {
+        "startLine": 878,
+        "startChar": 28,
+        "endLine": 878,
+        "endChar": 45
+      },
+      "revId": "e742d57ce9eb032fb31cfe44f5bb4d1881d24def",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74f88879_14ce6df4",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-07-29T20:42:58Z",
+      "side": 1,
+      "message": "Can the size of this method be reduced? It\u0027s over 100 lines right now.",
+      "range": {
+        "startLine": 110,
+        "startChar": 24,
+        "endLine": 110,
+        "endChar": 28
+      },
+      "revId": "e742d57ce9eb032fb31cfe44f5bb4d1881d24def",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6b5dc54_66db6cdc",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-07-29T20:42:58Z",
+      "side": 1,
+      "message": "Perhaps not for this change, but wouldn\u0027t it be better to just grab any entry from the cache than to rebuild from scratch?\n\nThat might even be a better approach than walking anything at all.",
+      "range": {
+        "startLine": 125,
+        "startChar": 64,
+        "endLine": 126,
+        "endChar": 38
+      },
+      "revId": "e742d57ce9eb032fb31cfe44f5bb4d1881d24def",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41f5bb0c_bc7a22b2",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-07-29T20:42:58Z",
+      "side": 1,
+      "message": "This looks like it could make a good method.",
+      "range": {
+        "startLine": 139,
+        "startChar": 6,
+        "endLine": 160,
+        "endChar": 7
+      },
+      "revId": "e742d57ce9eb032fb31cfe44f5bb4d1881d24def",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79cef4e7_ef5edf72",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-07-29T20:42:58Z",
+      "side": 1,
+      "message": "another method?",
+      "range": {
+        "startLine": 167,
+        "startChar": 6,
+        "endLine": 190,
+        "endChar": 7
+      },
+      "revId": "e742d57ce9eb032fb31cfe44f5bb4d1881d24def",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cd1f461_f1df8600",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-07-29T20:42:58Z",
+      "side": 1,
+      "message": "duplicated line?",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 18
+      },
+      "revId": "e742d57ce9eb032fb31cfe44f5bb4d1881d24def",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb419f50_6a364ec5",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-07-29T20:42:58Z",
+      "side": 1,
+      "message": "Why did this change to 5 minutes?",
+      "range": {
+        "startLine": 38,
+        "startChar": 56,
+        "endLine": 38,
+        "endChar": 57
+      },
+      "revId": "e742d57ce9eb032fb31cfe44f5bb4d1881d24def",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

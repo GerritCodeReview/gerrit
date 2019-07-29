@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb55c730_3199257b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-29T07:46:45Z",
+      "side": 1,
+      "message": "Can you please leave a comment here explaining *why* in Polymer 2 this also contains `modified: true`?\n\nIt\u0027s also a bit harder to see the difference because you use a different property ordering in the two assertions.",
+      "range": {
+        "startLine": 334,
+        "startChar": 49,
+        "endLine": 334,
+        "endChar": 63
+      },
+      "revId": "73f43939a0631cbe4d54bf3130d68ba3197947a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-/**
+d/**
  * @license
  * Copyright (C) 2016 The Android Open Source Project
  *
@@ -573,7 +573,7 @@
        * @param {string=} actionName
        */
     _deleteAndNotify(actionName) {
-      if (this.actions[actionName]) {
+      if (actionName && this.actions[actionName]) {
         delete this.actions[actionName];
         this.notifyPath('actions.' + actionName);
       }

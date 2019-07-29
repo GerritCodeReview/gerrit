@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d45c87c2_5987b25f",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-29T07:55:23Z",
+      "side": 1,
+      "message": "The name is odd - it this function returns true, it will NOT hide, right?",
+      "range": {
+        "startLine": 87,
+        "startChar": 28,
+        "endLine": 87,
+        "endChar": 32
+      },
+      "revId": "0a5753792bb0e497c0247ddac4ee6c8296edf224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

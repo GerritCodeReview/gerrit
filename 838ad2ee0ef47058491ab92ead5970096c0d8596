@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "9a559b74_5d43b114",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-29T07:55:23Z",
+      "side": 1,
+      "message": "What I meant was:\n\n_showLinkAnotherIdentity: {\n  type: Boolean,\n  computed: \u0027_computeShowLinkAnotherIdentity(serverConfig)\u0027,\n},\n\nThat should allow you to do all the same computations you do now, but I wonder if that maybe results in the function being called less? I guess if Polymer is smart it would only call this function when serverConfig changes anyways, but I am not sure it is.",
+      "parentUuid": "5ad00692_8012e861",
+      "range": {
+        "startLine": 87,
+        "startChar": 20,
+        "endLine": 87,
+        "endChar": 51
+      },
+      "revId": "838ad2ee0ef47058491ab92ead5970096c0d8596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2888fd26_2d9c1376",
         "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.js",
         "patchSetId": 9

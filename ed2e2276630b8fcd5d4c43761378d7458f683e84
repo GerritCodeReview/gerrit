@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29917873_23adf06e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-29T18:46:05Z",
+      "side": 0,
+      "message": "Was added in https://github.com/GerritCodeReview/gerrit/commit/cad4bf8108d1dc9d06796043f262cc1fe2362c1d#diff-db6dfa5f174756dab3a9a28ce65718d1R180 but it wasen\u0027t used. I cannot find anywhere in the app that uses this.",
+      "range": {
+        "startLine": 201,
+        "startChar": 0,
+        "endLine": 203,
+        "endChar": 6
+      },
+      "revId": "ed2e2276630b8fcd5d4c43761378d7458f683e84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

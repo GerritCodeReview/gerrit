@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df86d1f9_c7a98977",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-29T07:33:47Z",
+      "side": 1,
+      "message": "Can you please explain a bit more why this became necessary? In which situations can they be undefined? \nReading https://polymer-library.polymer-project.org/2.0/docs/about_20#lifecycle-changes\n\nI think the reason may be Polymer 2:\n\"The observer or computing functions may now receive undefined as an argument value, and needs to handle it correctly.\"\n\nIf this is for Polymer 2, I think it would be good to call that out here.",
+      "revId": "23ae4743d7af491860987af62f1297daf58a8d3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06f267fd_e0c41df5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-29T07:33:47Z",
+      "side": 1,
+      "message": "This was already there, but seems odd - the length of an array should never be negative. I wonder what the intention was here - maybe the save button should be invisible if the current user is not the owner of any repo, so ownerOf.length \u003d\u003d\u003d 0?",
+      "range": {
+        "startLine": 449,
+        "startChar": 24,
+        "endLine": 449,
+        "endChar": 42
+      },
+      "revId": "23ae4743d7af491860987af62f1297daf58a8d3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -198,10 +198,6 @@
       this.reload();
     },
 
-    _computeSelectedTitle(params) {
-      return this.getSelectedTitle(params.view);
-    },
-
     // TODO (beckysiegel): Update these functions after router abstraction is
     // updated. They are currently copied from gr-dropdown (and should be
     // updated there as well once complete).
@@ -228,6 +224,7 @@
      * @param {string=} opt_detailType
      */
     _computeSelectedClass(itemView, params, opt_detailType) {
+      if (!params) return '';
       // Group params are structured differently from admin params. Compute
       // selected differently for groups.
       // TODO(wyatta): Simplify this when all routes work like group params.

@@ -46,6 +46,9 @@ limitations under the License.
      */
     RevisionInfo.prototype.getParentCountMap = function() {
       const result = {};
+      if (!this._change || !this._change.revisions) {
+        return {};
+      }
       Object.values(this._change.revisions)
           .forEach(rev => { result[rev._number] = rev.commit.parents.length; });
       return result;

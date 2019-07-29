@@ -163,6 +163,24 @@
     },
     {
       "key": {
+        "uuid": "3ae565e2_ac54ce08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-29T08:51:34Z",
+      "side": 1,
+      "message": "\u003e not necessarily. if the consensus were that the previous approach was misguided,\n\u003e the natural next step would be to implement a better solution, deprecate the\n\u003e existing functionality, and definitely *not* add instantly deprecated functionality\n\u003e just for consistency.\n\nYes, I agree, but we don\u0027t have this consensus yet.\nYour proposal to have a namespace registry sounds interesting, but it\u0027s a pretty large change that I think should be discussed separately from this change. I think a design doc would be a good format for this, so that this discussion also gets the proper visibility. Would you mind uploading a design for this?\n\n\u003e that is in fact the more critical case, as users are confronted with a situation they\n\u003e cannot do anything about.\n\u003e allowing users to define aliases which override global settings would alleviate the\n\u003e problem to a degree. however, i still maintain that it\u0027s a problem that users shouldn\u0027t\n\u003e have to face to start with. \n\nI agree that it\u0027s an issue that the UX can differ from Gerrit instance to Gerrit instance, and that this is a source of confusion for users that work across multiple Gerrit instances. For sure this is an issue that affects users at Google.\n\nMainly this issue is caused by different sets of installed plugins, that change and add behavior, often by adding custom controls to the UI. Also there are lots of server options which affect behavior quite significantly (e.g. whether topics should be submitted together).\n\nI think this is a price that we pay for customizations. Of course we should always discuss how far  customizability should go, as it contributes to this kind of user confusion, it makes code more complex and makes maintenance a little harder. In this particular case, my opinion is that the overall situation is not getting significantly worse, so I\u0027m fine with supporting query operator aliases, but I also understand if there are different opinions.\n\n\u003e you have UX experts on the team - what do they say?\n\nYes, we have UX experts at Google, but they are rare resources that usually don\u0027t have time to dig into details of individual changes. If we want their input we should write a design doc, which highlights the effects on UX.",
+      "parentUuid": "6e67131d_48b876a7",
+      "revId": "fa773402ae274e8515382b3afdbc2b5e8f1092d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "01bc59ec_a6b3581e",
         "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
         "patchSetId": 8

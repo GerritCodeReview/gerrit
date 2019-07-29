@@ -311,7 +311,7 @@
     _computeCommands(repo, schemesObj, _selectedScheme) {
       const commands = [];
       let commandObj;
-      if (schemesObj.hasOwnProperty(_selectedScheme)) {
+      if (schemesObj && schemesObj.hasOwnProperty(_selectedScheme)) {
         commandObj = schemesObj[_selectedScheme].clone_commands;
       }
       for (const title in commandObj) {

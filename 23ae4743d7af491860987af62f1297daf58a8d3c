@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d2e9184e_82a3d583",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-29T13:59:16Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "df86d1f9_c7a98977",
+      "revId": "23ae4743d7af491860987af62f1297daf58a8d3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "06f267fd_e0c41df5",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.js",
         "patchSetId": 3
@@ -39,6 +57,30 @@
       "revId": "23ae4743d7af491860987af62f1297daf58a8d3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d99ce7b_f63b8cad",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-29T13:59:16Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "06f267fd_e0c41df5",
+      "range": {
+        "startLine": 449,
+        "startChar": 24,
+        "endLine": 449,
+        "endChar": 42
+      },
+      "revId": "23ae4743d7af491860987af62f1297daf58a8d3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

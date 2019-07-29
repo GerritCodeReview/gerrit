@@ -22,6 +22,30 @@
       "revId": "e80843d620533ab09ce18d2d21647fbefa1ccc5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ce1cdcf_a0820425",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-29T13:54:46Z",
+      "side": 1,
+      "message": "Nope, i doin\u0027t think so at the moment because it does a dom-repeat here https://github.com/GerritCodeReview/gerrit/blob/3604e820a98a5dd486aa60a8cf2b835f826071e1/polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.html#L121 so if that is undefined, it\u0027ll not even get to gr-permission (as dom-repeat only supports going over arrays).\n\n_sortPermission is only called by the \"permission\" property as an observer.",
+      "parentUuid": "d46a69e7_1efc2a31",
+      "range": {
+        "startLine": 159,
+        "startChar": 20,
+        "endLine": 159,
+        "endChar": 30
+      },
+      "revId": "e80843d620533ab09ce18d2d21647fbefa1ccc5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

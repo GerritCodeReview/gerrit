@@ -90,11 +90,10 @@
     },
 
     _hideNextArrow(loading, items) {
-      let lastPage = false;
-      if (items.length < this.itemsPerPage + 1) {
-        lastPage = true;
+      if (loading || !items || !items.length) {
+        return true;
       }
-      return loading || lastPage || !items || !items.length;
+      return items.length < this.itemsPerPage + 1;
     },
   });
 })();

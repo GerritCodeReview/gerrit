@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ed640ed_c661fb9d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/HashtagsInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-07-29T08:31:10Z",
+      "side": 1,
+      "message": "Re-use the existing ctor?\n\n  this(add);",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 19
+      },
+      "revId": "c0dca16837d23449068740dbbdae19614f884a82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

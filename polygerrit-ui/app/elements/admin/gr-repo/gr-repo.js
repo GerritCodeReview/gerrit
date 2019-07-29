@@ -309,6 +309,9 @@
     },
 
     _computeCommands(repo, schemesObj, _selectedScheme) {
+      if (!schemesObj || !repo || !_selectedScheme) {
+        return [];
+      }
       const commands = [];
       let commandObj;
       if (schemesObj.hasOwnProperty(_selectedScheme)) {

@@ -609,7 +609,7 @@
        * @param {string=} actionName
        */
     _deleteAndNotify(actionName) {
-      if (this.actions[actionName]) {
+      if (this.actions && this.actions[actionName]) {
         delete this.actions[actionName];
         // We assign a fake value of 'false' to support Polymer 2
         // see https://github.com/Polymer/polymer/issues/2631
@@ -627,7 +627,7 @@
         this._deleteAndNotify('edit');
         return;
       }
-      if (editPatchsetLoaded) {
+      if (this.actions && editPatchsetLoaded) {
         // Only show actions that mutate an edit if an actual edit patch set
         // is loaded.
         if (this.changeIsOpen(this.change)) {
@@ -652,7 +652,7 @@
         this._deleteAndNotify('deleteEdit');
       }
 
-      if (this.changeIsOpen(this.change)) {
+      if (this.actions && this.changeIsOpen(this.change)) {
         // Only show edit button if there is no edit patchset loaded and the
         // file list is not in edit mode.
         if (editPatchsetLoaded || editMode) {

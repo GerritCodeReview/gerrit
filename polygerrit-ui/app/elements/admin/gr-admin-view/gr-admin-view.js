@@ -198,10 +198,6 @@
       this.reload();
     },
 
-    _computeSelectedTitle(params) {
-      return this.getSelectedTitle(params.view);
-    },
-
     // TODO (beckysiegel): Update these functions after router abstraction is
     // updated. They are currently copied from gr-dropdown (and should be
     // updated there as well once complete).
@@ -231,24 +227,24 @@
       // Group params are structured differently from admin params. Compute
       // selected differently for groups.
       // TODO(wyatta): Simplify this when all routes work like group params.
-      if (params.view === Gerrit.Nav.View.GROUP &&
+      if (params && params.view === Gerrit.Nav.View.GROUP &&
           itemView === Gerrit.Nav.View.GROUP) {
         if (!params.detail && !opt_detailType) { return 'selected'; }
         if (params.detail === opt_detailType) { return 'selected'; }
         return '';
       }
 
-      if (params.view === Gerrit.Nav.View.REPO &&
+      if (params && params.view === Gerrit.Nav.View.REPO &&
           itemView === Gerrit.Nav.View.REPO) {
         if (!params.detail && !opt_detailType) { return 'selected'; }
         if (params.detail === opt_detailType) { return 'selected'; }
         return '';
       }
 
-      if (params.detailType && params.detailType !== opt_detailType) {
+      if (params && params.detailType && params.detailType !== opt_detailType) {
         return '';
       }
-      return itemView === params.adminView ? 'selected' : '';
+      return params && itemView === params.adminView ? 'selected' : '';
     },
 
     _computeGroupName(groupId) {

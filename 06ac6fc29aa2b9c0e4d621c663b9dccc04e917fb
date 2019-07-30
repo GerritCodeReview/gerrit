@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "a799df57_290218ef",
+        "filename": "polygerrit-ui/app/elements/shared/revision-info/revision-info.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-30T13:40:52Z",
+      "side": 1,
+      "message": "Ok, thanks! (I\u0027ll keep as is)",
+      "parentUuid": "3ed026b1_56410cb4",
+      "revId": "06ac6fc29aa2b9c0e4d621c663b9dccc04e917fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9480981c_86f99b1c",
         "filename": "polygerrit-ui/app/elements/shared/revision-info/revision-info.html",
         "patchSetId": 2
@@ -136,6 +154,24 @@
       "side": 1,
       "message": "Compare object\\array with string is not good. \n\nYou can do something like this:\nconst rev \u003d....;\nif(!rev) {\n    return undefined;\n    //Or return \u0027\u0027 - don\u0027t know what is better in this case.\n}\n\nBut if it is not real-life use-case, lets keep it as is.",
       "parentUuid": "9480981c_86f99b1c",
+      "revId": "06ac6fc29aa2b9c0e4d621c663b9dccc04e917fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfcf15b1_1cc8a0b8",
+        "filename": "polygerrit-ui/app/elements/shared/revision-info/revision-info.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-30T13:40:52Z",
+      "side": 1,
+      "message": "Ok, thanks! (I\u0027ll keep as is)",
+      "parentUuid": "0c36dd17_ff86531f",
       "revId": "06ac6fc29aa2b9c0e4d621c663b9dccc04e917fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

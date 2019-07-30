@@ -51,6 +51,58 @@
       "revId": "06ac6fc29aa2b9c0e4d621c663b9dccc04e917fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4097bd56_1cddada4",
+        "filename": "polygerrit-ui/app/elements/shared/revision-info/revision-info.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-30T13:10:51Z",
+      "side": 1,
+      "message": "Great idea, thanks, done!",
+      "parentUuid": "afbed7f2_3705f211",
+      "revId": "06ac6fc29aa2b9c0e4d621c663b9dccc04e917fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f14068e0_de515718",
+        "filename": "polygerrit-ui/app/elements/shared/revision-info/revision-info.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-30T13:10:51Z",
+      "side": 1,
+      "message": "Should this be this.getParentCountMap() \u003d\u003d\u003d \u0027{}\u0027 ? 0 : this.getParentCountMap()[patchNum]?",
+      "revId": "06ac6fc29aa2b9c0e4d621c663b9dccc04e917fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9480981c_86f99b1c",
+        "filename": "polygerrit-ui/app/elements/shared/revision-info/revision-info.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-30T13:10:51Z",
+      "side": 1,
+      "message": "Should this have a\n\nif (this._change.revisions \u003d\u003d\u003d \u0027[]\u0027)  {\n  return \u0027\u0027;\n}?",
+      "revId": "06ac6fc29aa2b9c0e4d621c663b9dccc04e917fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70c53409_978ae0e9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-07-30T14:49:51Z",
+      "side": 1,
+      "message": "It seems, the method itself has some problems and it works only with _legacyUndefinedCheck: true or in Polymer 1.\n\nThe method is used here (in gr-access-section.html):\n[[_computePermissions(section.id, capabilities, labels, section.value.permissions.*)]]\n\nIf I am not mistaken, in legacy mode this method is called only when all properties are assigned (section, capabilities, labels). But with Polymer 2 it can be called multiple times.\n\nAlso, the return value of this method depends on the this.section value. This value is also loaded asynchronous, so _computePermissions should be called after this.section has been updated.",
+      "revId": "1e12e8327e9c6935e77b11051d664d739f70cfa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5116c068_ec5093be",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-07-30T13:11:44Z",
+      "side": 1,
+      "message": "The items is checked twice in this function - in the if statement and in the return statement (!items).\nI suggest to move this check to the top and refactor this function a little bit:\n_hideNextArrow(loading, items) {\n  if(loading || !items || !items.length) {\n    return true;\n  }\n  const lastPage \u003d items.length \u003c this.itemsPerPage + 1;\n  return lastPage;\n}",
+      "revId": "7c6b74bc244f80dc8e6f9ea1d343bf17170f86cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

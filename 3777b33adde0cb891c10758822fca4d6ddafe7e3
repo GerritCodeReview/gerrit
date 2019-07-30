@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "500b89dc_76a3af83",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2019-07-30T14:17:24Z",
+      "side": 1,
+      "message": "But this is g,i. Not i alone.",
+      "parentUuid": "7339dc8c_2b608ece",
+      "range": {
+        "startLine": 186,
+        "startChar": 60,
+        "endLine": 186,
+        "endChar": 61
+      },
+      "revId": "3777b33adde0cb891c10758822fca4d6ddafe7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "adb1895f_99b4829f",
         "filename": "polygerrit-ui/app/elements/gr-app.js",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2019-07-30T14:14:19Z",
       "side": 1,
       "message": "This is a bit suboptimal because \"Watched Changes\" is not a hard coded link - it comes from user preferences, and may or may not be there. This means that if someone customizes their query in the settings, you will not pick this up here, but instead go to this hard coded query. \nI think the cleaner solution would be to add a configuration field to those links to assign a shortcut, and then load that from settings. On the other hand this makes it much more complicated because that form will have to check that there are no shortcut conflicts etc. etc.\nMaybe a middle ground would be to bind this shortcut in gr-main-header where the menu is loaded from preferences, and then only bind it if there is a menu point called \"Watched Changes\" and use the query configured there?",
+      "revId": "3777b33adde0cb891c10758822fca4d6ddafe7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f30153be_ab1a234e",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2019-07-30T14:17:24Z",
+      "side": 1,
+      "message": "That\u0027s how it worked in the old UI. Did anyone ever complain about it?",
+      "parentUuid": "adb1895f_99b4829f",
       "revId": "3777b33adde0cb891c10758822fca4d6ddafe7e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

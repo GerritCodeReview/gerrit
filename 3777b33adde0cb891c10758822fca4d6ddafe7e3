@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f49bd2a7_300feb1c",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-30T14:30:05Z",
+      "side": 1,
+      "message": "I see, I overlooked that. Thanks.",
+      "parentUuid": "500b89dc_76a3af83",
+      "range": {
+        "startLine": 186,
+        "startChar": 60,
+        "endLine": 186,
+        "endChar": 61
+      },
+      "revId": "3777b33adde0cb891c10758822fca4d6ddafe7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "adb1895f_99b4829f",
         "filename": "polygerrit-ui/app/elements/gr-app.js",
         "patchSetId": 3
@@ -78,6 +102,24 @@
       "side": 1,
       "message": "That\u0027s how it worked in the old UI. Did anyone ever complain about it?",
       "parentUuid": "adb1895f_99b4829f",
+      "revId": "3777b33adde0cb891c10758822fca4d6ddafe7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b84f8dc2_79c161cc",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-30T14:30:05Z",
+      "side": 1,
+      "message": "I don\u0027t know - I do not have enough context about the old UI to know if it also used user configured menus and what not. I see the new UI as an opportunity to improve things. I admit that the full on \"customizable shortcuts\" approach is making this prohibitively expensive. The alternative I suggested on the other hand should be relatively straight forwards: Probably max 5 lines here: https://gerrit.googlesource.com/gerrit/+/refs/heads/master/polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js#280\n\nDo you have any concerns about that solution, or do you think it\u0027s harder than what I estimate?",
+      "parentUuid": "f30153be_ab1a234e",
       "revId": "3777b33adde0cb891c10758822fca4d6ddafe7e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -123,6 +123,24 @@
       "revId": "3777b33adde0cb891c10758822fca4d6ddafe7e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8e05e09_54c6ca19",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2019-07-30T14:33:20Z",
+      "side": 1,
+      "message": "The name can be different when users can customize it. In my menu it is just \"Watched\". I suppose that users might even translate this entry to their own language there?",
+      "parentUuid": "b84f8dc2_79c161cc",
+      "revId": "3777b33adde0cb891c10758822fca4d6ddafe7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

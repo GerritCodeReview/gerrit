@@ -648,6 +648,30 @@
     },
     {
       "key": {
+        "uuid": "84a69e97_4fb4c5f4",
+        "filename": "java/com/google/gerrit/reviewdb/client/Project.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-30T14:18:53Z",
+      "side": 1,
+      "message": "If null is not allowed, maybe use Objects.requireNonNull(notifyIds) to ensure this?",
+      "parentUuid": "6b3977bf_ef92b63d",
+      "range": {
+        "startLine": 257,
+        "startChar": 8,
+        "endLine": 257,
+        "endChar": 17
+      },
+      "revId": "7208e849f7bcbd20569b08f9059317335901449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6dc033e7_08b939f8",
         "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
         "patchSetId": 6
@@ -677,6 +701,24 @@
       "side": 1,
       "message": "How can we check if an email is well formed? I just checked it has @ and . somewhere in there.\nNot sure what kind of test do I need for filters.\nI think it\u0027s not mandatory to even put an email/group inside the config, so I didn\u0027t check if the notifyConfigInfo has any groups/emails inside.",
       "parentUuid": "6dc033e7_08b939f8",
+      "revId": "7208e849f7bcbd20569b08f9059317335901449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9addc78c_08030ce0",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-30T14:18:53Z",
+      "side": 1,
+      "message": "\u003e How can we check if an email is well formed? I just checked it has @ and . somewhere in there.\n\nYes, that\u0027s the minimum check that should be done. But you do not need to implement this yourself. You can get OutgoingEmailValidator injected for this and then call its isValid method.\n\nIf the caller tries to specify an invalid email, the request should be rejected with \u0027400 Bad Request\u0027.\n\n\u003e Not sure what kind of test do I need for filters.\n\nIt should be checked that the query that is specified in the filter is parseable and that it doesn\u0027t contain unknown query operators. I think you can verify this by passing the filter to ChangeQueryBuilder.parse(String) and see that this doesn\u0027t throw a QueryParseException. A special valid case for filter might be \u0027*\u0027. I think that case would need to be whitelisted manually.\n\n\u003e I think it\u0027s not mandatory to even put an email/group inside the config,\n\u003e so I didn\u0027t check if the notifyConfigInfo has any groups/emails inside.\n\nI\u0027m not sure I understand this. Can you please explain your question a bit more?",
+      "parentUuid": "ab0f9511_aee328c3",
       "revId": "7208e849f7bcbd20569b08f9059317335901449e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

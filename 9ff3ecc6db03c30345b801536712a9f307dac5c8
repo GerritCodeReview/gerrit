@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "82d4f29a_b2fa9b90",
+        "filename": "java/com/google/gerrit/server/restapi/project/GetGroup.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-30T14:18:53Z",
+      "side": 1,
+      "message": "Missing license header",
+      "revId": "9ff3ecc6db03c30345b801536712a9f307dac5c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e7fc6a4_00c12cf7",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-30T14:18:53Z",
+      "side": 1,
+      "message": "Should be final",
+      "revId": "9ff3ecc6db03c30345b801536712a9f307dac5c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

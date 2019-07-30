@@ -367,12 +367,12 @@ limitations under the License.
         this._checkPatchRange(opt_patchNum, opt_basePatchNum);
         return this._getUrlFor({
           view: Gerrit.Nav.View.CHANGE,
-          changeNum: change._number,
-          project: change.project,
+          changeNum: change ? change._number : undefined,
+          project: change ? change.project : undefined,
           patchNum: opt_patchNum,
           basePatchNum: opt_basePatchNum,
           edit: opt_isEdit,
-          host: change.internalHost || undefined,
+          host: change ? change.internalHost || undefined : undefined,
           messageHash: opt_messageHash,
         });
       },
@@ -414,8 +414,9 @@ limitations under the License.
        * @return {string}
        */
       getUrlForDiff(change, path, opt_patchNum, opt_basePatchNum, opt_lineNum) {
-        return this.getUrlForDiffById(change._number, change.project, path,
-            opt_patchNum, opt_basePatchNum, opt_lineNum);
+        return this.getUrlForDiffById(change ? change._number : undefined,
+            change ? change.project : undefined, path, opt_patchNum,
+            opt_basePatchNum, opt_lineNum);
       },
 
       /**
@@ -455,8 +456,8 @@ limitations under the License.
        * @return {string}
        */
       getEditUrlForDiff(change, path, opt_patchNum) {
-        return this.getEditUrlForDiffById(change._number, change.project, path,
-            opt_patchNum);
+        return this.getEditUrlForDiffById(change ? change._number : undefined,
+            change ? change.project : undefined, path, opt_patchNum);
       },
 
       /**

@@ -34,6 +34,23 @@
       "revId": "06ac6fc29aa2b9c0e4d621c663b9dccc04e917fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "afbed7f2_3705f211",
+        "filename": "polygerrit-ui/app/elements/shared/revision-info/revision-info.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-07-30T13:04:36Z",
+      "side": 1,
+      "message": "In this file, the this._change is assigned only once - inside RevisionInfo function. At the same time, there are multiple places with access to sub-properties of this._change\n\nIt might be better to assign correct object in RevisionInfo function. \nSomething like this:\nthis._change \u003d change ? change : {};\nif(!this._change.revisions) {\n   this._change.revisions \u003d [];\n}",
+      "revId": "06ac6fc29aa2b9c0e4d621c663b9dccc04e917fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

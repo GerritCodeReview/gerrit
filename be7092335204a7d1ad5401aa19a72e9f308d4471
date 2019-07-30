@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c050c84a_0cf267c2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-07-30T14:21:44Z",
+      "side": 1,
+      "message": "Ok, but I prefer to keep variable lastPage:\nconst lastPage \u003d items.length \u003c this.itemsPerPage + 1;\nreturn lastPage;\n\nThe variable name explains the condition, otherwise it can be hard to understand it.",
+      "revId": "be7092335204a7d1ad5401aa19a72e9f308d4471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

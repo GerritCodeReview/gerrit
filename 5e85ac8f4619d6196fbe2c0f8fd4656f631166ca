@@ -69,6 +69,30 @@
       "revId": "5e85ac8f4619d6196fbe2c0f8fd4656f631166ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b41c603f_9cfb8d99",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2019-07-30T14:51:21Z",
+      "side": 1,
+      "message": "It doesn\u0027t look like this value can ever be undefined. We have a running setup with a textless label, and the value is an empty string, not undefined.\n\nIt looks like this possibility was just overlooked. I doubt anyone actually intended for the UI to get broken when you have a label without text.\n\nI think the current proposal (PS3) nicely covers the unlikely undefined case, and still provides a usable UI.\n\nI\u0027m not even sure if it\u0027s that bad to have text: undefined (PS1, assuming value can be undefined). What would happen on this case?",
+      "parentUuid": "99a92abc_29e1e80e",
+      "range": {
+        "startLine": 199,
+        "startChar": 41,
+        "endLine": 199,
+        "endChar": 48
+      },
+      "revId": "5e85ac8f4619d6196fbe2c0f8fd4656f631166ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f95474e_f0305e56",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-07-30T13:49:29Z",
+      "side": 1,
+      "message": "Is it possible, that repo and/or _selectedScheme are undefined?",
+      "revId": "97a2f60474e94a0406a754459a6c34c3eacf7496",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -45,6 +45,30 @@
       "revId": "5e85ac8f4619d6196fbe2c0f8fd4656f631166ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99a92abc_29e1e80e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-30T14:36:25Z",
+      "side": 1,
+      "message": "Orgad: How about this?\n\nOle:\nTo be honest, I am not sure. Without types or comments from the previous implementor, I do not know in which cases this can be undefined or null, I do not know what the intended behavior was etc. \n\nIn this situation, maybe it is safer to go for the smallest change in behavior that solves the issue you have at hand, which to me would be \n\n if (values[key] \u003d\u003d undefined) { return undefined; }\n\nAnd everything else the same. The change from \"!x\" to \"x \u003d\u003d undefined\" excludes only the empty string \"\" from the condition. The \"return;\" to \"return undefined;\" is not a behavior change, it\u0027s purpose is only to make it explicit that this method which usually returning a value, returns undefined in this specific case.\n\nSorry for suggesting the continue here first - that may still be a good idea but it\u0027s hard to tell and so maybe it\u0027s safer not to.",
+      "parentUuid": "9d2d415e_46378519",
+      "range": {
+        "startLine": 199,
+        "startChar": 41,
+        "endLine": 199,
+        "endChar": 48
+      },
+      "revId": "5e85ac8f4619d6196fbe2c0f8fd4656f631166ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -2445,40 +2445,6 @@ command can be used.
 Disabled plugins can be re-enabled using the
 link:cmd-plugin-enable.html[plugin enable] command.
 
-== Known issues and bugs
-
-=== Error handling in UI when using the REST API
-
-When a plugin invokes a REST endpoint in the UI, it provides an
-`AsyncCallback` to handle the result. At the moment the
-`onFailure(Throwable)` of the callback is never invoked, even if there
-is an error. Errors are always handled by the Gerrit core UI which
-shows the error dialog. This means currently plugins cannot do any
-error handling and e.g. ignore expected errors.
-
-In the following example the REST endpoint would return '404 Not
-Found' if the user has no username and the Gerrit core UI would
-display an error dialog for this. However having no username is
-not an error and the plugin may like to handle this case.
-
-[source,java]
-----
-new RestApi("accounts").id("self").view("username")
-    .get(new AsyncCallback<NativeString>() {
-
-  @Override
-  public void onSuccess(NativeString username) {
-    // TODO
-  }
-
-  @Override
-  public void onFailure(Throwable caught) {
-    // never invoked
-  }
-});
-----
-
-
 [[reviewer-suggestion]]
 == Reviewer Suggestion Plugins
 

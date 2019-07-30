@@ -52,6 +52,24 @@
       "revId": "1b5d47a978b77431050fb47a9f342dccd82bf3f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1f7c368_778fb1dd",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2019-07-30T10:55:49Z",
+      "side": 0,
+      "message": "I gave up :)\n\nI think the typeof idiom is only needed for raw variables, not for hash values. Right?",
+      "parentUuid": "acddc6f6_46d47283",
+      "revId": "1b5d47a978b77431050fb47a9f342dccd82bf3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

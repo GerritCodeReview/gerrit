@@ -575,7 +575,7 @@
     _deleteAndNotify(actionName) {
       if (this.actions[actionName]) {
         delete this.actions[actionName];
-        this.notifyPath('actions.' + actionName);
+        this.notifyPath('actions.' + actionName, false);
       }
     },
 

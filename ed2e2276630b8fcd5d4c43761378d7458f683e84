@@ -22,6 +22,30 @@
       "revId": "ed2e2276630b8fcd5d4c43761378d7458f683e84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03d08bb8_4b91038a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-30T06:19:04Z",
+      "side": 0,
+      "message": "And getSelectedTitle also does not seem to exist. Okay, let\u0027s remove this.",
+      "parentUuid": "29917873_23adf06e",
+      "range": {
+        "startLine": 201,
+        "startChar": 0,
+        "endLine": 203,
+        "endChar": 6
+      },
+      "revId": "ed2e2276630b8fcd5d4c43761378d7458f683e84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

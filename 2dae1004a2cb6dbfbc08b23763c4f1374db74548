@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4e1c522_f165dcef",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-30T06:19:04Z",
+      "side": 1,
+      "message": "Nit: I would prefer to add a \n\nif (!params) return \u0027\u0027;\n\nat the very beginning of the function - makes it more obvious.",
+      "revId": "2dae1004a2cb6dbfbc08b23763c4f1374db74548",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

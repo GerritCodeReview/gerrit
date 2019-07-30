@@ -16,6 +16,24 @@
       "revId": "1e12e8327e9c6935e77b11051d664d739f70cfa5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5799eeef_8b38ce0b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-30T15:00:46Z",
+      "side": 1,
+      "message": "How would we get to load _computePermissions after this.section has been updated?\n\nAlso the tests pass under Polymer 2 (with this change it passes when removing _legacyUndefinedCheck).",
+      "parentUuid": "70c53409_978ae0e9",
+      "revId": "1e12e8327e9c6935e77b11051d664d739f70cfa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

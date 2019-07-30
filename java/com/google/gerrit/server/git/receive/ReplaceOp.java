@@ -481,11 +481,7 @@ public class ReplaceOp implements BatchUpdateOp {
     change.setCurrentPatchSet(info);
 
     List<String> idList = commit.getFooterLines(CHANGE_ID);
-    if (idList.isEmpty()) {
-      change.setKey(Change.key("I" + commitId.name()));
-    } else {
-      change.setKey(Change.key(idList.get(idList.size() - 1).trim()));
-    }
+    change.setKey(Change.key(idList.get(idList.size() - 1).trim()));
   }
 
   private List<Comment> publishComments(ChangeContext ctx, boolean workInProgress) {

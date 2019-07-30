@@ -16,6 +16,24 @@
       "revId": "97a2f60474e94a0406a754459a6c34c3eacf7496",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3518351b_2e108a59",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-30T13:57:36Z",
+      "side": 1,
+      "message": "I wouldn\u0027t think repo would return undefined here. Also possibly _selectedScheme could return undefined.\n\nBut the tests passed under Polymer 2 when i removed _legacyUndefinedCheck. So appears that it dosen\u0027t return undefined (at least in the tests).",
+      "parentUuid": "8f95474e_f0305e56",
+      "revId": "97a2f60474e94a0406a754459a6c34c3eacf7496",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -672,6 +672,30 @@
     },
     {
       "key": {
+        "uuid": "8184e827_9f79a704",
+        "filename": "java/com/google/gerrit/reviewdb/client/Project.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-31T15:02:47Z",
+      "side": 1,
+      "message": "Done, didn\u0027t need this function in the end.",
+      "parentUuid": "84a69e97_4fb4c5f4",
+      "range": {
+        "startLine": 257,
+        "startChar": 8,
+        "endLine": 257,
+        "endChar": 17
+      },
+      "revId": "7208e849f7bcbd20569b08f9059317335901449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6dc033e7_08b939f8",
         "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
         "patchSetId": 6
@@ -722,6 +746,24 @@
       "revId": "7208e849f7bcbd20569b08f9059317335901449e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1187ba74_f2378dfa",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-07-31T15:02:47Z",
+      "side": 1,
+      "message": "I meant that users could send an empty notifyConfig with no emails or groups, as asked in person, this should be rejected as well - done.",
+      "parentUuid": "9addc78c_08030ce0",
+      "revId": "7208e849f7bcbd20569b08f9059317335901449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

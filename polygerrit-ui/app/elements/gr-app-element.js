@@ -78,7 +78,11 @@
         computed: '_computePluginScreenName(params)',
       },
       _settingsUrl: String,
-      _feedbackUrl: String,
+      _feedbackUrl: {
+        type: String,
+        value: 'https://bugs.chromium.org/p/gerrit/issues/entry' +
+          '?template=PolyGerrit%20Issue',
+      },
       // Used to allow searching on mobile
       mobileSearch: {
         type: Boolean,
@@ -436,14 +440,6 @@
 
     _mobileSearchToggle(e) {
       this.mobileSearch = !this.mobileSearch;
-    },
-
-    _showFeedbackUrl(feedbackUrl) {
-      if (feedbackUrl) {
-        return feedbackUrl;
-      }
-
-      return false;
     },
   });
 })();

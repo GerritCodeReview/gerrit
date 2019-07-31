@@ -10,6 +10,7 @@ polygerrit_bundle(
         [
             "**/*.html",
             "**/*.js",
+            "**/*.js.map",
         ],
         exclude = [
             "bower_components/**",

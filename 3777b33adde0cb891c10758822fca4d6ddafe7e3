@@ -177,6 +177,24 @@
       "revId": "3777b33adde0cb891c10758822fca4d6ddafe7e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7468c9e4_834f558a",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2019-07-31T07:14:48Z",
+      "side": 1,
+      "message": "Done. Regarding menu entries, maybe introduce g,1 for the 1st entry, g,2 for the 2nd entry etc.?",
+      "parentUuid": "e9f8955d_756c3278",
+      "revId": "3777b33adde0cb891c10758822fca4d6ddafe7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

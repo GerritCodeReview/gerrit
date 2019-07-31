@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "257d33d3_ffb16b47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-31T02:56:03Z",
+      "side": 1,
+      "message": "The commit message should be more specific.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 17
+      },
+      "revId": "abc84934d781ea4bcbf370b842d273af730227ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cd0b954_4d77e494",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-31T02:56:03Z",
+      "side": 1,
+      "message": "I suspect there are more parts of this document that need to be updated since we moved from GWT to Polymer. Most notably, the inline editing is only available when the codemirror-editor plugin is installed.",
+      "revId": "abc84934d781ea4bcbf370b842d273af730227ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

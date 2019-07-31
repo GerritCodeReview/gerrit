@@ -34,6 +34,24 @@
       "revId": "97a2f60474e94a0406a754459a6c34c3eacf7496",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f77b079_922dd2ee",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-31T13:35:01Z",
+      "side": 1,
+      "message": "I\u0027ve gone with an if check that checks to see if schemesObj, repo and _selectedScheme are undefined, if they are it returns [].",
+      "parentUuid": "3518351b_2e108a59",
+      "revId": "97a2f60474e94a0406a754459a6c34c3eacf7496",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

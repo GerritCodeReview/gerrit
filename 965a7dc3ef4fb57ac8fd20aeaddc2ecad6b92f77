@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d87a4a13_8fca0de0",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-07-31T11:28:13Z",
+      "side": 1,
+      "message": "looks like it can be static?",
+      "range": {
+        "startLine": 215,
+        "startChar": 2,
+        "endLine": 215,
+        "endChar": 9
+      },
+      "revId": "965a7dc3ef4fb57ac8fd20aeaddc2ecad6b92f77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

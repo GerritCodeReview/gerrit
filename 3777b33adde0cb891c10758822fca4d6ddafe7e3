@@ -159,6 +159,24 @@
       "revId": "3777b33adde0cb891c10758822fca4d6ddafe7e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9f8955d_756c3278",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-31T07:07:01Z",
+      "side": 1,
+      "message": "@David, yes, that would be the cleaner solution, but as you say, much more work.\n\n@Orgad: I see, basically you are trading one problem (custom query not respected) for another one (custom name does not work). \n\nIn the interest of moving this forward, I\u0027d say let\u0027s leave it as is for now. We can make this customizable later.\n\nHowever, can you please add a comment here in the code pointing out the potential issue that this does not use the customized query? Thanks.",
+      "parentUuid": "34933452_250c4c8c",
+      "revId": "3777b33adde0cb891c10758822fca4d6ddafe7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

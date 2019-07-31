@@ -26,4 +26,9 @@ public class HashtagsInput {
   public HashtagsInput(Set<String> add) {
     this.add = add;
   }
+
+  public HashtagsInput(Set<String> add, Set<String> remove) {
+    this(add);
+    this.remove = remove;
+  }
 }

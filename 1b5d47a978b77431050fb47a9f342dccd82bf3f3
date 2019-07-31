@@ -70,6 +70,24 @@
       "revId": "1b5d47a978b77431050fb47a9f342dccd82bf3f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b326c579_c20822fb",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-31T09:41:38Z",
+      "side": 0,
+      "message": "The typeof \u0027undefined\u0027 check is very rare in the Polygerrit code base (3 occurrences). I don\u0027t think we should start this sort of \"hedging against someone reassigning undefined\" here. I think the current solution is fine.",
+      "parentUuid": "c1f7c368_778fb1dd",
+      "revId": "1b5d47a978b77431050fb47a9f342dccd82bf3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

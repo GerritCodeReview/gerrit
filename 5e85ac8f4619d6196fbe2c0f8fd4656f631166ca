@@ -93,6 +93,54 @@
       "revId": "5e85ac8f4619d6196fbe2c0f8fd4656f631166ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccdec536_6b816955",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-31T09:41:38Z",
+      "side": 1,
+      "message": "Okay, let\u0027s try it and see if this case occurs.",
+      "parentUuid": "b41c603f_9cfb8d99",
+      "range": {
+        "startLine": 199,
+        "startChar": 41,
+        "endLine": 199,
+        "endChar": 48
+      },
+      "revId": "5e85ac8f4619d6196fbe2c0f8fd4656f631166ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73c860c9_81a28faa",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-31T09:41:38Z",
+      "side": 1,
+      "message": "Obsolete.",
+      "parentUuid": "b9f4847f_da5adf3c",
+      "range": {
+        "startLine": 199,
+        "startChar": 24,
+        "endLine": 199,
+        "endChar": 37
+      },
+      "revId": "5e85ac8f4619d6196fbe2c0f8fd4656f631166ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.base.Strings;
@@ -448,8 +449,10 @@ public class AccountManager {
             "Delete External IDs on Update Link",
             to,
             (a, u) -> {
-              Collection<ExternalId> filteredExtIdsByScheme =
-                  a.getExternalIds(who.getExternalIdKey().scheme());
+              Set<ExternalId> filteredExtIdsByScheme =
+                  a.getExternalIds().stream()
+                      .filter(e -> e.key().isScheme(who.getExternalIdKey().scheme()))
+                      .collect(toImmutableSet());
               if (filteredExtIdsByScheme.isEmpty()) {
                 return;
               }

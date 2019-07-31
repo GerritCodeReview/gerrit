@@ -52,6 +52,24 @@
       "revId": "97a2f60474e94a0406a754459a6c34c3eacf7496",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17370dbc_3dbb3a7e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-07-31T14:32:28Z",
+      "side": 1,
+      "message": "As I can see, repo and schemesObj are loaded asynchronous (not sure about _selectedScheme). After removing _legacyUndefinedCheck from this element, the _computeCommands can be called when only one of 2 properties is loaded.\nI don\u0027t think, that tests cover such cases, because in the polymer v1 this was not a problem.",
+      "parentUuid": "3518351b_2e108a59",
+      "revId": "97a2f60474e94a0406a754459a6c34c3eacf7496",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -195,6 +195,24 @@
       "revId": "3777b33adde0cb891c10758822fca4d6ddafe7e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cad1831_56aa7b7f",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-07-31T07:29:09Z",
+      "side": 1,
+      "message": "Interesting idea. We might want one more key to tie it to the user configured menu and not to the others. Anyways, not something I have time for immediately, but maybe an idea for the future if people request it.",
+      "parentUuid": "7468c9e4_834f558a",
+      "revId": "3777b33adde0cb891c10758822fca4d6ddafe7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -141,6 +141,24 @@
       "revId": "3777b33adde0cb891c10758822fca4d6ddafe7e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34933452_250c4c8c",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-31T04:37:52Z",
+      "side": 1,
+      "message": "Users might even completely remove the \"Watched\" entry from the custom menu (I have done that) because they don\u0027t use the watch feature.\n\nIt might be nice to allow mapping custom shortcuts to custom menu entries, although this would be a more invasive change and also require backend modifications.",
+      "parentUuid": "a8e05e09_54c6ca19",
+      "revId": "3777b33adde0cb891c10758822fca4d6ddafe7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

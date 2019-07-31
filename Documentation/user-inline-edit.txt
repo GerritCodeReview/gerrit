@@ -72,7 +72,7 @@ base.
 
 To add a file to the change:
 
-. In the top left corner of the change, click Edit.
+. In the top right corner of the change, click Edit.
 . Next to Files, click Open:
 
 +

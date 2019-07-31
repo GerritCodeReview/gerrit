@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "d2e82eac_d54a50d4",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-31T11:48:05Z",
+      "side": 1,
+      "message": "nit: one space too much",
+      "range": {
+        "startLine": 119,
+        "startChar": 83,
+        "endLine": 119,
+        "endChar": 85
+      },
+      "revId": "965a7dc3ef4fb57ac8fd20aeaddc2ecad6b92f77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53ff18d5_dca7009d",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-31T11:48:05Z",
+      "side": 1,
+      "message": "Maybe rephrase this a bit, we didn\u0027t fail in the sense that there was an error, the value was just not available in the cache (which is not a failure).",
+      "range": {
+        "startLine": 119,
+        "startChar": 10,
+        "endLine": 119,
+        "endChar": 16
+      },
+      "revId": "965a7dc3ef4fb57ac8fd20aeaddc2ecad6b92f77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa684a1c_e0d10734",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-31T11:48:05Z",
+      "side": 1,
+      "message": "drop this",
+      "range": {
+        "startLine": 123,
+        "startChar": 63,
+        "endLine": 123,
+        "endChar": 73
+      },
+      "revId": "965a7dc3ef4fb57ac8fd20aeaddc2ecad6b92f77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d87a4a13_8fca0de0",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
         "patchSetId": 9
@@ -18,6 +87,29 @@
         "startChar": 2,
         "endLine": 215,
         "endChar": 9
+      },
+      "revId": "965a7dc3ef4fb57ac8fd20aeaddc2ecad6b92f77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5db487c_d2218170",
+        "filename": "javatests/com/google/gerrit/server/account/externalids/ExternalIDCacheLoaderTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-31T11:48:05Z",
+      "side": 1,
+      "message": "AllUsersNameProvider.DEFAULT",
+      "range": {
+        "startLine": 52,
+        "startChar": 59,
+        "endLine": 52,
+        "endChar": 70
       },
       "revId": "965a7dc3ef4fb57ac8fd20aeaddc2ecad6b92f77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

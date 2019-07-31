@@ -842,6 +842,24 @@
     },
     {
       "key": {
+        "uuid": "3a8bcb1c_ff751600",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-07-31T11:48:05Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "e4989878_929b315d",
+      "revId": "e4599d9d6d0676b20d1ae9f8f1021e723d6af917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5efed62_845c22df",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
         "patchSetId": 1

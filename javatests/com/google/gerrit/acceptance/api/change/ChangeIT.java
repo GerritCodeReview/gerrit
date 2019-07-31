@@ -3861,15 +3861,13 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void changeCommitMessageWithNoChangeIdFails() throws Exception {
+  public void changeCommitMessageWithNoChangeIdRetainsChangeID() throws Exception {
     PushOneCommit.Result r = createChange();
     assertThat(getCommitMessage(r.getChangeId()))
         .isEqualTo("test commit\n\nChange-Id: " + r.getChangeId() + "\n");
-    ResourceConflictException thrown =
-        assertThrows(
-            ResourceConflictException.class,
-            () -> gApi.changes().id(r.getChangeId()).setMessage("modified commit\n"));
-    assertThat(thrown).hasMessageThat().contains("missing Change-Id footer");
+    gApi.changes().id(r.getChangeId()).setMessage("modified commit\n");
+    assertThat(getCommitMessage(r.getChangeId()))
+        .isEqualTo("modified commit\n\nChange-Id: " + r.getChangeId() + "\n");
   }
 
   @Test

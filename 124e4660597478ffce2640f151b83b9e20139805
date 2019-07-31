@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddf36ca2_3e3e0695",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-07-31T16:13:08Z",
+      "side": 1,
+      "message": "nits:\n* long line\n* version-specific documentation link --- perhaps https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#gerrit.reportBugUrl or just \"the gerrit.reportBugUrl config setting\" would work?",
+      "revId": "124e4660597478ffce2640f151b83b9e20139805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

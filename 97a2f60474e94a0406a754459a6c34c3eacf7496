@@ -70,6 +70,24 @@
       "revId": "97a2f60474e94a0406a754459a6c34c3eacf7496",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8481bab3_e3aa67b1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-07-31T14:49:51Z",
+      "side": 1,
+      "message": "Are you suggesting to add a new test?\n\nOr is my latest patchset the fix? (latest patchset makes sure that if any of schemesObj, repo or _selectedScheme is undefined it will return [])",
+      "parentUuid": "17370dbc_3dbb3a7e",
+      "revId": "97a2f60474e94a0406a754459a6c34c3eacf7496",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

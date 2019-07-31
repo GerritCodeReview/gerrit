@@ -197,6 +197,14 @@ public class ChangeResource implements RestResource, HasETag {
     for (ProjectState p : projectStateTree) {
       hashObjectId(h, p.getConfig().getRevision(), buf);
     }
+
+    changeETagComputation.runEach(
+        c -> {
+          String pluginETag = c.getETag(notes.getProjectName(), notes.getChangeId());
+          if (pluginETag != null) {
+            h.putString(pluginETag, UTF_8);
+          }
+        });
   }
 
   @Override
@@ -206,13 +214,6 @@ public class ChangeResource implements RestResource, HasETag {
       h.putString(starredChangesUtil.getObjectId(user.getAccountId(), getId()).name(), UTF_8);
     }
     prepareETag(h, user);
-    changeETagComputation.runEach(
-        c -> {
-          String pluginETag = c.getETag(notes.getProjectName(), notes.getChangeId());
-          if (pluginETag != null) {
-            h.putString(pluginETag, UTF_8);
-          }
-        });
     return h.hash().toString();
   }
 

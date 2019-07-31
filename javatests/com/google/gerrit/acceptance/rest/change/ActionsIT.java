@@ -36,6 +36,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.change.ChangeETagComputation;
 import com.google.gerrit.server.change.RevisionJson;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.ConfigSuite;
@@ -58,6 +59,7 @@ public class ActionsIT extends AbstractDaemonTest {
   @Inject private DynamicSet<ActionVisitor> actionVisitors;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private RevisionJson.Factory revisionJsonFactory;
+  @Inject private DynamicSet<ChangeETagComputation> changeETagComputations;
 
   private RegistrationHandle visitorHandle;
 
@@ -203,6 +205,34 @@ public class ActionsIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUserAnonymous();
     String etag2 = getETag(change);
     assertThat(etag2).isEqualTo(etag1);
+  }
+
+  @Test
+  public void pluginCanContributeToETagComputation() throws Exception {
+    String change = createChange().getChangeId();
+    String oldETag = getETag(change);
+
+    RegistrationHandle registrationHandle = changeETagComputations.add("gerrit", (p, id) -> "foo");
+    try {
+      assertThat(getETag(change)).isNotEqualTo(oldETag);
+    } finally {
+      registrationHandle.remove();
+    }
+
+    assertThat(getETag(change)).isEqualTo(oldETag);
+  }
+
+  @Test
+  public void returningNullFromETagComputationDoesNotBreakGerrit() throws Exception {
+    String change = createChange().getChangeId();
+    String oldETag = getETag(change);
+
+    RegistrationHandle registrationHandle = changeETagComputations.add("gerrit", (p, id) -> null);
+    try {
+      assertThat(getETag(change)).isEqualTo(oldETag);
+    } finally {
+      registrationHandle.remove();
+    }
   }
 
   @Test

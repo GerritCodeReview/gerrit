@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b076db1a_79b2f592",
+        "filename": "javatests/com/google/gerrit/json/JsonEnumMappingTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-01T23:46:40Z",
+      "side": 1,
+      "message": "optional: repeated code can be factored to a method.",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 95
+      },
+      "revId": "a979f7cd600670d96991260977b0c8db864a11a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -272,7 +272,7 @@ public class PluginContext<T> {
       Throwables.throwIfUnchecked(e);
       pluginMetrics.incrementErrorCount(extension);
       logger.atWarning().withCause(e).log(
-          "Failure in %s of plugin invoke%s", extensionImpl.getClass(), extension.getPluginName());
+          "Failure in %s of plugin %s", extensionImpl.getClass(), extension.getPluginName());
     }
   }
 

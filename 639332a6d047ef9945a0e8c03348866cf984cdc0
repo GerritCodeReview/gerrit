@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65886b18_5b0cbc59",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2187,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-08-01T08:18:48Z",
+      "side": 1,
+      "message": "Nit: Seems to be a typo.",
+      "range": {
+        "startLine": 2187,
+        "startChar": 31,
+        "endLine": 2187,
+        "endChar": 32
+      },
+      "revId": "639332a6d047ef9945a0e8c03348866cf984cdc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

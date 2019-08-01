@@ -1397,9 +1397,10 @@
     },
 
     _handleSettingsLegacyRoute(data) {
+      const token = data.params[0].replace(' ', '+');
       this._setParams({
         view: Gerrit.Nav.View.SETTINGS,
-        emailToken: data.params[0],
+        emailToken: token,
       });
     },
 

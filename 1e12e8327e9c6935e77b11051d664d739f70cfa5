@@ -34,6 +34,24 @@
       "revId": "1e12e8327e9c6935e77b11051d664d739f70cfa5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe23c0be_eba37297",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-01T13:12:43Z",
+      "side": 1,
+      "message": "I guess you mean change it so that it\u0027s like:\n\n[[_computePermissions(section, capabilities, labels, section.value.permissions.*)]]\n\nthen in here do:\n\n    _computePermissions(section, capabilities) {\n      if (!this.section || !this.section.value ||\n           !section || !section.id) {\n        return [];\n      }\n      const labels \u003d section.value.permissions;\n      let allPermissions;\n      if (name \u003d\u003d\u003d GLOBAL_NAME) {\n        allPermissions \u003d this.toSortedArray(capabilities);\n      } else {\n        const labelOptions \u003d this._computeLabelOptions(labels);\n        allPermissions \u003d labelOptions.concat(\n            this.toSortedArray(this.permissionValues));\n      }\n      return allPermissions.filter(permission \u003d\u003e {\n        return !this.section.value.permissions[permission.id];\n      });\n    },\n\n\nWould something like ^^ work?\n\nOr is that wrong?\n\n(Or should i remove  section.value.permissions.*?)",
+      "parentUuid": "5799eeef_8b38ce0b",
+      "revId": "1e12e8327e9c6935e77b11051d664d739f70cfa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

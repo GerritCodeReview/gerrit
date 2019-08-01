@@ -16,6 +16,24 @@
       "revId": "cdf41352dae9107f20d4e8ec116ea5fb25c24a20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41a004b6_930e173c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-01T13:42:39Z",
+      "side": 0,
+      "message": "I\u0027ve added an if check in _computeNavLink to check if path, offset, itemsPerPage and direction are undefined. It already checks if filter is defined though.",
+      "parentUuid": "e817ca73_95387346",
+      "revId": "cdf41352dae9107f20d4e8ec116ea5fb25c24a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

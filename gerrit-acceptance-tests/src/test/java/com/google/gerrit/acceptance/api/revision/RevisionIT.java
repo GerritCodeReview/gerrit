@@ -918,9 +918,7 @@ public class RevisionIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     Map<String, FileInfo> files =
         gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).files();
-    assertThat(files).hasSize(2);
-    assertThat(Iterables.all(files.keySet(), f -> f.matches(FILE_NAME + '|' + COMMIT_MSG)))
-        .isTrue();
+    assertThat(files.keySet()).containsExactly(FILE_NAME, COMMIT_MSG);
   }
 
   @Test

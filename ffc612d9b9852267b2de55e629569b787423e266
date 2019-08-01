@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "9ff47f57_d868c87d",
+        "filename": "java/com/google/gerrit/json/EnumTypeAdapterFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-01T23:45:00Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "369c506f_4743f4f0",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 65,
+        "endChar": 74
+      },
+      "revId": "ffc612d9b9852267b2de55e629569b787423e266",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d2b5927_8e121b98",
         "filename": "javatests/com/google/gerrit/json/JsonEnumMappingTest.java",
         "patchSetId": 2

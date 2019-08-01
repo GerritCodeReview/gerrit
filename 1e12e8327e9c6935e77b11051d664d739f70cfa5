@@ -52,6 +52,24 @@
       "revId": "1e12e8327e9c6935e77b11051d664d739f70cfa5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1aca7520_23d94655",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-01T13:14:05Z",
+      "side": 1,
+      "message": "Ignore the const labels (that was a mistake to add that)",
+      "parentUuid": "fe23c0be_eba37297",
+      "revId": "1e12e8327e9c6935e77b11051d664d739f70cfa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

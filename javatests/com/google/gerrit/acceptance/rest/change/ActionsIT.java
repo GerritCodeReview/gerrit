@@ -25,6 +25,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -228,6 +229,24 @@ public class ActionsIT extends AbstractDaemonTest {
     String oldETag = getETag(change);
 
     RegistrationHandle registrationHandle = changeETagComputations.add("gerrit", (p, id) -> null);
+    try {
+      assertThat(getETag(change)).isEqualTo(oldETag);
+    } finally {
+      registrationHandle.remove();
+    }
+  }
+
+  @Test
+  public void throwingExceptionFromETagComputationDoesNotBreakGerrit() throws Exception {
+    String change = createChange().getChangeId();
+    String oldETag = getETag(change);
+
+    RegistrationHandle registrationHandle =
+        changeETagComputations.add(
+            "gerrit",
+            (p, id) -> {
+              throw new StorageException("exception during test");
+            });
     try {
       assertThat(getETag(change)).isEqualTo(oldETag);
     } finally {

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.json;
 
-import com.google.common.flogger.FluentLogger;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.TypeAdapter;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.internal.bind.TypeAdapters;
@@ -32,7 +32,6 @@ import java.io.IOException;
  * special behavior: log when input which doesn't match any existing enum value is encountered.
  */
 public class EnumTypeAdapterFactory implements TypeAdapterFactory {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @SuppressWarnings({"rawtypes", "unchecked"})
   @Override
@@ -65,7 +64,8 @@ public class EnumTypeAdapterFactory implements TypeAdapterFactory {
       }
       T enumValue = defaultEnumAdapter.read(in);
       if (enumValue == null) {
-        logger.atWarning().log("Expected an existing value for enum %s.", typeToken);
+        throw new JsonSyntaxException(
+            String.format("Expected an existing value for enum %s.", typeToken));
       }
       return enumValue;
     }

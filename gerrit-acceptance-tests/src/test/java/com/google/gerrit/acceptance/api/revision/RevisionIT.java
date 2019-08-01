@@ -926,17 +926,63 @@ public class RevisionIT extends AbstractDaemonTest {
   public void filesOnMergeCommitChange() throws Exception {
     PushOneCommit.Result r = createMergeCommitChange("refs/for/master");
 
-    // list files against auto-merge
+    // List files against auto-merge
     assertThat(gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).files().keySet())
         .containsExactly(COMMIT_MSG, MERGE_LIST, "foo", "bar");
 
-    // list files against parent 1
+    // List files against parent 1
     assertThat(gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).files(1).keySet())
         .containsExactly(COMMIT_MSG, MERGE_LIST, "bar");
 
-    // list files against parent 2
+    // List files against parent 2
     assertThat(gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).files(2).keySet())
         .containsExactly(COMMIT_MSG, MERGE_LIST, "foo");
+  }
+
+  @Test
+  public void filesOnMergeCommitChangeWithInvalidParent() throws Exception {
+    PushOneCommit.Result r = createMergeCommitChange("refs/for/master");
+
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                gApi.changes()
+                    .id(r.getChangeId())
+                    .revision(r.getCommit().name())
+                    .files(3)
+                    .keySet());
+    assertThat(thrown).hasMessageThat().isEqualTo("invalid parent number: 3");
+    thrown =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                gApi.changes()
+                    .id(r.getChangeId())
+                    .revision(r.getCommit().name())
+                    .files(-1)
+                    .keySet());
+    assertThat(thrown).hasMessageThat().isEqualTo("invalid parent number: -1");
+  }
+
+  @Test
+  public void listFilesWithInvalidParent() throws Exception {
+    PushOneCommit.Result result1 = createChange();
+    String changeId = result1.getChangeId();
+    PushOneCommit.Result result2 = amendChange(changeId, SUBJECT, "b.txt", "b");
+    String revId2 = result2.getCommit().name();
+
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(changeId).revision(revId2).files(2).keySet());
+    assertThat(thrown).hasMessageThat().isEqualTo("invalid parent number: 2");
+
+    thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(changeId).revision(revId2).files(-1).keySet());
+    assertThat(thrown).hasMessageThat().isEqualTo("invalid parent number: -1");
   }
 
   @Test

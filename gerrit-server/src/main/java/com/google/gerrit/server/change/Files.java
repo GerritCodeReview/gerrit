@@ -118,6 +118,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
     private final PatchListCache patchListCache;
     private final PatchSetUtil psUtil;
     private final DynamicItem<AccountPatchReviewStore> accountPatchReviewStore;
+    private final Provider<GetCommit> getCommit;
 
     @Inject
     ListFiles(
@@ -128,7 +129,8 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
         GitRepositoryManager gitManager,
         PatchListCache patchListCache,
         PatchSetUtil psUtil,
-        DynamicItem<AccountPatchReviewStore> accountPatchReviewStore) {
+        DynamicItem<AccountPatchReviewStore> accountPatchReviewStore,
+        Provider<GetCommit> getCommit) {
       this.db = db;
       this.self = self;
       this.fileInfoJson = fileInfoJson;
@@ -137,6 +139,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
       this.patchListCache = patchListCache;
       this.psUtil = psUtil;
       this.accountPatchReviewStore = accountPatchReviewStore;
+      this.getCommit = getCommit;
     }
 
     public ListFiles setReviewed(boolean r) {
@@ -166,7 +169,11 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
                     resource.getChange(),
                     resource.getPatchSet().getRevision(),
                     baseResource.getPatchSet()));
-      } else if (parentNum > 0) {
+      } else if (parentNum != 0) {
+        int parents = getCommit.get().apply(resource).value().parents.size();
+        if (parentNum < 0 || parentNum > parents) {
+          throw new BadRequestException(String.format("invalid parent number: %d", parentNum));
+        }
         r =
             Response.ok(
                 fileInfoJson.toFileInfoMap(

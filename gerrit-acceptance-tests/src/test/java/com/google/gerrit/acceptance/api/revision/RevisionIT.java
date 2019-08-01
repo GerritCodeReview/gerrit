@@ -25,6 +25,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LAB
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testutil.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.HEAD;
@@ -940,6 +941,8 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void listFilesOnDifferentBases() throws Exception {
+    RevCommit initialCommit = getHead(repo());
+
     PushOneCommit.Result result1 = createChange();
     String changeId = result1.getChangeId();
     PushOneCommit.Result result2 = amendChange(changeId, SUBJECT, "b.txt", "b");
@@ -962,6 +965,19 @@ public class RevisionIT extends AbstractDaemonTest {
         .containsExactly(COMMIT_MSG, "b.txt", "c.txt");
     assertThat(gApi.changes().id(changeId).revision(revId3).files(revId2).keySet())
         .containsExactly(COMMIT_MSG, "c.txt");
+
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class,
+            () -> gApi.changes().id(changeId).revision(revId3).files(initialCommit.getName()));
+    assertThat(thrown).hasMessageThat().contains(initialCommit.getName());
+
+    String invalidRev = "deadbeef";
+    thrown =
+        assertThrows(
+            ResourceNotFoundException.class,
+            () -> gApi.changes().id(changeId).revision(revId3).files(invalidRev));
+    assertThat(thrown).hasMessageThat().contains(invalidRev);
   }
 
   @Test

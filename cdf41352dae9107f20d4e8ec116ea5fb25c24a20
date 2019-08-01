@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e817ca73_95387346",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-08-01T13:07:59Z",
+      "side": 0,
+      "message": "Can you please check the template for gr-list-view and ensure, that there are undefined checks in all functions which appears in binding and have multiple parameters.\nThere is the following binding [[_computeNavLink(offset, -1, itemsPerPage, filter, path)]] in the template - i suppose, that after removing _legacyUndefinedCheck: true it is possible to receive undefined in filter (and probably in other properties). Probably, there are other places in template.\n\nAlso, I suggest to combine together \"Add undefined check ...\" and \"Remove _legacyUndefinedCheck from ...\" changes, because they are logically connected (only for future changes., you can keep existing changes as is).",
+      "revId": "cdf41352dae9107f20d4e8ec116ea5fb25c24a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

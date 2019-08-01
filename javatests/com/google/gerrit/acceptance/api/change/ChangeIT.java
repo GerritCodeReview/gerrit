@@ -87,6 +87,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
@@ -2175,6 +2176,24 @@ public class ChangeIT extends AbstractDaemonTest {
     String oldETag = parseResource(r).getETag();
 
     RegistrationHandle registrationHandle = changeETagComputations.add("gerrit", (p, id) -> null);
+    try {
+      assertThat(parseResource(r).getETag()).isEqualTo(oldETag);
+    } finally {
+      registrationHandle.remove();
+    }
+  }
+
+  @Test
+  public void throwingExceptionFromETagComputationDoesNotBreakGerrit() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String oldETag = parseResource(r).getETag();
+
+    RegistrationHandle registrationHandle =
+        changeETagComputations.add(
+            "gerrit",
+            (p, id) -> {
+              throw new StorageException("exception during test");
+            });
     try {
       assertThat(parseResource(r).getETag()).isEqualTo(oldETag);
     } finally {

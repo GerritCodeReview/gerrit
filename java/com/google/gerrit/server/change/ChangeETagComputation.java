@@ -50,6 +50,11 @@ public interface ChangeETagComputation {
    * <p><strong>Note:</strong> Change ETags are computed very frequently and the computation must be
    * cheap. Take good care to not perform any expensive computations when implementing this.
    *
+   * <p>If an error is encountered during the ETag computation the plugin can indicate this by
+   * throwing any RuntimeException. In this case no value will be included in the change ETag
+   * computation. This means if the error is transient, the ETag will differ when the computation
+   * succeeds on a follow-up run.
+   *
    * @param projectName the name of the project that contains the change
    * @param changeId ID of the change for which the ETag should be computed
    * @return the ETag

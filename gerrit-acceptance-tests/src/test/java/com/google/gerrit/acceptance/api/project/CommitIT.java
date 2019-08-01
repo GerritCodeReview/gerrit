@@ -15,10 +15,12 @@
 package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -27,6 +29,7 @@ import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.reviewdb.client.Branch;
 import java.util.Iterator;
@@ -37,6 +40,20 @@ import org.junit.Test;
 
 @NoHttpd
 public class CommitIT extends AbstractDaemonTest {
+  @Test
+  public void getCommitInfo() throws Exception {
+    Result result = createChange();
+    String commitId = result.getCommit().getId().name();
+    CommitInfo info = gApi.projects().name(project.get()).commit(commitId).get();
+    assertThat(info.commit).isEqualTo(commitId);
+    assertThat(info.parents.stream().map(c -> c.commit).collect(toList()))
+        .containsExactly(result.getCommit().getParent(0).name());
+    assertThat(info.subject).isEqualTo(result.getCommit().getShortMessage());
+    assertPerson(info.author, admin);
+    assertPerson(info.committer, admin);
+    assertThat(info.webLinks).isNull();
+  }
+
   @Test
   public void includedInOpenChange() throws Exception {
     Result result = createChange();
@@ -123,5 +140,10 @@ public class CommitIT extends AbstractDaemonTest {
 
   private IncludedInInfo getIncludedIn(ObjectId id) throws Exception {
     return gApi.projects().name(project.get()).commit(id.name()).includedIn();
+  }
+
+  private static void assertPerson(GitPerson actual, TestAccount expected) {
+    assertThat(actual.email).isEqualTo(expected.email);
+    assertThat(actual.name).isEqualTo(expected.fullName);
   }
 }

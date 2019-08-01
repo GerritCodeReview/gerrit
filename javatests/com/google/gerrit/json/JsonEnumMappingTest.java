@@ -15,8 +15,10 @@
 package com.google.gerrit.json;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import org.junit.Test;
 
 public class JsonEnumMappingTest {
@@ -46,27 +48,27 @@ public class JsonEnumMappingTest {
   }
 
   @Test
-  public void mixedCaseEnumValueIsTreatedAsUnset() {
-    TestData data = gson.fromJson("{\"value\":\"oNe\"}", TestData.class);
-    assertThat(data.value).isNull();
+  public void mixedCaseEnumValueIsRejectedOnParse() {
+    assertThrows(
+        JsonSyntaxException.class, () -> gson.fromJson("{\"value\":\"oNe\"}", TestData.class));
   }
 
   @Test
-  public void lowerCaseEnumValueIsTreatedAsUnset() {
-    TestData data = gson.fromJson("{\"value\":\"one\"}", TestData.class);
-    assertThat(data.value).isNull();
+  public void lowerCaseEnumValueIsRejectedOnParse() {
+    assertThrows(
+        JsonSyntaxException.class, () -> gson.fromJson("{\"value\":\"one\"}", TestData.class));
   }
 
   @Test
-  public void notExistingEnumValueIsTreatedAsUnset() {
-    TestData data = gson.fromJson("{\"value\":\"FOUR\"}", TestData.class);
-    assertThat(data.value).isNull();
+  public void notExistingEnumValueIsRejectedOnParse() {
+    assertThrows(
+        JsonSyntaxException.class, () -> gson.fromJson("{\"value\":\"FOUR\"}", TestData.class));
   }
 
   @Test
-  public void emptyEnumValueIsTreatedAsUnset() {
-    TestData data = gson.fromJson("{\"value\":\"\"}", TestData.class);
-    assertThat(data.value).isNull();
+  public void emptyEnumValueIsRejectedOnParse() {
+    assertThrows(
+        JsonSyntaxException.class, () -> gson.fromJson("{\"value\":\"\"}", TestData.class));
   }
 
   private static class TestData {

@@ -88,6 +88,24 @@
       "revId": "97a2f60474e94a0406a754459a6c34c3eacf7496",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e15533b_5dcbe498",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-08-01T12:51:39Z",
+      "side": 1,
+      "message": "Yes, latest patchset is ok.",
+      "parentUuid": "8481bab3_e3aa67b1",
+      "revId": "97a2f60474e94a0406a754459a6c34c3eacf7496",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

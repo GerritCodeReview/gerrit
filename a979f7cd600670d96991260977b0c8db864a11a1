@@ -22,6 +22,30 @@
       "revId": "a979f7cd600670d96991260977b0c8db864a11a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b0c69c9_a9915515",
+        "filename": "javatests/com/google/gerrit/json/JsonEnumMappingTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-08-02T09:06:16Z",
+      "side": 1,
+      "message": "As far as I know, DRY should be used carefully for tests. Introducing helper methods to simplify setup and to hide unnecessary details is recommended. However, details which are essential for the test should be mentioned within it and not moved out of it. The latter applies here in my opinion.",
+      "parentUuid": "b076db1a_79b2f592",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 95
+      },
+      "revId": "a979f7cd600670d96991260977b0c8db864a11a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

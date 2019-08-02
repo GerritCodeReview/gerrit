@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "db9f0ca9_3cdac09e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-08-02T14:45:04Z",
+      "side": 1,
+      "message": "\u003e Yes, I saw the email just now. Should I update this change or do a follow-up change?\n\nI can verify this change again if need be, if you chose to amend here. Otherwise fine with the follow-up alternative. My review time will just need to become a bit more limited soon today.",
+      "parentUuid": "f008b785_12fcd361",
+      "range": {
+        "startLine": 14,
+        "startChar": 18,
+        "endLine": 14,
+        "endChar": 27
+      },
+      "revId": "af9bfa49e42c35407df04e49aed830df7c3189c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3c6e8161_837d3b5f",
         "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticV6QueryGroupsTest.java",
         "patchSetId": 1

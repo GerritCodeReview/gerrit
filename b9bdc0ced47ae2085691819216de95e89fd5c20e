@@ -71,6 +71,63 @@
     },
     {
       "key": {
+        "uuid": "9b4f6d93_53ca3641",
+        "filename": "Documentation/dev-design-doc-solution-template.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-08-02T23:05:50Z",
+      "side": 1,
+      "message": "Would rough performance considerations (things like \"performance is O(n) where n is changes\") go in this section or the overview?",
+      "revId": "b9bdc0ced47ae2085691819216de95e89fd5c20e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9973477_1cddd121",
+        "filename": "Documentation/dev-design-doc-use-cases-template.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-08-02T23:05:50Z",
+      "side": 1,
+      "message": "Could we also have an option section for \"Secondary Use Cases\"? Things that are related to the primary use case(s), but not must haves. This could help with the idea of \"unrelated\" problems as ones that are related, but not a primary goal, could go into this section (and they could later get their own use-cases doc if the concluded solution doesn\u0027t address them and someone still wants the use case satisfied).",
+      "revId": "b9bdc0ced47ae2085691819216de95e89fd5c20e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3ee5caf_218de1af",
+        "filename": "Documentation/dev-design-docs.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-08-02T23:05:50Z",
+      "side": 1,
+      "message": "I would guess that the decision of \"unrelated\" is left up to the use-cases doc uploader/owner (as anyone else suggesting other use cases could choose to upload their own use-cases doc). Am I assuming correctly? Should that be made explicit?",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 56,
+        "endChar": 18
+      },
+      "revId": "b9bdc0ced47ae2085691819216de95e89fd5c20e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1d1b46e2_08efc22a",
         "filename": "Documentation/dev-design-docs.txt",
         "patchSetId": 4

@@ -446,7 +446,9 @@ limitations under the License.
     });
 
     test('reviewer confirmation', done => {
-      testConfirmationDialog(done, false);
+      Polymer.RenderStatus.afterNextRender(element, () => {
+        testConfirmationDialog(done, false);
+      });
     });
 
     test('_getStorageLocation', () => {

@@ -158,10 +158,13 @@ limitations under the License.
       });
     });
 
-    test('not supported actions are filtered out', () => {
+    test('not supported actions are filtered out', done => {
       element.revisionActions = {followup: {}};
-      assert.equal(element.querySelectorAll(
+      flush(() => {
+        assert.equal(element.querySelectorAll(
           'section gr-button[data-action-type="revision"]').length, 0);
+        done();
+      });
     });
 
     test('getActionDetails', () => {

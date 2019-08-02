@@ -48,6 +48,23 @@
     },
     {
       "key": {
+        "uuid": "c811adad_4541192c",
+        "filename": "java/com/google/gerrit/extensions/api/accounts/ActiveInput.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-02T06:23:18Z",
+      "side": 1,
+      "message": "Hmm, given that in the example setPrivate that I just posted, it doesn\u0027t use an input class but just a raw string, maybe my earlier request to make this a class was unjustified.\n\nI think we can leave it like this though, unless other maintainers have an opinion.",
+      "revId": "49fc7c1197a4e408716c8efadc179e8eb26e73be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "88392591_c21f3f1c",
         "filename": "java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
         "patchSetId": 16

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a9ef2e7_b3e74203",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-08-02T15:38:57Z",
+      "side": 1,
+      "message": "recommended ?",
+      "range": {
+        "startLine": 82,
+        "startChar": 12,
+        "endLine": 82,
+        "endChar": 25
+      },
+      "revId": "b9bdc0ced47ae2085691819216de95e89fd5c20e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27c9755d_7ac57e85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-08-02T15:38:57Z",
+      "side": 1,
+      "message": "specific",
+      "range": {
+        "startLine": 86,
+        "startChar": 53,
+        "endLine": 86,
+        "endChar": 61
+      },
+      "revId": "b9bdc0ced47ae2085691819216de95e89fd5c20e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "693b3832_afc745bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-08-02T15:38:57Z",
+      "side": 1,
+      "message": "forces ?",
+      "range": {
+        "startLine": 90,
+        "startChar": 53,
+        "endLine": 90,
+        "endChar": 61
+      },
+      "revId": "b9bdc0ced47ae2085691819216de95e89fd5c20e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d1b46e2_08efc22a",
+        "filename": "Documentation/dev-design-docs.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-08-02T15:38:57Z",
+      "side": 1,
+      "message": "is this still required ? See removed line 55 below",
+      "range": {
+        "startLine": 73,
+        "startChar": 46,
+        "endLine": 75,
+        "endChar": 15
+      },
+      "revId": "b9bdc0ced47ae2085691819216de95e89fd5c20e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

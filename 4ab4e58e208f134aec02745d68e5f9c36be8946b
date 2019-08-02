@@ -16,6 +16,24 @@
       "revId": "4ab4e58e208f134aec02745d68e5f9c36be8946b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bed3599_0913ba07",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1400,
+      "author": {
+        "id": 1076571
+      },
+      "writtenOn": "2019-08-02T08:29:31Z",
+      "side": 1,
+      "message": "The token Gerrit generates is sent in an email.\n\n gerrit-instance/settings/VE/Ki2tsDiLWi3+9SffKiI4/6iRwyiwDtyg5QhQmg\u003d\u003d$MTAwMDEzMDpnbGFkaG9ybkBrZGUub3Jn\n\nThen the routing happens and does the capture, in the legacy settings route:\n\n SETTINGS_LEGACY: /^\\/settings\\/VE\\/(\\S+)/\n\nBut page.js \"decodes\" url parameters by replacing each \u0027+\u0027 with a space.\n\n https://github.com/visionmedia/page.js/blob/7f8e01d9fd6791a0910a2341ee27217c77bde407/page.js#L928\n\nI guess it would be nicer to switch that off, but I didn\u0027t see how to easily pass the option not to \"decode\" for only the email confirmation route, without affecting other routes.\n\nWhere would I add a test? Any hint to get started on that would be appreciated.",
+      "parentUuid": "46159c38_6a9aab29",
+      "revId": "4ab4e58e208f134aec02745d68e5f9c36be8946b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

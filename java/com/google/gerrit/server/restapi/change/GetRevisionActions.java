@@ -26,6 +26,7 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.submit.ChangeSet;
 import com.google.gerrit.server.submit.MergeSuperSet;
@@ -45,6 +46,8 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
   private final Provider<ReviewDb> dbProvider;
   private final Provider<MergeSuperSet> mergeSuperSet;
   private final ChangeResource.Factory changeResourceFactory;
+
+  private static final SubmitRuleOptions SUBMIT_RULE_OPTIONS = SubmitRuleOptions.builder().build();
 
   @Inject
   GetRevisionActions(
@@ -77,6 +80,7 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
       for (ChangeData cd : cs.changes()) {
         changeResourceFactory.create(cd.notes(), user).prepareETag(h, user);
       }
+
       h.putBoolean(cs.furtherHiddenChanges());
     } catch (IOException | OrmException | PermissionBackendException e) {
       throw new OrmRuntimeException(e);

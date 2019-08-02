@@ -34,6 +34,24 @@
       "revId": "4ab4e58e208f134aec02745d68e5f9c36be8946b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49a77b11_6037b588",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1400,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-08-02T09:31:12Z",
+      "side": 1,
+      "message": "Thanks so much for the explanation. This makes sense to me now. Seems the decoding is buggy, because only in query parameters should + be interpreted as space, not in path parameters like this one. Anyways, I am fine with this workaround.\n\nAs for the test, I took a look at polygerrit-ui/app/elements/core/gr-router/gr-router_test.html, and it seems there are no tests that test the full handling, including the page.js middleware. Reading these docs (https://visionmedia.github.io/page.js/) I think it would be nicest if the test was something like\n\npage(\u0027gerrit-instance/settings/VE/Ki2tsDiLWi3+9SffKiI4/6iRwyiwDtyg5QhQmg\u003d\u003d$MTAwMDEzMDpnbGFkaG9ybkBrZGUub3Jn\u0027)\n\nand then verify that router._app.params still contained the +, but I am not sure if the middleware is properly loaded in the tests. If you cannot get this to work, I would settle for a test testing just the helper you fix. Thanks!",
+      "parentUuid": "4bed3599_0913ba07",
+      "revId": "4ab4e58e208f134aec02745d68e5f9c36be8946b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

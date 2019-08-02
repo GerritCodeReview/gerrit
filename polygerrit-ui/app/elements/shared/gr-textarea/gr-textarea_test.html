@@ -120,17 +120,20 @@ limitations under the License.
       assert.isTrue(resetStub.called);
     });
 
-    test('_resetEmojiDropdown', () => {
+    test('_resetEmojiDropdown', done => {
       const closeSpy = sandbox.spy(element, 'closeDropdown');
       element._resetEmojiDropdown();
-      assert.equal(element._currentSearchString, '');
-      assert.isTrue(element._hideAutocomplete);
-      assert.equal(element._colonIndex, null);
+      Polymer.RenderStatus.afterNextRender(element, () => {
+        assert.equal(element._currentSearchString, '');
+        assert.isTrue(element._hideAutocomplete);
+        assert.equal(element._colonIndex, null);
 
-      element.$.emojiSuggestions.open();
-      flushAsynchronousOperations();
-      element._resetEmojiDropdown();
-      assert.isTrue(closeSpy.called);
+        element.$.emojiSuggestions.open();
+        flushAsynchronousOperations();
+        element._resetEmojiDropdown();
+        assert.isTrue(closeSpy.called);
+        done();
+      });
     });
 
     test('_determineSuggestions', () => {
@@ -199,14 +202,17 @@ limitations under the License.
         flushAsynchronousOperations();
       }
 
-      test('escape key', () => {
+      test('escape key', done => {
         const resetSpy = sandbox.spy(element, '_resetEmojiDropdown');
         MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 27);
         assert.isFalse(resetSpy.called);
         setupDropdown();
-        MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 27);
-        assert.isTrue(resetSpy.called);
-        assert.isFalse(!element.$.emojiSuggestions.isHidden);
+        Polymer.RenderStatus.afterNextRender(element, () => {
+          MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 27);
+          assert.isTrue(resetSpy.called);
+          assert.isFalse(!element.$.emojiSuggestions.isHidden);
+          done();
+        });
       });
 
       test('up key', () => {
@@ -227,17 +233,20 @@ limitations under the License.
         assert.isTrue(downSpy.called);
       });
 
-      test('enter key', () => {
+      test('enter key', done => {
         const enterSpy = sandbox.spy(element.$.emojiSuggestions,
             'getCursorTarget');
         MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 13);
         assert.isFalse(enterSpy.called);
         setupDropdown();
-        MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 13);
-        assert.isTrue(enterSpy.called);
-        flushAsynchronousOperations();
-        // A space is automatically added at the end.
-        assert.equal(element.text, '💯 ');
+        Polymer.RenderStatus.afterNextRender(element, () => {
+          MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 13);
+          assert.isTrue(enterSpy.called);
+          flushAsynchronousOperations();
+          // A space is automatically added at the end.
+          assert.equal(element.text, '💯 ');
+          done();
+        });
       });
     });
   });

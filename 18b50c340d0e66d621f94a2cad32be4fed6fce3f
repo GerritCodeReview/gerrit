@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4ffb761_dd75b158",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-02T13:29:29Z",
+      "side": 1,
+      "message": "Remove this.",
+      "range": {
+        "startLine": 101,
+        "startChar": 32,
+        "endLine": 101,
+        "endChar": 60
+      },
+      "revId": "18b50c340d0e66d621f94a2cad32be4fed6fce3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5fbf5a3_f7b67cd4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-02T13:29:29Z",
+      "side": 1,
+      "message": "Need a new line here.",
+      "revId": "18b50c340d0e66d621f94a2cad32be4fed6fce3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f6e37da_37e3e151",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-02T13:29:29Z",
+      "side": 1,
+      "message": "Needs a ,",
+      "revId": "18b50c340d0e66d621f94a2cad32be4fed6fce3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

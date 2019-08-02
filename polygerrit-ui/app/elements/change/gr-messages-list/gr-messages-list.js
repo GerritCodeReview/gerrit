@@ -156,14 +156,16 @@
     },
 
     _expandedChanged(exp) {
-      for (let i = 0; i < this._processedMessages.length; i++) {
+      for (let i = 0; this._processedMessages &&
+          i < this._processedMessages.length; i++) {
         this._processedMessages[i].expanded = exp;
       }
       // _visibleMessages is a subarray of _processedMessages
       // _processedMessages contains all items from _visibleMessages
       // At this point all _visibleMessages.expanded values are set,
       // and notifyPath must be used to notify Polymer about changes.
-      for (let i = 0; i < this._visibleMessages.length; i++) {
+      for (let i = 0; this._visibleMessages &&
+          i < this._visibleMessages.length; i++) {
         this.notifyPath(`_visibleMessages.${i}.expanded`);
       }
     },

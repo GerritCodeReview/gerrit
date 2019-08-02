@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1658528e_78a1f416",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-08-02T09:01:21Z",
+      "side": 1,
+      "message": "I agree to that, but it\u0027s the suggester\u0027s responsibility to:\n- Present the idea in a level of detail that is applicable for both the author and other reviewers to understand\n- Provide text that is close to what could go into a design doc to not cause extra work for the author in having to write up reviewer\u0027s ideas by making assumptions if they were incomplete.",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 72
+      },
+      "revId": "7a127c8405f96cff7fda5c7b56a4c11d90c2f48b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "872c2b57_d535a0d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-08-02T09:01:21Z",
+      "side": 1,
+      "message": "What is the cut-off when a solution should go into it\u0027s own doc?\n\nI.e. when should you still make a comment on the other proposed solution vs. start a new doc\n\nShould we allow solutions to reference other solutions? For example:\nSolution 1 is a primary storage rewrite + cache design rewrite\nSolution 2 is the same as 1 but the cache design is different?",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 55
+      },
+      "revId": "7a127c8405f96cff7fda5c7b56a4c11d90c2f48b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce584769_98e073ff",
+        "filename": "Documentation/dev-design-doc-conclusion-template.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-08-02T09:01:21Z",
+      "side": 1,
+      "message": "How do we make a call if\nPerson A\u0027s design takes 1 wk to implement and person A is willing to commit that time\nPerson B\u0027s design takes 10 wks to implement and neither person A nor B want to commit 10wks?\n\nWe don\u0027t have to solve this now, but it\u0027s a pattern I see frequently when people push for a more general solution.",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 52
+      },
+      "revId": "7a127c8405f96cff7fda5c7b56a4c11d90c2f48b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93d65789_e88007f2",
+        "filename": "Documentation/dev-design-doc-solution-template.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-08-02T09:01:21Z",
+      "side": 1,
+      "message": "The perceived lack of details is what contributed to the escalation on the ext. id doc, so I am not sure if this is a good idea.",
+      "range": {
+        "startLine": 15,
+        "startChar": 21,
+        "endLine": 15,
+        "endChar": 35
+      },
+      "revId": "7a127c8405f96cff7fda5c7b56a4c11d90c2f48b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

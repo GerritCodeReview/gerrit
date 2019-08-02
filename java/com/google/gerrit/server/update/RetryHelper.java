@@ -285,15 +285,24 @@ public class RetryHelper {
                 // of the failure. If a trace was already done there is no need to retry.
                 if (retryWithTraceOnFailure
                     && opts.retryWithTrace().isPresent()
-                    && opts.retryWithTrace().get().test(t)
-                    && !traceContext.isTracing()) {
-                  traceContext
-                      .addTag(RequestId.Type.TRACE_ID, "retry-on-failure-" + new RequestId())
-                      .forceLogging();
+                    && opts.retryWithTrace().get().test(t)) {
+                  if (!traceContext.isTracing()) {
+                    traceContext
+                        .addTag(RequestId.Type.TRACE_ID, "retry-on-failure-" + new RequestId())
+                        .forceLogging();
+                    logger.atFine().withCause(t).log(
+                        "%s failed, retry with tracing enabled",
+                        opts.caller().map(Class::getSimpleName).orElse("N/A"));
+                    return true;
+                  }
+
+                  // A non-recoverable failure occurred. We retried the operation with tracing
+                  // enabled and it failed again. Log the failure so that admin can see if it
+                  // differs from the failure that triggered the retry.
                   logger.atFine().withCause(t).log(
-                      "%s failed, retry with tracing enabled",
+                      "auto-retry of %s has failed",
                       opts.caller().map(Class::getSimpleName).orElse("N/A"));
-                  return true;
+                  return false;
                 }
 
                 return false;

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.api.change;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
@@ -144,6 +145,8 @@ import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.testing.Util;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.restapi.change.GetChange;
 import com.google.gerrit.server.restapi.change.PostReview;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -151,6 +154,7 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.TestTimeUtil;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -164,6 +168,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -187,6 +193,8 @@ public class ChangeIT extends AbstractDaemonTest {
   @Inject private DynamicSet<ChangeIndexedListener> changeIndexedListeners;
 
   @Inject private AccountOperations accountOperations;
+
+  @Inject private GetChange getChange;
 
   private ChangeIndexedCounter changeIndexedCounter;
   private RegistrationHandle changeIndexedCounterHandle;
@@ -1689,6 +1697,72 @@ public class ChangeIT extends AbstractDaemonTest {
     accountOperations.account(user.id).forUpdate().status("new status").update();
     rsrc = parseResource(r);
     assertThat(rsrc.getETag()).isNotEqualTo(oldETag);
+  }
+
+  @Test
+  public void indexedLastUpdatedOnIncludedInETag() throws Exception {
+    TestTimeUtil.resetWithClockStep(1, SECONDS);
+    PushOneCommit.Result r = createChange();
+    ChangeResource rsrc = parseResource(r);
+
+    String initialETag = getChange.getETag(rsrc);
+    Timestamp initialTs = getLastUpdatedOnFromIndex(rsrc);
+
+    disableChangeIndexWrites();
+    try {
+      gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
+      rsrc = parseResource(r);
+    } finally {
+      enableChangeIndexWrites();
+    }
+
+    Timestamp newTs = getLastUpdatedOnFromIndex(rsrc);
+    // indexing was disabled so 'last update on' wasn't updated
+    assertThat(newTs).isEqualTo(initialTs);
+    assertThat(newTs).isNotEqualTo(rsrc.getChange().getLastUpdatedOn());
+    // we are using amended ChangeResource so etag is different
+    String changeResourceEtag = rsrc.getETag();
+    String etagAfterApprove = getChange.getETag(rsrc);
+    assertThat(etagAfterApprove).isNotEqualTo(initialETag);
+
+    CountDownLatch reindexed = new CountDownLatch(1);
+    final int currentId = rsrc.getChange().getId().get();
+    RegistrationHandle handle =
+        changeIndexedListeners.add(
+            "gerrit",
+            new ChangeIndexedListener() {
+              @Override
+              public void onChangeIndexed(String projectName, int id) {
+                if (id == currentId) {
+                  reindexed.countDown();
+                }
+              }
+
+              @Override
+              public void onChangeDeleted(int id) {}
+            });
+    try {
+      indexer.index(db, rsrc.getChange());
+      reindexed.await(10, TimeUnit.SECONDS);
+    } finally {
+      handle.remove();
+    }
+
+    newTs = getLastUpdatedOnFromIndex(rsrc);
+    // after re-indexing 'last update on' is updated
+    assertThat(newTs).isNotEqualTo(initialTs);
+    assertThat(newTs).isEqualTo(rsrc.getChange().getLastUpdatedOn());
+    // after re-indexing 'last update on' is updated so etag should be different
+    assertThat(getChange.getETag(rsrc)).isNotEqualTo(etagAfterApprove);
+    // make sure that change in etag is coming from index
+    assertThat(parseResource(r).getETag()).isEqualTo(changeResourceEtag);
+  }
+
+  private Timestamp getLastUpdatedOnFromIndex(ChangeResource rsrc) throws OrmException {
+    List<ChangeData> cds = queryProvider.get().byLegacyChangeId(rsrc.getChange().getId());
+    checkState(cds.size() == 1, "Expected one ChangeData, got " + cds.size());
+    ChangeData cd = Iterables.getFirst(cds, null);
+    return cd.change().getLastUpdatedOn();
   }
 
   @Test

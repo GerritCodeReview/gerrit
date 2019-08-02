@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4a5bfeea_b4045409",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-02T10:00:31Z",
+      "side": 1,
+      "message": "This point describes a problem with the current process. In the new process it\u0027s the responsibility of the reviewer that proposes an alternative solution, to describe it in a solution.md file and upload it for review. So that burden is at least partly taken away from the design doc author.\n\nI\u0027ve changed the phrasing to make this more clear.\n\nYour 2 points are still valid though. I think we should add them as part of the best practices for design doc reviews that we intend to add as follow-up change.",
+      "parentUuid": "1658528e_78a1f416",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 72
+      },
+      "revId": "7a127c8405f96cff7fda5c7b56a4c11d90c2f48b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "872c2b57_d535a0d0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "7a127c8405f96cff7fda5c7b56a4c11d90c2f48b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6979ce12_facc0bb3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-02T10:00:31Z",
+      "side": 1,
+      "message": "\u003e What is the cut-off when a solution should go into it\u0027s own doc?\n\nThat\u0027s a good question, but I\u0027m afraid that\u0027s hard to define upfront, and mostly depends on the concrete case. If we find good criteria for this, I\u0027m happy to add them to the docs.\n\n\u003e I.e. when should you still make a comment on the other proposed solution vs. start a new doc\n\nWhat I expect to happen is that first a comment is made, then the idea is discussed a bit and then the author either includes it or asks the proposer to start a new solution doc. Not sure if I should add it like this to the docs?\n\n\u003e Should we allow solutions to reference other solutions? For example:\n\u003e Solution 1 is a primary storage rewrite + cache design rewrite\n\u003e Solution 2 is the same as 1 but the cache design is different?\n\nYes, this should be allowed. I added a sentence to the solution template to make this clear. Let me know if you think this should be highlighted more.",
+      "parentUuid": "872c2b57_d535a0d0",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 55
+      },
+      "revId": "7a127c8405f96cff7fda5c7b56a4c11d90c2f48b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "e5690fff_f1b80fd7",
+        "filename": "Documentation/dev-design-doc-conclusion-template.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-02T10:00:31Z",
+      "side": 1,
+      "message": "This section here applies only after a conclusion has been made and it\u0027s already decided which solution is being done. Then this section should say who\u0027s driving the implementation.\n\nIt\u0027s a good point that the implementation plan, and especially the time estimates, should be discussed on solution level, and are actually an important factor for making a conclusion.\n\nThis is why I now moved most of this into the solution template. On the conclusion level it\u0027s enough to state who is taking care to implement the chosen solution.",
+      "parentUuid": "ce584769_98e073ff",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 52
+      },
+      "revId": "7a127c8405f96cff7fda5c7b56a4c11d90c2f48b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93d65789_e88007f2",
         "filename": "Documentation/dev-design-doc-solution-template.md",
         "patchSetId": 2
@@ -91,6 +163,30 @@
       "revId": "7a127c8405f96cff7fda5c7b56a4c11d90c2f48b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c15f1332_3ca2f888",
+        "filename": "Documentation/dev-design-doc-solution-template.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-02T10:00:31Z",
+      "side": 1,
+      "message": "Good point. I rephrased this so that it applies only to implementation details of minor importance.",
+      "parentUuid": "93d65789_e88007f2",
+      "range": {
+        "startLine": 15,
+        "startChar": 21,
+        "endLine": 15,
+        "endChar": 35
+      },
+      "revId": "7a127c8405f96cff7fda5c7b56a4c11d90c2f48b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

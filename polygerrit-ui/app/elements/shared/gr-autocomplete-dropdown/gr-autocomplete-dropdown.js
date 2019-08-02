@@ -163,10 +163,11 @@
 
     _resetCursorStops() {
       if (this.suggestions.length > 0) {
-        Polymer.dom.flush();
-        // Polymer2: querySelectorAll returns NodeList instead of Array.
-        this._suggestionEls = Array.from(
-            this.$.suggestions.querySelectorAll('li'));
+        Polymer.RenderStatus.afterNextRender(this, () => {
+          // Polymer2: querySelectorAll returns NodeList instead of Array.
+          this._suggestionEls = Array.from(
+              this.$.suggestions.querySelectorAll('li'));
+        });
       } else {
         this._suggestionEls = [];
       }

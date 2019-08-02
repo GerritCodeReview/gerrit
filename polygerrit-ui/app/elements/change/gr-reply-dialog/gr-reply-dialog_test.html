@@ -442,11 +442,15 @@ limitations under the License.
     }
 
     test('cc confirmation', done => {
-      testConfirmationDialog(done, true);
+      Polymer.RenderStatus.afterNextRender(element, () => {
+        testConfirmationDialog(done, true);
+      });
     });
 
     test('reviewer confirmation', done => {
-      testConfirmationDialog(done, false);
+      Polymer.RenderStatus.afterNextRender(element, () => {
+        testConfirmationDialog(done, false);
+      });
     });
 
     test('_getStorageLocation', () => {

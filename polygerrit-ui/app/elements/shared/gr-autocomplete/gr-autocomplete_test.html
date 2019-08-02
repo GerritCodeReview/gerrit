@@ -48,7 +48,7 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('renders', () => {
+    test('renders', done => {
       let promise;
       const queryStub = sandbox.spy(input => {
         return promise = Promise.resolve([
@@ -67,8 +67,7 @@ limitations under the License.
 
       assert.isTrue(queryStub.called);
       element._focused = true;
-
-      return promise.then(() => {
+      promise.then(() => {
         assert.isFalse(element.$.suggestions.isHidden);
         const suggestions =
             Polymer.dom(element.$.suggestions.root).querySelectorAll('li');
@@ -77,8 +76,8 @@ limitations under the License.
         for (let i = 0; i < 5; i++) {
           assert.equal(suggestions[i].innerText.trim(), 'blah ' + i);
         }
-
         assert.notEqual(element.$.suggestions.$.cursor.index, -1);
+        done();
       });
     });
 
@@ -142,41 +141,46 @@ limitations under the License.
       element.query = queryStub;
 
       assert.isTrue(element.$.suggestions.isHidden);
-      assert.equal(element.$.suggestions.$.cursor.index, -1);
-      element._focused = true;
-      element.text = 'blah';
+      Polymer.RenderStatus.afterNextRender(element, () => {
+        assert.equal(element.$.suggestions.$.cursor.index, -1);
+        element._focused = true;
+        element.text = 'blah';
 
-      promise.then(() => {
-        assert.isFalse(element.$.suggestions.isHidden);
+        promise.then(() => {
+          assert.isFalse(element.$.suggestions.isHidden);
 
-        const commitHandler = sandbox.spy();
-        element.addEventListener('commit', commitHandler);
+          const commitHandler = sandbox.spy();
+          element.addEventListener('commit', commitHandler);
 
-        assert.equal(element.$.suggestions.$.cursor.index, 0);
+          Polymer.RenderStatus.afterNextRender(element, () => {
+            assert.equal(element.$.suggestions.$.cursor.index, 0);
 
-        MockInteractions.pressAndReleaseKeyOn(element.$.input, 40, null,
-            'down');
+            MockInteractions.pressAndReleaseKeyOn(element.$.input, 40, null,
+                'down');
 
-        assert.equal(element.$.suggestions.$.cursor.index, 1);
+            assert.equal(element.$.suggestions.$.cursor.index, 1);
 
-        MockInteractions.pressAndReleaseKeyOn(element.$.input, 40, null,
-            'down');
+            MockInteractions.pressAndReleaseKeyOn(element.$.input, 40, null,
+                'down');
 
-        assert.equal(element.$.suggestions.$.cursor.index, 2);
+            assert.equal(element.$.suggestions.$.cursor.index, 2);
 
-        MockInteractions.pressAndReleaseKeyOn(element.$.input, 38, null, 'up');
+            MockInteractions.pressAndReleaseKeyOn(element.$.input,
+                38, null, 'up');
 
-        assert.equal(element.$.suggestions.$.cursor.index, 1);
+            assert.equal(element.$.suggestions.$.cursor.index, 1);
 
-        MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
-            'enter');
+            MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
+                'enter');
 
-        assert.equal(element.value, 1);
-        assert.isTrue(commitHandler.called);
-        assert.equal(commitHandler.getCall(0).args[0].detail.value, 1);
-        assert.isTrue(element.$.suggestions.isHidden);
-        assert.isTrue(element._focused);
-        done();
+            assert.equal(element.value, 1);
+            assert.isTrue(commitHandler.called);
+            assert.equal(commitHandler.getCall(0).args[0].detail.value, 1);
+            assert.isTrue(element.$.suggestions.isHidden);
+            assert.isTrue(element._focused);
+            done();
+          });
+        });
       });
     });
 
@@ -192,12 +196,13 @@ limitations under the License.
         const commitHandler = sandbox.spy();
         element.addEventListener('commit', commitHandler);
 
-        MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
-            'enter');
-
-        assert.isTrue(commitHandler.called);
-        assert.equal(element.text, 'suggestion');
-        done();
+        Polymer.RenderStatus.afterNextRender(element, () => {
+          MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
+              'enter');
+          assert.isTrue(commitHandler.called);
+          assert.equal(element.text, 'suggestion');
+          done();
+        });
       });
     });
 
@@ -280,13 +285,14 @@ limitations under the License.
       promise.then(() => {
         const commitHandler = sandbox.spy();
         element.addEventListener('commit', commitHandler);
+        Polymer.RenderStatus.afterNextRender(element, () => {
+          MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
+              'enter');
 
-        MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
-            'enter');
-
-        assert.isTrue(commitHandler.called);
-        assert.equal(element.text, 'blah 0');
-        done();
+          assert.isTrue(commitHandler.called);
+          assert.equal(element.text, 'blah 0');
+          done();
+        });
       });
     });
 

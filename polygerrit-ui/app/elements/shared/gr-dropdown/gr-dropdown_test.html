@@ -163,12 +163,13 @@ limitations under the License.
     });
 
     suite('keyboard navigation', () => {
-      setup(() => {
+      setup(done => {
         element.items = [
           {name: 'item one', id: 'foo'},
           {name: 'item two', id: 'bar'},
         ];
         flushAsynchronousOperations();
+        Polymer.RenderStatus.afterNextRender(element, done);
       });
 
       test('down', () => {

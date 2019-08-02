@@ -41,11 +41,12 @@ suite('gr-edit-file-controls tests', () => {
   let sandbox;
   let fileActionHandler;
 
-  setup(() => {
+  setup(done => {
     sandbox = sinon.sandbox.create();
     element = fixture('basic');
     fileActionHandler = sandbox.stub();
     element.addEventListener('file-action-tap', fileActionHandler);
+    Polymer.RenderStatus.afterNextRender(element, done);
   });
 
   teardown(() => { sandbox.restore(); });

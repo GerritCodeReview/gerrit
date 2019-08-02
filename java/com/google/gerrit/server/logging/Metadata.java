@@ -89,6 +89,9 @@ public abstract class Metadata {
   // One or more resources
   public abstract Optional<Boolean> multiple();
 
+  // The name of an operation that is performed.
+  public abstract Optional<String> operationName();
+
   // Partial or full computation
   public abstract Optional<Boolean> partial();
 
@@ -184,6 +187,8 @@ public abstract class Metadata {
     public abstract Builder methodName(@Nullable String methodName);
 
     public abstract Builder multiple(boolean multiple);
+
+    public abstract Builder operationName(String operationName);
 
     public abstract Builder partial(boolean partial);
 

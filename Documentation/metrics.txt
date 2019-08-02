@@ -19,6 +19,7 @@ The following metrics are reported.
 by RetryHelper to execute an action (0 == single attempt, no retry)
 * `action/retry_timeout_count`: Number of action executions of RetryHelper
 that ultimately timed out
+* `action/auto_retry_count`: Number of automatic retries with tracing
 
 === Pushes
 

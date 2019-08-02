@@ -291,7 +291,7 @@ public class RetryHelper {
                       .addTag(RequestId.Type.TRACE_ID, "retry-on-failure-" + new RequestId())
                       .forceLogging();
                   logger.atFine().withCause(t).log(
-                      "%s failed, retry with tracing eanbled",
+                      "%s failed, retry with tracing enabled",
                       opts.caller().map(Class::getSimpleName).orElse("N/A"));
                   return true;
                 }

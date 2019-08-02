@@ -28,7 +28,7 @@ project he works on. His first step is to get the source code that he wants to
 modify. To get this code, he runs the following `git clone` command:
 
 ----
-clone ssh://gerrithost:29418/RecipeBook.git RecipeBook
+git clone ssh://gerrithost:29418/RecipeBook.git RecipeBook
 ----
 
 After he clones the repository, he runs a couple of commands to add a

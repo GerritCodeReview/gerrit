@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2582cbc_4aace2b5",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 925,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-08-02T14:35:48Z",
+      "side": 1,
+      "message": "Not much time myself now to check this, but just in case this was missed; ignore otherwise.\n\nForgot to comment about this in the related change. However this one will likely overwrite it.",
+      "range": {
+        "startLine": 924,
+        "startChar": 0,
+        "endLine": 925,
+        "endChar": 35
+      },
+      "revId": "36a529aefa883dd105bc4f6f95910dc123de957f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18da2101_18802b2b",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticV7QueryGroupsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-08-02T14:35:48Z",
+      "side": 1,
+      "message": "As this gets merged upstream, ElasticV7QueryProjectsTest will need to be (manually) amended this same way.",
+      "revId": "36a529aefa883dd105bc4f6f95910dc123de957f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

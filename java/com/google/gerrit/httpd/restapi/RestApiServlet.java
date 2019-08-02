@@ -157,6 +157,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
@@ -444,7 +445,8 @@ public class RestApiServlet extends HttpServlet {
           checkRequiresCapability(viewData);
         }
 
-        if (notModified(req, rsrc, viewData.view)) {
+        Optional<String> etag = getETag(rsrc, viewData.view);
+        if (etag.isPresent() && notModified(req, rsrc, etag.get())) {
           logger.atFinest().log("REST call succeeded: %d", SC_NOT_MODIFIED);
           res.sendError(SC_NOT_MODIFIED);
           return;
@@ -516,7 +518,7 @@ public class RestApiServlet extends HttpServlet {
           @SuppressWarnings("rawtypes")
           Response<?> r = (Response) result;
           status = r.statusCode();
-          configureCaching(req, res, rsrc, viewData.view, r.caching());
+          configureCaching(req, res, rsrc, r.caching(), etag);
         } else if (result instanceof Response.Redirect) {
           CacheHeaders.setNotCacheable(res);
           String location = ((Response.Redirect) result).location();
@@ -752,24 +754,25 @@ public class RestApiServlet extends HttpServlet {
   }
 
   @SuppressWarnings({"unchecked", "rawtypes"})
-  private static boolean notModified(
-      HttpServletRequest req, RestResource rsrc, RestView<RestResource> view) {
+  private Optional<String> getETag(RestResource rsrc, RestView<RestResource> view) {
+    if (view instanceof ETagView) {
+      return Optional.ofNullable(((ETagView) view).getETag(rsrc));
+    }
+
+    if (rsrc instanceof RestResource.HasETag) {
+      return Optional.ofNullable(((RestResource.HasETag) rsrc).getETag());
+    }
+    return Optional.empty();
+  }
+
+  private static boolean notModified(HttpServletRequest req, RestResource rsrc, String etag) {
     if (!isRead(req)) {
       return false;
     }
 
-    if (view instanceof ETagView) {
-      String have = req.getHeader(HttpHeaders.IF_NONE_MATCH);
-      if (have != null) {
-        return have.equals(((ETagView) view).getETag(rsrc));
-      }
-    }
-
-    if (rsrc instanceof RestResource.HasETag) {
-      String have = req.getHeader(HttpHeaders.IF_NONE_MATCH);
-      if (have != null) {
-        return have.equals(((RestResource.HasETag) rsrc).getETag());
-      }
+    String have = req.getHeader(HttpHeaders.IF_NONE_MATCH);
+    if (have != null) {
+      return have.equals(etag);
     }
 
     if (rsrc instanceof RestResource.HasLastModified) {
@@ -783,7 +786,11 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private static <R extends RestResource> void configureCaching(
-      HttpServletRequest req, HttpServletResponse res, R rsrc, RestView<R> view, CacheControl c) {
+      HttpServletRequest req,
+      HttpServletResponse res,
+      R rsrc,
+      CacheControl c,
+      Optional<String> etag) {
     if (isRead(req)) {
       switch (c.getType()) {
         case NONE:
@@ -791,11 +798,11 @@ public class RestApiServlet extends HttpServlet {
           CacheHeaders.setNotCacheable(res);
           break;
         case PRIVATE:
-          addResourceStateHeaders(res, rsrc, view);
+          addResourceStateHeaders(res, rsrc, etag);
           CacheHeaders.setCacheablePrivate(res, c.getAge(), c.getUnit(), c.isMustRevalidate());
           break;
         case PUBLIC:
-          addResourceStateHeaders(res, rsrc, view);
+          addResourceStateHeaders(res, rsrc, etag);
           CacheHeaders.setCacheable(req, res, c.getAge(), c.getUnit(), c.isMustRevalidate());
           break;
       }
@@ -805,12 +812,8 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private static <R extends RestResource> void addResourceStateHeaders(
-      HttpServletResponse res, R rsrc, RestView<R> view) {
-    if (view instanceof ETagView) {
-      res.setHeader(HttpHeaders.ETAG, ((ETagView<R>) view).getETag(rsrc));
-    } else if (rsrc instanceof RestResource.HasETag) {
-      res.setHeader(HttpHeaders.ETAG, ((RestResource.HasETag) rsrc).getETag());
-    }
+      HttpServletResponse res, R rsrc, Optional<String> etagOpt) {
+    etagOpt.ifPresent(etag -> res.setHeader(HttpHeaders.ETAG, etag));
     if (rsrc instanceof RestResource.HasLastModified) {
       res.setDateHeader(
           HttpHeaders.LAST_MODIFIED,
@@ -1438,7 +1441,7 @@ public class RestApiServlet extends HttpServlet {
     if (err != null) {
       RequestUtil.setErrorTraceAttribute(req, err);
     }
-    configureCaching(req, res, null, null, c);
+    configureCaching(req, res, null, c, Optional.empty());
     checkArgument(statusCode >= 400, "non-error status: %s", statusCode);
     res.setStatus(statusCode);
     logger.atFinest().withCause(err).log("REST call failed: %d", statusCode);

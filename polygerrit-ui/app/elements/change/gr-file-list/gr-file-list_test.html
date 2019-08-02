@@ -116,6 +116,11 @@ limitations under the License.
       };
       saveStub = sandbox.stub(element, '_saveReviewedState',
           () => { return Promise.resolve(); });
+
+      Polymer.RenderStatus.afterNextRender = sandbox.spy((c, callback) => {
+        Polymer.dom.flush();
+        callback();
+      });
     });
 
     teardown(() => {

@@ -41,6 +41,10 @@ limitations under the License.
     setup(() => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
+      Polymer.RenderStatus.afterNextRender = sandbox.spy((c, callback) => {
+        Polymer.dom.flush();
+        callback();
+      });
     });
 
     teardown(() => {

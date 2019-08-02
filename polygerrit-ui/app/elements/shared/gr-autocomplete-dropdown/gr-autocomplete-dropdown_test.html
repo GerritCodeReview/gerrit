@@ -47,6 +47,10 @@ limitations under the License.
         {dataValue: 'test value 1', name: 'test name 1', text: 1, label: 'hi'},
         {dataValue: 'test value 2', name: 'test name 2', text: 2}];
       flushAsynchronousOperations();
+      Polymer.RenderStatus.afterNextRender = sandbox.spy((c, callback) => {
+        Polymer.dom.flush();
+        callback();
+      });
     });
 
     teardown(() => {

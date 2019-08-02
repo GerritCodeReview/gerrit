@@ -278,12 +278,13 @@
 
     _resetEmojiDropdown() {
       // hide and reset the autocomplete dropdown.
-      Polymer.dom.flush();
-      this._currentSearchString = '';
-      this._hideAutocomplete = true;
-      this.closeDropdown();
-      this._colonIndex = null;
-      this.$.textarea.textarea.focus();
+      Polymer.RenderStatus.afterNextRender(this, () => {
+        this._currentSearchString = '';
+        this._hideAutocomplete = true;
+        this.closeDropdown();
+        this._colonIndex = null;
+        this.$.textarea.textarea.focus();
+      });
     },
 
     _handleTextChanged(text) {

@@ -85,6 +85,29 @@
       "revId": "49fc7c1197a4e408716c8efadc179e8eb26e73be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "018003d4_bde2f219",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-08-02T13:36:50Z",
+      "side": 1,
+      "message": "Instead of updating this file, I suggest creating a new function \"setActive\" with only a Boolean parameter. That function should calls setActive(bool, null).",
+      "range": {
+        "startLine": 526,
+        "startChar": 0,
+        "endLine": 526,
+        "endChar": 54
+      },
+      "revId": "49fc7c1197a4e408716c8efadc179e8eb26e73be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

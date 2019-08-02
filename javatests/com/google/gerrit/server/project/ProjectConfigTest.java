@@ -318,17 +318,17 @@ public class ProjectConfigTest {
                 + "\tsubmit = group Staff\n"
                 + "  upload = group Developers\n"
                 + "  read = group Developers\n"
-                + "[accounts]\n"
-                + "  sameGroupVisibility = group Staff\n"
-                + "[contributor-agreement \"Individual\"]\n"
-                + "  description = A new description\n"
-                + "  accepted = group Staff\n"
-                + "  agreementUrl = http://www.example.com/agree\n"
-                + "\texcludeProjects = ^/theirproject\n"
                 + "[label \"CustomLabel\"]\n"
                 + LABEL_SCORES_CONFIG
                 + "\tfunction = MaxWithBlock\n" // label gets this function when it is created
-                + "\tdefaultValue = 0\n"); //  label gets this value when it is created
+                + "\tdefaultValue = 0\n" //  label gets this value when it is created
+                + "[accounts]\n"
+                + "\tsameGroupVisibility = group Staff\n"
+                + "[contributor-agreement \"Individual\"]\n"
+                + "\tdescription = A new description\n"
+                + "\tagreementUrl = http://www.example.com/agree\n"
+                + "\taccepted = group Staff\n"
+                + "\texcludeProjects = ^/theirproject\n");
   }
 
   @Test
@@ -451,27 +451,6 @@ public class ProjectConfigTest {
                 + "\tkey1 = updatedValue1\n"
                 + "\tkey2 = updatedValue2a\n"
                 + "\tkey2 = updatedValue2b\n");
-  }
-
-  @Test
-  public void pluginSectionIsUnsetIfAllPluginConfigsAreEmpty() throws Exception {
-    RevCommit rev =
-        tr.commit()
-            .add(
-                "project.config",
-                "[commentlink \"bugzilla\"]\n"
-                    + "  match = \"(bugs#?)(d+)\"\n"
-                    + "[plugin \"somePlugin\"]\n"
-                    + "  key = value\n")
-            .create();
-    update(rev);
-
-    ProjectConfig cfg = read(rev);
-    PluginConfig pluginCfg = cfg.getPluginConfig("somePlugin");
-    pluginCfg.unset("key");
-    rev = commit(cfg);
-    assertThat(text(rev, "project.config"))
-        .isEqualTo("[commentlink \"bugzilla\"]\n  match = \"(bugs#?)(d+)\"\n");
   }
 
   @Test
@@ -659,6 +638,118 @@ public class ProjectConfigTest {
     // continues to return the default.
     assertThat(cfg.getProject().getBooleanConfig(REQUIRE_CHANGE_ID))
         .isEqualTo(InheritableBoolean.INHERIT);
+  }
+
+  @Test
+  public void accountsSectionIsUnsetIfNoSameGroupVisibilityIsSet() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                "[commentlink \"bugzilla\"]\n"
+                    + "\tmatch = \"(bug\\\\s+#?)(\\\\d+)\"\n"
+                    + "\tlink = http://bugs.example.com/show_bug.cgi?id=$2\n"
+                    + "[accounts]\n"
+                    + "  sameGroupVisibility = group Staff\n")
+            .create();
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    cfg.getAccountsSection().setSameGroupVisibility(ImmutableList.of());
+    rev = commit(cfg);
+    assertThat(text(rev, "project.config"))
+        .isEqualTo(
+            "[commentlink \"bugzilla\"]\n\tmatch = \"(bug\\\\s+#?)(\\\\d+)\"\n\tlink = http://bugs.example.com/show_bug.cgi?id=$2\n");
+  }
+
+  @Test
+  public void contributorSectionIsUnsetIfNoContributorAgreementIsSet() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                "[commentlink \"bugzilla\"]\n"
+                    + "\tmatch = \"(bug\\\\s+#?)(\\\\d+)\"\n"
+                    + "\tlink = http://bugs.example.com/show_bug.cgi?id=$2\n"
+                    + "[contributor-agreement \"Individual\"]\n"
+                    + "  accepted = group Developers\n"
+                    + "  accepted = group Staff\n")
+            .create();
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    ContributorAgreement section = cfg.getContributorAgreement("Individual");
+    section.setAccepted(ImmutableList.of());
+    rev = commit(cfg);
+    assertThat(text(rev, "project.config"))
+        .isEqualTo(
+            "[commentlink \"bugzilla\"]\n\tmatch = \"(bug\\\\s+#?)(\\\\d+)\"\n\tlink = http://bugs.example.com/show_bug.cgi?id=$2\n");
+  }
+
+  @Test
+  public void notifySectionIsUnsetIfNoNotificationsAreSet() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                "[commentlink \"bugzilla\"]\n"
+                    + "\tmatch = \"(bug\\\\s+#?)(\\\\d+)\"\n"
+                    + "\tlink = http://bugs.example.com/show_bug.cgi?id=$2\n"
+                    + "[notify \"name\"]\n"
+                    + "  email = example@example.com\n")
+            .create();
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    cfg.getNotifyConfigs().clear();
+    rev = commit(cfg);
+    assertThat(text(rev, "project.config"))
+        .isEqualTo(
+            "[commentlink \"bugzilla\"]\n\tmatch = \"(bug\\\\s+#?)(\\\\d+)\"\n\tlink = http://bugs.example.com/show_bug.cgi?id=$2\n");
+  }
+
+  @Test
+  public void commentLinkSectionIsUnsetIfNoCommentLinksAreSet() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                "[commentlink \"bugzilla\"]\n"
+                    + "\tmatch = \"(bug\\\\s+#?)(\\\\d+)\"\n"
+                    + "\tlink = http://bugs.example.com/show_bug.cgi?id=$2\n"
+                    + "[notify \"name\"]\n"
+                    + "  email = example@example.com\n")
+            .create();
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    cfg.getCommentLinkSections().clear();
+    rev = commit(cfg);
+    assertThat(text(rev, "project.config"))
+        .isEqualTo("[notify \"name\"]\n\temail = example@example.com\n");
+  }
+
+  @Test
+  public void pluginSectionIsUnsetIfAllPluginConfigsAreEmpty() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                "[commentlink \"bugzilla\"]\n"
+                    + "\tmatch = \"(bug\\\\s+#?)(\\\\d+)\"\n"
+                    + "\tlink = http://bugs.example.com/show_bug.cgi?id=$2\n"
+                    + "[plugin \"somePlugin\"]\n"
+                    + "  key = value\n")
+            .create();
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    PluginConfig pluginCfg = cfg.getPluginConfig("somePlugin");
+    pluginCfg.unset("key");
+    rev = commit(cfg);
+    assertThat(text(rev, "project.config"))
+        .isEqualTo(
+            "[commentlink \"bugzilla\"]\n\tmatch = \"(bug\\\\s+#?)(\\\\d+)\"\n\tlink = http://bugs.example.com/show_bug.cgi?id=$2\n");
   }
 
   private Path writeDefaultAllProjectsConfig(String... lines) throws IOException {

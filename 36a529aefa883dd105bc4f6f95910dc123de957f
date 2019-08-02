@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fd87dc9a_ed3bb034",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 925,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-08-02T18:31:45Z",
+      "side": 1,
+      "message": "\u003e Not much time myself now to check this, but just in case this was missed; ignore otherwise.\n\u003e \n\u003e Forgot to comment about this in the related change. However this one will likely overwrite it.\n\nApproving still by now, in case this was checked already. Verified+1 should help confirm anyway.",
+      "parentUuid": "d2582cbc_4aace2b5",
+      "range": {
+        "startLine": 924,
+        "startChar": 0,
+        "endLine": 925,
+        "endChar": 35
+      },
+      "revId": "36a529aefa883dd105bc4f6f95910dc123de957f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "18da2101_18802b2b",
         "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticV7QueryGroupsTest.java",
         "patchSetId": 1

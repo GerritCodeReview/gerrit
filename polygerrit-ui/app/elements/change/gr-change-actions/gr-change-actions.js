@@ -611,7 +611,9 @@
     _deleteAndNotify(actionName) {
       if (this.actions[actionName]) {
         delete this.actions[actionName];
-        this.notifyPath('actions.' + actionName);
+        // We assign a fake value of 'false' to support Polymer 2
+        // see https://github.com/Polymer/polymer/issues/2631
+        this.notifyPath('actions.' + actionName, false);
       }
     },
 

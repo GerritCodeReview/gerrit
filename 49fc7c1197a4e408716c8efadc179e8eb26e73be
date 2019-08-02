@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7649081c_1ca4f7c4",
+        "filename": "java/com/google/gerrit/extensions/api/accounts/AccountApi.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-02T06:21:36Z",
+      "side": 1,
+      "message": "Should be:\n\n  default void setActive(boolean active) throws RestApiException {\n    setActive(active, null);\n  }",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 45,
+        "endChar": 57
+      },
+      "revId": "49fc7c1197a4e408716c8efadc179e8eb26e73be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7fef676_cca3be21",
+        "filename": "java/com/google/gerrit/extensions/api/accounts/AccountApi.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-02T06:21:36Z",
+      "side": 1,
+      "message": "This can be removed if the interface above has a default implementation.",
+      "range": {
+        "startLine": 157,
+        "startChar": 4,
+        "endLine": 160,
+        "endChar": 5
+      },
+      "revId": "49fc7c1197a4e408716c8efadc179e8eb26e73be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88392591_c21f3f1c",
+        "filename": "java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-02T06:21:36Z",
+      "side": 1,
+      "message": "The default implementation should be done on the interface, not here.  See comment on AccountApi.java",
+      "range": {
+        "startLine": 257,
+        "startChar": 2,
+        "endLine": 260,
+        "endChar": 3
+      },
+      "revId": "49fc7c1197a4e408716c8efadc179e8eb26e73be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

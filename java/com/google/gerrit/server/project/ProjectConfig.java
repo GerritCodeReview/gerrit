@@ -1191,6 +1191,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   private void saveAccountsSection(Config rc, Set<AccountGroup.UUID> keepGroups) {
+    unsetSection(rc, ACCOUNTS);
     if (accountsSection != null) {
       rc.setStringList(
           ACCOUNTS,
@@ -1251,6 +1252,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   private void saveNotifySections(Config rc, Set<AccountGroup.UUID> keepGroups) {
+    unsetSection(rc, NOTIFY);
     for (NotifyConfig nc : sort(notifySections.values())) {
       nc.getGroups().stream()
           .map(GroupReference::getUUID)
@@ -1387,9 +1389,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     List<String> existing = new ArrayList<>(rc.getSubsections(LABEL));
     if (!new ArrayList<>(labelSections.keySet()).equals(existing)) {
       // Order of sections changed, remove and rewrite them all.
-      for (String name : existing) {
-        rc.unsetSection(LABEL, name);
-      }
+      unsetSection(rc, LABEL);
     }
 
     Set<String> toUnset = new HashSet<>(existing);
@@ -1485,11 +1485,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   private void savePluginSections(Config rc, Set<AccountGroup.UUID> keepGroups) {
-    List<String> existing = new ArrayList<>(rc.getSubsections(PLUGIN));
-    for (String name : existing) {
-      rc.unsetSection(PLUGIN, name);
-    }
-
+    unsetSection(rc, PLUGIN);
     for (Map.Entry<String, Config> e : pluginConfigs.entrySet()) {
       String plugin = e.getKey();
       Config pluginConfig = e.getValue();
@@ -1514,6 +1510,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   private void saveSubscribeSections(Config rc) {
+    unsetSection(rc, SUBSCRIBE_SECTION);
     for (Project.NameKey p : subscribeSections.keySet()) {
       SubscribeSection s = subscribeSections.get(p);
       List<String> matchings = new ArrayList<>();
@@ -1527,6 +1524,12 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         multimatchs.add(r.toString());
       }
       rc.setStringList(SUBSCRIBE_SECTION, p.get(), SUBSCRIBE_MULTI_MATCH_REFS, multimatchs);
+    }
+  }
+
+  private void unsetSection(Config rc, String sectionName) {
+    for (String subSectionName : rc.getSubsections(sectionName)) {
+      rc.unsetSection(sectionName, subSectionName);
     }
   }
 

@@ -16,6 +16,24 @@
       "revId": "ed4a16bb725c09cf5dddc1e5dc813561a3954dc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "662b9bd9_49a400cd",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-02T14:15:05Z",
+      "side": 1,
+      "message": "Actually:\n\n      test(\u0027_handleSettingsLegacyRoute with +\u0027, () \u003d\u003e {\n        const data \u003d {params: {0: \u0027my-token test\u0027}};\n        assertDataToParams(data, \u0027_handleSettingsLegacyRoute\u0027, {\n          view: Gerrit.Nav.View.SETTINGS,\n          emailToken: \u0027my-token+test\u0027,\n        });\n      });",
+      "parentUuid": "aecdd109_69aaba34",
+      "revId": "ed4a16bb725c09cf5dddc1e5dc813561a3954dc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

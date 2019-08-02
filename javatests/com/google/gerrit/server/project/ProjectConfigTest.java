@@ -318,17 +318,17 @@ public class ProjectConfigTest {
                 + "\tsubmit = group Staff\n"
                 + "  upload = group Developers\n"
                 + "  read = group Developers\n"
-                + "[accounts]\n"
-                + "  sameGroupVisibility = group Staff\n"
-                + "[contributor-agreement \"Individual\"]\n"
-                + "  description = A new description\n"
-                + "  accepted = group Staff\n"
-                + "  agreementUrl = http://www.example.com/agree\n"
-                + "\texcludeProjects = ^/theirproject\n"
                 + "[label \"CustomLabel\"]\n"
                 + LABEL_SCORES_CONFIG
                 + "\tfunction = MaxWithBlock\n" // label gets this function when it is created
-                + "\tdefaultValue = 0\n"); //  label gets this value when it is created
+                + "\tdefaultValue = 0\n" //  label gets this value when it is created
+                + "[accounts]\n"
+                + "\tsameGroupVisibility = group Staff\n"
+                + "[contributor-agreement \"Individual\"]\n"
+                + "\tdescription = A new description\n"
+                + "\tagreementUrl = http://www.example.com/agree\n"
+                + "\taccepted = group Staff\n"
+                + "\texcludeProjects = ^/theirproject\n");
   }
 
   @Test
@@ -460,7 +460,8 @@ public class ProjectConfigTest {
             .add(
                 "project.config",
                 "[commentlink \"bugzilla\"]\n"
-                    + "  match = \"(bugs#?)(d+)\"\n"
+                    + "\tmatch = \"(bug\\\\s+#?)(\\\\d+)\"\n"
+                    + "\tlink = http://bugs.example.com/show_bug.cgi?id=$2\n"
                     + "[plugin \"somePlugin\"]\n"
                     + "  key = value\n")
             .create();
@@ -471,7 +472,8 @@ public class ProjectConfigTest {
     pluginCfg.unset("key");
     rev = commit(cfg);
     assertThat(text(rev, "project.config"))
-        .isEqualTo("[commentlink \"bugzilla\"]\n  match = \"(bugs#?)(d+)\"\n");
+        .isEqualTo(
+            "[commentlink \"bugzilla\"]\n\tmatch = \"(bug\\\\s+#?)(\\\\d+)\"\n\tlink = http://bugs.example.com/show_bug.cgi?id=$2\n");
   }
 
   @Test

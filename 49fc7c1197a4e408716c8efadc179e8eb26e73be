@@ -108,6 +108,30 @@
       "revId": "49fc7c1197a4e408716c8efadc179e8eb26e73be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c5dd98b_c4798624",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-02T14:15:52Z",
+      "side": 1,
+      "message": "That\u0027s what I\u0027ve suggested on AccountApi.java",
+      "parentUuid": "018003d4_bde2f219",
+      "range": {
+        "startLine": 526,
+        "startChar": 0,
+        "endLine": 526,
+        "endChar": 54
+      },
+      "revId": "49fc7c1197a4e408716c8efadc179e8eb26e73be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

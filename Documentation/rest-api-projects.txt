@@ -3058,12 +3058,12 @@ link:config-gerrit.html#commentlink[commentlink].
 |Field Name |        |Description
 |`match`    |        |A JavaScript regular expression to match
 positions to be replaced with a hyperlink, as documented in
-link#config-gerrit.html#commentlink.name.match[commentlink.name.match].
+link:config-gerrit.html#commentlink.name.match[commentlink.name.match].
 |`link`     |        |The URL to direct the user to whenever the
 regular expression is matched, as documented in
-link#config-gerrit.html#commentlink.name.link[commentlink.name.link].
+link:config-gerrit.html#commentlink.name.link[commentlink.name.link].
 |`enabled`  |optional|Whether the commentlink is enabled, as documented
-in link#config-gerrit.html#commentlink.name.enabled[
+in link:config-gerrit.html#commentlink.name.enabled[
 commentlink.name.enabled]. If not set the commentlink is enabled.
 |==================================================
 

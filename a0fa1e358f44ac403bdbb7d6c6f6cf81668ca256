@@ -16,6 +16,24 @@
       "revId": "a0fa1e358f44ac403bdbb7d6c6f6cf81668ca256",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70df7c0f_2b51e8aa",
+        "filename": "java/com/google/gerrit/json/EnumTypeAdapterFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-08-03T12:23:12Z",
+      "side": 1,
+      "message": "Eclipse 4.12 is emitting two different warnings on the base version: \"Multiple markers at this line\":\n\n* EnumTypeAdapterFactory.EnumTypeAdapter is a raw type. References to generic type. EnumTypeAdapterFactory.EnumTypeAdapter\u003cT\u003e should be parameterized\n* Unnecessary cast from EnumTypeAdapterFactory.EnumTypeAdapter to TypeAdapter\u003cT\u003e\n\nI should probably mention in the commit message the raw type issue.",
+      "parentUuid": "f1236404_1ffba92e",
+      "revId": "a0fa1e358f44ac403bdbb7d6c6f6cf81668ca256",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

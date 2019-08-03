@@ -22,6 +22,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
@@ -503,6 +504,19 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     ChangeNotesCache.Value v =
         args.cache.get().get(getProjectName(), getChangeId(), rev, handle::walk);
     state = v.state();
+
+    String stateServerId = state.serverId();
+    /**
+     * In earlier Gerrit versions server id wasn't part of the change notes cache. That why the
+     * earlier cached entries don't have the server id attribute. That's fine because in earlier
+     * gerrit version server id was already validated. Another approach to simplify the check would
+     * be to bump the cache version, but that would invalidate all persistent cache entries, what we
+     * rather try to avoid.
+     */
+    checkState(
+        Strings.isNullOrEmpty(stateServerId) || args.serverId.equals(stateServerId),
+        String.format("invalid server id, expected %s: actual: %s", args.serverId, stateServerId));
+
     state.copyColumnsTo(change);
     revisionNoteMap = v.revisionNoteMap();
   }

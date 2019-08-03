@@ -19,7 +19,8 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ChangeNotesStatesLoader;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collections;
@@ -27,11 +28,19 @@ import java.util.Set;
 
 @Singleton
 public class GetHashtags implements RestReadView<ChangeResource> {
+
+  private final ChangeNotesStatesLoader.Factory changeNotesStateLoaderFactory;
+
+  @Inject
+  public GetHashtags(ChangeNotesStatesLoader.Factory changeNotesStateLoaderFactory) {
+    this.changeNotesStateLoaderFactory = changeNotesStateLoaderFactory;
+  }
+
   @Override
   public Response<Set<String>> apply(ChangeResource req)
       throws AuthException, IOException, BadRequestException {
-    ChangeNotes notes = req.getNotes().load();
-    Set<String> hashtags = notes.getHashtags();
+    ChangeNotesStatesLoader loader = changeNotesStateLoaderFactory.createChecked(req.getChange());
+    Set<String> hashtags = loader.state().hashtags();
     if (hashtags == null) {
       hashtags = Collections.emptySet();
     }

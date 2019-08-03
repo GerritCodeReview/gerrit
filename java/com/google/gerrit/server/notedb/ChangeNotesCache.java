@@ -131,6 +131,7 @@ public class ChangeNotesCache {
           + O
           + 20 // metaId
           + K // changeId
+          + 36 // serverId UUID length (128/4) + 4 hyphen characters
           + str(40) // changeKey
           + T // createdOn
           + T // lastUpdatedOn

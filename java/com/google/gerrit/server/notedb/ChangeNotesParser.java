@@ -135,6 +135,7 @@ class ChangeNotesParser {
   private Timestamp createdOn;
   private Timestamp lastUpdatedOn;
   private Account.Id ownerId;
+  private String serverId;
   private String changeId;
   private String subject;
   private String originalSubject;
@@ -223,6 +224,7 @@ class ChangeNotesParser {
         createdOn,
         lastUpdatedOn,
         ownerId,
+        serverId,
         branch,
         buildCurrentPatchSetId(),
         subject,
@@ -334,6 +336,10 @@ class ChangeNotesParser {
     Account.Id accountId = parseIdent(commit);
     if (accountId != null) {
       ownerId = accountId;
+      PersonIdent personIdent = commit.getAuthorIdent();
+      serverId = NoteDbUtil.extractHostPartFromPersonIdent(personIdent);
+    } else {
+      serverId = "UNKNOWN_SERVER_ID";
     }
     Account.Id realAccountId = parseRealAccountId(commit, accountId);
 

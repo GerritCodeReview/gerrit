@@ -503,6 +503,12 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     ChangeNotesCache.Value v =
         args.cache.get().get(getProjectName(), getChangeId(), rev, handle::walk);
     state = v.state();
+
+    checkState(
+        state.serverId().equals(args.serverId),
+        String.format(
+            "invalid server id, expected %s: actual: %s", args.serverId, state.serverId()));
+
     state.copyColumnsTo(change);
     revisionNoteMap = v.revisionNoteMap();
   }

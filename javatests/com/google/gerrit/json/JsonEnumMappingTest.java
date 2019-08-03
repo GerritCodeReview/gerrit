@@ -71,10 +71,6 @@ public class JsonEnumMappingTest {
 
   private static class TestData {
     TestEnum value;
-
-    public TestData(TestEnum value) {
-      this.value = value;
-    }
   }
 
   private enum TestEnum {

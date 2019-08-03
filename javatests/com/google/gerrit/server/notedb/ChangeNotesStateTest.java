@@ -56,6 +56,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
@@ -66,6 +67,7 @@ public class ChangeNotesStateTest {
       ObjectId.fromString("1234567812345678123456781234567812345678");
   private static final ByteString SHA_BYTES = ObjectIdConverter.create().toByteString(SHA);
   private static final String CHANGE_KEY = "Iabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd";
+  private static final String DEFAULT_SERVER_ID = UUID.randomUUID().toString();
 
   private ChangeColumns cols;
   private ChangeColumnsProto colsProto;
@@ -717,6 +719,7 @@ public class ChangeNotesStateTest {
             ImmutableMap.<String, Type>builder()
                 .put("metaId", ObjectId.class)
                 .put("changeId", Change.Id.class)
+                .put("serverId", String.class)
                 .put("columns", ChangeColumns.class)
                 .put("pastAssignees", new TypeLiteral<ImmutableSet<Account.Id>>() {}.getType())
                 .put("hashtags", new TypeLiteral<ImmutableSet<String>>() {}.getType())
@@ -916,6 +919,19 @@ public class ChangeNotesStateTest {
                 .put("unresolved", boolean.class)
                 .put("legacyFormat", boolean.class)
                 .build());
+  }
+
+  @Test
+  public void serializeServerId() throws Exception {
+    assertRoundTrip(
+        newBuilder().serverId(DEFAULT_SERVER_ID).build(),
+        ChangeNotesStateProto.newBuilder()
+            .setMetaId(SHA_BYTES)
+            .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
+            .setHasServerId(true)
+            .setColumns(colsProto.toBuilder())
+            .build());
   }
 
   private static ChangeNotesStateProto toProto(ChangeNotesState state) throws Exception {

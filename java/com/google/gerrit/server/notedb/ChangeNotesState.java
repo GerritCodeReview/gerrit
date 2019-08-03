@@ -34,6 +34,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Table;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.mail.Address;
@@ -276,10 +277,11 @@ public abstract class ChangeNotesState {
   // Other related to this Change.
   abstract ImmutableSet<Account.Id> pastAssignees();
 
-  abstract ImmutableSet<String> hashtags();
+  @UsedAt(value = UsedAt.Project.PLUGIN_ANALYTICS)
+  public abstract ImmutableSet<String> hashtags();
 
   @Nullable
-  abstract String serverId();
+  public abstract String serverId();
 
   abstract ImmutableList<Map.Entry<PatchSet.Id, PatchSet>> patchSets();
 

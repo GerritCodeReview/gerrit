@@ -25,6 +25,7 @@ import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -51,6 +52,7 @@ public abstract class AbstractChangeNotes<T> {
     public final AllUsersName allUsers;
     public final LegacyChangeNoteRead legacyChangeNoteRead;
     public final NoteDbMetrics metrics;
+    public final String serverId;
 
     // Providers required to avoid dependency cycles.
 
@@ -64,7 +66,8 @@ public abstract class AbstractChangeNotes<T> {
         ChangeNoteJson changeNoteJson,
         LegacyChangeNoteRead legacyChangeNoteRead,
         NoteDbMetrics metrics,
-        Provider<ChangeNotesCache> cache) {
+        Provider<ChangeNotesCache> cache,
+        @GerritServerId String serverId) {
       this.failOnLoadForTest = new AtomicBoolean();
       this.repoManager = repoManager;
       this.allUsers = allUsers;
@@ -72,6 +75,7 @@ public abstract class AbstractChangeNotes<T> {
       this.changeNoteJson = changeNoteJson;
       this.metrics = metrics;
       this.cache = cache;
+      this.serverId = serverId;
     }
   }
 

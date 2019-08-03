@@ -50,14 +50,11 @@ public class LegacyChangeNoteRead {
 
   public Account.Id parseIdent(PersonIdent ident, Change.Id changeId)
       throws ConfigInvalidException {
-    return NoteDbUtil.parseIdent(ident, serverId)
+    return NoteDbUtil.parseIdent(ident)
         .orElseThrow(
             () ->
                 parseException(
-                    changeId,
-                    "invalid identity, expected <id>@%s: %s",
-                    serverId,
-                    ident.getEmailAddress()));
+                    changeId, "cannot retrieve account id: %s", ident.getEmailAddress()));
   }
 
   private static boolean match(byte[] note, MutableInteger p, byte[] expected) {

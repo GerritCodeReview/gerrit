@@ -56,6 +56,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
@@ -66,6 +67,7 @@ public class ChangeNotesStateTest {
       ObjectId.fromString("1234567812345678123456781234567812345678");
   private static final ByteString SHA_BYTES = ObjectIdConverter.create().toByteString(SHA);
   private static final String CHANGE_KEY = "Iabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd";
+  private static final String DEFAULT_SERVER_ID = UUID.randomUUID().toString();
 
   private ChangeColumns cols;
   private ChangeColumnsProto colsProto;
@@ -88,7 +90,7 @@ public class ChangeNotesStateTest {
   }
 
   private ChangeNotesState.Builder newBuilder() {
-    return ChangeNotesState.Builder.empty(ID).metaId(SHA).columns(cols);
+    return ChangeNotesState.Builder.empty(ID).metaId(SHA).serverId(DEFAULT_SERVER_ID).columns(cols);
   }
 
   @Test
@@ -103,6 +105,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(
                 colsProto.toBuilder().setChangeKey("Ieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"))
             .build());
@@ -115,6 +118,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(colsProto.toBuilder().setCreatedOn(98765L))
             .build());
   }
@@ -126,6 +130,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(colsProto.toBuilder().setLastUpdatedOn(98765L))
             .build());
   }
@@ -137,6 +142,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(colsProto.toBuilder().setOwner(7777))
             .build());
   }
@@ -148,6 +154,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(colsProto.toBuilder().setBranch("refs/heads/bar"))
             .build());
   }
@@ -159,6 +166,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(colsProto.toBuilder().setSubject("A different test change"))
             .build());
   }
@@ -172,6 +180,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(colsProto.toBuilder().setCurrentPatchSetId(2).setHasCurrentPatchSetId(true))
             .build());
   }
@@ -183,6 +192,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(colsProto)
             .build());
   }
@@ -195,6 +205,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(colsProto.toBuilder().setTopic("").setHasTopic(true))
             .build());
   }
@@ -207,6 +218,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(colsProto.toBuilder().setTopic("topic").setHasTopic(true))
             .build());
   }
@@ -220,6 +232,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(
                 colsProto
                     .toBuilder()
@@ -235,6 +248,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(colsProto.toBuilder().setSubmissionId("xyz").setHasSubmissionId(true))
             .build());
   }
@@ -246,6 +260,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(colsProto.toBuilder().setAssignee(2000).setHasAssignee(true))
             .build());
   }
@@ -257,6 +272,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(colsProto.toBuilder().setStatus("MERGED").setHasStatus(true))
             .build());
   }
@@ -268,6 +284,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(colsProto.toBuilder().setIsPrivate(true))
             .build());
   }
@@ -279,6 +296,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(colsProto.toBuilder().setWorkInProgress(true))
             .build());
   }
@@ -290,6 +308,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(colsProto.toBuilder().setReviewStarted(true))
             .build());
   }
@@ -301,6 +320,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(colsProto.toBuilder().setRevertOf(999).setHasRevertOf(true))
             .build());
   }
@@ -312,6 +332,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(colsProto)
             .addPastAssignee(2002)
             .addPastAssignee(2001)
@@ -326,6 +347,7 @@ public class ChangeNotesStateTest {
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
             .setColumns(colsProto)
+            .setServerId(DEFAULT_SERVER_ID)
             .addHashtag("tag2")
             .addHashtag("tag1")
             .build());
@@ -359,6 +381,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(colsProto)
             .addPatchSet(ps2Bytes)
             .addPatchSet(ps1Bytes)
@@ -397,6 +420,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(colsProto)
             .addApproval(a2Bytes)
             .addApproval(a1Bytes)
@@ -417,6 +441,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(colsProto)
             .addReviewer(
                 ReviewerSetEntryProto.newBuilder()
@@ -451,6 +476,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(colsProto)
             .addReviewerByEmail(
                 ReviewerByEmailSetEntryProto.newBuilder()
@@ -481,6 +507,7 @@ public class ChangeNotesStateTest {
                 .setMetaId(SHA_BYTES)
                 .setChangeId(ID.get())
                 .setColumns(colsProto)
+                .setServerId(DEFAULT_SERVER_ID)
                 .addReviewerByEmail(
                     ReviewerByEmailSetEntryProto.newBuilder()
                         .setState("CC")
@@ -512,6 +539,7 @@ public class ChangeNotesStateTest {
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
             .setColumns(colsProto)
+            .setServerId(DEFAULT_SERVER_ID)
             .addPendingReviewer(
                 ReviewerSetEntryProto.newBuilder()
                     .setState("CC")
@@ -545,6 +573,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(colsProto)
             .addPendingReviewerByEmail(
                 ReviewerByEmailSetEntryProto.newBuilder()
@@ -566,6 +595,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(colsProto)
             .addPastReviewer(2002)
             .addPastReviewer(2001)
@@ -593,6 +623,7 @@ public class ChangeNotesStateTest {
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
             .setColumns(colsProto)
+            .setServerId(DEFAULT_SERVER_ID)
             .addReviewerUpdate(
                 ReviewerStatusUpdateProto.newBuilder()
                     .setDate(1212L)
@@ -621,6 +652,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(colsProto)
             .addSubmitRecord("{\"status\":\"FORCED\"}")
             .addSubmitRecord("{\"status\":\"OK\"}")
@@ -654,6 +686,7 @@ public class ChangeNotesStateTest {
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
             .setColumns(colsProto)
+            .setServerId(DEFAULT_SERVER_ID)
             .addChangeMessage(m2Bytes)
             .addChangeMessage(m1Bytes)
             .build());
@@ -692,6 +725,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(colsProto)
             .addPublishedComment(c2Json)
             .addPublishedComment(c1Json)
@@ -705,6 +739,7 @@ public class ChangeNotesStateTest {
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())
+            .setServerId(DEFAULT_SERVER_ID)
             .setColumns(colsProto)
             .setUpdateCount(234)
             .build());
@@ -717,6 +752,7 @@ public class ChangeNotesStateTest {
             ImmutableMap.<String, Type>builder()
                 .put("metaId", ObjectId.class)
                 .put("changeId", Change.Id.class)
+                .put("serverId", String.class)
                 .put("columns", ChangeColumns.class)
                 .put("pastAssignees", new TypeLiteral<ImmutableSet<Account.Id>>() {}.getType())
                 .put("hashtags", new TypeLiteral<ImmutableSet<String>>() {}.getType())

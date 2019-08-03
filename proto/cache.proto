@@ -186,6 +186,9 @@ message ChangeNotesStateProto {
 
   // Number of updates to the change's meta ref.
   int32 update_count = 19;
+
+  string server_id = 20;
+  bool has_server_id = 21;
 }
 
 

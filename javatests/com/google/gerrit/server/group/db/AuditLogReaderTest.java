@@ -37,7 +37,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
   @Before
   public void setUp() throws Exception {
-    auditLogReader = new AuditLogReader(SERVER_ID, allUsersName);
+    auditLogReader = new AuditLogReader(allUsersName);
   }
 
   @Test

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "e7dc30a0_08ff645d",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 925,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-03T04:20:10Z",
+      "side": 1,
+      "message": "The versions we use are still the same as the versions specified in elasticsearch-rest-client\u0027s pom.xml",
+      "parentUuid": "fd87dc9a_ed3bb034",
+      "range": {
+        "startLine": 924,
+        "startChar": 0,
+        "endLine": 925,
+        "endChar": 35
+      },
+      "revId": "36a529aefa883dd105bc4f6f95910dc123de957f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18da2101_18802b2b",
         "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticV7QueryGroupsTest.java",
         "patchSetId": 1

@@ -66,7 +66,7 @@ public final class GerritLauncher {
   }
 
   /**
-   * Invokes a proram.
+   * Invokes a program.
    *
    * <p>Creates a new classloader to load and run the program class. To reuse a classloader across
    * calls (e.g. from tests), use {@link #invokeProgram(ClassLoader, String[])}.

@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.client.AccountGroupByIdAudit;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.notedb.NoteDbUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -51,12 +50,10 @@ import org.eclipse.jgit.util.RawParseUtils;
 public class AuditLogReader {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final String serverId;
   private final AllUsersName allUsersName;
 
   @Inject
-  public AuditLogReader(@GerritServerId String serverId, AllUsersName allUsersName) {
-    this.serverId = serverId;
+  public AuditLogReader(AllUsersName allUsersName) {
     this.allUsersName = allUsersName;
   }
 
@@ -143,7 +140,7 @@ public class AuditLogReader {
   }
 
   private Optional<ParsedCommit> parse(AccountGroup.UUID uuid, RevCommit c) {
-    Optional<Account.Id> authorId = NoteDbUtil.parseIdent(c.getAuthorIdent(), serverId);
+    Optional<Account.Id> authorId = NoteDbUtil.parseIdent(c.getAuthorIdent());
     if (!authorId.isPresent()) {
       // Only report audit events from identified users, since this was a non-nullable field in
       // ReviewDb. May be revisited.
@@ -179,7 +176,7 @@ public class AuditLogReader {
   private Optional<Account.Id> parseAccount(AccountGroup.UUID uuid, RevCommit c, FooterLine line) {
     Optional<Account.Id> result =
         Optional.ofNullable(RawParseUtils.parsePersonIdent(line.getValue()))
-            .flatMap(ident -> NoteDbUtil.parseIdent(ident, serverId));
+            .flatMap(ident -> NoteDbUtil.parseIdent(ident));
     if (!result.isPresent()) {
       logInvalid(uuid, c, line);
     }

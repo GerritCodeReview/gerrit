@@ -96,6 +96,7 @@ public abstract class ChangeNotesState {
       Timestamp createdOn,
       Timestamp lastUpdatedOn,
       Account.Id owner,
+      String serverId,
       String branch,
       @Nullable PatchSet.Id currentPatchSetId,
       String subject,
@@ -154,6 +155,7 @@ public abstract class ChangeNotesState {
                 .build())
         .pastAssignees(pastAssignees)
         .hashtags(hashtags)
+        .serverId(serverId)
         .patchSets(patchSets.entrySet())
         .approvals(approvals.entries())
         .reviewers(reviewers)
@@ -276,6 +278,9 @@ public abstract class ChangeNotesState {
 
   abstract ImmutableSet<String> hashtags();
 
+  @Nullable
+  abstract String serverId();
+
   abstract ImmutableList<Map.Entry<PatchSet.Id, PatchSet>> patchSets();
 
   abstract ImmutableList<Map.Entry<PatchSet.Id, PatchSetApproval>> approvals();
@@ -376,6 +381,8 @@ public abstract class ChangeNotesState {
 
     abstract Builder columns(ChangeColumns columns);
 
+    abstract Builder serverId(String serverId);
+
     abstract Builder pastAssignees(Set<Account.Id> pastAssignees);
 
     abstract Builder hashtags(Iterable<String> hashtags);
@@ -427,6 +434,7 @@ public abstract class ChangeNotesState {
           .setChangeId(object.changeId().get())
           .setColumns(toChangeColumnsProto(object.columns()));
 
+      b.setServerId(object.serverId());
       object.pastAssignees().forEach(a -> b.addPastAssignee(a.get()));
       object.hashtags().forEach(b::addHashtag);
       object
@@ -549,6 +557,7 @@ public abstract class ChangeNotesState {
               .metaId(ObjectIdConverter.create().fromByteString(proto.getMetaId()))
               .changeId(changeId)
               .columns(toChangeColumns(changeId, proto.getColumns()))
+              .serverId(proto.getServerId())
               .pastAssignees(
                   proto.getPastAssigneeList().stream().map(Account::id).collect(toImmutableSet()))
               .hashtags(proto.getHashtagList())

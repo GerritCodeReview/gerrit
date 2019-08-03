@@ -96,6 +96,7 @@ public abstract class ChangeNotesState {
       Timestamp createdOn,
       Timestamp lastUpdatedOn,
       Account.Id owner,
+      String serverId,
       String branch,
       @Nullable PatchSet.Id currentPatchSetId,
       String subject,
@@ -154,6 +155,7 @@ public abstract class ChangeNotesState {
                 .build())
         .pastAssignees(pastAssignees)
         .hashtags(hashtags)
+        .serverId(serverId)
         .patchSets(patchSets.entrySet())
         .approvals(approvals.entries())
         .reviewers(reviewers)
@@ -276,6 +278,9 @@ public abstract class ChangeNotesState {
 
   abstract ImmutableSet<String> hashtags();
 
+  @Nullable
+  abstract String serverId();
+
   abstract ImmutableList<Map.Entry<PatchSet.Id, PatchSet>> patchSets();
 
   abstract ImmutableList<Map.Entry<PatchSet.Id, PatchSetApproval>> approvals();
@@ -375,6 +380,8 @@ public abstract class ChangeNotesState {
     abstract Builder changeId(Change.Id changeId);
 
     abstract Builder columns(ChangeColumns columns);
+
+    abstract Builder serverId(String serverId);
 
     abstract Builder pastAssignees(Set<Account.Id> pastAssignees);
 
@@ -553,12 +560,16 @@ public abstract class ChangeNotesState {
                   proto.getPastAssigneeList().stream().map(Account::id).collect(toImmutableSet()))
               .hashtags(proto.getHashtagList())
               .patchSets(
-                  proto.getPatchSetList().stream()
+                  proto
+                      .getPatchSetList()
+                      .stream()
                       .map(bytes -> parseProtoFrom(PatchSetProtoConverter.INSTANCE, bytes))
                       .map(ps -> Maps.immutableEntry(ps.id(), ps))
                       .collect(toImmutableList()))
               .approvals(
-                  proto.getApprovalList().stream()
+                  proto
+                      .getApprovalList()
+                      .stream()
                       .map(bytes -> parseProtoFrom(PatchSetApprovalProtoConverter.INSTANCE, bytes))
                       .map(a -> Maps.immutableEntry(a.patchSetId(), a))
                       .collect(toImmutableList()))
@@ -570,15 +581,21 @@ public abstract class ChangeNotesState {
                   proto.getPastReviewerList().stream().map(Account::id).collect(toImmutableList()))
               .reviewerUpdates(toReviewerStatusUpdateList(proto.getReviewerUpdateList()))
               .submitRecords(
-                  proto.getSubmitRecordList().stream()
+                  proto
+                      .getSubmitRecordList()
+                      .stream()
                       .map(r -> GSON.fromJson(r, StoredSubmitRecord.class).toSubmitRecord())
                       .collect(toImmutableList()))
               .changeMessages(
-                  proto.getChangeMessageList().stream()
+                  proto
+                      .getChangeMessageList()
+                      .stream()
                       .map(bytes -> parseProtoFrom(ChangeMessageProtoConverter.INSTANCE, bytes))
                       .collect(toImmutableList()))
               .publishedComments(
-                  proto.getPublishedCommentList().stream()
+                  proto
+                      .getPublishedCommentList()
+                      .stream()
                       .map(r -> GSON.fromJson(r, Comment.class))
                       .collect(toImmutableListMultimap(Comment::getCommitId, c -> c)))
               .updateCount(proto.getUpdateCount());

@@ -63,9 +63,6 @@ public class ExternalIdCacheLoader extends CacheLoader<ObjectId, AllExternalIds>
   // Maximum number of prior states we inspect to find a base for differential. If no cached state
   // is found within this number of parents, we fall back to reading everything from scratch.
   private static final int MAX_HISTORY_LOOKBACK = 10;
-  // Maximum number of changes we perform using the differential approach. If more updates need to
-  // be applied, we fall back to reading everything from scratch.
-  private static final int MAX_DIFF_UPDATES = 50;
 
   private final ExternalIdReader externalIdReader;
   private final Provider<Cache<ObjectId, AllExternalIds>> externalIdCache;

@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommentsUtil;
+import com.google.gerrit.server.change.CommentJson.CommentFormatter;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -66,11 +67,21 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
     if (requireAuthentication() && !rsrc.getUser().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
+    return getCommentFormatter().format(listComments(rsrc));
+  }
+
+  public List<CommentInfo> getComments(ChangeResource rsrc) throws AuthException, OrmException {
+    if (requireAuthentication() && !rsrc.getUser().isIdentifiedUser()) {
+      throw new AuthException("Authentication required");
+    }
+    return getCommentFormatter().formatAsList(listComments(rsrc));
+  }
+
+  private CommentFormatter getCommentFormatter() {
     return commentJson
         .get()
         .setFillAccounts(includeAuthorInfo())
         .setFillPatchSet(true)
-        .newCommentFormatter()
-        .format(listComments(rsrc));
+        .newCommentFormatter();
   }
 }

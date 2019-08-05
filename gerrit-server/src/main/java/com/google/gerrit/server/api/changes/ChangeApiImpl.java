@@ -620,6 +620,15 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
+  public List<CommentInfo> commentsAsList() throws RestApiException {
+    try {
+      return listComments.getComments(change);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get comments", e);
+    }
+  }
+
+  @Override
   public Map<String, List<RobotCommentInfo>> robotComments() throws RestApiException {
     try {
       return listChangeRobotComments.apply(change);
@@ -632,6 +641,15 @@ class ChangeApiImpl implements ChangeApi {
   public Map<String, List<CommentInfo>> drafts() throws RestApiException {
     try {
       return listDrafts.apply(change);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get drafts", e);
+    }
+  }
+
+  @Override
+  public List<CommentInfo> draftsAsList() throws RestApiException {
+    try {
+      return listDrafts.getComments(change);
     } catch (Exception e) {
       throw asRestApiException("Cannot get drafts", e);
     }

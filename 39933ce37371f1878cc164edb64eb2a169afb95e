@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7bc7b78_6000498a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-05T13:04:09Z",
+      "side": 1,
+      "message": "Can you move \"action:...\" before \"min:...\". Then it is more obvious where the difference is compared to Polymer 1.",
+      "revId": "39933ce37371f1878cc164edb64eb2a169afb95e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

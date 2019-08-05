@@ -23,6 +23,30 @@
       "revId": "2a366b51f137db250c6cafbff154f4ee7588386d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "043c4314_7fe11939",
+        "filename": "polygerrit-ui/app/styles/gr-voting-styles.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-08-05T08:33:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbe67cc7_40585a92",
+      "range": {
+        "startLine": 26,
+        "startChar": 33,
+        "endLine": 26,
+        "endChar": 42
+      },
+      "revId": "2a366b51f137db250c6cafbff154f4ee7588386d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

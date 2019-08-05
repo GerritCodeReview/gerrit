@@ -129,6 +129,30 @@
       "revId": "783703934e38bdb9260b267dc65ac2643cba2f7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36bcf250_0ef600ad",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2019-08-05T17:51:37Z",
+      "side": 1,
+      "message": "I\u0027ve checked in the ChangeSchemaDefinitions, we don\u0027t have \u0027latest reindex TS\u0027 but what we have is the \u0027last updated on\u0027 field which should change when submit records for that particular change are changed after re-indexing. I will push a patch set in a few minutes",
+      "parentUuid": "d631da38_ffc4ec51",
+      "range": {
+        "startLine": 94,
+        "startChar": 6,
+        "endLine": 102,
+        "endChar": 7
+      },
+      "revId": "783703934e38bdb9260b267dc65ac2643cba2f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

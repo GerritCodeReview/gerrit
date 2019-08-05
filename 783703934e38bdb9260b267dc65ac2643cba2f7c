@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af229a9a_9c57802c",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T08:10:00Z",
+      "side": 1,
+      "message": "Why not adapt ChangeResource#prepareETag?",
+      "revId": "783703934e38bdb9260b267dc65ac2643cba2f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6b83451_11fe67e6",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T08:10:00Z",
+      "side": 1,
+      "message": "The merge super set computation can be very expensive and we should avoid doing expensive computations while computing ETags. This would defeat the purpose of having ETags in the first place. The ETag computation should be a quick way to check whether the resource was changed so that the recomputation of change details can be skipped. If the computation of the ETag is more/equal expensive as the computation of the change details, we should rather remove the ETags.\n\nThe way how we tried to keep the ETag computation cheap is that we take the resource states that affect the change details into account, rather than doing the computation and including the results in the ETag computation. E.g. include the SHA1 of the change meta ref, rather than including reviewers, approvals, comments etc.\n\nFor submit records that would mean to include the SHA1 of refs/meta/config in which the Prolog submit rules are stored rather than computing the actual submit records. However since submit rules can be inherited you would need to include the SHA1 of refs/meta/config from all parent projects too, which is infeasible (a modification in the All-Projects would invalidate all ETags). I think this is why we never did this. In fact we also have the same problem with indexing. If you change a submit rule in All-Projects, you would basically need to reindex all changes, since the submit records which are stored in the change index, might have changed. AFAIK we don\u0027t have a good solution for this either.\n\nSo I don\u0027t know what\u0027s the right thing to do here, but doing a full merge supper set computation for the ETag computation is not good.",
+      "range": {
+        "startLine": 94,
+        "startChar": 6,
+        "endLine": 102,
+        "endChar": 7
+      },
+      "revId": "783703934e38bdb9260b267dc65ac2643cba2f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

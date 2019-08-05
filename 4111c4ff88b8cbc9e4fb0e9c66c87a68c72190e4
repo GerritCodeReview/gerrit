@@ -355,6 +355,30 @@
     },
     {
       "key": {
+        "uuid": "089deda3_6413ad74",
+        "filename": "java/com/google/gerrit/server/restapi/account/Stars.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-08-05T16:10:06Z",
+      "side": 1,
+      "message": "Thanks. The comment is very helpful.",
+      "parentUuid": "ae8c8a91_79b232e4",
+      "range": {
+        "startLine": 108,
+        "startChar": 13,
+        "endLine": 108,
+        "endChar": 91
+      },
+      "revId": "4111c4ff88b8cbc9e4fb0e9c66c87a68c72190e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "01c0023e_4005d9a9",
         "filename": "java/com/google/gerrit/server/restapi/project/CreateDashboard.java",
         "patchSetId": 4

@@ -206,7 +206,7 @@
       document.dispatchEvent(new CustomEvent(type, {detail}));
       if (opt_noLog) { return; }
       if (type === ERROR.TYPE && category === ERROR.CATEGORY) {
-        console.error(eventValue.error || eventName);
+        console.error(eventValue && eventValue.error || eventName);
       } else {
         if (eventValue !== undefined) {
           console.log(`Reporting: ${eventName}: ${eventValue}`);
@@ -228,7 +228,7 @@
      */
     cachingReporter(type, category, eventName, eventValue, opt_noLog) {
       if (type === ERROR.TYPE && category === ERROR.CATEGORY) {
-        console.error(eventValue.error || eventName);
+        console.error(eventValue && eventValue.error || eventName);
       }
       if (this._isMetricsPluginLoaded()) {
         if (pending.length) {

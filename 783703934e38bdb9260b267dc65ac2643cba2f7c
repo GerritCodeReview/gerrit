@@ -81,6 +81,30 @@
       "revId": "783703934e38bdb9260b267dc65ac2643cba2f7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3475223_1e3144a7",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-08-05T12:02:40Z",
+      "side": 1,
+      "message": "I agree with Edwin, the ETag computation must be fast, otherwise, there is no point in using ETag after all. The Submit record could be super-duper expensive (e.g. using Prolog rules) and we don\u0027t want to kill Gerrit for making the HTTP caching super-accurate. What about simply adding the \"latest reindex TS\" to the ETag instead?",
+      "parentUuid": "55aea3a2_130fd914",
+      "range": {
+        "startLine": 94,
+        "startChar": 6,
+        "endLine": 102,
+        "endChar": 7
+      },
+      "revId": "783703934e38bdb9260b267dc65ac2643cba2f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

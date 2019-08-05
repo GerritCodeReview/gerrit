@@ -1,0 +1,716 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2429485f_07ae3c46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "Please remove this. We cannot link internal issues in the upstream project.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 17
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06de6b4a_f1e7e1e6",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "I think this should be a map now:\n\n  \"notify_configs\": {\n    \"example_name\": {\n      \"emails\": [\n        \"team.mailinglist@example.com\",\n        \"paranoid.manager@example.com\"\n      ],\n      \"groups\": [\n        {\n          \"url\": \"#/admin/groups/uuid-c2ce4749a32ceb82cd6adcce65b8216e12afb41c\",\n          \"options\": {},\n          \"description\": \"Users who perform batch actions on Gerrit\",\n          \"group_id\": 1,\n          \"owner\": \"Administrators\",\n          \"owner_id\": \"d5b7124af4de52924ed397913e2c3b37bf186948\",\n          \"created_on\": \"2009-06-08 23:31:00.000000000\",\n          \"name\": \"Non-Interactive Users\"\n        },\n        {\n          \"options\": {},\n          \"name\": \"Anonymous Users\"\n        }\n      ],\n      \"type:\" [\n        \"all\"\n      ],\n      \"header\": \"TO\",\n      \"filter\": \"visibleto:example_name\"\n    }\n  }",
+      "range": {
+        "startLine": 863,
+        "startChar": 6,
+        "endLine": 890,
+        "endChar": 7
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fc65ec0_1f1b7481",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "Maybe use another name here to not conflict with the removal example above.",
+      "range": {
+        "startLine": 929,
+        "startChar": 17,
+        "endLine": 929,
+        "endChar": 29
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac2cb22d_1d3b699c",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 944,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "Can this be:\n\n  \"notify_configs\" {\n    \"removals\" : [\n      \"example_name\",\n      \"another_name\"\n    ],\n    \"additions\": [\n      {\n        \"name\": \"example_name\",\n        \"emails\": [\n          \"team.mailinglist@example.com\",\n          \"paranoid.manager@example.com\"\n        ],\n        \"groups\": [\n          \"name\",\n          \"1\"\n        ],\n        \"type:\" [\n          \"all\"\n        ],\n        \"header\": \"TO\",\n        \"filter\": \"visibleto:example_name\"\n      }\n    ]\n  }",
+      "range": {
+        "startLine": 923,
+        "startChar": 4,
+        "endLine": 944,
+        "endChar": 5
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d71dcf82_78277105",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 1014,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "Needs to be a map here too.",
+      "range": {
+        "startLine": 1012,
+        "startChar": 4,
+        "endLine": 1014,
+        "endChar": 31
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31e995e9_bddf50d3",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3302,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "maybe just: notify config names",
+      "range": {
+        "startLine": 3302,
+        "startChar": 8,
+        "endLine": 3302,
+        "endChar": 32
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b83daf34_1b0d1cb6",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3302,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "Remove this, or \"to remove from project.config\"",
+      "range": {
+        "startLine": 3302,
+        "startChar": 42,
+        "endLine": 3302,
+        "endChar": 78
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80edd421_ee7ff2ee",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3304,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "Remove this, or \"to add to project.config\"",
+      "range": {
+        "startLine": 3304,
+        "startChar": 62,
+        "endLine": 3304,
+        "endChar": 92
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76ad9995_230febb8",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3304,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "input",
+      "range": {
+        "startLine": 3304,
+        "startChar": 28,
+        "endLine": 3304,
+        "endChar": 32
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b8cceb8_3322906c",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3317,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "[optional] Would it make sense to have both these fields as optional and only return a list if there are actually entries in it?",
+      "range": {
+        "startLine": 3315,
+        "startChar": 0,
+        "endLine": 3317,
+        "endChar": 15
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e446e54_f11d3013",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3319,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "better and more consistent with other JSON descriptions: `false` if not set\n\nHere and for the other boolean fields below.",
+      "range": {
+        "startLine": 3319,
+        "startChar": 43,
+        "endLine": 3319,
+        "endChar": 51
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d53d2cbc_c40ed303",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3329,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "I think the \u0027header\u0027 field is always set, isn\u0027t it?",
+      "range": {
+        "startLine": 3329,
+        "startChar": 43,
+        "endLine": 3329,
+        "endChar": 51
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6084d7b_67541d08",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3332,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "I think the \u0027filter\u0027 field is always set, isn\u0027t it?",
+      "range": {
+        "startLine": 3332,
+        "startChar": 43,
+        "endLine": 3332,
+        "endChar": 51
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c93da185_4825f34a",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3351,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "Maybe link to rest-api-groups.html#group-id",
+      "range": {
+        "startLine": 3351,
+        "startChar": 8,
+        "endLine": 3351,
+        "endChar": 17
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18029269_f20cb6dd",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3372,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "Please mention what is the default value if this is not set.",
+      "range": {
+        "startLine": 3372,
+        "startChar": 43,
+        "endLine": 3372,
+        "endChar": 51
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a6c403c_abf1bc3b",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3373,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "nit: \"an email\" or \"emails\"",
+      "range": {
+        "startLine": 3373,
+        "startChar": 13,
+        "endLine": 3373,
+        "endChar": 18
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d65b3b8_a0148fd9",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3374,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "better: project owner",
+      "range": {
+        "startLine": 3374,
+        "startChar": 45,
+        "endLine": 3374,
+        "endChar": 58
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22694715_5df834ae",
+        "filename": "java/com/google/gerrit/extensions/api/projects/NotifyConfigInfo.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f108cb5_889bc36d",
+        "filename": "java/com/google/gerrit/extensions/api/projects/NotifyConfigInfo.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "emails? At least in the documentation this field is called \u0027emails\u0027.",
+      "range": {
+        "startLine": 38,
+        "startChar": 21,
+        "endLine": 38,
+        "endChar": 30
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80ba1dd0_11408428",
+        "filename": "java/com/google/gerrit/extensions/api/projects/NotifyConfigInfo.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "[optional I think we prefer the usage of MoreObjects.toStringHelper nowadays:\n\n  return MoreObjects.toStringHelper(this)\n        .add(\"addresses\", addresses)\n        .add(\"groups\", groups)\n        ...\n        .toString();\n\nMaybe also add header and filter to the string?",
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42a8cad2_a2484ec7",
+        "filename": "java/com/google/gerrit/extensions/api/projects/NotifyConfigInput.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "This file is missing the license header.",
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acdf2a89_73f2889d",
+        "filename": "java/com/google/gerrit/extensions/api/projects/NotifyConfigInput.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "emails?",
+      "range": {
+        "startLine": 17,
+        "startChar": 21,
+        "endLine": 17,
+        "endChar": 30
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7b495a2_3f19a4ee",
+        "filename": "java/com/google/gerrit/server/restapi/project/ConfigInfoImpl.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "I think those fields should only be set if the value is true.",
+      "range": {
+        "startLine": 121,
+        "startChar": 6,
+        "endLine": 125,
+        "endChar": 100
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56a5731a_9d3a2690",
+        "filename": "java/com/google/gerrit/server/restapi/project/ConfigInfoImpl.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "You should use GroupJson to create GroupInfo:\n\n  GroupDescription.Basic groupDescription \u003d groupBackend.get(uuid);\n  if (groupDescription !\u003d null) {\n    groupInfo \u003d groupJson.format(groupDescription);\n  }\n\nOtherwise the other fields in GroupInfo are not populated.",
+      "range": {
+        "startLine": 130,
+        "startChar": 8,
+        "endLine": 132,
+        "endChar": 41
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f42990bc_b719600e",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "[optional] Use streams:\n\n  input.notifyConfigsRemovals.stream().forEach(projectConfig::removeNotifyConfig);",
+      "range": {
+        "startLine": 178,
+        "startChar": 8,
+        "endLine": 180,
+        "endChar": 9
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c2cc30a_64383c93",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "It would be good to include the email address that was found invalid and the name of the notify config that contained the invalid email.\n\nAlso, better: \"invalid email\"",
+      "range": {
+        "startLine": 186,
+        "startChar": 43,
+        "endLine": 186,
+        "endChar": 58
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f68387b5_6a97869d",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "Should we default to \"*\u0027 here if notifyConfig.filter is null?",
+      "range": {
+        "startLine": 200,
+        "startChar": 29,
+        "endLine": 200,
+        "endChar": 48
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d7671af_8e06a391",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "If the group is not found this throws a UnprocessableEntityException. This is nice as it is the correct response code. However it would be nicer if we could include into the error message the name of the notify config that contained the invalid group. Would it make sense here to catch and rethrow UnprocessableEntityException to add this info to the message?",
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3804f3e0_b092c34b",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "I think \u0027422 Unprocessable Entity; is not the right response code here, since QueryParseException means that the filter is invalid and the filter is not the ID of a resource [1]. I think returning \u0027400 Bad Request\u0027 would be better.\n\nAlso it would be nice if the error message could include saying that the filter of notify config \u003cnotify-config-name\u003e was found invalid.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api.html#_422_unprocessable_entity",
+      "range": {
+        "startLine": 258,
+        "startChar": 16,
+        "endLine": 258,
+        "endChar": 44
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc8a7e10_f99e5a7c",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ConfigChangeIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "Maybe consider splitting this test into \"addNotifyConfigForEmail\" and \"addNotifyConfigForGroup\"?",
+      "range": {
+        "startLine": 192,
+        "startChar": 2,
+        "endLine": 193,
+        "endChar": 79
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f8d86d9_aaba9298",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ConfigChangeIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "Also assert the message that is being returned.\n\n  BadRequestException thrown \u003d assertThrows(\n      BadRequestException.class, () -\u003e gApi.projects().name(project.get()).config(input));\n  assertThat(thrown)\n        .hasMessageThat()\n        .isEqualTo(...);\n\nThe same in the tests below.",
+      "range": {
+        "startLine": 248,
+        "startChar": 4,
+        "endLine": 249,
+        "endChar": 92
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71022cdd_3144e81a",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ConfigChangeIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T10:01:00Z",
+      "side": 1,
+      "message": "Nice, these tests are a good start, but I think we can add more tests:\n\n- for name, header, filter in NotifyConfigInput test the behavior if these fields are not set\n- for name, header, filter in NotifyConfigInput test that the given values are respected\n- test adding a notify config for a non-visible group\n- test that notify configs are not touched when other project properties are updated\n- test that all properties in NotifyConfigInfo are set as expected when reading notify configs",
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

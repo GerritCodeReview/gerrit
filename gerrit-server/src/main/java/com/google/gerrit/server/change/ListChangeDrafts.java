@@ -30,10 +30,10 @@ import java.util.Map;
 
 @Singleton
 public class ListChangeDrafts implements RestReadView<ChangeResource> {
-  private final Provider<ReviewDb> db;
-  private final ChangeData.Factory changeDataFactory;
-  private final Provider<CommentJson> commentJson;
-  private final CommentsUtil commentsUtil;
+  protected final Provider<ReviewDb> db;
+  protected final ChangeData.Factory changeDataFactory;
+  protected final Provider<CommentJson> commentJson;
+  protected final CommentsUtil commentsUtil;
 
   @Inject
   ListChangeDrafts(
@@ -47,20 +47,30 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
     this.commentsUtil = commentsUtil;
   }
 
+  protected Iterable<Comment> listComments(ChangeResource rsrc) throws OrmException {
+    ChangeData cd = changeDataFactory.create(db.get(), rsrc.getNotes());
+    return commentsUtil.draftByChangeAuthor(db.get(), cd.notes(), rsrc.getUser().getAccountId());
+  }
+
+  protected boolean includeAuthorInfo() {
+    return false;
+  }
+
+  public boolean requireAuthentication() {
+    return true;
+  }
+
   @Override
   public Map<String, List<CommentInfo>> apply(ChangeResource rsrc)
       throws AuthException, OrmException {
-    if (!rsrc.getUser().isIdentifiedUser()) {
+    if (requireAuthentication() && !rsrc.getUser().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
-    ChangeData cd = changeDataFactory.create(db.get(), rsrc.getNotes());
-    List<Comment> drafts =
-        commentsUtil.draftByChangeAuthor(db.get(), cd.notes(), rsrc.getUser().getAccountId());
     return commentJson
         .get()
-        .setFillAccounts(false)
+        .setFillAccounts(includeAuthorInfo())
         .setFillPatchSet(true)
         .newCommentFormatter()
-        .format(drafts);
+        .format(listComments(rsrc));
   }
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "91564393_2f87c84a",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2019-08-05T09:23:10Z",
+      "side": 1,
+      "message": "I was following patter from GetRevisionActions class where we are doing the same. We are using the ChangeResource#prepateEtag to calculate ETag based on ChangeNotes and then in GetRevisionActions we are adding UI specific information. ChangeResource#prepareETag is commented with: \u0027This includes all information relevant for ETag computation unrelated to the UI.\u0027 so I thought that adding index based fields here will break the design",
+      "parentUuid": "af229a9a_9c57802c",
+      "revId": "783703934e38bdb9260b267dc65ac2643cba2f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b6b83451_11fe67e6",
         "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2019-08-05T08:10:00Z",
       "side": 1,
       "message": "The merge super set computation can be very expensive and we should avoid doing expensive computations while computing ETags. This would defeat the purpose of having ETags in the first place. The ETag computation should be a quick way to check whether the resource was changed so that the recomputation of change details can be skipped. If the computation of the ETag is more/equal expensive as the computation of the change details, we should rather remove the ETags.\n\nThe way how we tried to keep the ETag computation cheap is that we take the resource states that affect the change details into account, rather than doing the computation and including the results in the ETag computation. E.g. include the SHA1 of the change meta ref, rather than including reviewers, approvals, comments etc.\n\nFor submit records that would mean to include the SHA1 of refs/meta/config in which the Prolog submit rules are stored rather than computing the actual submit records. However since submit rules can be inherited you would need to include the SHA1 of refs/meta/config from all parent projects too, which is infeasible (a modification in the All-Projects would invalidate all ETags). I think this is why we never did this. In fact we also have the same problem with indexing. If you change a submit rule in All-Projects, you would basically need to reindex all changes, since the submit records which are stored in the change index, might have changed. AFAIK we don\u0027t have a good solution for this either.\n\nSo I don\u0027t know what\u0027s the right thing to do here, but doing a full merge supper set computation for the ETag computation is not good.",
+      "range": {
+        "startLine": 94,
+        "startChar": 6,
+        "endLine": 102,
+        "endChar": 7
+      },
+      "revId": "783703934e38bdb9260b267dc65ac2643cba2f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55aea3a2_130fd914",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2019-08-05T09:23:10Z",
+      "side": 1,
+      "message": "I didn\u0027t know that the merge super set computation can be very expensive I\u0027m following what we are doing in the GetRevisionActions#getETag(to calculate `Submit` button state) where we are calling merge super set. I thought that it will be fine to use the same logic to calculate `state` label and `submit` button. If there is no way to call marge super set again in the GetChange#getETag I can see other options to solve this issue:\n1. Use submit records only in the GetRevisionActions#getETag to calcluate correct \u0027submit\u0027 button state - not nice! because status label will not be fixed showing \u0027Active\u0027 instead of \u0027Ready to submit\u0027 but at least \u0027submit\u0027 button will be enabled\n2. Use submit records only in the GetRevisionActions#getETag and change the UI to use the same call for `submit` and \u0027state\u0027 calculation - I\u0027m not sure if we can avoid extra call to GetRevisionActions but I can try\n3. As suggested by David Borowitz in his comment: \u0027// TODO(dborowitz): This is ugly; consider providing a way to not read stored fields from the index in the first place.\u0027 replace merge super set in the Submit class with the implementation which is not using index - requires a lot of refactoring, can introduce some regression and I\u0027m not sure this is even possible to implement. \n\nIn my opinion the second approach is the way to go, WDYT?",
+      "parentUuid": "b6b83451_11fe67e6",
       "range": {
         "startLine": 94,
         "startChar": 6,

@@ -42,6 +42,48 @@
     },
     {
       "key": {
+        "uuid": "ce92cc5a_1a64599b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-08-05T11:59:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7184326_21c6026d",
+      "revId": "17017526162a12318404a555a933c89d53a8796b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8096f3aa_a35875dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-08-05T11:59:31Z",
+      "side": 1,
+      "message": "apply-shim is a part of Polymer already. I asked in chat about the problem with @apply and Polymer2 and didn\u0027t receive a solution for this problem. The recommendation was avoid @apply at all.",
+      "parentUuid": "9047e759_cabaa237",
+      "range": {
+        "startLine": 9,
+        "startChar": 25,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "17017526162a12318404a555a933c89d53a8796b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9960721d_a0d9680b",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.html",
         "patchSetId": 8
@@ -56,6 +98,24 @@
       "revId": "17017526162a12318404a555a933c89d53a8796b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8138b381_0e05b6cb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-08-05T11:59:31Z",
+      "side": 1,
+      "message": "No. \u0027slot\u003d...\u0027 works with Polymer2 only. Because this template is for Polymer1, attribute is not needed.",
+      "parentUuid": "9960721d_a0d9680b",
+      "revId": "17017526162a12318404a555a933c89d53a8796b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

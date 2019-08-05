@@ -52,8 +52,9 @@ public class CreateDashboard
     }
     SetDefaultDashboard set = setDefault.get();
     set.inherited = inherited;
-    // TODO(ekempin): This should return Response.created(...) since it creates a new dashboard.
-    return set.apply(
-        DashboardResource.projectDefault(parent.getProjectState(), parent.getUser()), input);
+    return Response.created(
+        set.apply(
+                DashboardResource.projectDefault(parent.getProjectState(), parent.getUser()), input)
+            .value());
   }
 }

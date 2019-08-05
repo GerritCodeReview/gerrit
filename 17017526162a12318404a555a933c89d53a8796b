@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9047e759_cabaa237",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-05T11:40:05Z",
+      "side": 1,
+      "message": "I think there is apply-shim for faking some of the @apply behavior, but it has some flaws. Maybe search the Polymer chat room for \"apply-shim\" and check, if someone else has run into this before.",
+      "range": {
+        "startLine": 9,
+        "startChar": 25,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "17017526162a12318404a555a933c89d53a8796b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7184326_21c6026d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-05T11:40:05Z",
+      "side": 1,
+      "message": "Maybe create an issue for getting rid of @apply and reference it here.",
+      "revId": "17017526162a12318404a555a933c89d53a8796b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9960721d_a0d9680b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-05T11:40:05Z",
+      "side": 1,
+      "message": "Don\u0027t you need the slot\u003d... attribute here?",
+      "revId": "17017526162a12318404a555a933c89d53a8796b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

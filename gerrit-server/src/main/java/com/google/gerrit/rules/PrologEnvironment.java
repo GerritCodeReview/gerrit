@@ -82,7 +82,6 @@ public class PrologEnvironment extends BufferingPrologControl {
   public void setPredicate(Predicate goal) {
     super.setPredicate(goal);
     int reductionLimit = args.reductionLimit(goal);
-    log.debug("setting reductionLimit {}", reductionLimit);
     setReductionLimit(reductionLimit);
   }
 
@@ -212,6 +211,9 @@ public class PrologEnvironment extends BufferingPrologControl {
 
     private int reductionLimit(Predicate goal) {
       if (goal.getClass() == CONSULT_STREAM_2) {
+        log.debug(
+            "predicate class is CONSULT_STREAM_2: override reductionLimit with compileLimit ({})",
+            compileLimit);
         return compileLimit;
       }
       return reductionLimit;

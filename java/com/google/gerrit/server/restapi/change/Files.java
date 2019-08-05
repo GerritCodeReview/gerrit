@@ -18,6 +18,7 @@ import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
+import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -26,8 +27,8 @@ import com.google.gerrit.extensions.restapi.CacheControl;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.ETagView;
 import com.google.gerrit.extensions.restapi.IdString;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -121,6 +122,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
     private final PatchListCache patchListCache;
     private final PatchSetUtil psUtil;
     private final PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore;
+    private final GerritApi gApi;
 
     @Inject
     ListFiles(
@@ -131,7 +133,8 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
         GitRepositoryManager gitManager,
         PatchListCache patchListCache,
         PatchSetUtil psUtil,
-        PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore) {
+        PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore,
+        GerritApi gApi) {
       this.db = db;
       this.self = self;
       this.fileInfoJson = fileInfoJson;
@@ -140,6 +143,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
       this.patchListCache = patchListCache;
       this.psUtil = psUtil;
       this.accountPatchReviewStore = accountPatchReviewStore;
+      this.gApi = gApi;
     }
 
     public ListFiles setReviewed(boolean r) {
@@ -149,9 +153,8 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
 
     @Override
     public Response<?> apply(RevisionResource resource)
-        throws AuthException, BadRequestException, ResourceNotFoundException, OrmException,
-            RepositoryNotFoundException, IOException, PatchListNotAvailableException,
-            PermissionBackendException {
+        throws RestApiException, OrmException, RepositoryNotFoundException, IOException,
+            PatchListNotAvailableException, PermissionBackendException {
       checkOptions();
       if (reviewed) {
         return Response.ok(reviewed(resource));
@@ -169,7 +172,17 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
                     resource.getChange(),
                     resource.getPatchSet().getRevision(),
                     baseResource.getPatchSet()));
-      } else if (parentNum > 0) {
+      } else if (parentNum != 0) {
+        int parents =
+            gApi.changes()
+                .id(resource.getChange().getChangeId())
+                .revision(resource.getPatchSet().getId().get())
+                .commit(false)
+                .parents
+                .size();
+        if (parentNum < 0 || parentNum > parents) {
+          throw new BadRequestException(String.format("invalid parent number: %d", parentNum));
+        }
         r =
             Response.ok(
                 fileInfoJson.toFileInfoMap(

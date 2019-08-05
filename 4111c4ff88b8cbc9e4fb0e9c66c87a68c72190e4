@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e9c2eade_5310c9d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T13:38:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f55dc5_bf1ba9fb",
+      "range": {
+        "startLine": 9,
+        "startChar": 33,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "4111c4ff88b8cbc9e4fb0e9c66c87a68c72190e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "030a3db2_1ddf16f8",
         "filename": "java/com/google/gerrit/extensions/restapi/Response.java",
         "patchSetId": 4
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "c1ce6b5d_8f293554",
+        "filename": "java/com/google/gerrit/extensions/restapi/Response.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T13:38:45Z",
+      "side": 1,
+      "message": "I actually already tried this when I wrote this change :)\n\nThe problem is that this class is in the extensions package and we don\u0027t want to add a dependency to the HTTP classes just for this.",
+      "parentUuid": "77512c93_5f856a48",
+      "range": {
+        "startLine": 171,
+        "startChar": 13,
+        "endLine": 171,
+        "endChar": 16
+      },
+      "revId": "4111c4ff88b8cbc9e4fb0e9c66c87a68c72190e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e9a94e0c_238ac313",
         "filename": "java/com/google/gerrit/extensions/restapi/RestCollectionCreateView.java",
         "patchSetId": 4
@@ -92,6 +140,30 @@
       "revId": "4111c4ff88b8cbc9e4fb0e9c66c87a68c72190e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13efe44b_b4189301",
+        "filename": "java/com/google/gerrit/extensions/restapi/RestCollectionCreateView.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T13:38:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9a94e0c_238ac313",
+      "range": {
+        "startLine": 37,
+        "startChar": 47,
+        "endLine": 37,
+        "endChar": 52
+      },
+      "revId": "4111c4ff88b8cbc9e4fb0e9c66c87a68c72190e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -118,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "998d78e9_0a6aa9fa",
+        "filename": "java/com/google/gerrit/extensions/restapi/RestCollectionDeleteMissingView.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T13:38:45Z",
+      "side": 1,
+      "message": "Good point. I dropped this sentence.",
+      "parentUuid": "081254c3_56d21c22",
+      "range": {
+        "startLine": 49,
+        "startChar": 5,
+        "endLine": 50,
+        "endChar": 27
+      },
+      "revId": "4111c4ff88b8cbc9e4fb0e9c66c87a68c72190e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6cd51483_ff9acf2e",
         "filename": "java/com/google/gerrit/extensions/restapi/RestCollectionModifyView.java",
         "patchSetId": 4
@@ -138,6 +234,30 @@
       "revId": "4111c4ff88b8cbc9e4fb0e9c66c87a68c72190e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9acf184_d17c1f04",
+        "filename": "java/com/google/gerrit/extensions/restapi/RestCollectionModifyView.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T13:38:45Z",
+      "side": 1,
+      "message": "I just dropped it everywhere.",
+      "parentUuid": "6cd51483_ff9acf2e",
+      "range": {
+        "startLine": 43,
+        "startChar": 5,
+        "endLine": 44,
+        "endChar": 27
+      },
+      "revId": "4111c4ff88b8cbc9e4fb0e9c66c87a68c72190e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -164,6 +284,30 @@
     },
     {
       "key": {
+        "uuid": "c43d1569_1dcaee76",
+        "filename": "java/com/google/gerrit/server/restapi/account/PostWatchedProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T13:38:45Z",
+      "side": 1,
+      "message": "Yes. Done.",
+      "parentUuid": "028d4c66_a4704315",
+      "range": {
+        "startLine": 81,
+        "startChar": 11,
+        "endLine": 81,
+        "endChar": 62
+      },
+      "revId": "4111c4ff88b8cbc9e4fb0e9c66c87a68c72190e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab4a458_c3cb4bd3",
         "filename": "java/com/google/gerrit/server/restapi/account/Stars.java",
         "patchSetId": 4
@@ -187,6 +331,30 @@
     },
     {
       "key": {
+        "uuid": "ae8c8a91_79b232e4",
+        "filename": "java/com/google/gerrit/server/restapi/account/Stars.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T13:38:45Z",
+      "side": 1,
+      "message": "\u003e The value could also be a List\u003cList\u003cChangeInfo\u003e\u003e.\n\nI think it\u0027s only a List\u003cList\u003cChangeInfo\u003e\u003e if you provide multiple queries as input (one List\u003cChangeInfo\u003e as result to each query). Since we provide only a single query here (\"has:stars\") the result should always be List\u003cChangeInfo\u003e, but I agree this is ugly. We should really avoid REST endpoints that return different result types based on the input (but fixing this for the existing REST endpoints is hard, due to backwards compatibility).\n\nLeaving this as it is for now, since there is no better alternative, but added a comment.",
+      "parentUuid": "9ab4a458_c3cb4bd3",
+      "range": {
+        "startLine": 108,
+        "startChar": 13,
+        "endLine": 108,
+        "endChar": 91
+      },
+      "revId": "4111c4ff88b8cbc9e4fb0e9c66c87a68c72190e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "01c0023e_4005d9a9",
         "filename": "java/com/google/gerrit/server/restapi/project/CreateDashboard.java",
         "patchSetId": 4
@@ -198,6 +366,30 @@
       "writtenOn": "2019-08-05T12:07:12Z",
       "side": 1,
       "message": "Is this a TODO for a follow-up change?",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 96
+      },
+      "revId": "4111c4ff88b8cbc9e4fb0e9c66c87a68c72190e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1187c469_b1886bda",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateDashboard.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T13:38:45Z",
+      "side": 1,
+      "message": "Yes, as I didn\u0027t want to change any response code in this change.",
+      "parentUuid": "01c0023e_4005d9a9",
       "range": {
         "startLine": 55,
         "startChar": 4,
@@ -233,6 +425,30 @@
     },
     {
       "key": {
+        "uuid": "5f4b2dd6_aaf1d74e",
+        "filename": "java/com/google/gerrit/server/restapi/project/GarbageCollect.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T13:38:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d012c1b3_8b93a18b",
+      "range": {
+        "startLine": 74,
+        "startChar": 18,
+        "endLine": 74,
+        "endChar": 24
+      },
+      "revId": "4111c4ff88b8cbc9e4fb0e9c66c87a68c72190e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae500663_267aedd7",
         "filename": "java/com/google/gerrit/server/restapi/project/SetDefaultDashboard.java",
         "patchSetId": 4
@@ -253,6 +469,30 @@
       "revId": "4111c4ff88b8cbc9e4fb0e9c66c87a68c72190e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b69cd97a_7876c69e",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetDefaultDashboard.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T13:38:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae500663_267aedd7",
+      "range": {
+        "startLine": 124,
+        "startChar": 15,
+        "endLine": 124,
+        "endChar": 32
+      },
+      "revId": "4111c4ff88b8cbc9e4fb0e9c66c87a68c72190e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "3d8af0c6_bd7bac00",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T07:39:16Z",
+      "side": 1,
+      "message": "I\u0027ve tried to clarify this in the new patch set.",
+      "parentUuid": "6979ce12_facc0bb3",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 55
+      },
+      "revId": "7a127c8405f96cff7fda5c7b56a4c11d90c2f48b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce584769_98e073ff",
         "filename": "Documentation/dev-design-doc-conclusion-template.md",
         "patchSetId": 2

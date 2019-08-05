@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0a77c476_91c91513",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T07:39:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a9ef2e7_b3e74203",
+      "range": {
+        "startLine": 82,
+        "startChar": 12,
+        "endLine": 82,
+        "endChar": 25
+      },
+      "revId": "b9bdc0ced47ae2085691819216de95e89fd5c20e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27c9755d_7ac57e85",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "b9bdc0ced47ae2085691819216de95e89fd5c20e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9bba934_5eeba0c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T07:39:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27c9755d_7ac57e85",
+      "range": {
+        "startLine": 86,
+        "startChar": 53,
+        "endLine": 86,
+        "endChar": 61
+      },
+      "revId": "b9bdc0ced47ae2085691819216de95e89fd5c20e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "077b2c1b_bee4f51a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T07:39:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "693b3832_afc745bf",
+      "range": {
+        "startLine": 90,
+        "startChar": 53,
+        "endLine": 90,
+        "endChar": 61
+      },
+      "revId": "b9bdc0ced47ae2085691819216de95e89fd5c20e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b4f6d93_53ca3641",
         "filename": "Documentation/dev-design-doc-solution-template.md",
         "patchSetId": 4
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "bdde90f3_0707077b",
+        "filename": "Documentation/dev-design-doc-solution-template.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T07:39:16Z",
+      "side": 1,
+      "message": "Good question. I think this is part of the Detailed Design. I\u0027ve added an extra subsection for scalability to make that explicit.",
+      "parentUuid": "9b4f6d93_53ca3641",
+      "revId": "b9bdc0ced47ae2085691819216de95e89fd5c20e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9973477_1cddd121",
         "filename": "Documentation/dev-design-doc-use-cases-template.md",
         "patchSetId": 4
@@ -102,6 +192,24 @@
       "revId": "b9bdc0ced47ae2085691819216de95e89fd5c20e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75a6deec_a4ec5a70",
+        "filename": "Documentation/dev-design-doc-use-cases-template.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T07:39:16Z",
+      "side": 1,
+      "message": "Thanks, that\u0027s a good suggestion!\nI added a few sentences about this here.",
+      "parentUuid": "d9973477_1cddd121",
+      "revId": "b9bdc0ced47ae2085691819216de95e89fd5c20e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "4e5f96a0_5f03149a",
+        "filename": "Documentation/dev-design-docs.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T07:39:16Z",
+      "side": 1,
+      "message": "Yes, this is what I was thinking. I made this more explicit now.\n\nOn an earlier patch set Patrick had a similar question regarding updates to an existing solution vs starting a new solution. I tried to clarified this above as well.",
+      "parentUuid": "b3ee5caf_218de1af",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 56,
+        "endChar": 18
+      },
+      "revId": "b9bdc0ced47ae2085691819216de95e89fd5c20e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d1b46e2_08efc22a",
         "filename": "Documentation/dev-design-docs.txt",
         "patchSetId": 4
@@ -148,6 +280,30 @@
       "revId": "b9bdc0ced47ae2085691819216de95e89fd5c20e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62d862cc_6cc38cb4",
+        "filename": "Documentation/dev-design-docs.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-05T07:39:16Z",
+      "side": 1,
+      "message": "Yes, I guess it\u0027s no longer needed and should be dropped.\n\nDone.",
+      "parentUuid": "1d1b46e2_08efc22a",
+      "range": {
+        "startLine": 73,
+        "startChar": 46,
+        "endLine": 75,
+        "endChar": 15
+      },
+      "revId": "b9bdc0ced47ae2085691819216de95e89fd5c20e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
